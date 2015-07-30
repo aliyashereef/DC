@@ -1,0 +1,13 @@
+2015-07-21 14:57:11.978 EMISMobile[8431:971678] GET 'http://emobile-03.cloudapp.net/handler.svc/endsession/sessionId/2e4e00e1-e278-dfbb-5e80-079381fbf463/': {
+    "Accept-Language" = "en;q=1, fr;q=0.9, de;q=0.8, zh-Hans;q=0.7, zh-Hant;q=0.6, ja;q=0.5";
+    "User-Agent" = "EMISMobile/1.0.5 (iPad Simulator; iOS 8.3; Scale/2.00)";
+} (null)
+2015-07-21 14:57:12.550 EMISMobile[8431:971678] 200 'http://emobile-03.cloudapp.net/handler.svc/endsession/sessionId/2e4e00e1-e278-dfbb-5e80-079381fbf463/' [0.5715 s]: {
+    "Cache-Control" = private;
+    "Content-Length" = 56;
+    "Content-Type" = "application/json; charset=utf-8";
+    Date = "Tue, 21 Jul 2015 13:57:12 GMT";
+    Server = "Microsoft-IIS/8.5";
+    "X-AspNet-Version" = "4.0.30319";
+    "X-Powered-By" = "ASP.NET";
+} {"InteractionId":"ca0f0ecb-b4c6-417e-a9e9-3480e2cd83e6"}

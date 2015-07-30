@@ -1,0 +1,82 @@
+2015-07-21 14:57:29.362 EMISMobile[8431:971678] POST 'http://emobile-03.cloudapp.net/handler.svc/getsession/UserId/laurie/cdb/110006/': {
+    "Accept-Language" = "en;q=1, fr;q=0.9, de;q=0.8, zh-Hans;q=0.7, zh-Hant;q=0.6, ja;q=0.5";
+    "Content-Type" = "application/json";
+    "User-Agent" = "EMISMobile/1.0.5 (iPad Simulator; iOS 8.3; Scale/2.00)";
+} {"Payload":{"Password":"bGRj1PXuIKfP4E9VseHJdJEWNmGKOrAoyCuCknKYvRM="}}
+2015-07-21 14:57:29.577 EMISMobile[8431:971678] 200 'http://emobile-03.cloudapp.net/handler.svc/getsession/UserId/laurie/cdb/110006/' [0.2148 s]: {
+    "Cache-Control" = private;
+    "Content-Length" = 555;
+    "Content-Type" = "application/json; charset=utf-8";
+    Date = "Tue, 21 Jul 2015 13:57:29 GMT";
+    Server = "Microsoft-IIS/8.5";
+    "X-AspNet-Version" = "4.0.30319";
+    "X-Powered-By" = "ASP.NET";
+} {
+  "InteractionId": "7a19e67a-e6a0-43e7-b2f3-3dc41c882d55",
+  "Payload": {
+    "SessionId": "4a9cfea3-6155-27c3-795e-7211d9175391",
+    "Prescriber": {
+      "AreAuthorisedIssuesRequiredForRepeats": true,
+      "AreReviewsEnabled": false,
+      "DefaultReviewPeriodInDays": 90
+    },
+    "ServerVersion": "0004",
+    "UserInRoleId": "45e62298-54d6-4545-9e8d-499e01beecef",
+    "EpisodeManagementEnabled": true,
+    "Schedules": {
+      "IsPredictedVisitDurationMandatory": false,
+      "IsPredictedTravelTimeMandatory": false
+    }
+  }
+}
+2015-07-21 14:57:29.600 EMISMobile[8431:971678] POST 'http://emobile-03.cloudapp.net/handler.svc/checkDeviceUtcDateTime': {
+    "Accept-Language" = "en;q=1, fr;q=0.9, de;q=0.8, zh-Hans;q=0.7, zh-Hant;q=0.6, ja;q=0.5";
+    "Content-Type" = "application/json";
+    "User-Agent" = "EMISMobile/1.0.5 (iPad Simulator; iOS 8.3; Scale/2.00)";
+} {"Payload":{"checkDeviceUtcDateTime":{"deviceUtcDateTime":"2015-07-21 13:57:29"}},"sessionId":"4a9cfea3-6155-27c3-795e-7211d9175391"}
+2015-07-21 14:57:29.646 EMISMobile[8431:971678] 200 'http://emobile-03.cloudapp.net/handler.svc/checkDeviceUtcDateTime' [0.0458 s]: {
+    "Cache-Control" = private;
+    "Content-Length" = 73;
+    "Content-Type" = "application/json; charset=utf-8";
+    Date = "Tue, 21 Jul 2015 13:57:29 GMT";
+    Server = "Microsoft-IIS/8.5";
+    "X-AspNet-Version" = "4.0.30319";
+    "X-Powered-By" = "ASP.NET";
+} {"InteractionId":"05ef3eb0-bc59-4bfe-b6ff-19fdc6f20b67","Payload":"True"}
+2015-07-21 14:57:29.648 EMISMobile[8431:971678] GET 'http://emobile-03.cloudapp.net/static/archive/EMISNF-manifest.txt': {
+    "Accept-Language" = "en;q=1, fr;q=0.9, de;q=0.8, zh-Hans;q=0.7, zh-Hant;q=0.6, ja;q=0.5";
+    "User-Agent" = "EMISMobile/1.0.5 (iPad Simulator; iOS 8.3; Scale/2.00)";
+} (null)
+2015-07-21 14:57:29.649 EMISMobile[8431:971678] 200 'http://emobile-03.cloudapp.net/static/archive/EMISNF-manifest.txt' [0.0006 s]: {
+    "Accept-Ranges" = bytes;
+    "Content-Encoding" = gzip;
+    "Content-Length" = 323;
+    "Content-Type" = "text/plain";
+    Date = "Tue, 21 Jul 2015 13:55:47 GMT";
+    Etag = "\"65bac95ec49cd01:0\"";
+    "Last-Modified" = "Mon, 01 Jun 2015 23:40:41 GMT";
+    Server = "Microsoft-IIS/8.5";
+    Vary = "Accept-Encoding";
+    "X-Powered-By" = "ASP.NET";
+} {
+  "ManifestVersion" : "1.0",
+  "Versions" : [
+    {
+      "WebServicesVersion" : "0003",
+      "CodeVersion" : "3.0.0.0300.20141031",
+      "CodeURL" : "http://emobile-03.cloudapp.net/static/archive/EMISNF-0003.zip",
+      "IndexURL" : "/0003/index.html"
+    },
+    {
+      "WebServicesVersion" : "0004",
+      "CodeVersion" : "3.1.0.0100.20141031",
+      "CodeURL" : "http://emobile-03.cloudapp.net/static/archive/EMISNF-0004.zip",
+      "IndexURL" : "/0004/index.html"
+    }
+  ]
+}
+2015-07-21 14:57:29.651 EMISMobile[8431:971678] Apache Cordova native platform version 3.7.0 is starting.
+2015-07-21 14:57:29.651 EMISMobile[8431:971678] Multi-tasking -> Device: YES, App: YES
+2015-07-21 14:57:29.652 EMISMobile[8431:971678] Unlimited access to network resources
+2015-07-21 14:57:29.715 EMISMobile[8431:971678] Resetting plugins due to page load.
+2015-07-21 14:57:29.887 EMISMobile[8431:971678] Finished load of: file:///Users/lauriekeith/Library/Developer/CoreSimulator/Devices/8C5F48B5-8D54-49C9-BCD7-1A96CC3719C7/data/Containers/Data/Application/ADB69D99-0ABE-4714-8A74-0FF3505FAF88/Documents/ApplicationData/0004/index.html

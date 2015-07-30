@@ -1,0 +1,111 @@
+2015-07-21 14:51:14.122 EMISMobile[8431:971678] Attempted to configure [Identity, Analytics, AdMob, SignIn, AppInvite, CloudMessaging].
+2015-07-21 14:51:14.122 EMISMobile[8431:971678] Successfully configured [Analytics].
+2015-07-21 14:51:14.122 EMISMobile[8431:971678] Failed to configure [].
+2015-07-21 14:51:14.122 EMISMobile[8431:971678] Subspecs not present, so not configured [Identity, AdMob, SignIn, AppInvite, CloudMessaging].
+2015-07-21 14:51:16.448 EMISMobile[8431:971678] POST 'http://emobile-03.cloudapp.net/handler.svc/getsession/UserId/laurie/cdb/110006/': {
+    "Accept-Language" = "en;q=1, fr;q=0.9, de;q=0.8, zh-Hans;q=0.7, zh-Hant;q=0.6, ja;q=0.5";
+    "Content-Type" = "application/json";
+    "User-Agent" = "EMISMobile/1.0.5 (iPad Simulator; iOS 8.3; Scale/2.00)";
+} {"Payload":{"Password":"bGRj1PXuIKfP4E9VseHJdJEWNmGKOrAoyCuCknKYvRM="}}
+2015-07-21 14:51:17.674 EMISMobile[8431:971678] 200 'http://emobile-03.cloudapp.net/handler.svc/getsession/UserId/laurie/cdb/110006/' [1.2265 s]: {
+    "Cache-Control" = private;
+    "Content-Length" = 555;
+    "Content-Type" = "application/json; charset=utf-8";
+    Date = "Tue, 21 Jul 2015 13:51:17 GMT";
+    Server = "Microsoft-IIS/8.5";
+    "X-AspNet-Version" = "4.0.30319";
+    "X-Powered-By" = "ASP.NET";
+} {
+  "InteractionId": "ae89b533-62b0-4268-bdf7-3e91b3907590",
+  "Payload": {
+    "SessionId": "2e4e00e1-e278-dfbb-5e80-079381fbf463",
+    "Prescriber": {
+      "AreAuthorisedIssuesRequiredForRepeats": true,
+      "AreReviewsEnabled": false,
+      "DefaultReviewPeriodInDays": 90
+    },
+    "ServerVersion": "0004",
+    "UserInRoleId": "45e62298-54d6-4545-9e8d-499e01beecef",
+    "EpisodeManagementEnabled": true,
+    "Schedules": {
+      "IsPredictedVisitDurationMandatory": false,
+      "IsPredictedTravelTimeMandatory": false
+    }
+  }
+}
+2015-07-21 14:55:47.529 EMISMobile[8431:971678] POST 'http://emobile-03.cloudapp.net/handler.svc/requestSharedSecret': {
+    "Accept-Language" = "en;q=1, fr;q=0.9, de;q=0.8, zh-Hans;q=0.7, zh-Hant;q=0.6, ja;q=0.5";
+    "Content-Type" = "application/json";
+    "User-Agent" = "EMISMobile/1.0.5 (iPad Simulator; iOS 8.3; Scale/2.00)";
+} {"Payload":{"requestSharedSecret":{"persistentId":"0a18ca8689f3ea0b2c50bdd8d7d34b68cde97fb7b99085cd3fbd1a7b28e36b47","DeviceName":"simulator","DeviceIdentifier":"0e4d365044a595a08527bcb055770b711a64b94a1fa4b1bdb787fbbccc139b98","authenticationToken":"94F0384666990DB48CF57B3DEC51F98D"}},"sessionId":"2e4e00e1-e278-dfbb-5e80-079381fbf463"}
+2015-07-21 14:55:47.943 EMISMobile[8431:971678] 200 'http://emobile-03.cloudapp.net/handler.svc/requestSharedSecret' [0.4137 s]: {
+    "Cache-Control" = private;
+    "Content-Length" = 197;
+    "Content-Type" = "application/json; charset=utf-8";
+    Date = "Tue, 21 Jul 2015 13:55:47 GMT";
+    Server = "Microsoft-IIS/8.5";
+    "X-AspNet-Version" = "4.0.30319";
+    "X-Powered-By" = "ASP.NET";
+} {"InteractionId":"06977fd8-af9a-422b-ae9a-972b41015ab6","Payload":"D917A42B3BF7A0C81BEC6E9E1E1E13815E1E4E2CD5FFCC455219FE0AE7DA8B9343B6300D0A07B0168CBA7A46E71E26187C73DFDC60A12F5DC751E3E01051F448"}
+2015-07-21 14:55:47.949 EMISMobile[8431:971678] POST 'http://emobile-03.cloudapp.net/handler.svc/checkDeviceUtcDateTime': {
+    "Accept-Language" = "en;q=1, fr;q=0.9, de;q=0.8, zh-Hans;q=0.7, zh-Hant;q=0.6, ja;q=0.5";
+    "Content-Type" = "application/json";
+    "User-Agent" = "EMISMobile/1.0.5 (iPad Simulator; iOS 8.3; Scale/2.00)";
+} {"Payload":{"checkDeviceUtcDateTime":{"deviceUtcDateTime":"2015-07-21 13:55:47"}},"sessionId":"2e4e00e1-e278-dfbb-5e80-079381fbf463"}
+2015-07-21 14:55:48.005 EMISMobile[8431:971678] 200 'http://emobile-03.cloudapp.net/handler.svc/checkDeviceUtcDateTime' [0.0558 s]: {
+    "Cache-Control" = private;
+    "Content-Length" = 73;
+    "Content-Type" = "application/json; charset=utf-8";
+    Date = "Tue, 21 Jul 2015 13:55:47 GMT";
+    Server = "Microsoft-IIS/8.5";
+    "X-AspNet-Version" = "4.0.30319";
+    "X-Powered-By" = "ASP.NET";
+} {"InteractionId":"6d0d5db4-8b42-47d7-acb3-064f2d863e4b","Payload":"True"}
+2015-07-21 14:55:48.007 EMISMobile[8431:971678] GET 'http://emobile-03.cloudapp.net/static/archive/EMISNF-manifest.txt': {
+    "Accept-Language" = "en;q=1, fr;q=0.9, de;q=0.8, zh-Hans;q=0.7, zh-Hant;q=0.6, ja;q=0.5";
+    "User-Agent" = "EMISMobile/1.0.5 (iPad Simulator; iOS 8.3; Scale/2.00)";
+} (null)
+2015-07-21 14:55:48.044 EMISMobile[8431:971678] 200 'http://emobile-03.cloudapp.net/static/archive/EMISNF-manifest.txt' [0.0367 s]: {
+    "Accept-Ranges" = bytes;
+    "Content-Encoding" = gzip;
+    "Content-Length" = 323;
+    "Content-Type" = "text/plain";
+    Date = "Tue, 21 Jul 2015 13:55:47 GMT";
+    Etag = "\"65bac95ec49cd01:0\"";
+    "Last-Modified" = "Mon, 01 Jun 2015 23:40:41 GMT";
+    Server = "Microsoft-IIS/8.5";
+    Vary = "Accept-Encoding";
+    "X-Powered-By" = "ASP.NET";
+} {
+  "ManifestVersion" : "1.0",
+  "Versions" : [
+    {
+      "WebServicesVersion" : "0003",
+      "CodeVersion" : "3.0.0.0300.20141031",
+      "CodeURL" : "http://emobile-03.cloudapp.net/static/archive/EMISNF-0003.zip",
+      "IndexURL" : "/0003/index.html"
+    },
+    {
+      "WebServicesVersion" : "0004",
+      "CodeVersion" : "3.1.0.0100.20141031",
+      "CodeURL" : "http://emobile-03.cloudapp.net/static/archive/EMISNF-0004.zip",
+      "IndexURL" : "/0004/index.html"
+    }
+  ]
+}
+2015-07-21 14:55:48.053 EMISMobile[8431:971678] GET 'http://emobile-03.cloudapp.net/static/archive/EMISNF-0004.zip': (null) (null)
+2015-07-21 14:55:48.519 EMISMobile[8431:971678] 200 'http://emobile-03.cloudapp.net/static/archive/EMISNF-0004.zip' [0.4661 s]: {
+    "Accept-Ranges" = bytes;
+    "Content-Length" = 1069385;
+    "Content-Type" = "application/x-zip-compressed";
+    Date = "Tue, 21 Jul 2015 13:55:47 GMT";
+    Etag = "\"6c60c576d2c2d01:0\"";
+    "Last-Modified" = "Mon, 20 Jul 2015 09:57:18 GMT";
+    Server = "Microsoft-IIS/8.5";
+    "X-Powered-By" = "ASP.NET";
+} (null)
+2015-07-21 14:55:48.622 EMISMobile[8431:971678] Apache Cordova native platform version 3.7.0 is starting.
+2015-07-21 14:55:48.622 EMISMobile[8431:971678] Multi-tasking -> Device: YES, App: YES
+2015-07-21 14:55:48.646 EMISMobile[8431:971678] Unlimited access to network resources
+2015-07-21 14:55:49.101 EMISMobile[8431:971678] Resetting plugins due to page load.
+2015-07-21 14:55:49.630 EMISMobile[8431:971678] Finished load of: file:///Users/lauriekeith/Library/Developer/CoreSimulator/Devices/8C5F48B5-8D54-49C9-BCD7-1A96CC3719C7/data/Containers/Data/Application/ADB69D99-0ABE-4714-8A74-0FF3505FAF88/Documents/ApplicationData/0004/index.html
