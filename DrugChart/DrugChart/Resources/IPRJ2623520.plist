@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>medicineName</key>
+		<string>Senna Tablet</string>
+		<key>given</key>
+		<false/>
+		<key>medicineCategory</key>
+		<string>Regular</string>
+		<key>dosage</key>
+		<string>15 mg</string>
+		<key>startDate</key>
+		<string>2015-04-14 14:30</string>
+		<key>endDate</key>
+		<string>2015-04-27 14:30</string>
+		<key>route</key>
+		<string>Oral</string>
+		<key>instruction</key>
+		<string>Take one a day</string>
+		<key>prescribedBy</key>
+		<string>O&apos;HANLON, SHAUN (DR)</string>
+		<key>timeChart</key>
+		<array>
+			<dict>
+				<key>medDate</key>
+				<string>2015-04-14</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-04-14 14:30</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-04-15</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-04-15 14:30</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-04-16</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-04-16 14:30</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-04-17</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-04-17 14:30</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-04-18</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-04-18 14:30</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-04-19</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-04-19 14:30</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-04-20</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-04-20 14:30</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-04-21</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-04-21 14:30</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-04-22</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-04-22 14:30</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-04-23</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-04-23 14:30</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-04-24</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-04-24 14:30</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-04-25</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-04-25 14:30</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-04-26</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-04-26 14:30</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-04-27</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-04-27 14:30</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>medicineName</key>
+		<string>Enalapril Tablet</string>
+		<key>given</key>
+		<false/>
+		<key>medicineCategory</key>
+		<string>When Required</string>
+		<key>dosage</key>
+		<string>15 mg</string>
+		<key>startDate</key>
+		<string>2015-04-02 00:00</string>
+		<key>endDate</key>
+		<string>2015-04-02 23:00</string>
+		<key>route</key>
+		<string>Oral</string>
+		<key>instruction</key>
+		<string>Take only when needed</string>
+		<key>prescribedBy</key>
+		<string>O&apos;HANLON, SHAUN (DR)</string>
+		<key>timeChart</key>
+		<array>
+			<dict>
+				<key>medDate</key>
+				<string>2015-04-02</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-04-02 10:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>medicineName</key>
+		<string>Co-amoxiclav Tablet</string>
+		<key>given</key>
+		<false/>
+		<key>medicineCategory</key>
+		<string>Once</string>
+		<key>dosage</key>
+		<string>15 mg</string>
+		<key>startDate</key>
+		<string>2015-04-03 01:00</string>
+		<key>endDate</key>
+		<string>2015-04-03 23:00</string>
+		<key>route</key>
+		<string>Oral</string>
+		<key>instruction</key>
+		<string>Single dose</string>
+		<key>prescribedBy</key>
+		<string>O&apos;HANLON, SHAUN (DR)</string>
+		<key>timeChart</key>
+		<array>
+			<dict>
+				<key>medDate</key>
+				<string>2015-04-03</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-04-03 10:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+		</array>
+	</dict>
+</array>
+</plist>

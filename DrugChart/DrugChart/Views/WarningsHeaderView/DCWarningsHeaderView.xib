@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="yYX-C0-7Co" customClass="DCWarningsHeaderView">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="40"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SEVERE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nay-aQ-HMQ">
+                    <rect key="frame" x="16" y="0.0" width="358" height="38"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="358" id="9iz-bl-dnR"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" red="0.42745098039215684" green="0.42745098039215684" blue="0.44705882352941173" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="Nay-aQ-HMQ" firstAttribute="top" secondItem="yYX-C0-7Co" secondAttribute="top" id="6sW-cc-QCN"/>
+                <constraint firstItem="Nay-aQ-HMQ" firstAttribute="leading" secondItem="yYX-C0-7Co" secondAttribute="leading" constant="16" id="YGC-Ce-gIy"/>
+                <constraint firstAttribute="bottom" secondItem="Nay-aQ-HMQ" secondAttribute="bottom" constant="2" id="aFF-iu-MhB"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="titleLabel" destination="Nay-aQ-HMQ" id="fLt-jF-fm4"/>
+            </connections>
+            <point key="canvasLocation" x="147" y="261"/>
+        </view>
+    </objects>
+</document>

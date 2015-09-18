@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>isSevere</key>
+		<true/>
+		<key>alertText</key>
+		<string>Patient has undergone Colonoscopy Test to evaluate the inside of the colon</string>
+		<key>alertDate</key>
+		<string>10/04/2015</string>
+	</dict>
+	<dict>
+		<key>isSevere</key>
+		<false/>
+		<key>alertText</key>
+		<string>Patient has undergone Colonoscopy Test to evaluate the inside of the colon</string>
+		<key>alertDate</key>
+		<string>11/04/2015</string>
+	</dict>
+	<dict>
+		<key>isSevere</key>
+		<false/>
+		<key>alertText</key>
+		<string>Patient has undergone Colonoscopy Test to evaluate the inside of the colon</string>
+		<key>alertDate</key>
+		<string>12/04/2015</string>
+	</dict>
+</array>
+</plist>

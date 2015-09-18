@@ -1,0 +1,254 @@
+//
+//  DCMedicationListViewController.m
+//  DrugChart
+//
+//  Created by Jilu Mary Joy on 9/2/15.
+//
+//
+
+#import "DCMedicationListViewController.h"
+#import "DCMedicationSearchWebService.h"
+#import "DCMedicationListTableViewCell.h"
+#import "DCContraIndicationWebService.h"
+#import "DrugChart-Swift.h"
+
+#define CELL_PADDING 24
+#define CELL_MININUM_HEIGHT 44
+
+@interface DCMedicationListViewController () <WarningsDelegate> {
+    
+    __weak IBOutlet UITableView *medicationListTableView;
+    __weak IBOutlet UISearchBar *medicationSearchBar;
+    __weak IBOutlet UIActivityIndicatorView *activityIndicator;
+    
+    NSMutableArray *medicationListArray;
+    DCMedicationSearchWebService *medicationWebService;
+    NSMutableArray *warningsArray;
+    DCMedication *updatedMedication;
+}
+
+@end
+
+@implementation DCMedicationListViewController
+
+- (void)viewDidLoad {
+    
+    [super viewDidLoad];
+    [self configureViewElements];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    
+    [medicationWebService cancelPreviousRequest];
+    [super viewWillDisappear:animated];
+}
+
+- (void)didReceiveMemoryWarning {
+    
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Private Methods
+
+- (void)configureViewElements {
+    
+    [self configureNavigationBarItems];
+    [self configureFetchListTableView];
+}
+
+- (void)configureNavigationBarItems {
+    
+    [self.navigationItem setHidesBackButton:YES];
+    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:CANCEL_BUTTON_TITLE  style:UIBarButtonItemStylePlain target:self action:@selector(cancelButtonPressed:)];
+    self.navigationItem.rightBarButtonItem = cancelButton;
+}
+
+- (void)configureFetchListTableView {
+    
+    medicationListTableView.layoutMargins = UIEdgeInsetsZero;
+    medicationListTableView.separatorInset = UIEdgeInsetsZero;
+    medicationWebService = [[DCMedicationSearchWebService alloc] init];
+    medicationListArray = [NSMutableArray arrayWithArray:@[NSLocalizedString(@"SEARCH_MEDICATION_MIN_LIMIT", @"")]];
+}
+
+- (void)fetchMedicationListForString:(NSString *)searchString {
+    
+    //get list of medications for search string
+    medicationWebService = [[DCMedicationSearchWebService alloc] init];
+    medicationWebService.searchString = searchString;
+    [activityIndicator startAnimating];
+    [medicationWebService getCompleteMedicationListWithCallBackHandler:^(id response, NSDictionary *errorDict) {
+        
+        if (!errorDict) {
+            medicationListArray = [NSMutableArray arrayWithArray:response];
+            if ([medicationListArray count] == 0) {
+                medicationListArray = [NSMutableArray arrayWithArray:@[NSLocalizedString(@"NO_MEDICATIONS", @"")]];
+            }
+            [medicationListTableView reloadData];
+        } else {
+            NSInteger errorCode = [[errorDict valueForKey:@"code"] integerValue];
+            if (errorCode != NSURLErrorCancelled) {
+                medicationListArray = [NSMutableArray arrayWithArray:@[NSLocalizedString(@"NO_MEDICATIONS", @"")]];
+                [medicationListTableView reloadData];
+                if (errorCode == NETWORK_NOT_REACHABLE) {
+                    [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"") message:NSLocalizedString(@"INTERNET_CONNECTION_ERROR", @"")];
+                } else if (errorCode == NSURLErrorTimedOut) {
+                    //time out error here
+                    [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"") message:@"Webservice call has timed out."];
+                } else {
+                    DCDebugLog(@"error response info %@", errorResponse);
+                }
+            }
+        }
+    }];
+}
+- (NSString *)getMedicationNameFromIndexPath :(NSIndexPath *)indexPath {
+    
+    if ([[medicationListArray objectAtIndex:indexPath.row] isKindOfClass:[DCMedication class]]) {
+        DCMedication *searchMedication = [medicationListArray objectAtIndex:indexPath.row];
+        return searchMedication.name ;
+    } else {
+        return (NSString *)[medicationListArray objectAtIndex:indexPath.row];
+    }
+}
+
+- (void)callWarningsWebServiceForMedication:(DCMedication *)medicationDetails {
+    
+    DCContraIndicationWebService *webService = [[DCContraIndicationWebService alloc] init];
+    [activityIndicator startAnimating];
+    [webService getContraIndicationsForPatientWithId:_patientId forDrugPreparationId:medicationDetails.medicationId withCallBackHandler:^(NSArray *alergiesArray, NSError *error) {
+        if (!error) {
+            warningsArray = [NSMutableArray arrayWithArray:[DCUtility categorizeContentArrayBasedOnSeverity:alergiesArray]];
+            NSArray *severeArray = [[warningsArray objectAtIndex:0] valueForKey:SEVERE_WARNING];
+            NSArray *mildArray = [[warningsArray objectAtIndex:1] valueForKey:MILD_WARNING];
+            updatedMedication = [[DCMedication alloc] init];
+            updatedMedication.name = medicationDetails.name;
+            updatedMedication.medicationId = medicationDetails.medicationId;
+            updatedMedication.dosage = medicationDetails.dosage;
+            updatedMedication.severeWarningCount = severeArray.count;
+            updatedMedication.mildWarningCount = mildArray.count;
+            if ([severeArray count] == 0 || [severeArray count] == 0) {
+                //if there are no allergies nor severe warning, dismiss view
+                self.selectedMedication (updatedMedication, warningsArray);
+                [self dismissViewControllerAnimated:YES completion:nil];
+            } else {
+                //display severe warning view here
+                [self displayWarningsListView];
+            }
+        }
+        [activityIndicator stopAnimating];
+    }];
+}
+
+- (void)displayWarningsListView {
+    
+    //display Warnings list view
+    UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
+    DCWarningsListViewController *warningsListViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:WARNINGS_LIST_STORYBOARD_ID];
+    warningsListViewController.delegate = self;
+    [warningsListViewController populateWarningsListWithWarnings:warningsArray showOverrideView:YES];
+    [self.navigationController pushViewController:warningsListViewController animated:YES];
+}
+
+#pragma mark - UITableView Methods
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    return [medicationListArray count];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    CGSize stepSize = [DCUtility getRequiredSizeForText:[self getMedicationNameFromIndexPath:indexPath]
+                                                   font:[UIFont systemFontOfSize:15.0f]
+                                               maxWidth:294];
+    CGFloat searchCellHeight = CELL_PADDING + stepSize.height;
+    searchCellHeight = searchCellHeight < CELL_MININUM_HEIGHT? CELL_MININUM_HEIGHT :searchCellHeight ;
+    return searchCellHeight;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    static NSString *cellIdentifier = MEDICATION_LIST_CELL_IDENTIFIER;
+    DCMedicationListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    cell.layoutMargins = UIEdgeInsetsZero;
+    if (cell == nil) {
+        cell = [[DCMedicationListTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    }
+    cell.medicationNameLabel.text = [self getMedicationNameFromIndexPath:indexPath];
+    if ([[medicationListArray objectAtIndex:indexPath.row] isKindOfClass:[DCMedication class]]) {
+        cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+    } else {
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if ([[medicationListArray objectAtIndex:indexPath.row] isKindOfClass:[DCMedication class]]) {
+        DCMedication *medication = [medicationListArray objectAtIndex:indexPath.row];
+        [self callWarningsWebServiceForMedication:medication];
+        //[self dismissViewControllerAnimated:YES completion:nil];
+    }
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if([indexPath row] == ((NSIndexPath*)[[tableView indexPathsForVisibleRows] lastObject]).row) {
+        [activityIndicator stopAnimating];
+    }
+}
+
+#pragma mark - UISearch bar implementation
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    
+    searchBar.showsCancelButton = NO;
+    searchBar.text = EMPTY_STRING;
+    [searchBar resignFirstResponder];
+    [medicationListTableView reloadData];
+}
+
+- (void)searchBar:(UISearchBar *)searchedBar textDidChange:(NSString *)searchText {
+    
+    if (searchText.length > 0) {
+        // Search and Reload data source
+        if (searchText.length < SEARCH_ENTRY_MIN_LENGTH) {
+            medicationListArray = [NSMutableArray arrayWithArray:@[NSLocalizedString(@"SEARCH_MEDICATION_MIN_LIMIT", @"")]];
+            [medicationListTableView reloadData];
+        } else {
+            [self fetchMedicationListForString:searchText];
+        }
+    } else {
+        medicationSearchBar.showsCancelButton = NO;
+        [medicationListTableView reloadData];
+    }
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    
+    [self.view endEditing:YES];
+}
+
+#pragma mark - Action Methods
+
+- (IBAction)cancelButtonPressed:(id)sender {
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - Warnings Delegate Methods
+
+- (void)overrideReasonSubmitted:(NSString * __nonnull)reason {
+    
+    updatedMedication.overriddenReason = reason;
+    self.selectedMedication (updatedMedication, warningsArray);
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+@end

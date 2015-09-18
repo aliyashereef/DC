@@ -1,0 +1,119 @@
+/* 
+  Localizable.strings
+  DrugChart
+
+  Created by Jilu Mary Joy on 3/2/15.
+
+*/
+
+//error messages
+"WARNING"                   = "Warning";
+"ERROR"                     = "Error";
+"INVALID_EMAIL_TITLE"       = "Invalid email";
+"INVALID_EMAIL_MESSAGE"     = "Please enter a valid email address.";
+"INVALID_PASSWORD_TITLE"    = "Invalid Password";
+"INVALID_PASSWORD_MESSAGE"  = "Please enter a valid password";
+"INVALID_REASON"            = "Reason cannot be blank";
+"BLANK_NOTES"               = "Notes cannot be blank";
+"BLANK_MEDICINE_NAME"       = "Blank Medicine name";
+"SEVERE_WARNINGS"           = "Severe Warnings";
+"MILD_WARNINGS"             = "Mild Warnings";
+
+"INVALID_LOGIN_TITLE"       = "Login Error";
+"INVALID_LOGIN_MESSAGE"     = "Enter valid username and password";
+"WEBSERVICE_UNAVAILABLE"    = "Webservice is currently down. Please try again later.";
+"INTERNET_CONNECTION_ERROR" = "Unable to connect to internet. Please try again later.";
+"WEBSERVICE_FAILED"         = "Webservice failed";
+"ADD_MEDICATION_FAILED"     = "Failed to add a new medication";
+"MEDICATION_SCHEDULE_ERROR" = "Failed to fetch medication schedules for patient";
+"REQUEST_TIME_OUT"          = "Request session timeout";
+//strings
+"USERNAME"                  = "Username";
+"PASSWORD"                  = "Password";
+"CONFIRMATION"              = "Confirmation";
+"OVERRIDE REASON"           = "Please enter the reason to override the severe alert";
+"NO_MEDICATIONS"            = "No medications available.";
+"NO_ORDERSET"               = "No Orderset available";
+"NO_FAVOURITES"             = "No favourites available";
+"DISCONTINUED"              = "Discontinued";
+"NO_ALERTS"                 = "No alerts to display";
+"NO_ALLERGIES"              = "No allergy to display";
+// title string
+"IN_PATIENT_TITLE"          = "In Patients";
+"WARDS_TITLE"               = "Wards";
+
+// administration notes
+"ADMINISTER_NOTES"          = "Medication is given on time.";
+"REFUSED_NOTES"             = "Patient was showing vomitting tendency.";
+"OMITTED_REASON"            = "Patient was showing allergic symptoms.";
+"OMITTED_NOTES"             = "Patient was showing vomitting tendency.";
+
+//Early Administration
+"REASON" = "Reason";
+"EARLY_ADMINISTRATION_INSTRUCTION" = "Please give a reason for the early administration.";
+"FREQUENT_EARLY_ADMINISTRATION" = "is 2 hours. Please give a reason for the early administration.";
+"EARLY_ADMIN_INLINE" = "Please add in 'Notes' the reason for the early administration.";
+"ADMIN_FREQUENCY" = "Frequency set for medication is 2 hours.";
+
+
+//button title
+
+"CANCEL" = "Cancel";
+"DONE" = "Done";
+"NO"   = "No";
+"YES"  = "Yes";
+
+"REGULAR_MEDICATION" = "Regular Medication";
+"ONCE_MEDICATION" = "One Time Medication";
+"WHEN_REQUIRED" = "When Required Medication";
+
+"ADD_NEW" = "Add New";
+"SUCCESS" = "Success";
+"ADD_MEDICATION_SUCCESS" = "New medication has been added successfully.";
+"EDIT_MAJOR_MEDICATION_SUCCESS" = "You have done some major changes to the prescription, present medication will be moved to the discontinued list and this will be added as a new medication.";
+"MEDICATION_STOP_ALERT_MESSAGE" = "will be moved to the patient's discontinued medication list. Do you want to continue?";
+"EDIT_MINOR_MEDICATION_SUCCESS" =  "Your changes has been successfully updated.";
+"NO_WARDS_TITLE" = "No Wards";
+"NO_WARDS_MESSAGE" = "No wards available for the user";
+"SAVE_ADMINISTER" = "You have unsaved changes in administer screen. Do you want to continue without saving?";
+
+"LONG_DRUG" = "Actilyse Cathflo 2mg powder and solvent for solution for injection vials (Boehringer Ingelheim Ltd)";
+"NO_PATIENTS" = "No patients available in ward.";
+"SEARCH_MEDICATION_MIN_LIMIT" = "Please enter at least 3 characters to start searching";
+"ORDERSET_DELETE_CONFIRMATION" = "This medication will be moved to inactive list. Do you want to continue?";
+"ORDERSET_CLEAR_CONFIRMATION" = "You have unsaved changes in the screen. Do you want to continue?";
+"ORDERSET_COMPLETION_ALERT"   = "Please complete all medications in active list to proceed.";
+"NO_ALLERGIES" = "No allergies to display.";
+"NO_WARNINGS" = "No warnings to display.";
+"PATIENT_NO_MEDICATIONS" = "No available medications";
+"ADD_SUBSTITUTE_TITLE"   = "Add a Substitute";
+"ADD_SUBSTITUTE_MESSAGE" = "Do you want to add a substitute for";
+
+//Navigation titles
+
+"LOGIN"                 =       "Login";
+"WARNINGS"              =       "Warnings";
+"SORT"                  =       "Sort";
+
+//Add Medication
+
+"MEDICATION_NAME"       =       "Medicine Name";
+"WARNINGS"              =       "Warnings";
+"DOSAGE"                =       "Dosage";
+"ROUTE"                 =       "Route";
+"TYPE"                  =       "Type";
+"INSTRUCTIONS"          =       "Instructions";
+"START_DATE"            =       "Start Date";
+"END_DATE"              =       "End Date";
+"ADMINISTRATING_TIME"   =       "Administration time";
+"MEDICATION_TYPE"       =       "Medication Type";
+"ROUTES"                =       "Routes";
+"DOSAGE"                =       "Dosage";
+"DATE"                  =       "Date";
+"ADD_DOSAGE"            =       "Add Dosage";
+"ADD_TIME"              =       "Add New Time";
+"NO_END_DATE"           =       "No End Date";
+"SEVERE"                =       "SEVERE";
+"MILD"                  =       "MILD";
+"REASON"                =       "Reason";
+"NEW_DOSAGE"            =       "New Dosage";

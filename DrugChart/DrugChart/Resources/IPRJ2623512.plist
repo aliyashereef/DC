@@ -1,0 +1,1209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>medicineName</key>
+		<string>Actilyse Cathflo 2mg powder and solvent for solution for injection vials (Boehringer Ingelheim Ltd)</string>
+		<key>given</key>
+		<false/>
+		<key>medicineCategory</key>
+		<string>Regular</string>
+		<key>dosage</key>
+		<string>2 mg</string>
+		<key>startDate</key>
+		<string>2015-07-03 13:00</string>
+		<key>endDate</key>
+		<string>2015-07-19 13:00</string>
+		<key>route</key>
+		<string>Oral</string>
+		<key>instruction</key>
+		<string>Take one a day</string>
+		<key>prescribedBy</key>
+		<string>O&apos;HANLON, SHAUN (DR)</string>
+		<key>timeChart</key>
+		<array>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-03</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-03 13:00</string>
+						<key>status</key>
+						<string>omitted</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-04</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-04 13:00</string>
+						<key>status</key>
+						<string>refused</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-05</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-05 13:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-06</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-06 13:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-07</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-07 13:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-08</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-08 13:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-09</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-09 13:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-10</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-10 13:00</string>
+						<key>status</key>
+						<string>omitted</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-11</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-11 13:00</string>
+						<key>status</key>
+						<string>selfAdministered</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-12</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-12 13:00</string>
+						<key>status</key>
+						<string>selfAdministered</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-13</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-13 13:00</string>
+						<key>status</key>
+						<string>selfAdministered</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-14</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-14 13:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-15</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-15 13:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-16</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-16 13:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-17</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-17 13:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-18</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-18 13:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-19</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-19 13:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>medicineName</key>
+		<string>Senna 15 mg Tablet</string>
+		<key>given</key>
+		<false/>
+		<key>medicineCategory</key>
+		<string>Regular</string>
+		<key>dosage</key>
+		<string>15 mg</string>
+		<key>startDate</key>
+		<string>2015-07-05 13:00</string>
+		<key>endDate</key>
+		<string>2015-07-29 13:00</string>
+		<key>route</key>
+		<string>Oral</string>
+		<key>instruction</key>
+		<string>Take one a day</string>
+		<key>prescribedBy</key>
+		<string>O&apos;HANLON, SHAUN (DR)</string>
+		<key>timeChart</key>
+		<array>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-05</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-05 13:00</string>
+						<key>status</key>
+						<string>omitted</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-06</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-06 13:00</string>
+						<key>status</key>
+						<string>omitted</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-07</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-07 13:00</string>
+						<key>status</key>
+						<string>omitted</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-08</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-08 13:00</string>
+						<key>status</key>
+						<string>omitted</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-09</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-09 13:00</string>
+						<key>status</key>
+						<string>omitted</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-10</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-10 13:00</string>
+						<key>status</key>
+						<string>omitted</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-11</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-11 13:00</string>
+						<key>status</key>
+						<string>omitted</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-12</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-12 13:00</string>
+						<key>status</key>
+						<string>omitted</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-13</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-13 13:00</string>
+						<key>status</key>
+						<string>omitted</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-14</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-14 13:00</string>
+						<key>status</key>
+						<string>omitted</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-15</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-15 13:00</string>
+						<key>status</key>
+						<string>omitted</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-16</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-16 13:00</string>
+						<key>status</key>
+						<string>omitted</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-17</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-17 13:00</string>
+						<key>status</key>
+						<string>omitted</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-18</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-18 13:00</string>
+						<key>status</key>
+						<string>omitted</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-19</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-19 13:00</string>
+						<key>status</key>
+						<string>omitted</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-20</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-20 13:00</string>
+						<key>status</key>
+						<string>omitted</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-21</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-21 13:00</string>
+						<key>status</key>
+						<string>omitted</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-22</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-22 13:00</string>
+						<key>status</key>
+						<string>omitted</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-23</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-23 13:00</string>
+						<key>status</key>
+						<string>omitted</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-24</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-24 13:00</string>
+						<key>status</key>
+						<string>omitted</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-25</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-25 13:00</string>
+						<key>status</key>
+						<string>omitted</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-26</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-26 13:00</string>
+						<key>status</key>
+						<string>refused</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-27</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-27 13:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-28</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-28 13:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-29</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-29 13:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>medicineName</key>
+		<string>Diazepam 10 mg Tablet</string>
+		<key>given</key>
+		<true/>
+		<key>medicineCategory</key>
+		<string>Regular</string>
+		<key>dosage</key>
+		<string>10 mg</string>
+		<key>startDate</key>
+		<string>2015-07-04 01:00</string>
+		<key>endDate</key>
+		<string>2015-07-11 23:50</string>
+		<key>route</key>
+		<string>Oral</string>
+		<key>instruction</key>
+		<string>Take twice a day</string>
+		<key>prescribedBy</key>
+		<string>O&apos;HANLON, SHAUN (DR)</string>
+		<key>timeChart</key>
+		<array>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-04</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-04 07:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-04 10:00</string>
+						<key>status</key>
+						<string>refused</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-04 02:00</string>
+						<key>status</key>
+						<string>omitted</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-04 14:00</string>
+						<key>status</key>
+						<string>omitted</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-04 20:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-04 22:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-04 22:15</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-04 22:20</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-04 22:30</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-04 22:45</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-04 23:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-04 23:30</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-05</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-05 09:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-05 19:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-05 20:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-05 21:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-05 22:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-06</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-06 09:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-06 19:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-07</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-07 09:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-07 19:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-08</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-08 09:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-08 19:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-09</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-09 09:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-09 19:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-10</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-10 09:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-10 19:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-11</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-11 09:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-11 19:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>medicineName</key>
+		<string>Aspirin 25 mg drops</string>
+		<key>medicineCategory</key>
+		<string>Regular</string>
+		<key>given</key>
+		<false/>
+		<key>dosage</key>
+		<string>25 mg</string>
+		<key>startDate</key>
+		<string>2015-07-03 10:00</string>
+		<key>endDate</key>
+		<string>2015-07-12 23:30</string>
+		<key>route</key>
+		<string>Oral</string>
+		<key>instruction</key>
+		<string>Take 3 times a day</string>
+		<key>prescribedBy</key>
+		<string>O&apos;HANLON, SHAUN (DR)</string>
+		<key>timeChart</key>
+		<array>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-03</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-03 10:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-03 14:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-03 18:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-04</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-04 10:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-04 17:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-04 22:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-05</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-05 10:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-05 17:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-05 22:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-06</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-06 10:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-06 17:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-06 20:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-07</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-07 10:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-07 17:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-07 21:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-08</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-08 10:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-08 17:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-08 21:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-09</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-09 10:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-09 17:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-09 21:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-10</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-10 10:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-10 17:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-10 21:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-11</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-11 10:00</string>
+						<key>status</key>
+						<string>omitted</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-11 17:00</string>
+						<key>status</key>
+						<string>notGiven</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-11 21:00</string>
+						<key>status</key>
+						<string>notGiven</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-12</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-12 10:00</string>
+						<key>status</key>
+						<string>notGiven</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-12 17:00</string>
+						<key>status</key>
+						<string>refused</string>
+					</dict>
+					<dict>
+						<key>time</key>
+						<string>2015-07-12 21:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>medicineName</key>
+		<string>Enalapril 15 mg Tablet</string>
+		<key>given</key>
+		<false/>
+		<key>medicineCategory</key>
+		<string>When Required</string>
+		<key>dosage</key>
+		<string>15 mg</string>
+		<key>startDate</key>
+		<string>2015-07-06 00:00</string>
+		<key>endDate</key>
+		<string>2015-07-07 23:00</string>
+		<key>route</key>
+		<string>Oral</string>
+		<key>instruction</key>
+		<string>Take only when needed</string>
+		<key>prescribedBy</key>
+		<string>O&apos;HANLON, SHAUN (DR)</string>
+		<key>timeChart</key>
+		<array>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-06</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-06 10:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-07</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-07 10:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>medicineName</key>
+		<string>Co-amoxiclav 15 mg Tablet</string>
+		<key>given</key>
+		<false/>
+		<key>medicineCategory</key>
+		<string>Once</string>
+		<key>dosage</key>
+		<string>15 mg</string>
+		<key>startDate</key>
+		<string>2015-07-06 01:00</string>
+		<key>endDate</key>
+		<string>2015-07-06 23:00</string>
+		<key>route</key>
+		<string>Oral</string>
+		<key>instruction</key>
+		<string>Single dose</string>
+		<key>prescribedBy</key>
+		<string>O&apos;HANLON, SHAUN (DR)</string>
+		<key>timeChart</key>
+		<array>
+			<dict>
+				<key>medDate</key>
+				<string>2015-07-06</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-07-06 12:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+		</array>
+	</dict>
+</array>
+</plist>

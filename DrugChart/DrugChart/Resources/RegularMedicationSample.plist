@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>startDate</key>
+	<string>2015-07-25 01:00</string>
+	<key>endDate</key>
+	<string>2015-08-04 23:50</string>
+	<key>prescribedBy</key>
+	<string>O&apos;HANLON, SHAUN (DR)</string>
+	<key>timeChart</key>
+	<array>
+		<dict>
+			<key>medDate</key>
+			<string>2015-07-25</string>
+			<key>medDetails</key>
+			<array>
+				<dict>
+					<key>time</key>
+					<string>2015-07-25 07:00</string>
+					<key>status</key>
+					<string>given</string>
+				</dict>
+				<dict>
+					<key>time</key>
+					<string>2015-07-25 10:00</string>
+					<key>status</key>
+					<string>refused</string>
+				</dict>
+				<dict>
+					<key>time</key>
+					<string>2015-07-25 02:00</string>
+					<key>status</key>
+					<string>omitted</string>
+				</dict>
+				<dict>
+					<key>time</key>
+					<string>2015-07-25 14:00</string>
+					<key>status</key>
+					<string>omitted</string>
+				</dict>
+				<dict>
+					<key>time</key>
+					<string>2015-07-25 15:00</string>
+					<key>status</key>
+					<string>omitted</string>
+				</dict>
+				<dict>
+					<key>time</key>
+					<string>2015-07-25 16:00</string>
+					<key>status</key>
+					<string>omitted</string>
+				</dict>
+				<dict>
+					<key>time</key>
+					<string>2015-07-25 17:00</string>
+					<key>status</key>
+					<string>omitted</string>
+				</dict>
+				<dict>
+					<key>time</key>
+					<string>2015-07-25 18:00</string>
+					<key>status</key>
+					<string>omitted</string>
+				</dict>
+				<dict>
+					<key>time</key>
+					<string>2015-07-25 19:00</string>
+					<key>status</key>
+					<string>omitted</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>medDate</key>
+			<string>2015-07-26</string>
+			<key>medDetails</key>
+			<array>
+				<dict>
+					<key>time</key>
+					<string>2015-07-26 09:00</string>
+					<key>status</key>
+					<string>given</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>medDate</key>
+			<string>2015-07-27</string>
+			<key>medDetails</key>
+			<array>
+				<dict>
+					<key>time</key>
+					<string>2015-07-27 09:00</string>
+					<key>status</key>
+					<string>given</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>medDate</key>
+			<string>2015-07-28</string>
+			<key>medDetails</key>
+			<array>
+				<dict>
+					<key>time</key>
+					<string>2015-07-28 09:00</string>
+					<key>status</key>
+					<string>given</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>medDate</key>
+			<string>2015-07-29</string>
+			<key>medDetails</key>
+			<array>
+				<dict>
+					<key>time</key>
+					<string>2015-07-29 09:00</string>
+					<key>status</key>
+					<string>given</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>medDate</key>
+			<string>2015-07-30</string>
+			<key>medDetails</key>
+			<array>
+				<dict>
+					<key>time</key>
+					<string>2015-07-30 09:00</string>
+					<key>status</key>
+					<string>given</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>medDate</key>
+			<string>2015-07-31</string>
+			<key>medDetails</key>
+			<array>
+				<dict>
+					<key>time</key>
+					<string>2015-07-31 09:00</string>
+					<key>status</key>
+					<string>given</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>medDate</key>
+			<string>2015-08-01</string>
+			<key>medDetails</key>
+			<array>
+				<dict>
+					<key>time</key>
+					<string>2015-08-01 09:00</string>
+					<key>status</key>
+					<string>given</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>medDate</key>
+			<string>2015-08-02</string>
+			<key>medDetails</key>
+			<array>
+				<dict>
+					<key>time</key>
+					<string>2015-08-02 09:00</string>
+					<key>status</key>
+					<string>given</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>medDate</key>
+			<string>2015-08-03</string>
+			<key>medDetails</key>
+			<array>
+				<dict>
+					<key>time</key>
+					<string>2015-08-03 09:00</string>
+					<key>status</key>
+					<string>given</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>medDate</key>
+			<string>2015-08-04</string>
+			<key>medDetails</key>
+			<array>
+				<dict>
+					<key>time</key>
+					<string>2015-08-04 09:00</string>
+					<key>status</key>
+					<string>given</string>
+				</dict>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>

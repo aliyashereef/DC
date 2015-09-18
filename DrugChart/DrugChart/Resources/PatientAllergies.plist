@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>name</key>
+		<string>Amoxicillin -</string>
+		<key>warningType</key>
+		<string>Severe</string>
+		<key>reaction</key>
+		<string>Anaphylaxis</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Beta Blockers -</string>
+		<key>warningType</key>
+		<string>Mild</string>
+		<key>reaction</key>
+		<string>Itching, Rashes, Dizziness</string>
+	</dict>
+</array>
+</plist>

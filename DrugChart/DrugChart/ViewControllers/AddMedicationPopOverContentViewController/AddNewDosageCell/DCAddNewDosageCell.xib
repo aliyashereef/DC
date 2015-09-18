@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F6a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="Lato-Regular.ttf">
+            <string>Lato-Regular</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AddNewDosageCell" id="KGk-i7-Jjw" customClass="DCAddNewDosageCell">
+            <rect key="frame" x="0.0" y="0.0" width="243" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Add New" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Sgd-oL-B3S">
+                        <rect key="frame" x="12" y="6" width="228" height="30"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="12"/>
+                        <textInputTraits key="textInputTraits"/>
+                        <connections>
+                            <outlet property="delegate" destination="KGk-i7-Jjw" id="zpc-0c-uMe"/>
+                        </connections>
+                    </textField>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FFj-xI-Wfg" userLabel="Clear Button">
+                        <rect key="frame" x="240" y="0.0" width="0.0" height="43"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="44" id="be8-0q-Twq"/>
+                            <constraint firstAttribute="width" id="eaW-IE-dft"/>
+                        </constraints>
+                        <state key="normal" image="AddNewCloseButtonImage">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="be8-0q-Twq"/>
+                            </mask>
+                        </variation>
+                        <connections>
+                            <action selector="clearAddNewDosageFieldButtonPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="gk0-8R-W0Y"/>
+                        </connections>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SZd-xX-rCQ" userLabel="Tick Button">
+                        <rect key="frame" x="242" y="0.0" width="0.0" height="44"/>
+                        <constraints>
+                            <constraint firstAttribute="width" id="ChW-2z-lQN"/>
+                            <constraint firstAttribute="height" constant="44" id="WPn-Ve-NVu"/>
+                        </constraints>
+                        <inset key="contentEdgeInsets" minX="-4" minY="0.0" maxX="4" maxY="0.0"/>
+                        <state key="normal" image="AddNewTickButtonImage">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="addNewDosageButtonPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="vTc-gN-HAI"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                <constraints>
+                    <constraint firstItem="SZd-xX-rCQ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="0Ds-s1-MLE"/>
+                    <constraint firstAttribute="bottom" secondItem="FFj-xI-Wfg" secondAttribute="bottom" id="Biq-hb-JQs"/>
+                    <constraint firstItem="SZd-xX-rCQ" firstAttribute="leading" secondItem="FFj-xI-Wfg" secondAttribute="trailing" constant="2" id="FUa-3Q-qva"/>
+                    <constraint firstItem="FFj-xI-Wfg" firstAttribute="leading" secondItem="SZd-xX-rCQ" secondAttribute="trailing" constant="-1" id="NRL-ih-Fb0"/>
+                    <constraint firstItem="FFj-xI-Wfg" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="OIZ-i0-M65"/>
+                    <constraint firstAttribute="bottom" secondItem="SZd-xX-rCQ" secondAttribute="bottom" constant="0.5" id="Qed-1v-OsY"/>
+                    <constraint firstAttribute="centerY" secondItem="SZd-xX-rCQ" secondAttribute="centerY" id="Qus-Rt-fUY"/>
+                    <constraint firstAttribute="trailing" secondItem="FFj-xI-Wfg" secondAttribute="trailing" constant="2" id="S93-Ui-bx1"/>
+                    <constraint firstItem="Sgd-oL-B3S" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="6" id="Udm-Df-Adz"/>
+                    <constraint firstItem="SZd-xX-rCQ" firstAttribute="leading" secondItem="Sgd-oL-B3S" secondAttribute="trailing" id="b7i-eZ-Dfb"/>
+                    <constraint firstAttribute="centerY" secondItem="FFj-xI-Wfg" secondAttribute="centerY" id="c2h-0N-1Yf"/>
+                    <constraint firstItem="FFj-xI-Wfg" firstAttribute="leading" secondItem="Sgd-oL-B3S" secondAttribute="trailing" id="ceP-jR-5dA"/>
+                    <constraint firstItem="SZd-xX-rCQ" firstAttribute="leading" secondItem="Sgd-oL-B3S" secondAttribute="trailing" id="dlP-IB-vne"/>
+                    <constraint firstAttribute="trailing" secondItem="SZd-xX-rCQ" secondAttribute="trailing" constant="1" id="rHr-ap-0Hj"/>
+                    <constraint firstAttribute="bottom" secondItem="Sgd-oL-B3S" secondAttribute="bottom" constant="7.5" id="rSC-rr-tB1"/>
+                    <constraint firstItem="FFj-xI-Wfg" firstAttribute="leading" secondItem="SZd-xX-rCQ" secondAttribute="trailing" id="rWJ-RB-Nup"/>
+                    <constraint firstItem="Sgd-oL-B3S" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="12" id="uRs-YU-VAu"/>
+                </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="NRL-ih-Fb0"/>
+                        <exclude reference="S93-Ui-bx1"/>
+                        <exclude reference="rWJ-RB-Nup"/>
+                        <exclude reference="Qed-1v-OsY"/>
+                        <exclude reference="b7i-eZ-Dfb"/>
+                        <exclude reference="dlP-IB-vne"/>
+                    </mask>
+                </variation>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="addNewButton" destination="SZd-xX-rCQ" id="evq-bo-hzj"/>
+                <outlet property="addNewTextField" destination="Sgd-oL-B3S" id="fg4-LO-gjO"/>
+                <outlet property="closeButtonWidthConstraint" destination="eaW-IE-dft" id="zMn-Go-0mh"/>
+                <outlet property="tickButtonWidthConstraint" destination="ChW-2z-lQN" id="o8T-tM-MjK"/>
+            </connections>
+            <point key="canvasLocation" x="167.5" y="291"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="AddNewCloseButtonImage" width="21" height="21"/>
+        <image name="AddNewTickButtonImage" width="21" height="21"/>
+    </resources>
+</document>

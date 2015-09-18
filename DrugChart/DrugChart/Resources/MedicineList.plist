@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>name</key>
+		<string>Amoxicillin 50 mg Tablet</string>
+		<key>warning</key>
+		<string>Severe</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Bisoprolol 5 mg</string>
+		<key>warning</key>
+		<string>Mild</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Boric Acid 10 mg</string>
+		<key>warning</key>
+		<string>Mild</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Candesartan 100 mg Tablet</string>
+		<key>warning</key>
+		<string>Severe</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Citalopram 50 mg Tablet</string>
+		<key>warning</key>
+		<string>Severe</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Crestor 10 mg Tablet</string>
+		<key>warning</key>
+		<string>Mild</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Actilyse Cathflo 2 mg powder and solvent for solution for injection vials (Boehringer Ingelheim Ltd)</string>
+		<key>warning</key>
+		<string>Severe</string>
+	</dict>
+</array>
+</plist>

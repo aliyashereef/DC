@@ -1,0 +1,41 @@
+//
+//  DrugChart_PrefixHeader.pch
+//  DrugChart
+//
+//  Created by Jilu Mary Joy on 3/2/15.
+//
+//
+
+#ifndef DrugChart_DrugChart_PrefixHeader_pch
+#define DrugChart_DrugChart_PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+
+
+#ifdef __OBJC__
+
+#import "DCUtility.h"
+#import "DCAppDelegate.h"
+#import "DCBaseViewController.h"
+#import "DCConstants.h"
+#import "MBProgressHUD.h"
+#import "UIColor+ColorFromHex.h"
+#import "DCFontUtility.h"
+#import "DCDateUtility.h"
+#import "DCEnumerations.h"
+
+#define DCAPPDELEGATE (DCAppDelegate *)[[UIApplication sharedApplication] delegate]
+
+#define DCDebugLog(x, ...) //NSLog(@"%s %d: " x, __FUNCTION__, __LINE__, ##__VA_ARGS__)
+
+#ifdef DEBUG
+#define DCDebugLog(x, ...) //NSLog(@"%s %d: " x, __FUNCTION__, __LINE__, ##__VA_ARGS__)
+#elif RELEASE
+#define DCReleaseLog(x, ...)
+#endif
+
+#endif
+
+#endif

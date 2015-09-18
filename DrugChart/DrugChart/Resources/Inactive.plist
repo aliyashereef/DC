@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>medicineName</key>
+		<string>Methotrexate Tablet</string>
+		<key>given</key>
+		<true/>
+		<key>medicineCategory</key>
+		<string>Inactive</string>
+		<key>dosage</key>
+		<string>10 mg</string>
+		<key>startDate</key>
+		<string>2015-06-05 09:00</string>
+		<key>endDate</key>
+		<string>2015-03-22 23:59</string>
+		<key>route</key>
+		<string>Oral</string>
+		<key>instruction</key>
+		<string>Single dose</string>
+		<key>prescribedBy</key>
+		<string>O&apos;HANLON, SHAUN (DR)</string>
+		<key>timeChart</key>
+		<array>
+			<dict>
+				<key>medDate</key>
+				<string>2015-03-22</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-03-22 09:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>medicineName</key>
+		<string>Enalapril Tablet</string>
+		<key>given</key>
+		<false/>
+		<key>medicineCategory</key>
+		<string>Inactive</string>
+		<key>dosage</key>
+		<string>15 mg</string>
+		<key>startDate</key>
+		<string>2015-06-06 00:00</string>
+		<key>endDate</key>
+		<string>2015-03-23 01:00</string>
+		<key>route</key>
+		<string>Oral</string>
+		<key>instruction</key>
+		<string>Take only when needed</string>
+		<key>prescribedBy</key>
+		<string>O&apos;HANLON, SHAUN (DR)</string>
+		<key>timeChart</key>
+		<array>
+			<dict>
+				<key>medDate</key>
+				<string>2015-03-21</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-03-21 18:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>medDate</key>
+				<string>2015-03-22</string>
+				<key>medDetails</key>
+				<array>
+					<dict>
+						<key>time</key>
+						<string>2015-03-22 18:00</string>
+						<key>status</key>
+						<string>given</string>
+					</dict>
+				</array>
+			</dict>
+		</array>
+	</dict>
+</array>
+</plist>

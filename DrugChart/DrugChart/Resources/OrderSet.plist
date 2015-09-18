@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>name</key>
+		<string>Order Set 1</string>
+		<key>description</key>
+		<string>Order Set 1 description. This consists of medications Senna Tablet and Aspirin drops</string>
+		<key>medications</key>
+		<array>
+			<dict>
+				<key>medicineName</key>
+				<string>Senna 15 mg Tablet</string>
+				<key>dosage</key>
+				<string>15 mg</string>
+				<key>warning</key>
+				<true/>
+				<key>severeWarning</key>
+				<string>1</string>
+				<key>mildWarning</key>
+				<string>1</string>
+			</dict>
+			<dict>
+				<key>medicineName</key>
+				<string>Aspirin 25 mg drops</string>
+				<key>dosage</key>
+				<string>25 mg</string>
+				<key>warning</key>
+				<true/>
+				<key>severeWarning</key>
+				<string>1</string>
+				<key>mildWarning</key>
+				<string>1</string>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Order Set 2</string>
+		<key>description</key>
+		<string>Order Set 2 description. This consists of medications Senna Tablet , Aspirin drops and Enalapril 15 mg Tablet</string>
+		<key>medications</key>
+		<array>
+			<dict>
+				<key>medicineName</key>
+				<string>Senna 15 mg Tablet</string>
+				<key>dosage</key>
+				<string>15 mg</string>
+				<key>warning</key>
+				<true/>
+				<key>severeWarning</key>
+				<string>1</string>
+				<key>mildWarning</key>
+				<string>1</string>
+			</dict>
+			<dict>
+				<key>medicineName</key>
+				<string>Aspirin 25 mg drops</string>
+				<key>dosage</key>
+				<string>25 mg</string>
+				<key>warning</key>
+				<true/>
+				<key>severeWarning</key>
+				<string>1</string>
+				<key>mildWarning</key>
+				<string>1</string>
+			</dict>
+			<dict>
+				<key>medicineName</key>
+				<string>Enalapril 15 mg Tablet</string>
+				<key>dosage</key>
+				<string>15 mg</string>
+				<key>warning</key>
+				<true/>
+				<key>severeWarning</key>
+				<string>1</string>
+				<key>mildWarning</key>
+				<string>1</string>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Order Set 3</string>
+		<key>description</key>
+		<string>Order Set 3 description. This consists of medications Senna Tablet , Aspirin drops and Enalapril 15 mg Tablet</string>
+		<key>medications</key>
+		<array>
+			<dict>
+				<key>medicineName</key>
+				<string>Diazepam 10 mg Tablet</string>
+				<key>dosage</key>
+				<string>10 mg</string>
+				<key>warning</key>
+				<true/>
+				<key>severeWarning</key>
+				<string>1</string>
+				<key>mildWarning</key>
+				<string>1</string>
+			</dict>
+			<dict>
+				<key>medicineName</key>
+				<string>Senna 15 mg Tablet</string>
+				<key>dosage</key>
+				<string>15 mg</string>
+				<key>warning</key>
+				<true/>
+				<key>severeWarning</key>
+				<string>1</string>
+				<key>mildWarning</key>
+				<string>1</string>
+			</dict>
+			<dict>
+				<key>medicineName</key>
+				<string>Enalapril 15 mg Tablet</string>
+				<key>dosage</key>
+				<string>15 mg</string>
+				<key>warning</key>
+				<true/>
+				<key>severeWarning</key>
+				<string>1</string>
+				<key>mildWarning</key>
+				<string>1</string>
+			</dict>
+			<dict>
+				<key>medicineName</key>
+				<string>Actilyse Cathflo 2mg powder and solvent for solution for injection vials (Boehringer Ingelheim Ltd)</string>
+				<key>dosage</key>
+				<string>2 mg</string>
+				<key>warning</key>
+				<true/>
+				<key>severeWarning</key>
+				<string>1</string>
+				<key>mildWarning</key>
+				<string>1</string>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Order Set 4</string>
+		<key>description</key>
+		<string>Order Set 4 description. This consists of medications Senna Tablet and Aspirin drops</string>
+		<key>medications</key>
+		<array>
+			<dict>
+				<key>medicineName</key>
+				<string>Senna 15 mg Tablet</string>
+				<key>dosage</key>
+				<string>15 mg</string>
+				<key>warning</key>
+				<true/>
+				<key>severeWarning</key>
+				<string>1</string>
+				<key>mildWarning</key>
+				<string>1</string>
+			</dict>
+			<dict>
+				<key>medicineName</key>
+				<string>Aspirin 25 mg drops</string>
+				<key>dosage</key>
+				<string>25 mg</string>
+				<key>warning</key>
+				<true/>
+				<key>severeWarning</key>
+				<string>1</string>
+				<key>mildWarning</key>
+				<string>1</string>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Order Set 5</string>
+		<key>description</key>
+		<string>Order Set 5 description. This consists of medications Senna Tablet , Aspirin drops and Enalapril 15 mg Tablet</string>
+		<key>medications</key>
+		<array>
+			<dict>
+				<key>medicineName</key>
+				<string>Senna 15 mg Tablet</string>
+				<key>dosage</key>
+				<string>15 mg</string>
+				<key>warning</key>
+				<true/>
+				<key>severeWarning</key>
+				<string>1</string>
+				<key>mildWarning</key>
+				<string>1</string>
+			</dict>
+			<dict>
+				<key>medicineName</key>
+				<string>Aspirin 25 mg drops</string>
+				<key>dosage</key>
+				<string>25 mg</string>
+				<key>warning</key>
+				<true/>
+				<key>severeWarning</key>
+				<string>1</string>
+				<key>mildWarning</key>
+				<string>1</string>
+			</dict>
+			<dict>
+				<key>medicineName</key>
+				<string>Enalapril 15 mg Tablet</string>
+				<key>dosage</key>
+				<string>15 mg</string>
+				<key>warning</key>
+				<true/>
+				<key>severeWarning</key>
+				<string>1</string>
+				<key>mildWarning</key>
+				<string>1</string>
+			</dict>
+		</array>
+	</dict>
+</array>
+</plist>

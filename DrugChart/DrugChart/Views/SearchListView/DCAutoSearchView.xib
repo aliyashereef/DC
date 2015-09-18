@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F6a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clipsSubviews="YES" contentMode="scaleToFill" id="iN0-l3-epB" customClass="DCAutoSearchView">
+            <rect key="frame" x="0.0" y="0.0" width="540" height="300"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="dl2-tr-ykb">
+                    <rect key="frame" x="0.0" y="14" width="540" height="286"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="layer.borderWidth" value="0.6"/>
+                        <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="3"/>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <outlet property="dataSource" destination="iN0-l3-epB" id="UYK-Ue-pjP"/>
+                        <outlet property="delegate" destination="iN0-l3-epB" id="nkr-N1-yfd"/>
+                    </connections>
+                </tableView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="FilterArrow" translatesAutoresizingMaskIntoConstraints="NO" id="iUU-w7-KFd">
+                    <rect key="frame" x="260" y="3" width="21" height="12"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="21" id="IKj-vd-P1E"/>
+                        <constraint firstAttribute="height" constant="12" id="gxt-gs-gJZ"/>
+                    </constraints>
+                </imageView>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="3Ot-5x-6Of">
+                    <rect key="frame" x="260" y="140" width="20" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="dnE-xd-PFi"/>
+                        <constraint firstAttribute="width" constant="20" id="gqB-6b-xra"/>
+                    </constraints>
+                    <color key="color" red="0.53725490200000003" green="0.53725490200000003" blue="0.53725490200000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                </activityIndicatorView>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="centerY" secondItem="3Ot-5x-6Of" secondAttribute="centerY" id="1B2-Iv-bEW"/>
+                <constraint firstItem="dl2-tr-ykb" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="CjL-gf-G6L"/>
+                <constraint firstAttribute="centerX" secondItem="iUU-w7-KFd" secondAttribute="centerX" id="M76-k1-2ZK"/>
+                <constraint firstItem="dl2-tr-ykb" firstAttribute="top" secondItem="iUU-w7-KFd" secondAttribute="bottom" id="d5P-mp-pD0"/>
+                <constraint firstItem="dl2-tr-ykb" firstAttribute="top" secondItem="iUU-w7-KFd" secondAttribute="bottom" constant="-1" id="hz1-pk-Mww"/>
+                <constraint firstItem="dl2-tr-ykb" firstAttribute="top" secondItem="iUU-w7-KFd" secondAttribute="bottom" constant="1" id="kGK-RN-zbq"/>
+                <constraint firstItem="iUU-w7-KFd" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="3" id="kvl-sL-1qJ"/>
+                <constraint firstAttribute="centerX" secondItem="3Ot-5x-6Of" secondAttribute="centerX" id="nfq-zi-eLT"/>
+                <constraint firstAttribute="bottom" secondItem="dl2-tr-ykb" secondAttribute="bottom" id="rFb-tC-U6N"/>
+                <constraint firstAttribute="trailing" secondItem="dl2-tr-ykb" secondAttribute="trailing" id="txk-kq-96y"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="d5P-mp-pD0"/>
+                    <exclude reference="kGK-RN-zbq"/>
+                </mask>
+            </variation>
+            <connections>
+                <outlet property="activityIndicator" destination="3Ot-5x-6Of" id="6bN-CS-YvL"/>
+                <outlet property="autoFillTableView" destination="dl2-tr-ykb" id="Gh4-tY-Kel"/>
+            </connections>
+        </view>
+    </objects>
+    <resources>
+        <image name="FilterArrow" width="21" height="12"/>
+    </resources>
+</document>

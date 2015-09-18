@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>startDate</key>
+	<string>2015-07-20 00:00</string>
+	<key>endDate</key>
+	<string>2015-07-21 23:00</string>
+	<key>prescribedBy</key>
+	<string>O&apos;HANLON, SHAUN (DR)</string>
+	<key>timeChart</key>
+	<array>
+		<dict>
+			<key>medDate</key>
+			<string>2015-07-20</string>
+			<key>medDetails</key>
+			<array>
+				<dict>
+					<key>time</key>
+					<string>2015-07-20 10:00</string>
+					<key>status</key>
+					<string>given</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>medDate</key>
+			<string>2015-07-21</string>
+			<key>medDetails</key>
+			<array>
+				<dict>
+					<key>time</key>
+					<string>2015-07-21 10:00</string>
+					<key>status</key>
+					<string>given</string>
+				</dict>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>

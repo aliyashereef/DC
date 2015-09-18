@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>xCoordinate</key>
+		<integer>388</integer>
+		<key>yCoordinate</key>
+		<integer>30</integer>
+		<key>headDirection</key>
+		<string>top</string>
+		<key>itemType</key>
+		<string>divider</string>
+		<key>width</key>
+		<integer>5</integer>
+		<key>height</key>
+		<integer>185</integer>
+	</dict>
+	<dict>
+		<key>xCoordinate</key>
+		<integer>30</integer>
+		<key>yCoordinate</key>
+		<integer>220</integer>
+		<key>headDirection</key>
+		<string>top</string>
+		<key>itemType</key>
+		<string>divider</string>
+		<key>width</key>
+		<integer>363</integer>
+		<key>height</key>
+		<integer>5</integer>
+	</dict>
+	<dict>
+		<key>xCoordinate</key>
+		<integer>585</integer>
+		<key>yCoordinate</key>
+		<integer>30</integer>
+		<key>headDirection</key>
+		<string>top</string>
+		<key>itemType</key>
+		<string>nurseStation</string>
+		<key>width</key>
+		<integer>80</integer>
+		<key>height</key>
+		<integer>185</integer>
+	</dict>
+</array>
+</plist>
