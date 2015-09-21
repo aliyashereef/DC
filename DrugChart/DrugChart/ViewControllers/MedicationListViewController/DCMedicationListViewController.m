@@ -235,6 +235,8 @@
             medicationListArray = [NSMutableArray arrayWithArray:@[NSLocalizedString(@"SEARCH_MEDICATION_MIN_LIMIT", @"")]];
             [medicationListTableView reloadData];
         } else {
+            medicationListArray = [NSMutableArray arrayWithArray:@[]];
+            [medicationListTableView reloadData];
             [self fetchMedicationListForString:searchText];
         }
     } else {
