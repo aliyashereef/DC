@@ -157,8 +157,22 @@ let SECOND_INDEX = 1
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
+        var sectionIndex : NSInteger = 0
+        if section == INITIAL_INDEX {
+            if severeArray?.count > 0 {
+                sectionIndex = 0
+            } else {
+                if mildArray?.count > 0 {
+                    sectionIndex = 1
+                }
+            }
+        } else {
+            if mildArray?.count > 0 {
+                sectionIndex = 1
+            }
+        }
         let warningsHeaderView = NSBundle.mainBundle().loadNibNamed(WARNINGS_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCWarningsHeaderView
-        warningsHeaderView?.configureHeaderViewForSection(section)
+        warningsHeaderView?.configureHeaderViewForSection(sectionIndex)
         return warningsHeaderView
     }
     

@@ -14,12 +14,14 @@
 
 #define CELL_PADDING 24
 #define CELL_MININUM_HEIGHT 44
+#define TABLEVIEW_TOP_CONSTRAINT_HALF_SCREEN -20.0f
 
 @interface DCMedicationListViewController () <WarningsDelegate> {
     
     __weak IBOutlet UITableView *medicationListTableView;
     __weak IBOutlet UISearchBar *medicationSearchBar;
     __weak IBOutlet UIActivityIndicatorView *activityIndicator;
+    __weak IBOutlet NSLayoutConstraint *tableViewTopConstraint;
     
     NSMutableArray *medicationListArray;
     DCMedicationSearchWebService *medicationWebService;
@@ -48,6 +50,11 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+- (void)viewDidLayoutSubviews {
+    
+    [self ajustTableViewConstraints];
+    [super viewDidLayoutSubviews];
+}
 
 #pragma mark - Private Methods
 
@@ -63,6 +70,13 @@
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:CANCEL_BUTTON_TITLE  style:UIBarButtonItemStylePlain target:self action:@selector(cancelButtonPressed:)];
     self.navigationItem.rightBarButtonItem = cancelButton;
 }
+
+- (void)ajustTableViewConstraints {
+    
+    NSInteger windowWidth = [DCUtility getMainWindowSize].width;
+    NSInteger screenWidth = [[UIScreen mainScreen] bounds].size.width;
+    tableViewTopConstraint.constant = (windowWidth > screenWidth/2) ? ZERO_CONSTRAINT : TABLEVIEW_TOP_CONSTRAINT_HALF_SCREEN;
+ }
 
 - (void)configureFetchListTableView {
     
@@ -128,7 +142,7 @@
             updatedMedication.dosage = medicationDetails.dosage;
             updatedMedication.severeWarningCount = severeArray.count;
             updatedMedication.mildWarningCount = mildArray.count;
-            if ([severeArray count] == 0 || [severeArray count] == 0) {
+            if ([severeArray count] == 0) {
                 //if there are no allergies nor severe warning, dismiss view
                 self.selectedMedication (updatedMedication, warningsArray);
                 [self dismissViewControllerAnimated:YES completion:nil];

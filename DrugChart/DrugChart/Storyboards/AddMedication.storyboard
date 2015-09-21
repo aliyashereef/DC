@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="PNi-7l-TpA">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8187.4" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="PNi-7l-TpA">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8151.3"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -2397,7 +2398,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="310" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <searchBar key="tableHeaderView" contentMode="redraw" id="0iV-uc-4py">
-                                    <rect key="frame" x="0.0" y="0.0" width="310" height="44"/>
+                                    <rect key="frame" x="0.0" y="44" width="310" height="44"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
@@ -2406,7 +2407,7 @@
                                 </searchBar>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MedicationListCell" id="7Bi-Cx-EiC" customClass="DCMedicationListTableViewCell">
-                                        <rect key="frame" x="0.0" y="66" width="310" height="44"/>
+                                        <rect key="frame" x="0.0" y="110" width="310" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7Bi-Cx-EiC" id="HgM-vu-f71">
                                             <rect key="frame" x="0.0" y="0.0" width="310" height="43"/>
@@ -2468,13 +2469,14 @@
                         </variation>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
-                    <nil key="simulatedTopBarMetrics"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="310" height="600"/>
                     <connections>
                         <outlet property="activityIndicator" destination="xXW-m5-Ih4" id="nzy-b5-cAf"/>
                         <outlet property="medicationListTableView" destination="fCL-t6-xx3" id="jMm-GW-nYL"/>
                         <outlet property="medicationSearchBar" destination="0iV-uc-4py" id="hfY-TV-7Yc"/>
+                        <outlet property="tableViewTopConstraint" destination="xRq-KO-1Dq" id="Dxt-av-mfk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1BS-vw-V1T" userLabel="First Responder" sceneMemberID="firstResponder"/>
