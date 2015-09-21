@@ -49,6 +49,8 @@
 #define DONE_BUTTON_TITLE   @"Done"
 #define OVERRIDE_BUTTON_TITLE @"Override"
 #define DONOTUSE_BUTTON_TITLE @"Do not use"
+#define NO_BUTTON_TITLE     @"No"
+#define YES_BUTTON_TITLE    @"Yes"
 
 //Button images
 

@@ -15,7 +15,7 @@
 
 @end
 
-@interface DCAddMedicationInitialViewController : UIViewController
+@interface DCAddMedicationInitialViewController : UIViewController <UIPopoverPresentationControllerDelegate>
 
 @property (nonatomic, assign) id <DCAddMedicationViewControllerDelegate> delegate;
 @property (nonatomic, strong) DCPatient *patient;

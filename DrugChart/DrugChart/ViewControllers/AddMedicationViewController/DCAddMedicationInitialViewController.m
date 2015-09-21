@@ -806,6 +806,27 @@
     return nil;
 }
 
+- (void)displayPopOverDismissConfirmationAlert:(void (^)(BOOL didDismiss))dismiss {
+    
+    //popover dismiss confirmation
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"CONFIRMATION", @"")
+                                                                             message:NSLocalizedString(@"ADD_MEDICATION_UNSAVED_CHANGES", @"")preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *noAction = [UIAlertAction actionWithTitle:NO_BUTTON_TITLE
+                                                       style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+                                                           [alertController dismissViewControllerAnimated:YES completion:nil];
+                                                           dismiss(NO);
+                                                       }];
+    [alertController addAction:noAction];
+    UIAlertAction *yesAction = [UIAlertAction actionWithTitle:YES_BUTTON_TITLE
+                                                        style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+                                                            [alertController dismissViewControllerAnimated:YES completion:nil];
+                                                            dismiss(YES);
+                                                        }];
+    [alertController addAction:yesAction];
+    [self.parentViewController presentViewController:alertController animated:YES completion:nil];
+}
+
 #pragma mark - UITableView Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -1055,6 +1076,22 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self scrollToInstructionsCellPosition];
     });
+}
+
+#pragma mark - UIPopOverPresentationCOntroller Delegate
+
+- (BOOL)popoverPresentationControllerShouldDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
+    
+     if (selectedMedication.name != nil) {
+         [self displayPopOverDismissConfirmationAlert:^(BOOL didDismiss) {
+             if (didDismiss) {
+                 [self dismissViewControllerAnimated:YES completion:nil];
+             }
+         }];
+     } else {
+         return YES;
+     }
+    return NO;
 }
 
 @end
