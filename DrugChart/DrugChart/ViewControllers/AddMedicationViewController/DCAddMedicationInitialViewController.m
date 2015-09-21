@@ -919,6 +919,7 @@
     //add medication button action
     doneClicked = YES;
     [medicationDetailsTableView reloadData];
+    [self configureInstructionForMedication];
     if ([DCAddMedicationHelper selectedMedicationDetailsAreValid:selectedMedication]) {
         if ([DCAPPDELEGATE isNetworkReachable]) {
             [self callAddMedicationWebService];
@@ -1052,6 +1053,20 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self scrollToInstructionsCellPosition];
     });
+}
+
+- (void)configureInstructionForMedication {
+
+    NSIndexPath *instructionIndexPath;
+    if (showWarnings) {
+        instructionIndexPath = [NSIndexPath indexPathForRow:0 inSection:eThirdSection];
+    } else {
+        instructionIndexPath = [NSIndexPath indexPathForRow:0 inSection:eSecondSection];
+    }
+    DCInstructionsTableCell *instructionsCell = (DCInstructionsTableCell *)[medicationDetailsTableView cellForRowAtIndexPath:instructionIndexPath];
+    if (![instructionsCell.instructionsTextView.text isEqualToString:INSTRUCTIONS]) {
+        selectedMedication.instruction = instructionsCell.instructionsTextView.text;
+    }
 }
 
 @end
