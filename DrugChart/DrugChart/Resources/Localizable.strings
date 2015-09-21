@@ -88,6 +88,7 @@
 "PATIENT_NO_MEDICATIONS" = "No available medications";
 "ADD_SUBSTITUTE_TITLE"   = "Add a Substitute";
 "ADD_SUBSTITUTE_MESSAGE" = "Do you want to add a substitute for";
+"ADD_MEDICATION_UNSAVED_CHANGES" = "You have unsaved changes in add medication screen. Do you want to continue without saving?";
 
 //Navigation titles
 

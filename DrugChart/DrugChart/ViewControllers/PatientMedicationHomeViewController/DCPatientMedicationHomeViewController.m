@@ -489,9 +489,9 @@ typedef enum : NSInteger {
     [[UINavigationController alloc] initWithRootViewController:addMedicationViewController];
     navigationController.modalPresentationStyle = UIModalPresentationPopover;
     [self presentViewController:navigationController animated:YES completion:nil];
-    
     UIPopoverPresentationController *presentationController =
     [navigationController popoverPresentationController];
+    presentationController.delegate = addMedicationViewController;
     presentationController.permittedArrowDirections =
     UIPopoverArrowDirectionAny;
     presentationController.sourceView = self.view;
