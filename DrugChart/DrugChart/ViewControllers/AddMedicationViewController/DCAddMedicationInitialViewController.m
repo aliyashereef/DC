@@ -22,6 +22,7 @@
     
     __weak IBOutlet UITableView *medicationDetailsTableView;
     __weak IBOutlet UILabel *orderSetLabel;
+    UIBarButtonItem *addButton;
     
     DCMedicationDetails *selectedMedication;
     NSMutableArray *dosageArray;
@@ -54,7 +55,7 @@
 //configuring the add button and cancel button as navigation button items on the navigation bar.
 - (void)configureNavigationBar {
     
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc]
+    addButton = [[UIBarButtonItem alloc]
                                   initWithTitle:DONE_BUTTON_TITLE style:UIBarButtonItemStylePlain  target:self action:@selector(addMedicationButtonPressed:)];
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:CANCEL_BUTTON_TITLE  style:UIBarButtonItemStylePlain target:self action:@selector(addMedicationCancelButtonPressed:)];
     self.navigationItem.rightBarButtonItem = addButton;
@@ -770,6 +771,7 @@
             }
             [self dismissViewControllerAnimated:YES completion:nil];
         }
+        [addButton setEnabled:YES];
     }];
 }
 
@@ -921,6 +923,7 @@
     [medicationDetailsTableView reloadData];
     if ([DCAddMedicationHelper selectedMedicationDetailsAreValid:selectedMedication]) {
         if ([DCAPPDELEGATE isNetworkReachable]) {
+            [addButton setEnabled:NO];
             [self callAddMedicationWebService];
         } 
     }
