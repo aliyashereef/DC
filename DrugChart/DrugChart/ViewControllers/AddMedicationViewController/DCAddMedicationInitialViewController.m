@@ -949,6 +949,7 @@
     //add medication button action
     doneClicked = YES;
     [medicationDetailsTableView reloadData];
+    [self configureInstructionForMedication];
     if ([DCAddMedicationHelper selectedMedicationDetailsAreValid:selectedMedication]) {
         if ([DCAPPDELEGATE isNetworkReachable]) {
             [addButton setEnabled:NO];
@@ -1085,6 +1086,19 @@
     });
 }
 
+- (void)configureInstructionForMedication {
+
+    NSIndexPath *instructionIndexPath;
+    if (showWarnings) {
+        instructionIndexPath = [NSIndexPath indexPathForRow:0 inSection:eThirdSection];
+    } else {
+        instructionIndexPath = [NSIndexPath indexPathForRow:0 inSection:eSecondSection];
+    }
+    DCInstructionsTableCell *instructionsCell = (DCInstructionsTableCell *)[medicationDetailsTableView cellForRowAtIndexPath:instructionIndexPath];
+    if (![instructionsCell.instructionsTextView.text isEqualToString:INSTRUCTIONS]) {
+        selectedMedication.instruction = instructionsCell.instructionsTextView.text;
+    }
+}
 #pragma mark - UIPopOverPresentationCOntroller Delegate
 
 - (BOOL)popoverPresentationControllerShouldDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {

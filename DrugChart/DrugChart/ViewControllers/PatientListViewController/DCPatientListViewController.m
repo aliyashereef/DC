@@ -591,6 +591,7 @@ typedef enum : NSUInteger {
                 patientsArray = (NSMutableArray *)[self categorizePatientListBasedOnEmergency:patientsListArray];
             } else {
                 [_messageLabel setHidden:NO];
+                [_activityIndicatorView stopAnimating];
             }
         } else {
             [self handleErrorResponseForPatientList:error];

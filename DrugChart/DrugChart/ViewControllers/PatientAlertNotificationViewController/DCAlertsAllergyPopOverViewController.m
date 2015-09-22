@@ -154,7 +154,7 @@
 - (void) forcePopoverSize {
     
     CGSize currentSetSizeForPopover = self.preferredContentSize;
-    CGSize momentarySize = CGSizeMake(currentSetSizeForPopover.width - 1.0f, currentSetSizeForPopover.height - 1.0f);
+    CGSize momentarySize = CGSizeMake(currentSetSizeForPopover.width, currentSetSizeForPopover.height - 1.0f);
     self.preferredContentSize = momentarySize;
     self.navigationController.preferredContentSize = momentarySize;
     self.preferredContentSize = currentSetSizeForPopover;
