@@ -168,7 +168,7 @@
 
 - (DCDateTableViewCell *)getUpdatedDateAndTimeCellatIndexPath:(NSIndexPath *)indexPath {
     
-    //configuring date time section for the selected medication type
+    //configuring date time section for the selected medication type. This method configures the date and time section based on the selected medication type. Regular medication will have start date, no end date ,end date, administration times cells. ONCE - has only date field. When Required has start date, no end date, end date cells
     DCDateTableViewCell *cell = [medicationDetailsTableView dequeueReusableCellWithIdentifier:kDateCellID];
     cell.layoutMargins = UIEdgeInsetsZero;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -195,7 +195,7 @@
         dateAndTimeCell = [self getPopulatedStartDateTableCell:dateAndTimeCell];
     } else {
         if (self.datePickerIndexPath.row == DATE_PICKER_INDEX_START_DATE) {
-            // has inline start date picker, next cell will be no end date cell
+            //  Start date cell has inline picker shown, So the very next cell to inline picker will be no wnd date cell. If opted to have end date, datePickerIndexPath.row + 2 shows end date cell and the last row will be administartion times cell. If no end date is chosen, datePickerIndexPath.row + 2 displays administration times cell
             if (indexPath.row == DATE_PICKER_INDEX_START_DATE + 1) {
                 dateAndTimeCell = [self getNoEndDateTableCell:dateAndTimeCell];
             }
@@ -212,7 +212,7 @@
                 }
             }
         } else if (self.datePickerIndexPath.row == DATE_PICKER_INDEX_END_DATE) {
-            //has inline picker at end date cell
+            //has inline picker at end date cell. End date cell has inline date picker displayed, the very next and last row will be the administration times cell. datePickerIndexPath.row - 1 is the end date cell. datePickerIndexPath.row - 2 is the no end date cell.
             if (indexPath.row == DATE_PICKER_INDEX_END_DATE - 2) {
                 dateAndTimeCell = [self getNoEndDateTableCell:dateAndTimeCell];
             } else if (indexPath.row == DATE_PICKER_INDEX_END_DATE - 1)  {
@@ -221,7 +221,7 @@
                 dateAndTimeCell = [self getUpdatedAdministrationTimeTableCell:dateAndTimeCell];
             }
         } else {
-            //no inline date picker
+            //no inline date picker.
             if (indexPath.row == NO_END_DATE_ROW_INDEX) {
                 dateAndTimeCell = [self getNoEndDateTableCell:dateAndTimeCell];
             } else {
@@ -242,6 +242,7 @@
 
 - (DCDateTableViewCell *)getPopulatedStartDateTableCell:(DCDateTableViewCell *)tableCell {
     
+    //configure start date cell
     tableCell.dateTypeLabel.textColor = [UIColor blackColor];
     tableCell.dateTypeWidth.constant = TIME_TITLE_LABEL_WIDTH;
     if (!selectedMedication.startDate || [selectedMedication.startDate isEqualToString:EMPTY_STRING]) {
@@ -258,8 +259,10 @@
 
 - (DCDateTableViewCell *)getUpdatedEndDateTableCell:(DCDateTableViewCell *)tableCell {
     
+    //doneClicked bool checks if validation is to be performed or not.
     if (doneClicked) {
         if (!selectedMedication.noEndDate) {//has end date
+            //If opted to choose end date
             if (!selectedMedication.endDate) {
                 tableCell.dateTypeLabel.textColor = [UIColor redColor];
             } else {
@@ -412,6 +415,7 @@
 
 - (NSInteger)numberOfSectionsInMedicationTableView {
     
+    //If medicine name is not selected, the number of sections in tableview will be 1 , On medicine name selection, the section count vary based on warnings presence
     if ([selectedMedication.name isEqualToString:EMPTY_STRING] || selectedMedication.name == nil) {
         return INITIAL_SECTION_COUNT;
     } else {
@@ -629,18 +633,18 @@
 - (void)displayDetailViewForSelectedCellAtIndexPath:(NSIndexPath *)indexPath {
     
     switch (indexPath.section) {
-        case eZerothSection:
+        case eZerothSection:// display medicine name in initial section and detail view will be MedicationListView
             [self displayMedicationSearchListView];
             break;
         case eFirstSection:
-            if (showWarnings) {
+            if (showWarnings) { //if tableview has warnings section, 'Warnings' selection displays Warnings List, Other wise detail screen display will be that of dosage, route, type
                 [self displayWarningsListView];
             } else {
                 [self displayAddMedicationDetailViewForTableRowAtIndexPath:indexPath];
             }
             break;
         case eSecondSection:
-            if (showWarnings) {
+            if (showWarnings) { //If tableview has warnings section, Second section cell selection shows detail screen for dosage/route/type, otherwise present keyboard in instructions text view
                 [self displayAddMedicationDetailViewForTableRowAtIndexPath:indexPath];
             } else {
                 DCInstructionsTableCell *instructionsCell = (DCInstructionsTableCell *)[medicationDetailsTableView cellForRowAtIndexPath:indexPath];
@@ -648,7 +652,7 @@
             }
             break;
         case eThirdSection: {
-            if (showWarnings) {
+            if (showWarnings) { // If Warnings section is shown, third section present instruction text view keyboard,, otherwise load date and time detail section
                 DCInstructionsTableCell *instructionsCell = (DCInstructionsTableCell *)[medicationDetailsTableView cellForRowAtIndexPath:indexPath];
                 [instructionsCell.instructionsTextView becomeFirstResponder];
             } else {
@@ -685,15 +689,15 @@
 
 - (void)displayDetailViewForRegularMedicationAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (!_datePickerIndexPath) {
+    if (!_datePickerIndexPath) { // If inline datepicker is not shown
         if (!selectedMedication.noEndDate) { //has end date
-            if (indexPath.row == ADMINISTRATING_TIME_ROW_INDEX) {
+            if (indexPath.row == ADMINISTRATING_TIME_ROW_INDEX) { // if last row is selected, show administartion times detail view
                 [self presentAdministrationTimeView];
-            } else if (indexPath.row != NO_END_DATE_ROW_INDEX) {
+            } else if (indexPath.row != NO_END_DATE_ROW_INDEX) { // disable section of no end date cell, show inline date pickers on other cell selection
                 [self displayInlineDatePickerForRowAtIndexPath:indexPath];
             }
          } else {
-             if (indexPath.row == START_DATE_ROW_INDEX + 2) {
+             if (indexPath.row == START_DATE_ROW_INDEX + 2) { // If 
                  [self presentAdministrationTimeView];
              } else if (indexPath.row != NO_END_DATE_ROW_INDEX) {
                  [self displayInlineDatePickerForRowAtIndexPath:indexPath];
@@ -886,22 +890,25 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     
+    //medicine name section height is zero and others will have height 10
     CGFloat sectionHeight = (section == eZerothSection) ? 0.0f : HEADER_VIEW_HEIGHT;
     return sectionHeight;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    //set the tableview cell heights here
+    //set the tableview cell heights here, Zeroth section will always display medicine name,
     if (indexPath.section == eZerothSection) {
         CGFloat nameHeight = TABLE_CELL_DEFAULT_ROW_HEIGHT;
         if (selectedMedication.name) {
+            //calculate medicine name height in the row
             nameHeight = [DCAddMedicationHelper getHeightForMedicineName:selectedMedication.name];
             nameHeight = (nameHeight < TABLE_CELL_DEFAULT_ROW_HEIGHT) ? TABLE_CELL_DEFAULT_ROW_HEIGHT : nameHeight;
         }
         return nameHeight;
     } else {
         if (showWarnings) {
+            //If showWarnings bool is true, it denotes warnings Section is to be shown, else Warnings Section is not displayed
             if (indexPath.section == eThirdSection) {
                 return INSTRUCTIONS_ROW_HEIGHT;
             } else if (indexPath.section == eFourthSection) {
@@ -1082,6 +1089,7 @@
 
 - (BOOL)popoverPresentationControllerShouldDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
     
+    //this method restricts the pop over dismiss on tapping pop over background. If there are any unsaved changes, alert is displayed
      if (selectedMedication.name != nil) {
          [self displayPopOverDismissConfirmationAlert:^(BOOL didDismiss) {
              if (didDismiss) {

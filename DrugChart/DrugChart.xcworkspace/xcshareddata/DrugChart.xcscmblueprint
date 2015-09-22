@@ -1,14 +1,16 @@
 {
-  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "81CD16D70BE28EE0B3B89A835EECDB34A1D32AAD",
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "92D043529D8C7BD27173AEC407EA5CBCA87E665D",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
 
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "92D043529D8C7BD27173AEC407EA5CBCA87E665D" : 0,
     "D5BFACF09386F8AAD28FF8DC0DD987FF5B4E96EE" : 0,
     "81CD16D70BE28EE0B3B89A835EECDB34A1D32AAD" : 0
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "FE45C5CC-235C-4486-8F39-FF6CA0C51239",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "92D043529D8C7BD27173AEC407EA5CBCA87E665D" : "dcgithub\/",
     "D5BFACF09386F8AAD28FF8DC0DD987FF5B4E96EE" : "drugchart",
     "81CD16D70BE28EE0B3B89A835EECDB34A1D32AAD" : "drugchartgittfs"
   },
@@ -20,6 +22,11 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "codebase.qburst.com:muhammeds\/drugchartgittfs.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "81CD16D70BE28EE0B3B89A835EECDB34A1D32AAD"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "codebase.qburst.com:muhammeds\/dcgithub.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "92D043529D8C7BD27173AEC407EA5CBCA87E665D"
     },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "codebase.qburst.com:muhammeds\/drugchart.git",
