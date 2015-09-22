@@ -71,7 +71,11 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
 
             break
         case MEDICATION_HISTORY_SEGMENT_INDEX :
+            let storyboard = UIStoryboard(name: "MedicationHistory", bundle: nil)
+            let vc = storyboard.instantiateViewControllerWithIdentifier("MedicationHistory")
+            self.presentViewController(vc, animated: true, completion: nil)
             break
+            
         case BNF_SEGMENT_INDEX :
             break
         default :
