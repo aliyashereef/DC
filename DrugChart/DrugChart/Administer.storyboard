@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Aiw-Er-b4E">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Aiw-Er-b4E">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -855,8 +856,10 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NameCell" id="jpk-JN-Xbq">
+                                <rect key="frame" x="0.0" y="22" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jpk-JN-Xbq" id="PrX-Ij-u1O">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -873,6 +876,116 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x0B-Yy-lI4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1020" y="327"/>
+        </scene>
+        <!--Calendar Slot Detail View Controller-->
+        <scene sceneID="loK-jl-VbR">
+            <objects>
+                <viewController storyboardIdentifier="CalendarDetail" id="Bkj-uV-rMy" customClass="DCCalendarSlotDetailViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="rUn-yp-Rhj"/>
+                        <viewControllerLayoutGuide type="bottom" id="Hhr-Oo-9ps"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ALS-qf-x3Y">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="500"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1At-ES-Rkm" userLabel="TitleView">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="70"/>
+                                <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Dd2-m2-37J">
+                                        <rect key="frame" x="107" y="20" width="386" height="30"/>
+                                        <segments>
+                                            <segment title="Administer"/>
+                                            <segment title="Medication History"/>
+                                            <segment title="BNF"/>
+                                        </segments>
+                                        <color key="tintColor" red="0.51764705882352935" green="0.51764705882352935" blue="0.51764705882352935" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <connections>
+                                            <action selector="segmentSelected:" destination="Bkj-uV-rMy" eventType="valueChanged" id="J5a-21-ch3"/>
+                                        </connections>
+                                    </segmentedControl>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zcz-7S-X4N">
+                                        <rect key="frame" x="526" y="20" width="54" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="54" id="drW-3m-UDg"/>
+                                        </constraints>
+                                        <state key="normal" title="Done"/>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="drW-3m-UDg"/>
+                                            </mask>
+                                        </variation>
+                                        <connections>
+                                            <action selector="doneButtonPressed:" destination="Bkj-uV-rMy" eventType="touchUpInside" id="d34-xZ-UFD"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="zcz-7S-X4N" firstAttribute="leading" secondItem="Dd2-m2-37J" secondAttribute="trailing" constant="68" id="1F9-lS-rPU"/>
+                                    <constraint firstItem="zcz-7S-X4N" firstAttribute="leading" relation="lessThanOrEqual" secondItem="Dd2-m2-37J" secondAttribute="trailing" constant="33" id="3Di-yL-3k6"/>
+                                    <constraint firstItem="Dd2-m2-37J" firstAttribute="baseline" secondItem="zcz-7S-X4N" secondAttribute="baseline" id="K5O-Ib-0UI"/>
+                                    <constraint firstItem="Dd2-m2-37J" firstAttribute="centerX" secondItem="1At-ES-Rkm" secondAttribute="centerX" id="PqW-Z8-mVw"/>
+                                    <constraint firstItem="Dd2-m2-37J" firstAttribute="bottom" secondItem="zcz-7S-X4N" secondAttribute="bottom" id="QSq-be-WCz"/>
+                                    <constraint firstAttribute="trailing" secondItem="zcz-7S-X4N" secondAttribute="trailing" constant="20" id="Z8I-Iw-QeG"/>
+                                    <constraint firstAttribute="height" constant="70" id="bHw-Qr-m1D"/>
+                                    <constraint firstItem="Dd2-m2-37J" firstAttribute="centerY" secondItem="1At-ES-Rkm" secondAttribute="centerY" id="ezL-Jb-3LC"/>
+                                    <constraint firstItem="zcz-7S-X4N" firstAttribute="centerY" secondItem="Dd2-m2-37J" secondAttribute="centerY" id="lOx-x7-57B"/>
+                                    <constraint firstItem="zcz-7S-X4N" firstAttribute="leading" secondItem="Dd2-m2-37J" secondAttribute="trailing" constant="33" id="lXd-1D-Dga"/>
+                                    <constraint firstItem="zcz-7S-X4N" firstAttribute="top" secondItem="Dd2-m2-37J" secondAttribute="top" id="zq8-Bp-Rtw"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="K5O-Ib-0UI"/>
+                                        <exclude reference="QSq-be-WCz"/>
+                                        <exclude reference="1F9-lS-rPU"/>
+                                        <exclude reference="lXd-1D-Dga"/>
+                                    </mask>
+                                </variation>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pyo-Rr-Edz" userLabel="ContainerView">
+                                <rect key="frame" x="0.0" y="70" width="600" height="430"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.94117647058823528" green="0.93725490196078431" blue="0.95686274509803915" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="1At-ES-Rkm" firstAttribute="top" secondItem="rUn-yp-Rhj" secondAttribute="bottom" id="8Ns-t1-KdY"/>
+                            <constraint firstAttribute="trailing" secondItem="1At-ES-Rkm" secondAttribute="trailing" id="aey-pR-p5y"/>
+                            <constraint firstItem="1At-ES-Rkm" firstAttribute="leading" secondItem="ALS-qf-x3Y" secondAttribute="leading" id="qjw-Iw-EiM"/>
+                        </constraints>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="600" height="500"/>
+                    <connections>
+                        <outlet property="containerView" destination="pyo-Rr-Edz" id="gNf-w4-16r"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="P1H-1A-zxj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1773" y="-231"/>
+        </scene>
+        <!--Administer View Controller-->
+        <scene sceneID="dxm-sY-Yeq">
+            <objects>
+                <viewController storyboardIdentifier="AdministerViewController" id="ZDY-vu-Z4L" customClass="DCAdministerViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="qSW-q7-ncU"/>
+                        <viewControllerLayoutGuide type="bottom" id="lXH-id-4hB"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="gTW-9p-0zs">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jwD-2r-K60" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2495" y="-181"/>
         </scene>
         <!--Missed Medication Alert View Controller-->
         <scene sceneID="Ncs-oi-aF8">

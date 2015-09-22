@@ -106,6 +106,8 @@
 #define MEDICATION_LIST_STORYBOARD_ID @"MedicationListView"
 #define ADD_MEDICATION_DETAIL_STORYBOARD_ID @"AddMedicationDetail"
 #define WARNINGS_LIST_STORYBOARD_ID @"WarningsList"
+#define CALENDAR_SLOT_DETAIL_STORYBOARD_ID @"CalendarDetail"
+#define ADMINISTER_STORYBOARD_ID @"AdministerViewController"
 
 //Nib files
 #define WARNINGS_HEADER_VIEW_NIB @"DCWarningsHeaderView"

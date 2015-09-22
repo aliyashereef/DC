@@ -18,6 +18,7 @@
 #import "DCPrescriberTimeView.h"
 #import "DCPrescriberMedicationSlotDisplayView.h"
 #import "DCStopMedicationWebService.h"
+#import "DrugChart-Swift.h"
 
 #define PRESCRIBER_MEDICATION_CELL_IDENTIFIER @"PrescriberMedicationCellIdentifier"
 #define PRESCRIBER_CALENDAR_CELL_IDENTIFIER  @"PrescriberCalendarCellIdentifier"
@@ -1138,6 +1139,15 @@ typedef enum : NSUInteger {
     });
 }
 
+#pragma mark - UIViewControllerTransitioningDelegate
+
+- (UIPresentationController *)presentationControllerForPresentedViewController:(UIViewController *)presented presentingViewController:(UIViewController *)presenting sourceViewController:(UIViewController *)source {
+    
+    RoundRectPresentationController *roundRectPresentationController = [[RoundRectPresentationController alloc] initWithPresentedViewController:presented presentingViewController:presenting];
+    roundRectPresentationController.viewType = eAddMedication;
+    return roundRectPresentationController;
+}
+
 #pragma mark - DCPrescriberFilterTableViewControllerDelegate methods
 
 - (void)sortMedicationListSelectionChanged:(NSInteger)currentSelection {
@@ -1182,18 +1192,27 @@ typedef enum : NSUInteger {
                                   withButtonTag:(NSInteger)tag
                                      slotsArray:(NSArray *)slotsArray {
     
-    DCMedicationScheduleDetails *medicationList =  [self getMedicationListForTableCellAtIndexPath:indexPath];
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:PRESCRIBER_DETAILS_STORYBOARD
-                                                         bundle: nil];
-    DCPrescriberDetailsViewController *detailsViewController = [storyboard instantiateViewControllerWithIdentifier:PRESCRIBER_DETAILS_SB_ID];
-    detailsViewController.medicationList = medicationList;
-    detailsViewController.displayDateString = [calendarDisplayWeekArray objectAtIndex:tag - 1];
-    detailsViewController.slotsArray = slotsArray;
-    [detailsViewController setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
-    [self presentViewController:detailsViewController animated:YES completion:nil];
-    detailsViewController.view.superview.layer.cornerRadius = 5;
-    [detailsViewController.view.superview clipsToBounds];
-    detailsViewController.view.superview.superview.backgroundColor = [UIColor clearColor];
+//    DCMedicationScheduleDetails *medicationList =  [self getMedicationListForTableCellAtIndexPath:indexPath];
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:PRESCRIBER_DETAILS_STORYBOARD
+//                                                         bundle: nil];
+//    DCPrescriberDetailsViewController *detailsViewController = [storyboard instantiateViewControllerWithIdentifier:PRESCRIBER_DETAILS_SB_ID];
+//    detailsViewController.medicationList = medicationList;
+//    detailsViewController.displayDateString = [calendarDisplayWeekArray objectAtIndex:tag - 1];
+//    detailsViewController.slotsArray = slotsArray;
+//    [detailsViewController setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
+//    [self presentViewController:detailsViewController animated:YES completion:nil];
+//    detailsViewController.view.superview.layer.cornerRadius = 5;
+//    [detailsViewController.view.superview clipsToBounds];
+//    detailsViewController.view.superview.superview.backgroundColor = [UIColor clearColor];
+    
+    
+    
+    //display calendar slot detail screen
+    UIStoryboard *administerStoryboard = [UIStoryboard storyboardWithName:ADMINISTER_STORYBOARD bundle:nil];
+    DCCalendarSlotDetailViewController *detailViewController = [administerStoryboard instantiateViewControllerWithIdentifier:CALENDAR_SLOT_DETAIL_STORYBOARD_ID];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:detailViewController];
+    navigationController.modalPresentationStyle = UIModalTransitionStyleCrossDissolve;
+    [self presentViewController:navigationController animated:YES completion:nil];
 }
 
 #pragma mark - Public methods implementation

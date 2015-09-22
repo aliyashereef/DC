@@ -27,10 +27,10 @@
 
 - (void)presentationTransitionWillBegin {
     UIView *presentedView = self.presentedViewController.view;
-    presentedView.layer.cornerRadius = 5.f;
+    //presentedView.layer.cornerRadius = 5.f;
     presentedView.layer.shadowColor = [[UIColor blackColor] CGColor];
     presentedView.layer.shadowOffset = CGSizeMake(0, 10);
-    presentedView.layer.shadowRadius = 10;
+    //presentedView.layer.shadowRadius = 10;
     presentedView.layer.shadowOpacity = 0.5;
 
     self.dimmingView.frame = self.containerView.bounds;
