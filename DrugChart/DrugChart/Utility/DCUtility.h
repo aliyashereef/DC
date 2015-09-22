@@ -10,6 +10,7 @@
 #import <UIKit/UIKit.h>
 
 #import "DCErrorPopOverViewController.h"
+#import "DCMedicationSlot.h"
 
 #define fsw frame.size.width
 #define fsh frame.size.height
@@ -91,6 +92,8 @@ typedef enum : NSUInteger {
 + (CGSize)getMainWindowSize;
 
 + (NSAttributedString *)getDosagePlaceHolderForValidState:(BOOL)isValid;
+
++ (DCMedicationSlot *)getNearestMedicationSlotToBeAdministeredFromSlotsArray:(NSArray *)slotsArray;
 
 
 @end
