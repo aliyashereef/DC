@@ -67,6 +67,7 @@
 // Storyboard names
 #define MAIN_STORYBOARD @"Main"
 #define ADMINISTER_STORYBOARD @"Administer"
+#define MEDICATION_HISTORY @"MedicationHistory"
 #define ADD_MEDICATION_STORYBOARD @"AddMedication"
 #define AUTHORIZATION_STORYBOARD @"Authorization"
 #define PRESCRIBER_DETAILS_STORYBOARD @"PrescriberDetails"
@@ -108,6 +109,7 @@
 #define WARNINGS_LIST_STORYBOARD_ID @"WarningsList"
 #define CALENDAR_SLOT_DETAIL_STORYBOARD_ID @"CalendarDetail"
 #define ADMINISTER_STORYBOARD_ID @"AdministerViewController"
+#define MEDICATION_STORYBOARD_ID @"MedicationHistory"
 
 //Nib files
 #define WARNINGS_HEADER_VIEW_NIB @"DCWarningsHeaderView"

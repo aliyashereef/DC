@@ -18,12 +18,13 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
 
     @IBOutlet weak var containerView: UIView!
     
-    let administerViewController : DCAdministerViewController? = nil
+    var administerViewController : DCAdministerViewController?
+    var medicationHistoryViewController : DCMedicationHistoryViewController?
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        self.navigationController?.navigationBarHidden = true
+        configureViewElements()
     }
 
     override func didReceiveMemoryWarning() {
@@ -41,6 +42,43 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         // Pass the selected object to the new view controller.
     }
     */
+    
+    // MARK: - Private Methods
+    
+    func configureViewElements () {
+        
+        self.navigationController?.navigationBarHidden = true
+        addAdministerView()
+    }
+    
+    func addAdministerView () {
+        
+        //add administer view controller
+        let administerStoryboard : UIStoryboard? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil)
+        if administerViewController == nil {
+            administerViewController = administerStoryboard!.instantiateViewControllerWithIdentifier(ADMINISTER_STORYBOARD_ID) as? DCAdministerViewController
+            self.addChildViewController(administerViewController!)
+            administerViewController!.view.frame = containerView.bounds
+            containerView.addSubview((administerViewController?.view)!)
+        }
+        administerViewController?.didMoveToParentViewController(self)
+        containerView.bringSubviewToFront((administerViewController?.view)!)
+    }
+    
+    func addMedicationHistoryView () {
+        
+        //add medication History view controller
+        let MedicationHistoryStoryboard : UIStoryboard? = UIStoryboard(name:MEDICATION_HISTORY, bundle: nil)
+        if medicationHistoryViewController == nil {
+            medicationHistoryViewController = MedicationHistoryStoryboard!.instantiateViewControllerWithIdentifier(MEDICATION_STORYBOARD_ID) as? DCMedicationHistoryViewController
+            self.addChildViewController(medicationHistoryViewController!)
+            medicationHistoryViewController!.view.frame = containerView.bounds
+            containerView.addSubview((medicationHistoryViewController?.view)!)
+        }
+        medicationHistoryViewController?.didMoveToParentViewController(self)
+        containerView.bringSubviewToFront((medicationHistoryViewController?.view)!)
+    }
+    
     // MARK: - UIViewControllerTransitioningDelegate Methods
     
     func presentationControllerForPresentedViewController(presented: UIViewController, presentingViewController presenting: UIViewController, sourceViewController source: UIViewController) -> UIPresentationController? {
@@ -64,16 +102,12 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         //segment change
         switch sender.selectedSegmentIndex {
         case ADMINISTER_SEGMENT_INDEX :
-            
-//            let administerStoryboard : UIStoryboard? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil)
-            
-            
-
-            break
+            addAdministerView()
+            containerView.sendSubviewToBack((medicationHistoryViewController?.view)!)
+             break
         case MEDICATION_HISTORY_SEGMENT_INDEX :
-            let storyboard = UIStoryboard(name: "MedicationHistory", bundle: nil)
-            let vc = storyboard.instantiateViewControllerWithIdentifier("MedicationHistory")
-            self.presentViewController(vc, animated: true, completion: nil)
+            addMedicationHistoryView()
+            containerView.sendSubviewToBack((administerViewController?.view)!)
             break
             
         case BNF_SEGMENT_INDEX :
