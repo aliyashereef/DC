@@ -12,6 +12,7 @@
 		0B0F1B651AB6688F00DD2D69 /* DCAdministerMedicationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B0F1B641AB6688F00DD2D69 /* DCAdministerMedicationViewController.m */; };
 		0B14CD8A1BB13BEB0085E40C /* DCAdministerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B14CD891BB13BEB0085E40C /* DCAdministerViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		0B14CD8D1BB151EA0085E40C /* DCAdministerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B14CD8C1BB151EA0085E40C /* DCAdministerCell.swift */; settings = {ASSET_TAGS = (); }; };
+		0B14CD901BB183F40085E40C /* DCAdministerMedicationDetailsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B14CD8F1BB183F40085E40C /* DCAdministerMedicationDetailsCell.swift */; settings = {ASSET_TAGS = (); }; };
 		0B1589E71AD51B33005F3811 /* DCWardWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B1589E61AD51B33005F3811 /* DCWardWebService.m */; };
 		0B1589EB1AD52D3B005F3811 /* DCHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B1589EA1AD52D3B005F3811 /* DCHTTPRequestOperationManager.m */; };
 		0B1E308F1AF20213003E49C4 /* DCSecurityPinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B1E308E1AF20213003E49C4 /* DCSecurityPinViewController.m */; };
@@ -280,6 +281,7 @@
 		0B0F1B641AB6688F00DD2D69 /* DCAdministerMedicationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DCAdministerMedicationViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0B14CD891BB13BEB0085E40C /* DCAdministerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministerViewController.swift; sourceTree = "<group>"; };
 		0B14CD8C1BB151EA0085E40C /* DCAdministerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministerCell.swift; sourceTree = "<group>"; };
+		0B14CD8F1BB183F40085E40C /* DCAdministerMedicationDetailsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministerMedicationDetailsCell.swift; sourceTree = "<group>"; };
 		0B1589E51AD51B33005F3811 /* DCWardWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DCWardWebService.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		0B1589E61AD51B33005F3811 /* DCWardWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DCWardWebService.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0B1589E91AD52D3B005F3811 /* DCHTTPRequestOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DCHTTPRequestOperationManager.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -741,6 +743,7 @@
 			isa = PBXGroup;
 			children = (
 				0B14CD891BB13BEB0085E40C /* DCAdministerViewController.swift */,
+				0B14CD8E1BB183DD0085E40C /* AdministerMedicationDetailsCell */,
 				0B14CD8B1BB151C50085E40C /* AdministerCell */,
 			);
 			path = AdministerViewController;
@@ -752,6 +755,14 @@
 				0B14CD8C1BB151EA0085E40C /* DCAdministerCell.swift */,
 			);
 			path = AdministerCell;
+			sourceTree = "<group>";
+		};
+		0B14CD8E1BB183DD0085E40C /* AdministerMedicationDetailsCell */ = {
+			isa = PBXGroup;
+			children = (
+				0B14CD8F1BB183F40085E40C /* DCAdministerMedicationDetailsCell.swift */,
+			);
+			path = AdministerMedicationDetailsCell;
 			sourceTree = "<group>";
 		};
 		0B1589E41AD51AE0005F3811 /* WardWebService */ = {
@@ -2838,6 +2849,7 @@
 				0BE141891B18884400CEA758 /* DCOverrideViewController.m in Sources */,
 				0BA3F80C1BAA828A00DC1C2A /* DCReasonCell.swift in Sources */,
 				0BF13A8C1B845D8A003607A8 /* DCPatientListCollectionViewController.m in Sources */,
+				0B14CD901BB183F40085E40C /* DCAdministerMedicationDetailsCell.swift in Sources */,
 				0B2442F41B96F71D00E8F0EB /* DCMedicationListViewController.m in Sources */,
 				7D3234C01AF137D50020CC8F /* DCPatientAlertsNotificationTableViewCell.m in Sources */,
 				7D3234B91AF12EBD0020CC8F /* DCPatientAlert.m in Sources */,

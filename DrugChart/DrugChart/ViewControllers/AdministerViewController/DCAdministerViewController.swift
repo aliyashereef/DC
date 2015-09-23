@@ -16,7 +16,9 @@ let ADMINISTERED_SECTION_ROW_COUNT : NSInteger = 4
 let OMITTED_OR_REFUSED_SECTION_ROW_COUNT : NSInteger = 1
 let NOTES_SECTION_ROW_COUNT : NSInteger = 1
 let INITIAL_SECTION_HEIGHT : CGFloat = 0.0
-let TABLEVIEW_DEFAULT_SECTION_HEIGHT : CGFloat = 40.0
+let TABLEVIEW_DEFAULT_SECTION_HEIGHT : CGFloat = 20.0
+let MEDICATION_DETAILS_SECTION_HEIGHT : CGFloat = 40.0
+let MEDICATION_DETAILS_CELL_INDEX : NSInteger = 1
 
 
 class DCAdministerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -46,14 +48,14 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         administerTableView!.separatorInset = UIEdgeInsetsZero
     }
     
-    func configureTableCellAtIndexPath(indexPath : NSIndexPath) -> (DCAdministerCell){
+    func configureAdministerTableCellAtIndexPath(indexPath : NSIndexPath) -> (DCAdministerCell) {
         
         let administerCell : DCAdministerCell = (administerTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
         administerCell.layoutMargins = UIEdgeInsetsZero
         switch indexPath.section {
         case 0:
             if indexPath.row == 0 {
-                let dateString : String = DCDateUtility.convertDate(medicationSlot?.time, fromFormat: DEFAULT_DATE_FORMAT, toFormat: "d LLLL yyyy")
+                let dateString : String? = DCDateUtility.convertDate(medicationSlot?.time, fromFormat: DEFAULT_DATE_FORMAT, toFormat: DATE_MONTHNAME_YEAR_FORMAT)
                 administerCell.titleLabel.text = dateString
             }
             break;
@@ -61,6 +63,15 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             break;
         }
         return administerCell
+    }
+    
+    func configureMedicationDetailsCellAtIndexPath(indexPath : NSIndexPath) -> (DCAdministerMedicationDetailsCell) {
+        
+        let medicationCell : DCAdministerMedicationDetailsCell = (administerTableView.dequeueReusableCellWithIdentifier(ADMINISTER_MEDICATION_DETAILS_CELL_ID) as? DCAdministerMedicationDetailsCell!)!
+        if medicationDetails != nil {
+            medicationCell.populateCellWithMedicationDetails(medicationDetails!)
+        }
+        return medicationCell
     }
     
     // MARK: TableView Methods
@@ -98,12 +109,28 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let administerCell : DCAdministerCell = configureTableCellAtIndexPath(indexPath)
-        return administerCell
+        if (indexPath.section == 0 && indexPath.row == MEDICATION_DETAILS_CELL_INDEX) {
+            let medicationDetailsCell : DCAdministerMedicationDetailsCell = configureMedicationDetailsCellAtIndexPath(indexPath)
+            return medicationDetailsCell
+         } else {
+            let administerCell : DCAdministerCell = configureAdministerTableCellAtIndexPath(indexPath)
+            return administerCell
+        }
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
-        return (section == 0) ? INITIAL_SECTION_HEIGHT : TABLEVIEW_DEFAULT_SECTION_HEIGHT
+        if (section == 0) {
+            return INITIAL_SECTION_HEIGHT
+        } else if (section == 1) {
+            return MEDICATION_DETAILS_SECTION_HEIGHT
+        } else {
+            return TABLEVIEW_DEFAULT_SECTION_HEIGHT
+        }
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+        return (indexPath.row == 1) ? 74.0 : 41.00
     }
 }
