@@ -46,12 +46,12 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     func configureViewElements () {
         
-        administerTableView!.layoutMargins = UIEdgeInsetsZero
-        administerTableView!.separatorInset = UIEdgeInsetsZero
         if(medicationSlot?.administerMedication == nil) {
             medicationSlot?.administerMedication = DCAdministerMedication.init()
             medicationSlot?.administerMedication.medicationStatus = ADMINISTERED
         }
+        administerTableView!.layoutMargins = UIEdgeInsetsZero
+        administerTableView!.separatorInset = UIEdgeInsetsZero
     }
 
     func fetchAdministersAndPrescribersList () {
@@ -61,9 +61,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         let usersListWebService : DCUsersListWebService = DCUsersListWebService.init()
         usersListWebService.getUsersListWithCallback { (users, error) -> Void in
             if (error == nil) {
-//                for dict : NSDictionary? in users as {} {
-//                    
-//                }
+
             }
         }
      }
@@ -81,7 +79,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 } else {
                     dateString = EMPTY_STRING
                 }
-                //let dateString : String? = DCDateUtility.convertDate(medicationSlot?.time, fromFormat: DEFAULT_DATE_FORMAT, toFormat: DATE_MONTHNAME_YEAR_FORMAT)
                 administerCell.titleLabel.text = dateString
             }
             break;
@@ -89,10 +86,11 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             administerCell = getPopulatedMedicationStatusTableCellAtIndexPath(administerCell, indexPath: indexPath);
             break;
         case 2:
-            //if (medicationSlot?.administerMedication?.medicationStatus == ADMINISTERED) {
+            if (medicationSlot?.administerMedication?.medicationStatus == ADMINISTERED) {
                 administerCell = getPopulatedMedicationDetailsCellForAdministeredStatus(administerCell, indexPath: indexPath)
-//            } else if (medicationSlot?.administerMedication?.medicationStatus == REFUSED) {
-//                
+            }
+//            else if (medicationSlot?.administerMedication?.medicationStatus == OMITTED) {
+//                administerCell = getMedicationDetailsCellForOmittedStatus(administerCell, indexPath: indexPath)
 //            }
             break
         default:
@@ -128,6 +126,10 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         
         return cell
     }
+    
+//    func getMedicationDetailsCellForOmittedStatus(cell : DCAdministerCell, indexPath: NSIndexPath) -> (DCAdministerCell) {
+//        
+//    }
     
     func getBatchNumberOrExpiryDateTableCellAtIndexPath(indexPath: NSIndexPath) -> (DCBatchNumberCell) {
         
@@ -174,6 +176,12 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         }
     }
     
+    func getNotesTableCellAtIndexPath(indexPath : NSIndexPath) -> (DCNotesTableCell) {
+        
+        let notesCell : DCNotesTableCell = (administerTableView.dequeueReusableCellWithIdentifier(NOTES_CELL_ID) as? DCNotesTableCell)!
+        return notesCell
+    }
+    
     func configureMedicationDetailsCellAtIndexPath(indexPath : NSIndexPath) -> (DCAdministerMedicationDetailsCell) {
         
         let medicationCell : DCAdministerMedicationDetailsCell = (administerTableView.dequeueReusableCellWithIdentifier(ADMINISTER_MEDICATION_DETAILS_CELL_ID) as? DCAdministerMedicationDetailsCell!)!
@@ -204,12 +212,12 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         if (medicationSlot == nil) {
             return 0
         } else {
-            if (medicationSlot?.status == ADMINISTERED || medicationSlot?.status == REFUSED || medicationSlot?.status == nil){
-                return ADMINISTERED_SECTION_COUNT;
-            } else if (medicationSlot?.status == OMITTED) {
+            NSLog("medicationSlot?.status : %@", (medicationSlot?.administerMedication?.medicationStatus)!)
+            if (medicationSlot?.administerMedication.medicationStatus == OMITTED) {
                 return OMITTED_SECTION_COUNT;
+            } else {
+                return ADMINISTERED_SECTION_COUNT;
             }
-            return ADMINISTERED_SECTION_COUNT;
         }
     }
     
@@ -221,8 +229,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         case 1:
             return (statusCellSelected ? 4 : STATUS_ROW_COUNT)
         case 2:
-            if (medicationSlot?.status == OMITTED || medicationSlot?.status == REFUSED) {
-                return OMITTED_OR_REFUSED_SECTION_ROW_COUNT;
+            if (medicationSlot?.administerMedication.medicationStatus  == OMITTED /*|| medicationSlot?.administerMedication.medicationStatus == REFUSED*/) {
+                return 1;
             } else {
                 return ADMINISTERED_SECTION_ROW_COUNT;
             }
@@ -240,12 +248,25 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             let medicationDetailsCell : DCAdministerMedicationDetailsCell = configureMedicationDetailsCellAtIndexPath(indexPath)
             return medicationDetailsCell
          } else {
-            if (indexPath.section == 2 && indexPath.row == 3) {
-                let batchNumberCell : DCBatchNumberCell = getBatchNumberOrExpiryDateTableCellAtIndexPath(indexPath)
-                return batchNumberCell
-            } else if (indexPath.section == 3) {
-                let notesCell : DCNotesTableCell = (administerTableView.dequeueReusableCellWithIdentifier(NOTES_CELL_ID) as? DCNotesTableCell)!
-                return notesCell
+            if (medicationSlot?.administerMedication.medicationStatus == ADMINISTERED) {
+                if (indexPath.section == 2 && indexPath.row == 3) {
+                    let batchNumberCell : DCBatchNumberCell = getBatchNumberOrExpiryDateTableCellAtIndexPath(indexPath)
+                    return batchNumberCell
+                } else if (indexPath.section == 3) {
+                    let notesCell : DCNotesTableCell = getNotesTableCellAtIndexPath(indexPath)
+                    return notesCell
+                } else {
+                    let administerCell : DCAdministerCell = configureAdministerTableCellAtIndexPath(indexPath)
+                    return administerCell
+                }
+            } else if (medicationSlot?.administerMedication.medicationStatus == OMITTED) {
+                if (indexPath.section == 2) {
+                    let notesCell : DCNotesTableCell = getNotesTableCellAtIndexPath(indexPath)
+                    return notesCell
+                } else {
+                    let administerCell : DCAdministerCell = configureAdministerTableCellAtIndexPath(indexPath)
+                    return administerCell
+                }
             } else {
                 let administerCell : DCAdministerCell = configureAdministerTableCellAtIndexPath(indexPath)
                 return administerCell
@@ -268,6 +289,12 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         
         if (indexPath.section == 0 && indexPath.row == 1) {
             return 74.0
+        } else if (indexPath.section == 2) {
+            if (medicationSlot?.administerMedication.medicationStatus == OMITTED) {
+                return 125.0
+            } else {
+                return 41.0
+            }
         } else if (indexPath.section == 3) {
             return 125.0
         } else {
@@ -277,7 +304,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        if section == 1 {
+        if (section == 1) {
             let administerHeaderView = NSBundle.mainBundle().loadNibNamed(ADMINISTER_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCAdministerTableHeaderView
             administerHeaderView?.populateScheduledTimeValue((medicationSlot?.time)!)
             return administerHeaderView
@@ -300,23 +327,19 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                     tableView.insertRowsAtIndexPaths(indexPathsArray, withRowAnimation: .Fade)
                 } else {
                     statusCellSelected = false
-                    tableView.deleteRowsAtIndexPaths(indexPathsArray, withRowAnimation: .Fade)
                 }
                 break
             case 1:
                 medicationSlot?.administerMedication.medicationStatus = ADMINISTERED
                 statusCellSelected = false
-                tableView.deleteRowsAtIndexPaths(indexPathsArray, withRowAnimation: .Fade)
                 break
             case 2:
                 medicationSlot?.administerMedication.medicationStatus = REFUSED
                 statusCellSelected = false
-                tableView.deleteRowsAtIndexPaths(indexPathsArray, withRowAnimation: .Fade)
                 break
             case 3:
                 medicationSlot?.administerMedication.medicationStatus = OMITTED
                 statusCellSelected = false
-                tableView.deleteRowsAtIndexPaths(indexPathsArray, withRowAnimation: .Fade)
                 break
             default:
                 break
@@ -332,12 +355,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     // MARK: BatchNumberCellDelegate Methods
     
     func batchNumberFieldSelected() {
-        
-        //    [medicationDetailsTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:3]
-        //        atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//            [self scrollToInstructionsCellPosition];
-//            });
         
         let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
         dispatch_after(delayTime, dispatch_get_main_queue()) {
