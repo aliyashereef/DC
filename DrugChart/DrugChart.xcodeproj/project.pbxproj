@@ -209,6 +209,9 @@
 		4D66A06F1B737BEE0075677E /* DCOrderSetAutoSearchHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D66A06E1B737BEE0075677E /* DCOrderSetAutoSearchHeaderView.xib */; };
 		4D7B50E91B578A4F0025E31C /* DCAddMedicationDetailsWebServiceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D7B50E81B578A4F0025E31C /* DCAddMedicationDetailsWebServiceTests.m */; };
 		4D83869A1BB258AD0012EF7D /* DCMedicationDetailsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8386991BB258AD0012EF7D /* DCMedicationDetailsCell.swift */; settings = {ASSET_TAGS = (); }; };
+		4D83869E1BB26BC60012EF7D /* DCMedicationHistoryHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D83869D1BB26BC60012EF7D /* DCMedicationHistoryHeaderView.xib */; settings = {ASSET_TAGS = (); }; };
+		4D8386A01BB26D000012EF7D /* DCMedicationHistoryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D83869F1BB26D000012EF7D /* DCMedicationHistoryHeaderView.swift */; settings = {ASSET_TAGS = (); }; };
+		4D8386A21BB2887D0012EF7D /* DCNotesAndReasonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8386A11BB2887D0012EF7D /* DCNotesAndReasonCell.swift */; settings = {ASSET_TAGS = (); }; };
 		4D9649921BA296CC008630B4 /* DCBedsAndPatientsWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D9649911BA296CC008630B4 /* DCBedsAndPatientsWebService.m */; };
 		4D991D0E1B7DC5D800A61879 /* DCWardsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D991D0D1B7DC5D800A61879 /* DCWardsCollectionViewCell.m */; };
 		4D9C7DC41BA1578C00C69094 /* DCAddMedicationWebServiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D9C7DC31BA1578C00C69094 /* DCAddMedicationWebServiceManager.m */; };
@@ -602,6 +605,9 @@
 		4D66A06E1B737BEE0075677E /* DCOrderSetAutoSearchHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCOrderSetAutoSearchHeaderView.xib; sourceTree = "<group>"; };
 		4D7B50E81B578A4F0025E31C /* DCAddMedicationDetailsWebServiceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCAddMedicationDetailsWebServiceTests.m; sourceTree = "<group>"; };
 		4D8386991BB258AD0012EF7D /* DCMedicationDetailsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCMedicationDetailsCell.swift; sourceTree = "<group>"; };
+		4D83869D1BB26BC60012EF7D /* DCMedicationHistoryHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCMedicationHistoryHeaderView.xib; sourceTree = "<group>"; };
+		4D83869F1BB26D000012EF7D /* DCMedicationHistoryHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCMedicationHistoryHeaderView.swift; sourceTree = "<group>"; };
+		4D8386A11BB2887D0012EF7D /* DCNotesAndReasonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCNotesAndReasonCell.swift; sourceTree = "<group>"; };
 		4D9649901BA296CC008630B4 /* DCBedsAndPatientsWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCBedsAndPatientsWebService.h; sourceTree = "<group>"; };
 		4D9649911BA296CC008630B4 /* DCBedsAndPatientsWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCBedsAndPatientsWebService.m; sourceTree = "<group>"; };
 		4D991D0C1B7DC5D800A61879 /* DCWardsCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DCWardsCollectionViewCell.h; path = ../DCWardsCollectionViewCell.h; sourceTree = "<group>"; };
@@ -998,6 +1004,8 @@
 		0B8498B31BB1058400C740F2 /* CalendarSlotDetailViewController */ = {
 			isa = PBXGroup;
 			children = (
+				4D83869D1BB26BC60012EF7D /* DCMedicationHistoryHeaderView.xib */,
+				4D83869F1BB26D000012EF7D /* DCMedicationHistoryHeaderView.swift */,
 				0B8498BC1BB11B9B00C740F2 /* DCCalendarSlotDetailViewController.swift */,
 				4D011C571BB147D7005C79A2 /* DCMedicationHistoryViewController.swift */,
 				4D011C591BB15D47005C79A2 /* MedicationHistoryCells */,
@@ -2167,6 +2175,7 @@
 			children = (
 				4D011C5A1BB15D6B005C79A2 /* DCAdminsteredMedicationCell.swift */,
 				4D8386991BB258AD0012EF7D /* DCMedicationDetailsCell.swift */,
+				4D8386A11BB2887D0012EF7D /* DCNotesAndReasonCell.swift */,
 			);
 			name = MedicationHistoryCells;
 			sourceTree = "<group>";
@@ -2678,6 +2687,7 @@
 				0BCC190B1ABAC404003552C9 /* IPRJ2623512.plist in Resources */,
 				0B9173A61B02105B00BC9337 /* DCPrescriberDetailsTimeView.xib in Resources */,
 				7D5567DE1B4FEE2100BA6733 /* RegularMedicationSample.plist in Resources */,
+				4D83869E1BB26BC60012EF7D /* DCMedicationHistoryHeaderView.xib in Resources */,
 				0BC0A2D31AC51A590030E9DE /* DCPatientListFilterMenuCell.xib in Resources */,
 				0BB397811B42AF500037C8E1 /* OrderSet.plist in Resources */,
 				0BBDEDE81AA581630016E6FF /* Lato-Semibold.ttf in Resources */,
@@ -2856,6 +2866,7 @@
 				0B0F1B651AB6688F00DD2D69 /* DCAdministerMedicationViewController.m in Sources */,
 				7D70F3791B201A8400E4BA89 /* DCWardsPatientsListingViewController.m in Sources */,
 				0BB851D61B16F2300021FD8D /* DCMedicineNameCell.m in Sources */,
+				4D8386A21BB2887D0012EF7D /* DCNotesAndReasonCell.swift in Sources */,
 				0BC0043F1AAD6D3700560E38 /* DCTimeView.m in Sources */,
 				0BA40BBA1B299D67005B80AD /* HTMLParser.m in Sources */,
 				0BB397851B42B8B90037C8E1 /* DCOrderSetTableCell.m in Sources */,
@@ -2897,6 +2908,7 @@
 				0B14CD8A1BB13BEB0085E40C /* DCAdministerViewController.swift in Sources */,
 				0B1FFFE71AA97EC80099FB93 /* DCMedicationList.m in Sources */,
 				0BB3977D1B427DE50037C8E1 /* DCOrderSetInitialViewController.m in Sources */,
+				4D8386A01BB26D000012EF7D /* DCMedicationHistoryHeaderView.swift in Sources */,
 				0BB33DD01B79D48E00B05E4D /* DCAuthorizationManager.m in Sources */,
 				0BB33DD81B79F56900B05E4D /* DCMedicationDetails.m in Sources */,
 				0BA449DB1B983265009F84E5 /* DCInstructionsTableCell.m in Sources */,
