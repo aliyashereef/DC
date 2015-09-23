@@ -54,7 +54,6 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     func configureViewElements () {
         
         self.navigationController?.navigationBarHidden = true
-        NSLog("Slot Array is %@", medicationSlotsArray)
         for medicationSlot : DCMedicationSlot in medicationSlotsArray {
             NSLog("time is %@", medicationSlot.time)
         }

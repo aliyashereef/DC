@@ -1002,14 +1002,32 @@
                                                     <color key="textColor" red="0.10980392156862745" green="0.10980392156862745" blue="0.10980392156862745" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HYw-Yk-rlt">
+                                                    <rect key="frame" x="365" y="11" width="220" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="220" id="Eu8-G0-yMw"/>
+                                                        <constraint firstAttribute="height" constant="21" id="IQ5-kH-C2j"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" red="0.5607843137254902" green="0.5607843137254902" blue="0.58431372549019611" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kvw-6e-rrJ">
+                                                    <rect key="frame" x="528" y="8" width="57" height="30"/>
+                                                </button>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="Ymb-x6-YXb" firstAttribute="centerY" secondItem="PIf-oE-goD" secondAttribute="centerY" id="7hK-Kw-n6n"/>
                                                 <constraint firstAttribute="bottom" secondItem="Ymb-x6-YXb" secondAttribute="bottom" constant="11" id="8tU-ZL-fxD"/>
                                                 <constraint firstItem="Ymb-x6-YXb" firstAttribute="leading" secondItem="PIf-oE-goD" secondAttribute="leading" constant="15" id="9PD-jH-DW9"/>
                                                 <constraint firstItem="Ymb-x6-YXb" firstAttribute="top" secondItem="PIf-oE-goD" secondAttribute="top" constant="11" id="9rP-3o-7kz"/>
+                                                <constraint firstAttribute="trailing" secondItem="HYw-Yk-rlt" secondAttribute="trailing" constant="15" id="Oui-OD-Drz"/>
+                                                <constraint firstItem="HYw-Yk-rlt" firstAttribute="centerY" secondItem="PIf-oE-goD" secondAttribute="centerY" id="h07-yF-JE7"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="detailLabel" destination="HYw-Yk-rlt" id="4Ee-wq-qCM"/>
+                                            <outlet property="popoverButton" destination="kvw-6e-rrJ" id="lKz-al-VU6"/>
                                             <outlet property="titleLabel" destination="Ymb-x6-YXb" id="NVQ-U1-7Gj"/>
                                         </connections>
                                     </tableViewCell>

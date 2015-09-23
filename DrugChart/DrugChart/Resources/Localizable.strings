@@ -118,3 +118,9 @@
 "MILD"                  =       "MILD";
 "REASON"                =       "Reason";
 "NEW_DOSAGE"            =       "New Dosage";
+
+//Administer
+
+"STATUS"               =       "Status";
+"ADMINISTERED_BY"      =       "Administered by";
+"DATE_TIME"            =       "Date & Time";

@@ -113,6 +113,7 @@
 
 //Nib files
 #define WARNINGS_HEADER_VIEW_NIB @"DCWarningsHeaderView"
+#define ADMINISTER_HEADER_VIEW_NIB @"DCAdministerTableHeaderView"
 
 // Segue Ids
 #define SHOW_PATIENT_LIST @"showPatientList"
@@ -202,6 +203,7 @@
 #define BIRTH_DATE_FORMAT               @"dd MMM yyyy"
 #define LONG_DATE_FORMAT                @"yyyy-MM-dd HH:mm:ss"
 #define DATE_MONTHNAME_YEAR_FORMAT      @"d LLLL yyyy"
+#define ADMINISTER_DATE_TIME_FORMAT     @"d-LL-yyyy hh:mm a"
 
 #define SERVER_DATE_FORMAT       @"yyyy-MM-dd'T'hh:mm:ss"
 
