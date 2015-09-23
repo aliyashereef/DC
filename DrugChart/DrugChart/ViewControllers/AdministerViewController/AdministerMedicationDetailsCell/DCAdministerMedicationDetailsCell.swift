@@ -25,16 +25,22 @@ class DCAdministerMedicationDetailsCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func populateCellWithMedicationDetails(medicationDetails : DCMedicationScheduleDetails) {
+    func populateCellWithMedicationDetails(medicationDetails : DCMedicationScheduleDetails?) {
         
-        NSLog("Medicine name : %@", medicationDetails.name)
-        medicineNameLabel.text = medicationDetails.name
-        NSLog("Route : %@", medicationDetails.route)
-        NSLog("Instructions : %@", medicationDetails.instruction)
-        NSLog("Start date : %@", medicationDetails.startDate)
+        medicineNameLabel.text = medicationDetails!.name
+        populateRouteAndInstructionLabels(medicationDetails!.route, instruction: medicationDetails!.instruction)
+        let startDateString : String? = DCDateUtility.convertDate(DCDateUtility.dateFromSourceString(medicationDetails?.startDate), fromFormat: DEFAULT_DATE_FORMAT, toFormat: DATE_MONTHNAME_YEAR_FORMAT)
+        startDateLabel.text = startDateString
     }
     
     func populateRouteAndInstructionLabels(route : String , instruction : String) {
         
+        let attributedRouteString : NSMutableAttributedString = NSMutableAttributedString(string: route, attributes: [NSFontAttributeName : UIFont.systemFontOfSize(16.0)])
+        let instructionString = String(format: "(%@)", instruction)
+        if (instruction != EMPTY_STRING) {
+            let attributedInstructionsString : NSMutableAttributedString = NSMutableAttributedString(string: instructionString, attributes: [NSFontAttributeName:UIFont.systemFontOfSize(12.0)])
+            attributedRouteString.appendAttributedString(attributedInstructionsString)
+        }
+        routeAndInstructionLabel.attributedText = attributedRouteString;
     }
 }
