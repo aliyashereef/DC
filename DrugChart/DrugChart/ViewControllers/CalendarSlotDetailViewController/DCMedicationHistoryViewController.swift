@@ -10,9 +10,12 @@
 import Foundation
 import UIKit
 
-class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, UITableViewDataSource {
+class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, UITableViewDataSource, MoreButtonDelegate {
+    
     var medicationSlotArray: [Dictionary<String, Int>] = []
-
+    @IBOutlet var medicationHistoryTableView: UITableView!
+    var isNoteExpanded : Bool = false
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch (section) {
         case 0:
@@ -29,8 +32,14 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if(indexPath.section == 0 && indexPath.item == 1){
+        if(indexPath.section == 0 && indexPath.row == 1) {
             return 90
+        } else if (indexPath.section == 1 && indexPath.row == 5 ) {
+            if(isNoteExpanded == true) {
+                return 100
+            } else {
+                return 44
+            }
         } else {
             return 44
         }
@@ -43,9 +52,10 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
             cell = DCAdminsteredMedicationCell(style: UITableViewCellStyle.Value1, reuseIdentifier: identifier)
         }
         if (indexPath.section == 0) {
-            switch (indexPath.item) {
+            switch (indexPath.row) {
             case 0:
                 cell!.contentType.text = "14-Dec-2015"
+                cell!.value.text = EMPTY_STRING
                 break
             case 1:
                 let cellIdentifier = "MedicationDetailsCell"
@@ -53,8 +63,8 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
                 if detailsCell == nil {
                     detailsCell = DCMedicationDetailsCell(style: UITableViewCellStyle.Value1, reuseIdentifier: cellIdentifier)
                 }
-                detailsCell!.medicineName.text = "Name"
-                detailsCell!.routeAndInstructionLabel.text =  "Oral"
+                detailsCell!.medicineName.text = "Methotrexate 10 mg tablets"
+                detailsCell!.routeAndInstructionLabel.text = "Oral (As directed by doctor)"
                 detailsCell!.dateLabel.text = "14-Dec-2015"
                 return detailsCell!
             default:
@@ -63,7 +73,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         }
         else if (indexPath.section == 1) {
             
-            switch (indexPath.item) {
+            switch (indexPath.row) {
             case 0:
                 cell!.contentType.text = "Status"
                 cell!.value.text = "Administered"
@@ -85,39 +95,35 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
                 cell!.value.text = "14-Dec-2015"
                 break
             case 5:
-                cell!.contentType.text = "Notes"
-                break
+                return configureNotesAndReasonCellsAtIndexPath(indexPath,type:"Notes")
             default:
-                break
+            break
             }
         }
         else if (indexPath.section == 2) {
-            switch (indexPath.item) {
+            switch (indexPath.row) {
             case 0:
                 cell!.contentType.text = "Status"
                 cell!.value.text = "Omitted"
                 break
             case 1:
-                cell!.contentType.text = "Reason"
-                cell!.value.text = "Lorem ipsum"
-            
+            return configureNotesAndReasonCellsAtIndexPath(indexPath,type:"Reason")
             default:
                 break
             }
         }
         else if (indexPath.section == 3) {
-            switch (indexPath.item) {
+            switch (indexPath.row) {
             case 0:
                 cell!.contentType.text = "Status"
                 cell!.value.text = "Refused"
                 break
             case 1:
-                cell!.contentType.text = "Reason"
-                cell!.value.text = "Lorem ipsum"
-            case 2:
                 cell!.contentType.text = "Date"
                 cell!.value.text = "14-Dec-2015"
                 break
+            case 2:
+            return configureNotesAndReasonCellsAtIndexPath(indexPath,type:"Reason")
             default:
                 break
             }
@@ -136,4 +142,59 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         }
     }
     
+    func instanceFromNib() -> DCMedicationHistoryHeaderView {
+        return UINib(nibName: "DCMedicationHistoryHeaderView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! DCMedicationHistoryHeaderView
+    }
+    
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = self.instanceFromNib()
+        if (section == 1) {
+            headerView.administratingTime.text = "06:00"
+            headerView.medicationStatusImageView.image = UIImage(named :"historyTick")
+        }
+        else if (section == 2) {
+            headerView.administratingTime.text = "12:00"
+            headerView.medicationStatusImageView.image = UIImage(named :"historyCaution")
+        }
+        else if (section == 3) {
+            headerView.administratingTime.text = "15:00"
+            headerView.medicationStatusImageView.image = UIImage(named :"historyClose")
+        }
+
+        let header = UIView(frame: CGRectMake(0, 0, 100,50))
+        headerView.backgroundColor = UIColor(red: 245.0/255.0, green: 245.0/255.0, blue: 245.0/255.0, alpha: 1.0)
+        header.addSubview(headerView)
+        return header
+    }
+    
+    func configureNotesAndReasonCellsAtIndexPath (indexPath : NSIndexPath, type : NSString ) -> DCNotesAndReasonCell {
+        let cellIdentifier = "NoteAndReasonCell"
+        var noteCell = medicationHistoryTableView.dequeueReusableCellWithIdentifier(cellIdentifier) as? DCNotesAndReasonCell
+        if noteCell == nil {
+            noteCell = DCNotesAndReasonCell(style: UITableViewCellStyle.Value1, reuseIdentifier: cellIdentifier)
+        }
+        noteCell?.delegate = self
+        noteCell!.cellContentTypeLabel!.text = type as String
+        noteCell!.reasonTextLabel.text = "Lorem Ipsum is simply dummy text of the printing and types etting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
+        if(isNoteExpanded == false) {
+            noteCell!.moreButtonWidthConstaint.constant = 46.0
+            noteCell!.reasonTextLabelTopSpaceConstraint.constant = 11.0
+            noteCell!.reasonLabelLeadingSpaceConstraint.constant = 300.0
+            
+        } else {
+            noteCell!.moreButtonWidthConstaint.constant = 0.0
+            noteCell!.reasonTextLabelTopSpaceConstraint.constant = 25.0
+            noteCell!.reasonLabelLeadingSpaceConstraint.constant = 10.0
+        }
+        return noteCell!
+    }
+    
+    // Mark - Delegate Methods
+    
+    // To Do : the cell expansion on clicking the more button needs to ne implemented.
+     func moreButtonPressed(isExpanded : Bool) {
+//        print(isExpanded)
+//        isNoteExpanded = true
+//        medicationHistoryTableView.reloadData()
+    }
 }

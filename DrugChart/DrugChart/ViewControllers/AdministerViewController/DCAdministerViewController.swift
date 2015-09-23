@@ -52,8 +52,13 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         administerCell.layoutMargins = UIEdgeInsetsZero
         switch indexPath.section {
         case 0:
+            let dateString : String
             if indexPath.row == 0 {
-                let dateString : String = DCDateUtility.convertDate(medicationSlot?.time, fromFormat: DEFAULT_DATE_FORMAT, toFormat: "d LLLL yyyy")
+                if let date = medicationSlot?.time {
+                    dateString = DCDateUtility.convertDate(date, fromFormat: DEFAULT_DATE_FORMAT, toFormat: "d LLLL yyyy")
+                } else {
+                    dateString = EMPTY_STRING
+                }
                 administerCell.titleLabel.text = dateString
             }
             break;

@@ -1192,7 +1192,6 @@ typedef enum : NSUInteger {
                                   withButtonTag:(NSInteger)tag
                                      slotsArray:(NSArray *)slotsArray {
     
-//    DCMedicationScheduleDetails *medicationList =  [self getMedicationListForTableCellAtIndexPath:indexPath];
 //    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:PRESCRIBER_DETAILS_STORYBOARD
 //                                                         bundle: nil];
 //    DCPrescriberDetailsViewController *detailsViewController = [storyboard instantiateViewControllerWithIdentifier:PRESCRIBER_DETAILS_SB_ID];
@@ -1210,9 +1209,11 @@ typedef enum : NSUInteger {
     //display calendar slot detail screen
     UIStoryboard *administerStoryboard = [UIStoryboard storyboardWithName:ADMINISTER_STORYBOARD bundle:nil];
     DCCalendarSlotDetailViewController *detailViewController = [administerStoryboard instantiateViewControllerWithIdentifier:CALENDAR_SLOT_DETAIL_STORYBOARD_ID];
+    DCMedicationScheduleDetails *medicationList =  [self getMedicationListForTableCellAtIndexPath:indexPath];
+    detailViewController.medicationDetails = medicationList;
     detailViewController.medicationSlotsArray = slotsArray;
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:detailViewController];
-    navigationController.modalPresentationStyle = UIModalTransitionStyleCrossDissolve;
+    navigationController.modalPresentationStyle = UIModalPresentationPageSheet;
     [self presentViewController:navigationController animated:YES completion:nil];
 }
 
