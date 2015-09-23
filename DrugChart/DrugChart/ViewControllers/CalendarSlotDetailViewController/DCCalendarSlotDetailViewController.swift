@@ -21,6 +21,12 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     var administerViewController : DCAdministerViewController?
     var medicationHistoryViewController : DCMedicationHistoryViewController?
     
+    var medicationSlotsArray : [DCMedicationSlot] = []
+    var medicationDetails : DCMedicationScheduleDetails?
+    var contentArray :[AnyObject] = []
+    var slotToAdminister : DCMedicationSlot?
+    
+
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -48,6 +54,11 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     func configureViewElements () {
         
         self.navigationController?.navigationBarHidden = true
+        NSLog("Slot Array is %@", medicationSlotsArray)
+        for medicationSlot : DCMedicationSlot in medicationSlotsArray {
+            NSLog("time is %@", medicationSlot.time)
+        }
+        slotToAdminister = DCUtility.getNearestMedicationSlotToBeAdministeredFromSlotsArray(medicationSlotsArray);
         addAdministerView()
     }
     
@@ -57,6 +68,8 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         let administerStoryboard : UIStoryboard? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil)
         if administerViewController == nil {
             administerViewController = administerStoryboard!.instantiateViewControllerWithIdentifier(ADMINISTER_STORYBOARD_ID) as? DCAdministerViewController
+            administerViewController?.medicationSlot = slotToAdminister
+            administerViewController?.medicationDetails = medicationDetails
             self.addChildViewController(administerViewController!)
             administerViewController!.view.frame = containerView.bounds
             containerView.addSubview((administerViewController?.view)!)

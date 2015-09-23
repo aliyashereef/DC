@@ -1210,6 +1210,7 @@ typedef enum : NSUInteger {
     //display calendar slot detail screen
     UIStoryboard *administerStoryboard = [UIStoryboard storyboardWithName:ADMINISTER_STORYBOARD bundle:nil];
     DCCalendarSlotDetailViewController *detailViewController = [administerStoryboard instantiateViewControllerWithIdentifier:CALENDAR_SLOT_DETAIL_STORYBOARD_ID];
+    detailViewController.medicationSlotsArray = slotsArray;
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:detailViewController];
     navigationController.modalPresentationStyle = UIModalTransitionStyleCrossDissolve;
     [self presentViewController:navigationController animated:YES completion:nil];

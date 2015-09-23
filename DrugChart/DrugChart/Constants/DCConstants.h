@@ -158,6 +158,7 @@
 #define NO_DATE_CELL_IDENTIFIER @"NoEndDateCell"
 #define WARNINGS_CELL_ID @"WarningsCell"
 #define OVERRIDE_REASON_CELL_ID @"OverrideReasonCell"
+#define ADMINISTER_CELL_ID @"AdministerCell"
 
 // title for views
 #define INPATIENT_TITLE @"In Patients"
@@ -220,6 +221,7 @@
 #define YET_TO_GIVE @"notGiven"
 #define TO_GIVE @"toGive"
 #define SELF_ADMINISTERED @"selfAdministered"
+#define ADMINISTERED @"Administered"
 
 //cell heights
 #define CALENDAR_TABLE_CELL_HEIGHT 70.0f

@@ -382,4 +382,34 @@
     return placeholder;
 }
 
++ (DCMedicationSlot *)getNearestMedicationSlotToBeAdministeredFromSlotsArray:(NSArray *)slotsArray {
+    
+    NSDate *currentSystemDate = [DCDateUtility getDateInCurrentTimeZone:[NSDate date]];
+    NSString *currentDateString = [DCDateUtility convertDate:currentSystemDate FromFormat:DEFAULT_DATE_FORMAT ToFormat:SHORT_DATE_FORMAT];
+    NSMutableArray *filteredArray = [[NSMutableArray alloc] init];
+    //get medication slots array of current week
+    for (DCMedicationSlot *slot in slotsArray) {
+        NSString *timeString = [DCDateUtility convertDate:slot.time FromFormat:DEFAULT_DATE_FORMAT ToFormat:SHORT_DATE_FORMAT];
+        if ([timeString isEqualToString:currentDateString]) {
+            [filteredArray addObject:slot];
+        }
+        
+        NSDate *nearestDate;
+        NSDate *laterDate;
+        for(DCMedicationSlot *slot in filteredArray) {
+            laterDate = [currentSystemDate laterDate:slot.time];
+            if(![laterDate isEqualToDate:currentSystemDate]){
+                nearestDate = [laterDate earlierDate:nearestDate];
+            }
+        }
+        NSLog(@"nearestDate is %@", nearestDate);
+        NSLog(@"laterDate is %@", laterDate);
+        if ((nearestDate && [nearestDate compare:slot.time] == NSOrderedSame) ||
+            [slot.status isEqualToString:YET_TO_GIVE]) {
+            return slot;
+        }
+    }
+    return nil;
+}
+
 @end

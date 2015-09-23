@@ -11,4 +11,7 @@
 #import "DCAddMedicationDetailViewController.h"
 #import "UIColor+ColorFromHex.h"
 #import "RoundRectPresentationController.h"
+#import "DCMedicationSlot.h"
+#import "DCMedicationScheduleDetails.h"
+#import "DCDateUtility.h"
 
