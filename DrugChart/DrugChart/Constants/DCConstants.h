@@ -113,6 +113,7 @@
 
 //Nib files
 #define WARNINGS_HEADER_VIEW_NIB @"DCWarningsHeaderView"
+#define ADMINISTER_HEADER_VIEW_NIB @"DCAdministerTableHeaderView"
 
 // Segue Ids
 #define SHOW_PATIENT_LIST @"showPatientList"
@@ -159,6 +160,7 @@
 #define WARNINGS_CELL_ID @"WarningsCell"
 #define OVERRIDE_REASON_CELL_ID @"OverrideReasonCell"
 #define ADMINISTER_CELL_ID @"AdministerCell"
+#define ADMINISTER_MEDICATION_DETAILS_CELL_ID @"AdministerMedicationDetailsCell"
 
 // title for views
 #define INPATIENT_TITLE @"In Patients"
@@ -192,14 +194,16 @@
 
 //date
 
-#define DEFAULT_DATE_FORMAT     @"yyyy-MM-dd hh:mm:ss z"
-#define SHORT_DATE_FORMAT       @"yyyy-MM-dd"
-#define DATE_FORMAT_RANGE       @"yyyy-MM-dd HH:mm"
-#define DATE_FORMAT_WITH_DAY    @"EE, LLLL d, HH:mm"
-#define DATE_FORMAT_START_DATE  @"dd-MMM-yyyy HH:mm"
-#define DOB_DATE_FORMAT         @"YYYY-mm-dd"
-#define BIRTH_DATE_FORMAT       @"dd MMM yyyy"
-#define LONG_DATE_FORMAT        @"yyyy-MM-dd HH:mm:ss"
+#define DEFAULT_DATE_FORMAT             @"yyyy-MM-dd hh:mm:ss z"
+#define SHORT_DATE_FORMAT               @"yyyy-MM-dd"
+#define DATE_FORMAT_RANGE               @"yyyy-MM-dd HH:mm"
+#define DATE_FORMAT_WITH_DAY            @"EE, LLLL d, HH:mm"
+#define DATE_FORMAT_START_DATE          @"dd-MMM-yyyy HH:mm"
+#define DOB_DATE_FORMAT                 @"YYYY-mm-dd"
+#define BIRTH_DATE_FORMAT               @"dd MMM yyyy"
+#define LONG_DATE_FORMAT                @"yyyy-MM-dd HH:mm:ss"
+#define DATE_MONTHNAME_YEAR_FORMAT      @"d LLLL yyyy"
+#define ADMINISTER_DATE_TIME_FORMAT     @"d-LL-yyyy hh:mm a"
 
 #define SERVER_DATE_FORMAT       @"yyyy-MM-dd'T'hh:mm:ss"
 

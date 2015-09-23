@@ -16,7 +16,9 @@ let ADMINISTERED_SECTION_ROW_COUNT : NSInteger = 4
 let OMITTED_OR_REFUSED_SECTION_ROW_COUNT : NSInteger = 1
 let NOTES_SECTION_ROW_COUNT : NSInteger = 1
 let INITIAL_SECTION_HEIGHT : CGFloat = 0.0
-let TABLEVIEW_DEFAULT_SECTION_HEIGHT : CGFloat = 40.0
+let TABLEVIEW_DEFAULT_SECTION_HEIGHT : CGFloat = 20.0
+let MEDICATION_DETAILS_SECTION_HEIGHT : CGFloat = 40.0
+let MEDICATION_DETAILS_CELL_INDEX : NSInteger = 1
 
 
 class DCAdministerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -25,6 +27,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     var medicationSlot : DCMedicationSlot?
     var medicationDetails : DCMedicationScheduleDetails?
+    var statusCellSelected : Bool = false
+    var userListArray : [String] = []
 
     override func viewDidLoad() {
         
@@ -44,11 +48,29 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         
         administerTableView!.layoutMargins = UIEdgeInsetsZero
         administerTableView!.separatorInset = UIEdgeInsetsZero
+        if(medicationSlot?.administerMedication == nil) {
+            medicationSlot?.administerMedication = DCAdministerMedication.init()
+            medicationSlot?.administerMedication.medicationStatus = ADMINISTERED
+        }
     }
-    
-    func configureTableCellAtIndexPath(indexPath : NSIndexPath) -> (DCAdministerCell){
+
+    func fetchAdministersAndPrescribersList () {
         
-        let administerCell : DCAdministerCell = (administerTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
+        //fetch administers and prescribers list
+        
+        let usersListWebService : DCUsersListWebService = DCUsersListWebService.init()
+        usersListWebService.getUsersListWithCallback { (users, error) -> Void in
+            if (error == nil) {
+//                for dict : NSDictionary? in users as {} {
+//                    
+//                }
+            }
+        }
+     }
+    
+    func configureAdministerTableCellAtIndexPath(indexPath : NSIndexPath) -> (DCAdministerCell) {
+        
+        var administerCell : DCAdministerCell = (administerTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
         administerCell.layoutMargins = UIEdgeInsetsZero
         switch indexPath.section {
         case 0:
@@ -59,13 +81,107 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 } else {
                     dateString = EMPTY_STRING
                 }
+                //let dateString : String? = DCDateUtility.convertDate(medicationSlot?.time, fromFormat: DEFAULT_DATE_FORMAT, toFormat: DATE_MONTHNAME_YEAR_FORMAT)
                 administerCell.titleLabel.text = dateString
             }
             break;
+        case 1:
+            administerCell = getPopulatedMedicationStatusTableCellAtIndexPath(administerCell, indexPath: indexPath);
+            break;
+        case 2:
+            if (medicationSlot?.administerMedication?.medicationStatus == ADMINISTERED) {
+                administerCell = getPopulatedMedicationDetailsCellForAdministeredStatus(administerCell, indexPath: indexPath)
+            } else if (medicationSlot?.administerMedication?.medicationStatus == REFUSED) {
+                
+            }
+            break
         default:
             break;
         }
         return administerCell
+    }
+    
+    func getPopulatedMedicationDetailsCellForAdministeredStatus(cell : DCAdministerCell, indexPath: NSIndexPath) -> (DCAdministerCell) {
+        
+        switch indexPath.row {
+        case 0:
+            cell.titleLabel.text = NSLocalizedString("ADMINISTERED_BY", comment: "administered by title")
+            cell.detailLabel.text = DEFAULT_DOCTOR_NAME
+            break
+        case 1:
+            cell.titleLabel.text = NSLocalizedString("DATE_TIME", comment: "date and time")
+            let currentDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
+            let currentDateString : String = DCDateUtility.convertDate(currentDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
+            cell.detailLabel.text = currentDateString
+            break
+        default:
+            break
+        }
+        
+        return cell
+    }
+    
+    
+    func getPopulatedMedicationDetailsCellForRefusedStatus(cell : DCAdministerCell, indexPath: NSIndexPath) -> (DCAdministerCell) {
+        
+        return cell
+    }
+    
+    func getPopulatedMedicationDetailsCellForOmittedStatus(cell : DCAdministerCell, indexPath: NSIndexPath) -> (DCAdministerCell) {
+        
+        return cell
+    }
+    
+    func getPopulatedMedicationStatusTableCellAtIndexPath(cell : DCAdministerCell, indexPath: NSIndexPath) -> (DCAdministerCell) {
+        
+        switch indexPath.row {
+        case 0:
+            cell.titleLabel.text = NSLocalizedString("STATUS", comment: "status title text")
+            if (medicationSlot?.administerMedication?.medicationStatus != nil) {
+                cell.detailLabel.text = medicationSlot?.administerMedication?.medicationStatus
+            } else {
+                cell.detailLabel.text = ADMINISTERED
+            }
+            cell.accessoryType = UITableViewCellAccessoryType.None
+            return cell
+        case 1:
+            cell.titleLabel.text = ADMINISTERED
+            cell.accessoryType = (medicationSlot?.administerMedication.medicationStatus == ADMINISTERED) ?UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
+            return cell
+        case 2:
+            cell.titleLabel.text = REFUSED
+            cell.accessoryType = (medicationSlot?.administerMedication.medicationStatus == REFUSED) ?UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
+            return cell
+        case 3:
+            cell.titleLabel.text = OMITTED
+            cell.accessoryType = (medicationSlot?.administerMedication.medicationStatus == OMITTED) ?UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
+            return cell
+        default:
+            return cell
+        }
+    }
+    
+    func configureMedicationDetailsCellAtIndexPath(indexPath : NSIndexPath) -> (DCAdministerMedicationDetailsCell) {
+        
+        let medicationCell : DCAdministerMedicationDetailsCell = (administerTableView.dequeueReusableCellWithIdentifier(ADMINISTER_MEDICATION_DETAILS_CELL_ID) as? DCAdministerMedicationDetailsCell!)!
+        if medicationDetails != nil {
+            medicationCell.populateCellWithMedicationDetails(medicationDetails!)
+        }
+        return medicationCell
+    }
+    
+    func presentPrescribersAndAdministersPopOverViewAtIndexPath (indexPath : NSIndexPath) {
+        
+        let namesViewController : NameSelectionTableViewController? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(NAMES_LIST_VIEW_STORYBOARD_ID) as? NameSelectionTableViewController
+        let navigationController : UINavigationController? = UINavigationController(rootViewController: namesViewController!)
+        navigationController?.modalPresentationStyle = UIModalPresentationStyle.Popover
+        let popover = navigationController?.popoverPresentationController
+        namesViewController!.preferredContentSize = CGSizeMake(300,300)
+        popover?.permittedArrowDirections = .Up
+        popover?.preferredContentSize
+        let cell = administerTableView.cellForRowAtIndexPath(indexPath) as! DCAdministerCell?
+        popover!.sourceView = cell?.popoverButton
+        self.presentViewController(navigationController!, animated: true, completion: nil)
     }
     
     // MARK: TableView Methods
@@ -86,7 +202,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         case 0:
             return INITIAL_SECTION_ROW_COUNT
         case 1:
-            return STATUS_ROW_COUNT
+            return (statusCellSelected ? 4 : STATUS_ROW_COUNT)
         case 2:
             if (medicationSlot?.status == OMITTED || medicationSlot?.status == REFUSED) {
                 return OMITTED_OR_REFUSED_SECTION_ROW_COUNT;
@@ -103,12 +219,86 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let administerCell : DCAdministerCell = configureTableCellAtIndexPath(indexPath)
-        return administerCell
+        if (indexPath.section == 0 && indexPath.row == MEDICATION_DETAILS_CELL_INDEX) {
+            let medicationDetailsCell : DCAdministerMedicationDetailsCell = configureMedicationDetailsCellAtIndexPath(indexPath)
+            return medicationDetailsCell
+         } else {
+            let administerCell : DCAdministerCell = configureAdministerTableCellAtIndexPath(indexPath)
+            return administerCell
+        }
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
-        return (section == 0) ? INITIAL_SECTION_HEIGHT : TABLEVIEW_DEFAULT_SECTION_HEIGHT
+        if (section == 0) {
+            return INITIAL_SECTION_HEIGHT
+        } else if (section == 1) {
+            return MEDICATION_DETAILS_SECTION_HEIGHT
+        } else {
+            return TABLEVIEW_DEFAULT_SECTION_HEIGHT
+        }
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+        if (indexPath.section == 0 && indexPath.row == 1) {
+            return 74.0
+        } else {
+            return 41.0
+        }
+    }
+    
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        if section == 1 {
+            let administerHeaderView = NSBundle.mainBundle().loadNibNamed(ADMINISTER_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCAdministerTableHeaderView
+            administerHeaderView?.populateScheduledTimeValue((medicationSlot?.time)!)
+            return administerHeaderView
+        }
+        return nil;
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        if (indexPath.section == 1) {
+            let administerIndexPath : NSIndexPath = NSIndexPath(forRow: 1, inSection: 1)
+            let omittedIndexpath : NSIndexPath = NSIndexPath(forItem: 2, inSection: 1)
+            let refusedIndexPath : NSIndexPath = NSIndexPath(forItem: 3, inSection: 1)
+            let indexPathsArray : [NSIndexPath] = [administerIndexPath, omittedIndexpath, refusedIndexPath]
+            switch indexPath.row {
+            case 0:
+                //display status views, insert views below this
+                if (statusCellSelected == false) {
+                    statusCellSelected = true
+                    tableView.insertRowsAtIndexPaths(indexPathsArray, withRowAnimation: .Fade)
+                } else {
+                    statusCellSelected = false
+                    tableView.deleteRowsAtIndexPaths(indexPathsArray, withRowAnimation: .Fade)
+                }
+                break
+            case 1:
+                medicationSlot?.administerMedication.medicationStatus = ADMINISTERED
+                statusCellSelected = false
+                tableView.deleteRowsAtIndexPaths(indexPathsArray, withRowAnimation: .Fade)
+                break
+            case 2:
+                medicationSlot?.administerMedication.medicationStatus = REFUSED
+                statusCellSelected = false
+                tableView.deleteRowsAtIndexPaths(indexPathsArray, withRowAnimation: .Fade)
+                break
+            case 3:
+                medicationSlot?.administerMedication.medicationStatus = OMITTED
+                statusCellSelected = false
+                tableView.deleteRowsAtIndexPaths(indexPathsArray, withRowAnimation: .Fade)
+                break
+            default:
+                break
+            }
+            administerTableView .reloadData()
+        } else if (indexPath.section == 2) {
+            if (indexPath.row == 0 || indexPath.row == 2) {
+                presentPrescribersAndAdministersPopOverViewAtIndexPath(indexPath)
+            }
+        }
     }
 }

@@ -1212,6 +1212,7 @@ typedef enum : NSUInteger {
     DCMedicationScheduleDetails *medicationList =  [self getMedicationListForTableCellAtIndexPath:indexPath];
     detailViewController.medicationDetails = medicationList;
     detailViewController.medicationSlotsArray = slotsArray;
+    detailViewController.medicationDetails = medicationList;
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:detailViewController];
     navigationController.modalPresentationStyle = UIModalPresentationPageSheet;
     [self presentViewController:navigationController animated:YES completion:nil];
