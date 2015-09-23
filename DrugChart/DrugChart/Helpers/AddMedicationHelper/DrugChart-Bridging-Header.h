@@ -16,4 +16,5 @@
 #import "DCDateUtility.h"
 #import "DCUsersListWebService.h"
 #import "NameSelectionTableViewController.h"
+#import "DCInstructionsTableCell.h"
 

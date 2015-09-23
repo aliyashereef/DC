@@ -161,6 +161,8 @@
 #define OVERRIDE_REASON_CELL_ID @"OverrideReasonCell"
 #define ADMINISTER_CELL_ID @"AdministerCell"
 #define ADMINISTER_MEDICATION_DETAILS_CELL_ID @"AdministerMedicationDetailsCell"
+#define BATCH_NUMBER_CELL_ID @"BatchNumberCell"
+#define NOTES_CELL_ID @"NotesCell"
 
 // title for views
 #define INPATIENT_TITLE @"In Patients"

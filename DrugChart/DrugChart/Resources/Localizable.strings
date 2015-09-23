@@ -121,6 +121,10 @@
 
 //Administer
 
-"STATUS"               =       "Status";
-"ADMINISTERED_BY"      =       "Administered by";
-"DATE_TIME"            =       "Date & Time";
+"STATUS"                =       "Status";
+"ADMINISTERED_BY"       =       "Administered by";
+"DATE_TIME"             =       "Date & Time";
+"CHECKED_BY"            =       "Checked by";
+"BATCH_OR_EXPIRY_TEXT"  =       "Batch No/Expiry Date";
+"NOTES"                 =       "Notes";
+

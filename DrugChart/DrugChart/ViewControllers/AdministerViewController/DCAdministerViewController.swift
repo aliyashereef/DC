@@ -83,11 +83,11 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             administerCell = getPopulatedMedicationStatusTableCellAtIndexPath(administerCell, indexPath: indexPath);
             break;
         case 2:
-            if (medicationSlot?.administerMedication?.medicationStatus == ADMINISTERED) {
+            //if (medicationSlot?.administerMedication?.medicationStatus == ADMINISTERED) {
                 administerCell = getPopulatedMedicationDetailsCellForAdministeredStatus(administerCell, indexPath: indexPath)
-            } else if (medicationSlot?.administerMedication?.medicationStatus == REFUSED) {
-                
-            }
+//            } else if (medicationSlot?.administerMedication?.medicationStatus == REFUSED) {
+//                
+//            }
             break
         default:
             break;
@@ -108,6 +108,14 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             let currentDateString : String = DCDateUtility.convertDate(currentDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
             cell.detailLabel.text = currentDateString
             break
+        case 2:
+            //presnt inline picker here
+            cell.titleLabel.text = NSLocalizedString("CHECKED_BY", comment: "Checked by title")
+            cell.detailLabel.text = DEFAULT_NURSE_NAME;
+            break;
+        case 4:
+            
+            break
         default:
             break
         }
@@ -115,6 +123,11 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         return cell
     }
     
+    func getBatchNumberOrExpiryDateTableCellAtIndexPath(indexPath: NSIndexPath) -> (DCBatchNumberCell) {
+        
+        let expiryCell : DCBatchNumberCell = (administerTableView.dequeueReusableCellWithIdentifier(BATCH_NUMBER_CELL_ID) as? DCBatchNumberCell)!
+        return expiryCell;
+    }
     
     func getPopulatedMedicationDetailsCellForRefusedStatus(cell : DCAdministerCell, indexPath: NSIndexPath) -> (DCAdministerCell) {
         
@@ -182,12 +195,16 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        if (medicationSlot?.status == ADMINISTERED || medicationSlot?.status == REFUSED || medicationSlot?.status == nil){
+        if (medicationSlot == nil) {
+            return 0
+        } else {
+            if (medicationSlot?.status == ADMINISTERED || medicationSlot?.status == REFUSED || medicationSlot?.status == nil){
+                return ADMINISTERED_SECTION_COUNT;
+            } else if (medicationSlot?.status == OMITTED) {
+                return OMITTED_SECTION_COUNT;
+            }
             return ADMINISTERED_SECTION_COUNT;
-        } else if (medicationSlot?.status == OMITTED) {
-            return OMITTED_SECTION_COUNT;
         }
-        return ADMINISTERED_SECTION_COUNT;
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -217,8 +234,16 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             let medicationDetailsCell : DCAdministerMedicationDetailsCell = configureMedicationDetailsCellAtIndexPath(indexPath)
             return medicationDetailsCell
          } else {
-            let administerCell : DCAdministerCell = configureAdministerTableCellAtIndexPath(indexPath)
-            return administerCell
+            if (indexPath.section == 2 && indexPath.row == 3) {
+                let batchNumberCell : DCBatchNumberCell = getBatchNumberOrExpiryDateTableCellAtIndexPath(indexPath)
+                return batchNumberCell
+            } else if (indexPath.section == 3) {
+                let notesCell : DCNotesTableCell = (administerTableView.dequeueReusableCellWithIdentifier(NOTES_CELL_ID) as? DCNotesTableCell)!
+                return notesCell
+            } else {
+                let administerCell : DCAdministerCell = configureAdministerTableCellAtIndexPath(indexPath)
+                return administerCell
+            }
         }
     }
     
@@ -237,6 +262,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         
         if (indexPath.section == 0 && indexPath.row == 1) {
             return 74.0
+        } else if (indexPath.section == 3) {
+            return 125.0
         } else {
             return 41.0
         }
@@ -295,4 +322,22 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             }
         }
     }
+    
+    // MARK: BatchNumberCellDelegate Methods
+    
+    func batchNumberFieldSelected() {
+        
+        //    [medicationDetailsTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:3]
+        //        atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//            [self scrollToInstructionsCellPosition];
+//            });
+        
+        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
+        dispatch_after(delayTime, dispatch_get_main_queue()) {
+            self.administerTableView.scrollToRowAtIndexPath(NSIndexPath(forItem: 3, inSection: 2), atScrollPosition: .Bottom, animated: true)
+        }
+    }
 }
+
+
