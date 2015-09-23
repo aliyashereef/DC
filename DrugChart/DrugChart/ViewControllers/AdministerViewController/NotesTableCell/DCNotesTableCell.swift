@@ -8,15 +8,22 @@
 
 import UIKit
 
+protocol NotesCellDelegate {
+    
+    func notesSelected()
+}
+
 class DCNotesTableCell: UITableViewCell, UITextViewDelegate {
 
     @IBOutlet weak var notesTextView: UITextView!
     
+    var notesType : NotesType?
+    var delegate: NotesCellDelegate?
+    
     override func awakeFromNib() {
-        notesTextView.text = NSLocalizedString("NOTES", comment: "notes hint")
         super.awakeFromNib()
     }
-
+    
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
@@ -25,7 +32,10 @@ class DCNotesTableCell: UITableViewCell, UITextViewDelegate {
     
     func textViewDidBeginEditing(textView: UITextView) {
         
-        if (textView.text == NSLocalizedString("NOTES", comment: "")) {
+        if let delegate = self.delegate {
+            delegate.notesSelected()
+        }
+        if (textView.text == getHintText()) {
             textView.textColor = UIColor.blackColor()
             textView.text = EMPTY_STRING
         }
@@ -35,8 +45,19 @@ class DCNotesTableCell: UITableViewCell, UITextViewDelegate {
         
         if (textView.text == EMPTY_STRING) {
             textView.textColor = UIColor.getColorForHexString("#8f8f95")
-            textView.text = NSLocalizedString("NOTES", comment: "")
+            textView.text = getHintText()
         }
+    }
+    
+    func getHintText() -> String {
+        
+        var hint : String
+        if (notesType! == eNotes) {
+            hint = NSLocalizedString("NOTES", comment: "notes hint")
+        } else {
+            hint = NSLocalizedString("REASON" , comment: "reason hint")
+        }
+        return hint
     }
     
 }

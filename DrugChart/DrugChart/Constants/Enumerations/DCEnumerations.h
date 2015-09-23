@@ -91,4 +91,10 @@ typedef enum : NSUInteger {
     
 } AddMedicationDetailType;
 
+typedef enum : NSUInteger {
+    eNotes,
+    eReason
+} NotesType;
+
+
 #endif

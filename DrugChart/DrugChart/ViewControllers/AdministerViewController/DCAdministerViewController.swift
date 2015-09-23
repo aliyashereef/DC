@@ -21,7 +21,7 @@ let MEDICATION_DETAILS_SECTION_HEIGHT : CGFloat = 40.0
 let MEDICATION_DETAILS_CELL_INDEX : NSInteger = 1
 
 
-class DCAdministerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class DCAdministerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NotesCellDelegate, BatchNumberCellDelegate {
 
     @IBOutlet weak var administerTableView: UITableView!
     
@@ -134,6 +134,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func getBatchNumberOrExpiryDateTableCellAtIndexPath(indexPath: NSIndexPath) -> (DCBatchNumberCell) {
         
         let expiryCell : DCBatchNumberCell = (administerTableView.dequeueReusableCellWithIdentifier(BATCH_NUMBER_CELL_ID) as? DCBatchNumberCell)!
+        expiryCell.delegate = self
         return expiryCell;
     }
     
@@ -179,6 +180,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func getNotesTableCellAtIndexPath(indexPath : NSIndexPath) -> (DCNotesTableCell) {
         
         let notesCell : DCNotesTableCell = (administerTableView.dequeueReusableCellWithIdentifier(NOTES_CELL_ID) as? DCNotesTableCell)!
+        notesCell.delegate = self
         return notesCell
     }
     
@@ -254,6 +256,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                     return batchNumberCell
                 } else if (indexPath.section == 3) {
                     let notesCell : DCNotesTableCell = getNotesTableCellAtIndexPath(indexPath)
+                    notesCell.notesType = eNotes
+                    notesCell.notesTextView.text = notesCell.getHintText()
                     return notesCell
                 } else {
                     let administerCell : DCAdministerCell = configureAdministerTableCellAtIndexPath(indexPath)
@@ -262,6 +266,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             } else if (medicationSlot?.administerMedication.medicationStatus == OMITTED) {
                 if (indexPath.section == 2) {
                     let notesCell : DCNotesTableCell = getNotesTableCellAtIndexPath(indexPath)
+                    notesCell.notesType = eReason
+                    notesCell.notesTextView.text = notesCell.getHintText()
                     return notesCell
                 } else {
                     let administerCell : DCAdministerCell = configureAdministerTableCellAtIndexPath(indexPath)
@@ -358,7 +364,17 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         
         let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
         dispatch_after(delayTime, dispatch_get_main_queue()) {
-            self.administerTableView.scrollToRowAtIndexPath(NSIndexPath(forItem: 3, inSection: 2), atScrollPosition: .Bottom, animated: true)
+            self.administerTableView.scrollToRowAtIndexPath(NSIndexPath(forItem: 3, inSection: 2), atScrollPosition: .Top, animated: true)
+        }
+    }
+    
+    // MARK : NotesCell Delagate Methods
+    
+    func notesSelected() {
+        
+        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
+        dispatch_after(delayTime, dispatch_get_main_queue()) {
+            self.administerTableView.scrollToRowAtIndexPath(NSIndexPath(forItem: 0, inSection: 2), atScrollPosition: .Top, animated: true)
         }
     }
 }
