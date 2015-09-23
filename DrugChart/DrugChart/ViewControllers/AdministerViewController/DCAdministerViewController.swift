@@ -84,14 +84,16 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             break;
         case 1:
             administerCell = getPopulatedMedicationStatusTableCellAtIndexPath(administerCell, indexPath: indexPath);
+            administerCell.detailLabel.text = EMPTY_STRING
             break;
         case 2:
             if (medicationSlot?.administerMedication?.medicationStatus == ADMINISTERED) {
                 administerCell = getPopulatedMedicationDetailsCellForAdministeredStatus(administerCell, indexPath: indexPath)
             }
-//            else if (medicationSlot?.administerMedication?.medicationStatus == OMITTED) {
-//                administerCell = getMedicationDetailsCellForOmittedStatus(administerCell, indexPath: indexPath)
-//            }
+            else if (medicationSlot?.administerMedication?.medicationStatus == REFUSED) {
+                administerCell = getMedicationDetailsCellForRefusedStatus(administerCell, indexPath: indexPath)
+                administerCell.accessoryType = UITableViewCellAccessoryType.None
+            }
             break
         default:
             break;
@@ -127,9 +129,14 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         return cell
     }
     
-//    func getMedicationDetailsCellForOmittedStatus(cell : DCAdministerCell, indexPath: NSIndexPath) -> (DCAdministerCell) {
-//        
-//    }
+    func getMedicationDetailsCellForRefusedStatus(cell : DCAdministerCell, indexPath: NSIndexPath) -> (DCAdministerCell) {
+        
+        cell.titleLabel.text = NSLocalizedString("DATE_TIME", comment: "date and time")
+        let currentDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
+        let currentDateString : String = DCDateUtility.convertDate(currentDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
+        cell.detailLabel.text = currentDateString
+        return cell
+    }
     
     func getBatchNumberOrExpiryDateTableCellAtIndexPath(indexPath: NSIndexPath) -> (DCBatchNumberCell) {
         
@@ -231,7 +238,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         case 1:
             return (statusCellSelected ? 4 : STATUS_ROW_COUNT)
         case 2:
-            if (medicationSlot?.administerMedication.medicationStatus  == OMITTED /*|| medicationSlot?.administerMedication.medicationStatus == REFUSED*/) {
+            if (medicationSlot?.administerMedication.medicationStatus  == OMITTED || medicationSlot?.administerMedication.medicationStatus == REFUSED) {
                 return 1;
             } else {
                 return ADMINISTERED_SECTION_ROW_COUNT;
@@ -274,9 +281,16 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                     return administerCell
                 }
             } else {
-                let administerCell : DCAdministerCell = configureAdministerTableCellAtIndexPath(indexPath)
-                return administerCell
-            }
+                if (indexPath.section == 3) {
+                    let notesCell : DCNotesTableCell = getNotesTableCellAtIndexPath(indexPath)
+                    notesCell.notesType = eReason
+                    notesCell.notesTextView.text = notesCell.getHintText()
+                    return notesCell
+                } else {
+                    let administerCell : DCAdministerCell = configureAdministerTableCellAtIndexPath(indexPath)
+                    return administerCell
+                }
+             }
         }
     }
     
