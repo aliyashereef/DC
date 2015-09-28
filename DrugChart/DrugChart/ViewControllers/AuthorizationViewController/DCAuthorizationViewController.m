@@ -42,7 +42,8 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    self.navigationController.navigationBar.hidden = NO;
+    //self.navigationController.navigationBar.hidden = NO;
+    self.title = @"Login";
     isAuthenticated = NO;
     serverChangeViewController = [self.storyboard instantiateViewControllerWithIdentifier:SERVER_CHANGE_VC_ID];
     if ([DCAPPDELEGATE isNetworkReachable]) {

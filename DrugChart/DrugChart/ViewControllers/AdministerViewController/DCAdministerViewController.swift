@@ -253,6 +253,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         if (alertMessage != EMPTY_STRING) {
             return 1
         } else {
+
             if (medicationSlot?.administerMedication.medicationStatus == OMITTED) {
                 return OMITTED_SECTION_COUNT;
             } else {
@@ -401,7 +402,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 break
             }
             administerTableView .reloadData()
-        } else if (indexPath.section == 2) {
+        } else if (indexPath.section == 2 && medicationSlot?.administerMedication.medicationStatus == ADMINISTERED) {
             if (indexPath.row == 0 || indexPath.row == 2) {
                 presentPrescribersAndAdministersPopOverViewAtIndexPath(indexPath)
             }

@@ -36,7 +36,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if(indexPath.section == 0 && indexPath.row == 1) {
-            return 90
+            return 74
         } else if(indexPath == selectedRowIndex ) {
             return 100
         } else {
@@ -53,7 +53,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         if indexPath.section == 0 {
             switch (indexPath.row) {
             case 0:
-                cell!.contentType.text = "14 December 2015"
+                cell!.contentType.text = "14 June 2015"
                 cell!.value.text = EMPTY_STRING
                 break
             case 1:
@@ -63,8 +63,8 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
                     detailsCell = DCMedicationDetailsCell(style: UITableViewCellStyle.Value1, reuseIdentifier: cellIdentifier)
                 }
                 detailsCell!.medicineName.text = "Methotrexate 10 mg tablets"
-                detailsCell!.routeAndInstructionLabel.text = "Oral (As directed by doctor)"
-                detailsCell!.dateLabel.text = "14 December 2015"
+                detailsCell!.routeAndInstructionLabel.text = "Oral"
+                detailsCell!.dateLabel.text = "14 June 2015"
                 return detailsCell!
             default:
                 break
@@ -91,7 +91,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
                 break
             case 4:
                 cell!.contentType.text = "Batch No/Expiry Date"
-                cell!.value.text = "14-Dec-2015"
+                cell!.value.text = "14-Jun-2015"
                 break
             case 5:
                 return configureNotesAndReasonCellsAtIndexPath(indexPath,type:"Notes")
@@ -119,7 +119,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
                 break
             case 1:
                 cell!.contentType.text = "Date"
-                cell!.value.text = "14-Dec-2015"
+                cell!.value.text = "14-Jun-2015"
                 break
             case 2:
             return configureNotesAndReasonCellsAtIndexPath(indexPath,type:"Reason")
@@ -183,7 +183,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         } else {
             noteCell!.moreButtonWidthConstaint.constant = 0.0
             noteCell!.reasonTextLabelTopSpaceConstraint.constant = 25.0
-            noteCell!.reasonLabelLeadingSpaceConstraint.constant = 15.0
+            noteCell!.reasonLabelLeadingSpaceConstraint.constant = 7.0
         }
         noteCell!.isNotesExpanded = false
         return noteCell!

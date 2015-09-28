@@ -5,11 +5,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <mutableArray key="Lato-Regular.ttf">
-            <string>Lato-Regular</string>
-        </mutableArray>
-    </customFonts>
     <scenes>
         <!--Authorization View Controller-->
         <scene sceneID="yRH-Lk-2AS">
@@ -32,6 +27,11 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="UWG-n6-7DZ"/>
                                         </constraints>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="UWG-n6-7DZ"/>
+                                            </mask>
+                                        </variation>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XQ9-CN-ND8">
                                         <rect key="frame" x="225" y="0.0" width="151" height="64"/>
@@ -42,29 +42,13 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OZL-Gv-DE9" userLabel="Settings Button">
-                                        <rect key="frame" x="556" y="10" width="44" height="44"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="44" id="ZkU-Kr-nFX"/>
-                                            <constraint firstAttribute="height" constant="44" id="mTI-cX-drR"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="15"/>
-                                        <inset key="contentEdgeInsets" minX="9" minY="19" maxX="10" maxY="0.0"/>
-                                        <state key="normal" image="Settings">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="settingsButtonTapped:" destination="9cu-IP-nSa" eventType="touchUpInside" id="MF2-tG-l5z"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="64" id="6ln-d8-irI"/>
                                     <constraint firstItem="bxq-jf-vsn" firstAttribute="leading" secondItem="Qca-8o-iRv" secondAttribute="leading" id="Ck7-gp-WAi"/>
-                                    <constraint firstAttribute="trailing" secondItem="OZL-Gv-DE9" secondAttribute="trailing" id="Et1-oP-ZIa"/>
+                                    <constraint firstItem="bxq-jf-vsn" firstAttribute="top" secondItem="Qca-8o-iRv" secondAttribute="top" constant="63" id="DM5-pw-lii"/>
                                     <constraint firstAttribute="trailing" secondItem="bxq-jf-vsn" secondAttribute="trailing" id="Mc7-17-5d4"/>
-                                    <constraint firstItem="OZL-Gv-DE9" firstAttribute="top" secondItem="Qca-8o-iRv" secondAttribute="top" constant="10" id="VrI-nv-xvm"/>
                                     <constraint firstAttribute="height" constant="64" id="YKR-6r-1OL"/>
                                     <constraint firstAttribute="centerX" secondItem="XQ9-CN-ND8" secondAttribute="centerX" id="ZAO-Vb-bC9"/>
                                     <constraint firstAttribute="centerY" secondItem="XQ9-CN-ND8" secondAttribute="centerY" id="h7C-Ii-7xW"/>
@@ -141,7 +125,6 @@
                     <connections>
                         <outlet property="activityIndicator" destination="Xtq-Zm-QGh" id="F1j-R4-hEU"/>
                         <outlet property="authorizationWebView" destination="N8m-uy-cOu" id="5Fr-tD-6ed"/>
-                        <outlet property="settingsButton" destination="OZL-Gv-DE9" id="9ME-vo-XSo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jbT-gV-yud" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -167,7 +150,4 @@
             <point key="canvasLocation" x="775" y="244"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="Settings" width="25" height="25"/>
-    </resources>
 </document>
