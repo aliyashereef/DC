@@ -97,6 +97,7 @@
         
         medicationCell = [[PrescriberMedicationCellTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"prescriberIdentifier"];
     }
+    medicationCell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     DCMedicationScheduleDetails *medicationList = [displayMedicationListArray objectAtIndex:indexPath.item];
     if (medicationList) {

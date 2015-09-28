@@ -253,7 +253,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         if (alertMessage != EMPTY_STRING) {
             return 1
         } else {
-            NSLog("medicationSlot?.status : %@", (medicationSlot?.administerMedication?.medicationStatus)!)
             if (medicationSlot?.administerMedication.medicationStatus == OMITTED) {
                 return OMITTED_SECTION_COUNT;
             } else {
@@ -361,7 +360,9 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         
         if (section == 1) {
             let administerHeaderView = NSBundle.mainBundle().loadNibNamed(ADMINISTER_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCAdministerTableHeaderView
-            administerHeaderView?.populateScheduledTimeValue((medicationSlot?.time)!)
+            if (medicationSlot?.time != nil) {
+                administerHeaderView?.populateScheduledTimeValue((medicationSlot?.time)!)
+            }
             return administerHeaderView
         }
         return nil;
