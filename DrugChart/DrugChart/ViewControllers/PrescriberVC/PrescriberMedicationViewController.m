@@ -32,6 +32,7 @@
     IBOutlet UIView *calendarDaysDisplayView;
     IBOutlet UIView *todayString;
     IBOutlet UIActivityIndicatorView *activityIndicatorView;
+    IBOutlet UIView *todayBackGroundView;
     
     IBOutlet UITableView *medicationsTableView;
     
@@ -61,6 +62,9 @@
                  initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addMedicationButtonPressed:)];
     self.navigationItem.rightBarButtonItem = addButton;
     medicationsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    [todayBackGroundView.layer setCornerRadius:12.5];
+    
+    
     if ([DCAPPDELEGATE isNetworkReachable]) {
         if (!_patient.medicationListArray) {
             [self fetchMedicationListForPatient];
@@ -97,6 +101,7 @@
         
         medicationCell = [[PrescriberMedicationCellTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"prescriberIdentifier"];
     }
+    medicationCell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     DCMedicationScheduleDetails *medicationList = [displayMedicationListArray objectAtIndex:indexPath.item];
     if (medicationList) {

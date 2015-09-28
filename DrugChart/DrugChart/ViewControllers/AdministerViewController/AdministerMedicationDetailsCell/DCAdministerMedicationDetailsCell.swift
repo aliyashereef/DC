@@ -28,7 +28,9 @@ class DCAdministerMedicationDetailsCell: UITableViewCell {
     func populateCellWithMedicationDetails(medicationDetails : DCMedicationScheduleDetails?) {
         
         medicineNameLabel.text = medicationDetails!.name
-        populateRouteAndInstructionLabels(medicationDetails!.route, instruction: medicationDetails!.instruction)
+        if (medicationDetails?.route != nil && medicationDetails?.instruction != nil) {
+                   populateRouteAndInstructionLabels(medicationDetails!.route, instruction: medicationDetails!.instruction)
+        }
         let startDateString : String? = DCDateUtility.convertDate(DCDateUtility.dateFromSourceString(medicationDetails?.startDate), fromFormat: DEFAULT_DATE_FORMAT, toFormat: DATE_MONTHNAME_YEAR_FORMAT)
         startDateLabel.text = startDateString
     }
@@ -36,7 +38,7 @@ class DCAdministerMedicationDetailsCell: UITableViewCell {
     func populateRouteAndInstructionLabels(route : String , instruction : String) {
         
         let attributedRouteString : NSMutableAttributedString = NSMutableAttributedString(string: route, attributes: [NSFontAttributeName : UIFont.systemFontOfSize(16.0)])
-        let instructionString = String(format: "(%@)", instruction)
+        let instructionString = String(format: " (%@)", instruction)
         if (instruction != EMPTY_STRING) {
             let attributedInstructionsString : NSMutableAttributedString = NSMutableAttributedString(string: instructionString, attributes: [NSFontAttributeName:UIFont.systemFontOfSize(12.0)])
             attributedRouteString.appendAttributedString(attributedInstructionsString)

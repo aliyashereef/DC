@@ -34,9 +34,9 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XQ9-CN-ND8">
-                                        <rect key="frame" x="225" y="8" width="151" height="48"/>
+                                        <rect key="frame" x="225" y="0.0" width="151" height="64"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="48" id="4nD-RW-Qjp"/>
+                                            <constraint firstAttribute="height" constant="64" id="4nD-RW-Qjp"/>
                                             <constraint firstAttribute="width" constant="151" id="CdK-vj-tOY"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
