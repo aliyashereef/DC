@@ -69,7 +69,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func configureAdministerTableCellAtIndexPath(indexPath : NSIndexPath) -> (DCAdministerCell) {
         
         var administerCell : DCAdministerCell = (administerTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
-        administerCell.layoutMargins = UIEdgeInsetsZero
         switch indexPath.section {
         case 0:
             let dateString : String
@@ -81,10 +80,12 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 }
                 administerCell.titleLabel.text = dateString
             }
+            administerCell.layoutMargins = UIEdgeInsetsZero
             break;
         case 1:
             administerCell = getPopulatedMedicationStatusTableCellAtIndexPath(administerCell, indexPath: indexPath);
             administerCell.detailLabel.text = EMPTY_STRING
+            administerCell.layoutMargins = UIEdgeInsetsZero
             break;
         case 2:
             if (medicationSlot?.administerMedication?.medicationStatus == ADMINISTERED) {
@@ -161,6 +162,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         case 0:
             cell.titleLabel.text = NSLocalizedString("STATUS", comment: "status title text")
             if (medicationSlot?.administerMedication?.medicationStatus != nil) {
+                NSLog("Status : %@", (medicationSlot?.administerMedication?.medicationStatus)!)
                 cell.detailLabel.text = medicationSlot?.administerMedication?.medicationStatus
             } else {
                 cell.detailLabel.text = ADMINISTERED
