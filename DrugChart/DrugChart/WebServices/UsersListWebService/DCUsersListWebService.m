@@ -28,4 +28,10 @@ static NSString *const kUsersURL = @"users";
     }];
 }
 
+- (void)cancelPreviousRequest {
+    
+    //cancel web request
+    [[DCHTTPRequestOperationManager sharedMedicationOperationManager] cancelWebRequestWithPath:kUsersURL];
+}
+
 @end
