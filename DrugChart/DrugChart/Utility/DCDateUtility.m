@@ -89,6 +89,7 @@
     return [[NSCalendar currentCalendar] dateFromComponents:components];
 }
 
+// TODO: delete this method after changing the calendar to 5 day display.
 + (NSMutableArray *)getDaysOfWeekFromDate:(NSDate *)date {
     //get dates of week
     NSDateComponents *components = [[NSDateComponents alloc] init];
@@ -100,6 +101,19 @@
     }
     return weekdays;
 }
+
++ (NSMutableArray *)getFiveDaysOfWeekFromDate:(NSDate *)date {
+    //get dates of week
+    NSDateComponents *components = [[NSDateComponents alloc] init];
+    [components setDay:1];
+    NSMutableArray *weekdays = [[NSMutableArray alloc] init];
+    for (int i = 0; i < 7; i++) {
+        [weekdays addObject:date];
+        date = [[NSCalendar currentCalendar] dateByAddingComponents:components toDate:date options:0];
+    }
+    return weekdays;
+}
+
 
 + (NSMutableArray *)getDateDisplayStringForDateArray:(NSArray *)dateArray {
     

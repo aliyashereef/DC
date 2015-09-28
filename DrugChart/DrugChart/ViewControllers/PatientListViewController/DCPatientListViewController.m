@@ -13,6 +13,8 @@
 #import "DCSettingsPopOverBackgroundView.h"
 #import "DCWardsPatientsListingViewController.h"
 
+#import "PrescriberMedicationViewController.h"
+
 #import "DCMedicationListWebService.h"
 #import "DCMedicationSchedulesWebService.h"
 #import "DCLogOutWebService.h"
@@ -176,22 +178,39 @@ typedef enum : NSUInteger {
     selectedPatient = YES;
     selectedIndex = indexPath.item;
     selectedIndexPath = indexPath;
-    [self performSegueWithIdentifier:SHOW_PATIENT_MEDICATION_HOME sender:self];
+    //[self performSegueWithIdentifier:SHOW_PRESCRIBER_MEDICATION sender:self];
+    [self goToPrescriberMedicationViewController:indexPath];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark - Configure Segue for Navigation
 
+- (void)goToPrescriberMedicationViewController:(NSIndexPath *)indexPath {
+    
+    UIStoryboard *prescriberStoryBoard = [UIStoryboard storyboardWithName:PRESCRIBER_DETAILS_STORYBOARD bundle:nil];
+    PrescriberMedicationViewController *prescriberMedicationViewController = [prescriberStoryBoard instantiateViewControllerWithIdentifier:PRESCRIBER_MEDICATION_SBID];
+    DCPatient *patient = [self getPatientForTableCellAtIndexPath:selectedIndexPath];
+    prescriberMedicationViewController.patient = patient;
+    [self.navigationController pushViewController:prescriberMedicationViewController animated:YES];
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
     UIViewController *destinationViewController = [segue destinationViewController];
     
-    if ([destinationViewController isKindOfClass:[DCPatientMedicationHomeViewController class]]) {
-        DCPatientMedicationHomeViewController *patientMedicationHomeViewController =
-        (DCPatientMedicationHomeViewController *)destinationViewController;
+//    if ([destinationViewController isKindOfClass:[DCPatientMedicationHomeViewController class]]) {
+//        DCPatientMedicationHomeViewController *patientMedicationHomeViewController =
+//        (DCPatientMedicationHomeViewController *)destinationViewController;
+//        DCPatient *patient = [self getPatientForTableCellAtIndexPath:selectedIndexPath];
+//        patientMedicationHomeViewController.patient = patient;
+//    }
+    if ([destinationViewController isKindOfClass:[PrescriberMedicationViewController class]]) {
+        PrescriberMedicationViewController *prescriberMedicationViewController =
+        (PrescriberMedicationViewController *)destinationViewController;
         DCPatient *patient = [self getPatientForTableCellAtIndexPath:selectedIndexPath];
-        patientMedicationHomeViewController.patient = patient;
+        prescriberMedicationViewController.patient = patient;
     }
+//
 }
 
 #pragma mark - UISearch bar implementation
