@@ -12,7 +12,7 @@
 #import "DCCalendarNavigationTitleView.h"
 #import "DCAddMedicationInitialViewController.h"
 #import "DCAlertsAllergyPopOverViewController.h"
-
+#import "DCSortTableViewController.h"
 #import "DCPatientAlert.h"
 #import "DCPatientAllergy.h"
 
@@ -38,7 +38,7 @@
     UIBarButtonItem *addButton;
     NSMutableArray *alertsArray;
     NSMutableArray *allergiesArray;
-    
+    NSString *selectedSortType;
     NSMutableArray *displayMedicationListArray;
 }
 
@@ -249,5 +249,27 @@
         [allergiesArray addObject:patientAllergy];
     }
 }
-
+- (IBAction)sortButtonPressed:(id)sender {
+    
+    //display sort options in a pop over controller,
+    //showDiscontinuedMedications denotes if discontinued medications are to be shown
+    //
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:MAIN_STORYBOARD bundle: nil];
+    UIPopoverController *popOverController;
+    DCSortTableViewController *sortViewController = [mainStoryboard instantiateViewControllerWithIdentifier:SORT_VIEWCONTROLLER_STORYBOARD_ID];
+    sortViewController.sortView = eCalendarView;
+    sortViewController.previousSelectedCategory = selectedSortType;
+    UINavigationController *navigationController =
+    [[UINavigationController alloc] initWithRootViewController:sortViewController];
+    popOverController = [[UIPopoverController alloc] initWithContentViewController:navigationController];
+    popOverController.popoverContentSize = CGSizeMake(305, 260);
+    [popOverController presentPopoverFromBarButtonItem:sender
+                              permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    sortViewController.criteria = ^ (NSString * type) {
+        if (![type isEqualToString:INCLUDE_DISCONTINUED]) {
+            selectedSortType =  type;
+        }
+         [popOverController dismissPopoverAnimated:YES];
+    };
+}
 @end
