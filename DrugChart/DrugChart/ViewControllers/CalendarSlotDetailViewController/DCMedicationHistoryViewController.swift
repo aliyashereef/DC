@@ -181,7 +181,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         } else {
             noteCell!.moreButtonWidthConstaint.constant = 0.0
             noteCell!.reasonTextLabelTopSpaceConstraint.constant = 25.0
-            noteCell!.reasonLabelLeadingSpaceConstraint.constant = 10.0
+            noteCell!.reasonLabelLeadingSpaceConstraint.constant = 15.0
         }
         noteCell!.isNotesExpanded = false
         return noteCell!

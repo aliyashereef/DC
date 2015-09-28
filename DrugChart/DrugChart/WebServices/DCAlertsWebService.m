@@ -10,7 +10,7 @@
 
 @implementation DCAlertsWebService
 
-static NSString *const kAlertsUrl = @"patients/%@/alerts";
+static NSString *const kAlertsUrl = @"patients/%@/warnings";
 
 
 - (void)getPatientAlertsForId:(NSString *)patientId
