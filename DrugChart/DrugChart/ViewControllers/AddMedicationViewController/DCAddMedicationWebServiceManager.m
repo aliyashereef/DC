@@ -55,6 +55,7 @@
     [medicationDictionary setValue:medication.dosage forKey:DOSAGE_VALUE];
     [medicationDictionary setValue:medication.instruction forKey:INSTRUCTIONS];
     //TO DO : Currently hard cording the value for route code id, have to change it according to the route user chooses.
+    NSString *routeCodeId = [self getRouteCodeIdForRoute:medication.route];
     [medicationDictionary setValue:@"916601000006112" forKey:ROUTE_CODE_ID];
     NSMutableArray *scheduleArray = [[NSMutableArray alloc] init];
     for (NSDictionary *timeSchedule in medication.timeArray) {
@@ -82,6 +83,12 @@
                 }
     }
     return medicationDictionary;
+}
+
+- (NSString *)getRouteCodeIdForRoute:(NSString *)routeString {
+    NSString *routeCodeId;
+    
+    return routeCodeId;
 }
 
 @end

@@ -348,4 +348,11 @@
 #define SCHEDULED_DATE_TIME @"scheduleDateTime"
 #define SCHEDULE_TIMES @"ScheduleTimes"
 
+// Routes and route code Ids
+
+#define ORAL @"Oral (PO)"
+#define RECTAL @"Rectal (PR)"
+#define INTRAVENOUS @"Intravenous (IV)"
+#define @"Intramuscular (IM)"
+#define @"Intrathecal (IT)"
 #endif
