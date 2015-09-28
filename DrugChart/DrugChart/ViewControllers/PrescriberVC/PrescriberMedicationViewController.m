@@ -57,7 +57,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [self configureViewElements];
+    //[self configureViewElements];
     
     addButton = [[UIBarButtonItem alloc]
                  initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addMedicationButtonPressed:)];
@@ -106,6 +106,11 @@
         medicationList.instruction = medicationList.instruction;
     }
     return medicationCell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    [self displayMedicationDetailsViewAtIndexPath:indexPath slotsArray:@[]];
 }
 
 - (void)fetchMedicationListForPatientId:(NSString *)patientId
@@ -251,5 +256,23 @@
         [allergiesArray addObject:patientAllergy];
     }
 }
+
+- (void)displayMedicationDetailsViewAtIndexPath:(NSIndexPath *)indexPath
+                                     slotsArray:(NSArray *)slotsArray {
+    
+    //display calendar slot detail screen
+    UIStoryboard *administerStoryboard = [UIStoryboard storyboardWithName:ADMINISTER_STORYBOARD bundle:nil];
+    DCCalendarSlotDetailViewController *detailViewController = [administerStoryboard instantiateViewControllerWithIdentifier:CALENDAR_SLOT_DETAIL_STORYBOARD_ID];
+    if (_patient.medicationListArray.count > 0) {
+        DCMedicationScheduleDetails *medicationList =  [displayMedicationListArray objectAtIndex:indexPath.item];
+        detailViewController.medicationDetails = medicationList;
+        NSArray *slots = [[medicationList.timeChart objectAtIndex:0] valueForKey:@"medDetails"];
+        detailViewController.medicationSlotsArray = slots;
+    }
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:detailViewController];
+    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self presentViewController:navigationController animated:YES completion:nil];
+}
+
 
 @end
