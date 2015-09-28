@@ -161,11 +161,9 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         switch sender.selectedSegmentIndex {
         case ADMINISTER_SEGMENT_INDEX :
             addAdministerView()
-            containerView.sendSubviewToBack((medicationHistoryViewController?.view)!)
              break
         case MEDICATION_HISTORY_SEGMENT_INDEX :
             addMedicationHistoryView()
-            containerView.sendSubviewToBack((administerViewController?.view)!)
             break
             
         case BNF_SEGMENT_INDEX :
