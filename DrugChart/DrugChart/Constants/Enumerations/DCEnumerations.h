@@ -96,5 +96,4 @@ typedef enum : NSUInteger {
     eReason
 } NotesType;
 
-
 #endif

@@ -20,6 +20,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     
     var administerViewController : DCAdministerViewController?
     var medicationHistoryViewController : DCMedicationHistoryViewController?
+    var bnfViewController : DCBNFViewController?
     
     var medicationSlotsArray : [DCMedicationSlot] = []
     var medicationDetails : DCMedicationScheduleDetails?
@@ -31,6 +32,13 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         
         super.viewDidLoad()
         configureViewElements()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        
+        super.viewDidAppear(animated)
+        self.view.layer.masksToBounds = true
+        self.view.superview?.backgroundColor = UIColor.clearColor()
     }
 
     override func didReceiveMemoryWarning() {
@@ -91,6 +99,19 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         containerView.bringSubviewToFront((medicationHistoryViewController?.view)!)
     }
     
+    func addBNFView () {
+        
+        let administerStoryboard : UIStoryboard? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil)
+        if bnfViewController == nil {
+            bnfViewController = administerStoryboard!.instantiateViewControllerWithIdentifier(BNF_STORYBOARD_ID) as? DCBNFViewController
+            self.addChildViewController(bnfViewController!)
+            bnfViewController!.view.frame = containerView.bounds
+            containerView.addSubview((bnfViewController?.view)!)
+        }
+        bnfViewController?.didMoveToParentViewController(self)
+        containerView.bringSubviewToFront((bnfViewController?.view)!)
+    }
+    
     // MARK: - UIViewControllerTransitioningDelegate Methods
     
     func presentationControllerForPresentedViewController(presented: UIViewController, presentingViewController presenting: UIViewController, sourceViewController source: UIViewController) -> UIPresentationController? {
@@ -123,6 +144,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
             break
             
         case BNF_SEGMENT_INDEX :
+            addBNFView()
             break
         default :
             break

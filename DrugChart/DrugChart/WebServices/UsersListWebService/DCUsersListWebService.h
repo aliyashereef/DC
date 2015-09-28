@@ -11,4 +11,7 @@
 @interface DCUsersListWebService : NSObject
 
 - (void)getUsersListWithCallback:(void (^)(NSArray *usersList, NSError *error))callback;
+
+- (void)cancelPreviousRequest;
+
 @end

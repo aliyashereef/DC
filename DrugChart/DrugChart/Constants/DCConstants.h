@@ -110,6 +110,7 @@
 #define CALENDAR_SLOT_DETAIL_STORYBOARD_ID @"CalendarDetail"
 #define ADMINISTER_STORYBOARD_ID @"AdministerViewController"
 #define MEDICATION_STORYBOARD_ID @"MedicationHistory"
+#define BNF_STORYBOARD_ID @"BNFViewController"
 
 //Nib files
 #define WARNINGS_HEADER_VIEW_NIB @"DCWarningsHeaderView"

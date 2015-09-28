@@ -42,15 +42,20 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:TABLE_REUSE_IDENTIFIER];
     }
-    cell.textLabel.text = [_namesArray objectAtIndex:indexPath.item];
-    cell.textLabel.font = [UIFont fontWithName:@"Lato-Regular" size:14.0];
+    NSString *name = [_namesArray objectAtIndex:indexPath.item];
+    cell.textLabel.font = [UIFont systemFontOfSize:15.0];
+    cell.textLabel.text = name;
+    cell.accessoryType = ([name isEqualToString:_previousSelectedValue]) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     //pass the selected user name to parent
     NSString *selectedName = [_namesArray objectAtIndex:indexPath.row];
-    self.userSelectionHandler(selectedName);
+   // self.userSelectionHandler(selectedName);
+    if (self.namesDelegate && [self.namesDelegate respondsToSelector:@selector(selectedUserEntry:)]) {
+        [self.namesDelegate selectedUserEntry:selectedName];
+    }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

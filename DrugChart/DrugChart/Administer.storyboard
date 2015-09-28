@@ -1157,7 +1157,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Notes" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Dkl-aX-65a">
-                                                    <rect key="frame" x="15" y="0.0" width="570" height="128"/>
+                                                    <rect key="frame" x="10" y="0.0" width="570" height="128"/>
                                                     <color key="textColor" red="0.56078431370000004" green="0.56078431370000004" blue="0.58431372550000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -1421,6 +1421,40 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pt0-HM-aI8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2098" y="283"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="RDh-BK-XMS">
+            <objects>
+                <viewController storyboardIdentifier="BNFViewController" id="6PN-tO-Scw" customClass="DCBNFViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="wV7-vr-tBo"/>
+                        <viewControllerLayoutGuide type="bottom" id="BJl-vT-3fq"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8jT-QN-YGF">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BNF View" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="brg-Fu-5Kz">
+                                <rect key="frame" x="263" y="290" width="74" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="74" id="jUI-2W-L3c"/>
+                                    <constraint firstAttribute="height" constant="21" id="jYl-am-iim"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="brg-Fu-5Kz" firstAttribute="centerY" secondItem="8jT-QN-YGF" secondAttribute="centerY" id="RoZ-uH-Vou"/>
+                            <constraint firstItem="brg-Fu-5Kz" firstAttribute="centerX" secondItem="8jT-QN-YGF" secondAttribute="centerX" id="xn1-rQ-GAO"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="02i-ep-ygW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2321" y="741"/>
         </scene>
         <!--Security Pin View Controller-->
         <scene sceneID="Pxy-GJ-BaP">

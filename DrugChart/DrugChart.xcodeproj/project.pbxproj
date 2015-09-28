@@ -36,6 +36,7 @@
 		0B720B4F1B1D87B800144665 /* DCMedicationSearchWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B720B4E1B1D87B800144665 /* DCMedicationSearchWebService.m */; };
 		0B720B531B1DA4FD00144665 /* DCSearchMedication.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B720B521B1DA4FD00144665 /* DCSearchMedication.m */; };
 		0B7A4AFC1B1F18B100CA7F47 /* DCAddMedicationRightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B7A4AFB1B1F18B100CA7F47 /* DCAddMedicationRightViewController.m */; };
+		0B7D5CD31BB90E210044BE1B /* DCBNFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7D5CD21BB90E210044BE1B /* DCBNFViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		0B7F74FC1B84394B00E3B0A0 /* DCSortTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B7F74FB1B84394B00E3B0A0 /* DCSortTableViewController.m */; };
 		0B7F75001B8439DA00E3B0A0 /* DCSortTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B7F74FF1B8439DA00E3B0A0 /* DCSortTableCell.m */; };
 		0B8498BD1BB11B9B00C740F2 /* DCCalendarSlotDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B8498BC1BB11B9B00C740F2 /* DCCalendarSlotDetailViewController.swift */; settings = {ASSET_TAGS = (); }; };
@@ -334,6 +335,7 @@
 		0B720B521B1DA4FD00144665 /* DCSearchMedication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCSearchMedication.m; sourceTree = "<group>"; };
 		0B7A4AFA1B1F18B100CA7F47 /* DCAddMedicationRightViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCAddMedicationRightViewController.h; sourceTree = "<group>"; };
 		0B7A4AFB1B1F18B100CA7F47 /* DCAddMedicationRightViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCAddMedicationRightViewController.m; sourceTree = "<group>"; };
+		0B7D5CD21BB90E210044BE1B /* DCBNFViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCBNFViewController.swift; sourceTree = "<group>"; };
 		0B7F74FA1B84394B00E3B0A0 /* DCSortTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCSortTableViewController.h; sourceTree = "<group>"; };
 		0B7F74FB1B84394B00E3B0A0 /* DCSortTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCSortTableViewController.m; sourceTree = "<group>"; };
 		0B7F74FE1B8439DA00E3B0A0 /* DCSortTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCSortTableCell.h; sourceTree = "<group>"; };
@@ -982,6 +984,14 @@
 			path = AddMedicationRightViewController;
 			sourceTree = "<group>";
 		};
+		0B7D5CD11BB90DF80044BE1B /* BNFViewController */ = {
+			isa = PBXGroup;
+			children = (
+				0B7D5CD21BB90E210044BE1B /* DCBNFViewController.swift */,
+			);
+			path = BNFViewController;
+			sourceTree = "<group>";
+		};
 		0B7F74F91B84392500E3B0A0 /* SortTableViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1549,6 +1559,7 @@
 				0B7F74F91B84392500E3B0A0 /* SortTableViewController */,
 				7DD51DF41AA5424900C81427 /* PatientListViewController */,
 				0BBC8FA31AA4698E0085ABAB /* BaseViewController */,
+				0B7D5CD11BB90DF80044BE1B /* BNFViewController */,
 				0BBFBB3A1B0F474700342D2F /* MedicationDetailsViewController */,
 				0BD52F2F1AA9724300A17A2C /* MedicationViewController */,
 				0BD52F331AA9749B00A17A2C /* CalendarChartViewController */,
@@ -2834,6 +2845,7 @@
 				7D6D84591AF88A8700917A8C /* DCAuthorizationViewController.m in Sources */,
 				0B720B4F1B1D87B800144665 /* DCMedicationSearchWebService.m in Sources */,
 				7DA89AEA1B2D528400096A0A /* DCPositionableGraphics.m in Sources */,
+				0B7D5CD31BB90E210044BE1B /* DCBNFViewController.swift in Sources */,
 				0BBE3B531AD250F600D1991E /* DCPrescriberFilterBackgroundView.m in Sources */,
 				7D6D845F1AF940A600917A8C /* DCInitialViewController.m in Sources */,
 				0B8A62BD1AC2CB4000F6DC5B /* DDPopoverBackgroundView.m in Sources */,

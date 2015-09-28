@@ -21,19 +21,27 @@ let MEDICATION_DETAILS_SECTION_HEIGHT : CGFloat = 40.0
 let MEDICATION_DETAILS_CELL_INDEX : NSInteger = 1
 
 
-class DCAdministerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NotesCellDelegate, BatchNumberCellDelegate {
+class DCAdministerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NotesCellDelegate, BatchNumberCellDelegate, NamesListDelegate {
 
     @IBOutlet weak var administerTableView: UITableView!
     
     var medicationSlot : DCMedicationSlot?
     var medicationDetails : DCMedicationScheduleDetails?
+    var usersListWebService : DCUsersListWebService?
     var statusCellSelected : Bool = false
-    var userListArray : [String] = []
-
+    var userListArray : NSMutableArray? = []
+    var popOverIndexPath : NSIndexPath?
     override func viewDidLoad() {
         
         super.viewDidLoad()
         configureViewElements()
+        fetchAdministersAndPrescribersList()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        
+        usersListWebService?.cancelPreviousRequest()
+        super.viewWillDisappear(animated)
     }
 
     override func didReceiveMemoryWarning() {
@@ -57,11 +65,14 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func fetchAdministersAndPrescribersList () {
         
         //fetch administers and prescribers list
-        
-        let usersListWebService : DCUsersListWebService = DCUsersListWebService.init()
-        usersListWebService.getUsersListWithCallback { (users, error) -> Void in
+        usersListWebService = DCUsersListWebService.init()
+        usersListWebService!.getUsersListWithCallback { (users, error) -> Void in
             if (error == nil) {
-
+                for userDict in users {
+                    let displayName = userDict["displayName"] as! String?
+                    self.userListArray! .addObject(displayName!)
+                }
+                self.userListArray!.insertObject(SELF_ADMINISTERED_TITLE, atIndex: 0)
             }
         }
      }
@@ -81,10 +92,10 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 administerCell.titleLabel.text = dateString
             }
             administerCell.layoutMargins = UIEdgeInsetsZero
+            administerCell.accessoryType = UITableViewCellAccessoryType.None
             break;
         case 1:
             administerCell = getPopulatedMedicationStatusTableCellAtIndexPath(administerCell, indexPath: indexPath);
-            administerCell.detailLabel.text = EMPTY_STRING
             administerCell.layoutMargins = UIEdgeInsetsZero
             break;
         case 2:
@@ -93,8 +104,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             }
             else if (medicationSlot?.administerMedication?.medicationStatus == REFUSED) {
                 administerCell = getMedicationDetailsCellForRefusedStatus(administerCell, indexPath: indexPath)
-                administerCell.accessoryType = UITableViewCellAccessoryType.None
             }
+            administerCell.accessoryType = UITableViewCellAccessoryType.None
             break
         default:
             break;
@@ -107,7 +118,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         switch indexPath.row {
         case 0:
             cell.titleLabel.text = NSLocalizedString("ADMINISTERED_BY", comment: "administered by title")
-            cell.detailLabel.text = DEFAULT_DOCTOR_NAME
+            cell.detailLabel.text = (medicationSlot?.administerMedication.administeredBy != nil) ? (medicationSlot?.administerMedication.administeredBy) : DEFAULT_DOCTOR_NAME
             break
         case 1:
             cell.titleLabel.text = NSLocalizedString("DATE_TIME", comment: "date and time")
@@ -118,7 +129,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         case 2:
             //presnt inline picker here
             cell.titleLabel.text = NSLocalizedString("CHECKED_BY", comment: "Checked by title")
-            cell.detailLabel.text = DEFAULT_NURSE_NAME;
+            cell.detailLabel.text = (medicationSlot?.administerMedication.checkedBy != nil) ? (medicationSlot?.administerMedication.checkedBy) : DEFAULT_NURSE_NAME
             break;
         case 4:
             
@@ -171,14 +182,17 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             return cell
         case 1:
             cell.titleLabel.text = ADMINISTERED
+            cell.detailLabel.text = EMPTY_STRING
             cell.accessoryType = (medicationSlot?.administerMedication.medicationStatus == ADMINISTERED) ?UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
             return cell
         case 2:
             cell.titleLabel.text = REFUSED
+            cell.detailLabel.text = EMPTY_STRING
             cell.accessoryType = (medicationSlot?.administerMedication.medicationStatus == REFUSED) ?UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
             return cell
         case 3:
             cell.titleLabel.text = OMITTED
+            cell.detailLabel.text = EMPTY_STRING
             cell.accessoryType = (medicationSlot?.administerMedication.medicationStatus == OMITTED) ?UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
             return cell
         default:
@@ -204,7 +218,15 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     func presentPrescribersAndAdministersPopOverViewAtIndexPath (indexPath : NSIndexPath) {
         
+        popOverIndexPath = indexPath
         let namesViewController : NameSelectionTableViewController? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(NAMES_LIST_VIEW_STORYBOARD_ID) as? NameSelectionTableViewController
+        namesViewController?.namesArray = userListArray
+        namesViewController?.namesDelegate = self
+        if (indexPath.row == 0) {
+            namesViewController!.previousSelectedValue = medicationSlot?.administerMedication.administeredBy
+        } else if (indexPath.row == 2) {
+           namesViewController!.previousSelectedValue = medicationSlot?.administerMedication.checkedBy
+        }
         let navigationController : UINavigationController? = UINavigationController(rootViewController: namesViewController!)
         navigationController?.modalPresentationStyle = UIModalPresentationStyle.Popover
         let popover = navigationController?.popoverPresentationController
@@ -266,6 +288,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 } else if (indexPath.section == 3) {
                     let notesCell : DCNotesTableCell = getNotesTableCellAtIndexPath(indexPath)
                     notesCell.notesType = eNotes
+                    notesCell.notesTextView.textColor = UIColor.getColorForHexString("#8f8f95")
                     notesCell.notesTextView.text = notesCell.getHintText()
                     return notesCell
                 } else {
@@ -276,6 +299,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 if (indexPath.section == 2) {
                     let notesCell : DCNotesTableCell = getNotesTableCellAtIndexPath(indexPath)
                     notesCell.notesType = eReason
+                    notesCell.notesTextView.textColor = UIColor.getColorForHexString("#8f8f95")
                     notesCell.notesTextView.text = notesCell.getHintText()
                     return notesCell
                 } else {
@@ -286,6 +310,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 if (indexPath.section == 3) {
                     let notesCell : DCNotesTableCell = getNotesTableCellAtIndexPath(indexPath)
                     notesCell.notesType = eReason
+                    notesCell.notesTextView.textColor = UIColor.getColorForHexString("#8f8f95")
                     notesCell.notesTextView.text = notesCell.getHintText()
                     return notesCell
                 } else {
@@ -378,21 +403,35 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     func batchNumberFieldSelected() {
         
-        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
-        dispatch_after(delayTime, dispatch_get_main_queue()) {
-            self.administerTableView.scrollToRowAtIndexPath(NSIndexPath(forItem: 3, inSection: 2), atScrollPosition: .Top, animated: true)
-        }
+        self.administerTableView.setContentOffset(CGPointMake(0, 130), animated: true)
     }
     
     // MARK : NotesCell Delagate Methods
     
-    func notesSelected() {
-        
-        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
-        dispatch_after(delayTime, dispatch_get_main_queue()) {
-            self.administerTableView.scrollToRowAtIndexPath(NSIndexPath(forItem: 0, inSection: 2), atScrollPosition: .Top, animated: true)
+    func notesSelected(editing : Bool) {
+      
+        if (editing == true) {
+            self.administerTableView.setContentOffset(CGPointMake(0, 200), animated: true)
+        } else {
+            self.administerTableView.setContentOffset(CGPointZero, animated: true)
         }
     }
+    
+    // Mark : NamesList Delegate Methods
+    
+    func selectedUserEntry(user : String!) {
+        
+        if (popOverIndexPath?.row == 0) {
+            //administered by
+            medicationSlot?.administerMedication.administeredBy = user
+        } else if (popOverIndexPath?.row == 2) {
+            //checked by
+            medicationSlot?.administerMedication.checkedBy = user
+        }
+        administerTableView.reloadRowsAtIndexPaths([popOverIndexPath!], withRowAnimation: UITableViewRowAnimation.None)
+    }
 }
+
+
 
 
