@@ -253,6 +253,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         if (alertMessage != EMPTY_STRING) {
             return 1
         } else {
+
             if (medicationSlot?.administerMedication.medicationStatus == OMITTED) {
                 return OMITTED_SECTION_COUNT;
             } else {
