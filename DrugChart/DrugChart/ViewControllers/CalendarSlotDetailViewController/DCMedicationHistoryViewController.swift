@@ -13,6 +13,8 @@ import UIKit
 class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, UITableViewDataSource, MoreButtonDelegate {
     
     var medicationSlotArray: [Dictionary<String, Int>] = []
+    var medicationSlot : DCMedicationSlot?
+    var medicationDetails : DCMedicationScheduleDetails?
     @IBOutlet var medicationHistoryTableView: UITableView!
     var selectedRowIndex : NSIndexPath = NSIndexPath(forRow: -1, inSection: 0)
     var indexPathArray : [NSIndexPath] = []
@@ -51,7 +53,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         if indexPath.section == 0 {
             switch (indexPath.row) {
             case 0:
-                cell!.contentType.text = "14-Dec-2015"
+                cell!.contentType.text = "14 December 2015"
                 cell!.value.text = EMPTY_STRING
                 break
             case 1:
@@ -62,7 +64,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
                 }
                 detailsCell!.medicineName.text = "Methotrexate 10 mg tablets"
                 detailsCell!.routeAndInstructionLabel.text = "Oral (As directed by doctor)"
-                detailsCell!.dateLabel.text = "14-Dec-2015"
+                detailsCell!.dateLabel.text = "14 December 2015"
                 return detailsCell!
             default:
                 break
