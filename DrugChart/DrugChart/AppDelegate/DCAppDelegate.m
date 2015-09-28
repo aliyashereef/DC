@@ -70,7 +70,8 @@
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
     // bar color
-    [[UINavigationBar appearance] setBarTintColor:[UIColor getColorForHexString:@"#eff6fa"]];
+   // [[UINavigationBar appearance] setBarTintColor:[UIColor getColorForHexString:@"#eff6fa"]];
+    [[UINavigationBar appearance] setBarTintColor:[UIColor whiteColor]];
     [[UINavigationBar appearance] setTintColor:[UIColor getColorForHexString:@"#007aff"]];
     [[UINavigationBar appearance] setTranslucent:YES];
     //bar title color
