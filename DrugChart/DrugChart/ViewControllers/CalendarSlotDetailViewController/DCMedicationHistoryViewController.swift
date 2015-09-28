@@ -119,7 +119,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
                 break
             case 1:
                 cell!.contentType.text = "Date"
-                cell!.value.text = "14-Dec-2015"
+                cell!.value.text = "14-Jun-2015"
                 break
             case 2:
             return configureNotesAndReasonCellsAtIndexPath(indexPath,type:"Reason")
