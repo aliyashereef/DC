@@ -56,7 +56,7 @@
     [medicationDictionary setValue:medication.instruction forKey:INSTRUCTIONS];
     //TO DO : Currently hard cording the value for route code id, have to change it according to the route user chooses.
     NSString *routeCodeId = [self getRouteCodeIdForRoute:medication.route];
-    [medicationDictionary setValue:@"916601000006112" forKey:ROUTE_CODE_ID];
+    [medicationDictionary setValue:routeCodeId forKey:ROUTE_CODE_ID];
     NSMutableArray *scheduleArray = [[NSMutableArray alloc] init];
     for (NSDictionary *timeSchedule in medication.timeArray) {
         if ([[timeSchedule valueForKey:SELECTED_ADMINISTRATING_TIME]  isEqual: @1]) {
@@ -86,9 +86,20 @@
 }
 
 - (NSString *)getRouteCodeIdForRoute:(NSString *)routeString {
-    NSString *routeCodeId;
     
-    return routeCodeId;
+    if ([routeString isEqualToString:ORAL]) {
+        return ORAL_ID;
+    } else if ([routeString isEqualToString:RECTAL]) {
+        return RECTAL_ID;
+    } else if ([routeString isEqualToString:INTRAMASCULAR]) {
+        return INTRAMASCULAR_ID;
+    } else if ([routeString isEqualToString:INTRATHECAL]) {
+        return INTRATHECAL_ID;
+    } else if ([routeString isEqualToString:INTRAVENOUS]) {
+        return INTRAVENOUS_ID;
+    } else {
+        return EMPTY_STRING;
+    }
 }
 
 @end
