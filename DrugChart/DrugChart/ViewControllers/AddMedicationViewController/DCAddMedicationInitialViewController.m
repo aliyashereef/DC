@@ -771,7 +771,7 @@
     [webServiceManager addMedicationServiceCallWithParameters:medicationDictionary ForMedicationType:selectedMedication.medicineCategory WithPatientId:self.patient.patientId withCallbackHandler:^(NSError *error) {
         if (!error) {
             if (self.delegate) {
-                [self.delegate addedNewMedicationForPatient];
+                //[self.delegate addedNewMedicationForPatient];
             }
             [self dismissViewControllerAnimated:YES completion:nil];
         }

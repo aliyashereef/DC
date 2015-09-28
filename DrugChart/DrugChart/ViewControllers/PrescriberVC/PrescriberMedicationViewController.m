@@ -55,10 +55,7 @@
 }
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
-
-    [self configureViewElements];
-    
+    [super viewDidLoad];    
     addButton = [[UIBarButtonItem alloc]
                  initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addMedicationButtonPressed:)];
     self.navigationItem.rightBarButtonItem = addButton;
@@ -69,6 +66,7 @@
         } else {
             [self configureAlertsAndAllergiesArray];
             [self addSortBarButtonToNavigationBar];
+            displayMedicationListArray = [NSMutableArray arrayWithArray:_patient.medicationListArray];
             [medicationsTableView reloadData];
         }
     }
