@@ -56,6 +56,9 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     func configureViewElements () {
         
+        if (medicationSlot == nil) {
+            medicationSlot = DCMedicationSlot.init()
+        }
         if(medicationSlot?.administerMedication == nil) {
             medicationSlot?.administerMedication = DCAdministerMedication.init()
             medicationSlot?.administerMedication.medicationStatus = ADMINISTERED
@@ -95,7 +98,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 if let date = medicationSlot?.time {
                     dateString = DCDateUtility.convertDate(date, fromFormat: DEFAULT_DATE_FORMAT, toFormat: "d LLLL yyyy")
                 } else {
-                    dateString = EMPTY_STRING
+                    let currentDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
+                    dateString = DCDateUtility.convertDate(currentDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: "d LLLL yyyy")
                 }
                 administerCell.titleLabel.text = dateString
             }
@@ -140,7 +144,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             cell.detailLabel.text = (medicationSlot?.administerMedication.checkedBy != nil) ? (medicationSlot?.administerMedication.checkedBy) : DEFAULT_NURSE_NAME
             break;
         case 4:
-            
             break
         default:
             break
@@ -181,7 +184,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         case 0:
             cell.titleLabel.text = NSLocalizedString("STATUS", comment: "status title text")
             if (medicationSlot?.administerMedication?.medicationStatus != nil) {
-                NSLog("Status : %@", (medicationSlot?.administerMedication?.medicationStatus)!)
                 cell.detailLabel.text = medicationSlot?.administerMedication?.medicationStatus
             } else {
                 cell.detailLabel.text = ADMINISTERED
