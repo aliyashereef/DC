@@ -32,6 +32,7 @@
     IBOutlet UIView *calendarDaysDisplayView;
     IBOutlet UIView *todayString;
     IBOutlet UIActivityIndicatorView *activityIndicatorView;
+    IBOutlet UILabel *noMedicationsAvailableLabel;
     IBOutlet UIView *todayBackGroundView;
     IBOutlet UIView *calendarTopHolderView;
     
@@ -84,9 +85,17 @@
         if (!_patient.medicationListArray) {
             [self fetchMedicationListForPatient];
         } else {
+            [self getDisplayMedicationListArray];
+            if ([displayMedicationListArray count] == 0) {
+                noMedicationsAvailableLabel.text = @"No active medications available";
+                [noMedicationsAvailableLabel setHidden:NO];
+            }
+            else {
+                noMedicationsAvailableLabel.text = @"No medications available";
+                [noMedicationsAvailableLabel setHidden:YES];
+            }
             [self configureAlertsAndAllergiesArray];
             [self addSortBarButtonToNavigationBar];
-            displayMedicationListArray = [NSMutableArray arrayWithArray:_patient.medicationListArray];
             [medicationsTableView reloadData];
         }
     }
@@ -142,6 +151,12 @@
     }];
 }
 
+- (void)getDisplayMedicationListArray {
+    
+    NSString *predicateString = @"isActive == YES";
+    NSPredicate *medicineCategoryPredicate = [NSPredicate predicateWithFormat:predicateString];
+    displayMedicationListArray = (NSMutableArray *)[_patient.medicationListArray filteredArrayUsingPredicate:medicineCategoryPredicate];
+}
 
 
 - (void)fetchMedicationListForPatient {
@@ -149,6 +164,7 @@
     [activityIndicatorView startAnimating];
     [calendarDaysDisplayView setHidden:YES];
     [calendarTopHolderView setHidden:YES];
+    [noMedicationsAvailableLabel setHidden:YES];
     [self fetchMedicationListForPatientId:self.patient.patientId
                     withCompletionHandler:^(NSArray *result, NSError *error) {
                         
@@ -156,12 +172,23 @@
                             _patient.medicationListArray = result;
                             [self configureAlertsAndAllergiesArray];
                             [self addSortBarButtonToNavigationBar];
-                            NSString *predicateString = @"isActive == YES";
-                            NSPredicate *medicineCategoryPredicate = [NSPredicate predicateWithFormat:predicateString];
-                            displayMedicationListArray = (NSMutableArray *)[_patient.medicationListArray filteredArrayUsingPredicate:medicineCategoryPredicate];
-                            
-                            [medicationsTableView reloadData];
-                            
+                            [self getDisplayMedicationListArray];
+                            if ([displayMedicationListArray count] > 0) {
+                                [medicationsTableView reloadData];
+                                [calendarDaysDisplayView setHidden:NO];
+                                [calendarTopHolderView setHidden:NO];
+                            }
+                            else {
+                                if ([_patient.medicationListArray count] == 0) {
+                                    noMedicationsAvailableLabel.text = @"No medications available";
+                                }
+                                else {
+                                    if ([displayMedicationListArray count] == 0) {
+                                        noMedicationsAvailableLabel.text = @"No active medications available";
+                                    }
+                                }
+                                [noMedicationsAvailableLabel setHidden:NO];
+                            }
                         }
                         else {
                             if (error.code == NETWORK_NOT_REACHABLE) {
@@ -174,8 +201,7 @@
                                 [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"") message:NSLocalizedString(@"MEDICATION_SCHEDULE_ERROR", @"")];
                             }
                         }
-                        [calendarDaysDisplayView setHidden:NO];
-                        [calendarTopHolderView setHidden:NO];
+                        
                         [activityIndicatorView stopAnimating];
                     }];
 }

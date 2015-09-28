@@ -53,15 +53,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="cwN-lR-yba">
-                                <rect key="frame" x="494" y="281" width="37" height="37"/>
-                                <color key="color" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                            </activityIndicatorView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oBB-Ry-QUf">
                                 <rect key="frame" x="0.0" y="64" width="1024" height="50"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8id-G8-fHA">
-                                        <rect key="frame" x="0.0" y="0.0" width="300" height="50"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="300" height="49"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="September" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Znt-9r-lTE">
                                                 <rect key="frame" x="20" y="14" width="120" height="21"/>
@@ -85,7 +81,7 @@
                                         <rect key="frame" x="301" y="0.0" width="724" height="50"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jbV-L9-XKb">
-                                                <rect key="frame" x="0.0" y="0.0" width="145" height="50"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="145" height="49"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Mon 22" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oc5-Ag-Fhs">
                                                         <rect key="frame" x="43" y="14" width="58" height="20"/>
@@ -97,7 +93,7 @@
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
                                             <view tag="1" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DZ8-V0-utK">
-                                                <rect key="frame" x="146" y="0.0" width="145" height="50"/>
+                                                <rect key="frame" x="146" y="0.0" width="145" height="49"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Tue 23" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="swx-VH-R24">
                                                         <rect key="frame" x="48" y="14" width="53" height="20"/>
@@ -109,7 +105,7 @@
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
                                             <view tag="2" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xa8-Gp-nUh">
-                                                <rect key="frame" x="292" y="0.0" width="145" height="50"/>
+                                                <rect key="frame" x="292" y="0.0" width="145" height="49"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Wed" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YZN-7r-4Ph">
                                                         <rect key="frame" x="41" y="14" width="60" height="20"/>
@@ -136,7 +132,7 @@
                                                 <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
                                             </view>
                                             <view tag="3" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5aE-8w-8Iz">
-                                                <rect key="frame" x="438" y="0.0" width="145" height="50"/>
+                                                <rect key="frame" x="438" y="0.0" width="145" height="49"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Thu 25" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cf1-eU-kjQ">
                                                         <rect key="frame" x="46" y="14" width="55" height="20"/>
@@ -148,7 +144,7 @@
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
                                             <view tag="4" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="M8g-HZ-axS">
-                                                <rect key="frame" x="584" y="0.0" width="145" height="50"/>
+                                                <rect key="frame" x="584" y="0.0" width="145" height="49"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Fri 26" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nCh-tl-1BK">
                                                         <rect key="frame" x="50" y="14" width="45" height="20"/>
@@ -167,7 +163,7 @@
                                 <constraints>
                                     <constraint firstItem="WtI-jf-YNS" firstAttribute="leading" secondItem="8id-G8-fHA" secondAttribute="trailing" constant="1" id="6zw-NG-QjK"/>
                                     <constraint firstItem="8id-G8-fHA" firstAttribute="leading" secondItem="oBB-Ry-QUf" secondAttribute="leading" id="A7I-oD-Snx"/>
-                                    <constraint firstAttribute="bottom" secondItem="8id-G8-fHA" secondAttribute="bottom" id="E0v-zw-d7t"/>
+                                    <constraint firstAttribute="bottom" secondItem="8id-G8-fHA" secondAttribute="bottom" constant="1" id="E0v-zw-d7t"/>
                                     <constraint firstAttribute="bottom" secondItem="WtI-jf-YNS" secondAttribute="bottom" id="R65-gI-RhD"/>
                                     <constraint firstAttribute="height" constant="50" id="Rvd-4W-UBl"/>
                                     <constraint firstAttribute="trailing" secondItem="WtI-jf-YNS" secondAttribute="trailing" constant="-1" id="cVI-D3-Qgs"/>
@@ -308,6 +304,20 @@
                                     <outlet property="delegate" destination="GB1-Uv-q4z" id="ySr-7A-A4L"/>
                                 </connections>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6SZ-jb-mSZ">
+                                <rect key="frame" x="421" y="290" width="182" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="182" id="sRC-kK-Bow"/>
+                                    <constraint firstAttribute="height" constant="21" id="y3r-h7-Y8j"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="cwN-lR-yba">
+                                <rect key="frame" x="494" y="282" width="37" height="37"/>
+                                <color key="color" red="0.38823529411764707" green="0.38823529411764707" blue="0.38823529411764707" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
                             <toolbar opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CIZ-aM-r4a">
                                 <rect key="frame" x="0.0" y="556" width="1024" height="44"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.96470588239999999" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -326,13 +336,15 @@
                                 </items>
                             </toolbar>
                         </subviews>
-                        <color key="backgroundColor" red="0.88235294119999996" green="0.90588235289999997" blue="0.91764705879999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="CIZ-aM-r4a" secondAttribute="trailing" id="6w3-fH-mQM"/>
                             <constraint firstItem="pDj-bu-FtQ" firstAttribute="leading" secondItem="u69-7W-Blt" secondAttribute="leading" id="Cou-h4-3G8"/>
+                            <constraint firstItem="6SZ-jb-mSZ" firstAttribute="centerX" secondItem="u69-7W-Blt" secondAttribute="centerX" id="I7j-E0-Nyk"/>
                             <constraint firstItem="cwN-lR-yba" firstAttribute="centerX" secondItem="u69-7W-Blt" secondAttribute="centerX" id="LFA-yQ-JWB"/>
                             <constraint firstItem="CIZ-aM-r4a" firstAttribute="leading" secondItem="u69-7W-Blt" secondAttribute="leading" id="SYQ-cb-WCN"/>
                             <constraint firstAttribute="bottom" secondItem="CIZ-aM-r4a" secondAttribute="bottom" id="TdT-z4-CtQ"/>
+                            <constraint firstItem="6SZ-jb-mSZ" firstAttribute="centerY" secondItem="u69-7W-Blt" secondAttribute="centerY" id="VRV-jr-HNy"/>
                             <constraint firstItem="cwN-lR-yba" firstAttribute="centerY" secondItem="u69-7W-Blt" secondAttribute="centerY" id="VXe-Mn-8e5"/>
                             <constraint firstAttribute="trailing" secondItem="oBB-Ry-QUf" secondAttribute="trailing" id="YzH-tJ-VAc"/>
                             <constraint firstItem="wxd-I7-gPX" firstAttribute="top" secondItem="pDj-bu-FtQ" secondAttribute="bottom" id="bHg-OC-oCw"/>
@@ -346,9 +358,11 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="1024" height="600"/>
                     <connections>
+                        <outlet property="activityIndicatorView" destination="cwN-lR-yba" id="5TD-lw-1gq"/>
                         <outlet property="calendarDaysDisplayView" destination="WtI-jf-YNS" id="xRm-Se-BTP"/>
                         <outlet property="calendarTopHolderView" destination="oBB-Ry-QUf" id="kWL-KB-1Qm"/>
                         <outlet property="medicationsTableView" destination="pDj-bu-FtQ" id="gu7-5x-RFw"/>
+                        <outlet property="noMedicationsAvailableLabel" destination="6SZ-jb-mSZ" id="a9E-DD-EYT"/>
                         <outlet property="todayBackGroundView" destination="U50-pF-RJt" id="ga0-g6-0UD"/>
                         <outlet property="toolbar" destination="CIZ-aM-r4a" id="rCU-JB-YWO"/>
                     </connections>
