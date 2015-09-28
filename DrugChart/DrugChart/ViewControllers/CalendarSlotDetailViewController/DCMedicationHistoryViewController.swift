@@ -14,7 +14,8 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
     
     var medicationSlotArray: [Dictionary<String, Int>] = []
     @IBOutlet var medicationHistoryTableView: UITableView!
-    var isNoteExpanded : Bool = false
+    var selectedRowIndex : NSIndexPath = NSIndexPath(forRow: -1, inSection: 0)
+    var indexPathArray : [NSIndexPath] = []
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch (section) {
@@ -34,12 +35,8 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if(indexPath.section == 0 && indexPath.row == 1) {
             return 90
-        } else if (indexPath.section == 1 && indexPath.row == 5 ) {
-            if(isNoteExpanded == true) {
-                return 100
-            } else {
-                return 44
-            }
+        } else if(indexPath == selectedRowIndex ) {
+            return 100
         } else {
             return 44
         }
@@ -51,7 +48,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         if cell == nil {
             cell = DCAdminsteredMedicationCell(style: UITableViewCellStyle.Value1, reuseIdentifier: identifier)
         }
-        if (indexPath.section == 0) {
+        if indexPath.section == 0 {
             switch (indexPath.row) {
             case 0:
                 cell!.contentType.text = "14-Dec-2015"
@@ -174,27 +171,25 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
             noteCell = DCNotesAndReasonCell(style: UITableViewCellStyle.Value1, reuseIdentifier: cellIdentifier)
         }
         noteCell?.delegate = self
+        noteCell!.moreButton.tag = indexPath.row
         noteCell!.cellContentTypeLabel!.text = type as String
         noteCell!.reasonTextLabel.text = "Lorem Ipsum is simply dummy text of the printing and types etting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
-        if(isNoteExpanded == false) {
+        if(noteCell!.isNotesExpanded == false) {
             noteCell!.moreButtonWidthConstaint.constant = 46.0
             noteCell!.reasonTextLabelTopSpaceConstraint.constant = 11.0
             noteCell!.reasonLabelLeadingSpaceConstraint.constant = 300.0
-            
         } else {
             noteCell!.moreButtonWidthConstaint.constant = 0.0
             noteCell!.reasonTextLabelTopSpaceConstraint.constant = 25.0
             noteCell!.reasonLabelLeadingSpaceConstraint.constant = 10.0
         }
+        noteCell!.isNotesExpanded = false
         return noteCell!
     }
     
     // Mark - Delegate Methods
-    
-    // To Do : the cell expansion on clicking the more button needs to ne implemented.
-     func moreButtonPressed(isExpanded : Bool) {
-//        print(isExpanded)
-//        isNoteExpanded = true
-//        medicationHistoryTableView.reloadData()
-    }
+    func moreButtonPressed(selectedIndexPath : NSIndexPath) {
+        selectedRowIndex = selectedIndexPath
+        medicationHistoryTableView.reloadData()
+        }
 }
