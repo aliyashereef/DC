@@ -10,7 +10,7 @@ import UIKit
 
 protocol NotesCellDelegate {
     
-    func notesSelected()
+    func notesSelected(editing : Bool)
 }
 
 class DCNotesTableCell: UITableViewCell, UITextViewDelegate {
@@ -33,7 +33,7 @@ class DCNotesTableCell: UITableViewCell, UITextViewDelegate {
     func textViewDidBeginEditing(textView: UITextView) {
         
         if let delegate = self.delegate {
-            delegate.notesSelected()
+            delegate.notesSelected(true)
         }
         if (textView.text == getHintText()) {
             textView.textColor = UIColor.blackColor()
@@ -43,6 +43,9 @@ class DCNotesTableCell: UITableViewCell, UITextViewDelegate {
     
     func textViewDidEndEditing(textView: UITextView) {
         
+        if let delegate = self.delegate {
+            delegate.notesSelected(false)
+        }
         if (textView.text == EMPTY_STRING) {
             textView.textColor = UIColor.getColorForHexString("#8f8f95")
             textView.text = getHintText()

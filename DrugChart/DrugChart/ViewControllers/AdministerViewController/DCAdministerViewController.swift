@@ -84,7 +84,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             break;
         case 1:
             administerCell = getPopulatedMedicationStatusTableCellAtIndexPath(administerCell, indexPath: indexPath);
-            administerCell.detailLabel.text = EMPTY_STRING
             administerCell.layoutMargins = UIEdgeInsetsZero
             break;
         case 2:
@@ -171,14 +170,17 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             return cell
         case 1:
             cell.titleLabel.text = ADMINISTERED
+            cell.detailLabel.text = EMPTY_STRING
             cell.accessoryType = (medicationSlot?.administerMedication.medicationStatus == ADMINISTERED) ?UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
             return cell
         case 2:
             cell.titleLabel.text = REFUSED
+            cell.detailLabel.text = EMPTY_STRING
             cell.accessoryType = (medicationSlot?.administerMedication.medicationStatus == REFUSED) ?UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
             return cell
         case 3:
             cell.titleLabel.text = OMITTED
+            cell.detailLabel.text = EMPTY_STRING
             cell.accessoryType = (medicationSlot?.administerMedication.medicationStatus == OMITTED) ?UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
             return cell
         default:
@@ -266,6 +268,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 } else if (indexPath.section == 3) {
                     let notesCell : DCNotesTableCell = getNotesTableCellAtIndexPath(indexPath)
                     notesCell.notesType = eNotes
+                    notesCell.notesTextView.textColor = UIColor.getColorForHexString("#8f8f95")
                     notesCell.notesTextView.text = notesCell.getHintText()
                     return notesCell
                 } else {
@@ -276,6 +279,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 if (indexPath.section == 2) {
                     let notesCell : DCNotesTableCell = getNotesTableCellAtIndexPath(indexPath)
                     notesCell.notesType = eReason
+                    notesCell.notesTextView.textColor = UIColor.getColorForHexString("#8f8f95")
                     notesCell.notesTextView.text = notesCell.getHintText()
                     return notesCell
                 } else {
@@ -286,6 +290,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 if (indexPath.section == 3) {
                     let notesCell : DCNotesTableCell = getNotesTableCellAtIndexPath(indexPath)
                     notesCell.notesType = eReason
+                    notesCell.notesTextView.textColor = UIColor.getColorForHexString("#8f8f95")
                     notesCell.notesTextView.text = notesCell.getHintText()
                     return notesCell
                 } else {
@@ -378,19 +383,17 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     func batchNumberFieldSelected() {
         
-        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
-        dispatch_after(delayTime, dispatch_get_main_queue()) {
-            self.administerTableView.scrollToRowAtIndexPath(NSIndexPath(forItem: 3, inSection: 2), atScrollPosition: .Top, animated: true)
-        }
+        self.administerTableView.setContentOffset(CGPointMake(0, 130), animated: true)
     }
     
     // MARK : NotesCell Delagate Methods
     
-    func notesSelected() {
-        
-        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
-        dispatch_after(delayTime, dispatch_get_main_queue()) {
-            self.administerTableView.scrollToRowAtIndexPath(NSIndexPath(forItem: 0, inSection: 2), atScrollPosition: .Top, animated: true)
+    func notesSelected(editing : Bool) {
+      
+        if (editing == true) {
+            self.administerTableView.setContentOffset(CGPointMake(0, 200), animated: true)
+        } else {
+            self.administerTableView.setContentOffset(CGPointZero, animated: true)
         }
     }
 }
