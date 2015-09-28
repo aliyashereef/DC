@@ -401,7 +401,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 break
             }
             administerTableView .reloadData()
-        } else if (indexPath.section == 2) {
+        } else if (indexPath.section == 2 && medicationSlot?.administerMedication.medicationStatus == ADMINISTERED) {
             if (indexPath.row == 0 || indexPath.row == 2) {
                 presentPrescribersAndAdministersPopOverViewAtIndexPath(indexPath)
             }
