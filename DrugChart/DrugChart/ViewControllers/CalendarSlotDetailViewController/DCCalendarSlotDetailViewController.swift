@@ -91,6 +91,8 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         let MedicationHistoryStoryboard : UIStoryboard? = UIStoryboard(name:MEDICATION_HISTORY, bundle: nil)
         if medicationHistoryViewController == nil {
             medicationHistoryViewController = MedicationHistoryStoryboard!.instantiateViewControllerWithIdentifier(MEDICATION_STORYBOARD_ID) as? DCMedicationHistoryViewController
+            medicationHistoryViewController?.medicationSlot = slotToAdminister
+            medicationHistoryViewController?.medicationDetails = medicationDetails
             self.addChildViewController(medicationHistoryViewController!)
             medicationHistoryViewController!.view.frame = containerView.bounds
             containerView.addSubview((medicationHistoryViewController?.view)!)
