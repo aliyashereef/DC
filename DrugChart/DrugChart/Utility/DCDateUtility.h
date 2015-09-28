@@ -67,4 +67,6 @@
 
 + (NSString *)getTimeStringInTwentyFourHourFormat:(NSDate *)time;
 
++ (NSMutableArray *)getFiveDaysOfWeekFromDate:(NSDate *)date;
+
 @end

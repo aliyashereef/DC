@@ -112,6 +112,8 @@
 #define MEDICATION_STORYBOARD_ID @"MedicationHistory"
 #define BNF_STORYBOARD_ID @"BNFViewController"
 
+#define PRESCRIBER_MEDICATION_SBID @"PrescriberMedicationViewControllerSBID"
+
 //Nib files
 #define WARNINGS_HEADER_VIEW_NIB @"DCWarningsHeaderView"
 #define ADMINISTER_HEADER_VIEW_NIB @"DCAdministerTableHeaderView"
@@ -125,6 +127,7 @@
 #define SHOW_WARDS_LIST @"showWardsList"
 #define WARDS_SEGUE_ID @"WardsSegue"
 #define GOTO_PATIENT_LIST @"goToSelectedPatientList"
+#define SHOW_PRESCRIBER_MEDICATION @"showPrescriberMedicationView"
 
 // color values
 #define NAVIGATION_BAR_COLOR [UIColor colorWithRed:13.0/255.0 green:119.0/255.0  blue:200.0/255.0  alpha:1.0]
