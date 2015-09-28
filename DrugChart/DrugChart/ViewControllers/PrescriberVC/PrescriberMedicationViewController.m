@@ -33,6 +33,7 @@
     IBOutlet UIView *todayString;
     IBOutlet UIActivityIndicatorView *activityIndicatorView;
     IBOutlet UIView *todayBackGroundView;
+    IBOutlet UIView *calendarTopHolderView;
     
     IBOutlet UITableView *medicationsTableView;
     
@@ -58,23 +59,7 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    addButton = [[UIBarButtonItem alloc]
-                 initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addMedicationButtonPressed:)];
-    self.navigationItem.rightBarButtonItem = addButton;
-    medicationsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    [todayBackGroundView.layer setCornerRadius:12.5];
-    
-    
-    if ([DCAPPDELEGATE isNetworkReachable]) {
-        if (!_patient.medicationListArray) {
-            [self fetchMedicationListForPatient];
-        } else {
-            [self configureAlertsAndAllergiesArray];
-            [self addSortBarButtonToNavigationBar];
-            displayMedicationListArray = [NSMutableArray arrayWithArray:_patient.medicationListArray];
-            [medicationsTableView reloadData];
-        }
-    }
+    [self configurePrescriberMedicationView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -88,6 +73,26 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)configurePrescriberMedicationView {
+    
+    addButton = [[UIBarButtonItem alloc]
+                 initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addMedicationButtonPressed:)];
+    self.navigationItem.rightBarButtonItem = addButton;
+    medicationsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    [todayBackGroundView.layer setCornerRadius:12.5];
+    if ([DCAPPDELEGATE isNetworkReachable]) {
+        if (!_patient.medicationListArray) {
+            [self fetchMedicationListForPatient];
+        } else {
+            [self configureAlertsAndAllergiesArray];
+            [self addSortBarButtonToNavigationBar];
+            displayMedicationListArray = [NSMutableArray arrayWithArray:_patient.medicationListArray];
+            [medicationsTableView reloadData];
+        }
+    }
+}
+
+#pragma mark - table view methods
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
@@ -142,6 +147,8 @@
 - (void)fetchMedicationListForPatient {
     
     [activityIndicatorView startAnimating];
+    [calendarDaysDisplayView setHidden:YES];
+    [calendarTopHolderView setHidden:YES];
     [self fetchMedicationListForPatientId:self.patient.patientId
                     withCompletionHandler:^(NSArray *result, NSError *error) {
                         
@@ -167,6 +174,8 @@
                                 [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"") message:NSLocalizedString(@"MEDICATION_SCHEDULE_ERROR", @"")];
                             }
                         }
+                        [calendarDaysDisplayView setHidden:NO];
+                        [calendarTopHolderView setHidden:NO];
                         [activityIndicatorView stopAnimating];
                     }];
 }
