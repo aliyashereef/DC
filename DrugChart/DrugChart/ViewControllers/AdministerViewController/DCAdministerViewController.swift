@@ -24,6 +24,7 @@ let MEDICATION_DETAILS_CELL_INDEX : NSInteger = 1
 class DCAdministerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NotesCellDelegate, BatchNumberCellDelegate, NamesListDelegate {
 
     @IBOutlet weak var administerTableView: UITableView!
+    @IBOutlet weak var alertMessageLabel: UILabel!
     
     var medicationSlot : DCMedicationSlot?
     var medicationDetails : DCMedicationScheduleDetails?
@@ -31,6 +32,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     var statusCellSelected : Bool = false
     var userListArray : NSMutableArray? = []
     var popOverIndexPath : NSIndexPath?
+    var alertMessage : NSString = EMPTY_STRING
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -60,6 +62,12 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         }
         administerTableView!.layoutMargins = UIEdgeInsetsZero
         administerTableView!.separatorInset = UIEdgeInsetsZero
+        if (alertMessage != EMPTY_STRING) {
+            alertMessageLabel.hidden = false
+            alertMessageLabel.text = alertMessage as String
+        } else {
+            alertMessageLabel.hidden = true
+        }
     }
 
     func fetchAdministersAndPrescribersList () {
@@ -242,8 +250,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        if (medicationSlot == nil) {
-            return 0
+        if (alertMessage != EMPTY_STRING) {
+            return 1
         } else {
             NSLog("medicationSlot?.status : %@", (medicationSlot?.administerMedication?.medicationStatus)!)
             if (medicationSlot?.administerMedication.medicationStatus == OMITTED) {

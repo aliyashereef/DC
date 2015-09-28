@@ -1177,6 +1177,16 @@
                                     <outlet property="delegate" destination="ZDY-vu-Z4L" id="XMS-cY-O7g"/>
                                 </connections>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="fffff" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z5k-NC-LtH" userLabel="Error Message">
+                                <rect key="frame" x="39" y="323" width="523" height="54"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="54" id="ZaD-lr-AJf"/>
+                                    <constraint firstAttribute="width" constant="523" id="lIR-ga-anq"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.5607843137254902" green="0.5607843137254902" blue="0.58431372549019611" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -1184,6 +1194,8 @@
                             <constraint firstItem="lXH-id-4hB" firstAttribute="top" secondItem="2I3-AY-NtN" secondAttribute="bottom" id="Eh6-Yq-XhK"/>
                             <constraint firstItem="2I3-AY-NtN" firstAttribute="top" secondItem="qSW-q7-ncU" secondAttribute="bottom" constant="-34" id="Izm-KC-By3"/>
                             <constraint firstAttribute="trailing" secondItem="2I3-AY-NtN" secondAttribute="trailing" id="LOa-j5-qda"/>
+                            <constraint firstItem="z5k-NC-LtH" firstAttribute="centerX" secondItem="gTW-9p-0zs" secondAttribute="centerX" id="etN-be-RwH"/>
+                            <constraint firstItem="z5k-NC-LtH" firstAttribute="centerY" secondItem="gTW-9p-0zs" secondAttribute="centerY" id="qv9-Sn-4P2"/>
                         </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
@@ -1192,6 +1204,7 @@
                     <size key="freeformSize" width="600" height="700"/>
                     <connections>
                         <outlet property="administerTableView" destination="2I3-AY-NtN" id="9dW-RR-KVv"/>
+                        <outlet property="alertMessageLabel" destination="z5k-NC-LtH" id="DOa-nL-Rhe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jwD-2r-K60" userLabel="First Responder" sceneMemberID="firstResponder"/>

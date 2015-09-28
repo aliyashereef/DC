@@ -128,3 +128,8 @@
 "BATCH_OR_EXPIRY_TEXT"  =       "Batch No/Expiry Date";
 "NOTES"                 =       "Notes";
 
+//
+
+"ADMINISTER_LATER"      =       "The medication cannot be administered now";
+"ALREADY_ADMINISTERED"  =       "All medications have already been administered";
+
