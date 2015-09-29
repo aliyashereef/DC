@@ -17,6 +17,7 @@ let BNF_SEGMENT_INDEX : NSInteger = 2
 class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTransitioningDelegate {
 
     @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var doneButton: UIButton!
     
     var administerViewController : DCAdministerViewController?
     var medicationHistoryViewController : DCMedicationHistoryViewController?
@@ -89,6 +90,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         
         //add administer view controller
         let administerStoryboard : UIStoryboard? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil)
+        showTopBarDoneButton(true)
         if administerViewController == nil {
             administerViewController = administerStoryboard!.instantiateViewControllerWithIdentifier(ADMINISTER_STORYBOARD_ID) as? DCAdministerViewController
             administerViewController?.medicationSlot = slotToAdminister
@@ -112,6 +114,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         
         //add medication History view controller
         let MedicationHistoryStoryboard : UIStoryboard? = UIStoryboard(name:MEDICATION_HISTORY, bundle: nil)
+        showTopBarDoneButton(false)
         if medicationHistoryViewController == nil {
             medicationHistoryViewController = MedicationHistoryStoryboard!.instantiateViewControllerWithIdentifier(MEDICATION_STORYBOARD_ID) as? DCMedicationHistoryViewController
             medicationHistoryViewController?.medicationSlot = slotToAdminister
@@ -128,6 +131,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     func addBNFView () {
         
         let administerStoryboard : UIStoryboard? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil)
+        showTopBarDoneButton(false)
         if bnfViewController == nil {
             bnfViewController = administerStoryboard!.instantiateViewControllerWithIdentifier(BNF_STORYBOARD_ID) as? DCBNFViewController
             self.addChildViewController(bnfViewController!)
@@ -136,6 +140,16 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         }
         bnfViewController?.didMoveToParentViewController(self)
         containerView.bringSubviewToFront((bnfViewController?.view)!)
+    }
+    
+    func showTopBarDoneButton(enable : Bool) {
+        
+        //enable/disable top bar items
+        if(enable) {
+            doneButton.hidden = false
+        } else {
+            doneButton.hidden = true
+        }
     }
     
     // MARK: - UIViewControllerTransitioningDelegate Methods
@@ -150,6 +164,14 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     
 
     @IBAction func doneButtonPressed(sender: AnyObject) {
+        
+        //perform administer medication api call here
+        self.dismissViewControllerAnimated(true) { () -> Void in
+            
+        }
+    }
+    
+    @IBAction func cancelButtonPressed(sender: AnyObject) {
         
         self.dismissViewControllerAnimated(true) { () -> Void in
             

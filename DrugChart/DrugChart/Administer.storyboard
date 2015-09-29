@@ -3,6 +3,8 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -923,23 +925,54 @@
                                             <action selector="doneButtonPressed:" destination="Bkj-uV-rMy" eventType="touchUpInside" id="d34-xZ-UFD"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FWW-Af-p5W">
+                                        <rect key="frame" x="10" y="20" width="65" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="54" id="Dsc-kj-yUm"/>
+                                            <constraint firstAttribute="width" constant="65" id="UOC-Tx-v6U"/>
+                                        </constraints>
+                                        <state key="normal" title="Cancel"/>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="Dsc-kj-yUm"/>
+                                            </mask>
+                                        </variation>
+                                        <connections>
+                                            <action selector="cancelButtonPressed:" destination="Bkj-uV-rMy" eventType="touchUpInside" id="SEi-ek-H9v"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="FWW-Af-p5W" firstAttribute="leading" secondItem="1At-ES-Rkm" secondAttribute="leading" constant="10" id="0nU-U0-Ibe"/>
                                     <constraint firstItem="zcz-7S-X4N" firstAttribute="leading" secondItem="Dd2-m2-37J" secondAttribute="trailing" constant="68" id="1F9-lS-rPU"/>
                                     <constraint firstItem="zcz-7S-X4N" firstAttribute="leading" relation="lessThanOrEqual" secondItem="Dd2-m2-37J" secondAttribute="trailing" constant="33" id="3Di-yL-3k6"/>
+                                    <constraint firstItem="FWW-Af-p5W" firstAttribute="baseline" secondItem="Dd2-m2-37J" secondAttribute="baseline" id="8rg-YJ-FFE"/>
+                                    <constraint firstItem="Dd2-m2-37J" firstAttribute="centerY" secondItem="FWW-Af-p5W" secondAttribute="centerY" id="IZy-of-O4d"/>
                                     <constraint firstItem="Dd2-m2-37J" firstAttribute="baseline" secondItem="zcz-7S-X4N" secondAttribute="baseline" id="K5O-Ib-0UI"/>
                                     <constraint firstItem="Dd2-m2-37J" firstAttribute="centerX" secondItem="1At-ES-Rkm" secondAttribute="centerX" id="PqW-Z8-mVw"/>
                                     <constraint firstItem="Dd2-m2-37J" firstAttribute="bottom" secondItem="zcz-7S-X4N" secondAttribute="bottom" id="QSq-be-WCz"/>
+                                    <constraint firstItem="FWW-Af-p5W" firstAttribute="baseline" secondItem="zcz-7S-X4N" secondAttribute="firstBaseline" id="VFU-Vc-uKt"/>
+                                    <constraint firstItem="FWW-Af-p5W" firstAttribute="baseline" secondItem="zcz-7S-X4N" secondAttribute="baseline" id="XXq-eZ-oXG"/>
                                     <constraint firstAttribute="trailing" secondItem="zcz-7S-X4N" secondAttribute="trailing" constant="10" id="Z8I-Iw-QeG"/>
                                     <constraint firstAttribute="height" constant="70" id="bHw-Qr-m1D"/>
+                                    <constraint firstItem="FWW-Af-p5W" firstAttribute="top" secondItem="Dd2-m2-37J" secondAttribute="top" id="e4p-aU-Uy7"/>
                                     <constraint firstItem="Dd2-m2-37J" firstAttribute="centerY" secondItem="1At-ES-Rkm" secondAttribute="centerY" id="ezL-Jb-3LC"/>
+                                    <constraint firstItem="Dd2-m2-37J" firstAttribute="top" secondItem="FWW-Af-p5W" secondAttribute="top" id="h7V-jf-r2m"/>
                                     <constraint firstItem="zcz-7S-X4N" firstAttribute="centerY" secondItem="Dd2-m2-37J" secondAttribute="centerY" id="lOx-x7-57B"/>
                                     <constraint firstItem="zcz-7S-X4N" firstAttribute="leading" secondItem="Dd2-m2-37J" secondAttribute="trailing" constant="33" id="lXd-1D-Dga"/>
+                                    <constraint firstItem="FWW-Af-p5W" firstAttribute="top" secondItem="1At-ES-Rkm" secondAttribute="top" constant="20" id="qVb-TY-I83"/>
+                                    <constraint firstItem="FWW-Af-p5W" firstAttribute="baseline" secondItem="Dd2-m2-37J" secondAttribute="firstBaseline" id="uvB-az-GRh"/>
                                     <constraint firstItem="zcz-7S-X4N" firstAttribute="top" secondItem="Dd2-m2-37J" secondAttribute="top" id="zq8-Bp-Rtw"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
+                                        <exclude reference="8rg-YJ-FFE"/>
+                                        <exclude reference="VFU-Vc-uKt"/>
+                                        <exclude reference="XXq-eZ-oXG"/>
+                                        <exclude reference="e4p-aU-Uy7"/>
+                                        <exclude reference="qVb-TY-I83"/>
+                                        <exclude reference="uvB-az-GRh"/>
                                         <exclude reference="K5O-Ib-0UI"/>
                                         <exclude reference="QSq-be-WCz"/>
                                         <exclude reference="1F9-lS-rPU"/>
@@ -966,6 +999,7 @@
                     <size key="freeformSize" width="700" height="500"/>
                     <connections>
                         <outlet property="containerView" destination="pyo-Rr-Edz" id="gNf-w4-16r"/>
+                        <outlet property="doneButton" destination="zcz-7S-X4N" id="hcL-CX-I2M"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="P1H-1A-zxj" userLabel="First Responder" sceneMemberID="firstResponder"/>
