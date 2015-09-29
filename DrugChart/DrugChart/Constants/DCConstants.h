@@ -133,6 +133,7 @@
 #define NAVIGATION_BAR_COLOR [UIColor colorWithRed:13.0/255.0 green:119.0/255.0  blue:200.0/255.0  alpha:1.0]
 #define BORDER_COLOR [UIColor getColorForHexString:@"#c4d3d5"]
 #define LIGHT_GRAY_BORDER_COLOR  [UIColor colorWithRed:177.0f/255.0f green:177.0f/255.0f blue:177.0f/255.0f alpha:0.6].CGColor
+#define ADMINISTRATING_VIEW_COLOR UIColor(red: 239.0/255.0, green: 239.0/255.0, blue: 244.0/255.0, alpha: 1.0)
 
 // table cell reuse identifier
 #define PATIENT_CELL_IDENTIFIER @"patientCell"
@@ -165,8 +166,12 @@
 #define OVERRIDE_REASON_CELL_ID @"OverrideReasonCell"
 #define ADMINISTER_CELL_ID @"AdministerCell"
 #define ADMINISTER_MEDICATION_DETAILS_CELL_ID @"AdministerMedicationDetailsCell"
+#define MEDICATION_CELL_ID @"MedicationDetailsCell"
+#define ADMINSTER_MEDICATION_HISTORY_CELL @"AdministerCell"
+#define NOTES_AND_REASON_CELL @"NoteAndReasonCell"
 #define BATCH_NUMBER_CELL_ID @"BatchNumberCell"
 #define NOTES_CELL_ID @"NotesCell"
+#define MEDICATION_HISTORY_HEADER_VIEW @"DCMedicationHistoryHeaderView"
 
 // title for views
 #define INPATIENT_TITLE @"In Patients"
@@ -363,4 +368,21 @@
 #define INTRAMASCULAR_ID @"78421000"
 #define INTRATHECAL @"Intrathecal (IT)"
 #define INTRATHECAL_ID @"72607000"
+
+// Images
+#define ADMINISTRATION_HISTORY_TICK_IMAGE @"historyTick"
+#define ADMINISTRATION_HISTORY_CAUTION_IMAGE @"historyCaution"
+#define ADMINISTRATION_HISTORY_CLOSE_IMAGE @"historyClose"
+
+// Administration History Label texts
+#define STATUS @"Status"
+#define ADMINISTRATED_BY @"Administered By"
+#define DATE_TIME @"Date & Time"
+#define CHECKED_BY @"Checked By"
+#define BATCHNO_EXPIRY @"Batch No/Expiry Date"
+#define NOTES @"Notes"
+#define MORE_BUTTON_PRESSED @"moreButtonPressed:"
+#define DUMMY_TEXT "Lorem Ipsum is simply dummy text of the printing and types etting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
+#define DATE @"Date"
+#define REASON @"Reason"
 #endif

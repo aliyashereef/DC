@@ -74,7 +74,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     
     func getAdministerViewErrorMessage() -> NSString {
         
-        var errorMessage : String = EMPTY_STRING
+        let errorMessage : String = EMPTY_STRING
 //        let lastMedicationSlot : DCMedicationSlot = medicationSlotsArray.last!
 //        let currentSystemDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
 //        if (lastMedicationSlot.time.compare(currentSystemDate) == NSComparisonResult.OrderedDescending) {
@@ -116,6 +116,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
             medicationHistoryViewController = MedicationHistoryStoryboard!.instantiateViewControllerWithIdentifier(MEDICATION_STORYBOARD_ID) as? DCMedicationHistoryViewController
             medicationHistoryViewController?.medicationSlot = slotToAdminister
             medicationHistoryViewController?.medicationDetails = medicationDetails
+            medicationHistoryViewController?.medicationSlotArray = medicationSlotsArray
             self.addChildViewController(medicationHistoryViewController!)
             medicationHistoryViewController!.view.frame = containerView.bounds
             containerView.addSubview((medicationHistoryViewController?.view)!)

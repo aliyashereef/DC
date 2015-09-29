@@ -70,7 +70,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Oral" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nW7-eJ-ZwF">
-                                                    <rect key="frame" x="15" y="29" width="27" height="17"/>
+                                                    <rect key="frame" x="15" y="29.5" width="27" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.49019607840000001" green="0.52549019610000003" blue="0.54901960780000003" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -87,36 +87,17 @@
                                                     <color key="textColor" red="0.49019607840000001" green="0.52549019610000003" blue="0.54901960780000003" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(As directed)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lFP-K5-bZh">
-                                                    <rect key="frame" x="42" y="27" width="106" height="21"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="106" id="BUn-2z-Xsc"/>
-                                                        <constraint firstAttribute="height" constant="21" id="rYH-JF-KrG"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" red="0.49019607840000001" green="0.52549019610000003" blue="0.54901960780000003" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="nW7-eJ-ZwF" firstAttribute="top" secondItem="XQ9-wl-djT" secondAttribute="bottom" constant="1" id="0aC-Ym-40j"/>
                                                 <constraint firstAttribute="bottom" secondItem="cMa-hQ-ZWE" secondAttribute="bottom" constant="4.5" id="EEm-IM-mjX"/>
                                                 <constraint firstAttribute="trailing" secondItem="XQ9-wl-djT" secondAttribute="trailing" id="FL1-7V-nwI"/>
                                                 <constraint firstItem="XQ9-wl-djT" firstAttribute="top" secondItem="iVC-uI-Z2F" secondAttribute="top" constant="7" id="Fwv-Ed-WmY"/>
-                                                <constraint firstItem="lFP-K5-bZh" firstAttribute="leading" secondItem="nW7-eJ-ZwF" secondAttribute="trailing" id="Hdu-k9-kZD"/>
                                                 <constraint firstItem="cMa-hQ-ZWE" firstAttribute="leading" secondItem="iVC-uI-Z2F" secondAttribute="leading" constant="15" id="JIW-Pa-A8k"/>
-                                                <constraint firstItem="lFP-K5-bZh" firstAttribute="centerY" secondItem="nW7-eJ-ZwF" secondAttribute="centerY" constant="11" id="Vpw-X0-3Fi"/>
                                                 <constraint firstItem="XQ9-wl-djT" firstAttribute="leading" secondItem="iVC-uI-Z2F" secondAttribute="leading" constant="15" id="Wp8-7m-IGW"/>
                                                 <constraint firstAttribute="trailing" secondItem="cMa-hQ-ZWE" secondAttribute="trailing" constant="271" id="XWg-4R-KuB"/>
                                                 <constraint firstItem="nW7-eJ-ZwF" firstAttribute="leading" secondItem="iVC-uI-Z2F" secondAttribute="leading" constant="15" id="dup-KY-beT"/>
-                                                <constraint firstItem="nW7-eJ-ZwF" firstAttribute="top" secondItem="XQ9-wl-djT" secondAttribute="bottom" constant="0.5" id="ihW-mM-mQg"/>
-                                                <constraint firstItem="lFP-K5-bZh" firstAttribute="top" secondItem="XQ9-wl-djT" secondAttribute="bottom" constant="-2" id="mAU-GM-IpH"/>
-                                                <constraint firstItem="cMa-hQ-ZWE" firstAttribute="top" secondItem="nW7-eJ-ZwF" secondAttribute="bottom" constant="6" id="yd3-OG-UsZ"/>
                                             </constraints>
-                                            <variation key="default">
-                                                <mask key="constraints">
-                                                    <exclude reference="Vpw-X0-3Fi"/>
-                                                </mask>
-                                            </variation>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="dateLabel" destination="cMa-hQ-ZWE" id="rsS-ze-y6m"/>
@@ -144,9 +125,6 @@
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <state key="normal" title="more"/>
-                                                    <connections>
-                                                        <action selector="showMoreButtonPressed:" destination="Xot-SH-e3I" eventType="touchUpInside" id="eot-cS-J3T"/>
-                                                    </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="POR-gV-9g8">
                                                     <rect key="frame" x="15" y="11" width="55" height="21"/>
