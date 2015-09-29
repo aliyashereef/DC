@@ -19,9 +19,17 @@ let INITIAL_SECTION_HEIGHT : CGFloat = 0.0
 let TABLEVIEW_DEFAULT_SECTION_HEIGHT : CGFloat = 20.0
 let MEDICATION_DETAILS_SECTION_HEIGHT : CGFloat = 40.0
 let MEDICATION_DETAILS_CELL_INDEX : NSInteger = 1
+let DATE_PICKER_VIEW_CELL_HEIGHT : CGFloat = 200.0
 
+enum SectionCount : NSInteger {
 
-class DCAdministerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NotesCellDelegate, BatchNumberCellDelegate, NamesListDelegate {
+    case eZerothSection = 0
+    case eFirstSection
+    case eSecondSection
+    case eThirdSection
+}
+
+class DCAdministerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NotesCellDelegate, BatchNumberCellDelegate, NamesListDelegate, AdministerPickerCellDelegate {
 
     @IBOutlet weak var administerTableView: UITableView!
     @IBOutlet weak var alertMessageLabel: UILabel!
@@ -33,6 +41,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     var userListArray : NSMutableArray? = []
     var popOverIndexPath : NSIndexPath?
     var alertMessage : NSString = EMPTY_STRING
+    var datePickerIndexPath : NSIndexPath?
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -49,7 +59,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     override func didReceiveMemoryWarning() {
         
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     // MARK: Private Methods
@@ -134,9 +143,14 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             break
         case 1:
             cell.titleLabel.text = NSLocalizedString("DATE_TIME", comment: "date and time")
-            let currentDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
-            let currentDateString : String = DCDateUtility.convertDate(currentDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
-            cell.detailLabel.text = currentDateString
+            let dateString : String
+            if let date = medicationSlot?.administerMedication.medicationTime {
+                dateString = DCDateUtility.convertDate(DCDateUtility.getDateInCurrentTimeZone(date), fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
+            } else {
+                let currentDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
+                dateString = DCDateUtility.convertDate(currentDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
+            }
+            cell.detailLabel.text = dateString
             break
         case 2:
             //presnt inline picker here
@@ -155,9 +169,14 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func getMedicationDetailsCellForRefusedStatus(cell : DCAdministerCell, indexPath: NSIndexPath) -> (DCAdministerCell) {
         
         cell.titleLabel.text = NSLocalizedString("DATE_TIME", comment: "date and time")
-        let currentDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
-        let currentDateString : String = DCDateUtility.convertDate(currentDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
-        cell.detailLabel.text = currentDateString
+        let dateString : String
+        if let date = medicationSlot?.administerMedication.medicationTime {
+            dateString = DCDateUtility.convertDate(DCDateUtility.getDateInCurrentTimeZone(date), fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
+        } else {
+            let currentDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
+            dateString = DCDateUtility.convertDate(currentDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
+        }
+        cell.detailLabel.text = dateString
         return cell
     }
     
@@ -248,6 +267,87 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         self.presentViewController(navigationController!, animated: true, completion: nil)
     }
     
+    func getDatePickerCellAtIndexPath(indexPath : NSIndexPath) -> DCAdministerPickerCell {
+        
+        var pickerCell = administerTableView.dequeueReusableCellWithIdentifier(ADMINISTER_PICKER_CELL_ID) as? DCAdministerPickerCell
+        if (pickerCell == nil) {
+            let bundle = NSBundle(forClass: self.dynamicType)
+            let nib = UINib(nibName: "DCAdministerPickerCell", bundle: bundle)
+            pickerCell = nib.instantiateWithOwner(self, options: nil)[0] as? DCAdministerPickerCell
+        }
+        pickerCell?.delegate = self
+        return pickerCell!
+    }
+    
+    // MARK: Date Picker Methods
+    
+    func hasPickerForIndexPath(indexPath : NSIndexPath) -> Bool {
+        
+        var hasDatePicker : Bool = false
+        var targetedRow : NSInteger = indexPath.row
+        targetedRow++
+        let checkDatePickerCell : UITableViewCell? = administerTableView.cellForRowAtIndexPath(NSIndexPath(forRow: targetedRow, inSection: indexPath.section))
+        let checkDatePicker = checkDatePickerCell?.viewWithTag(101) as? UIDatePicker
+        hasDatePicker = (checkDatePicker != nil) ? true : false
+        return hasDatePicker
+    }
+    
+    func hasInlineDatePicker() -> Bool {
+        
+        return(datePickerIndexPath != nil)
+    }
+    
+    func indexPathHasPicker(indexPath : NSIndexPath) -> Bool {
+        
+        let pickerCellPresent = (datePickerIndexPath?.row == indexPath.row)
+        if ((hasInlineDatePicker() == true) && (pickerCellPresent == true)) {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func toggleDatePickerForSelectedIndexPath(indexPath : NSIndexPath) {
+        
+        administerTableView.beginUpdates()
+        let indexPaths = [NSIndexPath(forRow: indexPath.row + 1, inSection: 2)]
+        // check if 'indexPath' has an attached date picker below it
+        if (hasPickerForIndexPath(indexPath) == true) {
+            // found a picker below it, so remove it
+            administerTableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.Fade)
+        } else {
+            // didn't find a picker below it, so we should insert it
+            administerTableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.Fade)
+        }
+        administerTableView.endUpdates()
+    }
+
+    func displayInlineDatePickerForRowAtIndexPath(indexPath : NSIndexPath) {
+        
+        // display the date picker inline with the table content
+        administerTableView.beginUpdates()
+        var before : Bool = false
+        if (hasInlineDatePicker()) {
+            before = datePickerIndexPath?.row < indexPath.row
+        }
+        var sameCellClicked = false
+        if (hasInlineDatePicker()) {
+            sameCellClicked = ((datePickerIndexPath?.row)! - 1 == indexPath.row)
+            administerTableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: indexPath.row + 1, inSection: 2)], withRowAnimation: UITableViewRowAnimation.Fade)
+            datePickerIndexPath = nil
+        }
+        if (sameCellClicked == false) {
+            // hide the old date picker and display the new one
+            let rowToReveal : NSInteger = (before ? indexPath.row - 1 : indexPath.row)
+            let indexPathToReveal : NSIndexPath = NSIndexPath(forRow: rowToReveal, inSection: 2)
+            toggleDatePickerForSelectedIndexPath(indexPath)
+            datePickerIndexPath = NSIndexPath(forRow: indexPathToReveal.row + 1, inSection: indexPathToReveal.section)
+        }
+        // always deselect the row containing the start or end date
+        administerTableView.deselectRowAtIndexPath(indexPath, animated: true)
+        administerTableView.endUpdates()
+    }
+    
     // MARK: TableView Methods
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -267,17 +367,22 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
         switch section {
-        case 0:
+        case SectionCount.eZerothSection.rawValue:
             return INITIAL_SECTION_ROW_COUNT
-        case 1:
+        case SectionCount.eFirstSection.rawValue:
             return (statusCellSelected ? 4 : STATUS_ROW_COUNT)
-        case 2:
+        case SectionCount.eSecondSection.rawValue:
+            var rowCount = 0
             if (medicationSlot?.administerMedication.medicationStatus  == OMITTED || medicationSlot?.administerMedication.medicationStatus == REFUSED) {
-                return 1;
+                rowCount = 1
             } else {
-                return ADMINISTERED_SECTION_ROW_COUNT;
+                rowCount = ADMINISTERED_SECTION_ROW_COUNT
             }
-        case 3:
+            if (hasInlineDatePicker()) {
+                rowCount++
+            }
+            return rowCount
+        case SectionCount.eThirdSection.rawValue:
             return NOTES_SECTION_ROW_COUNT
         default:
             break;
@@ -302,8 +407,14 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                     notesCell.notesTextView.text = notesCell.getHintText()
                     return notesCell
                 } else {
-                    let administerCell : DCAdministerCell = configureAdministerTableCellAtIndexPath(indexPath)
-                    return administerCell
+                    if (indexPath.section == 2 && datePickerIndexPath != nil && indexPath.row == 2) {
+                        //display picker
+                        let pickerCell : DCAdministerPickerCell = getDatePickerCellAtIndexPath(indexPath)
+                        return pickerCell
+                    } else {
+                        let administerCell : DCAdministerCell = configureAdministerTableCellAtIndexPath(indexPath)
+                        return administerCell
+                    }
                 }
             } else if (medicationSlot?.administerMedication.medicationStatus == OMITTED) {
                 if (indexPath.section == 2) {
@@ -317,6 +428,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                     return administerCell
                 }
             } else {
+                //refused status
                 if (indexPath.section == 3) {
                     let notesCell : DCNotesTableCell = getNotesTableCellAtIndexPath(indexPath)
                     notesCell.notesType = eReason
@@ -324,8 +436,14 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                     notesCell.notesTextView.text = notesCell.getHintText()
                     return notesCell
                 } else {
-                    let administerCell : DCAdministerCell = configureAdministerTableCellAtIndexPath(indexPath)
-                    return administerCell
+                    if (indexPath.section == 2 && datePickerIndexPath != nil && indexPath.row == 1) {
+                        //display picker
+                        let pickerCell : DCAdministerPickerCell = getDatePickerCellAtIndexPath(indexPath)
+                        return pickerCell
+                    } else {
+                        let administerCell : DCAdministerCell = configureAdministerTableCellAtIndexPath(indexPath)
+                        return administerCell
+                    }
                 }
              }
         }
@@ -349,8 +467,11 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         } else if (indexPath.section == 2) {
             if (medicationSlot?.administerMedication.medicationStatus == OMITTED) {
                 return 125.0
+            } else if (medicationSlot?.administerMedication.medicationStatus == ADMINISTERED) {
+                return (indexPath.row == 2 && hasInlineDatePicker()) ? DATE_PICKER_VIEW_CELL_HEIGHT : 41.0
             } else {
-                return 41.0
+                //refused status
+                return (indexPath.row == 1 && hasInlineDatePicker()) ? DATE_PICKER_VIEW_CELL_HEIGHT : 41.0
             }
         } else if (indexPath.section == 3) {
             return 125.0
@@ -404,9 +525,17 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 break
             }
             administerTableView .reloadData()
-        } else if (indexPath.section == 2 && medicationSlot?.administerMedication.medicationStatus == ADMINISTERED) {
-            if (indexPath.row == 0 || indexPath.row == 2) {
-                presentPrescribersAndAdministersPopOverViewAtIndexPath(indexPath)
+        } else if (indexPath.section == 2) {
+            if (medicationSlot?.administerMedication.medicationStatus == ADMINISTERED) {
+                if (indexPath.row == 0 || indexPath.row == 2) {
+                    presentPrescribersAndAdministersPopOverViewAtIndexPath(indexPath)
+                } else if (indexPath.row == 1) {
+                    displayInlineDatePickerForRowAtIndexPath(indexPath)
+                }
+            } else if (medicationSlot?.administerMedication.medicationStatus == REFUSED) {
+                if (indexPath.row == 0) {
+                    displayInlineDatePickerForRowAtIndexPath(indexPath)
+                }
             }
         }
     }
@@ -418,7 +547,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         self.administerTableView.setContentOffset(CGPointMake(0, 130), animated: true)
     }
     
-    // MARK : NotesCell Delagate Methods
+    // MARK: NotesCell Delagate Methods
     
     func notesSelected(editing : Bool) {
       
@@ -429,7 +558,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         }
     }
     
-    // Mark : NamesList Delegate Methods
+    // MARK: NamesList Delegate Methods
     
     func selectedUserEntry(user : String!) {
         
@@ -441,6 +570,19 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             medicationSlot?.administerMedication.checkedBy = user
         }
         administerTableView.reloadRowsAtIndexPaths([popOverIndexPath!], withRowAnimation: UITableViewRowAnimation.None)
+    }
+    
+    // MARK:AdministerPickerCellDelegate Methods
+    
+    func newDateValueSelected(newDate : NSDate) {
+        
+        NSLog("selected date is %@", newDate)
+        if (datePickerIndexPath != nil) {
+            if (datePickerIndexPath?.row == 2 || datePickerIndexPath?.row == 1) {
+                medicationSlot?.administerMedication.medicationTime = newDate
+                administerTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow:datePickerIndexPath!.row - 1, inSection: datePickerIndexPath!.section)], withRowAnimation: UITableViewRowAnimation.None)
+            }
+        }
     }
 }
 

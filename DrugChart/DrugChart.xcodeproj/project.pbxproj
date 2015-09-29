@@ -98,6 +98,8 @@
 		0BB397811B42AF500037C8E1 /* OrderSet.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0BB397801B42AF500037C8E1 /* OrderSet.plist */; };
 		0BB397851B42B8B90037C8E1 /* DCOrderSetTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BB397841B42B8B90037C8E1 /* DCOrderSetTableCell.m */; };
 		0BB3B79A1B99842A0011DFDF /* DCDatePickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BB3B7991B99842A0011DFDF /* DCDatePickerCell.m */; };
+		0BB535861BBA472D0043BC61 /* DCAdministerPickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB535841BBA472D0043BC61 /* DCAdministerPickerCell.swift */; settings = {ASSET_TAGS = (); }; };
+		0BB535871BBA472D0043BC61 /* DCAdministerPickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BB535851BBA472D0043BC61 /* DCAdministerPickerCell.xib */; settings = {ASSET_TAGS = (); }; };
 		0BB612F01AC2938E007AB404 /* DCPrescriberMedicationSlotDisplayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BB612EF1AC2938E007AB404 /* DCPrescriberMedicationSlotDisplayView.m */; };
 		0BB612F21AC2DBDD007AB404 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BB612F11AC2DBDD007AB404 /* Security.framework */; };
 		0BB851D61B16F2300021FD8D /* DCMedicineNameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BB851D51B16F2300021FD8D /* DCMedicineNameCell.m */; };
@@ -439,6 +441,8 @@
 		0BB397841B42B8B90037C8E1 /* DCOrderSetTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCOrderSetTableCell.m; sourceTree = "<group>"; };
 		0BB3B7981B99842A0011DFDF /* DCDatePickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCDatePickerCell.h; sourceTree = "<group>"; };
 		0BB3B7991B99842A0011DFDF /* DCDatePickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCDatePickerCell.m; sourceTree = "<group>"; };
+		0BB535841BBA472D0043BC61 /* DCAdministerPickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministerPickerCell.swift; sourceTree = "<group>"; };
+		0BB535851BBA472D0043BC61 /* DCAdministerPickerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCAdministerPickerCell.xib; sourceTree = "<group>"; };
 		0BB612EE1AC2938E007AB404 /* DCPrescriberMedicationSlotDisplayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DCPrescriberMedicationSlotDisplayView.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		0BB612EF1AC2938E007AB404 /* DCPrescriberMedicationSlotDisplayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DCPrescriberMedicationSlotDisplayView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0BB612F11AC2DBDD007AB404 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -772,6 +776,7 @@
 		0B14CD881BB13BD80085E40C /* AdministerViewController */ = {
 			isa = PBXGroup;
 			children = (
+				0BB535831BBA46FA0043BC61 /* AdministerPickerCell */,
 				0B14CD891BB13BEB0085E40C /* DCAdministerViewController.swift */,
 				0BD6991D1BB2C7AB008797A2 /* NotesTableCell */,
 				0B14CD8E1BB183DD0085E40C /* AdministerMedicationDetailsCell */,
@@ -1409,6 +1414,15 @@
 				0BB3B7991B99842A0011DFDF /* DCDatePickerCell.m */,
 			);
 			path = DatePickerCell;
+			sourceTree = "<group>";
+		};
+		0BB535831BBA46FA0043BC61 /* AdministerPickerCell */ = {
+			isa = PBXGroup;
+			children = (
+				0BB535841BBA472D0043BC61 /* DCAdministerPickerCell.swift */,
+				0BB535851BBA472D0043BC61 /* DCAdministerPickerCell.xib */,
+			);
+			path = AdministerPickerCell;
 			sourceTree = "<group>";
 		};
 		0BB612ED1AC29361007AB404 /* DCPrescriberMedicationSlotDisplayView */ = {
@@ -2720,6 +2734,7 @@
 				7DE60BD01B2866CD00BCA745 /* DCPortraitTopPatientView.xib in Resources */,
 				0BBDEDDA1AA581630016E6FF /* Lato-Black.ttf in Resources */,
 				0BAE369C1B455E05007CD64C /* DCOrderSetMedicineView.xib in Resources */,
+				0BB535871BBA472D0043BC61 /* DCAdministerPickerCell.xib in Resources */,
 				0BBDEDEA1AA581630016E6FF /* Lato-Thin.ttf in Resources */,
 				0BBE3B6B1AA42DC5004CA6E9 /* Images.xcassets in Resources */,
 				0BBDEDE01AA581630016E6FF /* Lato-Heavy.ttf in Resources */,
@@ -2930,6 +2945,7 @@
 				0B900D331B82E351005803A3 /* DCPatientListCell.m in Sources */,
 				0B91739E1B01F36200BC9337 /* DCPrescriberDetailsViewController.m in Sources */,
 				0BBE3B601AA42DC5004CA6E9 /* main.m in Sources */,
+				0BB535861BBA472D0043BC61 /* DCAdministerPickerCell.swift in Sources */,
 				0B5948BE1B218B0A0085FB26 /* DCPatientAllergy.m in Sources */,
 				0BAAB9AD1B6112C100657302 /* DCWarningsPopoverCell.m in Sources */,
 				0B5948C21B21A8DE0085FB26 /* DCPrescriberFilterCell.m in Sources */,

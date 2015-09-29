@@ -172,6 +172,7 @@
 #define BATCH_NUMBER_CELL_ID @"BatchNumberCell"
 #define NOTES_CELL_ID @"NotesCell"
 #define MEDICATION_HISTORY_HEADER_VIEW @"DCMedicationHistoryHeaderView"
+#define ADMINISTER_PICKER_CELL_ID @"AdministerPickerCellId"
 
 // title for views
 #define INPATIENT_TITLE @"In Patients"
