@@ -14,7 +14,6 @@ class DCAdministerTableHeaderView: UIView {
     
     func populateScheduledTimeValue(time : NSDate) {
         
-        NSLog("time : %@", time)
         timeLabel.text = DCDateUtility.convertDate(time, fromFormat: DEFAULT_DATE_FORMAT, toFormat: TWENTYFOUR_HOUR_FORMAT);
     }
 
