@@ -12,6 +12,7 @@ import UIKit
 
 class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, UITableViewDataSource {
     
+    @IBOutlet var noMedicationHistoryMessageLabel: UILabel!
     @IBOutlet var medicationHistoryTableView: UITableView!
     
     var medicationSlotArray: [DCMedicationSlot] = []
@@ -22,6 +23,11 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
 
     override func viewDidLoad() {
         medicationHistoryTableView.tableFooterView = UIView(frame: CGRectZero)
+        if medicationSlotArray.count == 0 {
+            noMedicationHistoryMessageLabel.hidden = false
+        } else {
+            noMedicationHistoryMessageLabel.hidden = true
+        }
         super.viewDidLoad()
     }
     //MARK: Table Cell Configuration Methods
@@ -67,7 +73,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
             noteCell = DCNotesAndReasonCell(style: UITableViewCellStyle.Value1, reuseIdentifier:NOTES_AND_REASON_CELL)
         }
         noteCell!.moreButton.tag = indexPath.row
-        noteCell!.moreButton.addTarget(self, action: "moreButtonPressed", forControlEvents: .TouchUpInside)
+        noteCell!.moreButton.addTarget(self, action: "moreButtonPressed:", forControlEvents: .TouchUpInside)
         noteCell!.cellContentTypeLabel!.text = type as String
         noteCell!.reasonTextLabel.text = DUMMY_TEXT
         if(noteCell!.isNotesExpanded == false) {
@@ -80,6 +86,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
             noteCell!.reasonLabelLeadingSpaceConstraint.constant = 7.0
         }
         noteCell!.isNotesExpanded = false
+        noteCell!.layoutMargins = UIEdgeInsetsZero
         return noteCell!
     }
     
@@ -92,6 +99,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         if let medicationDetail = medicationDetails {
             detailsCell!.populateCellWithMedicationDetails(medicationDetail)
         }
+        detailsCell!.layoutMargins = UIEdgeInsetsZero
         return detailsCell!
     }
     
@@ -114,6 +122,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         default:
             break
         }
+        cell!.layoutMargins = UIEdgeInsetsZero
         return cell!
     }
     
@@ -132,6 +141,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         default:
             break
         }
+        cell!.layoutMargins = UIEdgeInsetsZero
         return cell!
     }
     
@@ -208,6 +218,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
                 }
                 cell!.contentType.text = dateString
                 cell!.value.text = EMPTY_STRING
+                cell!.layoutMargins = UIEdgeInsetsZero
                 break
             case 1:
                 

@@ -29,7 +29,8 @@ class DCAdministerMedicationDetailsCell: UITableViewCell {
         
         medicineNameLabel.text = medicationDetails!.name
         if (medicationDetails?.route != nil && medicationDetails?.instruction != nil) {
-                   populateRouteAndInstructionLabels(medicationDetails!.route, instruction: medicationDetails!.instruction)
+            let route : String = medicationDetails!.route.stringByReplacingOccurrencesOfString(" ", withString: EMPTY_STRING)
+            populateRouteAndInstructionLabels(route, instruction: medicationDetails!.instruction)
         }
         let startDateString : String? = DCDateUtility.convertDate(DCDateUtility.dateFromSourceString(medicationDetails?.startDate), fromFormat: DEFAULT_DATE_FORMAT, toFormat: DATE_MONTHNAME_YEAR_FORMAT)
         startDateLabel.text = startDateString
