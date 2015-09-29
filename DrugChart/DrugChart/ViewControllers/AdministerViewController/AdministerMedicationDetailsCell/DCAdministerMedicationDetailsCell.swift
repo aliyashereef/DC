@@ -45,4 +45,5 @@ class DCAdministerMedicationDetailsCell: UITableViewCell {
         }
         routeAndInstructionLabel.attributedText = attributedRouteString;
     }
+    
 }

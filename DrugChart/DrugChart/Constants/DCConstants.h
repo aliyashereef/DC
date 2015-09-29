@@ -167,6 +167,7 @@
 #define ADMINISTER_MEDICATION_DETAILS_CELL_ID @"AdministerMedicationDetailsCell"
 #define BATCH_NUMBER_CELL_ID @"BatchNumberCell"
 #define NOTES_CELL_ID @"NotesCell"
+#define ADMINISTER_PICKER_CELL_ID @"AdministerPickerCellId"
 
 // title for views
 #define INPATIENT_TITLE @"In Patients"
