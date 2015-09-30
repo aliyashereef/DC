@@ -23,6 +23,7 @@ let DATE_PICKER_VIEW_CELL_HEIGHT : CGFloat = 200.0
 let NOTES_CELL_HEIGHT : CGFloat = 125.0
 let TABLE_CELL_DEFAULT_HEIGHT : CGFloat = 41.0
 let DATE_PICKER_CELL_TAG : NSInteger = 101
+let DISPLAY_SECURITY_PIN_ENTRY : String = "displaySecurityPinEntryViewForUser:"
 
 enum SectionCount : NSInteger {
 
@@ -45,7 +46,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
 
     @IBOutlet weak var administerTableView: UITableView!
     @IBOutlet weak var alertMessageLabel: UILabel!
-    
+
     var medicationSlot : DCMedicationSlot?
     var medicationDetails : DCMedicationScheduleDetails?
     var usersListWebService : DCUsersListWebService?
@@ -602,9 +603,20 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             medicationSlot?.administerMedication.administeredBy = user
         } else if (popOverIndexPath?.row == RowCount.eSecondRow.rawValue) {
             //checked by
+            if (user == DEFAULT_DOCTOR_NAME) {
             medicationSlot?.administerMedication.checkedBy = user
-        }
+            } else {
+                self.performSelector("displaySecurityPinEntryViewForUser:", withObject: user, afterDelay: 0.5)
+            }
         administerTableView.reloadRowsAtIndexPaths([popOverIndexPath!], withRowAnimation: UITableViewRowAnimation.None)
+        }
+    }
+    func displaySecurityPinEntryViewForUser(user : NSString) {
+        let securityPinViewController : DCAdministratedByPinVerificationViewController? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(SECURITY_PIN_VIEW_CONTROLLER) as? DCAdministratedByPinVerificationViewController
+        securityPinViewController?.transitioningDelegate = securityPinViewController
+        securityPinViewController?.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
+        securityPinViewController?.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
+        self.presentViewController(securityPinViewController!, animated: true, completion: nil)
     }
     
     // MARK:AdministerPickerCellDelegate Methods
@@ -618,6 +630,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             }
         }
     }
+
+    
 }
 
 

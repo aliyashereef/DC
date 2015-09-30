@@ -7,7 +7,6 @@
 //
 
 #import "DCBaseViewController.h"
-#import "DCServerChangeViewController.h"
 
 @protocol DCAuthorizationViewControllerDelegate <NSObject>
 

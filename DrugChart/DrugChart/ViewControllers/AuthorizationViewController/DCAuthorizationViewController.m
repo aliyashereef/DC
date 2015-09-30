@@ -27,7 +27,6 @@
 @interface DCAuthorizationViewController () {
     BOOL isAuthenticated;
     NSURLRequest *failedRequest;
-    DCServerChangeViewController *serverChangeViewController;
     NSTimer *timeoutTimer;
 }
 
@@ -45,7 +44,6 @@
     //self.navigationController.navigationBar.hidden = NO;
     self.title = @"Login";
     isAuthenticated = NO;
-    serverChangeViewController = [self.storyboard instantiateViewControllerWithIdentifier:SERVER_CHANGE_VC_ID];
     if ([DCAPPDELEGATE isNetworkReachable]) {
         [self loadWebViewInView];
     }
@@ -198,32 +196,6 @@ didFailLoadWithError:(NSError *)error {
     }
 }
 
-- (IBAction)settingsButtonTapped:(id)sender {
-    
-    UIView *serverChangeView = serverChangeViewController.view;
-    UIWindow *mainWindow = [UIApplication sharedApplication].windows[0];
-    CGRect screenSize = self.view.frame;
-
-    if (serverChangeViewController.isVisible) {
-        [UIView animateWithDuration:0.6 animations:^{
-
-             serverChangeView.frame =CGRectMake(mainWindow.frame.size.width, 144, 700, screenSize.size.height);
-        } completion:^(BOOL finished) {
-            if (finished) {
-                [serverChangeView removeFromSuperview];
-            }
-        }];
-    } else {
-        
-        [self.view.superview addSubview:serverChangeView];
-        serverChangeView.frame = CGRectMake(mainWindow.frame.size.width, 144, screenSize.size.width, screenSize.size.height);
-        [UIView animateWithDuration:0.6 animations:^{
-            serverChangeView.frame =CGRectMake(700, 144, 700, screenSize.size.height);
-        } completion:^(BOOL finished) {
-            [self.view layoutSubviews];
-        }];
-    }
-}
 - (void)cancelWebRequest {
     
     [_activityIndicator stopAnimating];
