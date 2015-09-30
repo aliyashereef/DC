@@ -10,6 +10,7 @@
 #import "DCHTTPRequestOperationManager.h"
 
 #define kDrugScheduleURL @"patients/%@/drugschedules/"
+#define kWeeklyDrugScheduleURL @"patients/%@/drugschedules?administrationsstartdatetime=%@&administrationsEndDateTime=%@"
 
 @implementation DCMedicationSchedulesWebService
 
@@ -28,6 +29,25 @@
                                                             
                                                             completionHandler (nil, error);
                                                         }];
+}
+
+- (void)getMedicationSchedulesForPatientId:(NSString *)patientId
+                             fromStartDate:(NSString *)startDate
+                                 toEndDate:(NSString *)endDate
+                       withCallBackHandler:(void (^)(NSArray *, NSError *))completionHandler {
+    
+    NSString *urlString = [NSString stringWithFormat:kWeeklyDrugScheduleURL, patientId, startDate, endDate];
+    [[DCHTTPRequestOperationManager sharedOperationManager] GET:urlString
+                                                     parameters:nil
+                                                        success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                            
+                                                            completionHandler (responseObject, nil);
+                                                            
+                                                        }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                            
+                                                            completionHandler (nil, error);
+                                                        }];
+    
 }
 
 - (void)cancelPreviousRequest {

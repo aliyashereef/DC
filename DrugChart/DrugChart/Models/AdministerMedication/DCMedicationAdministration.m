@@ -12,7 +12,7 @@
 #define ADMINISTRATING_USER @"administratingUser"
 #define ADMINISTRATING_DOSAGE @"amendedDosage"
 #define ADMINISTRATING_BATCH @"batchNumber"
-#define ADMINISTRATING_NOTES @"notes"
+#define NOTES @"notes"
 #define IS_SELF_ADMINISTERED @"IsSelfAdministered"
 
 
@@ -39,7 +39,16 @@
         self.administratingUser = administratingUser;
         self.dosageString = [administrationDetails objectForKey:SCHEDULED_ADMINISTRATION_TIME];
         self.batch = [administrationDetails objectForKey:ADMINISTRATING_BATCH];
-        self.notes = [administrationDetails objectForKey:ADMINISTRATING_NOTES];
+        if ([administrationDetails objectForKey:NOTES]) {
+            NSString *notes = [administrationDetails objectForKey:NOTES];
+            if ([self.status isEqualToString:ADMINISTERED]) {
+                self.administeredNotes = notes;
+            } else if ([self.status isEqualToString:REFUSED]) {
+                self.refusedNotes = notes;
+            } else {
+                self.omittedNotes = notes;
+            }
+        }
         self.isSelfAdministered = [[administrationDetails objectForKey:IS_SELF_ADMINISTERED] boolValue];
         if (self.isSelfAdministered) {
             self.status = SELF_ADMINISTERED;

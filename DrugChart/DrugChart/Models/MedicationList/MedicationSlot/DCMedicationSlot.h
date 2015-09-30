@@ -14,8 +14,6 @@
 
 @property (nonatomic, strong) NSDate *time;
 @property (nonatomic, strong) NSString *status;
-// DEMO PURPOSE: need to replace DCAdministerMedication with DCMedicationAdministration
-@property (nonatomic, strong) DCAdministerMedication *administerMedication;
 @property (nonatomic, strong) DCMedicationAdministration *medicationAdministration;
 
 @end
