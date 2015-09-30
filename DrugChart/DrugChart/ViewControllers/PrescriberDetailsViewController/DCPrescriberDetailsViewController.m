@@ -151,19 +151,19 @@
         // checkedByLabel.text = medicationSlot.medicationAdministration.checkedBy;
         batchNoExpiryDateLabel.text = medicationSlot.medicationAdministration.batch;
         if ([medicationSlot.status isEqualToString:IS_GIVEN]) {
-            administeredNotesLabel.text = medicationSlot.medicationAdministration.notes;
+            administeredNotesLabel.text = medicationSlot.medicationAdministration.administeredNotes;
         } else {
             administeredNotesLabel.text = @"-";
         }
-    }else if (medicationSlot.administerMedication) {
-        administeredByLabel.text = medicationSlot.administerMedication.administeredBy;
-        checkedByLabel.text = medicationSlot.administerMedication.checkedBy;
-        batchNoExpiryDateLabel.text = medicationSlot.administerMedication.batchNumber;
-        if ([medicationSlot.status isEqualToString:IS_GIVEN]) {
-            administeredNotesLabel.text = medicationSlot.administerMedication.notes;
-        } else {
+    }else if (medicationSlot.medicationAdministration) {
+//        administeredByLabel.text = medicationSlot.administerMedication.administeredBy;
+//        checkedByLabel.text = medicationSlot.administerMedication.checkedBy;
+//        batchNoExpiryDateLabel.text = medicationSlot.administerMedication.batchNumber;
+//        if ([medicationSlot.status isEqualToString:IS_GIVEN]) {
+//            administeredNotesLabel.text = medicationSlot.administerMedication.notes;
+//        } else {
             administeredNotesLabel.text = @"-";
-        }
+        //}
     }
     else {
         if ([medicationSlot.status isEqualToString:IS_GIVEN]) {
@@ -185,12 +185,12 @@
     NSString *dateDisplayString = [DCDateUtility convertDate:medicationSlot.time FromFormat:DEFAULT_DATE_FORMAT ToFormat:DATE_FORMAT_WITH_DAY];
     refusedDateAndTimeLabel.text = dateDisplayString;
     if (medicationSlot.medicationAdministration) {
-        refusedNotesLabel.text = medicationSlot.medicationAdministration.notes;
+        refusedNotesLabel.text = medicationSlot.medicationAdministration.administeredNotes;
     }
-    else  if (medicationSlot.administerMedication) {
-        //TODO: added for demo
-        refusedNotesLabel.text = medicationSlot.administerMedication.refusedNotes;
-    }
+//    else  if (medicationSlot.administerMedication) {
+//        //TODO: added for demo
+//        refusedNotesLabel.text = medicationSlot.administerMedication.refusedNotes;
+//    }
     else {
         refusedNotesLabel.text = NSLocalizedString(@"REFUSED_NOTES", @"Refused Notes");
     }
@@ -206,14 +206,14 @@
     [administeredView setHidden:YES];
     [notDueView setHidden:YES];
     if (medicationSlot.medicationAdministration) {
-        omittedReasonLabel.text = medicationSlot.medicationAdministration.notes;
+        omittedReasonLabel.text = medicationSlot.medicationAdministration.administeredNotes;
     }
-    else if (medicationSlot.administerMedication) {
-        omittedReasonLabel.text = medicationSlot.administerMedication.omittedReason;
-    }
-    else {
+//    else if (medicationSlot.administerMedication) {
+//        omittedReasonLabel.text = medicationSlot.administerMedication.omittedReason;
+//    }
+//    else {
         omittedReasonLabel.text = NSLocalizedString(@"OMITTED_REASON", @"Omitted reason");
-    }
+   // }
     [omittedReasonLabel sizeToFit];
     refusedDateAndTimeLabel.text = dateDisplayString;
     containerView.layer.borderColor = [UIColor getColorForHexString:@"#9ed6dd"].CGColor;

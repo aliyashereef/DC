@@ -81,6 +81,8 @@
     self.navigationItem.rightBarButtonItem = addButton;
     medicationsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [todayBackGroundView.layer setCornerRadius:12.5];
+    NSDate *initialDisplayDate = [DCDateUtility getInitialDateOfWeekForDisplay:[DCDateUtility getDateInCurrentTimeZone:[NSDate date]]];
+    currentWeekDatesArray = [DCDateUtility getDaysOfWeekFromDate:initialDisplayDate];
     if ([DCAPPDELEGATE isNetworkReachable]) {
         if (!_patient.medicationListArray) {
             [self fetchMedicationListForPatient];
@@ -100,27 +102,6 @@
         }
     }
 }
-
-//- (void)fetchMedicationListForPatientId:(NSString *)patientId
-//                  withCompletionHandler:(void(^)(NSArray *result, NSError *error))completionHandler {
-//    medicationSchedulesWebService = [[DCMedicationSchedulesWebService alloc] init];
-//    NSMutableArray *medicationListArray = [[NSMutableArray alloc] init];
-//    [medicationSchedulesWebService getMedicationSchedulesForPatientId:patientId withCallBackHandler:^(NSArray *medicationsList, NSError *error) {
-//        
-//        NSMutableArray *medicationArray = [NSMutableArray arrayWithArray:medicationsList];
-//        for (NSDictionary *medicationDetails in medicationArray) {
-//            DCDebugLog(@"the medication details dictionary:\n %@",medicationDetails);
-//            @autoreleasepool {
-//                DCMedicationScheduleDetails *medicationScheduleDetails = [[DCMedicationScheduleDetails alloc] initWithMedicationScheduleDictionary:medicationDetails];
-//                if (medicationScheduleDetails) {
-//                    [medicationListArray addObject:medicationScheduleDetails];
-//                }
-//            }
-//        }
-//        completionHandler(medicationListArray, nil);
-//    }];
-//}
-
 
 #pragma mark - table view methods
 
@@ -156,19 +137,22 @@
                   withCompletionHandler:(void(^)(NSArray *result, NSError *error))completionHandler {
     DCMedicationSchedulesWebService *medicationSchedulesWebService = [[DCMedicationSchedulesWebService alloc] init];
     NSMutableArray *medicationListArray = [[NSMutableArray alloc] init];
-    [medicationSchedulesWebService getMedicationSchedulesForPatientId:patientId withCallBackHandler:^(NSArray *medicationsList, NSError *error) {
-        
-        NSMutableArray *medicationArray = [NSMutableArray arrayWithArray:medicationsList];
-        for (NSDictionary *medicationDetails in medicationArray) {
-            DCDebugLog(@"the medication details dictionary:\n %@",medicationDetails);
-            @autoreleasepool {
-                DCMedicationScheduleDetails *medicationScheduleDetails = [[DCMedicationScheduleDetails alloc] initWithMedicationScheduleDictionary:medicationDetails];
-                if (medicationScheduleDetails) {
-                    [medicationListArray addObject:medicationScheduleDetails];
+    NSDate *startDate = [currentWeekDatesArray objectAtIndex:0];
+    NSString *startDateString = [DCDateUtility convertDate:startDate FromFormat:DEFAULT_DATE_FORMAT ToFormat:SHORT_DATE_FORMAT];
+    NSDate *endDate = [currentWeekDatesArray lastObject];
+    NSString *endDateString = [DCDateUtility convertDate:endDate FromFormat:DEFAULT_DATE_FORMAT ToFormat:SHORT_DATE_FORMAT];
+    [medicationSchedulesWebService getMedicationSchedulesForPatientId:patientId fromStartDate:startDateString toEndDate:endDateString withCallBackHandler:^(NSArray *medicationsList, NSError *error) {
+                NSMutableArray *medicationArray = [NSMutableArray arrayWithArray:medicationsList];
+                for (NSDictionary *medicationDetails in medicationArray) {
+                    DCDebugLog(@"the medication details dictionary:\n %@",medicationDetails);
+                    @autoreleasepool {
+                        DCMedicationScheduleDetails *medicationScheduleDetails = [[DCMedicationScheduleDetails alloc] initWithMedicationScheduleDictionary:medicationDetails];
+                        if (medicationScheduleDetails) {
+                            [medicationListArray addObject:medicationScheduleDetails];
+                        }
+                    }
                 }
-            }
-        }
-        completionHandler(medicationListArray, nil);
+                completionHandler(medicationListArray, nil);
     }];
 }
 

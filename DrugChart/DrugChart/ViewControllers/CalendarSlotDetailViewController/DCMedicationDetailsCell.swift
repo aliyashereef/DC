@@ -18,8 +18,9 @@ class  DCMedicationDetailsCell: UITableViewCell {
     func populateCellWithMedicationDetails(medicationDetails : DCMedicationScheduleDetails?) {
         
         medicineName.text = medicationDetails!.name
-        if (medicationDetails?.route != nil && medicationDetails?.instruction != nil) {
-            populateRouteAndInstructionLabels(medicationDetails!.route, instruction: medicationDetails!.instruction)
+        if (medicationDetails?.route != nil) {
+            let route : String = medicationDetails!.route.stringByReplacingOccurrencesOfString(" ", withString: EMPTY_STRING)
+            populateRouteAndInstructionLabels(route, instruction: medicationDetails!.instruction)
         }
         let startDateString : String? = DCDateUtility.convertDate(DCDateUtility.dateFromSourceString(medicationDetails?.startDate), fromFormat: DEFAULT_DATE_FORMAT, toFormat: DATE_MONTHNAME_YEAR_FORMAT)
         dateLabel.text = startDateString

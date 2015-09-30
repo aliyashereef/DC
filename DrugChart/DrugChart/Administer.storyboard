@@ -1081,13 +1081,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Senna 15 mg Tablet" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lyh-tZ-k3a">
-                                                    <rect key="frame" x="15" y="7" width="670" height="22"/>
+                                                    <rect key="frame" x="15" y="7" width="670" height="21.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <color key="textColor" red="0.10980392160000001" green="0.10980392160000001" blue="0.10980392160000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Oral(As directed)" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ubC-NE-ktS">
-                                                    <rect key="frame" x="10" y="31" width="675" height="15"/>
+                                                    <rect key="frame" x="15" y="30.5" width="670" height="14.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.45098039215686275" green="0.45098039215686275" blue="0.45098039215686275" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -1114,7 +1114,7 @@
                                                 <constraint firstAttribute="bottom" secondItem="HJw-CL-tbT" secondAttribute="bottom" constant="2" id="8pl-fO-f1I"/>
                                                 <constraint firstItem="Lyh-tZ-k3a" firstAttribute="leading" secondItem="8ZJ-01-SO5" secondAttribute="leading" constant="15" id="AuG-hY-rjE"/>
                                                 <constraint firstItem="HJw-CL-tbT" firstAttribute="leading" secondItem="8ZJ-01-SO5" secondAttribute="leading" constant="15" id="ETj-hz-gCX"/>
-                                                <constraint firstItem="ubC-NE-ktS" firstAttribute="leading" secondItem="8ZJ-01-SO5" secondAttribute="leading" constant="10" id="FJO-P9-pep"/>
+                                                <constraint firstItem="ubC-NE-ktS" firstAttribute="leading" secondItem="8ZJ-01-SO5" secondAttribute="leading" constant="15" id="FJO-P9-pep"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="HJw-CL-tbT" secondAttribute="bottom" constant="-6" id="Fih-NH-P6K"/>
                                                 <constraint firstAttribute="trailing" secondItem="ubC-NE-ktS" secondAttribute="trailing" constant="15" id="JLw-uc-0ey"/>
                                                 <constraint firstItem="HJw-CL-tbT" firstAttribute="leading" secondItem="8ZJ-01-SO5" secondAttribute="leading" constant="15" id="Lcg-Sb-SbA"/>

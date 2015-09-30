@@ -605,28 +605,28 @@ static NSString *const DCMedicationDetailsViewController_STORYBOARD_ID = @"DCMed
     
     //past medication details, if medication slot has administerMedication value,
     //then get past medication details from it
-    DCAdministerMedication *pastMedication = [[DCAdministerMedication alloc] init];
-    if (medicationSlot.administerMedication) {
-        pastMedication = medicationSlot.administerMedication;
+    DCMedicationAdministration *pastMedication = [[DCMedicationAdministration alloc] init];
+    if (medicationSlot.medicationAdministration) {
+        pastMedication = medicationSlot.medicationAdministration;
     } else {
-        pastMedication.medicationTime = medicationSlot.time;
-        pastMedication.scheduledTime = medicationSlot.time;
-        pastMedication.editable = NO;
-        pastMedication.dosage = _selectedMedicationList.dosage;
-        pastMedication.medicationCategory = _selectedMedicationList.medicineCategory;
-        pastMedication.medicationStatus = medicationSlot.status;
-        pastMedication.notes = NSLocalizedString(@"ADMINISTER_NOTES", @"administration notes");
-        pastMedication.refusedNotes = NSLocalizedString(@"REFUSED_NOTES", @"refused notes");
-        pastMedication.omittedNotes = NSLocalizedString(@"OMITTED_NOTES", @"omitted notes");
-        pastMedication.omittedReason = NSLocalizedString(@"OMITTED_REASON", @"omitted reason");
-        pastMedication.batchNumber = @"105";
-        if ([pastMedication.medicationStatus isEqualToString:SELF_ADMINISTERED]) {
-            pastMedication.administeredBy = SELF_ADMINISTERED_TITLE;
-        }
+//        pastMedication.medicationTime = medicationSlot.time;
+//        pastMedication.scheduledTime = medicationSlot.time;
+//        pastMedication.editable = NO;
+//        pastMedication.dosage = _selectedMedicationList.dosage;
+//        pastMedication.medicationCategory = _selectedMedicationList.medicineCategory;
+//        pastMedication.medicationStatus = medicationSlot.status;
+//        pastMedication.notes = NSLocalizedString(@"ADMINISTER_NOTES", @"administration notes");
+//        pastMedication.refusedNotes = NSLocalizedString(@"REFUSED_NOTES", @"refused notes");
+//        pastMedication.omittedNotes = NSLocalizedString(@"OMITTED_NOTES", @"omitted notes");
+//        pastMedication.omittedReason = NSLocalizedString(@"OMITTED_REASON", @"omitted reason");
+//        pastMedication.batchNumber = @"105";
+//        if ([pastMedication.medicationStatus isEqualToString:SELF_ADMINISTERED]) {
+//            pastMedication.administeredBy = SELF_ADMINISTERED_TITLE;
+//        }
     }
-    pastMedication.instruction = _selectedMedicationList.instruction;
-    pastMedication.route = _selectedMedicationList.route;
-    pastMedication.medicineName = [self getMedicineDisplayNameForAdministerScreen];
+//    pastMedication.instruction = _selectedMedicationList.instruction;
+//    pastMedication.route = _selectedMedicationList.route;
+//    pastMedication.medicineName = [self getMedicineDisplayNameForAdministerScreen];
     [self displayAdministerMedicationViewController:pastMedication];
 }
 
@@ -667,7 +667,7 @@ static NSString *const DCMedicationDetailsViewController_STORYBOARD_ID = @"DCMed
         administerMedication.omittedNotes = EMPTY_STRING;
         administerMedication.omittedReason = EMPTY_STRING;
         administerMedication.batchNumber = EMPTY_STRING;
-        medicationSlot.administerMedication = administerMedication;
+        //medicationSlot.administerMedication = administerMedication;
         if (nextMedicationTimeInterval <= ADMINISTER_IN_ONE_HOUR) {
             [self displayAdministerMedicationViewController:administerMedication];
         } else {
@@ -725,7 +725,7 @@ static NSString *const DCMedicationDetailsViewController_STORYBOARD_ID = @"DCMed
         DCMedicationSlot *newMedicationSlot = [[DCMedicationSlot alloc] init];
         newMedicationSlot.time = administerMedication.medicationTime;
         newMedicationSlot.status = administerMedication.medicationStatus;
-        newMedicationSlot.administerMedication = administerMedication;
+      //  newMedicationSlot.administerMedication = administerMedication;
         
         NSString *date = [DCDateUtility convertDate:administerMedication.medicationTime FromFormat:DEFAULT_DATE_FORMAT ToFormat:SHORT_DATE_FORMAT];
         BOOL medicationDateAlreadyPresent = NO;
@@ -759,7 +759,7 @@ static NSString *const DCMedicationDetailsViewController_STORYBOARD_ID = @"DCMed
                         updatedMedicationSlot.time = [DCDateUtility getDateInCurrentTimeZone:[NSDate date]];
                     }
                     updatedMedicationSlot.status = administerMedication.medicationStatus;
-                    updatedMedicationSlot.administerMedication = administerMedication;
+                   // updatedMedicationSlot.administerMedication = administerMedication;
                     [slotArray replaceObjectAtIndex:[slotArray indexOfObject:slot] withObject:updatedMedicationSlot];
                     [medicationChartTableView beginUpdates];
                     [medicationChartTableView reloadRowsAtIndexPaths:@[selectedIndexPath] withRowAnimation:UITableViewRowAnimationFade];
