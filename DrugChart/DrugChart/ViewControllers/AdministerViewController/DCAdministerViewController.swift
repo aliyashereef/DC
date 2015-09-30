@@ -93,7 +93,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             alertMessageLabel.hidden = true
         }
     }
-
+    
+    
     func fetchAdministersAndPrescribersList () {
         
         //fetch administers and prescribers list

@@ -101,6 +101,27 @@
     }
 }
 
+//- (void)fetchMedicationListForPatientId:(NSString *)patientId
+//                  withCompletionHandler:(void(^)(NSArray *result, NSError *error))completionHandler {
+//    medicationSchedulesWebService = [[DCMedicationSchedulesWebService alloc] init];
+//    NSMutableArray *medicationListArray = [[NSMutableArray alloc] init];
+//    [medicationSchedulesWebService getMedicationSchedulesForPatientId:patientId withCallBackHandler:^(NSArray *medicationsList, NSError *error) {
+//        
+//        NSMutableArray *medicationArray = [NSMutableArray arrayWithArray:medicationsList];
+//        for (NSDictionary *medicationDetails in medicationArray) {
+//            DCDebugLog(@"the medication details dictionary:\n %@",medicationDetails);
+//            @autoreleasepool {
+//                DCMedicationScheduleDetails *medicationScheduleDetails = [[DCMedicationScheduleDetails alloc] initWithMedicationScheduleDictionary:medicationDetails];
+//                if (medicationScheduleDetails) {
+//                    [medicationListArray addObject:medicationScheduleDetails];
+//                }
+//            }
+//        }
+//        completionHandler(medicationListArray, nil);
+//    }];
+//}
+
+
 #pragma mark - table view methods
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

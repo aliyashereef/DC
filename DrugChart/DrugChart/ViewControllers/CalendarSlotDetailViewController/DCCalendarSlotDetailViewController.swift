@@ -28,7 +28,6 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     var contentArray :[AnyObject] = []
     var slotToAdminister : DCMedicationSlot?
     
-
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -152,6 +151,35 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         }
     }
     
+    func entriesAreValid() -> (Bool) {
+        
+        // check if the values entered are valid
+        var isValid : Bool = true
+        NSLog("Medication Slot Status: %@", (administerViewController?.medicationSlot?.status)!)
+        NSLog("Medication Status : %@", (administerViewController?.medicationSlot?.administerMedication.medicationStatus)!)
+        let medicationStatus = administerViewController?.medicationSlot?.administerMedication.medicationStatus
+        if (medicationStatus == ADMINISTERED) {
+            //administered medication status
+            let notes = administerViewController?.medicationSlot?.administerMedication.notes
+            if (notes == EMPTY_STRING || notes == nil) {
+                isValid = false
+            }
+        } else if (medicationStatus == REFUSED) {
+            //refused medication status
+            let refusedNotes = administerViewController?.medicationSlot?.administerMedication.refusedNotes
+            if (refusedNotes == EMPTY_STRING || refusedNotes == nil) {
+                isValid = false
+            }
+        } else {
+            //omitted medication status
+            let omittedNotes = administerViewController?.medicationSlot?.administerMedication.omittedNotes
+            if (omittedNotes == EMPTY_STRING || omittedNotes == nil) {
+                isValid = false
+            }
+        }
+        return isValid
+    }
+    
     // MARK: - UIViewControllerTransitioningDelegate Methods
     
     func presentationControllerForPresentedViewController(presented: UIViewController, presentingViewController presenting: UIViewController, sourceViewController source: UIViewController) -> UIPresentationController? {
@@ -166,8 +194,13 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     @IBAction func doneButtonPressed(sender: AnyObject) {
         
         //perform administer medication api call here
-        self.dismissViewControllerAnimated(true) { () -> Void in
-            
+        if(entriesAreValid()) {
+            self.dismissViewControllerAnimated(true) { () -> Void in
+                
+            }
+        } else {
+            // show entries in red
+            print("******* Error in Validation ********")
         }
     }
     
