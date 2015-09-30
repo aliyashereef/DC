@@ -155,12 +155,11 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         
         // check if the values entered are valid
         var isValid : Bool = true
-        NSLog("Medication Slot Status: %@", (administerViewController?.medicationSlot?.status)!)
-        NSLog("Medication Status : %@", (administerViewController?.medicationSlot?.medicationAdministration.status)!)
         let medicationStatus = administerViewController?.medicationSlot?.medicationAdministration.status
+        //notes will be mandatory always for omitted ones , it will be mandatory for administered/refused for early administration, currently checked for all cases
         if (medicationStatus == ADMINISTERED) {
             //administered medication status
-            let notes = administerViewController?.medicationSlot?.medicationAdministration.administeredNotes
+            let notes : String? = administerViewController?.medicationSlot?.medicationAdministration?.administeredNotes
             if (notes == EMPTY_STRING || notes == nil) {
                 isValid = false
             }
@@ -194,13 +193,14 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     @IBAction func doneButtonPressed(sender: AnyObject) {
         
         //perform administer medication api call here
+        
         if(entriesAreValid()) {
+            administerViewController?.isValid = true
             self.dismissViewControllerAnimated(true) { () -> Void in
-                
             }
         } else {
             // show entries in red
-            print("******* Error in Validation ********")
+            administerViewController?.validateAndReloadAdministerView()
         }
     }
     

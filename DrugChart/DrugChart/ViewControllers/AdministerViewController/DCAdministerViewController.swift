@@ -54,6 +54,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     var popOverIndexPath : NSIndexPath?
     var alertMessage : NSString = EMPTY_STRING
     var datePickerIndexPath : NSIndexPath?
+    var isValid : Bool = true
     
     override func viewDidLoad() {
         
@@ -109,6 +110,13 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             }
         }
      }
+    
+    func validateAndReloadAdministerView() {
+        
+        //validate and reload administer view
+        isValid = false
+        administerTableView.reloadData()
+    }
     
     func configureAdministerTableCellAtIndexPath(indexPath : NSIndexPath) -> (DCAdministerCell) {
         
@@ -300,7 +308,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         } else if (indexPath.section == SectionCount.eThirdSection.rawValue) {
             let notesCell : DCNotesTableCell = getNotesTableCellAtIndexPath(indexPath)
             notesCell.notesType = eNotes
-            notesCell.notesTextView.textColor = UIColor.getColorForHexString("#8f8f95")
+            notesCell.notesTextView.textColor = !isValid ? UIColor.redColor() : UIColor.getColorForHexString("#8f8f95")
             notesCell.notesTextView.text = notesCell.getHintText()
             return notesCell
         } else {
@@ -320,7 +328,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         if (indexPath.section == SectionCount.eSecondSection.rawValue) {
             let notesCell : DCNotesTableCell = getNotesTableCellAtIndexPath(indexPath)
             notesCell.notesType = eReason
-            notesCell.notesTextView.textColor = UIColor.getColorForHexString("#8f8f95")
+            //notesCell.notesTextView.textColor = UIColor.getColorForHexString("#8f8f95")
+            notesCell.notesTextView.textColor = !isValid ? UIColor.redColor() : UIColor.getColorForHexString("#8f8f95")
             notesCell.notesTextView.text = notesCell.getHintText()
             return notesCell
         } else {
@@ -334,7 +343,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         if (indexPath.section == SectionCount.eThirdSection.rawValue) {
             let notesCell : DCNotesTableCell = getNotesTableCellAtIndexPath(indexPath)
             notesCell.notesType = eReason
-            notesCell.notesTextView.textColor = UIColor.getColorForHexString("#8f8f95")
+            //notesCell.notesTextView.textColor = UIColor.getColorForHexString("#8f8f95")
+            notesCell.notesTextView.textColor = !isValid ? UIColor.redColor() : UIColor.getColorForHexString("#8f8f95")
             notesCell.notesTextView.text = notesCell.getHintText()
             return notesCell
         } else {
@@ -582,7 +592,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         self.administerTableView.setContentOffset(CGPointMake(0, 130), animated: true)
     }
     
-    // MARK: NotesCell Delagate Methods
+    // MARK: NotesCell Delegate Methods
     
     func notesSelected(editing : Bool) {
       
@@ -590,6 +600,17 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             self.administerTableView.setContentOffset(CGPointMake(0, 200), animated: true)
         } else {
             self.administerTableView.setContentOffset(CGPointZero, animated: true)
+        }
+    }
+    
+    func enteredNote(note : String) {
+        
+        if(medicationSlot?.medicationAdministration.status == ADMINISTERED) {
+            medicationSlot?.medicationAdministration.administeredNotes = note
+        } else if (medicationSlot?.medicationAdministration.status == REFUSED) {
+            medicationSlot?.medicationAdministration.refusedNotes = note
+        } else {
+            medicationSlot?.medicationAdministration.omittedNotes = note
         }
     }
     
