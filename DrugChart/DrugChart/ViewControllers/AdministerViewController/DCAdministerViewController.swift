@@ -265,9 +265,9 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         namesViewController?.namesArray = userListArray
         namesViewController?.namesDelegate = self
         if (indexPath.row == RowCount.eZerothRow.rawValue) {
-            namesViewController!.previousSelectedValue = medicationSlot?.medicationAdministration.administratingUser.displayName
+            namesViewController!.previousSelectedValue = medicationSlot?.medicationAdministration?.administratingUser?.displayName
         } else if (indexPath.row == RowCount.eSecondRow.rawValue) {
-           namesViewController!.previousSelectedValue = medicationSlot?.medicationAdministration.checkingUser.displayName
+           namesViewController!.previousSelectedValue = medicationSlot?.medicationAdministration?.checkingUser?.displayName
         }
         let navigationController : UINavigationController? = UINavigationController(rootViewController: namesViewController!)
         navigationController?.modalPresentationStyle = UIModalPresentationStyle.Popover
@@ -599,10 +599,10 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         
         if (popOverIndexPath?.row == RowCount.eZerothRow.rawValue) {
             //administered by
-            medicationSlot?.medicationAdministration.administratingUser.displayName = user
+            medicationSlot?.medicationAdministration?.administratingUser?.displayName = user
         } else if (popOverIndexPath?.row == RowCount.eSecondRow.rawValue) {
             //checked by
-            medicationSlot?.medicationAdministration.checkingUser.displayName = user
+            medicationSlot?.medicationAdministration?.checkingUser?.displayName = user
         }
         administerTableView.reloadRowsAtIndexPaths([popOverIndexPath!], withRowAnimation: UITableViewRowAnimation.None)
     }

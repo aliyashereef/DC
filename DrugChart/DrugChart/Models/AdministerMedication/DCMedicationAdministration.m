@@ -37,6 +37,9 @@
         
         DCUser *administratingUser = [[DCUser alloc] initWithUserDetails:[administrationDetails objectForKey:ADMINISTRATING_USER]];
         self.administratingUser = administratingUser;
+        //checked by user
+        DCUser *checkingUser = [[DCUser alloc] init];
+        self.checkingUser = checkingUser;
         self.dosageString = [administrationDetails objectForKey:SCHEDULED_ADMINISTRATION_TIME];
         self.batch = [administrationDetails objectForKey:ADMINISTRATING_BATCH];
         if ([administrationDetails objectForKey:NOTES]) {
