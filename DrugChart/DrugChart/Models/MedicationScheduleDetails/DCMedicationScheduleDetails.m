@@ -36,8 +36,10 @@
 
 - (DCMedicationScheduleDetails *)initWithMedicationScheduleDictionary:(NSDictionary *)medicationDictionary {
     
+    NSLog(@"******* New Medication *****");
     self = [[DCMedicationScheduleDetails alloc] init];
     self.name = [medicationDictionary valueForKey:DRUG_NAME];
+    NSLog(@"***** Medicine name : %@", self.name);
     self.medicineCategory = [medicationDictionary valueForKey:DRUG_CATEGORY];
     if ([medicationDictionary valueForKey:DRUG_PRESCRIBING_USER]) {
         NSDictionary *userDictionary = [medicationDictionary valueForKey:DRUG_PRESCRIBING_USER];
@@ -63,6 +65,7 @@
     if ([scheduleArray count] > 0) {
         NSDictionary *schedulesDictionary = [scheduleArray objectAtIndex:0];
         NSMutableArray *administrationArray = [[NSMutableArray alloc] initWithArray:[schedulesDictionary objectForKey:DRUG_ADMINISTRATIONS]];
+        NSLog(@"administrationArray is %@", administrationArray);
         self.administrationDetailsArray = [self getAdministrationDetailsForMedication:administrationArray];
         NSMutableArray *slotsArray = [self getMedicationScheduleTimeArrayFromScheduleDictionary:schedulesDictionary
                                                                                   withStartDate:self.startDate

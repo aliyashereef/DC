@@ -144,7 +144,8 @@
     [medicationSchedulesWebService getMedicationSchedulesForPatientId:patientId fromStartDate:startDateString toEndDate:endDateString withCallBackHandler:^(NSArray *medicationsList, NSError *error) {
                 NSMutableArray *medicationArray = [NSMutableArray arrayWithArray:medicationsList];
                 for (NSDictionary *medicationDetails in medicationArray) {
-                    DCDebugLog(@"the medication details dictionary:\n %@",medicationDetails);
+                    DCDebugLog(@"the medication details dictionary:\n %@", medicationDetails);
+                   // NSLog(@"the medication details dictionary:\n %@", medicationDetails);
                     @autoreleasepool {
                         DCMedicationScheduleDetails *medicationScheduleDetails = [[DCMedicationScheduleDetails alloc] initWithMedicationScheduleDictionary:medicationDetails];
                         if (medicationScheduleDetails) {
