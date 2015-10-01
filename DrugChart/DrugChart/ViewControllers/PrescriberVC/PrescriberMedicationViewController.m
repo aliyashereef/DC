@@ -144,7 +144,8 @@
     [medicationSchedulesWebService getMedicationSchedulesForPatientId:patientId fromStartDate:startDateString toEndDate:endDateString withCallBackHandler:^(NSArray *medicationsList, NSError *error) {
                 NSMutableArray *medicationArray = [NSMutableArray arrayWithArray:medicationsList];
                 for (NSDictionary *medicationDetails in medicationArray) {
-                    DCDebugLog(@"the medication details dictionary:\n %@",medicationDetails);
+                    DCDebugLog(@"the medication details dictionary:\n %@", medicationDetails);
+                   // NSLog(@"the medication details dictionary:\n %@", medicationDetails);
                     @autoreleasepool {
                         DCMedicationScheduleDetails *medicationScheduleDetails = [[DCMedicationScheduleDetails alloc] initWithMedicationScheduleDictionary:medicationDetails];
                         if (medicationScheduleDetails) {
@@ -339,7 +340,7 @@
     if (_patient.medicationListArray.count > 0) {
         DCMedicationScheduleDetails *medicationList =  [displayMedicationListArray objectAtIndex:indexPath.item];
         detailViewController.medicationDetails = medicationList;
-        NSArray *slots = [[medicationList.timeChart objectAtIndex:0] valueForKey:@"medDetails"];
+        NSArray *slots = [[medicationList.timeChart objectAtIndex:1] valueForKey:@"medDetails"];
         detailViewController.medicationSlotsArray = slots;
     }
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:detailViewController];

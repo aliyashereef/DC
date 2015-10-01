@@ -219,13 +219,14 @@
 
 #define SERVER_DATE_FORMAT       @"yyyy-MM-dd'T'hh:mm:ss"
 
-#define DATE_COMPONENTS (NSCalendarUnitYear| NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitWeekOfYear |  NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond | NSCalendarUnitWeekday | NSCalendarUnitWeekdayOrdinal)
-
 // medication category
 #define REGULAR_MEDICATION @"Regular"
 #define ONCE_MEDICATION @"Once"
 #define WHEN_REQUIRED_VALUE @"When Required"
 #define WHEN_REQUIRED @"WhenRequired"
+
+
+#define DATE_COMPONENTS (NSCalendarUnitYear| NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitWeekOfYear |  NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond | NSCalendarUnitWeekday | NSCalendarUnitWeekdayOrdinal)
 
 #define MEDICATION_IN_SIX_HOURS 21600
 #define ADMINISTER_IN_ONE_HOUR 60*60

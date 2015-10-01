@@ -11,6 +11,12 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="40"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CHU-Th-0ei" userLabel="error message Label">
+                    <rect key="frame" x="15" y="0.0" width="570" height="40"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                    <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ClockIconNew" translatesAutoresizingMaskIntoConstraints="NO" id="cNb-ZT-SL6">
                     <rect key="frame" x="8" y="8" width="23" height="23"/>
                     <constraints>
@@ -32,14 +38,20 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="CHU-Th-0ei" secondAttribute="trailing" constant="15" id="1qt-Mw-B0T"/>
+                <constraint firstItem="CHU-Th-0ei" firstAttribute="leading" secondItem="bo9-7J-wAY" secondAttribute="leading" constant="15" id="64m-zm-YfJ"/>
                 <constraint firstItem="2Qt-ec-Xe7" firstAttribute="leading" secondItem="cNb-ZT-SL6" secondAttribute="trailing" constant="8" id="8Uk-Eo-ly8"/>
                 <constraint firstItem="cNb-ZT-SL6" firstAttribute="top" secondItem="bo9-7J-wAY" secondAttribute="top" constant="8" id="Mnf-Ef-1de"/>
                 <constraint firstItem="2Qt-ec-Xe7" firstAttribute="top" secondItem="bo9-7J-wAY" secondAttribute="top" id="Np9-ZO-UGG"/>
+                <constraint firstItem="CHU-Th-0ei" firstAttribute="top" secondItem="bo9-7J-wAY" secondAttribute="top" id="RU6-UZ-1sh"/>
                 <constraint firstItem="cNb-ZT-SL6" firstAttribute="leading" secondItem="bo9-7J-wAY" secondAttribute="leading" constant="8" id="fzb-R3-ue0"/>
+                <constraint firstAttribute="bottom" secondItem="CHU-Th-0ei" secondAttribute="bottom" id="p4W-Tu-6lN"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="errorMessageLabel" destination="CHU-Th-0ei" id="PLz-cJ-fgK"/>
+                <outlet property="timeIconImageView" destination="cNb-ZT-SL6" id="PJT-cG-LdN"/>
                 <outlet property="timeLabel" destination="2Qt-ec-Xe7" id="UXK-9T-0jJ"/>
             </connections>
             <point key="canvasLocation" x="327" y="225"/>

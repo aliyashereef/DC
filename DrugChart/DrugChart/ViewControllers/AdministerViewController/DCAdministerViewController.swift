@@ -23,6 +23,7 @@ let DATE_PICKER_VIEW_CELL_HEIGHT : CGFloat = 200.0
 let NOTES_CELL_HEIGHT : CGFloat = 125.0
 let TABLE_CELL_DEFAULT_HEIGHT : CGFloat = 41.0
 let DATE_PICKER_CELL_TAG : NSInteger = 101
+let ADMINISTER_IN_ONE_HOUR : NSTimeInterval = 60*60
 let DISPLAY_SECURITY_PIN_ENTRY : String = "displaySecurityPinEntryViewForUser:"
 
 enum SectionCount : NSInteger {
@@ -49,6 +50,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
 
     var medicationSlot : DCMedicationSlot?
     var medicationDetails : DCMedicationScheduleDetails?
+    var medicationSlotsArray : [DCMedicationSlot] = []
     var usersListWebService : DCUsersListWebService?
     var statusCellSelected : Bool = false
     var userListArray : NSMutableArray? = []
@@ -79,13 +81,10 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     func configureViewElements () {
         
-        if (medicationSlot == nil) {
-            medicationSlot = DCMedicationSlot.init()
-        }
-        if(medicationSlot?.medicationAdministration == nil) {
-            medicationSlot?.medicationAdministration = DCMedicationAdministration.init()
-            medicationSlot?.medicationAdministration.status = ADMINISTERED
-        }
+        initialiseMedicationSlotObject()
+        //check if early administration
+        checkIfAdministrationIsEarly()
+        checkIfFrequentAdministrationForWhenRequiredMedication()
         administerTableView!.layoutMargins = UIEdgeInsetsZero
         administerTableView!.separatorInset = UIEdgeInsetsZero
         if (alertMessage != EMPTY_STRING) {
@@ -96,6 +95,52 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         }
     }
     
+    func initialiseMedicationSlotObject () {
+        
+        //initialise Medication Slot object
+        if (medicationSlot == nil) {
+            medicationSlot = DCMedicationSlot.init()
+        }
+        if(medicationSlot?.medicationAdministration == nil) {
+            medicationSlot?.medicationAdministration = DCMedicationAdministration.init()
+            medicationSlot?.medicationAdministration.status = ADMINISTERED
+            medicationSlot?.medicationAdministration.scheduledDateTime = medicationSlot?.time
+        }
+    }
+    
+    func checkIfAdministrationIsEarly () {
+        
+        //check if administration is early
+        let nextMedicationTimeInterval : NSTimeInterval? = NSDate().timeIntervalSinceDate((medicationSlot?.time)!)
+        if (nextMedicationTimeInterval <= ADMINISTER_IN_ONE_HOUR) {
+            // is early administration
+            medicationSlot?.medicationAdministration.isEarlyAdministration = true
+            //display early administration error message
+        } else {
+            medicationSlot?.medicationAdministration.isEarlyAdministration = false
+        }
+    }
+    
+    func checkIfFrequentAdministrationForWhenRequiredMedication () {
+        
+        //check if frequent administration for when required medication
+        if (medicationDetails?.medicineCategory == WHEN_REQUIRED_VALUE) {
+            if (medicationSlotsArray.count > 0) {
+                let slotIndex = medicationSlotsArray.indexOf(medicationSlot!)
+                if (slotIndex != 0) {
+                    let previousMedicationSlot : DCMedicationSlot? = medicationSlotsArray[slotIndex! - 1]
+                    let nextMedicationTimeInterval : NSTimeInterval? = NSDate().timeIntervalSinceDate((previousMedicationSlot?.time)!)
+                    if (nextMedicationTimeInterval < 2*ADMINISTER_IN_ONE_HOUR) {
+                        medicationSlot?.medicationAdministration.isEarlyAdministration = true
+                        medicationSlot?.medicationAdministration.isWhenRequiredEarlyAdministration = true
+                    } else {
+                        medicationSlot?.medicationAdministration.isEarlyAdministration = false
+                        medicationSlot?.medicationAdministration.isWhenRequiredEarlyAdministration = false
+                    }
+                }
+            }
+        }
+    }
     
     func fetchAdministersAndPrescribersList () {
         
@@ -309,7 +354,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         } else if (indexPath.section == SectionCount.eThirdSection.rawValue) {
             let notesCell : DCNotesTableCell = getNotesTableCellAtIndexPath(indexPath)
             notesCell.notesType = eNotes
-            notesCell.notesTextView.textColor = !isValid ? UIColor.redColor() : UIColor.getColorForHexString("#8f8f95")
+            notesCell.notesTextView.textColor = (!isValid && medicationSlot?.medicationAdministration?.isEarlyAdministration == true) ? UIColor.redColor() : UIColor.getColorForHexString("#8f8f95")
             notesCell.notesTextView.text = notesCell.getHintText()
             return notesCell
         } else {
@@ -345,7 +390,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             let notesCell : DCNotesTableCell = getNotesTableCellAtIndexPath(indexPath)
             notesCell.notesType = eReason
             //notesCell.notesTextView.textColor = UIColor.getColorForHexString("#8f8f95")
-            notesCell.notesTextView.textColor = !isValid ? UIColor.redColor() : UIColor.getColorForHexString("#8f8f95")
+            notesCell.notesTextView.textColor = (!isValid && medicationSlot?.medicationAdministration?.isEarlyAdministration == true) ? UIColor.redColor() : UIColor.getColorForHexString("#8f8f95")
             notesCell.notesTextView.text = notesCell.getHintText()
             return notesCell
         } else {
@@ -437,7 +482,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             return 1
         } else {
 
-            if (medicationSlot?.medicationAdministration.status == OMITTED) {
+            if (medicationSlot?.medicationAdministration?.status == OMITTED) {
                 return OMITTED_SECTION_COUNT;
             } else {
                 return ADMINISTERED_SECTION_COUNT;
@@ -454,7 +499,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             return (statusCellSelected ? 4 : STATUS_ROW_COUNT)
         case SectionCount.eSecondSection.rawValue:
             var rowCount = 0
-            if (medicationSlot?.medicationAdministration.status  == OMITTED || medicationSlot?.medicationAdministration.status == REFUSED) {
+            if (medicationSlot?.medicationAdministration?.status  == OMITTED || medicationSlot?.medicationAdministration?.status == REFUSED) {
                 rowCount = 1
             } else {
                 rowCount = ADMINISTERED_SECTION_ROW_COUNT
@@ -498,13 +543,14 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             return INITIAL_SECTION_HEIGHT
         } else if (section == SectionCount.eFirstSection.rawValue) {
             return MEDICATION_DETAILS_SECTION_HEIGHT
+        } else if (section == SectionCount.eSecondSection.rawValue) {
+            return (medicationSlot?.medicationAdministration?.isEarlyAdministration == true) ? MEDICATION_DETAILS_SECTION_HEIGHT : TABLEVIEW_DEFAULT_SECTION_HEIGHT
         } else {
             return TABLEVIEW_DEFAULT_SECTION_HEIGHT
         }
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        
         
         switch indexPath.section {
             
@@ -528,10 +574,23 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        if (section == SectionCount.eFirstSection.rawValue) {
+        if (section == SectionCount.eFirstSection.rawValue || section == SectionCount.eSecondSection.rawValue) {
             let administerHeaderView = NSBundle.mainBundle().loadNibNamed(ADMINISTER_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCAdministerTableHeaderView
-            if (medicationSlot?.time != nil) {
-                administerHeaderView?.populateScheduledTimeValue((medicationSlot?.time)!)
+            if (section == SectionCount.eFirstSection.rawValue) {
+                if (medicationSlot?.time != nil) {
+                    administerHeaderView?.populateScheduledTimeValue((medicationSlot?.time)!)
+                }
+            } else {
+                if (medicationSlot?.medicationAdministration?.isEarlyAdministration == true) {
+                    if (medicationSlot?.medicationAdministration?.isWhenRequiredEarlyAdministration == true) {
+                        let errorMessage = NSString(format: "%@ %@", NSLocalizedString("ADMIN_FREQUENCY", comment: "when required new medication is given 2 hrs before previous one"), NSLocalizedString("EARLY_ADMIN_INLINE", comment: ""))
+                        administerHeaderView?.populateHeaderViewWithErrorMessage(errorMessage as String)
+                    } else {
+                        administerHeaderView?.populateHeaderViewWithErrorMessage(NSLocalizedString("EARLY_ADMIN_INLINE", comment: "early administration when medication is attempted 1 hr before scheduled time"))
+                    }
+                } else {
+                    return nil
+                }
             }
             return administerHeaderView
         }

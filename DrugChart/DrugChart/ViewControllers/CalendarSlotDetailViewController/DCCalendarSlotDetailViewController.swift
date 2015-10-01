@@ -101,6 +101,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
 //                administerViewController?.medicationSlot = lastMedicationSlot
 //            }
             administerViewController?.medicationDetails = medicationDetails
+            administerViewController?.medicationSlotsArray = medicationSlotsArray
             self.addChildViewController(administerViewController!)
             administerViewController!.view.frame = containerView.bounds
             containerView.addSubview((administerViewController?.view)!)
@@ -157,23 +158,29 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         var isValid : Bool = true
         let medicationStatus = administerViewController?.medicationSlot?.medicationAdministration.status
         //notes will be mandatory always for omitted ones , it will be mandatory for administered/refused for early administration, currently checked for all cases
-        if (medicationStatus == ADMINISTERED) {
-            //administered medication status
-            let notes : String? = administerViewController?.medicationSlot?.medicationAdministration?.administeredNotes
-            if (notes == EMPTY_STRING || notes == nil) {
-                isValid = false
-            }
-        } else if (medicationStatus == REFUSED) {
-            //refused medication status
-            let refusedNotes = administerViewController?.medicationSlot?.medicationAdministration.refusedNotes
-            if (refusedNotes == EMPTY_STRING || refusedNotes == nil) {
-                isValid = false
-            }
-        } else {
+        if (medicationStatus == OMITTED) {
             //omitted medication status
             let omittedNotes = administerViewController?.medicationSlot?.medicationAdministration.omittedNotes
             if (omittedNotes == EMPTY_STRING || omittedNotes == nil) {
                 isValid = false
+            }
+        }
+        
+        if (administerViewController?.medicationSlot?.medicationAdministration?.isEarlyAdministration == true) {
+            
+            //early administration condition
+            if (medicationStatus == ADMINISTERED) {
+                //administered medication status
+                let notes : String? = administerViewController?.medicationSlot?.medicationAdministration?.administeredNotes
+                if (notes == EMPTY_STRING || notes == nil) {
+                    isValid = false
+                }
+            } else if (medicationStatus == REFUSED) {
+                //refused medication status
+                let refusedNotes = administerViewController?.medicationSlot?.medicationAdministration.refusedNotes
+                if (refusedNotes == EMPTY_STRING || refusedNotes == nil) {
+                    isValid = false
+                }
             }
         }
         return isValid
