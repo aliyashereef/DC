@@ -1817,7 +1817,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ehk-XV-GI2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1676" y="701"/>
+            <point key="canvasLocation" x="1682" y="677"/>
         </scene>
         <!--Administrated By Pin Verification View Controller-->
         <scene sceneID="O9C-sc-WIK">
@@ -2081,6 +2081,27 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BPB-kt-bNr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1562" y="1067"/>
+        </scene>
+        <!--Calendar Date Display View Controller-->
+        <scene sceneID="rc9-8C-t5m">
+            <objects>
+                <viewController storyboardIdentifier="CalendarDateDisplayView" id="vEe-iR-Dt2" customClass="DCCalendarDateDisplayViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="DEd-xN-Yt6"/>
+                        <viewControllerLayoutGuide type="bottom" id="TwI-xn-m0D"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="LUc-eo-XCp">
+                        <rect key="frame" x="0.0" y="0.0" width="2172" height="50"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" name="controlHighlightColor" catalog="System" colorSpace="catalog"/>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="2172" height="50"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkv-N0-wcT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1663" y="1725"/>
         </scene>
     </scenes>
     <resources>
