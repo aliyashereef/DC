@@ -101,6 +101,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
 //                administerViewController?.medicationSlot = lastMedicationSlot
 //            }
             administerViewController?.medicationDetails = medicationDetails
+            administerViewController?.medicationSlotsArray = medicationSlotsArray
             self.addChildViewController(administerViewController!)
             administerViewController!.view.frame = containerView.bounds
             containerView.addSubview((administerViewController?.view)!)

@@ -335,7 +335,7 @@
     if (_patient.medicationListArray.count > 0) {
         DCMedicationScheduleDetails *medicationList =  [displayMedicationListArray objectAtIndex:indexPath.item];
         detailViewController.medicationDetails = medicationList;
-        NSArray *slots = [[medicationList.timeChart objectAtIndex:0] valueForKey:@"medDetails"];
+        NSArray *slots = [[medicationList.timeChart objectAtIndex:1] valueForKey:@"medDetails"];
         detailViewController.medicationSlotsArray = slots;
     }
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:detailViewController];

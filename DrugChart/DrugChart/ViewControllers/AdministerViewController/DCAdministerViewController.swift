@@ -50,6 +50,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
 
     var medicationSlot : DCMedicationSlot?
     var medicationDetails : DCMedicationScheduleDetails?
+    var medicationSlotsArray : [DCMedicationSlot] = []
     var usersListWebService : DCUsersListWebService?
     var statusCellSelected : Bool = false
     var userListArray : NSMutableArray? = []
@@ -81,6 +82,9 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func configureViewElements () {
         
         initialiseMedicationSlotObject()
+        //check if early administration
+        checkIfAdministrationIsEarly()
+        checkIfFrequentAdministrationForWhenRequiredMedication()
         administerTableView!.layoutMargins = UIEdgeInsetsZero
         administerTableView!.separatorInset = UIEdgeInsetsZero
         if (alertMessage != EMPTY_STRING) {
@@ -102,8 +106,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             medicationSlot?.medicationAdministration.status = ADMINISTERED
             medicationSlot?.medicationAdministration.scheduledDateTime = medicationSlot?.time
         }
-        //check if early administration
-        checkIfAdministrationIsEarly()
     }
     
     func checkIfAdministrationIsEarly () {
@@ -116,6 +118,27 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             //display early administration error message
         } else {
             medicationSlot?.medicationAdministration.isEarlyAdministration = false
+        }
+    }
+    
+    func checkIfFrequentAdministrationForWhenRequiredMedication () {
+        
+        //check if frequent administration for when required medication
+        if (medicationDetails?.medicineCategory == WHEN_REQUIRED_VALUE) {
+            if (medicationSlotsArray.count > 0) {
+                let slotIndex = medicationSlotsArray.indexOf(medicationSlot!)
+                if (slotIndex != 0) {
+                    let previousMedicationSlot : DCMedicationSlot? = medicationSlotsArray[slotIndex! - 1]
+                    let nextMedicationTimeInterval : NSTimeInterval? = NSDate().timeIntervalSinceDate((previousMedicationSlot?.time)!)
+                    if (nextMedicationTimeInterval < 2*ADMINISTER_IN_ONE_HOUR) {
+                        medicationSlot?.medicationAdministration.isEarlyAdministration = true
+                        medicationSlot?.medicationAdministration.isWhenRequiredEarlyAdministration = true
+                    } else {
+                        medicationSlot?.medicationAdministration.isEarlyAdministration = false
+                        medicationSlot?.medicationAdministration.isWhenRequiredEarlyAdministration = false
+                    }
+                }
+            }
         }
     }
     
@@ -529,7 +552,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
-        
         switch indexPath.section {
             
         case SectionCount.eZerothSection.rawValue :
@@ -560,7 +582,12 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 }
             } else {
                 if (medicationSlot?.medicationAdministration?.isEarlyAdministration == true) {
-                    administerHeaderView?.populateHeaderViewWithErrorMessage(NSLocalizedString("EARLY_ADMIN_INLINE", comment: "early administration when medication is attempted 1 hr before scheduled time"))
+                    if (medicationSlot?.medicationAdministration?.isWhenRequiredEarlyAdministration == true) {
+                        let errorMessage = NSString(format: "%@ %@", NSLocalizedString("ADMIN_FREQUENCY", comment: "when required new medication is given 2 hrs before previous one"), NSLocalizedString("EARLY_ADMIN_INLINE", comment: ""))
+                        administerHeaderView?.populateHeaderViewWithErrorMessage(errorMessage as String)
+                    } else {
+                        administerHeaderView?.populateHeaderViewWithErrorMessage(NSLocalizedString("EARLY_ADMIN_INLINE", comment: "early administration when medication is attempted 1 hr before scheduled time"))
+                    }
                 } else {
                     return nil
                 }
