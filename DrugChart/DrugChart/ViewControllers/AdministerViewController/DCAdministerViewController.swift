@@ -712,11 +712,13 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         administerTableView.reloadRowsAtIndexPaths([popOverIndexPath!], withRowAnimation: UITableViewRowAnimation.None)
         }
     }
+    
     func displaySecurityPinEntryViewForUser(user : NSString) {
         let securityPinViewController : DCAdministratedByPinVerificationViewController? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(SECURITY_PIN_VIEW_CONTROLLER) as? DCAdministratedByPinVerificationViewController
         securityPinViewController?.transitioningDelegate = securityPinViewController
         securityPinViewController?.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
-        securityPinViewController?.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
+        securityPinViewController!.view.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
+        securityPinViewController!.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
         self.presentViewController(securityPinViewController!, animated: true, completion: nil)
     }
     
@@ -731,7 +733,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             }
         }
     }
-
     
 }
 

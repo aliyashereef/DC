@@ -220,7 +220,7 @@
     } else {
         corners = UIRectCornerBottomLeft | UIRectCornerBottomRight;
     }
-    maskLayer.path = [UIBezierPath bezierPathWithRoundedRect: view.bounds byRoundingCorners: corners cornerRadii: (CGSize){5.0, 5.0}].CGPath;
+    maskLayer.path = [UIBezierPath bezierPathWithRoundedRect: view.bounds byRoundingCorners: corners cornerRadii: (CGSize){10.0, 10.0}].CGPath;
     view.layer.mask = maskLayer;
 }
 

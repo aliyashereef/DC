@@ -131,6 +131,6 @@
 
 //
 
-"ADMINISTER_LATER"      =       "The medication cannot be administered now";
-"ALREADY_ADMINISTERED"  =       "All medications have already been administered";
+"ADMINISTER_LATER"      =       "This medication cannot be administered now.";
+"ALREADY_ADMINISTERED"  =       "All medications have been already administered.";
 

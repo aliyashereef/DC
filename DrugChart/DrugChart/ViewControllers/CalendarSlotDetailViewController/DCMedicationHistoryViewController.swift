@@ -48,6 +48,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
             break
         case 2:
             cell!.contentType.text = DATE_TIME
+            //cell!.value.text = "16-Jun-2015 21:00"
             cell!.value.text = "16-Jun-2015 21:00"
             break
         case 3:

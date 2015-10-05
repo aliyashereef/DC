@@ -15,6 +15,7 @@
 #import "DCSortTableViewController.h"
 #import "DCPatientAlert.h"
 #import "DCPatientAllergy.h"
+//#import "DCAdministratedByPinVerificationViewController.h"
 
 #import "DCMedicationSchedulesWebService.h"
 #import "DCMedicationScheduleDetails.h"
@@ -410,6 +411,5 @@
     
     [self displayAdministrationViewForMedicationSlot:slotsDictionary atIndexPath:indexPath];
 }
-
 
 @end
