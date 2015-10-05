@@ -209,6 +209,9 @@
 		4D4D1D6D1B983E9C0007C153 /* DCMedicationListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D4D1D6C1B983E9C0007C153 /* DCMedicationListTableViewCell.m */; };
 		4D66A06B1B737B100075677E /* DCOrderSetAutoSearchHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D66A06A1B737B100075677E /* DCOrderSetAutoSearchHeaderView.m */; };
 		4D66A06F1B737BEE0075677E /* DCOrderSetAutoSearchHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D66A06E1B737BEE0075677E /* DCOrderSetAutoSearchHeaderView.xib */; };
+		4D766C0B1BBCF79900413E08 /* DCCalendarDateDisplayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D766C0A1BBCF79900413E08 /* DCCalendarDateDisplayViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		4D766C0D1BBCFE6400413E08 /* DCCalendarDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D766C0C1BBCFE6400413E08 /* DCCalendarDateView.swift */; settings = {ASSET_TAGS = (); }; };
+		4D766C0F1BBD004800413E08 /* DCDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D766C0E1BBD004800413E08 /* DCDateView.swift */; settings = {ASSET_TAGS = (); }; };
 		4D7B50E91B578A4F0025E31C /* DCAddMedicationDetailsWebServiceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D7B50E81B578A4F0025E31C /* DCAddMedicationDetailsWebServiceTests.m */; };
 		4D83869A1BB258AD0012EF7D /* DCMedicationDetailsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8386991BB258AD0012EF7D /* DCMedicationDetailsCell.swift */; settings = {ASSET_TAGS = (); }; };
 		4D83869E1BB26BC60012EF7D /* DCMedicationHistoryHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D83869D1BB26BC60012EF7D /* DCMedicationHistoryHeaderView.xib */; settings = {ASSET_TAGS = (); }; };
@@ -611,6 +614,9 @@
 		4D66A0691B737B100075677E /* DCOrderSetAutoSearchHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCOrderSetAutoSearchHeaderView.h; sourceTree = "<group>"; };
 		4D66A06A1B737B100075677E /* DCOrderSetAutoSearchHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCOrderSetAutoSearchHeaderView.m; sourceTree = "<group>"; };
 		4D66A06E1B737BEE0075677E /* DCOrderSetAutoSearchHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCOrderSetAutoSearchHeaderView.xib; sourceTree = "<group>"; };
+		4D766C0A1BBCF79900413E08 /* DCCalendarDateDisplayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCCalendarDateDisplayViewController.swift; sourceTree = "<group>"; };
+		4D766C0C1BBCFE6400413E08 /* DCCalendarDateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCCalendarDateView.swift; sourceTree = "<group>"; };
+		4D766C0E1BBD004800413E08 /* DCDateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDateView.swift; sourceTree = "<group>"; };
 		4D7B50E81B578A4F0025E31C /* DCAddMedicationDetailsWebServiceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCAddMedicationDetailsWebServiceTests.m; sourceTree = "<group>"; };
 		4D8386991BB258AD0012EF7D /* DCMedicationDetailsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCMedicationDetailsCell.swift; sourceTree = "<group>"; };
 		4D83869D1BB26BC60012EF7D /* DCMedicationHistoryHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCMedicationHistoryHeaderView.xib; sourceTree = "<group>"; };
@@ -1566,6 +1572,7 @@
 		0BBC8F9A1AA468920085ABAB /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				4D766C091BBCF75200413E08 /* CalendarDateDisplayViewController */,
 				7D2FF0101BB50FDB00B92B85 /* PrescriberVC */,
 				0BF13A891B845D3C003607A8 /* PatientListCollectionViewController */,
 				7D3234AD1AF124E50020CC8F /* PatientAlertNotificationViewController */,
@@ -2259,6 +2266,17 @@
 			name = DCContraIndicationAndAllergyIndicationWebservice;
 			sourceTree = "<group>";
 		};
+		4D766C091BBCF75200413E08 /* CalendarDateDisplayViewController */ = {
+			isa = PBXGroup;
+			children = (
+				4D766C0A1BBCF79900413E08 /* DCCalendarDateDisplayViewController.swift */,
+				4D766C0C1BBCFE6400413E08 /* DCCalendarDateView.swift */,
+				4D766C0E1BBD004800413E08 /* DCDateView.swift */,
+			);
+			name = CalendarDateDisplayViewController;
+			path = PrescriberVC;
+			sourceTree = "<group>";
+		};
 		4D96498F1BA29681008630B4 /* PatientsAndBedsWebService */ = {
 			isa = PBXGroup;
 			children = (
@@ -2924,6 +2942,7 @@
 				0B941CAB1AC1625400B54207 /* DCPrescriberTimeView.m in Sources */,
 				0BF2DA561ACAB12700B3ED97 /* DCErrorPopOverBackgroundView.m in Sources */,
 				0BAE369A1B455DDF007CD64C /* DCOrderSetMedicineView.m in Sources */,
+				4D766C0D1BBCFE6400413E08 /* DCCalendarDateView.swift in Sources */,
 				4D16FAE21B5E56160034406A /* DCContraIndicationWebService.m in Sources */,
 				0BBFBB3D1B0F474700342D2F /* DCMedicationDetailsViewController.m in Sources */,
 				0B90D6541B734EE0003A37E4 /* UICKeyChainStore.m in Sources */,
@@ -2933,6 +2952,7 @@
 				0B7F74FC1B84394B00E3B0A0 /* DCSortTableViewController.m in Sources */,
 				0B0F1B651AB6688F00DD2D69 /* DCAdministerMedicationViewController.m in Sources */,
 				7D70F3791B201A8400E4BA89 /* DCWardsPatientsListingViewController.m in Sources */,
+				4D766C0F1BBD004800413E08 /* DCDateView.swift in Sources */,
 				0BB851D61B16F2300021FD8D /* DCMedicineNameCell.m in Sources */,
 				4D8386A21BB2887D0012EF7D /* DCNotesAndReasonCell.swift in Sources */,
 				0BC0043F1AAD6D3700560E38 /* DCTimeView.m in Sources */,
@@ -2960,6 +2980,7 @@
 				0BA449E31B985100009F84E5 /* DCAddMedicationDetailViewController.m in Sources */,
 				4D83869A1BB258AD0012EF7D /* DCMedicationDetailsCell.swift in Sources */,
 				7D2FF0551BB85C2100B92B85 /* PrescriberMedicationViewController.m in Sources */,
+				4D766C0B1BBCF79900413E08 /* DCCalendarDateDisplayViewController.swift in Sources */,
 				0BBDEDF51AA5B3100016E6FF /* DCFontUtility.m in Sources */,
 				0BB27D061AEF51230007EB88 /* DCPopOverBaseBackgroundView.m in Sources */,
 				0BF2DA501ACA982E00B3ED97 /* DCErrorPopOverViewController.m in Sources */,

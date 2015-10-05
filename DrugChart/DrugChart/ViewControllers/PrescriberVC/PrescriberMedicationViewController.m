@@ -164,7 +164,6 @@
     displayMedicationListArray = (NSMutableArray *)[_patient.medicationListArray filteredArrayUsingPredicate:medicineCategoryPredicate];
 }
 
-
 - (void)fetchMedicationListForPatient {
     
     [activityIndicatorView startAnimating];
@@ -183,10 +182,16 @@
                                 [medicationsTableView reloadData];
                                 [calendarDaysDisplayView setHidden:NO];
                                 [calendarTopHolderView setHidden:NO];
+                                UIStoryboard *administerStoryboard = [UIStoryboard storyboardWithName:ADMINISTER_STORYBOARD
+                                                                                               bundle: nil];
+                                DCCalendarDateDisplayViewController *viewController = [administerStoryboard instantiateViewControllerWithIdentifier:@"CalendarDateDisplayView"];
+                                
+                                [calendarDaysDisplayView addSubview:viewController.view];
                             }
                             else {
                                 if ([_patient.medicationListArray count] == 0) {
                                     noMedicationsAvailableLabel.text = @"No medications available";
+                                    
                                 }
                                 else {
                                     if ([displayMedicationListArray count] == 0) {
