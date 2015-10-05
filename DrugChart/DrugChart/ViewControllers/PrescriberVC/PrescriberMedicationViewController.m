@@ -8,7 +8,7 @@
 
 #import "PrescriberMedicationViewController.h"
 #import "DrugChart-Swift.h"
-#import "PrescriberMedicationCellTableViewCell.h"
+//#import "PrescriberMedicationCellTableViewCell.h"
 #import "DCCalendarNavigationTitleView.h"
 #import "DCAddMedicationInitialViewController.h"
 #import "DCAlertsAllergyPopOverViewController.h"
@@ -43,6 +43,7 @@
     NSMutableArray *allergiesArray;
     NSString *selectedSortType;
     NSMutableArray *displayMedicationListArray;
+    NSMutableArray *rowMedicationSlotsArray;
 }
 
 @end
@@ -53,13 +54,15 @@
     
     self = [super initWithCoder:aDecoder];
     displayMedicationListArray = [[NSMutableArray alloc] init];
-    
+    currentWeekDatesArray = [[NSMutableArray alloc] init];
+    rowMedicationSlotsArray = [[NSMutableArray alloc] init];
     return self;
 }
 
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+    [self setCurrentWeekDatesArrayFromToday];
     [self configurePrescriberMedicationView];
 }
 
@@ -74,6 +77,15 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)setCurrentWeekDatesArrayFromToday {
+    
+    NSDate *firstDay = [DCDateUtility getInitialDateForFiveDayDisplay:[DCDateUtility getDateInCurrentTimeZone:[NSDate date]]];
+    currentWeekDatesArray = [DCDateUtility getFiveDaysOfWeekFromDate:firstDay];
+    NSLog(@"the week days array: %@", currentWeekDatesArray);
+}
+
+
+
 - (void)configurePrescriberMedicationView {
     
     addButton = [[UIBarButtonItem alloc]
@@ -81,8 +93,7 @@
     self.navigationItem.rightBarButtonItem = addButton;
     medicationsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [todayBackGroundView.layer setCornerRadius:12.5];
-    NSDate *initialDisplayDate = [DCDateUtility getInitialDateOfWeekForDisplay:[DCDateUtility getDateInCurrentTimeZone:[NSDate date]]];
-    currentWeekDatesArray = [DCDateUtility getDaysOfWeekFromDate:initialDisplayDate];
+
     if ([DCAPPDELEGATE isNetworkReachable]) {
         if (!_patient.medicationListArray) {
             [self fetchMedicationListForPatient];
@@ -112,26 +123,68 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    PrescriberMedicationCellTableViewCell *medicationCell = (PrescriberMedicationCellTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"prescriberIdentifier"];
+    PrescriberMedicationTableViewCell *medicationCell = (PrescriberMedicationTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"prescriberIdentifier"];
     if (medicationCell == nil) {
-        
-        medicationCell = [[PrescriberMedicationCellTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"prescriberIdentifier"];
+        medicationCell = [[PrescriberMedicationTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"prescriberIdentifier"];
     }
     medicationCell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
     DCMedicationScheduleDetails *medicationList = [displayMedicationListArray objectAtIndex:indexPath.item];
     if (medicationList) {
         medicationCell.medicineName.text = medicationList.name;
         medicationCell.route.text = medicationList.route;
         medicationList.instruction = medicationList.instruction;
     }
+    rowMedicationSlotsArray = [self setMedicationSlotsForDisplay:medicationList];
+    if ([rowMedicationSlotsArray count] > 0) {
+        [self addMedicationSlotsFromSlotArray:rowMedicationSlotsArray
+                              inTableViewCell:medicationCell
+                                  atIndexPath:indexPath];
+    }
     return medicationCell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (NSMutableArray *)setMedicationSlotsForDisplay:(DCMedicationScheduleDetails *)medicationList {
     
-    [self displayMedicationDetailsViewAtIndexPath:indexPath slotsArray:@[]];
+    NSMutableArray *displayMedicationSlotsArray = [[NSMutableArray alloc] init];
+    NSInteger count = 0, weekDays = 5;
+    while (count < weekDays) {
+        
+        NSMutableDictionary *slotsDictionary = [[NSMutableDictionary alloc] init];
+        if (count <[currentWeekDatesArray count] ) {
+            NSString *formattedDateString = [DCDateUtility convertDate:[currentWeekDatesArray objectAtIndex:count] FromFormat:DEFAULT_DATE_FORMAT ToFormat:SHORT_DATE_FORMAT];
+            NSString *predicateString = [NSString stringWithFormat:@"medDate contains[cd] '%@'",formattedDateString];
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
+            NSArray *slotsDetailsArray = [medicationList.timeChart filteredArrayUsingPredicate:predicate];
+            if ([slotsDetailsArray count] > 0) {
+                NSMutableArray *medicationSlotArray = [[slotsDetailsArray objectAtIndex:0] valueForKey:MED_DETAILS];
+                [slotsDictionary setObject:medicationSlotArray forKey:PRESCRIBER_TIME_SLOTS];
+            }
+        }
+        [slotsDictionary setObject:[NSNumber numberWithInteger:count+1] forKey:PRESCRIBER_SLOT_VIEW_TAG];
+        [displayMedicationSlotsArray addObject:slotsDictionary];
+        count++;
+    }
+    return displayMedicationSlotsArray;
 }
+
+- (void)addMedicationSlotsFromSlotArray:(NSMutableArray *)displaySlotsArray
+                        inTableViewCell:(PrescriberMedicationTableViewCell *)prescriberCell
+                            atIndexPath:(NSIndexPath *)indexPath {
+    
+    NSInteger index = 1;
+    while (index <= [displaySlotsArray count]) {
+        // things are coming correctly here. just ensure that the correct slots go for the correct view.
+        
+        
+        DCMedicationAdministrationStatusView *statusView = (DCMedicationAdministrationStatusView *)[prescriberCell viewWithTag:index];
+        statusView.delegate = self;
+        statusView.medicationSLotDictionary = [displaySlotsArray objectAtIndex:index - 1];
+//        statusView.medicationSlot = [displayMedicationListArray objectAtIndex:indexPath.item];
+        statusView.currentIndexPath = indexPath;
+        index++;
+    }
+}
+
 
 - (void)fetchMedicationListForPatientId:(NSString *)patientId
                   withCompletionHandler:(void(^)(NSArray *result, NSError *error))completionHandler {
@@ -330,24 +383,33 @@
     };
 }
 
-
-- (void)displayMedicationDetailsViewAtIndexPath:(NSIndexPath *)indexPath
-                                     slotsArray:(NSArray *)slotsArray {
+- (void)displayAdministrationViewForMedicationSlot:(NSDictionary *)medicationSLotsDictionary
+                                       atIndexPath:(NSIndexPath *)indexPath{
     
-    //display calendar slot detail screen
     UIStoryboard *administerStoryboard = [UIStoryboard storyboardWithName:ADMINISTER_STORYBOARD bundle:nil];
     DCCalendarSlotDetailViewController *detailViewController = [administerStoryboard instantiateViewControllerWithIdentifier:CALENDAR_SLOT_DETAIL_STORYBOARD_ID];
-    if (_patient.medicationListArray.count > 0) {
+    if ([displayMedicationListArray count] > 0) {
         DCMedicationScheduleDetails *medicationList =  [displayMedicationListArray objectAtIndex:indexPath.item];
         detailViewController.medicationDetails = medicationList;
-        NSArray *slots = [[medicationList.timeChart objectAtIndex:1] valueForKey:@"medDetails"];
-        detailViewController.medicationSlotsArray = slots;
+    }
+    if ([[medicationSLotsDictionary allKeys] containsObject:@"timeSlots"]) {
+        NSMutableArray *slotsArray = [[NSMutableArray alloc] initWithArray:[medicationSLotsDictionary valueForKey:@"timeSlots"]];
+        if ([slotsArray count] > 0) {
+            detailViewController.medicationSlotsArray = slotsArray;
+        }
     }
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:detailViewController];
     navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
     [self presentViewController:navigationController animated:YES completion:nil];
 }
 
+
+#pragma mark - administer view tag delegate method called
+- (void)administerMedicationWithMedicationSlots: (NSDictionary *)slotsDictionary
+                                    atIndexPath:(NSIndexPath *)indexPath {
+    
+    [self displayAdministrationViewForMedicationSlot:slotsDictionary atIndexPath:indexPath];
+}
 
 
 @end
