@@ -1133,20 +1133,6 @@ typedef enum : NSUInteger {
                                   withButtonTag:(NSInteger)tag
                                      slotsArray:(NSArray *)slotsArray {
     
-//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:PRESCRIBER_DETAILS_STORYBOARD
-//                                                         bundle: nil];
-//    DCPrescriberDetailsViewController *detailsViewController = [storyboard instantiateViewControllerWithIdentifier:PRESCRIBER_DETAILS_SB_ID];
-//    detailsViewController.medicationList = medicationList;
-//    detailsViewController.displayDateString = [calendarDisplayWeekArray objectAtIndex:tag - 1];
-//    detailsViewController.slotsArray = slotsArray;
-//    [detailsViewController setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
-//    [self presentViewController:detailsViewController animated:YES completion:nil];
-//    detailsViewController.view.superview.layer.cornerRadius = 5;
-//    [detailsViewController.view.superview clipsToBounds];
-//    detailsViewController.view.superview.superview.backgroundColor = [UIColor clearColor];
-    
-    
-    
     //display calendar slot detail screen
     UIStoryboard *administerStoryboard = [UIStoryboard storyboardWithName:ADMINISTER_STORYBOARD bundle:nil];
     DCCalendarSlotDetailViewController *detailViewController = [administerStoryboard instantiateViewControllerWithIdentifier:CALENDAR_SLOT_DETAIL_STORYBOARD_ID];
@@ -1154,6 +1140,7 @@ typedef enum : NSUInteger {
     detailViewController.medicationDetails = medicationList;
     detailViewController.medicationSlotsArray = slotsArray;
     detailViewController.medicationDetails = medicationList;
+   // detailViewController.weekDate =
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:detailViewController];
     navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
     [self presentViewController:navigationController animated:YES completion:nil];

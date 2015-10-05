@@ -247,6 +247,7 @@
         DCMedicationAdministrationStatusView *statusView = (DCMedicationAdministrationStatusView *)[prescriberCell viewWithTag:index];
         statusView.delegate = self;
         statusView.medicationSLotDictionary = [displaySlotsArray objectAtIndex:index - 1];
+        statusView.weekdate = [currentWeekDatesArray objectAtIndex:index - 1];
 //        statusView.medicationSlot = [displayMedicationListArray objectAtIndex:indexPath.item];
         statusView.currentIndexPath = indexPath;
         index++;
@@ -447,7 +448,8 @@
 }
 
 - (void)displayAdministrationViewForMedicationSlot:(NSDictionary *)medicationSLotsDictionary
-                                       atIndexPath:(NSIndexPath *)indexPath{
+                                       atIndexPath:(NSIndexPath *)indexPath
+                                      withWeekDate:(NSDate *)date {
     
     UIStoryboard *administerStoryboard = [UIStoryboard storyboardWithName:ADMINISTER_STORYBOARD bundle:nil];
     DCCalendarSlotDetailViewController *detailViewController = [administerStoryboard instantiateViewControllerWithIdentifier:CALENDAR_SLOT_DETAIL_STORYBOARD_ID];
@@ -461,6 +463,7 @@
             detailViewController.medicationSlotsArray = slotsArray;
         }
     }
+    detailViewController.weekDate = date;
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:detailViewController];
     navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
     [self presentViewController:navigationController animated:YES completion:nil];
@@ -469,9 +472,9 @@
 
 #pragma mark - administer view tag delegate method called
 - (void)administerMedicationWithMedicationSlots: (NSDictionary *)slotsDictionary
-                                    atIndexPath:(NSIndexPath *)indexPath {
+                                    atIndexPath:(NSIndexPath *)indexPath withWeekDate:(NSDate *) date {
     
-    [self displayAdministrationViewForMedicationSlot:slotsDictionary atIndexPath:indexPath];
+    [self displayAdministrationViewForMedicationSlot:slotsDictionary atIndexPath:indexPath withWeekDate:date];
 }
 
 @end

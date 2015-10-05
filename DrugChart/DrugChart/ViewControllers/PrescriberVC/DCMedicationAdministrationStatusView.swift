@@ -10,7 +10,7 @@ import UIKit
 
 @objc protocol DCMedicationAdministrationStatusProtocol:class {
     
-    func administerMedicationWithMedicationSlots (medicationSLotDictionary: NSDictionary, atIndexPath indexPath: NSIndexPath)
+    func administerMedicationWithMedicationSlots (medicationSLotDictionary: NSDictionary, atIndexPath indexPath: NSIndexPath ,withWeekDate date : NSDate)
 }
 
 class DCMedicationAdministrationStatusView: UIView {
@@ -18,6 +18,7 @@ class DCMedicationAdministrationStatusView: UIView {
     var medicationSLotDictionary: NSDictionary?
     var medicationSlot: DCMedicationSlot?
     var currentIndexPath: NSIndexPath?
+    var weekdate : NSDate?
     weak var delegate:DCMedicationAdministrationStatusProtocol?
 
     @IBOutlet var administerButton: UIButton?
@@ -28,10 +29,9 @@ class DCMedicationAdministrationStatusView: UIView {
         
         //delegate?.administerButtonClickedForViewTag(self.tag, atIndexPath: currentIndexPath!)
         if let slotDictionary = medicationSLotDictionary {
-            delegate?.administerMedicationWithMedicationSlots(slotDictionary, atIndexPath: currentIndexPath!)
+            delegate?.administerMedicationWithMedicationSlots(slotDictionary, atIndexPath: currentIndexPath!, withWeekDate: weekdate!)
         }
     }
-    
     
     
     /*

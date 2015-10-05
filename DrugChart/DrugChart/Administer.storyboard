@@ -150,13 +150,13 @@
                                         <color key="textColor" red="0.0" green="0.47450980392156861" blue="0.76078431372549016" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" misplaced="YES" text="(single dose)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="VYh-Yc-ipC">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="(single dose)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="VYh-Yc-ipC">
                                         <rect key="frame" x="55" y="40" width="430" height="21"/>
                                         <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="15"/>
                                         <color key="textColor" red="0.40392156862745099" green="0.40392156862745099" blue="0.40392156862745099" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Oral" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oxc-SY-Vfl">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Oral" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oxc-SY-Vfl">
                                         <rect key="frame" x="13" y="40" width="40" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="33" id="85S-aw-hDE"/>
@@ -181,7 +181,7 @@
                                         <color key="textColor" red="0.94117647058823528" green="0.34901960784313724" blue="0.027450980392156862" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qur-Ye-CCQ" userLabel="Options View For Early Admin">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qur-Ye-CCQ" userLabel="Options View For Early Admin">
                                         <rect key="frame" x="0.0" y="73" width="601" height="82"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tmw-bx-oLb">
@@ -268,7 +268,7 @@
                                             <constraint firstAttribute="height" constant="82" id="r5g-u4-Jf2"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KK9-TV-gkK">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KK9-TV-gkK">
                                         <rect key="frame" x="0.0" y="155" width="601" height="437"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b0t-wt-Mfa" userLabel="Omitted View">
@@ -1088,7 +1088,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Oral(As directed)" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ubC-NE-ktS">
-                                                    <rect key="frame" x="10" y="31" width="675" height="15"/>
+                                                    <rect key="frame" x="15" y="31" width="670" height="15"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.45098039215686275" green="0.45098039215686275" blue="0.45098039215686275" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -1097,7 +1097,7 @@
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="Lyh-tZ-k3a" secondAttribute="trailing" constant="15" id="7iG-4W-bGa"/>
                                                 <constraint firstItem="Lyh-tZ-k3a" firstAttribute="leading" secondItem="8ZJ-01-SO5" secondAttribute="leading" constant="15" id="AuG-hY-rjE"/>
-                                                <constraint firstItem="ubC-NE-ktS" firstAttribute="leading" secondItem="8ZJ-01-SO5" secondAttribute="leading" constant="10" id="FJO-P9-pep"/>
+                                                <constraint firstItem="ubC-NE-ktS" firstAttribute="leading" secondItem="8ZJ-01-SO5" secondAttribute="leading" constant="15" id="FJO-P9-pep"/>
                                                 <constraint firstAttribute="trailing" secondItem="ubC-NE-ktS" secondAttribute="trailing" constant="15" id="JLw-uc-0ey"/>
                                                 <constraint firstAttribute="trailing" secondItem="Lyh-tZ-k3a" secondAttribute="trailing" constant="15" id="Rhb-Ta-WXr"/>
                                                 <constraint firstItem="Lyh-tZ-k3a" firstAttribute="leading" secondItem="8ZJ-01-SO5" secondAttribute="leading" constant="15" id="W5W-Gj-q5C"/>
