@@ -2025,10 +2025,10 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ziG-mS-eI4">
-                                                <rect key="frame" x="254" y="15" width="46" height="20"/>
+                                                <rect key="frame" x="241" y="16" width="52" height="20"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <color key="tintColor" name="keyboardFocusIndicatorColor" catalog="System" colorSpace="catalog"/>
-                                                <state key="normal" title="Done"/>
+                                                <state key="normal" title="Cancel"/>
                                                 <connections>
                                                     <action selector="doneButtonTapped:" destination="98Y-kk-5My" eventType="touchUpInside" id="uYS-Rq-x2S"/>
                                                 </connections>
