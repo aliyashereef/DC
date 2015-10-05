@@ -26,7 +26,7 @@
 #define ALERTS_ALLERGIES_ICON @"AlertsIcon"
 
 
-@interface PrescriberMedicationViewController () {
+@interface PrescriberMedicationViewController () <DCAddMedicationViewControllerDelegate>{
     
     NSMutableArray *currentWeekDatesArray;
     IBOutlet UIView *calendarDaysDisplayView;
@@ -475,6 +475,14 @@
                                     atIndexPath:(NSIndexPath *)indexPath withWeekDate:(NSDate *) date {
     
     [self displayAdministrationViewForMedicationSlot:slotsDictionary atIndexPath:indexPath withWeekDate:date];
+}
+
+#pragma mark - DCAddMedicationViewControllerDelegate implementation
+
+// after adding a medication the latest drug schedules are fetched and displayed to the user.
+- (void)addedNewMedicationForPatient {
+    
+    [self fetchMedicationListForPatient];
 }
 
 @end
