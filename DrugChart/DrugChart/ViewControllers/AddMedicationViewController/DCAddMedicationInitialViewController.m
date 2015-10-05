@@ -246,8 +246,11 @@
     tableCell.dateTypeLabel.textColor = [UIColor blackColor];
     tableCell.dateTypeWidth.constant = TIME_TITLE_LABEL_WIDTH;
     if (!selectedMedication.startDate || [selectedMedication.startDate isEqualToString:EMPTY_STRING]) {
-        NSString *dateString = [DCDateUtility getDisplayDateForAddMedication:
-                                [DCDateUtility getDateInCurrentTimeZone:[NSDate date]] dateAndTime:YES];
+        NSDate *dateInCurrentZone = [DCDateUtility getDateInCurrentTimeZone:[NSDate date]];
+        NSLog(@"dateValue is %@", dateInCurrentZone);
+        NSString *dateString = [DCDateUtility convertDate:dateInCurrentZone FromFormat:DEFAULT_DATE_FORMAT ToFormat:@"d-MMM-yyyy HH:mm"];
+//        NSString *dateString = [DCDateUtility getDisplayDateForAddMedication:
+//                                [DCDateUtility getDateInCurrentTimeZone:[NSDate date]] dateAndTime:YES];
         selectedMedication.startDate = dateString;
         [tableCell configureContentCellWithContent:dateString];
     } else {
@@ -794,7 +797,8 @@
         pickerCell.selectedDate = ^ (NSDate *date) {
             NSIndexPath *indexPathToUpdate = [NSIndexPath indexPathForRow:indexPath.row - 1 inSection:indexPath.section];
             DCDateTableViewCell *dateCell = [self getUpdatedDateAndTimeCellatIndexPath:indexPathToUpdate];
-            NSString *dateString = [DCDateUtility getDisplayDateForAddMedication:[DCDateUtility getDateInCurrentTimeZone:date] dateAndTime:YES];
+            NSDate *dateInCurrentZone = [DCDateUtility getDateInCurrentTimeZone:date];
+            NSString *dateString = [DCDateUtility convertDate:dateInCurrentZone FromFormat:DEFAULT_DATE_FORMAT ToFormat:@"d-MMM-yyyy HH:mm"];
             [dateCell configureContentCellWithContent:dateString];
             if (weakPickerCell.isStartDate) {
                 selectedMedication.startDate = dateString;

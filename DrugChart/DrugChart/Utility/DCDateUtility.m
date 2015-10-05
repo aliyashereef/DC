@@ -322,8 +322,7 @@
     
     NSDate *convertedDate = nil;
     NSArray *dateFormatterList = [NSArray arrayWithObjects:EMIS_DATE_FORMAT,
-                                 @"yyyy-MM-dd HH:mm:ss", @"yyyy-MM-dd HH:mm:ss.SSS", @"yyyy-MM-dd'T'HH:mm:ss",@"dd MMM,yyyy HH:mm", nil];//include all possible date formats here
-    //sourceString = @"Thu Sep 6, 2013 1:00PM";
+                                 @"yyyy-MM-dd HH:mm:ss", @"yyyy-MM-dd HH:mm:ss.SSS", @"yyyy-MM-dd'T'HH:mm:ss",@"dd MMM,yyyy HH:mm", @"d-MMM-yyyy HH:mm", nil];//include all possible date formats here
     if (sourceString) {
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
