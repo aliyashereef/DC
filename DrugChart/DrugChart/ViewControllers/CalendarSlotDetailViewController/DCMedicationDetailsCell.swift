@@ -23,8 +23,8 @@ class  DCMedicationDetailsCell: UITableViewCell {
     }
 
     func populateRouteAndInstructionLabels(medicationDetails : DCMedicationScheduleDetails?) {
-        
-        let attributedRouteString : NSMutableAttributedString = NSMutableAttributedString(string: (medicationDetails?.route)!, attributes: [NSFontAttributeName : UIFont.systemFontOfSize(16.0)])
+        let route : String = medicationDetails!.route.stringByReplacingOccurrencesOfString(" ", withString: EMPTY_STRING)
+        let attributedRouteString : NSMutableAttributedString = NSMutableAttributedString(string:route, attributes: [NSFontAttributeName : UIFont.systemFontOfSize(16.0)])
         let attributedInstructionsString : NSMutableAttributedString
         let instructionString : String
         if (medicationDetails?.instruction != EMPTY_STRING && medicationDetails?.instruction != nil) {
