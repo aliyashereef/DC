@@ -64,6 +64,7 @@
     [super viewDidLoad];
     [self setCurrentWeekDatesArrayFromToday];
     [self configurePrescriberMedicationView];
+    [self addCalendarDateView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -84,7 +85,14 @@
     NSLog(@"the week days array: %@", currentWeekDatesArray);
 }
 
-
+- (void)addCalendarDateView {
+    
+    UIStoryboard *administerStoryboard = [UIStoryboard storyboardWithName:ADMINISTER_STORYBOARD
+                                                                   bundle: nil];
+    DCCalendarDateDisplayViewController *viewController = [administerStoryboard instantiateViewControllerWithIdentifier:@"CalendarDateDisplayView"];
+    
+    [calendarDaysDisplayView addSubview:viewController.view];
+}
 
 - (void)configurePrescriberMedicationView {
     
@@ -235,11 +243,6 @@
                                 [medicationsTableView reloadData];
                                 [calendarDaysDisplayView setHidden:NO];
                                 [calendarTopHolderView setHidden:NO];
-                                UIStoryboard *administerStoryboard = [UIStoryboard storyboardWithName:ADMINISTER_STORYBOARD
-                                                                                               bundle: nil];
-                                DCCalendarDateDisplayViewController *viewController = [administerStoryboard instantiateViewControllerWithIdentifier:@"CalendarDateDisplayView"];
-                                
-                                [calendarDaysDisplayView addSubview:viewController.view];
                             }
                             else {
                                 if ([_patient.medicationListArray count] == 0) {

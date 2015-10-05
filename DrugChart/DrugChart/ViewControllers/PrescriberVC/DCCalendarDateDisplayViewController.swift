@@ -76,7 +76,7 @@ import UIKit
     
     func convertDateToString (date:NSDate) -> NSString {
         let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "EEE dd"
+        dateFormatter.dateFormat = "EEE d"
         let dateString = dateFormatter.stringFromDate(date)
         return dateString
     }

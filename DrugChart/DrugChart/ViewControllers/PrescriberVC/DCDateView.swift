@@ -38,17 +38,17 @@ import QuartzCore
     
     func convertDateToString (date:NSDate) -> NSString {
         let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "EEE dd"
+        dateFormatter.dateFormat = "EEE d"
         let dateString = dateFormatter.stringFromDate(date)
         return dateString
     }
     func addTodayIndicator() {
         let today : NSDate = NSDate()
         let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "dd"
+        dateFormatter.dateFormat = "d"
         let dateString = dateFormatter.stringFromDate(today)
         
-        indicatorLabel.frame = CGRectMake(81,15, 25, 25)
+        indicatorLabel.frame = CGRectMake(85,15, 25, 25)
         indicatorLabel.font = UIFont.systemFontOfSize(17)
         indicatorLabel.textAlignment = .Center
         indicatorLabel.textColor = UIColor.whiteColor()
