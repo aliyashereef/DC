@@ -53,7 +53,7 @@
 "EARLY_ADMINISTRATION_INSTRUCTION" = "Please give a reason for the early administration.";
 "FREQUENT_EARLY_ADMINISTRATION" = "is 2 hours. Please give a reason for the early administration.";
 "EARLY_ADMIN_INLINE" = "Please add in 'Notes' the reason for the early administration.";
-"NO_ADMINISTRATION_TODAY" = "You should not administer this medication today.";
+"NO_ADMINISTRATION_TODAY" = "Medication details not available.";
 "ADMIN_FREQUENCY" = "Frequency set for medication is 2 hours.";
 
 

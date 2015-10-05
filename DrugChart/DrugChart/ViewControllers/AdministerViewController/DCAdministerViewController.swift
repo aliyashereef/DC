@@ -574,12 +574,13 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
-        if (section == SectionCount.eZerothSection.rawValue) {
+        let sectionCount : NSInteger = numberOfSectionsInTableView(tableView)
+        if (section == sectionCount - 1 && sectionCount != 1) {
+            return (medicationSlot?.medicationAdministration?.isEarlyAdministration == true) ? MEDICATION_DETAILS_SECTION_HEIGHT : TABLEVIEW_DEFAULT_SECTION_HEIGHT
+        } else if (section == SectionCount.eZerothSection.rawValue) {
             return INITIAL_SECTION_HEIGHT
         } else if (section == SectionCount.eFirstSection.rawValue) {
             return MEDICATION_DETAILS_SECTION_HEIGHT
-        } else if (section == SectionCount.eSecondSection.rawValue) {
-            return (medicationSlot?.medicationAdministration?.isEarlyAdministration == true) ? MEDICATION_DETAILS_SECTION_HEIGHT : TABLEVIEW_DEFAULT_SECTION_HEIGHT
         } else {
             return TABLEVIEW_DEFAULT_SECTION_HEIGHT
         }
@@ -609,7 +610,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        if (section == SectionCount.eFirstSection.rawValue || section == SectionCount.eSecondSection.rawValue) {
+        let sectionCount : NSInteger = numberOfSectionsInTableView(tableView)
+        if (section == SectionCount.eFirstSection.rawValue || (section == sectionCount - 1 && sectionCount != 1)) {
             let administerHeaderView = NSBundle.mainBundle().loadNibNamed(ADMINISTER_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCAdministerTableHeaderView
             if (section == SectionCount.eFirstSection.rawValue) {
                 if (medicationSlot?.time != nil) {

@@ -1223,7 +1223,6 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="2I3-AY-NtN" firstAttribute="leading" secondItem="gTW-9p-0zs" secondAttribute="leading" id="2og-b1-HEr"/>
                             <constraint firstItem="lXH-id-4hB" firstAttribute="top" secondItem="2I3-AY-NtN" secondAttribute="bottom" id="Eh6-Yq-XhK"/>
