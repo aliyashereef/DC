@@ -8,7 +8,7 @@
 
 import Foundation
 
-class DCAdministratedByPinVerificationViewController: UIViewController , UIViewControllerTransitioningDelegate {
+@objc class DCAdministratedByPinVerificationViewController: UIViewController , UIViewControllerTransitioningDelegate {
     
     @IBOutlet var firstDigit: UIButton!
     @IBOutlet var secondDigit: UIButton!

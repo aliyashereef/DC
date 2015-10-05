@@ -882,7 +882,7 @@
         <!--Calendar Slot Detail View Controller-->
         <scene sceneID="loK-jl-VbR">
             <objects>
-                <viewController storyboardIdentifier="CalendarDetail" id="Bkj-uV-rMy" customClass="DCCalendarSlotDetailViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CalendarDetail" definesPresentationContext="YES" id="Bkj-uV-rMy" customClass="DCCalendarSlotDetailViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="rUn-yp-Rhj"/>
                         <viewControllerLayoutGuide type="bottom" id="Hhr-Oo-9ps"/>
@@ -1822,7 +1822,7 @@
         <!--Administrated By Pin Verification View Controller-->
         <scene sceneID="O9C-sc-WIK">
             <objects>
-                <viewController storyboardIdentifier="SecurityPinViewController" modalPresentationStyle="currentContext" id="98Y-kk-5My" customClass="DCAdministratedByPinVerificationViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SecurityPinViewController" modalPresentationStyle="overCurrentContext" id="98Y-kk-5My" customClass="DCAdministratedByPinVerificationViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="rd5-18-iMU"/>
                         <viewControllerLayoutGuide type="bottom" id="iAd-AF-06a"/>
@@ -2036,7 +2036,6 @@
                                         </constraints>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="394" id="1Fr-b7-hJ0"/>
