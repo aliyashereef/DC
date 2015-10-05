@@ -425,13 +425,7 @@ typedef enum : NSInteger {
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
-#pragma mark - DCAddMedicationViewControllerDelegate implementation
 
-// after adding a medication the latest drug schedules are fetched and displayed to the user.
-- (void)addedNewMedicationForPatient {
-    
-    [self fetchMedicationListForPatient];
-}
 
 #pragma mark - Action methods
 

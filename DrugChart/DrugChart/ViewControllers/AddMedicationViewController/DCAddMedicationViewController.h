@@ -12,8 +12,6 @@
 #import "DCOrderSetInitialViewController.h"
 #import "DCMedicationScheduleDetails.h"
 
-
-
 @interface DCAddMedicationViewController : DCBaseViewController
 
 @property (nonatomic, strong) DCPatient *patient;

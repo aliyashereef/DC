@@ -217,9 +217,6 @@ typedef enum : NSInteger {
         
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         if (!error) {
-//            if (self.delegate) {
-//                [self.delegate addedNewMedicationForPatient];
-//            }
             [addMedicationDetailsViewController dismissViewControllerAnimated:YES completion:nil];
         } else {
             if (error.code == NETWORK_NOT_REACHABLE) {
