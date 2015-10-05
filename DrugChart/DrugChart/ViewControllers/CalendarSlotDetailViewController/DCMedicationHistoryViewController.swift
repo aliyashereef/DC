@@ -199,7 +199,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if(indexPath.section == 0 && indexPath.row == 1) {
-            return 74
+            return 55
         } else if(indexPath == selectedRowIndex ) {
             return 100
         } else {

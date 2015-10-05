@@ -28,7 +28,6 @@ class DCAdministerTableHeaderView: UIView {
         timeLabel.hidden = true
         errorMessageLabel.hidden = false
         errorMessageLabel.text = alertMessage
-        
     }
 
 }
