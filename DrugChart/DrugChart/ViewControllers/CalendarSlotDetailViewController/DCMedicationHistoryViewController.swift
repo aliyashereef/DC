@@ -265,8 +265,10 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         } else if medication.status == REFUSED {
             headerView.medicationStatusImageView.image = UIImage(named :ADMINISTRATION_HISTORY_CLOSE_IMAGE)
         }
-        if let time : NSDate = medicationSlot?.time {
+        if let time : NSDate = medication.time {
             headerView.administratingTime.text = DCDateUtility.convertDate(time, fromFormat: DEFAULT_DATE_FORMAT, toFormat: TWENTYFOUR_HOUR_FORMAT);
+        } else  {
+            
         }
         let header = UIView(frame: CGRectMake(0, 0, 100,40))
         headerView.backgroundColor = UIColor(red: 239.0/255.0, green: 239.0/255.0, blue: 244.0/255.0, alpha: 1.0)
