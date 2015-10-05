@@ -1074,11 +1074,11 @@
                                             <outlet property="titleLabel" destination="Ymb-x6-YXb" id="NVQ-U1-7Gj"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AdministerMedicationDetailsCell" rowHeight="74" id="Wvi-OK-cY4" customClass="DCAdministerMedicationDetailsCell" customModule="DrugChart" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="94" width="700" height="74"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AdministerMedicationDetailsCell" rowHeight="55" id="Wvi-OK-cY4" customClass="DCAdministerMedicationDetailsCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="94" width="700" height="55"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Wvi-OK-cY4" id="8ZJ-01-SO5">
-                                            <rect key="frame" x="0.0" y="0.0" width="700" height="73"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="700" height="54"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Senna 15 mg Tablet" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lyh-tZ-k3a">
@@ -1088,53 +1088,27 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Oral(As directed)" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ubC-NE-ktS">
-                                                    <rect key="frame" x="15" y="31" width="670" height="15"/>
+                                                    <rect key="frame" x="10" y="31" width="675" height="15"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.45098039215686275" green="0.45098039215686275" blue="0.45098039215686275" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="20 August 2015" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HJw-CL-tbT">
-                                                    <rect key="frame" x="15" y="46" width="289" height="25"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="22" id="Dlc-XW-Hf7"/>
-                                                        <constraint firstAttribute="width" constant="289" id="j0a-Ok-FjQ"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" red="0.5607843137254902" green="0.5607843137254902" blue="0.58431372549019611" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                    <variation key="default">
-                                                        <mask key="constraints">
-                                                            <exclude reference="Dlc-XW-Hf7"/>
-                                                        </mask>
-                                                    </variation>
-                                                </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="HJw-CL-tbT" secondAttribute="bottom" constant="2" id="1Sh-k6-Y82"/>
                                                 <constraint firstAttribute="trailing" secondItem="Lyh-tZ-k3a" secondAttribute="trailing" constant="15" id="7iG-4W-bGa"/>
-                                                <constraint firstAttribute="bottom" secondItem="HJw-CL-tbT" secondAttribute="bottom" constant="2" id="8pl-fO-f1I"/>
                                                 <constraint firstItem="Lyh-tZ-k3a" firstAttribute="leading" secondItem="8ZJ-01-SO5" secondAttribute="leading" constant="15" id="AuG-hY-rjE"/>
-                                                <constraint firstItem="HJw-CL-tbT" firstAttribute="leading" secondItem="8ZJ-01-SO5" secondAttribute="leading" constant="15" id="ETj-hz-gCX"/>
-                                                <constraint firstItem="ubC-NE-ktS" firstAttribute="leading" secondItem="8ZJ-01-SO5" secondAttribute="leading" constant="15" id="FJO-P9-pep"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="HJw-CL-tbT" secondAttribute="bottom" constant="-6" id="Fih-NH-P6K"/>
+                                                <constraint firstItem="ubC-NE-ktS" firstAttribute="leading" secondItem="8ZJ-01-SO5" secondAttribute="leading" constant="10" id="FJO-P9-pep"/>
                                                 <constraint firstAttribute="trailing" secondItem="ubC-NE-ktS" secondAttribute="trailing" constant="15" id="JLw-uc-0ey"/>
-                                                <constraint firstItem="HJw-CL-tbT" firstAttribute="leading" secondItem="8ZJ-01-SO5" secondAttribute="leading" constant="15" id="Lcg-Sb-SbA"/>
                                                 <constraint firstAttribute="trailing" secondItem="Lyh-tZ-k3a" secondAttribute="trailing" constant="15" id="Rhb-Ta-WXr"/>
                                                 <constraint firstItem="Lyh-tZ-k3a" firstAttribute="leading" secondItem="8ZJ-01-SO5" secondAttribute="leading" constant="15" id="W5W-Gj-q5C"/>
-                                                <constraint firstItem="HJw-CL-tbT" firstAttribute="top" secondItem="Lyh-tZ-k3a" secondAttribute="bottom" constant="24" id="aQX-K7-XTU"/>
                                                 <constraint firstItem="ubC-NE-ktS" firstAttribute="top" secondItem="Lyh-tZ-k3a" secondAttribute="bottom" constant="2" id="buF-FN-dNE"/>
-                                                <constraint firstItem="HJw-CL-tbT" firstAttribute="leading" secondItem="ubC-NE-ktS" secondAttribute="leading" id="fcy-oJ-VlS"/>
                                                 <constraint firstItem="ubC-NE-ktS" firstAttribute="top" secondItem="Lyh-tZ-k3a" secondAttribute="bottom" constant="1" id="i7p-I3-yQ7"/>
                                                 <constraint firstItem="ubC-NE-ktS" firstAttribute="top" secondItem="Lyh-tZ-k3a" secondAttribute="bottom" constant="1" id="l2q-aN-6R8"/>
                                                 <constraint firstItem="Lyh-tZ-k3a" firstAttribute="top" secondItem="8ZJ-01-SO5" secondAttribute="top" constant="7" id="ll7-J0-hMi"/>
                                                 <constraint firstItem="ubC-NE-ktS" firstAttribute="top" secondItem="Lyh-tZ-k3a" secondAttribute="bottom" constant="1" id="ow9-ai-vWo"/>
-                                                <constraint firstItem="HJw-CL-tbT" firstAttribute="top" secondItem="ubC-NE-ktS" secondAttribute="bottom" constant="-7" id="pRI-wp-Sps"/>
                                                 <constraint firstAttribute="trailing" secondItem="ubC-NE-ktS" secondAttribute="trailing" constant="15" id="rNd-og-wJk"/>
                                                 <constraint firstItem="ubC-NE-ktS" firstAttribute="leading" secondItem="8ZJ-01-SO5" secondAttribute="leading" constant="15" id="rtH-B1-kid"/>
                                                 <constraint firstItem="Lyh-tZ-k3a" firstAttribute="top" secondItem="8ZJ-01-SO5" secondAttribute="top" constant="7" id="ujt-vl-aFH"/>
-                                                <constraint firstItem="HJw-CL-tbT" firstAttribute="top" secondItem="ubC-NE-ktS" secondAttribute="bottom" id="xFS-hL-BYh"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="HJw-CL-tbT" secondAttribute="bottom" constant="-6" id="xJC-BB-6eZ"/>
-                                                <constraint firstItem="HJw-CL-tbT" firstAttribute="top" secondItem="ubC-NE-ktS" secondAttribute="bottom" id="zdI-p7-Np2"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
@@ -1146,25 +1120,16 @@
                                                     <exclude reference="ow9-ai-vWo"/>
                                                     <exclude reference="rNd-og-wJk"/>
                                                     <exclude reference="rtH-B1-kid"/>
-                                                    <exclude reference="8pl-fO-f1I"/>
-                                                    <exclude reference="Fih-NH-P6K"/>
-                                                    <exclude reference="Lcg-Sb-SbA"/>
-                                                    <exclude reference="aQX-K7-XTU"/>
-                                                    <exclude reference="fcy-oJ-VlS"/>
-                                                    <exclude reference="pRI-wp-Sps"/>
-                                                    <exclude reference="xJC-BB-6eZ"/>
-                                                    <exclude reference="zdI-p7-Np2"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="medicineNameLabel" destination="Lyh-tZ-k3a" id="axu-Jg-B9v"/>
                                             <outlet property="routeAndInstructionLabel" destination="ubC-NE-ktS" id="rYJ-zb-eau"/>
-                                            <outlet property="startDateLabel" destination="HJw-CL-tbT" id="rCo-7d-rXo"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BatchNumberCell" id="6yW-uG-EzS" customClass="DCBatchNumberCell" customModule="DrugChart" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="168" width="700" height="44"/>
+                                        <rect key="frame" x="0.0" y="149" width="700" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6yW-uG-EzS" id="s3g-c6-CsH">
                                             <rect key="frame" x="0.0" y="0.0" width="700" height="43"/>
@@ -1185,7 +1150,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NotesCell" rowHeight="125" id="FEX-bt-KDR" customClass="DCNotesTableCell" customModule="DrugChart" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="212" width="700" height="125"/>
+                                        <rect key="frame" x="0.0" y="193" width="700" height="125"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FEX-bt-KDR" id="dlg-jG-pN2">
                                             <rect key="frame" x="0.0" y="0.0" width="700" height="124"/>

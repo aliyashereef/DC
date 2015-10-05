@@ -13,7 +13,6 @@ class  DCMedicationDetailsCell: UITableViewCell {
 
     @IBOutlet var medicineName: UILabel!
     @IBOutlet var routeAndInstructionLabel: UILabel!
-    @IBOutlet var dateLabel: UILabel!
     
     func populateCellWithMedicationDetails(medicationDetails : DCMedicationScheduleDetails?) {
         
@@ -21,8 +20,6 @@ class  DCMedicationDetailsCell: UITableViewCell {
         if (medicationDetails?.route != nil) {
             populateRouteAndInstructionLabels(medicationDetails)
         }
-        let startDateString : String? = DCDateUtility.convertDate(DCDateUtility.dateFromSourceString(medicationDetails?.startDate), fromFormat: DEFAULT_DATE_FORMAT, toFormat: DATE_MONTHNAME_YEAR_FORMAT)
-        dateLabel.text = startDateString
     }
 
     func populateRouteAndInstructionLabels(medicationDetails : DCMedicationScheduleDetails?) {

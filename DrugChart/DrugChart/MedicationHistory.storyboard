@@ -62,58 +62,50 @@
                                             <outlet property="value" destination="VUV-tj-g19" id="ZdR-27-ZAg"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MedicationDetailsCell" rowHeight="74" id="YXn-a5-gZG" customClass="DCMedicationDetailsCell" customModule="DrugChart" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="72" width="600" height="74"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MedicationDetailsCell" rowHeight="55" id="YXn-a5-gZG" customClass="DCMedicationDetailsCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="72" width="600" height="55"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="YXn-a5-gZG" id="iVC-uI-Z2F">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="73"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="54"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Oral" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nW7-eJ-ZwF">
-                                                    <rect key="frame" x="15" y="30" width="27" height="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Oral" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nW7-eJ-ZwF">
+                                                    <rect key="frame" x="15" y="31" width="569" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.49019607840000001" green="0.52549019610000003" blue="0.54901960780000003" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XQ9-wl-djT">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XQ9-wl-djT">
                                                     <rect key="frame" x="15" y="7" width="585" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cMa-hQ-ZWE">
-                                                    <rect key="frame" x="15" y="54" width="314" height="15"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" red="0.49019607840000001" green="0.52549019610000003" blue="0.54901960780000003" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="nW7-eJ-ZwF" firstAttribute="top" secondItem="XQ9-wl-djT" secondAttribute="bottom" constant="2" id="0aC-Ym-40j"/>
-                                                <constraint firstAttribute="bottom" secondItem="cMa-hQ-ZWE" secondAttribute="bottom" constant="4.5" id="EEm-IM-mjX"/>
+                                                <constraint firstAttribute="bottom" secondItem="nW7-eJ-ZwF" secondAttribute="bottom" constant="7" id="2XI-wM-rTZ"/>
                                                 <constraint firstAttribute="trailing" secondItem="XQ9-wl-djT" secondAttribute="trailing" id="FL1-7V-nwI"/>
                                                 <constraint firstItem="XQ9-wl-djT" firstAttribute="top" secondItem="iVC-uI-Z2F" secondAttribute="top" constant="7" id="Fwv-Ed-WmY"/>
-                                                <constraint firstItem="cMa-hQ-ZWE" firstAttribute="leading" secondItem="iVC-uI-Z2F" secondAttribute="leading" constant="15" id="JIW-Pa-A8k"/>
+                                                <constraint firstAttribute="trailing" secondItem="nW7-eJ-ZwF" secondAttribute="trailing" constant="16" id="PoL-g0-86G"/>
                                                 <constraint firstItem="XQ9-wl-djT" firstAttribute="leading" secondItem="iVC-uI-Z2F" secondAttribute="leading" constant="15" id="Wp8-7m-IGW"/>
-                                                <constraint firstAttribute="trailing" secondItem="cMa-hQ-ZWE" secondAttribute="trailing" constant="271" id="XWg-4R-KuB"/>
                                                 <constraint firstItem="nW7-eJ-ZwF" firstAttribute="leading" secondItem="iVC-uI-Z2F" secondAttribute="leading" constant="15" id="dup-KY-beT"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="dateLabel" destination="cMa-hQ-ZWE" id="rsS-ze-y6m"/>
                                             <outlet property="medicineName" destination="XQ9-wl-djT" id="Vvm-ca-S4B"/>
                                             <outlet property="routeAndInstructionLabel" destination="nW7-eJ-ZwF" id="Xzv-32-0Ax"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NoteAndReasonCell" rowHeight="44" id="Xot-SH-e3I" customClass="DCNotesAndReasonCell" customModule="DrugChart" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="146" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="127" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Xot-SH-e3I" id="KGn-YC-az2">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wzF-zb-gmO">
-                                                    <rect key="frame" x="308" y="9" width="238" height="27"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wzF-zb-gmO">
+                                                    <rect key="frame" x="308" y="9" width="238" height="26"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.49019607840000001" green="0.52549019610000003" blue="0.54901960780000003" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -174,8 +166,8 @@
                                     <outlet property="delegate" destination="LEG-ns-Ndd" id="FuG-QE-55R"/>
                                 </connections>
                             </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="There is no medication history to be shown" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6vV-yy-AnA">
-                                <rect key="frame" x="162" y="207" width="278" height="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="There is no medication history to be shown" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6vV-yy-AnA">
+                                <rect key="frame" x="161" y="207" width="278" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" red="0.56078431370000004" green="0.56078431370000004" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>

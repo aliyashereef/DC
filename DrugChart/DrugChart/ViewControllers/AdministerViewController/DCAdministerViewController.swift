@@ -591,7 +591,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         switch indexPath.section {
             
         case SectionCount.eZerothSection.rawValue :
-            return (indexPath.row == RowCount.eFirstRow.rawValue) ? 74.0 : TABLE_CELL_DEFAULT_HEIGHT
+            return (indexPath.row == RowCount.eFirstRow.rawValue) ? 55.0 : TABLE_CELL_DEFAULT_HEIGHT
         case SectionCount.eSecondSection.rawValue:
             if (medicationSlot?.medicationAdministration.status == OMITTED) {
                 return NOTES_CELL_HEIGHT

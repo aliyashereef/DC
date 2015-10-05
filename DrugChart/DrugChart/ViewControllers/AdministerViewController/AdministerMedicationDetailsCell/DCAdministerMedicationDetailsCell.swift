@@ -12,7 +12,6 @@ class DCAdministerMedicationDetailsCell: UITableViewCell {
     
     @IBOutlet weak var medicineNameLabel: UILabel!
     @IBOutlet weak var routeAndInstructionLabel: UILabel!
-    @IBOutlet weak var startDateLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -31,8 +30,6 @@ class DCAdministerMedicationDetailsCell: UITableViewCell {
         if (medicationDetails?.route != nil) {
             populateRouteAndInstructionLabels(medicationDetails)
         }
-        let startDateString : String? = DCDateUtility.convertDate(DCDateUtility.dateFromSourceString(medicationDetails?.startDate), fromFormat: DEFAULT_DATE_FORMAT, toFormat: DATE_MONTHNAME_YEAR_FORMAT)
-        startDateLabel.text = startDateString
     }
     
     func populateRouteAndInstructionLabels(medicationDetails : DCMedicationScheduleDetails?) {
