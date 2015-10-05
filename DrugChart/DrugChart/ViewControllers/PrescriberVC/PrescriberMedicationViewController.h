@@ -9,7 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "DCPatient.h"
 
-@interface PrescriberMedicationViewController : DCBaseViewController
+#import "DrugChart-Swift.h"
+
+
+@protocol DCMedicationAdministrationStatusProtocol;
+
+@interface PrescriberMedicationViewController : DCBaseViewController <DCMedicationAdministrationStatusProtocol>
 
 @property (nonatomic, strong) DCPatient *patient;
 @property (strong, nonatomic) IBOutlet UIToolbar *toolbar;

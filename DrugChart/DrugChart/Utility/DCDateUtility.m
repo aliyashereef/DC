@@ -22,6 +22,28 @@
     
 }
 
++ (NSDate *)getInitialDateForFiveDayDisplay:(NSDate *)date {
+    
+    //make current date as the middle date and get initial day of the week
+    NSCalendar *currentCalendar = [NSCalendar currentCalendar];
+    [currentCalendar setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
+    NSDateComponents *components = [currentCalendar components:DATE_COMPONENTS fromDate:date];
+    [components setDay:components.day];
+    [components setHour:0];
+    [components setMinute:1];
+    [components setSecond:0];
+    NSDate *todayMidnightDate = [currentCalendar dateFromComponents:components];
+    NSDateComponents *initialComponents = [currentCalendar components:DATE_COMPONENTS fromDate:todayMidnightDate];
+    [initialComponents setDay:components.day - 2];
+    [initialComponents setHour:0];
+    [initialComponents setMinute:1];
+    [initialComponents setSecond:0];
+    NSDate *initialDate = [currentCalendar dateFromComponents:initialComponents];
+    return initialDate;
+    
+}
+
+
 + (NSDate *)getInitialDateOfWeekForDisplay:(NSDate *)date {
     //make current date as the middle date and get initial day of the week
     NSCalendar *currentCalendar = [NSCalendar currentCalendar];
@@ -107,7 +129,7 @@
     NSDateComponents *components = [[NSDateComponents alloc] init];
     [components setDay:1];
     NSMutableArray *weekdays = [[NSMutableArray alloc] init];
-    for (int i = 0; i < 7; i++) {
+    for (int i = 0; i < 5; i++) {
         [weekdays addObject:date];
         date = [[NSCalendar currentCalendar] dateByAddingComponents:components toDate:date options:0];
     }

@@ -69,4 +69,6 @@
 
 + (NSMutableArray *)getFiveDaysOfWeekFromDate:(NSDate *)date;
 
++ (NSDate *)getInitialDateForFiveDayDisplay:(NSDate *)date;
+
 @end
