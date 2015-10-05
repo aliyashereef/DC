@@ -717,10 +717,9 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         let securityPinViewController : DCAdministratedByPinVerificationViewController? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(SECURITY_PIN_VIEW_CONTROLLER) as? DCAdministratedByPinVerificationViewController
         securityPinViewController?.transitioningDelegate = securityPinViewController
         securityPinViewController?.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
-        //securityPinViewController!.view.backgroundColor = UIColor.clearColor()
+        securityPinViewController!.view.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
         securityPinViewController!.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
         self.presentViewController(securityPinViewController!, animated: true, completion: nil)
-      //  NSNotificationCenter.defaultCenter().postNotificationName("test", object: nil)
     }
     
     // MARK:AdministerPickerCellDelegate Methods
@@ -734,7 +733,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             }
         }
     }
-
     
 }
 

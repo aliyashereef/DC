@@ -1959,6 +1959,9 @@
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" red="0.80392156859999997" green="0.80784313730000001" blue="0.82352941180000006" alpha="1" colorSpace="calibratedRGB"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="10.0"/>
+                                        </userDefinedRuntimeAttributes>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P5s-hb-xqV">
                                         <rect key="frame" x="0.0" y="52" width="300" height="135"/>
@@ -2055,7 +2058,7 @@
                                     <constraint firstAttribute="trailing" secondItem="9rG-9d-OPG" secondAttribute="trailing" id="zoq-uS-OP6"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="5"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="10"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
@@ -2075,6 +2078,7 @@
                         <outlet property="fourthDigit" destination="Pz7-wx-hgk" id="FEH-jH-Auf"/>
                         <outlet property="secondDigit" destination="vcN-i9-fmv" id="aUV-jo-ASi"/>
                         <outlet property="thirdDigit" destination="egZ-rK-O3d" id="TWO-6f-xB2"/>
+                        <outlet property="topView" destination="9rG-9d-OPG" id="1Yt-Ks-dJq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BPB-kt-bNr" userLabel="First Responder" sceneMemberID="firstResponder"/>

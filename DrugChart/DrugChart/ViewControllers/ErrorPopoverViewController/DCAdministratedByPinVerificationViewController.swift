@@ -14,11 +14,13 @@ import Foundation
     @IBOutlet var secondDigit: UIButton!
     @IBOutlet var thirdDigit: UIButton!
     @IBOutlet var fourthDigit: UIButton!
+    @IBOutlet weak var topView: UIView!
     
     var digits : NSMutableArray = []
     
     override func viewDidLoad() {
         updateDigits()
+        DCUtility.roundCornersForView(topView, roundTopCorners: true)
         super.viewDidLoad()
     }
     

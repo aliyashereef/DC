@@ -65,7 +65,6 @@
     [super viewDidLoad];
     [self setCurrentWeekDatesArrayFromToday];
     [self configurePrescriberMedicationView];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presentSecurityPinView:) name:@"test" object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -411,15 +410,6 @@
                                     atIndexPath:(NSIndexPath *)indexPath {
     
     [self displayAdministrationViewForMedicationSlot:slotsDictionary atIndexPath:indexPath];
-}
-
-- (void)presentSecurityPinView:(NSNotification *)notification {
-    
-    
-    UIStoryboard *administerStoryboard = [UIStoryboard storyboardWithName:ADMINISTER_STORYBOARD bundle:nil];
-    DCAdministratedByPinVerificationViewController *securityPinViewController =  [administerStoryboard instantiateViewControllerWithIdentifier:@"SecurityPinViewController"];    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:securityPinViewController];
-    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
-    [self presentViewController:navigationController animated:YES completion:nil];
 }
 
 @end
