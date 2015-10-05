@@ -23,7 +23,7 @@ let DATE_PICKER_VIEW_CELL_HEIGHT : CGFloat = 200.0
 let NOTES_CELL_HEIGHT : CGFloat = 125.0
 let TABLE_CELL_DEFAULT_HEIGHT : CGFloat = 41.0
 let DATE_PICKER_CELL_TAG : NSInteger = 101
-let ADMINISTER_IN_ONE_HOUR : NSTimeInterval = 60*60
+//let ADMINISTER_IN_ONE_HOUR : NSTimeInterval = 60*60
 let DISPLAY_SECURITY_PIN_ENTRY : String = "displaySecurityPinEntryViewForUser:"
 
 enum SectionCount : NSInteger {
@@ -113,8 +113,9 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func checkIfAdministrationIsEarly () {
         
         //check if administration is early
-        let nextMedicationTimeInterval : NSTimeInterval? = NSDate().timeIntervalSinceDate((medicationSlot?.time)!)
-        if (nextMedicationTimeInterval <= ADMINISTER_IN_ONE_HOUR) {
+        let currentSystemDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
+        let nextMedicationTimeInterval : NSTimeInterval? = (medicationSlot?.time)!.timeIntervalSinceDate(currentSystemDate)
+        if (nextMedicationTimeInterval  >= 60*60) {
             // is early administration
             medicationSlot?.medicationAdministration.isEarlyAdministration = true
             //display early administration error message
@@ -131,8 +132,9 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 let slotIndex = medicationSlotsArray.indexOf(medicationSlot!)
                 if (slotIndex != 0) {
                     let previousMedicationSlot : DCMedicationSlot? = medicationSlotsArray[slotIndex! - 1]
-                    let nextMedicationTimeInterval : NSTimeInterval? = NSDate().timeIntervalSinceDate((previousMedicationSlot?.time)!)
-                    if (nextMedicationTimeInterval < 2*ADMINISTER_IN_ONE_HOUR) {
+                    let currentSystemDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
+                    let nextMedicationTimeInterval : NSTimeInterval? = (previousMedicationSlot?.time)!.timeIntervalSinceDate(currentSystemDate)
+                    if (nextMedicationTimeInterval >= 2*60*60) {
                         medicationSlot?.medicationAdministration.isEarlyAdministration = true
                         medicationSlot?.medicationAdministration.isWhenRequiredEarlyAdministration = true
                     } else {

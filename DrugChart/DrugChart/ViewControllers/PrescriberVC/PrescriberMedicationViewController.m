@@ -15,7 +15,6 @@
 #import "DCSortTableViewController.h"
 #import "DCPatientAlert.h"
 #import "DCPatientAllergy.h"
-//#import "DCAdministratedByPinVerificationViewController.h"
 
 #import "DCMedicationSchedulesWebService.h"
 #import "DCMedicationScheduleDetails.h"
@@ -189,7 +188,9 @@
     if (medicationList) {
         medicationCell.medicineName.text = medicationList.name;
         medicationCell.route.text = medicationList.route;
-        medicationList.instruction = medicationList.instruction;
+        if (medicationList.instruction != nil) {
+            medicationCell.instructions.text = [NSString stringWithFormat:@" (%@)", medicationList.instruction];
+        }
     }
     rowMedicationSlotsArray = [self setMedicationSlotsForDisplay:medicationList];
     if ([rowMedicationSlotsArray count] > 0) {
