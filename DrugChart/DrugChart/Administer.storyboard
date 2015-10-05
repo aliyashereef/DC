@@ -1000,6 +1000,7 @@
                     <connections>
                         <outlet property="containerView" destination="pyo-Rr-Edz" id="gNf-w4-16r"/>
                         <outlet property="doneButton" destination="zcz-7S-X4N" id="hcL-CX-I2M"/>
+                        <outlet property="segmentedControl" destination="Dd2-m2-37J" id="YAc-ez-800"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="P1H-1A-zxj" userLabel="First Responder" sceneMemberID="firstResponder"/>
