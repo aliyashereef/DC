@@ -374,7 +374,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         if (indexPath.section == SectionCount.eSecondSection.rawValue) {
             let notesCell : DCNotesTableCell = getNotesTableCellAtIndexPath(indexPath)
             notesCell.notesType = eReason
-            //notesCell.notesTextView.textColor = UIColor.getColorForHexString("#8f8f95")
             notesCell.notesTextView.textColor = !isValid ? UIColor.redColor() : UIColor.getColorForHexString("#8f8f95")
             notesCell.notesTextView.text = notesCell.getHintText()
             return notesCell
@@ -389,7 +388,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         if (indexPath.section == SectionCount.eThirdSection.rawValue) {
             let notesCell : DCNotesTableCell = getNotesTableCellAtIndexPath(indexPath)
             notesCell.notesType = eReason
-            //notesCell.notesTextView.textColor = UIColor.getColorForHexString("#8f8f95")
             notesCell.notesTextView.textColor = (!isValid && medicationSlot?.medicationAdministration?.isEarlyAdministration == true) ? UIColor.redColor() : UIColor.getColorForHexString("#8f8f95")
             notesCell.notesTextView.text = notesCell.getHintText()
             return notesCell
@@ -403,6 +401,41 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 return administerCell
             }
         }
+    }
+    
+    func loadMedicationDetailsSectionForSelectedIndexPath(indexPath : NSIndexPath) {
+        
+        //medication details section display
+        let administerIndexPath : NSIndexPath = NSIndexPath(forRow: RowCount.eFirstRow.rawValue, inSection: indexPath.section)
+        let omittedIndexpath : NSIndexPath = NSIndexPath(forItem: RowCount.eSecondRow.rawValue, inSection: indexPath.section)
+        let refusedIndexPath : NSIndexPath = NSIndexPath(forItem: RowCount.eThirdRow.rawValue, inSection: indexPath.section)
+        let indexPathsArray : [NSIndexPath] = [administerIndexPath, omittedIndexpath, refusedIndexPath]
+        switch indexPath.row {
+        case RowCount.eZerothRow.rawValue:
+            //display status views, insert views below this
+            if (statusCellSelected == false) {
+                statusCellSelected = true
+                administerTableView.insertRowsAtIndexPaths(indexPathsArray, withRowAnimation: .Fade)
+            } else {
+                statusCellSelected = false
+            }
+            break
+        case RowCount.eFirstRow.rawValue:
+            medicationSlot?.medicationAdministration.status = ADMINISTERED
+            statusCellSelected = false
+            break
+        case RowCount.eSecondRow.rawValue:
+            medicationSlot?.medicationAdministration.status = REFUSED
+            statusCellSelected = false
+            break
+        case RowCount.eThirdRow.rawValue:
+            medicationSlot?.medicationAdministration.status = OMITTED
+            statusCellSelected = false
+            break
+        default:
+            break
+        }
+        administerTableView .reloadData()
     }
     
     // MARK: Date Picker Methods
@@ -599,37 +632,22 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
+        if (datePickerIndexPath != nil) {
+            NSLog("******* DatePickerIndexPath section: %d row: %d", (datePickerIndexPath?.section)!, (datePickerIndexPath?.row)!)
+            NSLog("****** indexPath section: %d row: %d", indexPath.section, indexPath.row)
+        }
+        if (datePickerIndexPath != nil && indexPath.section != (datePickerIndexPath?.section)! && indexPath.row != (datePickerIndexPath?.row)! - 1) {
+            //displayInlineDatePickerForRowAtIndexPath(datePickerIndexPath!)
+            administerTableView.beginUpdates()
+            let indexPaths = [NSIndexPath(forRow: datePickerIndexPath!.row + 1, inSection: datePickerIndexPath!.section)]
+           // if (hasPickerForIndexPath(indexPath) == true) {
+                administerTableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.Fade)
+            datePickerIndexPath = nil
+          //  }
+            administerTableView.endUpdates()
+        }
         if (indexPath.section == SectionCount.eFirstSection.rawValue) {
-            let administerIndexPath : NSIndexPath = NSIndexPath(forRow: RowCount.eFirstRow.rawValue, inSection: indexPath.section)
-            let omittedIndexpath : NSIndexPath = NSIndexPath(forItem: RowCount.eSecondRow.rawValue, inSection: indexPath.section)
-            let refusedIndexPath : NSIndexPath = NSIndexPath(forItem: RowCount.eThirdRow.rawValue, inSection: indexPath.section)
-            let indexPathsArray : [NSIndexPath] = [administerIndexPath, omittedIndexpath, refusedIndexPath]
-            switch indexPath.row {
-            case RowCount.eZerothRow.rawValue:
-                //display status views, insert views below this
-                if (statusCellSelected == false) {
-                    statusCellSelected = true
-                    tableView.insertRowsAtIndexPaths(indexPathsArray, withRowAnimation: .Fade)
-                } else {
-                    statusCellSelected = false
-                }
-                break
-            case RowCount.eFirstRow.rawValue:
-                medicationSlot?.medicationAdministration.status = ADMINISTERED
-                statusCellSelected = false
-                break
-            case RowCount.eSecondRow.rawValue:
-                medicationSlot?.medicationAdministration.status = REFUSED
-                statusCellSelected = false
-                break
-            case RowCount.eThirdRow.rawValue:
-                medicationSlot?.medicationAdministration.status = OMITTED
-                statusCellSelected = false
-                break
-            default:
-                break
-            }
-            administerTableView .reloadData()
+            loadMedicationDetailsSectionForSelectedIndexPath(indexPath)
         } else if (indexPath.section == SectionCount.eSecondSection.rawValue) {
             if (medicationSlot?.medicationAdministration.status == ADMINISTERED) {
                 if (indexPath.row == RowCount.eZerothRow.rawValue || indexPath.row == RowCount.eSecondRow.rawValue) {
