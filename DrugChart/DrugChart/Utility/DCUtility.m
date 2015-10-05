@@ -401,9 +401,9 @@
             laterDate = [currentSystemDate laterDate:slot.time];
             if(![laterDate isEqualToDate:currentSystemDate]){
                 nearestDate = [laterDate earlierDate:nearestDate];
+                NSLog(@"nearestDate is %@", nearestDate);
             }
         }
-        NSLog(@"nearestDate is %@", nearestDate);
         NSLog(@"laterDate is %@", laterDate);
         if ((nearestDate && [nearestDate compare:slot.time] == NSOrderedSame) ||
             [slot.status isEqualToString:YET_TO_GIVE]) {

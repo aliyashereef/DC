@@ -83,8 +83,10 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         
         initialiseMedicationSlotObject()
         //check if early administration
-        checkIfAdministrationIsEarly()
-        checkIfFrequentAdministrationForWhenRequiredMedication()
+        if (medicationSlot?.time != nil) {
+            checkIfAdministrationIsEarly()
+            checkIfFrequentAdministrationForWhenRequiredMedication()
+        }
         administerTableView!.layoutMargins = UIEdgeInsetsZero
         administerTableView!.separatorInset = UIEdgeInsetsZero
         if (alertMessage != EMPTY_STRING) {

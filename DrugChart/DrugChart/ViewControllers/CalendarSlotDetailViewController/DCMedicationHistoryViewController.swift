@@ -56,7 +56,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
             break
         case 4:
             cell!.contentType.text = BATCHNO_EXPIRY
-            cell!.value.text = "14-Jun-2015"
+            cell!.value.text = (medication.medicationAdministration?.batch != nil) ? medication.medicationAdministration?.batch : EMPTY_STRING
             break
         case 5:
             return configureNotesAndReasonCellsAtIndexPath(indexPath,type:NOTES)
@@ -75,7 +75,14 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         noteCell!.moreButton.tag = indexPath.row
         noteCell!.moreButton.addTarget(self, action: "moreButtonPressed:", forControlEvents: .TouchUpInside)
         noteCell!.cellContentTypeLabel!.text = type as String
-        noteCell!.reasonTextLabel.text = DUMMY_TEXT
+        //Handle the cases for notes based on actual status
+        if (medicationSlot?.medicationAdministration?.administeredNotes != nil) {
+            noteCell!.reasonTextLabel.text = medicationSlot?.medicationAdministration?.administeredNotes
+        } else {
+            noteCell!.reasonTextLabel.text = EMPTY_STRING
+            noteCell!.isNotesExpanded = true
+        }
+        //noteCell!.reasonTextLabel.text = DUMMY_TEXT
         if(noteCell!.isNotesExpanded == false) {
             noteCell!.moreButtonWidthConstaint.constant = 46.0
             noteCell!.reasonTextLabelTopSpaceConstraint.constant = 11.0
@@ -229,13 +236,10 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         } else {
             let medication : DCMedicationSlot = medicationSlotArray[indexPath.section-1]
             if medication.status == IS_GIVEN {
-                
                 return configureAdministeredCellAtIndexPathWithMedicationSlot(indexPath, medication: medication) as! UITableViewCell
             } else if medication.status == REFUSED {
-                
                 return configureRefusedCellAtIndexPathForMedicationDetails(indexPath, medication: medication) as! UITableViewCell
             } else if medication.status == OMITTED {
-                
                 return configureOmittedCellAtIndexPathForMedicationDetails(indexPath, medication: medication) as! UITableViewCell
             }
         }
