@@ -632,20 +632,20 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        if (datePickerIndexPath != nil) {
-            NSLog("******* DatePickerIndexPath section: %d row: %d", (datePickerIndexPath?.section)!, (datePickerIndexPath?.row)!)
-            NSLog("****** indexPath section: %d row: %d", indexPath.section, indexPath.row)
-        }
-        if (datePickerIndexPath != nil && indexPath.section != (datePickerIndexPath?.section)! && indexPath.row != (datePickerIndexPath?.row)! - 1) {
-            //displayInlineDatePickerForRowAtIndexPath(datePickerIndexPath!)
-            administerTableView.beginUpdates()
-            let indexPaths = [NSIndexPath(forRow: datePickerIndexPath!.row + 1, inSection: datePickerIndexPath!.section)]
-           // if (hasPickerForIndexPath(indexPath) == true) {
-                administerTableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.Fade)
-            datePickerIndexPath = nil
-          //  }
-            administerTableView.endUpdates()
-        }
+//        if (datePickerIndexPath != nil) {
+//            NSLog("******* DatePickerIndexPath section: %d row: %d", (datePickerIndexPath?.section)!, (datePickerIndexPath?.row)!)
+//            NSLog("****** indexPath section: %d row: %d", indexPath.section, indexPath.row)
+//        }
+//        if (datePickerIndexPath != nil && indexPath.section != (datePickerIndexPath?.section)! && indexPath.row != (datePickerIndexPath?.row)! - 1) {
+//            //displayInlineDatePickerForRowAtIndexPath(datePickerIndexPath!)
+//            administerTableView.beginUpdates()
+//            let indexPaths = [NSIndexPath(forRow: datePickerIndexPath!.row + 1, inSection: datePickerIndexPath!.section)]
+//           // if (hasPickerForIndexPath(indexPath) == true) {
+//                administerTableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.Fade)
+//            datePickerIndexPath = nil
+//          //  }
+//            administerTableView.endUpdates()
+//        }
         if (indexPath.section == SectionCount.eFirstSection.rawValue) {
             loadMedicationDetailsSectionForSelectedIndexPath(indexPath)
         } else if (indexPath.section == SectionCount.eSecondSection.rawValue) {
