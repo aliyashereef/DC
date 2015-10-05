@@ -628,66 +628,7 @@ typedef enum : NSUInteger {
 
 - (void)deleteMedicationListAtIndexPath:(NSIndexPath *)indexPath {
     
-    //TODO: delete this piece of code, once the implementation is complete for delete.
-    
-//    //delete corresponding object from the section array
-//    NSMutableArray *medicationArray = [[NSMutableArray alloc] init];
-//    [medicationArray addObjectsFromArray:displayMedicationListArray];
-//    
-//    if (sortType == kSortDrugType) {
-//        NSMutableArray *newArray = [[NSMutableArray alloc] init];
-//        
-//        switch (indexPath.section) {
-//            case kSectionRegular: {
-//                [newArray addObjectsFromArray:regularMedicationArray];
-//                DCMedicationList *medicationList = [newArray objectAtIndex:indexPath.row];
-//                [medicationArray removeObjectAtIndex:[displayMedicationListArray indexOfObject:medicationList]];
-//                [newArray removeObjectAtIndex:indexPath.row];
-//                regularMedicationArray = [[NSMutableArray alloc] initWithArray:newArray];
-//            }
-//            break;
-//                
-//            case kSectionOnce: {
-//                [newArray addObjectsFromArray:onceMedicationArray];
-//                DCMedicationList *medicationList = [newArray objectAtIndex:indexPath.row];
-//                [medicationArray removeObjectAtIndex:[displayMedicationListArray indexOfObject:medicationList]];
-//                [newArray removeObjectAtIndex:indexPath.row];
-//                onceMedicationArray = [[NSMutableArray alloc] initWithArray:newArray];
-//            }
-//            break;
-//                
-//            case kSectionWhenInNeed: {
-//                [newArray addObjectsFromArray:whenrequiredMedicationArray];
-//                DCMedicationList *medicationList = [newArray objectAtIndex:indexPath.row];
-//                [medicationArray removeObjectAtIndex:[displayMedicationListArray indexOfObject:medicationList]];
-//                [newArray removeObjectAtIndex:indexPath.row];
-//                whenrequiredMedicationArray = [[NSMutableArray alloc] initWithArray:newArray];
-//            }
-//            break;
-//        }
-//    }
-//    else {
-//        
-//        DCMedicationList *medicationList = [medicationArray objectAtIndex:indexPath.row];
-//        NSMutableArray *categoryMedicationArray = [[NSMutableArray alloc] init];
-//        if ([medicationList.medicineCategory isEqualToString:REGULAR_MEDICATION]) {
-//            [categoryMedicationArray addObjectsFromArray:regularMedicationArray];
-//            [categoryMedicationArray removeObjectAtIndex:[regularMedicationArray indexOfObject:medicationList]];
-//            regularMedicationArray = categoryMedicationArray;
-//        }
-//        else if ([medicationList.medicineCategory isEqualToString:WHEN_REQUIRED]) {
-//            [categoryMedicationArray addObjectsFromArray:whenrequiredMedicationArray];
-//            [categoryMedicationArray removeObjectAtIndex:[whenrequiredMedicationArray indexOfObject:medicationList]];
-//            whenrequiredMedicationArray = categoryMedicationArray;
-//        }
-//        else if ([medicationList.medicineCategory isEqualToString:ONCE_MEDICATION]) {
-//            [categoryMedicationArray addObjectsFromArray:onceMedicationArray];
-//            [categoryMedicationArray removeObjectAtIndex:[onceMedicationArray indexOfObject:medicationList]];
-//            onceMedicationArray = categoryMedicationArray;
-//        }
-//        [medicationArray removeObjectAtIndex:indexPath.row];
-//    }
-    
+
     DCPatientMedicationHomeViewController *patientMedicationHomeViewController = (DCPatientMedicationHomeViewController*)self.parentViewController;
     [patientMedicationHomeViewController fetchMedicationListForPatient];
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
@@ -175,7 +175,7 @@
                                 <rect key="frame" x="0.0" y="115" width="1024" height="485"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="prescriberIdentifier" id="JoG-8m-T0B" customClass="PrescriberMedicationCellTableViewCell">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="prescriberIdentifier" id="JoG-8m-T0B" customClass="PrescriberMedicationTableViewCell" customModule="DrugChart" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="1024" height="78"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JoG-8m-T0B" id="D5h-xa-qfT">
@@ -223,59 +223,93 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5QU-b0-c6R">
                                                     <rect key="frame" x="301" y="0.0" width="723" height="78"/>
                                                     <subviews>
-                                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vs6-Qv-OOI">
+                                                        <view tag="1" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vs6-Qv-OOI" customClass="DCMedicationAdministrationStatusView" customModule="DrugChart" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="0.0" width="145" height="78"/>
                                                             <subviews>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="AdministrationSuccess" translatesAutoresizingMaskIntoConstraints="NO" id="hDV-kp-BQj">
                                                                     <rect key="frame" x="57" y="26" width="25" height="25"/>
                                                                 </imageView>
+                                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WjF-aF-jCa">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="145" height="78"/>
+                                                                    <connections>
+                                                                        <action selector="administerButtonClicked:" destination="Vs6-Qv-OOI" eventType="touchUpInside" id="oOI-bC-80V"/>
+                                                                    </connections>
+                                                                </button>
                                                             </subviews>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         </view>
-                                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="40K-rr-Iof">
+                                                        <view tag="2" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="40K-rr-Iof" customClass="DCMedicationAdministrationStatusView" customModule="DrugChart" customModuleProvider="target">
                                                             <rect key="frame" x="146" y="0.0" width="145" height="78"/>
                                                             <subviews>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="AdministrationSuccess" translatesAutoresizingMaskIntoConstraints="NO" id="G1L-5k-zxk">
                                                                     <rect key="frame" x="57" y="26" width="25" height="25"/>
                                                                 </imageView>
+                                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vih-3T-u0C">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="145" height="78"/>
+                                                                    <connections>
+                                                                        <action selector="administerButtonClicked:" destination="40K-rr-Iof" eventType="touchUpInside" id="phc-tT-The"/>
+                                                                    </connections>
+                                                                </button>
                                                             </subviews>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         </view>
-                                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TB7-07-T3D">
+                                                        <view tag="3" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TB7-07-T3D" customClass="DCMedicationAdministrationStatusView" customModule="DrugChart" customModuleProvider="target">
                                                             <rect key="frame" x="292" y="0.0" width="145" height="78"/>
                                                             <subviews>
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="AdministrationDue" translatesAutoresizingMaskIntoConstraints="NO" id="xpG-Cb-u4Q">
+                                                                    <rect key="frame" x="10" y="28" width="25" height="25"/>
+                                                                </imageView>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Due at 14:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DSa-c6-hac">
                                                                     <rect key="frame" x="42" y="28" width="78" height="21"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                                     <color key="textColor" red="0.25098039215686274" green="0.25098039215686274" blue="0.25098039215686274" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
+                                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PPf-Wn-O1S">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="145" height="78"/>
+                                                                    <connections>
+                                                                        <action selector="administerButtonClicked:" destination="TB7-07-T3D" eventType="touchUpInside" id="wet-Yg-Ia3"/>
+                                                                    </connections>
+                                                                </button>
                                                             </subviews>
                                                             <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
                                                         </view>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="AdministrationDue" translatesAutoresizingMaskIntoConstraints="NO" id="xpG-Cb-u4Q">
-                                                            <rect key="frame" x="302" y="26" width="25" height="25"/>
-                                                        </imageView>
-                                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qOL-ua-9Vi">
+                                                        <view tag="4" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qOL-ua-9Vi" customClass="DCMedicationAdministrationStatusView" customModule="DrugChart" customModuleProvider="target">
                                                             <rect key="frame" x="438" y="-1" width="145" height="78"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="2 pending" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FYw-8Z-GfO">
+                                                                    <rect key="frame" x="33" y="29" width="78" height="21"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                                    <color key="textColor" red="0.67450980392156867" green="0.67450980392156867" blue="0.67450980392156867" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9mF-lt-gMt">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="145" height="78"/>
+                                                                    <connections>
+                                                                        <action selector="administerButtonClicked:" destination="qOL-ua-9Vi" eventType="touchUpInside" id="mYf-DA-Y1T"/>
+                                                                    </connections>
+                                                                </button>
+                                                            </subviews>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         </view>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="2 pending" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FYw-8Z-GfO">
-                                                            <rect key="frame" x="471" y="28" width="78" height="21"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                            <color key="textColor" red="0.67450980392156867" green="0.67450980392156867" blue="0.67450980392156867" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gNJ-vX-xZS">
+                                                        <view tag="5" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gNJ-vX-xZS" customClass="DCMedicationAdministrationStatusView" customModule="DrugChart" customModuleProvider="target">
                                                             <rect key="frame" x="584" y="0.0" width="145" height="78"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="2 pending" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Bf-KK-L9v">
+                                                                    <rect key="frame" x="33" y="29" width="78" height="21"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                                    <color key="textColor" red="0.67450980392156867" green="0.67450980392156867" blue="0.67450980392156867" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AJ5-nl-7ko">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="145" height="78"/>
+                                                                    <connections>
+                                                                        <action selector="administerButtonClicked:" destination="gNJ-vX-xZS" eventType="touchUpInside" id="pDg-75-LOt"/>
+                                                                    </connections>
+                                                                </button>
+                                                            </subviews>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         </view>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="2 pending" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Bf-KK-L9v">
-                                                            <rect key="frame" x="617" y="28" width="78" height="21"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                            <color key="textColor" red="0.67450980392156867" green="0.67450980392156867" blue="0.67450980392156867" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                                 </view>
@@ -293,9 +327,9 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
-                                            <outlet property="instructions" destination="ndl-MG-C2A" id="lF9-k6-w62"/>
-                                            <outlet property="medicineName" destination="cfq-My-ruP" id="2bH-Hf-YZi"/>
-                                            <outlet property="route" destination="URy-Re-bek" id="p2r-1o-0Fz"/>
+                                            <outlet property="instructions" destination="ndl-MG-C2A" id="wv0-fb-Att"/>
+                                            <outlet property="medicineName" destination="cfq-My-ruP" id="gcT-zl-qtz"/>
+                                            <outlet property="route" destination="URy-Re-bek" id="JV2-yN-SLi"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
