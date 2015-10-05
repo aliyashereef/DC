@@ -18,6 +18,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
     var medicationSlotArray: [DCMedicationSlot] = []
     var medicationSlot : DCMedicationSlot!
     var medicationDetails : DCMedicationScheduleDetails!
+    var weekDate : NSDate?
     
     var selectedRowIndex : NSIndexPath = NSIndexPath(forRow: -1, inSection: 0)
 
@@ -221,8 +222,8 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
                 if let date = medicationSlot?.time {
                     dateString = DCDateUtility.convertDate(date, fromFormat: DEFAULT_DATE_FORMAT, toFormat: "d LLLL yyyy")
                 } else {
-                    let currentDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
-                    dateString = DCDateUtility.convertDate(currentDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: "d LLLL yyyy")
+                    //let currentDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
+                    dateString = DCDateUtility.convertDate(weekDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: "d LLLL yyyy")
                 }
                 cell!.contentType.text = dateString
                 cell!.value.text = EMPTY_STRING

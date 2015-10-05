@@ -58,6 +58,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     var alertMessage : NSString = EMPTY_STRING
     var datePickerIndexPath : NSIndexPath?
     var isValid : Bool = true
+    var weekDate : NSDate?
     
     override func viewDidLoad() {
         
@@ -180,8 +181,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 if let date = medicationSlot?.time {
                     dateString = DCDateUtility.convertDate(date, fromFormat: DEFAULT_DATE_FORMAT, toFormat: "d LLLL yyyy")
                 } else {
-                    let currentDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
-                    dateString = DCDateUtility.convertDate(currentDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: "d LLLL yyyy")
+                   // let currentDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
+                    dateString = DCDateUtility.convertDate(weekDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: "d LLLL yyyy")
                 }
                 administerCell.titleLabel.text = dateString
             }
@@ -220,8 +221,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             if let date = medicationSlot?.medicationAdministration.actualAdministrationTime {
                 dateString = DCDateUtility.convertDate(DCDateUtility.getDateInCurrentTimeZone(date), fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
             } else {
-                let currentDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
-                dateString = DCDateUtility.convertDate(currentDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
+               // let currentDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
+                dateString = DCDateUtility.convertDate(weekDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
             }
             cell.detailLabel.text = dateString
             break
@@ -246,8 +247,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         if let date = medicationSlot?.medicationAdministration.actualAdministrationTime {
             dateString = DCDateUtility.convertDate(DCDateUtility.getDateInCurrentTimeZone(date), fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
         } else {
-            let currentDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
-            dateString = DCDateUtility.convertDate(currentDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
+            //let currentDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
+            dateString = DCDateUtility.convertDate(weekDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
         }
         cell.detailLabel.text = dateString
         return cell

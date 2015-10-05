@@ -28,6 +28,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     var medicationDetails : DCMedicationScheduleDetails?
     var contentArray :[AnyObject] = []
     var slotToAdminister : DCMedicationSlot?
+    var weekDate : NSDate?
     
     override func viewDidLoad() {
         
@@ -102,6 +103,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         if administerViewController == nil {
             administerViewController = administerStoryboard!.instantiateViewControllerWithIdentifier(ADMINISTER_STORYBOARD_ID) as? DCAdministerViewController
             administerViewController?.medicationSlot = slotToAdminister
+            administerViewController?.weekDate = weekDate
             if (slotToAdminister == nil) {
                 let errorMessage : String = getAdministerViewErrorMessage() as String
                 administerViewController?.alertMessage = errorMessage
@@ -129,6 +131,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         if medicationHistoryViewController == nil {
             medicationHistoryViewController = MedicationHistoryStoryboard!.instantiateViewControllerWithIdentifier(MEDICATION_STORYBOARD_ID) as? DCMedicationHistoryViewController
             medicationHistoryViewController?.medicationSlot = slotToAdminister
+            medicationHistoryViewController?.weekDate = weekDate
             medicationHistoryViewController?.medicationDetails = medicationDetails
             medicationHistoryViewController?.medicationSlotArray = medicationSlotsArray
             self.addChildViewController(medicationHistoryViewController!)
