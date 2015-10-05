@@ -596,6 +596,7 @@ typedef enum : NSInteger {
         
         checkedByTextField.text =  userName;
     };
+    
     [pinViewController setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
     [self presentViewController:pinViewController animated:YES completion:nil];
 }

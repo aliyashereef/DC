@@ -8,13 +8,19 @@
 
 import Foundation
 
+protocol SecurityPinMatchDelegate {
+    
+    func securityPinMatchedForUser (user : DCUser)
+}
+
 class DCAdministratedByPinVerificationViewController: UIViewController , UIViewControllerTransitioningDelegate {
     
     @IBOutlet var firstDigit: UIButton!
     @IBOutlet var secondDigit: UIButton!
     @IBOutlet var thirdDigit: UIButton!
     @IBOutlet var fourthDigit: UIButton!
-    
+    var user : DCUser!
+    var delegate : SecurityPinMatchDelegate?
     var digits : NSMutableArray = []
     
     override func viewDidLoad() {
@@ -44,6 +50,9 @@ class DCAdministratedByPinVerificationViewController: UIViewController , UIViewC
     }
     
     func verifyCode() {
+        if delegate != nil {
+            delegate!.securityPinMatchedForUser(user)
+        }
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     

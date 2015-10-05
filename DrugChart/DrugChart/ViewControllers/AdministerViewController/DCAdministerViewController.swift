@@ -43,7 +43,7 @@ enum RowCount : NSInteger {
     case eFourthRow
 }
 
-class DCAdministerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NotesCellDelegate, BatchNumberCellDelegate, NamesListDelegate, AdministerPickerCellDelegate {
+class DCAdministerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NotesCellDelegate, BatchNumberCellDelegate, NamesListDelegate, AdministerPickerCellDelegate , SecurityPinMatchDelegate{
 
     @IBOutlet weak var administerTableView: UITableView!
     @IBOutlet weak var alertMessageLabel: UILabel!
@@ -105,6 +105,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         }
         if(medicationSlot?.medicationAdministration == nil) {
             medicationSlot?.medicationAdministration = DCMedicationAdministration.init()
+            medicationSlot?.medicationAdministration.checkingUser = DCUser.init()
+            medicationSlot?.medicationAdministration.administratingUser = DCUser.init()
             medicationSlot?.medicationAdministration.status = ADMINISTERED
             medicationSlot?.medicationAdministration.scheduledDateTime = medicationSlot?.time
         }
@@ -703,17 +705,21 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             medicationSlot?.medicationAdministration?.administratingUser?.displayName = user
         } else if (popOverIndexPath?.row == RowCount.eSecondRow.rawValue) {
             //checked by
-            if (user == DEFAULT_DOCTOR_NAME) {
-            medicationSlot?.medicationAdministration?.checkingUser?.displayName = user
+            if (user == DEFAULT_NURSE_NAME) {
+                medicationSlot?.medicationAdministration?.checkingUser?.displayName = user
             } else {
-                self.performSelector("displaySecurityPinEntryViewForUser:", withObject: user, afterDelay: 0.5)
+                let selectedUser = DCUser.init()
+                selectedUser.displayName = user
+                self.performSelector("displaySecurityPinEntryViewForUser:", withObject:selectedUser , afterDelay: 0.5)
             }
-            medicationSlot?.medicationAdministration?.checkingUser?.displayName = user
-        administerTableView.reloadRowsAtIndexPaths([popOverIndexPath!], withRowAnimation: UITableViewRowAnimation.None)
         }
     }
-    func displaySecurityPinEntryViewForUser(user : NSString) {
+    
+    func displaySecurityPinEntryViewForUser(user : DCUser ) {
+        
         let securityPinViewController : DCAdministratedByPinVerificationViewController? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(SECURITY_PIN_VIEW_CONTROLLER) as? DCAdministratedByPinVerificationViewController
+        securityPinViewController?.delegate = self
+        securityPinViewController?.user = user
         securityPinViewController?.transitioningDelegate = securityPinViewController
         securityPinViewController?.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
         securityPinViewController?.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
@@ -731,8 +737,12 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             }
         }
     }
-
     
+    //MARK : Security pin Match Delegate
+    func securityPinMatchedForUser(user: DCUser) {
+        medicationSlot?.medicationAdministration?.checkingUser = user
+        administerTableView.reloadRowsAtIndexPaths([popOverIndexPath!], withRowAnimation: UITableViewRowAnimation.None)
+    }
 }
 
 
