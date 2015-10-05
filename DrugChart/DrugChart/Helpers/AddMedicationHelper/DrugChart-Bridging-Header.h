@@ -17,4 +17,5 @@
 #import "DCUsersListWebService.h"
 #import "NameSelectionTableViewController.h"
 #import "DCInstructionsTableCell.h"
+#import "DCMedicationSlot.h"
 
