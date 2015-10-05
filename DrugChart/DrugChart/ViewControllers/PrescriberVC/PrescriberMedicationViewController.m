@@ -15,6 +15,7 @@
 #import "DCSortTableViewController.h"
 #import "DCPatientAlert.h"
 #import "DCPatientAllergy.h"
+//#import "DCAdministratedByPinVerificationViewController.h"
 
 #import "DCMedicationSchedulesWebService.h"
 #import "DCMedicationScheduleDetails.h"
@@ -35,6 +36,12 @@
     IBOutlet UILabel *noMedicationsAvailableLabel;
     IBOutlet UIView *todayBackGroundView;
     IBOutlet UIView *calendarTopHolderView;
+    // just for intermin release. to be moved to another view controller
+    IBOutlet UILabel *firstDayLabel;
+    IBOutlet UILabel *secondDayLabel;
+    IBOutlet UILabel *thirdDayLabel;
+    IBOutlet UILabel *fourthDayLabel;
+    IBOutlet UILabel *fifthDayLabel;
     
     IBOutlet UITableView *medicationsTableView;
     
@@ -64,7 +71,9 @@
     [super viewDidLoad];
     [self setCurrentWeekDatesArrayFromToday];
     [self configurePrescriberMedicationView];
-    [self addCalendarDateView];
+    // Commented out for this release.
+    //[self addCalendarDateView];
+    [self displayDatesInCalendarView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -92,6 +101,56 @@
     DCCalendarDateDisplayViewController *viewController = [administerStoryboard instantiateViewControllerWithIdentifier:@"CalendarDateDisplayView"];
     
     [calendarDaysDisplayView addSubview:viewController.view];
+}
+
++ (NSMutableArray *)getDateDisplayStringForDateArray:(NSArray *)dateArray {
+    
+    //get date display string in calendar view in eg format
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    NSArray *weekdaySymbols = [dateFormatter shortStandaloneWeekdaySymbols];
+    NSMutableArray *weekDays = [[NSMutableArray alloc] init];
+    for (NSDate *date in dateArray) {
+        
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        NSDateComponents *comps = [calendar components:NSCalendarUnitWeekday fromDate:date];
+        NSInteger day = [comps weekday];
+        NSDateComponents *components = [[NSCalendar currentCalendar] components:DATE_COMPONENTS fromDate:date];
+        NSString *displayText = [NSString stringWithFormat:@"%@ %li", [weekdaySymbols objectAtIndex:day-1], (long)[components day]];
+        [weekDays addObject:displayText];
+    }
+    return weekDays;
+}
+
+//TODO: just for the display for interim  release.
+// Method will be replaced with the original method for display.
+- (void)displayDatesInCalendarView {
+    
+    NSMutableArray *weekDisplayArray = [[NSMutableArray alloc] init];
+    weekDisplayArray = [PrescriberMedicationViewController getDateDisplayStringForDateArray:currentWeekDatesArray];
+    if ([weekDisplayArray count] == 5) {
+        firstDayLabel.text = (NSString *)[weekDisplayArray objectAtIndex:0];
+        secondDayLabel.text = (NSString *)[weekDisplayArray objectAtIndex:1];
+        
+        NSString *todaysString = (NSString *)[weekDisplayArray objectAtIndex:2];
+        NSString *dayString, *dayNameString;
+        NSArray *components = [todaysString componentsSeparatedByString:@" "];
+        if ([components count] == 2) {
+            dayString = (NSString *)[components objectAtIndex:1];
+            if ([dayString length] == 2) {
+                dayNameString = [NSString stringWithFormat:@"%@ ",(NSString *)[components objectAtIndex:0]];
+            }
+            else {
+                dayNameString = [NSString stringWithFormat:@"%@  ",(NSString *)[components objectAtIndex:0]];
+            }
+        }
+        
+        NSAttributedString * dateString = [[NSMutableAttributedString alloc] initWithString:dayString attributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+        NSMutableAttributedString *dayDisplayString = [[NSMutableAttributedString alloc] initWithString:dayNameString];
+        [dayDisplayString appendAttributedString:dateString];
+        thirdDayLabel.attributedText = dayDisplayString;
+        fourthDayLabel.text = (NSString *)[weekDisplayArray objectAtIndex:3];
+        fifthDayLabel.text = (NSString *)[weekDisplayArray objectAtIndex:4];
+    }
 }
 
 - (void)configurePrescriberMedicationView {
@@ -413,6 +472,5 @@
     
     [self displayAdministrationViewForMedicationSlot:slotsDictionary atIndexPath:indexPath];
 }
-
 
 @end

@@ -576,12 +576,13 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
-        if (section == SectionCount.eZerothSection.rawValue) {
+        let sectionCount : NSInteger = numberOfSectionsInTableView(tableView)
+        if (section == sectionCount - 1 && sectionCount != 1) {
+            return (medicationSlot?.medicationAdministration?.isEarlyAdministration == true) ? MEDICATION_DETAILS_SECTION_HEIGHT : TABLEVIEW_DEFAULT_SECTION_HEIGHT
+        } else if (section == SectionCount.eZerothSection.rawValue) {
             return INITIAL_SECTION_HEIGHT
         } else if (section == SectionCount.eFirstSection.rawValue) {
             return MEDICATION_DETAILS_SECTION_HEIGHT
-        } else if (section == SectionCount.eSecondSection.rawValue) {
-            return (medicationSlot?.medicationAdministration?.isEarlyAdministration == true) ? MEDICATION_DETAILS_SECTION_HEIGHT : TABLEVIEW_DEFAULT_SECTION_HEIGHT
         } else {
             return TABLEVIEW_DEFAULT_SECTION_HEIGHT
         }
@@ -592,7 +593,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         switch indexPath.section {
             
         case SectionCount.eZerothSection.rawValue :
-            return (indexPath.row == RowCount.eFirstRow.rawValue) ? 74.0 : TABLE_CELL_DEFAULT_HEIGHT
+            return (indexPath.row == RowCount.eFirstRow.rawValue) ? 55.0 : TABLE_CELL_DEFAULT_HEIGHT
         case SectionCount.eSecondSection.rawValue:
             if (medicationSlot?.medicationAdministration.status == OMITTED) {
                 return NOTES_CELL_HEIGHT
@@ -611,7 +612,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        if (section == SectionCount.eFirstSection.rawValue || section == SectionCount.eSecondSection.rawValue) {
+        let sectionCount : NSInteger = numberOfSectionsInTableView(tableView)
+        if (section == SectionCount.eFirstSection.rawValue || (section == sectionCount - 1 && sectionCount != 1)) {
             let administerHeaderView = NSBundle.mainBundle().loadNibNamed(ADMINISTER_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCAdministerTableHeaderView
             if (section == SectionCount.eFirstSection.rawValue) {
                 if (medicationSlot?.time != nil) {
@@ -716,13 +718,13 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func displaySecurityPinEntryViewForUser(user : DCUser ) {
-        
         let securityPinViewController : DCAdministratedByPinVerificationViewController? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(SECURITY_PIN_VIEW_CONTROLLER) as? DCAdministratedByPinVerificationViewController
         securityPinViewController?.delegate = self
         securityPinViewController?.user = user
         securityPinViewController?.transitioningDelegate = securityPinViewController
         securityPinViewController?.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
-        securityPinViewController?.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
+        securityPinViewController!.view.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
+        securityPinViewController!.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
         self.presentViewController(securityPinViewController!, animated: true, completion: nil)
     }
     

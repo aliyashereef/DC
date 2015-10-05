@@ -48,6 +48,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
             break
         case 2:
             cell!.contentType.text = DATE_TIME
+            //cell!.value.text = "16-Jun-2015 21:00"
             cell!.value.text = "16-Jun-2015 21:00"
             break
         case 3:
@@ -198,7 +199,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if(indexPath.section == 0 && indexPath.row == 1) {
-            return 74
+            return 55
         } else if(indexPath == selectedRowIndex ) {
             return 100
         } else {

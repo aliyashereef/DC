@@ -13,7 +13,7 @@ protocol SecurityPinMatchDelegate {
     func securityPinMatchedForUser (user : DCUser)
 }
 
-class DCAdministratedByPinVerificationViewController: UIViewController , UIViewControllerTransitioningDelegate {
+@objc class DCAdministratedByPinVerificationViewController: UIViewController , UIViewControllerTransitioningDelegate {
     
     @IBOutlet var firstDigit: UIButton!
     @IBOutlet var secondDigit: UIButton!
@@ -21,10 +21,12 @@ class DCAdministratedByPinVerificationViewController: UIViewController , UIViewC
     @IBOutlet var fourthDigit: UIButton!
     var user : DCUser!
     var delegate : SecurityPinMatchDelegate?
+    @IBOutlet weak var topView: UIView!
     var digits : NSMutableArray = []
     
     override func viewDidLoad() {
         updateDigits()
+        DCUtility.roundCornersForView(topView, roundTopCorners: true)
         super.viewDidLoad()
     }
     
