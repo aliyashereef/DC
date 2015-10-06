@@ -71,7 +71,7 @@
     [self setCurrentWeekDatesArrayFromToday];
     [self configurePrescriberMedicationView];
     // Commented out for this release.
-    //[self addCalendarDateView];
+    [self addCalendarDateView];
     [self displayDatesInCalendarView];
 }
 
@@ -98,7 +98,6 @@
     UIStoryboard *administerStoryboard = [UIStoryboard storyboardWithName:ADMINISTER_STORYBOARD
                                                                    bundle: nil];
     DCCalendarDateDisplayViewController *viewController = [administerStoryboard instantiateViewControllerWithIdentifier:@"CalendarDateDisplayView"];
-    
     [calendarDaysDisplayView addSubview:viewController.view];
 }
 
@@ -246,10 +245,12 @@
         
         DCMedicationAdministrationStatusView *statusView = (DCMedicationAdministrationStatusView *)[prescriberCell viewWithTag:index];
         statusView.delegate = self;
-        statusView.medicationSLotDictionary = [displaySlotsArray objectAtIndex:index - 1];
+        NSDictionary *slotsDictionary = [displaySlotsArray objectAtIndex:index - 1];
+      //  statusView.medicationSLotDictionary = [displaySlotsArray objectAtIndex:index - 1];
         statusView.weekdate = [currentWeekDatesArray objectAtIndex:index - 1];
-//        statusView.medicationSlot = [displayMedicationListArray objectAtIndex:indexPath.item];
+        statusView.medicationSlot = [displayMedicationListArray objectAtIndex:indexPath.item];
         statusView.currentIndexPath = indexPath;
+        [statusView configureAdministrationStatusViewForMedicationSlotDictionary:slotsDictionary];
         index++;
     }
 }

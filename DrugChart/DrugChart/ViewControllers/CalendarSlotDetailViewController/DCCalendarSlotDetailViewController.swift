@@ -48,17 +48,6 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         super.didReceiveMemoryWarning()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
     // MARK: - Private Methods
     
     func configureViewElements () {
@@ -107,7 +96,6 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
             if (slotToAdminister == nil) {
                 let errorMessage : String = getAdministerViewErrorMessage() as String
                 administerViewController?.alertMessage = errorMessage
-                NSLog("error is %@", errorMessage)
                 if(medicationSlotsArray.count > 0) {
                     let lastMedicationSlot : DCMedicationSlot = medicationSlotsArray.last!
                     administerViewController?.medicationSlot = lastMedicationSlot
