@@ -22,6 +22,8 @@
 
 + (NSString *)getDisplayStringForStartDate:(NSDate *)startDate andEndDate:(NSDate *)endDate;
 
++ (NSString *)getMonthAndYearFromStartDate:(NSDate *)startDate andEndDate:(NSDate *)endDate;
+
 + (NSDate *)getPreviousWeekEndDate:(NSDate *)date;
 
 + (NSMutableArray *)getDaysOfWeekFromDate:(NSDate *)date;

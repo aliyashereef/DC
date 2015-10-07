@@ -90,7 +90,8 @@
     
     NSDate *firstDay = [DCDateUtility getInitialDateForFiveDayDisplay:[DCDateUtility getDateInCurrentTimeZone:[NSDate date]]];
     currentWeekDatesArray = [DCDateUtility getFiveDaysOfWeekFromDate:firstDay];
-    NSLog(@"the week days array: %@", currentWeekDatesArray);
+    //TODO: Connect outlets for month year display and display this there
+    NSString *monthYearString = [DCDateUtility getMonthAndYearFromStartDate:currentWeekDatesArray[0] andEndDate:currentWeekDatesArray[4]];
 }
 
 - (void)addCalendarDateView {
