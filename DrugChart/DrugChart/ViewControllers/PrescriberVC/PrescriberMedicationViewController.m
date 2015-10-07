@@ -8,7 +8,6 @@
 
 #import "PrescriberMedicationViewController.h"
 #import "DrugChart-Swift.h"
-//#import "PrescriberMedicationCellTableViewCell.h"
 #import "DCCalendarNavigationTitleView.h"
 #import "DCAddMedicationInitialViewController.h"
 #import "DCAlertsAllergyPopOverViewController.h"
@@ -53,7 +52,7 @@
     NSMutableArray *rowMedicationSlotsArray;
     CGFloat slotWidth;
     
-    DCPrescriberMedicationListViewController *prescriberMedicationListVC;
+    DCPrescriberMedicationListViewController *prescriberMedicationListViewController;
 }
 
 @end
@@ -137,14 +136,14 @@
 // Not needed for now, since the childviewcontroller is added from IB.
 - (void)addMedicationListChildViewController {
     
-    if (!prescriberMedicationListVC) {
+    if (!prescriberMedicationListViewController) {
         UIStoryboard *prescriberStoryBoard = [UIStoryboard storyboardWithName:PRESCRIBER_DETAILS_STORYBOARD bundle:nil];
-        prescriberMedicationListVC = [prescriberStoryBoard instantiateViewControllerWithIdentifier:PRESCRIBER_LIST_SBID];
-        [self addChildViewController:prescriberMedicationListVC];
-        prescriberMedicationListVC.view.frame = medicationListHolderView.frame;
-        [self.view addSubview:prescriberMedicationListVC.view];
+        prescriberMedicationListViewController = [prescriberStoryBoard instantiateViewControllerWithIdentifier:PRESCRIBER_LIST_SBID];
+        [self addChildViewController:prescriberMedicationListViewController];
+        prescriberMedicationListViewController.view.frame = medicationListHolderView.frame;
+        [self.view addSubview:prescriberMedicationListViewController.view];
     }
-    [prescriberMedicationListVC didMoveToParentViewController:self];
+    [prescriberMedicationListViewController didMoveToParentViewController:self];
 }
 
 - (void)configurePrescriberMedicationView {
@@ -155,24 +154,24 @@
     //medicationsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [todayBackGroundView.layer setCornerRadius:12.5];
 
-//    if ([DCAPPDELEGATE isNetworkReachable]) {
-//        if (!_patient.medicationListArray) {
-//            [self fetchMedicationListForPatient];
-//        } else {
-//            [self getDisplayMedicationListArray];
-//            if ([displayMedicationListArray count] == 0) {
-//                noMedicationsAvailableLabel.text = @"No active medications available";
-//                [noMedicationsAvailableLabel setHidden:NO];
-//            }
-//            else {
-//                noMedicationsAvailableLabel.text = @"No medications available";
-//                [noMedicationsAvailableLabel setHidden:YES];
-//            }
-//            [self configureAlertsAndAllergiesArray];
-//            [self addSortBarButtonToNavigationBar];
-//            //[medicationsTableView reloadData];
-//        }
-//    }
+    if ([DCAPPDELEGATE isNetworkReachable]) {
+        if (!_patient.medicationListArray) {
+            [self fetchMedicationListForPatient];
+        } else {
+            [self getDisplayMedicationListArray];
+            if ([displayMedicationListArray count] == 0) {
+                noMedicationsAvailableLabel.text = @"No active medications available";
+                [noMedicationsAvailableLabel setHidden:NO];
+            }
+            else {
+                noMedicationsAvailableLabel.text = @"No medications available";
+                [noMedicationsAvailableLabel setHidden:YES];
+            }
+            [self configureAlertsAndAllergiesArrayForDisplay];
+            [self addAlertsAndAllergyBarButtonToNavigationBar];
+            //[medicationsTableView reloadData];
+        }
+    }
 }
 
 #pragma mark - table view methods
@@ -303,20 +302,22 @@
     [calendarDaysDisplayView setHidden:YES];
     [calendarTopHolderView setHidden:YES];
     [noMedicationsAvailableLabel setHidden:YES];
+    [medicationListHolderView setHidden:YES];
     [self fetchMedicationListForPatientId:self.patient.patientId
                     withCompletionHandler:^(NSArray *result, NSError *error) {
                         
                         if (!error) {
                             _patient.medicationListArray = result;
-                            [self configureAlertsAndAllergiesArray];
-                            [self addSortBarButtonToNavigationBar];
+                            [self configureAlertsAndAllergiesArrayForDisplay];
+                            [self addAlertsAndAllergyBarButtonToNavigationBar];
                             [self getDisplayMedicationListArray];
                             if ([displayMedicationListArray count] > 0) {
                                 //[medicationsTableView reloadData];
-                                
-                                
-                                
-                                
+                                if (prescriberMedicationListViewController) {
+                                    
+                                }
+                            
+                                [medicationListHolderView setHidden:NO];
                                 [calendarDaysDisplayView setHidden:NO];
                                 [calendarTopHolderView setHidden:NO];
                             }
@@ -383,7 +384,7 @@
 }
 
 
-- (void)configureAlertsAndAllergiesArray {
+- (void)configureAlertsAndAllergiesArrayForDisplay {
     
     alertsArray = self.patient.patientsAlertsArray;
     allergiesArray = self.patient.patientsAlergiesArray;
@@ -414,7 +415,7 @@
     alertsPopOverController.barButtonItem = (UIBarButtonItem *)sender;
 }
 
-- (void)addSortBarButtonToNavigationBar {
+- (void)addAlertsAndAllergyBarButtonToNavigationBar {
     
     UIBarButtonItem *alertsAndAllergiesButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:ALERTS_ALLERGIES_ICON] style:UIBarButtonItemStylePlain target:self action:@selector(allergiesAndAlertsButtonTapped:)];
     if ([allergiesArray count] > 0 || [alertsArray count] > 0) {

@@ -1,5 +1,5 @@
 //
-//  DCPrescriberMedicationCellTableViewCell.m
+//  DCPrescriberMedicationCell.m
 //  DrugChart
 //
 //  Created by Jilu Mary Joy on 3/24/15.
