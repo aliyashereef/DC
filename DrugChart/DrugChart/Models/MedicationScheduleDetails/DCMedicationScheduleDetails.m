@@ -56,7 +56,6 @@
     self.medicationId = [medicationDictionary valueForKey:DRUG_IDENTIFIER];
     self.scheduleId = [medicationDictionary valueForKey:SCHEDULE_ID];
     self.nextMedicationDate = [medicationDictionary valueForKey:NEXT_DRUG_TIME];
-    NSLog(@"****** nextMedicationDate is %@", _nextMedicationDate);
     
     NSNumber *activeValue = [NSNumber numberWithInt:[[medicationDictionary valueForKey:DRUG_IS_ACTIVE] intValue]];
     self.isActive = [activeValue boolValue];

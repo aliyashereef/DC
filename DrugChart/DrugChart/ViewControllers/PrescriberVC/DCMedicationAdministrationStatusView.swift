@@ -19,6 +19,7 @@ class DCMedicationAdministrationStatusView: UIView {
     var medicationSlot: DCMedicationSlot?
     var currentIndexPath: NSIndexPath?
     var weekdate : NSDate?
+    var timeArray : NSArray = []
     weak var delegate:DCMedicationAdministrationStatusProtocol?
 
     @IBOutlet var administerButton: UIButton?
@@ -34,35 +35,32 @@ class DCMedicationAdministrationStatusView: UIView {
         }
     }
     
-    func configureStatusViewForTimeArray(timeArray : NSArray) {
+    func configureStatusViewForTimeArray(timeSlotsArray : NSArray) {
         
+        timeArray = timeSlotsArray
         let initialSlot = timeArray.objectAtIndex(0) as? DCMedicationSlot
         let currentSystemDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
         let currentDateString = DCDateUtility.convertDate(currentSystemDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: SHORT_DATE_FORMAT)
         let initialSlotDateString = DCDateUtility.convertDate(initialSlot?.time, fromFormat: DEFAULT_DATE_FORMAT, toFormat: SHORT_DATE_FORMAT)
-        NSLog("currentDateString is %@", currentDateString)
-        NSLog("initialSlotDateString is %@", initialSlotDateString)
         if (currentDateString == initialSlotDateString) {
             // both falls on the same day
-            configureStatusViewForTodayWithTimeArray(timeArray)
+            configureStatusViewForTodayCurrentDay()
         } else {
             if (initialSlot!.time.compare(currentSystemDate) == NSComparisonResult.OrderedDescending) {
                 //next day
-                configureStatusViewForComingDayWithTimeArray(timeArray)
+                configureStatusViewForComingDay()
             } else if (initialSlot!.time.compare(currentSystemDate) == NSComparisonResult.OrderedAscending) {
                 //previous day
-                configureStatusViewForPastDayWithTimeArray(timeArray)
-            } else {
-                // No slots available
+                configureStatusViewForPastDay()
             }
         }
     }
     
-    func configureStatusViewForTodayWithTimeArray(timeArray : NSArray) {
+    func configureStatusViewForTodayCurrentDay() {
         
         //populate view for current day, display medication due at initial time
         NSLog("****** Current day ******")
-        var pendingCount : NSInteger = 0
+        var overDueCount : NSInteger = 0
         var administeredCount : NSInteger = 0
         var omissionRefusalCount : NSInteger = 0
         let currentSystemDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
@@ -71,7 +69,8 @@ class DCMedicationAdministrationStatusView: UIView {
             if (medication.time.compare(currentSystemDate) == NSComparisonResult.OrderedAscending) {
                 //past time, check if any medication administration is pending
                 if (medication.medicationAdministration == nil) {
-                    pendingCount++
+                    overDueCount++
+                    break;
                 }
             }
             //check the conditions of early administrations as well
@@ -83,26 +82,34 @@ class DCMedicationAdministrationStatusView: UIView {
                 }
             }
         }
+        if (overDueCount > 0) {
+            //display overdue label here
+        } else {
+            updateCurrentDayStatusViewWithAdministrationCount(administrationCount:administeredCount, omittedRefusalCount: omissionRefusalCount)
+        }
+    }
+    
+    func updateCurrentDayStatusViewWithAdministrationCount(administrationCount administeredCount: NSInteger, omittedRefusalCount : NSInteger) {
+        
         let nearestSlot : DCMedicationSlot? = DCUtility.getNearestMedicationSlotToBeAdministeredFromSlotsArray(timeArray as [AnyObject]);
         if (nearestSlot != nil) {
             if (nearestSlot!.medicationAdministration == nil) {
                 // get date string from the nearest slot time
                 let dueTime = DCDateUtility.convertDate(nearestSlot!.time, fromFormat: DEFAULT_DATE_FORMAT, toFormat: TWENTYFOUR_HOUR_FORMAT)
                 NSLog("Due time is %@", dueTime)
+                //Populate due label
+            }
+        } else {
+            if (administeredCount == timeArray.count) {
+                // all administered, so indicate area with tick mark
+            } else if (administeredCount + omittedRefusalCount == timeArray.count) {
+                // indicate slot with cross mark
+                
             }
         }
-        if (administeredCount == timeArray.count) {
-            // all administered, so indicate area with tick mark
-        } else if (administeredCount + omissionRefusalCount == timeArray.count) {
-            // indicate slot with cross mark
-            
-        } else if (pendingCount > 0) {
-            // populate pending count label if pending count > 0
-            
-        }
-    }
+     }
     
-    func configureStatusViewForPastDayWithTimeArray(timeArray : NSArray) {
+    func configureStatusViewForPastDay() {
         
         //if all medications are administered indicate tick mark, if any omissions/rejections indicate x mark
         //if any pending, indicate it with pending count, pending is given priority over adimistered/omitted/refused
@@ -128,7 +135,7 @@ class DCMedicationAdministrationStatusView: UIView {
         if (administeredCount == timeArray.count) {
             //display tick mark
         } else if (overDueCount > 0) {
-            //display pending label
+            //display pending label, indicate label with text 'Overdue'
             
         } else if (omissionRejectionsCount > 0) {
             //display cross symbol
@@ -136,7 +143,7 @@ class DCMedicationAdministrationStatusView: UIView {
         }
     }
     
-    func configureStatusViewForComingDayWithTimeArray(timeArray : NSArray) {
+    func configureStatusViewForComingDay () {
         
         // display no of pending medications
         let pendingCount : NSInteger = timeArray.count
@@ -151,12 +158,4 @@ class DCMedicationAdministrationStatusView: UIView {
         }
     }
     
-    
-    /*
-    // Only override drawRect: if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func drawRect(rect: CGRect) {
-        // Drawing code
-    }
-    */
 }

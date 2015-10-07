@@ -246,7 +246,6 @@
         DCMedicationAdministrationStatusView *statusView = (DCMedicationAdministrationStatusView *)[prescriberCell viewWithTag:index];
         statusView.delegate = self;
         NSDictionary *slotsDictionary = [displaySlotsArray objectAtIndex:index - 1];
-      //  statusView.medicationSLotDictionary = [displaySlotsArray objectAtIndex:index - 1];
         statusView.weekdate = [currentWeekDatesArray objectAtIndex:index - 1];
         statusView.medicationSlot = [displayMedicationListArray objectAtIndex:indexPath.item];
         statusView.currentIndexPath = indexPath;
