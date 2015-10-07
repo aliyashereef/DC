@@ -59,75 +59,6 @@
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WtI-jf-YNS">
                                         <rect key="frame" x="301" y="0.0" width="300" height="50"/>
-                                        <subviews>
-                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jbV-L9-XKb">
-                                                <rect key="frame" x="0.0" y="0.0" width="145" height="49"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Mon 22" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oc5-Ag-Fhs">
-                                                        <rect key="frame" x="43" y="14" width="58" height="20"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                </subviews>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            </view>
-                                            <view tag="1" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DZ8-V0-utK">
-                                                <rect key="frame" x="146" y="0.0" width="145" height="49"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Tue 23" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="swx-VH-R24">
-                                                        <rect key="frame" x="48" y="14" width="53" height="20"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                </subviews>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            </view>
-                                            <view tag="2" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xa8-Gp-nUh">
-                                                <rect key="frame" x="292" y="0.0" width="145" height="49"/>
-                                                <subviews>
-                                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="U50-pF-RJt">
-                                                        <rect key="frame" x="75" y="10" width="25" height="25"/>
-                                                        <color key="backgroundColor" red="0.047058823529411764" green="0.37254901960784315" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <userDefinedRuntimeAttributes>
-                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="keyPath" value="YES"/>
-                                                        </userDefinedRuntimeAttributes>
-                                                    </view>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Wed 5" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YZN-7r-4Ph">
-                                                        <rect key="frame" x="41" y="14" width="60" height="20"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                </subviews>
-                                                <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
-                                            </view>
-                                            <view tag="3" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5aE-8w-8Iz">
-                                                <rect key="frame" x="438" y="0.0" width="145" height="49"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Thu 25" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cf1-eU-kjQ">
-                                                        <rect key="frame" x="46" y="14" width="55" height="20"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                </subviews>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            </view>
-                                            <view tag="4" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="M8g-HZ-axS">
-                                                <rect key="frame" x="584" y="0.0" width="145" height="49"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Fri 26" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nCh-tl-1BK">
-                                                        <rect key="frame" x="50" y="14" width="51" height="20"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                </subviews>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            </view>
-                                        </subviews>
                                         <color key="backgroundColor" red="0.88235294119999996" green="0.90588235289999997" blue="0.91764705879999997" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8id-G8-fHA">
@@ -225,14 +156,8 @@
                         <outlet property="activityIndicatorView" destination="cwN-lR-yba" id="5TD-lw-1gq"/>
                         <outlet property="calendarDaysDisplayView" destination="WtI-jf-YNS" id="xRm-Se-BTP"/>
                         <outlet property="calendarTopHolderView" destination="oBB-Ry-QUf" id="kWL-KB-1Qm"/>
-                        <outlet property="fifthDayLabel" destination="nCh-tl-1BK" id="uTz-Qz-SVH"/>
-                        <outlet property="firstDayLabel" destination="Oc5-Ag-Fhs" id="NjE-52-WWI"/>
-                        <outlet property="fourthDayLabel" destination="Cf1-eU-kjQ" id="CFu-uH-XK6"/>
                         <outlet property="medicationListHolderView" destination="Hyq-b7-87o" id="oki-uf-x6d"/>
                         <outlet property="noMedicationsAvailableLabel" destination="6SZ-jb-mSZ" id="a9E-DD-EYT"/>
-                        <outlet property="secondDayLabel" destination="swx-VH-R24" id="W9b-Kg-c0Y"/>
-                        <outlet property="thirdDayLabel" destination="YZN-7r-4Ph" id="IKX-B5-0XN"/>
-                        <outlet property="todayBackGroundView" destination="U50-pF-RJt" id="hW2-P1-5b2"/>
                         <outlet property="toolbar" destination="CIZ-aM-r4a" id="rCU-JB-YWO"/>
                     </connections>
                 </viewController>
@@ -345,7 +270,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aeT-dC-e9t" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="844" y="-1190.5"/>
+            <point key="canvasLocation" x="830" y="-1024.5"/>
         </scene>
         <!--Prescriber Details View Controller-->
         <scene sceneID="Tgp-mt-KB6">

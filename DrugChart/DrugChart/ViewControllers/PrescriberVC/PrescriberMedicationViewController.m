@@ -74,10 +74,9 @@
     [super viewDidLoad];
     [self setCurrentWeekDatesArrayFromToday];
     [self configurePrescriberMedicationView];
-    // Commented out for this release.
-    [self addCalendarDateView];
-    [self displayDatesInCalendarView];
+
     [self calculateCalendarSlotWidth];
+    [self addTopDatePortionInCalendar];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -107,12 +106,14 @@
     NSLog(@"slotWidth is %f", slotWidth);
 }
 
-- (void)addCalendarDateView {
+//TODO: we need to move this from the administer SB to PrescriberDetails SB.
+// And thus load it directly from IB and avoid this method.
+- (void)addTopDatePortionInCalendar {
     
     UIStoryboard *administerStoryboard = [UIStoryboard storyboardWithName:ADMINISTER_STORYBOARD
                                                                    bundle: nil];
-    DCCalendarDateDisplayViewController *viewController = [administerStoryboard instantiateViewControllerWithIdentifier:@"CalendarDateDisplayView"];
-    [calendarDaysDisplayView addSubview:viewController.view];
+    DCCalendarDateDisplayViewController *calendarDateDisplayViewController = [administerStoryboard instantiateViewControllerWithIdentifier:@"CalendarDateDisplayView"];
+    [calendarDaysDisplayView addSubview:calendarDateDisplayViewController.view];
 }
 
 + (NSMutableArray *)getDateDisplayStringForDateArray:(NSArray *)dateArray {
@@ -144,38 +145,6 @@
         [self.view addSubview:prescriberMedicationListVC.view];
     }
     [prescriberMedicationListVC didMoveToParentViewController:self];
-}
-
-//TODO: just for the display for interim  release.
-// Method will be replaced with the original method for display.
-- (void)displayDatesInCalendarView {
-    
-    NSMutableArray *weekDisplayArray = [[NSMutableArray alloc] init];
-    weekDisplayArray = [PrescriberMedicationViewController getDateDisplayStringForDateArray:currentWeekDatesArray];
-    if ([weekDisplayArray count] == 5) {
-        firstDayLabel.text = (NSString *)[weekDisplayArray objectAtIndex:0];
-        secondDayLabel.text = (NSString *)[weekDisplayArray objectAtIndex:1];
-        
-        NSString *todaysString = (NSString *)[weekDisplayArray objectAtIndex:2];
-        NSString *dayString, *dayNameString;
-        NSArray *components = [todaysString componentsSeparatedByString:@" "];
-        if ([components count] == 2) {
-            dayString = (NSString *)[components objectAtIndex:1];
-            if ([dayString length] == 2) {
-                dayNameString = [NSString stringWithFormat:@"%@ ",(NSString *)[components objectAtIndex:0]];
-            }
-            else {
-                dayNameString = [NSString stringWithFormat:@"%@  ",(NSString *)[components objectAtIndex:0]];
-            }
-        }
-        
-        NSAttributedString * dateString = [[NSMutableAttributedString alloc] initWithString:dayString attributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
-        NSMutableAttributedString *dayDisplayString = [[NSMutableAttributedString alloc] initWithString:dayNameString];
-        [dayDisplayString appendAttributedString:dateString];
-        thirdDayLabel.attributedText = dayDisplayString;
-        fourthDayLabel.text = (NSString *)[weekDisplayArray objectAtIndex:3];
-        fifthDayLabel.text = (NSString *)[weekDisplayArray objectAtIndex:4];
-    }
 }
 
 - (void)configurePrescriberMedicationView {
