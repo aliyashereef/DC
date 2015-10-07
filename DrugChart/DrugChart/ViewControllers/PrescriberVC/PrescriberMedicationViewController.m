@@ -250,7 +250,7 @@
         statusView.weekdate = [currentWeekDatesArray objectAtIndex:index - 1];
         statusView.medicationSlot = [displayMedicationListArray objectAtIndex:indexPath.item];
         statusView.currentIndexPath = indexPath;
-        [statusView configureAdministrationStatusViewForMedicationSlotDictionary:slotsDictionary];
+        [statusView updateAdministrationStatusViewWithMedicationSlotDictionary:slotsDictionary];
         index++;
     }
 }

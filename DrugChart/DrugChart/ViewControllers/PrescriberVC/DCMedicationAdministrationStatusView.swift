@@ -24,66 +24,123 @@ class DCMedicationAdministrationStatusView: UIView {
     @IBOutlet var administerButton: UIButton?
     
     
-    func configureAdministrationStatusViewForMedicationSlotDictionary(slotDictionary : NSDictionary) {
+    func updateAdministrationStatusViewWithMedicationSlotDictionary(slotDictionary : NSDictionary) {
         
         medicationSlotDictionary = slotDictionary
-        NSLog("slotDictionary is %@", slotDictionary)
         if let timeSlotsArray  = medicationSlotDictionary?["timeSlots"] {
             if timeSlotsArray.count > 0 {
-                //let initialMedication : DCMedicationSlot? = timeSlotsArray.objectAtIndex(0) as? DCMedicationSlot
-                checkForInitialMedicationSlot(timeSlotsArray as! [DCMedicationSlot])
-                for slot in timeSlotsArray as! [AnyObject] {
-                   // NSLog("slot time %@", slot.time)
-                   // NSLog("slot status %@", slot.status)
-                    if let administrationDetails = slot.medicationAdministration {
-                        if (administrationDetails == nil) {
-                             NSLog("Administration details not available")
-                        } else {
-                            NSLog("///medicationadministration is %@", (administrationDetails?.status)!)
-                        }
-                    } else {
-                        NSLog("Administration details not available")
-                    }
-                }
+                configureStatusViewForTimeArray(timeSlotsArray as! [DCMedicationSlot])
             }
         }
     }
     
-    func checkForInitialMedicationSlot(timeArray : NSArray) {
+    func configureStatusViewForTimeArray(timeArray : NSArray) {
         
         let initialSlot = timeArray.objectAtIndex(0) as? DCMedicationSlot
         let currentSystemDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
         let currentDateString = DCDateUtility.convertDate(currentSystemDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: SHORT_DATE_FORMAT)
-        let weekDateString = DCDateUtility.convertDate(weekdate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: SHORT_DATE_FORMAT)
+        let initialSlotDateString = DCDateUtility.convertDate(initialSlot?.time, fromFormat: DEFAULT_DATE_FORMAT, toFormat: SHORT_DATE_FORMAT)
         NSLog("currentDateString is %@", currentDateString)
-        NSLog("weekDateString is %@", weekDateString)
-        if (currentDateString == weekDateString) {
+        NSLog("initialSlotDateString is %@", initialSlotDateString)
+        if (currentDateString == initialSlotDateString) {
             // both falls on the same day
-            NSLog("****** Today ***")
-            
+            configureStatusViewForTodayWithTimeArray(timeArray)
         } else {
             if (initialSlot!.time.compare(currentSystemDate) == NSComparisonResult.OrderedDescending) {
-                NSLog("****** Next day ***")
                 //next day
-                let pendingCount : NSInteger = timeArray.count
-                NSLog("Pending Count is %@", pendingCount)
+                configureStatusViewForComingDayWithTimeArray(timeArray)
             } else if (initialSlot!.time.compare(currentSystemDate) == NSComparisonResult.OrderedAscending) {
-                NSLog("**** Past day *****")
-                var pendingCount : NSInteger = 0
-                for slot in timeArray as [AnyObject] {
-                    if let administrationDetails = slot.medicationAdministration {
-                        if (administrationDetails == nil) {
-                            NSLog("Administration details not available")
-                            //administration details pending, so increment pendingcount
-                            pendingCount++
-                        } else {
-                            NSLog("medicationadministration is %@", (administrationDetails?.status)!)
-                        }
-                    }
-                    NSLog("pendingCount is %d", pendingCount)
+                //previous day
+                configureStatusViewForPastDayWithTimeArray(timeArray)
+            } else {
+                // No slots available
+            }
+        }
+    }
+    
+    func configureStatusViewForTodayWithTimeArray(timeArray : NSArray) {
+        
+        //populate view for current day, display medication due at initial time
+        NSLog("****** Current day ******")
+        var pendingCount : NSInteger = 0
+        var administeredCount : NSInteger = 0
+        var omissionRefusalCount : NSInteger = 0
+        let currentSystemDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
+        for slot in timeArray as [AnyObject] {
+            let medication = slot as! DCMedicationSlot
+            if (medication.time.compare(currentSystemDate) == NSComparisonResult.OrderedAscending) {
+                //past time, check if any medication administration is pending
+                if (medication.medicationAdministration == nil) {
+                    pendingCount++
+                }
+            }
+            //check the conditions of early administrations as well
+            if (medication.medicationAdministration != nil) {
+                if (medication.medicationAdministration.status == ADMINISTERED) {
+                    administeredCount++
+                } else if (medication.medicationAdministration.status == REFUSED || medication.medicationAdministration.status == OMITTED) {
+                    omissionRefusalCount++
                 }
             }
         }
+        let nearestSlot : DCMedicationSlot? = DCUtility.getNearestMedicationSlotToBeAdministeredFromSlotsArray(timeArray as [AnyObject]);
+        if (nearestSlot != nil) {
+            if (nearestSlot!.medicationAdministration == nil) {
+                // get date string from the nearest slot time
+                let dueTime = DCDateUtility.convertDate(nearestSlot!.time, fromFormat: DEFAULT_DATE_FORMAT, toFormat: TWENTYFOUR_HOUR_FORMAT)
+                NSLog("Due time is %@", dueTime)
+            }
+        }
+        if (administeredCount == timeArray.count) {
+            // all administered, so indicate area with tick mark
+        } else if (administeredCount + omissionRefusalCount == timeArray.count) {
+            // indicate slot with cross mark
+            
+        } else if (pendingCount > 0) {
+            // populate pending count label if pending count > 0
+            
+        }
+    }
+    
+    func configureStatusViewForPastDayWithTimeArray(timeArray : NSArray) {
+        
+        //if all medications are administered indicate tick mark, if any omissions/rejections indicate x mark
+        //if any pending, indicate it with pending count, pending is given priority over adimistered/omitted/refused
+        var overDueCount : NSInteger = 0
+        var administeredCount : NSInteger = 0
+        var omissionRejectionsCount : NSInteger = 0
+        for slot in timeArray as [AnyObject] {
+            if let administrationDetails = slot.medicationAdministration {
+                if (administrationDetails == nil) {
+                    //Administration details not available. administration details pending, so increment pendingcount
+                    overDueCount++
+                } else {
+                    if (administrationDetails.status == ADMINISTERED) {
+                        administeredCount++
+                    } else if (administrationDetails.status == OMITTED || administrationDetails.status == REFUSED) {
+                        omissionRejectionsCount++
+                    } else {
+                        overDueCount++;
+                    }
+                }
+            }
+        }
+        if (administeredCount == timeArray.count) {
+            //display tick mark
+        } else if (overDueCount > 0) {
+            //display pending label
+            
+        } else if (omissionRejectionsCount > 0) {
+            //display cross symbol
+            
+        }
+    }
+    
+    func configureStatusViewForComingDayWithTimeArray(timeArray : NSArray) {
+        
+        // display no of pending medications
+        let pendingCount : NSInteger = timeArray.count
+        NSLog("**** Next day Pending Count is %d", pendingCount)
     }
     
     @IBAction func administerButtonClicked (sender: UIButton ) {
@@ -102,5 +159,4 @@ class DCMedicationAdministrationStatusView: UIView {
         // Drawing code
     }
     */
-
 }
