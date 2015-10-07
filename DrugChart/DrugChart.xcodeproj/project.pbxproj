@@ -275,6 +275,7 @@
 		7DA89AEA1B2D528400096A0A /* DCPositionableGraphics.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA89AE91B2D528400096A0A /* DCPositionableGraphics.m */; };
 		7DA89AEE1B2D536300096A0A /* DCPositionableGraphicsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA89AED1B2D536300096A0A /* DCPositionableGraphicsView.m */; };
 		7DA89AF01B2D538800096A0A /* DCPositionableGraphicsNurseStation.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DA89AEF1B2D538800096A0A /* DCPositionableGraphicsNurseStation.xib */; };
+		7DAAAA8B1BC3C30E00119E2B /* DCPrescriberMedicationListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DAAAA8A1BC3C30E00119E2B /* DCPrescriberMedicationListViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		7DD51DF71AA5428200C81427 /* DCPatientListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD51DF61AA5428200C81427 /* DCPatientListViewController.m */; };
 		7DE017661BC23E230094928C /* PrescriberMedicationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE017651BC23E230094928C /* PrescriberMedicationTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		7DE017691BC2439A0094928C /* DCGraphicalViewHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE017681BC2439A0094928C /* DCGraphicalViewHelper.m */; settings = {ASSET_TAGS = (); }; };
@@ -718,6 +719,7 @@
 		7DA89AEC1B2D536300096A0A /* DCPositionableGraphicsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCPositionableGraphicsView.h; sourceTree = "<group>"; };
 		7DA89AED1B2D536300096A0A /* DCPositionableGraphicsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCPositionableGraphicsView.m; sourceTree = "<group>"; };
 		7DA89AEF1B2D538800096A0A /* DCPositionableGraphicsNurseStation.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCPositionableGraphicsNurseStation.xib; sourceTree = "<group>"; };
+		7DAAAA8A1BC3C30E00119E2B /* DCPrescriberMedicationListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCPrescriberMedicationListViewController.swift; sourceTree = "<group>"; };
 		7DD51DF51AA5428200C81427 /* DCPatientListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DCPatientListViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		7DD51DF61AA5428200C81427 /* DCPatientListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DCPatientListViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		7DE017651BC23E230094928C /* PrescriberMedicationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrescriberMedicationTableViewCell.swift; sourceTree = "<group>"; };
@@ -1573,6 +1575,7 @@
 		0BBC8F9A1AA468920085ABAB /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				7DAAAA891BC3C2CB00119E2B /* PrescriberMedicationListViewController */,
 				4D766C091BBCF75200413E08 /* CalendarDateDisplayViewController */,
 				7D2FF0101BB50FDB00B92B85 /* PrescriberVC */,
 				0BF13A891B845D3C003607A8 /* PatientListCollectionViewController */,
@@ -2568,6 +2571,14 @@
 			path = PositionableGraphicsView;
 			sourceTree = "<group>";
 		};
+		7DAAAA891BC3C2CB00119E2B /* PrescriberMedicationListViewController */ = {
+			isa = PBXGroup;
+			children = (
+				7DAAAA8A1BC3C30E00119E2B /* DCPrescriberMedicationListViewController.swift */,
+			);
+			path = PrescriberMedicationListViewController;
+			sourceTree = "<group>";
+		};
 		7DCB394D1B786D420057F2BC /* AdministerMedicationWebService */ = {
 			isa = PBXGroup;
 			children = (
@@ -2840,6 +2851,7 @@
 			files = (
 				7D2323501B40FD5E0063A4A4 /* DCAlertsWebService.m in Sources */,
 				0B294B441B9D667900F8D574 /* DCAddDosageCell.m in Sources */,
+				7DAAAA8B1BC3C30E00119E2B /* DCPrescriberMedicationListViewController.swift in Sources */,
 				0B2442F01B96E36500E8F0EB /* DCAddMedicationContentCell.m in Sources */,
 				0BBDEDF91AA5B4320016E6FF /* UIImage+DCImage.m in Sources */,
 				0B95FAF91B5E690D002939DF /* DCWarningsTableCell.m in Sources */,

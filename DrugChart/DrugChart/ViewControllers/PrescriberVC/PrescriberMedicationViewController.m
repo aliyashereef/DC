@@ -35,6 +35,7 @@
     IBOutlet UILabel *noMedicationsAvailableLabel;
     IBOutlet UIView *todayBackGroundView;
     IBOutlet UIView *calendarTopHolderView;
+    IBOutlet UIView *medicationListHolderView;
     // just for intermin release. to be moved to another view controller
     IBOutlet UILabel *firstDayLabel;
     IBOutlet UILabel *secondDayLabel;
@@ -42,7 +43,7 @@
     IBOutlet UILabel *fourthDayLabel;
     IBOutlet UILabel *fifthDayLabel;
     
-    IBOutlet UITableView *medicationsTableView;
+    //IBOutlet UITableView *medicationsTableView;
     
     UIBarButtonItem *addButton;
     NSMutableArray *alertsArray;
@@ -167,7 +168,7 @@
     addButton = [[UIBarButtonItem alloc]
                  initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addMedicationButtonPressed:)];
     self.navigationItem.rightBarButtonItem = addButton;
-    medicationsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    //medicationsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [todayBackGroundView.layer setCornerRadius:12.5];
 
     if ([DCAPPDELEGATE isNetworkReachable]) {
@@ -185,7 +186,7 @@
             }
             [self configureAlertsAndAllergiesArray];
             [self addSortBarButtonToNavigationBar];
-            [medicationsTableView reloadData];
+            //[medicationsTableView reloadData];
         }
     }
 }
@@ -327,7 +328,13 @@
                             [self addSortBarButtonToNavigationBar];
                             [self getDisplayMedicationListArray];
                             if ([displayMedicationListArray count] > 0) {
-                                [medicationsTableView reloadData];
+                                //[medicationsTableView reloadData];
+                                UIStoryboard *prescriberStoryBoard = [UIStoryboard storyboardWithName:PRESCRIBER_DETAILS_STORYBOARD bundle:nil];
+                                DCPrescriberMedicationListViewController *prescriberMedicationListVC = [prescriberStoryBoard instantiateViewControllerWithIdentifier:PRESCRIBER_LIST_SBID];
+                                [self addChildViewController:prescriberMedicationListVC];
+                                
+                                
+                                
                                 [calendarDaysDisplayView setHidden:NO];
                                 [calendarTopHolderView setHidden:NO];
                             }

@@ -111,6 +111,7 @@
 #define ADMINISTER_STORYBOARD_ID @"AdministerViewController"
 #define MEDICATION_STORYBOARD_ID @"MedicationHistory"
 #define BNF_STORYBOARD_ID @"BNFViewController"
+#define PRESCRIBER_LIST_SBID @"PrescriberMedicationList"
 
 #define PRESCRIBER_MEDICATION_SBID @"PrescriberMedicationViewControllerSBID"
 
