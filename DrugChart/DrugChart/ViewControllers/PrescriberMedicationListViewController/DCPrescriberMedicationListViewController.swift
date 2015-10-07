@@ -30,7 +30,7 @@ class DCPrescriberMedicationListViewController: UIViewController, UITableViewDat
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        return 0
+        return 1
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -53,10 +53,6 @@ class DCPrescriberMedicationListViewController: UIViewController, UITableViewDat
             
             return medicationCell!
     }
-    
-    
-    
-    
 
     /*
     // MARK: - Navigation

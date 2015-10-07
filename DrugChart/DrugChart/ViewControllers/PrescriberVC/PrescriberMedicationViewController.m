@@ -52,6 +52,8 @@
     NSMutableArray *displayMedicationListArray;
     NSMutableArray *rowMedicationSlotsArray;
     CGFloat slotWidth;
+    
+    DCPrescriberMedicationListViewController *prescriberMedicationListVC;
 }
 
 @end
@@ -131,6 +133,19 @@
     return weekDays;
 }
 
+// Not needed for now, since the childviewcontroller is added from IB.
+- (void)addMedicationListChildViewController {
+    
+    if (!prescriberMedicationListVC) {
+        UIStoryboard *prescriberStoryBoard = [UIStoryboard storyboardWithName:PRESCRIBER_DETAILS_STORYBOARD bundle:nil];
+        prescriberMedicationListVC = [prescriberStoryBoard instantiateViewControllerWithIdentifier:PRESCRIBER_LIST_SBID];
+        [self addChildViewController:prescriberMedicationListVC];
+        prescriberMedicationListVC.view.frame = medicationListHolderView.frame;
+        [self.view addSubview:prescriberMedicationListVC.view];
+    }
+    [prescriberMedicationListVC didMoveToParentViewController:self];
+}
+
 //TODO: just for the display for interim  release.
 // Method will be replaced with the original method for display.
 - (void)displayDatesInCalendarView {
@@ -171,24 +186,24 @@
     //medicationsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [todayBackGroundView.layer setCornerRadius:12.5];
 
-    if ([DCAPPDELEGATE isNetworkReachable]) {
-        if (!_patient.medicationListArray) {
-            [self fetchMedicationListForPatient];
-        } else {
-            [self getDisplayMedicationListArray];
-            if ([displayMedicationListArray count] == 0) {
-                noMedicationsAvailableLabel.text = @"No active medications available";
-                [noMedicationsAvailableLabel setHidden:NO];
-            }
-            else {
-                noMedicationsAvailableLabel.text = @"No medications available";
-                [noMedicationsAvailableLabel setHidden:YES];
-            }
-            [self configureAlertsAndAllergiesArray];
-            [self addSortBarButtonToNavigationBar];
-            //[medicationsTableView reloadData];
-        }
-    }
+//    if ([DCAPPDELEGATE isNetworkReachable]) {
+//        if (!_patient.medicationListArray) {
+//            [self fetchMedicationListForPatient];
+//        } else {
+//            [self getDisplayMedicationListArray];
+//            if ([displayMedicationListArray count] == 0) {
+//                noMedicationsAvailableLabel.text = @"No active medications available";
+//                [noMedicationsAvailableLabel setHidden:NO];
+//            }
+//            else {
+//                noMedicationsAvailableLabel.text = @"No medications available";
+//                [noMedicationsAvailableLabel setHidden:YES];
+//            }
+//            [self configureAlertsAndAllergiesArray];
+//            [self addSortBarButtonToNavigationBar];
+//            //[medicationsTableView reloadData];
+//        }
+//    }
 }
 
 #pragma mark - table view methods
@@ -329,9 +344,7 @@
                             [self getDisplayMedicationListArray];
                             if ([displayMedicationListArray count] > 0) {
                                 //[medicationsTableView reloadData];
-                                UIStoryboard *prescriberStoryBoard = [UIStoryboard storyboardWithName:PRESCRIBER_DETAILS_STORYBOARD bundle:nil];
-                                DCPrescriberMedicationListViewController *prescriberMedicationListVC = [prescriberStoryBoard instantiateViewControllerWithIdentifier:PRESCRIBER_LIST_SBID];
-                                [self addChildViewController:prescriberMedicationListVC];
+                                
                                 
                                 
                                 
