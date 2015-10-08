@@ -51,7 +51,10 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             if medicationCell == nil {
                 medicationCell = PrescriberMedicationTableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: CELL_IDENTIFIER)
             }
+            let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
+            
             self.fillInMedicationDetailsInTableCell(medicationCell!, atIndexPath: indexPath)
+            self.addAdministerStatusViewsToTableCell(medicationCell!, forMedicationScheduleDetails: medicationScheduleDetails, atIndexPath: indexPath)
             return medicationCell!
     }
     
@@ -75,6 +78,35 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                 medicationCell.medicineName.text = medicationSchedules.name;
                 medicationCell.instructions.text = medicationSchedules.instruction;
                 medicationCell.route.text = medicationSchedules.route;
+            }
+    }
+    
+    func addAdministerStatusViewsToTableCell(medicationCell: PrescriberMedicationTableViewCell, forMedicationScheduleDetails medicationSchedule:DCMedicationScheduleDetails,
+        atIndexPath indexPath:NSIndexPath) {
+           
+            // method adds the administration status views to the table cell.
+            //TODO: UIView instances to be replaced with DCMedicationAdministrationStatusView instances.
+            var x :CGFloat = 0
+            let y :CGFloat = 0
+            let height = medicationCell.frame.size.height, width = (self.view.frame.size.width - medicationCell.medicineDetailHolderView.frame.size.width - 5) / 5
+            print("the height: %d width: %d", height, width)
+            var viewPosition : CGFloat
+            for (viewPosition = 0; viewPosition < 5; viewPosition++) {
+                // here add the subviews for status views with correspondng medicationSlot values.
+                let aCenterSampleView: UIView = UIView(frame: CGRectMake(x, y, width, height))
+                aCenterSampleView.backgroundColor = UIColor.redColor()
+                medicationCell.masterMedicationAdministerDetailsView.addSubview(aCenterSampleView)
+                
+                let aLeftSampleView: UIView = UIView(frame: CGRectMake(x, y, width, height))
+                aLeftSampleView.backgroundColor = UIColor.yellowColor()
+                medicationCell.leftMedicationAdministerDetailsView.addSubview(aLeftSampleView)
+                
+                let aRightSampleView: UIView = UIView(frame: CGRectMake(x, y, width, height))
+                aRightSampleView.backgroundColor = UIColor.greenColor()
+                medicationCell.leftMedicationAdministerDetailsView.addSubview(aRightSampleView)
+                
+                x = (viewPosition + 1) + (viewPosition + 1) * width
+                
             }
     }
     

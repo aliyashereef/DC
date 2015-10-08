@@ -515,4 +515,17 @@
     [self fetchMedicationListForPatient];
 }
 
+#pragma mark - Methods needed.
+
+- (void)populateMedicationWeekDaysForDisplayInCalendar {
+    
+    // here we need to add the methods to populate the values
+    
+    
+}
+
+
+
+
+
 @end
