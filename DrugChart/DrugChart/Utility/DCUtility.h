@@ -95,5 +95,8 @@ typedef enum : NSUInteger {
 
 + (DCMedicationSlot *)getNearestMedicationSlotToBeAdministeredFromSlotsArray:(NSArray *)slotsArray;
 
++ (NSMutableAttributedString *)getMonthYearAttributedStringForDisplayString:(NSString *)displayString
+                                              withInitialMonthLength:(NSInteger)length;
+
 
 @end

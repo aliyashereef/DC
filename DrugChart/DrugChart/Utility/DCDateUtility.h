@@ -22,7 +22,7 @@
 
 + (NSString *)getDisplayStringForStartDate:(NSDate *)startDate andEndDate:(NSDate *)endDate;
 
-+ (NSString *)getMonthAndYearFromStartDate:(NSDate *)startDate andEndDate:(NSDate *)endDate;
++ (NSAttributedString *)getMonthAndYearAttributedStringFromStartDate:(NSDate *)startDate andEndDate:(NSDate *)endDate;
 
 + (NSDate *)getPreviousWeekEndDate:(NSDate *)date;
 
