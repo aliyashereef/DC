@@ -118,7 +118,8 @@ class DCMedicationAdministrationStatusView: UIView {
                     break;
                 }
             }
-            else if (medication.time.compare(currentSystemDate) == NSComparisonResult.OrderedSame) {
+            else if (medication.time.compare(currentSystemDate) == NSComparisonResult.OrderedSame ) {
+                //TODO: has to compare 2 dates and check if their diff is 1 mint
                 currentTime = true
                 break;
             }
@@ -134,6 +135,7 @@ class DCMedicationAdministrationStatusView: UIView {
         if (currentTime) {
             // Due Now.. Indicate with yellow background, Due now text will be white
             adjustStatusLabelAndImageViewForCurrentDay()
+            self.backgroundColor = UIColor.getColorForHexString("#f2bc53")
             statusIcon?.image = ADMINISTRATION_DUE_NOW_IMAGE
             statusLabel?.text = NSLocalizedString("DUE_NOW", comment: "")
         } else {

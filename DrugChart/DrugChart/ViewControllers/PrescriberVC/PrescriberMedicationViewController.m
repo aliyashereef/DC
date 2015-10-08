@@ -43,6 +43,7 @@
     IBOutlet UILabel *fifthDayLabel;
     
     //IBOutlet UITableView *medicationsTableView;
+    IBOutlet UILabel *monthLabel;
     
     UIBarButtonItem *addButton;
     NSMutableArray *alertsArray;
@@ -96,15 +97,14 @@
     NSDate *firstDay = [DCDateUtility getInitialDateForFiveDayDisplay:[DCDateUtility getDateInCurrentTimeZone:[NSDate date]]];
     currentWeekDatesArray = [DCDateUtility getFiveDaysOfWeekFromDate:firstDay];
     //TODO: Connect outlets for month year display and display this there
-    NSString *monthYearString = [DCDateUtility getMonthAndYearFromStartDate:currentWeekDatesArray[0] andEndDate:currentWeekDatesArray[4]];
+    NSAttributedString *monthYearString = [DCDateUtility getMonthAndYearAttributedStringFromStartDate:currentWeekDatesArray[0] andEndDate:currentWeekDatesArray[4]];
+    monthLabel.attributedText = monthYearString;
 }
 
 - (void)calculateCalendarSlotWidth {
     
     //calculate calendar slot width
-    NSLog(@"Window Width is %f", [DCUtility getMainWindowSize].width);
     slotWidth = ([DCUtility getMainWindowSize].width - 300)/5;
-    NSLog(@"slotWidth is %f", slotWidth);
 }
 
 //TODO: we need to move this from the administer SB to PrescriberDetails SB.
