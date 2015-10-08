@@ -111,7 +111,8 @@
         while (timeSlotsCount < [timesArray count]) {
             
             NSCalendar *calendar = [NSCalendar currentCalendar];
-            [calendar setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
+            //TODO: Error in setting time chart. Timezone commented to fix the display issue in calendar
+           // [calendar setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
             NSDateComponents *components = [calendar components:NSCalendarUnitYear| NSCalendarUnitMonth | NSCalendarUnitDay  fromDate:nextDate];
             NSString *timeString = [timesArray objectAtIndex:timeSlotsCount];
             NSArray *timeComponents = [timeString componentsSeparatedByString:@":"];

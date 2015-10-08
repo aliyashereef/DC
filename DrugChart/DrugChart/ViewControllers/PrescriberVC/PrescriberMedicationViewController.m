@@ -50,6 +50,7 @@
     NSString *selectedSortType;
     NSMutableArray *displayMedicationListArray;
     NSMutableArray *rowMedicationSlotsArray;
+    CGFloat slotWidth;
 }
 
 @end
@@ -73,6 +74,7 @@
     // Commented out for this release.
     [self addCalendarDateView];
     [self displayDatesInCalendarView];
+    [self calculateCalendarSlotWidth];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -92,6 +94,14 @@
     currentWeekDatesArray = [DCDateUtility getFiveDaysOfWeekFromDate:firstDay];
     //TODO: Connect outlets for month year display and display this there
     NSString *monthYearString = [DCDateUtility getMonthAndYearFromStartDate:currentWeekDatesArray[0] andEndDate:currentWeekDatesArray[4]];
+}
+
+- (void)calculateCalendarSlotWidth {
+    
+    //calculate calendar slot width
+    NSLog(@"Window Width is %f", [DCUtility getMainWindowSize].width);
+    slotWidth = ([DCUtility getMainWindowSize].width - 300)/5;
+    NSLog(@"slotWidth is %f", slotWidth);
 }
 
 - (void)addCalendarDateView {
@@ -203,10 +213,10 @@
         }
     }
     rowMedicationSlotsArray = [self setMedicationSlotsForDisplay:medicationList];
-    if ([rowMedicationSlotsArray count] > 0) {
-        [self addMedicationSlotsFromSlotArray:rowMedicationSlotsArray
-                              inTableViewCell:medicationCell
-                                  atIndexPath:indexPath];
+    for (NSInteger index = 0; index < rowMedicationSlotsArray.count; index++) {
+        DCMedicationAdministrationStatusView *statusView = [self addMedicationAdministrationStatusViewForSlotDictionary:[rowMedicationSlotsArray objectAtIndex:index] inTableViewCell:medicationCell atIndexPathPath:indexPath
+                                            withTag:index + 1];
+        [medicationCell addSubview:statusView];
     }
     return medicationCell;
 }
@@ -239,20 +249,35 @@
                         inTableViewCell:(PrescriberMedicationTableViewCell *)prescriberCell
                             atIndexPath:(NSIndexPath *)indexPath {
     
+    NSLog(@"displaySlotsArray is %@", displaySlotsArray);
     NSInteger index = 1;
     while (index <= [displaySlotsArray count]) {
         // things are coming correctly here. just ensure that the correct slots go for the correct view.
-        
         
         DCMedicationAdministrationStatusView *statusView = (DCMedicationAdministrationStatusView *)[prescriberCell viewWithTag:index];
         statusView.delegate = self;
         NSDictionary *slotsDictionary = [displaySlotsArray objectAtIndex:index - 1];
         statusView.weekdate = [currentWeekDatesArray objectAtIndex:index - 1];
-        statusView.medicationSlot = [displayMedicationListArray objectAtIndex:indexPath.item];
         statusView.currentIndexPath = indexPath;
         [statusView updateAdministrationStatusViewWithMedicationSlotDictionary:slotsDictionary];
         index++;
     }
+}
+
+- (DCMedicationAdministrationStatusView *)addMedicationAdministrationStatusViewForSlotDictionary:(NSDictionary *)slotsDictionary
+                                          inTableViewCell:(PrescriberMedicationTableViewCell *)prescriberCell
+                                          atIndexPathPath:(NSIndexPath *)indexPath withTag:(NSInteger)tag {
+    
+    CGFloat xValue = 300 + (tag - 1) * slotWidth;
+    CGRect frame = CGRectMake(xValue + 1, 0, slotWidth - 1, 78.0);
+    DCMedicationAdministrationStatusView *statusView = [[DCMedicationAdministrationStatusView alloc] initWithFrame:frame];
+    statusView.delegate = self;
+    statusView.tag = tag;
+    statusView.weekdate = [currentWeekDatesArray objectAtIndex:tag - 1];
+    statusView.currentIndexPath = indexPath;
+    statusView.backgroundColor = [UIColor whiteColor];
+    [statusView updateAdministrationStatusViewWithMedicationSlotDictionary:slotsDictionary];
+    return statusView;
 }
 
 
