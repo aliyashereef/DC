@@ -10,10 +10,15 @@ import UIKit
 
 let CELL_IDENTIFIER = "prescriberIdentifier"
 
-class DCPrescriberMedicationListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+@objc class DCPrescriberMedicationListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet var medicationTableView: UITableView?
-    var displayMedicationListArray : [DCMedicationScheduleDetails] = []
+    var displayMedicationListArray : NSMutableArray = []
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,19 +51,33 @@ class DCPrescriberMedicationListViewController: UIViewController, UITableViewDat
             if medicationCell == nil {
                 medicationCell = PrescriberMedicationTableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: CELL_IDENTIFIER)
             }
-            medicationCell?.medicineName.text = "Med Name"
-            medicationCell?.instructions.text = "Med Instructions"
-            medicationCell?.route.text = "Med Route"
-            
-            
+            self.fillInMedicationDetailsInTableCell(medicationCell!, atIndexPath: indexPath)
             return medicationCell!
     }
     
     
     // MARK: - Public methods
-
+    
+    func reloadMedicationListWithDisplayArray (displayArray: NSMutableArray) {
+        
+        displayMedicationListArray = displayArray
+        medicationTableView?.reloadData()
+        
+    }
     
     // MARK: - Private methods
+    func fillInMedicationDetailsInTableCell(cell: PrescriberMedicationTableViewCell,
+        atIndexPath indexPath:NSIndexPath) {
+            let medicationCell = cell
+            if (displayMedicationListArray.count >= indexPath.item) {
+                
+                let medicationSchedules = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
+                medicationCell.medicineName.text = medicationSchedules.name;
+                medicationCell.instructions.text = medicationSchedules.instruction;
+                medicationCell.route.text = medicationSchedules.route;
+            }
+    }
+    
     /*
     // MARK: - Navigation
 

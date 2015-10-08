@@ -76,6 +76,8 @@
 
     [self calculateCalendarSlotWidth];
     [self addTopDatePortionInCalendar];
+    [self obtainPrescriberMedicationListViewController];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -170,6 +172,18 @@
             [self configureAlertsAndAllergiesArrayForDisplay];
             [self addAlertsAndAllergyBarButtonToNavigationBar];
             //[medicationsTableView reloadData];
+        }
+    }
+}
+
+// from the child view controller, we obtain the instance for PrescriberMedicationListViewController.
+- (void)obtainPrescriberMedicationListViewController {
+    
+    if ([self.childViewControllers count] > 0) {
+        for (UIViewController *viewController in self.childViewControllers) {
+            if ([viewController isKindOfClass:[DCPrescriberMedicationListViewController class]]) {
+                prescriberMedicationListViewController = (DCPrescriberMedicationListViewController *)viewController;
+            }
         }
     }
 }
@@ -314,7 +328,7 @@
                             if ([displayMedicationListArray count] > 0) {
                                 //[medicationsTableView reloadData];
                                 if (prescriberMedicationListViewController) {
-                                    
+                                    [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
                                 }
                             
                                 [medicationListHolderView setHidden:NO];
