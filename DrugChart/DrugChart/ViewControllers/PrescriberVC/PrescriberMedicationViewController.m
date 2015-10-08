@@ -43,7 +43,7 @@
     IBOutlet UILabel *fifthDayLabel;
     
     //IBOutlet UITableView *medicationsTableView;
-    IBOutlet UILabel *monthLabel;
+    IBOutlet UILabel *monthYearLabel;
     
     UIBarButtonItem *addButton;
     NSMutableArray *alertsArray;
@@ -96,9 +96,8 @@
     
     NSDate *firstDay = [DCDateUtility getInitialDateForFiveDayDisplay:[DCDateUtility getDateInCurrentTimeZone:[NSDate date]]];
     currentWeekDatesArray = [DCDateUtility getFiveDaysOfWeekFromDate:firstDay];
-    //TODO: Connect outlets for month year display and display this there
     NSAttributedString *monthYearString = [DCDateUtility getMonthAndYearAttributedStringFromStartDate:currentWeekDatesArray[0] andEndDate:currentWeekDatesArray[4]];
-    monthLabel.attributedText = monthYearString;
+    monthYearLabel.attributedText = monthYearString;
 }
 
 - (void)calculateCalendarSlotWidth {
