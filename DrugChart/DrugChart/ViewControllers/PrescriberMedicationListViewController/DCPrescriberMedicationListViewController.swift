@@ -14,6 +14,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
 
     @IBOutlet var medicationTableView: UITableView?
     var displayMedicationListArray : NSMutableArray = []
+    var currentWeekDatesArray : NSMutableArray = []
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -54,7 +55,15 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
             
             self.fillInMedicationDetailsInTableCell(medicationCell!, atIndexPath: indexPath)
-            self.addAdministerStatusViewsToTableCell(medicationCell!, forMedicationScheduleDetails: medicationScheduleDetails, atIndexPath: indexPath)
+            let rowDisplayMedicationSlotsArray = self.prepareMedicationSlotsForDisplayInCellFromScheduleDetails(medicationScheduleDetails)
+            var index : NSInteger = 0
+            for ( index = 0; index < rowDisplayMedicationSlotsArray.count; index++) {
+                
+                let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell!, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
+                    atIndexPath: indexPath,
+                    atSlotIndex: index)
+                medicationCell?.masterMedicationAdministerDetailsView.addSubview(statusView)
+            }
             return medicationCell!
     }
     
@@ -81,43 +90,76 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             }
     }
     
-    func addAdministerStatusViewsToTableCell(medicationCell: PrescriberMedicationTableViewCell, forMedicationScheduleDetails medicationSchedule:DCMedicationScheduleDetails,
-        atIndexPath indexPath:NSIndexPath) {
-           
-            // method adds the administration status views to the table cell.
-            //TODO: UIView instances to be replaced with DCMedicationAdministrationStatusView instances.
-            var x :CGFloat = 0
-            let y :CGFloat = 0
-            let height = medicationCell.frame.size.height, width = (self.view.frame.size.width - medicationCell.medicineDetailHolderView.frame.size.width - 5) / 5
-            print("the height: %d width: %d", height, width)
-            var viewPosition : CGFloat
-            for (viewPosition = 0; viewPosition < 5; viewPosition++) {
-                // here add the subviews for status views with correspondng medicationSlot values.
-                let aCenterSampleView: UIView = UIView(frame: CGRectMake(x, y, width, height))
-                aCenterSampleView.backgroundColor = UIColor.redColor()
-                medicationCell.masterMedicationAdministerDetailsView.addSubview(aCenterSampleView)
-                
-                let aLeftSampleView: UIView = UIView(frame: CGRectMake(x, y, width, height))
-                aLeftSampleView.backgroundColor = UIColor.yellowColor()
-                medicationCell.leftMedicationAdministerDetailsView.addSubview(aLeftSampleView)
-                
-                let aRightSampleView: UIView = UIView(frame: CGRectMake(x, y, width, height))
-                aRightSampleView.backgroundColor = UIColor.greenColor()
-                medicationCell.leftMedicationAdministerDetailsView.addSubview(aRightSampleView)
-                
-                x = (viewPosition + 1) + (viewPosition + 1) * width
-                
-            }
+//    func addAdministerStatusViewsToTableCell(medicationCell: PrescriberMedicationTableViewCell, forMedicationScheduleDetails medicationSchedule:DCMedicationScheduleDetails,
+//        atIndexPath indexPath:NSIndexPath) {
+//           
+//            // method adds the administration status views to the table cell.
+//            //TODO: UIView instances to be replaced with DCMedicationAdministrationStatusView instances.
+//            var x :CGFloat = 0
+//            let y :CGFloat = 0
+//            let height = medicationCell.frame.size.height, width = (self.view.frame.size.width - medicationCell.medicineDetailHolderView.frame.size.width - 5) / 5
+//            print("the height: %d width: %d", height, width)
+//            var viewPosition : CGFloat
+//            for (viewPosition = 0; viewPosition < 5; viewPosition++) {
+//                // here add the subviews for status views with correspondng medicationSlot values.
+//                let aCenterSampleView: UIView = UIView(frame: CGRectMake(x, y, width, height))
+//                aCenterSampleView.backgroundColor = UIColor.redColor()
+//                medicationCell.masterMedicationAdministerDetailsView.addSubview(aCenterSampleView)
+//                
+//                let aLeftSampleView: UIView = UIView(frame: CGRectMake(x, y, width, height))
+//                aLeftSampleView.backgroundColor = UIColor.yellowColor()
+//                medicationCell.leftMedicationAdministerDetailsView.addSubview(aLeftSampleView)
+//                
+//                let aRightSampleView: UIView = UIView(frame: CGRectMake(x, y, width, height))
+//                aRightSampleView.backgroundColor = UIColor.greenColor()
+//                medicationCell.leftMedicationAdministerDetailsView.addSubview(aRightSampleView)
+//                
+//                x = (viewPosition + 1) + (viewPosition + 1) * width
+//                
+//            }
+//    }
+    
+    func addAdministerStatusViewsToTableCell(medicationCell: PrescriberMedicationTableViewCell, forMedicationSlotDictionary slotDictionary:NSDictionary,
+        atIndexPath indexPath:NSIndexPath,
+        atSlotIndex tag:NSInteger) -> DCMedicationAdministrationStatusView {
+            
+            let slotWidth = DCUtility.getMainWindowSize().width
+            let viewWidth = (slotWidth - 300)/5
+            let xValue : CGFloat = CGFloat(tag) * viewWidth + 1;
+            let viewFrame = CGRectMake(xValue, 0, viewWidth, 78.0)
+            let statusView : DCMedicationAdministrationStatusView = DCMedicationAdministrationStatusView(frame: viewFrame)
+            statusView.tag = tag
+            print("the date is:%@ \nand tag is %d", statusView, tag)
+            statusView.weekdate = currentWeekDatesArray.objectAtIndex(tag) as? NSDate
+            statusView.currentIndexPath = indexPath
+            statusView.backgroundColor = UIColor.whiteColor()
+            statusView.updateAdministrationStatusViewWithMedicationSlotDictionary(slotDictionary)
+            return statusView
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func prepareMedicationSlotsForDisplayInCellFromScheduleDetails (medicationScheduleDetails: DCMedicationScheduleDetails) -> NSMutableArray {
+        
+        var count = 0, weekDays = 5
+        let medicationSlotsArray: NSMutableArray = []
+        let slotsDictionary = NSMutableDictionary()
+        while (count < weekDays) {
+            if count < currentWeekDatesArray.count {
+                let date = currentWeekDatesArray.objectAtIndex(count)
+                let formattedDateString = DCDateUtility.convertDate(date as! NSDate, fromFormat: DEFAULT_DATE_FORMAT,
+                    toFormat: SHORT_DATE_FORMAT)
+                let predicateString = NSString(format: "medDate contains[cd] '%@'",formattedDateString)
+                let predicate = NSPredicate(format: predicateString as String)
+                let slotDetailsArray : NSArray = medicationScheduleDetails.timeChart.filteredArrayUsingPredicate(predicate)
+                if slotDetailsArray.count > 0 {
+                    let medicationSlotArray = slotDetailsArray.objectAtIndex(0).valueForKey(MED_DETAILS)
+                    slotsDictionary.setObject(medicationSlotArray!, forKey: PRESCRIBER_TIME_SLOTS)
+                }
+                slotsDictionary.setObject(NSNumber (integer: count + 1), forKey: PRESCRIBER_SLOT_VIEW_TAG)
+                print("the slot dictionary: %@", slotsDictionary);
+                medicationSlotsArray.addObject(slotsDictionary)
+                count++
+            }
+        }
+        return medicationSlotsArray
     }
-    */
-
 }
