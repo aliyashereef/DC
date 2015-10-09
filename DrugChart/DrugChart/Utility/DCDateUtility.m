@@ -91,7 +91,7 @@
     return rangeString;
 }
 
-+ (NSString *)getMonthAndYearFromStartDate:(NSDate *)startDate andEndDate:(NSDate *)endDate {
++ (NSAttributedString *)getMonthAndYearAttributedStringFromStartDate:(NSDate *)startDate andEndDate:(NSDate *)endDate {
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     NSMutableArray *monthSymbols = [[NSMutableArray alloc] init];
@@ -99,26 +99,36 @@
     for(int months = 0; months < 12; months++) {
         [monthSymbols addObject:[NSString stringWithFormat:@"%@", [[formatter monthSymbols]objectAtIndex: months]]];
     }
-
+    NSMutableAttributedString *attributedString;
     NSDateComponents *startDateComponents = [[NSCalendar currentCalendar] components:DATE_COMPONENTS fromDate:startDate];
     NSDateComponents *endDateComponents = [[NSCalendar currentCalendar] components:DATE_COMPONENTS fromDate:endDate];
     //If different year is to be checked
     NSMutableString *rangeString;
     if ([startDateComponents month] == [endDateComponents month] && [startDateComponents year] == [endDateComponents year]) {
         rangeString = [NSMutableString stringWithFormat:@"%@ %ld", [monthSymbols objectAtIndex:[startDateComponents month] - 1], (long)[endDateComponents year]];
+        if (rangeString.length > 0) {
+            attributedString = [DCUtility getMonthYearAttributedStringForDisplayString:rangeString withInitialMonthLength:0];
+        }
     } else {
         if ([startDateComponents month] != [endDateComponents month]) {
             //if start and end dates fall in different months
             if ([startDateComponents year] == [endDateComponents year]) {
                 //all dates fall in the same year
                 rangeString = [NSMutableString stringWithFormat:@"%@ - %@ %ld", [shortMonthSymbols objectAtIndex:[startDateComponents month] - 1], [shortMonthSymbols objectAtIndex:[endDateComponents month] - 1], (long)[endDateComponents year]];
+                if (rangeString.length > 0) {
+                    attributedString = [DCUtility getMonthYearAttributedStringForDisplayString:rangeString withInitialMonthLength:0];
+                }
             } else {
                 //start date and end dates are in two different years
                 rangeString = [NSMutableString stringWithFormat:@"%@ %ld - %@ %ld", [shortMonthSymbols objectAtIndex:[startDateComponents month] - 1], (long)[startDateComponents year], [shortMonthSymbols objectAtIndex:[endDateComponents month] - 1], (long)[endDateComponents year]];
+                if (rangeString.length > 0) {
+                    NSInteger initialMonthLength = [[shortMonthSymbols objectAtIndex:[startDateComponents month] - 1] length];
+                    attributedString = [DCUtility getMonthYearAttributedStringForDisplayString:rangeString withInitialMonthLength:initialMonthLength];
+                }
             }
         }
     }
-    return rangeString;
+    return attributedString;
 }
 
 + (NSDate *)getNextWeekStartDate:(NSDate *)date {

@@ -42,6 +42,7 @@
     IBOutlet UILabel *fifthDayLabel;
     
     //IBOutlet UITableView *medicationsTableView;
+    IBOutlet UILabel *monthYearLabel;
     
     UIBarButtonItem *addButton;
     NSMutableArray *alertsArray;
@@ -74,7 +75,6 @@
     [self setCurrentWeekDatesArrayFromToday];
     [self addAddMedicationButtonToNavigationBar];
     [self fillPrescriberMedicationDetailsInCalendarView];
-    [self calculateCalendarSlotWidth];
     [self addTopDatePortionInCalendar];
     [self obtainReferencesToChildViewControllersAddedFromStoryBoard];
     
@@ -116,16 +116,8 @@
     
     NSDate *firstDay = [DCDateUtility getInitialDateForFiveDayDisplay:[DCDateUtility getDateInCurrentTimeZone:[NSDate date]]];
     currentWeekDatesArray = [DCDateUtility getFiveDaysOfWeekFromDate:firstDay];
-    //TODO: Connect outlets for month year display and display this there
-    NSString *monthYearString = [DCDateUtility getMonthAndYearFromStartDate:currentWeekDatesArray[0] andEndDate:currentWeekDatesArray[4]];
-}
-
-// calendarSlotWidth is calculated to find the width of the administration status view shown on the calendar.
-- (void)calculateCalendarSlotWidth {
-    
-    NSLog(@"Window Width is %f", [DCUtility getMainWindowSize].width);
-    slotWidth = ([DCUtility getMainWindowSize].width - 300)/5;
-    NSLog(@"slotWidth is %f", slotWidth);
+    NSAttributedString *monthYearString = [DCDateUtility getMonthAndYearAttributedStringFromStartDate:currentWeekDatesArray[0] andEndDate:currentWeekDatesArray[4]];
+    monthYearLabel.attributedText = monthYearString;
 }
 
 // Not needed for now, since the childviewcontroller is added from IB.
@@ -167,61 +159,6 @@
     }
 }
 
-#pragma mark - table view methods
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
-    return [displayMedicationListArray count];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    PrescriberMedicationTableViewCell *medicationCell = (PrescriberMedicationTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"prescriberIdentifier"];
-    if (medicationCell == nil) {
-        medicationCell = [[PrescriberMedicationTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"prescriberIdentifier"];
-    }
-    medicationCell.selectionStyle = UITableViewCellSelectionStyleNone;
-    DCMedicationScheduleDetails *medicationList = [displayMedicationListArray objectAtIndex:indexPath.item];
-    if (medicationList) {
-        medicationCell.medicineName.text = medicationList.name;
-        medicationCell.route.text = medicationList.route;
-        if (medicationList.instruction != nil) {
-            medicationCell.instructions.text = [NSString stringWithFormat:@" (%@)", medicationList.instruction];
-        }
-    }
-    rowMedicationSlotsArray = [self prepareMedicationSlotsForDisplay:medicationList];
-    for (NSInteger index = 0; index < rowMedicationSlotsArray.count; index++) {
-        DCMedicationAdministrationStatusView *statusView = [self addMedicationAdministrationStatusViewForSlotDictionary:[rowMedicationSlotsArray objectAtIndex:index] inTableViewCell:medicationCell atIndexPathPath:indexPath
-                                            withTag:index + 1];
-        [medicationCell addSubview:statusView];
-    }
-    return medicationCell;
-}
-
-- (NSMutableArray *)prepareMedicationSlotsForDisplay:(DCMedicationScheduleDetails *)medicationList {
-    
-    NSMutableArray *displayMedicationSlotsArray = [[NSMutableArray alloc] init];
-    NSInteger count = 0, weekDays = 5;
-    while (count < weekDays) {
-        
-        NSMutableDictionary *slotsDictionary = [[NSMutableDictionary alloc] init];
-        if (count <[currentWeekDatesArray count] ) {
-            NSString *formattedDateString = [DCDateUtility convertDate:[currentWeekDatesArray objectAtIndex:count] FromFormat:DEFAULT_DATE_FORMAT ToFormat:SHORT_DATE_FORMAT];
-            NSString *predicateString = [NSString stringWithFormat:@"medDate contains[cd] '%@'",formattedDateString];
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
-            NSArray *slotsDetailsArray = [medicationList.timeChart filteredArrayUsingPredicate:predicate];
-            if ([slotsDetailsArray count] > 0) {
-                NSMutableArray *medicationSlotArray = [[slotsDetailsArray objectAtIndex:0] valueForKey:MED_DETAILS];
-                [slotsDictionary setObject:medicationSlotArray forKey:PRESCRIBER_TIME_SLOTS];
-            }
-        }
-        [slotsDictionary setObject:[NSNumber numberWithInteger:count+1] forKey:PRESCRIBER_SLOT_VIEW_TAG];
-        [displayMedicationSlotsArray addObject:slotsDictionary];
-        count++;
-    }
-    return displayMedicationSlotsArray;
-}
-
 - (void)addMedicationSlotsFromSlotArray:(NSMutableArray *)displaySlotsArray
                         inTableViewCell:(PrescriberMedicationTableViewCell *)prescriberCell
                             atIndexPath:(NSIndexPath *)indexPath {
@@ -240,23 +177,6 @@
         index++;
     }
 }
-
-- (DCMedicationAdministrationStatusView *)addMedicationAdministrationStatusViewForSlotDictionary:(NSDictionary *)slotsDictionary
-                                          inTableViewCell:(PrescriberMedicationTableViewCell *)prescriberCell
-                                          atIndexPathPath:(NSIndexPath *)indexPath withTag:(NSInteger)tag {
-    
-    CGFloat xValue = 300 + (tag - 1) * slotWidth;
-    CGRect frame = CGRectMake(xValue + 1, 0, slotWidth - 1, 78.0);
-    DCMedicationAdministrationStatusView *statusView = [[DCMedicationAdministrationStatusView alloc] initWithFrame:frame];
-    statusView.delegate = self;
-    statusView.tag = tag;
-    statusView.weekdate = [currentWeekDatesArray objectAtIndex:tag - 1];
-    statusView.currentIndexPath = indexPath;
-    statusView.backgroundColor = [UIColor whiteColor];
-    [statusView updateAdministrationStatusViewWithMedicationSlotDictionary:slotsDictionary];
-    return statusView;
-}
-
 
 - (void)fetchMedicationListForPatientId:(NSString *)patientId
                   withCompletionHandler:(void(^)(NSArray *result, NSError *error))completionHandler {

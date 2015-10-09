@@ -413,4 +413,20 @@
     return nil;
 }
 
++ (NSMutableAttributedString *)getMonthYearAttributedStringForDisplayString:(NSString *)displayString
+                                              withInitialMonthLength:(NSInteger)length {
+    
+    NSDictionary *monthAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                     [UIFont fontWithName:@"HelveticaNeue-Medium" size:22.0f], NSFontAttributeName, [UIColor blackColor], NSForegroundColorAttributeName, nil];
+    NSDictionary *yearAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [UIFont fontWithName:@"HelveticaNeue-Light" size:22.0f], NSFontAttributeName, [UIColor blackColor], NSForegroundColorAttributeName, nil];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:displayString];
+    [attributedString setAttributes:monthAttributes range:NSMakeRange(0, displayString.length)];
+    [attributedString setAttributes:yearAttributes range:NSMakeRange(displayString.length - 4, 4)];
+    if (length > 0) {
+        [attributedString setAttributes:yearAttributes range:NSMakeRange(length + 2, 4)];
+    }
+    return attributedString;
+}
+
 @end
