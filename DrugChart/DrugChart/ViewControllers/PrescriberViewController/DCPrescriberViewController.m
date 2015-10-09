@@ -1100,7 +1100,6 @@ typedef enum : NSUInteger {
 - (void)sortMedicationListSelectionChanged:(NSInteger)currentSelection {
     // complete the method definition.
     sortType = kSortDrugType;
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         if (currentSelection == 1) {
             sortType = kSortDrugStartDate;
@@ -1111,7 +1110,6 @@ typedef enum : NSUInteger {
             [self sortPrescriberMedicationList];
         }
         dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
             [prescriberTableView reloadData];
         });
     });

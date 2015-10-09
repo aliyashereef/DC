@@ -53,11 +53,14 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                 medicationCell = PrescriberMedicationTableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: CELL_IDENTIFIER)
             }
             let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
+            print("the medicine is: %@", medicationScheduleDetails.name)
             
             self.fillInMedicationDetailsInTableCell(medicationCell!, atIndexPath: indexPath)
             let rowDisplayMedicationSlotsArray = self.prepareMedicationSlotsForDisplayInCellFromScheduleDetails(medicationScheduleDetails)
             var index : NSInteger = 0
-            for ( index = 0; index < rowDisplayMedicationSlotsArray.count; index++) {                
+
+            for ( index = 0; index < rowDisplayMedicationSlotsArray.count; index++) {
+                
                 let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell!, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
                     atIndexPath: indexPath,
                     atSlotIndex: index)
@@ -166,6 +169,8 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             let statusView : DCMedicationAdministrationStatusView = DCMedicationAdministrationStatusView(frame: viewFrame)
             statusView.tag = tag
             print("the date is:%@ \nand tag is %d", statusView, tag)
+            print("the crashed index path is: %d", indexPath.item)
+            
             statusView.weekdate = currentWeekDatesArray.objectAtIndex(tag) as? NSDate
             statusView.currentIndexPath = indexPath
             statusView.backgroundColor = UIColor.whiteColor()
@@ -177,8 +182,8 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         
         var count = 0, weekDays = 5
         let medicationSlotsArray: NSMutableArray = []
-        let slotsDictionary = NSMutableDictionary()
         while (count < weekDays) {
+            let slotsDictionary = NSMutableDictionary()
             if count < currentWeekDatesArray.count {
                 let date = currentWeekDatesArray.objectAtIndex(count)
                 let formattedDateString = DCDateUtility.convertDate(date as! NSDate, fromFormat: DEFAULT_DATE_FORMAT,
@@ -188,8 +193,10 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                 //TODO: check if this is right practise. If not change this checks accordingly.
                 if let scheduleArray = medicationScheduleDetails.timeChart {
                     if let slotDetailsArray : NSArray = scheduleArray.filteredArrayUsingPredicate(predicate) {
-                        if let medicationSlotArray = slotDetailsArray.objectAtIndex(0).valueForKey(MED_DETAILS) {
-                            slotsDictionary.setObject(medicationSlotArray, forKey: PRESCRIBER_TIME_SLOTS)
+                        if slotDetailsArray.count != 0 {
+                            if let medicationSlotArray = slotDetailsArray.objectAtIndex(0).valueForKey(MED_DETAILS) {
+                                slotsDictionary.setObject(medicationSlotArray, forKey: PRESCRIBER_TIME_SLOTS)
+                            }
                         }
                     }
                 }
