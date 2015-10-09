@@ -94,6 +94,7 @@ typedef enum : NSUInteger {
     // Dispose of any resources that can be recreated.
 }
 
+
 #pragma mark - Sub views addition
 
 //TODO: we need to move this from the administer SB to PrescriberDetails SB.
@@ -119,8 +120,15 @@ typedef enum : NSUInteger {
     
     NSDate *firstDay = [DCDateUtility getInitialDateForFiveDayDisplay:[DCDateUtility getDateInCurrentTimeZone:[NSDate date]]];
     currentWeekDatesArray = [DCDateUtility getFiveDaysOfWeekFromDate:firstDay];
-    NSAttributedString *monthYearString = [DCDateUtility getMonthAndYearAttributedStringFromStartDate:currentWeekDatesArray[0] andEndDate:currentWeekDatesArray[4]];
+    NSString *mothYearDisplayString = [DCDateUtility getMonthNameAndYearForWeekDatesArray:currentWeekDatesArray];
+    NSAttributedString *monthYearString = [DCUtility getMonthYearAttributedStringForDisplayString:mothYearDisplayString withInitialMonthLength:0];
     monthYearLabel.attributedText = monthYearString;
+}
+
+- (void)calculateCalendarSlotWidth {
+    
+    //calculate calendar slot width
+    slotWidth = ([DCUtility getMainWindowSize].width - 300)/5;
 }
 
 // Not needed for now, since the childviewcontroller is added from IB.
