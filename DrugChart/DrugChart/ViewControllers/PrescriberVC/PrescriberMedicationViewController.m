@@ -34,12 +34,6 @@
     IBOutlet UILabel *noMedicationsAvailableLabel;
     IBOutlet UIView *calendarTopHolderView;
     IBOutlet UIView *medicationListHolderView;
-    // just for intermin release. to be moved to another view controller
-    IBOutlet UILabel *firstDayLabel;
-    IBOutlet UILabel *secondDayLabel;
-    IBOutlet UILabel *thirdDayLabel;
-    IBOutlet UILabel *fourthDayLabel;
-    IBOutlet UILabel *fifthDayLabel;
     
     //IBOutlet UITableView *medicationsTableView;
     IBOutlet UILabel *monthYearLabel;
@@ -156,25 +150,6 @@
                 prescriberMedicationListViewController = (DCPrescriberMedicationListViewController *)viewController;
             }
         }
-    }
-}
-
-- (void)addMedicationSlotsFromSlotArray:(NSMutableArray *)displaySlotsArray
-                        inTableViewCell:(PrescriberMedicationTableViewCell *)prescriberCell
-                            atIndexPath:(NSIndexPath *)indexPath {
-    
-    NSLog(@"displaySlotsArray is %@", displaySlotsArray);
-    NSInteger index = 1;
-    while (index <= [displaySlotsArray count]) {
-        // things are coming correctly here. just ensure that the correct slots go for the correct view.
-        
-        DCMedicationAdministrationStatusView *statusView = (DCMedicationAdministrationStatusView *)[prescriberCell viewWithTag:index];
-        statusView.delegate = self;
-        NSDictionary *slotsDictionary = [displaySlotsArray objectAtIndex:index - 1];
-        statusView.weekdate = [currentWeekDatesArray objectAtIndex:index - 1];
-        statusView.currentIndexPath = indexPath;
-        [statusView updateAdministrationStatusViewWithMedicationSlotDictionary:slotsDictionary];
-        index++;
     }
 }
 

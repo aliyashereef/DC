@@ -125,7 +125,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             
             let slotWidth = DCUtility.getMainWindowSize().width
             let viewWidth = (slotWidth - 300)/5
-            let xValue : CGFloat = CGFloat(tag) * viewWidth + 1;
+            let xValue : CGFloat = CGFloat(tag) * viewWidth + CGFloat(tag) + 1;
             let viewFrame = CGRectMake(xValue, 0, viewWidth, 78.0)
             let statusView : DCMedicationAdministrationStatusView = DCMedicationAdministrationStatusView(frame: viewFrame)
             statusView.tag = tag
@@ -149,13 +149,15 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                     toFormat: SHORT_DATE_FORMAT)
                 let predicateString = NSString(format: "medDate contains[cd] '%@'",formattedDateString)
                 let predicate = NSPredicate(format: predicateString as String)
-                let slotDetailsArray : NSArray = medicationScheduleDetails.timeChart.filteredArrayUsingPredicate(predicate)
-                if slotDetailsArray.count > 0 {
-                    let medicationSlotArray = slotDetailsArray.objectAtIndex(0).valueForKey(MED_DETAILS)
-                    slotsDictionary.setObject(medicationSlotArray!, forKey: PRESCRIBER_TIME_SLOTS)
+                //TODO: check if this is right practise. If not change this checks accordingly.
+                if let scheduleArray = medicationScheduleDetails.timeChart {
+                    if let slotDetailsArray : NSArray = scheduleArray.filteredArrayUsingPredicate(predicate) {
+                        if let medicationSlotArray = slotDetailsArray.objectAtIndex(0).valueForKey(MED_DETAILS) {
+                            slotsDictionary.setObject(medicationSlotArray, forKey: PRESCRIBER_TIME_SLOTS)
+                        }
+                    }
                 }
                 slotsDictionary.setObject(NSNumber (integer: count + 1), forKey: PRESCRIBER_SLOT_VIEW_TAG)
-                print("the slot dictionary: %@", slotsDictionary);
                 medicationSlotsArray.addObject(slotsDictionary)
                 count++
             }
