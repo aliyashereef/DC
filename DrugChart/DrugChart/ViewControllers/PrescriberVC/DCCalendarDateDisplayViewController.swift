@@ -20,6 +20,12 @@ import UIKit
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareDateArrays()
+        addNotifications()
+    }
+    
+    func addNotifications () {
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("calendarScreenPanned:"), name: kCalendarPanned, object: nil)
     }
     
     func prepareDateArrays() {
@@ -96,6 +102,11 @@ import UIKit
             let dateDisplay : DCCalendarDateView = DCCalendarDateView(frame: frame, dateArray: datePackArray[index])
             self.view.addSubview(dateDisplay)
         }
+    }
+    
+    func calendarScreenPanned (notification : NSNotification) {
+        
+        print("**** Calendar Pan Action in Calendar view")
     }
 
 }
