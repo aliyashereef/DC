@@ -18,7 +18,9 @@ let TIME_VIEW_WIDTH : CGFloat                       =               70.0
 let TIME_VIEW_HEIGHT : CGFloat                      =               21.0
 let MEDICATION_VIEW_LEFT_OFFSET : CGFloat           =               120.0
 let MEDICATION_VIEW_INITIAL_LEFT_OFFSET : CGFloat   =               0.0
-let ANIMATION_DURATION : CGFloat                    =               0.3
+let ANIMATION_DURATION : Double                     =               0.3
+let EDIT_TEXT : String                              =               "Edit"
+let STOP_TEXT : String                              =               "Stop"
 
 class PrescriberMedicationTableViewCell: UITableViewCell {
     
@@ -67,8 +69,8 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     func setEditViewButtonNames() {
         
         if (self.editButtonWidth.constant > 40.0) {
-            self.editButton.setTitle("Edit", forState: UIControlState.Normal)
-            self.stopButton.setTitle("Stop", forState: UIControlState.Normal)
+            self.editButton.setTitle(EDIT_TEXT, forState: UIControlState.Normal)
+            self.stopButton.setTitle(STOP_TEXT, forState: UIControlState.Normal)
         } else {
             self.editButton.setTitle("", forState: UIControlState.Normal)
             self.stopButton.setTitle("", forState: UIControlState.Normal)
@@ -84,6 +86,8 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
         }
     }
     
+    
+    
     // MARK: Action Methods
     
     func swipeMedicationDetailView(panGesture : UIPanGestureRecognizer) {
@@ -92,24 +96,25 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
         let translate : CGPoint = panGesture.translationInView(self.contentView)
         let gestureVelocity : CGPoint = panGesture.velocityInView(self)
         if (gestureVelocity.x > 200.0 || gestureVelocity.x < -200.0) {
-            if ((translate.x < 0) && (medicationViewLeadingConstraint.constant == 0)) {
-                UIView.animateWithDuration(0.2, animations: {
+            if ((translate.x < 0) && (medicationViewLeadingConstraint.constant == 0)) { // left swipe
+                UIView.animateWithDuration(ANIMATION_DURATION, animations: {
                     self.medicationViewLeadingConstraint.constant = -MEDICATION_VIEW_LEFT_OFFSET
                     self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
                     self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
-                    self.editButton.setTitle("Edit", forState: UIControlState.Normal)
-                    self.stopButton.setTitle("Stop", forState: UIControlState.Normal)
+                    self.editButton.setTitle(EDIT_TEXT, forState: UIControlState.Normal)
+                    self.stopButton.setTitle(STOP_TEXT, forState: UIControlState.Normal)
                     self.layoutIfNeeded()
                     })
-            } else if ((translate.x > 0) && (self.medicationViewLeadingConstraint.constant == -MEDICATION_VIEW_LEFT_OFFSET)){
-                UIView.animateWithDuration(0.2, animations: {
+            } else if ((translate.x > 0) && (self.medicationViewLeadingConstraint.constant == -MEDICATION_VIEW_LEFT_OFFSET)){ //right pan  when edit view is fully visible
+                UIView.animateWithDuration(ANIMATION_DURATION, animations: {
                     self.medicationViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET
                     self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
                     self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
+                    self.layoutIfNeeded()
                 })
             } else{
                 if (((translate.x < 0) && (self.medicationViewLeadingConstraint.constant > -MEDICATION_VIEW_LEFT_OFFSET)) || ((translate.x > 0) && (self.medicationViewLeadingConstraint.constant < MEDICATION_VIEW_INITIAL_LEFT_OFFSET))) {
-                    
+                    //in process of tramslation
                     dispatch_async(dispatch_get_main_queue(), {
                         self.medicationViewLeadingConstraint.constant += (gestureVelocity.x / 25.0)
                         self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
@@ -122,49 +127,62 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
         }
         
         if (panGesture.state == UIGestureRecognizerState.Ended) {
-            
             //All fingers are lifted.
-            if ((translate.x < 0) && self.medicationViewLeadingConstraint.constant < (-MEDICATION_VIEW_LEFT_OFFSET / 2)) {
-                UIView.animateWithDuration(0.2, animations: {
-                    self.medicationViewLeadingConstraint.constant = -MEDICATION_VIEW_LEFT_OFFSET
-                    self.layoutIfNeeded()
-                    }, completion: { finished in
-                        self.setMedicationViewFrame()
-                })
-            } else if ((translate.x < 0) && self.medicationViewLeadingConstraint.constant > (-MEDICATION_VIEW_LEFT_OFFSET / 2)) {
-                UIView.animateWithDuration(0.2, animations: {
-                    self.medicationViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET + 10
-                    self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
-                    self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
-                    self.layoutIfNeeded()
-                    }, completion: { (finished) -> Void in
-                        self.setMedicationViewFrame()
-                })
-            } else if ((translate.x > 0) && self.medicationViewLeadingConstraint.constant > (-MEDICATION_VIEW_LEFT_OFFSET / 2)){
-                UIView.animateWithDuration(0.2, animations: { () -> Void in
-                    self.medicationViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET
-                    self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
-                    self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
-                    self.layoutIfNeeded()
-                    }, completion: { (finished) -> Void in
-                        self.setMedicationViewFrame()
-                })
-            } else if ((translate.x > 0) && self.medicationViewLeadingConstraint.constant < (-MEDICATION_VIEW_LEFT_OFFSET / 2)){
-                UIView.animateWithDuration(0.2, animations: { () -> Void in
-                    self.medicationViewLeadingConstraint.constant = -MEDICATION_VIEW_LEFT_OFFSET;
-                    self.layoutIfNeeded()
-                    }, completion: { (finished) -> Void in
-                        self.setMedicationViewFrame()
-                })
-            }
-             UIView.animateWithDuration(0.2, animations: { () -> Void in
+            adjustMedicationDetailViewOnPanGestureEndWithTranslationPoint(translate)
+        }
+    }
+    
+    func adjustMedicationDetailViewOnPanGestureEndWithTranslationPoint(translate : CGPoint) {
+        
+        //gesture ended
+        if ((translate.x < 0) && self.medicationViewLeadingConstraint.constant < (-MEDICATION_VIEW_LEFT_OFFSET / 2)) {
+            UIView.animateWithDuration(ANIMATION_DURATION, animations: {
+                self.medicationViewLeadingConstraint.constant = -MEDICATION_VIEW_LEFT_OFFSET
+                self.layoutIfNeeded()
+                }, completion: { finished in
+                    self.setMedicationViewFrame()
+            })
+        } else if ((translate.x < 0) && self.medicationViewLeadingConstraint.constant > (-MEDICATION_VIEW_LEFT_OFFSET / 2)) {
+            UIView.animateWithDuration(ANIMATION_DURATION, animations: {
+                self.medicationViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET + 10
                 self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
                 self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
+                self.layoutIfNeeded()
+                }, completion: { (finished) -> Void in
+                    self.setMedicationViewFrame()
+            })
+        } else if ((translate.x > 0) && self.medicationViewLeadingConstraint.constant > (-MEDICATION_VIEW_LEFT_OFFSET / 2)){
+            UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
+                self.medicationViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET
+                self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
+                self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
+                self.layoutIfNeeded()
+                }, completion: { (finished) -> Void in
+                    self.setMedicationViewFrame()
+            })
+        } else if ((translate.x > 0) && self.medicationViewLeadingConstraint.constant < (-MEDICATION_VIEW_LEFT_OFFSET / 2)){
+            UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
+                self.medicationViewLeadingConstraint.constant = -MEDICATION_VIEW_LEFT_OFFSET;
+                self.layoutIfNeeded()
                 }, completion: { (finished) -> Void in
                     self.setMedicationViewFrame()
             })
         }
-
+        UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
+            self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
+            self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
+            }, completion: { (finished) -> Void in
+                self.setMedicationViewFrame()
+        })
+    }
+    
+    func swipeMedicationDetailViewToRight(swipeGesture : UIGestureRecognizer) {
+        
+        //swipe gesture - right when completion of edit/delete action
+        UIView.animateWithDuration(ANIMATION_DURATION) { () -> Void in
+            self.medicationViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET;
+            self.layoutIfNeeded()
+        }
     }
 
     @IBAction func editMedicationButtonPressed(sender: AnyObject) {
