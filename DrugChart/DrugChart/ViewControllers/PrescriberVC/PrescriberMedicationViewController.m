@@ -23,7 +23,14 @@
 #define CELL_PADDING 13
 
 #define ALERTS_ALLERGIES_ICON @"AlertsIcon"
+#define SORT_KEY_MEDICINE_NAME @"name"
+#define SORT_KEY_MEDICINE_START_DATE @"startDate"
 
+typedef enum : NSUInteger {
+    kSortDrugType,
+    kSortDrugStartDate,
+    kSortDrugName
+} SortType;
 
 @interface PrescriberMedicationViewController () <DCAddMedicationViewControllerDelegate>{
     
@@ -45,6 +52,8 @@
     NSMutableArray *displayMedicationListArray;
     NSMutableArray *rowMedicationSlotsArray;
     CGFloat slotWidth;
+    BOOL discontinuedMedicationShown;
+    SortType sortType;
     
     DCPrescriberMedicationListViewController *prescriberMedicationListViewController;
 }
@@ -153,6 +162,42 @@
     }
 }
 
+- (void)getDisplayMedicationListArray {
+    if (discontinuedMedicationShown) {
+        displayMedicationListArray = (NSMutableArray *)_patient.medicationListArray;
+    }
+    else {
+        NSString *predicateString = @"isActive == YES";
+        NSPredicate *medicineCategoryPredicate = [NSPredicate predicateWithFormat:predicateString];
+        displayMedicationListArray = (NSMutableArray *)[_patient.medicationListArray filteredArrayUsingPredicate:medicineCategoryPredicate];
+    }
+}
+
+// If the alerts or allergy array count is zero, prefill the array with the default
+// no alerts/allergies to display statement
+- (void) prefillAllergyAndAlertsArrays{
+    
+    if (alertsArray.count == 0) {
+        DCPatientAlert *patientAlert = [[DCPatientAlert alloc] init];
+        patientAlert.alertText = NSLocalizedString(@"NO_ALERTS", @"");
+        [alertsArray addObject:patientAlert];
+    }
+    if (allergiesArray.count == 0) {
+        DCPatientAllergy *patientAllergy = [[DCPatientAllergy alloc] init];
+        patientAllergy.reaction = NSLocalizedString(@"NO_ALLERGIES", @"");
+        [allergiesArray addObject:patientAllergy];
+    }
+}
+
+// fill in values to the allergy and alerts arrays.
+- (void)configureAlertsAndAllergiesArrayForDisplay {
+    
+    alertsArray = self.patient.patientsAlertsArray;
+    allergiesArray = self.patient.patientsAlergiesArray;
+}
+
+#pragma mark - API fetch methods
+
 - (void)fetchMedicationListForPatientId:(NSString *)patientId
                   withCompletionHandler:(void(^)(NSArray *result, NSError *error))completionHandler {
     DCMedicationSchedulesWebService *medicationSchedulesWebService = [[DCMedicationSchedulesWebService alloc] init];
@@ -162,26 +207,19 @@
     NSDate *endDate = [currentWeekDatesArray lastObject];
     NSString *endDateString = [DCDateUtility convertDate:endDate FromFormat:DEFAULT_DATE_FORMAT ToFormat:SHORT_DATE_FORMAT];
     [medicationSchedulesWebService getMedicationSchedulesForPatientId:patientId fromStartDate:startDateString toEndDate:endDateString withCallBackHandler:^(NSArray *medicationsList, NSError *error) {
-                NSMutableArray *medicationArray = [NSMutableArray arrayWithArray:medicationsList];
-                for (NSDictionary *medicationDetails in medicationArray) {
-                    DCDebugLog(@"the medication details dictionary:\n %@", medicationDetails);
-                   // NSLog(@"the medication details dictionary:\n %@", medicationDetails);
-                    @autoreleasepool {
-                        DCMedicationScheduleDetails *medicationScheduleDetails = [[DCMedicationScheduleDetails alloc] initWithMedicationScheduleDictionary:medicationDetails];
-                        if (medicationScheduleDetails) {
-                            [medicationListArray addObject:medicationScheduleDetails];
-                        }
-                    }
+        NSMutableArray *medicationArray = [NSMutableArray arrayWithArray:medicationsList];
+        for (NSDictionary *medicationDetails in medicationArray) {
+            DCDebugLog(@"the medication details dictionary:\n %@", medicationDetails);
+            // NSLog(@"the medication details dictionary:\n %@", medicationDetails);
+            @autoreleasepool {
+                DCMedicationScheduleDetails *medicationScheduleDetails = [[DCMedicationScheduleDetails alloc] initWithMedicationScheduleDictionary:medicationDetails];
+                if (medicationScheduleDetails) {
+                    [medicationListArray addObject:medicationScheduleDetails];
                 }
-                completionHandler(medicationListArray, nil);
+            }
+        }
+        completionHandler(medicationListArray, nil);
     }];
-}
-
-- (void)getDisplayMedicationListArray {
-    
-    NSString *predicateString = @"isActive == YES";
-    NSPredicate *medicineCategoryPredicate = [NSPredicate predicateWithFormat:predicateString];
-    displayMedicationListArray = (NSMutableArray *)[_patient.medicationListArray filteredArrayUsingPredicate:medicineCategoryPredicate];
 }
 
 - (void)fetchMedicationListForPatient {
@@ -193,18 +231,15 @@
     [medicationListHolderView setHidden:YES];
     [self fetchMedicationListForPatientId:self.patient.patientId
                     withCompletionHandler:^(NSArray *result, NSError *error) {
-                        
                         if (!error) {
                             _patient.medicationListArray = result;
                             [self configureAlertsAndAllergiesArrayForDisplay];
                             [self addAlertsAndAllergyBarButtonToNavigationBar];
                             [self getDisplayMedicationListArray];
                             if ([displayMedicationListArray count] > 0) {
-                                //[medicationsTableView reloadData];
                                 if (prescriberMedicationListViewController) {
                                     [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
                                     prescriberMedicationListViewController.currentWeekDatesArray = currentWeekDatesArray;
-                                    
                                 }
                                 [medicationListHolderView setHidden:NO];
                                 [calendarDaysDisplayView setHidden:NO];
@@ -213,7 +248,6 @@
                             else {
                                 if ([_patient.medicationListArray count] == 0) {
                                     noMedicationsAvailableLabel.text = @"No medications available";
-                                    
                                 }
                                 else {
                                     if ([displayMedicationListArray count] == 0) {
@@ -238,27 +272,92 @@
                     }];
 }
 
-// If the alerts or allergy array count is zero, prefill the array with the default
-// no alerts/allergies to display statement
-- (void) prefillAllergyAndAlertsArrays{
+#pragma mark - Display sort methods
+
+- (void)sortPrescriberMedicationList {
     
-    if (alertsArray.count == 0) {
-        DCPatientAlert *patientAlert = [[DCPatientAlert alloc] init];
-        patientAlert.alertText = NSLocalizedString(@"NO_ALERTS", @"");
-        [alertsArray addObject:patientAlert];
+    NSString *sortKey;
+    if (sortType == kSortDrugName) {
+        sortKey = SORT_KEY_MEDICINE_NAME;
     }
-    if (allergiesArray.count == 0) {
-        DCPatientAllergy *patientAllergy = [[DCPatientAllergy alloc] init];
-        patientAllergy.reaction = NSLocalizedString(@"NO_ALLERGIES", @"");
-        [allergiesArray addObject:patientAllergy];
+    else if (sortType == kSortDrugStartDate) {
+        sortKey = SORT_KEY_MEDICINE_START_DATE;
     }
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:sortKey ascending:YES];
+    NSArray *descriptorArray = @[sortDescriptor];
+    NSMutableArray *sortedMedicationArray = [[NSMutableArray alloc] initWithArray:[displayMedicationListArray sortedArrayUsingDescriptors:descriptorArray]];
+    displayMedicationListArray = sortedMedicationArray;
 }
 
-// fill in values to the allergy and alerts arrays.
-- (void)configureAlertsAndAllergiesArrayForDisplay {
+- (void)sortMedicationListSelectionChanged:(NSInteger)currentSelection {
     
-    alertsArray = self.patient.patientsAlertsArray;
-    allergiesArray = self.patient.patientsAlergiesArray;
+    sortType = kSortDrugType;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        if (currentSelection == 1) {
+            sortType = kSortDrugStartDate;
+            [self sortPrescriberMedicationList];
+        }
+        else if (currentSelection == 2) {
+            sortType = kSortDrugName;
+            [self sortPrescriberMedicationList];
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if ([displayMedicationListArray count] > 0) {
+                if (prescriberMedicationListViewController) {
+                    [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
+                }
+            }
+        });
+    });
+}
+
+- (void)sortCalendarViewBasedOnCriteria:(NSString *)criteriaString {
+    
+    sortType = kSortDrugType;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        if ([criteriaString isEqualToString:INCLUDE_DISCONTINUED]) {
+            [self includeDiscontinuedMedications];
+        }
+        if ([criteriaString isEqualToString:START_DATE_ORDER]) {
+            sortType = kSortDrugStartDate;
+            [self sortPrescriberMedicationList];
+        }
+        else if ([criteriaString isEqualToString:ALPHABETICAL_ORDER]) {
+            sortType = kSortDrugName;
+            [self sortPrescriberMedicationList];
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if ([displayMedicationListArray count] > 0) {
+                if (prescriberMedicationListViewController) {
+                    [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
+                }
+            }
+        });
+    });
+}
+
+- (void)includeDiscontinuedMedications {
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        if (discontinuedMedicationShown) {
+            discontinuedMedicationShown = NO;
+            [self getDisplayMedicationListArray];
+        } else {
+            discontinuedMedicationShown = YES;
+            [self getDisplayMedicationListArray];
+            if (sortType != kSortDrugType) {
+                [self sortPrescriberMedicationList];
+            }
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if ([displayMedicationListArray count] > 0) {
+                if (prescriberMedicationListViewController) {
+                    [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
+                }
+            }
+        });
+    });
 }
 
 #pragma mark - Navigation title, buttons and actions
@@ -334,7 +433,6 @@
     
     //display sort options in a pop over controller,
     //showDiscontinuedMedications denotes if discontinued medications are to be shown
-    //
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:MAIN_STORYBOARD bundle: nil];
     UIPopoverController *popOverController;
     DCSortTableViewController *sortViewController = [mainStoryboard instantiateViewControllerWithIdentifier:SORT_VIEWCONTROLLER_STORYBOARD_ID];
@@ -350,7 +448,8 @@
         if (![type isEqualToString:INCLUDE_DISCONTINUED]) {
             selectedSortType =  type;
         }
-         [popOverController dismissPopoverAnimated:YES];
+        [self sortCalendarViewBasedOnCriteria:type];
+        [popOverController dismissPopoverAnimated:YES];
     };
 }
 
@@ -398,11 +497,6 @@
     
     // here we need to add the methods to populate the values
     
-    
 }
-
-
-
-
 
 @end
