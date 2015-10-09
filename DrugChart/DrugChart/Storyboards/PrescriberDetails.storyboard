@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
@@ -60,14 +60,14 @@
                                 <rect key="frame" x="0.0" y="64" width="600" height="50"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WtI-jf-YNS">
-                                        <rect key="frame" x="301" y="0.0" width="300" height="50"/>
+                                        <rect key="frame" x="301" y="0.0" width="300" height="49"/>
                                         <color key="backgroundColor" red="0.88235294119999996" green="0.90588235289999997" blue="0.91764705879999997" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8id-G8-fHA">
-                                        <rect key="frame" x="0.0" y="0.0" width="300" height="49"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="300" height="48"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="October 2015" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Znt-9r-lTE" userLabel="October 2015">
-                                                <rect key="frame" x="0.0" y="0.0" width="300" height="49"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="300" height="48"/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="22"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -87,8 +87,8 @@
                                 <constraints>
                                     <constraint firstItem="WtI-jf-YNS" firstAttribute="leading" secondItem="8id-G8-fHA" secondAttribute="trailing" constant="1" id="6zw-NG-QjK"/>
                                     <constraint firstItem="8id-G8-fHA" firstAttribute="leading" secondItem="oBB-Ry-QUf" secondAttribute="leading" id="A7I-oD-Snx"/>
-                                    <constraint firstAttribute="bottom" secondItem="8id-G8-fHA" secondAttribute="bottom" constant="1" id="E0v-zw-d7t"/>
-                                    <constraint firstAttribute="bottom" secondItem="WtI-jf-YNS" secondAttribute="bottom" id="R65-gI-RhD"/>
+                                    <constraint firstAttribute="bottom" secondItem="8id-G8-fHA" secondAttribute="bottom" constant="2" id="E0v-zw-d7t"/>
+                                    <constraint firstAttribute="bottom" secondItem="WtI-jf-YNS" secondAttribute="bottom" constant="1" id="R65-gI-RhD"/>
                                     <constraint firstAttribute="height" constant="50" id="Rvd-4W-UBl"/>
                                     <constraint firstAttribute="trailing" secondItem="WtI-jf-YNS" secondAttribute="trailing" constant="-1" id="cVI-D3-Qgs"/>
                                     <constraint firstItem="8id-G8-fHA" firstAttribute="top" secondItem="oBB-Ry-QUf" secondAttribute="top" id="jMN-LB-RhY"/>
@@ -127,7 +127,7 @@
                                 </items>
                             </toolbar>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hyq-b7-87o">
-                                <rect key="frame" x="0.0" y="113" width="600" height="443"/>
+                                <rect key="frame" x="0.0" y="112" width="600" height="444"/>
                                 <connections>
                                     <segue destination="YlN-1M-ntF" kind="embed" id="NzK-Zx-ACb"/>
                                 </connections>
@@ -175,11 +175,11 @@
                         <viewControllerLayoutGuide type="bottom" id="ch6-0a-gAp"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="kaU-6b-WdV">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="443"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="444"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="78" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="kwO-0w-r4r">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="443"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="444"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="separatorColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>

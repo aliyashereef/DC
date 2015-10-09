@@ -57,8 +57,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             self.fillInMedicationDetailsInTableCell(medicationCell!, atIndexPath: indexPath)
             let rowDisplayMedicationSlotsArray = self.prepareMedicationSlotsForDisplayInCellFromScheduleDetails(medicationScheduleDetails)
             var index : NSInteger = 0
-            for ( index = 0; index < rowDisplayMedicationSlotsArray.count; index++) {
-                
+            for ( index = 0; index < rowDisplayMedicationSlotsArray.count; index++) {                
                 let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell!, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
                     atIndexPath: indexPath,
                     atSlotIndex: index)

@@ -81,12 +81,18 @@ import UIKit
         return dateString
     }
     
+    func getDateContainerViewWidth () -> (CGFloat) {
+        
+        return DCUtility.getMainWindowSize().width
+    }
+    
     func setDatesDisplayInView( datePackArray : [NSArray] ) {
         
         for index in 0...2 {
             
-            let dateViewX : CGFloat = CGFloat(index-1) * 724.0
-            let frame : CGRect = CGRectMake(dateViewX,0,724,49.5)
+            let calendarWidth = getDateContainerViewWidth()
+            let dateViewX : CGFloat = CGFloat(index-1) * calendarWidth
+            let frame : CGRect = CGRectMake(dateViewX, 0, calendarWidth, 49.5)
             let dateDisplay : DCCalendarDateView = DCCalendarDateView(frame: frame, dateArray: datePackArray[index])
             self.view.addSubview(dateDisplay)
         }
