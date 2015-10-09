@@ -151,17 +151,8 @@
        NSMutableString *dateString = [NSMutableString stringWithFormat:@"%@ %ld", [monthSymbols objectAtIndex:[dateComponents month] - 1], (long)[dateComponents year]];
         [displayArray addObject:dateString];
     }
-    NSUInteger count = 0;
-    NSString *mostCommonString;
-    for(NSString *monthyear in displayArray) {
-        NSUInteger countStr = [[displayArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self MATCHES[CD] %@", monthyear]]count];
-        if(countStr > count) {
-            count = countStr;
-            mostCommonString = monthyear;
-        }
-    }
-    NSLog(@"The most commonstr is %@",mostCommonString);
-    return mostCommonString;
+    NSString *monthYear = [DCUtility getMostOccurredStringFromArray:displayArray];
+    return monthYear;
 }
 
 + (NSDate *)getNextWeekStartDate:(NSDate *)date {
