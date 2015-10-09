@@ -32,15 +32,8 @@
     IBOutlet UIView *todayString;
     IBOutlet UIActivityIndicatorView *activityIndicatorView;
     IBOutlet UILabel *noMedicationsAvailableLabel;
-    IBOutlet UIView *todayBackGroundView;
     IBOutlet UIView *calendarTopHolderView;
     IBOutlet UIView *medicationListHolderView;
-    // just for intermin release. to be moved to another view controller
-    IBOutlet UILabel *firstDayLabel;
-    IBOutlet UILabel *secondDayLabel;
-    IBOutlet UILabel *thirdDayLabel;
-    IBOutlet UILabel *fourthDayLabel;
-    IBOutlet UILabel *fifthDayLabel;
     
     //IBOutlet UITableView *medicationsTableView;
     IBOutlet UILabel *monthYearLabel;
@@ -72,18 +65,18 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+    [self addCustomTitleViewToNavigationBar];
     [self setCurrentWeekDatesArrayFromToday];
-    [self configurePrescriberMedicationView];
-
-    [self calculateCalendarSlotWidth];
+    [self addAddMedicationButtonToNavigationBar];
+    [self fillPrescriberMedicationDetailsInCalendarView];
     [self addTopDatePortionInCalendar];
-    [self obtainPrescriberMedicationListViewController];
+    [self obtainReferencesToChildViewControllersAddedFromStoryBoard];
     
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self addCustomTitleViewToNavigationBar];
+    
 }
 
 
@@ -91,6 +84,28 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+#pragma mark - Sub views addition
+
+//TODO: we need to move this from the administer SB to PrescriberDetails SB.
+// And thus load it directly from IB and avoid this method.
+- (void)addTopDatePortionInCalendar {
+    
+    UIStoryboard *administerStoryboard = [UIStoryboard storyboardWithName:ADMINISTER_STORYBOARD
+                                                                   bundle: nil];
+    DCCalendarDateDisplayViewController *calendarDateDisplayViewController = [administerStoryboard instantiateViewControllerWithIdentifier:@"CalendarDateDisplayView"];
+    [calendarDaysDisplayView addSubview:calendarDateDisplayViewController.view];
+}
+
+- (void)addAddMedicationButtonToNavigationBar {
+    
+    addButton = [[UIBarButtonItem alloc]
+                 initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addMedicationButtonPressed:)];
+    self.navigationItem.rightBarButtonItem = addButton;
+}
+
+#pragma mark - Private methods
 
 - (void)setCurrentWeekDatesArrayFromToday {
     
@@ -107,34 +122,6 @@
     slotWidth = ([DCUtility getMainWindowSize].width - 300)/5;
 }
 
-//TODO: we need to move this from the administer SB to PrescriberDetails SB.
-// And thus load it directly from IB and avoid this method.
-- (void)addTopDatePortionInCalendar {
-    
-    UIStoryboard *administerStoryboard = [UIStoryboard storyboardWithName:ADMINISTER_STORYBOARD
-                                                                   bundle: nil];
-    DCCalendarDateDisplayViewController *calendarDateDisplayViewController = [administerStoryboard instantiateViewControllerWithIdentifier:@"CalendarDateDisplayView"];
-    [calendarDaysDisplayView addSubview:calendarDateDisplayViewController.view];
-}
-
-+ (NSMutableArray *)getDateDisplayStringForDateArray:(NSArray *)dateArray {
-    
-    //get date display string in calendar view in eg format
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    NSArray *weekdaySymbols = [dateFormatter shortStandaloneWeekdaySymbols];
-    NSMutableArray *weekDays = [[NSMutableArray alloc] init];
-    for (NSDate *date in dateArray) {
-        
-        NSCalendar *calendar = [NSCalendar currentCalendar];
-        NSDateComponents *comps = [calendar components:NSCalendarUnitWeekday fromDate:date];
-        NSInteger day = [comps weekday];
-        NSDateComponents *components = [[NSCalendar currentCalendar] components:DATE_COMPONENTS fromDate:date];
-        NSString *displayText = [NSString stringWithFormat:@"%@ %li", [weekdaySymbols objectAtIndex:day-1], (long)[components day]];
-        [weekDays addObject:displayText];
-    }
-    return weekDays;
-}
-
 // Not needed for now, since the childviewcontroller is added from IB.
 - (void)addMedicationListChildViewController {
     
@@ -148,36 +135,22 @@
     [prescriberMedicationListViewController didMoveToParentViewController:self];
 }
 
-- (void)configurePrescriberMedicationView {
-    
-    addButton = [[UIBarButtonItem alloc]
-                 initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addMedicationButtonPressed:)];
-    self.navigationItem.rightBarButtonItem = addButton;
-    //medicationsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    [todayBackGroundView.layer setCornerRadius:12.5];
+// Make the API call to fetch the medicationschedules for a patient.
+// this details are then used to create the medication list and the corresponding
+// administration data within the calendar.
+- (void)fillPrescriberMedicationDetailsInCalendarView {
 
     if ([DCAPPDELEGATE isNetworkReachable]) {
-        if (!_patient.medicationListArray) {
-            [self fetchMedicationListForPatient];
-        } else {
-            [self getDisplayMedicationListArray];
-            if ([displayMedicationListArray count] == 0) {
-                noMedicationsAvailableLabel.text = @"No active medications available";
-                [noMedicationsAvailableLabel setHidden:NO];
-            }
-            else {
-                noMedicationsAvailableLabel.text = @"No medications available";
-                [noMedicationsAvailableLabel setHidden:YES];
-            }
-            [self configureAlertsAndAllergiesArrayForDisplay];
-            [self addAlertsAndAllergyBarButtonToNavigationBar];
-            //[medicationsTableView reloadData];
+        if (_patient.medicationListArray) {
+            _patient.medicationListArray = nil;
         }
+        [self fetchMedicationListForPatient];
     }
 }
 
-// from the child view controller, we obtain the instance for PrescriberMedicationListViewController.
-- (void)obtainPrescriberMedicationListViewController {
+// from the child view controllers array we obtain the instance PrescriberMedicationListViewController.
+// This instance is needed to use inside the class.
+- (void)obtainReferencesToChildViewControllersAddedFromStoryBoard {
     
     if ([self.childViewControllers count] > 0) {
         for (UIViewController *viewController in self.childViewControllers) {
@@ -187,97 +160,6 @@
         }
     }
 }
-
-#pragma mark - table view methods
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
-    return [displayMedicationListArray count];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    PrescriberMedicationTableViewCell *medicationCell = (PrescriberMedicationTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"prescriberIdentifier"];
-    if (medicationCell == nil) {
-        medicationCell = [[PrescriberMedicationTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"prescriberIdentifier"];
-    }
-    medicationCell.selectionStyle = UITableViewCellSelectionStyleNone;
-    DCMedicationScheduleDetails *medicationList = [displayMedicationListArray objectAtIndex:indexPath.item];
-    if (medicationList) {
-        medicationCell.medicineName.text = medicationList.name;
-        medicationCell.route.text = medicationList.route;
-        if (medicationList.instruction != nil) {
-            medicationCell.instructions.text = [NSString stringWithFormat:@" (%@)", medicationList.instruction];
-        }
-    }
-    rowMedicationSlotsArray = [self setMedicationSlotsForDisplay:medicationList];
-    for (NSInteger index = 0; index < rowMedicationSlotsArray.count; index++) {
-        DCMedicationAdministrationStatusView *statusView = [self addMedicationAdministrationStatusViewForSlotDictionary:[rowMedicationSlotsArray objectAtIndex:index] inTableViewCell:medicationCell atIndexPathPath:indexPath
-                                            withTag:index + 1];
-        [medicationCell addSubview:statusView];
-    }
-    return medicationCell;
-}
-
-- (NSMutableArray *)setMedicationSlotsForDisplay:(DCMedicationScheduleDetails *)medicationList {
-    
-    NSMutableArray *displayMedicationSlotsArray = [[NSMutableArray alloc] init];
-    NSInteger count = 0, weekDays = 5;
-    while (count < weekDays) {
-        
-        NSMutableDictionary *slotsDictionary = [[NSMutableDictionary alloc] init];
-        if (count <[currentWeekDatesArray count] ) {
-            NSString *formattedDateString = [DCDateUtility convertDate:[currentWeekDatesArray objectAtIndex:count] FromFormat:DEFAULT_DATE_FORMAT ToFormat:SHORT_DATE_FORMAT];
-            NSString *predicateString = [NSString stringWithFormat:@"medDate contains[cd] '%@'",formattedDateString];
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
-            NSArray *slotsDetailsArray = [medicationList.timeChart filteredArrayUsingPredicate:predicate];
-            if ([slotsDetailsArray count] > 0) {
-                NSMutableArray *medicationSlotArray = [[slotsDetailsArray objectAtIndex:0] valueForKey:MED_DETAILS];
-                [slotsDictionary setObject:medicationSlotArray forKey:PRESCRIBER_TIME_SLOTS];
-            }
-        }
-        [slotsDictionary setObject:[NSNumber numberWithInteger:count+1] forKey:PRESCRIBER_SLOT_VIEW_TAG];
-        [displayMedicationSlotsArray addObject:slotsDictionary];
-        count++;
-    }
-    return displayMedicationSlotsArray;
-}
-
-- (void)addMedicationSlotsFromSlotArray:(NSMutableArray *)displaySlotsArray
-                        inTableViewCell:(PrescriberMedicationTableViewCell *)prescriberCell
-                            atIndexPath:(NSIndexPath *)indexPath {
-    
-    NSLog(@"displaySlotsArray is %@", displaySlotsArray);
-    NSInteger index = 1;
-    while (index <= [displaySlotsArray count]) {
-        // things are coming correctly here. just ensure that the correct slots go for the correct view.
-        
-        DCMedicationAdministrationStatusView *statusView = (DCMedicationAdministrationStatusView *)[prescriberCell viewWithTag:index];
-        statusView.delegate = self;
-        NSDictionary *slotsDictionary = [displaySlotsArray objectAtIndex:index - 1];
-        statusView.weekdate = [currentWeekDatesArray objectAtIndex:index - 1];
-        statusView.currentIndexPath = indexPath;
-        [statusView updateAdministrationStatusViewWithMedicationSlotDictionary:slotsDictionary];
-        index++;
-    }
-}
-
-- (DCMedicationAdministrationStatusView *)addMedicationAdministrationStatusViewForSlotDictionary:(NSDictionary *)slotsDictionary
-                                          inTableViewCell:(PrescriberMedicationTableViewCell *)prescriberCell
-                                          atIndexPathPath:(NSIndexPath *)indexPath withTag:(NSInteger)tag {
-    
-    CGFloat xValue = 300 + (tag - 1) * slotWidth;
-    CGRect frame = CGRectMake(xValue + 1, 0, slotWidth - 1, 78.0);
-    DCMedicationAdministrationStatusView *statusView = [[DCMedicationAdministrationStatusView alloc] initWithFrame:frame];
-    statusView.delegate = self;
-    statusView.tag = tag;
-    statusView.weekdate = [currentWeekDatesArray objectAtIndex:tag - 1];
-    statusView.currentIndexPath = indexPath;
-    statusView.backgroundColor = [UIColor whiteColor];
-    [statusView updateAdministrationStatusViewWithMedicationSlotDictionary:slotsDictionary];
-    return statusView;
-}
-
 
 - (void)fetchMedicationListForPatientId:(NSString *)patientId
                   withCompletionHandler:(void(^)(NSArray *result, NSError *error))completionHandler {
@@ -329,8 +211,9 @@
                                 //[medicationsTableView reloadData];
                                 if (prescriberMedicationListViewController) {
                                     [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
+                                    prescriberMedicationListViewController.currentWeekDatesArray = currentWeekDatesArray;
+                                    
                                 }
-                            
                                 [medicationListHolderView setHidden:NO];
                                 [calendarDaysDisplayView setHidden:NO];
                                 [calendarTopHolderView setHidden:NO];
@@ -359,23 +242,45 @@
                                 [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"") message:NSLocalizedString(@"MEDICATION_SCHEDULE_ERROR", @"")];
                             }
                         }
-                        
                         [activityIndicatorView stopAnimating];
                     }];
 }
 
+// If the alerts or allergy array count is zero, prefill the array with the default
+// no alerts/allergies to display statement
+- (void) prefillAllergyAndAlertsArrays{
+    
+    if (alertsArray.count == 0) {
+        DCPatientAlert *patientAlert = [[DCPatientAlert alloc] init];
+        patientAlert.alertText = NSLocalizedString(@"NO_ALERTS", @"");
+        [alertsArray addObject:patientAlert];
+    }
+    if (allergiesArray.count == 0) {
+        DCPatientAllergy *patientAllergy = [[DCPatientAllergy alloc] init];
+        patientAllergy.reaction = NSLocalizedString(@"NO_ALLERGIES", @"");
+        [allergiesArray addObject:patientAllergy];
+    }
+}
 
+// fill in values to the allergy and alerts arrays.
+- (void)configureAlertsAndAllergiesArrayForDisplay {
+    
+    alertsArray = self.patient.patientsAlertsArray;
+    allergiesArray = self.patient.patientsAlergiesArray;
+}
+
+#pragma mark - Navigation title, buttons and actions
+
+// A custom view is loaded as the title for the prescriber screen.
 - (void)addCustomTitleViewToNavigationBar {
     
-    //customise navigation bar title view
     DCCalendarNavigationTitleView *titleView = [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([DCCalendarNavigationTitleView class]) owner:self options:nil] objectAtIndex:0];
     [titleView populateViewWithPatientName:self.patient.patientName nhsNumber:self.patient.nhs dateOfBirth:_patient.dob age:_patient.age
      ];
     self.navigationItem.titleView = titleView;
 }
 
-
-//Add medication popover presented.
+//Add medication popover presentedon tapping the + bar button.
 - (IBAction)addMedicationButtonPressed:(id)sender {
     
     UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD
@@ -397,14 +302,8 @@
     presentationController.barButtonItem = (UIBarButtonItem *)sender;
 }
 
-
-- (void)configureAlertsAndAllergiesArrayForDisplay {
-    
-    alertsArray = self.patient.patientsAlertsArray;
-    allergiesArray = self.patient.patientsAlergiesArray;
-}
-
-//when press the alerts and allergies notification button to show the popover with segmented control to switch between alerts and allergies.
+// when press the alerts and allergies notification button
+// show the popover with segmented control to switch between alerts and allergies.
 - (IBAction)allergiesAndAlertsButtonTapped:(id)sender {
     
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:MAIN_STORYBOARD
@@ -412,7 +311,7 @@
     DCAlertsAllergyPopOverViewController *patientAlertsAllergyViewController =
     [mainStoryboard instantiateViewControllerWithIdentifier:PATIENTS_ALERTS_ALLERGY_VIEW_SB_ID];
     // configuring the alerts and allergies arrays to be shown.
-    [self prefillContentArrays];
+    [self prefillAllergyAndAlertsArrays];
     patientAlertsAllergyViewController.patientsAlertsArray = alertsArray;
     patientAlertsAllergyViewController.patientsAllergyArray = allergiesArray;
     // Instatntiating the navigation controller to present the popover with preferred content size of the poppver.
@@ -439,20 +338,6 @@
     }
 }
 
-//If the alerts or allergy array count is zero, prefill the array with the default no alerts/allergies to display statement
-- (void) prefillContentArrays{
-    
-    if (alertsArray.count == 0) {
-        DCPatientAlert *patientAlert = [[DCPatientAlert alloc] init];
-        patientAlert.alertText = NSLocalizedString(@"NO_ALERTS", @"");
-        [alertsArray addObject:patientAlert];
-    }
-    if (allergiesArray.count == 0) {
-        DCPatientAllergy *patientAllergy = [[DCPatientAllergy alloc] init];
-        patientAllergy.reaction = NSLocalizedString(@"NO_ALLERGIES", @"");
-        [allergiesArray addObject:patientAllergy];
-    }
-}
 - (IBAction)sortButtonPressed:(id)sender {
     
     //display sort options in a pop over controller,
