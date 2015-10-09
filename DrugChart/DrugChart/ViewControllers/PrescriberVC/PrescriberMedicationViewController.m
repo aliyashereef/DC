@@ -95,7 +95,10 @@
 - (void)setCurrentWeekDatesArrayFromToday {
     
     NSDate *firstDay = [DCDateUtility getInitialDateForFiveDayDisplay:[DCDateUtility getDateInCurrentTimeZone:[NSDate date]]];
+    NSLog(@"Current date is %@", [DCDateUtility getDateInCurrentTimeZone:[NSDate date]]);
     currentWeekDatesArray = [DCDateUtility getFiveDaysOfWeekFromDate:firstDay];
+    NSString *display = [DCDateUtility getMonthNameAndYearForWeekDatesArray:currentWeekDatesArray];
+    NSLog(@"display is %@", display);
     NSAttributedString *monthYearString = [DCDateUtility getMonthAndYearAttributedStringFromStartDate:currentWeekDatesArray[0] andEndDate:currentWeekDatesArray[4]];
     monthYearLabel.attributedText = monthYearString;
 }
