@@ -429,4 +429,19 @@
     return attributedString;
 }
 
++ (NSString *)getMostOccurredStringFromArray:(NSArray *)contentArray {
+    
+    //get most occurred string
+    NSUInteger count = 0;
+    NSString *mostCommonString;
+    for(NSString *data in contentArray) {
+        NSUInteger countStr = [[contentArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self MATCHES[CD] %@", data]]count];
+        if(countStr > count) {
+            count = countStr;
+            mostCommonString = data;
+        }
+    }
+    return mostCommonString;
+}
+
 @end

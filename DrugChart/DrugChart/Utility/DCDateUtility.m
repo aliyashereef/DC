@@ -131,6 +131,30 @@
     return attributedString;
 }
 
++ (NSArray *)getMonthNames {
+    
+    //get month names
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    NSMutableArray *monthSymbols = [[NSMutableArray alloc] init];
+    for(int months = 0; months < 12; months++) {
+        [monthSymbols addObject:[NSString stringWithFormat:@"%@", [[formatter monthSymbols]objectAtIndex: months]]];
+    }
+    return monthSymbols;
+}
+
++ (NSString *)getMonthNameAndYearForWeekDatesArray:(NSArray *)datesArray {
+    
+    NSArray *monthSymbols = [self getMonthNames];
+    NSMutableArray *displayArray = [[NSMutableArray alloc] init];
+    for (NSDate *date in datesArray) {
+        NSDateComponents *dateComponents = [[NSCalendar currentCalendar] components:DATE_COMPONENTS fromDate:date];
+       NSMutableString *dateString = [NSMutableString stringWithFormat:@"%@ %ld", [monthSymbols objectAtIndex:[dateComponents month] - 1], (long)[dateComponents year]];
+        [displayArray addObject:dateString];
+    }
+    NSString *monthYear = [DCUtility getMostOccurredStringFromArray:displayArray];
+    return monthYear;
+}
+
 + (NSDate *)getNextWeekStartDate:(NSDate *)date {
     //get next week start date
     NSDateComponents *components = [[NSCalendar currentCalendar] components:DATE_COMPONENTS fromDate:date];
