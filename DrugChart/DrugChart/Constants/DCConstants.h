@@ -387,4 +387,13 @@
 #define DUMMY_TEXT "Lorem Ipsum is simply dummy text of the printing and types etting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
 #define DATE @"Date"
 #define REASON @"Reason"
+#define NEXT_MEDICATION_DATE_KEY @"nextMedicationDate"
+#define OVERDUE_KEY @"Overdue"
+#define IMMEDIATE_KEY @"Immediate"
+#define NOT_IMMEDIATE_KEY @"Not Immediate"
+
+#define NA_TEXT @"N/A"
+#define DUMMY_DOCTOR @"KENNEDY, Frederick (Dr)"
+#define BED_NUMBER @"0"
+
 #endif

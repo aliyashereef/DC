@@ -15,11 +15,6 @@
 #import "DCPatientMedicationHomeViewController.h"
 #import "DCMedicationSchedulesWebService.h"
 
-#define NEXT_MEDICATION_DATE_KEY @"nextMedicationDate"
-#define OVERDUE_KEY @"Overdue"
-#define IMMEDIATE_KEY @"Immediate"
-#define NOT_IMMEDIATE_KEY @"Not Immediate"
-
 typedef enum : NSUInteger {
     eOverDue,
     eImmediate,

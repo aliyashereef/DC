@@ -35,7 +35,6 @@
 #define NEXT_MEDICATION_DATE_KEY @"nextMedicationDate"
 #define OVERDUE_KEY @"Overdue"
 #define IMMEDIATE_KEY @"Immediate"
-#define NOT_IMMEDIATE_KEY @"Upcoming"
 
 typedef enum : NSUInteger {
     

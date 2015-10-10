@@ -7,7 +7,6 @@
 //
 
 #import "PrescriberMedicationViewController.h"
-#import "DrugChart-Swift.h"
 //#import "PrescriberMedicationCellTableViewCell.h"
 #import "DCCalendarNavigationTitleView.h"
 #import "DCAddMedicationInitialViewController.h"

@@ -18,4 +18,10 @@
 #import "NameSelectionTableViewController.h"
 #import "DCInstructionsTableCell.h"
 #import "DCMedicationSlot.h"
+#import "DCPatient.h"
+#import "DCSwiftObjCNavigationHelper.h"
+#import "DCWard.h"
+#import "DCPatientDetailsHelper.h"
+#import "DCWardsGraphicalDisplayViewController.h"
+
 
