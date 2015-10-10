@@ -10,11 +10,17 @@ import UIKit
 
 let CELL_IDENTIFIER = "prescriberIdentifier"
 
+@objc protocol PrescriberListDelegate {
+    
+    func prescriberTableViewPannedWithTranslationParameters(xPoint : CGFloat, xVelocity : CGFloat, panEnded : Bool)
+}
+
 @objc class DCPrescriberMedicationListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate {
 
     @IBOutlet var medicationTableView: UITableView?
     var displayMedicationListArray : NSMutableArray = []
     var currentWeekDatesArray : NSMutableArray = []
+    var delegate : PrescriberListDelegate?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -53,8 +59,6 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                 medicationCell = PrescriberMedicationTableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: CELL_IDENTIFIER)
             }
             let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
-            print("the medicine is: %@", medicationScheduleDetails.name)
-            
             self.fillInMedicationDetailsInTableCell(medicationCell!, atIndexPath: indexPath)
             if (medicationScheduleDetails.name  == "Idebenone 150mg capsules") {
                 print(" got it")
@@ -110,26 +114,27 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         
         // translate table view
         print("Table View swiped");
-      //  let mainWindow = UIApplication.sharedApplication().windows[0]
+       
         let translation : CGPoint = panGestureRecognizer.translationInView(self.view.superview)
-        NSLog("translation is x : %f y: %f", translation.x, translation.y)
         let velocity : CGPoint = panGestureRecognizer.velocityInView(self.view)
-        var indexPathArray : [NSIndexPath]? = medicationTableView!.indexPathsForVisibleRows
-        var panEnded = 0
+        let indexPathArray : [NSIndexPath]? = medicationTableView!.indexPathsForVisibleRows
+        var panEnded = false
         if (panGestureRecognizer.state == UIGestureRecognizerState.Began) {
             //indexPathArray = medicationTableView!.indexPathsForVisibleRows
             //send trigger to week view class [self positionWeekContainersInView];
         }
         if (panGestureRecognizer.state == UIGestureRecognizerState.Ended) {
             //show activity indicator
-            panEnded = 1
+            print("Pan Ended")
+            panEnded = true
         }
         // translate week view [self translateWeekContainerViewsForTranslation:translation];
         for var count = 0; count < indexPathArray!.count; count++ {
-            let indexPath : NSIndexPath? = indexPathArray?[count]
-            NSLog("IndexPath is %@", indexPath!)
             let translationDictionary  = ["xPoint" : translation.x, "xVelocity" : velocity.x, "panEnded" : panEnded]
             NSNotificationCenter.defaultCenter().postNotificationName(kCalendarPanned, object: nil, userInfo: translationDictionary as [NSObject : AnyObject])
+            if let delegate = self.delegate {
+                delegate.prescriberTableViewPannedWithTranslationParameters(translation.x, xVelocity : velocity.x, panEnded: panEnded)
+            }
         }
         panGestureRecognizer.setTranslation(CGPointMake(0, 0), inView: panGestureRecognizer.view)
     }
