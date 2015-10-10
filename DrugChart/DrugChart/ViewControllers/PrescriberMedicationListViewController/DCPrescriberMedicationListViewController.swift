@@ -66,10 +66,21 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
 
             for ( index = 0; index < rowDisplayMedicationSlotsArray.count; index++) {
                 
+                // just for the display purpose. 
+                // metjod implementation in progress.
                 let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell!, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
                     atIndexPath: indexPath,
                     atSlotIndex: index)
+                let leftStatusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell!, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
+                    atIndexPath: indexPath,
+                    atSlotIndex: index)
+                let rightStatusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell!, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
+                    atIndexPath: indexPath,
+                    atSlotIndex: index)
+                
                 medicationCell?.masterMedicationAdministerDetailsView.addSubview(statusView)
+                medicationCell?.leftMedicationAdministerDetailsView.addSubview(leftStatusView)
+                medicationCell?.rightMedicationAdministerDetailsView.addSubview(rightStatusView)
             }
             return medicationCell!
     }
