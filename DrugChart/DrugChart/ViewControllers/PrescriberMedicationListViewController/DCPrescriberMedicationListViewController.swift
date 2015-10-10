@@ -56,6 +56,11 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             print("the medicine is: %@", medicationScheduleDetails.name)
             
             self.fillInMedicationDetailsInTableCell(medicationCell!, atIndexPath: indexPath)
+            if (medicationScheduleDetails.name  == "Idebenone 150mg capsules") {
+                print(" got it")
+                
+            }
+            
             let rowDisplayMedicationSlotsArray = self.prepareMedicationSlotsForDisplayInCellFromScheduleDetails(medicationScheduleDetails)
             var index : NSInteger = 0
             for ( index = 0; index < rowDisplayMedicationSlotsArray.count; index++) {
@@ -131,8 +136,6 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             let viewFrame = CGRectMake(xValue, 0, viewWidth, 78.0)
             let statusView : DCMedicationAdministrationStatusView = DCMedicationAdministrationStatusView(frame: viewFrame)
             statusView.tag = tag
-            print("the date is:%@ \nand tag is %d", statusView, tag)
-            print("the crashed index path is: %d", indexPath.item)
             
             statusView.weekdate = currentWeekDatesArray.objectAtIndex(tag) as? NSDate
             statusView.currentIndexPath = indexPath
