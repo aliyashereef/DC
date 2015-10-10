@@ -949,6 +949,7 @@ typedef enum : NSUInteger {
 
 #pragma mark - Table view delegate methods
 
+///// neeeded
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     
     if (sortType == kSortDrugType) {
@@ -957,6 +958,7 @@ typedef enum : NSUInteger {
     return 0;
 }
 
+///// neeeded
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     DCMedicationScheduleDetails *medicationList = [self getMedicationListForTableCellAtIndexPath:indexPath];
@@ -964,6 +966,8 @@ typedef enum : NSUInteger {
     return height;
 }
 
+
+///// neeeded
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view
        forSection:(NSInteger)section {
     
@@ -983,6 +987,7 @@ typedef enum : NSUInteger {
     }
 }
 
+///// neeeded -- all the delegate methods needed. Like todayAction, sortByDrugType, alphabetical order, include discontinued.
 
 #pragma mark - Action Methods
 
@@ -1082,6 +1087,7 @@ typedef enum : NSUInteger {
 
 #pragma mark - UIViewControllerTransitioningDelegate
 
+// to be retained within the main class
 - (UIPresentationController *)presentationControllerForPresentedViewController:(UIViewController *)presented presentingViewController:(UIViewController *)presenting sourceViewController:(UIViewController *)source {
     
     RoundRectPresentationController *roundRectPresentationController = [[RoundRectPresentationController alloc] initWithPresentedViewController:presented presentingViewController:presenting];
@@ -1094,7 +1100,6 @@ typedef enum : NSUInteger {
 - (void)sortMedicationListSelectionChanged:(NSInteger)currentSelection {
     // complete the method definition.
     sortType = kSortDrugType;
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         if (currentSelection == 1) {
             sortType = kSortDrugStartDate;
@@ -1105,7 +1110,6 @@ typedef enum : NSUInteger {
             [self sortPrescriberMedicationList];
         }
         dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
             [prescriberTableView reloadData];
         });
     });

@@ -401,16 +401,47 @@
             laterDate = [currentSystemDate laterDate:slot.time];
             if(![laterDate isEqualToDate:currentSystemDate]){
                 nearestDate = [laterDate earlierDate:nearestDate];
-                NSLog(@"nearestDate is %@", nearestDate);
+                //NSLog(@"nearestDate is %@", nearestDate);
             }
         }
-        NSLog(@"laterDate is %@", laterDate);
+        //NSLog(@"laterDate is %@", laterDate);
         if ((nearestDate && [nearestDate compare:slot.time] == NSOrderedSame) ||
             [slot.status isEqualToString:YET_TO_GIVE]) {
             return slot;
         }
     }
     return nil;
+}
+
++ (NSMutableAttributedString *)getMonthYearAttributedStringForDisplayString:(NSString *)displayString
+                                              withInitialMonthLength:(NSInteger)length {
+    
+    NSDictionary *monthAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                     [UIFont fontWithName:@"HelveticaNeue-Medium" size:22.0f], NSFontAttributeName, [UIColor blackColor], NSForegroundColorAttributeName, nil];
+    NSDictionary *yearAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [UIFont fontWithName:@"HelveticaNeue-Light" size:22.0f], NSFontAttributeName, [UIColor blackColor], NSForegroundColorAttributeName, nil];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:displayString];
+    [attributedString setAttributes:monthAttributes range:NSMakeRange(0, displayString.length)];
+    [attributedString setAttributes:yearAttributes range:NSMakeRange(displayString.length - 4, 4)];
+    if (length > 0) {
+        [attributedString setAttributes:yearAttributes range:NSMakeRange(length + 2, 4)];
+    }
+    return attributedString;
+}
+
++ (NSString *)getMostOccurredStringFromArray:(NSArray *)contentArray {
+    
+    //get most occurred string
+    NSUInteger count = 0;
+    NSString *mostCommonString;
+    for(NSString *data in contentArray) {
+        NSUInteger countStr = [[contentArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self MATCHES[CD] %@", data]]count];
+        if(countStr > count) {
+            count = countStr;
+            mostCommonString = data;
+        }
+    }
+    return mostCommonString;
 }
 
 @end

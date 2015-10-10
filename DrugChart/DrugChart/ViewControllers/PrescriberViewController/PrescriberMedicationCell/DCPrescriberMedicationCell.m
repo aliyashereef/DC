@@ -1,5 +1,5 @@
 //
-//  DCPrescriberMedicationCellTableViewCell.m
+//  DCPrescriberMedicationCell.m
 //  DrugChart
 //
 //  Created by Jilu Mary Joy on 3/24/15.
@@ -64,7 +64,8 @@
                     _medicationViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET;
                     _EditButtonWidth.constant = _stopButtonWidth.constant = - (_medicationViewLeadingConstraint.constant / 2);
                     [self layoutIfNeeded];
-                }];        }
+                }];
+            }
         }else{
             if (((translate.x < 0) && (_medicationViewLeadingConstraint.constant > - MEDICATION_VIEW_LEFT_OFFSET)) || ((translate.x > 0) && (_medicationViewLeadingConstraint.constant < MEDICATION_VIEW_INITIAL_LEFT_OFFSET))) {
                 

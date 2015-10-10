@@ -421,7 +421,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             //display status views, insert views below this
             if (statusCellSelected == false) {
                 statusCellSelected = true
-                administerTableView.insertRowsAtIndexPaths(indexPathsArray, withRowAnimation: .Fade)
+                administerTableView.insertRowsAtIndexPaths(indexPathsArray, withRowAnimation: .Automatic)
             } else {
                 statusCellSelected = false
             }

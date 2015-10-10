@@ -198,6 +198,12 @@
 		4D2DD3CC1B9889F0008CDEA0 /* DCDateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D2DD3CB1B9889F0008CDEA0 /* DCDateTableViewCell.m */; };
 		4D4126C51B4AA1E700255D5E /* DCAddMedicationWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D4126C41B4AA1E700255D5E /* DCAddMedicationWebService.m */; };
 		4D415ED01B4FD99200E796F2 /* DCPatientAllergyWebServiceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D415ECF1B4FD99200E796F2 /* DCPatientAllergyWebServiceTests.m */; };
+		4D4891561BC90053002AC8CA /* DCSwiftObjCNavigationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D4891551BC90053002AC8CA /* DCSwiftObjCNavigationHelper.m */; settings = {ASSET_TAGS = (); }; };
+		4D4891591BC900DB002AC8CA /* DCPatientDetailsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D4891581BC900DB002AC8CA /* DCPatientDetailsHelper.m */; settings = {ASSET_TAGS = (); }; };
+		4D48915E1BC90176002AC8CA /* DCPatientListingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D48915A1BC90176002AC8CA /* DCPatientListingCell.swift */; settings = {ASSET_TAGS = (); }; };
+		4D48915F1BC90176002AC8CA /* DCPatientListingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D48915B1BC90176002AC8CA /* DCPatientListingViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		4D4891601BC90176002AC8CA /* DCWardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D48915C1BC90176002AC8CA /* DCWardCell.swift */; settings = {ASSET_TAGS = (); }; };
+		4D4891611BC90176002AC8CA /* DCWardsListingPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D48915D1BC90176002AC8CA /* DCWardsListingPopoverViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		4D48D2F11B4BF5C600B050A8 /* DCTestCaseUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D48D2F01B4BF5C600B050A8 /* DCTestCaseUtility.m */; };
 		4D48D2F31B4BF62B00B050A8 /* DCLoginWebServiceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D48D2F21B4BF62B00B050A8 /* DCLoginWebServiceTests.m */; };
 		4D48D2F71B4BFD1100B050A8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D48D2F61B4BFD1100B050A8 /* UIKit.framework */; };
@@ -602,6 +608,14 @@
 		4D4126C31B4AA1E700255D5E /* DCAddMedicationWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCAddMedicationWebService.h; sourceTree = "<group>"; };
 		4D4126C41B4AA1E700255D5E /* DCAddMedicationWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCAddMedicationWebService.m; sourceTree = "<group>"; };
 		4D415ECF1B4FD99200E796F2 /* DCPatientAllergyWebServiceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCPatientAllergyWebServiceTests.m; sourceTree = "<group>"; };
+		4D4891541BC90053002AC8CA /* DCSwiftObjCNavigationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCSwiftObjCNavigationHelper.h; sourceTree = "<group>"; };
+		4D4891551BC90053002AC8CA /* DCSwiftObjCNavigationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCSwiftObjCNavigationHelper.m; sourceTree = "<group>"; };
+		4D4891571BC900DB002AC8CA /* DCPatientDetailsHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCPatientDetailsHelper.h; sourceTree = "<group>"; };
+		4D4891581BC900DB002AC8CA /* DCPatientDetailsHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCPatientDetailsHelper.m; sourceTree = "<group>"; };
+		4D48915A1BC90176002AC8CA /* DCPatientListingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCPatientListingCell.swift; sourceTree = "<group>"; };
+		4D48915B1BC90176002AC8CA /* DCPatientListingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCPatientListingViewController.swift; sourceTree = "<group>"; };
+		4D48915C1BC90176002AC8CA /* DCWardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCWardCell.swift; sourceTree = "<group>"; };
+		4D48915D1BC90176002AC8CA /* DCWardsListingPopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCWardsListingPopoverViewController.swift; sourceTree = "<group>"; };
 		4D48D2EF1B4BF5C600B050A8 /* DCTestCaseUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCTestCaseUtility.h; sourceTree = "<group>"; };
 		4D48D2F01B4BF5C600B050A8 /* DCTestCaseUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCTestCaseUtility.m; sourceTree = "<group>"; };
 		4D48D2F21B4BF62B00B050A8 /* DCLoginWebServiceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCLoginWebServiceTests.m; sourceTree = "<group>"; };
@@ -1201,6 +1215,7 @@
 		0BA357281B74642300A5C3BC /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				4D4891531BC90053002AC8CA /* NavigationHelper */,
 				7DE017671BC2439A0094928C /* DCGraphicalViewHelper.h */,
 				7DE017681BC2439A0094928C /* DCGraphicalViewHelper.m */,
 				0B9D6D4F1BA1722C009E0A4E /* AddMedicationHelper */,
@@ -2137,6 +2152,10 @@
 		0BF2DA4D1ACA97F700B3ED97 /* ErrorPopoverViewController */ = {
 			isa = PBXGroup;
 			children = (
+				4D48915A1BC90176002AC8CA /* DCPatientListingCell.swift */,
+				4D48915B1BC90176002AC8CA /* DCPatientListingViewController.swift */,
+				4D48915C1BC90176002AC8CA /* DCWardCell.swift */,
+				4D48915D1BC90176002AC8CA /* DCWardsListingPopoverViewController.swift */,
 				4DDE0ADC1BBBB70C0044295B /* PinChangeViewController */,
 				0BF2DA4E1ACA982E00B3ED97 /* DCErrorPopOverViewController.h */,
 				0BF2DA4F1ACA982E00B3ED97 /* DCErrorPopOverViewController.m */,
@@ -2268,6 +2287,15 @@
 				4D16FAE11B5E56160034406A /* DCContraIndicationWebService.m */,
 			);
 			name = DCContraIndicationAndAllergyIndicationWebservice;
+			sourceTree = "<group>";
+		};
+		4D4891531BC90053002AC8CA /* NavigationHelper */ = {
+			isa = PBXGroup;
+			children = (
+				4D4891541BC90053002AC8CA /* DCSwiftObjCNavigationHelper.h */,
+				4D4891551BC90053002AC8CA /* DCSwiftObjCNavigationHelper.m */,
+			);
+			path = NavigationHelper;
 			sourceTree = "<group>";
 		};
 		4D766C091BBCF75200413E08 /* CalendarDateDisplayViewController */ = {
@@ -2509,6 +2537,8 @@
 		7D6D845C1AF9408E00917A8C /* InitialViewController */ = {
 			isa = PBXGroup;
 			children = (
+				4D4891571BC900DB002AC8CA /* DCPatientDetailsHelper.h */,
+				4D4891581BC900DB002AC8CA /* DCPatientDetailsHelper.m */,
 				7D6D845D1AF940A600917A8C /* DCInitialViewController.h */,
 				7D6D845E1AF940A600917A8C /* DCInitialViewController.m */,
 			);
@@ -2872,17 +2902,21 @@
 				4D9649921BA296CC008630B4 /* DCBedsAndPatientsWebService.m in Sources */,
 				7D88EF751AF2522A00768826 /* DCPatientAllergyNotificationTableViewController.m in Sources */,
 				4DC440181B67990D000EC7AB /* DCOrderSetWebService.m in Sources */,
+				4D48915E1BC90176002AC8CA /* DCPatientListingCell.swift in Sources */,
 				0B5E2B141AE4C0620069C40C /* DCAlergyDisplayCell.m in Sources */,
 				0BBD58441AD3B0C20027F8FE /* DCUsersListWebService.m in Sources */,
 				0BD52F361AA974AD00A17A2C /* DCCalendarChartViewController.m in Sources */,
+				4D4891591BC900DB002AC8CA /* DCPatientDetailsHelper.m in Sources */,
 				0B8D6E7A1B3136C200F0B972 /* DCKeyChainManager.m in Sources */,
 				7D6335571AE66A9F00463E12 /* DCBed.m in Sources */,
+				4D4891611BC90176002AC8CA /* DCWardsListingPopoverViewController.swift in Sources */,
 				0BF3890F1AA46746006792DE /* DCPatient.m in Sources */,
 				0B941CA51AC161B300B54207 /* DCPrescriberCalendarView.m in Sources */,
 				0B9173A41B02101300BC9337 /* DCPrescriberDetailsTimeView.m in Sources */,
 				0BA357311B746EAB00A5C3BC /* DCOrderSetOperationQueue.m in Sources */,
 				0BBC8FA61AA469AF0085ABAB /* DCBaseViewController.m in Sources */,
 				0BCF5EAE1AE0F807002467BF /* DCAddMedicationPopOverContentViewController.m in Sources */,
+				4D4891601BC90176002AC8CA /* DCWardCell.swift in Sources */,
 				7D70F3801B20258200E4BA89 /* DCWardsGraphicalDisplayViewController.m in Sources */,
 				0BB3B79A1B99842A0011DFDF /* DCDatePickerCell.m in Sources */,
 				0B1FFFEB1AA98BB50099FB93 /* DCMedicationListWebService.m in Sources */,
@@ -2943,6 +2977,7 @@
 				0BA6EF811AC134430036E6B3 /* DCWeekView.m in Sources */,
 				0BBFBB411B0F475300342D2F /* DCMedicinalDetailsBackgroundView.m in Sources */,
 				4DECF30C1B79D2000085E75B /* DCOrderSetWarningCount.m in Sources */,
+				4D4891561BC90053002AC8CA /* DCSwiftObjCNavigationHelper.m in Sources */,
 				7D3234AC1AF119E60020CC8F /* DCSettingsPopOverBackgroundView.m in Sources */,
 				4DDE0ADE1BBBBEDE0044295B /* DCAdministratedByPinVerificationViewController.swift in Sources */,
 				0BBEFFD01B5F72EF00E70CCC /* DCWarning.m in Sources */,
@@ -2984,6 +3019,7 @@
 				7D2FF0581BB9024400B92B85 /* DCCalendarDayView.swift in Sources */,
 				7D2FF1171BBCD1C000B92B85 /* DCMedicationAdministrationStatusView.swift in Sources */,
 				0B900D331B82E351005803A3 /* DCPatientListCell.m in Sources */,
+				4D48915F1BC90176002AC8CA /* DCPatientListingViewController.swift in Sources */,
 				0B91739E1B01F36200BC9337 /* DCPrescriberDetailsViewController.m in Sources */,
 				0BBE3B601AA42DC5004CA6E9 /* main.m in Sources */,
 				0BB535861BBA472D0043BC61 /* DCAdministerPickerCell.swift in Sources */,
