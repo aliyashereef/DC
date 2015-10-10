@@ -32,7 +32,7 @@ typedef enum : NSUInteger {
     kSortDrugName
 } SortType;
 
-@interface PrescriberMedicationViewController () <DCAddMedicationViewControllerDelegate>{
+@interface PrescriberMedicationViewController () <DCAddMedicationViewControllerDelegate, PrescriberListDelegate>{
     
     NSMutableArray *currentWeekDatesArray;
     IBOutlet UIView *calendarDaysDisplayView;
@@ -56,6 +56,7 @@ typedef enum : NSUInteger {
     SortType sortType;
     
     DCPrescriberMedicationListViewController *prescriberMedicationListViewController;
+    DCCalendarDateDisplayViewController *calendarDateDisplayViewController;
 }
 
 @end
@@ -94,6 +95,13 @@ typedef enum : NSUInteger {
     // Dispose of any resources that can be recreated.
 }
 
+- (void)prescriberTableViewPannedWithTranslationParameters:(CGFloat )xPoint
+                                                 xVelocity:(CGFloat)xVelocity
+                                                 panEnded:(BOOL)panEnded {
+    
+    NSLog(@"Calendar swipe in parent view xPoint : %f xVelocity : %f panEnded : %d", xPoint, xVelocity, panEnded);
+    [calendarDateDisplayViewController translateCalendarContainerViewsForTranslationParameters:xPoint withXVelocity:xVelocity panEndedValue:panEnded];
+}
 
 #pragma mark - Sub views addition
 
@@ -103,7 +111,7 @@ typedef enum : NSUInteger {
     
     UIStoryboard *administerStoryboard = [UIStoryboard storyboardWithName:ADMINISTER_STORYBOARD
                                                                    bundle: nil];
-    DCCalendarDateDisplayViewController *calendarDateDisplayViewController = [administerStoryboard instantiateViewControllerWithIdentifier:@"CalendarDateDisplayView"];
+    calendarDateDisplayViewController = [administerStoryboard instantiateViewControllerWithIdentifier:@"CalendarDateDisplayView"];
     [calendarDaysDisplayView addSubview:calendarDateDisplayViewController.view];
 }
 
@@ -139,6 +147,7 @@ typedef enum : NSUInteger {
         prescriberMedicationListViewController = [prescriberStoryBoard instantiateViewControllerWithIdentifier:PRESCRIBER_LIST_SBID];
         [self addChildViewController:prescriberMedicationListViewController];
         prescriberMedicationListViewController.view.frame = medicationListHolderView.frame;
+        prescriberMedicationListViewController.delegate = self;
         [self.view addSubview:prescriberMedicationListViewController.view];
     }
     [prescriberMedicationListViewController didMoveToParentViewController:self];
@@ -165,6 +174,7 @@ typedef enum : NSUInteger {
         for (UIViewController *viewController in self.childViewControllers) {
             if ([viewController isKindOfClass:[DCPrescriberMedicationListViewController class]]) {
                 prescriberMedicationListViewController = (DCPrescriberMedicationListViewController *)viewController;
+                prescriberMedicationListViewController.delegate = self;
             }
         }
     }

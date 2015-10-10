@@ -13,7 +13,9 @@
 
 @property (nonatomic, strong) DCPatient *patient;
 @property (strong, nonatomic) IBOutlet UIToolbar *toolbar;
+
 - (void)displayAdministrationViewForMedicationSlot:(NSDictionary *)medicationSLotsDictionary
                                        atIndexPath:(NSIndexPath *)indexPath
                                       withWeekDate:(NSDate *)date;
+
 @end

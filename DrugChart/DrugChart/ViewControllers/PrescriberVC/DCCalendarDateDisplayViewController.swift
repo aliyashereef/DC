@@ -11,6 +11,14 @@ import UIKit
 
 @objc class DCCalendarDateDisplayViewController: UIViewController {
     
+    
+    @IBOutlet weak var leftCalendarView: DCCalendarDateView!
+    @IBOutlet weak var centerCalendarView: DCCalendarDateView!
+    @IBOutlet weak var rightCalendarView: DCCalendarDateView!
+    @IBOutlet weak var calendarViewLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var calendarViewWidthConstraint: NSLayoutConstraint!
+
+    
     var currentWeekDateArray : NSMutableArray?
     var lastDateForCurrentWeek : NSDate?
     var firstDateForCurrentWeek : NSDate?
@@ -19,14 +27,48 @@ import UIKit
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        calendarViewWidthConstraint.constant = (DCUtility.getMainWindowSize().width - MEDICATION_VIEW_WIDTH);
         prepareDateArrays()
-        addNotifications()
     }
     
-    func addNotifications () {
+    func translateCalendarContainerViewsForTranslationParameters(xTranslation: CGFloat, withXVelocity xVelocity:CGFloat, panEndedValue panEnded:Bool) {
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("calendarScreenPanned:"), name: kCalendarPanned, object: nil)
-    }
+        NSLog("***** xTranslation : %f", xTranslation)
+        NSLog("**** xVelocity : %f", xVelocity)
+        NSLog("**** panEnded : %f", panEnded.boolValue)
+        
+        
+        let calendarWidth : CGFloat = (DCUtility.getMainWindowSize().width - MEDICATION_VIEW_WIDTH);
+        let valueToTranslate = calendarViewLeadingConstraint.constant + xTranslation;
+        if (valueToTranslate >= -calendarWidth && valueToTranslate <= calendarWidth) {
+            calendarViewLeadingConstraint.constant = calendarViewLeadingConstraint.constant + xTranslation;
+            // self.layoutIfNeeded()
+        }
+        if (panEnded == true) {
+            if (xVelocity > 0) {
+                // animate to left. show previous week
+                UIView.animateWithDuration(0.05, animations: { () -> Void in
+                    if (self.calendarViewLeadingConstraint.constant >= MEDICATION_VIEW_WIDTH) {
+                        self.calendarViewLeadingConstraint.constant = calendarWidth
+                    } else {
+                        //display current week
+                        self.calendarViewLeadingConstraint.constant = 0.0
+                    }
+                    self.view.layoutIfNeeded()
+                })
+            } else {
+                //show next week
+                UIView.animateWithDuration(0.05, animations: { () -> Void in
+                    if (self.calendarViewLeadingConstraint.constant <= -MEDICATION_VIEW_WIDTH) {
+                        self.calendarViewLeadingConstraint.constant = -calendarWidth
+                    } else {
+                        self.calendarViewLeadingConstraint.constant = 0.0
+                    }
+                    self.view.layoutIfNeeded()
+                })
+            }
+        }
+     }
     
     func prepareDateArrays() {
         
@@ -94,19 +136,10 @@ import UIKit
     
     func setDatesDisplayInView( datePackArray : [NSArray] ) {
         
-        for index in 0...2 {
-            
-            let calendarWidth = getDateContainerViewWidth()
-            let dateViewX : CGFloat = CGFloat(index-1) * calendarWidth
-            let frame : CGRect = CGRectMake(dateViewX, 0, calendarWidth, 49.5)
-            let dateDisplay : DCCalendarDateView = DCCalendarDateView(frame: frame, dateArray: datePackArray[index])
-            self.view.addSubview(dateDisplay)
-        }
-    }
-    
-    func calendarScreenPanned (notification : NSNotification) {
-        
-        print("**** Calendar Pan Action in Calendar view")
+        leftCalendarView.dateArray = datePackArray[0]
+        leftCalendarView .populateViewForDateArray(datePackArray[0])
+        centerCalendarView.populateViewForDateArray(datePackArray[1])
+        rightCalendarView.populateViewForDateArray(datePackArray[2])
     }
 
 }

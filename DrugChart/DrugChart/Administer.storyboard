@@ -2059,13 +2059,58 @@
                         <viewControllerLayoutGuide type="bottom" id="TwI-xn-m0D"/>
                     </layoutGuides>
                     <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="LUc-eo-XCp">
-                        <rect key="frame" x="0.0" y="0.0" width="2172" height="50"/>
+                        <rect key="frame" x="0.0" y="0.0" width="724" height="50"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" name="controlHighlightColor" catalog="System" colorSpace="catalog"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Nm-wG-5rR" userLabel="LeftView" customClass="DCCalendarDateView" customModule="DrugChart" customModuleProvider="target">
+                                <rect key="frame" x="-724" y="0.0" width="724" height="50"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0WF-i7-Xom" userLabel="CenterView" customClass="DCCalendarDateView" customModule="DrugChart" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="724" height="50"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="724" id="858-q4-Tb4"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V0d-1l-0dj" userLabel="RightView" customClass="DCCalendarDateView" customModule="DrugChart" customModuleProvider="target">
+                                <rect key="frame" x="724" y="0.0" width="724" height="50"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="V0d-1l-0dj" firstAttribute="height" secondItem="0WF-i7-Xom" secondAttribute="height" id="82V-wb-O8o"/>
+                            <constraint firstAttribute="trailing" secondItem="0WF-i7-Xom" secondAttribute="trailing" id="Db0-Vg-IyL"/>
+                            <constraint firstItem="V0d-1l-0dj" firstAttribute="top" secondItem="0WF-i7-Xom" secondAttribute="top" id="HtF-N1-q1T"/>
+                            <constraint firstItem="0WF-i7-Xom" firstAttribute="leading" secondItem="LUc-eo-XCp" secondAttribute="leading" id="Kzk-Ov-YyH"/>
+                            <constraint firstItem="V0d-1l-0dj" firstAttribute="top" secondItem="LUc-eo-XCp" secondAttribute="topMargin" id="Owr-2X-HcL"/>
+                            <constraint firstItem="V0d-1l-0dj" firstAttribute="leading" secondItem="0WF-i7-Xom" secondAttribute="trailing" id="SB2-00-r2F"/>
+                            <constraint firstItem="0WF-i7-Xom" firstAttribute="top" secondItem="DEd-xN-Yt6" secondAttribute="bottom" id="WzU-h8-kkN"/>
+                            <constraint firstItem="0WF-i7-Xom" firstAttribute="leading" secondItem="6Nm-wG-5rR" secondAttribute="trailing" id="cCk-Lk-f6I"/>
+                            <constraint firstItem="6Nm-wG-5rR" firstAttribute="width" secondItem="0WF-i7-Xom" secondAttribute="width" id="dRc-2r-Hij"/>
+                            <constraint firstItem="TwI-xn-m0D" firstAttribute="top" secondItem="0WF-i7-Xom" secondAttribute="bottom" id="img-pw-EX8"/>
+                            <constraint firstItem="V0d-1l-0dj" firstAttribute="width" secondItem="0WF-i7-Xom" secondAttribute="width" id="j21-X8-KL7"/>
+                            <constraint firstItem="6Nm-wG-5rR" firstAttribute="top" secondItem="0WF-i7-Xom" secondAttribute="top" id="lbE-ND-jY1"/>
+                            <constraint firstItem="6Nm-wG-5rR" firstAttribute="height" secondItem="0WF-i7-Xom" secondAttribute="height" id="vTN-zt-CpZ"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="Db0-Vg-IyL"/>
+                                <exclude reference="Owr-2X-HcL"/>
+                            </mask>
+                        </variation>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="2172" height="50"/>
+                    <size key="freeformSize" width="724" height="50"/>
+                    <connections>
+                        <outlet property="calendarViewLeadingConstraint" destination="Kzk-Ov-YyH" id="bOr-dY-OLP"/>
+                        <outlet property="calendarViewWidthConstraint" destination="858-q4-Tb4" id="nNU-fr-2RJ"/>
+                        <outlet property="centerCalendarView" destination="0WF-i7-Xom" id="sOO-Ym-dl1"/>
+                        <outlet property="leftCalendarView" destination="6Nm-wG-5rR" id="Lle-Ix-E1j"/>
+                        <outlet property="rightCalendarView" destination="V0d-1l-0dj" id="Yn0-WP-avi"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkv-N0-wcT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
