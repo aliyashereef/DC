@@ -31,7 +31,7 @@ import UIKit
         for index in 0...4 {
             
             let dateX : CGFloat = CGFloat(index) * weekViewWidth + CGFloat(index) + 1
-            let frame : CGRect = CGRectMake(dateX, 0, weekViewWidth, 49)
+            let frame : CGRect = CGRectMake(dateX, 0, weekViewWidth, 49.50)
             NSLog("WeekView: index : %d dateX : %f", index, dateX)
             let dateView : DCDateView = DCDateView(frame: frame, date: dateArray[index] as! NSString)
             self.addSubview(dateView)
