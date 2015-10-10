@@ -75,9 +75,7 @@ class DCMedicationAdministrationStatusView: UIView {
     func configureStatusViewForTimeArray(timeSlotsArray : NSArray) {
         
         timeArray = timeSlotsArray
-        print("Crashing here")
         let initialSlot = timeArray.objectAtIndex(0) as? DCMedicationSlot
-        print("Not going ahead here")
         
         let currentSystemDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
         let currentDateString = DCDateUtility.convertDate(currentSystemDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: SHORT_DATE_FORMAT)

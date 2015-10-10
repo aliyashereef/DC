@@ -63,6 +63,10 @@
     if ([scheduleArray count] > 0) {
         NSDictionary *schedulesDictionary = [scheduleArray objectAtIndex:0];
         NSMutableArray *administrationArray = [[NSMutableArray alloc] initWithArray:[schedulesDictionary objectForKey:DRUG_ADMINISTRATIONS]];
+        //TODO: delete this line after identifying the date issue.
+//        if ([self.name isEqualToString:@"Idebenone 150mg capsules"]) {
+//            NSLog(@"got the issue ****");
+//        }
         self.administrationDetailsArray = [self getAdministrationDetailsForMedication:administrationArray];
         NSMutableArray *slotsArray = [self getMedicationScheduleTimeArrayFromScheduleDictionary:schedulesDictionary
                                                                                   withStartDate:self.startDate
@@ -88,6 +92,7 @@
     return administrationDetailsArray;
 }
 
+//TODO: this method need to be re verified.
 - (NSMutableArray *)getMedicationScheduleTimeArrayFromScheduleDictionary:(NSDictionary *)scheduleDictionary
                                                            withStartDate:(NSString *)startDateString
                                                               andEndDate:(NSString *)endDateString
@@ -112,7 +117,7 @@
             
             NSCalendar *calendar = [NSCalendar currentCalendar];
             //TODO: Error in setting time chart. Timezone commented to fix the display issue in calendar
-           // [calendar setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
+            [calendar setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
             NSDateComponents *components = [calendar components:NSCalendarUnitYear| NSCalendarUnitMonth | NSCalendarUnitDay  fromDate:nextDate];
             NSString *timeString = [timesArray objectAtIndex:timeSlotsCount];
             NSArray *timeComponents = [timeString componentsSeparatedByString:@":"];
@@ -127,7 +132,7 @@
             medicationSlot.time = medicationDateTime;
             //TODO:set for demo purpose since there is no value for medication slot status
             medicationSlot.status = IS_GIVEN;
-            
+
             NSPredicate *datePredicate = [NSPredicate predicateWithFormat:@"scheduledDateTime == %@",medicationDateTime];
             NSArray *resultsArray = [self.administrationDetailsArray filteredArrayUsingPredicate:datePredicate];
             
