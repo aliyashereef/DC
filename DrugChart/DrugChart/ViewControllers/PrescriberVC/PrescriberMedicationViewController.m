@@ -487,12 +487,12 @@ typedef enum : NSUInteger {
 }
 
 
-#pragma mark - administer view tag delegate method called
-- (void)administerMedicationWithMedicationSlots: (NSDictionary *)slotsDictionary
-                                    atIndexPath:(NSIndexPath *)indexPath withWeekDate:(NSDate *) date {
-    
-    [self displayAdministrationViewForMedicationSlot:slotsDictionary atIndexPath:indexPath withWeekDate:date];
-}
+//#pragma mark - administer view tag delegate method called
+//- (void)administerMedicationWithMedicationSlots: (NSDictionary *)slotsDictionary
+//                                    atIndexPath:(NSIndexPath *)indexPath withWeekDate:(NSDate *) date {
+//    
+//    [self displayAdministrationViewForMedicationSlot:slotsDictionary atIndexPath:indexPath withWeekDate:date];
+//}
 
 #pragma mark - DCAddMedicationViewControllerDelegate implementation
 

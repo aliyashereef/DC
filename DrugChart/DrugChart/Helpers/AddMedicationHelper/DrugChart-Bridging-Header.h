@@ -23,5 +23,6 @@
 #import "DCWard.h"
 #import "DCPatientDetailsHelper.h"
 #import "DCWardsGraphicalDisplayViewController.h"
+#import "PrescriberMedicationViewController.h"
 
 

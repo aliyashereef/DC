@@ -10,7 +10,7 @@ import UIKit
 
 let CELL_IDENTIFIER = "prescriberIdentifier"
 
-@objc class DCPrescriberMedicationListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate {
+@objc class DCPrescriberMedicationListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate, DCMedicationAdministrationStatusProtocol {
 
     @IBOutlet var medicationTableView: UITableView?
     var displayMedicationListArray : NSMutableArray = []
@@ -172,6 +172,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             let xValue : CGFloat = CGFloat(tag) * viewWidth + CGFloat(tag) + 1;
             let viewFrame = CGRectMake(xValue, 0, viewWidth, 78.0)
             let statusView : DCMedicationAdministrationStatusView = DCMedicationAdministrationStatusView(frame: viewFrame)
+            statusView.delegate = self
             statusView.tag = tag
             
             statusView.weekdate = currentWeekDatesArray.objectAtIndex(tag) as? NSDate
@@ -210,4 +211,11 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         }
         return medicationSlotsArray
     }
+    
+    //MARK - DCMedicationAdministrationStatusProtocol delegate implementation
+    func administerMedicationWithMedicationSlots (medicationSLotDictionary: NSDictionary, atIndexPath indexPath: NSIndexPath ,withWeekDate date : NSDate) {
+        let parentView : PrescriberMedicationViewController = self.parentViewController as! PrescriberMedicationViewController
+        parentView.displayAdministrationViewForMedicationSlot(medicationSLotDictionary as [NSObject : AnyObject], atIndexPath: indexPath, withWeekDate: date)
+    }
 }
+
