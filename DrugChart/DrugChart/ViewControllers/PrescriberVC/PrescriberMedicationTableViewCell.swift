@@ -49,6 +49,7 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
         
         super.awakeFromNib()
         addPanGestureToMedicationDetailHolderView()
+        addNotifications()
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -64,6 +65,11 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
         //add pan gesture to medication detail holder view
         let panGesture = UIPanGestureRecognizer(target: self, action: Selector("swipeMedicationDetailView:"))
         medicineDetailHolderView.addGestureRecognizer(panGesture)
+    }
+    
+    func addNotifications () {
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("calendarScreenPanned:"), name: kCalendarPanned, object: nil)
     }
     
     func setEditViewButtonNames() {
@@ -83,52 +89,6 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
             self.medicationViewLeadingConstraint.constant = -MEDICATION_VIEW_LEFT_OFFSET;
         } else if (self.medicationViewLeadingConstraint.constant > MEDICATION_VIEW_INITIAL_LEFT_OFFSET) {
             self.medicationViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET;
-        }
-    }
-    
-    
-    
-    // MARK: Action Methods
-    
-    func swipeMedicationDetailView(panGesture : UIPanGestureRecognizer) {
-        
-        //swipe medication view
-        let translate : CGPoint = panGesture.translationInView(self.contentView)
-        let gestureVelocity : CGPoint = panGesture.velocityInView(self)
-        if (gestureVelocity.x > 200.0 || gestureVelocity.x < -200.0) {
-            if ((translate.x < 0) && (medicationViewLeadingConstraint.constant == 0)) { // left swipe
-                UIView.animateWithDuration(ANIMATION_DURATION, animations: {
-                    self.medicationViewLeadingConstraint.constant = -MEDICATION_VIEW_LEFT_OFFSET
-                    self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
-                    self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
-                    self.editButton.setTitle(EDIT_TEXT, forState: UIControlState.Normal)
-                    self.stopButton.setTitle(STOP_TEXT, forState: UIControlState.Normal)
-                    self.layoutIfNeeded()
-                    })
-            } else if ((translate.x > 0) && (self.medicationViewLeadingConstraint.constant == -MEDICATION_VIEW_LEFT_OFFSET)){ //right pan  when edit view is fully visible
-                UIView.animateWithDuration(ANIMATION_DURATION, animations: {
-                    self.medicationViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET
-                    self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
-                    self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
-                    self.layoutIfNeeded()
-                })
-            } else{
-                if (((translate.x < 0) && (self.medicationViewLeadingConstraint.constant > -MEDICATION_VIEW_LEFT_OFFSET)) || ((translate.x > 0) && (self.medicationViewLeadingConstraint.constant < MEDICATION_VIEW_INITIAL_LEFT_OFFSET))) {
-                    //in process of tramslation
-                    dispatch_async(dispatch_get_main_queue(), {
-                        self.medicationViewLeadingConstraint.constant += (gestureVelocity.x / 25.0)
-                        self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
-                        self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
-                        self.setEditViewButtonNames()
-                        self.setMedicationViewFrame()
-                    })
-                }
-            }
-        }
-        
-        if (panGesture.state == UIGestureRecognizerState.Ended) {
-            //All fingers are lifted.
-            adjustMedicationDetailViewOnPanGestureEndWithTranslationPoint(translate)
         }
     }
     
@@ -175,6 +135,51 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
                 self.setMedicationViewFrame()
         })
     }
+
+    
+    // MARK: Action Methods
+    
+    func swipeMedicationDetailView(panGesture : UIPanGestureRecognizer) {
+        
+        //swipe medication view
+        let translate : CGPoint = panGesture.translationInView(self.contentView)
+        let gestureVelocity : CGPoint = panGesture.velocityInView(self)
+        if (gestureVelocity.x > 200.0 || gestureVelocity.x < -200.0) {
+            if ((translate.x < 0) && (medicationViewLeadingConstraint.constant == 0)) { // left swipe
+                UIView.animateWithDuration(ANIMATION_DURATION, animations: {
+                    self.medicationViewLeadingConstraint.constant = -MEDICATION_VIEW_LEFT_OFFSET
+                    self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
+                    self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
+                    self.editButton.setTitle(EDIT_TEXT, forState: UIControlState.Normal)
+                    self.stopButton.setTitle(STOP_TEXT, forState: UIControlState.Normal)
+                    self.layoutIfNeeded()
+                    })
+            } else if ((translate.x > 0) && (self.medicationViewLeadingConstraint.constant == -MEDICATION_VIEW_LEFT_OFFSET)){ //right pan  when edit view is fully visible
+                UIView.animateWithDuration(ANIMATION_DURATION, animations: {
+                    self.medicationViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET
+                    self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
+                    self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
+                    self.layoutIfNeeded()
+                })
+            } else{
+                if (((translate.x < 0) && (self.medicationViewLeadingConstraint.constant > -MEDICATION_VIEW_LEFT_OFFSET)) || ((translate.x > 0) && (self.medicationViewLeadingConstraint.constant < MEDICATION_VIEW_INITIAL_LEFT_OFFSET))) {
+                    //in process of tramslation
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.medicationViewLeadingConstraint.constant += (gestureVelocity.x / 25.0)
+                        self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
+                        self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
+                        self.setEditViewButtonNames()
+                        self.setMedicationViewFrame()
+                    })
+                }
+            }
+        }
+        
+        if (panGesture.state == UIGestureRecognizerState.Ended) {
+            //All fingers are lifted.
+            adjustMedicationDetailViewOnPanGestureEndWithTranslationPoint(translate)
+        }
+    }
     
     func swipeMedicationDetailViewToRight(swipeGesture : UIGestureRecognizer) {
         
@@ -191,6 +196,29 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     
     @IBAction func stopMedicationButtonPressed(sender: AnyObject) {
         
+    }
+    
+    // MARK: Notification Methods
+    
+    func calendarScreenPanned (notification : NSNotification) {
+        
+        print("**** Calendar Pan Action in Table cell")
+        let notificationInfo = notification.userInfo as! [String : CGFloat]?
+        NSLog("notificationInfo is %@", notificationInfo!)
+        if let xTranslation  = notificationInfo?["xPoint"] {
+            NSLog("xTranslation is %f", xTranslation)
+            leadingSpaceMasterToContainerView.constant = leadingSpaceMasterToContainerView.constant + xTranslation;
+            self.layoutIfNeeded()
+        }
+        if let xVelocity : CGFloat = notificationInfo?["xVelocity"] {
+            NSLog("xVelocity is %f", xVelocity)
+        }
+        if let panEnded : CGFloat = notificationInfo?["panEnded"] {
+            NSLog("panEnded is %d", panEnded)
+            if (panEnded == 1) {
+                leadingSpaceMasterToContainerView.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET
+            }
+        }
     }
     
 }

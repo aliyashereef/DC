@@ -25,7 +25,7 @@ import QuartzCore
     
     func setDate( date : NSString ) {
         dateLabel.frame = CGRectMake(0.5,0, 144.4, 50)
-        dateLabel.backgroundColor=UIColor.whiteColor()
+        dateLabel.backgroundColor = UIColor.whiteColor()
         dateLabel.font = UIFont.systemFontOfSize(17)
         dateLabel.textAlignment = .Center
         dateLabel.text = date as String
@@ -48,7 +48,7 @@ import QuartzCore
         dateFormatter.dateFormat = "d"
         let dateString = dateFormatter.stringFromDate(today)
         
-        indicatorLabel.frame = CGRectMake(85,15, 25, 25)
+        indicatorLabel.frame = CGRectMake(79,13, 25, 25)
         indicatorLabel.font = UIFont.systemFontOfSize(17)
         indicatorLabel.textAlignment = .Center
         indicatorLabel.textColor = UIColor.whiteColor()

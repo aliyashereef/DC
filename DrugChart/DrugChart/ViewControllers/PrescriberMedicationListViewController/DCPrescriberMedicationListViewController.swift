@@ -10,7 +10,7 @@ import UIKit
 
 let CELL_IDENTIFIER = "prescriberIdentifier"
 
-@objc class DCPrescriberMedicationListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+@objc class DCPrescriberMedicationListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate {
 
     @IBOutlet var medicationTableView: UITableView?
     var displayMedicationListArray : NSMutableArray = []
@@ -22,9 +22,9 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     }
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        addPanGestureToPrescriberTableView()
     }
 
     override func didReceiveMemoryWarning() {
@@ -58,8 +58,8 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             self.fillInMedicationDetailsInTableCell(medicationCell!, atIndexPath: indexPath)
             let rowDisplayMedicationSlotsArray = self.prepareMedicationSlotsForDisplayInCellFromScheduleDetails(medicationScheduleDetails)
             var index : NSInteger = 0
+
             for ( index = 0; index < rowDisplayMedicationSlotsArray.count; index++) {
-                
                 
                 let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell!, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
                     atIndexPath: indexPath,
@@ -91,10 +91,47 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                 medicationCell.route.text = medicationSchedules.route;
             }
     }
+
+    
+    func addPanGestureToPrescriberTableView () {
+        
+        // add pan gesture to table view
+        let panGesture : UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: Selector("moveMedicationCalendarDisplayForPanGesture:"))
+        medicationTableView?.addGestureRecognizer(panGesture)
+        panGesture.delegate = self
+    }
+    
+    func moveMedicationCalendarDisplayForPanGesture (panGestureRecognizer : UIPanGestureRecognizer) {
+        
+        // translate table view
+        print("Table View swiped");
+      //  let mainWindow = UIApplication.sharedApplication().windows[0]
+        let translation : CGPoint = panGestureRecognizer.translationInView(self.view.superview)
+        NSLog("translation is x : %f y: %f", translation.x, translation.y)
+        let velocity : CGPoint = panGestureRecognizer.velocityInView(self.view)
+        var indexPathArray : [NSIndexPath]? = medicationTableView!.indexPathsForVisibleRows
+        var panEnded = 0
+        if (panGestureRecognizer.state == UIGestureRecognizerState.Began) {
+            //indexPathArray = medicationTableView!.indexPathsForVisibleRows
+            //send trigger to week view class [self positionWeekContainersInView];
+        }
+        if (panGestureRecognizer.state == UIGestureRecognizerState.Ended) {
+            //show activity indicator
+            panEnded = 1
+        }
+        // translate week view [self translateWeekContainerViewsForTranslation:translation];
+        for var count = 0; count < indexPathArray!.count; count++ {
+            let indexPath : NSIndexPath? = indexPathArray?[count]
+            NSLog("IndexPath is %@", indexPath!)
+            let translationDictionary  = ["xPoint" : translation.x, "xVelocity" : velocity.x, "panEnded" : panEnded]
+            NSNotificationCenter.defaultCenter().postNotificationName(kCalendarPanned, object: nil, userInfo: translationDictionary as [NSObject : AnyObject])
+        }
+        panGestureRecognizer.setTranslation(CGPointMake(0, 0), inView: panGestureRecognizer.view)
+    }
     
 //    func addAdministerStatusViewsToTableCell(medicationCell: PrescriberMedicationTableViewCell, forMedicationScheduleDetails medicationSchedule:DCMedicationScheduleDetails,
 //        atIndexPath indexPath:NSIndexPath) {
-//           
+//
 //            // method adds the administration status views to the table cell.
 //            //TODO: UIView instances to be replaced with DCMedicationAdministrationStatusView instances.
 //            var x :CGFloat = 0

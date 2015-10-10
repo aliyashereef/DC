@@ -2058,7 +2058,7 @@
                         <viewControllerLayoutGuide type="top" id="DEd-xN-Yt6"/>
                         <viewControllerLayoutGuide type="bottom" id="TwI-xn-m0D"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="LUc-eo-XCp">
+                    <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="LUc-eo-XCp">
                         <rect key="frame" x="0.0" y="0.0" width="2172" height="50"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" name="controlHighlightColor" catalog="System" colorSpace="catalog"/>
