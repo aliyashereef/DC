@@ -27,10 +27,11 @@ import UIKit
     func setDatesInView( dateArray : NSArray ) {
         
         calculateWeekViewSlotWidth()
+        NSLog("weekViewWidth : %f", weekViewWidth)
         for index in 0...4 {
             
-            let dateX : CGFloat = CGFloat(index) * weekViewWidth + CGFloat(index)
-            let frame : CGRect = CGRectMake(dateX, 0, weekViewWidth, 50)
+            let dateX : CGFloat = CGFloat(index) * weekViewWidth + CGFloat(index) + 1
+            let frame : CGRect = CGRectMake(dateX, 0, weekViewWidth, 49)
             NSLog("WeekView: index : %d dateX : %f", index, dateX)
             let dateView : DCDateView = DCDateView(frame: frame, date: dateArray[index] as! NSString)
             self.addSubview(dateView)

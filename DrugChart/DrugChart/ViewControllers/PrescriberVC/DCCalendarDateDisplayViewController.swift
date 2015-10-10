@@ -33,11 +33,6 @@ import UIKit
     
     func translateCalendarContainerViewsForTranslationParameters(xTranslation: CGFloat, withXVelocity xVelocity:CGFloat, panEndedValue panEnded:Bool) {
         
-        NSLog("***** xTranslation : %f", xTranslation)
-        NSLog("**** xVelocity : %f", xVelocity)
-        NSLog("**** panEnded : %f", panEnded.boolValue)
-        
-        
         let calendarWidth : CGFloat = (DCUtility.getMainWindowSize().width - MEDICATION_VIEW_WIDTH);
         let valueToTranslate = calendarViewLeadingConstraint.constant + xTranslation;
         if (valueToTranslate >= -calendarWidth && valueToTranslate <= calendarWidth) {
