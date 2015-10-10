@@ -7,7 +7,7 @@
 //
 
 #import "DCWardsGraphicalDisplayViewController.h"
-#import "DCPatientMedicationHomeViewController.h"
+#import "PrescriberMedicationViewController.h"
 
 #import "DCPatientGraphicalRepresentationView.h"
 #import "DCPositionableGraphicsView.h"
@@ -44,10 +44,14 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]
+                                   initWithTitle:CANCEL_BUTTON_TITLE style:UIBarButtonItemStylePlain  target:self action:@selector(cancelButtonPressed:)];
+    self.navigationItem.rightBarButtonItem = doneButton;
     [super viewWillAppear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
+    
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
@@ -106,22 +110,20 @@
     return self.wardsGraphicalView;
 }
 
-#pragma mark - Configure Segue for Navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
-    UIViewController *destinationViewController = [segue destinationViewController];
-    if ([destinationViewController isKindOfClass:[DCPatientMedicationHomeViewController class]]) {
-        DCPatientMedicationHomeViewController *patientMedicationHomeViewController = (DCPatientMedicationHomeViewController *)destinationViewController;
-         patientMedicationHomeViewController.patient = selectedPatient;
-    }
-}
-
 #pragma mark - delegate methods
 
 - (void)goToPatientDetailView:(DCPatient *)currentPatient {
     
     selectedPatient = currentPatient;
-    [self performSegueWithIdentifier:GOTO_PATIENT_LIST sender:nil];
+    UIStoryboard *prescriberStoryBoard = [UIStoryboard storyboardWithName:PRESCRIBER_DETAILS_STORYBOARD bundle:nil];
+    PrescriberMedicationViewController *prescriberMedicationViewController = [prescriberStoryBoard instantiateViewControllerWithIdentifier:PRESCRIBER_MEDICATION_SBID];
+    prescriberMedicationViewController.patient = selectedPatient;
+    [self.navigationController pushViewController:prescriberMedicationViewController animated:YES];
+}
+
+- (IBAction)cancelButtonPressed:(id)sender {
+    
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

@@ -10,7 +10,13 @@
 #import "DCAuthorizationViewController.h"
 #import "DCWardsListingViewController.h"
 #import "DCWardWebService.h"
+#import "DCBedsAndPatientsWebService.h"
 #import "DCWard.h"
+#import "DCBed.h"
+#import "DCPatient.h"
+#import "DrugChart-Swift.h"
+#import "DCPatientDetailsHelper.h"
+
 
 @interface DCInitialViewController () <DCAuthorizationViewControllerDelegate> {
     
@@ -18,6 +24,9 @@
     DCAuthorizationViewController *authorizationViewController;
     BOOL isDismissActionForLogin;
     NSMutableArray *wardsArray;
+    NSMutableArray *patientsListArray;
+    NSMutableArray *sortedPatientsListArray;
+
 }
 
 @end
@@ -47,10 +56,14 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
     UIViewController *destinationViewController = [segue destinationViewController];
-    if ([destinationViewController isKindOfClass:[DCWardsListingViewController class]]) {
+    if ([destinationViewController isKindOfClass:[DCPatientListingViewController class]]) {
         
-        DCWardsListingViewController *wardsListViewController = (DCWardsListingViewController *)destinationViewController;
-        wardsListViewController.wardsListArray = wardsArray;
+        DCPatientListingViewController *listViewController = (DCPatientListingViewController *)destinationViewController;
+        listViewController.sortedPatientListArray = sortedPatientsListArray;
+        listViewController.patientListArray = patientsListArray;
+        listViewController.wardsListArray = wardsArray;
+        DCWard *initialWard = [wardsArray objectAtIndex:0];
+        listViewController.viewTitle = initialWard.wardName;
     }
 }
 
@@ -71,13 +84,12 @@
     });
 }
 
-- (void)fetchAllWardsForUser {
+- (void)fetchAllWardsForUserwithCallBackHandler:(void (^)(NSError *error))callBackHandler {
     
     DCWardWebService *wardsWebService = [[DCWardWebService alloc] init];
     [activityIndicator startAnimating];
     [wardsWebService getAllWardsForUser:nil withCallBackHandler:^(id response, NSError *error) {
         [activityIndicator stopAnimating];
-        DCDebugLog(@"the wards web response: %@", response);
         if (!error) {
             NSArray *responseArray = [NSMutableArray arrayWithArray:response];
             wardsArray = [[NSMutableArray alloc] init];
@@ -85,18 +97,15 @@
                 DCWard *ward = [[DCWard alloc] initWithDicitonary:wardsDictionary];
                 [wardsArray addObject:ward];
             }
-            if ([wardsArray count] > 0) {
-                DCDebugLog(@"the wards list array: %@", wardsArray);
-                if ([wardsArray count] == 1) {
-                    DCDebugLog(@"Single ward available");
-                    [self performSegueWithIdentifier:SHOW_PATIENT_LIST_FROM_INITIAL_VIEW sender:nil];
-                } else {
-                    [self performSegueWithIdentifier:WARDS_SEGUE_ID sender:nil];
+            DCPatientDetailsHelper *helper = [[DCPatientDetailsHelper alloc] init];
+            [helper fetchPatientsInWard:[wardsArray objectAtIndex:0] ToGetPatientListwithCallBackHandler:^(NSError *error, NSArray *patientsArray) {
+                if (!error) {
+                    patientsListArray = [NSMutableArray arrayWithArray:patientsArray];
+                    callBackHandler(nil);
                 }
-            } else {
-                [self displayAlertWithTitle:NSLocalizedString(@"WARNING", @"") message:NSLocalizedString(@"NO_WARDS_MESSAGE", @"No wards message")];
-            }
+            }];
         } else {
+        
             if (error.code == NETWORK_NOT_REACHABLE) {
                 [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"") message:NSLocalizedString(@"INTERNET_CONNECTION_ERROR", @"")];
             } else if (error.code == WEBSERVICE_UNAVAILABLE) {
@@ -106,6 +115,7 @@
             } else {
                 [self displayAlertWithTitle:NSLocalizedString(@"WARNING", @"") message:NSLocalizedString(@"NO_WARDS_MESSAGE", @"No wards message")];
             }
+            callBackHandler(error);
         }
         [authorizationViewController dismissViewControllerAnimated:YES completion:nil];
     }];
@@ -118,7 +128,15 @@
     
     isDismissActionForLogin = YES;
     if ([DCAPPDELEGATE isNetworkReachable]) {
-        [self fetchAllWardsForUser];
+        [self fetchAllWardsForUserwithCallBackHandler:^(NSError *error) {
+            if(!error){
+                DCPatientDetailsHelper *helper = [[DCPatientDetailsHelper alloc] init];
+                sortedPatientsListArray = (NSMutableArray *)[helper categorizePatientListBasedOnEmergency:patientsListArray];
+                [self performSegueWithIdentifier:WARDS_SEGUE_ID sender:nil];
+            } else {
+                
+            }
+        }];
     }
     [authorizationViewController dismissViewControllerAnimated:YES completion:nil];
 }
