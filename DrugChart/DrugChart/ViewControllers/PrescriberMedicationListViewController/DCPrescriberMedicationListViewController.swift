@@ -10,11 +10,17 @@ import UIKit
 
 let CELL_IDENTIFIER = "prescriberIdentifier"
 
+@objc protocol PrescriberListDelegate {
+    
+    func prescriberTableViewPannedWithTranslationParameters(xPoint : CGFloat, xVelocity : CGFloat, panEnded : Bool)
+}
+
 @objc class DCPrescriberMedicationListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate {
 
     @IBOutlet var medicationTableView: UITableView?
     var displayMedicationListArray : NSMutableArray = []
     var currentWeekDatesArray : NSMutableArray = []
+    var delegate : PrescriberListDelegate?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -103,6 +109,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         
         // translate table view
         print("Table View swiped");
+       
         let translation : CGPoint = panGestureRecognizer.translationInView(self.view.superview)
         let velocity : CGPoint = panGestureRecognizer.velocityInView(self.view)
         let indexPathArray : [NSIndexPath]? = medicationTableView!.indexPathsForVisibleRows
@@ -120,6 +127,9 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         for var count = 0; count < indexPathArray!.count; count++ {
             let translationDictionary  = ["xPoint" : translation.x, "xVelocity" : velocity.x, "panEnded" : panEnded]
             NSNotificationCenter.defaultCenter().postNotificationName(kCalendarPanned, object: nil, userInfo: translationDictionary as [NSObject : AnyObject])
+            if let delegate = self.delegate {
+                delegate.prescriberTableViewPannedWithTranslationParameters(translation.x, xVelocity : velocity.x, panEnded: panEnded)
+            }
         }
         panGestureRecognizer.setTranslation(CGPointMake(0, 0), inView: panGestureRecognizer.view)
     }
