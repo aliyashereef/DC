@@ -17,7 +17,7 @@ let DUE_AT_FONT_COLOR               =   UIColor.getColorForHexString("#404040")
 let OVERDUE_FONT_COLOR              =   UIColor.getColorForHexString("#ff8972") // get exact color for display
 let DUE_NOW_FONT_COLOR              =   UIColor.whiteColor()
 
-@objc protocol DCMedicationAdministrationStatusProtocol:class {
+protocol DCMedicationAdministrationStatusProtocol:class {
     
     func administerMedicationWithMedicationSlots (medicationSLotDictionary: NSDictionary, atIndexPath indexPath: NSIndexPath ,withWeekDate date : NSDate)
 }
