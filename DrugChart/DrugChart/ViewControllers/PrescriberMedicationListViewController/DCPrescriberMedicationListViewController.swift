@@ -53,8 +53,6 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                 medicationCell = PrescriberMedicationTableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: CELL_IDENTIFIER)
             }
             let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
-            print("the medicine is: %@", medicationScheduleDetails.name)
-            
             self.fillInMedicationDetailsInTableCell(medicationCell!, atIndexPath: indexPath)
             let rowDisplayMedicationSlotsArray = self.prepareMedicationSlotsForDisplayInCellFromScheduleDetails(medicationScheduleDetails)
             var index : NSInteger = 0
@@ -105,24 +103,21 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         
         // translate table view
         print("Table View swiped");
-      //  let mainWindow = UIApplication.sharedApplication().windows[0]
         let translation : CGPoint = panGestureRecognizer.translationInView(self.view.superview)
-        NSLog("translation is x : %f y: %f", translation.x, translation.y)
         let velocity : CGPoint = panGestureRecognizer.velocityInView(self.view)
-        var indexPathArray : [NSIndexPath]? = medicationTableView!.indexPathsForVisibleRows
-        var panEnded = 0
+        let indexPathArray : [NSIndexPath]? = medicationTableView!.indexPathsForVisibleRows
+        var panEnded = false
         if (panGestureRecognizer.state == UIGestureRecognizerState.Began) {
             //indexPathArray = medicationTableView!.indexPathsForVisibleRows
             //send trigger to week view class [self positionWeekContainersInView];
         }
         if (panGestureRecognizer.state == UIGestureRecognizerState.Ended) {
             //show activity indicator
-            panEnded = 1
+            print("Pan Ended")
+            panEnded = true
         }
         // translate week view [self translateWeekContainerViewsForTranslation:translation];
         for var count = 0; count < indexPathArray!.count; count++ {
-            let indexPath : NSIndexPath? = indexPathArray?[count]
-            NSLog("IndexPath is %@", indexPath!)
             let translationDictionary  = ["xPoint" : translation.x, "xVelocity" : velocity.x, "panEnded" : panEnded]
             NSNotificationCenter.defaultCenter().postNotificationName(kCalendarPanned, object: nil, userInfo: translationDictionary as [NSObject : AnyObject])
         }
