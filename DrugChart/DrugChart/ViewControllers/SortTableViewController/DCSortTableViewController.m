@@ -119,7 +119,7 @@
 - (void)populateContentArray {
     
     if (_sortView == eCalendarView) {
-        contentArray = @[@[INCLUDE_DISCONTINUED], @[DRUG_TYPE, START_DATE_ORDER, ALPHABETICAL_ORDER]];
+        contentArray = @[@[INCLUDE_DISCONTINUED], @[START_DATE_ORDER, ALPHABETICAL_ORDER]];
     } else {
         contentArray = @[NAME, DATE];
     }
