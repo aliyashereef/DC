@@ -53,14 +53,17 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     func configureViewElements () {
         
         self.navigationController?.navigationBarHidden = true
+        slotToAdminister = DCMedicationSlot.init()
         if (medicationSlotsArray.count > 0) {
-            slotToAdminister = DCUtility.getNearestMedicationSlotToBeAdministeredFromSlotsArray(medicationSlotsArray);
-//            for slot : DCMedicationSlot? in medicationSlotsArray {
-//                if (slot?.medicationAdministration?.status == nil) {
-//                    slotToAdminister = slot
-//                    break
-//                }
-//            }
+            //slotToAdminister = DCUtility.getNearestMedicationSlotToBeAdministeredFromSlotsArray(medicationSlotsArray);
+            for slot : DCMedicationSlot in medicationSlotsArray {
+                if (slot.medicationAdministration?.status == nil) {
+                    slotToAdminister = slot
+                    break
+                } else {
+                    NSLog("slot status is %@", (slot.medicationAdministration?.status)!)
+                }
+            }
             let error = getAdministerViewErrorMessage() as String?
             if (error == NSLocalizedString("ALREADY_ADMINISTERED", comment: "")) {
                 segmentedControl.selectedSegmentIndex = MEDICATION_HISTORY_SEGMENT_INDEX;
@@ -80,7 +83,11 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
             let lastMedicationSlot : DCMedicationSlot = medicationSlotsArray.last!
             let currentSystemDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
             if (lastMedicationSlot.time.compare(currentSystemDate) == NSComparisonResult.OrderedDescending) {
-                errorMessage = NSLocalizedString("ADMINISTER_LATER", comment: "medication to be administered later")
+                if (lastMedicationSlot.medicationAdministration == nil) {
+                    errorMessage = NSLocalizedString("ADMINISTER_LATER", comment: "medication to be administered later")
+                } else {
+                    errorMessage = NSLocalizedString("ALREADY_ADMINISTERED", comment: "medications are already administered")
+                }
             } else if (lastMedicationSlot.time.compare(currentSystemDate) == NSComparisonResult.OrderedAscending) {
                 //check if all medications are adimistered
                 if (lastMedicationSlot.medicationAdministration != nil) {
@@ -102,7 +109,8 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
             administerViewController = administerStoryboard!.instantiateViewControllerWithIdentifier(ADMINISTER_STORYBOARD_ID) as? DCAdministerViewController
             administerViewController?.medicationSlot = slotToAdminister
             administerViewController?.weekDate = weekDate
-            if (slotToAdminister == nil) {
+            NSLog( "slotToAdminister %@", slotToAdminister!)
+            if (slotToAdminister?.status == nil) {
                 let errorMessage : String = getAdministerViewErrorMessage() as String
                 administerViewController?.alertMessage = errorMessage
                 doneButton.enabled = false
@@ -112,7 +120,17 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
                 }
             }
             administerViewController?.medicationDetails = medicationDetails
-            administerViewController?.medicationSlotsArray = medicationSlotsArray
+            var medicationArray : [DCMedicationSlot] = [DCMedicationSlot]()
+            if let toAdministerArray : [DCMedicationSlot] = medicationSlotsArray {
+                var slotCount = 0
+                for slot : DCMedicationSlot in toAdministerArray {
+                    if (slot.medicationAdministration?.status == nil || slot.medicationAdministration.actualAdministrationTime == nil) {
+                        medicationArray.insert(slot, atIndex: slotCount)
+                        slotCount++
+                    }
+                }
+            }
+            administerViewController?.medicationSlotsArray = medicationArray
             self.addChildViewController(administerViewController!)
             administerViewController!.view.frame = containerView.bounds
             containerView.addSubview((administerViewController?.view)!)
