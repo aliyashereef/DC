@@ -260,6 +260,7 @@ typedef enum : NSUInteger {
                                 if (prescriberMedicationListViewController) {
                                     [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
                                     prescriberMedicationListViewController.currentWeekDatesArray = currentWeekDatesArray;
+                                    NSLog(@"**** currentWeekDatesArray is %@", currentWeekDatesArray);
                                 }
                                 [medicationListHolderView setHidden:NO];
                                 [calendarDaysDisplayView setHidden:NO];

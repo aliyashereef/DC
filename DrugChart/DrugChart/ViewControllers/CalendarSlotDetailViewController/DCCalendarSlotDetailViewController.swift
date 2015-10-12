@@ -76,7 +76,10 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
             if (lastMedicationSlot.time.compare(currentSystemDate) == NSComparisonResult.OrderedDescending) {
                 errorMessage = NSLocalizedString("ADMINISTER_LATER", comment: "medication to be administered later")
             } else if (lastMedicationSlot.time.compare(currentSystemDate) == NSComparisonResult.OrderedAscending) {
-                errorMessage = NSLocalizedString("ALREADY_ADMINISTERED", comment: "medications are already administered")
+                //check if all medications are adimistered
+                if (lastMedicationSlot.medicationAdministration != nil) {
+                    errorMessage = NSLocalizedString("ALREADY_ADMINISTERED", comment: "medications are already administered")
+                }
             }
         } else {
             errorMessage = NSLocalizedString("NO_ADMINISTRATION_TODAY", comment: "no medication slots today")
@@ -121,7 +124,17 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
             medicationHistoryViewController?.medicationSlot = slotToAdminister
             medicationHistoryViewController?.weekDate = weekDate
             medicationHistoryViewController?.medicationDetails = medicationDetails
-            medicationHistoryViewController?.medicationSlotArray = medicationSlotsArray
+            var medicationArray : [DCMedicationSlot] = [DCMedicationSlot]()
+            if let historyArray : [DCMedicationSlot] = medicationSlotsArray {
+                var slotCount = 0
+                for slot : DCMedicationSlot in historyArray {
+                    if (slot.medicationAdministration?.status != nil && slot.medicationAdministration.actualAdministrationTime != nil) {
+                        medicationArray.insert(slot, atIndex: slotCount)
+                        slotCount++
+                    }
+                }
+            }
+            medicationHistoryViewController?.medicationSlotArray = medicationArray
             self.addChildViewController(medicationHistoryViewController!)
             medicationHistoryViewController!.view.frame = containerView.bounds
             containerView.addSubview((medicationHistoryViewController?.view)!)
