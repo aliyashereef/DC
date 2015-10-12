@@ -90,7 +90,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
                 }
             } else if (lastMedicationSlot.time.compare(currentSystemDate) == NSComparisonResult.OrderedAscending) {
                 //check if all medications are adimistered
-                if (lastMedicationSlot.medicationAdministration != nil) {
+                if (lastMedicationSlot.medicationAdministration?.actualAdministrationTime != nil) {
                     errorMessage = NSLocalizedString("ALREADY_ADMINISTERED", comment: "medications are already administered")
                 }
             }
