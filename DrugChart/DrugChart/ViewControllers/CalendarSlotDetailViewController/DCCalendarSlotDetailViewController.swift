@@ -109,7 +109,6 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
             administerViewController = administerStoryboard!.instantiateViewControllerWithIdentifier(ADMINISTER_STORYBOARD_ID) as? DCAdministerViewController
             administerViewController?.medicationSlot = slotToAdminister
             administerViewController?.weekDate = weekDate
-            NSLog( "slotToAdminister %@", slotToAdminister!)
             if (slotToAdminister?.status == nil) {
                 let errorMessage : String = getAdministerViewErrorMessage() as String
                 administerViewController?.alertMessage = errorMessage
