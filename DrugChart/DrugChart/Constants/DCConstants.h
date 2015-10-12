@@ -28,6 +28,7 @@
 
 //string values
 #define EMPTY_STRING @""
+#define BLANK_TEXT @" - "
 #define COMMA @","
 #define DOT @"."
 #define COLON @":"
