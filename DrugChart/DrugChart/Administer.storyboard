@@ -1160,7 +1160,7 @@
                                     <constraint firstAttribute="trailing" secondItem="O0Z-jC-VZK" secondAttribute="trailing" constant="15" id="KXv-U4-z8e"/>
                                     <constraint firstAttribute="bottom" secondItem="O0Z-jC-VZK" secondAttribute="bottom" constant="23" id="ONQ-ay-LQJ"/>
                                     <constraint firstItem="vx0-ja-ki6" firstAttribute="top" secondItem="TuN-Yk-ksi" secondAttribute="top" constant="12" id="PNu-QC-4WX"/>
-                                    <constraint firstItem="2aa-6w-ySx" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="vx0-ja-ki6" secondAttribute="trailing" priority="750" constant="20" id="QfT-Rm-3A0"/>
+                                    <constraint firstItem="2aa-6w-ySx" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="vx0-ja-ki6" secondAttribute="trailing" constant="20" id="QfT-Rm-3A0"/>
                                     <constraint firstAttribute="trailing" secondItem="2aa-6w-ySx" secondAttribute="trailing" constant="8" id="alz-hj-UXQ"/>
                                     <constraint firstItem="vx0-ja-ki6" firstAttribute="leading" secondItem="TuN-Yk-ksi" secondAttribute="leading" constant="15" id="ita-ke-iZw"/>
                                     <constraint firstItem="2aa-6w-ySx" firstAttribute="top" secondItem="TuN-Yk-ksi" secondAttribute="top" constant="18" id="kez-VM-VGq"/>
