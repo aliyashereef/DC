@@ -154,17 +154,25 @@ class DCMedicationAdministrationStatusView: UIView {
     func updateCurrentDayStatusViewWithAdministrationCount(administrationCount administeredCount: NSInteger, omittedRefusalCount : NSInteger) {
         
         let nearestSlot : DCMedicationSlot? = DCUtility.getNearestMedicationSlotToBeAdministeredFromSlotsArray(timeArray as [AnyObject]);
-        if (nearestSlot != nil) {
-            if (nearestSlot!.medicationAdministration == nil) {
+        if (nearestSlot != nil /*&& nearestSlot?.medicationAdministration == nil*/) {
+            if (nearestSlot?.medicationAdministration == nil) {
                 // get date string from the nearest slot time
                 let dueTime = DCDateUtility.convertDate(nearestSlot!.time, fromFormat: DEFAULT_DATE_FORMAT, toFormat: TWENTYFOUR_HOUR_FORMAT)
                 adjustStatusLabelAndImageViewForCurrentDay()
                 //Populate due label
                 statusIcon?.image = ADMINISTRATION_DUE_IMAGE
                 statusLabel?.text = String(format: "Due at %@", dueTime)
+            } else {
+                if ((administeredCount == timeArray.count) || (administeredCount + omittedRefusalCount == timeArray.count)) {
+                    // all administered, so indicate area with tick mark
+                    statusLabel?.hidden = true
+                    statusIcon?.hidden = false
+                    statusIcon!.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
+                    statusIcon?.image = (administeredCount == timeArray.count) ? ADMINISTRATION_SUCCESS_IMAGE : ADMINISTRATION_FAILURE_IMAGE
+                }
             }
         } else {
-            if (administeredCount == timeArray.count || administeredCount + omittedRefusalCount == timeArray.count) {
+            if ((administeredCount == timeArray.count) || (administeredCount + omittedRefusalCount == timeArray.count)) {
                 // all administered, so indicate area with tick mark
                 statusLabel?.hidden = true
                 statusIcon?.hidden = false

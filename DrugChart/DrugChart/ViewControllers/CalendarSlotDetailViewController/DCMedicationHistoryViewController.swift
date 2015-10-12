@@ -73,6 +73,7 @@ func configureMedicationDetails () {
     
     // configuring the administered medication status display for the patient.
     func configureAdministeredCellAtIndexPathWithMedicationSlot (indexPath : NSIndexPath ,medication : DCMedicationSlot) -> AnyObject {
+        
         var cell = medicationHistoryTableView.dequeueReusableCellWithIdentifier(ADMINSTER_MEDICATION_HISTORY_CELL) as? DCAdminsteredMedicationCell
         if cell == nil {
             cell = DCAdminsteredMedicationCell(style: UITableViewCellStyle.Value1, reuseIdentifier: ADMINSTER_MEDICATION_HISTORY_CELL)
@@ -85,7 +86,7 @@ func configureMedicationDetails () {
         case 1:
             cell!.contentType.text = ADMINISTRATED_BY
             let administratedBy : String
-            if let name = medicationSlot?.medicationAdministration.administratingUser.displayName {
+            if let name = medicationSlot?.medicationAdministration?.administratingUser?.displayName {
                 administratedBy = name
             } else {
                 administratedBy = "Julia Antony"
@@ -95,7 +96,7 @@ func configureMedicationDetails () {
         case 2:
             cell!.contentType.text = DATE_TIME
             let dateString : String
-            if let date = medicationSlot?.medicationAdministration.actualAdministrationTime {
+            if let date = medicationSlot?.medicationAdministration?.actualAdministrationTime {
                 dateString = DCDateUtility.convertDate(DCDateUtility.getDateInCurrentTimeZone(date), fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
             } else {
                 dateString = DCDateUtility.convertDate(weekDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
@@ -105,7 +106,7 @@ func configureMedicationDetails () {
         case 3:
             cell!.contentType.text = CHECKED_BY
             let checkedBy : String
-            if let name = medicationSlot?.medicationAdministration.checkingUser.displayName {
+            if let name = medicationSlot?.medicationAdministration?.checkingUser?.displayName {
                 checkedBy = name
             } else {
                 checkedBy = "Andrea Thomas"
@@ -225,11 +226,11 @@ func configureMedicationDetails () {
     func getNumberOfRowsFromMedicationSlotArray( medication : DCMedicationSlot) -> Int {
         var rowCount : Int
         if let medicationValue : DCMedicationSlot = medication {
-            if medicationValue.status == IS_GIVEN {
+            if medicationValue.medicationAdministration?.status == IS_GIVEN {
                 rowCount = 6
-            } else if medicationValue.status == OMITTED {
+            } else if medicationValue.medicationAdministration?.status == OMITTED {
                 rowCount = 2
-            } else if medicationValue.status == REFUSED {
+            } else if medicationValue.medicationAdministration?.status == REFUSED {
                 rowCount = 3
             } else {
                 rowCount = 0
@@ -269,12 +270,36 @@ func configureMedicationDetails () {
         if cell == nil {
             cell = DCAdminsteredMedicationCell(style: UITableViewCellStyle.Value1, reuseIdentifier: ADMINSTER_MEDICATION_HISTORY_CELL)
         }
+//<<<<<<< HEAD
+//        if indexPath.section == 0 {
+//            switch (indexPath.row) {
+//            case 0:
+//                let dateString : String
+//                if let date = medicationSlot?.time {
+//                    dateString = DCDateUtility.convertDate(date, fromFormat: DEFAULT_DATE_FORMAT, toFormat: "d LLLL yyyy")
+//                } else {
+//                    dateString = DCDateUtility.convertDate(weekDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: "d LLLL yyyy")
+//                }
+//                cell!.contentType.text = dateString
+//                cell!.value.text = EMPTY_STRING
+//                cell!.layoutMargins = UIEdgeInsetsZero
+//                break
+//            case 1:
+//                
+//                return configureMedicationDetailsCellAtIndexPath(indexPath)
+//            default:
+//                break
+//            }
+//        } else {
+//            let medication : DCMedicationSlot = medicationSlotArray[indexPath.section-1]
+//            if medication.medicationAdministration?.status == IS_GIVEN {
+//=======
         let medication : DCMedicationSlot = medicationSlotArray[indexPath.section]
             if medication.status == IS_GIVEN {
                 return configureAdministeredCellAtIndexPathWithMedicationSlot(indexPath, medication: medication) as! UITableViewCell
-            } else if medication.status == REFUSED {
+            } else if medication.medicationAdministration?.status == REFUSED {
                 return configureRefusedCellAtIndexPathForMedicationDetails(indexPath, medication: medication) as! UITableViewCell
-            } else if medication.status == OMITTED {
+            } else if medication.medicationAdministration?.status == OMITTED {
                 return configureOmittedCellAtIndexPathForMedicationDetails(indexPath, medication: medication) as! UITableViewCell
             }
         return cell!
@@ -282,6 +307,13 @@ func configureMedicationDetails () {
     
     // MARK: Header View Methods
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
+//        if(section == 0) {
+//            return 0
+//        } else {
+//            let medication : DCMedicationSlot = medicationSlotArray[section-1]
+//            return (medication.medicationAdministration?.status != nil) ? 40.0 : 0.0
+//        }
         return 40.0
     }
     
@@ -289,22 +321,23 @@ func configureMedicationDetails () {
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = self.instanceFromNib()
         let medication : DCMedicationSlot = medicationSlotArray[section]
-        if medication.status == IS_GIVEN {
-            headerView.medicationStatusImageView.image = UIImage(named :ADMINISTRATION_HISTORY_TICK_IMAGE)
-        } else if medication.status == OMITTED {
+        if medication.medicationAdministration?.status == IS_GIVEN {
+        headerView.medicationStatusImageView.image = UIImage(named :ADMINISTRATION_HISTORY_TICK_IMAGE)
+        } else if medication.medicationAdministration?.status == OMITTED {
             headerView.medicationStatusImageView.image = UIImage(named :ADMINISTRATION_HISTORY_CAUTION_IMAGE)
-        } else if medication.status == REFUSED {
+        } else if medication.medicationAdministration?.status == REFUSED {
             headerView.medicationStatusImageView.image = UIImage(named :ADMINISTRATION_HISTORY_CLOSE_IMAGE)
         }
-        if let time : NSDate = medication.time {
-            headerView.administratingTime.text = DCDateUtility.convertDate(time, fromFormat: DEFAULT_DATE_FORMAT, toFormat: TWENTYFOUR_HOUR_FORMAT);
-        } else  {
-            
+        if medication.medicationAdministration?.status != nil {
+            if let time : NSDate = medication.time {
+                let header = UIView(frame: CGRectMake(0, 0, 100,40))
+                headerView.backgroundColor = UIColor(red: 239.0/255.0, green: 239.0/255.0, blue: 244.0/255.0, alpha: 1.0)
+                header.addSubview(headerView)
+                headerView.administratingTime.text = DCDateUtility.convertDate(time, fromFormat: DEFAULT_DATE_FORMAT, toFormat: TWENTYFOUR_HOUR_FORMAT);
+                return header
+            }
         }
-        let header = UIView(frame: CGRectMake(0, 0, 100,40))
-        headerView.backgroundColor = UIColor(red: 239.0/255.0, green: 239.0/255.0, blue: 244.0/255.0, alpha: 1.0)
-        header.addSubview(headerView)
-        return header
+        return nil
     }
     
     // On taping more button in the cell,it gets expanded closing all othe expanded cells.

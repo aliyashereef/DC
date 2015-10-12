@@ -326,7 +326,7 @@
         }
         DCDateTableViewCell *tableCell = (DCDateTableViewCell *)[medicationDetailsTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:endDateIndexPath.row - 1 inSection:endDateIndexPath.section]];
         [tableCell.noEndDateSwitch setUserInteractionEnabled:NO];
-        [self performSelector:@selector(insertEndDateCellAfterDelay) withObject:nil afterDelay:0.06];
+        [self performSelector:@selector(insertEndDateCellAfterDelay) withObject:nil afterDelay:0.1];
     }
 }
 
@@ -778,7 +778,7 @@
     
     selectedMedication.startDate = EMPTY_STRING;
     selectedMedication.endDate = EMPTY_STRING;
-    selectedMedication.noEndDate = NO;
+    selectedMedication.noEndDate = YES;
     selectedMedication.timeArray = [NSMutableArray arrayWithArray:@[]];
 }
 

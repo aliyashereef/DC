@@ -260,6 +260,7 @@ typedef enum : NSUInteger {
                                 if (prescriberMedicationListViewController) {
                                     [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
                                     prescriberMedicationListViewController.currentWeekDatesArray = currentWeekDatesArray;
+                                    NSLog(@"**** currentWeekDatesArray is %@", currentWeekDatesArray);
                                 }
                                 [medicationListHolderView setHidden:NO];
                                 [calendarDaysDisplayView setHidden:NO];
@@ -461,7 +462,7 @@ typedef enum : NSUInteger {
     UINavigationController *navigationController =
     [[UINavigationController alloc] initWithRootViewController:sortViewController];
     popOverController = [[UIPopoverController alloc] initWithContentViewController:navigationController];
-    popOverController.popoverContentSize = CGSizeMake(305, 260);
+    popOverController.popoverContentSize = CGSizeMake(305, 200);
     [popOverController presentPopoverFromBarButtonItem:sender
                               permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     sortViewController.criteria = ^ (NSString * type) {
