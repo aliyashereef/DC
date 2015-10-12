@@ -59,15 +59,15 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oBB-Ry-QUf">
                                 <rect key="frame" x="0.0" y="64" width="600" height="50"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WtI-jf-YNS">
-                                        <rect key="frame" x="300" y="0.0" width="300" height="50"/>
+                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WtI-jf-YNS">
+                                        <rect key="frame" x="300" y="0.0" width="300" height="49"/>
                                         <color key="backgroundColor" red="0.88235294119999996" green="0.90588235289999997" blue="0.91764705879999997" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8id-G8-fHA">
-                                        <rect key="frame" x="0.0" y="0.0" width="300" height="50"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="300" height="49"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="October 2015" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Znt-9r-lTE" userLabel="October 2015">
-                                                <rect key="frame" x="0.0" y="0.0" width="300" height="50"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="300" height="49"/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="22"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -87,8 +87,8 @@
                                 <constraints>
                                     <constraint firstItem="WtI-jf-YNS" firstAttribute="leading" secondItem="8id-G8-fHA" secondAttribute="trailing" id="6zw-NG-QjK"/>
                                     <constraint firstItem="8id-G8-fHA" firstAttribute="leading" secondItem="oBB-Ry-QUf" secondAttribute="leading" id="A7I-oD-Snx"/>
-                                    <constraint firstAttribute="bottom" secondItem="8id-G8-fHA" secondAttribute="bottom" id="E0v-zw-d7t"/>
-                                    <constraint firstAttribute="bottom" secondItem="WtI-jf-YNS" secondAttribute="bottom" id="R65-gI-RhD"/>
+                                    <constraint firstAttribute="bottom" secondItem="8id-G8-fHA" secondAttribute="bottom" constant="1" id="E0v-zw-d7t"/>
+                                    <constraint firstAttribute="bottom" secondItem="WtI-jf-YNS" secondAttribute="bottom" constant="1" id="R65-gI-RhD"/>
                                     <constraint firstAttribute="height" constant="50" id="Rvd-4W-UBl"/>
                                     <constraint firstAttribute="trailing" secondItem="WtI-jf-YNS" secondAttribute="trailing" id="cVI-D3-Qgs"/>
                                     <constraint firstItem="8id-G8-fHA" firstAttribute="top" secondItem="oBB-Ry-QUf" secondAttribute="top" id="jMN-LB-RhY"/>
@@ -197,7 +197,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="separatorColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="prescriberIdentifier" id="80f-Eu-I6w" customClass="PrescriberMedicationTableViewCell" customModule="DrugChart" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="prescriberIdentifier" id="80f-Eu-I6w" customClass="PrescriberMedicationTableViewCell" customModule="DrugChart" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="600" height="78"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="80f-Eu-I6w" id="TSV-Io-nZ2">
