@@ -83,7 +83,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
             let lastMedicationSlot : DCMedicationSlot = medicationSlotsArray.last!
             let currentSystemDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
             if (lastMedicationSlot.time.compare(currentSystemDate) == NSComparisonResult.OrderedDescending) {
-                if (lastMedicationSlot.medicationAdministration == nil) {
+                if (lastMedicationSlot.medicationAdministration?.actualAdministrationTime == nil) {
                     errorMessage = NSLocalizedString("ADMINISTER_LATER", comment: "medication to be administered later")
                 } else {
                     errorMessage = NSLocalizedString("ALREADY_ADMINISTERED", comment: "medications are already administered")
