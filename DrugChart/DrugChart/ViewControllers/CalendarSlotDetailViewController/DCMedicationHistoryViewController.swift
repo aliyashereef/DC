@@ -86,7 +86,7 @@ func configureMedicationDetails () {
         case 1:
             cell!.contentType.text = ADMINISTRATED_BY
             let administratedBy : String
-            if let name = medicationSlot?.medicationAdministration.administratingUser.displayName {
+            if let name = medicationSlot?.medicationAdministration?.administratingUser?.displayName {
                 administratedBy = name
             } else {
                 administratedBy = "Julia Antony"
@@ -96,7 +96,7 @@ func configureMedicationDetails () {
         case 2:
             cell!.contentType.text = DATE_TIME
             let dateString : String
-            if let date = medicationSlot?.medicationAdministration.actualAdministrationTime {
+            if let date = medicationSlot?.medicationAdministration?.actualAdministrationTime {
                 dateString = DCDateUtility.convertDate(DCDateUtility.getDateInCurrentTimeZone(date), fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
             } else {
                 dateString = DCDateUtility.convertDate(weekDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
@@ -106,7 +106,7 @@ func configureMedicationDetails () {
         case 3:
             cell!.contentType.text = CHECKED_BY
             let checkedBy : String
-            if let name = medicationSlot?.medicationAdministration.checkingUser.displayName {
+            if let name = medicationSlot?.medicationAdministration?.checkingUser?.displayName {
                 checkedBy = name
             } else {
                 checkedBy = "Andrea Thomas"
