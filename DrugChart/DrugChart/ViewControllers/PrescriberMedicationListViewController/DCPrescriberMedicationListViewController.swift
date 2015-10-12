@@ -131,10 +131,9 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         let indexPathArray : [NSIndexPath]? = medicationTableView!.indexPathsForVisibleRows
         var panEnded = false
         if (panGestureRecognizer.state == UIGestureRecognizerState.Ended) {
-            print("Pan Ended")
             panEnded = true
         }
-        // translate week view [self translateWeekContainerViewsForTranslation:translation];
+        // translate week view 
         for var count = 0; count < indexPathArray!.count; count++ {
             let translationDictionary  = ["xPoint" : translation.x, "xVelocity" : velocity.x, "panEnded" : panEnded]
             NSNotificationCenter.defaultCenter().postNotificationName(kCalendarPanned, object: nil, userInfo: translationDictionary as [NSObject : AnyObject])

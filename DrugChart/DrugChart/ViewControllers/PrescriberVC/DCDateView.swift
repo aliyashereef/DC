@@ -25,11 +25,12 @@ import QuartzCore
     }
     
     func setDate( date : NSString ) {
-        dateLabel.frame = CGRectMake(0,0, 144, 50)
+        dateLabel.frame = CGRectMake(0,0, 144, 49)
         //dateLabel.backgroundColor = UIColor.whiteColor()
         dateLabel.font = UIFont.systemFontOfSize(17)
         dateLabel.textAlignment = .Center
         dateLabel.text = date as String
+        NSLog("date : %@", date)
         self.addSubview(dateLabel)
         let today : NSDate = NSDate()
         if date == convertDateToString(today) {
@@ -59,5 +60,4 @@ import QuartzCore
         indicatorLabel.layer.masksToBounds = true
         self.addSubview(indicatorLabel)
     }
-
 }
