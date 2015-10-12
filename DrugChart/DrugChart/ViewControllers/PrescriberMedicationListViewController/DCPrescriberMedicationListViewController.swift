@@ -32,6 +32,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        medicationTableView!.tableFooterView = UIView(frame: CGRectZero)
         addPanGestureToPrescriberTableView()
     }
 
