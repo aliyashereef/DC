@@ -74,19 +74,26 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                 
                 // just for the display purpose. 
                 // metjod implementation in progress.
-                let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell!, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
-                    atIndexPath: indexPath,
-                    atSlotIndex: index)
-                let leftStatusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell!, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
-                    atIndexPath: indexPath,
-                    atSlotIndex: index)
-                let rightStatusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell!, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
-                    atIndexPath: indexPath,
-                    atSlotIndex: index)
+                //TODO: commented out for Oct 12 release. Logic to be corrected. Temporary logic for left and right display.
                 
-                medicationCell?.masterMedicationAdministerDetailsView.addSubview(statusView)
-                medicationCell?.leftMedicationAdministerDetailsView.addSubview(leftStatusView)
-                medicationCell?.rightMedicationAdministerDetailsView.addSubview(rightStatusView)
+                if (index < 5) {
+                    let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell!, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
+                        atIndexPath: indexPath,
+                        atSlotIndex: index)
+                    medicationCell?.leftMedicationAdministerDetailsView.addSubview(statusView)
+                }
+                else if (index >= 5 && index < 10) {
+                    let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell!, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
+                        atIndexPath: indexPath,
+                        atSlotIndex: index - 5)
+                    medicationCell?.masterMedicationAdministerDetailsView.addSubview(statusView)
+                }
+                else if (index >= 10 && index < 15) {
+                    let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell!, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
+                        atIndexPath: indexPath,
+                        atSlotIndex: index - 10)
+                    medicationCell?.rightMedicationAdministerDetailsView.addSubview(statusView)
+                }
             }
             return medicationCell!
     }
@@ -207,7 +214,9 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     
     func prepareMedicationSlotsForDisplayInCellFromScheduleDetails (medicationScheduleDetails: DCMedicationScheduleDetails) -> NSMutableArray {
         
-        var count = 0, weekDays = 5
+        //TODO: commented out for Oct 12 release. Logic to be corrected.
+        //var count = 0, weekDays = 5
+        var count = 0, weekDays = 15
         let medicationSlotsArray: NSMutableArray = []
         while (count < weekDays) {
             let slotsDictionary = NSMutableDictionary()
