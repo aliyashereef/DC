@@ -707,6 +707,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         if (popOverIndexPath?.row == RowCount.eZerothRow.rawValue) {
             //administered by
             medicationSlot?.medicationAdministration?.administratingUser?.displayName = user
+            administerTableView .reloadData()
         } else if (popOverIndexPath?.row == RowCount.eSecondRow.rawValue) {
             //checked by
             if (user == DEFAULT_NURSE_NAME) {
