@@ -55,6 +55,12 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         self.navigationController?.navigationBarHidden = true
         if (medicationSlotsArray.count > 0) {
             slotToAdminister = DCUtility.getNearestMedicationSlotToBeAdministeredFromSlotsArray(medicationSlotsArray);
+//            for slot : DCMedicationSlot? in medicationSlotsArray {
+//                if (slot?.medicationAdministration?.status == nil) {
+//                    slotToAdminister = slot
+//                    break
+//                }
+//            }
             let error = getAdministerViewErrorMessage() as String?
             if (error == NSLocalizedString("ALREADY_ADMINISTERED", comment: "")) {
                 segmentedControl.selectedSegmentIndex = MEDICATION_HISTORY_SEGMENT_INDEX;
@@ -99,6 +105,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
             if (slotToAdminister == nil) {
                 let errorMessage : String = getAdministerViewErrorMessage() as String
                 administerViewController?.alertMessage = errorMessage
+                doneButton.enabled = false
                 if(medicationSlotsArray.count > 0) {
                     let lastMedicationSlot : DCMedicationSlot = medicationSlotsArray.last!
                     administerViewController?.medicationSlot = lastMedicationSlot

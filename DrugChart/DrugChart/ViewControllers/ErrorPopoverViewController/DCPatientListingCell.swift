@@ -40,7 +40,7 @@ class DCPatientListingCell: UITableViewCell {
         if let date : NSDate = patientDetails.nextMedicationDate {
             dateLabel.text = DCDateUtility.getNextMedicationDisplayStringForPatientFromDate(date)
         } else {
-            dateLabel.text = NA_TEXT
+            dateLabel.text = EMPTY_STRING
         }
     }
     

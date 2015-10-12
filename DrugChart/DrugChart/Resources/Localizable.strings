@@ -132,7 +132,7 @@
 //
 
 "ADMINISTER_LATER"      =       "This medication cannot be administered now.";
-"ALREADY_ADMINISTERED"  =       "All medications have been already administered.";
+"ALREADY_ADMINISTERED"  =       "All prescriptions for the day have already been administered.";
 
 
 //Calendar
