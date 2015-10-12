@@ -76,7 +76,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
             if (lastMedicationSlot.time.compare(currentSystemDate) == NSComparisonResult.OrderedDescending) {
                 errorMessage = NSLocalizedString("ADMINISTER_LATER", comment: "medication to be administered later")
             } else if (lastMedicationSlot.time.compare(currentSystemDate) == NSComparisonResult.OrderedAscending) {
-                errorMessage = NSLocalizedString("ALREADY_ADMINISTERED", comment: "medications are already administered")
+                errorMessage = NSLocalizedString("ALREADY_ADMINISTERED", comment: "All prescriptions for the day have already been administered.")
             }
         } else {
             errorMessage = NSLocalizedString("NO_ADMINISTRATION_TODAY", comment: "no medication slots today")

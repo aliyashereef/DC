@@ -46,7 +46,6 @@ func configureMedicationDetails () {
     if let date = medicationSlot?.time {
         dateString = DCDateUtility.convertDate(date, fromFormat: DEFAULT_DATE_FORMAT, toFormat: "d LLLL yyyy")
     } else {
-        //let currentDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
         dateString = DCDateUtility.convertDate(weekDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: "d LLLL yyyy")
     }
     medicationDateLabel.text = dateString
