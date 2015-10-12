@@ -40,9 +40,9 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="21 September 2015" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BRf-bY-BAn">
-                                        <rect key="frame" x="410" y="18" width="182" height="20.5"/>
+                                        <rect key="frame" x="426" y="18" width="166" height="20.5"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="182" id="6hz-3b-JIO"/>
+                                            <constraint firstAttribute="width" constant="166" id="6hz-3b-JIO"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.10980392160000001" green="0.10980392160000001" blue="0.10980392160000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -58,6 +58,7 @@
                                     <constraint firstItem="BRf-bY-BAn" firstAttribute="top" secondItem="fGy-Lb-udr" secondAttribute="top" constant="18" id="THc-bk-WgO"/>
                                     <constraint firstItem="xLd-EZ-nHe" firstAttribute="top" secondItem="fGy-Lb-udr" secondAttribute="top" constant="12" id="bJ5-zu-qL9"/>
                                     <constraint firstItem="jZe-Sj-UmY" firstAttribute="leading" secondItem="fGy-Lb-udr" secondAttribute="leading" constant="15" id="cC4-mc-bLO"/>
+                                    <constraint firstItem="BRf-bY-BAn" firstAttribute="leading" secondItem="xLd-EZ-nHe" secondAttribute="trailing" constant="8" id="f7M-V8-PHn"/>
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FU2-8B-cFW">

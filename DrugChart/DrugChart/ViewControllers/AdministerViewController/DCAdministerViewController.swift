@@ -375,6 +375,23 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         self.presentViewController(navigationController!, animated: true, completion: nil)
     }
     
+    func presentAdministratedStatusPopOverAtIndexPath (indexPath : NSIndexPath) {
+        
+        let namesViewController : NameSelectionTableViewController? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(NAMES_LIST_VIEW_STORYBOARD_ID) as? NameSelectionTableViewController
+        namesViewController?.namesArray = [ADMINISTERED, REFUSED , OMITTED]
+        namesViewController?.namesDelegate = self
+
+        let navigationController : UINavigationController? = UINavigationController(rootViewController: namesViewController!)
+        navigationController?.modalPresentationStyle = UIModalPresentationStyle.Popover
+        let popover = navigationController?.popoverPresentationController
+        namesViewController!.preferredContentSize = CGSizeMake(250,90)
+        popover?.permittedArrowDirections = .Up
+        popover?.preferredContentSize
+        let cell = administerTableView.cellForRowAtIndexPath(indexPath) as! DCAdministerCell?
+        popover!.sourceView = cell?.popoverButton
+        self.presentViewController(navigationController!, animated: true, completion: nil)
+    }
+
     func getDatePickerCellAtIndexPath(indexPath : NSIndexPath) -> DCAdministerPickerCell {
         
         var pickerCell = administerTableView.dequeueReusableCellWithIdentifier(ADMINISTER_PICKER_CELL_ID) as? DCAdministerPickerCell
@@ -553,7 +570,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
         if (alertMessage != EMPTY_STRING) {
-            return 1
+            return 0
         } else {
 
             if (medicationSlot?.medicationAdministration?.status == OMITTED) {
@@ -687,8 +704,10 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
 //          //  }
 //            administerTableView.endUpdates()
 //        }
+        administerTableView.deselectRowAtIndexPath(indexPath, animated: true)
         if (indexPath.section == SectionCount.eZerothSection.rawValue) {
-            loadMedicationDetailsSectionForSelectedIndexPath(indexPath)
+            //loadMedicationDetailsSectionForSelectedIndexPath(indexPath)
+            presentAdministratedStatusPopOverAtIndexPath(indexPath)
         } else if (indexPath.section == SectionCount.eFirstSection.rawValue) {
             if (medicationSlot?.medicationAdministration.status == ADMINISTERED) {
                 if (indexPath.row == RowCount.eZerothRow.rawValue || indexPath.row == RowCount.eSecondRow.rawValue) {
@@ -736,20 +755,29 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     // MARK: NamesList Delegate Methods
     
     func selectedUserEntry(user : String!) {
-        
-        if (popOverIndexPath?.row == RowCount.eZerothRow.rawValue) {
-            //administered by
-            medicationSlot?.medicationAdministration?.administratingUser?.displayName = user
-        } else if (popOverIndexPath?.row == RowCount.eSecondRow.rawValue) {
-            //checked by
-            if (user == DEFAULT_NURSE_NAME) {
-                medicationSlot?.medicationAdministration?.checkingUser?.displayName = user
-            } else {
-                let selectedUser = DCUser.init()
-                selectedUser.displayName = user
-                self.performSelector("displaySecurityPinEntryViewForUser:", withObject:selectedUser , afterDelay: 0.5)
+        if user == ADMINISTERED {
+            medicationSlot?.medicationAdministration.status = ADMINISTERED
+        } else if user == REFUSED {
+            medicationSlot?.medicationAdministration.status = REFUSED
+        } else if user == OMITTED{
+            medicationSlot?.medicationAdministration.status = OMITTED
+        } else {
+            if (popOverIndexPath?.row == RowCount.eZerothRow.rawValue) {
+                //administered by
+                medicationSlot?.medicationAdministration?.administratingUser?.displayName = user
+            } else if (popOverIndexPath?.row == RowCount.eSecondRow.rawValue) {
+                //checked by
+                if (user == DEFAULT_NURSE_NAME) {
+                    medicationSlot?.medicationAdministration?.checkingUser?.displayName = user
+                } else {
+                    let selectedUser = DCUser.init()
+                    selectedUser.displayName = user
+                    self.performSelector("displaySecurityPinEntryViewForUser:", withObject:selectedUser , afterDelay: 0.5)
+                }
             }
+
         }
+        administerTableView .reloadData()
     }
     
     func displaySecurityPinEntryViewForUser(user : DCUser ) {

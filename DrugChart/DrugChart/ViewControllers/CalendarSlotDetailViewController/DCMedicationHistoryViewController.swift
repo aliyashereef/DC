@@ -85,7 +85,14 @@ func configureMedicationDetails () {
         case 2:
             cell!.contentType.text = DATE_TIME
             //cell!.value.text = "16-Jun-2015 21:00"
-            cell!.value.text = "16-Jun-2015 21:00"
+            let dateString : String
+            if let date = medicationSlot?.medicationAdministration.actualAdministrationTime {
+                dateString = DCDateUtility.convertDate(DCDateUtility.getDateInCurrentTimeZone(date), fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
+            } else {
+                // let currentDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
+                dateString = DCDateUtility.convertDate(weekDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
+            }
+            cell!.value.text = dateString
             break
         case 3:
             cell!.contentType.text = CHECKED_BY
