@@ -318,7 +318,15 @@
                                           withRowAnimation:UITableViewRowAnimationRight];
         [medicationDetailsTableView endUpdates];
     } else {
-        [self performSelector:@selector(insertEndDateCellAfterDelay) withObject:nil afterDelay:0.1];
+        NSIndexPath *endDateIndexPath;
+        if (_datePickerIndexPath.row == DATE_PICKER_INDEX_START_DATE) {
+            endDateIndexPath = [NSIndexPath indexPathForRow:3 inSection:lastSection];
+        } else {
+            endDateIndexPath = [NSIndexPath indexPathForRow:2 inSection:lastSection];
+        }
+        DCDateTableViewCell *tableCell = (DCDateTableViewCell *)[medicationDetailsTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:endDateIndexPath.row - 1 inSection:endDateIndexPath.section]];
+        [tableCell.noEndDateSwitch setUserInteractionEnabled:NO];
+        [self performSelector:@selector(insertEndDateCellAfterDelay) withObject:nil afterDelay:0.06];
     }
 }
 
@@ -330,11 +338,19 @@
     } else {
         endDateIndexPath = [NSIndexPath indexPathForRow:2 inSection:lastSection];
     }
+    DCDateTableViewCell *tableCell = (DCDateTableViewCell *)[medicationDetailsTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:endDateIndexPath.row - 1 inSection:endDateIndexPath.section]];
+    [tableCell.noEndDateSwitch setUserInteractionEnabled:NO];
     //insert end date cell after delay
     [medicationDetailsTableView beginUpdates];
     [medicationDetailsTableView insertRowsAtIndexPaths:@[endDateIndexPath]
                                       withRowAnimation:UITableViewRowAnimationRight];
     [medicationDetailsTableView endUpdates];
+    [self performSelector:@selector(enableNoEndDateCellAfterDelay:) withObject:tableCell afterDelay:0.5];
+}
+
+- (void)enableNoEndDateCellAfterDelay:(DCDateTableViewCell *)tableCell {
+    
+    [tableCell.noEndDateSwitch setUserInteractionEnabled:YES];
 }
 
 - (DCDateTableViewCell *)getUpdatedAdministrationTimeTableCell:(DCDateTableViewCell *)tableCell {
@@ -502,7 +518,7 @@
     selectedMedication.name = medication.name;
     selectedMedication.medicationId = medication.medicationId;
     selectedMedication.dosage = medication.dosage;
-    selectedMedication.noEndDate = NO;
+    selectedMedication.noEndDate = YES;
     selectedMedication.severeWarningCount = severeArray.count;
     selectedMedication.mildWarningCount = mildArray.count;
     selectedMedication.medicineCategory = REGULAR_MEDICATION;

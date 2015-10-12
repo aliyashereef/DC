@@ -140,7 +140,11 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                 
                 let medicationSchedules = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
                 medicationCell.medicineName.text = medicationSchedules.name;
-                medicationCell.instructions.text = medicationSchedules.instruction;
+                if let instructionString = medicationSchedules.instruction {
+                    if (instructionString as NSString).length > 0 {
+                        medicationCell.instructions.text = NSString(format: "(%@)", instructionString) as String ;
+                    }
+                }
                 medicationCell.route.text = medicationSchedules.route;
             }
     }

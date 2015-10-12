@@ -775,7 +775,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                     self.performSelector("displaySecurityPinEntryViewForUser:", withObject:selectedUser , afterDelay: 0.5)
                 }
             }
-
         }
         administerTableView .reloadData()
     }
