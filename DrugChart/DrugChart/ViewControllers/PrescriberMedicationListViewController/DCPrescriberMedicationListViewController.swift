@@ -126,18 +126,11 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     func moveMedicationCalendarDisplayForPanGesture (panGestureRecognizer : UIPanGestureRecognizer) {
         
         // translate table view
-        print("Table View swiped");
-       
         let translation : CGPoint = panGestureRecognizer.translationInView(self.view.superview)
         let velocity : CGPoint = panGestureRecognizer.velocityInView(self.view)
         let indexPathArray : [NSIndexPath]? = medicationTableView!.indexPathsForVisibleRows
         var panEnded = false
-        if (panGestureRecognizer.state == UIGestureRecognizerState.Began) {
-            //indexPathArray = medicationTableView!.indexPathsForVisibleRows
-            //send trigger to week view class [self positionWeekContainersInView];
-        }
         if (panGestureRecognizer.state == UIGestureRecognizerState.Ended) {
-            //show activity indicator
             print("Pan Ended")
             panEnded = true
         }
@@ -150,6 +143,19 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             }
         }
         panGestureRecognizer.setTranslation(CGPointMake(0, 0), inView: panGestureRecognizer.view)
+    }
+    
+    func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+        
+        //to restrict pan gesture in vertical direction
+        if (gestureRecognizer.isKindOfClass(UIPanGestureRecognizer)) {
+            let panGesture = gestureRecognizer as? UIPanGestureRecognizer
+            let translation : CGPoint = panGesture!.translationInView(panGesture?.view);
+            if (fabs(translation.x) > fabs(translation.y)) {
+                return true;
+            }
+        }
+        return false
     }
     
 //    func addAdministerStatusViewsToTableCell(medicationCell: PrescriberMedicationTableViewCell, forMedicationScheduleDetails medicationSchedule:DCMedicationScheduleDetails,
