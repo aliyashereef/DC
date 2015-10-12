@@ -285,7 +285,7 @@ func configureMedicationDetails () {
         return 40.0
     }
     
-    // returns the header view 
+    // returns the header view
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = self.instanceFromNib()
         let medication : DCMedicationSlot = medicationSlotArray[section]
