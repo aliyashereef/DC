@@ -502,7 +502,7 @@
     selectedMedication.name = medication.name;
     selectedMedication.medicationId = medication.medicationId;
     selectedMedication.dosage = medication.dosage;
-    selectedMedication.noEndDate = NO;
+    selectedMedication.noEndDate = YES;
     selectedMedication.severeWarningCount = severeArray.count;
     selectedMedication.mildWarningCount = mildArray.count;
     selectedMedication.medicineCategory = REGULAR_MEDICATION;
@@ -762,7 +762,7 @@
     
     selectedMedication.startDate = EMPTY_STRING;
     selectedMedication.endDate = EMPTY_STRING;
-    selectedMedication.noEndDate = NO;
+    selectedMedication.noEndDate = YES;
     selectedMedication.timeArray = [NSMutableArray arrayWithArray:@[]];
 }
 
