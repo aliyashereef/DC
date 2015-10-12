@@ -34,7 +34,9 @@
     [components setSecond:0];
     NSDate *todayMidnightDate = [currentCalendar dateFromComponents:components];
     NSDateComponents *initialComponents = [currentCalendar components:DATE_COMPONENTS fromDate:todayMidnightDate];
-    [initialComponents setDay:components.day - 2];
+    //TODO: commented out for Oct 12 release. Logic to be corrected.
+    //[initialComponents setDay:components.day - 2];
+    [initialComponents setDay:components.day - 7];
     [initialComponents setHour:0];
     [initialComponents setMinute:1];
     [initialComponents setSecond:0];
@@ -193,7 +195,12 @@
     NSDateComponents *components = [[NSDateComponents alloc] init];
     [components setDay:1];
     NSMutableArray *weekdays = [[NSMutableArray alloc] init];
-    for (int i = 0; i < 5; i++) {
+    //TODo: commented out for Oct 12 release. Logic to be corrected.
+//    for (int i = 0; i < 5; i++) {
+//        [weekdays addObject:date];
+//        date = [[NSCalendar currentCalendar] dateByAddingComponents:components toDate:date options:0];
+//    }
+    for (int i = 0; i < 15; i++) {
         [weekdays addObject:date];
         date = [[NSCalendar currentCalendar] dateByAddingComponents:components toDate:date options:0];
     }
