@@ -66,27 +66,14 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                 print(" got it")
                 
             }
-            
             let rowDisplayMedicationSlotsArray = self.prepareMedicationSlotsForDisplayInCellFromScheduleDetails(medicationScheduleDetails)
             var index : NSInteger = 0
-
             for ( index = 0; index < rowDisplayMedicationSlotsArray.count; index++) {
+                self.configureMedicationCell(medicationCell!,
+                    withMedicationSlotsArray: rowDisplayMedicationSlotsArray,
+                    atIndexPath: indexPath,
+                    andSlotIndex: index)
                 
-                // just for the display purpose. 
-                // metjod implementation in progress.
-                let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell!, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
-                    atIndexPath: indexPath,
-                    atSlotIndex: index)
-                let leftStatusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell!, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
-                    atIndexPath: indexPath,
-                    atSlotIndex: index)
-                let rightStatusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell!, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
-                    atIndexPath: indexPath,
-                    atSlotIndex: index)
-                
-                medicationCell?.masterMedicationAdministerDetailsView.addSubview(statusView)
-                medicationCell?.leftMedicationAdministerDetailsView.addSubview(leftStatusView)
-                medicationCell?.rightMedicationAdministerDetailsView.addSubview(rightStatusView)
             }
             return medicationCell!
     }
@@ -100,21 +87,9 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         medicationTableView?.reloadData()
         
     }
-    
-    // MARK: - Private methods
-    func fillInMedicationDetailsInTableCell(cell: PrescriberMedicationTableViewCell,
-        atIndexPath indexPath:NSIndexPath) {
-            let medicationCell = cell
-            if (displayMedicationListArray.count >= indexPath.item) {
-                
-                let medicationSchedules = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
-                medicationCell.medicineName.text = medicationSchedules.name;
-                medicationCell.instructions.text = medicationSchedules.instruction;
-                medicationCell.route.text = medicationSchedules.route;
-            }
-    }
 
-    
+    // MARK: - Private methods
+    // MARK: - Pan gesture methods
     func addPanGestureToPrescriberTableView () {
         
         // add pan gesture to table view
@@ -126,22 +101,14 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     func moveMedicationCalendarDisplayForPanGesture (panGestureRecognizer : UIPanGestureRecognizer) {
         
         // translate table view
-        print("Table View swiped");
-       
         let translation : CGPoint = panGestureRecognizer.translationInView(self.view.superview)
         let velocity : CGPoint = panGestureRecognizer.velocityInView(self.view)
         let indexPathArray : [NSIndexPath]? = medicationTableView!.indexPathsForVisibleRows
         var panEnded = false
-        if (panGestureRecognizer.state == UIGestureRecognizerState.Began) {
-            //indexPathArray = medicationTableView!.indexPathsForVisibleRows
-            //send trigger to week view class [self positionWeekContainersInView];
-        }
         if (panGestureRecognizer.state == UIGestureRecognizerState.Ended) {
-            //show activity indicator
-            print("Pan Ended")
             panEnded = true
         }
-        // translate week view [self translateWeekContainerViewsForTranslation:translation];
+        // translate week view 
         for var count = 0; count < indexPathArray!.count; count++ {
             let translationDictionary  = ["xPoint" : translation.x, "xVelocity" : velocity.x, "panEnded" : panEnded]
             NSNotificationCenter.defaultCenter().postNotificationName(kCalendarPanned, object: nil, userInfo: translationDictionary as [NSObject : AnyObject])
@@ -152,34 +119,59 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         panGestureRecognizer.setTranslation(CGPointMake(0, 0), inView: panGestureRecognizer.view)
     }
     
-//    func addAdministerStatusViewsToTableCell(medicationCell: PrescriberMedicationTableViewCell, forMedicationScheduleDetails medicationSchedule:DCMedicationScheduleDetails,
-//        atIndexPath indexPath:NSIndexPath) {
-//
-//            // method adds the administration status views to the table cell.
-//            //TODO: UIView instances to be replaced with DCMedicationAdministrationStatusView instances.
-//            var x :CGFloat = 0
-//            let y :CGFloat = 0
-//            let height = medicationCell.frame.size.height, width = (self.view.frame.size.width - medicationCell.medicineDetailHolderView.frame.size.width - 5) / 5
-//            print("the height: %d width: %d", height, width)
-//            var viewPosition : CGFloat
-//            for (viewPosition = 0; viewPosition < 5; viewPosition++) {
-//                // here add the subviews for status views with correspondng medicationSlot values.
-//                let aCenterSampleView: UIView = UIView(frame: CGRectMake(x, y, width, height))
-//                aCenterSampleView.backgroundColor = UIColor.redColor()
-//                medicationCell.masterMedicationAdministerDetailsView.addSubview(aCenterSampleView)
-//                
-//                let aLeftSampleView: UIView = UIView(frame: CGRectMake(x, y, width, height))
-//                aLeftSampleView.backgroundColor = UIColor.yellowColor()
-//                medicationCell.leftMedicationAdministerDetailsView.addSubview(aLeftSampleView)
-//                
-//                let aRightSampleView: UIView = UIView(frame: CGRectMake(x, y, width, height))
-//                aRightSampleView.backgroundColor = UIColor.greenColor()
-//                medicationCell.leftMedicationAdministerDetailsView.addSubview(aRightSampleView)
-//                
-//                x = (viewPosition + 1) + (viewPosition + 1) * width
-//                
-//            }
-//    }
+    func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+        
+        //to restrict pan gesture in vertical direction
+        if (gestureRecognizer.isKindOfClass(UIPanGestureRecognizer)) {
+            let panGesture = gestureRecognizer as? UIPanGestureRecognizer
+            let translation : CGPoint = panGesture!.translationInView(panGesture?.view);
+            if (fabs(translation.x) > fabs(translation.y)) {
+                return true;
+            }
+        }
+        return false
+    }
+    
+    // MARK: - Data display methods in table view
+    func fillInMedicationDetailsInTableCell(cell: PrescriberMedicationTableViewCell,
+        atIndexPath indexPath:NSIndexPath) {
+            let medicationCell = cell
+            if (displayMedicationListArray.count >= indexPath.item) {
+                
+                let medicationSchedules = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
+                medicationCell.medicineName.text = medicationSchedules.name;
+                medicationCell.instructions.text = medicationSchedules.instruction;
+                medicationCell.route.text = medicationSchedules.route;
+            }
+    }
+    
+    func configureMedicationCell(medicationCell:PrescriberMedicationTableViewCell, withMedicationSlotsArray
+        rowDisplayMedicationSlotsArray:NSMutableArray,
+        atIndexPath indexPath:NSIndexPath,
+        andSlotIndex index:NSInteger) {
+            
+            // just for the display purpose.
+            // metjod implementation in progress.
+            //TODO: commented out for Oct 12 release. Logic to be corrected. Temporary logic for left and right display.
+            if (index < 5) {
+                let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
+                    atIndexPath: indexPath,
+                    atSlotIndex: index)
+                medicationCell.leftMedicationAdministerDetailsView.addSubview(statusView)
+            }
+            else if (index >= 5 && index < 10) {
+                let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
+                    atIndexPath: indexPath,
+                    atSlotIndex: index - 5)
+                medicationCell.masterMedicationAdministerDetailsView.addSubview(statusView)
+            }
+            else if (index >= 10 && index < 15) {
+                let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
+                    atIndexPath: indexPath,
+                    atSlotIndex: index - 10)
+                medicationCell.rightMedicationAdministerDetailsView.addSubview(statusView)
+            }
+    }
     
     func addAdministerStatusViewsToTableCell(medicationCell: PrescriberMedicationTableViewCell, forMedicationSlotDictionary slotDictionary:NSDictionary,
         atIndexPath indexPath:NSIndexPath,
@@ -202,7 +194,9 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     
     func prepareMedicationSlotsForDisplayInCellFromScheduleDetails (medicationScheduleDetails: DCMedicationScheduleDetails) -> NSMutableArray {
         
-        var count = 0, weekDays = 5
+        //TODO: commented out for Oct 12 release. Logic to be corrected.
+        //var count = 0, weekDays = 5
+        var count = 0, weekDays = 15
         let medicationSlotsArray: NSMutableArray = []
         while (count < weekDays) {
             let slotsDictionary = NSMutableDictionary()

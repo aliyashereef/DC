@@ -16,6 +16,7 @@ import QuartzCore
 
      init(frame: CGRect, date : NSString) {
         super.init(frame: frame)
+        self.backgroundColor = UIColor.whiteColor()
         self.setDate(date)
     }
 
@@ -24,21 +25,23 @@ import QuartzCore
     }
     
     func setDate( date : NSString ) {
-        dateLabel.frame = CGRectMake(0.5,0, 144.4, 50)
-        dateLabel.backgroundColor = UIColor.whiteColor()
+        dateLabel.frame = CGRectMake(0, 0, 144, 49)
+        dateLabel.backgroundColor = UIColor.clearColor()
         dateLabel.font = UIFont.systemFontOfSize(17)
         dateLabel.textAlignment = .Center
-        dateLabel.text = date as String
         self.addSubview(dateLabel)
         let today : NSDate = NSDate()
-        if date == convertDateToString(today) {
+        if date == convertDateToString(today, format: "EEE d") {
+            dateLabel.text = convertDateToString(today, format: "EEE") as String
             addTodayIndicator ()
+        } else {
+            dateLabel.text = date as String
         }
     }
     
-    func convertDateToString (date:NSDate) -> NSString {
+    func convertDateToString (date : NSDate, format : String) -> NSString {
         let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "EEE d"
+        dateFormatter.dateFormat = format
         let dateString = dateFormatter.stringFromDate(date)
         return dateString
     }
@@ -48,7 +51,7 @@ import QuartzCore
         dateFormatter.dateFormat = "d"
         let dateString = dateFormatter.stringFromDate(today)
         
-        indicatorLabel.frame = CGRectMake(79,13, 25, 25)
+        indicatorLabel.frame = CGRectMake(92,12.0, 25, 25)
         indicatorLabel.font = UIFont.systemFontOfSize(17)
         indicatorLabel.textAlignment = .Center
         indicatorLabel.textColor = UIColor.whiteColor()
@@ -58,5 +61,4 @@ import QuartzCore
         indicatorLabel.layer.masksToBounds = true
         self.addSubview(indicatorLabel)
     }
-
 }

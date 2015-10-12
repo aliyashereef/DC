@@ -28,12 +28,16 @@ import UIKit
         
         calculateWeekViewSlotWidth()
         for index in 0...4 {
-            
-            let dateX : CGFloat = CGFloat(index) * weekViewWidth + CGFloat(index)
-            let frame : CGRect = CGRectMake(dateX, 0, weekViewWidth, 50)
-            NSLog("WeekView: index : %d dateX : %f", index, dateX)
+            let dateX : CGFloat = CGFloat(index) * weekViewWidth + CGFloat(index) + 1
+            let frame : CGRect = CGRectMake(dateX, 0, weekViewWidth, 49)
             let dateView : DCDateView = DCDateView(frame: frame, date: dateArray[index] as! NSString)
             self.addSubview(dateView)
+            if (index == 0) {
+                //This is added since the current week separation is not shown
+                let borderView : UIView = UIView.init(frame: CGRectMake(-0.9, 0, 1, 49))
+                borderView.backgroundColor = UIColor.getColorForHexString("#efeff4")
+                dateView.addSubview(borderView)
+            }
         }
     }
 }

@@ -99,7 +99,6 @@ typedef enum : NSUInteger {
                                                  xVelocity:(CGFloat)xVelocity
                                                  panEnded:(BOOL)panEnded {
     
-    NSLog(@"Calendar swipe in parent view xPoint : %f xVelocity : %f panEnded : %d", xPoint, xVelocity, panEnded);
     [calendarDateDisplayViewController translateCalendarContainerViewsForTranslationParameters:xPoint withXVelocity:xVelocity panEndedValue:panEnded];
 }
 

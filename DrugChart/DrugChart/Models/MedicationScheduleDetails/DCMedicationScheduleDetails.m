@@ -63,10 +63,6 @@
     if ([scheduleArray count] > 0) {
         NSDictionary *schedulesDictionary = [scheduleArray objectAtIndex:0];
         NSMutableArray *administrationArray = [[NSMutableArray alloc] initWithArray:[schedulesDictionary objectForKey:DRUG_ADMINISTRATIONS]];
-        //TODO: delete this line after identifying the date issue.
-//        if ([self.name isEqualToString:@"Idebenone 150mg capsules"]) {
-//            NSLog(@"got the issue ****");
-//        }
         self.administrationDetailsArray = [self getAdministrationDetailsForMedication:administrationArray];
         NSMutableArray *slotsArray = [self getMedicationScheduleTimeArrayFromScheduleDictionary:schedulesDictionary
                                                                                   withStartDate:self.startDate
@@ -114,7 +110,7 @@
         NSMutableArray *medicationSlotsArray = [[NSMutableArray alloc] init];
         NSInteger timeSlotsCount = 0;
         while (timeSlotsCount < [timesArray count]) {
-            
+
             NSCalendar *calendar = [NSCalendar currentCalendar];
             //TODO: Error in setting time chart. Timezone commented to fix the display issue in calendar
             [calendar setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
@@ -148,6 +144,7 @@
         }
         NSDateFormatter *shortDateFormatter = [[NSDateFormatter alloc] init];
         [shortDateFormatter setDateFormat:SHORT_DATE_FORMAT];
+        [shortDateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
         NSString *medicationDateString = [shortDateFormatter stringFromDate:nextDate];
         
         [timeSlotsArray addObject:@{MED_DATE:medicationDateString,MED_DETAILS:medicationSlotsArray}];
