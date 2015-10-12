@@ -575,8 +575,10 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
 
             if (medicationSlot?.medicationAdministration?.status == OMITTED) {
                 return OMITTED_SECTION_COUNT;
-            } else {
+            } else if (medicationSlot?.medicationAdministration?.status == ADMINISTERED || medicationSlot?.medicationAdministration?.status == REFUSED) {
                 return ADMINISTERED_SECTION_COUNT;
+            } else {
+                return 0
             }
         }
     }

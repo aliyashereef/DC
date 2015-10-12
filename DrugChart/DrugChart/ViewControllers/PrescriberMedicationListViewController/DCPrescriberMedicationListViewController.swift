@@ -73,7 +73,6 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                     withMedicationSlotsArray: rowDisplayMedicationSlotsArray,
                     atIndexPath: indexPath,
                     andSlotIndex: index)
-                
             }
             return medicationCell!
     }
@@ -161,18 +160,21 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                 let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
                     atIndexPath: indexPath,
                     atSlotIndex: index)
+                statusView.weekdate = currentWeekDatesArray.objectAtIndex(index) as? NSDate
                 medicationCell.leftMedicationAdministerDetailsView.addSubview(statusView)
             }
             else if (index >= 5 && index < 10) {
                 let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
                     atIndexPath: indexPath,
                     atSlotIndex: index - 5)
+                statusView.weekdate = currentWeekDatesArray.objectAtIndex(index) as? NSDate
                 medicationCell.masterMedicationAdministerDetailsView.addSubview(statusView)
             }
             else if (index >= 10 && index < 15) {
                 let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
                     atIndexPath: indexPath,
                     atSlotIndex: index - 10)
+                statusView.weekdate = currentWeekDatesArray.objectAtIndex(index) as? NSDate
                 medicationCell.rightMedicationAdministerDetailsView.addSubview(statusView)
             }
     }
@@ -188,7 +190,6 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             let statusView : DCMedicationAdministrationStatusView = DCMedicationAdministrationStatusView(frame: viewFrame)
             statusView.delegate = self
             statusView.tag = tag
-            
             statusView.weekdate = currentWeekDatesArray.objectAtIndex(tag) as? NSDate
             statusView.currentIndexPath = indexPath
             statusView.backgroundColor = UIColor.whiteColor()

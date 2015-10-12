@@ -778,7 +778,7 @@
     
     selectedMedication.startDate = EMPTY_STRING;
     selectedMedication.endDate = EMPTY_STRING;
-    selectedMedication.noEndDate = NO;
+    selectedMedication.noEndDate = YES;
     selectedMedication.timeArray = [NSMutableArray arrayWithArray:@[]];
 }
 
