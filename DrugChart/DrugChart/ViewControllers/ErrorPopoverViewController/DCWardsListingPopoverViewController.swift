@@ -45,7 +45,7 @@ class DCWardsListingPopoverViewController : UIViewController , UITableViewDelega
             cell.wardNameLabel.text = name
 
         }
-        cell.wardNumberLabel.text = "\(ward.wardNumber)"
+        cell.wardNumberLabel.text = "Ward \(ward.wardNumber)"
         return cell
 
     }

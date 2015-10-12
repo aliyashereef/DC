@@ -37,6 +37,8 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         super.viewDidLoad()
     }
 
+    //Configuring the basic view with the medication details, route and time
+    
 func configureMedicationDetails () {
     medicationNameLabel.text = medicationDetails!.name
     if (medicationDetails?.route != nil) {
@@ -51,6 +53,7 @@ func configureMedicationDetails () {
     medicationDateLabel.text = dateString
     }
     
+    //Populating the route and instruction label.
     func populateRouteAndInstructionLabels() {
         let route : String = medicationDetails!.route.stringByReplacingOccurrencesOfString(" ", withString: EMPTY_STRING)
         let attributedRouteString : NSMutableAttributedString = NSMutableAttributedString(string:route, attributes: [NSFontAttributeName : UIFont.systemFontOfSize(16.0)])
@@ -68,6 +71,7 @@ func configureMedicationDetails () {
     
     //MARK: Table Cell Configuration Methods
     
+    // configuring the administered medication status display for the patient.
     func configureAdministeredCellAtIndexPathWithMedicationSlot (indexPath : NSIndexPath ,medication : DCMedicationSlot) -> AnyObject {
         var cell = medicationHistoryTableView.dequeueReusableCellWithIdentifier(ADMINSTER_MEDICATION_HISTORY_CELL) as? DCAdminsteredMedicationCell
         if cell == nil {
@@ -80,23 +84,33 @@ func configureMedicationDetails () {
             break
         case 1:
             cell!.contentType.text = ADMINISTRATED_BY
-            cell!.value.text = "Julia Antony"
+            let administratedBy : String
+            if let name = medicationSlot?.medicationAdministration.administratingUser.displayName {
+                administratedBy = name
+            } else {
+                administratedBy = "Julia Antony"
+            }
+            cell!.value.text = administratedBy
             break
         case 2:
             cell!.contentType.text = DATE_TIME
-            //cell!.value.text = "16-Jun-2015 21:00"
             let dateString : String
             if let date = medicationSlot?.medicationAdministration.actualAdministrationTime {
                 dateString = DCDateUtility.convertDate(DCDateUtility.getDateInCurrentTimeZone(date), fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
             } else {
-                // let currentDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
                 dateString = DCDateUtility.convertDate(weekDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
             }
             cell!.value.text = dateString
             break
         case 3:
             cell!.contentType.text = CHECKED_BY
-            cell!.value.text = "Andrea Thomas"
+            let checkedBy : String
+            if let name = medicationSlot?.medicationAdministration.checkingUser.displayName {
+                checkedBy = name
+            } else {
+                checkedBy = "Andrea Thomas"
+            }
+            cell!.value.text = checkedBy
             break
         case 4:
             cell!.contentType.text = BATCHNO_EXPIRY
@@ -110,6 +124,7 @@ func configureMedicationDetails () {
         return cell!
     }
     
+    // configuring the notes and reason cell for medication status display for the patient.
     func configureNotesAndReasonCellsAtIndexPath (indexPath : NSIndexPath, type : NSString ) -> DCNotesAndReasonCell {
         
         var noteCell = medicationHistoryTableView.dequeueReusableCellWithIdentifier(NOTES_AND_REASON_CELL) as? DCNotesAndReasonCell
@@ -141,6 +156,7 @@ func configureMedicationDetails () {
         return noteCell!
     }
     
+    // Configuring the medication details cell
     func configureMedicationDetailsCellAtIndexPath(indexPath : NSIndexPath) -> (DCMedicationDetailsCell) {
         
         var detailsCell  = medicationHistoryTableView.dequeueReusableCellWithIdentifier(MEDICATION_CELL_ID) as? DCMedicationDetailsCell
@@ -154,6 +170,7 @@ func configureMedicationDetails () {
         return detailsCell!
     }
     
+    // configuring the refused medication status display for the patient.
     func configureRefusedCellAtIndexPathForMedicationDetails (indexPath : NSIndexPath , medication : DCMedicationSlot) -> AnyObject {
         var cell = medicationHistoryTableView.dequeueReusableCellWithIdentifier(ADMINSTER_MEDICATION_HISTORY_CELL) as? DCAdminsteredMedicationCell
         if cell == nil {
@@ -177,6 +194,7 @@ func configureMedicationDetails () {
         return cell!
     }
     
+    // configuring the ommitted medication status display for the patient.
     func configureOmittedCellAtIndexPathForMedicationDetails (indexPath : NSIndexPath , medication : DCMedicationSlot) -> AnyObject {
         var cell = medicationHistoryTableView.dequeueReusableCellWithIdentifier(ADMINSTER_MEDICATION_HISTORY_CELL) as? DCAdminsteredMedicationCell
         if cell == nil {
@@ -198,10 +216,12 @@ func configureMedicationDetails () {
     
     //MARK: Private Methods
     
+    // Loading the header view from the xib
     func instanceFromNib() -> DCMedicationHistoryHeaderView {
         return UINib(nibName: MEDICATION_HISTORY_HEADER_VIEW, bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! DCMedicationHistoryHeaderView
         }
-        
+    
+    // calculating the number of rows from medication slot array
     func getNumberOfRowsFromMedicationSlotArray( medication : DCMedicationSlot) -> Int {
         var rowCount : Int
         if let medicationValue : DCMedicationSlot = medication {
@@ -265,6 +285,7 @@ func configureMedicationDetails () {
         return 40.0
     }
     
+    // returns the header view 
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = self.instanceFromNib()
         let medication : DCMedicationSlot = medicationSlotArray[section]
