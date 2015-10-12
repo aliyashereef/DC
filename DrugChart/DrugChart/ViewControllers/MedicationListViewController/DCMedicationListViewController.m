@@ -39,6 +39,11 @@
     [self configureViewElements];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [medicationSearchBar becomeFirstResponder];
+}
+
 - (void)viewWillDisappear:(BOOL)animated {
     
     [medicationWebService cancelPreviousRequest];
