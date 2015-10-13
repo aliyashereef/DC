@@ -47,7 +47,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
 
     @IBOutlet weak var administerTableView: UITableView!
     @IBOutlet weak var alertMessageLabel: UILabel!
-
     @IBOutlet var medicineRouteAndInstructionsLabel: UILabel!
     @IBOutlet var medicineNameLabel: UILabel!
     @IBOutlet var medicineDateLabel: UILabel!
@@ -95,7 +94,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         administerTableView!.layoutMargins = UIEdgeInsetsZero
         administerTableView!.separatorInset = UIEdgeInsetsZero
         administerTableView!.tableFooterView = UIView(frame: CGRectZero)
-
         if (alertMessage != EMPTY_STRING) {
             alertMessageLabel.hidden = false
             alertMessageLabel.text = alertMessage as String
@@ -104,6 +102,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         }
         configureMedicationDetails()
     }
+    
     func configureMedicationDetails () {
         medicineNameLabel.text = medicationDetails!.name
         if (medicationDetails?.route != nil) {
@@ -210,19 +209,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         
         var administerCell : DCAdministerCell = (administerTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
         switch indexPath.section {
-//        case SectionCount.eZerothSection.rawValue:
-//            let dateString : String
-//            if indexPath.row == RowCount.eZerothRow.rawValue {
-////                if let date = medicationSlot?.time {
-////                    dateString = DCDateUtility.convertDate(date, fromFormat: DEFAULT_DATE_FORMAT, toFormat: "d LLLL yyyy")
-////                } else {
-////                    dateString = DCDateUtility.convertDate(weekDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: "d LLLL yyyy")
-////                }
-////                administerCell.titleLabel.text = dateString
-//            }
-//            administerCell.layoutMargins = UIEdgeInsetsZero
-//            administerCell.accessoryType = UITableViewCellAccessoryType.None
-//            break;
         case SectionCount.eZerothSection.rawValue:
             administerCell = getPopulatedMedicationStatusTableCellAtIndexPath(administerCell, indexPath: indexPath);
             administerCell.layoutMargins = UIEdgeInsetsZero
@@ -255,7 +241,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             if let date = medicationSlot?.medicationAdministration.actualAdministrationTime {
                 dateString = DCDateUtility.convertDate(DCDateUtility.getDateInCurrentTimeZone(date), fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
             } else {
-               // let currentDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
                 dateString = DCDateUtility.convertDate(weekDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
             }
             cell.detailLabel.text = dateString
@@ -281,7 +266,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         if let date = medicationSlot?.medicationAdministration.actualAdministrationTime {
             dateString = DCDateUtility.convertDate(DCDateUtility.getDateInCurrentTimeZone(date), fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
         } else {
-            //let currentDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
             dateString = DCDateUtility.convertDate(weekDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
         }
         cell.detailLabel.text = dateString
@@ -608,23 +592,18 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-//        if (indexPath.section == SectionCount.eZerothSection.rawValue && indexPath.row == MEDICATION_DETAILS_CELL_INDEX) {
-////            let medicationDetailsCell : DCAdministerMedicationDetailsCell = configureMedicationDetailsCellAtIndexPath(indexPath)
-////            return medicationDetailsCell
-//         } else {
-            if (medicationSlot?.medicationAdministration.status == ADMINISTERED) {
-                //configure tablecells for medication status administered
-                let administeredTableCell = getPopulatedAdministeredTableViewCellAtIndexPath(indexPath)
-                return administeredTableCell
-            } else if (medicationSlot?.medicationAdministration.status == OMITTED) {
-                let omittedTableCell = getPopulatedOmittedTableViewCellAtIndexPath(indexPath)
-                return omittedTableCell
-            } else {
-                //refused status
-                let refusedTableCell = getPopulatedRefusedTableCellAtIndexPath(indexPath)
-                return refusedTableCell
-            }
+        if (medicationSlot?.medicationAdministration.status == ADMINISTERED) {
+            //configure tablecells for medication status administered
+            let administeredTableCell = getPopulatedAdministeredTableViewCellAtIndexPath(indexPath)
+            return administeredTableCell
+        } else if (medicationSlot?.medicationAdministration.status == OMITTED) {
+            let omittedTableCell = getPopulatedOmittedTableViewCellAtIndexPath(indexPath)
+            return omittedTableCell
+        } else {
+            //refused status
+            let refusedTableCell = getPopulatedRefusedTableCellAtIndexPath(indexPath)
+            return refusedTableCell
+        }
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -708,7 +687,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
 //        }
         administerTableView.deselectRowAtIndexPath(indexPath, animated: true)
         if (indexPath.section == SectionCount.eZerothSection.rawValue) {
-            //loadMedicationDetailsSectionForSelectedIndexPath(indexPath)
             presentAdministratedStatusPopOverAtIndexPath(indexPath)
         } else if (indexPath.section == SectionCount.eFirstSection.rawValue) {
             if (medicationSlot?.medicationAdministration.status == ADMINISTERED) {
