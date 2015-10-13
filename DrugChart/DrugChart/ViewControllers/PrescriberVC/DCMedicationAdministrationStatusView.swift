@@ -150,12 +150,11 @@ class DCMedicationAdministrationStatusView: UIView {
         }
     }
     
+    
     func updateCurrentDayStatusViewWithAdministrationCount(administrationCount administeredCount: NSInteger, omittedRefusalCount : NSInteger) {
         
-        let nearestSlot : DCMedicationSlot? = DCUtility.getNearestMedicationSlotToBeAdministeredFromSlotsArray(timeArray as [AnyObject]);
-        if (nearestSlot != nil /*&& nearestSlot?.medicationAdministration == nil*/) {
-            NSLog("*** nearestSlot status : %@", (nearestSlot?.status)!)
-            NSLog("*** nearest time is %@", (nearestSlot?.time)!)
+        let nearestSlot : DCMedicationSlot? = getNearestMedicationSlotToBeAdministered()
+        if (nearestSlot != nil) {
             if (nearestSlot?.medicationAdministration?.actualAdministrationTime == nil) {
                 // get date string from the nearest slot time
                 let dueTime = DCDateUtility.convertDate(nearestSlot!.time, fromFormat: DEFAULT_DATE_FORMAT, toFormat: TWENTYFOUR_HOUR_FORMAT)
@@ -182,6 +181,21 @@ class DCMedicationAdministrationStatusView: UIView {
             }
         }
      }
+    
+    func getNearestMedicationSlotToBeAdministered () -> DCMedicationSlot {
+        
+        //initialise medication slot to administer object
+        var nearestSlot =  DCMedicationSlot.init()
+        if (timeArray.count > 0) {
+            for slot in (timeArray as? [DCMedicationSlot])! {
+                if (slot.medicationAdministration?.actualAdministrationTime == nil) {
+                    nearestSlot = slot
+                    return nearestSlot
+                }
+            }
+        }
+        return nearestSlot
+    }
     
     func configureStatusViewForPastDay() {
         
