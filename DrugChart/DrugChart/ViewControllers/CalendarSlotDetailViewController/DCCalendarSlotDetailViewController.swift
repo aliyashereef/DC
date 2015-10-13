@@ -29,6 +29,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     var contentArray :[AnyObject] = []
     var slotToAdminister : DCMedicationSlot?
     var weekDate : NSDate?
+    var errorMessage : String = EMPTY_STRING
     
     override func viewDidLoad() {
         
@@ -53,49 +54,57 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     func configureViewElements () {
         
         self.navigationController?.navigationBarHidden = true
-        slotToAdminister = DCMedicationSlot.init()
         if (medicationSlotsArray.count > 0) {
-            //slotToAdminister = DCUtility.getNearestMedicationSlotToBeAdministeredFromSlotsArray(medicationSlotsArray);
-            for slot : DCMedicationSlot in medicationSlotsArray {
-                if (slot.medicationAdministration?.status == nil) {
-                    slotToAdminister = slot
-                    break
+            initialiseMedicationSlotToAdministerObject()
+            let error = getAdministerViewErrorMessage() as String?
+            if (slotToAdminister == nil) {
+                addAdministerView()
+            } else {
+                if (error == NSLocalizedString("ALREADY_ADMINISTERED", comment: "")) {
+                    segmentedControl.selectedSegmentIndex = MEDICATION_HISTORY_SEGMENT_INDEX;
+                    addMedicationHistoryView()
                 } else {
-                    NSLog("slot status is %@", (slot.medicationAdministration?.status)!)
+                    addAdministerView()
                 }
             }
-            let error = getAdministerViewErrorMessage() as String?
-            if (error == NSLocalizedString("ALREADY_ADMINISTERED", comment: "")) {
-                segmentedControl.selectedSegmentIndex = MEDICATION_HISTORY_SEGMENT_INDEX;
-                addMedicationHistoryView()
-            } else {
-                addAdministerView()
-            }
-        } else {
-            addAdministerView()
         }
      }
     
-    func getAdministerViewErrorMessage() -> NSString {
+    func initialiseMedicationSlotToAdministerObject () {
         
-        var errorMessage : String = EMPTY_STRING
+        //initialise medication slot to administer object
+        slotToAdminister = DCMedicationSlot.init()
         if (medicationSlotsArray.count > 0) {
-            let lastMedicationSlot : DCMedicationSlot = medicationSlotsArray.last!
-            let currentSystemDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
-            if (lastMedicationSlot.time.compare(currentSystemDate) == NSComparisonResult.OrderedDescending) {
-                if (lastMedicationSlot.medicationAdministration?.actualAdministrationTime == nil) {
-                    errorMessage = NSLocalizedString("ADMINISTER_LATER", comment: "medication to be administered later")
-                } else {
-                    errorMessage = NSLocalizedString("ALREADY_ADMINISTERED", comment: "medications are already administered")
-                }
-            } else if (lastMedicationSlot.time.compare(currentSystemDate) == NSComparisonResult.OrderedAscending) {
-                //check if all medications are adimistered
-                if (lastMedicationSlot.medicationAdministration?.actualAdministrationTime != nil) {
-                    errorMessage = NSLocalizedString("ALREADY_ADMINISTERED", comment: "medications are already administered")
+            for slot : DCMedicationSlot in medicationSlotsArray {
+                if (slot.medicationAdministration?.actualAdministrationTime == nil) {
+                    slotToAdminister = slot
+                    break
                 }
             }
-        } else {
+        }
+    }
+    
+    func getAdministerViewErrorMessage() -> NSString {
+        
+        if (medicationSlotsArray.count == 0) {
             errorMessage = NSLocalizedString("NO_ADMINISTRATION_TODAY", comment: "no medication slots today")
+        } else {
+            let currentSystemDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
+            if (slotToAdminister?.time == nil) {
+                errorMessage = NSLocalizedString("ALREADY_ADMINISTERED", comment: "medications are already administered")
+            } else {
+                if (slotToAdminister?.time?.compare(currentSystemDate) == NSComparisonResult.OrderedAscending) {
+                    if (slotToAdminister?.medicationAdministration?.actualAdministrationTime != nil) {
+                        errorMessage = NSLocalizedString("ALREADY_ADMINISTERED", comment: "medications are already administered")
+                    }
+                } else if (slotToAdminister?.time?.compare(currentSystemDate) == NSComparisonResult.OrderedDescending) {
+                    let currentDateString : NSString? = DCDateUtility.convertDate(currentSystemDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: SHORT_DATE_FORMAT)
+                    let slotDateString : NSString? = DCDateUtility.convertDate(slotToAdminister?.time, fromFormat: DEFAULT_DATE_FORMAT, toFormat: SHORT_DATE_FORMAT)
+                    if (currentDateString != slotDateString) {
+                        errorMessage = NSLocalizedString("ADMINISTER_LATER", comment: "medication to be administered later")
+                    }
+                }
+            }
         }
          return errorMessage
     }
@@ -109,13 +118,11 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
             administerViewController = administerStoryboard!.instantiateViewControllerWithIdentifier(ADMINISTER_STORYBOARD_ID) as? DCAdministerViewController
             administerViewController?.medicationSlot = slotToAdminister
             administerViewController?.weekDate = weekDate
-            if (slotToAdminister?.status == nil) {
-                let errorMessage : String = getAdministerViewErrorMessage() as String
+            if (medicationSlotsArray.count > 0) {
+                administerViewController?.medicationSlot = slotToAdminister
                 administerViewController?.alertMessage = errorMessage
-                doneButton.enabled = false
-                if(medicationSlotsArray.count > 0) {
-                    let lastMedicationSlot : DCMedicationSlot = medicationSlotsArray.last!
-                    administerViewController?.medicationSlot = lastMedicationSlot
+                if (slotToAdminister?.medicationAdministration?.actualAdministrationTime == nil) {
+                    doneButton.enabled = false
                 }
             }
             administerViewController?.medicationDetails = medicationDetails
@@ -123,7 +130,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
             if let toAdministerArray : [DCMedicationSlot] = medicationSlotsArray {
                 var slotCount = 0
                 for slot : DCMedicationSlot in toAdministerArray {
-                    if (slot.medicationAdministration?.status == nil || slot.medicationAdministration.actualAdministrationTime == nil) {
+                    if (slot.medicationAdministration?.actualAdministrationTime == nil) {
                         medicationArray.insert(slot, atIndex: slotCount)
                         slotCount++
                     }
