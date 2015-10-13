@@ -3151,6 +3151,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -3186,6 +3187,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 				VALIDATE_PRODUCT = YES;
@@ -3199,7 +3201,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Md Shaheer K.A. (J69GNJ5DYQ)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Egton Medical Information Systems Limited (XL5JU6TJKH)";
 				DEFINES_MODULE = YES;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3221,8 +3223,9 @@
 				INFOPLIST_FILE = DrugChart/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.emishealth.mobileprescriptions;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e0e1649d-f6be-408a-a401-d6fc15d82bc0";
+				PROVISIONING_PROFILE = "4998f0f8-98f0-4f2c-883d-4a7f4ef64cff";
 				SWIFT_OBJC_BRIDGING_HEADER = "DrugChart/Helpers/AddMedicationHelper/DrugChart-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				USER_HEADER_SEARCH_PATHS = "";
@@ -3236,8 +3239,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Md Shaheer K.A. (J69GNJ5DYQ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Md Shaheer K.A. (J69GNJ5DYQ)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Egton Medical Information Systems Limited (XL5JU6TJKH)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Egton Medical Information Systems Limited (XL5JU6TJKH)";
 				DEFINES_MODULE = YES;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3265,8 +3268,9 @@
 				INFOPLIST_FILE = DrugChart/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.emishealth.mobileprescriptions;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e0e1649d-f6be-408a-a401-d6fc15d82bc0";
+				PROVISIONING_PROFILE = "4998f0f8-98f0-4f2c-883d-4a7f4ef64cff";
 				SWIFT_OBJC_BRIDGING_HEADER = "DrugChart/Helpers/AddMedicationHelper/DrugChart-Bridging-Header.h";
 				USER_HEADER_SEARCH_PATHS = "";
 			};
