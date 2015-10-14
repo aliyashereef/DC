@@ -16,7 +16,7 @@
 #define ALERT_CELL_HEIGHT_MIN 34
 #define ALERT_CELL_HEIGHT_MAX 390
 #define ALERT_CELL_PADDING 30
-#define CELL_PADDING 53
+#define CELL_PADDING 50
 
 @interface DCAlertsAllergyPopOverViewController () {
     
@@ -88,7 +88,7 @@
 - (CGFloat )getAllergyAndAlertDisplayTableViewHeightForContent:(NSArray *)displayArray {
     
     cellHeightArray = [[NSMutableArray alloc] init];
-    CGFloat totalAlertCellsHeight = 40.0f;
+    CGFloat totalAlertCellsHeight = 38.0f;
     for (int index = 0; index < displayArray.count; index++) {
         CGSize stepSize;
         if ([[displayArray objectAtIndex:index] isKindOfClass:[DCPatientAlert
@@ -128,21 +128,18 @@
 #pragma mark - Private Methods
 
 - (IBAction)segmentSelectionChanged:(id)sender {
-        UISegmentedControl *segmentedControl = (UISegmentedControl *) sender;
-        NSInteger selectedSegment = segmentedControl.selectedSegmentIndex;
-        
-        if (selectedSegment == 0) {
+    
+    UISegmentedControl *segmentedControl = (UISegmentedControl *) sender;
+    NSInteger selectedSegment = segmentedControl.selectedSegmentIndex;
+    if (selectedSegment == 0) {
             popOverDisplayArray = [NSMutableArray arrayWithArray:self.patientsAlertsArray];
-        }
-        else{
+    } else {
             popOverDisplayArray = [NSMutableArray arrayWithArray:self.patientsAllergyArray];
-        }
+    }
     [self getAllergyAndAlertDisplayTableViewHeightForContent:popOverDisplayArray];
-
     [alertsAllergyTableView reloadData];
     self.preferredContentSize = CGSizeMake(ALERT_ALLERGY_CELL_WIDTH,alertsAllergyTableView.contentSize.height + CELL_PADDING );
     [self forcePopoverSize];
-
 }
 
 - (IBAction)cancelButtonPressed:(id)sender {

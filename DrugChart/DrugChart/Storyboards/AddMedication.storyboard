@@ -2396,7 +2396,6 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="fCL-t6-xx3">
                                 <rect key="frame" x="0.0" y="0.0" width="310" height="600"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <searchBar key="tableHeaderView" contentMode="redraw" id="0iV-uc-4py">
                                     <rect key="frame" x="0.0" y="44" width="310" height="44"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -2446,7 +2445,6 @@
                                 <color key="color" red="0.38823529410000002" green="0.38823529410000002" blue="0.38823529410000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="centerY" secondItem="xXW-m5-Ih4" secondAttribute="centerY" id="1tM-2H-0e9"/>
                             <constraint firstItem="fCL-t6-xx3" firstAttribute="leading" secondItem="NEK-8a-G35" secondAttribute="leading" id="AHM-Te-BUd"/>
@@ -2497,7 +2495,7 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="nzW-av-W44">
                                 <rect key="frame" x="0.0" y="6" width="310" height="550"/>
-                                <color key="backgroundColor" red="0.93725490199999995" green="0.96470588239999999" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="WarningsCell" rowHeight="80" id="dWV-mv-PfX" customClass="DCWarningsCell" customModule="DrugChart" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="94" width="310" height="80"/>
@@ -2557,7 +2555,6 @@
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" red="0.93725490199999995" green="0.96470588239999999" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="nzW-av-W44" secondAttribute="trailing" id="J0U-3G-lF0"/>
                             <constraint firstItem="UiQ-BI-zly" firstAttribute="top" secondItem="nzW-av-W44" secondAttribute="bottom" constant="44" id="anQ-78-bxi"/>
