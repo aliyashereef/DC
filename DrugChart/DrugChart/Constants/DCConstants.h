@@ -91,6 +91,7 @@
 #define ADD_MEDICATION_POPOVER_SB_ID @"AddMedicationPopOverViewController"
 #define SECURITY_PIN_VIEW_CONTROLLER @"SecurityPinViewController"
 #define NAMES_LIST_VIEW_STORYBOARD_ID @"NamesListViewController"
+#define STATUS_LIST_VIEW_SB_ID @"StatusListViewController"
 #define PATIENTS_ALLERGY_VIEW_SB_ID @"PatientAllergyNotificationTableViewController"
 #define AUTHORIZATION_VIEW_SB_ID @"AuthorizationViewController"
 #define PRESCRIBER_DETAILS_SB_ID @"PrescriberDetailsViewController"
@@ -398,5 +399,16 @@
 #define NA_TEXT @"N/A"
 #define DUMMY_DOCTOR @"KENNEDY, Frederick (Dr)"
 #define BED_NUMBER @"0"
+
+// Administaration API Labels
+#define SCHEDULED_ADMINISTRATION_TIME @"ScheduledDateTime"
+#define ACTUAL_ADMINISTRATION_TIME @"ActualAdministrationDateTime"
+#define ADMINISTRATION_STATUS @"AdministrationStatus"
+#define ADMINISTRATING_USER @"AdministratingUser"
+#define ADMINISTRATING_DOSAGE @"AmendedDosage"
+#define ADMINISTRATING_BATCH @"BatchNumber"
+#define ADMINISTRATING_NOTES @"Notes"
+#define IS_SELF_ADMINISTERED @"IsSelfAdministered"
+#define EXPIRY_DATE @"ExpiryDate"
 
 #endif

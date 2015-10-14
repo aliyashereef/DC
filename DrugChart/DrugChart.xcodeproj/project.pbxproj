@@ -213,6 +213,8 @@
 		4D48D2FF1B4C020B00B050A8 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BAAEDBD1B28621F00DF0DF6 /* libc++.dylib */; };
 		4D48D3011B4C08B300B050A8 /* DCAlertsWebServiceTestCases.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D48D3001B4C08B300B050A8 /* DCAlertsWebServiceTestCases.m */; };
 		4D4D1D6D1B983E9C0007C153 /* DCMedicationListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D4D1D6C1B983E9C0007C153 /* DCMedicationListTableViewCell.m */; };
+		4D52D5841BCD02FB002ABA8D /* DCAdministerMedicationWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D52D5831BCD02FB002ABA8D /* DCAdministerMedicationWebService.m */; settings = {ASSET_TAGS = (); }; };
+		4D52D58B1BCE74DB002ABA8D /* DCAdministrationStatusTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D52D58A1BCE74DB002ABA8D /* DCAdministrationStatusTableViewController.m */; settings = {ASSET_TAGS = (); }; };
 		4D66A06B1B737B100075677E /* DCOrderSetAutoSearchHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D66A06A1B737B100075677E /* DCOrderSetAutoSearchHeaderView.m */; };
 		4D66A06F1B737BEE0075677E /* DCOrderSetAutoSearchHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D66A06E1B737BEE0075677E /* DCOrderSetAutoSearchHeaderView.xib */; };
 		4D766C0B1BBCF79900413E08 /* DCCalendarDateDisplayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D766C0A1BBCF79900413E08 /* DCCalendarDateDisplayViewController.swift */; settings = {ASSET_TAGS = (); }; };
@@ -627,6 +629,10 @@
 		4D48D3001B4C08B300B050A8 /* DCAlertsWebServiceTestCases.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCAlertsWebServiceTestCases.m; sourceTree = "<group>"; };
 		4D4D1D6B1B983E9C0007C153 /* DCMedicationListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCMedicationListTableViewCell.h; sourceTree = "<group>"; };
 		4D4D1D6C1B983E9C0007C153 /* DCMedicationListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCMedicationListTableViewCell.m; sourceTree = "<group>"; };
+		4D52D5821BCD02FB002ABA8D /* DCAdministerMedicationWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCAdministerMedicationWebService.h; sourceTree = "<group>"; };
+		4D52D5831BCD02FB002ABA8D /* DCAdministerMedicationWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCAdministerMedicationWebService.m; sourceTree = "<group>"; };
+		4D52D5891BCE74DB002ABA8D /* DCAdministrationStatusTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCAdministrationStatusTableViewController.h; sourceTree = "<group>"; };
+		4D52D58A1BCE74DB002ABA8D /* DCAdministrationStatusTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCAdministrationStatusTableViewController.m; sourceTree = "<group>"; };
 		4D66A0691B737B100075677E /* DCOrderSetAutoSearchHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCOrderSetAutoSearchHeaderView.h; sourceTree = "<group>"; };
 		4D66A06A1B737B100075677E /* DCOrderSetAutoSearchHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCOrderSetAutoSearchHeaderView.m; sourceTree = "<group>"; };
 		4D66A06E1B737BEE0075677E /* DCOrderSetAutoSearchHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCOrderSetAutoSearchHeaderView.xib; sourceTree = "<group>"; };
@@ -1602,6 +1608,7 @@
 				7D566D411AEFBDDE00F09AFC /* SettingsViewController */,
 				7D63354F1AE6696C00463E12 /* WardsDisplayViewController */,
 				0B08008A1AD6B24600B255FF /* MissedMedicationAlertViewController */,
+				4D52D5881BCE7404002ABA8D /* AdministrationStatusTableViewController */,
 				0BE141861B18882B00CEA758 /* OverrideViewController */,
 				0B2157091AB7D1B700BC4611 /* NameListSelectionViewController */,
 				0B91739B1B01F33C00BC9337 /* PrescriberDetailsViewController */,
@@ -2298,6 +2305,16 @@
 			path = NavigationHelper;
 			sourceTree = "<group>";
 		};
+		4D52D5881BCE7404002ABA8D /* AdministrationStatusTableViewController */ = {
+			isa = PBXGroup;
+			children = (
+				4D52D5891BCE74DB002ABA8D /* DCAdministrationStatusTableViewController.h */,
+				4D52D58A1BCE74DB002ABA8D /* DCAdministrationStatusTableViewController.m */,
+			);
+			name = AdministrationStatusTableViewController;
+			path = OverrideViewController;
+			sourceTree = "<group>";
+		};
 		4D766C091BBCF75200413E08 /* CalendarDateDisplayViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -2612,6 +2629,8 @@
 		7DCB394D1B786D420057F2BC /* AdministerMedicationWebService */ = {
 			isa = PBXGroup;
 			children = (
+				4D52D5821BCD02FB002ABA8D /* DCAdministerMedicationWebService.h */,
+				4D52D5831BCD02FB002ABA8D /* DCAdministerMedicationWebService.m */,
 			);
 			path = AdministerMedicationWebService;
 			sourceTree = "<group>";
@@ -2957,6 +2976,7 @@
 				0B8498BD1BB11B9B00C740F2 /* DCCalendarSlotDetailViewController.swift in Sources */,
 				0B720B531B1DA4FD00144665 /* DCSearchMedication.m in Sources */,
 				7D4DBE9B1AA55D2D00A5E39B /* DCPatientListWebService.m in Sources */,
+				4D52D58B1BCE74DB002ABA8D /* DCAdministrationStatusTableViewController.m in Sources */,
 				4D2DD3CC1B9889F0008CDEA0 /* DCDateTableViewCell.m in Sources */,
 				0BD52F3A1AA987B500A17A2C /* DCMedicationTableViewCell.m in Sources */,
 				0BBC8FA21AA469440085ABAB /* DCLoginViewController.m in Sources */,
@@ -2983,6 +3003,7 @@
 				0BBEFFD01B5F72EF00E70CCC /* DCWarning.m in Sources */,
 				0B21570C1AB7D1D400BC4611 /* NameSelectionTableViewController.m in Sources */,
 				7D104E5A1AEA4A5B00B03C0C /* DCBedWebService.m in Sources */,
+				4D52D5841BCD02FB002ABA8D /* DCAdministerMedicationWebService.m in Sources */,
 				0BBDEDC41AA57F980016E6FF /* DCTextField.m in Sources */,
 				4DE5259A1B8C32A00057C5F5 /* DCAlertsAllergyPopOverViewController.m in Sources */,
 				0BBFBB391B0F31A600342D2F /* DCDatePickerPopOverBackgroundView.m in Sources */,

@@ -1,26 +1,20 @@
 //
-//  NameSelectionTableViewController.m
+//  DCAdministrationStatusTableViewController.m
 //  DrugChart
 //
-//  Created by Muhammed Shaheer on 17/03/15.
+//  Created by aliya on 14/10/15.
 //
 //
 
-#import "NameSelectionTableViewController.h"
+#import "DCAdministrationStatusTableViewController.h"
 #import "DCUser.h"
 
-#define TABLE_REUSE_IDENTIFIER @"NameCell"
+#define TABLE_REUSE_IDENTIFIER @"StatusCell"
 
-@interface NameSelectionTableViewController () {
-    
-}
-
-@end
-
-@implementation NameSelectionTableViewController
-
+@implementation DCAdministrationStatusTableViewController
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _namesArray = @[ADMINISTERED, REFUSED, OMITTED];
     self.navigationController.navigationBarHidden = YES;
 }
 
@@ -43,22 +37,20 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:TABLE_REUSE_IDENTIFIER];
     }
-    DCUser *user = [_namesArray objectAtIndex:indexPath.item];
-    NSString *name = user.displayName;
+    NSString *status = [_namesArray objectAtIndex:indexPath.item];
     cell.textLabel.font = [UIFont systemFontOfSize:15.0];
-    cell.textLabel.text = name;
-    cell.accessoryType = ([name isEqualToString:_previousSelectedValue]) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+    cell.textLabel.text = status;
+    cell.accessoryType = ([status isEqualToString:_previousSelectedValue]) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    //pass the selected user name to parent
-    DCUser *selectedUser = [_namesArray objectAtIndex:indexPath.row];
-    if (self.namesDelegate && [self.namesDelegate respondsToSelector:@selector(selectedUserEntry:)]) {
-        [self.namesDelegate selectedUserEntry:selectedUser];
+    //pass the selected medication status to parent
+    NSString *status = [_namesArray objectAtIndex:indexPath.row];
+    if (self.medicationStatusDelegate && [self.medicationStatusDelegate respondsToSelector:@selector(selectedMedicationStatusEntry:)]) {
+        [self.medicationStatusDelegate selectedMedicationStatusEntry:status];
     }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-
 
 @end

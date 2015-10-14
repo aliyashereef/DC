@@ -29,6 +29,8 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     var contentArray :[AnyObject] = []
     var slotToAdminister : DCMedicationSlot?
     var weekDate : NSDate?
+    var patientId : NSString = EMPTY_STRING
+    var scheduleId : NSString = EMPTY_STRING
     
     override func viewDidLoad() {
         
@@ -242,8 +244,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         
         if(entriesAreValid()) {
             administerViewController?.isValid = true
-            self.dismissViewControllerAnimated(true) { () -> Void in
-            }
+            self.callAdministerMedicationWebService()
         } else {
             // show entries in red
             administerViewController?.validateAndReloadAdministerView()
@@ -274,5 +275,71 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         default :
             break
         }
+    }
+    
+    //MARK: API Integration
+    func getMedicationAdministrationDictionary() -> NSDictionary {
+        
+        let administerDictionary : NSMutableDictionary = [:]
+        let scheduledDateString = DCDateUtility.convertDate(administerViewController?.medicationSlot?.medicationAdministration?.scheduledDateTime, fromFormat:"yyyy-MM-dd hh:mm:ss 'Z'", toFormat:"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+        administerDictionary.setValue(scheduledDateString, forKey:SCHEDULED_ADMINISTRATION_TIME) 
+        let dateFormatter : NSDateFormatter = NSDateFormatter.init()
+        dateFormatter.dateFormat = EMIS_DATE_FORMAT
+        let administeredDateString : NSString = dateFormatter.stringFromDate(NSDate())
+        administerDictionary.setValue(administeredDateString, forKey:ACTUAL_ADMINISTRATION_TIME)
+        administerDictionary.setValue(administerViewController?.medicationSlot?.medicationAdministration?.status, forKey: ADMINISTRATION_STATUS)
+        // TO DO : Since the API is not complete the value for this field is harcoded.
+        if let administratingStatus : Bool = administerViewController?.medicationSlot?.medicationAdministration?.isSelfAdministered.boolValue {
+            if administratingStatus == false {
+                administerDictionary.setValue(administerViewController?.medicationSlot?.medicationAdministration?.administratingUser!.userIdentifier, forKey:"AdministratingUserIdentifier")
+            }
+            administerDictionary.setValue(administratingStatus, forKey: IS_SELF_ADMINISTERED)
+        }
+        
+        //TO DO : Configure the dosage and batch number from the form.
+        if let dosage = administerViewController?.medicationSlot?.medicationAdministration?.dosageString {
+            administerDictionary.setValue(dosage, forKey: ADMINISTRATING_DOSAGE)
+        } else {
+            administerDictionary.setValue("5mg", forKey: ADMINISTRATING_DOSAGE)
+        }
+        if let batch = administerViewController?.medicationSlot?.medicationAdministration?.batch {
+            administerDictionary.setValue(batch, forKey: ADMINISTRATING_BATCH)
+        } else {
+            administerDictionary.setValue("batchxxx", forKey: ADMINISTRATING_BATCH)
+        }
+        administerDictionary.setValue(administerViewController?.medicationSlot?.medicationAdministration?.administeredNotes, forKey: ADMINISTRATING_NOTES)
+        
+        //TODO: currently hardcoded as ther is no expiry field in UI
+        administerDictionary.setValue("2015-10-23T19:40:00.000Z", forKey: EXPIRY_DATE)
+        return administerDictionary
+    }
+    
+    func callAdministerMedicationWebService() {
+    
+        let administerMedicationWebService : DCAdministerMedicationWebService = DCAdministerMedicationWebService.init()
+        let parameterDictionary : NSDictionary = getMedicationAdministrationDictionary()
+        administerMedicationWebService.administerMedicationForScheduleId(scheduleId as String, forPatientId:patientId as String , withParameters:parameterDictionary as [NSObject : AnyObject]) { (array, error) -> Void in
+            if error == nil {
+                self.dismissViewControllerAnimated(true, completion: nil)
+            } else {
+                if Int(error.code) == Int(NETWORK_NOT_REACHABLE) {
+                    self.displayAlertWithTitle("ERROR", message: NSLocalizedString("INTERNET_CONNECTION_ERROR", comment:""))
+                } else if Int(error.code) == Int(WEBSERVICE_UNAVAILABLE)  {
+                    self.displayAlertWithTitle("ERROR", message: NSLocalizedString("WEBSERVICE_UNAVAILABLE", comment:""))
+                } else {
+                    self.displayAlertWithTitle("ERROR", message:"Administer Failed")
+                }
+            }
+        }
+    }
+    
+    func displayAlertWithTitle(title : NSString, message : NSString ) {
+    //display alert view for view controllers
+        let alertController : UIAlertController = UIAlertController(title: title as String, message: message as String, preferredStyle: UIAlertControllerStyle.Alert)
+        let action : UIAlertAction = UIAlertAction(title: OK_BUTTON_TITLE, style: UIAlertActionStyle.Default, handler: { action in
+            alertController.dismissViewControllerAnimated(true, completion: nil)
+        })
+        alertController.addAction(action)
+        presentViewController(alertController, animated: true, completion: nil)
     }
 }

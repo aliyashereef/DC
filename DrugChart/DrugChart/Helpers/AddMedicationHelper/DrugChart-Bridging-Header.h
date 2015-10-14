@@ -24,5 +24,7 @@
 #import "DCPatientDetailsHelper.h"
 #import "DCWardsGraphicalDisplayViewController.h"
 #import "PrescriberMedicationViewController.h"
+#import "DCAdministerMedicationWebService.h"
+#import "DCAdministrationStatusTableViewController.h"
 
 

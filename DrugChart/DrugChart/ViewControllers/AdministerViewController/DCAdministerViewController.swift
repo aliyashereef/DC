@@ -43,7 +43,7 @@ enum RowCount : NSInteger {
     case eFourthRow
 }
 
-class DCAdministerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NotesCellDelegate, BatchNumberCellDelegate, NamesListDelegate, AdministerPickerCellDelegate , SecurityPinMatchDelegate{
+class DCAdministerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NotesCellDelegate, BatchNumberCellDelegate, NamesListDelegate, AdministerPickerCellDelegate , SecurityPinMatchDelegate, StatusListDelegate {
 
     @IBOutlet weak var administerTableView: UITableView!
     @IBOutlet weak var alertMessageLabel: UILabel!
@@ -192,9 +192,21 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             if (error == nil) {
                 for userDict in users {
                     let displayName = userDict["displayName"] as! String?
-                    self.userListArray! .addObject(displayName!)
+                    let identifier = userDict["identifier"] as! String?
+                    let user : DCUser = DCUser.init()
+                    user.displayName = displayName
+                    user.userIdentifier = identifier
+                    self.userListArray! .addObject(user)
                 }
-                self.userListArray!.insertObject(SELF_ADMINISTERED_TITLE, atIndex: 0)
+                let selfAdministratedPatientName = SELF_ADMINISTERED_TITLE
+                let selfAdministratedPatientIdentifier = EMPTY_STRING
+                let selfAdministratedUser : DCUser = DCUser.init()
+                selfAdministratedUser.displayName = selfAdministratedPatientName
+                selfAdministratedUser.userIdentifier = selfAdministratedPatientIdentifier
+                self.userListArray!.insertObject(selfAdministratedUser, atIndex: 0)
+                self.medicationSlot?.medicationAdministration.administratingUser = selfAdministratedUser
+                self.medicationSlot?.medicationAdministration.isSelfAdministered = true
+                self.administerTableView.reloadData()
             }
         }
      }
@@ -377,19 +389,19 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     func presentAdministratedStatusPopOverAtIndexPath (indexPath : NSIndexPath) {
         
-        let namesViewController : NameSelectionTableViewController? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(NAMES_LIST_VIEW_STORYBOARD_ID) as? NameSelectionTableViewController
-        namesViewController?.namesArray = [ADMINISTERED, REFUSED , OMITTED]
-        namesViewController?.namesDelegate = self
+        let namesViewController : DCAdministrationStatusTableViewController? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(STATUS_LIST_VIEW_SB_ID) as? DCAdministrationStatusTableViewController
+        namesViewController?.medicationStatusDelegate = self
 
         let navigationController : UINavigationController? = UINavigationController(rootViewController: namesViewController!)
         navigationController?.modalPresentationStyle = UIModalPresentationStyle.Popover
+        self.presentViewController(navigationController!, animated: true, completion: nil)
+
         let popover = navigationController?.popoverPresentationController
         namesViewController!.preferredContentSize = CGSizeMake(250,90)
         popover?.permittedArrowDirections = .Up
         popover?.preferredContentSize
         let cell = administerTableView.cellForRowAtIndexPath(indexPath) as! DCAdministerCell?
         popover!.sourceView = cell?.popoverButton
-        self.presentViewController(navigationController!, animated: true, completion: nil)
     }
 
     func getDatePickerCellAtIndexPath(indexPath : NSIndexPath) -> DCAdministerPickerCell {
@@ -754,30 +766,37 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         }
     }
     
+    // mark :StatusList Delegate Methods 
+    func selectedMedicationStatusEntry(status: String!) {
+        if status == ADMINISTERED {
+            medicationSlot?.medicationAdministration.status = ADMINISTERED
+        } else if status == REFUSED {
+            medicationSlot?.medicationAdministration.status = REFUSED
+        } else if status == OMITTED{
+            medicationSlot?.medicationAdministration.status = OMITTED
+        }
+        administerTableView .reloadData()
+    }
+    
     // MARK: NamesList Delegate Methods
     
-    func selectedUserEntry(user : String!) {
-        if user == ADMINISTERED {
-            medicationSlot?.medicationAdministration.status = ADMINISTERED
-        } else if user == REFUSED {
-            medicationSlot?.medicationAdministration.status = REFUSED
-        } else if user == OMITTED{
-            medicationSlot?.medicationAdministration.status = OMITTED
-        } else {
+    func selectedUserEntry(user : DCUser!) {
             if (popOverIndexPath?.row == RowCount.eZerothRow.rawValue) {
                 //administered by
-                medicationSlot?.medicationAdministration?.administratingUser?.displayName = user
+                medicationSlot?.medicationAdministration?.administratingUser = user
+                if user.displayName != SELF_ADMINISTERED {
+                    medicationSlot?.medicationAdministration?.isSelfAdministered = false
+                }
             } else if (popOverIndexPath?.row == RowCount.eSecondRow.rawValue) {
                 //checked by
                 if (user == DEFAULT_NURSE_NAME) {
-                    medicationSlot?.medicationAdministration?.checkingUser?.displayName = user
+                    medicationSlot?.medicationAdministration?.checkingUser = user
                 } else {
-                    let selectedUser = DCUser.init()
-                    selectedUser.displayName = user
+                    var selectedUser = DCUser.init()
+                    selectedUser = user
                     self.performSelector("displaySecurityPinEntryViewForUser:", withObject:selectedUser , afterDelay: 0.5)
                 }
             }
-        }
         administerTableView .reloadData()
     }
     

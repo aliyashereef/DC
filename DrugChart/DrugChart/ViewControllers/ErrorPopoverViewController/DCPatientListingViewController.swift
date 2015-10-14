@@ -342,14 +342,20 @@ class DCPatientListingViewController: UIViewController ,UITableViewDataSource, U
     //UIBarButtomItem selection methods
     
     func presentWardsListView(sender : UIBarButtonItem) {
+        
+        // Instantiating the navigation controller to present the popover with preferred content size of the poppver.
         let popoverContent = self.storyboard!.instantiateViewControllerWithIdentifier("WardsListingPopoverViewController") as! DCWardsListingPopoverViewController
         popoverContent.wardsArray = wardsListArray
         popoverContent.delegate = self
         let navigationController = UINavigationController(rootViewController: popoverContent)
         navigationController.modalPresentationStyle = .Popover
-        let popover = navigationController.popoverPresentationController
-        popover!.barButtonItem = sender
         self.presentViewController(navigationController, animated:false, completion: nil)
+
+        let popover : UIPopoverPresentationController = navigationController.popoverPresentationController!
+        popover.permittedArrowDirections = UIPopoverArrowDirection.Any
+        popover.sourceView = self.navigationController?.navigationBar
+//        popover.sourceRect = CGRectMake(0, 0, 305,20)
+        popover.barButtonItem = sender as UIBarButtonItem
     }
     
     func presentGraphicalWardsView () {

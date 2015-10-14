@@ -12,11 +12,11 @@
 
 @optional
 
-- (void)selectedUserEntry:(NSString *)user;
+- (void)selectedUserEntry:(DCUser *)user;
 
 @end
 
-typedef void(^UserSelectionHandlerBlock)(NSString *user);
+typedef void(^UserSelectionHandlerBlock)(DCUser *user);
 
 @interface NameSelectionTableViewController : UITableViewController
 
