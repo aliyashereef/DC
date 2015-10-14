@@ -259,6 +259,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     
     @IBAction func cancelButtonPressed(sender: AnyObject) {
         
+        administerViewController?.resetSavedAdministrationDetails()
         self.dismissViewControllerAnimated(true) { () -> Void in
             
         }

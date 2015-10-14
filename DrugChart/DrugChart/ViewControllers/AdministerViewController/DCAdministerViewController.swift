@@ -147,6 +147,12 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         }
     }
     
+    func resetSavedAdministrationDetails () {
+        
+        //reset saved administration details
+        medicationSlot?.medicationAdministration = nil
+    }
+    
     func checkIfAdministrationIsEarly () {
         
         //check if administration is early

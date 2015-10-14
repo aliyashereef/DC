@@ -64,7 +64,7 @@ class DCMedicationAdministrationStatusView: UIView {
 
     func updateAdministrationStatusViewWithMedicationSlotDictionary(slotDictionary : NSDictionary) {
         
-        medicationSlotDictionary = slotDictionary
+        medicationSlotDictionary = slotDictionary.copy() as? NSDictionary
         if let timeSlotsArray  = medicationSlotDictionary?["timeSlots"] {
             if timeSlotsArray.count > 0 {
                 configureStatusViewForTimeArray(timeSlotsArray as! [DCMedicationSlot])
@@ -257,7 +257,6 @@ class DCMedicationAdministrationStatusView: UIView {
     
     @IBAction func administerButtonClicked (sender: UIButton ) {
         
-        //delegate?.administerButtonClickedForViewTag(self.tag, atIndexPath: currentIndexPath!)
         if let slotDictionary = medicationSlotDictionary {
             delegate?.administerMedicationWithMedicationSlots(slotDictionary, atIndexPath: currentIndexPath!, withWeekDate: weekdate!)
         }

@@ -98,8 +98,6 @@
     [self.requestSerializer setValue:[NSString stringWithFormat:@"Bearer %@", accessToken] forHTTPHeaderField:@"Authorization"];
     id rolesProfile = [[DCKeyChainManager sharedKeyChainManager] getTokenForKey:kRolesProfile];
     [self.requestSerializer setValue:[NSString stringWithFormat:@"RoleContext %@", [DCUtility encodeStringToBase64Format:rolesProfile]] forHTTPHeaderField:@"Cookie"];
-    NSLog(@"the cookie:\n %@ ", [NSString stringWithFormat:@"RoleContext %@", [DCUtility encodeStringToBase64Format:rolesProfile]] );
-    NSLog(@"the sccessToken : \n%@", [NSString stringWithFormat:@"Bearer %@", accessToken]);
 }
 
 
