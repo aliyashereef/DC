@@ -42,7 +42,7 @@ import UIKit
         if (panEnded == true) {
             if (xVelocity > 0) {
                 // animate to left. show previous week
-                UIView.animateWithDuration(0.05, animations: { () -> Void in
+                UIView.animateWithDuration(0.1, animations: { () -> Void in
                     if (self.calendarViewLeadingConstraint.constant >= MEDICATION_VIEW_WIDTH) {
                         self.calendarViewLeadingConstraint.constant = calendarWidth
                     } else {
@@ -53,7 +53,7 @@ import UIKit
                 })
             } else {
                 //show next week
-                UIView.animateWithDuration(0.05, animations: { () -> Void in
+                UIView.animateWithDuration(0.1, animations: { () -> Void in
                     if (self.calendarViewLeadingConstraint.constant <= -MEDICATION_VIEW_WIDTH) {
                         self.calendarViewLeadingConstraint.constant = -calendarWidth
                     } else {

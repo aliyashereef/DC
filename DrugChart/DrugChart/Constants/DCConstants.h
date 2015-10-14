@@ -205,7 +205,6 @@
 
 #define kEarlyAdministrationNotification        @"EarlyAdministration"
 #define kNetworkAvailable                       @"NetworkAvailable"
-#define kCalendarPanned                         @"CalendarPanned"
 
 //date
 

@@ -23,6 +23,11 @@ let MEDICATION_VIEW_WIDTH : CGFloat                 =               300
 let EDIT_TEXT : String                              =               "Edit"
 let STOP_TEXT : String                              =               "Stop"
 
+protocol DCPrescriberCellDelegate:class {
+    
+    func movePrescriberCellWithTranslationParameters(xTranslation : CGPoint, xVelocity : CGPoint, panEnded: Bool)
+}
+
 class PrescriberMedicationTableViewCell: UITableViewCell {
     
     
@@ -45,12 +50,13 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     // to the containerView holding the 3 subviews (left, right, center)
     // To move the calendar left/right only this constant value needs to be changed.
     @IBOutlet weak var leadingSpaceMasterToContainerView: NSLayoutConstraint!
+    
+    var cellDelegate : DCPrescriberCellDelegate?
 
     override func awakeFromNib() {
         
         super.awakeFromNib()
         addPanGestureToMedicationDetailHolderView()
-        addNotifications()
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -66,11 +72,6 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
         //add pan gesture to medication detail holder view
         let panGesture = UIPanGestureRecognizer(target: self, action: Selector("swipeMedicationDetailView:"))
         medicineDetailHolderView.addGestureRecognizer(panGesture)
-    }
-    
-    func addNotifications () {
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("calendarScreenPanned:"), name: kCalendarPanned, object: nil)
     }
     
     func setEditViewButtonNames() {
@@ -199,47 +200,38 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
         
     }
     
-    // MARK: Notification Methods
     
-    func calendarScreenPanned (notification : NSNotification) {
+    func movePrescriberCellWithTranslationParameters(xTranslation : CGFloat, xVelocity : CGFloat, panEnded : Bool) {
         
-        let notificationInfo = notification.userInfo as! [String : AnyObject]?
         let calendarWidth : CGFloat = (DCUtility.getMainWindowSize().width - MEDICATION_VIEW_WIDTH);
-        if let xTranslation  = notificationInfo?["xPoint"] as? CGFloat {
-            let valueToTranslate = leadingSpaceMasterToContainerView.constant + xTranslation;
-            if (valueToTranslate >= -calendarWidth && valueToTranslate <= calendarWidth) {
-                leadingSpaceMasterToContainerView.constant = leadingSpaceMasterToContainerView.constant + xTranslation;
-               // self.layoutIfNeeded()
-            }
+        let valueToTranslate = leadingSpaceMasterToContainerView.constant + xTranslation;
+        if (valueToTranslate >= -calendarWidth && valueToTranslate <= calendarWidth) {
+            leadingSpaceMasterToContainerView.constant = leadingSpaceMasterToContainerView.constant + xTranslation;
         }
-        if let panEnded = notificationInfo?["panEnded"] as? Bool{
-            if (panEnded == true) {
-                 if let xVelocity = notificationInfo?["xVelocity"] as? CGFloat {
-                    if (xVelocity > 0) {
-                        // animate to left. show previous week
-                        UIView.animateWithDuration(0.05, animations: { () -> Void in
-                            if (self.leadingSpaceMasterToContainerView.constant >= MEDICATION_VIEW_WIDTH) {
-                                self.leadingSpaceMasterToContainerView.constant = calendarWidth
-                            } else {
-                                //display current week
-                                self.leadingSpaceMasterToContainerView.constant = 0.0
-                            }
-                            self.layoutIfNeeded()
-                        })
+        if (panEnded == true) {
+            if (xVelocity > 0) {
+                // animate to left. show previous week
+                UIView.animateWithDuration(0.1, animations: { () -> Void in
+                    if (self.leadingSpaceMasterToContainerView.constant >= MEDICATION_VIEW_WIDTH) {
+                        self.leadingSpaceMasterToContainerView.constant = calendarWidth
                     } else {
-                        //show next week
-                        UIView.animateWithDuration(0.05, animations: { () -> Void in
-                            if (self.leadingSpaceMasterToContainerView.constant <= -MEDICATION_VIEW_WIDTH) {
-                                self.leadingSpaceMasterToContainerView.constant = -calendarWidth
-                            } else {
-                                self.leadingSpaceMasterToContainerView.constant = 0.0
-                            }
-                            self.layoutIfNeeded()
-                        })
+                        //display current week
+                        self.leadingSpaceMasterToContainerView.constant = 0.0
                     }
+                    self.layoutIfNeeded()
+                })
+            } else {
+                //show next week
+                UIView.animateWithDuration(0.1, animations: { () -> Void in
+                if (self.leadingSpaceMasterToContainerView.constant <= -MEDICATION_VIEW_WIDTH) {
+                    self.leadingSpaceMasterToContainerView.constant = -calendarWidth
+                } else {
+                    self.leadingSpaceMasterToContainerView.constant = 0.0
                 }
-            }
+                self.layoutIfNeeded()
+            })
         }
     }
+}
     
 }
