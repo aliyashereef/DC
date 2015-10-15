@@ -65,7 +65,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             }
             let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
             medicationCell?.editAndDeleteDelegate = self
-            medicationCell?.setIndexPathForCell(indexPath)
+            medicationCell?.indexPath = indexPath
             self.fillInMedicationDetailsInTableCell(medicationCell!, atIndexPath: indexPath)
             if (medicationScheduleDetails.name  == "Idebenone 150mg capsules") {
                 print(" got it")
@@ -87,7 +87,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     
     func reloadMedicationListWithDisplayArray (displayArray: NSMutableArray) {
         
-        displayMedicationListArray = displayArray
+        displayMedicationListArray =  displayArray as NSMutableArray
         medicationTableView?.reloadData()
         
     }
@@ -243,16 +243,34 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     
     //MARK - EditAndDeleteActionDelegate methods 
     func stopMedicationForSelectedIndexPath(indexPath: NSIndexPath) {
+        deleteMedicationAtIndexPath(indexPath)
+    }
+    
+    func deleteMedicationAtIndexPath(indexPath : NSIndexPath) {
+        
         let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
         let webService : DCStopMedicationWebService = DCStopMedicationWebService.init()
         webService.stopMedicationForPatientWithId(patientId as String, drugWithScheduleId: medicationScheduleDetails.scheduleId) { (array, error) -> Void in
             if error == nil {
-                if let delegate = self.delegate {
-                    delegate.refreshMedicationList()
-                }
+                self.medicationTableView!.beginUpdates()
+                print(self.displayMedicationListArray ,"index PAth     ******", indexPath.row)
+                var arr : [DCMedicationScheduleDetails] = [DCMedicationScheduleDetails]()
+                arr = self.displayMedicationListArray.mutableCopy() as! [DCMedicationScheduleDetails]
+                arr.removeAtIndex(indexPath.row)
+                self.displayMedicationListArray = (arr as? NSMutableArray)!
+                
+                self.medicationTableView!.deleteRowsAtIndexPaths([indexPath as NSIndexPath], withRowAnimation: .Fade)
+                self.medicationTableView!.endUpdates()
+                self.medicationTableView?.reloadData()
+                // If we want to reload the medication list, uncomment the lines
+//                if let delegate = self.delegate {
+//                    delegate.refreshMedicationList()
+//
+//                }
+            } else {
+                // TO DO: handle the case for already deleted medication.
             }
         }
-        medicationTableView?.reloadData()
     }
 }
 

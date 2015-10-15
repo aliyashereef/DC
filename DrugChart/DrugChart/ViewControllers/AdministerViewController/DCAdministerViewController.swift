@@ -742,7 +742,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     func enteredNote(note : String) {
         
-        if(medicationSlot?.medicationAdministration.status == ADMINISTERED) {
+        if(medicationSlot?.medicationAdministration?.status == ADMINISTERED) {
             medicationSlot?.medicationAdministration.administeredNotes = note
         } else if (medicationSlot?.medicationAdministration.status == REFUSED) {
             medicationSlot?.medicationAdministration.refusedNotes = note

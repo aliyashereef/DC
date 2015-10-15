@@ -32,6 +32,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     var patientId : NSString = EMPTY_STRING
     var scheduleId : NSString = EMPTY_STRING
     var errorMessage : String = EMPTY_STRING
+    var helper : DCSwiftObjCNavigationHelper = DCSwiftObjCNavigationHelper.init()
     
     override func viewDidLoad() {
         
@@ -124,8 +125,11 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
                 administerViewController?.medicationSlot = slotToAdminister
                 administerViewController?.alertMessage = errorMessage
                 if (slotToAdminister?.medicationAdministration?.actualAdministrationTime == nil) {
-                    doneButton.enabled = false
+                    doneButton.enabled = true
                 }
+            }
+            if slotToAdminister == nil {
+                doneButton.enabled = false
             }
             administerViewController?.medicationDetails = medicationDetails
             var medicationArray : [DCMedicationSlot] = [DCMedicationSlot]()
@@ -161,7 +165,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
             if let historyArray : [DCMedicationSlot] = medicationSlotsArray {
                 var slotCount = 0
                 for slot : DCMedicationSlot in historyArray {
-                    if (slot.medicationAdministration?.status != nil && slot.medicationAdministration.actualAdministrationTime != nil) {
+                    if (slot.medicationAdministration?.status != nil  slot.medicationAdministration.actualAdministrationTime != nil) {
                         medicationArray.insert(slot, atIndex: slotCount)
                         slotCount++
                     }
@@ -331,13 +335,14 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
             self.administerViewController?.activityIndicator.stopAnimating()
             if error == nil {
                 self.dismissViewControllerAnimated(true, completion: nil)
+                self.helper.reloadPrescriberMedicationHomeViewController()
             } else {
                 if Int(error.code) == Int(NETWORK_NOT_REACHABLE) {
                     self.displayAlertWithTitle("ERROR", message: NSLocalizedString("INTERNET_CONNECTION_ERROR", comment:""))
                 } else if Int(error.code) == Int(WEBSERVICE_UNAVAILABLE)  {
                     self.displayAlertWithTitle("ERROR", message: NSLocalizedString("WEBSERVICE_UNAVAILABLE", comment:""))
                 } else {
-                    self.displayAlertWithTitle("ERROR", message:"Administer Failed")
+                    self.displayAlertWithTitle("ERROR", message:"Administration Failed")
                 }
             }
         }

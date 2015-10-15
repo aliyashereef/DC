@@ -205,16 +205,12 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     }
     
     @IBAction func stopMedicationButtonPressed(sender: AnyObject) {
+        
         swipeMedicationDetailViewToRight()
         if let delegate = editAndDeleteDelegate {
             delegate.stopMedicationForSelectedIndexPath(indexPath)
         }
     }
-    
-    func setIndexPathForCell(indexpath : NSIndexPath) {
-        self.indexPath = indexpath
-    }
-    
     
     func movePrescriberCellWithTranslationParameters(xTranslation : CGFloat, xVelocity : CGFloat, panEnded : Bool) {
         

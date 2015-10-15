@@ -32,7 +32,7 @@ typedef enum : NSUInteger {
     kSortDrugName
 } SortType;
 
-@interface PrescriberMedicationViewController () <DCAddMedicationViewControllerDelegate, PrescriberListDelegate>{
+@interface PrescriberMedicationViewController () <DCAddMedicationViewControllerDelegate,PrescriberListDelegate ,AdministrationDelegate>{
     
     NSMutableArray *currentWeekDatesArray;
     IBOutlet UIView *calendarDaysDisplayView;
@@ -81,7 +81,6 @@ typedef enum : NSUInteger {
     [self fillPrescriberMedicationDetailsInCalendarView];
     [self addTopDatePortionInCalendar];
     [self obtainReferencesToChildViewControllersAddedFromStoryBoard];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -485,6 +484,9 @@ typedef enum : NSUInteger {
         detailViewController.scheduleId = medicationList.scheduleId;
         detailViewController.medicationDetails = medicationList;
     }
+    DCSwiftObjCNavigationHelper *helper = [[DCSwiftObjCNavigationHelper alloc] init];
+    helper.delegate = self;
+    detailViewController.helper = helper;
     if ([[medicationSLotsDictionary allKeys] containsObject:@"timeSlots"]) {
         NSMutableArray *slotsArray = [[NSMutableArray alloc] initWithArray:[medicationSLotsDictionary valueForKey:@"timeSlots"]];
         if ([slotsArray count] > 0) {
@@ -515,6 +517,10 @@ typedef enum : NSUInteger {
 
 // This method refresh the medication list when an mediation gets deleted.
 - (void) refreshMedicationList {
+    [self fetchMedicationListForPatient];
+}
+
+- (void)reloadPrescriberMedicationList {
     [self fetchMedicationListForPatient];
 }
 
