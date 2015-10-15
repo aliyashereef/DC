@@ -334,16 +334,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         notesCell.delegate = self
         return notesCell
     }
-    
-//    func configureMedicationDetailsCellAtIndexPath(indexPath : NSIndexPath) -> (DCAdministerMedicationDetailsCell) {
-//        
-//        let medicationCell : DCAdministerMedicationDetailsCell = (administerTableView.dequeueReusableCellWithIdentifier(ADMINISTER_MEDICATION_DETAILS_CELL_ID) as? DCAdministerMedicationDetailsCell!)!
-//        if medicationDetails != nil {
-//            medicationCell.populateCellWithMedicationDetails(medicationDetails!)
-//        }
-//        return medicationCell
-//    }
-    
+        
     func presentPrescribersAndAdministersPopOverViewAtIndexPath (indexPath : NSIndexPath) {
         
         popOverIndexPath = indexPath
