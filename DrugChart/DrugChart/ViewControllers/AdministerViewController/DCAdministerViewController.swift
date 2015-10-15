@@ -322,21 +322,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             }
             cell.accessoryType = UITableViewCellAccessoryType.None
             return cell
-//        case RowCount.eFirstRow.rawValue:
-//            cell.titleLabel.text = ADMINISTERED
-//            cell.detailLabel.text = EMPTY_STRING
-//            cell.accessoryType = (medicationSlot?.medicationAdministration.status == ADMINISTERED) ?UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
-//            return cell
-//        case RowCount.eSecondRow.rawValue:
-//            cell.titleLabel.text = REFUSED
-//            cell.detailLabel.text = EMPTY_STRING
-//            cell.accessoryType = (medicationSlot?.medicationAdministration.status == REFUSED) ?UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
-//            return cell
-//        case RowCount.eThirdRow.rawValue:
-//            cell.titleLabel.text = OMITTED
-//            cell.detailLabel.text = EMPTY_STRING
-//            cell.accessoryType = (medicationSlot?.medicationAdministration.status == OMITTED) ?UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
-//            return cell
         default:
             return cell
         }
