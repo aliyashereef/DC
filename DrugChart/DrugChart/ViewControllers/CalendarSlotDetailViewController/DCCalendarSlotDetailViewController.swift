@@ -13,12 +13,16 @@ import UIKit
 let ADMINISTER_SEGMENT_INDEX : NSInteger = 0
 let MEDICATION_HISTORY_SEGMENT_INDEX : NSInteger = 1
 let BNF_SEGMENT_INDEX : NSInteger = 2
+let SEGMENTED_CONTROL_FULL_WIDTH : CGFloat = 335.00
+let SEGMENTED_CONTROL_ONE_THIRD_WIDTH : CGFloat = 180.00
+
 
 class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTransitioningDelegate {
 
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
+    @IBOutlet weak var segmentedControlWidth: NSLayoutConstraint?
     
     var administerViewController : DCAdministerViewController?
     var medicationHistoryViewController : DCMedicationHistoryViewController?
@@ -46,6 +50,12 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         self.view.layer.masksToBounds = true
         self.view.superview?.backgroundColor = UIColor.clearColor()
     }
+    
+    override func viewDidLayoutSubviews() {
+        
+        adjustSegmentedControlWidth()
+        super.viewDidLayoutSubviews()
+    }
 
     override func didReceiveMemoryWarning() {
         
@@ -72,6 +82,21 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
             }
         }
      }
+    
+    func adjustSegmentedControlWidth () {
+        
+        let windowWidth : CGFloat = DCUtility.getMainWindowSize().width
+        let screenWidth : CGFloat = UIScreen.mainScreen().bounds.size.width
+        if (windowWidth < screenWidth/3) {
+            segmentedControlWidth?.constant = SEGMENTED_CONTROL_ONE_THIRD_WIDTH
+//            let attr = NSDictionary(object: UIFont(name: "HelveticaNeue", size: 9.5)!, forKey: NSFontAttributeName)
+//            segmentedControl.setTitleTextAttributes(attr as [NSObject : AnyObject], forState: .Normal)
+        } else {
+            segmentedControlWidth?.constant = SEGMENTED_CONTROL_FULL_WIDTH
+//            //let attr = NSDictionary(object: UIFont(name: "HelveticaNeue", size: 14)!, forKey: NSFontAttributeName)
+//            segmentedControl.setTitleTextAttributes(attr as [NSObject : AnyObject], forState: .Normal)
+        }
+    }
     
     func initialiseMedicationSlotToAdministerObject () {
         

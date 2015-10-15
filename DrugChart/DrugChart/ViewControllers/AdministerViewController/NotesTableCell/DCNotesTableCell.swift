@@ -10,7 +10,7 @@ import UIKit
 
 protocol NotesCellDelegate {
     
-    func notesSelected(editing : Bool)
+    func notesSelected(editing : Bool, withIndexPath indexPath : NSIndexPath)
     func enteredNote(note : String)
 }
 
@@ -20,6 +20,7 @@ class DCNotesTableCell: UITableViewCell, UITextViewDelegate {
     
     var notesType : NotesType?
     var delegate: NotesCellDelegate?
+    var selectedIndexPath : NSIndexPath?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -31,15 +32,17 @@ class DCNotesTableCell: UITableViewCell, UITextViewDelegate {
         // Configure the view for the selected state
     }
     
-    func textViewDidBeginEditing(textView: UITextView) {
+    //func textViewDidBeginEditing(textView: UITextView) {
+    func textViewShouldBeginEditing(textView: UITextView) -> Bool {
         
         if let delegate = self.delegate {
-            delegate.notesSelected(true)
+            delegate.notesSelected(true, withIndexPath: selectedIndexPath!)
         }
         if (textView.text == getHintText()) {
             textView.textColor = UIColor.blackColor()
             textView.text = EMPTY_STRING
         }
+        return true
     }
     
     func textViewDidChange(textView: UITextView) {
@@ -56,6 +59,10 @@ class DCNotesTableCell: UITableViewCell, UITextViewDelegate {
         if let delegate = self.delegate {
             delegate.enteredNote(textView.text)
         }
+        if let delegate = self.delegate {
+            delegate.notesSelected(false, withIndexPath: selectedIndexPath!)
+        }
+
         if (textView.text == EMPTY_STRING) {
             textView.textColor = UIColor.getColorForHexString("#8f8f95")
             textView.text = getHintText()

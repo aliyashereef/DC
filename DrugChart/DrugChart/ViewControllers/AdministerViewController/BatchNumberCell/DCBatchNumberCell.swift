@@ -8,15 +8,10 @@
 
 import UIKit
 
-public protocol BatchNumberCellDelegate {
-    
-    func batchNumberFieldSelected()
-}
 
 class DCBatchNumberCell: UITableViewCell, UITextFieldDelegate {
 
     @IBOutlet weak var batchNumberTextField: UITextField!
-    var delegate: BatchNumberCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -29,10 +24,5 @@ class DCBatchNumberCell: UITableViewCell, UITextFieldDelegate {
         // Configure the view for the selected state
     }
     
-    func textFieldDidBeginEditing(textField: UITextField) {
-        if let delegate = self.delegate {
-            delegate.batchNumberFieldSelected()
-        }
-    }
 
 }
