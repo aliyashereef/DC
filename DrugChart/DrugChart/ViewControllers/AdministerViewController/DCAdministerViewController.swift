@@ -43,13 +43,14 @@ enum RowCount : NSInteger {
     case eFourthRow
 }
 
-class DCAdministerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NotesCellDelegate, BatchNumberCellDelegate, NamesListDelegate, AdministerPickerCellDelegate , SecurityPinMatchDelegate{
+class DCAdministerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NotesCellDelegate,  NamesListDelegate, AdministerPickerCellDelegate , SecurityPinMatchDelegate{
 
     @IBOutlet weak var administerTableView: UITableView!
     @IBOutlet weak var alertMessageLabel: UILabel!
     @IBOutlet var medicineRouteAndInstructionsLabel: UILabel!
     @IBOutlet var medicineNameLabel: UILabel!
     @IBOutlet var medicineDateLabel: UILabel!
+    @IBOutlet weak var administerTableViewTopConstraint: NSLayoutConstraint!
     
     var medicationSlot : DCMedicationSlot?
     var medicationDetails : DCMedicationScheduleDetails?
@@ -62,12 +63,15 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     var datePickerIndexPath : NSIndexPath?
     var isValid : Bool = true
     var weekDate : NSDate?
+    var editingIndexPath : NSIndexPath?
+    var keyboardHeight : CGFloat?
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
         configureViewElements()
         fetchAdministersAndPrescribersList()
+        addNotifications()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -102,6 +106,15 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         }
         configureMedicationDetails()
     }
+
+    
+    func addNotifications() {
+        
+        //keyboard show/hide observer
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardDidShow:"), name: UIKeyboardWillShowNotification, object: nil)
+         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardDidHide:"), name: UIKeyboardWillHideNotification, object: nil)
+    }
+
     
     func configureMedicationDetails () {
         medicineNameLabel.text = medicationDetails!.name
@@ -225,6 +238,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             }
             else if (medicationSlot?.medicationAdministration?.status == REFUSED) {
                 administerCell = getMedicationDetailsCellForRefusedStatus(administerCell, indexPath: indexPath)
+            } else {
+                
             }
             administerCell.accessoryType = UITableViewCellAccessoryType.None
             break
@@ -281,7 +296,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func getBatchNumberOrExpiryDateTableCellAtIndexPath(indexPath: NSIndexPath) -> (DCBatchNumberCell) {
         
         let expiryCell : DCBatchNumberCell = (administerTableView.dequeueReusableCellWithIdentifier(BATCH_NUMBER_CELL_ID) as? DCBatchNumberCell)!
-        expiryCell.delegate = self
+       // expiryCell.delegate = self
         return expiryCell;
     }
     
@@ -307,21 +322,21 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             }
             cell.accessoryType = UITableViewCellAccessoryType.None
             return cell
-        case RowCount.eFirstRow.rawValue:
-            cell.titleLabel.text = ADMINISTERED
-            cell.detailLabel.text = EMPTY_STRING
-            cell.accessoryType = (medicationSlot?.medicationAdministration.status == ADMINISTERED) ?UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
-            return cell
-        case RowCount.eSecondRow.rawValue:
-            cell.titleLabel.text = REFUSED
-            cell.detailLabel.text = EMPTY_STRING
-            cell.accessoryType = (medicationSlot?.medicationAdministration.status == REFUSED) ?UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
-            return cell
-        case RowCount.eThirdRow.rawValue:
-            cell.titleLabel.text = OMITTED
-            cell.detailLabel.text = EMPTY_STRING
-            cell.accessoryType = (medicationSlot?.medicationAdministration.status == OMITTED) ?UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
-            return cell
+//        case RowCount.eFirstRow.rawValue:
+//            cell.titleLabel.text = ADMINISTERED
+//            cell.detailLabel.text = EMPTY_STRING
+//            cell.accessoryType = (medicationSlot?.medicationAdministration.status == ADMINISTERED) ?UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
+//            return cell
+//        case RowCount.eSecondRow.rawValue:
+//            cell.titleLabel.text = REFUSED
+//            cell.detailLabel.text = EMPTY_STRING
+//            cell.accessoryType = (medicationSlot?.medicationAdministration.status == REFUSED) ?UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
+//            return cell
+//        case RowCount.eThirdRow.rawValue:
+//            cell.titleLabel.text = OMITTED
+//            cell.detailLabel.text = EMPTY_STRING
+//            cell.accessoryType = (medicationSlot?.medicationAdministration.status == OMITTED) ?UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
+//            return cell
         default:
             return cell
         }
@@ -330,6 +345,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func getNotesTableCellAtIndexPath(indexPath : NSIndexPath) -> (DCNotesTableCell) {
         
         let notesCell : DCNotesTableCell = (administerTableView.dequeueReusableCellWithIdentifier(NOTES_CELL_ID) as? DCNotesTableCell)!
+        notesCell.selectedIndexPath = indexPath
         notesCell.delegate = self
         return notesCell
     }
@@ -419,7 +435,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     func getPopulatedOmittedTableViewCellAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
         
-        if (indexPath.section == SectionCount.eSecondSection.rawValue) {
+        if (indexPath.section == SectionCount.eFirstSection.rawValue) {
             let notesCell : DCNotesTableCell = getNotesTableCellAtIndexPath(indexPath)
             notesCell.notesType = eReason
             notesCell.notesTextView.textColor = !isValid ? UIColor.redColor() : UIColor.getColorForHexString("#8f8f95")
@@ -677,20 +693,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-//        if (datePickerIndexPath != nil) {
-//            NSLog("******* DatePickerIndexPath section: %d row: %d", (datePickerIndexPath?.section)!, (datePickerIndexPath?.row)!)
-//            NSLog("****** indexPath section: %d row: %d", indexPath.section, indexPath.row)
-//        }
-//        if (datePickerIndexPath != nil && indexPath.section != (datePickerIndexPath?.section)! && indexPath.row != (datePickerIndexPath?.row)! - 1) {
-//            //displayInlineDatePickerForRowAtIndexPath(datePickerIndexPath!)
-//            administerTableView.beginUpdates()
-//            let indexPaths = [NSIndexPath(forRow: datePickerIndexPath!.row + 1, inSection: datePickerIndexPath!.section)]
-//           // if (hasPickerForIndexPath(indexPath) == true) {
-//                administerTableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.Fade)
-//            datePickerIndexPath = nil
-//          //  }
-//            administerTableView.endUpdates()
-//        }
         administerTableView.deselectRowAtIndexPath(indexPath, animated: true)
         if (indexPath.section == SectionCount.eZerothSection.rawValue) {
             presentAdministratedStatusPopOverAtIndexPath(indexPath)
@@ -711,30 +713,29 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     // MARK: BatchNumberCellDelegate Methods
     
-    func batchNumberFieldSelected() {
-        
-        self.administerTableView.setContentOffset(CGPointMake(0, 130), animated: true)
-    }
+//    func batchNumberFieldSelected() {
+//        
+//        self.administerTableView.setContentOffset(CGPointMake(0, 130), animated: true)
+//    }
     
     // MARK: NotesCell Delegate Methods
     
-    func notesSelected(editing : Bool) {
-      
-        if (editing == true) {
-            self.administerTableView.setContentOffset(CGPointMake(0, 200), animated: true)
-        } else {
-            self.administerTableView.setContentOffset(CGPointZero, animated: true)
+    func notesSelected(editing : Bool, withIndexPath indexPath : NSIndexPath) {
+        
+        editingIndexPath = indexPath
+        if (editing == true && keyboardHeight != nil) {
+            animateAdministerTableViewUpWhenKeyboardShows()
         }
     }
     
     func enteredNote(note : String) {
         
-        if(medicationSlot?.medicationAdministration.status == ADMINISTERED) {
-            medicationSlot?.medicationAdministration.administeredNotes = note
-        } else if (medicationSlot?.medicationAdministration.status == REFUSED) {
-            medicationSlot?.medicationAdministration.refusedNotes = note
+        if(medicationSlot?.medicationAdministration?.status == ADMINISTERED) {
+            medicationSlot?.medicationAdministration?.administeredNotes = note
+        } else if (medicationSlot?.medicationAdministration?.status == REFUSED) {
+            medicationSlot?.medicationAdministration?.refusedNotes = note
         } else {
-            medicationSlot?.medicationAdministration.omittedNotes = note
+            medicationSlot?.medicationAdministration?.omittedNotes = note
         }
     }
     
@@ -790,9 +791,64 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     //MARK : Security pin Match Delegate
     func securityPinMatchedForUser(user: DCUser) {
+        
         medicationSlot?.medicationAdministration?.checkingUser = user
         administerTableView.reloadRowsAtIndexPaths([popOverIndexPath!], withRowAnimation: UITableViewRowAnimation.None)
     }
+    
+    //MARK : Keyboard Delegate Methods
+    
+    func animateAdministerTableViewUpWhenKeyboardShows() {
+        
+        if (editingIndexPath != nil) {
+            var editedAreaHeight : CGFloat = 0.0
+            var topConstraint : CGFloat = 0.0
+            if (medicationSlot?.medicationAdministration.status == REFUSED) {
+                editedAreaHeight =  TABLEVIEW_DEFAULT_SECTION_HEIGHT*(CGFloat)(((editingIndexPath?.section)!+1))*(CGFloat)(OMITTED_SECTION_COUNT) + TABLE_CELL_DEFAULT_HEIGHT*(CGFloat)(3)
+                if (editedAreaHeight > keyboardHeight!/2) {
+                    topConstraint = 0 - keyboardHeight!/4
+                }
+            } else if (medicationSlot?.medicationAdministration.status == OMITTED) {
+                editedAreaHeight =  TABLEVIEW_DEFAULT_SECTION_HEIGHT*(CGFloat)(((editingIndexPath?.section)!+1))*(CGFloat)(OMITTED_SECTION_COUNT) + TABLE_CELL_DEFAULT_HEIGHT*(CGFloat)(2)
+                if (editedAreaHeight > keyboardHeight!/2) {
+                    topConstraint = 0 - keyboardHeight!/4
+                }
+            } else {
+                editedAreaHeight =  TABLEVIEW_DEFAULT_SECTION_HEIGHT*(CGFloat)(((editingIndexPath?.section)!+1))*(CGFloat)(OMITTED_SECTION_COUNT)
+                if (editingIndexPath?.row == 0) {
+                    editedAreaHeight += TABLE_CELL_DEFAULT_HEIGHT*(CGFloat)(6)
+                    if (editedAreaHeight > keyboardHeight!/2) {
+                        topConstraint = 0 - keyboardHeight!/2
+                    }
+                } else {
+                    editedAreaHeight += TABLE_CELL_DEFAULT_HEIGHT*(CGFloat)(5)
+                    if (editedAreaHeight > keyboardHeight!/2) {
+                        topConstraint = 0 - keyboardHeight!/4
+                    }
+                }
+            }
+            UIView.animateWithDuration(0.1, animations: { () -> Void in
+                self.administerTableViewTopConstraint.constant = topConstraint
+            })
+        }
+    }
+    
+    func keyboardDidShow(notification : NSNotification) {
+        
+        if let userInfo = notification.userInfo {
+            if let keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+                keyboardHeight = keyboardSize.height
+                animateAdministerTableViewUpWhenKeyboardShows()
+            }
+        }
+    }
+    
+    func keyboardDidHide(notification : NSNotification) {
+        
+        editingIndexPath = nil
+        administerTableViewTopConstraint.constant = 0.0
+    }
+    
 }
 
 

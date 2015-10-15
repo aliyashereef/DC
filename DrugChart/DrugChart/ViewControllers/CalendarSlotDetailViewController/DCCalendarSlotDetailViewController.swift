@@ -86,10 +86,12 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         let screenWidth : CGFloat = UIScreen.mainScreen().bounds.size.width
         if (windowWidth < screenWidth/3) {
             segmentedControlWidth?.constant = SEGMENTED_CONTROL_ONE_THIRD_WIDTH
-            let attr = NSDictionary(object: UIFont(name: "HelveticaNeue", size: 9.5)!, forKey: NSFontAttributeName)
-            segmentedControl.setTitleTextAttributes(attr as [NSObject : AnyObject], forState: .Normal)
+//            let attr = NSDictionary(object: UIFont(name: "HelveticaNeue", size: 9.5)!, forKey: NSFontAttributeName)
+//            segmentedControl.setTitleTextAttributes(attr as [NSObject : AnyObject], forState: .Normal)
         } else {
             segmentedControlWidth?.constant = SEGMENTED_CONTROL_FULL_WIDTH
+//            //let attr = NSDictionary(object: UIFont(name: "HelveticaNeue", size: 14)!, forKey: NSFontAttributeName)
+//            segmentedControl.setTitleTextAttributes(attr as [NSObject : AnyObject], forState: .Normal)
         }
     }
     
