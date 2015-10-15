@@ -14,6 +14,12 @@ import UIKit
 //    func tableCellSwipedToRightDirection()
 //}
 
+protocol EditAndDeleteActionDelegate {
+    
+    func stopMedicationForSelectedIndexPath(indexPath : NSIndexPath)
+
+}
+
 let TIME_VIEW_WIDTH : CGFloat                       =               70.0
 let TIME_VIEW_HEIGHT : CGFloat                      =               21.0
 let MEDICATION_VIEW_LEFT_OFFSET : CGFloat           =               120.0
@@ -45,7 +51,8 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     // to the containerView holding the 3 subviews (left, right, center)
     // To move the calendar left/right only this constant value needs to be changed.
     @IBOutlet weak var leadingSpaceMasterToContainerView: NSLayoutConstraint!
-
+    var editAndDeleteDelegate : EditAndDeleteActionDelegate?
+    var indexPath : NSIndexPath!
     override func awakeFromNib() {
         
         super.awakeFromNib()
@@ -182,7 +189,7 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
         }
     }
     
-    func swipeMedicationDetailViewToRight(swipeGesture : UIGestureRecognizer) {
+    func swipeMedicationDetailViewToRight() {
         
         //swipe gesture - right when completion of edit/delete action
         UIView.animateWithDuration(ANIMATION_DURATION) { () -> Void in
@@ -196,7 +203,14 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     }
     
     @IBAction func stopMedicationButtonPressed(sender: AnyObject) {
-        
+        swipeMedicationDetailViewToRight()
+        if let delegate = editAndDeleteDelegate {
+            delegate.stopMedicationForSelectedIndexPath(indexPath)
+        }
+    }
+    
+    func setIndexPathForCell(indexpath : NSIndexPath) {
+        self.indexPath = indexpath
     }
     
     // MARK: Notification Methods

@@ -1167,17 +1167,23 @@
                                     <constraint firstItem="O0Z-jC-VZK" firstAttribute="top" secondItem="vx0-ja-ki6" secondAttribute="bottom" constant="6.5" id="leF-8V-E36"/>
                                 </constraints>
                             </view>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Mc4-h5-C9I">
+                                <rect key="frame" x="332" y="331" width="37" height="37"/>
+                                <color key="color" red="0.49019607840000001" green="0.52549019610000003" blue="0.54901960780000003" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <constraints>
                             <constraint firstItem="2I3-AY-NtN" firstAttribute="leading" secondItem="gTW-9p-0zs" secondAttribute="leading" id="2og-b1-HEr"/>
                             <constraint firstItem="TuN-Yk-ksi" firstAttribute="leading" secondItem="gTW-9p-0zs" secondAttribute="leading" id="9MJ-HT-aB0"/>
                             <constraint firstItem="lXH-id-4hB" firstAttribute="top" secondItem="2I3-AY-NtN" secondAttribute="bottom" id="Eh6-Yq-XhK"/>
                             <constraint firstAttribute="trailing" secondItem="2I3-AY-NtN" secondAttribute="trailing" id="LOa-j5-qda"/>
+                            <constraint firstItem="Mc4-h5-C9I" firstAttribute="centerX" secondItem="gTW-9p-0zs" secondAttribute="centerX" id="Pyq-p2-TJl"/>
                             <constraint firstAttribute="trailing" secondItem="TuN-Yk-ksi" secondAttribute="trailing" id="SIJ-ov-ZLw"/>
                             <constraint firstItem="z5k-NC-LtH" firstAttribute="centerX" secondItem="gTW-9p-0zs" secondAttribute="centerX" id="etN-be-RwH"/>
                             <constraint firstItem="z5k-NC-LtH" firstAttribute="centerY" secondItem="gTW-9p-0zs" secondAttribute="centerY" id="qv9-Sn-4P2"/>
                             <constraint firstItem="TuN-Yk-ksi" firstAttribute="top" secondItem="qSW-q7-ncU" secondAttribute="bottom" constant="1" id="xhN-TE-wLU"/>
                             <constraint firstItem="2I3-AY-NtN" firstAttribute="top" secondItem="TuN-Yk-ksi" secondAttribute="bottom" id="zJp-sE-qB8"/>
+                            <constraint firstItem="Mc4-h5-C9I" firstAttribute="centerY" secondItem="gTW-9p-0zs" secondAttribute="centerY" id="zbb-EW-GR2"/>
                         </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
@@ -1185,6 +1191,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="700" height="700"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="Mc4-h5-C9I" id="2cW-B6-1yg"/>
                         <outlet property="administerTableView" destination="2I3-AY-NtN" id="9dW-RR-KVv"/>
                         <outlet property="alertMessageLabel" destination="z5k-NC-LtH" id="DOa-nL-Rhe"/>
                         <outlet property="medicineDateLabel" destination="2aa-6w-ySx" id="jb8-Xa-mee"/>

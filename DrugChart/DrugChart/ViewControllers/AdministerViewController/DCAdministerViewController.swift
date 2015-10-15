@@ -47,6 +47,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
 
     @IBOutlet weak var administerTableView: UITableView!
     @IBOutlet weak var alertMessageLabel: UILabel!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
     @IBOutlet var medicineRouteAndInstructionsLabel: UILabel!
     @IBOutlet var medicineNameLabel: UILabel!

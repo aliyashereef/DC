@@ -243,6 +243,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         //perform administer medication api call here
         
         if(entriesAreValid()) {
+            administerViewController?.activityIndicator.startAnimating()
             administerViewController?.isValid = true
             self.callAdministerMedicationWebService()
         } else {
@@ -319,6 +320,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         let administerMedicationWebService : DCAdministerMedicationWebService = DCAdministerMedicationWebService.init()
         let parameterDictionary : NSDictionary = getMedicationAdministrationDictionary()
         administerMedicationWebService.administerMedicationForScheduleId(scheduleId as String, forPatientId:patientId as String , withParameters:parameterDictionary as [NSObject : AnyObject]) { (array, error) -> Void in
+            self.administerViewController?.activityIndicator.stopAnimating()
             if error == nil {
                 self.dismissViewControllerAnimated(true, completion: nil)
             } else {

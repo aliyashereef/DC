@@ -259,6 +259,7 @@ typedef enum : NSUInteger {
                             if ([displayMedicationListArray count] > 0) {
                                 if (prescriberMedicationListViewController) {
                                     [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
+                                    prescriberMedicationListViewController.patientId = self.patient.patientId;
                                     prescriberMedicationListViewController.currentWeekDatesArray = currentWeekDatesArray;
                                     NSLog(@"**** currentWeekDatesArray is %@", currentWeekDatesArray);
                                 }
@@ -510,7 +511,11 @@ typedef enum : NSUInteger {
 
 // after adding a medication the latest drug schedules are fetched and displayed to the user.
 - (void)addedNewMedicationForPatient {
-    
+    [self fetchMedicationListForPatient];
+}
+
+// This method refresh the medication list when an mediation gets deleted.
+- (void) refreshMedicationList {
     [self fetchMedicationListForPatient];
 }
 
