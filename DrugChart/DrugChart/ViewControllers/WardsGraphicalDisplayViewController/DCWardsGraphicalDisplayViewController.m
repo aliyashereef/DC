@@ -47,6 +47,7 @@
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]
                                    initWithTitle:CANCEL_BUTTON_TITLE style:UIBarButtonItemStylePlain  target:self action:@selector(cancelButtonPressed:)];
     self.navigationItem.rightBarButtonItem = doneButton;
+    self.title = self.wardDisplayed.wardName;
     [super viewWillAppear:animated];
 }
 

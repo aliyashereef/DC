@@ -165,7 +165,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
             if let historyArray : [DCMedicationSlot] = medicationSlotsArray {
                 var slotCount = 0
                 for slot : DCMedicationSlot in historyArray {
-                    if (slot.medicationAdministration?.status != nil  slot.medicationAdministration.actualAdministrationTime != nil) {
+                    if (slot.medicationAdministration?.status != nil && slot.medicationAdministration.actualAdministrationTime != nil) {
                         medicationArray.insert(slot, atIndex: slotCount)
                         slotCount++
                     }

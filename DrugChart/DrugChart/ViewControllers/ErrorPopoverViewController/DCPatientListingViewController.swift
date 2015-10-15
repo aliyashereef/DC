@@ -229,7 +229,7 @@ class DCPatientListingViewController: UIViewController ,UITableViewDataSource, U
         let contentArray : NSArray = isSearching ? self.sortedSearchListArray : sortedPatientListArray
         if contentArray.count > 0 {
             let sectionTitle : NSString = getSectionTitleForSection(section)
-            let headerLabel: UILabel = UILabel.init(frame: CGRectMake(10, 35, 320, 20))
+            let headerLabel: UILabel = UILabel.init(frame: CGRectMake(20, 35, 320, 20))
             headerLabel.backgroundColor = UIColor.clearColor()
             headerLabel.textColor = UIColor.getColorForHexString("#6D6D72")
             headerLabel.font = UIFont.boldSystemFontOfSize(14)
