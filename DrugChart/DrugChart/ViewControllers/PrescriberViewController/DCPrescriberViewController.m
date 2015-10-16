@@ -11,7 +11,6 @@
 #import "DCPrescriberFilterTableViewController.h"
 #import "DCWeekView.h"
 #import "DCPrescriberFilterBackgroundView.h"
-#import "DCMedicationListWebService.h"
 #import "DCMissedMedicationAlertViewController.h"
 #import "DCPatientMedicationHomeViewController.h"
 #import "DCPrescriberDetailsViewController.h"

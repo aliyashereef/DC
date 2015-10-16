@@ -17,8 +17,6 @@
 		0B1589EB1AD52D3B005F3811 /* DCHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B1589EA1AD52D3B005F3811 /* DCHTTPRequestOperationManager.m */; };
 		0B1E308F1AF20213003E49C4 /* DCSecurityPinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B1E308E1AF20213003E49C4 /* DCSecurityPinViewController.m */; };
 		0B1FB56C1AFC8EBD0067FB38 /* DCLogOutWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B1FB56B1AFC8EBD0067FB38 /* DCLogOutWebService.m */; };
-		0B1FFFE71AA97EC80099FB93 /* DCMedicationList.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B1FFFE61AA97EC80099FB93 /* DCMedicationList.m */; };
-		0B1FFFEB1AA98BB50099FB93 /* DCMedicationListWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B1FFFEA1AA98BB50099FB93 /* DCMedicationListWebService.m */; };
 		0B21570C1AB7D1D400BC4611 /* NameSelectionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B21570B1AB7D1D400BC4611 /* NameSelectionTableViewController.m */; };
 		0B2442F01B96E36500E8F0EB /* DCAddMedicationContentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2442EF1B96E36500E8F0EB /* DCAddMedicationContentCell.m */; };
 		0B2442F41B96F71D00E8F0EB /* DCMedicationListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2442F31B96F71D00E8F0EB /* DCMedicationListViewController.m */; };
@@ -234,7 +232,6 @@
 		4DDE0ADE1BBBBEDE0044295B /* DCAdministratedByPinVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDE0ADD1BBBBEDE0044295B /* DCAdministratedByPinVerificationViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		4DDEED481B4CEB6A00D8E0FF /* DCBedWebServiceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DDEED471B4CEB6A00D8E0FF /* DCBedWebServiceTests.m */; };
 		4DDEED4A1B4CF00200D8E0FF /* DCWardWebServiceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DDEED491B4CF00200D8E0FF /* DCWardWebServiceTests.m */; };
-		4DDEED4C1B4CF29000D8E0FF /* DCMedicationListWebServiceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DDEED4B1B4CF29000D8E0FF /* DCMedicationListWebServiceTests.m */; };
 		4DDEED4E1B4CF5FB00D8E0FF /* DCMedicationSearchWebServiceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DDEED4D1B4CF5FB00D8E0FF /* DCMedicationSearchWebServiceTests.m */; };
 		4DDEED511B4D0E3F00D8E0FF /* DCPatientAllergyWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DDEED501B4D0E3F00D8E0FF /* DCPatientAllergyWebService.m */; };
 		4DE5259A1B8C32A00057C5F5 /* DCAlertsAllergyPopOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DE525991B8C32A00057C5F5 /* DCAlertsAllergyPopOverViewController.m */; };
@@ -320,10 +317,6 @@
 		0B1E308E1AF20213003E49C4 /* DCSecurityPinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCSecurityPinViewController.m; sourceTree = "<group>"; };
 		0B1FB56A1AFC8EBD0067FB38 /* DCLogOutWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCLogOutWebService.h; sourceTree = "<group>"; };
 		0B1FB56B1AFC8EBD0067FB38 /* DCLogOutWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCLogOutWebService.m; sourceTree = "<group>"; };
-		0B1FFFE51AA97EC80099FB93 /* DCMedicationList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DCMedicationList.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		0B1FFFE61AA97EC80099FB93 /* DCMedicationList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DCMedicationList.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		0B1FFFE91AA98BB50099FB93 /* DCMedicationListWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DCMedicationListWebService.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		0B1FFFEA1AA98BB50099FB93 /* DCMedicationListWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DCMedicationListWebService.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0B21570A1AB7D1D400BC4611 /* NameSelectionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NameSelectionTableViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		0B21570B1AB7D1D400BC4611 /* NameSelectionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = NameSelectionTableViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0B2442EE1B96E36500E8F0EB /* DCAddMedicationContentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCAddMedicationContentCell.h; sourceTree = "<group>"; };
@@ -660,7 +653,6 @@
 		4DDE0ADD1BBBBEDE0044295B /* DCAdministratedByPinVerificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministratedByPinVerificationViewController.swift; sourceTree = "<group>"; };
 		4DDEED471B4CEB6A00D8E0FF /* DCBedWebServiceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCBedWebServiceTests.m; sourceTree = "<group>"; };
 		4DDEED491B4CF00200D8E0FF /* DCWardWebServiceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCWardWebServiceTests.m; sourceTree = "<group>"; };
-		4DDEED4B1B4CF29000D8E0FF /* DCMedicationListWebServiceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCMedicationListWebServiceTests.m; sourceTree = "<group>"; };
 		4DDEED4D1B4CF5FB00D8E0FF /* DCMedicationSearchWebServiceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCMedicationSearchWebServiceTests.m; sourceTree = "<group>"; };
 		4DDEED4F1B4D0E3F00D8E0FF /* DCPatientAllergyWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCPatientAllergyWebService.h; sourceTree = "<group>"; };
 		4DDEED501B4D0E3F00D8E0FF /* DCPatientAllergyWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCPatientAllergyWebService.m; sourceTree = "<group>"; };
@@ -872,8 +864,6 @@
 		0B1FFFE41AA97E980099FB93 /* MedicationList */ = {
 			isa = PBXGroup;
 			children = (
-				0B1FFFE51AA97EC80099FB93 /* DCMedicationList.h */,
-				0B1FFFE61AA97EC80099FB93 /* DCMedicationList.m */,
 				0BD3D4DC1AB2CA89002B8711 /* MedicationSlot */,
 			);
 			path = MedicationList;
@@ -882,8 +872,6 @@
 		0B1FFFE81AA98B840099FB93 /* MedicationListWebService */ = {
 			isa = PBXGroup;
 			children = (
-				0B1FFFE91AA98BB50099FB93 /* DCMedicationListWebService.h */,
-				0B1FFFEA1AA98BB50099FB93 /* DCMedicationListWebService.m */,
 				7D6010741B4BE1AA00135DBD /* DCMedicationSchedulesWebService.h */,
 				7D6010751B4BE1AA00135DBD /* DCMedicationSchedulesWebService.m */,
 			);
@@ -1807,7 +1795,6 @@
 				4D48D3001B4C08B300B050A8 /* DCAlertsWebServiceTestCases.m */,
 				4DDEED471B4CEB6A00D8E0FF /* DCBedWebServiceTests.m */,
 				4DDEED491B4CF00200D8E0FF /* DCWardWebServiceTests.m */,
-				4DDEED4B1B4CF29000D8E0FF /* DCMedicationListWebServiceTests.m */,
 				4D16FAD21B5E1F1B0034406A /* DCMedicationScheduleWebServiceTests.m */,
 				4DDEED4D1B4CF5FB00D8E0FF /* DCMedicationSearchWebServiceTests.m */,
 				4D415ECF1B4FD99200E796F2 /* DCPatientAllergyWebServiceTests.m */,
@@ -2951,7 +2938,6 @@
 				4D4891601BC90176002AC8CA /* DCWardCell.swift in Sources */,
 				7D70F3801B20258200E4BA89 /* DCWardsGraphicalDisplayViewController.m in Sources */,
 				0BB3B79A1B99842A0011DFDF /* DCDatePickerCell.m in Sources */,
-				0B1FFFEB1AA98BB50099FB93 /* DCMedicationListWebService.m in Sources */,
 				0BC5E3A11AE7899A00F665D4 /* DCSevereWarningPopOverBackgroundView.m in Sources */,
 				4DECF3031B79CB370085E75B /* DCOrderSetWarningCountWebService.m in Sources */,
 				0BF389151AA468C6006792DE /* DCUtility.m in Sources */,
@@ -3082,7 +3068,6 @@
 				7D3234A81AF108990020CC8F /* DCSettingsViewController.m in Sources */,
 				0BA6EF7D1AC11C700036E6B3 /* DCPrescriberViewController.m in Sources */,
 				0B14CD8A1BB13BEB0085E40C /* DCAdministerViewController.swift in Sources */,
-				0B1FFFE71AA97EC80099FB93 /* DCMedicationList.m in Sources */,
 				0BB3977D1B427DE50037C8E1 /* DCOrderSetInitialViewController.m in Sources */,
 				4D8386A01BB26D000012EF7D /* DCMedicationHistoryHeaderView.swift in Sources */,
 				0BB33DD01B79D48E00B05E4D /* DCAuthorizationManager.m in Sources */,
@@ -3104,7 +3089,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4DDEED4C1B4CF29000D8E0FF /* DCMedicationListWebServiceTests.m in Sources */,
 				4D7B50E91B578A4F0025E31C /* DCAddMedicationDetailsWebServiceTests.m in Sources */,
 				4DDEED481B4CEB6A00D8E0FF /* DCBedWebServiceTests.m in Sources */,
 				4DDEED4E1B4CF5FB00D8E0FF /* DCMedicationSearchWebServiceTests.m in Sources */,

@@ -15,7 +15,6 @@
 
 #import "PrescriberMedicationViewController.h"
 
-#import "DCMedicationListWebService.h"
 #import "DCMedicationSchedulesWebService.h"
 #import "DCLogOutWebService.h"
 #import "DCBedWebService.h"

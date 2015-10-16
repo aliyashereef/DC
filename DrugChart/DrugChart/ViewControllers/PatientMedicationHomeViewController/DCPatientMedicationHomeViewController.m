@@ -23,7 +23,6 @@
 #import "DCPatientAlert.h"
 #import "DCPatientAllergy.h"
 
-#import "DCMedicationListWebService.h"
 #import "DCMedicationSchedulesWebService.h"
 #import "DCPopOverContentSizeUtility.h"
 #import "DCLogOutWebService.h"

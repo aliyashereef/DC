@@ -22,7 +22,8 @@
     
 }
 
-+ (NSDate *)getInitialDateForFiveDayDisplay:(NSDate *)date {
++ (NSDate *)getInitialDateForCalendarDisplay:(NSDate *)date
+                              withAdderValue:(NSInteger)adder {
     
     //make current date as the middle date and get initial day of the week
     NSCalendar *currentCalendar = [NSCalendar currentCalendar];
@@ -36,7 +37,7 @@
     NSDateComponents *initialComponents = [currentCalendar components:DATE_COMPONENTS fromDate:todayMidnightDate];
     //TODO: commented out for Oct 12 release. Logic to be corrected.
     //[initialComponents setDay:components.day - 2];
-    [initialComponents setDay:components.day - 7];
+    [initialComponents setDay:components.day + adder];
     [initialComponents setHour:0];
     [initialComponents setMinute:1];
     [initialComponents setSecond:0];
