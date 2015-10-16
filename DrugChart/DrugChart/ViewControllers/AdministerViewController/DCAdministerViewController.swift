@@ -669,6 +669,11 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             if (section == SectionCount.eZerothSection.rawValue) {
                 if (medicationSlot?.time != nil) {
                     administerHeaderView?.populateScheduledTimeValue((medicationSlot?.time)!)
+                } else {
+                    if (medicationDetails?.medicineCategory == WHEN_REQUIRED) {
+                       let currentDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
+                        administerHeaderView?.populateScheduledTimeValue(currentDate)
+                    }
                 }
             } else {
                 if (medicationSlot?.medicationAdministration?.isEarlyAdministration == true) {
@@ -806,12 +811,12 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         if (editingIndexPath != nil) {
             var editedAreaHeight : CGFloat = 0.0
             var topConstraint : CGFloat = 0.0
-            if (medicationSlot?.medicationAdministration.status == REFUSED) {
+            if (medicationSlot?.medicationAdministration?.status == REFUSED) {
                 editedAreaHeight =  TABLEVIEW_DEFAULT_SECTION_HEIGHT*(CGFloat)(((editingIndexPath?.section)!+1))*(CGFloat)(OMITTED_SECTION_COUNT) + TABLE_CELL_DEFAULT_HEIGHT*(CGFloat)(3)
                 if (editedAreaHeight > keyboardHeight!/2) {
                     topConstraint = 0 - keyboardHeight!/4
                 }
-            } else if (medicationSlot?.medicationAdministration.status == OMITTED) {
+            } else if (medicationSlot?.medicationAdministration?.status == OMITTED) {
                 editedAreaHeight =  TABLEVIEW_DEFAULT_SECTION_HEIGHT*(CGFloat)(((editingIndexPath?.section)!+1))*(CGFloat)(OMITTED_SECTION_COUNT) + TABLE_CELL_DEFAULT_HEIGHT*(CGFloat)(2)
                 if (editedAreaHeight > keyboardHeight!/2) {
                     topConstraint = 0 - keyboardHeight!/4

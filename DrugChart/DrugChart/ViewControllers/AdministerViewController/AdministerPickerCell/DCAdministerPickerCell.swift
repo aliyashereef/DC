@@ -21,7 +21,7 @@ class DCAdministerPickerCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        datePicker.maximumDate = NSDate()
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

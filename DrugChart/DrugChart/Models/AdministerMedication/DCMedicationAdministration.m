@@ -20,7 +20,6 @@
         [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:GMT]];
         NSDate *scheduledDate = [dateFormatter dateFromString:[administrationDetails objectForKey:SCHEDULED_ADMINISTRATION_TIME]];
         NSDate *actualDate = [dateFormatter dateFromString:[administrationDetails objectForKey:ACTUAL_ADMINISTRATION_TIME]];
-        //NSLog(@"the time: %@", [administrationDetails objectForKey:SCHEDULED_ADMINISTRATION_TIME]);
         self.scheduledDateTime = scheduledDate;
         self.actualAdministrationTime = actualDate;
         self.status = [administrationDetails objectForKey:ADMINISTRATION_STATUS];
