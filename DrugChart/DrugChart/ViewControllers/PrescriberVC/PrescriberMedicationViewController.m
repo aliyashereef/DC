@@ -226,7 +226,7 @@ typedef enum : NSUInteger {
         NSMutableArray *medicationArray = [NSMutableArray arrayWithArray:medicationsList];
         for (NSDictionary *medicationDetails in medicationArray) {
             NSLog(@"the medication details dictionary:\n %@", medicationDetails);
-            if ([medicationDetails[@"originalTerm"] isEqualToString:@"Idebenone 150mg capsules"]) {
+            if ([medicationDetails[@"originalTerm"] isEqualToString:@"Acetylcysteine 600mg capsules"]) {
                 NSLog(@"Got it");
             }
             // NSLog(@"the medication details dictionary:\n %@", medicationDetails);

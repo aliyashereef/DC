@@ -233,7 +233,7 @@ typedef enum : NSInteger {
         
         NSMutableArray *medicationArray = [NSMutableArray arrayWithArray:medicationsList];
         for (NSDictionary *medicationDetails in medicationArray) {
-            DCDebugLog(@"the medication details dictionary:\n %@",medicationDetails);
+            DCDebugLog(@"c\n %@",medicationDetails);
             @autoreleasepool {
                 DCMedicationScheduleDetails *medicationScheduleDetails = [[DCMedicationScheduleDetails alloc] initWithMedicationScheduleDictionary:medicationDetails];
                 if (medicationScheduleDetails) {
