@@ -75,4 +75,6 @@
 
 + (NSDate *)getInitialDateForFiveDayDisplay:(NSDate *)date;
 
++ (NSDate *)getAdministrationDateForString:(NSString *)dateString;
+
 @end

@@ -461,4 +461,21 @@
     return displayString;
 }
 
++ (NSDate *)getAdministrationDateForString:(NSString *)dateString {
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:GMT]];
+    NSArray *dateFormatterList = [NSArray arrayWithObjects:@"yyyy-MM-dd'T'HH:mm:ss",
+                                  @"yyyy-MM-dd'T'HH:mm:ss.SSS", nil];
+    for (NSString *dateFormatterString in dateFormatterList) {
+        
+        [dateFormatter setDateFormat:dateFormatterString];
+        NSDate *scheduledDate = [dateFormatter dateFromString:dateString];
+        if (scheduledDate) {
+            return scheduledDate;
+        }
+    }
+    return nil;
+}
+
 @end

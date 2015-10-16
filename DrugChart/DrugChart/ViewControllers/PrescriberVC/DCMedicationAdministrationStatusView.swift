@@ -119,9 +119,9 @@ class DCMedicationAdministrationStatusView: UIView {
             }
             //check the conditions of early administrations as well
             if (medication.medicationAdministration?.actualAdministrationTime != nil) {
-                if (medication.medicationAdministration.status == ADMINISTERED) {
+                if (medication.medicationAdministration?.status == ADMINISTERED || medication.medicationAdministration?.status == SELF_ADMINISTERED) {
                     administeredCount++
-                } else if (medication.medicationAdministration.status == REFUSED || medication.medicationAdministration.status == OMITTED) {
+                } else if (medication.medicationAdministration?.status == REFUSED || medication.medicationAdministration?.status == OMITTED) {
                     omissionRefusalCount++
                 }
             }
@@ -150,11 +150,13 @@ class DCMedicationAdministrationStatusView: UIView {
             if (nearestSlot != nil) {
                 if (nearestSlot?.medicationAdministration?.actualAdministrationTime == nil) {
                     // get date string from the nearest slot time
-                    let dueTime = DCDateUtility.convertDate(nearestSlot!.time, fromFormat: DEFAULT_DATE_FORMAT, toFormat: TWENTYFOUR_HOUR_FORMAT)
+                     let dueTime = DCDateUtility.convertDate(nearestSlot?.time, fromFormat: DEFAULT_DATE_FORMAT, toFormat: TWENTYFOUR_HOUR_FORMAT)
                     adjustStatusLabelAndImageViewForCurrentDay()
                     //Populate due label
                     statusIcon?.image = ADMINISTRATION_DUE_IMAGE
-                    statusLabel?.text = String(format: "Due at %@", dueTime)
+                    if let time = dueTime {
+                        statusLabel?.text = String(format: "Due at %@", time)
+                    }
                 } else {
                     if ((administeredCount == timeArray.count) || (administeredCount + omittedRefusalCount == timeArray.count)) {
                         // all administered, so indicate area with tick mark
@@ -168,7 +170,7 @@ class DCMedicationAdministrationStatusView: UIView {
         }
      }
     
-    func getNearestMedicationSlotToBeAdministered () -> DCMedicationSlot {
+    func getNearestMedicationSlotToBeAdministered () -> DCMedicationSlot? {
         
         //initialise medication slot to administer object
         var nearestSlot =  DCMedicationSlot.init()
@@ -180,7 +182,7 @@ class DCMedicationAdministrationStatusView: UIView {
                 }
             }
         }
-        return nearestSlot
+        return nil
     }
     
     func configureStatusViewForPastDay() {
@@ -196,7 +198,7 @@ class DCMedicationAdministrationStatusView: UIView {
                     //Administration details not available. administration details pending, so increment pendingcount
                     overDueCount++
                 } else {
-                    if (administrationDetails.status == ADMINISTERED) {
+                    if (administrationDetails.status == ADMINISTERED || administrationDetails.status == SELF_ADMINISTERED) {
                         administeredCount++
                     } else if (administrationDetails.status == OMITTED || administrationDetails.status == REFUSED) {
                         omissionRejectionsCount++
