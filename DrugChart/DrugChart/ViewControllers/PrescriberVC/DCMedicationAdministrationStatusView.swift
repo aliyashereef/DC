@@ -155,6 +155,9 @@ class DCMedicationAdministrationStatusView: UIView {
         
         let nearestSlot : DCMedicationSlot? = getNearestMedicationSlotToBeAdministered()
         if (nearestSlot != nil) {
+            if let slotTime = nearestSlot?.time {
+                NSLog("nearestSlot time is %@", slotTime);
+            }
             if (nearestSlot?.medicationAdministration?.actualAdministrationTime == nil) {
                 // get date string from the nearest slot time
                 let dueTime = DCDateUtility.convertDate(nearestSlot!.time, fromFormat: DEFAULT_DATE_FORMAT, toFormat: TWENTYFOUR_HOUR_FORMAT)
