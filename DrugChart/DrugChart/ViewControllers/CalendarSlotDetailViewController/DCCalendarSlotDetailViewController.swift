@@ -147,9 +147,9 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
             if (medicationSlotsArray.count > 0) {
                 administerViewController?.medicationSlot = slotToAdminister
                 administerViewController?.alertMessage = errorMessage
-                if (slotToAdminister?.medicationAdministration?.actualAdministrationTime == nil) {
-                    doneButton.enabled = false
-                }
+//                if (slotToAdminister?.medicationAdministration?.actualAdministrationTime == nil) {
+//                    doneButton.enabled = false
+//                }
             }
             administerViewController?.medicationDetails = medicationDetails
             var medicationArray : [DCMedicationSlot] = [DCMedicationSlot]()
