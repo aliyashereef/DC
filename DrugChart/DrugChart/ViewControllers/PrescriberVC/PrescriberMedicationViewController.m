@@ -495,9 +495,8 @@ typedef enum : NSUInteger {
     }
     detailViewController.weekDate = date;
     detailViewController.patientId = self.patient.patientId;
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:detailViewController];
-    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
-    [self presentViewController:navigationController animated:YES completion:nil];
+    detailViewController.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self presentViewController:detailViewController animated:YES completion:nil];
 }
 
 

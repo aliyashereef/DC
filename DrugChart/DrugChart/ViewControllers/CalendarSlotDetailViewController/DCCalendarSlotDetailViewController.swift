@@ -51,6 +51,13 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         self.view.superview?.backgroundColor = UIColor.clearColor()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        self.view.superview!.layer.cornerRadius = 0
+         self.view.superview!.clipsToBounds = true
+    }
+    
     override func viewDidLayoutSubviews() {
         
         adjustSegmentedControlWidth()
