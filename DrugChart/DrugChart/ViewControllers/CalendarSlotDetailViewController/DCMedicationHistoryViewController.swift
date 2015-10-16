@@ -141,7 +141,7 @@ func configureMedicationDetails () {
         if (medicationSlot?.medicationAdministration?.administeredNotes != nil) {
             noteCell!.reasonTextLabel.text = medicationSlot?.medicationAdministration?.administeredNotes
         } else {
-            noteCell!.reasonTextLabel.text = EMPTY_STRING
+            noteCell!.reasonTextLabel.text = NONE_TEXT
             noteCell!.isNotesExpanded = true
         }
         //noteCell!.reasonTextLabel.text = DUMMY_TEXT
@@ -151,7 +151,9 @@ func configureMedicationDetails () {
             noteCell!.reasonLabelLeadingSpaceConstraint.constant = 300.0
         } else {
             noteCell!.moreButtonWidthConstaint.constant = 0.0
-            noteCell!.reasonTextLabelTopSpaceConstraint.constant = 25.0
+            if (noteCell!.reasonTextLabel.text != NONE_TEXT) {
+                noteCell!.reasonTextLabelTopSpaceConstraint.constant = 25.0
+            }
             noteCell!.reasonLabelLeadingSpaceConstraint.constant = 7.0
         }
         noteCell!.isNotesExpanded = false

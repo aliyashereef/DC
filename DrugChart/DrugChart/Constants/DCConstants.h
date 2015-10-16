@@ -32,6 +32,7 @@
 #define COMMA @","
 #define DOT @"."
 #define COLON @":"
+#define NONE_TEXT @"None"
 
 //web requests
 

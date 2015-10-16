@@ -26,12 +26,13 @@
 }
 
 - (void)presentationTransitionWillBegin {
+    
     UIView *presentedView = self.presentedViewController.view;
-    //presentedView.layer.cornerRadius = 5.f;
+    presentedView.layer.cornerRadius = 0.0f;
     presentedView.layer.shadowColor = [[UIColor blackColor] CGColor];
-    presentedView.layer.shadowOffset = CGSizeMake(0, 10);
+    //presentedView.layer.shadowOffset = CGSizeMake(0, 10);
     //presentedView.layer.shadowRadius = 10;
-    presentedView.layer.shadowOpacity = 0.5;
+    //presentedView.layer.shadowOpacity = 0.5;
 
     self.dimmingView.frame = self.containerView.bounds;
     self.dimmingView.alpha = 0;
@@ -116,6 +117,7 @@
 - (void)containerViewWillLayoutSubviews {
     self.dimmingView.frame = self.containerView.bounds;
     self.presentedView.frame = [self frameOfPresentedViewInContainerView];
+    self.presentedView.layer.cornerRadius = 0.0f;
 }
 
 @end

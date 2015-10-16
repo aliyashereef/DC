@@ -226,7 +226,7 @@ typedef enum : NSUInteger {
         NSMutableArray *medicationArray = [NSMutableArray arrayWithArray:medicationsList];
         for (NSDictionary *medicationDetails in medicationArray) {
             NSLog(@"the medication details dictionary:\n %@", medicationDetails);
-            if ([medicationDetails[@"originalTerm"] isEqualToString:@"Idebenone 150mg capsules"]) {
+            if ([medicationDetails[@"originalTerm"] isEqualToString:@"Acetylcysteine 600mg capsules"]) {
                 NSLog(@"Got it");
             }
             // NSLog(@"the medication details dictionary:\n %@", medicationDetails);
@@ -495,9 +495,8 @@ typedef enum : NSUInteger {
     }
     detailViewController.weekDate = date;
     detailViewController.patientId = self.patient.patientId;
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:detailViewController];
-    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
-    [self presentViewController:navigationController animated:YES completion:nil];
+    detailViewController.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self presentViewController:detailViewController animated:YES completion:nil];
 }
 
 

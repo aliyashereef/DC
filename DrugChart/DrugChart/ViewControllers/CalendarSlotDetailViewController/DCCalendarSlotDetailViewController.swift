@@ -51,6 +51,13 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         self.view.superview?.backgroundColor = UIColor.clearColor()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        self.view.superview!.layer.cornerRadius = 0
+         self.view.superview!.clipsToBounds = true
+    }
+    
     override func viewDidLayoutSubviews() {
         
         adjustSegmentedControlWidth()
@@ -80,6 +87,13 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
                     addAdministerView()
                 }
             }
+        } else {
+            NSLog("**** medicineCategory is %@", (medicationDetails?.medicineCategory)!)
+            if (medicationDetails?.medicineCategory != WHEN_REQUIRED) {
+                errorMessage = NSLocalizedString("NO_ADMINISTRATION_DETAILS", comment: "no medication slots today")
+                doneButton.enabled = false
+            } 
+            addAdministerView()
         }
      }
     
@@ -116,7 +130,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     func getAdministerViewErrorMessage() -> NSString {
         
         if (medicationSlotsArray.count == 0) {
-            errorMessage = NSLocalizedString("NO_ADMINISTRATION_TODAY", comment: "no medication slots today")
+            errorMessage = NSLocalizedString("NO_ADMINISTRATION_DETAILS", comment: "no medication slots today")
         } else {
             let currentSystemDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
             if (slotToAdminister?.time == nil) {
@@ -149,27 +163,20 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
             administerViewController?.weekDate = weekDate
             if (medicationSlotsArray.count > 0) {
                 administerViewController?.medicationSlot = slotToAdminister
-                administerViewController?.alertMessage = errorMessage
-                if (slotToAdminister?.medicationAdministration?.actualAdministrationTime == nil) {
-                    doneButton.enabled = true
-                }
-
-            }
-            if slotToAdminister == nil {
-                doneButton.enabled = false
-            }
-            administerViewController?.medicationDetails = medicationDetails
-            var medicationArray : [DCMedicationSlot] = [DCMedicationSlot]()
-            if let toAdministerArray : [DCMedicationSlot] = medicationSlotsArray {
-                var slotCount = 0
-                for slot : DCMedicationSlot in toAdministerArray {
-                    if (slot.medicationAdministration?.actualAdministrationTime == nil) {
-                        medicationArray.insert(slot, atIndex: slotCount)
-                        slotCount++
+                var medicationArray : [DCMedicationSlot] = [DCMedicationSlot]()
+                if let toAdministerArray : [DCMedicationSlot] = medicationSlotsArray {
+                    var slotCount = 0
+                    for slot : DCMedicationSlot in toAdministerArray {
+                        if (slot.medicationAdministration?.actualAdministrationTime == nil) {
+                            medicationArray.insert(slot, atIndex: slotCount)
+                            slotCount++
+                        }
                     }
                 }
+                administerViewController?.medicationSlotsArray = medicationArray
             }
-            administerViewController?.medicationSlotsArray = medicationArray
+            administerViewController?.medicationDetails = medicationDetails
+            administerViewController?.alertMessage = errorMessage
             self.addChildViewController(administerViewController!)
             administerViewController!.view.frame = containerView.bounds
             containerView.addSubview((administerViewController?.view)!)
@@ -328,7 +335,6 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         let administeredDateString : NSString = dateFormatter.stringFromDate(NSDate())
         administerDictionary.setValue(administeredDateString, forKey:ACTUAL_ADMINISTRATION_TIME)
         administerDictionary.setValue(administerViewController?.medicationSlot?.medicationAdministration?.status, forKey: ADMINISTRATION_STATUS)
-        // TO DO : Since the API is not complete the value for this field is harcoded.
         if let administratingStatus : Bool = administerViewController?.medicationSlot?.medicationAdministration?.isSelfAdministered.boolValue {
             if administratingStatus == false {
                 administerDictionary.setValue(administerViewController?.medicationSlot?.medicationAdministration?.administratingUser!.userIdentifier, forKey:"AdministratingUserIdentifier")
@@ -337,7 +343,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         }
         
         //TO DO : Configure the dosage and batch number from the form.
-        if let dosage = administerViewController?.medicationSlot?.medicationAdministration?.dosageString {
+        if let dosage = self.medicationDetails?.dosage {
             administerDictionary.setValue(dosage, forKey: ADMINISTRATING_DOSAGE)
         } else {
             administerDictionary.setValue("5mg", forKey: ADMINISTRATING_DOSAGE)
@@ -347,7 +353,10 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         } else {
             administerDictionary.setValue("batchxxx", forKey: ADMINISTRATING_BATCH)
         }
-        administerDictionary.setValue(administerViewController?.medicationSlot?.medicationAdministration?.administeredNotes, forKey: ADMINISTRATING_NOTES)
+        
+        let notes : NSString  = getAdministrationNotesBasedOnMedicationStatus ((administerViewController?.medicationSlot?.medicationAdministration?.status)!)
+        
+        administerDictionary.setValue(notes, forKey:ADMINISTRATING_NOTES)
         
         //TODO: currently hardcoded as ther is no expiry field in UI
         administerDictionary.setValue("2015-10-23T19:40:00.000Z", forKey: EXPIRY_DATE)
@@ -384,4 +393,18 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         alertController.addAction(action)
         presentViewController(alertController, animated: true, completion: nil)
     }
+    
+    // Return the note string based on the administrating status
+    func getAdministrationNotesBasedOnMedicationStatus (status : NSString) -> NSString{
+        var noteString : NSString = EMPTY_STRING
+        if status == ADMINISTERED {
+            noteString = (administerViewController?.medicationSlot?.medicationAdministration?.administeredNotes)!
+        } else if status == REFUSED {
+            noteString =  (administerViewController?.medicationSlot?.medicationAdministration?.refusedNotes)!
+        } else {
+            noteString = (administerViewController?.medicationSlot?.medicationAdministration?.omittedNotes)!
+        }
+        return noteString
+    }
+
 }
