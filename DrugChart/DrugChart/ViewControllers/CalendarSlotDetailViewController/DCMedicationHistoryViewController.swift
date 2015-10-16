@@ -81,7 +81,9 @@ func configureMedicationDetails () {
         switch (indexPath.row) {
         case 0:
             cell!.contentType.text = STATUS
-            cell!.value.text = IS_GIVEN
+            if let status = medicationSlot?.medicationAdministration?.status {
+                cell!.value.text = status
+            }
             break
         case 1:
             cell!.contentType.text = ADMINISTRATED_BY
@@ -149,7 +151,9 @@ func configureMedicationDetails () {
             noteCell!.reasonLabelLeadingSpaceConstraint.constant = 300.0
         } else {
             noteCell!.moreButtonWidthConstaint.constant = 0.0
-            noteCell!.reasonTextLabelTopSpaceConstraint.constant = 25.0
+            if (noteCell!.reasonTextLabel.text != NONE_TEXT) {
+                noteCell!.reasonTextLabelTopSpaceConstraint.constant = 25.0
+            }
             noteCell!.reasonLabelLeadingSpaceConstraint.constant = 7.0
         }
         noteCell!.isNotesExpanded = false
@@ -226,7 +230,7 @@ func configureMedicationDetails () {
     func getNumberOfRowsFromMedicationSlotArray( medication : DCMedicationSlot) -> Int {
         var rowCount : Int
         if let medicationValue : DCMedicationSlot = medication {
-            if medicationValue.medicationAdministration?.status == IS_GIVEN {
+            if (medicationValue.medicationAdministration?.status == IS_GIVEN || medicationValue.medicationAdministration?.status == SELF_ADMINISTERED){
                 rowCount = 6
             } else if medicationValue.medicationAdministration?.status == OMITTED {
                 rowCount = 2
@@ -295,7 +299,7 @@ func configureMedicationDetails () {
 //            if medication.medicationAdministration?.status == IS_GIVEN {
 //=======
         let medication : DCMedicationSlot = medicationSlotArray[indexPath.section]
-            if medication.status == IS_GIVEN {
+            if (medication.medicationAdministration?.status == SELF_ADMINISTERED || medication.medicationAdministration?.status == IS_GIVEN ){
                 return configureAdministeredCellAtIndexPathWithMedicationSlot(indexPath, medication: medication) as! UITableViewCell
             } else if medication.medicationAdministration?.status == REFUSED {
                 return configureRefusedCellAtIndexPathForMedicationDetails(indexPath, medication: medication) as! UITableViewCell
