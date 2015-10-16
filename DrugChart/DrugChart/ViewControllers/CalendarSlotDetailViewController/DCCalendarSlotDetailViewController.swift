@@ -77,6 +77,13 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
                     addAdministerView()
                 }
             }
+        } else {
+            NSLog("**** medicineCategory is %@", (medicationDetails?.medicineCategory)!)
+            if (medicationDetails?.medicineCategory != WHEN_REQUIRED) {
+                errorMessage = NSLocalizedString("NO_ADMINISTRATION_DETAILS", comment: "no medication slots today")
+                doneButton.enabled = false
+            } 
+            addAdministerView()
         }
      }
     
@@ -113,7 +120,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     func getAdministerViewErrorMessage() -> NSString {
         
         if (medicationSlotsArray.count == 0) {
-            errorMessage = NSLocalizedString("NO_ADMINISTRATION_TODAY", comment: "no medication slots today")
+            errorMessage = NSLocalizedString("NO_ADMINISTRATION_DETAILS", comment: "no medication slots today")
         } else {
             let currentSystemDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
             if (slotToAdminister?.time == nil) {
@@ -146,23 +153,20 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
             administerViewController?.weekDate = weekDate
             if (medicationSlotsArray.count > 0) {
                 administerViewController?.medicationSlot = slotToAdminister
-                administerViewController?.alertMessage = errorMessage
-//                if (slotToAdminister?.medicationAdministration?.actualAdministrationTime == nil) {
-//                    doneButton.enabled = false
-//                }
-            }
-            administerViewController?.medicationDetails = medicationDetails
-            var medicationArray : [DCMedicationSlot] = [DCMedicationSlot]()
-            if let toAdministerArray : [DCMedicationSlot] = medicationSlotsArray {
-                var slotCount = 0
-                for slot : DCMedicationSlot in toAdministerArray {
-                    if (slot.medicationAdministration?.actualAdministrationTime == nil) {
-                        medicationArray.insert(slot, atIndex: slotCount)
-                        slotCount++
+                var medicationArray : [DCMedicationSlot] = [DCMedicationSlot]()
+                if let toAdministerArray : [DCMedicationSlot] = medicationSlotsArray {
+                    var slotCount = 0
+                    for slot : DCMedicationSlot in toAdministerArray {
+                        if (slot.medicationAdministration?.actualAdministrationTime == nil) {
+                            medicationArray.insert(slot, atIndex: slotCount)
+                            slotCount++
+                        }
                     }
                 }
+                administerViewController?.medicationSlotsArray = medicationArray
             }
-            administerViewController?.medicationSlotsArray = medicationArray
+            administerViewController?.medicationDetails = medicationDetails
+            administerViewController?.alertMessage = errorMessage
             self.addChildViewController(administerViewController!)
             administerViewController!.view.frame = containerView.bounds
             containerView.addSubview((administerViewController?.view)!)

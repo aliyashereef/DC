@@ -108,7 +108,6 @@ class DCMedicationAdministrationStatusView: UIView {
         var administeredCount : NSInteger = 0
         var omissionRefusalCount : NSInteger = 0
         let currentSystemDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
-        var currentTime = false
         for slot in timeArray as [AnyObject] {
             let medication = slot as! DCMedicationSlot
             if (medication.time.compare(currentSystemDate) == NSComparisonResult.OrderedAscending) {
@@ -117,11 +116,6 @@ class DCMedicationAdministrationStatusView: UIView {
                     overDueCount++
                     break;
                 }
-            }
-            else if (medication.time.compare(currentSystemDate) == NSComparisonResult.OrderedSame ) {
-                //TODO: has to compare 2 dates and check if their diff is 1 mint
-                currentTime = true
-                break;
             }
             //check the conditions of early administrations as well
             if (medication.medicationAdministration?.actualAdministrationTime != nil) {
@@ -132,52 +126,44 @@ class DCMedicationAdministrationStatusView: UIView {
                 }
             }
         }
-        if (currentTime) {
-            // Due Now.. Indicate with yellow background, Due now text will be white
-            adjustStatusLabelAndImageViewForCurrentDay()
-            self.backgroundColor = UIColor.getColorForHexString("#f2bc53")
-            statusIcon?.image = ADMINISTRATION_DUE_NOW_IMAGE
-            statusLabel?.text = NSLocalizedString("DUE_NOW", comment: "")
+        if (overDueCount > 0) {
+            //display overdue label here
+            statusLabel?.hidden = false
+            statusLabel?.textColor = OVERDUE_FONT_COLOR
+            statusLabel?.text = NSLocalizedString("OVERDUE", comment: "Some medications are overdue")
         } else {
-            if (overDueCount > 0) {
-                //display overdue label here
-                statusLabel?.hidden = false
-                statusLabel?.textColor = OVERDUE_FONT_COLOR
-                statusLabel?.text = NSLocalizedString("OVERDUE", comment: "Some medications are overdue")
-            } else {
-                updateCurrentDayStatusViewWithAdministrationCount(administrationCount:administeredCount, omittedRefusalCount: omissionRefusalCount)
-            }
+            updateCurrentDayStatusViewWithAdministrationCount(administrationCount:administeredCount, omittedRefusalCount: omissionRefusalCount)
         }
     }
     
     
     func updateCurrentDayStatusViewWithAdministrationCount(administrationCount administeredCount: NSInteger, omittedRefusalCount : NSInteger) {
         
-        let nearestSlot : DCMedicationSlot? = getNearestMedicationSlotToBeAdministered()
-        if (nearestSlot != nil) {
-            if (nearestSlot?.medicationAdministration?.actualAdministrationTime == nil) {
-                // get date string from the nearest slot time
-                let dueTime = DCDateUtility.convertDate(nearestSlot!.time, fromFormat: DEFAULT_DATE_FORMAT, toFormat: TWENTYFOUR_HOUR_FORMAT)
-                adjustStatusLabelAndImageViewForCurrentDay()
-                //Populate due label
-                statusIcon?.image = ADMINISTRATION_DUE_IMAGE
-                statusLabel?.text = String(format: "Due at %@", dueTime)
-            } else {
-                if ((administeredCount == timeArray.count) || (administeredCount + omittedRefusalCount == timeArray.count)) {
-                    // all administered, so indicate area with tick mark
-                    statusLabel?.hidden = true
-                    statusIcon?.hidden = false
-                    statusIcon!.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
-                    statusIcon?.image = (administeredCount == timeArray.count) ? ADMINISTRATION_SUCCESS_IMAGE : ADMINISTRATION_FAILURE_IMAGE
-                }
-            }
+        if ((administeredCount == timeArray.count) || (administeredCount + omittedRefusalCount == timeArray.count)) {
+            // all administered, so indicate area with tick mark
+            statusLabel?.hidden = true
+            statusIcon?.hidden = false
+            statusIcon!.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
+            statusIcon?.image = (administeredCount == timeArray.count) ? ADMINISTRATION_SUCCESS_IMAGE : ADMINISTRATION_FAILURE_IMAGE
         } else {
-            if ((administeredCount == timeArray.count) || (administeredCount + omittedRefusalCount == timeArray.count)) {
-                // all administered, so indicate area with tick mark
-                statusLabel?.hidden = true
-                statusIcon?.hidden = false
-                statusIcon!.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
-                statusIcon?.image = (administeredCount == timeArray.count) ? ADMINISTRATION_SUCCESS_IMAGE : ADMINISTRATION_FAILURE_IMAGE
+            let nearestSlot : DCMedicationSlot? = getNearestMedicationSlotToBeAdministered()
+            if (nearestSlot != nil) {
+                if (nearestSlot?.medicationAdministration?.actualAdministrationTime == nil) {
+                    // get date string from the nearest slot time
+                    let dueTime = DCDateUtility.convertDate(nearestSlot!.time, fromFormat: DEFAULT_DATE_FORMAT, toFormat: TWENTYFOUR_HOUR_FORMAT)
+                    adjustStatusLabelAndImageViewForCurrentDay()
+                    //Populate due label
+                    statusIcon?.image = ADMINISTRATION_DUE_IMAGE
+                    statusLabel?.text = String(format: "Due at %@", dueTime)
+                } else {
+                    if ((administeredCount == timeArray.count) || (administeredCount + omittedRefusalCount == timeArray.count)) {
+                        // all administered, so indicate area with tick mark
+                        statusLabel?.hidden = true
+                        statusIcon?.hidden = false
+                        statusIcon!.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
+                        statusIcon?.image = (administeredCount == timeArray.count) ? ADMINISTRATION_SUCCESS_IMAGE : ADMINISTRATION_FAILURE_IMAGE
+                    }
+                }
             }
         }
      }
