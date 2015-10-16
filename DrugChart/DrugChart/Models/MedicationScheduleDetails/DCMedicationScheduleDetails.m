@@ -60,6 +60,10 @@
     NSNumber *activeValue = [NSNumber numberWithInt:[[medicationDictionary valueForKey:DRUG_IS_ACTIVE] intValue]];
     self.isActive = [activeValue boolValue];
     NSArray *scheduleArray = (NSArray *)[medicationDictionary objectForKey:DRUG_SCHEDULES];
+    if ([self.name isEqualToString:@"Acetylcysteine 600mg capsules"]) {
+        NSLog(@"Got it");
+    }
+    
     if ([scheduleArray count] > 0) {
         NSDictionary *schedulesDictionary = [scheduleArray objectAtIndex:0];
         NSMutableArray *administrationArray = [[NSMutableArray alloc] initWithArray:[schedulesDictionary objectForKey:DRUG_ADMINISTRATIONS]];
