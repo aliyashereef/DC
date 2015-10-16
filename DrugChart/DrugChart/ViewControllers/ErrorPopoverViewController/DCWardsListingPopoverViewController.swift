@@ -81,6 +81,7 @@ class DCWardsListingPopoverViewController : UIViewController , UITableViewDelega
             }
         }
     }
+    
     func showNavigationBar(show:Bool) {
         if show == true {
             self.navigationController?.navigationBar.hidden = false

@@ -80,6 +80,11 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         usersListWebService?.cancelPreviousRequest()
         super.viewWillDisappear(animated)
     }
+    
+    override func viewDidLayoutSubviews() {
+        
+        super.viewDidLayoutSubviews()
+    }
 
     override func didReceiveMemoryWarning() {
         
@@ -115,7 +120,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardDidShow:"), name: UIKeyboardWillShowNotification, object: nil)
          NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardDidHide:"), name: UIKeyboardWillHideNotification, object: nil)
     }
-
     
     func configureMedicationDetails () {
         medicineNameLabel.text = medicationDetails!.name
@@ -355,8 +359,10 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         namesViewController?.namesArray = userListArray
         namesViewController?.namesDelegate = self
         if (indexPath.row == RowCount.eZerothRow.rawValue) {
+            namesViewController?.title = ADMINISTRATED_BY
             namesViewController!.previousSelectedValue = medicationSlot?.medicationAdministration?.administratingUser?.displayName
         } else if (indexPath.row == RowCount.eSecondRow.rawValue) {
+            namesViewController?.title = CHECKED_BY
            namesViewController!.previousSelectedValue = medicationSlot?.medicationAdministration?.checkingUser?.displayName
         }
         let navigationController : UINavigationController? = UINavigationController(rootViewController: namesViewController!)
@@ -373,8 +379,9 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func presentAdministratedStatusPopOverAtIndexPath (indexPath : NSIndexPath) {
         
         let namesViewController : DCAdministrationStatusTableViewController? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(STATUS_LIST_VIEW_SB_ID) as? DCAdministrationStatusTableViewController
+        namesViewController?.namesArray = [ADMINISTERED, REFUSED , OMITTED]
         namesViewController?.medicationStatusDelegate = self
-
+        namesViewController?.title = NSLocalizedString("STATUS", comment: "")
         let navigationController : UINavigationController? = UINavigationController(rootViewController: namesViewController!)
         navigationController?.modalPresentationStyle = UIModalPresentationStyle.Popover
         self.presentViewController(navigationController!, animated: true, completion: nil)

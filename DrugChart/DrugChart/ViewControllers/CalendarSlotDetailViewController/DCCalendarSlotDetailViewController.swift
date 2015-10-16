@@ -96,6 +96,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
 //            //let attr = NSDictionary(object: UIFont(name: "HelveticaNeue", size: 14)!, forKey: NSFontAttributeName)
 //            segmentedControl.setTitleTextAttributes(attr as [NSObject : AnyObject], forState: .Normal)
         }
+        self.view.layoutIfNeeded()
     }
     
     func initialiseMedicationSlotToAdministerObject () {
@@ -152,6 +153,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
                 if (slotToAdminister?.medicationAdministration?.actualAdministrationTime == nil) {
                     doneButton.enabled = true
                 }
+
             }
             if slotToAdminister == nil {
                 doneButton.enabled = false
