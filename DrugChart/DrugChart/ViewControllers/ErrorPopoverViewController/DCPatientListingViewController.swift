@@ -77,6 +77,7 @@ class DCPatientListingViewController: UIViewController ,UITableViewDataSource, U
         self.navigationItem.leftBarButtonItem = wardsButton
         self.navigationItem.rightBarButtonItem = graphicViewButton
     }
+    
     func setNavigationBarTitle () {
         
         let label : UILabel = UILabel()
@@ -375,8 +376,8 @@ class DCPatientListingViewController: UIViewController ,UITableViewDataSource, U
         cancelSearching()
         selectedIndexPath = NSIndexPath.init(forRow: row, inSection: 0)
         viewTitle =  wardsListArray.objectAtIndex(selectedIndexPath.row).wardName as NSString
-        setNavigationBarTitle()
         fetchPatientDetails()
+        configureNavigationBar()
     }
     
     //MARK: Search Bar Delegate Methods 
@@ -435,11 +436,11 @@ class DCPatientListingViewController: UIViewController ,UITableViewDataSource, U
                 self.patientListArray = array as NSMutableArray
                 self.getCompletePatientDetails()
                 self.messageLabel.hidden = true
-                
             } else {
                 // we created a error with code 100 for the patient list empty senario
                 if error.code == 100 {
                     self.patientListTableView.hidden = true
+                    self.navigationItem.rightBarButtonItem?.enabled = false
                     self.messageLabel.hidden = false
                 }
                 self.activityIndicator.stopAnimating()
