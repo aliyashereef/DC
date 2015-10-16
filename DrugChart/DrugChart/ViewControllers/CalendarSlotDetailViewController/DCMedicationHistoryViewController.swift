@@ -62,7 +62,7 @@ func configureMedicationDetails () {
         if (medicationDetails?.instruction != EMPTY_STRING && medicationDetails?.instruction != nil) {
             instructionString = String(format: " (%@)", (medicationDetails?.instruction)!)
         } else {
-            instructionString = " (As Directed)"
+            instructionString = ""
         }
         attributedInstructionsString  = NSMutableAttributedString(string: instructionString, attributes: [NSFontAttributeName:UIFont.systemFontOfSize(12.0)])
         attributedRouteString.appendAttributedString(attributedInstructionsString)
@@ -81,14 +81,14 @@ func configureMedicationDetails () {
         switch (indexPath.row) {
         case 0:
             cell!.contentType.text = STATUS
-            if let status = medicationSlot?.medicationAdministration?.status {
+            if let status = medication.medicationAdministration?.status {
                 cell!.value.text = status
             }
             break
         case 1:
             cell!.contentType.text = ADMINISTRATED_BY
             let administratedBy : String
-            if let name = medicationSlot?.medicationAdministration?.administratingUser?.displayName {
+            if let name = medication.medicationAdministration?.administratingUser?.displayName {
                 administratedBy = name
             } else {
                 administratedBy = "Julia Antony"
@@ -98,7 +98,7 @@ func configureMedicationDetails () {
         case 2:
             cell!.contentType.text = DATE_TIME
             let dateString : String
-            if let date = medicationSlot?.medicationAdministration?.actualAdministrationTime {
+            if let date = medication.medicationAdministration?.actualAdministrationTime {
                 dateString = DCDateUtility.convertDate(DCDateUtility.getDateInCurrentTimeZone(date), fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
             } else {
                 dateString = DCDateUtility.convertDate(weekDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
@@ -108,7 +108,7 @@ func configureMedicationDetails () {
         case 3:
             cell!.contentType.text = CHECKED_BY
             let checkedBy : String
-            if let name = medicationSlot?.medicationAdministration?.checkingUser?.displayName {
+            if let name = medication.medicationAdministration?.checkingUser?.displayName {
                 checkedBy = name
             } else {
                 checkedBy = "Andrea Thomas"
@@ -120,7 +120,13 @@ func configureMedicationDetails () {
             cell!.value.text = (medication.medicationAdministration?.batch != nil) ? medication.medicationAdministration?.batch : EMPTY_STRING
             break
         case 5:
-            return configureNotesAndReasonCellsAtIndexPath(indexPath,type:NOTES)
+            let reason : NSString
+            if let reasonText = medication.medicationAdministration?.administeredNotes {
+                reason = reasonText
+            } else {
+                reason = NONE_TEXT
+            }
+            return configureNotesAndReasonCellsAtIndexPath(indexPath,type:NOTES, text : reason)
         default:
             break
         }
@@ -128,7 +134,7 @@ func configureMedicationDetails () {
     }
     
     // configuring the notes and reason cell for medication status display for the patient.
-    func configureNotesAndReasonCellsAtIndexPath (indexPath : NSIndexPath, type : NSString ) -> DCNotesAndReasonCell {
+    func configureNotesAndReasonCellsAtIndexPath (indexPath : NSIndexPath, type : NSString ,text : NSString) -> DCNotesAndReasonCell {
         
         var noteCell = medicationHistoryTableView.dequeueReusableCellWithIdentifier(NOTES_AND_REASON_CELL) as? DCNotesAndReasonCell
         if noteCell == nil {
@@ -138,11 +144,14 @@ func configureMedicationDetails () {
         noteCell!.moreButton.addTarget(self, action: "moreButtonPressed:", forControlEvents: .TouchUpInside)
         noteCell!.cellContentTypeLabel!.text = type as String
         //Handle the cases for notes based on actual status
-        if (medicationSlot?.medicationAdministration?.administeredNotes != nil) {
-            noteCell!.reasonTextLabel.text = medicationSlot?.medicationAdministration?.administeredNotes
-        } else {
-            noteCell!.reasonTextLabel.text = NONE_TEXT
+        noteCell!.reasonTextLabel.text = text as String
+        let count : NSInteger = text.length
+        var isNeededToExpand : Bool = false
+        if text == NONE_TEXT || count < 30{
             noteCell!.isNotesExpanded = true
+            isNeededToExpand = false
+        } else {
+            isNeededToExpand = true
         }
         //noteCell!.reasonTextLabel.text = DUMMY_TEXT
         if(noteCell!.isNotesExpanded == false) {
@@ -151,8 +160,11 @@ func configureMedicationDetails () {
             noteCell!.reasonLabelLeadingSpaceConstraint.constant = 300.0
         } else {
             noteCell!.moreButtonWidthConstaint.constant = 0.0
-            if (noteCell!.reasonTextLabel.text != NONE_TEXT) {
+            if isNeededToExpand {
                 noteCell!.reasonTextLabelTopSpaceConstraint.constant = 25.0
+                noteCell!.cellContentTypeLabel.textAlignment = .Left
+            } else {
+                noteCell!.reasonTextLabelTopSpaceConstraint.constant = 11.0
             }
             noteCell!.reasonLabelLeadingSpaceConstraint.constant = 7.0
         }
@@ -188,10 +200,22 @@ func configureMedicationDetails () {
             break
         case 1:
             cell!.contentType.text = DATE
-            cell!.value.text = "14-Jun-2015"
+            let dateString : NSString
+            if let date = medication.medicationAdministration?.actualAdministrationTime {
+                dateString = DCDateUtility.convertDate(DCDateUtility.getDateInCurrentTimeZone(date), fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
+            } else {
+                dateString = DCDateUtility.convertDate(DCDateUtility.getDateInCurrentTimeZone(NSDate()), fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
+            }
+            cell!.value.text = dateString as String
             break
         case 2:
-            return configureNotesAndReasonCellsAtIndexPath(indexPath,type:REASON)
+            let reason : NSString
+            if let reasonText = medication.medicationAdministration?.refusedNotes {
+                reason = reasonText
+            } else {
+                reason = NONE_TEXT
+            }
+            return configureNotesAndReasonCellsAtIndexPath(indexPath,type:REASON,text : reason)
         default:
             break
         }
@@ -211,7 +235,13 @@ func configureMedicationDetails () {
             cell!.value.text = OMITTED
             break
         case 1:
-            return configureNotesAndReasonCellsAtIndexPath(indexPath,type:REASON)
+            let reason : NSString
+            if let reasonText = medication.medicationAdministration?.omittedNotes {
+                reason = reasonText
+            } else {
+                reason = NONE_TEXT
+            }
+            return configureNotesAndReasonCellsAtIndexPath(indexPath,type:REASON, text: reason)
         default:
             break
         }
@@ -274,30 +304,6 @@ func configureMedicationDetails () {
         if cell == nil {
             cell = DCAdminsteredMedicationCell(style: UITableViewCellStyle.Value1, reuseIdentifier: ADMINSTER_MEDICATION_HISTORY_CELL)
         }
-//<<<<<<< HEAD
-//        if indexPath.section == 0 {
-//            switch (indexPath.row) {
-//            case 0:
-//                let dateString : String
-//                if let date = medicationSlot?.time {
-//                    dateString = DCDateUtility.convertDate(date, fromFormat: DEFAULT_DATE_FORMAT, toFormat: "d LLLL yyyy")
-//                } else {
-//                    dateString = DCDateUtility.convertDate(weekDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: "d LLLL yyyy")
-//                }
-//                cell!.contentType.text = dateString
-//                cell!.value.text = EMPTY_STRING
-//                cell!.layoutMargins = UIEdgeInsetsZero
-//                break
-//            case 1:
-//                
-//                return configureMedicationDetailsCellAtIndexPath(indexPath)
-//            default:
-//                break
-//            }
-//        } else {
-//            let medication : DCMedicationSlot = medicationSlotArray[indexPath.section-1]
-//            if medication.medicationAdministration?.status == IS_GIVEN {
-//=======
         let medication : DCMedicationSlot = medicationSlotArray[indexPath.section]
             if (medication.medicationAdministration?.status == SELF_ADMINISTERED || medication.medicationAdministration?.status == IS_GIVEN ){
                 return configureAdministeredCellAtIndexPathWithMedicationSlot(indexPath, medication: medication) as! UITableViewCell
