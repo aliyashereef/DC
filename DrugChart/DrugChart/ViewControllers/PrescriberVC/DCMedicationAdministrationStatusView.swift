@@ -161,7 +161,10 @@ class DCMedicationAdministrationStatusView: UIView {
                 adjustStatusLabelAndImageViewForCurrentDay()
                 //Populate due label
                 statusIcon?.image = ADMINISTRATION_DUE_IMAGE
-                statusLabel?.text = String(format: "Due at %@", dueTime)
+                if let time = dueTime {
+                    statusLabel?.text = String(format: "Due at %@", time)
+                }
+                
             } else {
                 if ((administeredCount == timeArray.count) || (administeredCount + omittedRefusalCount == timeArray.count)) {
                     // all administered, so indicate area with tick mark
