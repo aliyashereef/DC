@@ -21,20 +21,16 @@ class DCWardsListingPopoverViewController : UIViewController , UITableViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         self.wardsTableView.delegate = self
-        
         self.title = "Wards"
-        let cancelButton : UIBarButtonItem = UIBarButtonItem()
-        cancelButton.title = "Cancel"
-        cancelButton.target = "cancelButtonPressed"
+        let cancelButton : UIBarButtonItem = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target:self, action: "cancelButtonPressed")
         self.navigationItem.rightBarButtonItem = cancelButton
+        self.preferredContentSize = CGSizeMake(305, CGFloat(Double(wardsArray.count-1)*45.0))
         wardsTableView.reloadData()
-        self.preferredContentSize = CGSizeMake(300, CGFloat(Double(wardsArray.count-1)*45.0))
-
     }
     
     override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
         displayNavigationBarBasedOnSizeClass()
+        super.viewDidLayoutSubviews()
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -67,10 +63,10 @@ class DCWardsListingPopoverViewController : UIViewController , UITableViewDelega
         
     }
     
-    func displayNavigationBarBasedOnSizeClass (){
+    func displayNavigationBarBasedOnSizeClass(){
         let orientation : UIInterfaceOrientation = UIApplication.sharedApplication().statusBarOrientation
-        let windowWidth = DCUtility.getMainWindowSize().width
         let screenWidth = UIScreen.mainScreen().bounds.size.width
+        let windowWidth = DCUtility.getMainWindowSize().width
         if ((orientation == UIInterfaceOrientation.LandscapeLeft) || (orientation == UIInterfaceOrientation.LandscapeRight)) {
             if windowWidth > screenWidth/2 {
                 showNavigationBar(false)

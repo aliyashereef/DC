@@ -22,4 +22,10 @@
     [navigationController pushViewController:prescriberMedicationViewController animated:YES];
 }
 
+- (void)reloadPrescriberMedicationHomeViewController {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(reloadPrescriberMedicationList)]) {
+        [self.delegate reloadPrescriberMedicationList];
+    }
+}
+
 @end

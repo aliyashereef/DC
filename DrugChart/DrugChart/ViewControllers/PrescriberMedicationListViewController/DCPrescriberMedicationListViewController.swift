@@ -13,16 +13,18 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
 @objc protocol PrescriberListDelegate {
     
     func prescriberTableViewPannedWithTranslationParameters(xPoint : CGFloat, xVelocity : CGFloat, panEnded : Bool)
+    func refreshMedicationList()
 }
 
 
-@objc class DCPrescriberMedicationListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate, DCMedicationAdministrationStatusProtocol {
+@objc class DCPrescriberMedicationListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate, DCMedicationAdministrationStatusProtocol, EditAndDeleteActionDelegate {
 
 
     @IBOutlet var medicationTableView: UITableView?
     var displayMedicationListArray : NSMutableArray = []
     var currentWeekDatesArray : NSMutableArray = []
     var delegate : PrescriberListDelegate?
+    var patientId : NSString = EMPTY_STRING
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -62,6 +64,8 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                 medicationCell = PrescriberMedicationTableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: CELL_IDENTIFIER)
             }
             let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
+            medicationCell?.editAndDeleteDelegate = self
+            medicationCell?.indexPath = indexPath
             self.fillInMedicationDetailsInTableCell(medicationCell!, atIndexPath: indexPath)
             if (medicationScheduleDetails.name  == "Idebenone 150mg capsules") {
                 print(" got it")
@@ -83,7 +87,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     
     func reloadMedicationListWithDisplayArray (displayArray: NSMutableArray) {
         
-        displayMedicationListArray = displayArray
+        displayMedicationListArray =  displayArray as NSMutableArray
         medicationTableView?.reloadData()
         
     }
@@ -235,6 +239,38 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     func administerMedicationWithMedicationSlots (medicationSLotDictionary: NSDictionary, atIndexPath indexPath: NSIndexPath ,withWeekDate date : NSDate) {
         let parentView : PrescriberMedicationViewController = self.parentViewController as! PrescriberMedicationViewController
         parentView.displayAdministrationViewForMedicationSlot(medicationSLotDictionary as [NSObject : AnyObject], atIndexPath: indexPath, withWeekDate: date)
+    }
+    
+    //MARK - EditAndDeleteActionDelegate methods 
+    func stopMedicationForSelectedIndexPath(indexPath: NSIndexPath) {
+        deleteMedicationAtIndexPath(indexPath)
+    }
+    
+    func deleteMedicationAtIndexPath(indexPath : NSIndexPath) {
+        
+        let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
+        let webService : DCStopMedicationWebService = DCStopMedicationWebService.init()
+        webService.stopMedicationForPatientWithId(patientId as String, drugWithScheduleId: medicationScheduleDetails.scheduleId) { (array, error) -> Void in
+            if error == nil {
+                self.medicationTableView!.beginUpdates()
+                print(self.displayMedicationListArray ,"index PAth     ******", indexPath.row)
+                var arr : [DCMedicationScheduleDetails] = [DCMedicationScheduleDetails]()
+                arr = self.displayMedicationListArray.mutableCopy() as! [DCMedicationScheduleDetails]
+                arr.removeAtIndex(indexPath.row)
+                self.displayMedicationListArray = (arr as? NSMutableArray)!
+                
+                self.medicationTableView!.deleteRowsAtIndexPaths([indexPath as NSIndexPath], withRowAnimation: .Fade)
+                self.medicationTableView!.endUpdates()
+                self.medicationTableView?.reloadData()
+                // If we want to reload the medication list, uncomment the lines
+//                if let delegate = self.delegate {
+//                    delegate.refreshMedicationList()
+//
+//                }
+            } else {
+                // TO DO: handle the case for already deleted medication.
+            }
+        }
     }
 }
 

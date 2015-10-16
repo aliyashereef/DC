@@ -53,7 +53,7 @@ typedef enum : NSUInteger {
     kSortDrugName
 } SortType;
 
-@interface DCPrescriberViewController () <UIGestureRecognizerDelegate, DCPrescriberCellDelegate, UIGestureRecognizerDelegate, DCPrescriberFilterTableViewControllerDelegate> {
+@interface DCPrescriberViewController () <UIGestureRecognizerDelegate, DCPrescriberCellDelegate, UIGestureRecognizerDelegate, DCPrescriberFilterTableViewControllerDelegate > {
     
     IBOutlet UILabel *weekLabel;
     IBOutlet UIView *weekContainerView;

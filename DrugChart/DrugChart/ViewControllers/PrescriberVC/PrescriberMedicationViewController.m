@@ -32,7 +32,7 @@ typedef enum : NSUInteger {
     kSortDrugName
 } SortType;
 
-@interface PrescriberMedicationViewController () <DCAddMedicationViewControllerDelegate, PrescriberListDelegate>{
+@interface PrescriberMedicationViewController () <DCAddMedicationViewControllerDelegate,PrescriberListDelegate ,AdministrationDelegate>{
     
     NSMutableArray *currentWeekDatesArray;
     IBOutlet UIView *calendarDaysDisplayView;
@@ -81,7 +81,6 @@ typedef enum : NSUInteger {
     [self fillPrescriberMedicationDetailsInCalendarView];
     [self addTopDatePortionInCalendar];
     [self obtainReferencesToChildViewControllersAddedFromStoryBoard];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -259,6 +258,7 @@ typedef enum : NSUInteger {
                             if ([displayMedicationListArray count] > 0) {
                                 if (prescriberMedicationListViewController) {
                                     [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
+                                    prescriberMedicationListViewController.patientId = self.patient.patientId;
                                     prescriberMedicationListViewController.currentWeekDatesArray = currentWeekDatesArray;
                                 }
                                 [medicationListHolderView setHidden:NO];
@@ -481,8 +481,12 @@ typedef enum : NSUInteger {
     DCCalendarSlotDetailViewController *detailViewController = [administerStoryboard instantiateViewControllerWithIdentifier:CALENDAR_SLOT_DETAIL_STORYBOARD_ID];
     if ([displayMedicationListArray count] > 0) {
         DCMedicationScheduleDetails *medicationList =  [displayMedicationListArray objectAtIndex:indexPath.item];
+        detailViewController.scheduleId = medicationList.scheduleId;
         detailViewController.medicationDetails = medicationList;
     }
+    DCSwiftObjCNavigationHelper *helper = [[DCSwiftObjCNavigationHelper alloc] init];
+    helper.delegate = self;
+    detailViewController.helper = helper;
     if ([[medicationSLotsDictionary allKeys] containsObject:@"timeSlots"]) {
         NSMutableArray *slotsArray = [[NSMutableArray alloc] initWithArray:[medicationSLotsDictionary valueForKey:@"timeSlots"]];
         if ([slotsArray count] > 0) {
@@ -490,6 +494,7 @@ typedef enum : NSUInteger {
         }
     }
     detailViewController.weekDate = date;
+    detailViewController.patientId = self.patient.patientId;
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:detailViewController];
     navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
     [self presentViewController:navigationController animated:YES completion:nil];
@@ -507,7 +512,15 @@ typedef enum : NSUInteger {
 
 // after adding a medication the latest drug schedules are fetched and displayed to the user.
 - (void)addedNewMedicationForPatient {
-    
+    [self fetchMedicationListForPatient];
+}
+
+// This method refresh the medication list when an mediation gets deleted.
+- (void) refreshMedicationList {
+    [self fetchMedicationListForPatient];
+}
+
+- (void)reloadPrescriberMedicationList {
     [self fetchMedicationListForPatient];
 }
 

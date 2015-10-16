@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="KYs-eG-kb5">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="KYs-eG-kb5">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
@@ -118,7 +118,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="WardsListCell" id="yBe-K5-xjD" customClass="DCWardsCollectionViewCell">
-                                        <rect key="frame" x="18" y="44" width="234" height="235"/>
+                                        <rect key="frame" x="17.5" y="44" width="234" height="235"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="234" height="235"/>
@@ -470,10 +470,10 @@
                                 </searchBar>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="patientCell" rowHeight="53" id="Fxs-Fx-RGb" customClass="DCPatientListCell">
-                                        <rect key="frame" x="0.0" y="94" width="1024" height="53"/>
+                                        <rect key="frame" x="0.0" y="93.5" width="1024" height="53"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Fxs-Fx-RGb" id="3gf-25-Gnl">
-                                            <rect key="frame" x="0.0" y="0.0" width="810" height="52"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="810" height="52.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FRANCIS, Richard (Mr) " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hOR-Vs-Uly" userLabel="PatientNameTitleLabel">
@@ -522,7 +522,7 @@
                                                         </mask>
                                                     </variation>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="KENNEDY, Frederick (Dr)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nQs-HU-w4g" userLabel="ConsultantNameLabel">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="KENNEDY, Frederick (Dr)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nQs-HU-w4g" userLabel="ConsultantNameLabel">
                                                     <rect key="frame" x="575" y="16" width="150" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="345" id="13r-7S-GQg"/>
@@ -698,10 +698,10 @@
                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SortTableCell" rowHeight="44" id="Ahc-qU-TaU" customClass="DCSortTableCell">
-                                <rect key="frame" x="0.0" y="50" width="180" height="44"/>
+                                <rect key="frame" x="0.0" y="49.5" width="180" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ahc-qU-TaU" id="ka5-Tp-tDw">
-                                    <rect key="frame" x="0.0" y="0.0" width="180" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="180" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -2386,7 +2386,7 @@
                                 <rect key="frame" x="0.0" y="22" width="364" height="65"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6ae-8S-gSZ" id="R2y-gy-VxH">
-                                    <rect key="frame" x="0.0" y="0.0" width="364" height="64"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="364" height="64.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WarningSympol" translatesAutoresizingMaskIntoConstraints="NO" id="fcG-qY-3kX">
@@ -2822,7 +2822,7 @@
                                         <rect key="frame" x="0.0" y="22" width="305" height="34"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="uoJ-CI-msp" id="I2m-vU-nOZ">
-                                            <rect key="frame" x="0.0" y="0.0" width="305" height="33"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="305" height="33.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KzW-Aw-guh">
@@ -2917,7 +2917,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PatientCollectionViewCell" id="kwF-16-hbC" customClass="DCPatientsCollectionViewCell">
-                                        <rect key="frame" x="18" y="68" width="223" height="195"/>
+                                        <rect key="frame" x="17.5" y="67.5" width="223" height="195"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="223" height="195"/>
@@ -3167,20 +3167,20 @@
                                     <textInputTraits key="textInputTraits"/>
                                 </searchBar>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="PatientCell" id="8DG-F6-9mU" customClass="DCPatientListingCell" customModule="DrugChart" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="136" width="600" height="90"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="PatientCell" rowHeight="98" id="8DG-F6-9mU" customClass="DCPatientListingCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="136" width="600" height="98"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8DG-F6-9mU" id="47N-If-eeL">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="89"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="97.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="252" text="FRANCIS, Richard (Mr) - 5010" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eqO-r2-Z6O">
-                                                    <rect key="frame" x="20" y="15" width="229" height="21"/>
+                                                    <rect key="frame" x="20" y="15" width="228.5" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Kennedy, Frederick (Dr)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="coe-1L-15R">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kennedy, Frederick (Dr)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="coe-1L-15R">
                                                     <rect key="frame" x="20" y="41" width="172" height="18"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="172" id="wwA-19-XLv"/>
@@ -3189,8 +3189,8 @@
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" misplaced="YES" text="Bed No 101" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xjm-1j-NtR">
-                                                    <rect key="frame" x="20" y="61" width="83" height="28"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Bed No 101" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xjm-1j-NtR">
+                                                    <rect key="frame" x="20" y="65" width="83" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="83" id="syW-pY-CNr"/>
                                                     </constraints>
@@ -3198,8 +3198,8 @@
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" misplaced="YES" text="09:30 02,March" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="dVf-3O-EBm">
-                                                    <rect key="frame" x="429" y="15" width="124" height="24"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="09:30 02,March" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="dVf-3O-EBm">
+                                                    <rect key="frame" x="428" y="15" width="123.5" height="24"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -3210,20 +3210,25 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="jZU-oO-2FD" firstAttribute="top" secondItem="47N-If-eeL" secondAttribute="top" constant="19" id="3Nm-KW-Qwv"/>
-                                                <constraint firstAttribute="bottom" secondItem="dVf-3O-EBm" secondAttribute="bottom" constant="50" id="41C-yJ-Htg"/>
+                                                <constraint firstAttribute="bottom" secondItem="dVf-3O-EBm" secondAttribute="bottom" constant="58" id="41C-yJ-Htg"/>
                                                 <constraint firstItem="eqO-r2-Z6O" firstAttribute="leading" secondItem="47N-If-eeL" secondAttribute="leading" constant="20" id="ELo-lk-E9y"/>
                                                 <constraint firstItem="jZU-oO-2FD" firstAttribute="leading" secondItem="dVf-3O-EBm" secondAttribute="trailing" constant="13" id="Ixh-ME-VzM"/>
                                                 <constraint firstItem="Xjm-1j-NtR" firstAttribute="leading" secondItem="47N-If-eeL" secondAttribute="leading" constant="20" id="JGo-8t-P7i"/>
-                                                <constraint firstAttribute="bottom" secondItem="Xjm-1j-NtR" secondAttribute="bottom" constant="1" id="N7a-6B-IId"/>
                                                 <constraint firstItem="dVf-3O-EBm" firstAttribute="top" secondItem="47N-If-eeL" secondAttribute="top" constant="15" id="S63-kA-lPZ"/>
-                                                <constraint firstItem="Xjm-1j-NtR" firstAttribute="top" secondItem="coe-1L-15R" secondAttribute="bottom" constant="2" id="SSM-Ns-2v9"/>
+                                                <constraint firstItem="Xjm-1j-NtR" firstAttribute="top" secondItem="coe-1L-15R" secondAttribute="bottom" constant="6" id="SSM-Ns-2v9"/>
                                                 <constraint firstItem="dVf-3O-EBm" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="eqO-r2-Z6O" secondAttribute="trailing" constant="8" id="STJ-9b-j0j"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="Xjm-1j-NtR" secondAttribute="bottom" constant="6.5" id="Sfj-R6-ger"/>
                                                 <constraint firstAttribute="trailing" secondItem="jZU-oO-2FD" secondAttribute="trailing" constant="15" id="TUj-or-rz2"/>
                                                 <constraint firstItem="eqO-r2-Z6O" firstAttribute="top" secondItem="47N-If-eeL" secondAttribute="top" constant="15" id="VaI-bq-V8R"/>
                                                 <constraint firstItem="coe-1L-15R" firstAttribute="leading" secondItem="47N-If-eeL" secondAttribute="leading" constant="20" id="YvT-KG-cw3"/>
-                                                <constraint firstAttribute="bottom" secondItem="jZU-oO-2FD" secondAttribute="bottom" constant="50.5" id="biE-cm-GNC"/>
+                                                <constraint firstAttribute="bottom" secondItem="jZU-oO-2FD" secondAttribute="bottom" constant="58.5" id="biE-cm-GNC"/>
                                                 <constraint firstItem="coe-1L-15R" firstAttribute="top" secondItem="eqO-r2-Z6O" secondAttribute="bottom" constant="6" id="vpj-nZ-pMR"/>
                                             </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="Sfj-R6-ger"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="bedNoLabel" destination="Xjm-1j-NtR" id="DPc-xz-LaE"/>
@@ -3247,8 +3252,8 @@
                                 <rect key="frame" x="282" y="281" width="37" height="37"/>
                                 <color key="color" red="0.56078431370000004" green="0.56078431370000004" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="No patients in the ward" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WWT-rg-bol">
-                                <rect key="frame" x="212" y="291" width="177" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No patients in the ward" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WWT-rg-bol">
+                                <rect key="frame" x="212" y="290" width="177" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.38823529410000002" green="0.38823529410000002" blue="0.38823529410000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -3305,7 +3310,7 @@
                                         <rect key="frame" x="0.0" y="1" width="300" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="61h-t5-Aaz" id="NP0-pn-EMl">
-                                            <rect key="frame" x="0.0" y="0.0" width="300" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="300" height="44.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UIG-V2-fPQ">

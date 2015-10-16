@@ -20,16 +20,6 @@
 #import "DCMedicationAdministration.h"
 //#import "DCAdministerMedicationWebService.h"
 
-#define SCHEDULED_ADMINISTRATION_TIME @"scheduledDateTime"
-#define ACTUAL_ADMINISTRATION_TIME @"actualAdministrationDateTime"
-#define ADMINISTRATION_STATUS @"administrationStatus"
-#define ADMINISTRATING_USER @"administratingUser"
-#define ADMINISTRATING_DOSAGE @"amendedDosage"
-#define ADMINISTRATING_BATCH @"batchNumber"
-#define ADMINISTRATING_NOTES @"notes"
-#define IS_SELF_ADMINISTERED @"IsSelfAdministered"
-#define EXPIRY_DATE @"ExpiryDate"
-
 #define KEYBOARD_DURATION 0.3
 
 typedef enum: NSInteger {
@@ -614,20 +604,20 @@ typedef enum : NSInteger {
         [userArray insertObject:SELF_ADMINISTERED_TITLE atIndex:0];
     }
     listViewController.namesArray = userArray;
-    listViewController.userSelectionHandler = ^ (NSString *selectedName) {
+    listViewController.userSelectionHandler = ^ (DCUser *selectedUser) {
         
         patientMedicationHomeViewController.hasAdministerChanges = YES;
         if (selectedPopOverType == kAdministeredBy) {
             
-            administeredByTextField.text = selectedName;
+            administeredByTextField.text = selectedUser.displayName;
         } else {
-            if (![selectedName isEqualToString:defaultUserName]) {
+            if (![selectedUser.displayName isEqualToString:defaultUserName]) {
                 
                 //display pin view
-                [self performSelector:@selector(displaySecurityPinEntryViewForSelectedUser:) withObject:selectedName afterDelay:0.3];
+                [self performSelector:@selector(displaySecurityPinEntryViewForSelectedUser:) withObject:selectedUser.displayName afterDelay:0.3];
             } else {
                 
-                checkedByTextField.text = selectedName;
+                checkedByTextField.text = selectedUser.displayName;
             }
         }
     };
