@@ -135,7 +135,6 @@
             //TODO:set for demo purpose since there is no value for medication slot status
             medicationSlot.status = IS_GIVEN;
 
-            NSLog(@"the predicate string is: %@", [NSString stringWithFormat:@"scheduledDateTime == %@",medicationDateTime]);
             NSPredicate *datePredicate = [NSPredicate predicateWithFormat:@"scheduledDateTime == %@",medicationDateTime];
             NSArray *resultsArray = [self.administrationDetailsArray filteredArrayUsingPredicate:datePredicate];
             

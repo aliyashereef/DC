@@ -397,12 +397,18 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     // Return the note string based on the administrating status
     func getAdministrationNotesBasedOnMedicationStatus (status : NSString) -> NSString{
         var noteString : NSString = EMPTY_STRING
-        if status == ADMINISTERED {
-            noteString = (administerViewController?.medicationSlot?.medicationAdministration?.administeredNotes)!
+        if (status == ADMINISTERED || status == SELF_ADMINISTERED)  {
+            if let administeredNotes = administerViewController?.medicationSlot?.medicationAdministration?.administeredNotes {
+                noteString = administeredNotes
+            }
         } else if status == REFUSED {
-            noteString =  (administerViewController?.medicationSlot?.medicationAdministration?.refusedNotes)!
+            if let refusedNotes = administerViewController?.medicationSlot?.medicationAdministration?.refusedNotes {
+                noteString =  refusedNotes
+            }
         } else {
-            noteString = (administerViewController?.medicationSlot?.medicationAdministration?.omittedNotes)!
+            if let omittedNotes = administerViewController?.medicationSlot?.medicationAdministration?.omittedNotes {
+                noteString = omittedNotes
+            }
         }
         return noteString
     }
