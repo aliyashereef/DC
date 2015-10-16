@@ -139,7 +139,7 @@ func configureMedicationDetails () {
         if (medicationSlot?.medicationAdministration?.administeredNotes != nil) {
             noteCell!.reasonTextLabel.text = medicationSlot?.medicationAdministration?.administeredNotes
         } else {
-            noteCell!.reasonTextLabel.text = EMPTY_STRING
+            noteCell!.reasonTextLabel.text = NONE_TEXT
             noteCell!.isNotesExpanded = true
         }
         //noteCell!.reasonTextLabel.text = DUMMY_TEXT

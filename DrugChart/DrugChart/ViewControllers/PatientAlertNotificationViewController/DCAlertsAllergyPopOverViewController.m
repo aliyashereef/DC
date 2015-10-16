@@ -88,7 +88,7 @@
 - (CGFloat )getAllergyAndAlertDisplayTableViewHeightForContent:(NSArray *)displayArray {
     
     cellHeightArray = [[NSMutableArray alloc] init];
-    CGFloat totalAlertCellsHeight = 38.0f;
+    CGFloat totalAlertCellsHeight = 35.0f;
     for (int index = 0; index < displayArray.count; index++) {
         CGSize stepSize;
         if ([[displayArray objectAtIndex:index] isKindOfClass:[DCPatientAlert

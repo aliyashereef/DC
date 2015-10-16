@@ -227,8 +227,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 selfAdministratedUser.displayName = selfAdministratedPatientName
                 selfAdministratedUser.userIdentifier = selfAdministratedPatientIdentifier
                 self.userListArray!.insertObject(selfAdministratedUser, atIndex: 0)
-                self.medicationSlot?.medicationAdministration.administratingUser = selfAdministratedUser
-                self.medicationSlot?.medicationAdministration.isSelfAdministered = true
+                self.medicationSlot?.medicationAdministration?.administratingUser = selfAdministratedUser
+                self.medicationSlot?.medicationAdministration?.isSelfAdministered = true
                 self.administerTableView.reloadData()
             }
         }
