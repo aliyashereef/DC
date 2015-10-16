@@ -93,6 +93,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
 //            //let attr = NSDictionary(object: UIFont(name: "HelveticaNeue", size: 14)!, forKey: NSFontAttributeName)
 //            segmentedControl.setTitleTextAttributes(attr as [NSObject : AnyObject], forState: .Normal)
         }
+        self.view.layoutIfNeeded()
     }
     
     func initialiseMedicationSlotToAdministerObject () {

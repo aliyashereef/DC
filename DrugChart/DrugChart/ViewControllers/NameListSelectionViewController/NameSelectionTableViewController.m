@@ -19,13 +19,57 @@
 @implementation NameSelectionTableViewController
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     self.navigationController.navigationBarHidden = YES;
+    [self addNavigationBarButtons];
 }
 
 - (void)didReceiveMemoryWarning {
+    
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewDidLayoutSubviews {
+    
+    [super viewDidLayoutSubviews];
+    [self displayNavigationBarBasedOnSizeClass];
+}
+
+- (void)displayNavigationBarBasedOnSizeClass {
+    
+    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    CGFloat windowWidth = [DCUtility getMainWindowSize].width;
+    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
+    if ((orientation == UIInterfaceOrientationLandscapeLeft) || (orientation == UIInterfaceOrientationLandscapeRight)) {
+        if (windowWidth > screenWidth/2) {
+            [self showNavigationBar:NO];
+        } else {
+            [self showNavigationBar:YES];
+        }
+    } else {
+        if (windowWidth < screenWidth) {
+            [self showNavigationBar:YES];
+        } else {
+            [self showNavigationBar:NO];
+        }
+    }
+}
+
+- (void)addNavigationBarButtons {
+    
+    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonPressed:)];
+    self.navigationItem.rightBarButtonItem = cancelButton;
+}
+
+- (void)showNavigationBar:(BOOL)show {
+    
+    if (show) {
+        self.navigationController.navigationBarHidden = NO;
+    } else {
+        self.navigationController.navigationBarHidden = YES;
+    }
 }
 
 #pragma mark - Table view data source
@@ -59,5 +103,11 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+#pragma mark - Action Methods
+
+- (IBAction)cancelButtonPressed:(id)sender {
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 @end

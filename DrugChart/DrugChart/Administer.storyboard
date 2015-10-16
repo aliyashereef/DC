@@ -899,6 +899,9 @@
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Dd2-m2-37J">
                                         <rect key="frame" x="179" y="20" width="342" height="31"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="342" id="RMj-su-e54"/>
+                                        </constraints>
                                         <segments>
                                             <segment title="Administer"/>
                                             <segment title="Medication History"/>
@@ -1001,6 +1004,7 @@
                         <outlet property="containerView" destination="pyo-Rr-Edz" id="gNf-w4-16r"/>
                         <outlet property="doneButton" destination="zcz-7S-X4N" id="hcL-CX-I2M"/>
                         <outlet property="segmentedControl" destination="Dd2-m2-37J" id="YAc-ez-800"/>
+                        <outlet property="segmentedControlWidth" destination="RMj-su-e54" id="aWy-Yx-vwr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="P1H-1A-zxj" userLabel="First Responder" sceneMemberID="firstResponder"/>
