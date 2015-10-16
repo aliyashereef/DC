@@ -61,6 +61,7 @@
     self.navigationItem.rightBarButtonItem = addButton;
     self.navigationItem.leftBarButtonItem = cancelButton;
     self.navigationItem.title = ADD_MEDICATION;
+    self.navigationItem.rightBarButtonItem.enabled = false;
 }
 
 //Setting the layout margins and seperator space for the table view to zero.
@@ -83,19 +84,22 @@
     cell.textLabel.font = SYSTEM_FONT_SIZE_FIFTEEN;
     cell.textLabel.numberOfLines = 0;
     if ([selectedMedication.name isEqualToString:EMPTY_STRING] ||  selectedMedication.name == nil) {
-        if (doneClicked) {
-            //if no medicine is selected, show place holder in red color
-            if ([selectedMedication.name isEqualToString:EMPTY_STRING] || selectedMedication.name == nil) {
-                cell.textLabel.textColor = [UIColor redColor];
-            } else {
-                cell.textLabel.textColor = [UIColor blackColor];
-                doneClicked = NO;
-            }
-        } else {
-            cell.textLabel.textColor = [UIColor getColorForHexString:@"#8f8f95"];
-        }
+//        if (doneClicked) {
+//            //if no medicine is selected, show place holder in red color
+//            if ([selectedMedication.name isEqualToString:EMPTY_STRING] || selectedMedication.name == nil) {
+//                cell.textLabel.textColor = [UIColor redColor];
+//            } else {
+//                cell.textLabel.textColor = [UIColor blackColor];
+//                doneClicked = NO;
+//            }
+//        } else {
+//            cell.textLabel.textColor = [UIColor getColorForHexString:@"#8f8f95"];
+//        }
+        self.navigationItem.rightBarButtonItem.enabled = false;
+        cell.textLabel.textColor = [UIColor getColorForHexString:@"#8f8f95"];
         cell.textLabel.text = NSLocalizedString(@"MEDICATION_NAME", @"hint string");
     } else {
+        self.navigationItem.rightBarButtonItem.enabled = true;
         cell.textLabel.textColor = [UIColor blackColor];
         cell.textLabel.text = selectedMedication.name;
     }
