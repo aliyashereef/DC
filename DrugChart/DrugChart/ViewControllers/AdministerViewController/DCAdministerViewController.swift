@@ -387,7 +387,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         self.presentViewController(navigationController!, animated: true, completion: nil)
 
         let popover = navigationController?.popoverPresentationController
-        namesViewController!.preferredContentSize = CGSizeMake(250,90)
+        namesViewController!.preferredContentSize = CGSizeMake(250,87)
         popover?.permittedArrowDirections = .Up
         popover?.preferredContentSize
         let cell = administerTableView.cellForRowAtIndexPath(indexPath) as! DCAdministerCell?

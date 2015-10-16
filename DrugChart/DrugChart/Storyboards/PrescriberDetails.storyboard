@@ -67,7 +67,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="49"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="October 2015" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Znt-9r-lTE" userLabel="October 2015">
-                                                <rect key="frame" x="15" y="0.0" width="285" height="49"/>
+                                                <rect key="frame" x="20" y="0.0" width="280" height="49"/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="22"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -75,7 +75,7 @@
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstItem="Znt-9r-lTE" firstAttribute="leading" secondItem="8id-G8-fHA" secondAttribute="leading" constant="15" id="J4a-38-gJZ"/>
+                                            <constraint firstItem="Znt-9r-lTE" firstAttribute="leading" secondItem="8id-G8-fHA" secondAttribute="leading" constant="20" id="J4a-38-gJZ"/>
                                             <constraint firstAttribute="bottom" secondItem="Znt-9r-lTE" secondAttribute="bottom" id="b6m-ZE-uAY"/>
                                             <constraint firstItem="Znt-9r-lTE" firstAttribute="top" secondItem="8id-G8-fHA" secondAttribute="top" id="dsT-SC-26o"/>
                                             <constraint firstAttribute="width" constant="300" id="kxJ-jP-Yx1"/>
