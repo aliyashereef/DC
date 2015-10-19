@@ -42,20 +42,26 @@ class DCPatientListingViewController: UIViewController ,UITableViewDataSource, U
     override func viewDidLoad() {
         super.viewDidLoad()
         getCompletePatientDetails()
+        configureNavigationBar()
         addSearchBar()
         addRefreshControl()
     }
     
     override func viewWillAppear(animated: Bool) {
         
-        configureNavigationBar()
+        super.viewWillAppear(animated)
         cancelSearching()
         configureSearchBarViewProperties()
         self.patientListTableView.reloadData()
         self.messageLabel.hidden = true
         patientListTableView.tableFooterView = UIView(frame: CGRectZero)
-        super.viewWillAppear(animated)
     }
+    
+    override func viewWillDisappear(animated: Bool) {
+        
+        super.viewWillDisappear(animated)
+    }
+    
     
     //MARK: View methods
     //Configuring view properties
@@ -346,17 +352,23 @@ class DCPatientListingViewController: UIViewController ,UITableViewDataSource, U
         
         // Instantiating the navigation controller to present the popover with preferred content size of the poppver.
         let popoverContent = self.storyboard!.instantiateViewControllerWithIdentifier("WardsListingPopoverViewController") as! DCWardsListingPopoverViewController
-        popoverContent.wardsArray = wardsListArray
+        popoverContent.wardsArray = self.wardsListArray
         popoverContent.delegate = self
         let navigationController = UINavigationController(rootViewController: popoverContent)
         navigationController.modalPresentationStyle = .Popover
-        self.presentViewController(navigationController, animated:false, completion: nil)
-
+        
         let popover : UIPopoverPresentationController = navigationController.popoverPresentationController!
         popover.permittedArrowDirections = UIPopoverArrowDirection.Any
         popover.sourceView = self.navigationController?.navigationBar
-//        popover.sourceRect = CGRectMake(0, 0, 305,20)
+        //        popover.sourceRect = CGRectMake(0, 0, 305,20)
         popover.barButtonItem = sender as UIBarButtonItem
+        
+        self.presentViewController(navigationController, animated:false, completion: nil)
+        
+//        dispatch_after(dispatch_time_t(1.0), dispatch_get_main_queue(), {
+//            
+//        })
+        
     }
     
     func presentGraphicalWardsView () {
