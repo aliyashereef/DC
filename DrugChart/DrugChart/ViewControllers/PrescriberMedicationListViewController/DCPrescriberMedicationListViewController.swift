@@ -69,7 +69,11 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             self.fillInMedicationDetailsInTableCell(medicationCell!, atIndexPath: indexPath)
             if (medicationScheduleDetails.name  == "Idebenone 150mg capsules") {
                 print(" got it")
-                
+            }
+            if (medicationCell?.inEditMode == true) {
+                UIView.animateWithDuration(0.05, animations: { () -> Void in
+                    medicationCell!.medicationViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET;
+                })
             }
             let rowDisplayMedicationSlotsArray = self.prepareMedicationSlotsForDisplayInCellFromScheduleDetails(medicationScheduleDetails)
             var index : NSInteger = 0
