@@ -225,7 +225,7 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
             if (xVelocity > 0) {
                 // animate to left. show previous week
                 UIView.animateWithDuration(0.1, animations: { () -> Void in
-                    if (self.leadingSpaceMasterToContainerView.constant >= MEDICATION_VIEW_WIDTH) {
+                    if (self.leadingSpaceMasterToContainerView.constant >= calendarWidth/4.5) {
                         self.leadingSpaceMasterToContainerView.constant = calendarWidth
                     } else {
                         //display current week
@@ -236,7 +236,7 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
             } else {
                 //show next week
                 UIView.animateWithDuration(0.1, animations: { () -> Void in
-                if (self.leadingSpaceMasterToContainerView.constant <= -MEDICATION_VIEW_WIDTH) {
+                if (self.leadingSpaceMasterToContainerView.constant <= -calendarWidth/4.5) {
                     self.leadingSpaceMasterToContainerView.constant = -calendarWidth
                 } else {
                     self.leadingSpaceMasterToContainerView.constant = 0.0

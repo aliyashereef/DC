@@ -34,7 +34,7 @@ import UIKit
     func translateCalendarContainerViewsForTranslationParameters(xTranslation: CGFloat, withXVelocity xVelocity:CGFloat, panEndedValue panEnded:Bool) {
         
         let calendarWidth : CGFloat = (DCUtility.getMainWindowSize().width - MEDICATION_VIEW_WIDTH);
-        let valueToTranslate = calendarViewLeadingConstraint.constant + xTranslation;
+        let valueToTranslate = (calendarViewLeadingConstraint.constant + xTranslation);
         if (valueToTranslate >= -calendarWidth && valueToTranslate <= calendarWidth) {
             calendarViewLeadingConstraint.constant = calendarViewLeadingConstraint.constant + xTranslation;
             // self.layoutIfNeeded()
@@ -43,7 +43,7 @@ import UIKit
             if (xVelocity > 0) {
                 // animate to left. show previous week
                 UIView.animateWithDuration(0.1, animations: { () -> Void in
-                    if (self.calendarViewLeadingConstraint.constant >= MEDICATION_VIEW_WIDTH) {
+                    if (self.calendarViewLeadingConstraint.constant >= calendarWidth/4.5) {
                         self.calendarViewLeadingConstraint.constant = calendarWidth
                     } else {
                         //display current week
@@ -54,7 +54,7 @@ import UIKit
             } else {
                 //show next week
                 UIView.animateWithDuration(0.1, animations: { () -> Void in
-                    if (self.calendarViewLeadingConstraint.constant <= -MEDICATION_VIEW_WIDTH) {
+                    if (self.calendarViewLeadingConstraint.constant <= -calendarWidth/4.5) {
                         self.calendarViewLeadingConstraint.constant = -calendarWidth
                     } else {
                         self.calendarViewLeadingConstraint.constant = 0.0
