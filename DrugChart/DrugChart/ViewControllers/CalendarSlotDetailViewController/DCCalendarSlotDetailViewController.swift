@@ -91,9 +91,11 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
             NSLog("**** medicineCategory is %@", (medicationDetails?.medicineCategory)!)
             if (medicationDetails?.medicineCategory != WHEN_REQUIRED) {
                 errorMessage = NSLocalizedString("NO_ADMINISTRATION_DETAILS", comment: "no medication slots today")
-                doneButton.enabled = false
             } 
             addAdministerView()
+        }
+        if (errorMessage != EMPTY_STRING) {
+            doneButton.enabled = false
         }
      }
     

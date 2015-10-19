@@ -73,7 +73,6 @@
                                                                                      andEndDate:self.endDate
                                                                                withActiveStatus:self.isActive];
         self.timeChart = slotsArray;
-        NSLog(@"the slots array: %@", slotsArray);
         if ([schedulesDictionary valueForKey:DRUG_SCHEDULE_TIMES]) {
             self.scheduleTimesArray = [schedulesDictionary valueForKey:DRUG_SCHEDULE_TIMES];
         }
@@ -90,7 +89,6 @@
         DCMedicationAdministration *medicationAdministration = [[DCMedicationAdministration alloc] initWithAdministrationDetails:administrationDictionary];
         [administrationDetailsArray addObject:medicationAdministration];
     }
-    NSLog(@"the administer array: %@", administrationDetailsArray);
     return administrationDetailsArray;
 }
 
