@@ -362,13 +362,7 @@ class DCPatientListingViewController: UIViewController ,UITableViewDataSource, U
         popover.sourceView = self.navigationController?.navigationBar
         //        popover.sourceRect = CGRectMake(0, 0, 305,20)
         popover.barButtonItem = sender as UIBarButtonItem
-        
         self.presentViewController(navigationController, animated:false, completion: nil)
-        
-//        dispatch_after(dispatch_time_t(1.0), dispatch_get_main_queue(), {
-//            
-//        })
-        
     }
     
     func presentGraphicalWardsView () {
