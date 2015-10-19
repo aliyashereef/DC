@@ -41,6 +41,7 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+    self.navigationController.navigationBar.topItem.title = @"";
     [self configureViewElements];
 }
 
@@ -56,8 +57,6 @@
     
     detailTableView.layoutMargins = UIEdgeInsetsZero;
     detailTableView.separatorInset = UIEdgeInsetsZero;
-    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)
-                                                         forBarMetrics:UIBarMetricsDefault];
     [self configureNavigationBarItems];
     [self populateContentArray];
     if (_detailType == eNewAdministrationTime) {
@@ -72,7 +71,7 @@
 
 - (void)configureNavigationBarItems {
     
-    [self populateNavigationTitle];
+    [self configureNavigationTitleView];
     [self addNavigationBarButtonItems];
 }
 
@@ -84,7 +83,7 @@
     timePickerView.datePickerMode = UIDatePickerModeTime;
 }
 
-- (void)populateNavigationTitle {
+- (void)configureNavigationTitleView {
     
     //populate navigation title
     switch (_detailType) {
@@ -120,6 +119,8 @@
                                        initWithTitle:DONE_BUTTON_TITLE style:UIBarButtonItemStylePlain  target:self action:@selector(doneButtonPressed:)];
         self.navigationItem.rightBarButtonItem = doneButton;
     }
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:EMPTY_STRING style:UIBarButtonItemStylePlain target:nil action:nil];
+    self.navigationItem.backBarButtonItem = backButton;
 }
 
 - (void)populateContentArray {
