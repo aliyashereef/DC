@@ -58,9 +58,9 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     @IBOutlet weak var leadingSpaceMasterToContainerView: NSLayoutConstraint!
     var editAndDeleteDelegate : EditAndDeleteActionDelegate?
     var indexPath : NSIndexPath!
-    
     var cellDelegate : DCPrescriberCellDelegate?
-
+    var inEditMode : Bool = false
+    
     override func awakeFromNib() {
         
         super.awakeFromNib()
@@ -100,6 +100,7 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
         } else if (self.medicationViewLeadingConstraint.constant > MEDICATION_VIEW_INITIAL_LEFT_OFFSET) {
             self.medicationViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET;
         }
+        inEditMode = true
     }
     
     func adjustMedicationDetailViewOnPanGestureEndWithTranslationPoint(translate : CGPoint) {
@@ -194,6 +195,7 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     func swipeMedicationDetailViewToRight() {
         
         //swipe gesture - right when completion of edit/delete action
+        inEditMode = false
         UIView.animateWithDuration(ANIMATION_DURATION) { () -> Void in
             self.medicationViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET;
             self.layoutIfNeeded()
@@ -201,7 +203,7 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     }
 
     @IBAction func editMedicationButtonPressed(sender: AnyObject) {
-        
+        swipeMedicationDetailViewToRight()
     }
     
     @IBAction func stopMedicationButtonPressed(sender: AnyObject) {
