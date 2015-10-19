@@ -121,12 +121,12 @@ func configureMedicationDetails () {
             break
         case 4:
             cell!.contentType.text = BATCHNO_EXPIRY
-            cell!.value.text = (medication.medicationAdministration?.batch != nil) ? medication.medicationAdministration?.batch : EMPTY_STRING
+            cell!.value.text = (medication.medicationAdministration?.batch != nil) ? medication.medicationAdministration?.batch : NONE_TEXT
             break
         case 5:
             let reason : NSString
             if let reasonText = medication.medicationAdministration?.administeredNotes {
-                reason = reasonText
+                reason = (reasonText == EMPTY_STRING) ? NONE_TEXT : reasonText
             } else {
                 reason = NONE_TEXT
             }
