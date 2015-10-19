@@ -151,7 +151,7 @@ func configureMedicationDetails () {
         noteCell!.reasonTextLabel.text = text as String
         let count : NSInteger = text.length
         var isNeededToExpand : Bool = false
-        if text == NONE_TEXT || count < 30{
+        if text == NONE_TEXT || count < 32{
             noteCell!.isNotesExpanded = true
             isNeededToExpand = false
         } else {
