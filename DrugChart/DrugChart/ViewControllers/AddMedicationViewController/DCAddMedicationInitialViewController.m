@@ -60,7 +60,12 @@
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:CANCEL_BUTTON_TITLE  style:UIBarButtonItemStylePlain target:self action:@selector(addMedicationCancelButtonPressed:)];
     self.navigationItem.rightBarButtonItem = addButton;
     self.navigationItem.leftBarButtonItem = cancelButton;
-    self.navigationItem.title = ADD_MEDICATION;
+    UIView *titleView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 150, 50)];
+    UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 150, 50)];
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    [titleLabel setText:ADD_MEDICATION];
+    [titleView addSubview:titleLabel];
+    self.navigationItem.titleView = titleView;
     self.navigationItem.rightBarButtonItem.enabled = false;
 }
 
@@ -251,7 +256,6 @@
     tableCell.dateTypeWidth.constant = TIME_TITLE_LABEL_WIDTH;
     if (!selectedMedication.startDate || [selectedMedication.startDate isEqualToString:EMPTY_STRING]) {
         NSDate *dateInCurrentZone = [DCDateUtility getDateInCurrentTimeZone:[NSDate date]];
-        NSLog(@"dateValue is %@", dateInCurrentZone);
         NSString *dateString = [DCDateUtility convertDate:dateInCurrentZone FromFormat:DEFAULT_DATE_FORMAT ToFormat:@"d-MMM-yyyy HH:mm"];
 //        NSString *dateString = [DCDateUtility getDisplayDateForAddMedication:
 //                                [DCDateUtility getDateInCurrentTimeZone:[NSDate date]] dateAndTime:YES];
@@ -317,10 +321,13 @@
             [indexpaths addObject:_datePickerIndexPath];
             _datePickerIndexPath = nil;
         }
-        [medicationDetailsTableView beginUpdates];
-        [medicationDetailsTableView deleteRowsAtIndexPaths:indexpaths
-                                          withRowAnimation:UITableViewRowAnimationRight];
-        [medicationDetailsTableView endUpdates];
+         DCDateTableViewCell *tableCell = (DCDateTableViewCell *)[medicationDetailsTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:endDateIndexPath.row - 1 inSection:endDateIndexPath.section]];
+        [tableCell.noEndDateSwitch setUserInteractionEnabled:NO];
+        double delayInSeconds = 0.5;
+        dispatch_time_t deleteTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+        dispatch_after(deleteTime, dispatch_get_main_queue(), ^(void){
+            [self deleteEndDateCellAfterDelay:tableCell withEndDateIndexPath:endDateIndexPath];
+        });
     } else {
         NSIndexPath *endDateIndexPath;
         if (_datePickerIndexPath.row == DATE_PICKER_INDEX_START_DATE) {
@@ -330,23 +337,29 @@
         }
         DCDateTableViewCell *tableCell = (DCDateTableViewCell *)[medicationDetailsTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:endDateIndexPath.row - 1 inSection:endDateIndexPath.section]];
         [tableCell.noEndDateSwitch setUserInteractionEnabled:NO];
-        [self performSelector:@selector(insertEndDateCellAfterDelay) withObject:nil afterDelay:0.1];
+        double delayInSeconds = 0.5;
+        dispatch_time_t insertTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+        dispatch_after(insertTime, dispatch_get_main_queue(), ^(void){
+            [self insertEndDateCellAfterDelay:tableCell withEndDateIndexPath:endDateIndexPath];
+        });
     }
 }
 
-- (void)insertEndDateCellAfterDelay {
+- (void)insertEndDateCellAfterDelay:(DCDateTableViewCell *)tableCell withEndDateIndexPath:(NSIndexPath *)endDateIndexPath {
     
-    NSIndexPath *endDateIndexPath;
-    if (_datePickerIndexPath.row == DATE_PICKER_INDEX_START_DATE) {
-        endDateIndexPath = [NSIndexPath indexPathForRow:3 inSection:lastSection];
-    } else {
-        endDateIndexPath = [NSIndexPath indexPathForRow:2 inSection:lastSection];
-    }
-    DCDateTableViewCell *tableCell = (DCDateTableViewCell *)[medicationDetailsTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:endDateIndexPath.row - 1 inSection:endDateIndexPath.section]];
-    [tableCell.noEndDateSwitch setUserInteractionEnabled:NO];
     //insert end date cell after delay
     [medicationDetailsTableView beginUpdates];
     [medicationDetailsTableView insertRowsAtIndexPaths:@[endDateIndexPath]
+                                      withRowAnimation:UITableViewRowAnimationRight];
+    [medicationDetailsTableView endUpdates];
+    [self performSelector:@selector(enableNoEndDateCellAfterDelay:) withObject:tableCell afterDelay:0.5];
+}
+
+- (void)deleteEndDateCellAfterDelay:(DCDateTableViewCell *)tableCell withEndDateIndexPath:(NSIndexPath *)endDateIndexPath {
+    
+    NSMutableArray *indexpaths = [NSMutableArray arrayWithArray:@[endDateIndexPath]];
+    [medicationDetailsTableView beginUpdates];
+    [medicationDetailsTableView deleteRowsAtIndexPaths:indexpaths
                                       withRowAnimation:UITableViewRowAnimationRight];
     [medicationDetailsTableView endUpdates];
     [self performSelector:@selector(enableNoEndDateCellAfterDelay:) withObject:tableCell afterDelay:0.5];
