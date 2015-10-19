@@ -406,7 +406,7 @@
 #define ADMINISTRATION_STATUS @"AdministrationStatus"
 #define ADMINISTRATING_USER @"AdministratingUser"
 #define ADMINISTRATING_DOSAGE @"AmendedDosage"
-#define ADMINISTRATING_BATCH @"BatchNumber"
+#define ADMINISTRATING_BATCH @"batchNumber"
 #define ADMINISTRATING_NOTES @"Notes"
 #define IS_SELF_ADMINISTERED @"IsSelfAdministered"
 #define EXPIRY_DATE @"ExpiryDate"

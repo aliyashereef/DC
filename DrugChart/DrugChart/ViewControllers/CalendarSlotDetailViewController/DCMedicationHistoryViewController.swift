@@ -103,7 +103,7 @@ func configureMedicationDetails () {
             cell!.contentType.text = DATE_TIME
             let dateString : String
             if let date = medication.medicationAdministration?.actualAdministrationTime {
-                dateString = DCDateUtility.convertDate(DCDateUtility.getDateInCurrentTimeZone(date), fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
+                dateString = DCDateUtility.convertDate(date, fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
             } else {
                 dateString = DCDateUtility.convertDate(weekDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
             }
@@ -121,7 +121,12 @@ func configureMedicationDetails () {
             break
         case 4:
             cell!.contentType.text = BATCHNO_EXPIRY
-            cell!.value.text = (medication.medicationAdministration?.batch != nil) ? medication.medicationAdministration?.batch : NONE_TEXT
+//            cell!.value.text = (medication.medicationAdministration?.batch != nil) ? medication.medicationAdministration?.batch : NONE_TEXT
+            if let batch = medication.medicationAdministration?.batch {
+                cell!.value.text = batch
+            } else {
+                cell!.value.text = NONE_TEXT
+            }
             break
         case 5:
             let reason : NSString

@@ -43,7 +43,7 @@ enum RowCount : NSInteger {
     case eFourthRow
 }
 
-class DCAdministerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NotesCellDelegate, NamesListDelegate, AdministerPickerCellDelegate , SecurityPinMatchDelegate, StatusListDelegate {
+class DCAdministerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NotesCellDelegate, NamesListDelegate, AdministerPickerCellDelegate , SecurityPinMatchDelegate, StatusListDelegate, BatchCellDelegate {
 
     @IBOutlet weak var administerTableView: UITableView!
     @IBOutlet weak var alertMessageLabel: UILabel!
@@ -313,7 +313,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func getBatchNumberOrExpiryDateTableCellAtIndexPath(indexPath: NSIndexPath) -> (DCBatchNumberCell) {
         
         let expiryCell : DCBatchNumberCell = (administerTableView.dequeueReusableCellWithIdentifier(BATCH_NUMBER_CELL_ID) as? DCBatchNumberCell)!
-       // expiryCell.delegate = self
+        expiryCell.batchDelegate = self
+        expiryCell.selectedIndexPath = indexPath
         return expiryCell;
     }
     
@@ -714,10 +715,17 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     // MARK: BatchNumberCellDelegate Methods
     
-//    func batchNumberFieldSelected() {
-//        
-//        self.administerTableView.setContentOffset(CGPointMake(0, 130), animated: true)
-//    }
+     func batchNumberFieldSelectedAtIndexPath(indexPath: NSIndexPath) {
+        
+        //self.administerTableView.setContentOffset(CGPointMake(0, 130), animated: true)
+        editingIndexPath = indexPath
+        
+    }
+    
+    func enteredBatchDetails(batch : String) {
+        
+        medicationSlot?.medicationAdministration?.batch = batch
+    }
     
     // MARK: NotesCell Delegate Methods
     

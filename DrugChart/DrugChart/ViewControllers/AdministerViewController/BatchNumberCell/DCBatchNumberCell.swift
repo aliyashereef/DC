@@ -8,10 +8,17 @@
 
 import UIKit
 
+protocol BatchCellDelegate {
+    
+    func enteredBatchDetails(batch : String)
+    func batchNumberFieldSelectedAtIndexPath(indexPath: NSIndexPath)
+}
 
 class DCBatchNumberCell: UITableViewCell, UITextFieldDelegate {
 
     @IBOutlet weak var batchNumberTextField: UITextField!
+    var batchDelegate : BatchCellDelegate?
+    var selectedIndexPath : NSIndexPath?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -24,5 +31,18 @@ class DCBatchNumberCell: UITableViewCell, UITextFieldDelegate {
         // Configure the view for the selected state
     }
     
+    func textFieldDidBeginEditing(textField: UITextField) {
+        
+        if let delegate = batchDelegate {
+            delegate.batchNumberFieldSelectedAtIndexPath(selectedIndexPath!)
+        }
+    }
+    
+    func textFieldDidEndEditing(textField: UITextField) {
+        
+        if let delegate = batchDelegate {
+            delegate.enteredBatchDetails(textField.text!)
+        }
+    }
 
 }
