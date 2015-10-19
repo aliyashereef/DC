@@ -2819,7 +2819,6 @@
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="34" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="rCa-Ii-ouw">
                                         <rect key="frame" x="0.0" y="0.5" width="305" height="141"/>
-                                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <prototypes>
                                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PatientAlertsAllergyCell" id="uoJ-CI-msp" customClass="DCAlertsAllergyTableViewCell">
                                                 <rect key="frame" x="0.0" y="22" width="305" height="34"/>
@@ -2835,7 +2834,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
-                                                    <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstItem="KzW-Aw-guh" firstAttribute="top" secondItem="I2m-vU-nOZ" secondAttribute="top" constant="8" id="48C-uz-hRW"/>
                                                         <constraint firstAttribute="trailing" secondItem="KzW-Aw-guh" secondAttribute="trailing" constant="12" id="51k-JJ-FMx"/>
@@ -2843,7 +2842,7 @@
                                                         <constraint firstAttribute="bottom" secondItem="KzW-Aw-guh" secondAttribute="bottom" constant="8" id="PeF-v8-X1C"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
-                                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 <connections>
                                                     <outlet property="alertsAllergyLabel" destination="KzW-Aw-guh" id="ga7-pq-HeQ"/>
