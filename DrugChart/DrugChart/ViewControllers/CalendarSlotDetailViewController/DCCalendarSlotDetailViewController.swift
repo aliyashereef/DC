@@ -54,8 +54,8 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     override func viewWillAppear(animated: Bool) {
         
         super.viewWillAppear(animated)
-        self.view.superview!.layer.cornerRadius = 0
-         self.view.superview!.clipsToBounds = true
+        self.view.superview?.layer.cornerRadius = 0
+         self.view.superview?.clipsToBounds = true
     }
     
     override func viewDidLayoutSubviews() {
