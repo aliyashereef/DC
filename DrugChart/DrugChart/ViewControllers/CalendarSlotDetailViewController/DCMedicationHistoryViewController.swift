@@ -82,7 +82,11 @@ func configureMedicationDetails () {
         case 0:
             cell!.contentType.text = STATUS
             if let status = medication.medicationAdministration?.status {
-                cell!.value.text = status
+                if status == SELF_ADMINISTERED {
+                    cell!.value.text = ADMINISTERED
+                } else {
+                    cell!.value.text = status
+                }
             }
             break
         case 1:
@@ -91,7 +95,7 @@ func configureMedicationDetails () {
             if let name = medication.medicationAdministration?.administratingUser?.displayName {
                 administratedBy = name
             } else {
-                administratedBy = "Julia Antony"
+                administratedBy = SELF_ADMINISTERED_TITLE
             }
             cell!.value.text = administratedBy
             break
@@ -168,7 +172,8 @@ func configureMedicationDetails () {
             }
             noteCell!.reasonLabelLeadingSpaceConstraint.constant = 7.0
         }
-        noteCell!.isNotesExpanded = false
+//        noteCell!.isNotesExpanded = false
+//        selectedRowIndex = NSIndexPath(forRow: -1, inSection: 0)
         noteCell!.layoutMargins = UIEdgeInsetsZero
         return noteCell!
     }
@@ -291,7 +296,17 @@ func configureMedicationDetails () {
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
        if(indexPath == selectedRowIndex ) {
-            return 100
+        let medication : DCMedicationSlot = medicationSlotArray[indexPath.section]
+        var notesString = EMPTY_STRING
+        if medication.status == ADMINISTERED || medication.status == SELF_ADMINISTERED {
+            notesString = medication.medicationAdministration.administeredNotes
+        } else if medication.status == REFUSED {
+            notesString = medication.medicationAdministration.refusedNotes
+        }else if medication.status == OMITTED {
+            notesString = medication.medicationAdministration.omittedNotes
+        }
+        let textHeight : CGSize = DCUtility.getTextViewSizeWithText(notesString , maxWidth:200 , font:UIFont.systemFontOfSize(14))
+        return textHeight.height + 25 // the top padding space is 25 points.
         } else {
             return 44
         }
@@ -331,7 +346,7 @@ func configureMedicationDetails () {
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = self.instanceFromNib()
         let medication : DCMedicationSlot = medicationSlotArray[section]
-        if medication.medicationAdministration?.status == IS_GIVEN {
+        if medication.medicationAdministration?.status == IS_GIVEN || medication.medicationAdministration?.status == SELF_ADMINISTERED {
         headerView.medicationStatusImageView.image = UIImage(named :ADMINISTRATION_HISTORY_TICK_IMAGE)
         } else if medication.medicationAdministration?.status == OMITTED {
             headerView.medicationStatusImageView.image = UIImage(named :ADMINISTRATION_HISTORY_CAUTION_IMAGE)
