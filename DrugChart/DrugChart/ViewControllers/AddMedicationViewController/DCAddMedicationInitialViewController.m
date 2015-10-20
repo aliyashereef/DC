@@ -839,27 +839,6 @@
     return nil;
 }
 
-- (void)displayPopOverDismissConfirmationAlert:(void (^)(BOOL didDismiss))dismiss {
-    
-    //popover dismiss confirmation
-    
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"CONFIRMATION", @"")
-                                                                             message:NSLocalizedString(@"ADD_MEDICATION_UNSAVED_CHANGES", @"")preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *noAction = [UIAlertAction actionWithTitle:NO_BUTTON_TITLE
-                                                       style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
-                                                           [alertController dismissViewControllerAnimated:YES completion:nil];
-                                                           dismiss(NO);
-                                                       }];
-    [alertController addAction:noAction];
-    UIAlertAction *yesAction = [UIAlertAction actionWithTitle:YES_BUTTON_TITLE
-                                                        style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
-                                                            [alertController dismissViewControllerAnimated:YES completion:nil];
-                                                            dismiss(YES);
-                                                        }];
-    [alertController addAction:yesAction];
-    [self.parentViewController presentViewController:alertController animated:YES completion:nil];
-}
-
 #pragma mark - UITableView Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -1132,16 +1111,7 @@
 
 - (BOOL)popoverPresentationControllerShouldDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
     
-    //this method restricts the pop over dismiss on tapping pop over background. If there are any unsaved changes, alert is displayed
-     if (selectedMedication.name != nil) {
-         [self displayPopOverDismissConfirmationAlert:^(BOOL didDismiss) {
-             if (didDismiss) {
-                 [self dismissViewControllerAnimated:YES completion:nil];
-             }
-         }];
-     } else {
-         return YES;
-     }
+    //this method restricts the pop over dismiss on tapping pop over background. 
     return NO;
 }
 
