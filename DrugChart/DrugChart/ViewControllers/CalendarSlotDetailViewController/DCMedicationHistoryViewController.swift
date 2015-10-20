@@ -155,30 +155,31 @@ func configureMedicationDetails () {
         //Handle the cases for notes based on actual status
         noteCell!.reasonTextLabel.text = text as String
         let count : NSInteger = text.length
-        var isNeededToExpand : Bool = false
-        if text == NONE_TEXT || count < 32{
+        if text == NONE_TEXT || count < 47{
             noteCell!.isNotesExpanded = true
-            isNeededToExpand = false
-        } else {
-            isNeededToExpand = true
         }
         //noteCell!.reasonTextLabel.text = DUMMY_TEXT
-        if(noteCell!.isNotesExpanded == false) {
-            noteCell!.moreButtonWidthConstaint.constant = 46.0
-            noteCell!.reasonTextLabelTopSpaceConstraint.constant = 11.0
-            noteCell!.reasonLabelLeadingSpaceConstraint.constant = 300.0
+        if(noteCell!.isNotesExpanded == false || indexPath == selectedRowIndex ) {
+            if indexPath == selectedRowIndex {
+                noteCell!.moreButtonWidthConstaint.constant = 0.0
+                noteCell!.reasonTextLabel.textAlignment = .Left
+                noteCell!.reasonLabelLeadingSpaceConstraint.constant = 7.0
+                noteCell!.reasonTextLabelTopSpaceConstraint.constant = 30.0
+            } else {
+                noteCell!.moreButtonWidthConstaint.constant = 46.0
+                noteCell!.reasonTextLabelTopSpaceConstraint.constant = 11.0
+                noteCell!.reasonLabelLeadingSpaceConstraint.constant = 200.0
+                noteCell!.reasonTextLabel.textAlignment = .Right
+            }
         } else {
             noteCell!.moreButtonWidthConstaint.constant = 0.0
-            if isNeededToExpand {
-                noteCell!.reasonTextLabelTopSpaceConstraint.constant = 25.0
-                noteCell!.cellContentTypeLabel.textAlignment = .Left
-            } else {
-                noteCell!.reasonTextLabelTopSpaceConstraint.constant = 11.0
-            }
-            noteCell!.reasonLabelLeadingSpaceConstraint.constant = 7.0
+            noteCell!.reasonTextLabel.textAlignment = .Right
+            noteCell!.reasonTextLabelTopSpaceConstraint.constant = 11.0
+            noteCell!.reasonLabelLeadingSpaceConstraint.constant = 200.0
         }
-//        noteCell!.isNotesExpanded = false
-//        selectedRowIndex = NSIndexPath(forRow: -1, inSection: 0)
+        if indexPath != selectedRowIndex && count > 47{
+            noteCell!.moreButtonWidthConstaint.constant = 46.0
+        }
         noteCell!.layoutMargins = UIEdgeInsetsZero
         return noteCell!
     }
@@ -310,8 +311,8 @@ func configureMedicationDetails () {
         }else if medication.status == OMITTED {
             notesString = medication.medicationAdministration.omittedNotes
         }
-        let textHeight : CGSize = DCUtility.getTextViewSizeWithText(notesString , maxWidth:200 , font:UIFont.systemFontOfSize(14))
-        return textHeight.height + 25 // the top padding space is 25 points.
+        let textHeight : CGSize = DCUtility.getTextViewSizeWithText(notesString , maxWidth:478 , font:UIFont.systemFontOfSize(14))
+        return textHeight.height + 40 // the top padding space is 30 points. + some padding of 10 px
         } else {
             return 44
         }
