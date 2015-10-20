@@ -31,7 +31,7 @@ class DCMedicationAdministrationStatusView: UIView {
     var timeArray : NSArray = []
     weak var delegate:DCMedicationAdministrationStatusProtocol?
 
-    var administerButton: UIButton?
+    var administerButton: DCAdministerButton?
     var statusIcon : UIImageView?
     var statusLabel : UILabel?
     
@@ -57,8 +57,9 @@ class DCMedicationAdministrationStatusView: UIView {
         statusIcon = UIImageView.init(frame: CGRectMake(0, 0, 25, 25))
         self.addSubview(statusIcon!)
         statusIcon!.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
-        administerButton = UIButton.init(frame: contentFrame)
+        administerButton = DCAdministerButton.init(frame: contentFrame)
         self.addSubview(administerButton!)
+        self.sendSubviewToBack(administerButton!)
         administerButton?.addTarget(self, action: Selector("administerButtonClicked:"), forControlEvents: .TouchUpInside)
     }
  
@@ -252,13 +253,16 @@ class DCMedicationAdministrationStatusView: UIView {
         statusIcon?.hidden = true
         statusLabel?.textColor = PENDING_FONT_COLOR
         statusLabel?.text = String(format: "%i %@", pendingCount, NSLocalizedString("PENDING", comment: ""))
-    }
+    } 
     
     @IBAction func administerButtonClicked (sender: UIButton ) {
         
+        //administerButton?.backgroundColor = UIColor.getColorForHexString("#e8e8e8")
+        administerButton?.backgroundColor = UIColor.getColorForHexString("#e8e8e8")
         if let slotDictionary = medicationSlotDictionary {
             delegate?.administerMedicationWithMedicationSlots(slotDictionary, atIndexPath: currentIndexPath!, withWeekDate: weekdate!)
         }
+        //administerButton?.backgroundColor = UIColor.clearColor()
     }
     
 }

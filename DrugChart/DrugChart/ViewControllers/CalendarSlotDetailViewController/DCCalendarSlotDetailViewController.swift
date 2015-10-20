@@ -81,7 +81,6 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
                 }
             }
         } else {
-            NSLog("**** medicineCategory is %@", (medicationDetails?.medicineCategory)!)
             if (medicationDetails?.medicineCategory != WHEN_REQUIRED) {
                 errorMessage = NSLocalizedString("NO_ADMINISTRATION_DETAILS", comment: "no medication slots today")
             } 
