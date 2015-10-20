@@ -12,6 +12,7 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    _previousSwitchState = 1;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -43,7 +44,10 @@
     
     //no end date switch action
     BOOL switchState = [sender isOn];
-    self.noEndDateStatus (switchState);
+    if (switchState != _previousSwitchState) {
+        _previousSwitchState = switchState;
+        self.noEndDateStatus (switchState);
+    }
 }
 
 @end
