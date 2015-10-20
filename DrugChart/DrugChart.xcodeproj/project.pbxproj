@@ -171,6 +171,8 @@
 		0BD52F321AA9726700A17A2C /* DCMedicationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD52F311AA9726700A17A2C /* DCMedicationViewController.m */; };
 		0BD52F361AA974AD00A17A2C /* DCCalendarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD52F351AA974AD00A17A2C /* DCCalendarChartViewController.m */; };
 		0BD52F3A1AA987B500A17A2C /* DCMedicationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD52F391AA987B500A17A2C /* DCMedicationTableViewCell.m */; };
+		0BD659541BD6660D00D3097B /* UIButton+ButtonHighlight.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD659531BD6660D00D3097B /* UIButton+ButtonHighlight.m */; settings = {ASSET_TAGS = (); }; };
+		0BD659561BD6685A00D3097B /* DCAdministerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD659551BD6685A00D3097B /* DCAdministerButton.swift */; settings = {ASSET_TAGS = (); }; };
 		0BD699161BB272BB008797A2 /* DCAdministerTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD699151BB272BB008797A2 /* DCAdministerTableHeaderView.swift */; settings = {ASSET_TAGS = (); }; };
 		0BD699181BB272D9008797A2 /* DCAdministerTableHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BD699171BB272D9008797A2 /* DCAdministerTableHeaderView.xib */; settings = {ASSET_TAGS = (); }; };
 		0BD6991B1BB2BAC1008797A2 /* DCBatchNumberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD6991A1BB2BAC1008797A2 /* DCBatchNumberCell.swift */; settings = {ASSET_TAGS = (); }; };
@@ -568,6 +570,9 @@
 		0BD52F351AA974AD00A17A2C /* DCCalendarChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DCCalendarChartViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0BD52F381AA987B500A17A2C /* DCMedicationTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCMedicationTableViewCell.h; sourceTree = "<group>"; };
 		0BD52F391AA987B500A17A2C /* DCMedicationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCMedicationTableViewCell.m; sourceTree = "<group>"; };
+		0BD659521BD6660D00D3097B /* UIButton+ButtonHighlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+ButtonHighlight.h"; sourceTree = "<group>"; };
+		0BD659531BD6660D00D3097B /* UIButton+ButtonHighlight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+ButtonHighlight.m"; sourceTree = "<group>"; };
+		0BD659551BD6685A00D3097B /* DCAdministerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministerButton.swift; sourceTree = "<group>"; };
 		0BD699151BB272BB008797A2 /* DCAdministerTableHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministerTableHeaderView.swift; sourceTree = "<group>"; };
 		0BD699171BB272D9008797A2 /* DCAdministerTableHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCAdministerTableHeaderView.xib; sourceTree = "<group>"; };
 		0BD6991A1BB2BAC1008797A2 /* DCBatchNumberCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCBatchNumberCell.swift; sourceTree = "<group>"; };
@@ -2090,6 +2095,14 @@
 			path = MedicationTableViewCell;
 			sourceTree = "<group>";
 		};
+		0BD6594C1BD6568200D3097B /* AdministerButton */ = {
+			isa = PBXGroup;
+			children = (
+				0BD659551BD6685A00D3097B /* DCAdministerButton.swift */,
+			);
+			path = AdministerButton;
+			sourceTree = "<group>";
+		};
 		0BD699141BB2729A008797A2 /* AdministerTableHeaderView */ = {
 			isa = PBXGroup;
 			children = (
@@ -2197,6 +2210,8 @@
 				7D930D1E1AADF82E00C0607F /* DCDateUtility.m */,
 				7D3234BA1AF132250020CC8F /* DCPopOverContentSizeUtility.h */,
 				7D3234BB1AF132250020CC8F /* DCPopOverContentSizeUtility.m */,
+				0BD659521BD6660D00D3097B /* UIButton+ButtonHighlight.h */,
+				0BD659531BD6660D00D3097B /* UIButton+ButtonHighlight.m */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -2450,6 +2465,7 @@
 				0BBFBB3E1B0F475300342D2F /* DCMedicinalDetailsBackgroundView */,
 				0BBDEDC11AA57F790016E6FF /* DCTextField */,
 				0BBDEDF61AA5B4180016E6FF /* DCImage */,
+				0BD6594C1BD6568200D3097B /* AdministerButton */,
 				0BF2DA531ACAB10800B3ED97 /* ErrorPopOverBackgroundView */,
 				0BBE3B501AD250B300D1991E /* PrescriberFilterBackgroundView */,
 				0BBFBB361B0F317100342D2F /* DatePickerPopOverBackgroundView */,
@@ -2927,6 +2943,7 @@
 				4D4891611BC90176002AC8CA /* DCWardsListingPopoverViewController.swift in Sources */,
 				0BF3890F1AA46746006792DE /* DCPatient.m in Sources */,
 				0B941CA51AC161B300B54207 /* DCPrescriberCalendarView.m in Sources */,
+				0BD659561BD6685A00D3097B /* DCAdministerButton.swift in Sources */,
 				0B9173A41B02101300BC9337 /* DCPrescriberDetailsTimeView.m in Sources */,
 				0BA357311B746EAB00A5C3BC /* DCOrderSetOperationQueue.m in Sources */,
 				0BBC8FA61AA469AF0085ABAB /* DCBaseViewController.m in Sources */,
@@ -2996,6 +3013,7 @@
 				4D4891561BC90053002AC8CA /* DCSwiftObjCNavigationHelper.m in Sources */,
 				7D3234AC1AF119E60020CC8F /* DCSettingsPopOverBackgroundView.m in Sources */,
 				4DDE0ADE1BBBBEDE0044295B /* DCAdministratedByPinVerificationViewController.swift in Sources */,
+				0BD659541BD6660D00D3097B /* UIButton+ButtonHighlight.m in Sources */,
 				0BBEFFD01B5F72EF00E70CCC /* DCWarning.m in Sources */,
 				0B21570C1AB7D1D400BC4611 /* NameSelectionTableViewController.m in Sources */,
 				7D104E5A1AEA4A5B00B03C0C /* DCBedWebService.m in Sources */,
