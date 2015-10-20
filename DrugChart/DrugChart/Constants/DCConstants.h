@@ -10,13 +10,15 @@
 
 #define SHARED_APPDELEGATE (DCAppDelegate *)[[UIApplication sharedApplication] delegate]
 
-//TODO: added for demo purpose and comment out this, instead of deleting:
-//#define kDCBaseUrl @"http://interfacetest.cloudapp.net/api"
-#define kDCBaseUrl @"http://openapidemo.cloudapp.net/api" // demo URL
+//TODO: We can change the base url by changing the toggle button in the settings bundle of the app.
 
-//#define AUTHORIZE_URL           @"https://interfacetest.cloudapp.net/ehc-identity/identity/connect/authorize"
-#define AUTHORIZE_URL      @"https://openapidemo.cloudapp.net/ehc-identity/identity/connect/authorize"
+#define kDCBaseUrl @"http://interfacetest.cloudapp.net/api"
+#define kDCBaseUrl_Demo @"http://openapidemo.cloudapp.net/api" // demo URL
 
+#define AUTHORIZE_URL           @"https://interfacetest.cloudapp.net/ehc-identity/identity/connect/authorize"
+#define AUTHORIZE_URL_DEMO      @"https://openapidemo.cloudapp.net/ehc-identity/identity/connect/authorize"
+
+#define SETTINGS_TOGGLE_BUTTON_KEY @"enablebaseurl"
 #define LOCALHOST_PATH @"http://localhost:8080/api"
 
 // user role

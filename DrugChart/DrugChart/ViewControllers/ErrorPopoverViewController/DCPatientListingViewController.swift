@@ -20,7 +20,7 @@ enum SectionValue : NSInteger {
     case eNotImmediate
 }
 
-class DCPatientListingViewController: UIViewController ,UITableViewDataSource, UITableViewDelegate ,WardSelectionDelegate, UISearchBarDelegate {
+class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSource, UITableViewDelegate ,WardSelectionDelegate, UISearchBarDelegate {
     
     @IBOutlet var patientListTableView: UITableView!
 

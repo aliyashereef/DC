@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-@objc class DCCalendarDateDisplayViewController: UIViewController {
+@objc class DCCalendarDateDisplayViewController: DCBaseViewController {
     
     
     @IBOutlet weak var leftCalendarView: DCCalendarDateView!

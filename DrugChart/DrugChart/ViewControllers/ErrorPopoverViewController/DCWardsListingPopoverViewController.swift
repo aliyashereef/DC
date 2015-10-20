@@ -12,7 +12,7 @@ protocol WardSelectionDelegate {
     func newWardSelected( row : NSInteger)
 }
 
-class DCWardsListingPopoverViewController : UIViewController , UITableViewDelegate , UITableViewDataSource {
+class DCWardsListingPopoverViewController : DCBaseViewController , UITableViewDelegate , UITableViewDataSource {
     
     var delegate : WardSelectionDelegate?
     var wardsArray : NSMutableArray = []
