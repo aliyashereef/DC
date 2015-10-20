@@ -1105,8 +1105,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="700" height="124"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Notes" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Dkl-aX-65a">
-                                                    <rect key="frame" x="9" y="0.0" width="570" height="128"/>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Notes" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Dkl-aX-65a">
+                                                    <rect key="frame" x="9" y="0.0" width="682" height="124"/>
                                                     <color key="textColor" red="0.56078431370000004" green="0.56078431370000004" blue="0.58431372550000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -1115,6 +1115,12 @@
                                                     </connections>
                                                 </textView>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Dkl-aX-65a" firstAttribute="leading" secondItem="dlg-jG-pN2" secondAttribute="leading" constant="9" id="30k-pa-cCA"/>
+                                                <constraint firstItem="Dkl-aX-65a" firstAttribute="top" secondItem="dlg-jG-pN2" secondAttribute="top" id="7Cq-V7-buZ"/>
+                                                <constraint firstAttribute="trailing" secondItem="Dkl-aX-65a" secondAttribute="trailing" constant="9" id="rkN-Kr-a7d"/>
+                                                <constraint firstAttribute="bottom" secondItem="Dkl-aX-65a" secondAttribute="bottom" id="w0Y-dt-b9s"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="notesTextView" destination="Dkl-aX-65a" id="fNF-LN-cWU"/>

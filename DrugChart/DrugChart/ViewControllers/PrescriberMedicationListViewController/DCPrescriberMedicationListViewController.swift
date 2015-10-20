@@ -167,22 +167,25 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                 let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
                     atIndexPath: indexPath,
                     atSlotIndex: index)
-                statusView.weekdate = currentWeekDatesArray.objectAtIndex(index) as? NSDate
+                let weekdate = currentWeekDatesArray.objectAtIndex(index) as? NSDate
                 medicationCell.leftMedicationAdministerDetailsView.addSubview(statusView)
+                statusView.configureStatusViewForWeekDate(weekdate!)
             }
             else if (index >= 5 && index < 10) {
                 let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
                     atIndexPath: indexPath,
                     atSlotIndex: index - 5)
-                statusView.weekdate = currentWeekDatesArray.objectAtIndex(index) as? NSDate
+                let weekdate = currentWeekDatesArray.objectAtIndex(index) as? NSDate
                 medicationCell.masterMedicationAdministerDetailsView.addSubview(statusView)
+                statusView.configureStatusViewForWeekDate(weekdate!)
             }
             else if (index >= 10 && index < 15) {
                 let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
                     atIndexPath: indexPath,
                     atSlotIndex: index - 10)
-                statusView.weekdate = currentWeekDatesArray.objectAtIndex(index) as? NSDate
+                let weekdate = currentWeekDatesArray.objectAtIndex(index) as? NSDate
                 medicationCell.rightMedicationAdministerDetailsView.addSubview(statusView)
+                statusView.configureStatusViewForWeekDate(weekdate!)
             }
     }
     

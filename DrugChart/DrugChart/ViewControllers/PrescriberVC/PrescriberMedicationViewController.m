@@ -225,11 +225,9 @@ typedef enum : NSUInteger {
     [medicationSchedulesWebService getMedicationSchedulesForPatientId:patientId fromStartDate:startDateString toEndDate:endDateString withCallBackHandler:^(NSArray *medicationsList, NSError *error) {
         NSMutableArray *medicationArray = [NSMutableArray arrayWithArray:medicationsList];
         for (NSDictionary *medicationDetails in medicationArray) {
-            NSLog(@"the medication details dictionary:\n %@", medicationDetails);
             if ([medicationDetails[@"originalTerm"] isEqualToString:@"Acetylcysteine 600mg capsules"]) {
                 NSLog(@"Got it");
             }
-            // NSLog(@"the medication details dictionary:\n %@", medicationDetails);
             @autoreleasepool {
                 DCMedicationScheduleDetails *medicationScheduleDetails = [[DCMedicationScheduleDetails alloc] initWithMedicationScheduleDictionary:medicationDetails];
                 if (medicationScheduleDetails) {

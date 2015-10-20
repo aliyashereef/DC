@@ -16,6 +16,7 @@ let PENDING_FONT_COLOR              =   UIColor.getColorForHexString("#acacac")
 let DUE_AT_FONT_COLOR               =   UIColor.getColorForHexString("#404040")
 let OVERDUE_FONT_COLOR              =   UIColor.getColorForHexString("#ff8972") // get exact color for display
 let DUE_NOW_FONT_COLOR              =   UIColor.whiteColor()
+let CURRENT_DAY_BACKGROUND_COLOR    =   UIColor.getColorForHexString("#fafafa")
 
 protocol DCMedicationAdministrationStatusProtocol:class {
     
@@ -69,6 +70,16 @@ class DCMedicationAdministrationStatusView: UIView {
             if timeSlotsArray.count > 0 {
                 configureStatusViewForTimeArray(timeSlotsArray as! [DCMedicationSlot])
             }
+        }
+    }
+    
+    func configureStatusViewForWeekDate(weekdate : NSDate) {
+        
+        let currentSystemDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
+        let currentDateString = DCDateUtility.convertDate(currentSystemDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: SHORT_DATE_FORMAT)
+        let weekDateString = DCDateUtility.convertDate(weekdate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: SHORT_DATE_FORMAT)
+        if (currentDateString == weekDateString) {
+            self.backgroundColor = CURRENT_DAY_BACKGROUND_COLOR
         }
     }
     
