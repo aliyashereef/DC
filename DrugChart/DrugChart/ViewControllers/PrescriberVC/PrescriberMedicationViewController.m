@@ -336,6 +336,7 @@ typedef enum : NSUInteger {
         
         if ([criteriaString isEqualToString:INCLUDE_DISCONTINUED]) {
             [self includeDiscontinuedMedications];
+            
         }
         if ([criteriaString isEqualToString:START_DATE_ORDER]) {
             sortType = kSortDrugStartDate;
@@ -456,6 +457,9 @@ typedef enum : NSUInteger {
     DCSortTableViewController *sortViewController = [mainStoryboard instantiateViewControllerWithIdentifier:SORT_VIEWCONTROLLER_STORYBOARD_ID];
     sortViewController.sortView = eCalendarView;
     sortViewController.previousSelectedCategory = selectedSortType;
+    if (discontinuedMedicationShown) {
+        sortViewController.showDiscontinuedMedications = YES;
+    }
     UINavigationController *navigationController =
     [[UINavigationController alloc] initWithRootViewController:sortViewController];
     popOverController = [[UIPopoverController alloc] initWithContentViewController:navigationController];
