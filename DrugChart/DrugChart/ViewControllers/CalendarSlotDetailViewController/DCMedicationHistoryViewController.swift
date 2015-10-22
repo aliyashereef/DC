@@ -121,8 +121,8 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
             break
         case 4:
             cell!.contentType.text = BATCHNO_EXPIRY
-            if let batch = medication.medicationAdministration?.batch {
-                cell!.value.text = batch
+            if medication.medicationAdministration?.batch.characters.count > 0 {
+                cell!.value.text = medication.medicationAdministration?.batch
             } else {
                 cell!.value.text = NONE_TEXT
             }
