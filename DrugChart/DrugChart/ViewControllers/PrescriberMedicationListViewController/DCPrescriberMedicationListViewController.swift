@@ -66,6 +66,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
             medicationCell?.editAndDeleteDelegate = self
             medicationCell?.indexPath = indexPath
+            medicationCell?.isMedicationActive = medicationScheduleDetails.isActive
             self.fillInMedicationDetailsInTableCell(medicationCell!, atIndexPath: indexPath)
             if (medicationCell?.inEditMode == true) {
                 UIView.animateWithDuration(0.05, animations: { () -> Void in
