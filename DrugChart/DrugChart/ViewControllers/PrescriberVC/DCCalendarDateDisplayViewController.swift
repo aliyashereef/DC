@@ -65,6 +65,14 @@ import UIKit
         }
      }
     
+    func todayActionForCalendarTop () {
+        
+        UIView.animateWithDuration(0.1) { () -> Void in
+            self.calendarViewLeadingConstraint.constant = 0.0
+            self.view.layoutIfNeeded()
+        }
+    }
+    
     func prepareDateArrays() {
         
         let currentWeekDateArray : NSMutableArray = getCurrentWeek()
