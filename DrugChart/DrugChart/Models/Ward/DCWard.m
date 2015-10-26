@@ -65,10 +65,11 @@
             //Parsing the beds and patients URL
             self.bedsUrl = (NSString *)[wardsDictionary objectForKey:BEDS];
             self.patientsUrl = (NSString *)[wardsDictionary valueForKey:PATIENTS_KEY];
+            DCAppDelegate *appDelegate = DCAPPDELEGATE;
             self.bedsUrl = [self.bedsUrl stringByReplacingOccurrencesOfString:LOCALHOST_PATH
-                                                                   withString:kDCBaseUrl];
+                                                                   withString:appDelegate.baseURL];
             self.patientsUrl = [self.patientsUrl stringByReplacingOccurrencesOfString:LOCALHOST_PATH
-                                                                   withString:kDCBaseUrl];
+                                                                   withString:appDelegate.baseURL];
             
         }
         @catch (NSException *exception) {

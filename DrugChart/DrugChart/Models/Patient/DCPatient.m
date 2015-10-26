@@ -61,7 +61,8 @@
         
             NSString *requestUrl = [[patientDictionary objectForKey:PATIENT]valueForKey:PATIENT_URL];
             self.patientId = [requestUrl stringByReplacingOccurrencesOfString:URL_HEADER_PATH withString:EMPTY_STRING];
-            requestUrl = [requestUrl stringByReplacingOccurrencesOfString:LOCALHOST_PATH withString:kDCBaseUrl];
+            DCAppDelegate *appDelegate = DCAPPDELEGATE;
+            requestUrl = [requestUrl stringByReplacingOccurrencesOfString:LOCALHOST_PATH withString:appDelegate.baseURL];
             self.url  = requestUrl;
             [self getPatientsAlerts];
             [self getPatientsAllergies];

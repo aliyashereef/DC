@@ -62,8 +62,8 @@ static NSString *const kAllergyAPIUrl = @"http://openapi.e-mis.com/fhir/extensio
 
 - (DCHTTPRequestOperationManager *)getHTTPRequestManager {
     
-    DCHTTPRequestOperationManager *manager = [[DCHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kDCBaseUrl]];
-    
+    DCAppDelegate *appDelegate = DCAPPDELEGATE;
+    DCHTTPRequestOperationManager *manager = [[DCHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:appDelegate.baseURL]];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     [manager setHeaderFieldsForRequest];
     [manager.requestSerializer setValue:@"application/json+fhir" forHTTPHeaderField:@"Content-Type"];

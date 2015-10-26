@@ -27,5 +27,6 @@
 #import "DCAdministerMedicationWebService.h"
 #import "DCAdministrationStatusTableViewController.h"
 #import "DCStopMedicationWebService.h"
+#import "DCBaseViewController.h"
 #import "UIButton+ButtonHighlight.h"
 
