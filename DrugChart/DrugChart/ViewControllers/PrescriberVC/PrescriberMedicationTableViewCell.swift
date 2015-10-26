@@ -250,4 +250,12 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     }
 }
     
+    
+    func todayButtonAction () {
+        
+        UIView.animateWithDuration(0.1) { () -> Void in
+            self.leadingSpaceMasterToContainerView.constant = 0.0
+            self.layoutIfNeeded()
+        }
+    }
 }

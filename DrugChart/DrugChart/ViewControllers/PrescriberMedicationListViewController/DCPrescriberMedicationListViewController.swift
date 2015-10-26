@@ -13,18 +13,25 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
 @objc protocol PrescriberListDelegate {
     
     func prescriberTableViewPannedWithTranslationParameters(xPoint : CGFloat, xVelocity : CGFloat, panEnded : Bool)
+    func todayActionForCalendarTop ()
     func refreshMedicationList()
 }
 
 
-@objc class DCPrescriberMedicationListViewController: DCBaseViewController, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate, DCMedicationAdministrationStatusProtocol, EditAndDeleteActionDelegate {
+@objc class DCPrescriberMedicationListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate, DCMedicationAdministrationStatusProtocol, EditAndDeleteActionDelegate {
 
+    enum PanDirection {
+        case panLeft
+        case atCenter
+        case panRight
+    }
 
     @IBOutlet var medicationTableView: UITableView?
     var displayMedicationListArray : NSMutableArray = []
     var currentWeekDatesArray : NSMutableArray = []
     var delegate : PrescriberListDelegate?
     var patientId : NSString = EMPTY_STRING
+    var panGestureDirection : PanDirection = PanDirection.atCenter
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -66,8 +73,6 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
             medicationCell?.editAndDeleteDelegate = self
             medicationCell?.indexPath = indexPath
-            medicationCell?.layoutMargins = UIEdgeInsetsZero
-            medicationCell?.separatorInset = UIEdgeInsetsZero
             medicationCell?.isMedicationActive = medicationScheduleDetails.isActive
             self.fillInMedicationDetailsInTableCell(medicationCell!, atIndexPath: indexPath)
             if (medicationCell?.inEditMode == true) {
@@ -96,17 +101,39 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         
     }
 
+    //TODO: temporary logic for today button action.
+    func todayButtonClicked () {
+        
+        if (displayMedicationListArray.count > 0) {
+            let indexPathArray : [AnyObject] = medicationTableView!.indexPathsForVisibleRows!
+            indexPathArray[0]
+            if indexPathArray.count > 0 {
+                let medicationCell = medicationTableView?.cellForRowAtIndexPath(indexPathArray[0] as! NSIndexPath) as? PrescriberMedicationTableViewCell
+                if medicationCell!.leadingSpaceMasterToContainerView.constant != 0 {
+                    if let parentDelegate = self.delegate {
+                        parentDelegate.todayActionForCalendarTop()
+                    }
+                    for var count = 0; count < indexPathArray.count; count++ {
+                        let indexPath = indexPathArray[count]
+                        let meditationCell = medicationTableView?.cellForRowAtIndexPath(indexPath as! NSIndexPath) as? PrescriberMedicationTableViewCell
+                        meditationCell!.todayButtonAction()
+                    }
+                }
+            }
+        }
+    }
+    
     // MARK: - Private methods
     // MARK: - Pan gesture methods
     func addPanGestureToPrescriberTableView () {
         
         // add pan gesture to table view
-        let panGesture : UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: Selector("moveMedicationCalendarDisplayForPanGesture:"))
+        let panGesture : UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: Selector("manageActionForPanGesture:"))
         medicationTableView?.addGestureRecognizer(panGesture)
         panGesture.delegate = self
     }
     
-    func moveMedicationCalendarDisplayForPanGesture (panGestureRecognizer : UIPanGestureRecognizer) {
+    func manageActionForPanGesture (panGestureRecognizer : UIPanGestureRecognizer) {
         
         // translate table view
         let translation : CGPoint = panGestureRecognizer.translationInView(self.view.superview)
@@ -141,6 +168,17 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         return false
     }
     
+    func getAllIndexPaths() -> [AnyObject] {
+        
+        var indexes = [AnyObject]()
+        for j in 0...medicationTableView!.numberOfRowsInSection(0)-1
+        {
+            let index = NSIndexPath(forRow: j, inSection: 0)
+            indexes.append(index)
+        }
+        return indexes
+    }
+    
     // MARK: - Data display methods in table view
     func fillInMedicationDetailsInTableCell(cell: PrescriberMedicationTableViewCell,
         atIndexPath indexPath:NSIndexPath) {
@@ -154,9 +192,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                         medicationCell.instructions.text = NSString(format: "(%@)", instructionString) as String ;
                     }
                 }
-                let routeString : String = medicationSchedules.route.stringByReplacingOccurrencesOfString(" ", withString: EMPTY_STRING)
-
-                medicationCell.route.text = routeString;
+                medicationCell.route.text = medicationSchedules.route;
             }
     }
     
@@ -263,10 +299,10 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             if error == nil {
                 self.medicationTableView!.beginUpdates()
                 print(self.displayMedicationListArray ,"index PAth     ******", indexPath.row)
-                var medicationArray : [DCMedicationScheduleDetails] = [DCMedicationScheduleDetails]()
-                medicationArray = self.displayMedicationListArray.mutableCopy() as! [DCMedicationScheduleDetails]
-                medicationArray.removeAtIndex(indexPath.row)
-                self.displayMedicationListArray = (medicationArray as? NSMutableArray)!
+                var arr : [DCMedicationScheduleDetails] = [DCMedicationScheduleDetails]()
+                arr = self.displayMedicationListArray.mutableCopy() as! [DCMedicationScheduleDetails]
+                arr.removeAtIndex(indexPath.row)
+                self.displayMedicationListArray = (arr as? NSMutableArray)!
                 
                 self.medicationTableView!.deleteRowsAtIndexPaths([indexPath as NSIndexPath], withRowAnimation: .Fade)
                 self.medicationTableView!.endUpdates()

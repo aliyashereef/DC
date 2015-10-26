@@ -101,6 +101,11 @@ typedef enum : NSUInteger {
     [calendarDateDisplayViewController translateCalendarContainerViewsForTranslationParameters:xPoint withXVelocity:xVelocity panEndedValue:panEnded];
 }
 
+- (void)todayActionForCalendarTop {
+    
+    [calendarDateDisplayViewController todayActionForCalendarTop];
+}
+
 #pragma mark - Sub views addition
 
 //TODO: we need to move this from the administer SB to PrescriberDetails SB.
@@ -474,6 +479,14 @@ typedef enum : NSUInteger {
         [popOverController dismissPopoverAnimated:YES];
     };
 }
+
+- (IBAction)todayButtonPressed:(id)sender {
+    
+    if (prescriberMedicationListViewController) {
+        [prescriberMedicationListViewController todayButtonClicked];
+    }
+}
+
 
 - (void)displayAdministrationViewForMedicationSlot:(NSDictionary *)medicationSLotsDictionary
                                        atIndexPath:(NSIndexPath *)indexPath

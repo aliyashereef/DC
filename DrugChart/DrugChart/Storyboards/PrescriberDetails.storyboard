@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
@@ -120,7 +120,11 @@
                                     <constraint firstAttribute="height" constant="44" id="MhZ-rV-YEa"/>
                                 </constraints>
                                 <items>
-                                    <barButtonItem title="Today" id="O7p-Ty-WEj"/>
+                                    <barButtonItem title="Today" id="O7p-Ty-WEj">
+                                        <connections>
+                                            <action selector="todayButtonPressed:" destination="GB1-Uv-q4z" id="VN8-Vs-QGd"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="S6d-dw-CsX"/>
                                     <barButtonItem title="Sort" id="RR2-xE-stz">
                                         <connections>
