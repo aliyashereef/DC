@@ -259,10 +259,10 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             if error == nil {
                 self.medicationTableView!.beginUpdates()
                 print(self.displayMedicationListArray ,"index PAth     ******", indexPath.row)
-                var arr : [DCMedicationScheduleDetails] = [DCMedicationScheduleDetails]()
-                arr = self.displayMedicationListArray.mutableCopy() as! [DCMedicationScheduleDetails]
-                arr.removeAtIndex(indexPath.row)
-                self.displayMedicationListArray = (arr as? NSMutableArray)!
+                var medicationArray : [DCMedicationScheduleDetails] = [DCMedicationScheduleDetails]()
+                medicationArray = self.displayMedicationListArray.mutableCopy() as! [DCMedicationScheduleDetails]
+                medicationArray.removeAtIndex(indexPath.row)
+                self.displayMedicationListArray = (medicationArray as? NSMutableArray)!
                 
                 self.medicationTableView!.deleteRowsAtIndexPaths([indexPath as NSIndexPath], withRowAnimation: .Fade)
                 self.medicationTableView!.endUpdates()
