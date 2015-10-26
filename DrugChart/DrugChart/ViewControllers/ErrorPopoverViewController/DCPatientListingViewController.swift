@@ -381,9 +381,7 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
     func newWardSelected(row: NSInteger) {
         cancelSearching()
         selectedIndexPath = NSIndexPath.init(forRow: row, inSection: 0)
-        viewTitle =  wardsListArray.objectAtIndex(selectedIndexPath.row).wardName as NSString
         fetchPatientDetails()
-        configureNavigationBar()
     }
     
     //MARK: Search Bar Delegate Methods 
@@ -440,6 +438,8 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
         helper.fetchPatientsInWard(wardsListArray.objectAtIndex(selectedIndexPath.row) as! DCWard) { (error, array) -> Void in
             if error == nil {
                 self.patientListArray = array as NSMutableArray
+                self.viewTitle =  self.wardsListArray.objectAtIndex(self.selectedIndexPath.row).wardName as NSString
+                self.configureNavigationBar()
                 self.getCompletePatientDetails()
                 self.messageLabel.hidden = true
             } else {
@@ -448,10 +448,17 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
                     self.patientListTableView.hidden = true
                     self.navigationItem.rightBarButtonItem?.enabled = false
                     self.messageLabel.hidden = false
+                } else {
+                        self.displayAlertWithTitle("ERROR", message:"")
                 }
                 self.activityIndicator.stopAnimating()
             }
             self.refreshControl.endRefreshing()
         }
     }
+//    func displayAlertWithTitle(title : NSString, message : NSString) {
+//    
+//        let alertView : UIAlertView = UIAlertView.init(title: title as String, message: message as String, delegate: self, cancelButtonTitle: OK_BUTTON_TITLE)
+//        alertView.show()
+//    }
 }

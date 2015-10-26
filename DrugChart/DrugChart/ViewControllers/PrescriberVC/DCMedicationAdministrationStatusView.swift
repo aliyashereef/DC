@@ -16,6 +16,7 @@ let PENDING_FONT_COLOR              =   UIColor.getColorForHexString("#acacac")
 let DUE_AT_FONT_COLOR               =   UIColor.getColorForHexString("#404040")
 let OVERDUE_FONT_COLOR              =   UIColor.getColorForHexString("#ff8972") // get exact color for display
 let DUE_NOW_FONT_COLOR              =   UIColor.whiteColor()
+let CURRENT_DAY_BACKGROUND_COLOR    =   UIColor.getColorForHexString("#fafafa")
 
 protocol DCMedicationAdministrationStatusProtocol:class {
     
@@ -30,7 +31,7 @@ class DCMedicationAdministrationStatusView: UIView {
     var timeArray : NSArray = []
     weak var delegate:DCMedicationAdministrationStatusProtocol?
 
-    var administerButton: UIButton?
+    var administerButton: DCAdministerButton?
     var statusIcon : UIImageView?
     var statusLabel : UILabel?
     
@@ -56,8 +57,9 @@ class DCMedicationAdministrationStatusView: UIView {
         statusIcon = UIImageView.init(frame: CGRectMake(0, 0, 25, 25))
         self.addSubview(statusIcon!)
         statusIcon!.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
-        administerButton = UIButton.init(frame: contentFrame)
+        administerButton = DCAdministerButton.init(frame: contentFrame)
         self.addSubview(administerButton!)
+        self.sendSubviewToBack(administerButton!)
         administerButton?.addTarget(self, action: Selector("administerButtonClicked:"), forControlEvents: .TouchUpInside)
     }
  
@@ -69,6 +71,16 @@ class DCMedicationAdministrationStatusView: UIView {
             if timeSlotsArray.count > 0 {
                 configureStatusViewForTimeArray(timeSlotsArray as! [DCMedicationSlot])
             }
+        }
+    }
+    
+    func configureStatusViewForWeekDate(weekdate : NSDate) {
+        
+        let currentSystemDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
+        let currentDateString = DCDateUtility.convertDate(currentSystemDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: SHORT_DATE_FORMAT)
+        let weekDateString = DCDateUtility.convertDate(weekdate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: SHORT_DATE_FORMAT)
+        if (currentDateString == weekDateString) {
+            self.backgroundColor = CURRENT_DAY_BACKGROUND_COLOR
         }
     }
     
@@ -241,13 +253,16 @@ class DCMedicationAdministrationStatusView: UIView {
         statusIcon?.hidden = true
         statusLabel?.textColor = PENDING_FONT_COLOR
         statusLabel?.text = String(format: "%i %@", pendingCount, NSLocalizedString("PENDING", comment: ""))
-    }
+    } 
     
     @IBAction func administerButtonClicked (sender: UIButton ) {
         
+        //administerButton?.backgroundColor = UIColor.getColorForHexString("#e8e8e8")
+        administerButton?.backgroundColor = UIColor.getColorForHexString("#e8e8e8")
         if let slotDictionary = medicationSlotDictionary {
             delegate?.administerMedicationWithMedicationSlots(slotDictionary, atIndexPath: currentIndexPath!, withWeekDate: weekdate!)
         }
+        //administerButton?.backgroundColor = UIColor.clearColor()
     }
     
 }

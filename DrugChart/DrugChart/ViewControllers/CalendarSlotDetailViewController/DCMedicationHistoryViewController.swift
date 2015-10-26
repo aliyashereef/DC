@@ -39,18 +39,18 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
 
     //Configuring the basic view with the medication details, route and time
     
-func configureMedicationDetails () {
-    medicationNameLabel.text = medicationDetails!.name
-    if (medicationDetails?.route != nil) {
-        populateRouteAndInstructionLabels()
-    }
-    let dateString : String
-    if let date = medicationSlot?.time {
-        dateString = DCDateUtility.convertDate(date, fromFormat: DEFAULT_DATE_FORMAT, toFormat: "d LLLL yyyy")
-    } else {
-        dateString = DCDateUtility.convertDate(weekDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: "d LLLL yyyy")
-    }
-    medicationDateLabel.text = dateString
+    func configureMedicationDetails () {
+        medicationNameLabel.text = medicationDetails!.name
+        if (medicationDetails?.route != nil) {
+            populateRouteAndInstructionLabels()
+        }
+        let dateString : String
+        if let date = medicationSlot?.time {
+            dateString = DCDateUtility.convertDate(date, fromFormat: DEFAULT_DATE_FORMAT, toFormat: "d LLLL yyyy")
+        } else {
+            dateString = DCDateUtility.convertDate(weekDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: "d LLLL yyyy")
+        }
+        medicationDateLabel.text = dateString
     }
     
     //Populating the route and instruction label.
@@ -121,9 +121,8 @@ func configureMedicationDetails () {
             break
         case 4:
             cell!.contentType.text = BATCHNO_EXPIRY
-//            cell!.value.text = (medication.medicationAdministration?.batch != nil) ? medication.medicationAdministration?.batch : NONE_TEXT
-            if let batch = medication.medicationAdministration?.batch {
-                cell!.value.text = batch
+            if medication.medicationAdministration?.batch?.characters.count > 0 {
+                cell!.value.text = medication.medicationAdministration?.batch
             } else {
                 cell!.value.text = NONE_TEXT
             }
@@ -149,52 +148,40 @@ func configureMedicationDetails () {
         if noteCell == nil {
             noteCell = DCNotesAndReasonCell(style: UITableViewCellStyle.Value1, reuseIdentifier:NOTES_AND_REASON_CELL)
         }
-        noteCell!.moreButton.tag = indexPath.row
+        // Adding target for the more button on the cell.
         noteCell!.moreButton.addTarget(self, action: "moreButtonPressed:", forControlEvents: .TouchUpInside)
+        // Assigning value for the cell labels
         noteCell!.cellContentTypeLabel!.text = type as String
-        //Handle the cases for notes based on actual status
         noteCell!.reasonTextLabel.text = text as String
+        // Calculating the count of text characters and checking whether the more button have to be visible.
         let count : NSInteger = text.length
-        var isNeededToExpand : Bool = false
-        if text == NONE_TEXT || count < 32{
-            noteCell!.isNotesExpanded = true
-            isNeededToExpand = false
-        } else {
-            isNeededToExpand = true
+        if text == NONE_TEXT || count < 47{
+            noteCell!.isNotesExpanded = true // The notes need not to be expanded further.
         }
-        //noteCell!.reasonTextLabel.text = DUMMY_TEXT
-        if(noteCell!.isNotesExpanded == false) {
-            noteCell!.moreButtonWidthConstaint.constant = 46.0
-            noteCell!.reasonTextLabelTopSpaceConstraint.constant = 11.0
-            noteCell!.reasonLabelLeadingSpaceConstraint.constant = 300.0
+        
+        if(noteCell!.isNotesExpanded == false || indexPath == selectedRowIndex ) {
+            if indexPath == selectedRowIndex { // For the selected indexpath the more reason label need to be expanded.
+                noteCell!.moreButtonWidthConstaint.constant = 0.0
+                noteCell!.reasonTextLabel.textAlignment = .Left
+                noteCell!.reasonLabelLeadingSpaceConstraint.constant = 7.0
+                noteCell!.reasonTextLabelTopSpaceConstraint.constant = 30.0
+            } else {
+                noteCell!.moreButtonWidthConstaint.constant = 46.0
+                noteCell!.reasonTextLabelTopSpaceConstraint.constant = 11.0
+                noteCell!.reasonLabelLeadingSpaceConstraint.constant = 200.0
+                noteCell!.reasonTextLabel.textAlignment = .Right
+            }
         } else {
             noteCell!.moreButtonWidthConstaint.constant = 0.0
-            if isNeededToExpand {
-                noteCell!.reasonTextLabelTopSpaceConstraint.constant = 25.0
-                noteCell!.cellContentTypeLabel.textAlignment = .Left
-            } else {
-                noteCell!.reasonTextLabelTopSpaceConstraint.constant = 11.0
-            }
-            noteCell!.reasonLabelLeadingSpaceConstraint.constant = 7.0
+            noteCell!.reasonTextLabel.textAlignment = .Right
+            noteCell!.reasonTextLabelTopSpaceConstraint.constant = 11.0
+            noteCell!.reasonLabelLeadingSpaceConstraint.constant = 200.0
         }
-//        noteCell!.isNotesExpanded = false
-//        selectedRowIndex = NSIndexPath(forRow: -1, inSection: 0)
+        if indexPath != selectedRowIndex && count > 47{
+            noteCell!.moreButtonWidthConstaint.constant = 46.0
+        }
         noteCell!.layoutMargins = UIEdgeInsetsZero
         return noteCell!
-    }
-    
-    // Configuring the medication details cell
-    func configureMedicationDetailsCellAtIndexPath(indexPath : NSIndexPath) -> (DCMedicationDetailsCell) {
-        
-        var detailsCell  = medicationHistoryTableView.dequeueReusableCellWithIdentifier(MEDICATION_CELL_ID) as? DCMedicationDetailsCell
-        if detailsCell == nil {
-            detailsCell = DCMedicationDetailsCell(style: UITableViewCellStyle.Value1, reuseIdentifier:MEDICATION_CELL_ID)
-        }
-        if let medicationDetail = medicationDetails {
-            detailsCell!.populateCellWithMedicationDetails(medicationDetail)
-        }
-        detailsCell!.layoutMargins = UIEdgeInsetsZero
-        return detailsCell!
     }
     
     // configuring the refused medication status display for the patient.
@@ -259,33 +246,9 @@ func configureMedicationDetails () {
         return cell!
     }
     
-    //MARK: Private Methods
-    
-    // Loading the header view from the xib
-    func instanceFromNib() -> DCMedicationHistoryHeaderView {
-        return UINib(nibName: MEDICATION_HISTORY_HEADER_VIEW, bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! DCMedicationHistoryHeaderView
-        }
-    
-    // calculating the number of rows from medication slot array
-    func getNumberOfRowsFromMedicationSlotArray( medication : DCMedicationSlot) -> Int {
-        var rowCount : Int
-        if let medicationValue : DCMedicationSlot = medication {
-            if (medicationValue.medicationAdministration?.status == IS_GIVEN || medicationValue.medicationAdministration?.status == SELF_ADMINISTERED){
-                rowCount = 6
-            } else if medicationValue.medicationAdministration?.status == OMITTED {
-                rowCount = 2
-            } else if medicationValue.medicationAdministration?.status == REFUSED {
-                rowCount = 3
-            } else {
-                rowCount = 0
-            }
-        } else {
-            rowCount = 0
-        }
-        return rowCount
-    }
-
     //MARK: TableView Delegate Methods
+    
+    //Returns the number of sections in the table view.The number od medication history slots determines the number of sections.
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
         if let historyArray : [DCMedicationSlot] = medicationSlotArray {
@@ -295,10 +258,13 @@ func configureMedicationDetails () {
         }
     }
     
+    //The number of rows is determined by the medication slot status, if is administrated, the section will require 6 rows, if ommitted it may require 2 rows and 3 for the refused state.
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return getNumberOfRowsFromMedicationSlotArray(medicationSlotArray[section])
     }
     
+    //The height of the table view row is the default for every rows other than the notes cell.
+    //Upon expansion we adjust the size of the row according size of the text.
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
        if(indexPath == selectedRowIndex ) {
         let medication : DCMedicationSlot = medicationSlotArray[indexPath.section]
@@ -310,8 +276,8 @@ func configureMedicationDetails () {
         }else if medication.status == OMITTED {
             notesString = medication.medicationAdministration.omittedNotes
         }
-        let textHeight : CGSize = DCUtility.getTextViewSizeWithText(notesString , maxWidth:200 , font:UIFont.systemFontOfSize(14))
-        return textHeight.height + 25 // the top padding space is 25 points.
+        let textHeight : CGSize = DCUtility.getTextViewSizeWithText(notesString , maxWidth:478 , font:UIFont.systemFontOfSize(14))
+        return textHeight.height + 45 // the top padding space is 30 points. + some padding of 15 px
         } else {
             return 44
         }
@@ -336,14 +302,8 @@ func configureMedicationDetails () {
     }
     
     // MARK: Header View Methods
+    
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        
-//        if(section == 0) {
-//            return 0
-//        } else {
-//            let medication : DCMedicationSlot = medicationSlotArray[section-1]
-//            return (medication.medicationAdministration?.status != nil) ? 40.0 : 0.0
-//        }
         return 40.0
     }
     
@@ -370,6 +330,32 @@ func configureMedicationDetails () {
         return nil
     }
     
+    //MARK: Private Methods
+    
+    // Loading the header view from the xib
+    func instanceFromNib() -> DCMedicationHistoryHeaderView {
+        return UINib(nibName: MEDICATION_HISTORY_HEADER_VIEW, bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! DCMedicationHistoryHeaderView
+    }
+    
+    // calculating the number of rows from medication slot array
+    func getNumberOfRowsFromMedicationSlotArray( medication : DCMedicationSlot) -> Int {
+        var rowCount : Int
+        if let medicationValue : DCMedicationSlot = medication {
+            if (medicationValue.medicationAdministration?.status == IS_GIVEN || medicationValue.medicationAdministration?.status == SELF_ADMINISTERED){
+                rowCount = 6
+            } else if medicationValue.medicationAdministration?.status == OMITTED {
+                rowCount = 2
+            } else if medicationValue.medicationAdministration?.status == REFUSED {
+                rowCount = 3
+            } else {
+                rowCount = 0
+            }
+        } else {
+            rowCount = 0
+        }
+        return rowCount
+    }
+
     // On taping more button in the cell,it gets expanded closing all othe expanded cells.
     func moreButtonPressed(sender: UIButton) {
         let moreButton = sender

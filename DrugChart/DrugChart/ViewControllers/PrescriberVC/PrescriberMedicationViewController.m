@@ -225,11 +225,9 @@ typedef enum : NSUInteger {
     [medicationSchedulesWebService getMedicationSchedulesForPatientId:patientId fromStartDate:startDateString toEndDate:endDateString withCallBackHandler:^(NSArray *medicationsList, NSError *error) {
         NSMutableArray *medicationArray = [NSMutableArray arrayWithArray:medicationsList];
         for (NSDictionary *medicationDetails in medicationArray) {
-            NSLog(@"the medication details dictionary:\n %@", medicationDetails);
             if ([medicationDetails[@"originalTerm"] isEqualToString:@"Acetylcysteine 600mg capsules"]) {
                 NSLog(@"Got it");
             }
-            // NSLog(@"the medication details dictionary:\n %@", medicationDetails);
             @autoreleasepool {
                 DCMedicationScheduleDetails *medicationScheduleDetails = [[DCMedicationScheduleDetails alloc] initWithMedicationScheduleDictionary:medicationDetails];
                 if (medicationScheduleDetails) {
@@ -338,6 +336,7 @@ typedef enum : NSUInteger {
         
         if ([criteriaString isEqualToString:INCLUDE_DISCONTINUED]) {
             [self includeDiscontinuedMedications];
+            
         }
         if ([criteriaString isEqualToString:START_DATE_ORDER]) {
             sortType = kSortDrugStartDate;
@@ -458,6 +457,9 @@ typedef enum : NSUInteger {
     DCSortTableViewController *sortViewController = [mainStoryboard instantiateViewControllerWithIdentifier:SORT_VIEWCONTROLLER_STORYBOARD_ID];
     sortViewController.sortView = eCalendarView;
     sortViewController.previousSelectedCategory = selectedSortType;
+    if (discontinuedMedicationShown) {
+        sortViewController.showDiscontinuedMedications = YES;
+    }
     UINavigationController *navigationController =
     [[UINavigationController alloc] initWithRootViewController:sortViewController];
     popOverController = [[UIPopoverController alloc] initWithContentViewController:navigationController];

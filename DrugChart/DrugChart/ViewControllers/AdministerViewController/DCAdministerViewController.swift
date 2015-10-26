@@ -416,7 +416,11 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             let notesCell : DCNotesTableCell = getNotesTableCellAtIndexPath(indexPath)
             notesCell.notesType = eNotes
             notesCell.notesTextView.textColor = (!isValid && medicationSlot?.medicationAdministration?.isEarlyAdministration == true) ? UIColor.redColor() : UIColor.getColorForHexString("#8f8f95")
-            notesCell.notesTextView.text = notesCell.getHintText()
+            if let administrationNotes =  medicationSlot?.medicationAdministration.administeredNotes {
+                notesCell.notesTextView.text = administrationNotes
+            } else {
+                notesCell.notesTextView.text = notesCell.getHintText()
+            }
             return notesCell
         } else {
             if (indexPath.section == SectionCount.eFirstSection.rawValue && datePickerIndexPath != nil && indexPath.row == 2) {
@@ -436,7 +440,11 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             let notesCell : DCNotesTableCell = getNotesTableCellAtIndexPath(indexPath)
             notesCell.notesType = eReason
             notesCell.notesTextView.textColor = !isValid ? UIColor.redColor() : UIColor.getColorForHexString("#8f8f95")
-            notesCell.notesTextView.text = notesCell.getHintText()
+            if let notes =  medicationSlot?.medicationAdministration.omittedNotes {
+                notesCell.notesTextView.text = notes
+            } else {
+                notesCell.notesTextView.text = notesCell.getHintText()
+            }
             return notesCell
         } else {
             let administerCell : DCAdministerCell = configureAdministerTableCellAtIndexPath(indexPath)
@@ -450,7 +458,11 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             let notesCell : DCNotesTableCell = getNotesTableCellAtIndexPath(indexPath)
             notesCell.notesType = eReason
             notesCell.notesTextView.textColor = (!isValid && medicationSlot?.medicationAdministration?.isEarlyAdministration == true) ? UIColor.redColor() : UIColor.getColorForHexString("#8f8f95")
-            notesCell.notesTextView.text = notesCell.getHintText()
+            if let notes =  medicationSlot?.medicationAdministration.refusedNotes {
+                notesCell.notesTextView.text = notes
+            } else {
+                notesCell.notesTextView.text = notesCell.getHintText()
+            }
             return notesCell
         } else {
             if (indexPath.section == SectionCount.eFirstSection.rawValue && datePickerIndexPath != nil && indexPath.row == 1) {
