@@ -18,7 +18,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
 }
 
 
-@objc class DCPrescriberMedicationListViewController: DCBaseViewController, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate, DCMedicationAdministrationStatusProtocol, EditAndDeleteActionDelegate {
+@objc class DCPrescriberMedicationListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate, DCMedicationAdministrationStatusProtocol, EditAndDeleteActionDelegate {
 
     enum PanDirection {
         case panLeft
@@ -73,8 +73,6 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
             medicationCell?.editAndDeleteDelegate = self
             medicationCell?.indexPath = indexPath
-            medicationCell?.layoutMargins = UIEdgeInsetsZero
-            medicationCell?.separatorInset = UIEdgeInsetsZero
             medicationCell?.isMedicationActive = medicationScheduleDetails.isActive
             self.fillInMedicationDetailsInTableCell(medicationCell!, atIndexPath: indexPath)
             if (medicationCell?.inEditMode == true) {
@@ -194,9 +192,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                         medicationCell.instructions.text = NSString(format: "(%@)", instructionString) as String ;
                     }
                 }
-                let routeString : String = medicationSchedules.route.stringByReplacingOccurrencesOfString(" ", withString: EMPTY_STRING)
-
-                medicationCell.route.text = routeString;
+                medicationCell.route.text = medicationSchedules.route;
             }
     }
     
@@ -303,10 +299,10 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             if error == nil {
                 self.medicationTableView!.beginUpdates()
                 print(self.displayMedicationListArray ,"index PAth     ******", indexPath.row)
-                var medicationArray : [DCMedicationScheduleDetails] = [DCMedicationScheduleDetails]()
-                medicationArray = self.displayMedicationListArray.mutableCopy() as! [DCMedicationScheduleDetails]
-                medicationArray.removeAtIndex(indexPath.row)
-                self.displayMedicationListArray = (medicationArray as? NSMutableArray)!
+                var arr : [DCMedicationScheduleDetails] = [DCMedicationScheduleDetails]()
+                arr = self.displayMedicationListArray.mutableCopy() as! [DCMedicationScheduleDetails]
+                arr.removeAtIndex(indexPath.row)
+                self.displayMedicationListArray = (arr as? NSMutableArray)!
                 
                 self.medicationTableView!.deleteRowsAtIndexPaths([indexPath as NSIndexPath], withRowAnimation: .Fade)
                 self.medicationTableView!.endUpdates()
