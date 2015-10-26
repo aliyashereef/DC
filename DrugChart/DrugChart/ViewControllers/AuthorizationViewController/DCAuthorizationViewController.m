@@ -86,7 +86,8 @@
 - (NSMutableURLRequest *)getAuthorizationUrlRequest {
     
     //get request url
-    NSString *urlString = [NSString stringWithFormat:@"%@?%@",AUTHORIZE_URL,LOGIN_URL_PARAMETERS];
+    DCAppDelegate *appDelegate = DCAPPDELEGATE;
+    NSString *urlString = [NSString stringWithFormat:@"%@?%@",appDelegate.authorizeURL,LOGIN_URL_PARAMETERS];
     NSURL *authorizeUrl = [NSURL URLWithString:urlString];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:authorizeUrl
                                                            cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:30.0];
@@ -163,7 +164,8 @@ didFailLoadWithError:(NSError *)error {
 
 - (void)connection:(NSURLConnection *)connection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
     if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
-        NSURL* baseURL = [NSURL URLWithString:kDCBaseUrl];
+        DCAppDelegate *appDelegate = DCAPPDELEGATE;
+        NSURL* baseURL = [NSURL URLWithString:appDelegate.baseURL];
         if ([challenge.protectionSpace.host isEqualToString:baseURL.host]) {
             NSLog(@"trusting connection to host %@", challenge.protectionSpace.host);
             [challenge.sender useCredential:[NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust] forAuthenticationChallenge:challenge];

@@ -26,6 +26,7 @@
     [Crashlytics startWithAPIKey:CRASHLYTICS_KEY];
     [self configureAppearanceSettings];
     [self trackNetworkConnection];
+    [self setDefaultPreferencesForSettings];
     return YES;
 }
 
@@ -80,6 +81,14 @@
                                                            }];
     [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor getColorForHexString:@"#007aff"], NSForegroundColorAttributeName,nil] forState:UIControlStateNormal];
     [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor lightGrayColor], NSForegroundColorAttributeName,nil] forState:UIControlStateDisabled];
+}
+
+- (void)setDefaultPreferencesForSettings {
+// Register the preference defaults early.
+    NSDictionary *appDefaults = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:SETTINGS_TOGGLE_BUTTON_KEY];
+
+    [[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (BOOL)isNetworkReachable {

@@ -20,7 +20,7 @@ enum SectionValue : NSInteger {
     case eNotImmediate
 }
 
-class DCPatientListingViewController: UIViewController ,UITableViewDataSource, UITableViewDelegate ,WardSelectionDelegate, UISearchBarDelegate {
+class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSource, UITableViewDelegate ,WardSelectionDelegate, UISearchBarDelegate {
     
     @IBOutlet var patientListTableView: UITableView!
 
@@ -456,9 +456,9 @@ class DCPatientListingViewController: UIViewController ,UITableViewDataSource, U
             self.refreshControl.endRefreshing()
         }
     }
-    func displayAlertWithTitle(title : NSString, message : NSString) {
-    
-        let alertView : UIAlertView = UIAlertView.init(title: title as String, message: message as String, delegate: self, cancelButtonTitle: OK_BUTTON_TITLE)
-        alertView.show()
-    }
+//    func displayAlertWithTitle(title : NSString, message : NSString) {
+//    
+//        let alertView : UIAlertView = UIAlertView.init(title: title as String, message: message as String, delegate: self, cancelButtonTitle: OK_BUTTON_TITLE)
+//        alertView.show()
+//    }
 }

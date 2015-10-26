@@ -17,7 +17,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
 }
 
 
-@objc class DCPrescriberMedicationListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate, DCMedicationAdministrationStatusProtocol, EditAndDeleteActionDelegate {
+@objc class DCPrescriberMedicationListViewController: DCBaseViewController, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate, DCMedicationAdministrationStatusProtocol, EditAndDeleteActionDelegate {
 
 
     @IBOutlet var medicationTableView: UITableView?
