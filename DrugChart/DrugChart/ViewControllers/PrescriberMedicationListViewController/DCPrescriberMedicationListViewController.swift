@@ -152,7 +152,9 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                         medicationCell.instructions.text = NSString(format: "(%@)", instructionString) as String ;
                     }
                 }
-                medicationCell.route.text = medicationSchedules.route;
+                let routeString : String = medicationSchedules.route.stringByReplacingOccurrencesOfString(" ", withString: EMPTY_STRING)
+
+                medicationCell.route.text = routeString;
             }
     }
     
