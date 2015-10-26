@@ -436,9 +436,9 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
         let helper : DCPatientDetailsHelper = DCPatientDetailsHelper()
         self.activityIndicator.startAnimating()
         helper.fetchPatientsInWard(wardsListArray.objectAtIndex(selectedIndexPath.row) as! DCWard) { (error, array) -> Void in
+            self.viewTitle =  self.wardsListArray.objectAtIndex(self.selectedIndexPath.row).wardName as NSString
             if error == nil {
                 self.patientListArray = array as NSMutableArray
-                self.viewTitle =  self.wardsListArray.objectAtIndex(self.selectedIndexPath.row).wardName as NSString
                 self.configureNavigationBar()
                 self.getCompletePatientDetails()
                 self.messageLabel.hidden = true
@@ -446,6 +446,7 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
                 // we created a error with code 100 for the patient list empty senario
                 if error.code == 100 {
                     self.patientListTableView.hidden = true
+                    self.setNavigationBarTitle()
                     self.navigationItem.rightBarButtonItem?.enabled = false
                     self.messageLabel.hidden = false
                 } else {
