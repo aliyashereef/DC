@@ -66,6 +66,8 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
             medicationCell?.editAndDeleteDelegate = self
             medicationCell?.indexPath = indexPath
+            medicationCell?.layoutMargins = UIEdgeInsetsZero
+            medicationCell?.separatorInset = UIEdgeInsetsZero
             medicationCell?.isMedicationActive = medicationScheduleDetails.isActive
             self.fillInMedicationDetailsInTableCell(medicationCell!, atIndexPath: indexPath)
             if (medicationCell?.inEditMode == true) {
