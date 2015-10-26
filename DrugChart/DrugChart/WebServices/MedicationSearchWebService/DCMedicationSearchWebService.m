@@ -11,13 +11,15 @@
 #import "DCMedication.h"
 
 static NSString *const kEntryKey = @"entry";
-static NSString *const kDCMedicationBaseUrl = @"http://interfacetest.cloudapp.net/api/medication?name";
+static NSString *const kDCMedicationBaseUrl = @"/medication?name";
 
 @implementation DCMedicationSearchWebService
 
 - (void)getCompleteMedicationListWithCallBackHandler:(void (^) (id response, id error))callBackHandler {
     
-    [[DCHTTPRequestOperationManager sharedMedicationOperationManager] cancelWebRequestWithPath:kDCMedicationBaseUrl];
+    DCAppDelegate *appDelegate = DCAPPDELEGATE;
+    NSString *request = [NSString stringWithFormat:@"%@%@",appDelegate.baseURL,kDCMedicationBaseUrl];
+    [[DCHTTPRequestOperationManager sharedMedicationOperationManager] cancelWebRequestWithPath:request];
     NSString *urlString = [NSString stringWithFormat:@"medication?name=%@",_searchString] ;
     NSString *requestUrlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [[DCHTTPRequestOperationManager sharedMedicationOperationManager] GET:requestUrlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -50,7 +52,9 @@ static NSString *const kDCMedicationBaseUrl = @"http://interfacetest.cloudapp.ne
 - (void)cancelPreviousRequest {
     
     //cancel web request
-    [[DCHTTPRequestOperationManager sharedMedicationOperationManager] cancelWebRequestWithPath:kDCMedicationBaseUrl];
+    DCAppDelegate *appDelegate = DCAPPDELEGATE;
+    NSString *request = [NSString stringWithFormat:@"%@%@",appDelegate.baseURL,kDCMedicationBaseUrl];
+    [[DCHTTPRequestOperationManager sharedMedicationOperationManager] cancelWebRequestWithPath:request];
 }
 
 @end

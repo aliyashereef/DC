@@ -9,8 +9,6 @@
 #import "DCHTTPRequestOperationManager.h"
 #import "DCKeyChainManager.h"
 
-//static NSString *const kDCBaseUrl = @"http://interfacetest.cloudapp.net/ehc-tapi"; //temporary url
-
  //old URLS (used till June 26, 2015)
 //static NSString *const kDCBedManagementBaseUrl = @"https://interfacetest.cloudapp.net/ehc-api-bedmanagement";
 //static NSString *const kDCMedicationBaseUrl = @"https://interfacetest.cloudapp.net/ehc-api-medication";
@@ -23,33 +21,64 @@
 @implementation DCHTTPRequestOperationManager
 
 + (DCHTTPRequestOperationManager *)sharedOperationManager {
-    
-    static dispatch_once_t pred = 0;
-    __strong static id _sharedObject = nil;
-    dispatch_once(&pred, ^{
-        _sharedObject = [[DCHTTPRequestOperationManager alloc] initWithBaseURLForBedManagament];
-    });
-    return _sharedObject;
+    static dispatch_once_t onceTokenForBase = 0;
+    static dispatch_once_t onceTokenForDemo = 0;
+    __strong static id _sharedObject_Base = nil;
+    __strong static id _sharedObject_Demo = nil;
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:SETTINGS_TOGGLE_BUTTON_KEY]) {
+        dispatch_once(&onceTokenForBase, ^{
+         _sharedObject_Demo = [[DCHTTPRequestOperationManager alloc] initWithDemoURLForBedManagament];
+         });
+       return _sharedObject_Demo;
+        } else {
+              dispatch_once(&onceTokenForDemo, ^{
+               _sharedObject_Base = [[DCHTTPRequestOperationManager alloc] initWithBaseURLForBedManagament];
+            });
+           return _sharedObject_Base;
+        }
 }
 
 + (DCHTTPRequestOperationManager *)sharedMedicationOperationManager {
     
-    static dispatch_once_t pred = 0;
-    __strong static id _sharedObject = nil;
-    dispatch_once(&pred, ^{
-        _sharedObject = [[DCHTTPRequestOperationManager alloc] initWithBaseURLForMedication];
-    });
-    return _sharedObject;
+    static dispatch_once_t onceTokenForBase = 0;
+    static dispatch_once_t onceTokenForDemo = 0;
+    __strong static id _sharedObject_Base = nil;
+    __strong static id _sharedObject_Demo = nil;
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:SETTINGS_TOGGLE_BUTTON_KEY]) {
+        dispatch_once(&onceTokenForBase, ^{
+            
+            _sharedObject_Demo = [[DCHTTPRequestOperationManager alloc] initWithDemoURLForMedication];
+        });
+        return _sharedObject_Demo;
+    } else {
+        dispatch_once(&onceTokenForDemo, ^{
+            
+            _sharedObject_Base = [[DCHTTPRequestOperationManager alloc] initWithBaseURLForMedication];
+        });
+        return _sharedObject_Base;
+    }
 }
 
 + (DCHTTPRequestOperationManager *)sharedAdministerMedicationManager {
     
-    static dispatch_once_t pred = 0;
-    __strong static id _sharedObject = nil;
-    dispatch_once(&pred, ^{
-        _sharedObject = [[DCHTTPRequestOperationManager alloc] initWithBaseURLforAdministerMedication];
-    });
-    return _sharedObject;
+    static dispatch_once_t onceTokenForBase = 0;
+    static dispatch_once_t onceTokenForDemo = 0;
+    __strong static id _sharedObject_Base = nil;
+    __strong static id _sharedObject_Demo = nil;
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:SETTINGS_TOGGLE_BUTTON_KEY]) {
+        dispatch_once(&onceTokenForBase, ^{
+            
+            _sharedObject_Demo = [[DCHTTPRequestOperationManager alloc] initWithDemoURLforAdministerMedication];
+        });
+        return _sharedObject_Demo;
+    } else {
+        dispatch_once(&onceTokenForDemo, ^{
+            
+            _sharedObject_Base = [[DCHTTPRequestOperationManager alloc] initWithBaseURLforAdministerMedication];
+        });
+        return _sharedObject_Base;
+    }
     
 }
 
@@ -65,6 +94,32 @@
     return self;
 }
 
+- (id)initWithDemoURLForBedManagament {
+    
+    self = [super initWithBaseURL:[NSURL URLWithString:kDCBaseUrl_Demo]];
+    if (self) {
+        self.requestSerializer = [AFJSONRequestSerializer serializer];
+        self.requestSerializer.timeoutInterval = 30.0f;
+        [self setHeaderFieldsForRequest];
+        self.responseSerializer = [AFJSONResponseSerializer serializer];
+    }
+    return self;
+}
+
+- (id)initWithDemoURLForMedication {
+    
+    self = [super initWithBaseURL:[NSURL URLWithString:kDCBaseUrl_Demo]];
+    if (self) {
+        self.requestSerializer = [AFJSONRequestSerializer serializer];
+        self.requestSerializer.timeoutInterval = 30.0f;
+        [self setHeaderFieldsForRequest];
+        [self setAdditionalHeadersForMedication];
+        self.responseSerializer = [AFHTTPResponseSerializer serializer];
+        self.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json+fhir"];
+    }
+    return self;
+}
+
 - (id)initWithBaseURLForMedication {
     
     self = [super initWithBaseURL:[NSURL URLWithString:kDCBaseUrl]];
@@ -75,6 +130,19 @@
         [self setAdditionalHeadersForMedication];
         self.responseSerializer = [AFHTTPResponseSerializer serializer];
         self.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json+fhir"];
+    }
+    return self;
+}
+
+- (id)initWithDemoURLforAdministerMedication {
+    
+    self = [super initWithBaseURL:[NSURL URLWithString:kDCBaseUrl_Demo]];
+    if (self) {
+        self.requestSerializer = [AFJSONRequestSerializer serializer];
+        self.requestSerializer.timeoutInterval = 30.0f;
+        [self setHeaderFieldsForRequest];
+        self.responseSerializer = [AFJSONResponseSerializer serializer];
+        self.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
     }
     return self;
 }
