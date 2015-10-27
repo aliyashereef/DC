@@ -54,6 +54,8 @@
     
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkAvailable:) name:kNetworkAvailable object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(baseURLChanged) name:NSUserDefaultsDidChangeNotification object:nil];
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -211,6 +213,11 @@ didFailLoadWithError:(NSError *)error {
         [timeoutTimer invalidate];
         timeoutTimer = nil;
     }
+}
+
+- (void)baseURLChanged {
+    
+    [self loadWebViewInView];
 }
 
 @end
