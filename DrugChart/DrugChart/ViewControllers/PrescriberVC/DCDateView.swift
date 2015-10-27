@@ -58,7 +58,7 @@ import QuartzCore
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "d"
         let dateString = dateFormatter.stringFromDate(today)
-        indicatorLabel.frame = CGRectMake(80,12.0, 25, 25)
+        indicatorLabel.frame = CGRectMake(78,12.0, 25, 25)
         indicatorLabel.font = UIFont.systemFontOfSize(17)
         indicatorLabel.textAlignment = .Center
         indicatorLabel.textColor = UIColor.whiteColor()

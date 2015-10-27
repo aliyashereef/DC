@@ -17,6 +17,7 @@ import UIKit
 protocol EditAndDeleteActionDelegate {
     
     func stopMedicationForSelectedIndexPath(indexPath : NSIndexPath)
+    func editMedicationForSelectedIndexPath (indexPath : NSIndexPath)
 
 }
 
@@ -207,6 +208,9 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
 
     @IBAction func editMedicationButtonPressed(sender: AnyObject) {
         swipeMedicationDetailViewToRight()
+        if let delegate = editAndDeleteDelegate {
+            delegate.editMedicationForSelectedIndexPath(indexPath)
+        }
     }
     
     @IBAction func stopMedicationButtonPressed(sender: AnyObject) {
