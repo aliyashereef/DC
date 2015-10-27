@@ -478,12 +478,12 @@ typedef enum : NSUInteger {
         
         NSMutableArray *medicationArray = [NSMutableArray arrayWithArray:medicationsList];
         for (NSDictionary *medicationDetails in medicationArray) {
-            @autoreleasepool {
-                DCMedicationScheduleDetails *medicationScheduleDetails = [[DCMedicationScheduleDetails alloc] initWithMedicationScheduleDictionary:medicationDetails];
-                if (medicationScheduleDetails) {
-                    [medicationListArray addObject:medicationScheduleDetails];
-                }
-            }
+//            @autoreleasepool {
+//                DCMedicationScheduleDetails *medicationScheduleDetails = [[DCMedicationScheduleDetails alloc] initWithMedicationScheduleDictionary:medicationDetails];
+//                if (medicationScheduleDetails) {
+//                    [medicationListArray addObject:medicationScheduleDetails];
+//                }
+//            }
         }
         completionHandler(medicationListArray, nil);
     }];

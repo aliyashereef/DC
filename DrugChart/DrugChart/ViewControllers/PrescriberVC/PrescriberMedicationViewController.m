@@ -231,7 +231,8 @@ typedef enum : NSUInteger {
         // if FetchTypeInitial
         for (NSDictionary *medicationDetails in medicationArray) {
             @autoreleasepool {
-                DCMedicationScheduleDetails *medicationScheduleDetails = [[DCMedicationScheduleDetails alloc] initWithMedicationScheduleDictionary:medicationDetails];
+             //   DCMedicationScheduleDetails *medicationScheduleDetails = [[DCMedicationScheduleDetails alloc] initWithMedicationScheduleDictionary:medicationDetails];
+                DCMedicationScheduleDetails *medicationScheduleDetails = [[DCMedicationScheduleDetails alloc] initWithMedicationScheduleDictionary:medicationDetails forWeekStartDate:startDate weekEndDate:endDate];
                 if (medicationScheduleDetails) {
                     [medicationListArray addObject:medicationScheduleDetails];
                 }

@@ -19,6 +19,7 @@
 @property (nonatomic, strong) NSMutableArray *administrationDetailsArray;
 @property (nonatomic, strong) NSMutableArray *timeChart;
 
-- (DCMedicationScheduleDetails *)initWithMedicationScheduleDictionary:(NSDictionary *)medicationDictionary;
+- (DCMedicationScheduleDetails *)initWithMedicationScheduleDictionary:(NSDictionary *)medicationDictionary forWeekStartDate:(NSDate *)weekStartDate weekEndDate:(NSDate *)weekEndDate;
+//- (DCMedicationScheduleDetails *)initWithMedicationScheduleDictionary:(NSDictionary *)medicationDictionary;
 
 @end
