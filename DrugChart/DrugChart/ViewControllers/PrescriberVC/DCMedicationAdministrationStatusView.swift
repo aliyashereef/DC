@@ -27,7 +27,7 @@ class DCMedicationAdministrationStatusView: UIView {
     
     var medicationSlotDictionary: NSDictionary?
     var currentIndexPath: NSIndexPath?
-    var weekdate : NSDate?
+    var weekDate : NSDate?
     var timeArray : NSArray = []
     weak var delegate:DCMedicationAdministrationStatusProtocol?
 
@@ -76,6 +76,7 @@ class DCMedicationAdministrationStatusView: UIView {
     
     func configureStatusViewForWeekDate(weekdate : NSDate) {
         
+        weekDate = weekdate
         let currentSystemDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
         let currentDateString = DCDateUtility.convertDate(currentSystemDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: SHORT_DATE_FORMAT)
         let weekDateString = DCDateUtility.convertDate(weekdate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: SHORT_DATE_FORMAT)
@@ -257,12 +258,9 @@ class DCMedicationAdministrationStatusView: UIView {
     
     @IBAction func administerButtonClicked (sender: UIButton ) {
         
-        //administerButton?.backgroundColor = UIColor.getColorForHexString("#e8e8e8")
-        administerButton?.backgroundColor = UIColor.getColorForHexString("#e8e8e8")
         if let slotDictionary = medicationSlotDictionary {
-            delegate?.administerMedicationWithMedicationSlots(slotDictionary, atIndexPath: currentIndexPath!, withWeekDate: weekdate!)
+            delegate?.administerMedicationWithMedicationSlots(slotDictionary, atIndexPath: currentIndexPath!, withWeekDate: weekDate!)
         }
-        //administerButton?.backgroundColor = UIColor.clearColor()
     }
     
 }

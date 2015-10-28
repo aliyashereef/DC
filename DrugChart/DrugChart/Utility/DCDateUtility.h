@@ -73,7 +73,8 @@
 
 + (NSMutableArray *)getFiveDaysOfWeekFromDate:(NSDate *)date;
 
-+ (NSDate *)getInitialDateForFiveDayDisplay:(NSDate *)date;
++ (NSDate *)getInitialDateForCalendarDisplay:(NSDate *)date
+                              withAdderValue:(NSInteger)adder;
 
 + (NSDate *)getAdministrationDateForString:(NSString *)dateString;
 

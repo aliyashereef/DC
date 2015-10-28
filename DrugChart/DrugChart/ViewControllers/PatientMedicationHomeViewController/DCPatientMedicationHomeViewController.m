@@ -23,7 +23,6 @@
 #import "DCPatientAlert.h"
 #import "DCPatientAllergy.h"
 
-#import "DCMedicationListWebService.h"
 #import "DCMedicationSchedulesWebService.h"
 #import "DCPopOverContentSizeUtility.h"
 #import "DCLogOutWebService.h"
@@ -234,12 +233,12 @@ typedef enum : NSInteger {
         NSMutableArray *medicationArray = [NSMutableArray arrayWithArray:medicationsList];
         for (NSDictionary *medicationDetails in medicationArray) {
             DCDebugLog(@"c\n %@",medicationDetails);
-            @autoreleasepool {
-                DCMedicationScheduleDetails *medicationScheduleDetails = [[DCMedicationScheduleDetails alloc] initWithMedicationScheduleDictionary:medicationDetails];
-                if (medicationScheduleDetails) {
-                    [medicationListArray addObject:medicationScheduleDetails];
-                }
-            }
+//            @autoreleasepool {
+//                DCMedicationScheduleDetails *medicationScheduleDetails = [[DCMedicationScheduleDetails alloc] initWithMedicationScheduleDictionary:medicationDetails];
+//                if (medicationScheduleDetails) {
+//                    [medicationListArray addObject:medicationScheduleDetails];
+//                }
+//            }
         }
         completionHandler(medicationListArray, nil);
     }];

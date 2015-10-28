@@ -41,10 +41,9 @@ typedef enum : NSUInteger {
     IBOutlet UILabel *noMedicationsAvailableLabel;
     IBOutlet UIView *calendarTopHolderView;
     IBOutlet UIView *medicationListHolderView;
-    
-    //IBOutlet UITableView *medicationsTableView;
     IBOutlet UILabel *monthYearLabel;
-    
+
+    NSDate *firstDisplayDate;
     UIBarButtonItem *addButton;
     NSMutableArray *alertsArray;
     NSMutableArray *allergiesArray;
@@ -77,6 +76,7 @@ typedef enum : NSUInteger {
     [super viewDidLoad];
     [self addCustomTitleViewToNavigationBar];
     [self setCurrentWeekDatesArrayFromToday];
+    [self populateMonthYearLabel];
     [self addAddMedicationButtonToNavigationBar];
     [self fillPrescriberMedicationDetailsInCalendarView];
     [self addTopDatePortionInCalendar];
@@ -84,10 +84,9 @@ typedef enum : NSUInteger {
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
     
+    [super viewWillAppear:animated];
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -115,6 +114,7 @@ typedef enum : NSUInteger {
     UIStoryboard *administerStoryboard = [UIStoryboard storyboardWithName:ADMINISTER_STORYBOARD
                                                                    bundle: nil];
     calendarDateDisplayViewController = [administerStoryboard instantiateViewControllerWithIdentifier:@"CalendarDateDisplayView"];
+    calendarDateDisplayViewController.currentWeekDateArray = currentWeekDatesArray;
     [calendarDaysDisplayView addSubview:calendarDateDisplayViewController.view];
 }
 
@@ -129,8 +129,14 @@ typedef enum : NSUInteger {
 
 - (void)setCurrentWeekDatesArrayFromToday {
     
-    NSDate *firstDay = [DCDateUtility getInitialDateForFiveDayDisplay:[DCDateUtility getDateInCurrentTimeZone:[NSDate date]]];
-    currentWeekDatesArray = [DCDateUtility getFiveDaysOfWeekFromDate:firstDay];
+    firstDisplayDate = [DCDateUtility getInitialDateForCalendarDisplay:[DCDateUtility getDateInCurrentTimeZone:[NSDate date]]
+                                                        withAdderValue:-7];
+    currentWeekDatesArray = [DCDateUtility getFiveDaysOfWeekFromDate:firstDisplayDate];
+}
+
+- (void)populateMonthYearLabel {
+    
+    //populate month year label
     NSString *mothYearDisplayString = [DCDateUtility getMonthNameAndYearForWeekDatesArray:currentWeekDatesArray];
     NSAttributedString *monthYearString = [DCUtility getMonthYearAttributedStringForDisplayString:mothYearDisplayString withInitialMonthLength:0];
     monthYearLabel.attributedText = monthYearString;
@@ -229,19 +235,32 @@ typedef enum : NSUInteger {
     NSString *endDateString = [DCDateUtility convertDate:endDate FromFormat:DEFAULT_DATE_FORMAT ToFormat:SHORT_DATE_FORMAT];
     [medicationSchedulesWebService getMedicationSchedulesForPatientId:patientId fromStartDate:startDateString toEndDate:endDateString withCallBackHandler:^(NSArray *medicationsList, NSError *error) {
         NSMutableArray *medicationArray = [NSMutableArray arrayWithArray:medicationsList];
+        // if FetchTypeInitial
         for (NSDictionary *medicationDetails in medicationArray) {
-            if ([medicationDetails[@"originalTerm"] isEqualToString:@"Acetylcysteine 600mg capsules"]) {
-                NSLog(@"Got it");
-            }
             @autoreleasepool {
-                DCMedicationScheduleDetails *medicationScheduleDetails = [[DCMedicationScheduleDetails alloc] initWithMedicationScheduleDictionary:medicationDetails];
+                DCMedicationScheduleDetails *medicationScheduleDetails = [[DCMedicationScheduleDetails alloc] initWithMedicationScheduleDictionary:medicationDetails forWeekStartDate:startDate weekEndDate:endDate];
                 if (medicationScheduleDetails) {
                     [medicationListArray addObject:medicationScheduleDetails];
                 }
             }
         }
+        // else
+        // get the DCMedicationScheduleDetails from the medicationArray,
+        // then simply call the update method to update the time chart.
         completionHandler(medicationListArray, nil);
     }];
+}
+
+- (void)fetchMedicationListForPatientWithFetchType {
+    
+    typedef enum : NSUInteger {
+        FetchTypeInitial,
+        FetchTypePrevious,
+        FetchTypeNext,
+    } DCFetchType;
+    
+    // Initial, the same method.
+    //
 }
 
 - (void)fetchMedicationListForPatient {
@@ -487,6 +506,7 @@ typedef enum : NSUInteger {
     }
 }
 
+#pragma mark - Public methods implementation.
 
 - (void)displayAdministrationViewForMedicationSlot:(NSDictionary *)medicationSLotsDictionary
                                        atIndexPath:(NSIndexPath *)indexPath
@@ -514,13 +534,39 @@ typedef enum : NSUInteger {
     [self presentViewController:detailViewController animated:YES completion:nil];
 }
 
+- (void)modifyStartDayAndWeekDates:(BOOL)isNextWeek {
+    
+    if (isNextWeek) {
+        firstDisplayDate = [DCDateUtility getInitialDateForCalendarDisplay:firstDisplayDate withAdderValue:5];
+        currentWeekDatesArray = [DCDateUtility getFiveDaysOfWeekFromDate:firstDisplayDate];
+    }
+    else {
+        firstDisplayDate = [DCDateUtility getInitialDateForCalendarDisplay:firstDisplayDate withAdderValue:-5];
+        currentWeekDatesArray = [DCDateUtility getFiveDaysOfWeekFromDate:firstDisplayDate];
+    }
+}
 
-//#pragma mark - administer view tag delegate method called
-//- (void)administerMedicationWithMedicationSlots: (NSDictionary *)slotsDictionary
-//                                    atIndexPath:(NSIndexPath *)indexPath withWeekDate:(NSDate *) date {
-//    
-//    [self displayAdministrationViewForMedicationSlot:slotsDictionary atIndexPath:indexPath withWeekDate:date];
-//}
+- (void)modifyWeekDatesInCalendarTopPortion {
+    
+    if (calendarDateDisplayViewController) {
+        calendarDateDisplayViewController.currentWeekDateArray = currentWeekDatesArray;
+    }
+}
+
+- (void)reloadCalendarTopPortion {
+    if (calendarDateDisplayViewController) {
+        [calendarDateDisplayViewController displayDatesInView];
+    }
+    [self populateMonthYearLabel];
+}
+
+- (void)reloadAndUpdatePrescriberMedicationDetails {
+    if (prescriberMedicationListViewController) {
+        prescriberMedicationListViewController.currentWeekDatesArray = currentWeekDatesArray;
+        [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
+    }
+}
+
 
 #pragma mark - DCAddMedicationViewControllerDelegate implementation
 
