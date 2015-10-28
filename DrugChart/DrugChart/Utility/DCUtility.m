@@ -417,9 +417,9 @@
                                               withInitialMonthLength:(NSInteger)length {
     
     NSDictionary *monthAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                     [UIFont fontWithName:@"HelveticaNeue-Medium" size:22.0f], NSFontAttributeName, [UIColor blackColor], NSForegroundColorAttributeName, nil];
+                                     [UIFont systemFontOfSize:22.0f weight:UIFontWeightMedium], NSFontAttributeName, [UIColor blackColor], NSForegroundColorAttributeName, nil];
     NSDictionary *yearAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    [UIFont fontWithName:@"HelveticaNeue-Light" size:22.0f], NSFontAttributeName, [UIColor blackColor], NSForegroundColorAttributeName, nil];
+                                    [UIFont systemFontOfSize:22.0f weight:UIFontWeightLight], NSFontAttributeName, [UIColor blackColor], NSForegroundColorAttributeName, nil];
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:displayString];
     [attributedString setAttributes:monthAttributes range:NSMakeRange(0, displayString.length)];
     [attributedString setAttributes:yearAttributes range:NSMakeRange(displayString.length - 4, 4)];
