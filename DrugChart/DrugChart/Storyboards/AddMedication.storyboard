@@ -2853,6 +2853,7 @@
                     <connections>
                         <outlet property="medicationDetailsTableView" destination="9ht-ry-JsQ" id="wNT-fI-INY"/>
                         <outlet property="orderSetLabel" destination="lQ1-lm-LPM" id="2ih-Xl-5VL"/>
+                        <outlet property="segmentedContolTopLayoutViewHeight" destination="e3D-9h-LCg" id="CZF-kf-S1G"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G1P-hh-eve" userLabel="First Responder" sceneMemberID="firstResponder"/>

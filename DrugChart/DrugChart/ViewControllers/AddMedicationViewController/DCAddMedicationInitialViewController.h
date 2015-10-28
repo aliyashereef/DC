@@ -22,6 +22,8 @@
 @property (nonatomic, assign) id <DCAddMedicationViewControllerDelegate> delegate;
 @property (nonatomic, strong) NSString *patientId;
 @property (nonatomic, strong) DCMedicationScheduleDetails *selectedMedication;
+@property (nonatomic, assign) BOOL isEditMedication;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *segmentedContolTopLayoutViewHeight;
 
 
 @end

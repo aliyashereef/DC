@@ -59,14 +59,19 @@
 - (void)configureNavigationBar {
     
     addButton = [[UIBarButtonItem alloc]
-                                  initWithTitle:DONE_BUTTON_TITLE style:UIBarButtonItemStylePlain  target:self action:@selector(addMedicationButtonPressed:)];
+                                  initWithTitle:SAVE_BUTTON_TITLE style:UIBarButtonItemStylePlain  target:self action:@selector(addMedicationButtonPressed:)];
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:CANCEL_BUTTON_TITLE  style:UIBarButtonItemStylePlain target:self action:@selector(addMedicationCancelButtonPressed:)];
     self.navigationItem.rightBarButtonItem = addButton;
     self.navigationItem.leftBarButtonItem = cancelButton;
     UIView *titleView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 150, 50)];
     UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 150, 50)];
     titleLabel.textAlignment = NSTextAlignmentCenter;
-    [titleLabel setText:ADD_MEDICATION];
+    if (self.isEditMedication) {
+        [titleLabel setText:EDIT_MEDICATION];
+        self.segmentedContolTopLayoutViewHeight.constant = -50;
+    } else {
+        [titleLabel setText:ADD_MEDICATION];
+    }
     [titleView addSubview:titleLabel];
     self.navigationItem.titleView = titleView;
     self.navigationItem.rightBarButtonItem.enabled = false;
@@ -78,6 +83,7 @@
     medicationDetailsTableView.layoutMargins = UIEdgeInsetsZero;
     medicationDetailsTableView.separatorInset = UIEdgeInsetsZero;
     self.preferredContentSize = CGSizeMake(medicationDetailsTableView.contentSize.width, medicationDetailsTableView.frame.size.height);
+    [self loadViewIfNeeded];
 }
 
 //Configuring the medication name cell in the medication detail table view.If the table view is loaded before the medication name is selected,it is loaded with the place holder string.
@@ -173,6 +179,7 @@
     DCDateTableViewCell *cell = [medicationDetailsTableView dequeueReusableCellWithIdentifier:kDateCellID];
     cell.layoutMargins = UIEdgeInsetsZero;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.isEditMedication = self.isEditMedication;
     if (cell == nil) {
         cell = [[DCDateTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kDateCellID];
     }
@@ -253,8 +260,6 @@
 //                                [DCDateUtility getDateInCurrentTimeZone:[NSDate date]] dateAndTime:YES];
         self.selectedMedication.startDate = dateString;
         [tableCell configureContentCellWithContent:dateString];
-    } else {
-        [tableCell configureContentCellWithContent:self.selectedMedication.startDate];
     }
     [tableCell configureContentCellWithContent:self.selectedMedication.startDate];
     return tableCell;
@@ -304,6 +309,13 @@
 }
 
 - (void)configureNoEndDateTableCellDisplayBasedOnSwitchState {
+    if(_isEditMedication) {
+        if (self.selectedMedication.hasWarning) {
+            lastSection = eFourthSection;
+        } else {
+            lastSection = eThirdSection;
+        }
+    }
     
     //hide/show no date table cell
     if (self.selectedMedication.noEndDate) {
@@ -937,7 +949,14 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    if(_isEditMedication) {
+        if (self.selectedMedication.hasWarning) {
+            lastSection = eFourthSection;
+        } else {
+            lastSection = eThirdSection;
+        }
+    }
+
     //shrink already opened date picker cell
     [self resignKeyboard];
     if ((indexPath.section != _datePickerIndexPath.section)) {
@@ -959,15 +978,19 @@
     
     //add medication button action
     doneClicked = YES;
-    [medicationDetailsTableView reloadData];
-    [self configureInstructionForMedication];
-    if ([DCAddMedicationHelper selectedMedicationDetailsAreValid:self.selectedMedication]) {
-        if ([DCAPPDELEGATE isNetworkReachable]) {
-            [addButton setEnabled:NO];
-            [self callAddMedicationWebService];
-        } 
+    if (self.isEditMedication) {
+        // To Do: API need to be integrated.
+    } else {
+        [medicationDetailsTableView reloadData];
+        [self configureInstructionForMedication];
+        if ([DCAddMedicationHelper selectedMedicationDetailsAreValid:self.selectedMedication]) {
+            if ([DCAPPDELEGATE isNetworkReachable]) {
+                [addButton setEnabled:NO];
+                [self callAddMedicationWebService];
+            } 
+        }
     }
- }
+}
 
 - (void)addMedicationCancelButtonPressed :(id)sender {
     

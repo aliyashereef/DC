@@ -298,6 +298,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
 
         addMedicationViewController?.patientId = self.patientId as String
         addMedicationViewController?.selectedMedication = medicationScheduleDetails
+        addMedicationViewController?.isEditMedication = true
         let navigationController : UINavigationController? = UINavigationController(rootViewController: addMedicationViewController!)
         navigationController?.modalPresentationStyle = UIModalPresentationStyle.Popover
         self.presentViewController(navigationController!, animated: true, completion: nil)
@@ -308,7 +309,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
 
         let cell = medicationTableView!.cellForRowAtIndexPath(indexPath) as! PrescriberMedicationTableViewCell?
 
-        popover?.sourceRect = CGRectMake(cell!.editButton.bounds.origin.x - 200,cell!.editButton.bounds.origin.y - 300,310,690);
+        popover?.sourceRect = CGRectMake(cell!.editButton.bounds.origin.x - 205,cell!.editButton.bounds.origin.y - 300,310,690);
         
         popover!.sourceView = cell?.editButton
     }
