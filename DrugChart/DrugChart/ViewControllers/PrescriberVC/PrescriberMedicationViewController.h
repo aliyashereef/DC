@@ -21,4 +21,6 @@
 -(void)reloadAndUpdatePrescriberMedicationDetails;
 - (void)modifyWeekDatesInCalendarTopPortion;
 - (void)reloadCalendarTopPortion;
+- (void)fetchMedicationListForPatient;
+
 @end

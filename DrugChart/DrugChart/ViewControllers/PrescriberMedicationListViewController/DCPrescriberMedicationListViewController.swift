@@ -179,6 +179,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                     parentViewController.reloadAndUpdatePrescriberMedicationDetails()
                     parentViewController.modifyWeekDatesInCalendarTopPortion()
                     parentViewController.reloadCalendarTopPortion()
+                    parentViewController.fetchMedicationListForPatient()
                 }
         }
     }
@@ -198,6 +199,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                     parentViewController.reloadAndUpdatePrescriberMedicationDetails()
                     parentViewController.modifyWeekDatesInCalendarTopPortion()
                     parentViewController.reloadCalendarTopPortion()
+                    parentViewController.fetchMedicationListForPatient()
                 }
         }
     }
@@ -264,7 +266,6 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             let statusView : DCMedicationAdministrationStatusView = DCMedicationAdministrationStatusView(frame: viewFrame)
             statusView.delegate = self
             statusView.tag = tag
-            statusView.weekdate = currentWeekDatesArray.objectAtIndex(tag) as? NSDate
             statusView.currentIndexPath = indexPath
             statusView.backgroundColor = UIColor.whiteColor()
             statusView.updateAdministrationStatusViewWithMedicationSlotDictionary(slotDictionary)

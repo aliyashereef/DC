@@ -127,10 +127,10 @@
                                                         startWeekDate:(NSDate *)startWeekDate
                                                           endWeekDate:(NSDate *)endWeekDate {
     
-    NSDate *calculatedStartDate = nil;
+    NSDate *calculatedStartDate;
     if ([medicationEndDate compare:startWeekDate] == NSOrderedAscending) {
         // medication has ended before current week
-        
+        calculatedStartDate = nil;
     } else {
         if ([medicationStartDate compare:startWeekDate] == NSOrderedAscending ||
             [medicationStartDate compare:startWeekDate] == NSOrderedSame) {
@@ -149,10 +149,10 @@
                                  startWeekDate:(NSDate *)startWeekDate
                                  endWeekDate:(NSDate *)endWeekDate {
     
-    NSDate *calculatedEndDate = nil;
+    NSDate *calculatedEndDate;
     if ([medicationEndDate compare:startWeekDate] == NSOrderedAscending) {
         // medication has ended before current week
-        
+        calculatedEndDate = nil;
     } else {
         if ([medicationEndDate compare:endWeekDate] == NSOrderedAscending ||
             [medicationEndDate compare:endWeekDate] == NSOrderedSame) {
