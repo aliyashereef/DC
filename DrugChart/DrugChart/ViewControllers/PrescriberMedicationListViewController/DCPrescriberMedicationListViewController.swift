@@ -206,7 +206,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     func displayPreviousWeekAdministrationDetailsInTableView(medicationCell : PrescriberMedicationTableViewCell, isLastCell:Bool) {
         
         let calendarWidth : CGFloat = (DCUtility.getMainWindowSize().width - MEDICATION_VIEW_WIDTH);
-        UIView.animateWithDuration(1.0, animations: { () -> Void in
+        UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
             if (medicationCell.leadingSpaceMasterToContainerView.constant >= MEDICATION_VIEW_WIDTH) {
                 medicationCell.leadingSpaceMasterToContainerView.constant = calendarWidth
             }
@@ -226,7 +226,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     
     func displayNextWeekAdministrationDetailsInTableView(medicationCell : PrescriberMedicationTableViewCell, isLastCell:Bool) {
         let calendarWidth : CGFloat = (DCUtility.getMainWindowSize().width - MEDICATION_VIEW_WIDTH);
-        UIView.animateWithDuration(1.0, animations: { () -> Void in
+        UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
             if (medicationCell.leadingSpaceMasterToContainerView.constant <= -MEDICATION_VIEW_WIDTH) {
                 medicationCell.leadingSpaceMasterToContainerView.constant = -calendarWidth
             }
