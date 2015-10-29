@@ -133,11 +133,31 @@
     return cell;
 }
 
+- (DCDosageMultiLineCell *)getDosageCellAtIndexPath: (NSIndexPath *)indexPath {
+    DCDosageMultiLineCell *cell = [medicationDetailsTableView dequeueReusableCellWithIdentifier:kDosageMultiLineCellID];
+    cell.layoutMargins = UIEdgeInsetsZero;
+    if (cell == nil) {
+        cell = [[DCDosageMultiLineCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kDosageMultiLineCellID];
+    }
+    //check if dosage is valid, if not valid highlight field in red
+    if (doneClicked) {
+        if ([self.selectedMedication.dosage isEqualToString:EMPTY_STRING] || self.selectedMedication.dosage == nil) {
+            cell.titleLabel.textColor = [UIColor redColor];
+        } else {
+            cell.titleLabel.textColor = [UIColor blackColor];
+        }
+    }
+    cell.titleLabel.text = NSLocalizedString(@"DOSAGE", @"Dosage cell title");
+    cell.descriptionLabel.numberOfLines = 0;
+    cell.descriptionLabel.text = self.selectedMedication.dosage;
+    return cell;
+}
+
 - (DCAddMedicationContentCell *)getUpdatedMedicationDetailsCell:(DCAddMedicationContentCell *)cell
                                                     atIndexPath:(NSIndexPath *)indexPath {
     
     //doneClicked bool checks if validation is to be done
-    if (indexPath.row == DOSAGE_INDEX) {
+    if (indexPath.row == DOSAGE_INDEX && self.selectedMedication.dosage.length <= MAXIMUM_CHARACTERS_INCLUDED_IN_ONE_LINE) {
         //check if dosage is valid, if not valid highlight field in red
         if (doneClicked) {
             if ([self.selectedMedication.dosage isEqualToString:EMPTY_STRING] || self.selectedMedication.dosage == nil) {
@@ -877,15 +897,29 @@
         }
         break;
         case eFirstSection: { // first section will have warnings or medication details based on warnings section display
-            NSInteger indexValue = showWarnings ? WARNINGS_CELL_INDEX : MEDICATION_DETAILS_CELL_INDEX;
-            DCAddMedicationContentCell *contentCell = [self getPopulatedAddMedicationCellForIndexPath:indexPath forIndex:indexValue];
-            return contentCell;
+            if (!showWarnings) {
+                if (indexPath.row == DOSAGE_INDEX && self.selectedMedication.dosage.length > MAXIMUM_CHARACTERS_INCLUDED_IN_ONE_LINE) {
+                    DCDosageMultiLineCell *dosageCell = [self getDosageCellAtIndexPath:indexPath];
+                    return dosageCell;
+                } else {
+                    DCAddMedicationContentCell *contentCell = [self getPopulatedAddMedicationCellForIndexPath:indexPath forIndex:MEDICATION_DETAILS_CELL_INDEX];
+                    return contentCell;
+                }
+            } else {
+                DCAddMedicationContentCell *contentCell = [self getPopulatedAddMedicationCellForIndexPath:indexPath forIndex:WARNINGS_CELL_INDEX];
+                return contentCell;
+            }
         }
         break;
         case eSecondSection: {
             if (showWarnings) {
-                DCAddMedicationContentCell *contentCell = [self getPopulatedAddMedicationCellForIndexPath:indexPath forIndex:MEDICATION_DETAILS_CELL_INDEX];
-                return contentCell;
+                if (indexPath.row == DOSAGE_INDEX && self.selectedMedication.dosage.length > MAXIMUM_CHARACTERS_INCLUDED_IN_ONE_LINE) {
+                    DCDosageMultiLineCell *dosageCell = [self getDosageCellAtIndexPath:indexPath];
+                    return dosageCell;
+                } else {
+                    DCAddMedicationContentCell *contentCell = [self getPopulatedAddMedicationCellForIndexPath:indexPath forIndex:MEDICATION_DETAILS_CELL_INDEX];
+                    return contentCell;
+                }
             } else {
                 DCInstructionsTableCell *instructionsCell = [self getInstructionsTableCell];
                 return instructionsCell;
@@ -929,20 +963,39 @@
             nameHeight = (nameHeight < TABLE_CELL_DEFAULT_ROW_HEIGHT) ? TABLE_CELL_DEFAULT_ROW_HEIGHT : nameHeight;
         }
         return nameHeight;
-    } else {
+    } else if (indexPath.section == eFirstSection){
+        if (!showWarnings) {
+            if (indexPath.row == DOSAGE_INDEX) {
+                // calculate the height for the given text
+                if (self.selectedMedication.dosage.length > MAXIMUM_CHARACTERS_INCLUDED_IN_ONE_LINE) {
+                    CGSize textSize = [DCUtility getTextViewSizeWithText:self.selectedMedication.dosage maxWidth:258 font:[UIFont systemFontOfSize:15]];
+                    return textSize.height + 40; // padding size of 40
+                }
+            }
+        }
+    } else if (indexPath.section == eSecondSection){
         if (showWarnings) {
-            //If showWarnings bool is true, it denotes warnings Section is to be shown, else Warnings Section is not displayed
-            if (indexPath.section == eThirdSection) {
-                return INSTRUCTIONS_ROW_HEIGHT;
-            } else if (indexPath.section == eFourthSection) {
-                return ([self indexPathHasPicker:indexPath] ? PICKER_VIEW_CELL_HEIGHT : medicationDetailsTableView.rowHeight);
-            }
+                if (indexPath.row == DOSAGE_INDEX) {
+                    // calculate the height for the given text
+                    if (self.selectedMedication.dosage.length > MAXIMUM_CHARACTERS_INCLUDED_IN_ONE_LINE) {
+                        CGSize textSize = [DCUtility getTextViewSizeWithText:self.selectedMedication.dosage maxWidth:258 font:[UIFont systemFontOfSize:15]];
+                        return textSize.height + 40; // padding size of 40
+                    }
+                }else {
+                    return TABLE_CELL_DEFAULT_ROW_HEIGHT;
+                }
         } else {
-            if (indexPath.section == eSecondSection) {
-                return INSTRUCTIONS_ROW_HEIGHT;
-            } else if (indexPath.section == eThirdSection) {
-                return ([self indexPathHasPicker:indexPath] ? PICKER_VIEW_CELL_HEIGHT : medicationDetailsTableView.rowHeight);
-            }
+            return INSTRUCTIONS_ROW_HEIGHT;
+        }
+    } else if (indexPath.section == eThirdSection){
+        if (showWarnings) {
+            return INSTRUCTIONS_ROW_HEIGHT;
+        } else {
+            return ([self indexPathHasPicker:indexPath] ? PICKER_VIEW_CELL_HEIGHT : medicationDetailsTableView.rowHeight);
+        }
+    } if (indexPath.section == eFourthSection) {
+        if (showWarnings) {
+            return ([self indexPathHasPicker:indexPath] ? PICKER_VIEW_CELL_HEIGHT : medicationDetailsTableView.rowHeight);
         }
     }
     return TABLE_CELL_DEFAULT_ROW_HEIGHT;
@@ -1133,6 +1186,7 @@
         self.selectedMedication.instruction = instructionsCell.instructionsTextView.text;
     }
 }
+    
 #pragma mark - UIPopOverPresentationCOntroller Delegate
 
 - (BOOL)popoverPresentationControllerShouldDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {

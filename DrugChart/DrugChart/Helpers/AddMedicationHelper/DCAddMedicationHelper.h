@@ -38,11 +38,12 @@
 #define WARNINGS_CELL_INDEX                     0
 #define MEDICATION_DETAILS_CELL_INDEX           1
 #define ADMINISTRATION_CELL_INDEX               2
+#define MAXIMUM_CHARACTERS_INCLUDED_IN_ONE_LINE 15             
 
 //Constants
 static NSString *kDateCellID = @"datecell";
 static NSString *kDatePickerID = @"pickercell";
-
+static NSString *kDosageMultiLineCellID = @"DosageMultiLineCell";
 typedef enum : NSInteger {
     
     eZerothSection,
