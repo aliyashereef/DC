@@ -73,16 +73,20 @@
                 [adminDetails addObject:[[scheduleDict objectForKey:DRUG_ADMINISTRATIONS] objectAtIndex:0]];
             }
             administrationArray = adminDetails;
-            NSDictionary *scheduleDict = @{@"scheduleId" : schedulesDictionary[@"scheduleId"], @"times" : schedulesDictionary[@"times"], DRUG_ADMINISTRATIONS : administrationArray};
-            schedulesDictionary = scheduleDict;
+//            NSDictionary *scheduleDict = @{@"scheduleId" : schedulesDictionary[@"scheduleId"], @"times" : schedulesDictionary[@"times"], DRUG_ADMINISTRATIONS : administrationArray};
+//            schedulesDictionary = scheduleDict;
+            self.administrationDetailsArray = [self getAdministrationDetailsForMedication:administrationArray];
+            NSMutableArray *slotsArray = [self getMedicationScheduleTimeArrayForWhenRequiredMedicationsForStartWeekDate:weekStartDate andEndWeekDate:weekEndDate withActiveStatus:self.isActive];
+            self.timeChart = slotsArray;
         } else {
             administrationArray = [[NSMutableArray alloc] initWithArray:[schedulesDictionary objectForKey:DRUG_ADMINISTRATIONS]];
-        }
-        self.administrationDetailsArray = [self getAdministrationDetailsForMedication:administrationArray];
-        NSMutableArray *slotsArray = [self getMedicationScheduleTimeArrayFromScheduleDictionary:schedulesDictionary
+            self.administrationDetailsArray = [self getAdministrationDetailsForMedication:administrationArray];
+            NSMutableArray *slotsArray = [self getMedicationScheduleTimeArrayFromScheduleDictionary:schedulesDictionary
                                                                                   withStartWeekDate:weekStartDate andEndWeekDate:weekEndDate withActiveStatus:self.isActive];
-
-        self.timeChart = slotsArray;
+            
+            self.timeChart = slotsArray;
+        }
+      
         if ([schedulesDictionary valueForKey:DRUG_SCHEDULE_TIMES]) {
             self.scheduleTimesArray = [schedulesDictionary valueForKey:DRUG_SCHEDULE_TIMES];
         }
@@ -179,6 +183,49 @@
     }
     return calculatedEndDate;
 }
+
+
+- (NSMutableArray *)getMedicationScheduleTimeArrayForWhenRequiredMedicationsForStartWeekDate:(NSDate *)startWeekDate
+                                                          andEndWeekDate:(NSDate *)endWeekDate
+                                                        withActiveStatus:(BOOL)isActive {
+    
+    NSMutableArray *timeSlotsArray = [[NSMutableArray alloc] init];
+    NSDate *startDate = [DCDateUtility dateFromSourceString:self.startDate];
+    NSDate *endDate;
+    if (self.endDate == nil) {
+        endDate = endWeekDate; //max limit to be displayed is end week date
+    }
+    else {
+        endDate = [DCDateUtility dateFromSourceString:self.endDate];
+    }
+    
+    NSDate *calculatedStartDate = [self getStartDateForMedicationStartdate:startDate medicationEndDate:endDate startWeekDate:startWeekDate endWeekDate:endWeekDate];
+    NSDate *calculatedEndDate = [self getEndDateForMedicationStartdate:startDate medicationEndDate:endDate startWeekDate:startWeekDate endWeekDate:endWeekDate];
+    NSDate *nextDate;
+    if (calculatedStartDate != nil && calculatedEndDate != nil) {
+        for (nextDate = calculatedStartDate ; [nextDate compare:calculatedEndDate] <= 0 ; nextDate = [nextDate dateByAddingTimeInterval:24*60*60] ) {
+            NSMutableArray *medicationSlotsArray = [[NSMutableArray alloc] init];
+            NSDateFormatter *shortDateFormatter = [[NSDateFormatter alloc] init];
+            [shortDateFormatter setDateFormat:SHORT_DATE_FORMAT];
+            [shortDateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
+            NSString *medicationDateString = [shortDateFormatter stringFromDate:nextDate];
+            NSPredicate *datePredicate = [NSPredicate predicateWithFormat:@"scheduledDateTime.description contains[cd] %@", medicationDateString];
+            NSArray *resultsArray = [self.administrationDetailsArray filteredArrayUsingPredicate:datePredicate];
+            NSLog(@"resultsArray is %@", resultsArray);
+            for (DCMedicationAdministration *administration  in resultsArray) {
+                DCMedicationSlot *medicationSlot = [[DCMedicationSlot alloc] init];
+                medicationSlot.time = administration.scheduledDateTime;
+                //TODO:set for demo purpose since there is no value for medication slot status
+                medicationSlot.status = IS_GIVEN;
+                medicationSlot.medicationAdministration = administration;
+                [medicationSlotsArray addObject:medicationSlot];
+            }
+            [timeSlotsArray addObject:@{MED_DATE:medicationDateString,MED_DETAILS:medicationSlotsArray}];
+        }
+    }
+    return timeSlotsArray;
+}
+
 
 - (NSMutableArray *)getMedicationScheduleTimeArrayFromScheduleDictionary:(NSDictionary *)scheduleDictionary
                                                            withStartWeekDate:(NSDate *)startWeekDate
