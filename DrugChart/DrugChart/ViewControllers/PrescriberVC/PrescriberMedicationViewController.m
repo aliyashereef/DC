@@ -78,6 +78,7 @@ typedef enum : NSUInteger {
     [self setCurrentWeekDatesArrayFromToday];
     [self populateMonthYearLabel];
     [self addAddMedicationButtonToNavigationBar];
+    [self hideCalendarTopPortion];
     [self fillPrescriberMedicationDetailsInCalendarView];
     [self addTopDatePortionInCalendar];
     [self obtainReferencesToChildViewControllersAddedFromStoryBoard];
@@ -216,6 +217,14 @@ typedef enum : NSUInteger {
     }
 }
 
+//Celendar top portion is hidden initially, which has to be updated after reload
+- (void)hideCalendarTopPortion {
+    
+    [calendarDaysDisplayView setHidden:YES];
+    [calendarTopHolderView setHidden:YES];
+}
+
+
 // fill in values to the allergy and alerts arrays.
 - (void)configureAlertsAndAllergiesArrayForDisplay {
     
@@ -266,10 +275,8 @@ typedef enum : NSUInteger {
 - (void)fetchMedicationListForPatient {
     
     [activityIndicatorView startAnimating];
-    [calendarDaysDisplayView setHidden:YES];
-    [calendarTopHolderView setHidden:YES];
+    [self.view bringSubviewToFront:activityIndicatorView];
     [noMedicationsAvailableLabel setHidden:YES];
-    [medicationListHolderView setHidden:YES];
     [self fetchMedicationListForPatientId:self.patient.patientId
                     withCompletionHandler:^(NSArray *result, NSError *error) {
                         if (!error) {
@@ -566,7 +573,6 @@ typedef enum : NSUInteger {
         [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
     }
 }
-
 
 #pragma mark - DCAddMedicationViewControllerDelegate implementation
 

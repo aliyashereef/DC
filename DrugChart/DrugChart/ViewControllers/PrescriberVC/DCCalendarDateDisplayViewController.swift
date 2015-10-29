@@ -63,7 +63,7 @@ import UIKit
     // MARK : Next and previous and today actions
     func displayPreviousWeekDatesInCalendar() {
         
-        UIView.animateWithDuration(1.0, animations: { () -> Void in
+        UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
             let calendarWidth : CGFloat = (DCUtility.getMainWindowSize().width - MEDICATION_VIEW_WIDTH);
             if (self.calendarViewLeadingConstraint.constant >= MEDICATION_VIEW_WIDTH) {
                 self.calendarViewLeadingConstraint.constant = calendarWidth
@@ -75,7 +75,7 @@ import UIKit
     }
     
     func displayNextWeekDatesInCalendar() {
-        UIView.animateWithDuration(1.0, animations: { () -> Void in
+        UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
             let calendarWidth : CGFloat = (DCUtility.getMainWindowSize().width - MEDICATION_VIEW_WIDTH);
             if (self.calendarViewLeadingConstraint.constant <= -MEDICATION_VIEW_WIDTH) {
                 self.calendarViewLeadingConstraint.constant = -calendarWidth
