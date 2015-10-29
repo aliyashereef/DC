@@ -83,7 +83,9 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         } else {
             if (medicationDetails?.medicineCategory != WHEN_REQUIRED) {
                 errorMessage = NSLocalizedString("NO_ADMINISTRATION_DETAILS", comment: "no medication slots today")
-            } 
+            } else {
+                NSLog("****** When Required ******")
+            }
             addAdministerView()
         }
         if (errorMessage != EMPTY_STRING) {
@@ -322,7 +324,13 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     func getMedicationAdministrationDictionary() -> NSDictionary {
         
         let administerDictionary : NSMutableDictionary = [:]
-        let scheduledDateString = DCDateUtility.convertDate(administerViewController?.medicationSlot?.medicationAdministration?.scheduledDateTime, fromFormat:"yyyy-MM-dd hh:mm:ss 'Z'", toFormat:"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+        let scheduledDateString : NSString
+        if (administerViewController?.medicationSlot?.medicationAdministration?.scheduledDateTime != nil) {
+            scheduledDateString = DCDateUtility.convertDate(administerViewController?.medicationSlot?.medicationAdministration?.scheduledDateTime, fromFormat:"yyyy-MM-dd hh:mm:ss 'Z'", toFormat:"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+        } else {
+            scheduledDateString = DCDateUtility.convertDate(NSDate(), fromFormat:"yyyy-MM-dd hh:mm:ss 'Z'", toFormat:"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+            NSLog("scheduledDateString is %@", scheduledDateString)
+        }
         administerDictionary.setValue(scheduledDateString, forKey:SCHEDULED_ADMINISTRATION_TIME)
         let dateFormatter : NSDateFormatter = NSDateFormatter.init()
         dateFormatter.dateFormat = EMIS_DATE_FORMAT
@@ -332,7 +340,6 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         } else {
             administerDictionary.setValue(dateFormatter.stringFromDate(NSDate()), forKey:ACTUAL_ADMINISTRATION_TIME)
         }
-
         administerDictionary.setValue(administerViewController?.medicationSlot?.medicationAdministration?.status, forKey: ADMINISTRATION_STATUS)
         if let administratingStatus : Bool = administerViewController?.medicationSlot?.medicationAdministration?.isSelfAdministered.boolValue {
             if administratingStatus == false {
@@ -340,18 +347,14 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
             }
             administerDictionary.setValue(administratingStatus, forKey: IS_SELF_ADMINISTERED)
         }
-        
         //TO DO : Configure the dosage and batch number from the form.
         if let dosage = self.medicationDetails?.dosage {
             administerDictionary.setValue(dosage, forKey: ADMINISTRATING_DOSAGE)
         }
-
         if let batch = administerViewController?.medicationSlot?.medicationAdministration?.batch {
             administerDictionary.setValue(batch, forKey: ADMINISTRATING_BATCH)
         }
-
         let notes : NSString  = getAdministrationNotesBasedOnMedicationStatus ((administerViewController?.medicationSlot?.medicationAdministration?.status)!)
-        
         administerDictionary.setValue(notes, forKey:ADMINISTRATING_NOTES)
         
         //TODO: currently hardcoded as ther is no expiry field in UI

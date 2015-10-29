@@ -34,6 +34,9 @@ class DCMedicationAdministrationStatusView: UIView {
     var administerButton: DCAdministerButton?
     var statusIcon : UIImageView?
     var statusLabel : UILabel?
+    var medicationCategory : NSString?
+    var startDate : NSDate?
+    var endDate : NSDate?
     
     override init(frame: CGRect) {
         
@@ -67,6 +70,7 @@ class DCMedicationAdministrationStatusView: UIView {
     func updateAdministrationStatusViewWithMedicationSlotDictionary(slotDictionary : NSDictionary) {
         
         medicationSlotDictionary = slotDictionary.copy() as? NSDictionary
+       // NSLog("medicationSlotDictionary is %@", medicationSlotDictionary!)
         if let timeSlotsArray  = medicationSlotDictionary?["timeSlots"] {
             if timeSlotsArray.count > 0 {
                 configureStatusViewForTimeArray(timeSlotsArray as! [DCMedicationSlot])
@@ -94,7 +98,7 @@ class DCMedicationAdministrationStatusView: UIView {
         let initialSlotDateString = DCDateUtility.convertDate(initialSlot?.time, fromFormat: DEFAULT_DATE_FORMAT, toFormat: SHORT_DATE_FORMAT)
         if (currentDateString == initialSlotDateString) {
             // both falls on the same day
-            configureStatusViewForTodayCurrentDay()
+            configureStatusViewForToday()
         } else {
             if (initialSlot!.time.compare(currentSystemDate) == NSComparisonResult.OrderedDescending) {
                 //next day
@@ -104,7 +108,7 @@ class DCMedicationAdministrationStatusView: UIView {
                 configureStatusViewForPastDay()
             }
         }
-    }
+      }
     
     func adjustStatusLabelAndImageViewForCurrentDay () {
         
@@ -114,7 +118,7 @@ class DCMedicationAdministrationStatusView: UIView {
         statusLabel?.center = CGPointMake(self.bounds.size.width/1.7, self.bounds.size.height/2);
     }
     
-    func configureStatusViewForTodayCurrentDay() {
+    func configureStatusViewForToday() {
         
         //populate view for current day, display medication due at initial time
         var overDueCount : NSInteger = 0
@@ -163,12 +167,14 @@ class DCMedicationAdministrationStatusView: UIView {
             if (nearestSlot != nil) {
                 if (nearestSlot?.medicationAdministration?.actualAdministrationTime == nil) {
                     // get date string from the nearest slot time
-                     let dueTime = DCDateUtility.convertDate(nearestSlot?.time, fromFormat: DEFAULT_DATE_FORMAT, toFormat: TWENTYFOUR_HOUR_FORMAT)
-                    adjustStatusLabelAndImageViewForCurrentDay()
-                    //Populate due label
-                    statusIcon?.image = ADMINISTRATION_DUE_IMAGE
-                    if let time = dueTime {
-                        statusLabel?.text = String(format: "Due at %@", time)
+                    if (medicationCategory != WHEN_REQUIRED) {
+                        let dueTime = DCDateUtility.convertDate(nearestSlot?.time, fromFormat: DEFAULT_DATE_FORMAT, toFormat: TWENTYFOUR_HOUR_FORMAT)
+                        adjustStatusLabelAndImageViewForCurrentDay()
+                        //Populate due label
+                        statusIcon?.image = ADMINISTRATION_DUE_IMAGE
+                        if let time = dueTime {
+                            statusLabel?.text = String(format: "Due at %@", time)
+                        }
                     }
                 } else {
                     if ((administeredCount == timeArray.count) || (administeredCount + omittedRefusalCount == timeArray.count)) {
@@ -234,10 +240,12 @@ class DCMedicationAdministrationStatusView: UIView {
             statusIcon?.image = ADMINISTRATION_SUCCESS_IMAGE
         } else if (overDueCount > 0) {
             //display Overdue label, indicate label with text 'Overdue'
-            statusIcon?.hidden = true
-            statusLabel?.hidden = false
-            statusLabel?.textColor = OVERDUE_FONT_COLOR
-            statusLabel?.text = NSLocalizedString("OVERDUE", comment: "Some medications has not been administered till now")
+            if (medicationCategory != WHEN_REQUIRED) {
+                statusIcon?.hidden = true
+                statusLabel?.hidden = false
+                statusLabel?.textColor = OVERDUE_FONT_COLOR
+                statusLabel?.text = NSLocalizedString("OVERDUE", comment: "Some medications has not been administered till now")
+            }
         } else if (ommittedRefusalCount > 0) {
             //display cross symbol
             statusLabel?.hidden = true
@@ -248,13 +256,15 @@ class DCMedicationAdministrationStatusView: UIView {
     
     func configureStatusViewForComingDay () {
         
-        // display no of pending medications
-        let pendingCount : NSInteger = timeArray.count
-        statusLabel?.hidden = false
-        statusIcon?.hidden = true
-        statusLabel?.textColor = PENDING_FONT_COLOR
-        statusLabel?.text = String(format: "%i %@", pendingCount, NSLocalizedString("PENDING", comment: ""))
-    } 
+        // display no of pending medications for regular medications
+        if (medicationCategory != WHEN_REQUIRED) {
+            let pendingCount : NSInteger = timeArray.count
+            statusLabel?.hidden = false
+            statusIcon?.hidden = true
+            statusLabel?.textColor = PENDING_FONT_COLOR
+            statusLabel?.text = String(format: "%i %@", pendingCount, NSLocalizedString("PENDING", comment: ""))
+        }
+    }
     
     @IBAction func administerButtonClicked (sender: UIButton ) {
         

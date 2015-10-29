@@ -60,10 +60,24 @@
     NSNumber *activeValue = [NSNumber numberWithInt:[[medicationDictionary valueForKey:DRUG_IS_ACTIVE] intValue]];
     self.isActive = [activeValue boolValue];
     NSArray *scheduleArray = (NSArray *)[medicationDictionary objectForKey:DRUG_SCHEDULES];
-    
+    NSLog(@"****** %@", self.name);
+    NSLog(@"\\\\\\\\ %@", self.medicineCategory);
+    NSLog(@"scheduleArray is %@", scheduleArray);
     if ([scheduleArray count] > 0) {
+        NSMutableArray *administrationArray;
         NSDictionary *schedulesDictionary = [scheduleArray objectAtIndex:0];
-        NSMutableArray *administrationArray = [[NSMutableArray alloc] initWithArray:[schedulesDictionary objectForKey:DRUG_ADMINISTRATIONS]];
+        if ([self.medicineCategory isEqualToString:WHEN_REQUIRED]) {
+            NSMutableArray *adminDetails = [[NSMutableArray alloc] init];
+            for (NSDictionary *scheduleDict in scheduleArray) {
+                NSLog(@"scheduleDict is %@", scheduleDict);
+                [adminDetails addObject:[[scheduleDict objectForKey:DRUG_ADMINISTRATIONS] objectAtIndex:0]];
+            }
+            administrationArray = adminDetails;
+            NSDictionary *scheduleDict = @{@"scheduleId" : schedulesDictionary[@"scheduleId"], @"times" : schedulesDictionary[@"times"], DRUG_ADMINISTRATIONS : administrationArray};
+            schedulesDictionary = scheduleDict;
+        } else {
+            administrationArray = [[NSMutableArray alloc] initWithArray:[schedulesDictionary objectForKey:DRUG_ADMINISTRATIONS]];
+        }
         self.administrationDetailsArray = [self getAdministrationDetailsForMedication:administrationArray];
         NSMutableArray *slotsArray = [self getMedicationScheduleTimeArrayFromScheduleDictionary:schedulesDictionary
                                                                                   withStartWeekDate:weekStartDate andEndWeekDate:weekEndDate withActiveStatus:self.isActive];
@@ -176,7 +190,7 @@
     NSDate *startDate = [DCDateUtility dateFromSourceString:self.startDate];
     NSDate *endDate;
     if (self.endDate == nil) {
-        endDate = [[NSDate date] dateByAddingTimeInterval:21*24*60*60];
+        endDate = endWeekDate; //max limit to be displayed is end week date
     }
     else {
         endDate = [DCDateUtility dateFromSourceString:self.endDate];

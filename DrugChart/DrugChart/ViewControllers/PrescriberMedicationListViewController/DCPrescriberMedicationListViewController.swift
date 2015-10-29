@@ -65,6 +65,8 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                 medicationCell = PrescriberMedicationTableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: CELL_IDENTIFIER)
             }
             let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
+            NSLog("***** name is %@", medicationScheduleDetails.name)
+            NSLog("/// Medication Ctegory is %@", medicationScheduleDetails.medicineCategory)
             medicationCell?.editAndDeleteDelegate = self
             medicationCell?.indexPath = indexPath
             medicationCell?.isMedicationActive = medicationScheduleDetails.isActive
@@ -92,7 +94,6 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         
         displayMedicationListArray =  displayArray as NSMutableArray
         medicationTableView?.reloadData()
-        
     }
 
     //TODO: temporary logic for today button action.
@@ -305,11 +306,17 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             let xValue : CGFloat = CGFloat(tag) * viewWidth + CGFloat(tag) + 1;
             let viewFrame = CGRectMake(xValue, 0, viewWidth, 78.0)
             let statusView : DCMedicationAdministrationStatusView = DCMedicationAdministrationStatusView(frame: viewFrame)
+            let medicationSchedules = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
             statusView.delegate = self
             statusView.tag = tag
             statusView.currentIndexPath = indexPath
+            statusView.medicationCategory = medicationSchedules.medicineCategory
             statusView.backgroundColor = UIColor.whiteColor()
             statusView.updateAdministrationStatusViewWithMedicationSlotDictionary(slotDictionary)
+            // if (medicationSchedules.name?) {
+//            if (displayMedicationListArray.count >= indexPath.item) {
+//                statusView.updateViewForMedicationStartDate(startDate: medicationSchedules.startDate, endDate: medicationSchedules.endDate)
+//            }
             return statusView
     }
     
