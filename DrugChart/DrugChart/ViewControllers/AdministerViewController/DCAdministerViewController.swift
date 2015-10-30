@@ -92,9 +92,12 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         
         initialiseMedicationSlotObject()
         //check if early administration
-        if (medicationSlot?.time != nil) {
-            checkIfAdministrationIsEarly()
+        if (medicationDetails?.medicineCategory == WHEN_REQUIRED) {
             checkIfFrequentAdministrationForWhenRequiredMedication()
+        } else {
+            if (medicationSlot?.time != nil) {
+                checkIfAdministrationIsEarly()
+            }
         }
         administerTableView!.layoutMargins = UIEdgeInsetsZero
         administerTableView!.separatorInset = UIEdgeInsetsZero
@@ -183,21 +186,16 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func checkIfFrequentAdministrationForWhenRequiredMedication () {
         
         //check if frequent administration for when required medication
-        if (medicationDetails?.medicineCategory == WHEN_REQUIRED_VALUE) {
-            if (medicationSlotsArray.count > 0) {
-                let slotIndex = medicationSlotsArray.indexOf(medicationSlot!)
-                if (slotIndex != 0) {
-                    let previousMedicationSlot : DCMedicationSlot? = medicationSlotsArray[slotIndex! - 1]
-                    let currentSystemDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
-                    let nextMedicationTimeInterval : NSTimeInterval? = (previousMedicationSlot?.time)!.timeIntervalSinceDate(currentSystemDate)
-                    if (nextMedicationTimeInterval >= 2*60*60) {
-                        medicationSlot?.medicationAdministration.isEarlyAdministration = true
-                        medicationSlot?.medicationAdministration.isWhenRequiredEarlyAdministration = true
-                    } else {
-                        medicationSlot?.medicationAdministration.isEarlyAdministration = false
-                        medicationSlot?.medicationAdministration.isWhenRequiredEarlyAdministration = false
-                    }
-                }
+        if (medicationSlotsArray.count > 0) {
+            let previousMedicationSlot : DCMedicationSlot? = medicationSlotsArray.last
+            let currentSystemDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
+            let nextMedicationTimeInterval : NSTimeInterval? = currentSystemDate.timeIntervalSinceDate((previousMedicationSlot?.time)!)
+            if (nextMedicationTimeInterval <= 2*60*60) {
+                medicationSlot?.medicationAdministration.isEarlyAdministration = true
+                medicationSlot?.medicationAdministration.isWhenRequiredEarlyAdministration = true
+            } else {
+                medicationSlot?.medicationAdministration.isEarlyAdministration = false
+                medicationSlot?.medicationAdministration.isWhenRequiredEarlyAdministration = false
             }
         }
     }
@@ -288,7 +286,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         default:
             break
         }
-        
         return cell
     }
     
@@ -726,7 +723,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         
         //self.administerTableView.setContentOffset(CGPointMake(0, 130), animated: true)
         editingIndexPath = indexPath
-        
     }
     
     func enteredBatchDetails(batch : String) {

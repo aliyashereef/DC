@@ -165,14 +165,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
             let currentDateString : NSString? = DCDateUtility.convertDate(currentSystemDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: SHORT_DATE_FORMAT)
             let weekDateString : NSString? = DCDateUtility.convertDate(weekDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: SHORT_DATE_FORMAT)
             if (currentDateString != weekDateString) {
-//                let medicationStartDate : NSDate = DCDateUtility.dateFromSourceString(medicationDetails?.startDate)
-//                let medicationEndDate : NSDate = DCDateUtility.dateFromSourceString(medicationDetails?.endDate)
-//                if ( weekDate!.compare((medicationDetails?.estimatedStartDate)!) == NSComparisonResult.OrderedAscending /* || medicationEndDate.compare(weekDate) == NSComparisonResult.OrderedAscending*/) {
-                    //To Do : Medication
-                  //  errorMessage = NSLocalizedString("NO_ADMINISTRATION_DETAILS", comment: "no medication slots today")
-//                } else {
-                    errorMessage = NSLocalizedString("ADMINISTER_LATER", comment: "medication to be administered later")
-//                }
+                errorMessage = NSLocalizedString("NO_ADMINISTRATION_DETAILS", comment: "no medication slots today")
             }
         } else {
             errorMessage = NSLocalizedString("NO_ADMINISTRATION_DETAILS", comment: "no medication slots today")
@@ -201,7 +194,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
                         }
                     }
                 }
-                administerViewController?.medicationSlotsArray = medicationArray
+                administerViewController?.medicationSlotsArray = (medicationDetails?.medicineCategory == WHEN_REQUIRED) ? medicationSlotsArray : medicationArray
             }
             administerViewController?.medicationDetails = medicationDetails
             administerViewController?.alertMessage = errorMessage

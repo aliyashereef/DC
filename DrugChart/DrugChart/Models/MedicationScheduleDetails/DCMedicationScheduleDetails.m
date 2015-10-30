@@ -187,11 +187,9 @@
     NSDate *endDate;
     if (self.endDate == nil) {
         endDate = endWeekDate; //max limit to be displayed is end week date
-    }
-    else {
+    } else {
         endDate = [DCDateUtility dateFromSourceString:self.endDate];
     }
-    
     NSDate *calculatedStartDate = [self getStartDateForMedicationStartdate:startDate medicationEndDate:endDate startWeekDate:startWeekDate endWeekDate:endWeekDate];
     NSDate *calculatedEndDate = [self getEndDateForMedicationStartdate:startDate medicationEndDate:endDate startWeekDate:startWeekDate endWeekDate:endWeekDate];
     NSDate *nextDate;
