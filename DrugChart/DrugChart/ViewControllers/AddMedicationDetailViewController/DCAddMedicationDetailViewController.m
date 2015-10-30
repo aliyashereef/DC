@@ -315,7 +315,9 @@
         } else {
             if (_detailType != eOverrideReason) {
                 NSString *valueSelected = [_contentArray objectAtIndex:indexPath.row];
-                self.selectedEntry (valueSelected);
+                if (valueSelected != nil) {
+                    self.selectedEntry (valueSelected);
+                }
                 [self.navigationController popToRootViewControllerAnimated:YES];
             }
         }

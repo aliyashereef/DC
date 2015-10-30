@@ -363,6 +363,28 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         deleteMedicationAtIndexPath(indexPath)
     }
     
+    func editMedicationForSelectedIndexPath(indexPath: NSIndexPath) {
+        let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
+        let addMedicationViewController : DCAddMedicationInitialViewController? = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(ADD_MEDICATION_POPOVER_SB_ID) as? DCAddMedicationInitialViewController
+
+        addMedicationViewController?.patientId = self.patientId as String
+        addMedicationViewController?.selectedMedication = medicationScheduleDetails
+        addMedicationViewController?.isEditMedication = true
+        let navigationController : UINavigationController? = UINavigationController(rootViewController: addMedicationViewController!)
+        navigationController?.modalPresentationStyle = UIModalPresentationStyle.Popover
+        self.presentViewController(navigationController!, animated: true, completion: nil)
+
+        let popover = navigationController?.popoverPresentationController
+        popover?.delegate = addMedicationViewController
+        popover?.permittedArrowDirections = .Left
+
+        let cell = medicationTableView!.cellForRowAtIndexPath(indexPath) as! PrescriberMedicationTableViewCell?
+
+        popover?.sourceRect = CGRectMake(cell!.editButton.bounds.origin.x - 205,cell!.editButton.bounds.origin.y - 300,310,690);
+        
+        popover!.sourceView = cell?.editButton
+    }
+    
     func deleteMedicationAtIndexPath(indexPath : NSIndexPath) {
         
         let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
@@ -370,11 +392,10 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         webService.stopMedicationForPatientWithId(patientId as String, drugWithScheduleId: medicationScheduleDetails.scheduleId) { (array, error) -> Void in
             if error == nil {
                 self.medicationTableView!.beginUpdates()
-                print(self.displayMedicationListArray ,"index PAth     ******", indexPath.row)
-                var arr : [DCMedicationScheduleDetails] = [DCMedicationScheduleDetails]()
-                arr = self.displayMedicationListArray.mutableCopy() as! [DCMedicationScheduleDetails]
-                arr.removeAtIndex(indexPath.row)
-                self.displayMedicationListArray = (arr as? NSMutableArray)!
+                var medicationArray : [DCMedicationScheduleDetails] = [DCMedicationScheduleDetails]()
+                medicationArray = self.displayMedicationListArray.mutableCopy() as! [DCMedicationScheduleDetails]
+                medicationArray.removeAtIndex(indexPath.row)
+                self.displayMedicationListArray = (medicationArray as? NSMutableArray)!
                 
                 self.medicationTableView!.deleteRowsAtIndexPaths([indexPath as NSIndexPath], withRowAnimation: .Fade)
                 self.medicationTableView!.endUpdates()

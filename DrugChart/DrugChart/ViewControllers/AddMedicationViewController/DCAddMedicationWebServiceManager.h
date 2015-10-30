@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "DCAddMedicationWebService.h"
-#import "DCMedicationDetails.h"
+#import "DCMedicationScheduleDetails.h"
 
 @interface DCAddMedicationWebServiceManager : NSObject
 
@@ -17,6 +17,6 @@
                                  WithPatientId:(NSString *)patientId
                            withCallbackHandler:(void (^)( NSError *))callBackHandler ;
 
-- (NSDictionary *)getMedicationDetailsDictionaryForMedicationDetail:(DCMedicationDetails *)medication ;
+- (NSDictionary *)getMedicationDetailsDictionaryForMedicationDetail:(DCMedicationScheduleDetails *)medication ;
 
 @end
