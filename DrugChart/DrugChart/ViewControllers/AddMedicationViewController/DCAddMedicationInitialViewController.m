@@ -842,6 +842,14 @@
     }];
 }
 
+- (void)callDeleteMedicationWebServicewithCallBackHandler:(void (^)(NSError *error))callBack {
+    
+    DCStopMedicationWebService *webServiceManager = [[DCStopMedicationWebService alloc] init];
+    [webServiceManager stopMedicationForPatientWithId:self.patientId drugWithScheduleId:self.selectedMedication.scheduleId  withCallBackHandler:^(id response, NSError *error) {
+        callBack(error);
+    }];
+}
+
 - (UITableViewCell *)getDateSectionTableViewCellAtIndexPath:(NSIndexPath *)indexPath {
     
     UITableViewCell *cell = nil;
@@ -1031,18 +1039,29 @@
     
     //add medication button action
     doneClicked = YES;
-    if (self.isEditMedication) {
-        // To Do: API need to be integrated.
-    } else {
-        [medicationDetailsTableView reloadData];
-        [self configureInstructionForMedication];
-        if ([DCAddMedicationHelper selectedMedicationDetailsAreValid:self.selectedMedication]) {
-            if ([DCAPPDELEGATE isNetworkReachable]) {
+    [medicationDetailsTableView reloadData];
+    [self configureInstructionForMedication];
+    if ([DCAddMedicationHelper selectedMedicationDetailsAreValid:self.selectedMedication]) {
+        if ([DCAPPDELEGATE isNetworkReachable]) {
+            if (self.isEditMedication) {
+                // To Do: API need to be integrated.
+//                NSDate *dateInCurrentZone = [DCDateUtility getDateInCurrentTimeZone:[NSDate date]];
+//                NSString *dateString = [DCDateUtility convertDate:dateInCurrentZone FromFormat:DEFAULT_DATE_FORMAT ToFormat:@"d-MMM-yyyy HH:mm"];
+//                self.selectedMedication.startDate = dateString;
+//                [self callDeleteMedicationWebServicewithCallBackHandler:^(NSError *error) {
+//                    if (!error) {
+//                        [self callAddMedicationWebService];
+//                    } else {
+//                        [self displayAlertWithTitle:@"ERROR" message:@"Edit medication failed"];
+//                    }
+//                }];
+            } else {
                 [addButton setEnabled:NO];
                 [self callAddMedicationWebService];
-            } 
+            }
         }
     }
+    
 }
 
 - (void)addMedicationCancelButtonPressed :(id)sender {

@@ -45,7 +45,7 @@
                             }];
 }
 
-- (NSDictionary *)getMedicationDetailsDictionaryForMedicationDetail:(DCMedicationDetails *)medication {
+- (NSDictionary *)getMedicationDetailsDictionaryForMedicationDetail:(DCMedicationScheduleDetails *)medication {
     
     NSString *startDateString = [DCDateUtility convertDate:[DCDateUtility dateFromSourceString:medication.startDate] FromFormat:DATE_FORMAT_RANGE ToFormat:EMIS_DATE_FORMAT];
     NSString *endDateString = [DCDateUtility convertDate:[DCDateUtility dateFromSourceString:medication.endDate] FromFormat:DATE_FORMAT_RANGE ToFormat:EMIS_DATE_FORMAT];
@@ -87,15 +87,15 @@
 
 - (NSString *)getRouteCodeIdForRoute:(NSString *)routeString {
     
-    if ([routeString isEqualToString:ORAL]) {
+    if ([routeString isEqualToString:ORAL] || [routeString isEqualToString:@"Oral"]) {
         return ORAL_ID;
-    } else if ([routeString isEqualToString:RECTAL]) {
+    } else if ([routeString isEqualToString:RECTAL] || [routeString isEqualToString:@"Rectal"]) {
         return RECTAL_ID;
-    } else if ([routeString isEqualToString:INTRAMASCULAR]) {
+    } else if ([routeString isEqualToString:INTRAMASCULAR] || [routeString isEqualToString:@"Intramuscular"]) {
         return INTRAMASCULAR_ID;
-    } else if ([routeString isEqualToString:INTRATHECAL]) {
+    } else if ([routeString isEqualToString:INTRATHECAL] || [routeString isEqualToString:@"Intrathecal"]) {
         return INTRATHECAL_ID;
-    } else if ([routeString isEqualToString:INTRAVENOUS]) {
+    } else if ([routeString isEqualToString:INTRAVENOUS] || [routeString isEqualToString:@"Intravenous"]) {
         return INTRAVENOUS_ID;
     } else {
         return EMPTY_STRING;
