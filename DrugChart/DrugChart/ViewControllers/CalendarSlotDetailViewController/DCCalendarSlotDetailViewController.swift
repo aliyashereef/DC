@@ -69,29 +69,42 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         self.navigationController?.navigationBarHidden = true
         if (medicationSlotsArray.count > 0) {
             initialiseMedicationSlotToAdministerObject()
-            let error = getAdministerViewErrorMessage() as String?
             if (slotToAdminister == nil) {
                 addAdministerView()
             } else {
-                if (error == NSLocalizedString("ALREADY_ADMINISTERED", comment: "")) {
-                    segmentedControl.selectedSegmentIndex = MEDICATION_HISTORY_SEGMENT_INDEX;
-                    addMedicationHistoryView()
-                } else {
-                    addAdministerView()
-                }
+                updateViewForValidSlotToAdminister()
             }
         } else {
-            if (medicationDetails?.medicineCategory != WHEN_REQUIRED) {
-                errorMessage = NSLocalizedString("NO_ADMINISTRATION_DETAILS", comment: "no medication slots today")
-            } else {
-                NSLog("****** When Required ******")
-            }
+            getAdministerViewErrorMessageForEmptyMedicationSlotArray()
             addAdministerView()
         }
         if (errorMessage != EMPTY_STRING) {
             doneButton.enabled = false
         }
      }
+    
+    func updateViewForValidSlotToAdminister () {
+        
+        let error = getAdministerViewErrorMessageForFilledMedicationSlotArray() as String?
+        if (error == NSLocalizedString("ALREADY_ADMINISTERED", comment: "")) {
+            if (medicationDetails?.medicineCategory != WHEN_REQUIRED) {
+                segmentedControl.selectedSegmentIndex = MEDICATION_HISTORY_SEGMENT_INDEX;
+                addMedicationHistoryView()
+            } else {
+                let currentDateString : NSString = DCDateUtility.getCurrentSystemDateStringInShortDisplayFormat()
+                let weekDateString : NSString? = DCDateUtility.convertDate(weekDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: SHORT_DATE_FORMAT)
+                if (currentDateString == weekDateString) {
+                    errorMessage = EMPTY_STRING
+                    addAdministerView()
+                } else {
+                    segmentedControl.selectedSegmentIndex = MEDICATION_HISTORY_SEGMENT_INDEX;
+                    addMedicationHistoryView()
+                }
+            }
+        } else {
+            addAdministerView()
+        }
+    }
     
     func adjustSegmentedControlWidth () {
         
@@ -123,29 +136,48 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         }
     }
     
-    func getAdministerViewErrorMessage() -> NSString {
+    func getAdministerViewErrorMessageForFilledMedicationSlotArray() -> NSString {
         
-        if (medicationSlotsArray.count == 0) {
-            errorMessage = NSLocalizedString("NO_ADMINISTRATION_DETAILS", comment: "no medication slots today")
+        let currentSystemDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
+        let currentDateString : NSString? = DCDateUtility.convertDate(currentSystemDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: SHORT_DATE_FORMAT)
+        if (slotToAdminister?.time == nil) {
+            errorMessage = NSLocalizedString("ALREADY_ADMINISTERED", comment: "medications are already administered")
         } else {
-            let currentSystemDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
-            if (slotToAdminister?.time == nil) {
-                errorMessage = NSLocalizedString("ALREADY_ADMINISTERED", comment: "medications are already administered")
-            } else {
-                if (slotToAdminister?.time?.compare(currentSystemDate) == NSComparisonResult.OrderedAscending) {
-                    if (slotToAdminister?.medicationAdministration?.actualAdministrationTime != nil) {
-                        errorMessage = NSLocalizedString("ALREADY_ADMINISTERED", comment: "medications are already administered")
-                    }
-                } else if (slotToAdminister?.time?.compare(currentSystemDate) == NSComparisonResult.OrderedDescending) {
-                    let currentDateString : NSString? = DCDateUtility.convertDate(currentSystemDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: SHORT_DATE_FORMAT)
-                    let slotDateString : NSString? = DCDateUtility.convertDate(slotToAdminister?.time, fromFormat: DEFAULT_DATE_FORMAT, toFormat: SHORT_DATE_FORMAT)
-                    if (currentDateString != slotDateString) {
-                        errorMessage = NSLocalizedString("ADMINISTER_LATER", comment: "medication to be administered later")
-                    }
+            if (slotToAdminister?.time?.compare(currentSystemDate) == NSComparisonResult.OrderedAscending) {
+                if (slotToAdminister?.medicationAdministration?.actualAdministrationTime != nil) {
+                    errorMessage = NSLocalizedString("ALREADY_ADMINISTERED", comment: "medications are already administered")
+                }
+            } else if (slotToAdminister?.time?.compare(currentSystemDate) == NSComparisonResult.OrderedDescending) {
+                let slotDateString : NSString? = DCDateUtility.convertDate(slotToAdminister?.time, fromFormat: DEFAULT_DATE_FORMAT, toFormat: SHORT_DATE_FORMAT)
+                if (currentDateString != slotDateString) {
+                    errorMessage = NSLocalizedString("ADMINISTER_LATER", comment: "medication to be administered later")
                 }
             }
         }
-         return errorMessage
+        return errorMessage
+    }
+    
+    func getAdministerViewErrorMessageForEmptyMedicationSlotArray() -> NSString {
+        
+        //Whne medication slot array is empty
+        if (medicationDetails?.medicineCategory == WHEN_REQUIRED) {
+            let currentSystemDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
+            let currentDateString : NSString? = DCDateUtility.convertDate(currentSystemDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: SHORT_DATE_FORMAT)
+            let weekDateString : NSString? = DCDateUtility.convertDate(weekDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: SHORT_DATE_FORMAT)
+            if (currentDateString != weekDateString) {
+//                let medicationStartDate : NSDate = DCDateUtility.dateFromSourceString(medicationDetails?.startDate)
+//                let medicationEndDate : NSDate = DCDateUtility.dateFromSourceString(medicationDetails?.endDate)
+//                if ( weekDate!.compare((medicationDetails?.estimatedStartDate)!) == NSComparisonResult.OrderedAscending /* || medicationEndDate.compare(weekDate) == NSComparisonResult.OrderedAscending*/) {
+                    //To Do : Medication
+                  //  errorMessage = NSLocalizedString("NO_ADMINISTRATION_DETAILS", comment: "no medication slots today")
+//                } else {
+                    errorMessage = NSLocalizedString("ADMINISTER_LATER", comment: "medication to be administered later")
+//                }
+            }
+        } else {
+            errorMessage = NSLocalizedString("NO_ADMINISTRATION_DETAILS", comment: "no medication slots today")
+        }
+        return errorMessage
     }
     
     func addAdministerView () {
@@ -329,7 +361,6 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
             scheduledDateString = DCDateUtility.convertDate(administerViewController?.medicationSlot?.medicationAdministration?.scheduledDateTime, fromFormat:"yyyy-MM-dd hh:mm:ss 'Z'", toFormat:"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
         } else {
             scheduledDateString = DCDateUtility.convertDate(NSDate(), fromFormat:"yyyy-MM-dd hh:mm:ss 'Z'", toFormat:"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-            NSLog("scheduledDateString is %@", scheduledDateString)
         }
         administerDictionary.setValue(scheduledDateString, forKey:SCHEDULED_ADMINISTRATION_TIME)
         let dateFormatter : NSDateFormatter = NSDateFormatter.init()

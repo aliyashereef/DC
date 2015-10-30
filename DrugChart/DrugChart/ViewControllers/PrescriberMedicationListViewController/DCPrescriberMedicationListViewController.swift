@@ -65,8 +65,8 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                 medicationCell = PrescriberMedicationTableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: CELL_IDENTIFIER)
             }
             let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
-            NSLog("***** name is %@", medicationScheduleDetails.name)
-            NSLog("/// Medication Ctegory is %@", medicationScheduleDetails.medicineCategory)
+           // NSLog("***** name is %@", medicationScheduleDetails.name)
+           // NSLog("/// Medication Ctegory is %@", medicationScheduleDetails.medicineCategory)
             medicationCell?.editAndDeleteDelegate = self
             medicationCell?.indexPath = indexPath
             medicationCell?.isMedicationActive = medicationScheduleDetails.isActive

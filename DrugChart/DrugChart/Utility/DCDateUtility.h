@@ -78,4 +78,6 @@
 
 + (NSDate *)getAdministrationDateForString:(NSString *)dateString;
 
++ (NSString *)getCurrentSystemDateStringInShortDisplayFormat;
+
 @end

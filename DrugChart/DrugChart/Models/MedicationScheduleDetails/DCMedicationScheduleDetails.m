@@ -60,21 +60,15 @@
     NSNumber *activeValue = [NSNumber numberWithInt:[[medicationDictionary valueForKey:DRUG_IS_ACTIVE] intValue]];
     self.isActive = [activeValue boolValue];
     NSArray *scheduleArray = (NSArray *)[medicationDictionary objectForKey:DRUG_SCHEDULES];
-    NSLog(@"****** %@", self.name);
-    NSLog(@"\\\\\\\\ %@", self.medicineCategory);
-    NSLog(@"scheduleArray is %@", scheduleArray);
     if ([scheduleArray count] > 0) {
         NSMutableArray *administrationArray;
         NSDictionary *schedulesDictionary = [scheduleArray objectAtIndex:0];
         if ([self.medicineCategory isEqualToString:WHEN_REQUIRED]) {
             NSMutableArray *adminDetails = [[NSMutableArray alloc] init];
             for (NSDictionary *scheduleDict in scheduleArray) {
-                NSLog(@"scheduleDict is %@", scheduleDict);
                 [adminDetails addObject:[[scheduleDict objectForKey:DRUG_ADMINISTRATIONS] objectAtIndex:0]];
             }
             administrationArray = adminDetails;
-//            NSDictionary *scheduleDict = @{@"scheduleId" : schedulesDictionary[@"scheduleId"], @"times" : schedulesDictionary[@"times"], DRUG_ADMINISTRATIONS : administrationArray};
-//            schedulesDictionary = scheduleDict;
             self.administrationDetailsArray = [self getAdministrationDetailsForMedication:administrationArray];
             NSMutableArray *slotsArray = [self getMedicationScheduleTimeArrayForWhenRequiredMedicationsForStartWeekDate:weekStartDate andEndWeekDate:weekEndDate withActiveStatus:self.isActive];
             self.timeChart = slotsArray;
@@ -83,7 +77,6 @@
             self.administrationDetailsArray = [self getAdministrationDetailsForMedication:administrationArray];
             NSMutableArray *slotsArray = [self getMedicationScheduleTimeArrayFromScheduleDictionary:schedulesDictionary
                                                                                   withStartWeekDate:weekStartDate andEndWeekDate:weekEndDate withActiveStatus:self.isActive];
-            
             self.timeChart = slotsArray;
         }
       
@@ -211,11 +204,9 @@
             NSString *medicationDateString = [shortDateFormatter stringFromDate:nextDate];
             NSPredicate *datePredicate = [NSPredicate predicateWithFormat:@"scheduledDateTime.description contains[cd] %@", medicationDateString];
             NSArray *resultsArray = [self.administrationDetailsArray filteredArrayUsingPredicate:datePredicate];
-            NSLog(@"resultsArray is %@", resultsArray);
             for (DCMedicationAdministration *administration  in resultsArray) {
                 DCMedicationSlot *medicationSlot = [[DCMedicationSlot alloc] init];
                 medicationSlot.time = administration.scheduledDateTime;
-                //TODO:set for demo purpose since there is no value for medication slot status
                 medicationSlot.status = IS_GIVEN;
                 medicationSlot.medicationAdministration = administration;
                 [medicationSlotsArray addObject:medicationSlot];

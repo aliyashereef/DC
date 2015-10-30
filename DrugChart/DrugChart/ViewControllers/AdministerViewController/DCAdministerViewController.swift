@@ -81,11 +81,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         super.viewWillDisappear(animated)
     }
     
-//    override func viewDidLayoutSubviews() {
-//        
-//        super.viewDidLayoutSubviews()
-//    }
-
     override func didReceiveMemoryWarning() {
         
         super.didReceiveMemoryWarning()

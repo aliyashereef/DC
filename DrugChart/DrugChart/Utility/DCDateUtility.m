@@ -479,4 +479,12 @@
     return nil;
 }
 
++ (NSString *)getCurrentSystemDateStringInShortDisplayFormat {
+    
+    NSDate *currentSystemDate = [self getDateInCurrentTimeZone:[NSDate date]];
+    NSString *currentDateString = [self convertDate:currentSystemDate FromFormat:DEFAULT_DATE_FORMAT ToFormat:SHORT_DATE_FORMAT];
+    return currentDateString;
+}
+
+
 @end

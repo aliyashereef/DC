@@ -36,7 +36,7 @@ import QuartzCore
         self.addSubview(dateLabel)
         let today : NSDate = NSDate()
         if date == convertDateToString(today, format: "EEE d") {
-            dateLabel.text = convertDateToString(today, format: "EEE d") as String
+            dateLabel.text = convertDateToString(today, format: "EEE ") as String
             addTodayIndicator ()
             self.backgroundColor = UIColor.getColorForHexString("#fafafa")
         } else {
@@ -58,7 +58,7 @@ import QuartzCore
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "d"
         let dateString = dateFormatter.stringFromDate(today)
-        indicatorLabel.frame = CGRectMake(80,12.0, 25, 25)
+        indicatorLabel.frame = CGRectMake(88,12.0, 25, 25)
         indicatorLabel.font = UIFont.systemFontOfSize(17)
         indicatorLabel.textAlignment = .Center
         indicatorLabel.textColor = UIColor.whiteColor()
