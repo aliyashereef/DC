@@ -2495,7 +2495,7 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="nzW-av-W44">
                                 <rect key="frame" x="0.0" y="6" width="310" height="594"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="WarningsCell" rowHeight="80" id="dWV-mv-PfX" customClass="DCWarningsCell" customModule="DrugChart" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="93.5" width="310" height="80"/>
@@ -2607,7 +2607,7 @@
                             </segmentedControl>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="42" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="9ht-ry-JsQ">
                                 <rect key="frame" x="0.0" y="49" width="310" height="641"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AddMedicationCell" rowHeight="42" id="5C1-eg-iHm" customClass="DCAddMedicationContentCell">
                                         <rect key="frame" x="0.0" y="49.5" width="310" height="42"/>
@@ -2817,6 +2817,50 @@
                                             <outlet property="datePicker" destination="eWC-rl-xeh" id="PlO-Sz-T5e"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="DosageMultiLineCell" rowHeight="70" id="yt9-xc-tlS" customClass="DCDosageMultiLineCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="469.5" width="310" height="70"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yt9-xc-tlS" id="i4X-ya-QaR">
+                                            <rect key="frame" x="0.0" y="0.0" width="277" height="69.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dosage" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0mg-VQ-RFP">
+                                                    <rect key="frame" x="16" y="8" width="55" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="55" id="a69-1J-J9U"/>
+                                                        <constraint firstAttribute="height" constant="21" id="pBr-jK-mPc"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="258" translatesAutoresizingMaskIntoConstraints="NO" id="hEh-i3-csP">
+                                                    <rect key="frame" x="16" y="31" width="258" height="33"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" red="0.56078431370000004" green="0.56078431370000004" blue="0.58431372550000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="hEh-i3-csP" firstAttribute="top" secondItem="0mg-VQ-RFP" secondAttribute="bottom" constant="2" id="0xf-n8-lVa"/>
+                                                <constraint firstAttribute="trailing" secondItem="hEh-i3-csP" secondAttribute="trailing" constant="3" id="8NN-Ie-Vpo"/>
+                                                <constraint firstItem="0mg-VQ-RFP" firstAttribute="leading" secondItem="i4X-ya-QaR" secondAttribute="leading" constant="16" id="CfB-mT-3QU"/>
+                                                <constraint firstItem="0mg-VQ-RFP" firstAttribute="top" secondItem="i4X-ya-QaR" secondAttribute="top" constant="8" id="E1H-G0-ueB"/>
+                                                <constraint firstAttribute="trailing" secondItem="0mg-VQ-RFP" secondAttribute="trailing" constant="239" id="ZVD-8b-7jI"/>
+                                                <constraint firstItem="hEh-i3-csP" firstAttribute="leading" secondItem="i4X-ya-QaR" secondAttribute="leading" constant="16" id="bY5-th-EDi"/>
+                                                <constraint firstAttribute="bottom" secondItem="hEh-i3-csP" secondAttribute="bottom" constant="5.5" id="mKh-Gf-L14"/>
+                                            </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="ZVD-8b-7jI"/>
+                                                </mask>
+                                            </variation>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="descriptionLabel" destination="hEh-i3-csP" id="ls0-5p-vpe"/>
+                                            <outlet property="titleLabel" destination="0mg-VQ-RFP" id="ubD-uc-Axc"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="JPE-ok-XQf" id="YwY-Vs-93h"/>
@@ -2853,11 +2897,12 @@
                     <connections>
                         <outlet property="medicationDetailsTableView" destination="9ht-ry-JsQ" id="wNT-fI-INY"/>
                         <outlet property="orderSetLabel" destination="lQ1-lm-LPM" id="2ih-Xl-5VL"/>
+                        <outlet property="segmentedContolTopLayoutViewHeight" destination="e3D-9h-LCg" id="CZF-kf-S1G"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G1P-hh-eve" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3003" y="-84.5"/>
+            <point key="canvasLocation" x="3003" y="-85"/>
         </scene>
         <!--Add Medication Detail View Controller-->
         <scene sceneID="JKA-j2-umh">

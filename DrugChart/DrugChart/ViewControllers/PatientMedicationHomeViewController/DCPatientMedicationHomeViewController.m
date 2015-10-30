@@ -476,7 +476,7 @@ typedef enum : NSInteger {
                                                                       bundle: nil];
     DCAddMedicationInitialViewController *addMedicationViewController =
     [addMedicationStoryboard instantiateViewControllerWithIdentifier:ADD_MEDICATION_POPOVER_SB_ID];
-    addMedicationViewController.patient = self.patient;
+    addMedicationViewController.patientId = self.patient.patientId;
     addMedicationViewController.delegate = self;
     UINavigationController *navigationController =
     [[UINavigationController alloc] initWithRootViewController:addMedicationViewController];

@@ -51,6 +51,7 @@
 #define ORDER_BUTTON_TITLE  @"Order"
 #define ADD_BUTTON_TITLE    @"Add"
 #define DONE_BUTTON_TITLE   @"Done"
+#define SAVE_BUTTON_TITLE   @"Save"
 #define OVERRIDE_BUTTON_TITLE @"Override"
 #define DONOTUSE_BUTTON_TITLE @"Do not use"
 #define NO_BUTTON_TITLE     @"No"

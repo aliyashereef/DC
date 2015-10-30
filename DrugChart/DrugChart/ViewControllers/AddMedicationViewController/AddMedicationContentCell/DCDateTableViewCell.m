@@ -12,7 +12,6 @@
 
 - (void)awakeFromNib {
     // Initialization code
-    _previousSwitchState = 1;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -31,9 +30,13 @@
 }
 
 - (void)configureCellWithNoEndDateSwitchState:(BOOL)state {
-    
+    if (!_isEditMedication) {
+        _previousSwitchState = 1;
+        [_dateValueLabel setHidden:YES];
+    } else {
+        [_dateValueLabel setHidden:NO];
+    }
     [_dateTypeLabel setText:NSLocalizedString(@"NO_END_DATE", @"No end date title")];
-    [_dateValueLabel setHidden:YES];
     [_noEndDateSwitch setHidden:NO];
     [_noEndDateSwitch setOn:state];
 }
