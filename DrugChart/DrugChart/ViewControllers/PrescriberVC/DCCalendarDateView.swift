@@ -30,7 +30,12 @@ import UIKit
         for index in 0...4 {
             let dateX : CGFloat = CGFloat(index) * weekViewWidth + CGFloat(index) + 1
             let frame : CGRect = CGRectMake(dateX, 0, weekViewWidth, 49)
+            if (self.viewWithTag(index + 1) != nil) {
+                let dateView = self.viewWithTag(index + 1) as! DCDateView
+                dateView.removeFromSuperview()
+            }
             let dateView : DCDateView = DCDateView(frame: frame, date: dateArray[index] as! NSString)
+            dateView.tag = index+1
             self.addSubview(dateView)
             if (index == 0) {
                 //This is added since the current week separation is not shown

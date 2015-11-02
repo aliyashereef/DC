@@ -214,42 +214,71 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     func displayPreviousWeekAdministrationDetailsInTableView(medicationCell : PrescriberMedicationTableViewCell, isLastCell:Bool) {
         
         let calendarWidth : CGFloat = (DCUtility.getMainWindowSize().width - MEDICATION_VIEW_WIDTH);
+        let parentViewController : PrescriberMedicationViewController = self.parentViewController as! PrescriberMedicationViewController
+        var weekViewAnimated : Bool = false
         UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
-            if (medicationCell.leadingSpaceMasterToContainerView.constant >= MEDICATION_VIEW_WIDTH) {
+            if (medicationCell.leadingSpaceMasterToContainerView.constant >= 100) {
+                // animate to right , load previous week
                 medicationCell.leadingSpaceMasterToContainerView.constant = calendarWidth
+            } else {
+                medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
+            }
+            if (weekViewAnimated == false) {
+                parentViewController.modifyWeekDatesViewConstraint(medicationCell.leadingSpaceMasterToContainerView.constant)
+                weekViewAnimated = true
             }
             medicationCell.layoutIfNeeded()
             }) { (Bool) -> Void in
-                medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
+                
                 if isLastCell {
-                    let parentViewController : PrescriberMedicationViewController = self.parentViewController as! PrescriberMedicationViewController
-                    parentViewController.modifyStartDayAndWeekDates(false)
-                    parentViewController.reloadAndUpdatePrescriberMedicationDetails()
-                    parentViewController.modifyWeekDatesInCalendarTopPortion()
-                    parentViewController.reloadCalendarTopPortion()
-                    parentViewController.fetchMedicationListForPatient()
+                    if ( medicationCell.leadingSpaceMasterToContainerView.constant == calendarWidth) {
+                        parentViewController.modifyStartDayAndWeekDates(false)
+                        self.modifyParentViewOnSwipeEnd(parentViewController)
+                    }
                 }
+                medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
+                medicationCell.layoutIfNeeded()
         }
     }
     
     func displayNextWeekAdministrationDetailsInTableView(medicationCell : PrescriberMedicationTableViewCell, isLastCell:Bool) {
+        
         let calendarWidth : CGFloat = (DCUtility.getMainWindowSize().width - MEDICATION_VIEW_WIDTH);
+        let parentViewController : PrescriberMedicationViewController = self.parentViewController as! PrescriberMedicationViewController
+        var weekViewAnimated : Bool = false
         UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
-            if (medicationCell.leadingSpaceMasterToContainerView.constant <= -MEDICATION_VIEW_WIDTH) {
+            
+            if (medicationCell.leadingSpaceMasterToContainerView.constant <= -100) {
+                //load next week details
                 medicationCell.leadingSpaceMasterToContainerView.constant = -calendarWidth
+            } else {
+                medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
+            }
+            if (weekViewAnimated == false) {
+                parentViewController.modifyWeekDatesViewConstraint(medicationCell.leadingSpaceMasterToContainerView.constant)
+                weekViewAnimated = true
             }
             medicationCell.layoutIfNeeded()
             }) { (Bool) -> Void in
-                medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
                 if isLastCell {
-                    let parentViewController : PrescriberMedicationViewController = self.parentViewController as! PrescriberMedicationViewController
-                    parentViewController.modifyStartDayAndWeekDates(true)
-                    parentViewController.reloadAndUpdatePrescriberMedicationDetails()
-                    parentViewController.modifyWeekDatesInCalendarTopPortion()
-                    parentViewController.reloadCalendarTopPortion()
-                    parentViewController.fetchMedicationListForPatient()
+                    if (medicationCell.leadingSpaceMasterToContainerView.constant == -calendarWidth) {
+                        parentViewController.modifyStartDayAndWeekDates(true)
+                        self.modifyParentViewOnSwipeEnd(parentViewController)
+                       // parentViewController.modifyWeekDatesViewConstraint(0.0)
+                    }
                 }
+                medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
+                medicationCell.layoutIfNeeded()
         }
+    }
+    
+    func modifyParentViewOnSwipeEnd (parentViewController : PrescriberMedicationViewController) {
+        
+        parentViewController.reloadAndUpdatePrescriberMedicationDetails()
+        parentViewController.modifyWeekDatesInCalendarTopPortion()
+        parentViewController.reloadCalendarTopPortion()
+        parentViewController.cancelPreviousMedicationListFetchRequest()
+        parentViewController.fetchMedicationListForPatient()
     }
     
     // MARK: - Data display methods in table view

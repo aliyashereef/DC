@@ -22,5 +22,7 @@
 - (void)modifyWeekDatesInCalendarTopPortion;
 - (void)reloadCalendarTopPortion;
 - (void)fetchMedicationListForPatient;
+- (void)cancelPreviousMedicationListFetchRequest;
+- (void)modifyWeekDatesViewConstraint:(CGFloat)leadingConstraint;
 
 @end
