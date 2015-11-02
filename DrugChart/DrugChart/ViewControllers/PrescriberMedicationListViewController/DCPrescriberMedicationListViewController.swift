@@ -256,8 +256,8 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                 if isLastCell {
                     if (medicationCell.leadingSpaceMasterToContainerView.constant == -calendarWidth) {
                         parentViewController.modifyStartDayAndWeekDates(true)
-                        parentViewController.modifyWeekDatesViewConstraint(-calendarWidth)
                         self.modifyParentViewOnSwipeEnd(parentViewController)
+                       // parentViewController.modifyWeekDatesViewConstraint(0.0)
                     }
                 }
                 medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
