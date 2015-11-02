@@ -13,7 +13,9 @@
 
 @protocol DCAddMedicationViewControllerDelegate <NSObject>
 
+@optional
 - (void)addedNewMedicationForPatient;
+- (void)medicationEditCancelledForIndexPath:(NSIndexPath *)editIndexPath;
 
 @end
 
@@ -24,6 +26,8 @@
 @property (nonatomic, strong) DCMedicationScheduleDetails *selectedMedication;
 @property (nonatomic, assign) BOOL isEditMedication;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *segmentedContolTopLayoutViewHeight;
+@property (nonatomic, strong) NSIndexPath *medicationEditIndexPath;
+
 
 
 @end

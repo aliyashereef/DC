@@ -15,10 +15,11 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     func prescriberTableViewPannedWithTranslationParameters(xPoint : CGFloat, xVelocity : CGFloat, panEnded : Bool)
     func todayActionForCalendarTop ()
     func refreshMedicationList()
+    //func cancelButtonPressedForAddMedication ()
 }
 
 
-@objc class DCPrescriberMedicationListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate, DCMedicationAdministrationStatusProtocol, EditAndDeleteActionDelegate {
+@objc class DCPrescriberMedicationListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate, DCMedicationAdministrationStatusProtocol, EditAndDeleteActionDelegate, DCAddMedicationViewControllerDelegate {
 
     enum PanDirection {
         case panLeft
@@ -94,6 +95,12 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         
         displayMedicationListArray =  displayArray as NSMutableArray
         medicationTableView?.reloadData()
+    }
+    
+    func animatePrescriberCellToOriginalStateAtIndexPath(indexPath : NSIndexPath) {
+        
+        let prescriberCell = medicationTableView?.cellForRowAtIndexPath(indexPath) as? PrescriberMedicationTableViewCell
+        prescriberCell!.swipeMedicationDetailViewToRight()
     }
 
     //TODO: temporary logic for today button action.
@@ -370,6 +377,8 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         addMedicationViewController?.patientId = self.patientId as String
         addMedicationViewController?.selectedMedication = medicationScheduleDetails
         addMedicationViewController?.isEditMedication = true
+        addMedicationViewController?.delegate = self
+        addMedicationViewController?.medicationEditIndexPath = indexPath
         let navigationController : UINavigationController? = UINavigationController(rootViewController: addMedicationViewController!)
         navigationController?.modalPresentationStyle = UIModalPresentationStyle.Popover
         self.presentViewController(navigationController!, animated: true, completion: nil)
@@ -380,7 +389,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
 
         let cell = medicationTableView!.cellForRowAtIndexPath(indexPath) as! PrescriberMedicationTableViewCell?
 
-        popover?.sourceRect = CGRectMake(cell!.editButton.bounds.origin.x - 205,cell!.editButton.bounds.origin.y - 300,310,690);
+        popover?.sourceRect = CGRectMake(cell!.editButton.bounds.origin.x - (205 + cell!.editButton.bounds.size.width),cell!.editButton.bounds.origin.y - 300,310,690);
         
         popover!.sourceView = cell?.editButton
     }
@@ -409,6 +418,16 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                 // TO DO: handle the case for already deleted medication.
             }
         }
+    }
+    
+//    - (void)medicationEditCancelledForIndexPath:(NSIndexPath *)editIndexPath {
+//    
+//    [prescriberMedicationListViewController animatePrescriberCellToOriginalStateAtIndexPath:editIndexPath];
+//    }
+    
+    func medicationEditCancelledForIndexPath(editIndexPath: NSIndexPath!) {
+        
+        self.animatePrescriberCellToOriginalStateAtIndexPath(editIndexPath);
     }
 }
 

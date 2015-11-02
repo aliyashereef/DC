@@ -304,7 +304,6 @@
 - (IBAction)editMedicationButtonPressed:(id)sender {
     
     //edit medication button action
-    [self swipeMedicationViewToRight:nil];
     [self.delegate editMedicationForSelectedIndexPath:_indexPath];
 }
 

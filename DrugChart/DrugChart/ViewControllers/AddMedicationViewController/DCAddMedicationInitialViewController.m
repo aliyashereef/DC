@@ -18,7 +18,7 @@
 #import "DCAddMedicationWebServiceManager.h"
 #import "DrugChart-Swift.h"
 
-@interface DCAddMedicationInitialViewController () <UITableViewDelegate, UITableViewDataSource, AddMedicationDetailDelegate, InstructionCellDelegate> {
+@interface DCAddMedicationInitialViewController () <UITableViewDelegate, UITableViewDataSource, AddMedicationDetailDelegate,InstructionCellDelegate> {
     
     __weak IBOutlet UITableView *medicationDetailsTableView;
     __weak IBOutlet UILabel *orderSetLabel;
@@ -85,6 +85,7 @@
         }
         if (self.selectedMedication.endDate == nil) {
             self.selectedMedication.noEndDate = YES;
+            
         }
         self.selectedMedication.timeArray = [self getTimesArrayFromScheduleArray:self.selectedMedication.scheduleTimesArray];
     }
@@ -1093,6 +1094,9 @@
 
 - (void)addMedicationCancelButtonPressed :(id)sender {
     
+    if (self.delegate && [self.delegate respondsToSelector:@selector(medicationEditCancelledForIndexPath:)]) {
+        [self.delegate medicationEditCancelledForIndexPath:_medicationEditIndexPath];
+    }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
