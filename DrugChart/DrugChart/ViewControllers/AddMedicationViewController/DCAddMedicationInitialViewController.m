@@ -69,9 +69,15 @@
     if (self.isEditMedication) {
         [titleLabel setText:EDIT_MEDICATION];
         self.segmentedContolTopLayoutViewHeight.constant = -50;
-    } else {
+        if([self.selectedMedication.medicineCategory isEqualToString:WHEN_REQUIRED]){
+            self.selectedMedication.medicineCategory = WHEN_REQUIRED_VALUE;
+        }
+        if (self.selectedMedication.endDate == nil) {
+            self.selectedMedication.noEndDate = YES;
+        }
         [titleLabel setText:ADD_MEDICATION];
     }
+//    self.selectedMedication.timeArray = [self getTimeArrayFromScheduledTimeAray:self.selectedMedication.scheduleTimesArray];
     [titleView addSubview:titleLabel];
     self.navigationItem.titleView = titleView;
     self.navigationItem.rightBarButtonItem.enabled = false;
@@ -281,7 +287,10 @@
         self.selectedMedication.startDate = dateString;
         [tableCell configureContentCellWithContent:dateString];
     }
-    [tableCell configureContentCellWithContent:self.selectedMedication.startDate];
+    NSDate *startDate = [DCDateUtility dateFromSourceString:self.selectedMedication.startDate];
+    NSString *dateString = [DCDateUtility convertDate:startDate FromFormat:DEFAULT_DATE_FORMAT ToFormat:@"d-MMM-yyyy HH:mm"];
+    
+    [tableCell configureContentCellWithContent:dateString];
     return tableCell;
 }
 
@@ -621,7 +630,11 @@
         medicationDetailViewController.previousFilledValue = selectedCell.descriptionLabel.text;
     }
     if (medicationDetailViewController.detailType == eDetailDosage) {
+        if (self.isEditMedication) {
+            medicationDetailViewController.contentArray = [NSMutableArray arrayWithObject:selectedCell.descriptionLabel.text];
+        } else {
         medicationDetailViewController.contentArray = dosageArray;
+        }
     } else if (medicationDetailViewController.detailType == eDetailAdministrationTime) {
         medicationDetailViewController.contentArray = self.selectedMedication.timeArray;
     }
