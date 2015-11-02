@@ -136,6 +136,12 @@
             if ([_contentArray count] == 0) {
                  _contentArray = [NSMutableArray arrayWithArray:[DCPlistManager getAdministratingTimeList]];
             }
+//            else {
+//                NSMutableArray *administratingTimeArray = [NSMutableArray arrayWithArray:[DCPlistManager getAdministratingTimeList]];
+//                [_contentArray addObjectsFromArray:administratingTimeArray];
+//                NSOrderedSet *orderedSet = [NSOrderedSet orderedSetWithArray:_contentArray];
+//                _contentArray = [NSMutableArray arrayWithArray:[orderedSet array]];
+//            }
             break;
         default:
             break;

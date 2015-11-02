@@ -41,6 +41,7 @@
     
     [super viewDidLoad];
     [self configureNavigationBar];
+    [self configureViewForEditMedicationState];
     [self configureViewElements];
 }
 
@@ -68,6 +69,16 @@
     titleLabel.textAlignment = NSTextAlignmentCenter;
     if (self.isEditMedication) {
         [titleLabel setText:EDIT_MEDICATION];
+    } else {
+        [titleLabel setText:ADD_MEDICATION];
+    }
+    [titleView addSubview:titleLabel];
+    self.navigationItem.titleView = titleView;
+    self.navigationItem.rightBarButtonItem.enabled = false;
+}
+
+- (void)configureViewForEditMedicationState {
+    if (self.isEditMedication) {
         self.segmentedContolTopLayoutViewHeight.constant = -50;
         if([self.selectedMedication.medicineCategory isEqualToString:WHEN_REQUIRED]){
             self.selectedMedication.medicineCategory = WHEN_REQUIRED_VALUE;
@@ -75,12 +86,8 @@
         if (self.selectedMedication.endDate == nil) {
             self.selectedMedication.noEndDate = YES;
         }
-        [titleLabel setText:ADD_MEDICATION];
+        self.selectedMedication.timeArray = [self getTimesArrayFromScheduleArray:self.selectedMedication.scheduleTimesArray];
     }
-//    self.selectedMedication.timeArray = [self getTimeArrayFromScheduledTimeAray:self.selectedMedication.scheduleTimesArray];
-    [titleView addSubview:titleLabel];
-    self.navigationItem.titleView = titleView;
-    self.navigationItem.rightBarButtonItem.enabled = false;
 }
 
 //Setting the layout margins and seperator space for the table view to zero.
@@ -1223,7 +1230,18 @@
         self.selectedMedication.instruction = instructionsCell.instructionsTextView.text;
     }
 }
+
+- (NSMutableArray *)getTimesArrayFromScheduleArray:(NSArray *)scheduleArray {
     
+    NSMutableArray *timeArray = [[NSMutableArray alloc] init];
+    for (NSString *time in scheduleArray) {
+        NSString *dateString = [DCUtility convertTimeToHourMinuteFormat:time];
+        NSDictionary *dict = @{@"time" : dateString, @"selected" : @1};
+        [timeArray addObject:dict];
+    }
+    return timeArray;
+}
+
 #pragma mark - UIPopOverPresentationCOntroller Delegate
 
 - (BOOL)popoverPresentationControllerShouldDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
