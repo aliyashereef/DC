@@ -69,9 +69,15 @@
     if (self.isEditMedication) {
         [titleLabel setText:EDIT_MEDICATION];
         self.segmentedContolTopLayoutViewHeight.constant = -50;
-    } else {
+        if([self.selectedMedication.medicineCategory isEqualToString:WHEN_REQUIRED]){
+            self.selectedMedication.medicineCategory = WHEN_REQUIRED_VALUE;
+        }
+        if (self.selectedMedication.endDate == nil) {
+            self.selectedMedication.noEndDate = YES;
+        }
         [titleLabel setText:ADD_MEDICATION];
     }
+//    self.selectedMedication.timeArray = [self getTimeArrayFromScheduledTimeAray:self.selectedMedication.scheduleTimesArray];
     [titleView addSubview:titleLabel];
     self.navigationItem.titleView = titleView;
     self.navigationItem.rightBarButtonItem.enabled = false;
@@ -83,7 +89,9 @@
     medicationDetailsTableView.layoutMargins = UIEdgeInsetsZero;
     medicationDetailsTableView.separatorInset = UIEdgeInsetsZero;
     self.preferredContentSize = CGSizeMake(medicationDetailsTableView.contentSize.width, medicationDetailsTableView.frame.size.height);
-    [self loadViewIfNeeded];
+    if ([self respondsToSelector:@selector(loadViewIfNeeded)]) {
+        [self loadViewIfNeeded];
+    }
 }
 
 //Configuring the medication name cell in the medication detail table view.If the table view is loaded before the medication name is selected,it is loaded with the place holder string.
@@ -281,7 +289,10 @@
         self.selectedMedication.startDate = dateString;
         [tableCell configureContentCellWithContent:dateString];
     }
-    [tableCell configureContentCellWithContent:self.selectedMedication.startDate];
+    NSDate *startDate = [DCDateUtility dateFromSourceString:self.selectedMedication.startDate];
+    NSString *dateString = [DCDateUtility convertDate:startDate FromFormat:DEFAULT_DATE_FORMAT ToFormat:@"d-MMM-yyyy HH:mm"];
+    
+    [tableCell configureContentCellWithContent:dateString];
     return tableCell;
 }
 
@@ -463,6 +474,9 @@
     if (instructionsCell == nil) {
         instructionsCell = [[DCInstructionsTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
+    if (self.selectedMedication.instruction) {
+        instructionsCell.instructionsTextView.text = self.selectedMedication.instruction;
+    }
     return instructionsCell;
 }
 
@@ -618,7 +632,11 @@
         medicationDetailViewController.previousFilledValue = selectedCell.descriptionLabel.text;
     }
     if (medicationDetailViewController.detailType == eDetailDosage) {
+        if (self.isEditMedication) {
+            medicationDetailViewController.contentArray = [NSMutableArray arrayWithObject:selectedCell.descriptionLabel.text];
+        } else {
         medicationDetailViewController.contentArray = dosageArray;
+        }
     } else if (medicationDetailViewController.detailType == eDetailAdministrationTime) {
         medicationDetailViewController.contentArray = self.selectedMedication.timeArray;
     }

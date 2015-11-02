@@ -267,6 +267,12 @@
                 cell.textLabel.text = contentDict[TIME_KEY];
                 NSInteger selectedStatus = [contentDict[SELECTED_KEY] integerValue];
                 cell.accessoryType = selectedStatus == 1 ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+            } else if (_detailType == eDetailRoute) {
+                NSString *content = [_contentArray objectAtIndex:indexPath.row];
+                cell.textLabel.text = content;
+                NSRange range = [content rangeOfString:@" "];
+                NSString *croppedString = [content substringToIndex:range.location];
+                cell.accessoryType = [croppedString isEqualToString:_previousFilledValue] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
             } else {
                 NSString *content = [_contentArray objectAtIndex:indexPath.row];
                 cell.textLabel.text = content;
