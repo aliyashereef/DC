@@ -463,6 +463,9 @@
     if (instructionsCell == nil) {
         instructionsCell = [[DCInstructionsTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
+    if (self.selectedMedication.instruction) {
+        instructionsCell.instructionsTextView.text = self.selectedMedication.instruction;
+    }
     return instructionsCell;
 }
 
