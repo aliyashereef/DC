@@ -321,7 +321,9 @@
          tableCell.dateTypeLabel.textColor = [UIColor blackColor];
     }
     tableCell.dateTypeLabel.text = NSLocalizedString(@"END_DATE", @"end date cell title");
-    [tableCell configureContentCellWithContent:self.selectedMedication.endDate];
+    NSDate *endDate = [DCDateUtility dateFromSourceString:self.selectedMedication.endDate];
+    NSString *dateString = [DCDateUtility convertDate:endDate FromFormat:DEFAULT_DATE_FORMAT ToFormat:@"d-MMM-yyyy HH:mm"];
+    [tableCell configureContentCellWithContent:dateString];
     return tableCell;
 }
 
