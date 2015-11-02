@@ -216,6 +216,9 @@
     cell.layoutMargins = UIEdgeInsetsZero;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.isEditMedication = self.isEditMedication;
+    if(self.isEditMedication) {
+        cell.previousSwitchState = self.selectedMedication.noEndDate;
+    }
     if (cell == nil) {
         cell = [[DCDateTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kDateCellID];
     }
