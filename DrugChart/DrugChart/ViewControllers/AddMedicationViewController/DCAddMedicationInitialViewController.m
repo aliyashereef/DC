@@ -83,7 +83,9 @@
     medicationDetailsTableView.layoutMargins = UIEdgeInsetsZero;
     medicationDetailsTableView.separatorInset = UIEdgeInsetsZero;
     self.preferredContentSize = CGSizeMake(medicationDetailsTableView.contentSize.width, medicationDetailsTableView.frame.size.height);
-    [self loadViewIfNeeded];
+    if ([self respondsToSelector:@selector(loadViewIfNeeded)]) {
+        [self loadViewIfNeeded];
+    }
 }
 
 //Configuring the medication name cell in the medication detail table view.If the table view is loaded before the medication name is selected,it is loaded with the place holder string.
