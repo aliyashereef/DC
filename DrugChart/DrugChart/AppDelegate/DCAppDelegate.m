@@ -27,6 +27,12 @@
     [self configureAppearanceSettings];
     [self trackNetworkConnection];
     [self setDefaultPreferencesForSettings];
+
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"])
+    {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HasLaunchedOnce"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
     return YES;
 }
 
@@ -84,9 +90,9 @@
 }
 
 - (void)setDefaultPreferencesForSettings {
+    
 // Register the preference defaults early.
     NSDictionary *appDefaults = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:SETTINGS_TOGGLE_BUTTON_KEY];
-
     [[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }

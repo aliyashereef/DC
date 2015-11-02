@@ -92,23 +92,26 @@
 
 - (void)defaultsValueChanged {
     //clear cache
-    NSHTTPCookieStorage *storage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-    for (NSHTTPCookie *cookie in [storage cookies]) {
-        [storage deleteCookie:cookie];
-    }
-    [[DCKeyChainManager sharedKeyChainManager] clearKeyStore];
-    
+//    if ([[NSUserDefaults standardUserDefaults] boolForKey:SETTINGS_TOGGLE_BUTTON_KEY]) {
+//        
+//    }
+//    NSHTTPCookieStorage *storage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+//    for (NSHTTPCookie *cookie in [storage cookies]) {
+//        [storage deleteCookie:cookie];
+//    }
+//    [[DCKeyChainManager sharedKeyChainManager] clearKeyStore];
+//    
     DCAppDelegate *appDelegate = DCAPPDELEGATE;
-    [self.navigationController popToRootViewControllerAnimated:YES];
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:SETTINGS_TOGGLE_BUTTON_KEY]) {
-        
+//    [self.navigationController popToRootViewControllerAnimated:YES];
+//    if ([[NSUserDefaults standardUserDefaults] boolForKey:SETTINGS_TOGGLE_BUTTON_KEY]) {
+//        
         appDelegate.baseURL = kDCBaseUrl_Demo;
         appDelegate.authorizeURL = AUTHORIZE_URL_DEMO;
-    } else {
-        
-        appDelegate.baseURL = kDCBaseUrl;
-        appDelegate.authorizeURL = AUTHORIZE_URL;
-    }
+//    } else {
+//        
+//        appDelegate.baseURL = kDCBaseUrl;
+//        appDelegate.authorizeURL = AUTHORIZE_URL;
+//    }
 }
 
 @end
