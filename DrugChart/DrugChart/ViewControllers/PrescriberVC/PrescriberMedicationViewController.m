@@ -234,31 +234,46 @@ typedef enum : NSUInteger {
 
 #pragma mark - API fetch methods
 
+- (void)cancelPreviousMedicationListFetchRequest {
+    
+    DCMedicationSchedulesWebService *medicationSchedulesWebService = [[DCMedicationSchedulesWebService alloc] init];
+    [medicationSchedulesWebService cancelPreviousRequest];
+}
+
 - (void)fetchMedicationListForPatientId:(NSString *)patientId
                   withCompletionHandler:(void(^)(NSArray *result, NSError *error))completionHandler {
-    DCMedicationSchedulesWebService *medicationSchedulesWebService = [[DCMedicationSchedulesWebService alloc] init];
-    NSMutableArray *medicationListArray = [[NSMutableArray alloc] init];
-    NSDate *startDate = [currentWeekDatesArray objectAtIndex:0];
-    NSString *startDateString = [DCDateUtility convertDate:startDate FromFormat:DEFAULT_DATE_FORMAT ToFormat:SHORT_DATE_FORMAT];
-    NSDate *endDate = [currentWeekDatesArray lastObject];
-    NSString *endDateString = [DCDateUtility convertDate:endDate FromFormat:DEFAULT_DATE_FORMAT ToFormat:SHORT_DATE_FORMAT];
-    [medicationSchedulesWebService getMedicationSchedulesForPatientId:patientId fromStartDate:startDateString toEndDate:endDateString withCallBackHandler:^(NSArray *medicationsList, NSError *error) {
-        NSMutableArray *medicationArray = [NSMutableArray arrayWithArray:medicationsList];
-        // if FetchTypeInitial
-        for (NSDictionary *medicationDetails in medicationArray) {
-            @autoreleasepool {
-                DCMedicationScheduleDetails *medicationScheduleDetails = [[DCMedicationScheduleDetails alloc] initWithMedicationScheduleDictionary:medicationDetails forWeekStartDate:startDate weekEndDate:endDate];
-                if (medicationScheduleDetails) {
-                    [medicationListArray addObject:medicationScheduleDetails];
+    
+    dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        // Add code here to do background processing
+        DCMedicationSchedulesWebService *medicationSchedulesWebService = [[DCMedicationSchedulesWebService alloc] init];
+        NSMutableArray *medicationListArray = [[NSMutableArray alloc] init];
+        NSDate *startDate = [currentWeekDatesArray objectAtIndex:0];
+        NSString *startDateString = [DCDateUtility convertDate:startDate FromFormat:DEFAULT_DATE_FORMAT ToFormat:SHORT_DATE_FORMAT];
+        NSDate *endDate = [currentWeekDatesArray lastObject];
+        NSString *endDateString = [DCDateUtility convertDate:endDate FromFormat:DEFAULT_DATE_FORMAT ToFormat:SHORT_DATE_FORMAT];
+        [medicationSchedulesWebService getMedicationSchedulesForPatientId:patientId fromStartDate:startDateString toEndDate:endDateString withCallBackHandler:^(NSArray *medicationsList, NSError *error) {
+            NSMutableArray *medicationArray = [NSMutableArray arrayWithArray:medicationsList];
+            // if FetchTypeInitial
+            for (NSDictionary *medicationDetails in medicationArray) {
+                @autoreleasepool {
+                    DCMedicationScheduleDetails *medicationScheduleDetails = [[DCMedicationScheduleDetails alloc] initWithMedicationScheduleDictionary:medicationDetails forWeekStartDate:startDate weekEndDate:endDate];
+                    if (medicationScheduleDetails) {
+                        [medicationListArray addObject:medicationScheduleDetails];
+                    }
                 }
             }
-        }
-        // else
-        // get the DCMedicationScheduleDetails from the medicationArray,
-        // then simply call the update method to update the time chart.
-        completionHandler(medicationListArray, nil);
-    }];
-}
+            // else
+            // get the DCMedicationScheduleDetails from the medicationArray,
+            // then simply call the update method to update the time chart.
+            completionHandler(medicationListArray, nil);
+        }];
+
+        //
+        dispatch_async( dispatch_get_main_queue(), ^{
+            // Add code here to update the UI/send notifications based on the
+        });
+    });
+   }
 
 - (void)fetchMedicationListForPatientWithFetchType {
     
@@ -277,6 +292,9 @@ typedef enum : NSUInteger {
     [activityIndicatorView startAnimating];
     [self.view bringSubviewToFront:activityIndicatorView];
     [noMedicationsAvailableLabel setHidden:YES];
+    
+    
+    
     [self fetchMedicationListForPatientId:self.patient.patientId
                     withCompletionHandler:^(NSArray *result, NSError *error) {
                         if (!error) {
@@ -571,6 +589,14 @@ typedef enum : NSUInteger {
     if (prescriberMedicationListViewController) {
         prescriberMedicationListViewController.currentWeekDatesArray = currentWeekDatesArray;
         [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
+    }
+}
+
+- (void)modifyWeekDatesViewConstraint:(CGFloat)leadingConstraint {
+    
+    if (calendarDateDisplayViewController) {
+        calendarDateDisplayViewController.calendarViewLeadingConstraint.constant = leadingConstraint;
+        [calendarDateDisplayViewController.view layoutIfNeeded];
     }
 }
 
