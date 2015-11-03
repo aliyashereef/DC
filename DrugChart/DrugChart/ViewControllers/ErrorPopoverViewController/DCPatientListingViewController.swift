@@ -213,9 +213,13 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
     }
     
     func goToPrescriberMedicationViewController(indexPath :NSIndexPath ) {
-
+        
+        let menuViewController : DCPatientMenuViewController? = UIStoryboard(name: PATIENT_MENU_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(PATIENT_MENU_VIEW_CONTROLLER_SB_ID) as? DCPatientMenuViewController
+        
         let patient : DCPatient = getPatientForTableCellAtIndexPath(indexPath)
-        DCSwiftObjCNavigationHelper.goToPrescriberMedicationViewControllerForPatient(patient, fromNavigationController:self.navigationController)
+        menuViewController?.patient = patient
+//        let navigationController : UINavigationController? = UINavigationController(rootViewController: menuViewController!)
+        self.navigationController!.showViewController(menuViewController!,sender: self)
     }
 
     // Private Methods

@@ -212,6 +212,9 @@
 		4D52D58B1BCE74DB002ABA8D /* DCAdministrationStatusTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D52D58A1BCE74DB002ABA8D /* DCAdministrationStatusTableViewController.m */; settings = {ASSET_TAGS = (); }; };
 		4D66A06B1B737B100075677E /* DCOrderSetAutoSearchHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D66A06A1B737B100075677E /* DCOrderSetAutoSearchHeaderView.m */; };
 		4D66A06F1B737BEE0075677E /* DCOrderSetAutoSearchHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D66A06E1B737BEE0075677E /* DCOrderSetAutoSearchHeaderView.xib */; };
+		4D7627821BE8E12E0070BAF2 /* DCPatientMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7627811BE8E12E0070BAF2 /* DCPatientMenuViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		4D7627861BE8E1A10070BAF2 /* DCVitalSignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7627851BE8E1A10070BAF2 /* DCVitalSignViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		4D7627881BE8E22D0070BAF2 /* PatientMenu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4D7627871BE8E22D0070BAF2 /* PatientMenu.storyboard */; settings = {ASSET_TAGS = (); }; };
 		4D766C0B1BBCF79900413E08 /* DCCalendarDateDisplayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D766C0A1BBCF79900413E08 /* DCCalendarDateDisplayViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		4D766C0D1BBCFE6400413E08 /* DCCalendarDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D766C0C1BBCFE6400413E08 /* DCCalendarDateView.swift */; settings = {ASSET_TAGS = (); }; };
 		4D766C0F1BBD004800413E08 /* DCDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D766C0E1BBD004800413E08 /* DCDateView.swift */; settings = {ASSET_TAGS = (); }; };
@@ -620,6 +623,9 @@
 		4D66A0691B737B100075677E /* DCOrderSetAutoSearchHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCOrderSetAutoSearchHeaderView.h; sourceTree = "<group>"; };
 		4D66A06A1B737B100075677E /* DCOrderSetAutoSearchHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCOrderSetAutoSearchHeaderView.m; sourceTree = "<group>"; };
 		4D66A06E1B737BEE0075677E /* DCOrderSetAutoSearchHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCOrderSetAutoSearchHeaderView.xib; sourceTree = "<group>"; };
+		4D7627811BE8E12E0070BAF2 /* DCPatientMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCPatientMenuViewController.swift; sourceTree = "<group>"; };
+		4D7627851BE8E1A10070BAF2 /* DCVitalSignViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCVitalSignViewController.swift; sourceTree = "<group>"; };
+		4D7627871BE8E22D0070BAF2 /* PatientMenu.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = PatientMenu.storyboard; sourceTree = "<group>"; };
 		4D766C0A1BBCF79900413E08 /* DCCalendarDateDisplayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCCalendarDateDisplayViewController.swift; sourceTree = "<group>"; };
 		4D766C0C1BBCFE6400413E08 /* DCCalendarDateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCCalendarDateView.swift; sourceTree = "<group>"; };
 		4D766C0E1BBD004800413E08 /* DCDateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDateView.swift; sourceTree = "<group>"; };
@@ -1575,6 +1581,8 @@
 		0BBC8F9A1AA468920085ABAB /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				4D7627841BE8E1770070BAF2 /* VitalSignViewController */,
+				4D7627831BE8E1380070BAF2 /* PatientMenuSelectionViewController */,
 				7DAAAA891BC3C2CB00119E2B /* PrescriberMedicationListViewController */,
 				4D766C091BBCF75200413E08 /* CalendarDateDisplayViewController */,
 				7D2FF0101BB50FDB00B92B85 /* PrescriberVC */,
@@ -1931,6 +1939,7 @@
 				0BC0C4671ADF7BC3002707DC /* AddMedication.storyboard */,
 				0B91739F1B01F3BA00BC9337 /* PrescriberDetails.storyboard */,
 				0BB3977E1B42944B0037C8E1 /* OrderSet.storyboard */,
+				4D7627871BE8E22D0070BAF2 /* PatientMenu.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -2259,6 +2268,22 @@
 			);
 			name = AdministrationStatusTableViewController;
 			path = OverrideViewController;
+			sourceTree = "<group>";
+		};
+		4D7627831BE8E1380070BAF2 /* PatientMenuSelectionViewController */ = {
+			isa = PBXGroup;
+			children = (
+				4D7627811BE8E12E0070BAF2 /* DCPatientMenuViewController.swift */,
+			);
+			name = PatientMenuSelectionViewController;
+			sourceTree = "<group>";
+		};
+		4D7627841BE8E1770070BAF2 /* VitalSignViewController */ = {
+			isa = PBXGroup;
+			children = (
+				4D7627851BE8E1A10070BAF2 /* DCVitalSignViewController.swift */,
+			);
+			name = VitalSignViewController;
 			sourceTree = "<group>";
 		};
 		4D766C091BBCF75200413E08 /* CalendarDateDisplayViewController */ = {
@@ -2779,6 +2804,7 @@
 				0BBE3B6B1AA42DC5004CA6E9 /* Images.xcassets in Resources */,
 				0BBDEDE01AA581630016E6FF /* Lato-Heavy.ttf in Resources */,
 				0BD699181BB272D9008797A2 /* DCAdministerTableHeaderView.xib in Resources */,
+				4D7627881BE8E22D0070BAF2 /* PatientMenu.storyboard in Resources */,
 				0BC004411AAD6DCD00560E38 /* DCTimeView.xib in Resources */,
 				0BBD58401AD3B0010027F8FE /* UserList.plist in Resources */,
 				0BBDEDE31AA581630016E6FF /* Lato-Light.ttf in Resources */,
@@ -2882,6 +2908,7 @@
 				0BD52F361AA974AD00A17A2C /* DCCalendarChartViewController.m in Sources */,
 				4D4891591BC900DB002AC8CA /* DCPatientDetailsHelper.m in Sources */,
 				0B8D6E7A1B3136C200F0B972 /* DCKeyChainManager.m in Sources */,
+				4D7627861BE8E1A10070BAF2 /* DCVitalSignViewController.swift in Sources */,
 				7D6335571AE66A9F00463E12 /* DCBed.m in Sources */,
 				4D4891611BC90176002AC8CA /* DCWardsListingPopoverViewController.swift in Sources */,
 				0BF3890F1AA46746006792DE /* DCPatient.m in Sources */,
@@ -2985,6 +3012,7 @@
 				4D4D1D6D1B983E9C0007C153 /* DCMedicationListTableViewCell.m in Sources */,
 				0BA803741BA80DCD00DBB45D /* DCWarningsCell.swift in Sources */,
 				7DE017691BC2439A0094928C /* DCGraphicalViewHelper.m in Sources */,
+				4D7627821BE8E12E0070BAF2 /* DCPatientMenuViewController.swift in Sources */,
 				4D011C581BB147D7005C79A2 /* DCMedicationHistoryViewController.swift in Sources */,
 				0B1589EB1AD52D3B005F3811 /* DCHTTPRequestOperationManager.m in Sources */,
 				0BA40BB91B299D67005B80AD /* HTMLNode.m in Sources */,
