@@ -18,10 +18,8 @@ let menuTableCellIdentifier : NSString = "MenuTableCell"
 class DCPatientMenuViewController: DCBaseViewController, UITableViewDataSource, UITableViewDelegate{
     
     @IBOutlet weak var menuTableView: UITableView!
-    
     var patient : DCPatient = DCPatient.init()
     let menuArray : NSArray = [drugChart,vitalSigns]
-    
     
     override func viewDidLoad() {
         self.title = viewTitle as String
@@ -36,9 +34,9 @@ class DCPatientMenuViewController: DCBaseViewController, UITableViewDataSource, 
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell : DCPatientMenuTableCell = (tableView.dequeueReusableCellWithIdentifier(menuTableCellIdentifier as String) as? DCPatientMenuTableCell)!
+        let cell : UITableViewCell = (tableView.dequeueReusableCellWithIdentifier(menuTableCellIdentifier as String))!
         cell.layoutMargins = UIEdgeInsetsZero
-        cell.menuOptionTitleLabel.text = menuArray[indexPath.row] as? String
+        cell.textLabel!.text = menuArray[indexPath.row] as? String
         return cell
     }
     
