@@ -43,13 +43,18 @@ class DCPatientMenuViewController: DCBaseViewController, UITableViewDataSource, 
     // Table View delegate methods
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        //Go to the drug chart view , we use a helper method to do this.
-        if indexPath.row == 0 {
-             DCSwiftObjCNavigationHelper.goToPrescriberMedicationViewControllerForPatient(self.patient, fromNavigationController:self.navigationController)
+        switch indexPath.row {
+            //Go to the drug chart view : we use a helper method to do this.
+        case 0 :
+            DCSwiftObjCNavigationHelper.goToPrescriberMedicationViewControllerForPatient(self.patient, fromNavigationController:self.navigationController)
+            break
             // Go to the vital signs view.
-        } else if indexPath.row == 1 {
+        case 1:
             let vitalSignViewController : DCVitalSignViewController? = UIStoryboard(name: PATIENT_MENU_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(VITAL_SIGNS_VIEW_CONTROLLER_VIEW_CONTROLLER_SB_ID) as? DCVitalSignViewController
             self.navigationController!.showViewController(vitalSignViewController!, sender: self)
+            break
+        default:
+            break
         }
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
