@@ -141,7 +141,7 @@ typedef enum : NSInteger {
     orderSetMedicationsViewController.orderSetViewController = _orderSetViewController;
     self.navigationController.navigationBarHidden = YES;
     [self presentViewController:orderSetMedicationsViewController animated:YES completion:nil];
-    [orderSetMedicationsViewController loadAddMedicationDetailsViewAtIndex:index];
+    [orderSetMedicationsViewController loadAddMedicationDetailsViewAtIndex:(int)index];
     orderSetMedicationsViewController.operationsArray = _operationsArray;
 }
 

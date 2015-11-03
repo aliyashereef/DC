@@ -8,7 +8,6 @@
 
 #import "DCInitialViewController.h"
 #import "DCAuthorizationViewController.h"
-#import "DCWardsListingViewController.h"
 #import "DCWardWebService.h"
 #import "DCBedsAndPatientsWebService.h"
 #import "DCWard.h"

@@ -9,8 +9,6 @@
 #import "DCPrescriberFilterTableViewController.h"
 #import "DCPrescriberFilterCell.h"
 
-//#define TICK_IMAGE @"AddNewTick"
-
 @interface DCPrescriberFilterTableViewController () {
     NSArray *filterArray;
     NSIndexPath *previousIndexPath;
@@ -94,7 +92,7 @@
     
     [self getPreviousIndexPathFromSortedType];
     DCPrescriberFilterCell *previousFilterCell = (DCPrescriberFilterCell *)[tableView cellForRowAtIndexPath:previousIndexPath];
-    [previousFilterCell.selectionImageView setImage:[UIImage imageNamed:nil]];
+    [previousFilterCell.selectionImageView setImage:nil];
     NSString *selectedfilter = [filterArray objectAtIndex:indexPath.row];
     DCPrescriberFilterCell *filterCell = (DCPrescriberFilterCell *)[tableView cellForRowAtIndexPath:indexPath];
     [filterCell.selectionImageView setImage:[UIImage imageNamed:TICK_IMAGE]];

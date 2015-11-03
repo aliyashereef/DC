@@ -153,7 +153,6 @@
 		0BC0C4681ADF7BC3002707DC /* AddMedication.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0BC0C4671ADF7BC3002707DC /* AddMedication.storyboard */; };
 		0BC35B511AA9B9F700D7AB4F /* DCCalendarViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BC35B501AA9B9F700D7AB4F /* DCCalendarViewCell.m */; };
 		0BC542D41AB8556A004DDFCC /* DCAdministerMedication.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BC542D31AB8556A004DDFCC /* DCAdministerMedication.m */; };
-		0BC5E3A11AE7899A00F665D4 /* DCSevereWarningPopOverBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BC5E3A01AE7899A00F665D4 /* DCSevereWarningPopOverBackgroundView.m */; };
 		0BC5FAF61B43FF930019BF36 /* DCAutoSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BC5FAF51B43FF930019BF36 /* DCAutoSearchView.m */; };
 		0BC5FAFA1B4411DE0019BF36 /* DCAutoSearchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BC5FAF91B4411DE0019BF36 /* DCAutoSearchView.xib */; };
 		0BC5FAFE1B442B6B0019BF36 /* DCOrderSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BC5FAFD1B442B6B0019BF36 /* DCOrderSet.m */; };
@@ -176,9 +175,6 @@
 		0BD6991B1BB2BAC1008797A2 /* DCBatchNumberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD6991A1BB2BAC1008797A2 /* DCBatchNumberCell.swift */; settings = {ASSET_TAGS = (); }; };
 		0BD6991F1BB2C7FE008797A2 /* DCNotesTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD6991E1BB2C7FE008797A2 /* DCNotesTableCell.swift */; settings = {ASSET_TAGS = (); }; };
 		0BE141891B18884400CEA758 /* DCOverrideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BE141881B18884400CEA758 /* DCOverrideViewController.m */; };
-		0BF13A8C1B845D8A003607A8 /* DCPatientListCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF13A8B1B845D8A003607A8 /* DCPatientListCollectionViewController.m */; };
-		0BF13A921B846B46003607A8 /* DCPatientsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF13A911B846B46003607A8 /* DCPatientsCollectionViewCell.m */; };
-		0BF13A961B848740003607A8 /* DCPatientListHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF13A951B848740003607A8 /* DCPatientListHeaderView.m */; };
 		0BF2DA501ACA982E00B3ED97 /* DCErrorPopOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF2DA4F1ACA982E00B3ED97 /* DCErrorPopOverViewController.m */; };
 		0BF2DA521ACA98BF00B3ED97 /* README_PopOver.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0BF2DA511ACA98BF00B3ED97 /* README_PopOver.txt */; };
 		0BF2DA561ACAB12700B3ED97 /* DCErrorPopOverBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF2DA551ACAB12700B3ED97 /* DCErrorPopOverBackgroundView.m */; };
@@ -225,7 +221,6 @@
 		4D8386A01BB26D000012EF7D /* DCMedicationHistoryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D83869F1BB26D000012EF7D /* DCMedicationHistoryHeaderView.swift */; settings = {ASSET_TAGS = (); }; };
 		4D8386A21BB2887D0012EF7D /* DCNotesAndReasonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8386A11BB2887D0012EF7D /* DCNotesAndReasonCell.swift */; settings = {ASSET_TAGS = (); }; };
 		4D9649921BA296CC008630B4 /* DCBedsAndPatientsWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D9649911BA296CC008630B4 /* DCBedsAndPatientsWebService.m */; };
-		4D991D0E1B7DC5D800A61879 /* DCWardsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D991D0D1B7DC5D800A61879 /* DCWardsCollectionViewCell.m */; };
 		4D9C7DC41BA1578C00C69094 /* DCAddMedicationWebServiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D9C7DC31BA1578C00C69094 /* DCAddMedicationWebServiceManager.m */; };
 		4DB507361B5CC9610010530C /* DCPopOverTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DB507351B5CC9610010530C /* DCPopOverTableViewCell.m */; };
 		4DC440181B67990D000EC7AB /* DCOrderSetWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC440171B67990D000EC7AB /* DCOrderSetWebService.m */; };
@@ -241,7 +236,6 @@
 		4DE525A31B8C92740057C5F5 /* DCAddMedicationInitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DE525A21B8C92740057C5F5 /* DCAddMedicationInitialViewController.m */; };
 		4DECF3031B79CB370085E75B /* DCOrderSetWarningCountWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DECF3021B79CB370085E75B /* DCOrderSetWarningCountWebService.m */; };
 		4DECF30C1B79D2000085E75B /* DCOrderSetWarningCount.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DECF30B1B79D2000085E75B /* DCOrderSetWarningCount.m */; };
-		4DF3D3E71B8B0AB90036E3DD /* DCWardsListingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DF3D3E61B8B0AB90036E3DD /* DCWardsListingViewController.m */; };
 		5A4D1F2368F6CF03F68A5D38 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0273E34A22B9662186E9C81 /* libPods.a */; };
 		7D06524B1B564C0B0068CA83 /* DCMedicationAdministration.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D06524A1B564C0B0068CA83 /* DCMedicationAdministration.m */; };
 		7D104E5A1AEA4A5B00B03C0C /* DCBedWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D104E591AEA4A5B00B03C0C /* DCBedWebService.m */; };
@@ -538,8 +532,6 @@
 		0BC35B501AA9B9F700D7AB4F /* DCCalendarViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCCalendarViewCell.m; sourceTree = "<group>"; };
 		0BC542D21AB8556A004DDFCC /* DCAdministerMedication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCAdministerMedication.h; sourceTree = "<group>"; };
 		0BC542D31AB8556A004DDFCC /* DCAdministerMedication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCAdministerMedication.m; sourceTree = "<group>"; };
-		0BC5E39F1AE7899A00F665D4 /* DCSevereWarningPopOverBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCSevereWarningPopOverBackgroundView.h; sourceTree = "<group>"; };
-		0BC5E3A01AE7899A00F665D4 /* DCSevereWarningPopOverBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCSevereWarningPopOverBackgroundView.m; sourceTree = "<group>"; };
 		0BC5FAF41B43FF930019BF36 /* DCAutoSearchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCAutoSearchView.h; sourceTree = "<group>"; };
 		0BC5FAF51B43FF930019BF36 /* DCAutoSearchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCAutoSearchView.m; sourceTree = "<group>"; };
 		0BC5FAF91B4411DE0019BF36 /* DCAutoSearchView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCAutoSearchView.xib; sourceTree = "<group>"; };
@@ -574,12 +566,6 @@
 		0BD6991E1BB2C7FE008797A2 /* DCNotesTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCNotesTableCell.swift; sourceTree = "<group>"; };
 		0BE141871B18884400CEA758 /* DCOverrideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCOverrideViewController.h; sourceTree = "<group>"; };
 		0BE141881B18884400CEA758 /* DCOverrideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCOverrideViewController.m; sourceTree = "<group>"; };
-		0BF13A8A1B845D8A003607A8 /* DCPatientListCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCPatientListCollectionViewController.h; sourceTree = "<group>"; };
-		0BF13A8B1B845D8A003607A8 /* DCPatientListCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCPatientListCollectionViewController.m; sourceTree = "<group>"; };
-		0BF13A901B846B46003607A8 /* DCPatientsCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCPatientsCollectionViewCell.h; sourceTree = "<group>"; };
-		0BF13A911B846B46003607A8 /* DCPatientsCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCPatientsCollectionViewCell.m; sourceTree = "<group>"; };
-		0BF13A941B848740003607A8 /* DCPatientListHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCPatientListHeaderView.h; sourceTree = "<group>"; };
-		0BF13A951B848740003607A8 /* DCPatientListHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCPatientListHeaderView.m; sourceTree = "<group>"; };
 		0BF2DA4E1ACA982E00B3ED97 /* DCErrorPopOverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCErrorPopOverViewController.h; sourceTree = "<group>"; };
 		0BF2DA4F1ACA982E00B3ED97 /* DCErrorPopOverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCErrorPopOverViewController.m; sourceTree = "<group>"; };
 		0BF2DA511ACA98BF00B3ED97 /* README_PopOver.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README_PopOver.txt; sourceTree = "<group>"; };
@@ -644,8 +630,6 @@
 		4D8386A11BB2887D0012EF7D /* DCNotesAndReasonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCNotesAndReasonCell.swift; sourceTree = "<group>"; };
 		4D9649901BA296CC008630B4 /* DCBedsAndPatientsWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCBedsAndPatientsWebService.h; sourceTree = "<group>"; };
 		4D9649911BA296CC008630B4 /* DCBedsAndPatientsWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCBedsAndPatientsWebService.m; sourceTree = "<group>"; };
-		4D991D0C1B7DC5D800A61879 /* DCWardsCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DCWardsCollectionViewCell.h; path = ../DCWardsCollectionViewCell.h; sourceTree = "<group>"; };
-		4D991D0D1B7DC5D800A61879 /* DCWardsCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DCWardsCollectionViewCell.m; path = ../DCWardsCollectionViewCell.m; sourceTree = "<group>"; };
 		4D9C7DC21BA1578C00C69094 /* DCAddMedicationWebServiceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCAddMedicationWebServiceManager.h; sourceTree = "<group>"; };
 		4D9C7DC31BA1578C00C69094 /* DCAddMedicationWebServiceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCAddMedicationWebServiceManager.m; sourceTree = "<group>"; };
 		4DB507341B5CC9610010530C /* DCPopOverTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCPopOverTableViewCell.h; sourceTree = "<group>"; };
@@ -670,8 +654,6 @@
 		4DECF3021B79CB370085E75B /* DCOrderSetWarningCountWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCOrderSetWarningCountWebService.m; sourceTree = "<group>"; };
 		4DECF30A1B79D2000085E75B /* DCOrderSetWarningCount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCOrderSetWarningCount.h; sourceTree = "<group>"; };
 		4DECF30B1B79D2000085E75B /* DCOrderSetWarningCount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCOrderSetWarningCount.m; sourceTree = "<group>"; };
-		4DF3D3E51B8B0AB90036E3DD /* DCWardsListingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCWardsListingViewController.h; sourceTree = "<group>"; };
-		4DF3D3E61B8B0AB90036E3DD /* DCWardsListingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCWardsListingViewController.m; sourceTree = "<group>"; };
 		7D0652491B564C0B0068CA83 /* DCMedicationAdministration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCMedicationAdministration.h; sourceTree = "<group>"; };
 		7D06524A1B564C0B0068CA83 /* DCMedicationAdministration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCMedicationAdministration.m; sourceTree = "<group>"; };
 		7D104E581AEA4A5B00B03C0C /* DCBedWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCBedWebService.h; sourceTree = "<group>"; };
@@ -1596,14 +1578,12 @@
 				7DAAAA891BC3C2CB00119E2B /* PrescriberMedicationListViewController */,
 				4D766C091BBCF75200413E08 /* CalendarDateDisplayViewController */,
 				7D2FF0101BB50FDB00B92B85 /* PrescriberVC */,
-				0BF13A891B845D3C003607A8 /* PatientListCollectionViewController */,
 				7D3234AD1AF124E50020CC8F /* PatientAlertNotificationViewController */,
 				7D70F3761B201A5900E4BA89 /* WardsPatientsListingViewController */,
 				7D6D845C1AF9408E00917A8C /* InitialViewController */,
 				7D6D84561AF88A8700917A8C /* AuthorizationViewController */,
 				7D88EF721AF2522A00768826 /* PatientAllergyNotificationViewController */,
 				7D566D411AEFBDDE00F09AFC /* SettingsViewController */,
-				7D63354F1AE6696C00463E12 /* WardsDisplayViewController */,
 				0B08008A1AD6B24600B255FF /* MissedMedicationAlertViewController */,
 				4D52D5881BCE7404002ABA8D /* AdministrationStatusTableViewController */,
 				0BE141861B18882B00CEA758 /* OverrideViewController */,
@@ -1975,15 +1955,6 @@
 			path = AdministerMedication;
 			sourceTree = "<group>";
 		};
-		0BC5E39E1AE7896B00F665D4 /* SevereWarningPopOverBackgroundView */ = {
-			isa = PBXGroup;
-			children = (
-				0BC5E39F1AE7899A00F665D4 /* DCSevereWarningPopOverBackgroundView.h */,
-				0BC5E3A01AE7899A00F665D4 /* DCSevereWarningPopOverBackgroundView.m */,
-			);
-			path = SevereWarningPopOverBackgroundView;
-			sourceTree = "<group>";
-		};
 		0BC5FAF31B43FF720019BF36 /* SearchListView */ = {
 			isa = PBXGroup;
 			children = (
@@ -2132,35 +2103,6 @@
 				0BE141881B18884400CEA758 /* DCOverrideViewController.m */,
 			);
 			path = OverrideViewController;
-			sourceTree = "<group>";
-		};
-		0BF13A891B845D3C003607A8 /* PatientListCollectionViewController */ = {
-			isa = PBXGroup;
-			children = (
-				0BF13A931B8486E8003607A8 /* PatientListCollectionHeaderView */,
-				0BF13A8A1B845D8A003607A8 /* DCPatientListCollectionViewController.h */,
-				0BF13A8B1B845D8A003607A8 /* DCPatientListCollectionViewController.m */,
-				0BF13A8F1B846B0D003607A8 /* PatientListCollectionCell */,
-			);
-			path = PatientListCollectionViewController;
-			sourceTree = "<group>";
-		};
-		0BF13A8F1B846B0D003607A8 /* PatientListCollectionCell */ = {
-			isa = PBXGroup;
-			children = (
-				0BF13A901B846B46003607A8 /* DCPatientsCollectionViewCell.h */,
-				0BF13A911B846B46003607A8 /* DCPatientsCollectionViewCell.m */,
-			);
-			path = PatientListCollectionCell;
-			sourceTree = "<group>";
-		};
-		0BF13A931B8486E8003607A8 /* PatientListCollectionHeaderView */ = {
-			isa = PBXGroup;
-			children = (
-				0BF13A941B848740003607A8 /* DCPatientListHeaderView.h */,
-				0BF13A951B848740003607A8 /* DCPatientListHeaderView.m */,
-			);
-			path = PatientListCollectionHeaderView;
 			sourceTree = "<group>";
 		};
 		0BF2DA4D1ACA97F700B3ED97 /* ErrorPopoverViewController */ = {
@@ -2497,7 +2439,6 @@
 				0B26E8311B4D129500B20CE3 /* AdministratingTimeContainerView */,
 				0BCF5E9B1AE0BB4A002467BF /* AdministratingTimeView */,
 				0BFC2CB71AE4FB2800D0F764 /* SingleMedicationView */,
-				0BC5E39E1AE7896B00F665D4 /* SevereWarningPopOverBackgroundView */,
 				0BA6EF7E1AC132690036E6B3 /* DCWeekView */,
 				0B6B49771B2ED4F200288117 /* DCScrollView */,
 				0BB27D031AEF50DF0007EB88 /* PopOverBaseBackgroundView */,
@@ -2531,16 +2472,6 @@
 			path = SettingsTableViewController;
 			sourceTree = "<group>";
 		};
-		7D63354F1AE6696C00463E12 /* WardsDisplayViewController */ = {
-			isa = PBXGroup;
-			children = (
-				7D63355B1AE6703B00463E12 /* WardsCell */,
-				4DF3D3E51B8B0AB90036E3DD /* DCWardsListingViewController.h */,
-				4DF3D3E61B8B0AB90036E3DD /* DCWardsListingViewController.m */,
-			);
-			path = WardsDisplayViewController;
-			sourceTree = "<group>";
-		};
 		7D6335531AE66A4700463E12 /* Bed */ = {
 			isa = PBXGroup;
 			children = (
@@ -2557,15 +2488,6 @@
 				7D6335591AE66AB700463E12 /* DCWard.m */,
 			);
 			path = Ward;
-			sourceTree = "<group>";
-		};
-		7D63355B1AE6703B00463E12 /* WardsCell */ = {
-			isa = PBXGroup;
-			children = (
-				4D991D0C1B7DC5D800A61879 /* DCWardsCollectionViewCell.h */,
-				4D991D0D1B7DC5D800A61879 /* DCWardsCollectionViewCell.m */,
-			);
-			path = WardsCell;
 			sourceTree = "<group>";
 		};
 		7D63DDD31AA70D7C007D39A8 /* PatientMedicationHomeViewController */ = {
@@ -2972,7 +2894,6 @@
 				4D4891601BC90176002AC8CA /* DCWardCell.swift in Sources */,
 				7D70F3801B20258200E4BA89 /* DCWardsGraphicalDisplayViewController.m in Sources */,
 				0BB3B79A1B99842A0011DFDF /* DCDatePickerCell.m in Sources */,
-				0BC5E3A11AE7899A00F665D4 /* DCSevereWarningPopOverBackgroundView.m in Sources */,
 				4DECF3031B79CB370085E75B /* DCOrderSetWarningCountWebService.m in Sources */,
 				0BF389151AA468C6006792DE /* DCUtility.m in Sources */,
 				0B7F75001B8439DA00E3B0A0 /* DCSortTableCell.m in Sources */,
@@ -2996,7 +2917,6 @@
 				7D930D1F1AADF82E00C0607F /* DCDateUtility.m in Sources */,
 				0B1E308F1AF20213003E49C4 /* DCSecurityPinViewController.m in Sources */,
 				0B26E8341B4D12B300B20CE3 /* DCAdministratingTimeContainerView.m in Sources */,
-				0BF13A961B848740003607A8 /* DCPatientListHeaderView.m in Sources */,
 				7DE017661BC23E230094928C /* PrescriberMedicationTableViewCell.swift in Sources */,
 				0BCF5EA71AE0D8ED002467BF /* DCPlistManager.m in Sources */,
 				0BC0A2D21AC51A590030E9DE /* DCPatientListFilterMenuCell.m in Sources */,
@@ -3022,7 +2942,6 @@
 				7D6D845F1AF940A600917A8C /* DCInitialViewController.m in Sources */,
 				0B8A62BD1AC2CB4000F6DC5B /* DDPopoverBackgroundView.m in Sources */,
 				7D3234B31AF12A780020CC8F /* DCPatientAlertsNotificationTableViewController.m in Sources */,
-				0BF13A921B846B46003607A8 /* DCPatientsCollectionViewCell.m in Sources */,
 				0B6C3FAF1AE757D300E7E36E /* DCAddMedicationSevereWarningViewController.m in Sources */,
 				0BBC8F9E1AA468E80085ABAB /* DCAppDelegate.m in Sources */,
 				4D011C5B1BB15D6B005C79A2 /* DCAdminsteredMedicationCell.swift in Sources */,
@@ -3063,7 +2982,6 @@
 				4DB507361B5CC9610010530C /* DCPopOverTableViewCell.m in Sources */,
 				0BC0C4651ADF7795002707DC /* DCAddMedicationViewController.m in Sources */,
 				0BB33DD41B79F4ED00B05E4D /* DCMedication.m in Sources */,
-				4D991D0E1B7DC5D800A61879 /* DCWardsCollectionViewCell.m in Sources */,
 				4D4D1D6D1B983E9C0007C153 /* DCMedicationListTableViewCell.m in Sources */,
 				0BA803741BA80DCD00DBB45D /* DCWarningsCell.swift in Sources */,
 				7DE017691BC2439A0094928C /* DCGraphicalViewHelper.m in Sources */,
@@ -3093,7 +3011,6 @@
 				0BB33DDC1B79F5B500B05E4D /* DCMedicationScheduleDetails.m in Sources */,
 				7DA89AEE1B2D536300096A0A /* DCPositionableGraphicsView.m in Sources */,
 				0B9D6D521BA17244009E0A4E /* DCAddMedicationHelper.m in Sources */,
-				4DF3D3E71B8B0AB90036E3DD /* DCWardsListingViewController.m in Sources */,
 				0BBEEB5E1AD4FF4F00C1D986 /* RoundRectPresentationController.m in Sources */,
 				0BA3572C1B7464D800A5C3BC /* DCAddMedicationOperation.m in Sources */,
 				4DE525A31B8C92740057C5F5 /* DCAddMedicationInitialViewController.m in Sources */,
@@ -3112,7 +3029,6 @@
 				7D06524B1B564C0B0068CA83 /* DCMedicationAdministration.m in Sources */,
 				0BE141891B18884400CEA758 /* DCOverrideViewController.m in Sources */,
 				0BA3F80C1BAA828A00DC1C2A /* DCReasonCell.swift in Sources */,
-				0BF13A8C1B845D8A003607A8 /* DCPatientListCollectionViewController.m in Sources */,
 				0B14CD901BB183F40085E40C /* DCAdministerMedicationDetailsCell.swift in Sources */,
 				0B2442F41B96F71D00E8F0EB /* DCMedicationListViewController.m in Sources */,
 				7D3234C01AF137D50020CC8F /* DCPatientAlertsNotificationTableViewCell.m in Sources */,
@@ -3188,6 +3104,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -3232,6 +3149,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;

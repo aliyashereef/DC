@@ -430,11 +430,10 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         webService.stopMedicationForPatientWithId(patientId as String, drugWithScheduleId: medicationScheduleDetails.scheduleId) { (array, error) -> Void in
             if error == nil {
                 self.medicationTableView!.beginUpdates()
-                var medicationArray : [DCMedicationScheduleDetails] = [DCMedicationScheduleDetails]()
-                medicationArray = self.displayMedicationListArray.mutableCopy() as! [DCMedicationScheduleDetails]
-                medicationArray.removeAtIndex(indexPath.row)
-                self.displayMedicationListArray = (medicationArray as? NSMutableArray)!
-                
+                if let medicationArray = self.displayMedicationListArray.mutableCopy() as? NSMutableArray {
+                    medicationArray.removeObjectAtIndex(indexPath.row)
+                    self.displayMedicationListArray = medicationArray
+                }
                 self.medicationTableView!.deleteRowsAtIndexPaths([indexPath as NSIndexPath], withRowAnimation: .Fade)
                 self.medicationTableView!.endUpdates()
                 self.medicationTableView?.reloadData()

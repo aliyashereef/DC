@@ -8,7 +8,6 @@
 
 #import "DCLoginViewController.h"
 #import "DCLoginWebService.h"
-#import "DCPatientListViewController.h"
 #import "DCTextField.h"
 #import <QuartzCore/QuartzCore.h>
 
@@ -169,7 +168,7 @@
     //add this if activity indicator is to be displayed on button
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         [loginButtonIndicatorView setHidden:NO];
-        [loginButton setBackgroundImage:[UIImage imageNamed:nil] forState:UIControlStateNormal];
+        [loginButton setBackgroundImage:nil forState:UIControlStateNormal];
         [loginButtonIndicatorView startAnimating];
     });
 }

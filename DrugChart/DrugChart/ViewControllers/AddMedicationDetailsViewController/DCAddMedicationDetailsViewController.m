@@ -10,7 +10,6 @@
 #import "DCAddMedicationViewController.h"
 #import "DCAddMedicationPopOverContentViewController.h"
 #import "DCAddMedicationSevereWarningViewController.h"
-#import "DCSevereWarningPopOverBackgroundView.h"
 #import "DCMissedMedicationAlertViewController.h"
 #import "DCAdministratingTimeContainerView.h"
 #import "DCDatePickerViewController.h"

@@ -107,8 +107,6 @@
     CGRect imageFrame = CGRectMake(0, 0, logoImage.size.width, logoImage.size.height);
     UIButton *logoButton = [[UIButton alloc] initWithFrame:imageFrame];
     [logoButton setBackgroundImage:logoImage forState:UIControlStateNormal];
-    [logoButton addTarget:self action:nil
-         forControlEvents:UIControlEventTouchUpInside];
     [logoButton setUserInteractionEnabled:NO];
     UIBarButtonItem *logoItem = [[UIBarButtonItem alloc] initWithCustomView:logoButton];
     UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]
