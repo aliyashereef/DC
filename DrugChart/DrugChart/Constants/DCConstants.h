@@ -72,6 +72,7 @@
 // Storyboard names
 #define MAIN_STORYBOARD @"Main"
 #define ADMINISTER_STORYBOARD @"Administer"
+#define PATIENT_MENU_STORYBOARD @"PatientMenu"
 #define MEDICATION_HISTORY @"MedicationHistory"
 #define ADD_MEDICATION_STORYBOARD @"AddMedication"
 #define AUTHORIZATION_STORYBOARD @"Authorization"
@@ -117,6 +118,8 @@
 #define MEDICATION_STORYBOARD_ID @"MedicationHistory"
 #define BNF_STORYBOARD_ID @"BNFViewController"
 #define PRESCRIBER_LIST_SBID @"PrescriberMedicationList"
+#define PATIENT_MENU_VIEW_CONTROLLER_SB_ID @"PatientMenuViewController"
+#define VITAL_SIGNS_VIEW_CONTROLLER_VIEW_CONTROLLER_SB_ID @"VitalSignViewController"
 
 #define PRESCRIBER_MEDICATION_SBID @"PrescriberMedicationViewControllerSBID"
 

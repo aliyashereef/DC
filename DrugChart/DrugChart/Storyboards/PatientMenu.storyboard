@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+    </dependencies>
+    <scenes>
+        <!--Patient Menu View Controller-->
+        <scene sceneID="d38-jr-9WW">
+            <objects>
+                <viewController storyboardIdentifier="PatientMenuViewController" id="hUV-ld-xIQ" customClass="DCPatientMenuViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="5I2-JY-a6R"/>
+                        <viewControllerLayoutGuide type="bottom" id="pIm-aX-hkn"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="rJe-Q5-IQH">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="qTG-IR-NDH">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MenuTableCell" rowHeight="60" id="Fib-11-BqO" customClass="DCPatientMenuTableCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="1" width="600" height="60"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Fib-11-BqO" id="FhU-xs-OrZ">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="59.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Vital Signs" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="83T-iC-OLB">
+                                                    <rect key="frame" x="20" y="19" width="341" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="menuOptionTitleLabel" destination="83T-iC-OLB" id="tVW-yn-Cfe"/>
+                                            <segue destination="06V-I6-ex7" kind="show" trigger="accessoryAction" id="4It-pL-9e5"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="hUV-ld-xIQ" id="liH-XV-LmC"/>
+                                    <outlet property="delegate" destination="hUV-ld-xIQ" id="vir-PL-pgC"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="qTG-IR-NDH" firstAttribute="leading" secondItem="rJe-Q5-IQH" secondAttribute="leading" id="Dy6-ui-ixF"/>
+                            <constraint firstAttribute="trailing" secondItem="qTG-IR-NDH" secondAttribute="trailing" id="Ku8-as-2hd"/>
+                            <constraint firstItem="pIm-aX-hkn" firstAttribute="top" secondItem="qTG-IR-NDH" secondAttribute="bottom" id="lvk-Lj-LeR"/>
+                            <constraint firstItem="qTG-IR-NDH" firstAttribute="top" secondItem="rJe-Q5-IQH" secondAttribute="top" id="wXB-rV-qjF"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="fqb-SF-haW"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="menuTableView" destination="qTG-IR-NDH" id="bFQ-Zn-Q3N"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zFu-xj-KNJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2729" y="-1818"/>
+        </scene>
+        <!--Vital Sign View Controller-->
+        <scene sceneID="fPp-nt-n3T">
+            <objects>
+                <viewController storyboardIdentifier="VitalSignViewController" id="06V-I6-ex7" customClass="DCVitalSignViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="8dG-tp-vdP"/>
+                        <viewControllerLayoutGuide type="bottom" id="KfL-09-7oK"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="9uf-YR-j7Y">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3i0-80-rZU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2066" y="-1826"/>
+        </scene>
+    </scenes>
+</document>
