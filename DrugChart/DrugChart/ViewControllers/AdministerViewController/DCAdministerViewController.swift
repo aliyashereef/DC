@@ -73,12 +73,19 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         configureViewElements()
         fetchAdministersAndPrescribersList()
         addNotifications()
+        self.navigationController!.navigationBarHidden = true
+
     }
     
     override func viewWillDisappear(animated: Bool) {
         
         usersListWebService?.cancelPreviousRequest()
         super.viewWillDisappear(animated)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController!.navigationBarHidden = true
     }
     
     override func didReceiveMemoryWarning() {
@@ -237,10 +244,12 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func configureAdministerTableCellAtIndexPath(indexPath : NSIndexPath) -> (DCAdministerCell) {
         
         var administerCell : DCAdministerCell = (administerTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
+
+        administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         switch indexPath.section {
         case SectionCount.eZerothSection.rawValue:
-            administerCell = getPopulatedMedicationStatusTableCellAtIndexPath(administerCell, indexPath: indexPath);
             administerCell.layoutMargins = UIEdgeInsetsZero
+            administerCell = getPopulatedMedicationStatusTableCellAtIndexPath(administerCell, indexPath: indexPath);
             break;
         case SectionCount.eFirstSection.rawValue:
             if (medicationSlot?.medicationAdministration?.status == ADMINISTERED) {
@@ -251,7 +260,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             } else {
                 
             }
-            administerCell.accessoryType = UITableViewCellAccessoryType.None
             break
         default:
             break;
@@ -330,7 +338,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             } else {
                 cell.detailLabel.text = ADMINISTERED
             }
-            cell.accessoryType = UITableViewCellAccessoryType.None
             return cell
         default:
             return cell
@@ -358,33 +365,17 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             namesViewController?.title = CHECKED_BY
            namesViewController!.previousSelectedValue = medicationSlot?.medicationAdministration?.checkingUser?.displayName
         }
-        let navigationController : UINavigationController? = UINavigationController(rootViewController: namesViewController!)
-        navigationController?.modalPresentationStyle = UIModalPresentationStyle.Popover
-        let popover = navigationController?.popoverPresentationController
-        namesViewController!.preferredContentSize = CGSizeMake(300,300)
-        popover?.permittedArrowDirections = .Up
-        popover?.preferredContentSize
-        let cell = administerTableView.cellForRowAtIndexPath(indexPath) as! DCAdministerCell?
-        popover!.sourceView = cell?.popoverButton
-        self.presentViewController(navigationController!, animated: true, completion: nil)
+        self.navigationController!.pushViewController(namesViewController!,animated: true)
     }
     
     func presentAdministratedStatusPopOverAtIndexPath (indexPath : NSIndexPath) {
         
-        let namesViewController : DCAdministrationStatusTableViewController? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(STATUS_LIST_VIEW_SB_ID) as? DCAdministrationStatusTableViewController
-        namesViewController?.namesArray = [ADMINISTERED, REFUSED , OMITTED]
-        namesViewController?.medicationStatusDelegate = self
-        namesViewController?.title = NSLocalizedString("STATUS", comment: "")
-        let navigationController : UINavigationController? = UINavigationController(rootViewController: namesViewController!)
-        navigationController?.modalPresentationStyle = UIModalPresentationStyle.Popover
-        self.presentViewController(navigationController!, animated: true, completion: nil)
-
-        let popover = navigationController?.popoverPresentationController
-        namesViewController!.preferredContentSize = CGSizeMake(250,87)
-        popover?.permittedArrowDirections = .Up
-        popover?.preferredContentSize
-        let cell = administerTableView.cellForRowAtIndexPath(indexPath) as! DCAdministerCell?
-        popover!.sourceView = cell?.popoverButton
+        let statusViewController : DCAdministrationStatusTableViewController? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(STATUS_LIST_VIEW_SB_ID) as? DCAdministrationStatusTableViewController
+        statusViewController?.namesArray = [ADMINISTERED, REFUSED , OMITTED]
+        statusViewController?.previousSelectedValue = medicationSlot?.medicationAdministration?.status
+        statusViewController?.medicationStatusDelegate = self
+        statusViewController?.title = NSLocalizedString("STATUS", comment: "")
+        self.navigationController!.pushViewController(statusViewController!, animated: true)
     }
 
     func getDatePickerCellAtIndexPath(indexPath : NSIndexPath) -> DCAdministerPickerCell {

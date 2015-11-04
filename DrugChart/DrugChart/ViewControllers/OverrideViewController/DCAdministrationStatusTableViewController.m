@@ -15,9 +15,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _namesArray = @[ADMINISTERED, REFUSED, OMITTED];
-    self.navigationController.navigationBarHidden = YES;
+    self.navigationController.navigationBarHidden = NO;
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear: animated];
+    self.navigationController.navigationBarHidden = YES;
+
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -50,7 +55,7 @@
     if (self.medicationStatusDelegate && [self.medicationStatusDelegate respondsToSelector:@selector(selectedMedicationStatusEntry:)]) {
         [self.medicationStatusDelegate selectedMedicationStatusEntry:status];
     }
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 @end
