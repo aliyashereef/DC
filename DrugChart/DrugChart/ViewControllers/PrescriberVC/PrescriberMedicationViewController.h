@@ -13,6 +13,7 @@
 
 @property (nonatomic, strong) DCPatient *patient;
 @property (strong, nonatomic) IBOutlet UIToolbar *toolbar;
+@property (nonatomic) BOOL isLoading;
 
 - (void)displayAdministrationViewForMedicationSlot:(NSDictionary *)medicationSLotsDictionary
                                        atIndexPath:(NSIndexPath *)indexPath
@@ -24,5 +25,6 @@
 - (void)fetchMedicationListForPatient;
 - (void)cancelPreviousMedicationListFetchRequest;
 - (void)modifyWeekDatesViewConstraint:(CGFloat)leadingConstraint;
+- (void)showActivityIndicationOnViewRefresh:(BOOL)show;
 
 @end
