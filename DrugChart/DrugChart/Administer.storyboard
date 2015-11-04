@@ -1187,7 +1187,7 @@
                                     <constraint firstItem="O0Z-jC-VZK" firstAttribute="top" secondItem="vx0-ja-ki6" secondAttribute="bottom" constant="6.5" id="leF-8V-E36"/>
                                 </constraints>
                             </view>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Mc4-h5-C9I">
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Mc4-h5-C9I">
                                 <rect key="frame" x="332" y="331" width="37" height="37"/>
                                 <color key="color" red="0.49019607840000001" green="0.52549019610000003" blue="0.54901960780000003" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
