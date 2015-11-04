@@ -89,6 +89,12 @@ typedef enum : NSUInteger {
     [super viewWillAppear:animated];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    
+    [self cancelPreviousMedicationListFetchRequest];
+    [super viewWillDisappear:animated];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -191,6 +197,10 @@ typedef enum : NSUInteger {
 }
 
 - (void)getDisplayMedicationListArray {
+    
+    if (displayMedicationListArray.count > 0) {
+        displayMedicationListArray = nil;
+    }
     if (discontinuedMedicationShown) {
         displayMedicationListArray = (NSMutableArray *)_patient.medicationListArray;
     }
@@ -289,12 +299,8 @@ typedef enum : NSUInteger {
 
 - (void)fetchMedicationListForPatient {
     
-    [activityIndicatorView startAnimating];
-    [self.view bringSubviewToFront:activityIndicatorView];
+    [self showActivityIndicationOnViewRefresh:true];
     [noMedicationsAvailableLabel setHidden:YES];
-    
-    
-    
     [self fetchMedicationListForPatientId:self.patient.patientId
                     withCompletionHandler:^(NSArray *result, NSError *error) {
                         if (!error) {
@@ -323,6 +329,7 @@ typedef enum : NSUInteger {
                                 }
                                 [noMedicationsAvailableLabel setHidden:NO];
                             }
+                            [self showActivityIndicationOnViewRefresh:false];
                         }
                         else {
                             if (error.code == NETWORK_NOT_REACHABLE) {
@@ -334,8 +341,8 @@ typedef enum : NSUInteger {
                             else {
                                 [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"") message:NSLocalizedString(@"MEDICATION_SCHEDULE_ERROR", @"")];
                             }
+                            [self showActivityIndicationOnViewRefresh:false];
                         }
-                        [activityIndicatorView stopAnimating];
                     }];
 }
 
@@ -598,6 +605,21 @@ typedef enum : NSUInteger {
         calendarDateDisplayViewController.calendarViewLeadingConstraint.constant = leadingConstraint;
         [calendarDateDisplayViewController.view layoutIfNeeded];
     }
+}
+
+- (void)showActivityIndicationOnViewRefresh:(BOOL)show {
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (show) {
+            _isLoading = YES;
+            [activityIndicatorView startAnimating];
+            [self.view bringSubviewToFront:activityIndicatorView];
+        } else {
+            _isLoading = NO;
+            [activityIndicatorView stopAnimating];
+            [self.view sendSubviewToBack:activityIndicatorView];
+        }
+    });
 }
 
 #pragma mark - DCAddMedicationViewControllerDelegate implementation
