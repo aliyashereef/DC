@@ -25,6 +25,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     @IBOutlet weak var segmentedControlWidth: NSLayoutConstraint?
     
     var administerViewController : DCAdministerViewController?
+    var administerNavigationController : UINavigationController?
     var medicationHistoryViewController : DCMedicationHistoryViewController?
     var bnfViewController : DCBNFViewController?
     
@@ -177,9 +178,12 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         
         //add administer view controller
         let administerStoryboard : UIStoryboard? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil)
+        
+
         showTopBarDoneButton(true)
         if administerViewController == nil {
             administerViewController = administerStoryboard!.instantiateViewControllerWithIdentifier(ADMINISTER_STORYBOARD_ID) as? DCAdministerViewController
+            administerNavigationController = UINavigationController(rootViewController: administerViewController!)
             administerViewController?.medicationSlot = slotToAdminister
             administerViewController?.weekDate = weekDate
             if (medicationSlotsArray.count > 0) {
@@ -198,12 +202,15 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
             }
             administerViewController?.medicationDetails = medicationDetails
             administerViewController?.alertMessage = errorMessage
-            self.addChildViewController(administerViewController!)
+            containerView.addSubview((administerNavigationController?.view)!)
+            self.addChildViewController(administerNavigationController!)
             administerViewController!.view.frame = containerView.bounds
-            containerView.addSubview((administerViewController?.view)!)
+            administerNavigationController!.view.frame = containerView.bounds
+
         }
-        administerViewController?.didMoveToParentViewController(self)
-        containerView.bringSubviewToFront((administerViewController?.view)!)
+        
+        administerNavigationController?.didMoveToParentViewController(self)
+        containerView.bringSubviewToFront((administerNavigationController?.view)!)
     }
     
     func addMedicationHistoryView () {
