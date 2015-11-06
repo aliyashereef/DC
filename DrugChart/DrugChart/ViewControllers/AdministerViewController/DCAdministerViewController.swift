@@ -66,6 +66,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     var weekDate : NSDate?
     var editingIndexPath : NSIndexPath?
     var keyboardHeight : CGFloat?
+    var selfAdministratedUser : DCUser? = nil
     
     override func viewDidLoad() {
         
@@ -223,11 +224,11 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 }
                 let selfAdministratedPatientName = SELF_ADMINISTERED_TITLE
                 let selfAdministratedPatientIdentifier = EMPTY_STRING
-                let selfAdministratedUser : DCUser = DCUser.init()
-                selfAdministratedUser.displayName = selfAdministratedPatientName
-                selfAdministratedUser.userIdentifier = selfAdministratedPatientIdentifier
-                self.userListArray!.insertObject(selfAdministratedUser, atIndex: 0)
-                self.medicationSlot?.medicationAdministration?.administratingUser = selfAdministratedUser
+                self.selfAdministratedUser = DCUser.init()
+                self.selfAdministratedUser!.displayName = selfAdministratedPatientName
+                self.selfAdministratedUser!.userIdentifier = selfAdministratedPatientIdentifier
+                self.userListArray!.insertObject(self.selfAdministratedUser!, atIndex: 0)
+                self.medicationSlot?.medicationAdministration?.administratingUser = self.selfAdministratedUser
                 self.medicationSlot?.medicationAdministration?.isSelfAdministered = true
                 self.administerTableView.reloadData()
             }
@@ -356,13 +357,17 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         
         popOverIndexPath = indexPath
         let namesViewController : NameSelectionTableViewController? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(NAMES_LIST_VIEW_STORYBOARD_ID) as? NameSelectionTableViewController
-        namesViewController?.namesArray = userListArray
         namesViewController?.namesDelegate = self
         if (indexPath.row == RowCount.eZerothRow.rawValue) {
             namesViewController?.title = ADMINISTRATED_BY
+            namesViewController?.namesArray = userListArray
             namesViewController!.previousSelectedValue = medicationSlot?.medicationAdministration?.administratingUser?.displayName
         } else if (indexPath.row == RowCount.eSecondRow.rawValue) {
             namesViewController?.title = CHECKED_BY
+            let checkedByList : NSMutableArray = []
+            checkedByList.addObjectsFromArray(userListArray! as [AnyObject])
+            checkedByList.removeObject(self.selfAdministratedUser!)
+            namesViewController?.namesArray = checkedByList
            namesViewController!.previousSelectedValue = medicationSlot?.medicationAdministration?.checkingUser?.displayName
         }
         self.navigationController!.pushViewController(namesViewController!,animated: true)

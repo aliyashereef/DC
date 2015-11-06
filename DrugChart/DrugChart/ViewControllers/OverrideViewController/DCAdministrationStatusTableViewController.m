@@ -12,6 +12,7 @@
 #define TABLE_REUSE_IDENTIFIER @"StatusCell"
 
 @implementation DCAdministrationStatusTableViewController
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     _namesArray = @[ADMINISTERED, REFUSED, OMITTED];
