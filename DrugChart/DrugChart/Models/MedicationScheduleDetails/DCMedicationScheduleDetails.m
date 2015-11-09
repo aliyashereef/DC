@@ -235,14 +235,14 @@
     NSDate *calculatedStartDate = [self getStartDateForMedicationStartdate:startDate medicationEndDate:endDate startWeekDate:startWeekDate endWeekDate:endWeekDate];
     NSDate *calculatedEndDate = [self getEndDateForMedicationStartdate:startDate medicationEndDate:endDate startWeekDate:startWeekDate endWeekDate:endWeekDate];
     NSDate *nextDate;
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    [calendar setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
     if (calculatedStartDate != nil && calculatedEndDate != nil) {
         for (nextDate = calculatedStartDate ; [nextDate compare:calculatedEndDate] <= 0 ; nextDate = [nextDate dateByAddingTimeInterval:24*60*60] ) {
             NSMutableArray *medicationSlotsArray = [[NSMutableArray alloc] init];
             NSInteger timeSlotsCount = 0;
+            NSDateComponents *components = [calendar components:NSCalendarUnitYear| NSCalendarUnitMonth | NSCalendarUnitDay  fromDate:nextDate];
             while (timeSlotsCount < [timesArray count]) {
-                NSCalendar *calendar = [NSCalendar currentCalendar];
-                [calendar setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
-                NSDateComponents *components = [calendar components:NSCalendarUnitYear| NSCalendarUnitMonth | NSCalendarUnitDay  fromDate:nextDate];
                 NSString *timeString = [timesArray objectAtIndex:timeSlotsCount];
                 NSArray *timeComponents = [timeString componentsSeparatedByString:@":"];
                 if ([timeComponents count] >= 3 ) {
