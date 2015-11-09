@@ -128,7 +128,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func configureMedicationDetails () {
-        medicineNameLabel.text = medicationDetails!.name
+        
+        medicineNameLabel.text = medicationDetails?.name
         if (medicationDetails?.route != nil) {
             populateRouteAndInstructionLabels()
         }
