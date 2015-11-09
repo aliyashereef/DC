@@ -178,7 +178,10 @@ typedef enum : NSUInteger {
         if (_patient.medicationListArray) {
             _patient.medicationListArray = nil;
         }
-        [self fetchMedicationListForPatient];
+       // [self fetchMedicationListForPatient];
+        [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
+            
+        }];
     }
 }
 
@@ -297,12 +300,15 @@ typedef enum : NSUInteger {
     //
 }
 
-- (void)fetchMedicationListForPatient {
+//- (void)fetchMedicationListForPatient {
+
+- (void)fetchMedicationListForPatientWithCompletionHandler:(void(^)(BOOL success))completion {
     
     [self showActivityIndicationOnViewRefresh:true];
     [noMedicationsAvailableLabel setHidden:YES];
     [self fetchMedicationListForPatientId:self.patient.patientId
                     withCompletionHandler:^(NSArray *result, NSError *error) {
+                        NSLog(@"**** Fetch Response received ****");
                         if (!error) {
                             _patient.medicationListArray = result;
                             [self configureAlertsAndAllergiesArrayForDisplay];
@@ -343,6 +349,7 @@ typedef enum : NSUInteger {
                             }
                             [self showActivityIndicationOnViewRefresh:false];
                         }
+                        completion(true);
                     }];
 }
 
@@ -622,20 +629,34 @@ typedef enum : NSUInteger {
     });
 }
 
+- (void)resetMedicationListCellsToOriginalPosition {
+    
+    [prescriberMedicationListViewController resetMedicationListCellsToOriginalPositionAfterCalendarSwipe];
+}
+
 #pragma mark - DCAddMedicationViewControllerDelegate implementation
 
 // after adding a medication the latest drug schedules are fetched and displayed to the user.
 - (void)addedNewMedicationForPatient {
-    [self fetchMedicationListForPatient];
+   // [self fetchMedicationListForPatient];
+    [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
+        
+    }];
 }
 
 // This method refresh the medication list when an mediation gets deleted.
 - (void) refreshMedicationList {
-    [self fetchMedicationListForPatient];
+   // [self fetchMedicationListForPatient];
+    [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
+        
+    }];
 }
 
 - (void)reloadPrescriberMedicationList {
-    [self fetchMedicationListForPatient];
+    //[self fetchMedicationListForPatient];
+    [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
+        
+    }];
 }
 
 #pragma mark - Methods needed.

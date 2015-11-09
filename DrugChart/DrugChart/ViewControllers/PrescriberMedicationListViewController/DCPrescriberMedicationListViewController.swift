@@ -199,6 +199,8 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             let panGesture = gestureRecognizer as? UIPanGestureRecognizer
             let translation : CGPoint = panGesture!.translationInView(panGesture?.view);
             if (fabs(translation.x) > fabs(translation.y)) {
+                let parentViewController : PrescriberMedicationViewController = self.parentViewController as! PrescriberMedicationViewController
+                parentViewController.cancelPreviousMedicationListFetchRequest()
                 return true;
             }
         }
@@ -243,10 +245,34 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                             parentViewController.modifyStartDayAndWeekDates(false)
                             self.modifyParentViewOnSwipeEnd(parentViewController)
                         })
+                    } else {
+                        medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
+                        medicationCell.layoutIfNeeded()
                     }
                 }
-                medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
-                medicationCell.layoutIfNeeded()
+//                medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
+//                medicationCell.layoutIfNeeded()
+               // self.performSelector(Selector("resetCellToOriginalConstraints:"), withObject: medicationCell, afterDelay: 0.08)
+        }
+    }
+    
+    func resetCellToOriginalConstraints(medicationCell : PrescriberMedicationTableViewCell) {
+        
+        print("***** Rest to Original constraints ****")
+        medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
+        medicationCell.layoutIfNeeded()
+    }
+    
+    func resetMedicationListCellsToOriginalPositionAfterCalendarSwipe() {
+        
+        if (displayMedicationListArray.count > 0) {
+            let indexPathArray : [AnyObject] = medicationTableView!.indexPathsForVisibleRows!
+            for var count = 0; count < indexPathArray.count; count++ {
+                let indexPath = indexPathArray[count]
+                let medicationCell = medicationTableView?.cellForRowAtIndexPath(indexPath as! NSIndexPath) as? PrescriberMedicationTableViewCell
+                medicationCell!.leadingSpaceMasterToContainerView.constant = 0.0
+                medicationCell!.layoutIfNeeded()
+            }
         }
     }
     
@@ -274,22 +300,32 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                     if (medicationCell.leadingSpaceMasterToContainerView.constant == -calendarWidth) {
                         autoreleasepool({ () -> () in
                             parentViewController.modifyStartDayAndWeekDates(true)
+                           // self.modifyParentViewOnSwipeEnd(parentViewController)
                             self.modifyParentViewOnSwipeEnd(parentViewController)
                         })
+                    } else {
+                        medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
+                        medicationCell.layoutIfNeeded()
                     }
                 }
-                medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
-                medicationCell.layoutIfNeeded()
+//                medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
+//                medicationCell.layoutIfNeeded()
+              //  self.performSelector(Selector("resetCellToOriginalConstraints:"), withObject: medicationCell, afterDelay: 0.08)
         }
     }
     
-    func modifyParentViewOnSwipeEnd (parentViewController : PrescriberMedicationViewController) {
+    func modifyParentViewOnSwipeEnd(parentViewController : PrescriberMedicationViewController) {
         
-        parentViewController.reloadAndUpdatePrescriberMedicationDetails()
+        //parentViewController.reloadAndUpdatePrescriberMedicationDetails()
         parentViewController.modifyWeekDatesInCalendarTopPortion()
         parentViewController.reloadCalendarTopPortion()
         parentViewController.cancelPreviousMedicationListFetchRequest()
-        parentViewController.fetchMedicationListForPatient()
+       // parentViewController.fetchMedicationListForPatient()
+        parentViewController.fetchMedicationListForPatientWithCompletionHandler { (Bool) -> Void in
+//            medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
+//            medicationCell.layoutIfNeeded()
+            self.resetMedicationListCellsToOriginalPositionAfterCalendarSwipe()
+        }
     }
     
     // MARK: - Data display methods in table view

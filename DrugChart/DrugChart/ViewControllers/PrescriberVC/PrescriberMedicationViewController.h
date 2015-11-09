@@ -22,9 +22,10 @@
 -(void)reloadAndUpdatePrescriberMedicationDetails;
 - (void)modifyWeekDatesInCalendarTopPortion;
 - (void)reloadCalendarTopPortion;
-- (void)fetchMedicationListForPatient;
+- (void)fetchMedicationListForPatientWithCompletionHandler:(void(^)(BOOL success))completion;
 - (void)cancelPreviousMedicationListFetchRequest;
 - (void)modifyWeekDatesViewConstraint:(CGFloat)leadingConstraint;
 - (void)showActivityIndicationOnViewRefresh:(BOOL)show;
+- (void)resetMedicationListCellsToOriginalPosition;
 
 @end
