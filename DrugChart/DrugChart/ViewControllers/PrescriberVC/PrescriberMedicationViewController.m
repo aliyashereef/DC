@@ -10,7 +10,7 @@
 #import "DrugChart-Swift.h"
 #import "DCCalendarNavigationTitleView.h"
 #import "DCAddMedicationInitialViewController.h"
-#import "DCAlertsAllergyPopOverViewController.h"
+//#import "DCAlertsAllergyPopOverViewController.h"
 #import "DCSortTableViewController.h"
 #import "DCPatientAlert.h"
 #import "DCPatientAllergy.h"
@@ -472,26 +472,26 @@ typedef enum : NSUInteger {
 // show the popover with segmented control to switch between alerts and allergies.
 - (IBAction)allergiesAndAlertsButtonTapped:(id)sender {
     
-    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:MAIN_STORYBOARD
-                                                             bundle: nil];
-    DCAlertsAllergyPopOverViewController *patientAlertsAllergyViewController =
-    [mainStoryboard instantiateViewControllerWithIdentifier:PATIENTS_ALERTS_ALLERGY_VIEW_SB_ID];
-    // configuring the alerts and allergies arrays to be shown.
-    [self prefillAllergyAndAlertsArrays];
-    patientAlertsAllergyViewController.patientsAlertsArray = alertsArray;
-    patientAlertsAllergyViewController.patientsAllergyArray = allergiesArray;
-    // Instatntiating the navigation controller to present the popover with preferred content size of the poppver.
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:patientAlertsAllergyViewController];
-    navigationController.modalPresentationStyle = UIModalPresentationPopover;
-    // Calculating the height for popover.
-    CGFloat popOverHeight = [patientAlertsAllergyViewController getAllergyAndAlertDisplayTableViewHeightForContent:alertsArray];
-    navigationController.preferredContentSize = CGSizeMake(ALERT_ALLERGY_CELL_WIDTH, popOverHeight+ CELL_PADDING );
-    [self presentViewController:navigationController animated:YES completion:nil];
-    // Presenting the popover presentation controller on the navigation controller.
-    UIPopoverPresentationController *alertsPopOverController = [navigationController popoverPresentationController];
-    alertsPopOverController.permittedArrowDirections = UIPopoverArrowDirectionAny;
-    alertsPopOverController.sourceView = self.view;
-    alertsPopOverController.barButtonItem = (UIBarButtonItem *)sender;
+//    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:MAIN_STORYBOARD
+//                                                             bundle: nil];
+//    DCAlertsAllergyPopOverViewController *patientAlertsAllergyViewController =
+//    [mainStoryboard instantiateViewControllerWithIdentifier:PATIENTS_ALERTS_ALLERGY_VIEW_SB_ID];
+//    // configuring the alerts and allergies arrays to be shown.
+//    [self prefillAllergyAndAlertsArrays];
+//    patientAlertsAllergyViewController.patientsAlertsArray = alertsArray;
+//    patientAlertsAllergyViewController.patientsAllergyArray = allergiesArray;
+//    // Instatntiating the navigation controller to present the popover with preferred content size of the poppver.
+//    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:patientAlertsAllergyViewController];
+//    navigationController.modalPresentationStyle = UIModalPresentationPopover;
+//    // Calculating the height for popover.
+//    CGFloat popOverHeight = [patientAlertsAllergyViewController getAllergyAndAlertDisplayTableViewHeightForContent:alertsArray];
+//    navigationController.preferredContentSize = CGSizeMake(ALERT_ALLERGY_CELL_WIDTH, popOverHeight+ CELL_PADDING );
+//    [self presentViewController:navigationController animated:YES completion:nil];
+//    // Presenting the popover presentation controller on the navigation controller.
+//    UIPopoverPresentationController *alertsPopOverController = [navigationController popoverPresentationController];
+//    alertsPopOverController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+//    alertsPopOverController.sourceView = self.view;
+//    alertsPopOverController.barButtonItem = (UIBarButtonItem *)sender;
 }
 
 - (void)addAlertsAndAllergyBarButtonToNavigationBar {

@@ -7,7 +7,7 @@
 //
 
 #import "DCAddMedicationViewController.h"
-#import "DCPatientAlertsNotificationTableViewController.h"
+//#import "DCPatientAlertsNotificationTableViewController.h"
 #import "DCPopOverContentSizeUtility.h"
 #import "DCSettingsPopOverBackgroundView.h"
 #import "DCAddMedicationRightViewController.h"
