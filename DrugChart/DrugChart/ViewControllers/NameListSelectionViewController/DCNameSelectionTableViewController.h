@@ -1,5 +1,5 @@
 //
-//  NameSelectionTableViewController.h
+//  DCNameSelectionTableViewController
 //  DrugChart
 //
 //  Created by Muhammed Shaheer on 17/03/15.
@@ -18,7 +18,7 @@
 
 typedef void(^UserSelectionHandlerBlock)(DCUser *user);
 
-@interface NameSelectionTableViewController : UITableViewController
+@interface DCNameSelectionTableViewController : UITableViewController
 
 @property (nonatomic, strong) NSMutableArray *namesArray;
 @property (nonatomic, strong) UserSelectionHandlerBlock userSelectionHandler;

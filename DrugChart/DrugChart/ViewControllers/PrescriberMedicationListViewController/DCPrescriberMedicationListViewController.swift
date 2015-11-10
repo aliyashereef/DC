@@ -222,7 +222,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     func displayPreviousWeekAdministrationDetailsInTableView(medicationCell : PrescriberMedicationTableViewCell, isLastCell:Bool) {
         
         let calendarWidth : CGFloat = (DCUtility.getMainWindowSize().width - MEDICATION_VIEW_WIDTH);
-        let parentViewController : PrescriberMedicationViewController = self.parentViewController as! PrescriberMedicationViewController
+        let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
         var weekViewAnimated : Bool = false
         UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
             if (medicationCell.leadingSpaceMasterToContainerView.constant >= 100) {
@@ -255,7 +255,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     func displayNextWeekAdministrationDetailsInTableView(medicationCell : PrescriberMedicationTableViewCell, isLastCell:Bool) {
         
         let calendarWidth : CGFloat = (DCUtility.getMainWindowSize().width - MEDICATION_VIEW_WIDTH);
-        let parentViewController : PrescriberMedicationViewController = self.parentViewController as! PrescriberMedicationViewController
+        let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
         var weekViewAnimated : Bool = false
         UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
             
@@ -285,7 +285,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         }
     }
     
-    func modifyParentViewOnSwipeEnd (parentViewController : PrescriberMedicationViewController) {
+    func modifyParentViewOnSwipeEnd (parentViewController : DCPrescriberMedicationViewController) {
         
         parentViewController.reloadAndUpdatePrescriberMedicationDetails()
         parentViewController.modifyWeekDatesInCalendarTopPortion()
@@ -406,7 +406,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     //MARK - DCMedicationAdministrationStatusProtocol delegate implementation
     
     func administerMedicationWithMedicationSlots (medicationSLotDictionary: NSDictionary, atIndexPath indexPath: NSIndexPath ,withWeekDate date : NSDate) {
-        let parentView : PrescriberMedicationViewController = self.parentViewController as! PrescriberMedicationViewController
+        let parentView : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
         parentView.displayAdministrationViewForMedicationSlot(medicationSLotDictionary as [NSObject : AnyObject], atIndexPath: indexPath, withWeekDate: date)
     }
     

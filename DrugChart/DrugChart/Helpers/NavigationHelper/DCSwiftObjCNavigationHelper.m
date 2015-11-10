@@ -8,7 +8,7 @@
 
 #import "DCSwiftObjCNavigationHelper.h"
 
-#import "PrescriberMedicationViewController.h"
+#import "DCPrescriberMedicationViewController.h"
 
 
 @implementation DCSwiftObjCNavigationHelper
@@ -17,7 +17,7 @@
     
     UIStoryboard *prescriberStoryBoard = [UIStoryboard storyboardWithName:PRESCRIBER_DETAILS_STORYBOARD
                                                                    bundle:nil];
-    PrescriberMedicationViewController *prescriberMedicationViewController = [prescriberStoryBoard instantiateViewControllerWithIdentifier:PRESCRIBER_MEDICATION_SBID];
+    DCPrescriberMedicationViewController *prescriberMedicationViewController = [prescriberStoryBoard instantiateViewControllerWithIdentifier:PRESCRIBER_MEDICATION_SBID];
     prescriberMedicationViewController.patient = patient;
     [navigationController pushViewController:prescriberMedicationViewController animated:YES];
 }

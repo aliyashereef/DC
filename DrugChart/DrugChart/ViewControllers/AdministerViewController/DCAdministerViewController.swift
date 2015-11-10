@@ -355,7 +355,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func displayPrescribersAndAdministersViewAtIndexPath (indexPath : NSIndexPath) {
         
         popOverIndexPath = indexPath
-        let namesViewController : NameSelectionTableViewController? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(NAMES_LIST_VIEW_STORYBOARD_ID) as? NameSelectionTableViewController
+        let namesViewController : DCNameSelectionTableViewController? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(NAMES_LIST_VIEW_STORYBOARD_ID) as? DCNameSelectionTableViewController
         namesViewController?.namesDelegate = self
         if (indexPath.row == RowCount.eZerothRow.rawValue) {
             namesViewController?.title = ADMINISTRATED_BY

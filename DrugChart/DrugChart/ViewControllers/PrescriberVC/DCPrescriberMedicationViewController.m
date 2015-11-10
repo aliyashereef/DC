@@ -1,12 +1,12 @@
 //
-//  PrescriberMedicationViewController.m
+//  DCPrescriberMedicationViewController.m
 //  DrugChart
 //
 //  Created by Muhammed Shaheer on 27/09/15.
 //
 //
 
-#import "PrescriberMedicationViewController.h"
+#import "DCPrescriberMedicationViewController.h"
 #import "DrugChart-Swift.h"
 #import "DCCalendarNavigationTitleView.h"
 #import "DCAddMedicationInitialViewController.h"
@@ -32,7 +32,7 @@ typedef enum : NSUInteger {
     kSortDrugName
 } SortType;
 
-@interface PrescriberMedicationViewController () <DCAddMedicationViewControllerDelegate,PrescriberListDelegate ,AdministrationDelegate>{
+@interface DCPrescriberMedicationViewController () <DCAddMedicationViewControllerDelegate,PrescriberListDelegate ,AdministrationDelegate>{
     
     NSMutableArray *currentWeekDatesArray;
     IBOutlet UIView *calendarDaysDisplayView;
@@ -60,7 +60,7 @@ typedef enum : NSUInteger {
 
 @end
 
-@implementation PrescriberMedicationViewController
+@implementation DCPrescriberMedicationViewController
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     

@@ -1,23 +1,23 @@
 //
-//  NameSelectionTableViewController.m
+//  DCNameSelectionTableViewController.m
 //  DrugChart
 //
 //  Created by Muhammed Shaheer on 17/03/15.
 //
 //
 
-#import "NameSelectionTableViewController.h"
+#import "DCNameSelectionTableViewController.h"
 #import "DCUser.h"
 
 #define TABLE_REUSE_IDENTIFIER @"NameCell"
 
-@interface NameSelectionTableViewController () {
+@interface DCNameSelectionTableViewController () {
     
 }
 
 @end
 
-@implementation NameSelectionTableViewController
+@implementation DCNameSelectionTableViewController
 
 #pragma mark - View Management Methods
 
