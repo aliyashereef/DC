@@ -23,7 +23,6 @@
     __weak IBOutlet UIView *holderView;
     __weak IBOutlet UIView *graphicalHolderView;
     UISegmentedControl *segmentedControl;
-        
     UIPopoverController *settingsPopOverController;
     DCWardsGraphicalDisplayViewController *wardsGraphicalDisplayViewController;
 }
@@ -53,16 +52,7 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    
-    //dismiss parent view only after removing child view controllers
-//    if (![self viewIsPoppedFromNavigationStack]) {
-//        [_patientListViewController showSearchBar:NO withCompletion:^(BOOL completed) {
-//            [self performSelector:@selector(disappearViewAfterDelay) withObject:nil afterDelay:0.5];
-//        }];
-//    } else {
-//        [self disappearViewAfterDelay];
-//    }
-    
+
      [super viewWillDisappear:YES];
 }
 
@@ -80,7 +70,6 @@
     
     [self addSegmentedControlToNavigationBar];
     self.navigationItem.title = EMPTY_STRING;
-  //  [self addSortBarButtonToNavigationBar];
 }
 
 - (void)addSegmentedControlToNavigationBar {
@@ -115,10 +104,6 @@
 
 - (IBAction)settingButtonTapped:(UIButton *)sender {
     
-//    if (_patientListViewController.patientListSearchController.isActive) {
-//        [_patientListViewController.patientListSearchController resignFirstResponder];
-//        [_patientListViewController.patientListSearchController setActive:NO];
-//    }
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:MAIN_STORYBOARD
                                                              bundle: nil];
     DCSettingsViewController *settingsViewController = [mainStoryboard instantiateViewControllerWithIdentifier:SETTINGS_VIEW_STORYBOARD_ID];
@@ -139,20 +124,13 @@
     
     NSInteger selectedIndex = sender.selectedSegmentIndex;
     if (selectedIndex == LIST_VIEW_INDEX) {
-//        if (self.navigationItem.rightBarButtonItem == nil) {
-//            [self addSortBarButtonToNavigationBar];
-//        }
+        
         [self addPatientListTableViewControllerAsChildView];
     } else {
+        
         if ([_patientListViewController.searchBar isFirstResponder]) {
             [_patientListViewController.searchBar resignFirstResponder];
         }
-//        if (_patientListViewController) {
-////            [_patientListViewController showSearchBar:NO withCompletion:^(BOOL completed) {
-////                
-////            }];
-//            [_patientListViewController.patientListSearchController.searchBar setHidden:YES];
-//        }
         self.navigationItem.rightBarButtonItem = nil;
         [self addGraphicalWardListAsChildView];
     }
@@ -213,9 +191,6 @@
         [self addChildViewController:_patientListViewController];
         _patientListViewController.view.frame = CGRectMake(0, 0, holderView.fsw, holderView.fsh);
         [holderView addSubview:_patientListViewController.view];
-    }
-    else {
-       // [_patientListViewController showSearchBar:YES withCompletion:nil];
     }
     [_patientListViewController didMoveToParentViewController:self];
 }

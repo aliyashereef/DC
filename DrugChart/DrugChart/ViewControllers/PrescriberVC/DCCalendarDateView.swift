@@ -21,9 +21,11 @@ import UIKit
     func populateViewForDateArray(dateArray : NSArray) {
         
         self.dateArray = dateArray
-        self.setDatesInView( dateArray)
+        self.setDatesInView(dateArray)
     }
 
+    // To arrange the date views in the view to show a week
+    
     func setDatesInView( dateArray : NSArray ) {
         
         calculateWeekViewSlotWidth()

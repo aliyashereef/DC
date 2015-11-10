@@ -13,6 +13,7 @@ let overDueTitle : NSString = "MEDICATION - OVERDUE"
 let immediateTitle : NSString = "MEDICATION - IMMEDIATE"
 let notImmediateTitle : NSString = "MEDICATION - UPCOMING"
 let searchBarHeight : NSInteger = 44
+let searchText : NSString = "Search"
 
 enum SectionValue : NSInteger {
     case eOverDue = 0
@@ -106,7 +107,7 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
         searchBar.searchBarStyle = UISearchBarStyle.Default
         searchBar.showsCancelButton = false
         searchBar.delegate = self
-        searchBar.placeholder = "Search"
+        searchBar.placeholder = searchText as String
     }
     
     func cancelSearching () {
@@ -218,7 +219,6 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
         
         let patient : DCPatient = getPatientForTableCellAtIndexPath(indexPath)
         menuViewController?.patient = patient
-//        let navigationController : UINavigationController? = UINavigationController(rootViewController: menuViewController!)
         self.navigationController!.showViewController(menuViewController!,sender: self)
     }
 
@@ -364,7 +364,6 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
         let popover : UIPopoverPresentationController = navigationController.popoverPresentationController!
         popover.permittedArrowDirections = UIPopoverArrowDirection.Any
         popover.sourceView = self.navigationController?.navigationBar
-        //        popover.sourceRect = CGRectMake(0, 0, 305,20)
         popover.barButtonItem = sender as UIBarButtonItem
         self.presentViewController(navigationController, animated:false, completion: nil)
     }
@@ -461,9 +460,5 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
             self.refreshControl.endRefreshing()
         }
     }
-//    func displayAlertWithTitle(title : NSString, message : NSString) {
-//    
-//        let alertView : UIAlertView = UIAlertView.init(title: title as String, message: message as String, delegate: self, cancelButtonTitle: OK_BUTTON_TITLE)
-//        alertView.show()
-//    }
+
 }
