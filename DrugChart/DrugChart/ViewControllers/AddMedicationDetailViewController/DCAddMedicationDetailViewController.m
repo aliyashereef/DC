@@ -48,13 +48,13 @@
 - (void)didReceiveMemoryWarning {
     
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Private Methods
 
 - (void)configureViewElements {
     
+    //configure view properties
     detailTableView.layoutMargins = UIEdgeInsetsZero;
     detailTableView.separatorInset = UIEdgeInsetsZero;
     [self configureNavigationBarItems];
@@ -112,6 +112,7 @@
 
 - (void)addNavigationBarButtonItems {
     
+    //navigation bar button items
     if (_detailType == eNewDosage || _detailType == eDetailAdministrationTime|| _detailType == eNewAdministrationTime || _detailType == eOverrideReason) {
         UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:CANCEL_BUTTON_TITLE  style:UIBarButtonItemStylePlain target:self action:@selector(cancelButtonPressed:)];
         self.navigationItem.leftBarButtonItem = cancelButton;
@@ -127,21 +128,18 @@
     
     switch (_detailType) {
         case eDetailType:
+            //for medication type
             _contentArray = [NSMutableArray arrayWithArray:@[REGULAR_MEDICATION, ONCE_MEDICATION, WHEN_REQUIRED_VALUE]];
             break;
         case eDetailRoute:
+            //medication routes
             _contentArray = [NSMutableArray arrayWithArray:[DCPlistManager getMedicationRoutesList]];
             break;
         case eDetailAdministrationTime:
+            //populate default administrating times
             if ([_contentArray count] == 0) {
                  _contentArray = [NSMutableArray arrayWithArray:[DCPlistManager getAdministratingTimeList]];
             }
-//            else {
-//                NSMutableArray *administratingTimeArray = [NSMutableArray arrayWithArray:[DCPlistManager getAdministratingTimeList]];
-//                [_contentArray addObjectsFromArray:administratingTimeArray];
-//                NSOrderedSet *orderedSet = [NSOrderedSet orderedSetWithArray:_contentArray];
-//                _contentArray = [NSMutableArray arrayWithArray:[orderedSet array]];
-//            }
             break;
         default:
             break;
@@ -370,7 +368,7 @@
             }];
         } else if (_detailType == eOverrideReason) {
             DCReasonCell *reasonCell = (DCReasonCell *)[detailTableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
-            if (![reasonCell.reasonTextView.text isEqualToString:EMPTY_STRING] && ![reasonCell.reasonTextView.text isEqualToString:@"Reason"]) {
+            if (![reasonCell.reasonTextView.text isEqualToString:EMPTY_STRING] && ![reasonCell.reasonTextView.text isEqualToString:REASON]) {
                 [self.navigationController dismissViewControllerAnimated:YES completion:^{
                     if (self.delegate && [self.delegate respondsToSelector:@selector(overrideReasonSubmitted:)]) {
                         [self.delegate overrideReasonSubmitted:reasonCell.reasonTextView.text];

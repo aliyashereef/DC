@@ -10,7 +10,7 @@
 #import "DCMedicationViewController.h"
 #import "DCCalendarChartViewController.h"
 #import "DCPrescriberViewController.h"
-#import "DCAddMedicationViewController.h"
+//#import "DCAddMedicationViewController.h"
 #import "DCSettingsViewController.h"
 #import "DCAddMedicationInitialViewController.h"
 
@@ -351,16 +351,16 @@ typedef enum : NSInteger {
 - (void)presentAddMedicationScreenForMedicationList:(DCMedicationScheduleDetails *)medicationList {
     
     //pass medication list for edit
-    UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
-    DCAddMedicationViewController *addMedicationViewController = (DCAddMedicationViewController *)[addMedicationStoryboard instantiateInitialViewController];
-    addMedicationViewController.patient = _patient;
-    if (medicationList) {
-        addMedicationViewController.medicationList = medicationList;
-    }
-    UINavigationController *addMedicationNavController = [[UINavigationController alloc] initWithRootViewController:addMedicationViewController];
-    dispatch_async(dispatch_get_main_queue(), ^ {
-        [self presentViewController:addMedicationNavController animated:YES completion:nil];
-    });
+//    UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
+//    DCAddMedicationViewController *addMedicationViewController = (DCAddMedicationViewController *)[addMedicationStoryboard instantiateInitialViewController];
+//    addMedicationViewController.patient = _patient;
+//    if (medicationList) {
+//        addMedicationViewController.medicationList = medicationList;
+//    }
+//    UINavigationController *addMedicationNavController = [[UINavigationController alloc] initWithRootViewController:addMedicationViewController];
+//    dispatch_async(dispatch_get_main_queue(), ^ {
+//        [self presentViewController:addMedicationNavController animated:YES completion:nil];
+//    });
 }
 
 - (void)calendarSwipeInitiated {
