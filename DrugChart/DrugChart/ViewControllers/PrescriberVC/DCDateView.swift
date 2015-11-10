@@ -60,7 +60,7 @@ import QuartzCore
         
         let today : NSDate = NSDate()
         let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = dateViewFormat as String
+        dateFormatter.dateFormat = dayViewFormat as String
         let dateString = dateFormatter.stringFromDate(today)
         indicatorLabel.frame = CGRectMake(95, 12.0, 25, 25)
         indicatorLabel.font = UIFont.systemFontOfSize(17)

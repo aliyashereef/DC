@@ -115,6 +115,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             indexPathArray[0]
             if indexPathArray.count > 0 {
                 let medicationCell = medicationTableView?.cellForRowAtIndexPath(indexPathArray[0] as! NSIndexPath) as? PrescriberMedicationTableViewCell
+                print(medicationCell!.leadingSpaceMasterToContainerView.constant)
                 if medicationCell!.leadingSpaceMasterToContainerView.constant != 0 {
                     if let parentDelegate = self.delegate {
                         parentDelegate.todayActionForCalendarTop()
