@@ -110,25 +110,18 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     //TODO: temporary logic for today button action.
     func todayButtonClicked () {
         
-        if (displayMedicationListArray.count > 0) {
-            let indexPathArray : [AnyObject] = medicationTableView!.indexPathsForVisibleRows!
-            indexPathArray[0]
-            if indexPathArray.count > 0 {
-                let medicationCell = medicationTableView?.cellForRowAtIndexPath(indexPathArray[0] as! NSIndexPath) as? PrescriberMedicationTableViewCell
-                if medicationCell!.leadingSpaceMasterToContainerView.constant != 0 {
-                    if let parentDelegate = self.delegate {
-                        parentDelegate.todayActionForCalendarTop()
-                    }
-                    for var count = 0; count < indexPathArray.count; count++ {
-                        let indexPath = indexPathArray[count]
-                        let meditationCell = medicationTableView?.cellForRowAtIndexPath(indexPath as! NSIndexPath) as? PrescriberMedicationTableViewCell
-                        meditationCell!.todayButtonAction()
-                    }
-                }
-            }
+        let weekdate = currentWeekDatesArray.objectAtIndex(7)
+        let todaysDate : NSDate = NSDate()
+        let order = NSCalendar.currentCalendar().compareDate(weekdate as! NSDate, toDate:todaysDate,
+            toUnitGranularity: .Hour)
+        if order == NSComparisonResult.OrderedSame {
+            
+        } else {
+            let parentViewController : PrescriberMedicationViewController = self.parentViewController as! PrescriberMedicationViewController
+            parentViewController.loadCurrentWeekDate()
+            self.modifyParentViewOnSwipeEnd(parentViewController)
         }
     }
-    
     // MARK: - Private methods
     // MARK: - Pan gesture methods
     func addPanGestureToPrescriberTableView () {

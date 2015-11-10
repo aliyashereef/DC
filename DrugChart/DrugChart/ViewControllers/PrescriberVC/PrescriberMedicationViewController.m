@@ -577,6 +577,10 @@ typedef enum : NSUInteger {
         currentWeekDatesArray = [DCDateUtility getFiveDaysOfWeekFromDate:firstDisplayDate];
     }
 }
+- (void)loadCurrentWeekDate {
+    
+    [self setCurrentWeekDatesArrayFromToday];
+}
 
 - (void)modifyWeekDatesInCalendarTopPortion {
     
