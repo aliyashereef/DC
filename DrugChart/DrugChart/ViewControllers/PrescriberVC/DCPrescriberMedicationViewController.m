@@ -136,15 +136,15 @@ typedef enum : NSUInteger {
 
 - (void)setCurrentWeekDatesArrayFromToday {
     
-    firstDisplayDate = [DCDateUtility getInitialDateForCalendarDisplay:[DCDateUtility getDateInCurrentTimeZone:[NSDate date]]
+    firstDisplayDate = [DCDateUtility initialDateForCalendarDisplay:[DCDateUtility dateInCurrentTimeZone:[NSDate date]]
                                                         withAdderValue:-7];
-    currentWeekDatesArray = [DCDateUtility getFiveDaysOfWeekFromDate:firstDisplayDate];
+    currentWeekDatesArray = [DCDateUtility nextAndPreviousSevenDaysWithReferenceToDate:firstDisplayDate];
 }
 
 - (void)populateMonthYearLabel {
     
     //populate month year label
-    NSString *mothYearDisplayString = [DCDateUtility getMonthNameAndYearForWeekDatesArray:currentWeekDatesArray];
+    NSString *mothYearDisplayString = [DCDateUtility monthNameAndYearForWeekDatesArray:currentWeekDatesArray];
     NSAttributedString *monthYearString = [DCUtility getMonthYearAttributedStringForDisplayString:mothYearDisplayString withInitialMonthLength:0];
     monthYearLabel.attributedText = monthYearString;
 }
@@ -258,9 +258,9 @@ typedef enum : NSUInteger {
         DCMedicationSchedulesWebService *medicationSchedulesWebService = [[DCMedicationSchedulesWebService alloc] init];
         NSMutableArray *medicationListArray = [[NSMutableArray alloc] init];
         NSDate *startDate = [currentWeekDatesArray objectAtIndex:0];
-        NSString *startDateString = [DCDateUtility convertDate:startDate FromFormat:DEFAULT_DATE_FORMAT ToFormat:SHORT_DATE_FORMAT];
+        NSString *startDateString = [DCDateUtility dateStringFromDate:startDate inFormat:SHORT_DATE_FORMAT];
         NSDate *endDate = [currentWeekDatesArray lastObject];
-        NSString *endDateString = [DCDateUtility convertDate:endDate FromFormat:DEFAULT_DATE_FORMAT ToFormat:SHORT_DATE_FORMAT];
+        NSString *endDateString = [DCDateUtility dateStringFromDate:endDate inFormat:SHORT_DATE_FORMAT];
         [medicationSchedulesWebService getMedicationSchedulesForPatientId:patientId fromStartDate:startDateString toEndDate:endDateString withCallBackHandler:^(NSArray *medicationsList, NSError *error) {
             NSMutableArray *medicationArray = [NSMutableArray arrayWithArray:medicationsList];
             // if FetchTypeInitial
@@ -569,12 +569,12 @@ typedef enum : NSUInteger {
 - (void)modifyStartDayAndWeekDates:(BOOL)isNextWeek {
     
     if (isNextWeek) {
-        firstDisplayDate = [DCDateUtility getInitialDateForCalendarDisplay:firstDisplayDate withAdderValue:5];
-        currentWeekDatesArray = [DCDateUtility getFiveDaysOfWeekFromDate:firstDisplayDate];
+        firstDisplayDate = [DCDateUtility initialDateForCalendarDisplay:firstDisplayDate withAdderValue:5];
+        currentWeekDatesArray = [DCDateUtility nextAndPreviousSevenDaysWithReferenceToDate:firstDisplayDate];
     }
     else {
-        firstDisplayDate = [DCDateUtility getInitialDateForCalendarDisplay:firstDisplayDate withAdderValue:-5];
-        currentWeekDatesArray = [DCDateUtility getFiveDaysOfWeekFromDate:firstDisplayDate];
+        firstDisplayDate = [DCDateUtility initialDateForCalendarDisplay:firstDisplayDate withAdderValue:-5];
+        currentWeekDatesArray = [DCDateUtility nextAndPreviousSevenDaysWithReferenceToDate:firstDisplayDate];
     }
 }
 

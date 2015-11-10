@@ -26,8 +26,8 @@
     self = [[DCMedicationAdministration alloc] init];
     if (self) {
 
-        self.scheduledDateTime = [DCDateUtility getAdministrationDateForString:[administrationDetails objectForKey:SCHEDULED_ADMINISTRATION_TIME_ADM]];
-        self.actualAdministrationTime = [DCDateUtility getAdministrationDateForString:[administrationDetails objectForKey:ACTUAL_ADMINISTRATION_TIME_ADM]];
+        self.scheduledDateTime = [DCDateUtility administrationDateForString:[administrationDetails objectForKey:SCHEDULED_ADMINISTRATION_TIME_ADM]];
+        self.actualAdministrationTime = [DCDateUtility administrationDateForString:[administrationDetails objectForKey:ACTUAL_ADMINISTRATION_TIME_ADM]];
         
         self.status = [administrationDetails objectForKey:ADMINISTRATION_STATUS_ADM];
         

@@ -181,7 +181,7 @@
 
 - (void)refreshViewWithAddedAdministrationTime:(NSDate *)newTime {
     
-    NSDictionary *timeDictionary = @{TIME_KEY : [DCDateUtility getTimeStringInTwentyFourHourFormat:newTime],
+    NSDictionary *timeDictionary = @{TIME_KEY : [DCDateUtility timeStringInTwentyFourHourFormat:newTime],
                                SELECTED_KEY : @1};
     NSMutableArray *timeArray = [NSMutableArray arrayWithArray:_contentArray];
     BOOL timeAlreadyAdded = NO;
@@ -364,7 +364,7 @@
     } else {
         if (_detailType == eNewAdministrationTime) {
             [self dismissViewControllerAnimated:YES completion:^{
-                self.newTime([DCDateUtility getDateInCurrentTimeZone:timePickerView.date]);
+                self.newTime([DCDateUtility dateInCurrentTimeZone:timePickerView.date]);
             }];
         } else if (_detailType == eOverrideReason) {
             DCReasonCell *reasonCell = (DCReasonCell *)[detailTableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];

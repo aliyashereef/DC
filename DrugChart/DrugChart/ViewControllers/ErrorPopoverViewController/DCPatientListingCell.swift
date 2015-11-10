@@ -38,7 +38,7 @@ class DCPatientListingCell: UITableViewCell {
     
     func manageNextMedicationDisplayForPatient() {
         if let date : NSDate = patientDetails.nextMedicationDate {
-            dateLabel.text = DCDateUtility.getNextMedicationDisplayStringForPatientFromDate(date)
+            dateLabel.text = DCDateUtility.nextMedicationDisplayStringFromDate(date)
         } else {
             dateLabel.text = EMPTY_STRING
         }

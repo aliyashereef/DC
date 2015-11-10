@@ -48,9 +48,9 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         }
         let dateString : String
         if let date = medicationSlot?.time {
-            dateString = DCDateUtility.convertDate(date, fromFormat: DEFAULT_DATE_FORMAT, toFormat: DATE_MONTHNAME_YEAR_FORMAT)
+            dateString = DCDateUtility.dateStringFromDate(date, inFormat: DATE_MONTHNAME_YEAR_FORMAT)
         } else {
-            dateString = DCDateUtility.convertDate(weekDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: DATE_MONTHNAME_YEAR_FORMAT)
+            dateString = DCDateUtility.dateStringFromDate(weekDate, inFormat: DATE_MONTHNAME_YEAR_FORMAT)
         }
         medicationDateLabel.text = dateString
     }
@@ -106,9 +106,9 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
             cell!.contentType.text = DATE_TIME
             let dateString : String
             if let date = medication.medicationAdministration?.actualAdministrationTime {
-                dateString = DCDateUtility.convertDate(date, fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
+                dateString = DCDateUtility.dateStringFromDate(date, inFormat: ADMINISTER_DATE_TIME_FORMAT)
             } else {
-                dateString = DCDateUtility.convertDate(weekDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
+                dateString = DCDateUtility.dateStringFromDate(weekDate, inFormat: ADMINISTER_DATE_TIME_FORMAT)
             }
             cell!.value.text = dateString
             break
@@ -204,9 +204,9 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
             cell!.contentType.text = DATE
             let dateString : NSString
             if let date = medication.medicationAdministration?.actualAdministrationTime {
-                dateString = DCDateUtility.convertDate(DCDateUtility.getDateInCurrentTimeZone(date), fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
+                dateString = DCDateUtility.dateStringFromDate(DCDateUtility.dateInCurrentTimeZone(date), inFormat: ADMINISTER_DATE_TIME_FORMAT)
             } else {
-                dateString = DCDateUtility.convertDate(DCDateUtility.getDateInCurrentTimeZone(NSDate()), fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
+                dateString = DCDateUtility.dateStringFromDate(DCDateUtility.dateInCurrentTimeZone(NSDate()), inFormat: ADMINISTER_DATE_TIME_FORMAT)
             }
             cell!.value.text = dateString as String
             break
@@ -331,7 +331,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
                 let header = UIView(frame: CGRectMake(0, 0, 100,40))
                 headerView.backgroundColor = UIColor(red: 239.0/255.0, green: 239.0/255.0, blue: 244.0/255.0, alpha: 1.0)
                 header.addSubview(headerView)
-                headerView.administratingTime.text = DCDateUtility.convertDate(time, fromFormat: DEFAULT_DATE_FORMAT, toFormat: TWENTYFOUR_HOUR_FORMAT);
+                headerView.administratingTime.text = DCDateUtility.dateStringFromDate(time, inFormat: TWENTYFOUR_HOUR_FORMAT)
                 return header
             }
         }

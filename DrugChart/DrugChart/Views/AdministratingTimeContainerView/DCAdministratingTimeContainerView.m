@@ -91,7 +91,7 @@
 
 - (void)updateTimeContainerViewWithSelectedTime:(NSDate *)time {
     
-    NSString *selectedDateString = [DCDateUtility getDisplayDateInTwentyFourHourFormat:time];
+    NSString *selectedDateString = [DCDateUtility displayDateInTwentyFourHourFormat:time];
     NSDictionary *timeDictionary = @{@"time" : selectedDateString, @"selected" : @1};
     BOOL timeAlreadyAdded = NO;
     NSInteger alreadyAddedSlotTag = 0;

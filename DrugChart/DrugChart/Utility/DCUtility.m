@@ -121,14 +121,9 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:BIRTH_DATE_FORMAT];
     NSString *dobDateString = [dateFormatter stringFromDate:dateOfBirth];
-//    NSInteger age = [DCDateUtility calculateAgeFromDate:dateOfBirth];
     NSMutableAttributedString *attributedDOBString = [[NSMutableAttributedString alloc]
                                                       initWithString:[NSString stringWithFormat:@"%@ ", dobDateString]
                                                       attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName : [UIColor getColorForHexString:@"#394348"]}];
-//    NSAttributedString *attributedAgeString = [[NSAttributedString alloc]
-//                                               initWithString:[NSString stringWithFormat:@"(%ld years)", (long)age]
-//                                               attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName : [UIColor getColorForHexString:@"#7d929e"]}];
-//    [attributedDOBString appendAttributedString:attributedAgeString];
     return attributedDOBString;
 }
 
@@ -383,12 +378,12 @@
 
 + (DCMedicationSlot *)getNearestMedicationSlotToBeAdministeredFromSlotsArray:(NSArray *)slotsArray {
     
-    NSDate *currentSystemDate = [DCDateUtility getDateInCurrentTimeZone:[NSDate date]];
-    NSString *currentDateString = [DCDateUtility convertDate:currentSystemDate FromFormat:DEFAULT_DATE_FORMAT ToFormat:SHORT_DATE_FORMAT];
+    NSDate *currentSystemDate = [DCDateUtility dateInCurrentTimeZone:[NSDate date]];
+    NSString *currentDateString = [DCDateUtility dateStringFromDate:currentSystemDate inFormat:SHORT_DATE_FORMAT];
     NSMutableArray *filteredArray = [[NSMutableArray alloc] init];
     //get medication slots array of current week
     for (DCMedicationSlot *slot in slotsArray) {
-        NSString *timeString = [DCDateUtility convertDate:slot.time FromFormat:DEFAULT_DATE_FORMAT ToFormat:SHORT_DATE_FORMAT];
+        NSString *timeString = [DCDateUtility dateStringFromDate:slot.time inFormat:SHORT_DATE_FORMAT];
         if ([timeString isEqualToString:currentDateString]) {
             [filteredArray addObject:slot];
         }

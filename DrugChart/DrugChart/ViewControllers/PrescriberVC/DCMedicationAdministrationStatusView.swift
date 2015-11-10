@@ -78,12 +78,12 @@ class DCMedicationAdministrationStatusView: UIView {
         }
     }
     
-    func configureStatusViewForWeekDate(weekdate : NSDate) {
+    func configureStatusViewForWeekDate(weeksDate : NSDate) {
         
-        weekDate = weekdate
-        let currentSystemDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
-        let currentDateString = DCDateUtility.convertDate(currentSystemDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: SHORT_DATE_FORMAT)
-        let weekDateString = DCDateUtility.convertDate(weekdate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: SHORT_DATE_FORMAT)
+        weekDate = weeksDate
+        let currentSystemDate : NSDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
+        let currentDateString = DCDateUtility.dateStringFromDate(currentSystemDate, inFormat: SHORT_DATE_FORMAT)
+        let weekDateString = DCDateUtility.dateStringFromDate(weekDate, inFormat: SHORT_DATE_FORMAT)
         if (currentDateString == weekDateString) {
             self.backgroundColor = CURRENT_DAY_BACKGROUND_COLOR
         }
@@ -93,9 +93,9 @@ class DCMedicationAdministrationStatusView: UIView {
         
         timeArray = timeSlotsArray
         let initialSlot = timeArray.objectAtIndex(0) as? DCMedicationSlot
-        let currentSystemDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
-        let currentDateString = DCDateUtility.convertDate(currentSystemDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: SHORT_DATE_FORMAT)
-        let initialSlotDateString = DCDateUtility.convertDate(initialSlot?.time, fromFormat: DEFAULT_DATE_FORMAT, toFormat: SHORT_DATE_FORMAT)
+        let currentSystemDate : NSDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
+        let currentDateString = DCDateUtility.dateStringFromDate(currentSystemDate, inFormat: SHORT_DATE_FORMAT)
+        let initialSlotDateString = DCDateUtility.dateStringFromDate(initialSlot?.time, inFormat: SHORT_DATE_FORMAT)
         if (currentDateString == initialSlotDateString) {
             // both falls on the same day
             configureStatusViewForToday()
@@ -124,7 +124,7 @@ class DCMedicationAdministrationStatusView: UIView {
         var overDueCount : NSInteger = 0
         var administeredCount : NSInteger = 0
         var omissionRefusalCount : NSInteger = 0
-        let currentSystemDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
+        let currentSystemDate : NSDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
         for slot in timeArray as [AnyObject] {
             let medication = slot as! DCMedicationSlot
             if (medication.time.compare(currentSystemDate) == NSComparisonResult.OrderedAscending) {
@@ -168,7 +168,7 @@ class DCMedicationAdministrationStatusView: UIView {
                 if (nearestSlot?.medicationAdministration?.actualAdministrationTime == nil) {
                     // get date string from the nearest slot time
                     if (medicationCategory != WHEN_REQUIRED) {
-                        let dueTime = DCDateUtility.convertDate(nearestSlot?.time, fromFormat: DEFAULT_DATE_FORMAT, toFormat: TWENTYFOUR_HOUR_FORMAT)
+                        let dueTime = DCDateUtility.dateStringFromDate(nearestSlot?.time, inFormat: TWENTYFOUR_HOUR_FORMAT)
                         adjustStatusLabelAndImageViewForCurrentDay()
                         //Populate due label
                         statusIcon?.image = ADMINISTRATION_DUE_IMAGE

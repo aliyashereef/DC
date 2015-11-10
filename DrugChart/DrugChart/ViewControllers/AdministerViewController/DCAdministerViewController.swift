@@ -137,9 +137,9 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         }
         let dateString : String
         if let date = medicationSlot?.time {
-            dateString = DCDateUtility.convertDate(date, fromFormat: DEFAULT_DATE_FORMAT, toFormat: DATE_MONTHNAME_YEAR_FORMAT)
+            dateString = DCDateUtility.dateStringFromDate(date, inFormat: DATE_MONTHNAME_YEAR_FORMAT)
         } else {
-            dateString = DCDateUtility.convertDate(weekDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: DATE_MONTHNAME_YEAR_FORMAT)
+            dateString = DCDateUtility.dateStringFromDate(weekDate, inFormat: DATE_MONTHNAME_YEAR_FORMAT)
         }
         medicineDateLabel.text = dateString
     }
@@ -185,7 +185,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func checkIfAdministrationIsEarly () {
         
         //check if administration is early
-        let currentSystemDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
+        let currentSystemDate : NSDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
         let nextMedicationTimeInterval : NSTimeInterval? = (medicationSlot?.time)!.timeIntervalSinceDate(currentSystemDate)
         if (nextMedicationTimeInterval  >= 60*60) {
             // is early administration
@@ -201,7 +201,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         //check if frequent administration for when required medication
         if (medicationSlotsArray.count > 0) {
             let previousMedicationSlot : DCMedicationSlot? = medicationSlotsArray.last
-            let currentSystemDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
+            let currentSystemDate : NSDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
             let nextMedicationTimeInterval : NSTimeInterval? = currentSystemDate.timeIntervalSinceDate((previousMedicationSlot?.time)!)
             if (nextMedicationTimeInterval <= 2*60*60) {
                 medicationSlot?.medicationAdministration.isEarlyAdministration = true
@@ -284,9 +284,9 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             cell.titleLabel.text = NSLocalizedString("DATE_TIME", comment: "date and time")
             let dateString : String
             if let date = medicationSlot?.medicationAdministration.actualAdministrationTime {
-                dateString = DCDateUtility.convertDate(DCDateUtility.getDateInCurrentTimeZone(date), fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
+                dateString = DCDateUtility.dateStringFromDate(DCDateUtility.dateInCurrentTimeZone(date), inFormat: ADMINISTER_DATE_TIME_FORMAT)
             } else {
-                dateString = DCDateUtility.convertDate(DCDateUtility.getDateInCurrentTimeZone(NSDate()), fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
+                dateString = DCDateUtility.dateStringFromDate(DCDateUtility.dateInCurrentTimeZone(NSDate()), inFormat: ADMINISTER_DATE_TIME_FORMAT)
             }
             cell.detailLabel.text = dateString
             break
@@ -309,9 +309,9 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         cell.titleLabel.text = NSLocalizedString("DATE_TIME", comment: "date and time")
         let dateString : String
         if let date = medicationSlot?.medicationAdministration.actualAdministrationTime {
-            dateString = DCDateUtility.convertDate(DCDateUtility.getDateInCurrentTimeZone(date), fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
+            dateString = DCDateUtility.dateStringFromDate(DCDateUtility.dateInCurrentTimeZone(date), inFormat: ADMINISTER_DATE_TIME_FORMAT)
         } else {
-            dateString = DCDateUtility.convertDate(DCDateUtility.getDateInCurrentTimeZone(NSDate()), fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
+            dateString = DCDateUtility.dateStringFromDate(DCDateUtility.dateInCurrentTimeZone(NSDate()), inFormat: ADMINISTER_DATE_TIME_FORMAT)
         }
         cell.detailLabel.text = dateString
         return cell
@@ -672,7 +672,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                     administerHeaderView?.populateScheduledTimeValue((medicationSlot?.time)!)
                 } else {
                     if (medicationDetails?.medicineCategory == WHEN_REQUIRED) {
-                       let currentDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
+                       let currentDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
                         administerHeaderView?.populateScheduledTimeValue(currentDate)
                     }
                 }

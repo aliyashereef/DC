@@ -139,7 +139,7 @@
 
 - (void)displayAdministeredViewDetails:(DCMedicationSlot *)medicationSlot {
     
-    NSString *dateDisplayString = [DCDateUtility convertDate:medicationSlot.time FromFormat:DEFAULT_DATE_FORMAT ToFormat:DATE_FORMAT_WITH_DAY];
+    NSString *dateDisplayString = [DCDateUtility dateStringFromDate:medicationSlot.time inFormat:DATE_FORMAT_WITH_DAY];
     [administeredView setHidden:NO];
     [notDueView setHidden:YES];
     [refusedView setHidden:YES];
@@ -182,7 +182,7 @@
     [administeredView setHidden:YES];
     [notDueView setHidden:YES];
     [omittedView setHidden:YES];
-    NSString *dateDisplayString = [DCDateUtility convertDate:medicationSlot.time FromFormat:DEFAULT_DATE_FORMAT ToFormat:DATE_FORMAT_WITH_DAY];
+    NSString *dateDisplayString = [DCDateUtility dateStringFromDate:medicationSlot.time inFormat:DATE_FORMAT_WITH_DAY];
     refusedDateAndTimeLabel.text = dateDisplayString;
     if (medicationSlot.medicationAdministration) {
         refusedNotesLabel.text = medicationSlot.medicationAdministration.administeredNotes;
@@ -200,7 +200,7 @@
 
 - (void)displayOmittedViewDetails:(DCMedicationSlot *)medicationSlot {
     
-    NSString *dateDisplayString = [DCDateUtility convertDate:medicationSlot.time FromFormat:DEFAULT_DATE_FORMAT ToFormat:DATE_FORMAT_WITH_DAY];
+    NSString *dateDisplayString = [DCDateUtility dateStringFromDate:medicationSlot.time inFormat:DATE_FORMAT_WITH_DAY];
     [omittedView setHidden:NO];
     [refusedView setHidden:YES];
     [administeredView setHidden:YES];
@@ -221,9 +221,9 @@
 - (void)displayStatusViewForMedicationslot:(DCMedicationSlot *)medicationSlot {
     
     //display view as per medication status
-    if ([medicationSlot.time compare:[DCDateUtility getDateInCurrentTimeZone:[NSDate date]]] == NSOrderedDescending) {
+    if ([medicationSlot.time compare:[DCDateUtility dateInCurrentTimeZone:[NSDate date]]] == NSOrderedDescending) {
         [self displayNotDueViewDetails:medicationSlot];
-    } else if ([medicationSlot.time compare:[DCDateUtility getDateInCurrentTimeZone:[NSDate date]]] == NSOrderedAscending) {
+    } else if ([medicationSlot.time compare:[DCDateUtility dateInCurrentTimeZone:[NSDate date]]] == NSOrderedAscending) {
         //time past
         if ([medicationSlot.status isEqualToString:IS_GIVEN] || [medicationSlot.status isEqualToString:SELF_ADMINISTERED]) {
             [self displayAdministeredViewDetails:medicationSlot];

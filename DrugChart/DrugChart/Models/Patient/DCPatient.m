@@ -100,7 +100,7 @@
         return kMedicationDue;
     } else {
         
-        NSTimeInterval timeInterval = [self.nextMedicationDate timeIntervalSinceDate:[DCDateUtility getDateInCurrentTimeZone:[NSDate date]]];
+        NSTimeInterval timeInterval = [self.nextMedicationDate timeIntervalSinceDate:[DCDateUtility dateInCurrentTimeZone:[NSDate date]]];
         if (timeInterval < MEDICATION_DUE) {
             return kMedicationDue;
         }
