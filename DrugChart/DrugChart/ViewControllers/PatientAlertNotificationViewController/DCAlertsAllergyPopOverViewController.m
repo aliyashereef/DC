@@ -17,6 +17,7 @@
 #define ALERT_CELL_HEIGHT_MAX 390
 #define ALERT_CELL_PADDING 30
 #define CELL_PADDING 55
+#define ALERT_CELL_HEIGHT 35.0f
 
 @interface DCAlertsAllergyPopOverViewController () {
     
@@ -88,7 +89,7 @@
 - (CGFloat )getAllergyAndAlertDisplayTableViewHeightForContent:(NSArray *)displayArray {
     
     cellHeightArray = [[NSMutableArray alloc] init];
-    CGFloat totalAlertCellsHeight = 35.0f;
+    CGFloat totalAlertCellsHeight = ALERT_CELL_HEIGHT;
     for (int index = 0; index < displayArray.count; index++) {
         CGSize stepSize;
         if ([[displayArray objectAtIndex:index] isKindOfClass:[DCPatientAlert

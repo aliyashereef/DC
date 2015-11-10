@@ -22,7 +22,7 @@ import UIKit
     var firstDateForCurrentWeek : NSDate?
     
     let currentDate : NSDate = NSDate()
-    
+    let dateViewFormat : NSString = "EEE d"
     //MARK: View Management Methods
     
     override func viewDidLoad() {
@@ -93,7 +93,6 @@ import UIKit
         
         var index : NSInteger = 0
         let displayDatesArray = NSMutableArray()
-        print("the current weekdates aarray : %@", currentWeekDateArray)
         for ( index = 0; index < currentWeekDateArray!.count; index++) {
             let date = currentWeekDateArray?.objectAtIndex(index) as! NSDate
             let displayDate = convertDateToString(date)
@@ -104,7 +103,7 @@ import UIKit
     
     func convertDateToString (date:NSDate) -> NSString {
         let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "EEE d"
+        dateFormatter.dateFormat = dateViewFormat as String
         let dateString = dateFormatter.stringFromDate(date)
         return dateString
     }
