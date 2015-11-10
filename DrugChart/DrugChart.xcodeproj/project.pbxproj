@@ -215,6 +215,8 @@
 		7D4DBE971AA556E100A5E39B /* TestPatientList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7D4DBE961AA556E100A5E39B /* TestPatientList.plist */; };
 		7D4DBE9B1AA55D2D00A5E39B /* DCPatientListWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D4DBE9A1AA55D2D00A5E39B /* DCPatientListWebService.m */; };
 		7D4DBE9E1AA57E1700A5E39B /* UIColor+ColorFromHex.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D4DBE9D1AA57E1700A5E39B /* UIColor+ColorFromHex.m */; };
+		7D5319BE1BF21EDB003C3F92 /* DCAlertsAllergyPopOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D5319BD1BF21EDB003C3F92 /* DCAlertsAllergyPopOverViewController.m */; settings = {ASSET_TAGS = (); }; };
+		7D5319C21BF21EF7003C3F92 /* DCAlertsAllergyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D5319C11BF21EF7003C3F92 /* DCAlertsAllergyTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
 		7D5567DD1B4FEE2100BA6733 /* OnceMedicationSample.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7D5567DB1B4FEE2100BA6733 /* OnceMedicationSample.plist */; };
 		7D5567DE1B4FEE2100BA6733 /* RegularMedicationSample.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7D5567DC1B4FEE2100BA6733 /* RegularMedicationSample.plist */; };
 		7D6010761B4BE1AA00135DBD /* DCMedicationSchedulesWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D6010751B4BE1AA00135DBD /* DCMedicationSchedulesWebService.m */; };
@@ -564,6 +566,10 @@
 		7D4DBE9A1AA55D2D00A5E39B /* DCPatientListWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCPatientListWebService.m; sourceTree = "<group>"; };
 		7D4DBE9C1AA57E1700A5E39B /* UIColor+ColorFromHex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+ColorFromHex.h"; sourceTree = "<group>"; };
 		7D4DBE9D1AA57E1700A5E39B /* UIColor+ColorFromHex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ColorFromHex.m"; sourceTree = "<group>"; };
+		7D5319BC1BF21EDB003C3F92 /* DCAlertsAllergyPopOverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCAlertsAllergyPopOverViewController.h; sourceTree = "<group>"; };
+		7D5319BD1BF21EDB003C3F92 /* DCAlertsAllergyPopOverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCAlertsAllergyPopOverViewController.m; sourceTree = "<group>"; };
+		7D5319C01BF21EF7003C3F92 /* DCAlertsAllergyTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCAlertsAllergyTableViewCell.h; sourceTree = "<group>"; };
+		7D5319C11BF21EF7003C3F92 /* DCAlertsAllergyTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCAlertsAllergyTableViewCell.m; sourceTree = "<group>"; };
 		7D5567DB1B4FEE2100BA6733 /* OnceMedicationSample.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = OnceMedicationSample.plist; sourceTree = "<group>"; };
 		7D5567DC1B4FEE2100BA6733 /* RegularMedicationSample.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = RegularMedicationSample.plist; sourceTree = "<group>"; };
 		7D6010741B4BE1AA00135DBD /* DCMedicationSchedulesWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCMedicationSchedulesWebService.h; sourceTree = "<group>"; };
@@ -1270,6 +1276,7 @@
 		0BBC8F9A1AA468920085ABAB /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				7D5319BB1BF21EDB003C3F92 /* AlertsAllergyPopOverViewController */,
 				4D7627841BE8E1770070BAF2 /* VitalSignViewController */,
 				4D7627831BE8E1380070BAF2 /* PatientMenuSelectionViewController */,
 				7DAAAA891BC3C2CB00119E2B /* PrescriberMedicationListViewController */,
@@ -1974,6 +1981,7 @@
 		7D4DBE921AA5437300A5E39B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7D5319BF1BF21EF7003C3F92 /* AlertsAllergyTableViewCell */,
 				7D2FF0561BB9022800B92B85 /* CalendarDayView */,
 				0B989E941B8C22780012AFE8 /* CalendarNavigationTitleView */,
 				7DA89AEB1B2D533A00096A0A /* PositionableGraphicsView */,
@@ -2010,6 +2018,24 @@
 				7D4DBE9A1AA55D2D00A5E39B /* DCPatientListWebService.m */,
 			);
 			path = PatientListWebService;
+			sourceTree = "<group>";
+		};
+		7D5319BB1BF21EDB003C3F92 /* AlertsAllergyPopOverViewController */ = {
+			isa = PBXGroup;
+			children = (
+				7D5319BC1BF21EDB003C3F92 /* DCAlertsAllergyPopOverViewController.h */,
+				7D5319BD1BF21EDB003C3F92 /* DCAlertsAllergyPopOverViewController.m */,
+			);
+			path = AlertsAllergyPopOverViewController;
+			sourceTree = "<group>";
+		};
+		7D5319BF1BF21EF7003C3F92 /* AlertsAllergyTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				7D5319C01BF21EF7003C3F92 /* DCAlertsAllergyTableViewCell.h */,
+				7D5319C11BF21EF7003C3F92 /* DCAlertsAllergyTableViewCell.m */,
+			);
+			path = AlertsAllergyTableViewCell;
 			sourceTree = "<group>";
 		};
 		7D566D411AEFBDDE00F09AFC /* SettingsViewController */ = {
@@ -2400,6 +2426,7 @@
 				7D4DBE951AA5438B00A5E39B /* DCPatientTableViewCell.m in Sources */,
 				4D16FADD1B5E34210034406A /* DCStopMedicationWebService.m in Sources */,
 				7D6010761B4BE1AA00135DBD /* DCMedicationSchedulesWebService.m in Sources */,
+				7D5319BE1BF21EDB003C3F92 /* DCAlertsAllergyPopOverViewController.m in Sources */,
 				7D930D1F1AADF82E00C0607F /* DCDateUtility.m in Sources */,
 				0B1E308F1AF20213003E49C4 /* DCSecurityPinViewController.m in Sources */,
 				0B26E8341B4D12B300B20CE3 /* DCAdministratingTimeContainerView.m in Sources */,
@@ -2474,6 +2501,7 @@
 				0BB27D061AEF51230007EB88 /* DCPopOverBaseBackgroundView.m in Sources */,
 				0BF2DA501ACA982E00B3ED97 /* DCErrorPopOverViewController.m in Sources */,
 				0BB33DDC1B79F5B500B05E4D /* DCMedicationScheduleDetails.m in Sources */,
+				7D5319C21BF21EF7003C3F92 /* DCAlertsAllergyTableViewCell.m in Sources */,
 				7DA89AEE1B2D536300096A0A /* DCPositionableGraphicsView.m in Sources */,
 				0B9D6D521BA17244009E0A4E /* DCAddMedicationHelper.m in Sources */,
 				0BBEEB5E1AD4FF4F00C1D986 /* RoundRectPresentationController.m in Sources */,
