@@ -10,9 +10,7 @@
 #import "DCPatientAlertsNotificationTableViewController.h"
 #import "DCPopOverContentSizeUtility.h"
 #import "DCSettingsPopOverBackgroundView.h"
-#import "DCAddMedicationRightViewController.h"
 #import "DCAddMedicationDetailsViewController.h"
-#import "DCMissedMedicationAlertViewController.h"
 #import "DCOrderSetMedicineView.h"
 #import "DCAddMedicationWebService.h"
 #import "DCOrderSetOperationQueue.h"
@@ -69,7 +67,7 @@ typedef enum : NSInteger {
     __weak IBOutlet NSLayoutConstraint *cancelButtonLeadingConstraint;
     
     DCAddMedicationDetailsViewController *addMedicationDetailsViewController;
-    DCAddMedicationRightViewController  *rightViewController;
+   // DCAddMedicationRightViewController  *rightViewController;
     UINavigationController *detailsNavigationController;
     NSMutableArray *medicationArray;
     NSMutableArray *alertsArray;
@@ -238,7 +236,7 @@ typedef enum : NSInteger {
 - (void)displayWarningsAccordionSection:(BOOL)show {
     
     //display accordion section
-    [rightViewController displayWarningsSection:show];
+   // [rightViewController displayWarningsSection:show];
 }
 
 - (void)deleteMedicineInOrderSetViewTag:(int)viewTag {
@@ -337,14 +335,14 @@ typedef enum : NSInteger {
 
 - (void)addRightChildViewController {
     
-    rightViewController = [self.storyboard instantiateViewControllerWithIdentifier:ADD_MEDICATION_RIGHT_SB_ID];
-    
-    rightViewController.medicationArray = [NSMutableArray arrayWithArray:_patient.medicationListArray];
-    rightViewController.allergiesArray = _patient.patientsAlergiesArray;
-    [self addChildViewController:rightViewController];
-    rightViewController.view.frame = rightContainerView.bounds;
-    [rightContainerView addSubview:rightViewController.view];
-    [rightViewController didMoveToParentViewController:self];
+//    rightViewController = [self.storyboard instantiateViewControllerWithIdentifier:ADD_MEDICATION_RIGHT_SB_ID];
+//    
+//    rightViewController.medicationArray = [NSMutableArray arrayWithArray:_patient.medicationListArray];
+//    rightViewController.allergiesArray = _patient.patientsAlergiesArray;
+//    [self addChildViewController:rightViewController];
+//    rightViewController.view.frame = rightContainerView.bounds;
+//    [rightContainerView addSubview:rightViewController.view];
+//    [rightViewController didMoveToParentViewController:self];
    // [rightViewController displayWarningsSection:NO];
 }
 
@@ -571,24 +569,7 @@ typedef enum : NSInteger {
 
 - (void)displayMedicationConfirmationAlertWithType:(AlertType) alertType{
     //display missed administartion pop up
-    UIStoryboard *administerStoryboard = [UIStoryboard storyboardWithName:ADMINISTER_STORYBOARD
-                                                                   bundle: nil];
-    DCMissedMedicationAlertViewController *missedMedicationAlertViewController = [administerStoryboard instantiateViewControllerWithIdentifier:MISSED_ADMINISTER_VIEW_CONTROLLER];
-    missedMedicationAlertViewController.alertType = alertType;
-    missedMedicationAlertViewController.dismissView = ^ {
-        //delete the medication from order set
-        if (alertType == eOrderSetDeleteConfirmation) {
-            [self configureOrderSetScrollViewOnSuperviewTap];
-        }
-    };
-    missedMedicationAlertViewController.dismissViewWithoutSaving = ^ {
-        if (alertType == eOrderSetDeleteConfirmation) {
-            [removedMedicinesArray removeAllObjects];
-            [addMedicationDetailsViewController displayWarningsViewOnAddSubstituteCancel];
-        }
-    };
-    [missedMedicationAlertViewController setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
-    [self presentViewController:missedMedicationAlertViewController animated:YES completion:nil];
+   
 }
 
 - (BOOL)allMedicationsInActiveListAreSaved {
@@ -615,7 +596,7 @@ typedef enum : NSInteger {
     
     //update warnings array
    // rightViewController.warningsArray = [NSMutableArray arrayWithArray:warningsArray];
-    [rightViewController populateViewWithWarningsArray:warningsArray];
+   // [rightViewController populateViewWithWarningsArray:warningsArray];
 }
 
 - (void)addMedicationOperationsToOrderSetQueue {

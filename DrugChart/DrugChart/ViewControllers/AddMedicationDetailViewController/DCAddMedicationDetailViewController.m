@@ -183,22 +183,22 @@
 
 - (void)refreshViewWithAddedAdministrationTime:(NSDate *)newTime {
     
-    NSDictionary *timeDict = @{TIME_KEY : [DCDateUtility getTimeStringInTwentyFourHourFormat:newTime],
+    NSDictionary *timeDictionary = @{TIME_KEY : [DCDateUtility getTimeStringInTwentyFourHourFormat:newTime],
                                SELECTED_KEY : @1};
     NSMutableArray *timeArray = [NSMutableArray arrayWithArray:_contentArray];
     BOOL timeAlreadyAdded = NO;
     NSInteger alreadyAddedSlotTag = 0;
-    for (NSDictionary *dict in timeArray) {
-        if ([dict[TIME_KEY] isEqualToString:timeDict[TIME_KEY]]) {
+    for (NSDictionary *contentDictionary in timeArray) {
+        if ([contentDictionary[TIME_KEY] isEqualToString:timeDictionary[TIME_KEY]]) {
             timeAlreadyAdded = YES;
-            alreadyAddedSlotTag = [timeArray indexOfObject:dict];
+            alreadyAddedSlotTag = [timeArray indexOfObject:contentDictionary];
             break;
         }
     }
     if (timeAlreadyAdded) {
-        [timeArray replaceObjectAtIndex:alreadyAddedSlotTag withObject:timeDict];
+        [timeArray replaceObjectAtIndex:alreadyAddedSlotTag withObject:timeDictionary];
     } else {
-        [timeArray addObject:timeDict];
+        [timeArray addObject:timeDictionary];
     }
     timeArray = [NSMutableArray arrayWithArray:[DCUtility sortArray:timeArray
                                                          basedOnKey:TIME_KEY ascending:YES]];

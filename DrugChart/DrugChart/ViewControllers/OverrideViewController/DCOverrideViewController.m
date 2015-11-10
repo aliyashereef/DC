@@ -9,6 +9,9 @@
 #import "DCOverrideViewController.h"
 #import "RoundRectPresentationController.h"
 
+#define BORDER_WIDTH 0.6
+#define CORNER_RADIUS 3
+
 @interface DCOverrideViewController () <UIViewControllerTransitioningDelegate> {
     
     __weak IBOutlet UITextView *reasonTextView;
@@ -22,6 +25,8 @@
 @implementation DCOverrideViewController
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    
+    //registering presentation controller
     self = [super initWithCoder:aDecoder];
     if (self && [self respondsToSelector:@selector(setTransitioningDelegate:)]) {
         self.modalPresentationStyle = UIModalPresentationCustom;
@@ -45,14 +50,15 @@
 
 - (void)configureViewElements {
     
-    reasonTextView.layer.borderWidth = 0.6;
-    reasonTextView.layer.cornerRadius = 3;
+    reasonTextView.layer.borderWidth = BORDER_WIDTH;
+    reasonTextView.layer.cornerRadius = CORNER_RADIUS;
     reasonTextView.layer.borderColor = [UIColor getColorForHexString:@"#b1b1b1"].CGColor;
     [reasonTextView setTextContainerInset:TEXTVIEW_EDGE_INSETS];
     reasonTextView.text = NSLocalizedString(@"OVERRIDE REASON", @"");
 }
 
 - (void)displayErrorPopOverView:(UITextView *)textView {
+    
     //display error pop over here
     popOverController = [DCUtility getDisplayPopOverControllerOnView:textView];
     errorViewController = (DCErrorPopOverViewController *)popOverController.contentViewController;
@@ -73,7 +79,6 @@
         __weak __typeof(self)weakSelf = self;
         errorViewController.viewLoaded = ^ {
             [weakSelf displayErrorMessage:NSLocalizedString(@"INVALID_REASON", @"")];
-            
         };
     }
 }
@@ -116,12 +121,10 @@
     
     [reasonTextView resignFirstResponder];
     if ([reasonTextView.text isEqualToString:EMPTY_STRING] || [reasonTextView.text isEqualToString:NSLocalizedString(@"OVERRIDE REASON", @"")]) {
-        
         //validation
         blankReason = YES;
         [DCUtility modifyViewComponentForErrorDisplay:reasonTextView];
     } else  {
-        
         self.reasonSubmitted (YES);
         [self dismissViewControllerAnimated:YES completion:nil];
     }
@@ -148,6 +151,7 @@
 
 - (void)keyboardDidShow:(NSNotification *)notification {
     
+    //override keyboard show notification
     [self repositionPopOverControllerInView];
     CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
     [self.view setTranslatesAutoresizingMaskIntoConstraints:YES];
@@ -162,6 +166,7 @@
 
 - (void)keyboardDidHide:(NSNotification *)notification {
     
+    //override keyboard hide notification
     [self repositionPopOverControllerInView];
     [self.view setTranslatesAutoresizingMaskIntoConstraints:YES];
     UIWindow *mainWindow = [UIApplication sharedApplication].windows[0];

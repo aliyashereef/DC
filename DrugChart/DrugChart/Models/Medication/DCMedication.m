@@ -27,8 +27,8 @@
             self.medicationId = [resourceDictionary valueForKey:ID_KEY];
             NSArray *extensionArray = [resourceDictionary valueForKey:EXTENSION_KEY];
             @try {
-                for (NSDictionary *dict in extensionArray) {
-                    NSString *valueStrength = [dict valueForKey:VALUE_STRENGTH_KEY];
+                for (NSDictionary *valueDictionary in extensionArray) {
+                    NSString *valueStrength = [valueDictionary valueForKey:VALUE_STRENGTH_KEY];
                     if (![valueStrength isEqualToString:EMPTY_STRING]) {
                         self.dosage = valueStrength;
                         break;

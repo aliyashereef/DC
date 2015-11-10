@@ -16,20 +16,9 @@
 @implementation DCMedicationTableViewCell
 
 - (void)awakeFromNib {
+    
     // Initialization code
 }
-
-//- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-//    [super setSelected:selected animated:animated];
-////    if (selected) {
-////        [_selectionView setHidden:NO];
-////        self.contentView.backgroundColor = [UIColor whiteColor];
-////    } else {
-////        [_selectionView setHidden:YES];
-////        //TODO: change this method to hex string color
-////        self.contentView.backgroundColor = [UIColor colorWithRed:236.0/255.0 green:244.0/255.0 blue:246.0/255.0 alpha:1.0];
-////    }
-//}
 
 #pragma mark - Action Methods
 

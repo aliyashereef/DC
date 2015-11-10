@@ -10,7 +10,6 @@
 #import "DCAddMedicationViewController.h"
 #import "DCAddMedicationPopOverContentViewController.h"
 #import "DCAddMedicationSevereWarningViewController.h"
-#import "DCMissedMedicationAlertViewController.h"
 #import "DCAdministratingTimeContainerView.h"
 #import "DCDatePickerViewController.h"
 #import "DCMedicationSlot.h"
@@ -20,7 +19,6 @@
 #import "DCOverrideViewController.h"
 #import "DCPopOverContentSizeUtility.h"
 #import "DCMedicationSearchWebService.h"
-#import "DCAddMedicationRightViewController.h"
 #import "DCScrollView.h"
 #import "DCAddMedicationWebService.h"
 #import "DCAutoSearchView.h"
@@ -110,7 +108,6 @@ typedef enum : NSInteger {
     NSMutableArray *dosageArray;
     CGFloat autoSearchViewHeight;
     NSMutableArray *warningsArray;
-   
     BOOL addNewSubstitute;
 }
 
@@ -319,8 +316,8 @@ typedef enum : NSInteger {
                 }
                 for (NSString *time in _medicationList.scheduleTimesArray) {
                     NSString *dateString = [DCUtility convertTimeToHourMinuteFormat:time];
-                    NSDictionary *dict = @{@"time" : dateString, @"selected" : @1};
-                    [timeArray addObject:dict];
+                    NSDictionary *timeDictionary = @{@"time" : dateString, @"selected" : @1};
+                    [timeArray addObject:timeDictionary];
                 }
             }
             [self addAdministratingTimeContainerView];
@@ -472,8 +469,8 @@ typedef enum : NSInteger {
 - (BOOL)hasWarningForType:(WarningType )type {
     
     BOOL hasWarning = NO;
-    for (NSDictionary *dict in warningsArray) {
-        if (type == eSevere && [dict valueForKey:SEVERE_WARNING]) {
+    for (NSDictionary *warningDictionary in warningsArray) {
+        if (type == eSevere && [warningDictionary valueForKey:SEVERE_WARNING]) {
             hasWarning = YES;
         }
     }
@@ -689,34 +686,7 @@ typedef enum : NSInteger {
 
 - (void)displayAlertViewControllerForType:(AlertType ) type {
     
-    UIStoryboard *administerStoryboard = [UIStoryboard storyboardWithName:ADMINISTER_STORYBOARD
-                                                                   bundle: nil];
-    DCMissedMedicationAlertViewController *alertViewController = [administerStoryboard instantiateViewControllerWithIdentifier:MISSED_ADMINISTER_VIEW_CONTROLLER];
-    alertViewController.alertType = type;
-    alertViewController.medicineName = medicineNameTextView.text;
-    alertViewController.dismissView = ^ {
-        if (type == eAddSubstitute) {
-            //add substitute
-            [medicineNameTextView setUserInteractionEnabled:YES];
-            [self clearAllFields];
-             [medicineNameTextView becomeFirstResponder];
-            addNewSubstitute = YES;
-        } else {
-            [self updateActiveMedicationListAndDismissView];
-        }
-    };
-    alertViewController.dismissViewWithoutSaving = ^ {
-        if (type == eAddSubstitute) {
-            //display override view again
-            [self displayWarningViewForType:SEVERE_WARNING forOrderSetCompletionStatus:NO];
-            [self performSelector:@selector(displayWarningsViewOnAddSubstituteCancel) withObject:nil afterDelay:DELAY_DURATION];
-        }
-    };
-    alertViewController.removeMedication = ^ {
-        [addMedicationViewController deleteMedicineInOrderSetViewTag:_orderSetSelectedIndex + 1];
-    };
-    [alertViewController setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
-    [self presentViewController:alertViewController animated:YES completion:nil];
+    
 }
 
 - (void)displayDatePickerPopOverFromView:(id)sender withType:(DatePickerType) datePickerType {

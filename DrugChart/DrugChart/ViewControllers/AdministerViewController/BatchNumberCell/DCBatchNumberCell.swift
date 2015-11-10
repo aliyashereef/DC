@@ -21,14 +21,13 @@ class DCBatchNumberCell: UITableViewCell, UITextFieldDelegate {
     var selectedIndexPath : NSIndexPath?
     
     override func awakeFromNib() {
+        
         super.awakeFromNib()
-        // Initialization code
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
+        
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
     func textFieldDidBeginEditing(textField: UITextField) {

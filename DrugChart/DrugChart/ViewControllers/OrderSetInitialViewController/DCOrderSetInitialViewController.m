@@ -12,7 +12,6 @@
 #import "DCAutoSearchView.h"
 #import "DCScrollView.h"
 #import "DCOrderSet.h"
-#import "DCMissedMedicationAlertViewController.h"
 #import "DCOrderSetWebService.h"
 #import "DCOrderSetAutoSearchHeaderView.h"
 #import "DCAddMedicationOperation.h"
@@ -349,29 +348,29 @@
 
 - (void)displayConfirmationAlertForType:(AlertType)alertType {
     
-    UIStoryboard *administerStoryboard = [UIStoryboard storyboardWithName:ADMINISTER_STORYBOARD
-                                                                   bundle: nil];
-    DCMissedMedicationAlertViewController *alertViewController = [administerStoryboard instantiateViewControllerWithIdentifier:MISSED_ADMINISTER_VIEW_CONTROLLER];
-    alertViewController.alertType = alertType;
-    alertViewController.dismissView = ^ {
-        hasChanges = NO;
-        if (alertType == eOrderSetNameClearConfirmation) {
-            [_activeMedicationArray removeAllObjects];
-            [self orderSetNameClearButtonPressed:nil];
-        } else if (alertType == eNewOrderSetSelection) {
-            [_activeMedicationArray removeAllObjects];
-            [self selectedOrderSet:selectedOrderSet];
-        }
-    };
-    alertViewController.dismissViewWithoutSaving = ^ {
-        if (alertType == eNewOrderSetSelection) {
-            [autoSearchView setHidden:YES];
-            orderSetNameTextView.text = previousOrderSetName;
-            [orderSetNameTextView resignFirstResponder];
-        }
-    };
-    [alertViewController setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
-    [self presentViewController:alertViewController animated:YES completion:nil];
+//    UIStoryboard *administerStoryboard = [UIStoryboard storyboardWithName:ADMINISTER_STORYBOARD
+//                                                                   bundle: nil];
+//    DCMissedMedicationAlertViewController *alertViewController = [administerStoryboard instantiateViewControllerWithIdentifier:MISSED_ADMINISTER_VIEW_CONTROLLER];
+//    alertViewController.alertType = alertType;
+//    alertViewController.dismissView = ^ {
+//        hasChanges = NO;
+//        if (alertType == eOrderSetNameClearConfirmation) {
+//            [_activeMedicationArray removeAllObjects];
+//            [self orderSetNameClearButtonPressed:nil];
+//        } else if (alertType == eNewOrderSetSelection) {
+//            [_activeMedicationArray removeAllObjects];
+//            [self selectedOrderSet:selectedOrderSet];
+//        }
+//    };
+//    alertViewController.dismissViewWithoutSaving = ^ {
+//        if (alertType == eNewOrderSetSelection) {
+//            [autoSearchView setHidden:YES];
+//            orderSetNameTextView.text = previousOrderSetName;
+//            [orderSetNameTextView resignFirstResponder];
+//        }
+//    };
+//    [alertViewController setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
+//    [self presentViewController:alertViewController animated:YES completion:nil];
 }
 
 - (void)displayMedicationDetailsViewAtIndex:(NSInteger)index {

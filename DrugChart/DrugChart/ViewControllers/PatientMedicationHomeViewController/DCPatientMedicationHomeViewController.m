@@ -16,7 +16,6 @@
 
 #import "DCSettingsPopOverBackgroundView.h"
 #import "DCAlertsAllergyPopOverViewController.h"
-#import "DCMissedMedicationAlertViewController.h"
 #import "DCMedicationTableViewCell.h"
 
 #import "DCMedicationSlot.h"
@@ -638,34 +637,7 @@ typedef enum : NSInteger {
 
 - (void)displayAdministrationAlertOnNextMedicationSelection:(DCMedicationScheduleDetails *)medicationList {
     //display missed administartion pop up
-    UIStoryboard *administerStoryboard = [UIStoryboard storyboardWithName:ADMINISTER_STORYBOARD
-                                                                   bundle: nil];
-    DCMissedMedicationAlertViewController *missedMedicationAlertViewController = [administerStoryboard instantiateViewControllerWithIdentifier:MISSED_ADMINISTER_VIEW_CONTROLLER];
-
-    missedMedicationAlertViewController.alertType = eSaveAdministerDetails;
-    missedMedicationAlertViewController.dismissView = ^{
-        
-        // Selecting the now selected cell
-        DCMedicationTableViewCell *selectedMedicationTableViewCell = (DCMedicationTableViewCell *)[medicationViewController.medicationTableView cellForRowAtIndexPath:medicationViewController.selectedIndexPath];
-        [selectedMedicationTableViewCell configureSelectedStateForSelection:YES];
-        [medicationViewController.medicationTableView selectRowAtIndexPath:medicationViewController.selectedIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-
-        DCMedicationScheduleDetails *selectedMedicationList = selectedMedicationTableViewCell.medicationList;
-        [_administerMedicationViewController cancelButtonTapped:nil];
-        
-        // Sending the selected medication list
-        [calendarChartViewController setDisplayMedicationList:selectedMedicationList];
-    };
-    missedMedicationAlertViewController.dismissViewWithoutSaving = ^{
-        // Selecting the previous selected cell
-        medicationViewController.selectedIndexPath = medicationViewController.previousSelectedIndexPath;
-        //
-        DCMedicationTableViewCell *previousSelectedMedicationTableViewCell = (DCMedicationTableViewCell *)[medicationViewController.medicationTableView cellForRowAtIndexPath:medicationViewController.previousSelectedIndexPath];
-        [previousSelectedMedicationTableViewCell configureSelectedStateForSelection:YES];
-    };
-   
-    [missedMedicationAlertViewController setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
-    [self presentViewController:missedMedicationAlertViewController animated:YES completion:nil];
+    
 }
 
 @end

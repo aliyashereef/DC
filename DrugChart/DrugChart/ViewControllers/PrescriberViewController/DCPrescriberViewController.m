@@ -11,7 +11,6 @@
 #import "DCPrescriberFilterTableViewController.h"
 #import "DCWeekView.h"
 #import "DCPrescriberFilterBackgroundView.h"
-#import "DCMissedMedicationAlertViewController.h"
 #import "DCPatientMedicationHomeViewController.h"
 #import "DCPrescriberDetailsViewController.h"
 #import "DCPrescriberTimeView.h"
@@ -634,21 +633,7 @@ typedef enum : NSUInteger {
 
 - (void)displayDeleteConfirmationAlertViewControllerForSelectedIndexPath:(NSIndexPath *)indexPath {
     
-    UIStoryboard *administerStoryboard = [UIStoryboard storyboardWithName:ADMINISTER_STORYBOARD
-                                                                   bundle: nil];
-    DCMissedMedicationAlertViewController *alertViewController = [administerStoryboard instantiateViewControllerWithIdentifier:MISSED_ADMINISTER_VIEW_CONTROLLER];
-    alertViewController.alertType = eDeleteMedicationConfirmation;
-    DCMedicationScheduleDetails *medicationList = [self getMedicationListForTableCellAtIndexPath:indexPath];
-    alertViewController.medicineName = medicationList.name;
-    
-    alertViewController.dismissView = ^ {
-        [self dismissViewControllerAnimated:YES completion:nil];
-        [self stopMedicationAtIndexPath:indexPath];
-    };
-    alertViewController.dismissViewWithoutSaving = ^ {
-    };
-    [alertViewController setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
-    [self presentViewController:alertViewController animated:YES completion:nil];
+   
 }
 
 - (void)displayPreviousWeekDetails {

@@ -40,6 +40,7 @@
 
 - (DCSortTableCell *)configureTableViewCellAtIndexPath:(NSIndexPath *)indexPath {
     
+    //configure sort table cell
     DCSortTableCell *sortCell = [self.tableView dequeueReusableCellWithIdentifier:SORT_CELL_IDENTIFIER];
     if (sortCell == nil) {
         sortCell = [[DCSortTableCell alloc] initWithStyle:UITableViewCellStyleDefault

@@ -10,7 +10,7 @@
 #import "DCCalendarViewCell.h"
 #import "DCPatientMedicationHomeViewController.h"
 #import "DCAdministerMedication.h"
-#import "DCMissedMedicationAlertViewController.h"
+//#import "DCMissedMedicationAlertViewController.h"
 #import "DCMedicationDetailsViewController.h"
 #import "DCMedicinalDetailsBackgroundView.h"
 #import "DCPrescriberFilterBackgroundView.h"
@@ -632,12 +632,7 @@ static NSString *const DCMedicationDetailsViewController_STORYBOARD_ID = @"DCMed
 
 - (void)displayMissedPreviousAdministratonAlert {
     //display missed administartion pop up
-    UIStoryboard *administerStoryboard = [UIStoryboard storyboardWithName:ADMINISTER_STORYBOARD
-                                                                   bundle: nil];
-    DCMissedMedicationAlertViewController *missedMedicationAlertViewController = [administerStoryboard instantiateViewControllerWithIdentifier:MISSED_ADMINISTER_VIEW_CONTROLLER];
-    missedMedicationAlertViewController.dismissView = ^{};
-    [missedMedicationAlertViewController setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
-    [self presentViewController:missedMedicationAlertViewController animated:YES completion:nil];
+    
 }
 
 

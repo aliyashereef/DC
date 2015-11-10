@@ -67,8 +67,8 @@
     NSString *sourcePath = [[NSBundle mainBundle] pathForResource:ORDER_SET_LIST ofType:@"plist"];
     NSArray *contentArray = [NSArray arrayWithContentsOfFile:sourcePath];
     NSMutableArray *orderSetArray = [[NSMutableArray alloc] init];
-    for (NSDictionary *dict in contentArray) {
-        DCOrderSet *orderSet = [[DCOrderSet alloc] initWithOrderSetDictionary:dict];
+    for (NSDictionary *contentDictionary in contentArray) {
+        DCOrderSet *orderSet = [[DCOrderSet alloc] initWithOrderSetDictionary:contentDictionary];
         [orderSetArray addObject:orderSet];
     }
     return orderSetArray;

@@ -1245,8 +1245,8 @@
     NSMutableArray *timeArray = [[NSMutableArray alloc] init];
     for (NSString *time in scheduleArray) {
         NSString *dateString = [DCUtility convertTimeToHourMinuteFormat:time];
-        NSDictionary *dict = @{@"time" : dateString, @"selected" : @1};
-        [timeArray addObject:dict];
+        NSDictionary *timeDictionary = @{@"time" : dateString, @"selected" : @1};
+        [timeArray addObject:timeDictionary];
     }
     return timeArray;
 }
