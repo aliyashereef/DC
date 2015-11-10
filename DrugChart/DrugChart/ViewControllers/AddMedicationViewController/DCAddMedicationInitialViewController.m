@@ -18,12 +18,19 @@
 #import "DCAddMedicationWebServiceManager.h"
 #import "DrugChart-Swift.h"
 
+#define TITLE_VIEW_RECT CGRectMake(0, 0, 150, 50)
+#define VIEW_TOP_LAYOUT_VIEW_HEIGHT 50
+#define START_DATE_FORMAT @"d-MMM-yyyy HH:mm"
+
+// Dictionary keys
+#define SELECTED @"selected"
+#define TIME @"time"
+
 @interface DCAddMedicationInitialViewController () <UITableViewDelegate, UITableViewDataSource, AddMedicationDetailDelegate,InstructionCellDelegate> {
     
     __weak IBOutlet UITableView *medicationDetailsTableView;
     __weak IBOutlet UILabel *orderSetLabel;
     UIBarButtonItem *addButton;
-    
     NSMutableArray *dosageArray;
     NSArray *warningsArray;
     NSInteger lastSection;
@@ -37,6 +44,8 @@
 
 @implementation DCAddMedicationInitialViewController
 
+#pragma mark - View Management Methods
+
 - (void)viewDidLoad {
     
     [super viewDidLoad];
@@ -44,6 +53,8 @@
     [self configureViewForEditMedicationState];
     [self configureViewElements];
 }
+
+#pragma mark - Memory Management methods
 
 - (void)didReceiveMemoryWarning {
     
@@ -54,9 +65,11 @@
     [super viewDidAppear:animated];
     [medicationDetailsTableView reloadData];
 }
+
 #pragma mark - Private Methods
 
 //configuring the add button and cancel button as navigation button items on the navigation bar.
+
 - (void)configureNavigationBar {
     
     addButton = [[UIBarButtonItem alloc]
@@ -64,8 +77,8 @@
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:CANCEL_BUTTON_TITLE  style:UIBarButtonItemStylePlain target:self action:@selector(addMedicationCancelButtonPressed:)];
     self.navigationItem.rightBarButtonItem = addButton;
     self.navigationItem.leftBarButtonItem = cancelButton;
-    UIView *titleView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 150, 50)];
-    UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 150, 50)];
+    UIView *titleView = [[UIView alloc]initWithFrame:TITLE_VIEW_RECT];
+    UILabel *titleLabel = [[UILabel alloc]initWithFrame:TITLE_VIEW_RECT];
     titleLabel.textAlignment = NSTextAlignmentCenter;
     if (self.isEditMedication) {
         [titleLabel setText:EDIT_MEDICATION];
@@ -78,20 +91,23 @@
 }
 
 - (void)configureViewForEditMedicationState {
+    
     if (self.isEditMedication) {
-        self.segmentedContolTopLayoutViewHeight.constant = -50;
+        
+        self.segmentedContolTopLayoutViewHeight.constant = -VIEW_TOP_LAYOUT_VIEW_HEIGHT;
         if([self.selectedMedication.medicineCategory isEqualToString:WHEN_REQUIRED]){
             self.selectedMedication.medicineCategory = WHEN_REQUIRED_VALUE;
         }
         if (self.selectedMedication.endDate == nil) {
-            self.selectedMedication.noEndDate = YES;
             
+            self.selectedMedication.noEndDate = YES;
         }
-        self.selectedMedication.timeArray = [self getTimesArrayFromScheduleArray:self.selectedMedication.scheduleTimesArray];
+        self.selectedMedication.timeArray = [DCAddMedicationHelper getTimesArrayFromScheduleArray:self.selectedMedication.scheduleTimesArray];
     }
 }
 
 //Setting the layout margins and seperator space for the table view to zero.
+
 - (void)configureViewElements {
     
     medicationDetailsTableView.layoutMargins = UIEdgeInsetsZero;
@@ -103,6 +119,7 @@
 }
 
 //Configuring the medication name cell in the medication detail table view.If the table view is loaded before the medication name is selected,it is loaded with the place holder string.
+
 - (UITableViewCell *)getPopulatedMedicationNameTableCell {
     
     static NSString *cellIdentifier = ADD_MEDICATION_CELL_IDENTIFIER;
@@ -294,14 +311,12 @@
     tableCell.dateTypeWidth.constant = TIME_TITLE_LABEL_WIDTH;
     if (!self.selectedMedication.startDate || [self.selectedMedication.startDate isEqualToString:EMPTY_STRING]) {
         NSDate *dateInCurrentZone = [DCDateUtility getDateInCurrentTimeZone:[NSDate date]];
-        NSString *dateString = [DCDateUtility convertDate:dateInCurrentZone FromFormat:DEFAULT_DATE_FORMAT ToFormat:@"d-MMM-yyyy HH:mm"];
-//        NSString *dateString = [DCDateUtility getDisplayDateForAddMedication:
-//                                [DCDateUtility getDateInCurrentTimeZone:[NSDate date]] dateAndTime:YES];
+        NSString *dateString = [DCDateUtility convertDate:dateInCurrentZone FromFormat:DEFAULT_DATE_FORMAT ToFormat:START_DATE_FORMAT];
         self.selectedMedication.startDate = dateString;
         [tableCell configureContentCellWithContent:dateString];
     }
     NSDate *startDate = [DCDateUtility dateFromSourceString:self.selectedMedication.startDate];
-    NSString *dateString = [DCDateUtility convertDate:startDate FromFormat:DEFAULT_DATE_FORMAT ToFormat:@"d-MMM-yyyy HH:mm"];
+    NSString *dateString = [DCDateUtility convertDate:startDate FromFormat:DEFAULT_DATE_FORMAT ToFormat:START_DATE_FORMAT];
     
     [tableCell configureContentCellWithContent:dateString];
     return tableCell;
@@ -326,7 +341,7 @@
     }
     tableCell.dateTypeLabel.text = NSLocalizedString(@"END_DATE", @"end date cell title");
     NSDate *endDate = [DCDateUtility dateFromSourceString:self.selectedMedication.endDate];
-    NSString *dateString = [DCDateUtility convertDate:endDate FromFormat:DEFAULT_DATE_FORMAT ToFormat:@"d-MMM-yyyy HH:mm"];
+    NSString *dateString = [DCDateUtility convertDate:endDate FromFormat:DEFAULT_DATE_FORMAT ToFormat:START_DATE_FORMAT];
     [tableCell configureContentCellWithContent:dateString];
     return tableCell;
 }
@@ -360,7 +375,6 @@
             lastSection = eThirdSection;
         }
     }
-    
     //hide/show no date table cell
     if (self.selectedMedication.noEndDate) {
         //hide tablecell
@@ -636,7 +650,6 @@
     medicationDetailViewController.delegate = self;
     __weak DCAddMedicationDetailViewController *weakDetailVc = medicationDetailViewController;
     medicationDetailViewController.selectedEntry = ^ (NSString *value) {
-        NSLog(@"value is %@", value);
         [self updateMedicationDetailsTableViewWithSelectedValue:value withDetailType:weakDetailVc.detailType];
     };
     medicationDetailViewController.detailType = [self getMedicationDetailTypeForIndexPath:indexPath];
@@ -839,7 +852,6 @@
     medicationDetailViewController.delegate = self;
     __weak DCAddMedicationDetailViewController *weakDetailVc = medicationDetailViewController;
     medicationDetailViewController.selectedEntry = ^ (NSString *value) {
-        NSLog(@"value is %@", value);
         [self updateMedicationDetailsTableViewWithSelectedValue:value withDetailType:weakDetailVc.detailType];
     };
     medicationDetailViewController.detailType = eDetailAdministrationTime;
@@ -897,7 +909,7 @@
             NSIndexPath *indexPathToUpdate = [NSIndexPath indexPathForRow:indexPath.row - 1 inSection:indexPath.section];
             DCDateTableViewCell *dateCell = [self getUpdatedDateAndTimeCellatIndexPath:indexPathToUpdate];
             NSDate *dateInCurrentZone = [DCDateUtility getDateInCurrentTimeZone:date];
-            NSString *dateString = [DCDateUtility convertDate:dateInCurrentZone FromFormat:DEFAULT_DATE_FORMAT ToFormat:@"d-MMM-yyyy HH:mm"];
+            NSString *dateString = [DCDateUtility convertDate:dateInCurrentZone FromFormat:DEFAULT_DATE_FORMAT ToFormat:START_DATE_FORMAT];
             [dateCell configureContentCellWithContent:dateString];
             if (weakPickerCell.isStartDate) {
                 self.selectedMedication.startDate = dateString;
@@ -1245,8 +1257,8 @@
     NSMutableArray *timeArray = [[NSMutableArray alloc] init];
     for (NSString *time in scheduleArray) {
         NSString *dateString = [DCUtility convertTimeToHourMinuteFormat:time];
-        NSDictionary *dict = @{@"time" : dateString, @"selected" : @1};
-        [timeArray addObject:dict];
+        NSDictionary *timeDictionary = @{TIME : dateString, SELECTED : @1};
+        [timeArray addObject:timeDictionary];
     }
     return timeArray;
 }

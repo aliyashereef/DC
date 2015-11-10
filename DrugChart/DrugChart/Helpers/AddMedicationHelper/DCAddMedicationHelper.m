@@ -74,5 +74,15 @@
     return height;
 }
 
++ (NSMutableArray *)getTimesArrayFromScheduleArray:(NSArray *)scheduleArray {
+    
+    NSMutableArray *timeArray = [[NSMutableArray alloc] init];
+    for (NSString *time in scheduleArray) {
+        NSString *dateString = [DCUtility convertTimeToHourMinuteFormat:time];
+        NSDictionary *dict = @{@"time" : dateString, @"selected" : @1};
+        [timeArray addObject:dict];
+    }
+    return timeArray;
+}
 
 @end

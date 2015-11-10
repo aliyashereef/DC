@@ -71,6 +71,7 @@ class DCNotesTableCell: UITableViewCell, UITextViewDelegate {
     
     func getHintText() -> String {
         
+        //initial hint text in table cell
         var hint : String
         if (notesType! == eNotes) {
             hint = NSLocalizedString("NOTES", comment: "notes hint")

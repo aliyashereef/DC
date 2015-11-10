@@ -9,6 +9,7 @@
 import Foundation
 
 // Strings
+
 let titleString : NSString = "Vital Signs"
 
 // DCBaseViewController is a subclass for UIViewController
@@ -16,6 +17,7 @@ let titleString : NSString = "Vital Signs"
 class DCVitalSignViewController: DCBaseViewController {
     
     override func viewDidLoad() {
+        
         self.title = titleString as String
         super.viewDidLoad()
     }

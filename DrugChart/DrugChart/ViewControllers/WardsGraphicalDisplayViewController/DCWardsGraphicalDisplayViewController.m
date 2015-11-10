@@ -33,6 +33,8 @@
 
 @implementation DCWardsGraphicalDisplayViewController
 
+#pragma mark - View Management Methods
+
 - (void)viewDidLoad {
     
     [super viewDidLoad];
@@ -56,6 +58,8 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark - Private methods
 
 - (void)setGraphicalContentSize {
     

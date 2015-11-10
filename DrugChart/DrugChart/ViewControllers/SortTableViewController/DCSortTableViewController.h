@@ -15,6 +15,6 @@ typedef void(^ SortCriteria)(NSString *criteria);
 @property (nonatomic, strong) SortCriteria criteria;
 @property (nonatomic) SortView sortView;
 @property (nonatomic, strong) NSString *previousSelectedCategory;
-@property BOOL showDiscontinuedMedications;
+@property BOOL showDiscontinuedMedications;//bool to identify stopped medications
 
 @end

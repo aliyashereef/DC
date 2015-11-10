@@ -10,16 +10,13 @@
 #import "DCLoginWebService.h"
 #import "DCTextField.h"
 #import <QuartzCore/QuartzCore.h>
-
 #import "DCErrorPopOverBackgroundView.h"
 #import "DCErrorPopOverViewController.h"
 
 #define LOGIN_VIEW_INITIAL_Y_ALIGNMENT 0.0f
 #define LOGIN_VIEW_EDIT_Y_ALIGNMENT    130.0f
 #define LOGIN_VIEW_ANIMATION_DURATION  0.3
-
 #define PATIENT_LIST_NAVIGATION_DELAY_DEMO 0.5
-
 #define TEXTFIELD_BG_COLOR @"#B6C6DB"
 
 @interface DCLoginViewController () <UITextFieldDelegate> {
@@ -59,6 +56,7 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+    
     // On view disappear navigation bar is shown back.
     [self.navigationController setNavigationBarHidden:NO];
     [super viewWillDisappear:animated];
@@ -151,6 +149,7 @@
 }
 
 - (void)displayPatientsList {
+    
     //load patients list
     [self stopLoadingIndicatorOnLoginButton];
     //push patients view
@@ -165,6 +164,7 @@
 }
 
 - (void)displayLoadingIndicatorOnLoginButton {
+    
     //add this if activity indicator is to be displayed on button
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         [loginButtonIndicatorView setHidden:NO];

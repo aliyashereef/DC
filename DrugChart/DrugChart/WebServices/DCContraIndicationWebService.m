@@ -24,7 +24,6 @@ static NSString *const kDCContraIndicationUrl = @"patients/%@/interactions/%@";
                                                             NSDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:responseObject options:kNilOptions error:nil];
                                                             NSMutableArray *warningsArray = [[NSMutableArray alloc] init];
                                                             NSArray *resultArray = [responseDict valueForKey:ENTRY_KEY];
-                                                            NSLog(@"*** warningsArray is %@", resultArray);
                                                             for (NSDictionary *warningDict in resultArray) {
                                                                 DCWarning *warning = [[DCWarning alloc] initWithDictionary:[warningDict valueForKey:RESOURCE_KEY]];
                                                                 [warningsArray addObject:warning];

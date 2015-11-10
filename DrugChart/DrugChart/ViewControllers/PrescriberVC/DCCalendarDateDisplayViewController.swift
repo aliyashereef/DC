@@ -11,27 +11,29 @@ import UIKit
 
 @objc class DCCalendarDateDisplayViewController: DCBaseViewController {
     
-    
     @IBOutlet weak var leftCalendarView: DCCalendarDateView!
     @IBOutlet weak var centerCalendarView: DCCalendarDateView!
     @IBOutlet weak var rightCalendarView: DCCalendarDateView!
     @IBOutlet weak var calendarViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var calendarViewWidthConstraint: NSLayoutConstraint!
 
-    
     var currentWeekDateArray : NSMutableArray?
     var lastDateForCurrentWeek : NSDate?
     var firstDateForCurrentWeek : NSDate?
     
     let currentDate : NSDate = NSDate()
+    let dateViewFormat : NSString = "EEE d"
+    //MARK: View Management Methods
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         calendarViewWidthConstraint.constant = (DCUtility.getMainWindowSize().width - MEDICATION_VIEW_WIDTH);
         getDisplayWeekDatesArray()
         self.displayDatesInView()
-        //prepareDateArrays()
     }
+    
+    //MARK: View translation Methods
     
     func translateCalendarContainerViewsForTranslationParameters(xTranslation: CGFloat, withXVelocity xVelocity:CGFloat, panEndedValue panEnded:Bool) {
         
@@ -39,7 +41,6 @@ import UIKit
         let valueToTranslate = (calendarViewLeadingConstraint.constant + xTranslation);
         if (valueToTranslate >= -calendarWidth && valueToTranslate <= calendarWidth) {
             calendarViewLeadingConstraint.constant = calendarViewLeadingConstraint.constant + xTranslation;
-            // self.layoutIfNeeded()
         }
         if (panEnded == true) {
             if (xVelocity > 0) {
@@ -60,7 +61,8 @@ import UIKit
         }
     }
     
-    // MARK : Next and previous and today actions
+    // MARK :Next, Previous and Today actions
+    
     func displayPreviousWeekDatesInCalendar() {
         
         UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
@@ -91,7 +93,6 @@ import UIKit
         
         var index : NSInteger = 0
         let displayDatesArray = NSMutableArray()
-        print("the current weekdates aarray : %@", currentWeekDateArray)
         for ( index = 0; index < currentWeekDateArray!.count; index++) {
             let date = currentWeekDateArray?.objectAtIndex(index) as! NSDate
             let displayDate = convertDateToString(date)
@@ -102,17 +103,19 @@ import UIKit
     
     func convertDateToString (date:NSDate) -> NSString {
         let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "EEE d"
+        dateFormatter.dateFormat = dateViewFormat as String
         let dateString = dateFormatter.stringFromDate(date)
         return dateString
     }
+    
+    // Returns the date container width
     
     func getDateContainerViewWidth () -> (CGFloat) {
         
         return DCUtility.getMainWindowSize().width
     }
 
-    
+    // Populate the dates for the previous and next date views
     func displayDatesInView () {
         
         let displayDatesArray = getDisplayWeekDatesArray()
@@ -135,7 +138,6 @@ import UIKit
         leftCalendarView .populateViewForDateArray(leftDatesArray)
         centerCalendarView.populateViewForDateArray(centerDatesArray)
         rightCalendarView.populateViewForDateArray(rightDatesArray)
-        print("the left calendar %@\n right calendar\n %@ centercalendar:%@", leftDatesArray, rightDatesArray, centerDatesArray)
     }
 
 }
