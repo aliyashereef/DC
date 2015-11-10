@@ -19,6 +19,8 @@
 #define ACCESS_TOKEN @"access_token"
 #define ID_TOKEN @"id_token"
 
+#define LOGIN_TITLE @"Login"
+
 #define WEBVIEW_JS_STRING @"document.documentElement.outerHTML"
 #define LOGIN_URL_PARAMETERS @"client_id=drug_chart&response_type=code+id_token+token&scope=openid+BedManagement+roleprofiles&redirect_uri=emis%3A%2F%2Fidentity%2Fdrugchart&nonce=8a568d30-d160-43d0-bee5-9587c88f59f8&response_mode=form_post"
 
@@ -40,8 +42,7 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    //self.navigationController.navigationBar.hidden = NO;
-    self.title = @"Login";
+    self.title = LOGIN_TITLE;
     isAuthenticated = NO;
     if ([DCAPPDELEGATE isNetworkReachable]) {
         [self loadWebViewInView];
@@ -120,7 +121,7 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     
-    [self invalidateTheTimer];
+    [self invalidateTimer];
     [_activityIndicator stopAnimating];
     NSString *htmlString = [webView stringByEvaluatingJavaScriptFromString:WEBVIEW_JS_STRING];
     if ([self isSuccessfulLogin:htmlString]) {
@@ -133,7 +134,7 @@
 - (void)webView:(UIWebView *)webView
 didFailLoadWithError:(NSError *)error {
     
-    [self invalidateTheTimer];
+    [self invalidateTimer];
     [_activityIndicator stopAnimating];
     if (error.code == WEBSERVICE_UNAVAILABLE) {
         [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"") message:NSLocalizedString(@"WEBSERVICE_UNAVAILABLE", @"")];
@@ -151,7 +152,7 @@ didFailLoadWithError:(NSError *)error {
 
     BOOL result = isAuthenticated;
     [_activityIndicator startAnimating];
-    [self invalidateTheTimer];
+    [self invalidateTimer];
     timeoutTimer = [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(cancelWebRequest) userInfo:nil repeats:NO];
     if (!isAuthenticated) {
         failedRequest = request;
@@ -177,7 +178,7 @@ didFailLoadWithError:(NSError *)error {
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)pResponse {
     isAuthenticated = YES;
-    [self invalidateTheTimer];
+    [self invalidateTimer];
     [connection cancel];
     [self.authorizationWebView loadRequest:failedRequest];
 }
@@ -202,10 +203,11 @@ didFailLoadWithError:(NSError *)error {
 - (void)cancelWebRequest {
     
     [_activityIndicator stopAnimating];
-    [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"") message:NSLocalizedString(@"REQUEST_TIME_OUT", @"")];
+    [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"")
+                        message:NSLocalizedString(@"REQUEST_TIME_OUT", @"")];
 }
 
-- (void)invalidateTheTimer {
+- (void)invalidateTimer {
     
     if (timeoutTimer) {
         

@@ -246,7 +246,7 @@
         if (cell == nil) {
             cell = [[DCAddDosageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
-        cell.dosageTextField.attributedPlaceholder = [DCUtility getDosagePlaceHolderForValidState:doneClicked];
+        cell.dosageTextField.attributedPlaceholder = [DCUtility dosagePlaceHolderForValidState:doneClicked];
         return cell;
     } else if (_detailType == eOverrideReason) {
         static NSString *cellIdentifier = OVERRIDE_REASON_CELL_ID;
@@ -255,7 +255,7 @@
         if (reasonCell == nil) {
             reasonCell = [[DCReasonCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
-        reasonCell.reasonTextView.textColor = doneClicked ? [UIColor redColor] : [UIColor getColorForHexString:@"#8f8f95"];
+        reasonCell.reasonTextView.textColor = doneClicked ? [UIColor redColor] : [UIColor colorForHexString:@"#8f8f95"];
         return reasonCell;
     } else {
         static NSString *cellIdentifier = ADD_MEDICATION_DETAIL_CELL_IDENTIFIER;

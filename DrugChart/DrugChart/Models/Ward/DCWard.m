@@ -52,7 +52,7 @@
             
             // Parsing the dimensional values for the ward graphical display.
             NSString *dimensionsString = (NSString *)[wardsDictionary objectForKey:WARDS_DIMENSIONS];
-            self.wardDimensions = [DCUtility getSizeFromString:dimensionsString];
+            self.wardDimensions = [DCUtility sizeFromString:dimensionsString];
             NSArray *graphicsArray = (NSArray *)[wardsDictionary objectForKey:POSITIONABLE_GRAPHICS];
             self.positionableGraphicsArray = [self getPositionalGraphicsObjectsArray:graphicsArray];
             

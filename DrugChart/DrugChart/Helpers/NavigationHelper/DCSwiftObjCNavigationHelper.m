@@ -13,7 +13,8 @@
 
 @implementation DCSwiftObjCNavigationHelper
 
-+ (void)goToPrescriberMedicationViewControllerForPatient:(DCPatient *)patient fromNavigationController:(UINavigationController *)navigationController {
++ (void)goToPrescriberMedicationViewControllerForPatient:(DCPatient *)patient
+                                fromNavigationController:(UINavigationController *)navigationController {
     
     UIStoryboard *prescriberStoryBoard = [UIStoryboard storyboardWithName:PRESCRIBER_DETAILS_STORYBOARD
                                                                    bundle:nil];

@@ -109,7 +109,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     
     func adjustSegmentedControlWidth () {
         
-        let windowWidth : CGFloat = DCUtility.getMainWindowSize().width
+        let windowWidth : CGFloat = DCUtility.mainWindowSize().width
         let screenWidth : CGFloat = UIScreen.mainScreen().bounds.size.width
         if (windowWidth < screenWidth/3) {
             segmentedControlWidth?.constant = SEGMENTED_CONTROL_ONE_THIRD_WIDTH

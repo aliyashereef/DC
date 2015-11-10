@@ -145,14 +145,14 @@ typedef enum : NSUInteger {
     
     //populate month year label
     NSString *mothYearDisplayString = [DCDateUtility monthNameAndYearForWeekDatesArray:currentWeekDatesArray];
-    NSAttributedString *monthYearString = [DCUtility getMonthYearAttributedStringForDisplayString:mothYearDisplayString withInitialMonthLength:0];
+    NSAttributedString *monthYearString = [DCUtility monthYearAttributedStringForDisplayString:mothYearDisplayString withInitialMonthLength:0];
     monthYearLabel.attributedText = monthYearString;
 }
 
 - (void)calculateCalendarSlotWidth {
     
     //calculate calendar slot width
-    slotWidth = ([DCUtility getMainWindowSize].width - 300)/5;
+    slotWidth = ([DCUtility mainWindowSize].width - 300)/5;
 }
 
 // Not needed for now, since the childviewcontroller is added from IB.
@@ -636,14 +636,6 @@ typedef enum : NSUInteger {
 
 - (void)reloadPrescriberMedicationList {
     [self fetchMedicationListForPatient];
-}
-
-#pragma mark - Methods needed.
-
-- (void)populateMedicationWeekDaysForDisplayInCalendar {
-    
-    // here we need to add the methods to populate the values
-    
 }
 
 @end

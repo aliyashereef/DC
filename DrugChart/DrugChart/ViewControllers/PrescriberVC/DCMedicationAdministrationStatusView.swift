@@ -12,11 +12,11 @@ let ADMINISTRATION_SUCCESS_IMAGE    =   UIImage(named: "AdministrationSuccess")
 let ADMINISTRATION_FAILURE_IMAGE    =   UIImage(named: "AdministrationFailure")
 let ADMINISTRATION_DUE_IMAGE        =   UIImage(named: "AdministrationDue")
 let ADMINISTRATION_DUE_NOW_IMAGE    =   UIImage(named: "AdministrationDueNow")
-let PENDING_FONT_COLOR              =   UIColor.getColorForHexString("#acacac")
-let DUE_AT_FONT_COLOR               =   UIColor.getColorForHexString("#404040")
-let OVERDUE_FONT_COLOR              =   UIColor.getColorForHexString("#ff8972") // get exact color for display
+let PENDING_FONT_COLOR              =   UIColor(forHexString: "#acacac")
+let DUE_AT_FONT_COLOR               =   UIColor(forHexString: "#404040")
+let OVERDUE_FONT_COLOR              =   UIColor(forHexString: "#ff8972") // get exact color for display
 let DUE_NOW_FONT_COLOR              =   UIColor.whiteColor()
-let CURRENT_DAY_BACKGROUND_COLOR    =   UIColor.getColorForHexString("#fafafa")
+let CURRENT_DAY_BACKGROUND_COLOR    =   UIColor(forHexString: "#fafafa")
 
 protocol DCMedicationAdministrationStatusProtocol:class {
     

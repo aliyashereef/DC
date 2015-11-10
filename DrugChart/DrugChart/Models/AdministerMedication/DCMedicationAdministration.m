@@ -49,9 +49,6 @@
             }
         }
         self.isSelfAdministered = [[administrationDetails objectForKey:IS_SELF_ADMINISTERED_ADM] boolValue];
-//        if (self.isSelfAdministered) {
-//            self.status = SELF_ADMINISTERED;
-//        }
     }
     return self;
 }

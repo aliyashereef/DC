@@ -176,7 +176,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         isLastCell:Bool) {
 
         
-        let calendarWidth : CGFloat = (DCUtility.getMainWindowSize().width - MEDICATION_VIEW_WIDTH);
+        let calendarWidth : CGFloat = (DCUtility.mainWindowSize().width - MEDICATION_VIEW_WIDTH);
         let valueToTranslate = medicationCell.leadingSpaceMasterToContainerView.constant + xTranslation;
         if (valueToTranslate >= -calendarWidth && valueToTranslate <= calendarWidth) {
             medicationCell.leadingSpaceMasterToContainerView.constant = medicationCell.leadingSpaceMasterToContainerView.constant + xTranslation;
@@ -221,7 +221,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     
     func displayPreviousWeekAdministrationDetailsInTableView(medicationCell : PrescriberMedicationTableViewCell, isLastCell:Bool) {
         
-        let calendarWidth : CGFloat = (DCUtility.getMainWindowSize().width - MEDICATION_VIEW_WIDTH);
+        let calendarWidth : CGFloat = (DCUtility.mainWindowSize().width - MEDICATION_VIEW_WIDTH);
         let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
         var weekViewAnimated : Bool = false
         UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
@@ -254,7 +254,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     
     func displayNextWeekAdministrationDetailsInTableView(medicationCell : PrescriberMedicationTableViewCell, isLastCell:Bool) {
         
-        let calendarWidth : CGFloat = (DCUtility.getMainWindowSize().width - MEDICATION_VIEW_WIDTH);
+        let calendarWidth : CGFloat = (DCUtility.mainWindowSize().width - MEDICATION_VIEW_WIDTH);
         let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
         var weekViewAnimated : Bool = false
         UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
@@ -357,7 +357,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                     existingStatusViews.addObject(subView)
                 }
             }
-            let slotWidth = DCUtility.getMainWindowSize().width
+            let slotWidth = DCUtility.mainWindowSize().width
             let viewWidth = (slotWidth - 300)/5
             let xValue : CGFloat = CGFloat(tag) * viewWidth + CGFloat(tag) + 1;
             let viewFrame = CGRectMake(xValue, 0, viewWidth, 78.0)

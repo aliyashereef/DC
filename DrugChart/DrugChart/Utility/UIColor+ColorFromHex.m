@@ -10,7 +10,7 @@
 
 @implementation UIColor (ColorFromHex)
 
-+ (UIColor *)getColorForHexString:(NSString *)hexString {
++ (UIColor *)colorForHexString:(NSString *)hexString {
     
     uint hexValue = 0;
     NSScanner *scanner = [NSScanner scannerWithString:hexString];

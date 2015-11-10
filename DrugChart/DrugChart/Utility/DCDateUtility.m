@@ -52,7 +52,7 @@
        NSMutableString *dateString = [NSMutableString stringWithFormat:@"%@ %ld", [monthSymbols objectAtIndex:[dateComponents month] - 1], (long)[dateComponents year]];
         [displayArray addObject:dateString];
     }
-    NSString *monthYear = [DCUtility getMostOccurredStringFromArray:displayArray];
+    NSString *monthYear = [DCUtility mostOccurredStringFromArray:displayArray];
     return monthYear;
 }
 

@@ -299,7 +299,7 @@
 		0B90D6501B734EE0003A37E4 /* UICKeyChainStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICKeyChainStore.h; sourceTree = "<group>"; };
 		0B90D6511B734EE0003A37E4 /* UICKeyChainStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICKeyChainStore.m; sourceTree = "<group>"; };
 		0B91739C1B01F36200BC9337 /* DCPrescriberDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCPrescriberDetailsViewController.h; sourceTree = "<group>"; };
-		0B91739D1B01F36200BC9337 /* DCPrescriberDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCPrescriberDetailsViewController.m; sourceTree = "<group>"; };
+		0B91739D1B01F36200BC9337 /* DCPrescriberDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DCPrescriberDetailsViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0B91739F1B01F3BA00BC9337 /* PrescriberDetails.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = PrescriberDetails.storyboard; sourceTree = "<group>"; };
 		0B9173A21B02101300BC9337 /* DCPrescriberDetailsTimeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCPrescriberDetailsTimeView.h; sourceTree = "<group>"; };
 		0B9173A31B02101300BC9337 /* DCPrescriberDetailsTimeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCPrescriberDetailsTimeView.m; sourceTree = "<group>"; };
@@ -315,7 +315,7 @@
 		0B989E961B8C22960012AFE8 /* DCCalendarNavigationTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCCalendarNavigationTitleView.m; sourceTree = "<group>"; };
 		0B989E981B8C22CD0012AFE8 /* DCCalendarNavigationTitleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCCalendarNavigationTitleView.xib; sourceTree = "<group>"; };
 		0B9D6D501BA17244009E0A4E /* DCAddMedicationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCAddMedicationHelper.h; sourceTree = "<group>"; };
-		0B9D6D511BA17244009E0A4E /* DCAddMedicationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCAddMedicationHelper.m; sourceTree = "<group>"; };
+		0B9D6D511BA17244009E0A4E /* DCAddMedicationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DCAddMedicationHelper.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0BA3572A1B7464D800A5C3BC /* DCAddMedicationOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCAddMedicationOperation.h; sourceTree = "<group>"; };
 		0BA3572B1B7464D800A5C3BC /* DCAddMedicationOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCAddMedicationOperation.m; sourceTree = "<group>"; };
 		0BA3572F1B746EAB00A5C3BC /* DCOrderSetOperationQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCOrderSetOperationQueue.h; sourceTree = "<group>"; };
@@ -332,7 +332,7 @@
 		0BA449E11B985100009F84E5 /* DCAddMedicationDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCAddMedicationDetailViewController.h; sourceTree = "<group>"; };
 		0BA449E21B985100009F84E5 /* DCAddMedicationDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCAddMedicationDetailViewController.m; sourceTree = "<group>"; };
 		0BA8036C1BA7C9F200DBB45D /* DrugChart-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DrugChart-Bridging-Header.h"; sourceTree = "<group>"; };
-		0BA803701BA7ED7100DBB45D /* DCWarningsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCWarningsListViewController.swift; sourceTree = "<group>"; };
+		0BA803701BA7ED7100DBB45D /* DCWarningsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = DCWarningsListViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		0BA803731BA80DCD00DBB45D /* DCWarningsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCWarningsCell.swift; sourceTree = "<group>"; };
 		0BAA87361AF8B48600FCA686 /* DCSecurityPinWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCSecurityPinWebService.h; sourceTree = "<group>"; };
 		0BAA87371AF8B48600FCA686 /* DCSecurityPinWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCSecurityPinWebService.m; sourceTree = "<group>"; };
@@ -340,7 +340,7 @@
 		0BAAEDBD1B28621F00DF0DF6 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		0BAAEDBF1B28623500DF0DF6 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		0BAE36921B450A6C007CD64C /* DCAutoSearchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCAutoSearchCell.h; sourceTree = "<group>"; };
-		0BAE36931B450A6C007CD64C /* DCAutoSearchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCAutoSearchCell.m; sourceTree = "<group>"; };
+		0BAE36931B450A6C007CD64C /* DCAutoSearchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DCAutoSearchCell.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0BAE36951B450AB0007CD64C /* DCAutoSearchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCAutoSearchCell.xib; sourceTree = "<group>"; };
 		0BAE36981B455DDF007CD64C /* DCOrderSetMedicineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCOrderSetMedicineView.h; sourceTree = "<group>"; };
 		0BAE36991B455DDF007CD64C /* DCOrderSetMedicineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCOrderSetMedicineView.m; sourceTree = "<group>"; };
@@ -528,7 +528,7 @@
 		4DDEED491B4CF00200D8E0FF /* DCWardWebServiceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCWardWebServiceTests.m; sourceTree = "<group>"; };
 		4DDEED4D1B4CF5FB00D8E0FF /* DCMedicationSearchWebServiceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCMedicationSearchWebServiceTests.m; sourceTree = "<group>"; };
 		4DDEED4F1B4D0E3F00D8E0FF /* DCPatientAllergyWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCPatientAllergyWebService.h; sourceTree = "<group>"; };
-		4DDEED501B4D0E3F00D8E0FF /* DCPatientAllergyWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCPatientAllergyWebService.m; sourceTree = "<group>"; };
+		4DDEED501B4D0E3F00D8E0FF /* DCPatientAllergyWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DCPatientAllergyWebService.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		4DE525A11B8C92740057C5F5 /* DCAddMedicationInitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCAddMedicationInitialViewController.h; sourceTree = "<group>"; };
 		4DE525A21B8C92740057C5F5 /* DCAddMedicationInitialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCAddMedicationInitialViewController.m; sourceTree = "<group>"; };
 		4DECF3011B79CB370085E75B /* DCOrderSetWarningCountWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCOrderSetWarningCountWebService.h; sourceTree = "<group>"; };

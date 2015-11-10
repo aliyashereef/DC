@@ -89,7 +89,7 @@
     
     //display navigation bar only for 1/2 or 1/3 screens
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
-    NSInteger windowWidth = [DCUtility getMainWindowSize].width;
+    NSInteger windowWidth = [DCUtility mainWindowSize].width;
     NSInteger screenWidth = [[UIScreen mainScreen] bounds].size.width;
     if (orientation == UIDeviceOrientationLandscapeLeft || orientation == UIDeviceOrientationLandscapeRight) {
         if (windowWidth > screenWidth/2) {

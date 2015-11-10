@@ -89,8 +89,8 @@ let SECOND_INDEX = 1
     func calculatedTableCellHeightForWarning(warning : DCWarning) -> CGFloat {
         
         var textHeight : CGFloat = ROW_OFFSET_VALUE
-        textHeight += DCUtility.getHeightValueForText(warning.title, withFont: UIFont.systemFontOfSize(15.0), maxWidth: MAX_WIDTH)
-        textHeight += DCUtility.getHeightValueForText(warning.detail, withFont: UIFont.systemFontOfSize(12.0), maxWidth: MAX_WIDTH)
+        textHeight += DCUtility.heightValueForText(warning.title, withFont: UIFont.systemFontOfSize(15.0), maxWidth: MAX_WIDTH)
+        textHeight += DCUtility.heightValueForText(warning.detail, withFont: UIFont.systemFontOfSize(12.0), maxWidth: MAX_WIDTH)
         return textHeight
     }
     

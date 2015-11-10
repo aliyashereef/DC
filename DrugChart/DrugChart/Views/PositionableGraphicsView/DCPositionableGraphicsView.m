@@ -26,7 +26,7 @@
     
     if (graphicsType == kDivider) {
         self = [[DCPositionableGraphicsView alloc] initWithFrame:viewFrame];
-        self.backgroundColor = [UIColor getColorForHexString:@"#E2E2E2"];
+        self.backgroundColor = [UIColor colorForHexString:@"#E2E2E2"];
         self.layer.borderWidth = 1.0f;
         self.layer.borderColor = [[UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.1] CGColor];
         //self.alpha = 0.2;

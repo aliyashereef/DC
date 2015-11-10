@@ -74,7 +74,7 @@
         [loginButtonIndicatorView setHidden:YES]; // on view load login activity indicator is hidden
     });
     [errorView setHidden:YES];
-    UIColor *placeholderColor = [UIColor getColorForHexString:PLACEHOLDER_COLOR_HEX];
+    UIColor *placeholderColor = [UIColor colorForHexString:PLACEHOLDER_COLOR_HEX];
     if ([userNameTextField respondsToSelector:@selector(setAttributedPlaceholder:)]) {
         userNameTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"USERNAME", @"") attributes:@{NSForegroundColorAttributeName: placeholderColor}];
     }
@@ -184,12 +184,12 @@
 }
 
 - (void)resetTextFieldAfterErrorCorrection:(UIView *)view {
-    [view layer].borderColor = [UIColor getColorForHexString:TEXTFIELD_BG_COLOR].CGColor;
+    [view layer].borderColor = [UIColor colorForHexString:TEXTFIELD_BG_COLOR].CGColor;
 }
 
 - (void)displayLoginFieldsErrorPopOverView:(UITextField *)textField {
     
-    popOverController = [DCUtility getDisplayPopOverControllerOnView:textField];
+    popOverController = [DCUtility displayPopOverControllerOnView:textField];
     _errorViewController = (DCErrorPopOverViewController *)popOverController.contentViewController;
     __weak __typeof(DCErrorPopOverViewController *)weakErrorPopUp = _errorViewController;
     _errorViewController.viewLoaded = ^ {
@@ -212,7 +212,7 @@
             (_errorViewController.presentedTextfield == passwordTextField && passwordNotEntered)) {
             [popOverController dismissPopoverAnimated:YES];
             [_errorViewController removeFromParentViewController];
-            popOverController = [DCUtility getDisplayPopOverControllerOnView:textField];
+            popOverController = [DCUtility displayPopOverControllerOnView:textField];
             _errorViewController = (DCErrorPopOverViewController *)popOverController.contentViewController;
             __weak __typeof(DCErrorPopOverViewController *)weakErrorPopUp = _errorViewController;
             __weak __typeof(UITextField *)weakUsernameTextField = userNameTextField;

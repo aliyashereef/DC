@@ -13,9 +13,9 @@
 
 #define DELETE_CLOSE_IMAGE [UIImage imageNamed:@"OrderSetRemoved"]
 
-#define SELECTED_FONT_COLOR [UIColor getColorForHexString:@"#d0edff"]
-#define UNSELECTED_FONT_COLOR [UIColor getColorForHexString:@"#898989"]
-#define BLUE_COLOR [UIColor getColorForHexString:@"#0079C2"]
+#define SELECTED_FONT_COLOR [UIColor colorForHexString:@"#d0edff"]
+#define UNSELECTED_FONT_COLOR [UIColor colorForHexString:@"#898989"]
+#define BLUE_COLOR [UIColor colorForHexString:@"#0079C2"]
 
 
 @implementation DCOrderSetMedicineView

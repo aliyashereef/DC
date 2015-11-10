@@ -64,7 +64,7 @@ class DCNotesTableCell: UITableViewCell, UITextViewDelegate {
         }
 
         if (textView.text == EMPTY_STRING) {
-            textView.textColor = UIColor.getColorForHexString("#8f8f95")
+            textView.textColor = UIColor(forHexString: "#8f8f95")
             textView.text = getHintText()
         }
     }

@@ -402,7 +402,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         } else if (indexPath.section == SectionCount.eSecondSection.rawValue) {
             let notesCell : DCNotesTableCell = getNotesTableCellAtIndexPath(indexPath)
             notesCell.notesType = eNotes
-            notesCell.notesTextView.textColor = (!isValid && medicationSlot?.medicationAdministration?.isEarlyAdministration == true) ? UIColor.redColor() : UIColor.getColorForHexString("#8f8f95")
+            notesCell.notesTextView.textColor = (!isValid && medicationSlot?.medicationAdministration?.isEarlyAdministration == true) ? UIColor.redColor() : UIColor(forHexString: "#8f8f95")
             if let administrationNotes =  medicationSlot?.medicationAdministration.administeredNotes {
                 notesCell.notesTextView.text = administrationNotes
             } else {
@@ -427,7 +427,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         if (indexPath.section == SectionCount.eFirstSection.rawValue) {
             let notesCell : DCNotesTableCell = getNotesTableCellAtIndexPath(indexPath)
             notesCell.notesType = eReason
-            notesCell.notesTextView.textColor = !isValid ? UIColor.redColor() : UIColor.getColorForHexString("#8f8f95")
+            notesCell.notesTextView.textColor = !isValid ? UIColor.redColor() : UIColor(forHexString: "#8f8f95")
             if let notes =  medicationSlot?.medicationAdministration.omittedNotes {
                 notesCell.notesTextView.text = notes
             } else {
@@ -445,7 +445,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         if (indexPath.section == SectionCount.eSecondSection.rawValue) {
             let notesCell : DCNotesTableCell = getNotesTableCellAtIndexPath(indexPath)
             notesCell.notesType = eReason
-            notesCell.notesTextView.textColor = (!isValid && medicationSlot?.medicationAdministration?.isEarlyAdministration == true) ? UIColor.redColor() : UIColor.getColorForHexString("#8f8f95")
+            notesCell.notesTextView.textColor = (!isValid && medicationSlot?.medicationAdministration?.isEarlyAdministration == true) ? UIColor.redColor() : UIColor(forHexString: "#8f8f95")
             if let notes =  medicationSlot?.medicationAdministration.refusedNotes {
                 notesCell.notesTextView.text = notes
             } else {

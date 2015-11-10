@@ -34,7 +34,7 @@ var REASON : String = "Reason"
         
         //textview did end editing delegate action
         if textView.text == EMPTY_STRING {
-            textView.textColor = UIColor.getColorForHexString("#8f8f95")
+            textView.textColor = UIColor(forHexString: "#8f8f95")
             textView.text = REASON
         }
     }

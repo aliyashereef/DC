@@ -284,7 +284,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         }else if medication.status == OMITTED {
             notesString = medication.medicationAdministration.omittedNotes
         }
-        let textHeight : CGSize = DCUtility.getTextViewSizeWithText(notesString , maxWidth:478 , font:UIFont.systemFontOfSize(14))
+        let textHeight : CGSize = DCUtility.textViewSizeWithText(notesString , maxWidth:478 , font:UIFont.systemFontOfSize(14))
         return textHeight.height + 45 // the top padding space is 30 points. + some padding of 15 px
         } else {
             return 44

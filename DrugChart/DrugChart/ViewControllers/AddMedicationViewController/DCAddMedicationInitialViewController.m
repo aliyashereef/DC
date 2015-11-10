@@ -132,7 +132,7 @@
     cell.textLabel.numberOfLines = 0;
     if ([self.selectedMedication.name isEqualToString:EMPTY_STRING] ||  self.selectedMedication.name == nil) {
         self.navigationItem.rightBarButtonItem.enabled = false;
-        cell.textLabel.textColor = [UIColor getColorForHexString:@"#8f8f95"];
+        cell.textLabel.textColor = [UIColor colorForHexString:@"#8f8f95"];
         cell.textLabel.text = NSLocalizedString(@"MEDICATION_NAME", @"hint string");
     } else {
         self.navigationItem.rightBarButtonItem.enabled = true;
@@ -1018,7 +1018,7 @@
             if (indexPath.row == DOSAGE_INDEX) {
                 // calculate the height for the given text
                 if (self.selectedMedication.dosage.length > MAXIMUM_CHARACTERS_INCLUDED_IN_ONE_LINE) {
-                    CGSize textSize = [DCUtility getTextViewSizeWithText:self.selectedMedication.dosage maxWidth:258 font:[UIFont systemFontOfSize:15]];
+                    CGSize textSize = [DCUtility textViewSizeWithText:self.selectedMedication.dosage maxWidth:258 font:[UIFont systemFontOfSize:15]];
                     return textSize.height + 40; // padding size of 40
                 }
             }
@@ -1028,7 +1028,7 @@
                 if (indexPath.row == DOSAGE_INDEX) {
                     // calculate the height for the given text
                     if (self.selectedMedication.dosage.length > MAXIMUM_CHARACTERS_INCLUDED_IN_ONE_LINE) {
-                        CGSize textSize = [DCUtility getTextViewSizeWithText:self.selectedMedication.dosage maxWidth:258 font:[UIFont systemFontOfSize:15]];
+                        CGSize textSize = [DCUtility textViewSizeWithText:self.selectedMedication.dosage maxWidth:258 font:[UIFont systemFontOfSize:15]];
                         return textSize.height + 40; // padding size of 40
                     }
                 }else {

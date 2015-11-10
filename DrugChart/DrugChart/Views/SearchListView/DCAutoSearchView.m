@@ -159,7 +159,7 @@
     } else {
         autoSearchHeaderView.headerTitleLabel.text = REGULAR;
         UIView *dividerView = [[UIView alloc]initWithFrame:CGRectMake(0,0,540,1)];
-        [dividerView setBackgroundColor:[UIColor getColorForHexString:@"#C4D3D5"]];
+        [dividerView setBackgroundColor:[UIColor colorForHexString:@"#C4D3D5"]];
         [autoSearchHeaderView addSubview:dividerView];
         autoSearchHeaderView.searchListVisibilityButton.hidden = YES;
         autoSearchHeaderView.buttonTitleLabel.hidden = YES;
@@ -208,7 +208,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     NSDictionary *searchValueDictionary = [self getSearchCellValueAndSearchNameLabelFromIndexPath:indexPath];
-    CGSize stepSize = [DCUtility getRequiredSizeForText:[searchValueDictionary valueForKey:SEARCH_CELL_VALUE]
+    CGSize stepSize = [DCUtility requiredSizeForText:[searchValueDictionary valueForKey:SEARCH_CELL_VALUE]
                                                    font:LATO_REGULAR_SIXTEEN
                                                maxWidth:290];
     CGFloat searchCellHeight = CELL_PADDING + stepSize.height;

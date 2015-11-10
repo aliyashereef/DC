@@ -89,7 +89,7 @@
 - (void)configureViewElements {
     
     medicineNameLabel.text = _medicationList.name;
-    CGFloat medicineNameHeight = [DCUtility getHeightValueForText:_medicationList.name withFont:[DCFontUtility getLatoRegularFontWithSize:16.0f] maxWidth:medicineNameLabel.frame.size.width];
+    CGFloat medicineNameHeight = [DCUtility heightValueForText:_medicationList.name withFont:[DCFontUtility getLatoRegularFontWithSize:16.0f] maxWidth:medicineNameLabel.frame.size.width];
     if (medicineNameHeight > MEDICINE_NAME_MAX_HEIGHT) {
         medicineNameHeightConstraint.constant = medicineNameHeight + NAME_OFFSET;
         medicineTitleContainerHeightConstraint.constant = medicineNameHeight + TITLE_VIEW_CONTENTS_HEIGHT_EXCEPT_NAME;
@@ -111,7 +111,7 @@
     
     NSDictionary *dosageAttributes = @{
                                        NSFontAttributeName : [DCFontUtility getLatoBoldFontWithSize:17.0f],
-                                       NSForegroundColorAttributeName : [UIColor getColorForHexString:@"#3b3b3b"]
+                                       NSForegroundColorAttributeName : [UIColor colorForHexString:@"#3b3b3b"]
                                        };
     NSMutableAttributedString *dosageAttributedString = [[NSMutableAttributedString alloc] initWithString:route];
     [dosageAttributedString setAttributes:dosageAttributes range:NSMakeRange(0, [dosageAttributedString length])];
@@ -121,7 +121,7 @@
                                                                       initWithString:instructionDisplayString];
     NSDictionary *instructionAttributes = @{
                                             NSFontAttributeName : [DCFontUtility getLatoRegularFontWithSize:15.0f],
-                                            NSForegroundColorAttributeName : [UIColor getColorForHexString:@"#676767"]
+                                            NSForegroundColorAttributeName : [UIColor colorForHexString:@"#676767"]
                                             };
     [medicineInstructionAttributedString setAttributes:instructionAttributes range:NSMakeRange(0, [instructionDisplayString length])];
     [dosageAttributedString appendAttributedString:medicineInstructionAttributedString];
@@ -134,7 +134,7 @@
     [administeredView setHidden:YES];
     [refusedView setHidden:YES];
     [omittedView setHidden:YES];
-    containerView.layer.borderColor = [UIColor getColorForHexString:@"#cecece"].CGColor;
+    containerView.layer.borderColor = [UIColor colorForHexString:@"#cecece"].CGColor;
 }
 
 - (void)displayAdministeredViewDetails:(DCMedicationSlot *)medicationSlot {
@@ -173,7 +173,7 @@
         }
     }
     [administeredNotesLabel sizeToFit];
-    containerView.layer.borderColor = [UIColor getColorForHexString:@"#b7d6a3"].CGColor;
+    containerView.layer.borderColor = [UIColor colorForHexString:@"#b7d6a3"].CGColor;
 }
 
 - (void)displayRefusedViewDetails:(DCMedicationSlot *)medicationSlot {
@@ -195,7 +195,7 @@
         refusedNotesLabel.text = NSLocalizedString(@"REFUSED_NOTES", @"Refused Notes");
     }
     [refusedNotesLabel sizeToFit];
-    containerView.layer.borderColor = [UIColor getColorForHexString:@"#efadad"].CGColor;
+    containerView.layer.borderColor = [UIColor colorForHexString:@"#efadad"].CGColor;
 }
 
 - (void)displayOmittedViewDetails:(DCMedicationSlot *)medicationSlot {
@@ -216,7 +216,7 @@
    // }
     [omittedReasonLabel sizeToFit];
     refusedDateAndTimeLabel.text = dateDisplayString;
-    containerView.layer.borderColor = [UIColor getColorForHexString:@"#9ed6dd"].CGColor;
+    containerView.layer.borderColor = [UIColor colorForHexString:@"#9ed6dd"].CGColor;
 }
 - (void)displayStatusViewForMedicationslot:(DCMedicationSlot *)medicationSlot {
     

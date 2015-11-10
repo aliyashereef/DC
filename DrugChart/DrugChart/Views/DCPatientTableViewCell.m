@@ -60,7 +60,7 @@
             self.nextMedicationDateLabel.font = [DCFontUtility getLatoBoldFontWithSize:15.0f];
             [self manageNextMedicationDisplayForPatient:patient];
             [self configureMeditationStatusView:patient];
-            self.bedImageView.image = [DCUtility getBedTypeImageForBedType:patient.bedType];
+            self.bedImageView.image = [DCUtility bedTypeImageForBedType:patient.bedType];
         }
         @catch (NSException *exception) {
             DCDebugLog(@"An issue in  setting up patient model: %@", exception.description);
@@ -80,7 +80,7 @@
     
     if (!patient.nextMedicationDate) {
         self.nextMedicationDateLabel.text = NA_TEXT;
-        self.nextMedicationDateLabel.textColor = [UIColor getColorForHexString:NA_TEXT_COLOR];
+        self.nextMedicationDateLabel.textColor = [UIColor colorForHexString:NA_TEXT_COLOR];
     }
     else {
         [self setFormattedDisplayMedicationDateForPatient:patient];

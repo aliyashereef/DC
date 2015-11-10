@@ -42,7 +42,7 @@ import QuartzCore
         if date == convertDateToString(today, format: dateViewFormat as String) {
             dateLabel.text = convertDateToString(today, format: weekDayViewFormat as String) as String
             addTodayIndicator ()
-            self.backgroundColor = UIColor.getColorForHexString("#fafafa")
+            self.backgroundColor = UIColor(forHexString: "#fafafa")
         } else {
             dateLabel.text = date as String
         }
@@ -67,7 +67,7 @@ import QuartzCore
         indicatorLabel.textAlignment = .Center
         indicatorLabel.textColor = UIColor.whiteColor()
         indicatorLabel.text = dateString
-        indicatorLabel.backgroundColor = UIColor.getColorForHexString("#007aff")
+        indicatorLabel.backgroundColor = UIColor(forHexString: "#007aff")
         indicatorLabel.layer.cornerRadius = 12.5
         indicatorLabel.layer.masksToBounds = true
         self.addSubview(indicatorLabel)

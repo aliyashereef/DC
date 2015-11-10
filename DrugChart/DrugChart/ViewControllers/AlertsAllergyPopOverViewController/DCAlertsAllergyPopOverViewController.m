@@ -95,12 +95,12 @@
         if ([[displayArray objectAtIndex:index] isKindOfClass:[DCPatientAlert
                                                                                class]] ) {
             DCPatientAlert *patientAlert = [displayArray objectAtIndex:index];
-            stepSize = [DCUtility getRequiredSizeForText:patientAlert.alertText
+            stepSize = [DCUtility requiredSizeForText:patientAlert.alertText
                                                            font:LATO_REGULAR_FIFTEEN
                                                        maxWidth:WIDTH_ALERT_NAME_LABEL];
         } else {
             DCPatientAllergy *patientAllergy = [displayArray objectAtIndex:index];
-            stepSize = [DCUtility getRequiredSizeForText:patientAllergy.allergyName
+            stepSize = [DCUtility requiredSizeForText:patientAllergy.allergyName
                                                     font:LATO_REGULAR_FIFTEEN
                                                 maxWidth:WIDTH_ALERT_NAME_LABEL];
 

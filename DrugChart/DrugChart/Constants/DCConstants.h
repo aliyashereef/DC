@@ -140,7 +140,7 @@
 
 // color values
 #define NAVIGATION_BAR_COLOR [UIColor colorWithRed:13.0/255.0 green:119.0/255.0  blue:200.0/255.0  alpha:1.0]
-#define BORDER_COLOR [UIColor getColorForHexString:@"#c4d3d5"]
+#define BORDER_COLOR [UIColor colorForHexString:@"#c4d3d5"]
 #define LIGHT_GRAY_BORDER_COLOR  [UIColor colorWithRed:177.0f/255.0f green:177.0f/255.0f blue:177.0f/255.0f alpha:0.6].CGColor
 #define ADMINISTRATING_VIEW_COLOR UIColor(red: 239.0/255.0, green: 239.0/255.0, blue: 244.0/255.0, alpha: 1.0)
 
