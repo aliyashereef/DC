@@ -27,10 +27,9 @@
     [self configureAppearanceSettings];
     [self trackNetworkConnection];
     [self setDefaultPreferencesForSettings];
-
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"])
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:HAS_LAUNCHED_ONCE])
     {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HasLaunchedOnce"];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:HAS_LAUNCHED_ONCE];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
     return YES;
@@ -77,15 +76,14 @@
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
     // bar color
-   // [[UINavigationBar appearance] setBarTintColor:[UIColor getColorForHexString:@"#eff6fa"]];
     [[UINavigationBar appearance] setBarTintColor:[UIColor whiteColor]];
-    [[UINavigationBar appearance] setTintColor:[UIColor getColorForHexString:@"#007aff"]];
+    [[UINavigationBar appearance] setTintColor:[UIColor colorForHexString:@"#007aff"]];
     [[UINavigationBar appearance] setTranslucent:YES];
     //bar title color
     [[UINavigationBar appearance] setTitleTextAttributes:@{
                                                         NSForegroundColorAttributeName: [UIColor blackColor],NSFontAttributeName: [UIFont systemFontOfSize:18.0],
                                                            }];
-    [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor getColorForHexString:@"#007aff"], NSForegroundColorAttributeName,nil] forState:UIControlStateNormal];
+    [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorForHexString:@"#007aff"], NSForegroundColorAttributeName,nil] forState:UIControlStateNormal];
     [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor lightGrayColor], NSForegroundColorAttributeName,nil] forState:UIControlStateDisabled];
 }
 
@@ -100,7 +98,6 @@
 - (BOOL)isNetworkReachable {
     
     AFNetworkReachabilityStatus status = [[AFNetworkReachabilityManager sharedManager] networkReachabilityStatus];
-    DCDebugLog(@"isReachable is %d", [[AFNetworkReachabilityManager sharedManager] isReachable]);
     BOOL connected = (status == AFNetworkReachabilityStatusNotReachable) ? NO : YES;
     if (!connected) {
         [DCUtility displayAlertWithTitle:NSLocalizedString(@"ERROR", @"")

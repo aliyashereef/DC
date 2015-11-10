@@ -28,8 +28,8 @@ static NSString *const kDCMedicationBaseUrl = @"/medication?name";
             NSDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:responseObject options:kNilOptions error:nil];
             NSArray *medicationArray = [responseDict valueForKey:kEntryKey];
             NSMutableArray *searchListArray = [[NSMutableArray alloc] init];
-            for (NSDictionary *dict in medicationArray) {
-                DCMedication *medication = [[DCMedication alloc] initWithMedicationDictionary:dict];
+            for (NSDictionary *medicationDictionary in medicationArray) {
+                DCMedication *medication = [[DCMedication alloc] initWithMedicationDictionary:medicationDictionary];
                 [searchListArray addObject:medication];
                 
             }

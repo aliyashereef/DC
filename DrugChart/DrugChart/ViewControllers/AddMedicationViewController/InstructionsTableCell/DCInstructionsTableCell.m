@@ -39,7 +39,7 @@
 - (void)textViewDidEndEditing:(UITextView *)textView {
     
     if ([textView.text isEqualToString:EMPTY_STRING]) {
-        textView.textColor = [UIColor getColorForHexString:@"#8f8f95"];
+        textView.textColor = [UIColor colorForHexString:@"#8f8f95"];
         [textView setText:NSLocalizedString(@"INSTRUCTIONS", @"")];
     }
 }

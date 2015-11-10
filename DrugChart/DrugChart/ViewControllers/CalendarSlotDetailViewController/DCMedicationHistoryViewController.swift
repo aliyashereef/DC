@@ -14,18 +14,17 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
     
     @IBOutlet var noMedicationHistoryMessageLabel: UILabel!
     @IBOutlet var medicationHistoryTableView: UITableView!
-    
     @IBOutlet var medicationDateLabel: UILabel!
     @IBOutlet var medicationTypeLabel: UILabel!
     @IBOutlet var medicationNameLabel: UILabel!
-    
     var medicationSlotArray: [DCMedicationSlot] = []
     var medicationSlot : DCMedicationSlot!
     var medicationDetails : DCMedicationScheduleDetails!
     var weekDate : NSDate?
-    
     var selectedRowIndex : NSIndexPath = NSIndexPath(forRow: -1, inSection: 0)
 
+    //MARK: Memory Management Methods
+    
     override func viewDidLoad() {
         medicationHistoryTableView.tableFooterView = UIView(frame: CGRectZero)
         if medicationSlotArray.count == 0 {
@@ -37,6 +36,8 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         super.viewDidLoad()
     }
 
+    //MARK : Private Methods
+    
     //Configuring the basic view with the medication details, route and time
     
     func configureMedicationDetails () {
@@ -47,14 +48,15 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         }
         let dateString : String
         if let date = medicationSlot?.time {
-            dateString = DCDateUtility.convertDate(date, fromFormat: DEFAULT_DATE_FORMAT, toFormat: "d LLLL yyyy")
+            dateString = DCDateUtility.dateStringFromDate(date, inFormat: DATE_MONTHNAME_YEAR_FORMAT)
         } else {
-            dateString = DCDateUtility.convertDate(weekDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: "d LLLL yyyy")
+            dateString = DCDateUtility.dateStringFromDate(weekDate, inFormat: DATE_MONTHNAME_YEAR_FORMAT)
         }
         medicationDateLabel.text = dateString
     }
     
     //Populating the route and instruction label.
+    
     func populateRouteAndInstructionLabels() {
         let route : String = medicationDetails!.route.stringByReplacingOccurrencesOfString(" ", withString: EMPTY_STRING)
         let attributedRouteString : NSMutableAttributedString = NSMutableAttributedString(string:route, attributes: [NSFontAttributeName : UIFont.systemFontOfSize(16.0)])
@@ -71,8 +73,8 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
     }
     
     //MARK: Table Cell Configuration Methods
-    
     // configuring the administered medication status display for the patient.
+    
     func configureAdministeredCellAtIndexPathWithMedicationSlot (indexPath : NSIndexPath ,medication : DCMedicationSlot) -> AnyObject {
         
         var cell = medicationHistoryTableView.dequeueReusableCellWithIdentifier(ADMINSTER_MEDICATION_HISTORY_CELL) as? DCAdminsteredMedicationCell
@@ -104,9 +106,9 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
             cell!.contentType.text = DATE_TIME
             let dateString : String
             if let date = medication.medicationAdministration?.actualAdministrationTime {
-                dateString = DCDateUtility.convertDate(date, fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
+                dateString = DCDateUtility.dateStringFromDate(date, inFormat: ADMINISTER_DATE_TIME_FORMAT)
             } else {
-                dateString = DCDateUtility.convertDate(weekDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
+                dateString = DCDateUtility.dateStringFromDate(weekDate, inFormat: ADMINISTER_DATE_TIME_FORMAT)
             }
             cell!.value.text = dateString
             break
@@ -116,7 +118,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
             if let name = medication.medicationAdministration?.checkingUser?.displayName {
                 checkedBy = name
             } else {
-                checkedBy = "Andrea Thomas"
+                checkedBy = DEFAULT_NURSE_NAME
             }
             cell!.value.text = checkedBy
             break
@@ -143,6 +145,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
     }
     
     // configuring the notes and reason cell for medication status display for the patient.
+    
     func configureNotesAndReasonCellsAtIndexPath (indexPath : NSIndexPath, type : NSString ,text : NSString) -> DCNotesAndReasonCell {
         
         var noteCell = medicationHistoryTableView.dequeueReusableCellWithIdentifier(NOTES_AND_REASON_CELL) as? DCNotesAndReasonCell
@@ -186,6 +189,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
     }
     
     // configuring the refused medication status display for the patient.
+    
     func configureRefusedCellAtIndexPathForMedicationDetails (indexPath : NSIndexPath , medication : DCMedicationSlot) -> AnyObject {
         var cell = medicationHistoryTableView.dequeueReusableCellWithIdentifier(ADMINSTER_MEDICATION_HISTORY_CELL) as? DCAdminsteredMedicationCell
         if cell == nil {
@@ -200,9 +204,9 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
             cell!.contentType.text = DATE
             let dateString : NSString
             if let date = medication.medicationAdministration?.actualAdministrationTime {
-                dateString = DCDateUtility.convertDate(DCDateUtility.getDateInCurrentTimeZone(date), fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
+                dateString = DCDateUtility.dateStringFromDate(DCDateUtility.dateInCurrentTimeZone(date), inFormat: ADMINISTER_DATE_TIME_FORMAT)
             } else {
-                dateString = DCDateUtility.convertDate(DCDateUtility.getDateInCurrentTimeZone(NSDate()), fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
+                dateString = DCDateUtility.dateStringFromDate(DCDateUtility.dateInCurrentTimeZone(NSDate()), inFormat: ADMINISTER_DATE_TIME_FORMAT)
             }
             cell!.value.text = dateString as String
             break
@@ -222,6 +226,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
     }
     
     // configuring the ommitted medication status display for the patient.
+    
     func configureOmittedCellAtIndexPathForMedicationDetails (indexPath : NSIndexPath , medication : DCMedicationSlot) -> AnyObject {
         var cell = medicationHistoryTableView.dequeueReusableCellWithIdentifier(ADMINSTER_MEDICATION_HISTORY_CELL) as? DCAdminsteredMedicationCell
         if cell == nil {
@@ -248,8 +253,8 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
     }
     
     //MARK: TableView Delegate Methods
-    
     //Returns the number of sections in the table view.The number od medication history slots determines the number of sections.
+    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
         if let historyArray : [DCMedicationSlot] = medicationSlotArray {
@@ -260,12 +265,14 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
     }
     
     //The number of rows is determined by the medication slot status, if is administrated, the section will require 6 rows, if ommitted it may require 2 rows and 3 for the refused state.
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return getNumberOfRowsFromMedicationSlotArray(medicationSlotArray[section])
     }
     
     //The height of the table view row is the default for every rows other than the notes cell.
     //Upon expansion we adjust the size of the row according size of the text.
+    
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
        if(indexPath == selectedRowIndex ) {
         let medication : DCMedicationSlot = medicationSlotArray[indexPath.section]
@@ -277,7 +284,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         }else if medication.status == OMITTED {
             notesString = medication.medicationAdministration.omittedNotes
         }
-        let textHeight : CGSize = DCUtility.getTextViewSizeWithText(notesString , maxWidth:478 , font:UIFont.systemFontOfSize(14))
+        let textHeight : CGSize = DCUtility.textViewSizeWithText(notesString , maxWidth:478 , font:UIFont.systemFontOfSize(14))
         return textHeight.height + 45 // the top padding space is 30 points. + some padding of 15 px
         } else {
             return 44
@@ -324,7 +331,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
                 let header = UIView(frame: CGRectMake(0, 0, 100,40))
                 headerView.backgroundColor = UIColor(red: 239.0/255.0, green: 239.0/255.0, blue: 244.0/255.0, alpha: 1.0)
                 header.addSubview(headerView)
-                headerView.administratingTime.text = DCDateUtility.convertDate(time, fromFormat: DEFAULT_DATE_FORMAT, toFormat: TWENTYFOUR_HOUR_FORMAT);
+                headerView.administratingTime.text = DCDateUtility.dateStringFromDate(time, inFormat: TWENTYFOUR_HOUR_FORMAT)
                 return header
             }
         }
@@ -332,13 +339,14 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
     }
     
     //MARK: Private Methods
-    
     // Loading the header view from the xib
+    
     func instanceFromNib() -> DCMedicationHistoryHeaderView {
         return UINib(nibName: MEDICATION_HISTORY_HEADER_VIEW, bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! DCMedicationHistoryHeaderView
     }
     
     // calculating the number of rows from medication slot array
+    
     func getNumberOfRowsFromMedicationSlotArray( medication : DCMedicationSlot) -> Int {
         var rowCount : Int
         if let medicationValue : DCMedicationSlot = medication {
@@ -358,6 +366,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
     }
 
     // On taping more button in the cell,it gets expanded closing all othe expanded cells.
+    
     func moreButtonPressed(sender: UIButton) {
         let moreButton = sender
         let view = moreButton.superview!

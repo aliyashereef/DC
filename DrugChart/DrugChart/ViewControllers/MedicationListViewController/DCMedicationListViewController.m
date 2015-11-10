@@ -78,7 +78,7 @@
 
 - (void)ajustTableViewConstraints {
     
-    NSInteger windowWidth = [DCUtility getMainWindowSize].width;
+    NSInteger windowWidth = [DCUtility mainWindowSize].width;
     NSInteger screenWidth = [[UIScreen mainScreen] bounds].size.width;
     tableViewTopConstraint.constant = (windowWidth > screenWidth/2) ? ZERO_CONSTRAINT : TABLEVIEW_TOP_CONSTRAINT_HALF_SCREEN;
  }
@@ -179,7 +179,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    CGSize stepSize = [DCUtility getRequiredSizeForText:[self getMedicationNameFromIndexPath:indexPath]
+    CGSize stepSize = [DCUtility requiredSizeForText:[self getMedicationNameFromIndexPath:indexPath]
                                                    font:[UIFont systemFontOfSize:15.0f]
                                                maxWidth:294];
     CGFloat searchCellHeight = CELL_PADDING + stepSize.height;

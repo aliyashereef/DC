@@ -18,6 +18,7 @@
 @property (strong, nonatomic) NSString *userRole;
 
 @property (strong, nonatomic) NSString *baseURL;
+
 @property (strong, nonatomic) NSString *authorizeURL;
 
 - (BOOL)isNetworkReachable;

@@ -10,16 +10,13 @@
 #import "DCLoginWebService.h"
 #import "DCTextField.h"
 #import <QuartzCore/QuartzCore.h>
-
 #import "DCErrorPopOverBackgroundView.h"
 #import "DCErrorPopOverViewController.h"
 
 #define LOGIN_VIEW_INITIAL_Y_ALIGNMENT 0.0f
 #define LOGIN_VIEW_EDIT_Y_ALIGNMENT    130.0f
 #define LOGIN_VIEW_ANIMATION_DURATION  0.3
-
 #define PATIENT_LIST_NAVIGATION_DELAY_DEMO 0.5
-
 #define TEXTFIELD_BG_COLOR @"#B6C6DB"
 
 @interface DCLoginViewController () <UITextFieldDelegate> {
@@ -59,6 +56,7 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+    
     // On view disappear navigation bar is shown back.
     [self.navigationController setNavigationBarHidden:NO];
     [super viewWillDisappear:animated];
@@ -76,7 +74,7 @@
         [loginButtonIndicatorView setHidden:YES]; // on view load login activity indicator is hidden
     });
     [errorView setHidden:YES];
-    UIColor *placeholderColor = [UIColor getColorForHexString:PLACEHOLDER_COLOR_HEX];
+    UIColor *placeholderColor = [UIColor colorForHexString:PLACEHOLDER_COLOR_HEX];
     if ([userNameTextField respondsToSelector:@selector(setAttributedPlaceholder:)]) {
         userNameTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"USERNAME", @"") attributes:@{NSForegroundColorAttributeName: placeholderColor}];
     }
@@ -151,6 +149,7 @@
 }
 
 - (void)displayPatientsList {
+    
     //load patients list
     [self stopLoadingIndicatorOnLoginButton];
     //push patients view
@@ -165,6 +164,7 @@
 }
 
 - (void)displayLoadingIndicatorOnLoginButton {
+    
     //add this if activity indicator is to be displayed on button
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         [loginButtonIndicatorView setHidden:NO];
@@ -184,12 +184,12 @@
 }
 
 - (void)resetTextFieldAfterErrorCorrection:(UIView *)view {
-    [view layer].borderColor = [UIColor getColorForHexString:TEXTFIELD_BG_COLOR].CGColor;
+    [view layer].borderColor = [UIColor colorForHexString:TEXTFIELD_BG_COLOR].CGColor;
 }
 
 - (void)displayLoginFieldsErrorPopOverView:(UITextField *)textField {
     
-    popOverController = [DCUtility getDisplayPopOverControllerOnView:textField];
+    popOverController = [DCUtility displayPopOverControllerOnView:textField];
     _errorViewController = (DCErrorPopOverViewController *)popOverController.contentViewController;
     __weak __typeof(DCErrorPopOverViewController *)weakErrorPopUp = _errorViewController;
     _errorViewController.viewLoaded = ^ {
@@ -212,7 +212,7 @@
             (_errorViewController.presentedTextfield == passwordTextField && passwordNotEntered)) {
             [popOverController dismissPopoverAnimated:YES];
             [_errorViewController removeFromParentViewController];
-            popOverController = [DCUtility getDisplayPopOverControllerOnView:textField];
+            popOverController = [DCUtility displayPopOverControllerOnView:textField];
             _errorViewController = (DCErrorPopOverViewController *)popOverController.contentViewController;
             __weak __typeof(DCErrorPopOverViewController *)weakErrorPopUp = _errorViewController;
             __weak __typeof(UITextField *)weakUsernameTextField = userNameTextField;

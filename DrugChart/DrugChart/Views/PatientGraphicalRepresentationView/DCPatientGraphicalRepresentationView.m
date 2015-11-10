@@ -58,9 +58,9 @@
     consultantLabel.text = self.patient.consultant;
     nextMedicationDateLabel.attributedText = [self.patient getFormattedDisplayMedicationDateForPatient];
     medicationStatusView.backgroundColor = [self.patient getDisplayColorForMedicationStatus];
-    bedImageView.image = [DCGraphicalViewHelper getBedImageForBedType:self.bed.bedType
-                                                andBedOperationStatus:self.bed.bedStatus
-                                                        andHasPatient:hasPatient];
+    bedImageView.image = [DCGraphicalViewHelper bedImageForBedType:self.bed.bedType
+                                                bedOperationStatus:self.bed.bedStatus
+                                                   containsPatient:hasPatient];
     self.backgroundColor = self.bed.bedColor;
     self.layer.borderWidth = 1.0f;
     self.layer.borderColor = [[UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.1] CGColor];
@@ -95,7 +95,6 @@
     if (self.delegate ) {
         [self.delegate goToPatientDetailView:self.patient];
     }
-    
 }
 
 @end

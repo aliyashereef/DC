@@ -28,7 +28,7 @@
         _popoverBackgroundImageView.layer.borderWidth = 1.0f;
         _popoverBackgroundImageView.layer.cornerRadius = 5.0f;
         _popoverBackgroundImageView.layer.borderColor =
-        [UIColor getColorForHexString:@"#4dc8e9"].CGColor;
+        [UIColor colorForHexString:@"#4dc8e9"].CGColor;
         _popoverBackgroundImageView.backgroundColor = [UIColor whiteColor];
         self.layer.shadowColor = [UIColor clearColor].CGColor;
     }
@@ -66,7 +66,7 @@
     CGFloat backgroundImageViewWidth = self.bounds.size.width;
     backgroundImageViewWidth -= 18.0f;
     _popoverBackgroundImageView.frame = CGRectMake(9.0f, 17.0f, backgroundImageViewWidth, backgroundImageViewHeight);
-    _popoverBackgroundImageView.layer.borderColor = [UIColor getColorForHexString:@"#4dc8e9"].CGColor;
+    _popoverBackgroundImageView.layer.borderColor = [UIColor colorForHexString:@"#4dc8e9"].CGColor;
 }
 
 

@@ -25,7 +25,7 @@
         _popoverBackgroundImageView.layer.shadowColor = [UIColor clearColor].CGColor;
         _popoverBackgroundImageView.layer.borderWidth = 1.0f;
         _popoverBackgroundImageView.layer.cornerRadius = 3.0f;
-        _popoverBackgroundImageView.layer.borderColor = [UIColor getColorForHexString:@"#e8eeef"].CGColor;
+        _popoverBackgroundImageView.layer.borderColor = [UIColor colorForHexString:@"#e8eeef"].CGColor;
         _popoverBackgroundImageView.backgroundColor = [UIColor whiteColor];
     }
     return self;
@@ -67,7 +67,7 @@
         [_arrowView setImage:[UIImage imageNamed:@"DatePickerUpArrow"]];
     }
     _popoverBackgroundImageView.frame = CGRectMake(popoverImageOriginX, popoverImageOriginY, popoverImageWidth, popoverImageHeight);
-    _popoverBackgroundImageView.layer.borderColor = [UIColor getColorForHexString:@"#e8eeef"].CGColor;
+    _popoverBackgroundImageView.layer.borderColor = [UIColor colorForHexString:@"#e8eeef"].CGColor;
 }
 
 

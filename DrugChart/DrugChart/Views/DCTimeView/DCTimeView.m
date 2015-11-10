@@ -26,16 +26,16 @@
 - (void)displayTimeViewForMedicationSlot:(DCMedicationSlot *)medicationSlot {
  
     _medicationSlot = medicationSlot;
-    NSString *medicationTime = [DCDateUtility convertDate:medicationSlot.time FromFormat:DEFAULT_DATE_FORMAT ToFormat:TWENTYFOUR_HOUR_FORMAT];
+    NSString *medicationTime = [DCDateUtility dateStringFromDate:medicationSlot.time inFormat:TWENTYFOUR_HOUR_FORMAT];
     _timeLabel.text = medicationTime;
     // checks if the medication time is less than current time.
-    if ([medicationSlot.time compare:[DCDateUtility getDateInCurrentTimeZone:[NSDate date]]] == NSOrderedDescending) {
+    if ([medicationSlot.time compare:[DCDateUtility dateInCurrentTimeZone:[NSDate date]]] == NSOrderedDescending) {
         if (!medicationSlot.medicationAdministration.status) {
             _statusImageView.image = [DCUtility getMedicationStatusImageForMedicationStatus:YET_TO_GIVE];
             _timeLabelLeadingConstraint.constant = TIME_LABEL_CONSTRAINT_YET_TO_GIVE;
         }
     }
-    else if ([medicationSlot.time compare:[DCDateUtility getDateInCurrentTimeZone:[NSDate date]]] == NSOrderedAscending) {
+    else if ([medicationSlot.time compare:[DCDateUtility dateInCurrentTimeZone:[NSDate date]]] == NSOrderedAscending) {
         _statusImageView.image = [DCUtility getMedicationStatusImageForMedicationStatus:medicationSlot.status];
         _timeLabelLeadingConstraint.constant = [medicationSlot.status isEqualToString:YET_TO_GIVE] ? TIME_LABEL_CONSTRAINT_YET_TO_GIVE: TIME_LABEL_CONSTRAINT_NORMAL;
     } else {

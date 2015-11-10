@@ -19,7 +19,7 @@ class DCAdministerTableHeaderView: UIView {
         timeIconImageView.hidden = false
         timeLabel.hidden = false
         errorMessageLabel.hidden = true
-        timeLabel.text = DCDateUtility.convertDate(time, fromFormat: DEFAULT_DATE_FORMAT, toFormat: TWENTYFOUR_HOUR_FORMAT);
+        timeLabel.text = DCDateUtility.dateStringFromDate(time, inFormat: TWENTYFOUR_HOUR_FORMAT)
     }
     
     func populateHeaderViewWithErrorMessage(alertMessage : String) {

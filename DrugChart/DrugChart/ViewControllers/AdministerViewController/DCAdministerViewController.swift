@@ -23,11 +23,12 @@ let DATE_PICKER_VIEW_CELL_HEIGHT : CGFloat = 200.0
 let NOTES_CELL_HEIGHT : CGFloat = 125.0
 let TABLE_CELL_DEFAULT_HEIGHT : CGFloat = 41.0
 let DATE_PICKER_CELL_TAG : NSInteger = 101
-//let ADMINISTER_IN_ONE_HOUR : NSTimeInterval = 60*60
+let SECURITY_PIN_VIEW_ALPHA : CGFloat = 0.3
 let DISPLAY_SECURITY_PIN_ENTRY : String = "displaySecurityPinEntryViewForUser:"
 
 enum SectionCount : NSInteger {
-
+    
+    // enum for Section Count
     case eZerothSection = 0
     case eFirstSection
     case eSecondSection
@@ -36,6 +37,7 @@ enum SectionCount : NSInteger {
 
 enum RowCount : NSInteger {
     
+    //enum for row count
     case eZerothRow = 0
     case eFirstRow
     case eSecondRow
@@ -75,7 +77,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         fetchAdministersAndPrescribersList()
         addNotifications()
         self.navigationController!.navigationBarHidden = true
-
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -129,20 +130,23 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     func configureMedicationDetails () {
         
+        //fill medication details in view
         medicineNameLabel.text = medicationDetails?.name
         if (medicationDetails?.route != nil) {
             populateRouteAndInstructionLabels()
         }
         let dateString : String
         if let date = medicationSlot?.time {
-            dateString = DCDateUtility.convertDate(date, fromFormat: DEFAULT_DATE_FORMAT, toFormat: "d LLLL yyyy")
+            dateString = DCDateUtility.dateStringFromDate(date, inFormat: DATE_MONTHNAME_YEAR_FORMAT)
         } else {
-            dateString = DCDateUtility.convertDate(weekDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: "d LLLL yyyy")
+            dateString = DCDateUtility.dateStringFromDate(weekDate, inFormat: DATE_MONTHNAME_YEAR_FORMAT)
         }
         medicineDateLabel.text = dateString
     }
     
     func populateRouteAndInstructionLabels() {
+        
+        //fill in route and instructions in required font
         let route : String = medicationDetails!.route.stringByReplacingOccurrencesOfString(" ", withString: EMPTY_STRING)
         let attributedRouteString : NSMutableAttributedString = NSMutableAttributedString(string:route, attributes: [NSFontAttributeName : UIFont.systemFontOfSize(16.0)])
         let attributedInstructionsString : NSMutableAttributedString
@@ -181,7 +185,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func checkIfAdministrationIsEarly () {
         
         //check if administration is early
-        let currentSystemDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
+        let currentSystemDate : NSDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
         let nextMedicationTimeInterval : NSTimeInterval? = (medicationSlot?.time)!.timeIntervalSinceDate(currentSystemDate)
         if (nextMedicationTimeInterval  >= 60*60) {
             // is early administration
@@ -197,7 +201,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         //check if frequent administration for when required medication
         if (medicationSlotsArray.count > 0) {
             let previousMedicationSlot : DCMedicationSlot? = medicationSlotsArray.last
-            let currentSystemDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
+            let currentSystemDate : NSDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
             let nextMedicationTimeInterval : NSTimeInterval? = currentSystemDate.timeIntervalSinceDate((previousMedicationSlot?.time)!)
             if (nextMedicationTimeInterval <= 2*60*60) {
                 medicationSlot?.medicationAdministration.isEarlyAdministration = true
@@ -215,9 +219,9 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         usersListWebService = DCUsersListWebService.init()
         usersListWebService!.getUsersListWithCallback { (users, error) -> Void in
             if (error == nil) {
-                for userDict in users {
-                    let displayName = userDict["displayName"] as! String?
-                    let identifier = userDict["identifier"] as! String?
+                for userDictionary in users {
+                    let displayName = userDictionary[DISPLAY_NAME_KEY] as! String?
+                    let identifier = userDictionary[IDENTIFIER_KEY] as! String?
                     let user : DCUser = DCUser.init()
                     user.displayName = displayName
                     user.userIdentifier = identifier
@@ -246,7 +250,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func configureAdministerTableCellAtIndexPath(indexPath : NSIndexPath) -> (DCAdministerCell) {
         
         var administerCell : DCAdministerCell = (administerTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
-
         administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         switch indexPath.section {
         case SectionCount.eZerothSection.rawValue:
@@ -273,6 +276,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         
         switch indexPath.row {
         case RowCount.eZerothRow.rawValue:
+            //administered by cell
             cell.titleLabel.text = NSLocalizedString("ADMINISTERED_BY", comment: "administered by title")
             cell.detailLabel.text = (medicationSlot?.medicationAdministration?.administratingUser?.displayName != nil) ? (medicationSlot?.medicationAdministration?.administratingUser?.displayName) : DEFAULT_DOCTOR_NAME
             break
@@ -280,9 +284,9 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             cell.titleLabel.text = NSLocalizedString("DATE_TIME", comment: "date and time")
             let dateString : String
             if let date = medicationSlot?.medicationAdministration.actualAdministrationTime {
-                dateString = DCDateUtility.convertDate(DCDateUtility.getDateInCurrentTimeZone(date), fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
+                dateString = DCDateUtility.dateStringFromDate(DCDateUtility.dateInCurrentTimeZone(date), inFormat: ADMINISTER_DATE_TIME_FORMAT)
             } else {
-                dateString = DCDateUtility.convertDate(DCDateUtility.getDateInCurrentTimeZone(NSDate()), fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
+                dateString = DCDateUtility.dateStringFromDate(DCDateUtility.dateInCurrentTimeZone(NSDate()), inFormat: ADMINISTER_DATE_TIME_FORMAT)
             }
             cell.detailLabel.text = dateString
             break
@@ -301,12 +305,13 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     func getMedicationDetailsCellForRefusedStatus(cell : DCAdministerCell, indexPath: NSIndexPath) -> (DCAdministerCell) {
         
+        //select date when medication status is refused
         cell.titleLabel.text = NSLocalizedString("DATE_TIME", comment: "date and time")
         let dateString : String
         if let date = medicationSlot?.medicationAdministration.actualAdministrationTime {
-            dateString = DCDateUtility.convertDate(DCDateUtility.getDateInCurrentTimeZone(date), fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
+            dateString = DCDateUtility.dateStringFromDate(DCDateUtility.dateInCurrentTimeZone(date), inFormat: ADMINISTER_DATE_TIME_FORMAT)
         } else {
-            dateString = DCDateUtility.convertDate(DCDateUtility.getDateInCurrentTimeZone(NSDate()), fromFormat: DEFAULT_DATE_FORMAT, toFormat: ADMINISTER_DATE_TIME_FORMAT)
+            dateString = DCDateUtility.dateStringFromDate(DCDateUtility.dateInCurrentTimeZone(NSDate()), inFormat: ADMINISTER_DATE_TIME_FORMAT)
         }
         cell.detailLabel.text = dateString
         return cell
@@ -314,26 +319,18 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     func getBatchNumberOrExpiryDateTableCellAtIndexPath(indexPath: NSIndexPath) -> (DCBatchNumberCell) {
         
+        //batch number or expiry field
         let expiryCell : DCBatchNumberCell = (administerTableView.dequeueReusableCellWithIdentifier(BATCH_NUMBER_CELL_ID) as? DCBatchNumberCell)!
         expiryCell.batchDelegate = self
         expiryCell.selectedIndexPath = indexPath
         return expiryCell;
     }
     
-    func getPopulatedMedicationDetailsCellForRefusedStatus(cell : DCAdministerCell, indexPath: NSIndexPath) -> (DCAdministerCell) {
-        
-        return cell
-    }
-    
-    func getPopulatedMedicationDetailsCellForOmittedStatus(cell : DCAdministerCell, indexPath: NSIndexPath) -> (DCAdministerCell) {
-        
-        return cell
-    }
-    
     func getPopulatedMedicationStatusTableCellAtIndexPath(cell : DCAdministerCell, indexPath: NSIndexPath) -> (DCAdministerCell) {
         
         switch indexPath.row {
         case RowCount.eZerothRow.rawValue:
+            //status cell
             cell.titleLabel.text = NSLocalizedString("STATUS", comment: "status title text")
             if (medicationSlot?.medicationAdministration?.status != nil) {
                 cell.detailLabel.text = medicationSlot?.medicationAdministration?.status
@@ -348,16 +345,17 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     func getNotesTableCellAtIndexPath(indexPath : NSIndexPath) -> (DCNotesTableCell) {
         
+        //notes cell
         let notesCell : DCNotesTableCell = (administerTableView.dequeueReusableCellWithIdentifier(NOTES_CELL_ID) as? DCNotesTableCell)!
         notesCell.selectedIndexPath = indexPath
         notesCell.delegate = self
         return notesCell
     }
         
-    func presentPrescribersAndAdministersPopOverViewAtIndexPath (indexPath : NSIndexPath) {
+    func displayPrescribersAndAdministersViewAtIndexPath (indexPath : NSIndexPath) {
         
         popOverIndexPath = indexPath
-        let namesViewController : NameSelectionTableViewController? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(NAMES_LIST_VIEW_STORYBOARD_ID) as? NameSelectionTableViewController
+        let namesViewController : DCNameSelectionTableViewController? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(NAMES_LIST_VIEW_STORYBOARD_ID) as? DCNameSelectionTableViewController
         namesViewController?.namesDelegate = self
         if (indexPath.row == RowCount.eZerothRow.rawValue) {
             namesViewController?.title = ADMINISTRATED_BY
@@ -404,7 +402,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         } else if (indexPath.section == SectionCount.eSecondSection.rawValue) {
             let notesCell : DCNotesTableCell = getNotesTableCellAtIndexPath(indexPath)
             notesCell.notesType = eNotes
-            notesCell.notesTextView.textColor = (!isValid && medicationSlot?.medicationAdministration?.isEarlyAdministration == true) ? UIColor.redColor() : UIColor.getColorForHexString("#8f8f95")
+            notesCell.notesTextView.textColor = (!isValid && medicationSlot?.medicationAdministration?.isEarlyAdministration == true) ? UIColor.redColor() : UIColor(forHexString: "#8f8f95")
             if let administrationNotes =  medicationSlot?.medicationAdministration.administeredNotes {
                 notesCell.notesTextView.text = administrationNotes
             } else {
@@ -425,10 +423,11 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     func getPopulatedOmittedTableViewCellAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
         
+        //omitted cell status
         if (indexPath.section == SectionCount.eFirstSection.rawValue) {
             let notesCell : DCNotesTableCell = getNotesTableCellAtIndexPath(indexPath)
             notesCell.notesType = eReason
-            notesCell.notesTextView.textColor = !isValid ? UIColor.redColor() : UIColor.getColorForHexString("#8f8f95")
+            notesCell.notesTextView.textColor = !isValid ? UIColor.redColor() : UIColor(forHexString: "#8f8f95")
             if let notes =  medicationSlot?.medicationAdministration.omittedNotes {
                 notesCell.notesTextView.text = notes
             } else {
@@ -446,7 +445,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         if (indexPath.section == SectionCount.eSecondSection.rawValue) {
             let notesCell : DCNotesTableCell = getNotesTableCellAtIndexPath(indexPath)
             notesCell.notesType = eReason
-            notesCell.notesTextView.textColor = (!isValid && medicationSlot?.medicationAdministration?.isEarlyAdministration == true) ? UIColor.redColor() : UIColor.getColorForHexString("#8f8f95")
+            notesCell.notesTextView.textColor = (!isValid && medicationSlot?.medicationAdministration?.isEarlyAdministration == true) ? UIColor.redColor() : UIColor(forHexString: "#8f8f95")
             if let notes =  medicationSlot?.medicationAdministration.refusedNotes {
                 notesCell.notesTextView.text = notes
             } else {
@@ -673,7 +672,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                     administerHeaderView?.populateScheduledTimeValue((medicationSlot?.time)!)
                 } else {
                     if (medicationDetails?.medicineCategory == WHEN_REQUIRED) {
-                       let currentDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
+                       let currentDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
                         administerHeaderView?.populateScheduledTimeValue(currentDate)
                     }
                 }
@@ -702,7 +701,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         } else if (indexPath.section == SectionCount.eFirstSection.rawValue) {
             if (medicationSlot?.medicationAdministration.status == ADMINISTERED) {
                 if (indexPath.row == RowCount.eZerothRow.rawValue || indexPath.row == RowCount.eSecondRow.rawValue) {
-                    presentPrescribersAndAdministersPopOverViewAtIndexPath(indexPath)
+                    displayPrescribersAndAdministersViewAtIndexPath(indexPath)
                 } else if (indexPath.row == RowCount.eFirstRow.rawValue) {
                     displayInlineDatePickerForRowAtIndexPath(indexPath)
                 }
@@ -750,6 +749,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     // mark :StatusList Delegate Methods 
     func selectedMedicationStatusEntry(status: String!) {
+        
         if status == ADMINISTERED {
             medicationSlot?.medicationAdministration.status = ADMINISTERED
         } else if status == REFUSED {
@@ -788,7 +788,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         securityPinViewController?.user = user
         securityPinViewController?.transitioningDelegate = securityPinViewController
         securityPinViewController?.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
-        securityPinViewController!.view.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
+        securityPinViewController!.view.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(SECURITY_PIN_VIEW_ALPHA)
         securityPinViewController!.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
         self.presentViewController(securityPinViewController!, animated: true, completion: nil)
     }
@@ -816,6 +816,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     func animateAdministerTableViewUpWhenKeyboardShows() {
         
+        //view handling on keyboard appear
         if (editingIndexPath != nil) {
             var editedAreaHeight : CGFloat = 0.0
             var topConstraint : CGFloat = 0.0

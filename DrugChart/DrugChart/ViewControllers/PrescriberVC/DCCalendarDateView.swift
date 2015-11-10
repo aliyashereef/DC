@@ -15,15 +15,17 @@ import UIKit
         
     func calculateWeekViewSlotWidth () {
         
-        weekViewWidth = (DCUtility.getMainWindowSize().width - 300)/5
+        weekViewWidth = (DCUtility.mainWindowSize().width - 300)/5
     }
     
     func populateViewForDateArray(dateArray : NSArray) {
         
         self.dateArray = dateArray
-        self.setDatesInView( dateArray)
+        self.setDatesInView(dateArray)
     }
 
+    // To arrange the date views in the view to show a week
+    
     func setDatesInView( dateArray : NSArray ) {
         
         calculateWeekViewSlotWidth()
@@ -40,7 +42,7 @@ import UIKit
             if (index == 0) {
                 //This is added since the current week separation is not shown
                 let borderView : UIView = UIView.init(frame: CGRectMake(-0.9, 0, 1, 49))
-                borderView.backgroundColor = UIColor.getColorForHexString("#efeff4")
+                borderView.backgroundColor = UIColor(forHexString: "#efeff4")
                 dateView.addSubview(borderView)
             }
         }

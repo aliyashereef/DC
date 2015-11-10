@@ -7,7 +7,6 @@
 //
 
 #import "DCBaseViewController.h"
-#import "DCMissedMedicationAlertViewController.h"
 #import "DCLogOutWebService.h"
 #import "DCKeyChainManager.h"
 
@@ -18,20 +17,24 @@
 @implementation DCBaseViewController
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    
     [super viewWillAppear:animated];
     [self addNotifications];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super viewWillDisappear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
+    
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
@@ -66,6 +69,7 @@
 
 - (void)displayAlertWithTitle:(NSString *)title
                       message:(NSString *)message {
+    
     //display alert view for view controllers
     UIAlertController *alertController = [UIAlertController
                                alertControllerWithTitle:title
@@ -83,6 +87,7 @@
 #pragma mark - Notification Methods
 
 - (void)keyboardDidShow:(NSNotification *)notification {
+    
     self.keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
 }
 
@@ -91,27 +96,11 @@
 }
 
 - (void)defaultsValueChanged {
+    
     //clear cache
-//    if ([[NSUserDefaults standardUserDefaults] boolForKey:SETTINGS_TOGGLE_BUTTON_KEY]) {
-//        
-//    }
-//    NSHTTPCookieStorage *storage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-//    for (NSHTTPCookie *cookie in [storage cookies]) {
-//        [storage deleteCookie:cookie];
-//    }
-//    [[DCKeyChainManager sharedKeyChainManager] clearKeyStore];
-//    
     DCAppDelegate *appDelegate = DCAPPDELEGATE;
-//    [self.navigationController popToRootViewControllerAnimated:YES];
-//    if ([[NSUserDefaults standardUserDefaults] boolForKey:SETTINGS_TOGGLE_BUTTON_KEY]) {
-//        
-        appDelegate.baseURL = kDCBaseUrl_Demo;
-        appDelegate.authorizeURL = AUTHORIZE_URL_DEMO;
-//    } else {
-//        
-//        appDelegate.baseURL = kDCBaseUrl;
-//        appDelegate.authorizeURL = AUTHORIZE_URL;
-//    }
+    appDelegate.baseURL = kDCBaseUrl_Demo;
+    appDelegate.authorizeURL = AUTHORIZE_URL_DEMO;
 }
 
 @end

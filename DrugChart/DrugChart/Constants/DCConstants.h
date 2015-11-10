@@ -140,7 +140,7 @@
 
 // color values
 #define NAVIGATION_BAR_COLOR [UIColor colorWithRed:13.0/255.0 green:119.0/255.0  blue:200.0/255.0  alpha:1.0]
-#define BORDER_COLOR [UIColor getColorForHexString:@"#c4d3d5"]
+#define BORDER_COLOR [UIColor colorForHexString:@"#c4d3d5"]
 #define LIGHT_GRAY_BORDER_COLOR  [UIColor colorWithRed:177.0f/255.0f green:177.0f/255.0f blue:177.0f/255.0f alpha:0.6].CGColor
 #define ADMINISTRATING_VIEW_COLOR UIColor(red: 239.0/255.0, green: 239.0/255.0, blue: 244.0/255.0, alpha: 1.0)
 
@@ -223,8 +223,7 @@
 #define LONG_DATE_FORMAT                @"yyyy-MM-dd HH:mm:ss"
 #define DATE_MONTHNAME_YEAR_FORMAT      @"d LLLL yyyy"
 #define ADMINISTER_DATE_TIME_FORMAT     @"d-MMM-yyyy hh:mm a"
-
-#define SERVER_DATE_FORMAT       @"yyyy-MM-dd'T'hh:mm:ss"
+#define SERVER_DATE_FORMAT              @"yyyy-MM-dd'T'hh:mm:ss"
 
 // medication category
 #define REGULAR_MEDICATION @"Regular"
@@ -279,6 +278,10 @@
 //others
 #define SUCCESS    @"Success"
 #define SELF_ADMINISTERED_TITLE @"Self Administered"
+
+//Administer
+#define DISPLAY_NAME_KEY @"displayName"
+#define IDENTIFIER_KEY @"identifier"
 
 #define MED_DATE @"medDate"
 #define MED_DETAILS @"medDetails"
@@ -341,6 +344,11 @@
 #define ALLERGY_INTOLERANCE @"AllergyIntolerance"
 #define ENTRY_KEY @"entry"
 #define RESOURCE_KEY @"resource"
+
+//Appdelegate
+
+#define HAS_LAUNCHED_ONCE @"HasLaunchedOnce"
+
 
 
 //Roles

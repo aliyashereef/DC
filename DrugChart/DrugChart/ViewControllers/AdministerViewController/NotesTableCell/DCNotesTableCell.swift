@@ -64,13 +64,14 @@ class DCNotesTableCell: UITableViewCell, UITextViewDelegate {
         }
 
         if (textView.text == EMPTY_STRING) {
-            textView.textColor = UIColor.getColorForHexString("#8f8f95")
+            textView.textColor = UIColor(forHexString: "#8f8f95")
             textView.text = getHintText()
         }
     }
     
     func getHintText() -> String {
         
+        //initial hint text in table cell
         var hint : String
         if (notesType! == eNotes) {
             hint = NSLocalizedString("NOTES", comment: "notes hint")

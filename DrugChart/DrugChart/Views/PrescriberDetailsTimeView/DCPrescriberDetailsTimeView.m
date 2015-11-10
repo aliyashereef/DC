@@ -38,9 +38,9 @@
 
 - (void)setMedicationSlotValuesForSelectedState:(BOOL)selected {
     
-    NSString *medicationTime = [DCDateUtility convertDate:_medicationSlot.time FromFormat:DEFAULT_DATE_FORMAT ToFormat:TWENTYFOUR_HOUR_FORMAT];
+    NSString *medicationTime = [DCDateUtility dateStringFromDate:_medicationSlot.time inFormat:TWENTYFOUR_HOUR_FORMAT];
     timeLabel.text = medicationTime;
-    if ([_medicationSlot.time compare:[DCDateUtility getDateInCurrentTimeZone:[NSDate date]]] == NSOrderedDescending) {
+    if ([_medicationSlot.time compare:[DCDateUtility dateInCurrentTimeZone:[NSDate date]]] == NSOrderedDescending) {
         
         if (selected) {
              statusImageView.image = [self getPrescriberDetailStatusSelectedImageForMedicationStatus:YET_TO_GIVE];
@@ -50,7 +50,7 @@
             timeLabel.textColor = [UIColor darkGrayColor];
         }
         timeLabelLeadingConstraint.constant = TIME_LABEL_LEADING_NORMAL;
-    } else if ([_medicationSlot.time compare:[DCDateUtility getDateInCurrentTimeZone:[NSDate date]]] == NSOrderedAscending) {
+    } else if ([_medicationSlot.time compare:[DCDateUtility dateInCurrentTimeZone:[NSDate date]]] == NSOrderedAscending) {
         
         if (selected) {
             statusImageView.image = [self getPrescriberDetailStatusSelectedImageForMedicationStatus:_medicationSlot.status];

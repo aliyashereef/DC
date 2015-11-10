@@ -28,7 +28,7 @@
         _popoverBackgroundImageView.layer.shadowColor = [UIColor clearColor].CGColor;
         _popoverBackgroundImageView.layer.borderWidth = 1.0f;
         _popoverBackgroundImageView.layer.cornerRadius = 3.0f;
-        _popoverBackgroundImageView.layer.borderColor = [UIColor getColorForHexString:@"#b1b1b1"].CGColor;
+        _popoverBackgroundImageView.layer.borderColor = [UIColor colorForHexString:@"#b1b1b1"].CGColor;
         _popoverBackgroundImageView.backgroundColor = [UIColor whiteColor];
     }
     return self;
@@ -57,7 +57,7 @@
     _coordinate = ((self.frame.size.width / 2) + self.arrowOffset) - (ARROW_BASE/2);
     _arrowView.frame = CGRectMake(_coordinate, 6, ARROW_BASE, ARROW_HEIGHT);
     _popoverBackgroundImageView.frame = CGRectMake(popoverImageOriginX, popoverImageOriginY, popoverImageWidth, popoverImageHeight);
-    _popoverBackgroundImageView.layer.borderColor = [UIColor getColorForHexString:@"#b1b1b1"].CGColor;
+    _popoverBackgroundImageView.layer.borderColor = [UIColor colorForHexString:@"#b1b1b1"].CGColor;
 }
 
 

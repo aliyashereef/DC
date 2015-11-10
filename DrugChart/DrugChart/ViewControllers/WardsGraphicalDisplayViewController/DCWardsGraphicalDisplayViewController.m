@@ -7,7 +7,7 @@
 //
 
 #import "DCWardsGraphicalDisplayViewController.h"
-#import "PrescriberMedicationViewController.h"
+#import "DCPrescriberMedicationViewController.h"
 
 #import "DCPatientGraphicalRepresentationView.h"
 #import "DCPositionableGraphicsView.h"
@@ -33,6 +33,8 @@
 
 @implementation DCWardsGraphicalDisplayViewController
 
+#pragma mark - View Management Methods
+
 - (void)viewDidLoad {
     
     [super viewDidLoad];
@@ -56,6 +58,8 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark - Private methods
 
 - (void)setGraphicalContentSize {
     
@@ -117,7 +121,7 @@
     
     selectedPatient = currentPatient;
     UIStoryboard *prescriberStoryBoard = [UIStoryboard storyboardWithName:PRESCRIBER_DETAILS_STORYBOARD bundle:nil];
-    PrescriberMedicationViewController *prescriberMedicationViewController = [prescriberStoryBoard instantiateViewControllerWithIdentifier:PRESCRIBER_MEDICATION_SBID];
+    DCPrescriberMedicationViewController *prescriberMedicationViewController = [prescriberStoryBoard instantiateViewControllerWithIdentifier:PRESCRIBER_MEDICATION_SBID];
     prescriberMedicationViewController.patient = selectedPatient;
     [self.navigationController pushViewController:prescriberMedicationViewController animated:YES];
 }

@@ -9,25 +9,30 @@
 import Foundation
 
 // Strings
+
 let drugChart : NSString = "Drug Chart"
 let vitalSigns : NSString = "Vital Signs"
 let viewTitle : NSString = "Menu"
 let menuTableCellIdentifier : NSString = "MenuTableCell"
 
 // DCBaseViewController is a subclass for UIViewController
+
 class DCPatientMenuViewController: DCBaseViewController, UITableViewDataSource, UITableViewDelegate{
     
     @IBOutlet weak var menuTableView: UITableView!
     var patient : DCPatient = DCPatient.init()
     let menuArray : NSArray = [drugChart,vitalSigns]
     
+    //MARK: View Management Methods
+
     override func viewDidLoad() {
         self.title = viewTitle as String
         menuTableView!.tableFooterView = UIView(frame: CGRectZero)
         super.viewDidLoad()
     }
     
-    // Table View data source methods
+    //MARK: Table View Data Source Methods
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return menuArray.count
     }
@@ -40,7 +45,8 @@ class DCPatientMenuViewController: DCBaseViewController, UITableViewDataSource, 
         return cell
     }
     
-    // Table View delegate methods
+    //MARK: Table View Delegate Methods
+    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         switch indexPath.row {

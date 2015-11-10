@@ -15,9 +15,9 @@
 
 @implementation DCGraphicalViewHelper
 
-+ (UIImage *)getBedImageForBedType:(NSString *)bedType
-             andBedOperationStatus:(NSString *)bedStatus
-                     andHasPatient:(BOOL)hasPatient {
++ (UIImage *)bedImageForBedType:(NSString *)bedType
+             bedOperationStatus:(NSString *)bedStatus
+                containsPatient:(BOOL)hasPatient {
     
     if (hasPatient) {
         NSString *imageNameString = [NSString stringWithFormat:@"Occupied%@",bedType];

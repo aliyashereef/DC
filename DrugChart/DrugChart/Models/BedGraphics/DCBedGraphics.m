@@ -32,7 +32,7 @@
             //set the values.
             self.bedFrame = graphicsFrame;
             self.headDirection = [graphicsDictionary objectForKey:HEAD_DIRECTION];
-            self.bedColor = [UIColor getColorForHexString:colorHexString];
+            self.bedColor = [UIColor colorForHexString:colorHexString];
         }
         @catch (NSException *exception) {
             NSLog(@"Excpetion found in setting bed graphics model: %@",exception.description);
@@ -43,7 +43,7 @@
 }
 
 // Depending on the bed headDirection the respective nib files are loaded.
-- (NSString *)getNibFileForHeadDirection {
+- (NSString *)nibFileNameForHeadDirection {
     
     if ([self.headDirection isEqualToString:TOP_DIRECTION]) {
         return @"DCPortraitTopPatientView";

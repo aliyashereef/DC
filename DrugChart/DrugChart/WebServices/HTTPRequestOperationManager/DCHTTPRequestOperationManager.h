@@ -18,7 +18,7 @@
 
 + (DCHTTPRequestOperationManager *)sharedAdministerMedicationManager;
 
-- (void)setHeaderFieldsForRequest;
+- (void)configureHeaderFieldsForRequest;
 
 - (void)cancelAllWebRequests;
 

@@ -10,8 +10,8 @@
 
 @interface DCGraphicalViewHelper : NSObject
 
-+ (UIImage *)getBedImageForBedType:(NSString *)bedType
-             andBedOperationStatus:(NSString *)bedStatus
-                     andHasPatient:(BOOL)hasPatient;
++ (UIImage *)bedImageForBedType:(NSString *)bedType
+             bedOperationStatus:(NSString *)bedStatus
+                containsPatient:(BOOL)hasPatient;
 
 @end
