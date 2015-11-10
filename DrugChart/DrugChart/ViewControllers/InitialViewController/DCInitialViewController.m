@@ -25,12 +25,13 @@
     NSMutableArray *wardsArray;
     NSMutableArray *patientsListArray;
     NSMutableArray *sortedPatientsListArray;
-
 }
 
 @end
 
 @implementation DCInitialViewController
+
+#pragma mark - View Management Methods
 
 - (void)viewDidLoad {
     
@@ -47,10 +48,14 @@
     isDismissActionForLogin = NO;
 }
 
+#pragma mark - Memory Management Methods
+
 - (void)didReceiveMemoryWarning {
     
     [super didReceiveMemoryWarning];
 }
+
+#pragma mark - Segue Management Methods
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
@@ -123,6 +128,7 @@
 
 #pragma mark - DCAuthorizationViewControllerDelegate implementation
 
+// method to present the patient list view on successful login action.
 - (void)successfulLoginAction {
     
     isDismissActionForLogin = YES;

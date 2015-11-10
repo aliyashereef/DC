@@ -23,7 +23,6 @@
     __weak IBOutlet UITableView *medicationDetailsTableView;
     __weak IBOutlet UILabel *orderSetLabel;
     UIBarButtonItem *addButton;
-    
     NSMutableArray *dosageArray;
     NSArray *warningsArray;
     NSInteger lastSection;
@@ -37,6 +36,8 @@
 
 @implementation DCAddMedicationInitialViewController
 
+#pragma mark - View Management Methods
+
 - (void)viewDidLoad {
     
     [super viewDidLoad];
@@ -44,6 +45,8 @@
     [self configureViewForEditMedicationState];
     [self configureViewElements];
 }
+
+#pragma mark - Memory Management methods
 
 - (void)didReceiveMemoryWarning {
     
@@ -54,9 +57,11 @@
     [super viewDidAppear:animated];
     [medicationDetailsTableView reloadData];
 }
+
 #pragma mark - Private Methods
 
 //configuring the add button and cancel button as navigation button items on the navigation bar.
+
 - (void)configureNavigationBar {
     
     addButton = [[UIBarButtonItem alloc]
@@ -78,20 +83,23 @@
 }
 
 - (void)configureViewForEditMedicationState {
+    
     if (self.isEditMedication) {
+        
         self.segmentedContolTopLayoutViewHeight.constant = -50;
         if([self.selectedMedication.medicineCategory isEqualToString:WHEN_REQUIRED]){
             self.selectedMedication.medicineCategory = WHEN_REQUIRED_VALUE;
         }
         if (self.selectedMedication.endDate == nil) {
-            self.selectedMedication.noEndDate = YES;
             
+            self.selectedMedication.noEndDate = YES;
         }
-        self.selectedMedication.timeArray = [self getTimesArrayFromScheduleArray:self.selectedMedication.scheduleTimesArray];
+        self.selectedMedication.timeArray = [DCAddMedicationHelper getTimesArrayFromScheduleArray:self.selectedMedication.scheduleTimesArray];
     }
 }
 
 //Setting the layout margins and seperator space for the table view to zero.
+
 - (void)configureViewElements {
     
     medicationDetailsTableView.layoutMargins = UIEdgeInsetsZero;
@@ -103,6 +111,7 @@
 }
 
 //Configuring the medication name cell in the medication detail table view.If the table view is loaded before the medication name is selected,it is loaded with the place holder string.
+
 - (UITableViewCell *)getPopulatedMedicationNameTableCell {
     
     static NSString *cellIdentifier = ADD_MEDICATION_CELL_IDENTIFIER;
@@ -295,8 +304,6 @@
     if (!self.selectedMedication.startDate || [self.selectedMedication.startDate isEqualToString:EMPTY_STRING]) {
         NSDate *dateInCurrentZone = [DCDateUtility getDateInCurrentTimeZone:[NSDate date]];
         NSString *dateString = [DCDateUtility convertDate:dateInCurrentZone FromFormat:DEFAULT_DATE_FORMAT ToFormat:@"d-MMM-yyyy HH:mm"];
-//        NSString *dateString = [DCDateUtility getDisplayDateForAddMedication:
-//                                [DCDateUtility getDateInCurrentTimeZone:[NSDate date]] dateAndTime:YES];
         self.selectedMedication.startDate = dateString;
         [tableCell configureContentCellWithContent:dateString];
     }
@@ -360,7 +367,6 @@
             lastSection = eThirdSection;
         }
     }
-    
     //hide/show no date table cell
     if (self.selectedMedication.noEndDate) {
         //hide tablecell
@@ -839,7 +845,6 @@
     medicationDetailViewController.delegate = self;
     __weak DCAddMedicationDetailViewController *weakDetailVc = medicationDetailViewController;
     medicationDetailViewController.selectedEntry = ^ (NSString *value) {
-        NSLog(@"value is %@", value);
         [self updateMedicationDetailsTableViewWithSelectedValue:value withDetailType:weakDetailVc.detailType];
     };
     medicationDetailViewController.detailType = eDetailAdministrationTime;

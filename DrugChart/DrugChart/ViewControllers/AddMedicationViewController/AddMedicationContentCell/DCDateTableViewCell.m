@@ -16,7 +16,6 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
     // Configure the view for the selected state
 }
 
@@ -30,6 +29,7 @@
 }
 
 - (void)configureCellWithNoEndDateSwitchState:(BOOL)state {
+    
     if (!_isEditMedication) {
         _previousSwitchState = 1;
         [_dateValueLabel setHidden:YES];
