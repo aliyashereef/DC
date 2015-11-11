@@ -76,7 +76,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
                 updateViewForValidSlotToAdminister()
             }
         } else {
-            getAdministerViewErrorMessageForEmptyMedicationSlotArray()
+            setErrorMessageForEmptyMedicationSlotArray()
             addAdministerView()
         }
         if (errorMessage != EMPTY_STRING) {
@@ -86,7 +86,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     
     func updateViewForValidSlotToAdminister () {
         
-        let error = getAdministerViewErrorMessageForFilledMedicationSlotArray() as String?
+        let error = errorMessageForFilledMedicationSlotArray() as String?
         if (error == NSLocalizedString("ALREADY_ADMINISTERED", comment: "")) {
             if (medicationDetails?.medicineCategory != WHEN_REQUIRED) {
                 segmentedControl.selectedSegmentIndex = MEDICATION_HISTORY_SEGMENT_INDEX;
@@ -137,7 +137,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         }
     }
     
-    func getAdministerViewErrorMessageForFilledMedicationSlotArray() -> NSString {
+    func errorMessageForFilledMedicationSlotArray() -> NSString {
         
         let currentSystemDate : NSDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
         let currentDateString : NSString? = DCDateUtility.dateStringFromDate(currentSystemDate, inFormat: SHORT_DATE_FORMAT)
@@ -158,7 +158,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         return errorMessage
     }
     
-    func getAdministerViewErrorMessageForEmptyMedicationSlotArray() -> NSString {
+    func setErrorMessageForEmptyMedicationSlotArray() -> NSString {
         
         //Whne medication slot array is empty
         if (medicationDetails?.medicineCategory == WHEN_REQUIRED) {
@@ -353,7 +353,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     }
     
     //MARK: API Integration
-    func getMedicationAdministrationDictionary() -> NSDictionary {
+    func medicationAdministrationDictionary() -> NSDictionary {
         
         let administerDictionary : NSMutableDictionary = [:]
         let scheduledDateString : NSString
@@ -385,7 +385,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         if let batch = administerViewController?.medicationSlot?.medicationAdministration?.batch {
             administerDictionary.setValue(batch, forKey: ADMINISTRATING_BATCH)
         }
-        let notes : NSString  = getAdministrationNotesBasedOnMedicationStatus ((administerViewController?.medicationSlot?.medicationAdministration?.status)!)
+        let notes : NSString  = administrationNotesBasedOnMedicationStatus ((administerViewController?.medicationSlot?.medicationAdministration?.status)!)
         administerDictionary.setValue(notes, forKey:ADMINISTRATING_NOTES)
         
         //TODO: currently hardcoded as ther is no expiry field in UI
@@ -396,7 +396,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     func callAdministerMedicationWebService() {
     
         let administerMedicationWebService : DCAdministerMedicationWebService = DCAdministerMedicationWebService.init()
-        let parameterDictionary : NSDictionary = getMedicationAdministrationDictionary()
+        let parameterDictionary : NSDictionary = medicationAdministrationDictionary()
         administerMedicationWebService.administerMedicationForScheduleId(scheduleId as String, forPatientId:patientId as String , withParameters:parameterDictionary as [NSObject : AnyObject]) { (array, error) -> Void in
             self.administerViewController?.activityIndicator.stopAnimating()
             if error == nil {
@@ -425,7 +425,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     }
     
     // Return the note string based on the administrating status
-    func getAdministrationNotesBasedOnMedicationStatus (status : NSString) -> NSString{
+    func administrationNotesBasedOnMedicationStatus (status : NSString) -> NSString{
         var noteString : NSString = EMPTY_STRING
         if (status == ADMINISTERED || status == SELF_ADMINISTERED)  {
             if let administeredNotes = administerViewController?.medicationSlot?.medicationAdministration?.administeredNotes {

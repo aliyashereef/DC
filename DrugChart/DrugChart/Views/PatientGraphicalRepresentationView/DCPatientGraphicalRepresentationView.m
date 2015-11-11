@@ -56,8 +56,8 @@
         patientSexLabel.text = self.patient.sex;
     }
     consultantLabel.text = self.patient.consultant;
-    nextMedicationDateLabel.attributedText = [self.patient getFormattedDisplayMedicationDateForPatient];
-    medicationStatusView.backgroundColor = [self.patient getDisplayColorForMedicationStatus];
+    nextMedicationDateLabel.attributedText = [self.patient formattedDisplayMedicationDateForPatient];
+    medicationStatusView.backgroundColor = [self.patient displayColorForMedicationStatus];
     bedImageView.image = [DCGraphicalViewHelper bedImageForBedType:self.bed.bedType
                                                 bedOperationStatus:self.bed.bedStatus
                                                    containsPatient:hasPatient];

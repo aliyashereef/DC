@@ -196,7 +196,7 @@ typedef enum : NSUInteger {
     }
 }
 
-- (void)getDisplayMedicationListArray {
+- (void)displayMedicationListArray {
     
     if (displayMedicationListArray.count > 0) {
         displayMedicationListArray = nil;
@@ -307,7 +307,7 @@ typedef enum : NSUInteger {
                             _patient.medicationListArray = result;
                             [self configureAlertsAndAllergiesArrayForDisplay];
                             [self addAlertsAndAllergyBarButtonToNavigationBar];
-                            [self getDisplayMedicationListArray];
+                            [self displayMedicationListArray];
                             if ([displayMedicationListArray count] > 0) {
                                 if (prescriberMedicationListViewController) {
                                     [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
@@ -417,10 +417,10 @@ typedef enum : NSUInteger {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         if (discontinuedMedicationShown) {
             discontinuedMedicationShown = NO;
-            [self getDisplayMedicationListArray];
+            [self displayMedicationListArray];
         } else {
             discontinuedMedicationShown = YES;
-            [self getDisplayMedicationListArray];
+            [self displayMedicationListArray];
             if (sortType != kSortDrugType) {
                 [self sortPrescriberMedicationList];
             }

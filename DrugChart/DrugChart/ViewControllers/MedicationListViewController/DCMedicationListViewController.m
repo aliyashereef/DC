@@ -122,7 +122,7 @@
         }
     }];
 }
-- (NSString *)getMedicationNameFromIndexPath :(NSIndexPath *)indexPath {
+- (NSString *)medicationNameFromIndexPath :(NSIndexPath *)indexPath {
     
     if ([[medicationListArray objectAtIndex:indexPath.row] isKindOfClass:[DCMedication class]]) {
         DCMedication *searchMedication = [medicationListArray objectAtIndex:indexPath.row];
@@ -179,7 +179,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    CGSize stepSize = [DCUtility requiredSizeForText:[self getMedicationNameFromIndexPath:indexPath]
+    CGSize stepSize = [DCUtility requiredSizeForText:[self medicationNameFromIndexPath:indexPath]
                                                    font:[UIFont systemFontOfSize:15.0f]
                                                maxWidth:294];
     CGFloat searchCellHeight = CELL_PADDING + stepSize.height;
@@ -195,7 +195,7 @@
     if (cell == nil) {
         cell = [[DCMedicationListTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
-    cell.medicationNameLabel.text = [self getMedicationNameFromIndexPath:indexPath];
+    cell.medicationNameLabel.text = [self medicationNameFromIndexPath:indexPath];
     if ([[medicationListArray objectAtIndex:indexPath.row] isKindOfClass:[DCMedication class]]) {
         cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     } else {

@@ -55,7 +55,7 @@
             self.patientNumber = [NSString stringWithFormat:@"%@",[patientDictionary valueForKey:PATIENT_NUMBER]];
             if ([patientDictionary valueForKey:NEXT_DUE_MEDICATION] &&
                 ![[patientDictionary valueForKey:NEXT_DUE_MEDICATION] isEqual:[NSNull null]]) {
-                self.nextMedicationDate = [self getNextMedicationDateFromDateString:
+                self.nextMedicationDate = [self nextMedicationDateFromDateString:
                                            [[patientDictionary objectForKey:NEXT_DUE_MEDICATION]valueForKey:NEXT_DUE_ADMINISTRATION_DATE_TIME]];
             }
         
@@ -64,8 +64,8 @@
             DCAppDelegate *appDelegate = DCAPPDELEGATE;
             requestUrl = [requestUrl stringByReplacingOccurrencesOfString:LOCALHOST_PATH withString:appDelegate.baseURL];
             self.url  = requestUrl;
-            [self getPatientsAlerts];
-            [self getPatientsAllergies];
+            [self setPatientsAlerts];
+            [self setPatientsAllergies];
         }
         @catch (NSException *exception) {
             DCDebugLog(@"Exception in patient model class: %@", exception.description);
@@ -84,7 +84,7 @@
     self.bedType = bedType;
 }
 
-- (NSDate *)getNextMedicationDateFromDateString:(NSString *)dateString {
+- (NSDate *)nextMedicationDateFromDateString:(NSString *)dateString {
     
     NSString *formatterString = @"yyyy-MM-dd'T'HH:mm:ss";
     NSDate *nextMedicationDate = [DCDateUtility dateForDateString:dateString
@@ -122,7 +122,7 @@
     }
  }
 
-- (UIColor *)getDisplayColorForMedicationStatus {
+- (UIColor *)displayColorForMedicationStatus {
     
     MedicationStatus status = [self getMedicationStatus];
     self.emergencyStatus = status;
@@ -160,7 +160,7 @@
     return statusColor;
 }
 
-- (NSMutableAttributedString *)getFormattedDisplayMedicationDateForPatient {
+- (NSMutableAttributedString *)formattedDisplayMedicationDateForPatient {
     
     if (self.nextMedicationDate) {
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -188,7 +188,7 @@
 }
 
 
-- (void)getPatientsAlerts {
+- (void)setPatientsAlerts {
     
     DCAlertsWebService *webService = [[DCAlertsWebService alloc] init];
     [webService patientAlertsForId:self.patientId withCallBackHandler:^(NSArray *alertsArray, NSError *error) {

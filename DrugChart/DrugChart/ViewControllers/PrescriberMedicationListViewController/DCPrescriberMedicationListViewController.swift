@@ -206,7 +206,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         return false
     }
     
-    func getAllIndexPaths() -> [AnyObject] {
+    func allIndexPaths() -> [AnyObject] {
         
         var indexes = [AnyObject]()
         for j in 0...medicationTableView!.numberOfRowsInSection(0)-1
