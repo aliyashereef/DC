@@ -59,8 +59,8 @@
 - (void)configureWarningLabel {
     
     NSDictionary *warningLabelAttributes = @{
-                                             NSFontAttributeName : [DCFontUtility getLatoRegularFontWithSize:15.0f],
-                                             NSForegroundColorAttributeName : [UIColor getColorForHexString:@"#313131"]
+                                             NSFontAttributeName : [DCFontUtility latoRegularFontWithSize:15.0f],
+                                             NSForegroundColorAttributeName : [UIColor colorForHexString:@"#313131"]
                                              };
     NSMutableAttributedString *warningAttributedString = [[NSMutableAttributedString alloc] initWithString:_patientAllergy.allergyName];
     [warningAttributedString setAttributes:warningLabelAttributes range:NSMakeRange(0, [warningAttributedString length])];
@@ -68,8 +68,8 @@
                                                            initWithString:_patientAllergy.warningType];
     NSString *severityColorHex = [_patientAllergy.warningType isEqualToString:SEVERE_WARNING] ? @"#f00707" : @"#d5a601";
     NSDictionary *severityAttributes = @{
-                                         NSFontAttributeName : [DCFontUtility getLatoRegularFontWithSize:14.0f],
-                                         NSForegroundColorAttributeName : [UIColor getColorForHexString:severityColorHex]
+                                         NSFontAttributeName : [DCFontUtility latoRegularFontWithSize:14.0f],
+                                         NSForegroundColorAttributeName : [UIColor colorForHexString:severityColorHex]
                                          };
     [severityAttributedString setAttributes:severityAttributes range:NSMakeRange(0, [severityAttributedString length])];
     [warningAttributedString appendAttributedString:severityAttributedString];

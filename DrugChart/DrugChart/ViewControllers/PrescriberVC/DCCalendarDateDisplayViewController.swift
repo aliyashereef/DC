@@ -28,8 +28,8 @@ import UIKit
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        calendarViewWidthConstraint.constant = (DCUtility.getMainWindowSize().width - MEDICATION_VIEW_WIDTH);
-        getDisplayWeekDatesArray()
+        calendarViewWidthConstraint.constant = (DCUtility.mainWindowSize().width - MEDICATION_VIEW_WIDTH);
+        displayWeekDatesArray()
         self.displayDatesInView()
     }
     
@@ -37,7 +37,7 @@ import UIKit
     
     func translateCalendarContainerViewsForTranslationParameters(xTranslation: CGFloat, withXVelocity xVelocity:CGFloat, panEndedValue panEnded:Bool) {
         
-        let calendarWidth : CGFloat = (DCUtility.getMainWindowSize().width - MEDICATION_VIEW_WIDTH);
+        let calendarWidth : CGFloat = (DCUtility.mainWindowSize().width - MEDICATION_VIEW_WIDTH);
         let valueToTranslate = (calendarViewLeadingConstraint.constant + xTranslation);
         if (valueToTranslate >= -calendarWidth && valueToTranslate <= calendarWidth) {
             calendarViewLeadingConstraint.constant = calendarViewLeadingConstraint.constant + xTranslation;
@@ -66,7 +66,7 @@ import UIKit
     func displayPreviousWeekDatesInCalendar() {
         
         UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
-            let calendarWidth : CGFloat = (DCUtility.getMainWindowSize().width - MEDICATION_VIEW_WIDTH);
+            let calendarWidth : CGFloat = (DCUtility.mainWindowSize().width - MEDICATION_VIEW_WIDTH);
             if (self.calendarViewLeadingConstraint.constant >= MEDICATION_VIEW_WIDTH) {
                 self.calendarViewLeadingConstraint.constant = calendarWidth
             }
@@ -78,7 +78,7 @@ import UIKit
     
     func displayNextWeekDatesInCalendar() {
         UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
-            let calendarWidth : CGFloat = (DCUtility.getMainWindowSize().width - MEDICATION_VIEW_WIDTH);
+            let calendarWidth : CGFloat = (DCUtility.mainWindowSize().width - MEDICATION_VIEW_WIDTH);
             if (self.calendarViewLeadingConstraint.constant <= -MEDICATION_VIEW_WIDTH) {
                 self.calendarViewLeadingConstraint.constant = -calendarWidth
             }
@@ -89,7 +89,7 @@ import UIKit
     }
 
 
-    func getDisplayWeekDatesArray() -> NSMutableArray {
+    func displayWeekDatesArray() -> NSMutableArray {
         
         var index : NSInteger = 0
         let displayDatesArray = NSMutableArray()
@@ -110,15 +110,15 @@ import UIKit
     
     // Returns the date container width
     
-    func getDateContainerViewWidth () -> (CGFloat) {
+    func dateContainerViewWidth () -> (CGFloat) {
         
-        return DCUtility.getMainWindowSize().width
+        return DCUtility.mainWindowSize().width
     }
 
     // Populate the dates for the previous and next date views
     func displayDatesInView () {
         
-        let displayDatesArray = getDisplayWeekDatesArray()
+        let displayDatesArray = displayWeekDatesArray()
         var index : NSInteger = 0
         let leftDatesArray : NSMutableArray = []
         let centerDatesArray : NSMutableArray = []

@@ -70,7 +70,7 @@
     __block BOOL isDone = NO;
     
     DCAddMedicationWebService *webService = [[DCAddMedicationWebService alloc] init];
-    [webService addMedicationForMedicationType:WHEN_REQUIRED forPatientId:PATIENT_ID withParameters:[self getMedicationDetailsDictionaryForType:WHEN_REQUIRED] withCallbackHandler:^(id response, NSError *error) {
+    [webService addMedicationForMedicationType:WHEN_REQUIRED forPatientId:PATIENT_ID withParameters:[self medicationDetailsDictionaryForType:WHEN_REQUIRED] withCallbackHandler:^(id response, NSError *error) {
         if (!error) {
             isDone = YES;
             
@@ -84,7 +84,7 @@
 }
 
 
-- (NSDictionary *) getMedicationDetailsDictionaryForType : (NSString *)type {
+- (NSDictionary *)medicationDetailsDictionaryForType : (NSString *)type {
     
     NSMutableDictionary *medicationDictionary = [[NSMutableDictionary alloc] init];
     

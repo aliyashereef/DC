@@ -91,7 +91,7 @@
 
 - (void)updateTimeContainerViewWithSelectedTime:(NSDate *)time {
     
-    NSString *selectedDateString = [DCDateUtility getDisplayDateInTwentyFourHourFormat:time];
+    NSString *selectedDateString = [DCDateUtility displayDateInTwentyFourHourFormat:time];
     NSDictionary *timeDictionary = @{@"time" : selectedDateString, @"selected" : @1};
     BOOL timeAlreadyAdded = NO;
     NSInteger alreadyAddedSlotTag = 0;
@@ -213,7 +213,7 @@
 - (void)deselectAdministratingTimeSlots {
     
     //deselect all time slots
-    _timeArray =  [NSMutableArray arrayWithArray:[DCPlistManager getAdministratingTimeList]];
+    _timeArray =  [NSMutableArray arrayWithArray:[DCPlistManager administratingTimeList]];
     for (DCAdministratingTimeView *timeView in self.subviews) {
         if ([timeView isKindOfClass:[DCAdministratingTimeView class]]) {
             [timeView setStatusImageForSelectionState:0];

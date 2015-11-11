@@ -133,12 +133,12 @@
             break;
         case eDetailRoute:
             //medication routes
-            _contentArray = [NSMutableArray arrayWithArray:[DCPlistManager getMedicationRoutesList]];
+            _contentArray = [NSMutableArray arrayWithArray:[DCPlistManager medicationRoutesList]];
             break;
         case eDetailAdministrationTime:
             //populate default administrating times
             if ([_contentArray count] == 0) {
-                 _contentArray = [NSMutableArray arrayWithArray:[DCPlistManager getAdministratingTimeList]];
+                 _contentArray = [NSMutableArray arrayWithArray:[DCPlistManager administratingTimeList]];
             }
             break;
         default:
@@ -181,7 +181,7 @@
 
 - (void)refreshViewWithAddedAdministrationTime:(NSDate *)newTime {
     
-    NSDictionary *timeDictionary = @{TIME_KEY : [DCDateUtility getTimeStringInTwentyFourHourFormat:newTime],
+    NSDictionary *timeDictionary = @{TIME_KEY : [DCDateUtility timeStringInTwentyFourHourFormat:newTime],
                                SELECTED_KEY : @1};
     NSMutableArray *timeArray = [NSMutableArray arrayWithArray:_contentArray];
     BOOL timeAlreadyAdded = NO;
@@ -246,7 +246,7 @@
         if (cell == nil) {
             cell = [[DCAddDosageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
-        cell.dosageTextField.attributedPlaceholder = [DCUtility getDosagePlaceHolderForValidState:doneClicked];
+        cell.dosageTextField.attributedPlaceholder = [DCUtility dosagePlaceHolderForValidState:doneClicked];
         return cell;
     } else if (_detailType == eOverrideReason) {
         static NSString *cellIdentifier = OVERRIDE_REASON_CELL_ID;
@@ -255,7 +255,7 @@
         if (reasonCell == nil) {
             reasonCell = [[DCReasonCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
-        reasonCell.reasonTextView.textColor = doneClicked ? [UIColor redColor] : [UIColor getColorForHexString:@"#8f8f95"];
+        reasonCell.reasonTextView.textColor = doneClicked ? [UIColor redColor] : [UIColor colorForHexString:@"#8f8f95"];
         return reasonCell;
     } else {
         static NSString *cellIdentifier = ADD_MEDICATION_DETAIL_CELL_IDENTIFIER;
@@ -364,7 +364,7 @@
     } else {
         if (_detailType == eNewAdministrationTime) {
             [self dismissViewControllerAnimated:YES completion:^{
-                self.newTime([DCDateUtility getDateInCurrentTimeZone:timePickerView.date]);
+                self.newTime([DCDateUtility dateInCurrentTimeZone:timePickerView.date]);
             }];
         } else if (_detailType == eOverrideReason) {
             DCReasonCell *reasonCell = (DCReasonCell *)[detailTableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];

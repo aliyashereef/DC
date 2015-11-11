@@ -67,14 +67,14 @@
     return isValid;
 }
 
-+ (CGFloat)getHeightForMedicineName:(NSString *)medicine {
++ (CGFloat)heightForMedicineName:(NSString *)medicine {
     
     //get the height of medicine name to set the corresponding cell height
-    CGFloat height = [DCUtility getHeightValueForText:medicine withFont:SYSTEM_FONT_SIZE_FIFTEEN maxWidth:MEDICINE_NAME_FIELD_MAX_WIDTH] + OFFSET_VALUE;
+    CGFloat height = [DCUtility heightValueForText:medicine withFont:SYSTEM_FONT_SIZE_FIFTEEN maxWidth:MEDICINE_NAME_FIELD_MAX_WIDTH] + OFFSET_VALUE;
     return height;
 }
 
-+ (NSMutableArray *)getTimesArrayFromScheduleArray:(NSArray *)scheduleArray {
++ (NSMutableArray *)timesArrayFromScheduleArray:(NSArray *)scheduleArray {
     
     NSMutableArray *timeArray = [[NSMutableArray alloc] init];
     for (NSString *time in scheduleArray) {

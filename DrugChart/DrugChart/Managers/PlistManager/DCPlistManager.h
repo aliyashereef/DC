@@ -10,16 +10,16 @@
 
 @interface DCPlistManager : NSObject
 
-+ (NSArray *)getMedicationRoutesList;
++ (NSArray *)medicationRoutesList;
 
-+ (NSArray *)getMedicineNamesList;
++ (NSArray *)medicineNamesList;
 
-+ (NSArray *)getBedGraphicalDetails;
++ (NSArray *)bedGraphicalDetails;
 
-+ (NSArray *)getPositionablegraphics;
++ (NSArray *)positionablegraphics;
 
-+ (NSArray *)getAdministratingTimeList;
++ (NSArray *)administratingTimeList;
 
-+ (NSArray *)getOrderSetList;
++ (NSArray *)orderSetList;
 
 @end

@@ -80,11 +80,11 @@
     
     //load request url in web view
     [_activityIndicator startAnimating];
-    NSMutableURLRequest *request = [self getAuthorizationUrlRequest];
+    NSMutableURLRequest *request = [self authorizationUrlRequest];
     [self.authorizationWebView loadRequest:request];
 }
 
-- (NSMutableURLRequest *)getAuthorizationUrlRequest {
+- (NSMutableURLRequest *)authorizationUrlRequest {
     
     //get request url
     DCAppDelegate *appDelegate = DCAPPDELEGATE;
