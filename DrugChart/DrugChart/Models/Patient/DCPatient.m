@@ -94,7 +94,7 @@
 
 
 //TODO: this function contains the logic to calculate the medication status.
-- (MedicationStatus)getMedicationStatus {
+- (MedicationStatus)medicationStatusForPatient {
     
     if (self.nextMedicationDate == nil) {
         return kMedicationDue;
@@ -124,7 +124,7 @@
 
 - (UIColor *)displayColorForMedicationStatus {
     
-    MedicationStatus status = [self getMedicationStatus];
+    MedicationStatus status = [self medicationStatusForPatient];
     self.emergencyStatus = status;
     UIColor *statusColor;
     if (!self.nextMedicationDate) {
@@ -205,7 +205,7 @@
     }];
 }
 
-- (void)getPatientsAllergies {
+- (void)setPatientsAllergies {
     
     DCPatientAllergyWebService *webService = [[DCPatientAllergyWebService alloc] init];
     [webService getPatientAllergiesForId:self.patientId withCallBackHandler:^(NSArray *alergiesArray, NSError *error) {

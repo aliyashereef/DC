@@ -10,6 +10,6 @@
 
 @interface DCPopOverContentSizeUtility : NSObject
 
-+ (CGSize)getContentSizeForAlertNotificationPopOver:(NSInteger)alertCount;
++ (CGSize)contentSizeForAlertNotificationPopOver:(NSInteger)alertCount;
 
 @end
