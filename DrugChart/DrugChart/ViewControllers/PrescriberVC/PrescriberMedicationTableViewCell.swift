@@ -219,39 +219,6 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
             delegate.stopMedicationForSelectedIndexPath(indexPath)
         }
     }
-        
-//<<<<<<< HEAD
-//        let calendarWidth : CGFloat = (DCUtility.getMainWindowSize().width - MEDICATION_VIEW_WIDTH);
-//        let valueToTranslate = leadingSpaceMasterToContainerView.constant + xTranslation;
-//        if (valueToTranslate >= -calendarWidth && valueToTranslate <= calendarWidth) {
-//            leadingSpaceMasterToContainerView.constant = leadingSpaceMasterToContainerView.constant + xTranslation;
-//        }
-//        if (panEnded == true) {
-//            if (xVelocity > 0) {
-//                // animate to left. show previous week
-//                UIView.animateWithDuration(0.1, animations: { () -> Void in
-//                    if (self.leadingSpaceMasterToContainerView.constant >= calendarWidth/4.5) {
-//                        self.leadingSpaceMasterToContainerView.constant = calendarWidth
-//                    } else {
-//                        //display current week
-//                        self.leadingSpaceMasterToContainerView.constant = 0.0
-//                    }
-//                    self.layoutIfNeeded()
-//                })
-//            } else {
-//                //show next week
-//                UIView.animateWithDuration(0.1, animations: { () -> Void in
-//                if (self.leadingSpaceMasterToContainerView.constant <= -calendarWidth/4.5) {
-//                    self.leadingSpaceMasterToContainerView.constant = -calendarWidth
-//                } else {
-//                    self.leadingSpaceMasterToContainerView.constant = 0.0
-//                }
-//                self.layoutIfNeeded()
-//            })
-//        }
-//    }
-//}
-    
     
     func todayButtonAction () {
         
@@ -260,39 +227,5 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
             self.layoutIfNeeded()
         }
     }
-//<<<<<<< HEAD
-//        let calendarWidth : CGFloat = (DCUtility.getMainWindowSize().width - MEDICATION_VIEW_WIDTH);
-//        let valueToTranslate = leadingSpaceMasterToContainerView.constant + xTranslation;
-//        if (valueToTranslate >= -calendarWidth && valueToTranslate <= calendarWidth) {
-//            leadingSpaceMasterToContainerView.constant = leadingSpaceMasterToContainerView.constant + xTranslation;
-//        }
-//        if (panEnded == true) {
-//            if (xVelocity > 0) {
-//                // animate to left. show previous week
-//                UIView.animateWithDuration(0.1, animations: { () -> Void in
-//                    if (self.leadingSpaceMasterToContainerView.constant >= calendarWidth/4.5) {
-//                        self.leadingSpaceMasterToContainerView.constant = calendarWidth
-//                    } else {
-//                        //display current week
-//                        self.leadingSpaceMasterToContainerView.constant = 0.0
-//                    }
-//                    self.layoutIfNeeded()
-//                })
-//            } else {
-//                //show next week
-//                UIView.animateWithDuration(0.1, animations: { () -> Void in
-//                if (self.leadingSpaceMasterToContainerView.constant <= -calendarWidth/4.5) {
-//                    self.leadingSpaceMasterToContainerView.constant = -calendarWidth
-//                } else {
-//                    self.leadingSpaceMasterToContainerView.constant = 0.0
-//                }
-//                self.layoutIfNeeded()
-//            })
-//        }
-//    }
-//}
-//    
-//=======
-//>>>>>>> Calendar left right swipe implemented. API part to be added
 
 }

@@ -47,8 +47,8 @@
 
 - (NSDictionary *)medicationDetailsDictionaryForMedicationDetail:(DCMedicationScheduleDetails *)medication {
     
-    NSString *startDateString = [DCDateUtility convertDate:[DCDateUtility dateFromSourceString:medication.startDate] FromFormat:DATE_FORMAT_RANGE ToFormat:EMIS_DATE_FORMAT];
-    NSString *endDateString = [DCDateUtility convertDate:[DCDateUtility dateFromSourceString:medication.endDate] FromFormat:DATE_FORMAT_RANGE ToFormat:EMIS_DATE_FORMAT];
+    NSString *startDateString = [DCDateUtility dateStringFromDate:[DCDateUtility dateFromSourceString:medication.startDate] inFormat:EMIS_DATE_FORMAT];
+    NSString *endDateString = [DCDateUtility dateStringFromDate:[DCDateUtility dateFromSourceString:medication.endDate] inFormat:EMIS_DATE_FORMAT];
     NSMutableDictionary *medicationDictionary = [[NSMutableDictionary alloc] init];
     
     [medicationDictionary setValue:medication.medicationId forKey:PREPARATION_ID];

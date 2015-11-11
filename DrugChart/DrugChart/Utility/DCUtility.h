@@ -31,25 +31,19 @@ typedef enum : NSUInteger {
 + (NSArray *)sortArray:(NSArray *)arrayToSort
             basedOnKey:(NSString *)key ascending:(BOOL)ascending;
 
-+ (UIImage *)getMedicationStatusImageForMedicationStatus:(NSString *)status;
++ (UIImage *)medicationStatusImageForMedicationStatus:(NSString *)status;
 
 + (void)modifyViewComponentForErrorDisplay:(UIView *)view;
 
-+ (DCErrorPopOverViewController *)getDisplayPopOverOnView:(UIView *)view;
-
-+ (NSArray *)getBarButtonItemsItemsInPatientViewController:(id)sender andAction:(SEL)selector;
-
-+ (NSArray *)getNavigationBarLogoImageItem;
-
-+ (NSMutableAttributedString *)getDateOfBirthAndAgeAttributedString:(NSDate *)dateOfBirth;
++ (NSMutableAttributedString *)dateOfBirthAndAgeAttributedString:(NSDate *)dateOfBirth;
 
 + (BOOL)isDetectedErrorField:(UIView *)view;
 
-+ (UIPopoverController *)getDisplayPopOverControllerOnView:(UIView *)view;
++ (UIPopoverController *)displayPopOverControllerOnView:(UIView *)view;
 
 + (void)resetTextFieldAfterErrorCorrection:(UIView *)view withColor:(UIColor *)color;
 
-+ (UIImage *)getBedTypeImageForBedType:(NSString *)bedType;
++ (UIImage *)bedTypeImageForBedType:(NSString *)bedType;
 
 + (void)shakeView:(UIView *)viewToShake completion:(void (^)(BOOL completed))completion;
 
@@ -61,23 +55,23 @@ typedef enum : NSUInteger {
 
 + (NSString *)encodeStringToBase64Format:(NSString *)string;
 
-+ (NSDictionary *)convertjsonStringToDictionary:(NSString *)jsonString;
++ (NSDictionary *)convertJsonStringToDictionary:(NSString *)jsonString;
 
-+ (CGFloat)getHeightValueForText:(NSString *)text withFont:(UIFont *)font
++ (CGFloat)heightValueForText:(NSString *)text withFont:(UIFont *)font
                         maxWidth:(CGFloat)maxWidth;
 
-+ (CGSize)getSizeFromString:(NSString *)sizeString;
++ (CGSize)sizeFromString:(NSString *)sizeString;
 
-+ (CGPoint)getCoordinatesFromString:(NSString *)coordinateString;
++ (CGPoint)coordinatesFromString:(NSString *)coordinateString;
 
 + (id) convertJSONStringToArray: (NSString *)jsonString;
 
 + (void)removeChildViewController:(UIViewController *)childViewController;
 
-+ (CGSize)getTextViewSizeWithText:(NSString *)text maxWidth:(CGFloat)width
++ (CGSize)textViewSizeWithText:(NSString *)text maxWidth:(CGFloat)width
                              font:(UIFont *)font;
 
-+ (CGSize)getRequiredSizeForText:(NSString *)text font:(UIFont *)font maxWidth:(CGFloat)width;
++ (CGSize)requiredSizeForText:(NSString *)text font:(UIFont *)font maxWidth:(CGFloat)width;
 
 + (void)startWobbleAnimationForView:(UIView *)view;
 
@@ -89,16 +83,14 @@ typedef enum : NSUInteger {
 
 + (NSString *)convertTimeToHourMinuteFormat:(NSString *)time;
 
-+ (CGSize)getMainWindowSize;
++ (CGSize)mainWindowSize;
 
-+ (NSAttributedString *)getDosagePlaceHolderForValidState:(BOOL)isValid;
++ (NSAttributedString *)dosagePlaceHolderForValidState:(BOOL)isValid;
 
-+ (DCMedicationSlot *)getNearestMedicationSlotToBeAdministeredFromSlotsArray:(NSArray *)slotsArray;
-
-+ (NSMutableAttributedString *)getMonthYearAttributedStringForDisplayString:(NSString *)displayString
++ (NSMutableAttributedString *)monthYearAttributedStringForDisplayString:(NSString *)displayString
                                               withInitialMonthLength:(NSInteger)length;
 
-+ (NSString *)getMostOccurredStringFromArray:(NSArray *)contentArray;
++ (NSString *)mostOccurredStringFromArray:(NSArray *)contentArray;
 
 
 @end

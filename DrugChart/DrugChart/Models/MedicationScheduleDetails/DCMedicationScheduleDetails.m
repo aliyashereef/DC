@@ -69,13 +69,13 @@
             }
             administrationArray = adminDetails;
             self.administrationDetailsArray = [self getAdministrationDetailsForMedication:administrationArray];
-            NSMutableArray *slotsArray = [self getMedicationScheduleTimeArrayForWhenRequiredMedicationsForStartWeekDate:weekStartDate andEndWeekDate:weekEndDate withActiveStatus:self.isActive];
+            NSMutableArray *slotsArray = [self getMedicationScheduleTimeArrayForWhenRequiredMedicationsForStartWeekDate:weekStartDate endWeekDate:weekEndDate withActiveStatus:self.isActive];
             self.timeChart = slotsArray;
         } else {
             administrationArray = [[NSMutableArray alloc] initWithArray:[schedulesDictionary objectForKey:DRUG_ADMINISTRATIONS]];
             self.administrationDetailsArray = [self getAdministrationDetailsForMedication:administrationArray];
             NSMutableArray *slotsArray = [self getMedicationScheduleTimeArrayFromScheduleDictionary:schedulesDictionary
-                                                                                  withStartWeekDate:weekStartDate andEndWeekDate:weekEndDate withActiveStatus:self.isActive];
+                                                                                  withStartWeekDate:weekStartDate endWeekDate:weekEndDate withActiveStatus:self.isActive];
             self.timeChart = slotsArray;
         }
       
@@ -145,7 +145,7 @@
 
 
 - (NSMutableArray *)getMedicationScheduleTimeArrayForWhenRequiredMedicationsForStartWeekDate:(NSDate *)startWeekDate
-                                                          andEndWeekDate:(NSDate *)endWeekDate
+                                                          endWeekDate:(NSDate *)endWeekDate
                                                         withActiveStatus:(BOOL)isActive {
     
     NSMutableArray *timeSlotsArray = [[NSMutableArray alloc] init];
@@ -184,7 +184,7 @@
 
 - (NSMutableArray *)getMedicationScheduleTimeArrayFromScheduleDictionary:(NSDictionary *)scheduleDictionary
                                                            withStartWeekDate:(NSDate *)startWeekDate
-                                                              andEndWeekDate:(NSDate *)endWeekDate
+                                                              endWeekDate:(NSDate *)endWeekDate
                                                         withActiveStatus:(BOOL)isActive {
     
     NSArray *timesArray = (NSArray *)[scheduleDictionary objectForKey:DRUG_SCHEDULE_TIMES];

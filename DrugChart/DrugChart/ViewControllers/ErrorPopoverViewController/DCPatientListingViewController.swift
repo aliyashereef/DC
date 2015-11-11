@@ -242,10 +242,10 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
             let sectionTitle : NSString = getSectionTitleForSection(section)
             let headerLabel: UILabel = UILabel.init(frame: CGRectMake(20, 35, 320, 20))
             headerLabel.backgroundColor = UIColor.clearColor()
-            headerLabel.textColor = UIColor.getColorForHexString("#6D6D72")
+            headerLabel.textColor = UIColor(forHexString: "#6D6D72")
             headerLabel.font = UIFont.boldSystemFontOfSize(14)
             headerLabel.text = sectionTitle as String
-            headerView.backgroundColor = UIColor.getColorForHexString("#EFEFF6")
+            headerView.backgroundColor = UIColor(forHexString: "#EFEFF6")
             headerView.addSubview(headerLabel)
         }
         return headerView

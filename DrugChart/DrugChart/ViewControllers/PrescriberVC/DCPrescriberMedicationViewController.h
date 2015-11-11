@@ -19,7 +19,7 @@
                                        atIndexPath:(NSIndexPath *)indexPath
                                       withWeekDate:(NSDate *)date;
 - (void)modifyStartDayAndWeekDates:(BOOL)isNextWeek;
--(void)reloadAndUpdatePrescriberMedicationDetails;
+- (void)updatePrescriberMedicationListDetails;
 - (void)modifyWeekDatesInCalendarTopPortion;
 - (void)reloadCalendarTopPortion;
 - (void)fetchMedicationListForPatient;

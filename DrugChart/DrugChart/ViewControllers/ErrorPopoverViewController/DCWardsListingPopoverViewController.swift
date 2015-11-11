@@ -76,7 +76,7 @@ class DCWardsListingPopoverViewController : DCBaseViewController , UITableViewDe
         
         let orientation : UIInterfaceOrientation = UIApplication.sharedApplication().statusBarOrientation
         let screenWidth = UIScreen.mainScreen().bounds.size.width
-        let windowWidth = DCUtility.getMainWindowSize().width
+        let windowWidth = DCUtility.mainWindowSize().width
         if ((orientation == UIInterfaceOrientation.LandscapeLeft) || (orientation == UIInterfaceOrientation.LandscapeRight)) {
             if windowWidth > screenWidth/2 {
                 showNavigationBar(false)

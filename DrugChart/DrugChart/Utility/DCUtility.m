@@ -39,7 +39,7 @@
     return sortedArray;
 }
 
-+ (UIImage *)getMedicationStatusImageForMedicationStatus:(NSString *)status {
++ (UIImage *)medicationStatusImageForMedicationStatus:(NSString *)status {
     UIImage *image;
     if ([status isEqualToString:OMITTED]) {
         image = [UIImage imageNamed:MEDICINE_OMITTED_IMAGE];
@@ -61,23 +61,7 @@
     view.clipsToBounds = YES;
 }
 
-+ (DCErrorPopOverViewController *)getDisplayPopOverOnView:(UIView *)view {
-    
-    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:MAIN_STORYBOARD
-                                                             bundle: nil];
-    DCErrorPopOverViewController *errorViewController = [mainStoryboard instantiateViewControllerWithIdentifier:ERROR_CONTENT_VIEW_CONTROLLER_STORYBOARD_ID];
-    UIPopoverController *popOverController = [[UIPopoverController alloc] initWithContentViewController:errorViewController];
-    popOverController.backgroundColor = [UIColor redColor];
-    popOverController.popoverBackgroundViewClass = [DCErrorPopOverBackgroundView class];
-    popOverController.popoverContentSize = CGSizeMake(200.0, 33.0);
-    [popOverController presentPopoverFromRect:[view bounds]
-                                       inView:view
-                     permittedArrowDirections:UIPopoverArrowDirectionDown
-                                     animated:YES];
-    return errorViewController;
-}
-
-+ (UIPopoverController *)getDisplayPopOverControllerOnView:(UIView *)view {
++ (UIPopoverController *)displayPopOverControllerOnView:(UIView *)view {
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:MAIN_STORYBOARD
                                                              bundle: nil];
     DCErrorPopOverViewController *errorViewController = [mainStoryboard instantiateViewControllerWithIdentifier:ERROR_CONTENT_VIEW_CONTROLLER_STORYBOARD_ID];
@@ -92,43 +76,14 @@
     return popOverController;
 }
 
-//TODO: delete is no longer needed.
-+ (NSArray *)getBarButtonItemsItemsInPatientViewController:(id)sender
-                                         andAction:(SEL)selector {
-
-    UIImage *settingsImage = [UIImage imageNamed:SETTINGS_IMAGE];
-    UIBarButtonItem *settingsButton= [[UIBarButtonItem alloc] initWithImage:settingsImage style:UIBarButtonItemStylePlain target:sender action:selector];
-    return @[settingsButton];
-}
-
-+ (NSArray *)getNavigationBarLogoImageItem {
-    
-    UIImage *logoImage = [UIImage imageNamed:TOP_LOGO];
-    CGRect imageFrame = CGRectMake(0, 0, logoImage.size.width, logoImage.size.height);
-    UIButton *logoButton = [[UIButton alloc] initWithFrame:imageFrame];
-    [logoButton setBackgroundImage:logoImage forState:UIControlStateNormal];
-    [logoButton setUserInteractionEnabled:NO];
-    UIBarButtonItem *logoItem = [[UIBarButtonItem alloc] initWithCustomView:logoButton];
-    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]
-                                       initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-                                       target:nil action:nil];
-    negativeSpacer.width = -3;
-    return @[negativeSpacer, logoItem];
-}
-
-+ (NSMutableAttributedString *)getDateOfBirthAndAgeAttributedString:(NSDate *)dateOfBirth {
++ (NSMutableAttributedString *)dateOfBirthAndAgeAttributedString:(NSDate *)dateOfBirth {
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:BIRTH_DATE_FORMAT];
     NSString *dobDateString = [dateFormatter stringFromDate:dateOfBirth];
-//    NSInteger age = [DCDateUtility calculateAgeFromDate:dateOfBirth];
     NSMutableAttributedString *attributedDOBString = [[NSMutableAttributedString alloc]
                                                       initWithString:[NSString stringWithFormat:@"%@ ", dobDateString]
-                                                      attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName : [UIColor getColorForHexString:@"#394348"]}];
-//    NSAttributedString *attributedAgeString = [[NSAttributedString alloc]
-//                                               initWithString:[NSString stringWithFormat:@"(%ld years)", (long)age]
-//                                               attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName : [UIColor getColorForHexString:@"#7d929e"]}];
-//    [attributedDOBString appendAttributedString:attributedAgeString];
+                                                      attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12.0f], NSForegroundColorAttributeName : [UIColor colorForHexString:@"#394348"]}];
     return attributedDOBString;
 }
 
@@ -147,7 +102,7 @@
     [view layer].borderColor = color.CGColor;
 }
 
-+ (UIImage *)getBedTypeImageForBedType:(NSString *)bedType {
++ (UIImage *)bedTypeImageForBedType:(NSString *)bedType {
     
     if ([bedType isEqualToString:BED]) {
         return [UIImage imageNamed:@"Bed"];
@@ -245,7 +200,7 @@
     return base64String;
 }
 
-+ (id )convertjsonStringToDictionary:(NSString *)jsonString {
++ (id )convertJsonStringToDictionary:(NSString *)jsonString {
     
     NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -262,7 +217,7 @@
     return roleArray;
 }
 
-+ (CGFloat)getHeightValueForText:(NSString *)text withFont:(UIFont *)font
++ (CGFloat)heightValueForText:(NSString *)text withFont:(UIFont *)font
                         maxWidth:(CGFloat)maxWidth {
     
     CGSize constrain = CGSizeMake(maxWidth, FLT_MAX);
@@ -274,7 +229,7 @@
     return textRect.size.height;
 }
 
-+ (CGSize)getSizeFromString:(NSString *)sizeString {
++ (CGSize)sizeFromString:(NSString *)sizeString {
     
     NSArray *sizeArray = [sizeString componentsSeparatedByString:@","];
     if ([sizeArray count] == 2) {
@@ -285,7 +240,7 @@
     return CGSizeMake(0.0, 0.0);
 }
 
-+ (CGPoint)getCoordinatesFromString:(NSString *)coordinateString {
++ (CGPoint)coordinatesFromString:(NSString *)coordinateString {
     
     NSArray *coordinatesArray = [coordinateString componentsSeparatedByString:@","];
     if ([coordinatesArray count] == 2) {
@@ -304,7 +259,7 @@
     [childViewController removeFromParentViewController];
 }
 
-+ (CGSize)getTextViewSizeWithText:(NSString *)text maxWidth:(CGFloat)width
++ (CGSize)textViewSizeWithText:(NSString *)text maxWidth:(CGFloat)width
                              font:(UIFont *)font {
     
     CGSize constrain = CGSizeMake(width, FLT_MAX);
@@ -315,7 +270,7 @@
     return textRect.size;
 }
 
-+ (CGSize)getRequiredSizeForText:(NSString *)text font:(UIFont *)font maxWidth:(CGFloat)width {
++ (CGSize)requiredSizeForText:(NSString *)text font:(UIFont *)font maxWidth:(CGFloat)width {
     if(text.length == 0)    return CGSizeZero;
     CGRect textRect = [text boundingRectWithSize:CGSizeMake(width, MAXFLOAT)
                                          options:NSStringDrawingUsesLineFragmentOrigin
@@ -366,52 +321,22 @@
     return formattedTime;
 }
 
-+ (CGSize)getMainWindowSize {
++ (CGSize)mainWindowSize {
     
     //get main window size
     UIWindow *mainWindow = [UIApplication sharedApplication].windows[0];
     return mainWindow.bounds.size;
 }
 
-+ (NSAttributedString *)getDosagePlaceHolderForValidState:(BOOL)isValid {
++ (NSAttributedString *)dosagePlaceHolderForValidState:(BOOL)isValid {
     
     //get dosage placeholder sttributed string
-    UIColor *color = isValid ? [UIColor redColor] : [UIColor getColorForHexString:@"#8f8f95"];
+    UIColor *color = isValid ? [UIColor redColor] : [UIColor colorForHexString:@"#8f8f95"];
     NSAttributedString *placeholder = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"NEW_DOSAGE", @"new dosage placeholder") attributes:@{NSForegroundColorAttributeName: color}];
     return placeholder;
 }
 
-+ (DCMedicationSlot *)getNearestMedicationSlotToBeAdministeredFromSlotsArray:(NSArray *)slotsArray {
-    
-    NSDate *currentSystemDate = [DCDateUtility getDateInCurrentTimeZone:[NSDate date]];
-    NSString *currentDateString = [DCDateUtility convertDate:currentSystemDate FromFormat:DEFAULT_DATE_FORMAT ToFormat:SHORT_DATE_FORMAT];
-    NSMutableArray *filteredArray = [[NSMutableArray alloc] init];
-    //get medication slots array of current week
-    for (DCMedicationSlot *slot in slotsArray) {
-        NSString *timeString = [DCDateUtility convertDate:slot.time FromFormat:DEFAULT_DATE_FORMAT ToFormat:SHORT_DATE_FORMAT];
-        if ([timeString isEqualToString:currentDateString]) {
-            [filteredArray addObject:slot];
-        }
-        
-        NSDate *nearestDate;
-        NSDate *laterDate;
-        for(DCMedicationSlot *slot in filteredArray) {
-            laterDate = [currentSystemDate laterDate:slot.time];
-            if(![laterDate isEqualToDate:currentSystemDate]){
-                nearestDate = [laterDate earlierDate:nearestDate];
-                //NSLog(@"nearestDate is %@", nearestDate);
-            }
-        }
-        //NSLog(@"laterDate is %@", laterDate);
-        if ((nearestDate && [nearestDate compare:slot.time] == NSOrderedSame) ||
-            [slot.status isEqualToString:YET_TO_GIVE]) {
-            return slot;
-        }
-    }
-    return nil;
-}
-
-+ (NSMutableAttributedString *)getMonthYearAttributedStringForDisplayString:(NSString *)displayString
++ (NSMutableAttributedString *)monthYearAttributedStringForDisplayString:(NSString *)displayString
                                               withInitialMonthLength:(NSInteger)length {
     
     NSDictionary *monthAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -427,7 +352,7 @@
     return attributedString;
 }
 
-+ (NSString *)getMostOccurredStringFromArray:(NSArray *)contentArray {
++ (NSString *)mostOccurredStringFromArray:(NSArray *)contentArray {
     
     //get most occurred string
     NSUInteger count = 0;

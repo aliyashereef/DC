@@ -34,8 +34,8 @@
 
 - (void)configureNavigationBar {
 
-    [self.navigationController.navigationBar setBarTintColor:[UIColor getColorForHexString:@"#4dc8e9"]];
-    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor getColorForHexString:@"#ffffff"], NSFontAttributeName: [UIFont fontWithName:@"Lato-Bold" size:15.0]};
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorForHexString:@"#4dc8e9"]];
+    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor colorForHexString:@"#ffffff"], NSFontAttributeName: [UIFont fontWithName:@"Lato-Bold" size:15.0]};
     self.view.superview.clipsToBounds = YES;
 }
 

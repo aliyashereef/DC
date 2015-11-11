@@ -43,7 +43,8 @@
 }
 
 // Depending on the bed headDirection the respective nib files are loaded.
-- (NSString *)nibFileForHeadDirection {
+
+- (NSString *)nibFileNameForHeadDirection {
     
     if ([self.headDirection isEqualToString:TOP_DIRECTION]) {
         return @"DCPortraitTopPatientView";

@@ -120,7 +120,7 @@
 
 //Configuring the medication name cell in the medication detail table view.If the table view is loaded before the medication name is selected,it is loaded with the place holder string.
 
-- (UITableViewCell *)getPopulatedMedicationNameTableCell {
+- (UITableViewCell *)populatedMedicationNameTableCell {
     
     static NSString *cellIdentifier = ADD_MEDICATION_CELL_IDENTIFIER;
     UITableViewCell *cell = [medicationDetailsTableView dequeueReusableCellWithIdentifier:cellIdentifier];
@@ -166,7 +166,8 @@
     return cell;
 }
 
-- (DCDosageMultiLineCell *)dosageCellAtIndexPath: (NSIndexPath *)indexPath {
+- (DCDosageMultiLineCell *)dosageCellAtIndexPath:(NSIndexPath *)indexPath {
+    
     DCDosageMultiLineCell *cell = [medicationDetailsTableView dequeueReusableCellWithIdentifier:kDosageMultiLineCellID];
     cell.layoutMargins = UIEdgeInsetsZero;
     if (cell == nil) {
@@ -311,13 +312,12 @@
     tableCell.dateTypeWidth.constant = TIME_TITLE_LABEL_WIDTH;
     if (!self.selectedMedication.startDate || [self.selectedMedication.startDate isEqualToString:EMPTY_STRING]) {
         NSDate *dateInCurrentZone = [DCDateUtility dateInCurrentTimeZone:[NSDate date]];
-        NSString *dateString = [DCDateUtility convertDate:dateInCurrentZone FromFormat:DEFAULT_DATE_FORMAT ToFormat:START_DATE_FORMAT];
+        NSString *dateString = [DCDateUtility dateStringFromDate:dateInCurrentZone inFormat:START_DATE_FORMAT];
         self.selectedMedication.startDate = dateString;
         [tableCell configureContentCellWithContent:dateString];
     }
     NSDate *startDate = [DCDateUtility dateFromSourceString:self.selectedMedication.startDate];
-    NSString *dateString = [DCDateUtility convertDate:startDate FromFormat:DEFAULT_DATE_FORMAT ToFormat:START_DATE_FORMAT];
-    
+    NSString *dateString = [DCDateUtility dateStringFromDate:startDate inFormat:START_DATE_FORMAT];
     [tableCell configureContentCellWithContent:dateString];
     return tableCell;
 }
@@ -341,7 +341,7 @@
     }
     tableCell.dateTypeLabel.text = NSLocalizedString(@"END_DATE", @"end date cell title");
     NSDate *endDate = [DCDateUtility dateFromSourceString:self.selectedMedication.endDate];
-    NSString *dateString = [DCDateUtility convertDate:endDate FromFormat:DEFAULT_DATE_FORMAT ToFormat:START_DATE_FORMAT];
+    NSString *dateString = [DCDateUtility dateStringFromDate:endDate inFormat:START_DATE_FORMAT];
     [tableCell configureContentCellWithContent:dateString];
     return tableCell;
 }
@@ -478,7 +478,7 @@
                 dateAndTimeCell = [self noEndDateTableCell:dateAndTimeCell];
             } else {
                 if (!self.selectedMedication.noEndDate) {
-                    dateAndTimeCell = [selfupdatedEndDateTableCell:dateAndTimeCell];
+                    dateAndTimeCell = [self updatedEndDateTableCell:dateAndTimeCell];
                 }
             }
         } else {
@@ -909,7 +909,7 @@
             NSIndexPath *indexPathToUpdate = [NSIndexPath indexPathForRow:indexPath.row - 1 inSection:indexPath.section];
             DCDateTableViewCell *dateCell = [self updatedDateAndTimeCellatIndexPath:indexPathToUpdate];
             NSDate *dateInCurrentZone = [DCDateUtility dateInCurrentTimeZone:date];
-            NSString *dateString = [DCDateUtility convertDate:dateInCurrentZone FromFormat:DEFAULT_DATE_FORMAT ToFormat:START_DATE_FORMAT];
+            NSString *dateString = [DCDateUtility dateStringFromDate:dateInCurrentZone inFormat:START_DATE_FORMAT];
             [dateCell configureContentCellWithContent:dateString];
             if (weakPickerCell.isStartDate) {
                 self.selectedMedication.startDate = dateString;
@@ -943,7 +943,7 @@
     
     switch (indexPath.section) {
         case eZerothSection: { // zeroth section will always have medicine name field
-            UITableViewCell *cell = [self getPopulatedMedicationNameTableCell];
+            UITableViewCell *cell = [self populatedMedicationNameTableCell];
             return cell;
         }
         break;
@@ -1088,7 +1088,7 @@
         if ([DCAPPDELEGATE isNetworkReachable]) {
             if (self.isEditMedication) {
                 // To Do: API need to be integrated.
-//                NSDate *dateInCurrentZone = [DCDateUtility getDateInCurrentTimeZone:[NSDate date]];
+//                NSDate *dateInCurrentZone = [DCDateUtility dateInCurrentTimeZone:[NSDate date]];
 //                NSString *dateString = [DCDateUtility convertDate:dateInCurrentZone FromFormat:DEFAULT_DATE_FORMAT ToFormat:@"d-MMM-yyyy HH:mm"];
 //                self.selectedMedication.startDate = dateString;
 //                [self callDeleteMedicationWebServicewithCallBackHandler:^(NSError *error) {

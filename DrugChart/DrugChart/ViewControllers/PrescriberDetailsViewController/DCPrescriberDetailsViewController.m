@@ -89,7 +89,7 @@
 - (void)configureViewElements {
     
     medicineNameLabel.text = _medicationList.name;
-    CGFloat medicineNameHeight = [DCUtility getHeightValueForText:_medicationList.name withFont:[DCFontUtility getLatoRegularFontWithSize:16.0f] maxWidth:medicineNameLabel.frame.size.width];
+    CGFloat medicineNameHeight = [DCUtility heightValueForText:_medicationList.name withFont:[DCFontUtility latoRegularFontWithSize:16.0f] maxWidth:medicineNameLabel.frame.size.width];
     if (medicineNameHeight > MEDICINE_NAME_MAX_HEIGHT) {
         medicineNameHeightConstraint.constant = medicineNameHeight + NAME_OFFSET;
         medicineTitleContainerHeightConstraint.constant = medicineNameHeight + TITLE_VIEW_CONTENTS_HEIGHT_EXCEPT_NAME;
@@ -110,8 +110,8 @@
     //get dosage and instruction text for display
     
     NSDictionary *dosageAttributes = @{
-                                       NSFontAttributeName : [DCFontUtility getLatoBoldFontWithSize:17.0f],
-                                       NSForegroundColorAttributeName : [UIColor getColorForHexString:@"#3b3b3b"]
+                                       NSFontAttributeName : [DCFontUtility latoBoldFontWithSize:17.0f],
+                                       NSForegroundColorAttributeName : [UIColor colorForHexString:@"#3b3b3b"]
                                        };
     NSMutableAttributedString *dosageAttributedString = [[NSMutableAttributedString alloc] initWithString:route];
     [dosageAttributedString setAttributes:dosageAttributes range:NSMakeRange(0, [dosageAttributedString length])];
@@ -120,8 +120,8 @@
     NSMutableAttributedString *medicineInstructionAttributedString = [[NSMutableAttributedString alloc]
                                                                       initWithString:instructionDisplayString];
     NSDictionary *instructionAttributes = @{
-                                            NSFontAttributeName : [DCFontUtility getLatoRegularFontWithSize:15.0f],
-                                            NSForegroundColorAttributeName : [UIColor getColorForHexString:@"#676767"]
+                                            NSFontAttributeName : [DCFontUtility latoRegularFontWithSize:15.0f],
+                                            NSForegroundColorAttributeName : [UIColor colorForHexString:@"#676767"]
                                             };
     [medicineInstructionAttributedString setAttributes:instructionAttributes range:NSMakeRange(0, [instructionDisplayString length])];
     [dosageAttributedString appendAttributedString:medicineInstructionAttributedString];
@@ -134,12 +134,12 @@
     [administeredView setHidden:YES];
     [refusedView setHidden:YES];
     [omittedView setHidden:YES];
-    containerView.layer.borderColor = [UIColor getColorForHexString:@"#cecece"].CGColor;
+    containerView.layer.borderColor = [UIColor colorForHexString:@"#cecece"].CGColor;
 }
 
 - (void)displayAdministeredViewDetails:(DCMedicationSlot *)medicationSlot {
     
-    NSString *dateDisplayString = [DCDateUtility convertDate:medicationSlot.time FromFormat:DEFAULT_DATE_FORMAT ToFormat:DATE_FORMAT_WITH_DAY];
+    NSString *dateDisplayString = [DCDateUtility dateStringFromDate:medicationSlot.time inFormat:DATE_FORMAT_WITH_DAY];
     [administeredView setHidden:NO];
     [notDueView setHidden:YES];
     [refusedView setHidden:YES];
@@ -173,7 +173,7 @@
         }
     }
     [administeredNotesLabel sizeToFit];
-    containerView.layer.borderColor = [UIColor getColorForHexString:@"#b7d6a3"].CGColor;
+    containerView.layer.borderColor = [UIColor colorForHexString:@"#b7d6a3"].CGColor;
 }
 
 - (void)displayRefusedViewDetails:(DCMedicationSlot *)medicationSlot {
@@ -182,7 +182,7 @@
     [administeredView setHidden:YES];
     [notDueView setHidden:YES];
     [omittedView setHidden:YES];
-    NSString *dateDisplayString = [DCDateUtility convertDate:medicationSlot.time FromFormat:DEFAULT_DATE_FORMAT ToFormat:DATE_FORMAT_WITH_DAY];
+    NSString *dateDisplayString = [DCDateUtility dateStringFromDate:medicationSlot.time inFormat:DATE_FORMAT_WITH_DAY];
     refusedDateAndTimeLabel.text = dateDisplayString;
     if (medicationSlot.medicationAdministration) {
         refusedNotesLabel.text = medicationSlot.medicationAdministration.administeredNotes;
@@ -195,12 +195,12 @@
         refusedNotesLabel.text = NSLocalizedString(@"REFUSED_NOTES", @"Refused Notes");
     }
     [refusedNotesLabel sizeToFit];
-    containerView.layer.borderColor = [UIColor getColorForHexString:@"#efadad"].CGColor;
+    containerView.layer.borderColor = [UIColor colorForHexString:@"#efadad"].CGColor;
 }
 
 - (void)displayOmittedViewDetails:(DCMedicationSlot *)medicationSlot {
     
-    NSString *dateDisplayString = [DCDateUtility convertDate:medicationSlot.time FromFormat:DEFAULT_DATE_FORMAT ToFormat:DATE_FORMAT_WITH_DAY];
+    NSString *dateDisplayString = [DCDateUtility dateStringFromDate:medicationSlot.time inFormat:DATE_FORMAT_WITH_DAY];
     [omittedView setHidden:NO];
     [refusedView setHidden:YES];
     [administeredView setHidden:YES];
@@ -216,14 +216,14 @@
    // }
     [omittedReasonLabel sizeToFit];
     refusedDateAndTimeLabel.text = dateDisplayString;
-    containerView.layer.borderColor = [UIColor getColorForHexString:@"#9ed6dd"].CGColor;
+    containerView.layer.borderColor = [UIColor colorForHexString:@"#9ed6dd"].CGColor;
 }
 - (void)displayStatusViewForMedicationslot:(DCMedicationSlot *)medicationSlot {
     
     //display view as per medication status
-    if ([medicationSlot.time compare:[DCDateUtility getDateInCurrentTimeZone:[NSDate date]]] == NSOrderedDescending) {
+    if ([medicationSlot.time compare:[DCDateUtility dateInCurrentTimeZone:[NSDate date]]] == NSOrderedDescending) {
         [self displayNotDueViewDetails:medicationSlot];
-    } else if ([medicationSlot.time compare:[DCDateUtility getDateInCurrentTimeZone:[NSDate date]]] == NSOrderedAscending) {
+    } else if ([medicationSlot.time compare:[DCDateUtility dateInCurrentTimeZone:[NSDate date]]] == NSOrderedAscending) {
         //time past
         if ([medicationSlot.status isEqualToString:IS_GIVEN] || [medicationSlot.status isEqualToString:SELF_ADMINISTERED]) {
             [self displayAdministeredViewDetails:medicationSlot];

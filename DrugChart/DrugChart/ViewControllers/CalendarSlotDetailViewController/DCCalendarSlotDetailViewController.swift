@@ -92,8 +92,8 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
                 segmentedControl.selectedSegmentIndex = MEDICATION_HISTORY_SEGMENT_INDEX;
                 addMedicationHistoryView()
             } else {
-                let currentDateString : NSString = DCDateUtility.getCurrentSystemDateStringInShortDisplayFormat()
-                let weekDateString : NSString? = DCDateUtility.convertDate(weekDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: SHORT_DATE_FORMAT)
+                let currentDateString : NSString = DCDateUtility.systemDateStringInShortDisplayFormat()
+                let weekDateString : NSString? = DCDateUtility.dateStringFromDate(weekDate, inFormat: SHORT_DATE_FORMAT)
                 if (currentDateString == weekDateString) {
                     errorMessage = EMPTY_STRING
                     addAdministerView()
@@ -109,7 +109,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     
     func adjustSegmentedControlWidth () {
         
-        let windowWidth : CGFloat = DCUtility.getMainWindowSize().width
+        let windowWidth : CGFloat = DCUtility.mainWindowSize().width
         let screenWidth : CGFloat = UIScreen.mainScreen().bounds.size.width
         if (windowWidth < screenWidth/3) {
             segmentedControlWidth?.constant = SEGMENTED_CONTROL_ONE_THIRD_WIDTH
@@ -139,8 +139,8 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     
     func getAdministerViewErrorMessageForFilledMedicationSlotArray() -> NSString {
         
-        let currentSystemDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
-        let currentDateString : NSString? = DCDateUtility.convertDate(currentSystemDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: SHORT_DATE_FORMAT)
+        let currentSystemDate : NSDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
+        let currentDateString : NSString? = DCDateUtility.dateStringFromDate(currentSystemDate, inFormat: SHORT_DATE_FORMAT)
         if (slotToAdminister?.time == nil) {
             errorMessage = NSLocalizedString("ALREADY_ADMINISTERED", comment: "medications are already administered")
         } else {
@@ -149,7 +149,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
                     errorMessage = NSLocalizedString("ALREADY_ADMINISTERED", comment: "medications are already administered")
                 }
             } else if (slotToAdminister?.time?.compare(currentSystemDate) == NSComparisonResult.OrderedDescending) {
-                let slotDateString : NSString? = DCDateUtility.convertDate(slotToAdminister?.time, fromFormat: DEFAULT_DATE_FORMAT, toFormat: SHORT_DATE_FORMAT)
+                let slotDateString : NSString? = DCDateUtility.dateStringFromDate(slotToAdminister?.time, inFormat: SHORT_DATE_FORMAT)
                 if (currentDateString != slotDateString) {
                     errorMessage = NSLocalizedString("ADMINISTER_LATER", comment: "medication to be administered later")
                 }
@@ -162,9 +162,9 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         
         //Whne medication slot array is empty
         if (medicationDetails?.medicineCategory == WHEN_REQUIRED) {
-            let currentSystemDate : NSDate = DCDateUtility.getDateInCurrentTimeZone(NSDate())
-            let currentDateString : NSString? = DCDateUtility.convertDate(currentSystemDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: SHORT_DATE_FORMAT)
-            let weekDateString : NSString? = DCDateUtility.convertDate(weekDate, fromFormat: DEFAULT_DATE_FORMAT, toFormat: SHORT_DATE_FORMAT)
+            let currentSystemDate : NSDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
+            let currentDateString : NSString? = DCDateUtility.dateStringFromDate(currentSystemDate, inFormat: SHORT_DATE_FORMAT)
+            let weekDateString : NSString? = DCDateUtility.dateStringFromDate(weekDate, inFormat: SHORT_DATE_FORMAT)
             if (currentDateString != weekDateString) {
                 errorMessage = NSLocalizedString("NO_ADMINISTRATION_DETAILS", comment: "no medication slots today")
             }
@@ -358,9 +358,9 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         let administerDictionary : NSMutableDictionary = [:]
         let scheduledDateString : NSString
         if (administerViewController?.medicationSlot?.medicationAdministration?.scheduledDateTime != nil) {
-            scheduledDateString = DCDateUtility.convertDate(administerViewController?.medicationSlot?.medicationAdministration?.scheduledDateTime, fromFormat:"yyyy-MM-dd hh:mm:ss 'Z'", toFormat:"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+            scheduledDateString = DCDateUtility.dateStringFromDate(administerViewController?.medicationSlot?.medicationAdministration?.scheduledDateTime, inFormat: "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
         } else {
-            scheduledDateString = DCDateUtility.convertDate(NSDate(), fromFormat:"yyyy-MM-dd hh:mm:ss 'Z'", toFormat:"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+            scheduledDateString = DCDateUtility.dateStringFromDate(NSDate(), inFormat: "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
         }
         administerDictionary.setValue(scheduledDateString, forKey:SCHEDULED_ADMINISTRATION_TIME)
         let dateFormatter : NSDateFormatter = NSDateFormatter.init()

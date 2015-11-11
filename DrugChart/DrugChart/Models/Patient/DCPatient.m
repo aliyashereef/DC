@@ -100,7 +100,7 @@
         return kMedicationDue;
     } else {
         
-        NSTimeInterval timeInterval = [self.nextMedicationDate timeIntervalSinceDate:[DCDateUtility getDateInCurrentTimeZone:[NSDate date]]];
+        NSTimeInterval timeInterval = [self.nextMedicationDate timeIntervalSinceDate:[DCDateUtility dateInCurrentTimeZone:[NSDate date]]];
         if (timeInterval < MEDICATION_DUE) {
             return kMedicationDue;
         }
@@ -128,32 +128,32 @@
     self.emergencyStatus = status;
     UIColor *statusColor;
     if (!self.nextMedicationDate) {
-        statusColor = [UIColor getColorForHexString:NO_MEDICATION_COLOR];
+        statusColor = [UIColor colorForHexString:NO_MEDICATION_COLOR];
     }
     else {
         switch (status) {
             case kMedicationDue:
-                statusColor = [UIColor getColorForHexString:MEDICATION_DUE_COLOR];
+                statusColor = [UIColor colorForHexString:MEDICATION_DUE_COLOR];
                 break;
                 
             case kMedicationInHalfHour:
-                statusColor = [UIColor getColorForHexString:MEDICATION_HALF_HOUR_COLOR];
+                statusColor = [UIColor colorForHexString:MEDICATION_HALF_HOUR_COLOR];
                 break;
                 
             case kMedicationInOneHour:
-                statusColor = [UIColor getColorForHexString:MEDICATION_ONE_HOUR_COLOR];
+                statusColor = [UIColor colorForHexString:MEDICATION_ONE_HOUR_COLOR];
                 break;
                 
             case kMedicationInOneAndHalfHour:
-                statusColor = [UIColor getColorForHexString:MEDICATION_ONE_AND_HALF_HOUR_COLOR];
+                statusColor = [UIColor colorForHexString:MEDICATION_ONE_AND_HALF_HOUR_COLOR];
                 break;
                 
             case kMedicationInTwoHours:
-                statusColor = [UIColor getColorForHexString:MEDICATION_TWO_HOUR_COLOR];
+                statusColor = [UIColor colorForHexString:MEDICATION_TWO_HOUR_COLOR];
                 break;
                 
             default:
-                statusColor = [UIColor getColorForHexString:MEDICATION_DEFAULT_COLOR];
+                statusColor = [UIColor colorForHexString:MEDICATION_DEFAULT_COLOR];
                 break;
         }
     }
@@ -173,10 +173,10 @@
                 NSString *timeString = [splittedDateArray objectAtIndex:0];
                 NSString *dateString = [splittedDateArray objectAtIndex:1];
                 NSDictionary *timeAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                [DCFontUtility getLatoBoldFontWithSize:20.0f], NSFontAttributeName,
+                                                [DCFontUtility latoBoldFontWithSize:20.0f], NSFontAttributeName,
                                                 nil];
                 NSDictionary *dateAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                [DCFontUtility getLatoRegularFontWithSize:15.0f], NSFontAttributeName, nil];
+                                                [DCFontUtility latoRegularFontWithSize:15.0f], NSFontAttributeName, nil];
                 NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]  initWithString:displayDateString];
                 [attributedString setAttributes:timeAttributes range:NSMakeRange(0, timeString.length+1)];
                 [attributedString setAttributes:dateAttributes range:NSMakeRange(timeString.length, dateString.length)];
@@ -191,7 +191,7 @@
 - (void)getPatientsAlerts {
     
     DCAlertsWebService *webService = [[DCAlertsWebService alloc] init];
-    [webService getPatientAlertsForId:self.patientId withCallBackHandler:^(NSArray *alertsArray, NSError *error) {
+    [webService patientAlertsForId:self.patientId withCallBackHandler:^(NSArray *alertsArray, NSError *error) {
         DCDebugLog(@"the patients alerts Array: %@", alertsArray);
         NSMutableArray *patientAlertsArray = [[NSMutableArray alloc] init];        
         if ([alertsArray count] > 0) {

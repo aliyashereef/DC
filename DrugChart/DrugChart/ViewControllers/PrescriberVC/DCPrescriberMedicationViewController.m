@@ -136,23 +136,23 @@ typedef enum : NSUInteger {
 
 - (void)setCurrentWeekDatesArrayFromToday {
     
-    firstDisplayDate = [DCDateUtility getInitialDateForCalendarDisplay:[DCDateUtility getDateInCurrentTimeZone:[NSDate date]]
+    firstDisplayDate = [DCDateUtility initialDateForCalendarDisplay:[DCDateUtility dateInCurrentTimeZone:[NSDate date]]
                                                         withAdderValue:-7];
-    currentWeekDatesArray = [DCDateUtility getFiveDaysOfWeekFromDate:firstDisplayDate];
+    currentWeekDatesArray = [DCDateUtility nextAndPreviousSevenDaysWithReferenceToDate:firstDisplayDate];
 }
 
 - (void)populateMonthYearLabel {
     
     //populate month year label
-    NSString *mothYearDisplayString = [DCDateUtility getMonthNameAndYearForWeekDatesArray:currentWeekDatesArray];
-    NSAttributedString *monthYearString = [DCUtility getMonthYearAttributedStringForDisplayString:mothYearDisplayString withInitialMonthLength:0];
+    NSString *mothYearDisplayString = [DCDateUtility monthNameAndYearForWeekDatesArray:currentWeekDatesArray];
+    NSAttributedString *monthYearString = [DCUtility monthYearAttributedStringForDisplayString:mothYearDisplayString withInitialMonthLength:0];
     monthYearLabel.attributedText = monthYearString;
 }
 
 - (void)calculateCalendarSlotWidth {
     
     //calculate calendar slot width
-    slotWidth = ([DCUtility getMainWindowSize].width - 300)/5;
+    slotWidth = ([DCUtility mainWindowSize].width - 300)/5;
 }
 
 // Not needed for now, since the childviewcontroller is added from IB.
@@ -258,9 +258,9 @@ typedef enum : NSUInteger {
         DCMedicationSchedulesWebService *medicationSchedulesWebService = [[DCMedicationSchedulesWebService alloc] init];
         NSMutableArray *medicationListArray = [[NSMutableArray alloc] init];
         NSDate *startDate = [currentWeekDatesArray objectAtIndex:0];
-        NSString *startDateString = [DCDateUtility convertDate:startDate FromFormat:DEFAULT_DATE_FORMAT ToFormat:SHORT_DATE_FORMAT];
+        NSString *startDateString = [DCDateUtility dateStringFromDate:startDate inFormat:SHORT_DATE_FORMAT];
         NSDate *endDate = [currentWeekDatesArray lastObject];
-        NSString *endDateString = [DCDateUtility convertDate:endDate FromFormat:DEFAULT_DATE_FORMAT ToFormat:SHORT_DATE_FORMAT];
+        NSString *endDateString = [DCDateUtility dateStringFromDate:endDate inFormat:SHORT_DATE_FORMAT];
         [medicationSchedulesWebService getMedicationSchedulesForPatientId:patientId fromStartDate:startDateString toEndDate:endDateString withCallBackHandler:^(NSArray *medicationsList, NSError *error) {
             NSMutableArray *medicationArray = [NSMutableArray arrayWithArray:medicationsList];
             // if FetchTypeInitial
@@ -484,7 +484,7 @@ typedef enum : NSUInteger {
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:patientAlertsAllergyViewController];
     navigationController.modalPresentationStyle = UIModalPresentationPopover;
     // Calculating the height for popover.
-    CGFloat popOverHeight = [patientAlertsAllergyViewController getAllergyAndAlertDisplayTableViewHeightForContent:alertsArray];
+    CGFloat popOverHeight = [patientAlertsAllergyViewController allergyAndAlertDisplayTableViewHeightForContent:alertsArray];
     navigationController.preferredContentSize = CGSizeMake(ALERT_ALLERGY_CELL_WIDTH, popOverHeight+ CELL_PADDING );
     [self presentViewController:navigationController animated:YES completion:nil];
     // Presenting the popover presentation controller on the navigation controller.
@@ -569,12 +569,12 @@ typedef enum : NSUInteger {
 - (void)modifyStartDayAndWeekDates:(BOOL)isNextWeek {
     
     if (isNextWeek) {
-        firstDisplayDate = [DCDateUtility getInitialDateForCalendarDisplay:firstDisplayDate withAdderValue:5];
-        currentWeekDatesArray = [DCDateUtility getFiveDaysOfWeekFromDate:firstDisplayDate];
+        firstDisplayDate = [DCDateUtility initialDateForCalendarDisplay:firstDisplayDate withAdderValue:5];
+        currentWeekDatesArray = [DCDateUtility nextAndPreviousSevenDaysWithReferenceToDate:firstDisplayDate];
     }
     else {
-        firstDisplayDate = [DCDateUtility getInitialDateForCalendarDisplay:firstDisplayDate withAdderValue:-5];
-        currentWeekDatesArray = [DCDateUtility getFiveDaysOfWeekFromDate:firstDisplayDate];
+        firstDisplayDate = [DCDateUtility initialDateForCalendarDisplay:firstDisplayDate withAdderValue:-5];
+        currentWeekDatesArray = [DCDateUtility nextAndPreviousSevenDaysWithReferenceToDate:firstDisplayDate];
     }
 }
 
@@ -592,7 +592,7 @@ typedef enum : NSUInteger {
     [self populateMonthYearLabel];
 }
 
-- (void)reloadAndUpdatePrescriberMedicationDetails {
+- (void)updatePrescriberMedicationListDetails {
     if (prescriberMedicationListViewController) {
         prescriberMedicationListViewController.currentWeekDatesArray = currentWeekDatesArray;
         [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
@@ -636,14 +636,6 @@ typedef enum : NSUInteger {
 
 - (void)reloadPrescriberMedicationList {
     [self fetchMedicationListForPatient];
-}
-
-#pragma mark - Methods needed.
-
-- (void)populateMedicationWeekDaysForDisplayInCalendar {
-    
-    // here we need to add the methods to populate the values
-    
 }
 
 @end
