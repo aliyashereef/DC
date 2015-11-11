@@ -67,7 +67,7 @@
     return isValid;
 }
 
-+ (CGFloat)getHeightForMedicineName:(NSString *)medicine {
++ (CGFloat)heightForMedicineName:(NSString *)medicine {
     
     //get the height of medicine name to set the corresponding cell height
     CGFloat height = [DCUtility heightValueForText:medicine withFont:SYSTEM_FONT_SIZE_FIFTEEN maxWidth:MEDICINE_NAME_FIELD_MAX_WIDTH] + OFFSET_VALUE;

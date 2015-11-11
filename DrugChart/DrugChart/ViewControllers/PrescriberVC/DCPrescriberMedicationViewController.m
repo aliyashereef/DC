@@ -592,7 +592,7 @@ typedef enum : NSUInteger {
     [self populateMonthYearLabel];
 }
 
-- (void)reloadAndUpdatePrescriberMedicationDetails {
+- (void)updatePrescriberMedicationListDetails {
     if (prescriberMedicationListViewController) {
         prescriberMedicationListViewController.currentWeekDatesArray = currentWeekDatesArray;
         [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];

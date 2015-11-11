@@ -10,7 +10,7 @@
 
 @interface DCPlistManager : NSObject
 
-+ (NSArray *)getMedicationRoutesList;
++ (NSArray *)medicationRoutesList;
 
 + (NSArray *)getMedicineNamesList;
 
@@ -18,7 +18,7 @@
 
 + (NSArray *)getPositionablegraphics;
 
-+ (NSArray *)getAdministratingTimeList;
++ (NSArray *)administratingTimeList;
 
 + (NSArray *)getOrderSetList;
 

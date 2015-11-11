@@ -287,7 +287,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     
     func modifyParentViewOnSwipeEnd (parentViewController : DCPrescriberMedicationViewController) {
         
-        parentViewController.reloadAndUpdatePrescriberMedicationDetails()
+        parentViewController.updatePrescriberMedicationListDetails()
         parentViewController.modifyWeekDatesInCalendarTopPortion()
         parentViewController.reloadCalendarTopPortion()
         parentViewController.cancelPreviousMedicationListFetchRequest()

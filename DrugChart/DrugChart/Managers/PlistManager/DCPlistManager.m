@@ -19,7 +19,7 @@
 
 @implementation DCPlistManager
 
-+ (NSArray *)getMedicationRoutesList {
++ (NSArray *)medicationRoutesList {
     
     //get medication routes
     NSArray *contentArray = [self getContentsFromPlist:ROUTES];
@@ -53,7 +53,7 @@
     return contentArray;
 }
 
-+ (NSArray *)getAdministratingTimeList {
++ (NSArray *)administratingTimeList {
     
     //get administrating time list
     NSString *sourcePath = [[NSBundle mainBundle] pathForResource:ADMINSTRATING_TIME_LIST ofType:@"plist"];

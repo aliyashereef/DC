@@ -120,7 +120,7 @@
 
 //Configuring the medication name cell in the medication detail table view.If the table view is loaded before the medication name is selected,it is loaded with the place holder string.
 
-- (UITableViewCell *)getPopulatedMedicationNameTableCell {
+- (UITableViewCell *)populatedMedicationNameTableCell {
     
     static NSString *cellIdentifier = ADD_MEDICATION_CELL_IDENTIFIER;
     UITableViewCell *cell = [medicationDetailsTableView dequeueReusableCellWithIdentifier:cellIdentifier];
@@ -142,7 +142,7 @@
     return cell;
 }
 
-- (DCAddMedicationContentCell *)getPopulatedAddMedicationCellForIndexPath:(NSIndexPath *)indexPath forIndex:(NSInteger)index {
+- (DCAddMedicationContentCell *)populatedAddMedicationCellForIndexPath:(NSIndexPath *)indexPath forIndex:(NSInteger)index {
     
     //configuring warning cell, medication details cell, administration time cell
     static NSString *cellIdentifier = ADD_MEDICATION_CONTENT_CELL;
@@ -166,7 +166,8 @@
     return cell;
 }
 
-- (DCDosageMultiLineCell *)getDosageCellAtIndexPath: (NSIndexPath *)indexPath {
+- (DCDosageMultiLineCell *)dosageCellAtIndexPath:(NSIndexPath *)indexPath {
+    
     DCDosageMultiLineCell *cell = [medicationDetailsTableView dequeueReusableCellWithIdentifier:kDosageMultiLineCellID];
     cell.layoutMargins = UIEdgeInsetsZero;
     if (cell == nil) {
@@ -491,7 +492,7 @@
     return dateAndTimeCell;
 }
 
-- (DCInstructionsTableCell *)getInstructionsTableCell {
+- (DCInstructionsTableCell *)instructionsTableCell {
     
     static NSString *cellIdentifier = INSTRUCTIONS_CELL_IDENTIFIER;
     DCInstructionsTableCell *instructionsCell = [medicationDetailsTableView dequeueReusableCellWithIdentifier:cellIdentifier];
@@ -541,10 +542,10 @@
             return (showWarnings ? MEDICATION_DETAILS_ROW_COUNT : INSTRUCTIONS_ROW_COUNT);
             break;
         case eThirdSection:
-            return (showWarnings ? INSTRUCTIONS_ROW_COUNT : [self getNumberOfRowsInDateAndTimeSectionForSelectedMedicationType]);
+            return (showWarnings ? INSTRUCTIONS_ROW_COUNT : [self numberOfRowsInDateAndTimeSectionForSelectedMedicationType]);
             break;
         case eFourthSection: {
-            NSInteger rowCount = [self getNumberOfRowsInDateAndTimeSectionForSelectedMedicationType];
+            NSInteger rowCount = [self numberOfRowsInDateAndTimeSectionForSelectedMedicationType];
             return (showWarnings ? rowCount : MEDICATION_NAME_ROW_COUNT);
         }
             break;
@@ -554,7 +555,7 @@
     return MEDICATION_NAME_ROW_COUNT;
 }
 
-- (NSInteger)getNumberOfRowsInDateAndTimeSectionForSelectedMedicationType {
+- (NSInteger)numberOfRowsInDateAndTimeSectionForSelectedMedicationType {
     
     NSInteger rowCount;
     if ([self.selectedMedication.medicineCategory isEqualToString:REGULAR_MEDICATION]) {
@@ -729,7 +730,7 @@
 - (void)resignKeyboard {
     
     //resign keyboard
-    DCInstructionsTableCell *instructionsCell = [self getInstructionsTableCell];
+    DCInstructionsTableCell *instructionsCell = [self instructionsTableCell];
     if ([instructionsCell.instructionsTextView isFirstResponder]) {
         [instructionsCell.instructionsTextView resignFirstResponder];
     }
@@ -942,21 +943,21 @@
     
     switch (indexPath.section) {
         case eZerothSection: { // zeroth section will always have medicine name field
-            UITableViewCell *cell = [self getPopulatedMedicationNameTableCell];
+            UITableViewCell *cell = [self populatedMedicationNameTableCell];
             return cell;
         }
         break;
         case eFirstSection: { // first section will have warnings or medication details based on warnings section display
             if (!showWarnings) {
                 if (indexPath.row == DOSAGE_INDEX && self.selectedMedication.dosage.length > MAXIMUM_CHARACTERS_INCLUDED_IN_ONE_LINE) {
-                    DCDosageMultiLineCell *dosageCell = [self getDosageCellAtIndexPath:indexPath];
+                    DCDosageMultiLineCell *dosageCell = [self dosageCellAtIndexPath:indexPath];
                     return dosageCell;
                 } else {
-                    DCAddMedicationContentCell *contentCell = [self getPopulatedAddMedicationCellForIndexPath:indexPath forIndex:MEDICATION_DETAILS_CELL_INDEX];
+                    DCAddMedicationContentCell *contentCell = [self populatedAddMedicationCellForIndexPath:indexPath forIndex:MEDICATION_DETAILS_CELL_INDEX];
                     return contentCell;
                 }
             } else {
-                DCAddMedicationContentCell *contentCell = [self getPopulatedAddMedicationCellForIndexPath:indexPath forIndex:WARNINGS_CELL_INDEX];
+                DCAddMedicationContentCell *contentCell = [self populatedAddMedicationCellForIndexPath:indexPath forIndex:WARNINGS_CELL_INDEX];
                 return contentCell;
             }
         }
@@ -964,21 +965,21 @@
         case eSecondSection: {
             if (showWarnings) {
                 if (indexPath.row == DOSAGE_INDEX && self.selectedMedication.dosage.length > MAXIMUM_CHARACTERS_INCLUDED_IN_ONE_LINE) {
-                    DCDosageMultiLineCell *dosageCell = [self getDosageCellAtIndexPath:indexPath];
+                    DCDosageMultiLineCell *dosageCell = [self dosageCellAtIndexPath:indexPath];
                     return dosageCell;
                 } else {
-                    DCAddMedicationContentCell *contentCell = [self getPopulatedAddMedicationCellForIndexPath:indexPath forIndex:MEDICATION_DETAILS_CELL_INDEX];
+                    DCAddMedicationContentCell *contentCell = [self populatedAddMedicationCellForIndexPath:indexPath forIndex:MEDICATION_DETAILS_CELL_INDEX];
                     return contentCell;
                 }
             } else {
-                DCInstructionsTableCell *instructionsCell = [self getInstructionsTableCell];
+                DCInstructionsTableCell *instructionsCell = [self instructionsTableCell];
                 return instructionsCell;
             }
         }
         break;
         case eThirdSection: {
             if (showWarnings) {
-                DCInstructionsTableCell *instructionsCell = [self getInstructionsTableCell];
+                DCInstructionsTableCell *instructionsCell = [self instructionsTableCell];
                 return instructionsCell;
             } else {
                 UITableViewCell *dateCell = [self getDateSectionTableViewCellAtIndexPath:indexPath];
@@ -1009,7 +1010,7 @@
         CGFloat nameHeight = TABLE_CELL_DEFAULT_ROW_HEIGHT;
         if (self.selectedMedication.name) {
             //calculate medicine name height in the row
-            nameHeight = [DCAddMedicationHelper getHeightForMedicineName:self.selectedMedication.name];
+            nameHeight = [DCAddMedicationHelper heightForMedicineName:self.selectedMedication.name];
             nameHeight = (nameHeight < TABLE_CELL_DEFAULT_ROW_HEIGHT) ? TABLE_CELL_DEFAULT_ROW_HEIGHT : nameHeight;
         }
         return nameHeight;

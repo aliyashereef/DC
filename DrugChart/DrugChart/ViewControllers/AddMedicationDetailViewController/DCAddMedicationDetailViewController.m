@@ -133,12 +133,12 @@
             break;
         case eDetailRoute:
             //medication routes
-            _contentArray = [NSMutableArray arrayWithArray:[DCPlistManager getMedicationRoutesList]];
+            _contentArray = [NSMutableArray arrayWithArray:[DCPlistManager medicationRoutesList]];
             break;
         case eDetailAdministrationTime:
             //populate default administrating times
             if ([_contentArray count] == 0) {
-                 _contentArray = [NSMutableArray arrayWithArray:[DCPlistManager getAdministratingTimeList]];
+                 _contentArray = [NSMutableArray arrayWithArray:[DCPlistManager administratingTimeList]];
             }
             break;
         default:
