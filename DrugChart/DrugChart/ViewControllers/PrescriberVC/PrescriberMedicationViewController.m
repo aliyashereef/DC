@@ -178,6 +178,7 @@ typedef enum : NSUInteger {
         if (_patient.medicationListArray) {
             _patient.medicationListArray = nil;
         }
+        selectedSortType = START_DATE_ORDER;
         [self fetchMedicationListForPatient];
     }
 }

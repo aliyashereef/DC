@@ -67,9 +67,6 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                 medicationCell = PrescriberMedicationTableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: CELL_IDENTIFIER)
             }
             let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
-           // NSLog("***** name is %@", medicationScheduleDetails.name)
-           // NSLog("/// Medication Ctegory is %@", medicationScheduleDetails.medicineCategory)
-           
             medicationCell?.editAndDeleteDelegate = self
             medicationCell?.indexPath = indexPath
             medicationCell?.isMedicationActive = medicationScheduleDetails.isActive
@@ -113,9 +110,9 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         let weekdate = currentWeekDatesArray.objectAtIndex(7)
         let todaysDate : NSDate = NSDate()
         let order = NSCalendar.currentCalendar().compareDate(weekdate as! NSDate, toDate:todaysDate,
-            toUnitGranularity: .Hour)
+            toUnitGranularity: .Day)
         if order == NSComparisonResult.OrderedSame {
-            
+            // Do Nothing
         } else {
             let parentViewController : PrescriberMedicationViewController = self.parentViewController as! PrescriberMedicationViewController
             parentViewController.loadCurrentWeekDate()
