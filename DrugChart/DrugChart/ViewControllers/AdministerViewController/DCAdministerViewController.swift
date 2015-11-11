@@ -69,6 +69,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     var editingIndexPath : NSIndexPath?
     var keyboardHeight : CGFloat?
     var selfAdministratedUser : DCUser? = nil
+    var doneClicked : Bool = false
     
     override func viewDidLoad() {
         
@@ -119,7 +120,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         }
         configureMedicationDetails()
     }
-
     
     func addNotifications() {
         
@@ -171,7 +171,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             medicationSlot?.medicationAdministration = DCMedicationAdministration.init()
             medicationSlot?.medicationAdministration.checkingUser = DCUser.init()
             medicationSlot?.medicationAdministration.administratingUser = DCUser.init()
-            medicationSlot?.medicationAdministration.status = ADMINISTERED
             medicationSlot?.medicationAdministration.scheduledDateTime = medicationSlot?.time
         }
     }
@@ -244,6 +243,9 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         
         //validate and reload administer view
         isValid = false
+        if (medicationSlot?.medicationAdministration.status == nil) {
+            
+        }
         administerTableView.reloadData()
     }
     
@@ -262,8 +264,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             }
             else if (medicationSlot?.medicationAdministration?.status == REFUSED) {
                 administerCell = medicationDetailsCellForRefusedStatus(administerCell, indexPath: indexPath)
-            } else {
-                
             }
             break
         default:
@@ -335,9 +335,15 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             //status cell
             cell.titleLabel.text = NSLocalizedString("STATUS", comment: "status title text")
             if (medicationSlot?.medicationAdministration?.status != nil) {
+                cell.detailLabel.textColor = UIColor.blackColor()
                 cell.detailLabel.text = medicationSlot?.medicationAdministration?.status
             } else {
-                cell.detailLabel.text = ADMINISTERED
+                cell.detailLabel.text = "Select" // Need to be changed according to UX comments
+                if(doneClicked == true) {
+                    cell.detailLabel.textColor = UIColor.redColor()
+                } else {
+                    cell.detailLabel.textColor = UIColor.blackColor()
+                }
             }
             return cell
         default:
@@ -584,7 +590,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             } else if (medicationSlot?.medicationAdministration?.status == ADMINISTERED || medicationSlot?.medicationAdministration?.status == REFUSED) {
                 return ADMINISTERED_SECTION_COUNT;
             } else {
-                return 0
+                return 1;
             }
         }
     }
@@ -621,10 +627,21 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         } else if (medicationSlot?.medicationAdministration.status == OMITTED) {
             let omittedTableCell = populatedOmittedTableViewCellAtIndexPath(indexPath)
             return omittedTableCell
-        } else {
+        } else if (medicationSlot?.medicationAdministration.status == REFUSED){
             //refused status
             let refusedTableCell = populatedRefusedTableCellAtIndexPath(indexPath)
             return refusedTableCell
+        } else {
+            let administerCell : DCAdministerCell = (administerTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
+            administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+            administerCell.titleLabel.text = NSLocalizedString("STATUS", comment: "status title text")
+            administerCell.detailLabel.text = "Select"
+            if(doneClicked == true && medicationSlot?.medicationAdministration.status == nil) {
+                administerCell.detailLabel.textColor = UIColor.redColor()
+            } else {
+                administerCell.detailLabel.textColor = UIColor.blackColor()
+            }
+            return administerCell
         }
     }
     

@@ -278,6 +278,8 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
             if (omittedNotes == EMPTY_STRING || omittedNotes == nil) {
                 isValid = false
             }
+        } else if (medicationStatus == nil) {
+            isValid = false
         }
         
         if (administerViewController?.medicationSlot?.medicationAdministration?.isEarlyAdministration == true) {
@@ -309,12 +311,11 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     }
     
     // MARK: Action Methods
-    
 
     @IBAction func doneButtonPressed(sender: AnyObject) {
         
         //perform administer medication api call here
-        
+        administerViewController?.doneClicked = true
         if(entriesAreValid()) {
             administerViewController?.activityIndicator.startAnimating()
             administerViewController?.isValid = true
