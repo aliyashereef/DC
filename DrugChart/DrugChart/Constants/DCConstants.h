@@ -120,6 +120,7 @@
 #define PRESCRIBER_LIST_SBID @"PrescriberMedicationList"
 #define PATIENT_MENU_VIEW_CONTROLLER_SB_ID @"PatientMenuViewController"
 #define VITAL_SIGNS_VIEW_CONTROLLER_VIEW_CONTROLLER_SB_ID @"VitalSignViewController"
+#define SCHEDULING_DETAIL_STORYBOARD_ID @"SchedulingDetailView"
 
 #define PRESCRIBER_MEDICATION_SBID @"PrescriberMedicationViewControllerSBID"
 

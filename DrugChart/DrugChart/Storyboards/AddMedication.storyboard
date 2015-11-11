@@ -692,6 +692,33 @@
             </objects>
             <point key="canvasLocation" x="3343" y="-967"/>
         </scene>
+        <!--Scheduling Detail View Controller-->
+        <scene sceneID="C8g-Jg-u0o">
+            <objects>
+                <viewController storyboardIdentifier="SchedulingDetailView" id="QIp-OG-M7Q" customClass="DCSchedulingDetailViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="5Zb-Zg-DCN"/>
+                        <viewControllerLayoutGuide type="bottom" id="lTt-ia-XfJ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="QUI-xi-5KU">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="htx-Zi-x4Y">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="detailTableView" destination="htx-Zi-x4Y" id="SGE-eQ-FfC"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Uxt-WZ-vP5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4009" y="-982"/>
+        </scene>
         <!--Add Medication Initial View Controller-->
         <scene sceneID="MYK-Ru-XX3">
             <objects>

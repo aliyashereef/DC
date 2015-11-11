@@ -119,6 +119,8 @@
 "MILD"                  =       "MILD";
 "REASON"                =       "Reason";
 "NEW_DOSAGE"            =       "New Dosage";
+"SCHEDULING"            =       "Scheduling";
+"SPECIFIC_TIMES"        =       "Specific Times";
 
 //Administer
 

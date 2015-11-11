@@ -157,6 +157,9 @@
         [cell configureMedicationContentCellWithWarningsCount:warningsCount];
     } else if (index == MEDICATION_DETAILS_CELL_INDEX) {
         cell = [self updatedMedicationDetailsCell:cell atIndexPath:indexPath];
+    } else if (index == SCHEDULING_ROW_INDEX) {
+        cell.titleLabel.text = NSLocalizedString(@"SCHEDULING", @"");
+        cell.detailTextLabel.text = self.selectedMedication.scheduling.type;
     } else {
         if (indexPath.row == ADMINISTRATING_TIME_ROW_INDEX) {
             cell.titleLabel.text = NSLocalizedString(@"ADMINISTRATING_TIME", @"");
@@ -549,6 +552,9 @@
             return (showWarnings ? rowCount : MEDICATION_NAME_ROW_COUNT);
         }
             break;
+        case eFifthSection:
+            return 1;
+            break;
         default:
             break;
     }
@@ -607,6 +613,8 @@
     self.selectedMedication.severeWarningCount = severeArray.count;
     self.selectedMedication.mildWarningCount = mildArray.count;
     self.selectedMedication.medicineCategory = REGULAR_MEDICATION;
+    self.selectedMedication.scheduling = [[DCScheduling alloc] init];
+    self.selectedMedication.scheduling.type = NSLocalizedString(@"SPECIFIC_TIMES", @"");
     dosageArray = [NSMutableArray arrayWithObjects:medication.dosage, nil];
     [medicationDetailsTableView reloadData];
 }
@@ -669,6 +677,14 @@
     [self.navigationController pushViewController:medicationDetailViewController animated:YES];
 }
 
+- (void)displaySchedulingDetailViewForTableViewAtIndexPath:(NSIndexPath *)indexPath {
+    
+    UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
+    DCSchedulingDetailViewController *schedulingDetailViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:SCHEDULING_DETAIL_STORYBOARD_ID];
+    schedulingDetailViewController.detailType = eSchedulingType;
+    [self.navigationController pushViewController:schedulingDetailViewController animated:YES];
+}
+
 - (AddMedicationDetailType)medicationDetailTypeForIndexPath:(NSIndexPath *)indexPath {
     
     switch (indexPath.section) {
@@ -704,6 +720,9 @@
             }
             break;
         }
+      case eFifthSection:
+            return eSchedulingType;
+            break;
         default:
             break;
     }
@@ -768,7 +787,14 @@
         }
             break;
         case eFourthSection:
-            [self loadDetailViewForDateAndTimeCellOnSelectionAtIndexPath:indexPath];
+            if (showWarnings) {
+                [self loadDetailViewForDateAndTimeCellOnSelectionAtIndexPath:indexPath];
+            } else {
+                [self displaySchedulingDetailViewForTableViewAtIndexPath:indexPath];
+            }
+            break;
+        case eFifthSection:
+            [self displaySchedulingDetailViewForTableViewAtIndexPath:indexPath];
             break;
         default:{
             [self displayAddMedicationDetailViewForTableRowAtIndexPath:indexPath];
@@ -930,12 +956,14 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
     NSInteger sectionCount = [self numberOfSectionsInMedicationTableView];
+    NSLog(@"Section COunt is %d", sectionCount);
     return sectionCount;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     NSInteger rowCount = [self numberOfRowsInMedicationTableViewSection:section];
+    NSLog(@"rowCount is %d", rowCount);
     return rowCount;
 }
 
@@ -988,9 +1016,19 @@
         }
         break;
         case eFourthSection: {
-            UITableViewCell *dateCell = [self dateSectionTableViewCellAtIndexPath:indexPath];
-            return dateCell;
+            if (showWarnings) {
+                UITableViewCell *dateCell = [self dateSectionTableViewCellAtIndexPath:indexPath];
+                return dateCell;
+            } else {
+                DCAddMedicationContentCell *contentCell = [self populatedAddMedicationCellForIndexPath:indexPath forIndex:SCHEDULING_ROW_INDEX];
+                return contentCell;
             }
+            }
+        break;
+        case eFifthSection: {
+            DCAddMedicationContentCell *contentCell = [self populatedAddMedicationCellForIndexPath:indexPath forIndex:SCHEDULING_ROW_INDEX];
+            return contentCell;
+        }
         break;
     }
     return nil;
@@ -1053,6 +1091,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     if(_isEditMedication) {
         if (self.selectedMedication.hasWarning) {
             lastSection = eFourthSection;
@@ -1060,7 +1099,6 @@
             lastSection = eThirdSection;
         }
     }
-
     //shrink already opened date picker cell
     [self resignKeyboard];
     if ((indexPath.section != _datePickerIndexPath.section)) {

@@ -12,7 +12,7 @@
 #define INITIAL_SECTION_COUNT                   1
 #define MEDICATION_NAME_ROW_COUNT               1
 #define PICKER_ROW_COUNT                        1
-#define COMPLETE_MEDICATION_SECTION_COUNT       5
+#define COMPLETE_MEDICATION_SECTION_COUNT       6
 #define WARNINGS_ROW_COUNT                      1
 #define MEDICATION_DETAILS_ROW_COUNT            3
 #define INSTRUCTIONS_ROW_COUNT                  1
@@ -38,6 +38,7 @@
 #define WARNINGS_CELL_INDEX                     0
 #define MEDICATION_DETAILS_CELL_INDEX           1
 #define ADMINISTRATION_CELL_INDEX               2
+#define SCHEDULING_ROW_INDEX                    3
 #define MAXIMUM_CHARACTERS_INCLUDED_IN_ONE_LINE 15             
 
 //Constants
@@ -51,6 +52,7 @@ typedef enum : NSInteger {
     eSecondSection,
     eThirdSection,
     eFourthSection,
+    eFifthSection
 } SectionCount;
 
 @interface DCAddMedicationHelper : NSObject
