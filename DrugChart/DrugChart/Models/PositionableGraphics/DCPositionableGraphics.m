@@ -31,7 +31,7 @@
             self.positionableGraphicsType = [self posititionableGraphicsTypeForString:graphicalItemString];
             self.headDirection = [positionDictionary objectForKey:HEAD_DIRECTION];
             NSString *coordinateString = [positionDictionary objectForKey:COORDINATES];
-            CGPoint wardCoordinates = [DCUtility getCoordinatesFromString:coordinateString];
+            CGPoint wardCoordinates = [DCUtility coordinatesFromString:coordinateString];
             if (self.positionableGraphicsType == kNurseStation) {
                 self.viewFrame = [self getNurseStationFrameFromCoordinates:wardCoordinates];
             }

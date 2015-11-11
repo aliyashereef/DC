@@ -10,8 +10,8 @@
 
 @interface DCFontUtility : NSObject
 
-+ (UIFont *)getLatoRegularFontWithSize:(CGFloat)size;
++ (UIFont *)latoRegularFontWithSize:(CGFloat)size;
 
-+ (UIFont *)getLatoBoldFontWithSize:(CGFloat)size;
++ (UIFont *)latoBoldFontWithSize:(CGFloat)size;
 
 @end

@@ -31,11 +31,11 @@ typedef enum : NSUInteger {
 + (NSArray *)sortArray:(NSArray *)arrayToSort
             basedOnKey:(NSString *)key ascending:(BOOL)ascending;
 
-+ (UIImage *)getMedicationStatusImageForMedicationStatus:(NSString *)status;
++ (UIImage *)medicationStatusImageForMedicationStatus:(NSString *)status;
 
 + (void)modifyViewComponentForErrorDisplay:(UIView *)view;
 
-+ (NSMutableAttributedString *)getDateOfBirthAndAgeAttributedString:(NSDate *)dateOfBirth;
++ (NSMutableAttributedString *)dateOfBirthAndAgeAttributedString:(NSDate *)dateOfBirth;
 
 + (BOOL)isDetectedErrorField:(UIView *)view;
 
@@ -62,7 +62,7 @@ typedef enum : NSUInteger {
 
 + (CGSize)sizeFromString:(NSString *)sizeString;
 
-+ (CGPoint)getCoordinatesFromString:(NSString *)coordinateString;
++ (CGPoint)coordinatesFromString:(NSString *)coordinateString;
 
 + (id) convertJSONStringToArray: (NSString *)jsonString;
 

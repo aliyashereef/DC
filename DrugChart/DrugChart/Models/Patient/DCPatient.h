@@ -60,15 +60,15 @@
 @property (nonatomic, strong) NSMutableArray *patientsAlertsArray;
 @property (nonatomic, strong) NSMutableArray *patientsAlergiesArray;
 
-- (MedicationStatus)getMedicationStatus;
-- (UIColor *)getDisplayColorForMedicationStatus;
-- (NSMutableAttributedString *)getFormattedDisplayMedicationDateForPatient;
+- (MedicationStatus)medicationStatus;
+- (UIColor *)displayColorForMedicationStatus;
+- (NSMutableAttributedString *)formattedDisplayMedicationDateForPatient;
 
 - (DCPatient *)initWithPatientDictionary:(NSDictionary *)patientDictionary;
 - (void)setPatientBedIdFromBedNumber:(NSNumber *)bedNumber;
 - (void)setPatientBedType:(NSString *)bedType;
 - (void)getAdditionalInformationAboutPatientFromUrlwithCallBackHandler:(void (^)(NSError *error))callBackHandler;
-- (void)getPatientsAlerts;
-- (void)getPatientsAllergies;
+- (void)setPatientsAlerts;
+- (void)setPatientsAllergies;
 
 @end

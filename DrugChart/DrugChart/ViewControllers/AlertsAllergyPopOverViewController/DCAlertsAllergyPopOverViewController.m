@@ -35,7 +35,7 @@
     [super viewDidLoad];
     [self configureNavigationBarItems];
     popOverDisplayArray = [NSMutableArray arrayWithArray:self.patientsAlertsArray];
-    [self getAllergyAndAlertDisplayTableViewHeightForContent:popOverDisplayArray];
+    [self allergyAndAlertDisplayTableViewHeightForContent:popOverDisplayArray];
     [alertsAllergyTableView setSeparatorInset:UIEdgeInsetsZero];
     [alertsAllergyTableView setLayoutMargins:UIEdgeInsetsZero];
     [alertsAllergyTableView reloadData];
@@ -86,7 +86,7 @@
     return (heightForCell > ALERT_CELL_HEIGHT_MIN ? heightForCell : ALERT_CELL_HEIGHT_MIN);
 }
 
-- (CGFloat )getAllergyAndAlertDisplayTableViewHeightForContent:(NSArray *)displayArray {
+- (CGFloat )allergyAndAlertDisplayTableViewHeightForContent:(NSArray *)displayArray {
     
     cellHeightArray = [[NSMutableArray alloc] init];
     CGFloat totalAlertCellsHeight = ALERT_CELL_HEIGHT;
@@ -112,9 +112,9 @@
     return totalAlertCellsHeight;
 }
 
-- (CGFloat)getTableViewHeightwithArray :(NSArray *)displayArray {
+- (CGFloat)tableViewHeightwithArray :(NSArray *)displayArray {
     
-    CGFloat totalAlertCellsHeight = [self getAllergyAndAlertDisplayTableViewHeightForContent:displayArray];
+    CGFloat totalAlertCellsHeight = [self allergyAndAlertDisplayTableViewHeightForContent:displayArray];
     CGFloat heightForFirstCell = [[cellHeightArray objectAtIndex:0] floatValue];
     if (displayArray.count == 1) {
         return heightForFirstCell;
@@ -137,7 +137,7 @@
     } else {
             popOverDisplayArray = [NSMutableArray arrayWithArray:self.patientsAllergyArray];
     }
-    [self getAllergyAndAlertDisplayTableViewHeightForContent:popOverDisplayArray];
+    [self allergyAndAlertDisplayTableViewHeightForContent:popOverDisplayArray];
     [alertsAllergyTableView reloadData];
     self.preferredContentSize = CGSizeMake(ALERT_ALLERGY_CELL_WIDTH,alertsAllergyTableView.contentSize.height + CELL_PADDING );
     [self forcePopoverSize];

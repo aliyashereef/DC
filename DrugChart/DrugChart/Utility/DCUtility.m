@@ -39,7 +39,7 @@
     return sortedArray;
 }
 
-+ (UIImage *)getMedicationStatusImageForMedicationStatus:(NSString *)status {
++ (UIImage *)medicationStatusImageForMedicationStatus:(NSString *)status {
     UIImage *image;
     if ([status isEqualToString:OMITTED]) {
         image = [UIImage imageNamed:MEDICINE_OMITTED_IMAGE];
@@ -76,7 +76,7 @@
     return popOverController;
 }
 
-+ (NSMutableAttributedString *)getDateOfBirthAndAgeAttributedString:(NSDate *)dateOfBirth {
++ (NSMutableAttributedString *)dateOfBirthAndAgeAttributedString:(NSDate *)dateOfBirth {
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:BIRTH_DATE_FORMAT];
@@ -240,7 +240,7 @@
     return CGSizeMake(0.0, 0.0);
 }
 
-+ (CGPoint)getCoordinatesFromString:(NSString *)coordinateString {
++ (CGPoint)coordinatesFromString:(NSString *)coordinateString {
     
     NSArray *coordinatesArray = [coordinateString componentsSeparatedByString:@","];
     if ([coordinatesArray count] == 2) {

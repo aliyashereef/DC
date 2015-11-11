@@ -59,6 +59,6 @@ typedef enum : NSInteger {
 
 + (CGFloat)heightForMedicineName:(NSString *)medicine;
 
-+ (NSMutableArray *)getTimesArrayFromScheduleArray:(NSArray *)scheduleArray ;
++ (NSMutableArray *)timesArrayFromScheduleArray:(NSArray *)scheduleArray ;
 
 @end

@@ -254,14 +254,14 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         switch indexPath.section {
         case SectionCount.eZerothSection.rawValue:
             administerCell.layoutMargins = UIEdgeInsetsZero
-            administerCell = getPopulatedMedicationStatusTableCellAtIndexPath(administerCell, indexPath: indexPath);
+            administerCell = populatedMedicationStatusTableCellAtIndexPath(administerCell, indexPath: indexPath);
             break;
         case SectionCount.eFirstSection.rawValue:
             if (medicationSlot?.medicationAdministration?.status == ADMINISTERED) {
-                administerCell = getPopulatedMedicationDetailsCellForAdministeredStatus(administerCell, indexPath: indexPath)
+                administerCell = populatedMedicationDetailsCellForAdministeredStatus(administerCell, indexPath: indexPath)
             }
             else if (medicationSlot?.medicationAdministration?.status == REFUSED) {
-                administerCell = getMedicationDetailsCellForRefusedStatus(administerCell, indexPath: indexPath)
+                administerCell = medicationDetailsCellForRefusedStatus(administerCell, indexPath: indexPath)
             } else {
                 
             }
@@ -272,7 +272,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         return administerCell
     }
     
-    func getPopulatedMedicationDetailsCellForAdministeredStatus(cell : DCAdministerCell, indexPath: NSIndexPath) -> (DCAdministerCell) {
+    func populatedMedicationDetailsCellForAdministeredStatus(cell : DCAdministerCell, indexPath: NSIndexPath) -> (DCAdministerCell) {
         
         switch indexPath.row {
         case RowCount.eZerothRow.rawValue:
@@ -284,6 +284,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             cell.titleLabel.text = NSLocalizedString("DATE_TIME", comment: "date and time")
             let dateString : String
             if let date = medicationSlot?.medicationAdministration.actualAdministrationTime {
+
                 dateString = DCDateUtility.dateStringFromDate(DCDateUtility.dateInCurrentTimeZone(date), inFormat: ADMINISTER_DATE_TIME_FORMAT)
             } else {
                 dateString = DCDateUtility.dateStringFromDate(DCDateUtility.dateInCurrentTimeZone(NSDate()), inFormat: ADMINISTER_DATE_TIME_FORMAT)
@@ -303,12 +304,13 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         return cell
     }
     
-    func getMedicationDetailsCellForRefusedStatus(cell : DCAdministerCell, indexPath: NSIndexPath) -> (DCAdministerCell) {
+    func medicationDetailsCellForRefusedStatus(cell : DCAdministerCell, indexPath: NSIndexPath) -> (DCAdministerCell) {
         
         //select date when medication status is refused
         cell.titleLabel.text = NSLocalizedString("DATE_TIME", comment: "date and time")
         let dateString : String
         if let date = medicationSlot?.medicationAdministration.actualAdministrationTime {
+
             dateString = DCDateUtility.dateStringFromDate(DCDateUtility.dateInCurrentTimeZone(date), inFormat: ADMINISTER_DATE_TIME_FORMAT)
         } else {
             dateString = DCDateUtility.dateStringFromDate(DCDateUtility.dateInCurrentTimeZone(NSDate()), inFormat: ADMINISTER_DATE_TIME_FORMAT)
@@ -317,7 +319,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         return cell
     }
     
-    func getBatchNumberOrExpiryDateTableCellAtIndexPath(indexPath: NSIndexPath) -> (DCBatchNumberCell) {
+    func batchNumberOrExpiryDateTableCellAtIndexPath(indexPath: NSIndexPath) -> (DCBatchNumberCell) {
         
         //batch number or expiry field
         let expiryCell : DCBatchNumberCell = (administerTableView.dequeueReusableCellWithIdentifier(BATCH_NUMBER_CELL_ID) as? DCBatchNumberCell)!
@@ -326,7 +328,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         return expiryCell;
     }
     
-    func getPopulatedMedicationStatusTableCellAtIndexPath(cell : DCAdministerCell, indexPath: NSIndexPath) -> (DCAdministerCell) {
+    func populatedMedicationStatusTableCellAtIndexPath(cell : DCAdministerCell, indexPath: NSIndexPath) -> (DCAdministerCell) {
         
         switch indexPath.row {
         case RowCount.eZerothRow.rawValue:
@@ -343,7 +345,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         }
     }
     
-    func getNotesTableCellAtIndexPath(indexPath : NSIndexPath) -> (DCNotesTableCell) {
+    func notesTableCellAtIndexPath(indexPath : NSIndexPath) -> (DCNotesTableCell) {
         
         //notes cell
         let notesCell : DCNotesTableCell = (administerTableView.dequeueReusableCellWithIdentifier(NOTES_CELL_ID) as? DCNotesTableCell)!
@@ -382,7 +384,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         self.navigationController!.pushViewController(statusViewController!, animated: true)
     }
 
-    func getDatePickerCellAtIndexPath(indexPath : NSIndexPath) -> DCAdministerPickerCell {
+    func datePickerCellAtIndexPath(indexPath : NSIndexPath) -> DCAdministerPickerCell {
         
         var pickerCell = administerTableView.dequeueReusableCellWithIdentifier(ADMINISTER_PICKER_CELL_ID) as? DCAdministerPickerCell
         if (pickerCell == nil) {
@@ -394,25 +396,26 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         return pickerCell!
     }
     
-    func getPopulatedAdministeredTableViewCellAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
+    func populatedAdministeredTableViewCellAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
         
         if (indexPath.section == SectionCount.eFirstSection.rawValue && indexPath.row == RowCount.eThirdRow.rawValue) {
-            let batchNumberCell : DCBatchNumberCell = getBatchNumberOrExpiryDateTableCellAtIndexPath(indexPath)
+            let batchNumberCell : DCBatchNumberCell = batchNumberOrExpiryDateTableCellAtIndexPath(indexPath)
             return batchNumberCell
         } else if (indexPath.section == SectionCount.eSecondSection.rawValue) {
-            let notesCell : DCNotesTableCell = getNotesTableCellAtIndexPath(indexPath)
+            let notesCell : DCNotesTableCell = notesTableCellAtIndexPath(indexPath)
             notesCell.notesType = eNotes
             notesCell.notesTextView.textColor = (!isValid && medicationSlot?.medicationAdministration?.isEarlyAdministration == true) ? UIColor.redColor() : UIColor(forHexString: "#8f8f95")
+
             if let administrationNotes =  medicationSlot?.medicationAdministration.administeredNotes {
                 notesCell.notesTextView.text = administrationNotes
             } else {
-                notesCell.notesTextView.text = notesCell.getHintText()
+                notesCell.notesTextView.text = notesCell.hintText()
             }
             return notesCell
         } else {
             if (indexPath.section == SectionCount.eFirstSection.rawValue && datePickerIndexPath != nil && indexPath.row == 2) {
                 //display picker
-                let pickerCell : DCAdministerPickerCell = getDatePickerCellAtIndexPath(indexPath)
+                let pickerCell : DCAdministerPickerCell = datePickerCellAtIndexPath(indexPath)
                 return pickerCell
             } else {
                 let administerCell : DCAdministerCell = configureAdministerTableCellAtIndexPath(indexPath)
@@ -421,17 +424,17 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         }
     }
     
-    func getPopulatedOmittedTableViewCellAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
+    func populatedOmittedTableViewCellAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
         
         //omitted cell status
         if (indexPath.section == SectionCount.eFirstSection.rawValue) {
-            let notesCell : DCNotesTableCell = getNotesTableCellAtIndexPath(indexPath)
+            let notesCell : DCNotesTableCell = notesTableCellAtIndexPath(indexPath)
             notesCell.notesType = eReason
             notesCell.notesTextView.textColor = !isValid ? UIColor.redColor() : UIColor(forHexString: "#8f8f95")
             if let notes =  medicationSlot?.medicationAdministration.omittedNotes {
                 notesCell.notesTextView.text = notes
             } else {
-                notesCell.notesTextView.text = notesCell.getHintText()
+                notesCell.notesTextView.text = notesCell.hintText()
             }
             return notesCell
         } else {
@@ -440,22 +443,22 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         }
     }
     
-    func getPopulatedRefusedTableCellAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
+    func populatedRefusedTableCellAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
         
         if (indexPath.section == SectionCount.eSecondSection.rawValue) {
-            let notesCell : DCNotesTableCell = getNotesTableCellAtIndexPath(indexPath)
+            let notesCell : DCNotesTableCell = notesTableCellAtIndexPath(indexPath)
             notesCell.notesType = eReason
             notesCell.notesTextView.textColor = (!isValid && medicationSlot?.medicationAdministration?.isEarlyAdministration == true) ? UIColor.redColor() : UIColor(forHexString: "#8f8f95")
             if let notes =  medicationSlot?.medicationAdministration.refusedNotes {
                 notesCell.notesTextView.text = notes
             } else {
-                notesCell.notesTextView.text = notesCell.getHintText()
+                notesCell.notesTextView.text = notesCell.hintText()
             }
             return notesCell
         } else {
             if (indexPath.section == SectionCount.eFirstSection.rawValue && datePickerIndexPath != nil && indexPath.row == 1) {
                 //display picker
-                let pickerCell : DCAdministerPickerCell = getDatePickerCellAtIndexPath(indexPath)
+                let pickerCell : DCAdministerPickerCell = datePickerCellAtIndexPath(indexPath)
                 return pickerCell
             } else {
                 let administerCell : DCAdministerCell = configureAdministerTableCellAtIndexPath(indexPath)
@@ -613,14 +616,14 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if (medicationSlot?.medicationAdministration.status == ADMINISTERED) {
             //configure tablecells for medication status administered
-            let administeredTableCell = getPopulatedAdministeredTableViewCellAtIndexPath(indexPath)
+            let administeredTableCell = populatedAdministeredTableViewCellAtIndexPath(indexPath)
             return administeredTableCell
         } else if (medicationSlot?.medicationAdministration.status == OMITTED) {
-            let omittedTableCell = getPopulatedOmittedTableViewCellAtIndexPath(indexPath)
+            let omittedTableCell = populatedOmittedTableViewCellAtIndexPath(indexPath)
             return omittedTableCell
         } else {
             //refused status
-            let refusedTableCell = getPopulatedRefusedTableCellAtIndexPath(indexPath)
+            let refusedTableCell = populatedRefusedTableCellAtIndexPath(indexPath)
             return refusedTableCell
         }
     }

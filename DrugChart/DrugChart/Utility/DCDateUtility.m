@@ -32,7 +32,7 @@
     
 }
 
-+ (NSArray *)getMonthNames {
++ (NSArray *)monthNames {
     
     //get month names
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -45,7 +45,7 @@
 
 + (NSString *)monthNameAndYearForWeekDatesArray:(NSArray *)datesArray {
     
-    NSArray *monthSymbols = [self getMonthNames];
+    NSArray *monthSymbols = [self monthNames];
     NSMutableArray *displayArray = [[NSMutableArray alloc] init];
     for (NSDate *date in datesArray) {
         NSDateComponents *dateComponents = [[NSCalendar currentCalendar] components:DATE_COMPONENTS fromDate:date];

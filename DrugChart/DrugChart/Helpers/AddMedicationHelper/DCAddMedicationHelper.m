@@ -74,7 +74,7 @@
     return height;
 }
 
-+ (NSMutableArray *)getTimesArrayFromScheduleArray:(NSArray *)scheduleArray {
++ (NSMutableArray *)timesArrayFromScheduleArray:(NSArray *)scheduleArray {
     
     NSMutableArray *timeArray = [[NSMutableArray alloc] init];
     for (NSString *time in scheduleArray) {

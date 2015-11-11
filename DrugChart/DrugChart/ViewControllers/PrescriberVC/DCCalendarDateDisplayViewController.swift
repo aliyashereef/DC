@@ -29,7 +29,7 @@ import UIKit
         
         super.viewDidLoad()
         calendarViewWidthConstraint.constant = (DCUtility.mainWindowSize().width - MEDICATION_VIEW_WIDTH);
-        getDisplayWeekDatesArray()
+        displayWeekDatesArray()
         self.displayDatesInView()
     }
     
@@ -89,7 +89,7 @@ import UIKit
     }
 
 
-    func getDisplayWeekDatesArray() -> NSMutableArray {
+    func displayWeekDatesArray() -> NSMutableArray {
         
         var index : NSInteger = 0
         let displayDatesArray = NSMutableArray()
@@ -110,7 +110,7 @@ import UIKit
     
     // Returns the date container width
     
-    func getDateContainerViewWidth () -> (CGFloat) {
+    func dateContainerViewWidth () -> (CGFloat) {
         
         return DCUtility.mainWindowSize().width
     }
@@ -118,7 +118,7 @@ import UIKit
     // Populate the dates for the previous and next date views
     func displayDatesInView () {
         
-        let displayDatesArray = getDisplayWeekDatesArray()
+        let displayDatesArray = displayWeekDatesArray()
         var index : NSInteger = 0
         let leftDatesArray : NSMutableArray = []
         let centerDatesArray : NSMutableArray = []

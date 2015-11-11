@@ -12,14 +12,14 @@
 
 + (NSArray *)medicationRoutesList;
 
-+ (NSArray *)getMedicineNamesList;
++ (NSArray *)medicineNamesList;
 
-+ (NSArray *)getBedGraphicalDetails;
++ (NSArray *)bedGraphicalDetails;
 
-+ (NSArray *)getPositionablegraphics;
++ (NSArray *)positionablegraphics;
 
 + (NSArray *)administratingTimeList;
 
-+ (NSArray *)getOrderSetList;
++ (NSArray *)orderSetList;
 
 @end
