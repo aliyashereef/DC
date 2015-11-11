@@ -43,20 +43,20 @@
     if ([_medicationSlot.time compare:[DCDateUtility dateInCurrentTimeZone:[NSDate date]]] == NSOrderedDescending) {
         
         if (selected) {
-             statusImageView.image = [self getPrescriberDetailStatusSelectedImageForMedicationStatus:YET_TO_GIVE];
+             statusImageView.image = [self prescriberDetailStatusSelectedImageForMedicationStatus:YET_TO_GIVE];
             timeLabel.textColor = [UIColor whiteColor];
         } else {
-             statusImageView.image = [self getPrescriberDetailStatusUnselectedImageForMedicationStatus:YET_TO_GIVE];
+             statusImageView.image = [self prescriberDetailStatusUnselectedImageForMedicationStatus:YET_TO_GIVE];
             timeLabel.textColor = [UIColor darkGrayColor];
         }
         timeLabelLeadingConstraint.constant = TIME_LABEL_LEADING_NORMAL;
     } else if ([_medicationSlot.time compare:[DCDateUtility dateInCurrentTimeZone:[NSDate date]]] == NSOrderedAscending) {
         
         if (selected) {
-            statusImageView.image = [self getPrescriberDetailStatusSelectedImageForMedicationStatus:_medicationSlot.status];
+            statusImageView.image = [self prescriberDetailStatusSelectedImageForMedicationStatus:_medicationSlot.status];
             timeLabel.textColor = [UIColor whiteColor];
         } else {
-            statusImageView.image = [self getPrescriberDetailStatusUnselectedImageForMedicationStatus:_medicationSlot.status];
+            statusImageView.image = [self prescriberDetailStatusUnselectedImageForMedicationStatus:_medicationSlot.status];
             timeLabel.textColor = [UIColor blackColor];
         }
         timeLabelLeadingConstraint.constant = TIME_LABEL_LEADING_NORMAL;
@@ -64,10 +64,10 @@
         
         timeLabel.textColor = [UIColor darkGrayColor];
         if (selected) {
-            statusImageView.image = [self getPrescriberDetailStatusSelectedImageForMedicationStatus:YET_TO_GIVE];
+            statusImageView.image = [self prescriberDetailStatusSelectedImageForMedicationStatus:YET_TO_GIVE];
             timeLabel.textColor = [UIColor whiteColor];
         } else {
-            statusImageView.image = [self getPrescriberDetailStatusUnselectedImageForMedicationStatus:YET_TO_GIVE];
+            statusImageView.image = [self prescriberDetailStatusUnselectedImageForMedicationStatus:YET_TO_GIVE];
             timeLabel.textColor = [UIColor darkGrayColor];
         }
         timeLabelLeadingConstraint.constant = TIME_LABEL_LEADING_NORMAL;
@@ -75,7 +75,7 @@
     [self layoutIfNeeded];
 }
 
-- (UIImage *)getPrescriberDetailStatusUnselectedImageForMedicationStatus:(NSString *)status {
+- (UIImage *)prescriberDetailStatusUnselectedImageForMedicationStatus:(NSString *)status {
     
     UIImage *image;
     if ([status isEqualToString:OMITTED]) {
@@ -94,7 +94,7 @@
     return image;
 }
 
-- (UIImage *)getPrescriberDetailStatusSelectedImageForMedicationStatus:(NSString *)status {
+- (UIImage *)prescriberDetailStatusSelectedImageForMedicationStatus:(NSString *)status {
     
     UIImage *image;
     if ([status isEqualToString:OMITTED]) {

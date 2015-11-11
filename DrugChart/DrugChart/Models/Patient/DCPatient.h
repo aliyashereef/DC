@@ -60,7 +60,7 @@
 @property (nonatomic, strong) NSMutableArray *patientsAlertsArray;
 @property (nonatomic, strong) NSMutableArray *patientsAlergiesArray;
 
-- (MedicationStatus)medicationStatus;
+- (MedicationStatus)medicationStatusForPatient;
 - (UIColor *)displayColorForMedicationStatus;
 - (NSMutableAttributedString *)formattedDisplayMedicationDateForPatient;
 
