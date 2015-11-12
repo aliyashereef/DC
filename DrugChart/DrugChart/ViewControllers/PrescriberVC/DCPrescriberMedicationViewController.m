@@ -562,8 +562,11 @@ typedef enum : NSUInteger {
     }
     detailViewController.weekDate = date;
     detailViewController.patientId = self.patient.patientId;
-    detailViewController.modalPresentationStyle = UIModalPresentationFormSheet;
-    [self presentViewController:detailViewController animated:YES completion:nil];
+    UINavigationController *navigationController =
+    [[UINavigationController alloc] initWithRootViewController:detailViewController];
+    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+
+    [self presentViewController:navigationController animated:YES completion:nil];
 }
 
 - (void)modifyStartDayAndWeekDates:(BOOL)isNextWeek {

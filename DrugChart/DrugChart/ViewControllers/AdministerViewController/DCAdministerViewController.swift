@@ -77,7 +77,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         configureViewElements()
         fetchAdministersAndPrescribersList()
         addNotifications()
-        self.navigationController!.navigationBarHidden = true
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -88,7 +87,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     override func viewDidAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController!.navigationBarHidden = true
     }
     
     override func didReceiveMemoryWarning() {
