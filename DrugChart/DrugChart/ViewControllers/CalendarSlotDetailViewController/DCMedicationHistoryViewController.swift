@@ -118,7 +118,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
             if let name = medication.medicationAdministration?.checkingUser?.displayName {
                 checkedBy = name
             } else {
-                checkedBy = DEFAULT_NURSE_NAME
+                checkedBy = NONE_TEXT
             }
             cell!.value.text = checkedBy
             break
@@ -213,7 +213,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         case 2:
             let reason : NSString
             if let reasonText = medication.medicationAdministration?.refusedNotes {
-                reason = reasonText
+                reason =  (reasonText == EMPTY_STRING) ? NONE_TEXT : reasonText
             } else {
                 reason = NONE_TEXT
             }
@@ -240,7 +240,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         case 1:
             let reason : NSString
             if let reasonText = medication.medicationAdministration?.omittedNotes {
-                reason = reasonText
+                reason =  (reasonText == EMPTY_STRING) ? NONE_TEXT : reasonText
             } else {
                 reason = NONE_TEXT
             }

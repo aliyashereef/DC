@@ -294,7 +294,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         case RowCount.eSecondRow.rawValue:
             //present inline picker here
             cell.titleLabel.text = NSLocalizedString("CHECKED_BY", comment: "Checked by title")
-            cell.detailLabel.text = (medicationSlot?.medicationAdministration?.checkingUser?.displayName != nil) ? (medicationSlot?.medicationAdministration?.checkingUser?.displayName) : DEFAULT_NURSE_NAME
+            cell.detailLabel.text = (medicationSlot?.medicationAdministration?.checkingUser?.displayName != nil) ? (medicationSlot?.medicationAdministration?.checkingUser?.displayName) : EMPTY_STRING
             break;
         case RowCount.eFourthRow.rawValue:
             break
@@ -335,14 +335,13 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             //status cell
             cell.titleLabel.text = NSLocalizedString("STATUS", comment: "status title text")
             if (medicationSlot?.medicationAdministration?.status != nil) {
-                cell.detailLabel.textColor = UIColor.blackColor()
+                cell.titleLabel.textColor = UIColor.blackColor()
                 cell.detailLabel.text = medicationSlot?.medicationAdministration?.status
             } else {
-                cell.detailLabel.text = "Select" // Need to be changed according to UX comments
                 if(doneClicked == true) {
-                    cell.detailLabel.textColor = UIColor.redColor()
+                    cell.titleLabel.textColor = UIColor.redColor()
                 } else {
-                    cell.detailLabel.textColor = UIColor.blackColor()
+                    cell.titleLabel.textColor = UIColor.blackColor()
                 }
             }
             return cell
@@ -635,11 +634,11 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             let administerCell : DCAdministerCell = (administerTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
             administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
             administerCell.titleLabel.text = NSLocalizedString("STATUS", comment: "status title text")
-            administerCell.detailLabel.text = "Select"
+            administerCell.detailLabel.text = EMPTY_STRING
             if(doneClicked == true && medicationSlot?.medicationAdministration.status == nil) {
-                administerCell.detailLabel.textColor = UIColor.redColor()
+                administerCell.titleLabel.textColor = UIColor.redColor()
             } else {
-                administerCell.detailLabel.textColor = UIColor.blackColor()
+                administerCell.titleLabel.textColor = UIColor.blackColor()
             }
             return administerCell
         }
@@ -769,7 +768,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     // mark :StatusList Delegate Methods 
     func selectedMedicationStatusEntry(status: String!) {
-        
+        doneClicked = false
+        isValid = true
         if status == ADMINISTERED {
             medicationSlot?.medicationAdministration.status = ADMINISTERED
         } else if status == REFUSED {
