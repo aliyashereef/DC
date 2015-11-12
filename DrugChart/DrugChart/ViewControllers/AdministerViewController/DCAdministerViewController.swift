@@ -69,6 +69,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     var editingIndexPath : NSIndexPath?
     var keyboardHeight : CGFloat?
     var selfAdministratedUser : DCUser? = nil
+    var doneClicked : Bool = false
     
     override func viewDidLoad() {
         
@@ -76,7 +77,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         configureViewElements()
         fetchAdministersAndPrescribersList()
         addNotifications()
-        self.navigationController!.navigationBarHidden = true
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -87,7 +87,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     override func viewDidAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController!.navigationBarHidden = true
     }
     
     override func didReceiveMemoryWarning() {
@@ -119,7 +118,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         }
         configureMedicationDetails()
     }
-
     
     func addNotifications() {
         
@@ -171,7 +169,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             medicationSlot?.medicationAdministration = DCMedicationAdministration.init()
             medicationSlot?.medicationAdministration.checkingUser = DCUser.init()
             medicationSlot?.medicationAdministration.administratingUser = DCUser.init()
-            medicationSlot?.medicationAdministration.status = ADMINISTERED
             medicationSlot?.medicationAdministration.scheduledDateTime = medicationSlot?.time
         }
     }
@@ -244,6 +241,9 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         
         //validate and reload administer view
         isValid = false
+        if (medicationSlot?.medicationAdministration.status == nil) {
+            
+        }
         administerTableView.reloadData()
     }
     
@@ -262,8 +262,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             }
             else if (medicationSlot?.medicationAdministration?.status == REFUSED) {
                 administerCell = medicationDetailsCellForRefusedStatus(administerCell, indexPath: indexPath)
-            } else {
-                
             }
             break
         default:
@@ -294,7 +292,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         case RowCount.eSecondRow.rawValue:
             //present inline picker here
             cell.titleLabel.text = NSLocalizedString("CHECKED_BY", comment: "Checked by title")
-            cell.detailLabel.text = (medicationSlot?.medicationAdministration?.checkingUser?.displayName != nil) ? (medicationSlot?.medicationAdministration?.checkingUser?.displayName) : DEFAULT_NURSE_NAME
+            cell.detailLabel.text = (medicationSlot?.medicationAdministration?.checkingUser?.displayName != nil) ? (medicationSlot?.medicationAdministration?.checkingUser?.displayName) : EMPTY_STRING
             break;
         case RowCount.eFourthRow.rawValue:
             break
@@ -335,9 +333,14 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             //status cell
             cell.titleLabel.text = NSLocalizedString("STATUS", comment: "status title text")
             if (medicationSlot?.medicationAdministration?.status != nil) {
+                cell.titleLabel.textColor = UIColor(forHexString: "#676767")
                 cell.detailLabel.text = medicationSlot?.medicationAdministration?.status
             } else {
-                cell.detailLabel.text = ADMINISTERED
+                if(doneClicked == true) {
+                    cell.titleLabel.textColor = UIColor.redColor()
+                } else {
+                    cell.titleLabel.textColor = UIColor(forHexString: "#676767")
+                }
             }
             return cell
         default:
@@ -584,7 +587,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             } else if (medicationSlot?.medicationAdministration?.status == ADMINISTERED || medicationSlot?.medicationAdministration?.status == REFUSED) {
                 return ADMINISTERED_SECTION_COUNT;
             } else {
-                return 0
+                return 1;
             }
         }
     }
@@ -621,10 +624,21 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         } else if (medicationSlot?.medicationAdministration.status == OMITTED) {
             let omittedTableCell = populatedOmittedTableViewCellAtIndexPath(indexPath)
             return omittedTableCell
-        } else {
+        } else if (medicationSlot?.medicationAdministration.status == REFUSED){
             //refused status
             let refusedTableCell = populatedRefusedTableCellAtIndexPath(indexPath)
             return refusedTableCell
+        } else {
+            let administerCell : DCAdministerCell = (administerTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
+            administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+            administerCell.titleLabel.text = NSLocalizedString("STATUS", comment: "status title text")
+            administerCell.detailLabel.text = EMPTY_STRING
+            if(doneClicked == true && medicationSlot?.medicationAdministration.status == nil) {
+                administerCell.titleLabel.textColor = UIColor.redColor()
+            } else {
+                administerCell.titleLabel.textColor = UIColor(forHexString: "#676767")
+            }
+            return administerCell
         }
     }
     
@@ -752,7 +766,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     // mark :StatusList Delegate Methods 
     func selectedMedicationStatusEntry(status: String!) {
-        
+        doneClicked = false
+        isValid = true
         if status == ADMINISTERED {
             medicationSlot?.medicationAdministration.status = ADMINISTERED
         } else if status == REFUSED {

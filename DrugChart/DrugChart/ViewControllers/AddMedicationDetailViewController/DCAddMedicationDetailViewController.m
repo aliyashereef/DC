@@ -120,8 +120,6 @@
                                        initWithTitle:DONE_BUTTON_TITLE style:UIBarButtonItemStylePlain  target:self action:@selector(doneButtonPressed:)];
         self.navigationItem.rightBarButtonItem = doneButton;
     }
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:EMPTY_STRING style:UIBarButtonItemStylePlain target:nil action:nil];
-    self.navigationItem.backBarButtonItem = backButton;
 }
 
 - (void)populateContentArray {
