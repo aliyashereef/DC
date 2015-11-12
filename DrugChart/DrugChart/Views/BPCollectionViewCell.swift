@@ -12,76 +12,45 @@ import Charts
 class BPCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var bpChart: ScatterChartView!
+    
+    @IBOutlet weak var cellTitle: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
     
-    func drawChart(dataPoints:[String] , value1 :[Double] , value2:[Double])
+    func configureCell(title:String)
     {
-        var dataEntries1:[ChartDataEntry] = []
-        
-        for i in 0..<dataPoints.count {
-            let dataEntry = ChartDataEntry(value:value1[i] , xIndex : i)
-            dataEntries1.append(dataEntry)
-        }
-        
-        var dataEntries2:[ChartDataEntry] = []
-        
-        for i in 0..<dataPoints.count {
-            let dataEntry = ChartDataEntry(value:value2[i] , xIndex : i)
-            dataEntries2.append(dataEntry)
-        }
-        
-        let dataSet1 = ScatterChartDataSet(yVals: dataEntries1, label: "Value1" )
-        dataSet1 .setColor(UIColor.blueColor())
-        let dataSet2 = ScatterChartDataSet(yVals: dataEntries2 ,label: "Value2")
-        dataSet2.setColor(UIColor.greenColor())
-        
-        var bloodPressureDataSets = [ScatterChartDataSet]()
-        bloodPressureDataSets.append(dataSet1)
-        bloodPressureDataSets.append(dataSet2)
-        
-        let barChartData = ScatterChartData(xVals: dataPoints, dataSets: bloodPressureDataSets)
-        
-        
-        bpChart.xAxis.labelPosition = .Bottom
-        bpChart.rightAxis.enabled=false
-        //barChart.legend.enabled=false
-        bpChart.descriptionText=""
-        bpChart.data = barChartData
-        
+        cellTitle.text = title
     }
-    
     
 //    func drawChart(dataPoints:[String] , value1 :[Double] , value2:[Double])
 //    {
-//        var systolicDataEntries:[ChartDataEntry] = []
+//        var dataEntries1:[ChartDataEntry] = []
 //        
 //        for i in 0..<dataPoints.count {
 //            let dataEntry = ChartDataEntry(value:value1[i] , xIndex : i)
-//            systolicDataEntries.append(dataEntry)
+//            dataEntries1.append(dataEntry)
 //        }
 //        
-//        var diastolicDataEntries:[ChartDataEntry] = []
+//        var dataEntries2:[ChartDataEntry] = []
 //        
 //        for i in 0..<dataPoints.count {
 //            let dataEntry = ChartDataEntry(value:value2[i] , xIndex : i)
-//            diastolicDataEntries.append(dataEntry)
+//            dataEntries2.append(dataEntry)
 //        }
 //        
-//        let systolicDataSet = ScatterChartDataSet(yVals: systolicDataEntries, label: "Systolic" )
-//        //systolicDataSet.scatterShape = ScatterShape.Square
-//        systolicDataSet .setColor(UIColor.blueColor())
-//        let diastolicDataSet = ScatterChartDataSet(yVals: diastolicDataEntries ,label: "Diastolic")
-//        //diastolicDataSet.scatterShape = ScatterShape.Circle
-//        diastolicDataSet.setColor(UIColor.greenColor())
+//        let dataSet1 = ScatterChartDataSet(yVals: dataEntries1, label: "Value1" )
+//        dataSet1 .setColor(UIColor.blueColor())
+//        let dataSet2 = ScatterChartDataSet(yVals: dataEntries2 ,label: "Value2")
+//        dataSet2.setColor(UIColor.greenColor())
 //        
 //        var bloodPressureDataSets = [ScatterChartDataSet]()
-//        bloodPressureDataSets.append(systolicDataSet)
-//        bloodPressureDataSets.append(diastolicDataSet)
+//        bloodPressureDataSets.append(dataSet1)
+//        bloodPressureDataSets.append(dataSet2)
 //        
 //        let barChartData = ScatterChartData(xVals: dataPoints, dataSets: bloodPressureDataSets)
+//        
 //        
 //        bpChart.xAxis.labelPosition = .Bottom
 //        bpChart.rightAxis.enabled=false
@@ -90,6 +59,44 @@ class BPCollectionViewCell: UICollectionViewCell {
 //        bpChart.data = barChartData
 //        
 //    }
+//    
+    
+    func drawChart(dataPoints:[String] , value1 :[Double] , value2:[Double])
+    {
+        var systolicDataEntries:[ChartDataEntry] = []
+        
+        for i in 0..<dataPoints.count {
+            let dataEntry = ChartDataEntry(value:value1[i] , xIndex : i)
+            systolicDataEntries.append(dataEntry)
+        }
+        
+        var diastolicDataEntries:[ChartDataEntry] = []
+        
+        for i in 0..<dataPoints.count {
+            let dataEntry = ChartDataEntry(value:value2[i] , xIndex : i)
+            diastolicDataEntries.append(dataEntry)
+        }
+        
+        let systolicDataSet = ScatterChartDataSet(yVals: systolicDataEntries, label: "Systolic" )
+        //systolicDataSet.scatterShape = ScatterShape.Square
+        systolicDataSet .setColor(UIColor.blueColor())
+        let diastolicDataSet = ScatterChartDataSet(yVals: diastolicDataEntries ,label: "Diastolic")
+        //diastolicDataSet.scatterShape = ScatterShape.Circle
+        diastolicDataSet.setColor(UIColor.greenColor())
+        
+        var bloodPressureDataSets = [ScatterChartDataSet]()
+        bloodPressureDataSets.append(systolicDataSet)
+        bloodPressureDataSets.append(diastolicDataSet)
+        
+        let barChartData = ScatterChartData(xVals: dataPoints, dataSets: bloodPressureDataSets)
+        
+        bpChart.xAxis.labelPosition = .Bottom
+        bpChart.rightAxis.enabled=false
+        //barChart.legend.enabled=false
+        bpChart.descriptionText=""
+        bpChart.data = barChartData
+        
+    }
     
 //    func drawChart(dataPoints:[String] , value1 :[Double] , value2:[Double])
 //    {

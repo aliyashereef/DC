@@ -12,9 +12,14 @@ import Charts
 class LineChartCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var lineChart: LineChartView!
+    @IBOutlet weak var cellTitle: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+    }
+    func configureCell(title:String)
+    {
+        cellTitle.text = title
     }
     func drawChart(dataPoints:[String] , values :[Double])
     {

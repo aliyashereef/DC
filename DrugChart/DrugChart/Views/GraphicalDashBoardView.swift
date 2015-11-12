@@ -46,11 +46,13 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
         var xAxisValue = [String]()
         let formatter = NSDateFormatter()
         formatter.dateFormat = "dd/MM/yyyy"
+        var cellTitle:String = ""
         
         switch(indexPath.row)
         {
         case DashBoardRow.Respiratory.rawValue:
             chartType = ChartType.LineChart
+            cellTitle = "Respiratory"
             for respiratory in respiratoryList
             {
                 yAxisValue.append(respiratory.repiratoryRate)
@@ -59,6 +61,8 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
             
         case DashBoardRow.Temperature.rawValue:
             chartType = ChartType.LineChart
+            cellTitle = "Temperature"
+            
             for temperature in temperatureList
             {
                 yAxisValue.append(temperature.value)
@@ -66,6 +70,8 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
             }
         case DashBoardRow.Pulse.rawValue:
             chartType = ChartType.LineChart
+            cellTitle = "Pulse"
+            
             for pulse in pulseList
             {
                 yAxisValue.append(pulse.pulseRate)
@@ -73,6 +79,8 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
             }
         case DashBoardRow.SpO2.rawValue:
             chartType = ChartType.LineChart
+            cellTitle = "SPO2"
+            
             for spO2 in spO2List
             {
                 yAxisValue.append(spO2.spO2Percentage)
@@ -80,6 +88,8 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
             }
         case DashBoardRow.BM.rawValue:
                 chartType = ChartType.LineChart
+                cellTitle = "BM"
+                
                 for bm in bmList
                 {
                     yAxisValue.append(bm.value)
@@ -87,6 +97,8 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
                 }
         case DashBoardRow.BloodPressure.rawValue:
             chartType = ChartType.BarChart
+            cellTitle = "Blood Pressure"
+            
             for bp in bpList
             {
                 yAxisValue.append(bp.systolic)
@@ -102,22 +114,31 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
         {
         case ChartType.LineChart:
             let cell=collectionView.dequeueReusableCellWithReuseIdentifier("ObservationCell", forIndexPath: indexPath) as! LineChartCollectionViewCell
+            cell.configureCell(cellTitle)
+            if yAxisValue.count>0
+            {
             cell.drawChart(xAxisValue, values: yAxisValue)
+            }
             return cell
         case ChartType.BarChart:
             let cell=collectionView.dequeueReusableCellWithReuseIdentifier("ObservationBarChartCell", forIndexPath: indexPath) as! BPCollectionViewCell
-            //cell.drawChart(xAxisValue,value1: yAxisValue,value2: yAxisValue2)
+           
+            cell.configureCell(cellTitle)
+            
+            if yAxisValue.count>0
+            {
+                cell.drawChart(xAxisValue,value1: yAxisValue,value2: yAxisValue2)
+            }
             return cell
         default:
             let cell=collectionView.dequeueReusableCellWithReuseIdentifier("ObservationCell", forIndexPath: indexPath) 
-            //    cell.drawChart(xAxisValue, values: yAxisValue)
             return cell
         }
         
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return CGSizeMake(200,200)
+        return CGSizeMake(308,264)
     }
     
     func reloadView(paramTemperatureList:[BodyTemperature],paramRespiratoryList:[Respiratory] , paramPulseList :[Pulse],paramSPO2List:[SPO2],paramBMList:[BowelMovement],paramBPList:[BloodPressure])
