@@ -19,11 +19,6 @@
     [super viewDidLoad];
     _namesArray = @[ADMINISTERED, REFUSED, OMITTED];
     self.navigationController.navigationBarHidden = NO;
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:EMPTY_STRING style:UIBarButtonItemStylePlain target:nil action:nil];
-    self.navigationItem.backBarButtonItem = backButton;
-    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)
-                                                         forBarMetrics:UIBarMetricsDefault];
-
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

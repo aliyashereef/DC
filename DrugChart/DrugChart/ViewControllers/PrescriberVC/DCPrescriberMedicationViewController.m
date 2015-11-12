@@ -562,8 +562,15 @@ typedef enum : NSUInteger {
     }
     detailViewController.weekDate = date;
     detailViewController.patientId = self.patient.patientId;
-    detailViewController.modalPresentationStyle = UIModalPresentationFormSheet;
-    [self presentViewController:detailViewController animated:YES completion:nil];
+    UINavigationController *navigationController =
+    [[UINavigationController alloc] initWithRootViewController:detailViewController];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:EMPTY_STRING style:UIBarButtonItemStylePlain target:nil action:nil];
+    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)
+                                                         forBarMetrics:UIBarMetricsDefault];
+    navigationController.navigationItem.backBarButtonItem = backButton;
+    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+
+    [self presentViewController:navigationController animated:YES completion:nil];
 }
 
 - (void)modifyStartDayAndWeekDates:(BOOL)isNextWeek {
