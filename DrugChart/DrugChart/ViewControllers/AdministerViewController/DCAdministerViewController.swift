@@ -333,13 +333,13 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             //status cell
             cell.titleLabel.text = NSLocalizedString("STATUS", comment: "status title text")
             if (medicationSlot?.medicationAdministration?.status != nil) {
-                cell.titleLabel.textColor = UIColor.blackColor()
+                cell.titleLabel.textColor = UIColor(forHexString: "#676767")
                 cell.detailLabel.text = medicationSlot?.medicationAdministration?.status
             } else {
                 if(doneClicked == true) {
                     cell.titleLabel.textColor = UIColor.redColor()
                 } else {
-                    cell.titleLabel.textColor = UIColor.blackColor()
+                    cell.titleLabel.textColor = UIColor(forHexString: "#676767")
                 }
             }
             return cell
@@ -636,7 +636,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             if(doneClicked == true && medicationSlot?.medicationAdministration.status == nil) {
                 administerCell.titleLabel.textColor = UIColor.redColor()
             } else {
-                administerCell.titleLabel.textColor = UIColor.blackColor()
+                administerCell.titleLabel.textColor = UIColor(forHexString: "#676767")
             }
             return administerCell
         }
