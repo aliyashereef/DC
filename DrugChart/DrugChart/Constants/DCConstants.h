@@ -355,7 +355,10 @@
 
 #define SPECIFIC_TIMES @"Specific Times"
 #define INTERVAL @"Interval"
-
+#define DAILY @"Daily"
+#define WEEKLY @"Weekly"
+#define MONTHLY @"Monthly"
+#define YEARLY @"Yearly"
 
 //Roles
 

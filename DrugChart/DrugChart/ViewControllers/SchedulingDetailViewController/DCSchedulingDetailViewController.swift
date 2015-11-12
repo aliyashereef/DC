@@ -23,8 +23,10 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
     
     func configureNavigationTitleView() {
         
-        if (self.detailType == eSchedulingType) {
+        if (self.detailType == eDetailSchedulingType) {
             self.title = NSLocalizedString("SCHEDULING", comment:"")
+        } else if (self.detailType == eDetailRepeatType) {
+            self.title = NSLocalizedString("REPEAT", comment: "")
         }
     }
     
@@ -38,8 +40,10 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
     func populateDisplayArray() {
         
         //populate display array
-        if (self.detailType == eSchedulingType) {
+        if (self.detailType == eDetailSchedulingType) {
             displayArray = [SPECIFIC_TIMES, INTERVAL]
+        } else if (self.detailType == eDetailRepeatType) {
+            displayArray = ["Frequency", "Every"]
         }
     }
     
@@ -57,12 +61,22 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let schedulingCell : UITableViewCell? = tableView.dequeueReusableCellWithIdentifier(SCHEDULING_CELL_ID, forIndexPath: indexPath)
+        let schedulingCell : DCSchedulingCell? = tableView.dequeueReusableCellWithIdentifier(SCHEDULING_CELL_ID) as? DCSchedulingCell
         schedulingCell?.layoutMargins = UIEdgeInsetsZero
-        schedulingCell?.textLabel?.font = UIFont.systemFontOfSize(15.0)
         let displayString = displayArray.objectAtIndex(indexPath.item) as? String
-        schedulingCell?.accessoryType = (displayString == previousFilledValue) ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
-        schedulingCell?.textLabel?.text = displayString
+        if (self.detailType == eDetailSchedulingType) {
+             schedulingCell?.accessoryType = (displayString == previousFilledValue) ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
+            schedulingCell?.descriptionLabel.hidden = true
+        } else {
+            schedulingCell?.accessoryType = UITableViewCellAccessoryType.None
+            schedulingCell?.descriptionLabel.hidden = false
+            if (indexPath.row == 0) {
+                 schedulingCell?.descriptionLabel.text = DAILY
+            } else {
+                schedulingCell?.descriptionLabel.text = "1 day"
+            }
+        }
+        schedulingCell?.titleLabel?.text = displayString
         return schedulingCell!
     }
     
@@ -70,6 +84,11 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
         
         self.selectedEntry(displayArray.objectAtIndex(indexPath.item) as! String)
         self.navigationController?.popToRootViewControllerAnimated(true)
+    }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
+        return 0
     }
     
 }

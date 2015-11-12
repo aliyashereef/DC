@@ -141,7 +141,7 @@
     return cell;
 }
 
-- (DCAddMedicationContentCell *)populatedAddMedicationCellForIndexPath:(NSIndexPath *)indexPath forIndex:(NSInteger)index {
+- (DCAddMedicationContentCell *)populatedAddMedicationCellForIndexPath:(NSIndexPath *)indexPath forCellType:(CellType)type {
     
     //configuring warning cell, medication details cell, administration time cell
     static NSString *cellIdentifier = ADD_MEDICATION_CONTENT_CELL;
@@ -150,20 +150,21 @@
     if (cell == nil) {
         cell = [[DCAddMedicationContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
-    if (index == WARNINGS_CELL_INDEX) {
+    if (type == eWarningsCell) {
         cell.titleLabel.text = NSLocalizedString(@"WARNINGS", @"Warnings cell title");
         NSInteger warningsCount = self.selectedMedication.severeWarningCount + self.selectedMedication.mildWarningCount;
         [cell configureMedicationContentCellWithWarningsCount:warningsCount];
-    } else if (index == MEDICATION_DETAILS_CELL_INDEX) {
+    } else if (type == eMedicationDetailsCell) {
         cell = [self updatedMedicationDetailsCell:cell atIndexPath:indexPath];
-    } else if (index == SCHEDULING_ROW_INDEX) {
+    } else if (type == eSchedulingCell) {
         cell.titleLabel.text = NSLocalizedString(@"SCHEDULING", @"");
         cell.descriptionLabel.text = self.selectedMedication.scheduling.type;
-    } else {
-        if (indexPath.row == ADMINISTRATING_TIME_ROW_INDEX) {
-            cell.titleLabel.text = NSLocalizedString(@"ADMINISTRATING_TIME", @"");
-            [cell configureMedicationAdministratingTimeCell];
-        }
+    } else if (type == eAdministratingTimeCell) {
+        cell.titleLabel.text = NSLocalizedString(@"ADMINISTRATING_TIME", @"");
+        [cell configureMedicationAdministratingTimeCell];
+    } else if (type == eRepeatCell) {
+        cell.titleLabel.text = NSLocalizedString(@"REPEAT", @"");
+        cell.descriptionLabel.text = self.selectedMedication.scheduling.repeat.repeatType;
     }
     return cell;
 }
@@ -536,24 +537,20 @@
     switch (section) {
         case eZerothSection:
             return MEDICATION_NAME_ROW_COUNT;
-            break;
         case eFirstSection:
             return (showWarnings ? WARNINGS_ROW_COUNT : MEDICATION_DETAILS_ROW_COUNT);
-            break;
         case eSecondSection:
             return (showWarnings ? MEDICATION_DETAILS_ROW_COUNT : INSTRUCTIONS_ROW_COUNT);
-            break;
         case eThirdSection:
             return (showWarnings ? INSTRUCTIONS_ROW_COUNT : [self numberOfRowsInDateAndTimeSectionForSelectedMedicationType]);
-            break;
         case eFourthSection: {
             NSInteger rowCount = [self numberOfRowsInDateAndTimeSectionForSelectedMedicationType];
             return (showWarnings ? rowCount : MEDICATION_NAME_ROW_COUNT);
         }
-            break;
         case eFifthSection:
-            return 1;
-            break;
+            return showWarnings ? 1 : 3;
+        case eSixthSection:
+            return 3;
         default:
             break;
     }
@@ -606,7 +603,6 @@
     }
     self.selectedMedication = [[DCMedicationScheduleDetails alloc] init];
     self.selectedMedication.name = medication.name;
-    NSLog(@"Medicine name is %@", self.selectedMedication.name);
     self.selectedMedication.medicationId = medication.medicationId;
     self.selectedMedication.dosage = medication.dosage;
     self.selectedMedication.hasEndDate = NO;
@@ -615,7 +611,9 @@
     self.selectedMedication.medicineCategory = REGULAR_MEDICATION;
     self.selectedMedication.scheduling = [[DCScheduling alloc] init];
     self.selectedMedication.scheduling.type = SPECIFIC_TIMES;
-    NSLog(@"self.selectedMedication.scheduling.type is %@", self.selectedMedication.scheduling.type);
+    self.selectedMedication.scheduling.repeat = [[DCRepeat alloc] init];
+    self.selectedMedication.scheduling.repeat.repeatType = DAILY;
+    self.selectedMedication.scheduling.repeat.frequency = @"1 day";
     dosageArray = [NSMutableArray arrayWithObjects:medication.dosage, nil];
     [medicationDetailsTableView reloadData];
 }
@@ -682,11 +680,15 @@
     
     UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
     DCSchedulingDetailViewController *schedulingDetailViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:SCHEDULING_DETAIL_STORYBOARD_ID];
-    schedulingDetailViewController.detailType = eSchedulingType;
-   // __weak DCSchedulingDetailViewController *weakSchedulingView = schedulingDetailViewController;
+    AddMedicationDetailType detailType = [self medicationDetailTypeForIndexPath:indexPath];
+    schedulingDetailViewController.detailType = detailType;
     schedulingDetailViewController.selectedEntry = ^ (NSString *selectedValue){
         NSLog(@"***** Selected Value is %@", selectedValue);
-        self.selectedMedication.scheduling.type = selectedValue;
+        if (detailType == eDetailSchedulingType) {
+            self.selectedMedication.scheduling.type = selectedValue;
+        } else if (detailType == eDetailRepeatType) {
+           // self.selectedMedication.scheduling.repeat.repeatType = selectedValue;
+        }
     };
     DCAddMedicationContentCell *selectedCell = [self selectedCellAtIndexPath:indexPath];
     schedulingDetailViewController.previousFilledValue = selectedCell.descriptionLabel.text;
@@ -731,17 +733,60 @@
         break;
         case eFourthSection: {
             if (!showWarnings) {
-                return eDetailAdministrationTime;
+                //return eDetailAdministrationTime;
+                return eDetailSchedulingType;
             }
             break;
         }
       case eFifthSection:
-            return eSchedulingType;
+            if (showWarnings) {
+                return eDetailSchedulingType;
+            } else {
+                if (indexPath.row == 0) {
+                    return eDetailAdministrationTime;
+                } else if (indexPath.row == 1) {
+                    return eDetailRepeatType;
+                }
+            }
             break;
+    case eSixthSection:
+            if (indexPath.row == 0) {
+                return eDetailAdministrationTime;
+            } else if (indexPath.row == 1) {
+                return eDetailRepeatType;
+            }
         default:
             break;
     }
+    
+//case eFourthSection: {
+//    if (showWarnings) {
+//        UITableViewCell *dateCell = [self dateSectionTableViewCellAtIndexPath:indexPath];
+//        return dateCell;
+//    } else {
+//        DCAddMedicationContentCell *contentCell = [self populatedAddMedicationCellForIndexPath:indexPath forCellType:eSchedulingCell];
+//        return contentCell;
+//    }
+//}
+//case eFifthSection: {
+//    CellType cellType;
+//    if (showWarnings) {
+//        cellType = eSchedulingCell;
+//    } else {
+//        cellType = [DCAddMedicationHelper cellTypeForSpecificTimesSchedulingAtIndexPath:indexPath];
+//    }
+//    DCAddMedicationContentCell *contentCell = [self populatedAddMedicationCellForIndexPath:indexPath forCellType:cellType];
+//    return contentCell;
+//}
+//case eSixthSection: {
+//    CellType cellType = [DCAddMedicationHelper cellTypeForSpecificTimesSchedulingAtIndexPath:indexPath];;
+//    DCAddMedicationContentCell *contentCell = [self populatedAddMedicationCellForIndexPath:indexPath forCellType:cellType];
+//    return contentCell;
+//}
+
     return 0;
+    
+    
 }
 
 - (void)collapseOpenedPickerCell {
@@ -809,7 +854,22 @@
             }
             break;
         case eFifthSection:
-            [self displaySchedulingDetailViewForTableViewAtIndexPath:indexPath];
+            if (showWarnings) {
+                [self displaySchedulingDetailViewForTableViewAtIndexPath:indexPath];
+            } else {
+                if (indexPath.row == 0) {
+                    [self presentAdministrationTimeView];
+                } else if (indexPath.row == 1) {
+                    [self displaySchedulingDetailViewForTableViewAtIndexPath:indexPath];
+                }
+            }
+            break;
+        case eSixthSection:
+            if (indexPath.row == 0) {
+                [self presentAdministrationTimeView];
+            } else if (indexPath.row == 1) {
+                [self displaySchedulingDetailViewForTableViewAtIndexPath:indexPath];
+            }
             break;
         default:{
             [self displayAddMedicationDetailViewForTableRowAtIndexPath:indexPath];
@@ -839,30 +899,34 @@
     
     if (!_datePickerIndexPath) { // If inline datepicker is not shown
         if (self.selectedMedication.hasEndDate) { //has end date
-            if (indexPath.row == ADMINISTRATING_TIME_ROW_INDEX) { // if last row is selected, show administartion times detail view
-                [self presentAdministrationTimeView];
-            } else if (indexPath.row != NO_END_DATE_ROW_INDEX) { // disable section of no end date cell, show inline date pickers on other cell selection
+//            if (indexPath.row == ADMINISTRATING_TIME_ROW_INDEX) { // if last row is selected, show administartion times detail view
+//                [self presentAdministrationTimeView];
+//            } else
+                if (indexPath.row != NO_END_DATE_ROW_INDEX) { // disable section of no end date cell, show inline date pickers on other cell selection
                 [self displayInlineDatePickerForRowAtIndexPath:indexPath];
             }
          } else {
-             if (indexPath.row == START_DATE_ROW_INDEX + 2) { // If 
-                 [self presentAdministrationTimeView];
-             } else if (indexPath.row != NO_END_DATE_ROW_INDEX) {
+//             if (indexPath.row == START_DATE_ROW_INDEX + 2) { // If 
+//                 [self presentAdministrationTimeView];
+//             } else
+             if (indexPath.row != NO_END_DATE_ROW_INDEX) {
                  [self displayInlineDatePickerForRowAtIndexPath:indexPath];
              }
          }
     } else {
         if (_datePickerIndexPath.row == DATE_PICKER_INDEX_START_DATE) {
-            if (indexPath.row == DATE_PICKER_INDEX_START_DATE + 3) {
-                [self presentAdministrationTimeView];
-            } else if (indexPath.row != DATE_PICKER_INDEX_START_DATE + 1) {
+//            if (indexPath.row == DATE_PICKER_INDEX_START_DATE + 3) {
+//                [self presentAdministrationTimeView];
+//            } else
+            if (indexPath.row != DATE_PICKER_INDEX_START_DATE + 1) {
                 //skip no end date cell
                 [self displayInlineDatePickerForRowAtIndexPath:indexPath];
             }
         } else {
-            if (indexPath.row == DATE_PICKER_INDEX_END_DATE + 1) {
-                [self presentAdministrationTimeView];
-            } else if (indexPath.row != NO_END_DATE_ROW_INDEX) {
+//            if (indexPath.row == DATE_PICKER_INDEX_END_DATE + 1) {
+//                [self presentAdministrationTimeView];
+//            } else
+            if (indexPath.row != NO_END_DATE_ROW_INDEX) {
                 [self displayInlineDatePickerForRowAtIndexPath:indexPath];
             }
         }
@@ -971,14 +1035,12 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
     NSInteger sectionCount = [self numberOfSectionsInMedicationTableView];
-    NSLog(@"Section COunt is %d", sectionCount);
     return sectionCount;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     NSInteger rowCount = [self numberOfRowsInMedicationTableViewSection:section];
-    NSLog(@"rowCount is %d", rowCount);
     return rowCount;
 }
 
@@ -989,29 +1051,27 @@
             UITableViewCell *cell = [self populatedMedicationNameTableCell];
             return cell;
         }
-        break;
         case eFirstSection: { // first section will have warnings or medication details based on warnings section display
             if (!showWarnings) {
                 if (indexPath.row == DOSAGE_INDEX && self.selectedMedication.dosage.length > MAXIMUM_CHARACTERS_INCLUDED_IN_ONE_LINE) {
                     DCDosageMultiLineCell *dosageCell = [self dosageCellAtIndexPath:indexPath];
                     return dosageCell;
                 } else {
-                    DCAddMedicationContentCell *contentCell = [self populatedAddMedicationCellForIndexPath:indexPath forIndex:MEDICATION_DETAILS_CELL_INDEX];
+                    DCAddMedicationContentCell *contentCell = [self populatedAddMedicationCellForIndexPath:indexPath forCellType:eMedicationDetailsCell];
                     return contentCell;
                 }
             } else {
-                DCAddMedicationContentCell *contentCell = [self populatedAddMedicationCellForIndexPath:indexPath forIndex:WARNINGS_CELL_INDEX];
+                DCAddMedicationContentCell *contentCell = [self populatedAddMedicationCellForIndexPath:indexPath forCellType:eWarningsCell];
                 return contentCell;
             }
         }
-        break;
         case eSecondSection: {
             if (showWarnings) {
                 if (indexPath.row == DOSAGE_INDEX && self.selectedMedication.dosage.length > MAXIMUM_CHARACTERS_INCLUDED_IN_ONE_LINE) {
                     DCDosageMultiLineCell *dosageCell = [self dosageCellAtIndexPath:indexPath];
                     return dosageCell;
                 } else {
-                    DCAddMedicationContentCell *contentCell = [self populatedAddMedicationCellForIndexPath:indexPath forIndex:MEDICATION_DETAILS_CELL_INDEX];
+                    DCAddMedicationContentCell *contentCell = [self populatedAddMedicationCellForIndexPath:indexPath forCellType:eMedicationDetailsCell];
                     return contentCell;
                 }
             } else {
@@ -1019,7 +1079,6 @@
                 return instructionsCell;
             }
         }
-        break;
         case eThirdSection: {
             if (showWarnings) {
                 DCInstructionsTableCell *instructionsCell = [self instructionsTableCell];
@@ -1029,22 +1088,30 @@
                 return dateCell;
             }
         }
-        break;
         case eFourthSection: {
             if (showWarnings) {
                 UITableViewCell *dateCell = [self dateSectionTableViewCellAtIndexPath:indexPath];
                 return dateCell;
             } else {
-                DCAddMedicationContentCell *contentCell = [self populatedAddMedicationCellForIndexPath:indexPath forIndex:SCHEDULING_ROW_INDEX];
+                DCAddMedicationContentCell *contentCell = [self populatedAddMedicationCellForIndexPath:indexPath forCellType:eSchedulingCell];
                 return contentCell;
             }
             }
-        break;
         case eFifthSection: {
-            DCAddMedicationContentCell *contentCell = [self populatedAddMedicationCellForIndexPath:indexPath forIndex:SCHEDULING_ROW_INDEX];
+            CellType cellType;
+            if (showWarnings) {
+                cellType = eSchedulingCell;
+            } else {
+                cellType = [DCAddMedicationHelper cellTypeForSpecificTimesSchedulingAtIndexPath:indexPath];
+            }
+            DCAddMedicationContentCell *contentCell = [self populatedAddMedicationCellForIndexPath:indexPath forCellType:cellType];
+            return contentCell;
+         }
+        case eSixthSection: {
+            CellType cellType = [DCAddMedicationHelper cellTypeForSpecificTimesSchedulingAtIndexPath:indexPath];;
+            DCAddMedicationContentCell *contentCell = [self populatedAddMedicationCellForIndexPath:indexPath forCellType:cellType];
             return contentCell;
         }
-        break;
     }
     return nil;
 }

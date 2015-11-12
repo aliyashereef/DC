@@ -121,6 +121,7 @@
 "NEW_DOSAGE"            =       "New Dosage";
 "SCHEDULING"            =       "Scheduling";
 "SPECIFIC_TIMES"        =       "Specific Times";
+"REPEAT"                =       "Repeat";
 
 //Administer
 
