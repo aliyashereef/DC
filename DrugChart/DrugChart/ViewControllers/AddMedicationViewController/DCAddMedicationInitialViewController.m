@@ -99,8 +99,7 @@
             self.selectedMedication.medicineCategory = WHEN_REQUIRED_VALUE;
         }
         if (self.selectedMedication.endDate == nil) {
-            
-            self.selectedMedication.noEndDate = YES;
+            self.selectedMedication.hasEndDate = NO;
         }
         self.selectedMedication.timeArray = [DCAddMedicationHelper timesArrayFromScheduleArray:self.selectedMedication.scheduleTimesArray];
     }
@@ -238,7 +237,7 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.isEditMedication = self.isEditMedication;
     if(self.isEditMedication) {
-        cell.previousSwitchState = self.selectedMedication.noEndDate;
+        cell.previousSwitchState = self.selectedMedication.hasEndDate;
     }
     if (cell == nil) {
         cell = [[DCDateTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kDateCellID];
@@ -267,7 +266,7 @@
             if (indexPath.row == DATE_PICKER_INDEX_START_DATE + 1) {
                 dateAndTimeCell = [self noEndDateTableCell:dateAndTimeCell];
             }
-            if (!self.selectedMedication.noEndDate) {
+            if (self.selectedMedication.hasEndDate) {
                 //has end date,
                 if (indexPath.row == DATE_PICKER_INDEX_START_DATE + 2)  {
                     dateAndTimeCell = [self updatedEndDateTableCell:dateAndTimeCell];
@@ -293,7 +292,7 @@
             if (indexPath.row == NO_END_DATE_ROW_INDEX) {
                 dateAndTimeCell = [self noEndDateTableCell:dateAndTimeCell];
             } else {
-                if (!self.selectedMedication.noEndDate) { //has end date
+                if (self.selectedMedication.hasEndDate) { //has end date
                     if (indexPath.row == END_DATE_ROW_INDEX) {
                         dateAndTimeCell = [self updatedEndDateTableCell:dateAndTimeCell];
                     } else {
@@ -329,7 +328,7 @@
     
     //doneClicked bool checks if validation is to be performed or not.
     if (doneClicked) {
-        if (!self.selectedMedication.noEndDate) {//has end date
+        if (self.selectedMedication.hasEndDate) {//has end date
             //If opted to choose end date
             if (!self.selectedMedication.endDate) {
                 tableCell.dateTypeLabel.textColor = [UIColor redColor];
@@ -354,16 +353,16 @@
     //no end date cell configuration
     tableCell.dateTypeLabel.text = NSLocalizedString(@"NO_END_DATE", @"no end date title");
     tableCell.dateTypeLabel.textColor = [UIColor blackColor];
-    [tableCell configureCellWithNoEndDateSwitchState:self.selectedMedication.noEndDate];
+    [tableCell configureCellWithNoEndDateSwitchState:self.selectedMedication.hasEndDate];
     tableCell.accessoryType = UITableViewCellAccessoryNone;
     tableCell.selectionStyle = UITableViewCellSelectionStyleNone;
     tableCell.noEndDateStatus = ^ (BOOL state) {
         if (_datePickerIndexPath != nil) {
             [self collapseOpenedPickerCell];
-            self.selectedMedication.noEndDate = state;
+            self.selectedMedication.hasEndDate = state;
             [self performSelector:@selector(configureNoEndDateTableCellDisplayBasedOnSwitchState) withObject:nil afterDelay:0.1];
         } else {
-            self.selectedMedication.noEndDate = state;
+            self.selectedMedication.hasEndDate = state;
             [self configureNoEndDateTableCellDisplayBasedOnSwitchState];
         }
     };
@@ -379,7 +378,7 @@
         }
     }
     //hide/show no date table cell
-    if (self.selectedMedication.noEndDate) {
+    if (!self.selectedMedication.hasEndDate) {
         //hide tablecell
         NSIndexPath *endDateIndexPath;
         if (_datePickerIndexPath.row == DATE_PICKER_INDEX_START_DATE) {
@@ -472,7 +471,7 @@
             if (indexPath.row == DATE_PICKER_INDEX_START_DATE + 1) {
                 dateAndTimeCell = [self noEndDateTableCell:dateAndTimeCell];
             } else  {
-                if (!self.selectedMedication.noEndDate) {
+                if (self.selectedMedication.hasEndDate) {
                     dateAndTimeCell = [self updatedEndDateTableCell:dateAndTimeCell];
                 }
             }
@@ -480,7 +479,7 @@
             if (indexPath.row == DATE_PICKER_INDEX_END_DATE - 2) {
                 dateAndTimeCell = [self noEndDateTableCell:dateAndTimeCell];
             } else {
-                if (!self.selectedMedication.noEndDate) {
+                if (self.selectedMedication.hasEndDate) {
                     dateAndTimeCell = [self updatedEndDateTableCell:dateAndTimeCell];
                 }
             }
@@ -565,11 +564,11 @@
     
     NSInteger rowCount;
     if ([self.selectedMedication.medicineCategory isEqualToString:REGULAR_MEDICATION]) {
-        rowCount = self.selectedMedication.noEndDate ? REGULAR_DATEANDTIME_ROW_COUNT - 1 : REGULAR_DATEANDTIME_ROW_COUNT;
+        rowCount = self.selectedMedication.hasEndDate ? REGULAR_DATEANDTIME_ROW_COUNT : REGULAR_DATEANDTIME_ROW_COUNT - 1;
     } else if ([self.selectedMedication.medicineCategory isEqualToString:ONCE_MEDICATION]) {
         rowCount = ONCE_DATEANDTIME_ROW_COUNT;
     } else {
-        rowCount = self.selectedMedication.noEndDate ? WHEN_REQUIRED_DATEANDTIME_ROW_COUNT - 1 : WHEN_REQUIRED_DATEANDTIME_ROW_COUNT;
+        rowCount = self.selectedMedication.hasEndDate ? WHEN_REQUIRED_DATEANDTIME_ROW_COUNT : WHEN_REQUIRED_DATEANDTIME_ROW_COUNT - 1;
     }
     if ([self hasInlineDatePicker]) {
         rowCount ++;
@@ -609,7 +608,7 @@
     self.selectedMedication.name = medication.name;
     self.selectedMedication.medicationId = medication.medicationId;
     self.selectedMedication.dosage = medication.dosage;
-    self.selectedMedication.noEndDate = YES;
+    self.selectedMedication.hasEndDate = NO;
     self.selectedMedication.severeWarningCount = severeArray.count;
     self.selectedMedication.mildWarningCount = mildArray.count;
     self.selectedMedication.medicineCategory = REGULAR_MEDICATION;
@@ -823,7 +822,7 @@
 - (void)displayDetailViewForRegularMedicationAtIndexPath:(NSIndexPath *)indexPath {
     
     if (!_datePickerIndexPath) { // If inline datepicker is not shown
-        if (!self.selectedMedication.noEndDate) { //has end date
+        if (self.selectedMedication.hasEndDate) { //has end date
             if (indexPath.row == ADMINISTRATING_TIME_ROW_INDEX) { // if last row is selected, show administartion times detail view
                 [self presentAdministrationTimeView];
             } else if (indexPath.row != NO_END_DATE_ROW_INDEX) { // disable section of no end date cell, show inline date pickers on other cell selection
@@ -891,7 +890,7 @@
     
     self.selectedMedication.startDate = EMPTY_STRING;
     self.selectedMedication.endDate = EMPTY_STRING;
-    self.selectedMedication.noEndDate = YES;
+    self.selectedMedication.hasEndDate = NO;
     self.selectedMedication.timeArray = [NSMutableArray arrayWithArray:@[]];
 }
 

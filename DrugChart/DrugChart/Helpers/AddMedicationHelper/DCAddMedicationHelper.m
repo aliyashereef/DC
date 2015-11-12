@@ -54,7 +54,7 @@
     if ([selectedMedication.startDate isEqualToString:EMPTY_STRING] || selectedMedication.startDate == nil) {
         return !isValid;
     }
-    if (!selectedMedication.noEndDate) {
+    if (selectedMedication.hasEndDate) {
         if ([selectedMedication.endDate isEqualToString:EMPTY_STRING] || selectedMedication.endDate == nil) {
             return !isValid;
         }
