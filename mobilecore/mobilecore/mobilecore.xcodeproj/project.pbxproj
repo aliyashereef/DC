@@ -161,6 +161,7 @@
 		8F8EA66E1B6685760087737B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0710;
 				LastUpgradeCheck = 0640;
 				ORGANIZATIONNAME = "EMIS Health";
 				TargetAttributes = {
@@ -443,6 +444,7 @@
 				8F8EA69A1B6685760087737B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8F8EA69B1B6685760087737B /* Build configuration list for PBXNativeTarget "mobilecoreTests" */ = {
 			isa = XCConfigurationList;
@@ -451,6 +453,7 @@
 				8F8EA69D1B6685760087737B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
