@@ -178,6 +178,7 @@ typedef enum : NSUInteger {
         if (_patient.medicationListArray) {
             _patient.medicationListArray = nil;
         }
+        selectedSortType = START_DATE_ORDER;
         [self fetchMedicationListForPatient];
     }
 }
@@ -583,6 +584,10 @@ typedef enum : NSUInteger {
         firstDisplayDate = [DCDateUtility initialDateForCalendarDisplay:firstDisplayDate withAdderValue:-5];
         currentWeekDatesArray = [DCDateUtility nextAndPreviousSevenDaysWithReferenceToDate:firstDisplayDate];
     }
+}
+- (void)loadCurrentWeekDate {
+    
+    [self setCurrentWeekDatesArrayFromToday];
 }
 
 - (void)modifyWeekDatesInCalendarTopPortion {
