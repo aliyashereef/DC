@@ -25,7 +25,6 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     @IBOutlet weak var segmentedControlWidth: NSLayoutConstraint?
     
     var administerViewController : DCAdministerViewController?
-    var administerNavigationController : UINavigationController?
     var medicationHistoryViewController : DCMedicationHistoryViewController?
     var bnfViewController : DCBNFViewController?
     
@@ -183,7 +182,6 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         showTopBarDoneButton(true)
         if administerViewController == nil {
             administerViewController = administerStoryboard!.instantiateViewControllerWithIdentifier(ADMINISTER_STORYBOARD_ID) as? DCAdministerViewController
-            administerNavigationController = UINavigationController(rootViewController: administerViewController!)
             administerViewController?.medicationSlot = slotToAdminister
             administerViewController?.weekDate = weekDate
             if (medicationSlotsArray.count > 0) {
@@ -202,15 +200,12 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
             }
             administerViewController?.medicationDetails = medicationDetails
             administerViewController?.alertMessage = errorMessage
-            containerView.addSubview((administerNavigationController?.view)!)
-            self.addChildViewController(administerNavigationController!)
+            containerView.addSubview((administerViewController?.view)!)
+            self.addChildViewController(administerViewController!)
             administerViewController!.view.frame = containerView.bounds
-            administerNavigationController!.view.frame = containerView.bounds
 
         }
-        
-        administerNavigationController?.didMoveToParentViewController(self)
-        containerView.bringSubviewToFront((administerNavigationController?.view)!)
+        containerView.bringSubviewToFront((administerViewController?.view)!)
     }
     
     func addMedicationHistoryView () {
@@ -278,6 +273,8 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
             if (omittedNotes == EMPTY_STRING || omittedNotes == nil) {
                 isValid = false
             }
+        } else if (medicationStatus == nil) {
+            isValid = false
         }
         
         if (administerViewController?.medicationSlot?.medicationAdministration?.isEarlyAdministration == true) {
@@ -309,12 +306,11 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     }
     
     // MARK: Action Methods
-    
 
     @IBAction func doneButtonPressed(sender: AnyObject) {
         
         //perform administer medication api call here
-        
+        administerViewController?.doneClicked = true
         if(entriesAreValid()) {
             administerViewController?.activityIndicator.startAnimating()
             administerViewController?.isValid = true
