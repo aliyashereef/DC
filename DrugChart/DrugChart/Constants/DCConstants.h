@@ -181,6 +181,7 @@
 #define NOTES_CELL_ID @"NotesCell"
 #define MEDICATION_HISTORY_HEADER_VIEW @"DCMedicationHistoryHeaderView"
 #define ADMINISTER_PICKER_CELL_ID @"AdministerPickerCellId"
+#define SCHEDULING_CELL_ID @"SchedulingCellId"
 
 // title for views
 #define INPATIENT_TITLE @"In Patients"
@@ -350,6 +351,10 @@
 
 #define HAS_LAUNCHED_ONCE @"HasLaunchedOnce"
 
+//Scheduling
+
+#define SPECIFIC_TIMES @"Specific Times"
+#define INTERVAL @"Interval"
 
 
 //Roles

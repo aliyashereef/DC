@@ -19,6 +19,7 @@
 		0B2442F01B96E36500E8F0EB /* DCAddMedicationContentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2442EF1B96E36500E8F0EB /* DCAddMedicationContentCell.m */; };
 		0B2442F41B96F71D00E8F0EB /* DCMedicationListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2442F31B96F71D00E8F0EB /* DCMedicationListViewController.m */; };
 		0B294B441B9D667900F8D574 /* DCAddDosageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B294B431B9D667800F8D574 /* DCAddDosageCell.m */; };
+		0B38AC081BF4592E0027B8E6 /* DCSchedulingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B38AC071BF4592E0027B8E6 /* DCSchedulingCell.swift */; settings = {ASSET_TAGS = (); }; };
 		0B5948BA1B2188A90085FB26 /* PatientAllergies.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0B5948B91B2188A90085FB26 /* PatientAllergies.plist */; };
 		0B5948BE1B218B0A0085FB26 /* DCPatientAllergy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B5948BD1B218B0A0085FB26 /* DCPatientAllergy.m */; };
 		0B6B497A1B2ED50700288117 /* DCScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B6B49791B2ED50700288117 /* DCScrollView.m */; };
@@ -263,6 +264,7 @@
 		0B2442F31B96F71D00E8F0EB /* DCMedicationListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCMedicationListViewController.m; sourceTree = "<group>"; };
 		0B294B421B9D667800F8D574 /* DCAddDosageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCAddDosageCell.h; sourceTree = "<group>"; };
 		0B294B431B9D667800F8D574 /* DCAddDosageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCAddDosageCell.m; sourceTree = "<group>"; };
+		0B38AC071BF4592E0027B8E6 /* DCSchedulingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCSchedulingCell.swift; sourceTree = "<group>"; };
 		0B5948B91B2188A90085FB26 /* PatientAllergies.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PatientAllergies.plist; sourceTree = "<group>"; };
 		0B5948BC1B218B0A0085FB26 /* DCPatientAllergy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCPatientAllergy.h; sourceTree = "<group>"; };
 		0B5948BD1B218B0A0085FB26 /* DCPatientAllergy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCPatientAllergy.m; sourceTree = "<group>"; };
@@ -732,6 +734,14 @@
 			path = AddDosageCell;
 			sourceTree = "<group>";
 		};
+		0B38AC061BF458E90027B8E6 /* ShedulingCell */ = {
+			isa = PBXGroup;
+			children = (
+				0B38AC071BF4592E0027B8E6 /* DCSchedulingCell.swift */,
+			);
+			path = ShedulingCell;
+			sourceTree = "<group>";
+		};
 		0B5948BB1B218AF60085FB26 /* PatientAllergy */ = {
 			isa = PBXGroup;
 			children = (
@@ -1008,6 +1018,7 @@
 			isa = PBXGroup;
 			children = (
 				0BA5A3911BF35E2700251F94 /* DCSchedulingDetailViewController.swift */,
+				0B38AC061BF458E90027B8E6 /* ShedulingCell */,
 			);
 			path = SchedulingDetailViewController;
 			sourceTree = "<group>";
@@ -2353,6 +2364,7 @@
 				7D104E5A1AEA4A5B00B03C0C /* DCBedWebService.m in Sources */,
 				4D52D5841BCD02FB002ABA8D /* DCAdministerMedicationWebService.m in Sources */,
 				0BBDEDC41AA57F980016E6FF /* DCTextField.m in Sources */,
+				0B38AC081BF4592E0027B8E6 /* DCSchedulingCell.swift in Sources */,
 				0BF2DA561ACAB12700B3ED97 /* DCErrorPopOverBackgroundView.m in Sources */,
 				0BAE369A1B455DDF007CD64C /* DCOrderSetMedicineView.m in Sources */,
 				4D766C0D1BBCFE6400413E08 /* DCCalendarDateView.swift in Sources */,

@@ -158,7 +158,7 @@
         cell = [self updatedMedicationDetailsCell:cell atIndexPath:indexPath];
     } else if (index == SCHEDULING_ROW_INDEX) {
         cell.titleLabel.text = NSLocalizedString(@"SCHEDULING", @"");
-        cell.detailTextLabel.text = self.selectedMedication.scheduling.type;
+        cell.descriptionLabel.text = self.selectedMedication.scheduling.type;
     } else {
         if (indexPath.row == ADMINISTRATING_TIME_ROW_INDEX) {
             cell.titleLabel.text = NSLocalizedString(@"ADMINISTRATING_TIME", @"");
@@ -606,6 +606,7 @@
     }
     self.selectedMedication = [[DCMedicationScheduleDetails alloc] init];
     self.selectedMedication.name = medication.name;
+    NSLog(@"Medicine name is %@", self.selectedMedication.name);
     self.selectedMedication.medicationId = medication.medicationId;
     self.selectedMedication.dosage = medication.dosage;
     self.selectedMedication.hasEndDate = NO;
@@ -613,7 +614,8 @@
     self.selectedMedication.mildWarningCount = mildArray.count;
     self.selectedMedication.medicineCategory = REGULAR_MEDICATION;
     self.selectedMedication.scheduling = [[DCScheduling alloc] init];
-    self.selectedMedication.scheduling.type = NSLocalizedString(@"SPECIFIC_TIMES", @"");
+    self.selectedMedication.scheduling.type = SPECIFIC_TIMES;
+    NSLog(@"self.selectedMedication.scheduling.type is %@", self.selectedMedication.scheduling.type);
     dosageArray = [NSMutableArray arrayWithObjects:medication.dosage, nil];
     [medicationDetailsTableView reloadData];
 }
@@ -660,7 +662,7 @@
         [self updateMedicationDetailsTableViewWithSelectedValue:value withDetailType:weakDetailVc.detailType];
     };
     medicationDetailViewController.detailType = [self medicationDetailTypeForIndexPath:indexPath];
-    DCAddMedicationContentCell *selectedCell = (DCAddMedicationContentCell *)[medicationDetailsTableView cellForRowAtIndexPath:indexPath];
+    DCAddMedicationContentCell *selectedCell = [self selectedCellAtIndexPath:indexPath];
     if (indexPath.section != lastSection) {
         medicationDetailViewController.previousFilledValue = selectedCell.descriptionLabel.text;
     }
@@ -681,7 +683,21 @@
     UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
     DCSchedulingDetailViewController *schedulingDetailViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:SCHEDULING_DETAIL_STORYBOARD_ID];
     schedulingDetailViewController.detailType = eSchedulingType;
+   // __weak DCSchedulingDetailViewController *weakSchedulingView = schedulingDetailViewController;
+    schedulingDetailViewController.selectedEntry = ^ (NSString *selectedValue){
+        NSLog(@"***** Selected Value is %@", selectedValue);
+        self.selectedMedication.scheduling.type = selectedValue;
+    };
+    DCAddMedicationContentCell *selectedCell = [self selectedCellAtIndexPath:indexPath];
+    schedulingDetailViewController.previousFilledValue = selectedCell.descriptionLabel.text;
     [self.navigationController pushViewController:schedulingDetailViewController animated:YES];
+}
+
+- (DCAddMedicationContentCell *)selectedCellAtIndexPath:(NSIndexPath *)indexPath {
+    
+    //selected cell at indexpath
+    DCAddMedicationContentCell *selectedCell = (DCAddMedicationContentCell *)[medicationDetailsTableView cellForRowAtIndexPath:indexPath];
+    return selectedCell;
 }
 
 - (AddMedicationDetailType)medicationDetailTypeForIndexPath:(NSIndexPath *)indexPath {

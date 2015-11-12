@@ -701,16 +701,38 @@
                         <viewControllerLayoutGuide type="bottom" id="lTt-ia-XfJ"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="QUI-xi-5KU">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="310" height="690"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="htx-Zi-x4Y">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="htx-Zi-x4Y" userLabel="Scheduling Table View">
+                                <rect key="frame" x="0.0" y="0.0" width="310" height="690"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SchedulingCellId" id="1qR-gW-Kpb" customClass="DCSchedulingCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="310" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1qR-gW-Kpb" id="aBL-LU-m4J">
+                                            <rect key="frame" x="0.0" y="0.0" width="310" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="QIp-OG-M7Q" id="ciR-KV-6vb"/>
+                                    <outlet property="delegate" destination="QIp-OG-M7Q" id="7Co-EE-9SR"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="lTt-ia-XfJ" firstAttribute="top" secondItem="htx-Zi-x4Y" secondAttribute="bottom" id="0UX-Bk-VlW"/>
+                            <constraint firstItem="htx-Zi-x4Y" firstAttribute="top" secondItem="QUI-xi-5KU" secondAttribute="top" id="gHs-1P-oid"/>
+                            <constraint firstAttribute="trailing" secondItem="htx-Zi-x4Y" secondAttribute="trailing" id="nRG-re-xID"/>
+                            <constraint firstItem="htx-Zi-x4Y" firstAttribute="leading" secondItem="QUI-xi-5KU" secondAttribute="leading" id="on3-Vs-qpD"/>
+                        </constraints>
                     </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="310" height="690"/>
                     <connections>
                         <outlet property="detailTableView" destination="htx-Zi-x4Y" id="SGE-eQ-FfC"/>
                     </connections>
