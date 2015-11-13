@@ -706,7 +706,7 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="htx-Zi-x4Y" userLabel="Scheduling Table View">
                                 <rect key="frame" x="0.0" y="-35" width="310" height="725"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SchedulingCellId" id="1qR-gW-Kpb" customClass="DCSchedulingCell" customModule="DrugChart" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="50" width="310" height="44"/>
@@ -722,7 +722,7 @@
                                                         <constraint firstAttribute="width" constant="135" id="XuL-0p-cFh"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
@@ -737,7 +737,7 @@
                                                         <constraint firstAttribute="width" constant="116" id="ufP-C2-8Wj"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.56078431370000004" green="0.56078431370000004" blue="0.58431372550000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="default">
                                                         <mask key="constraints">

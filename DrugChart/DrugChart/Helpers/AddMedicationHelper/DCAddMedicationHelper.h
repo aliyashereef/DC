@@ -73,4 +73,6 @@ typedef enum : NSUInteger {
 
 + (CellType)cellTypeForSpecificTimesSchedulingAtIndexPath:(NSIndexPath *)indexPath;
 
++ (AddMedicationDetailType)medicationDetailTypeForIndexPath:(NSIndexPath *)indexPath hasWarnings:(BOOL)showWarnings;
+
 @end

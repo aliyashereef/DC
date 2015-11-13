@@ -21,7 +21,7 @@
 - (void)modifyStartDayAndWeekDates:(BOOL)isNextWeek;
 - (void)updatePrescriberMedicationListDetails;
 - (void)loadCurrentWeekDate ;
-- (void)reloadAndUpdatePrescriberMedicationDetails;
+//- (void)reloadAndUpdatePrescriberMedicationDetails;
 - (void)modifyWeekDatesInCalendarTopPortion;
 - (void)reloadCalendarTopPortion;
 - (void)fetchMedicationListForPatient;

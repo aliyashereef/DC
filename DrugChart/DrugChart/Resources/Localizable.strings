@@ -122,6 +122,7 @@
 "SCHEDULING"            =       "Scheduling";
 "SPECIFIC_TIMES"        =       "Specific Times";
 "REPEAT"                =       "Repeat";
+"DESCRIPTION"           =       "Description";
 
 //Administer
 
