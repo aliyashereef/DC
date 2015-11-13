@@ -163,7 +163,7 @@
         [cell configureMedicationAdministratingTimeCell];
     } else if (type == eRepeatCell) {
         cell.titleLabel.text = NSLocalizedString(@"REPEAT", @"");
-        cell.descriptionLabel.text = self.selectedMedication.scheduling.repeat.repeatType;
+        [cell configureContentCellWithContent:self.selectedMedication.scheduling.repeat.repeatType];
     }
     return cell;
 }
@@ -548,7 +548,11 @@
     if ([self.selectedMedication.name isEqualToString:EMPTY_STRING] || self.selectedMedication.name == nil) {
         return INITIAL_SECTION_COUNT;
     } else {
-       return (showWarnings ? COMPLETE_MEDICATION_SECTION_COUNT : COMPLETE_MEDICATION_SECTION_COUNT - 1);
+        if ([self.selectedMedication.medicineCategory isEqualToString:REGULAR_MEDICATION]) {
+            return (showWarnings ? REGULAR_MEDICATION_SECTION_COUNT : REGULAR_MEDICATION_SECTION_COUNT - 1);
+        } else {
+            return (showWarnings ? ONCE_WHEN_REQUIRED_SECTION_COUNT : ONCE_WHEN_REQUIRED_SECTION_COUNT - 1);
+        }
     }
     return INITIAL_SECTION_COUNT;
 }

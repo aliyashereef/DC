@@ -12,7 +12,8 @@
 #define INITIAL_SECTION_COUNT                   1
 #define MEDICATION_NAME_ROW_COUNT               1
 #define PICKER_ROW_COUNT                        1
-#define COMPLETE_MEDICATION_SECTION_COUNT       7
+#define REGULAR_MEDICATION_SECTION_COUNT        7
+#define ONCE_WHEN_REQUIRED_SECTION_COUNT        5
 #define WARNINGS_ROW_COUNT                      1
 #define MEDICATION_DETAILS_ROW_COUNT            3
 #define INSTRUCTIONS_ROW_COUNT                  1
