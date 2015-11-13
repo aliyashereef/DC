@@ -59,7 +59,7 @@
     _favouriteContentsArray = [[NSMutableArray alloc] init];
 }
 
-- (NSArray *)getFavouriteOrdersetArray {
+- (NSArray *)favouriteOrdersetArray {
     
     NSString *predicateString = @"isUserFavourite == YES";
     NSPredicate *orderSetCategoryPredicate = [NSPredicate predicateWithFormat:predicateString];
@@ -77,10 +77,10 @@
         _searchedContentsArray =  [NSMutableArray arrayWithArray:[_searchListArray filteredArrayUsingPredicate:searchPredicate]];
         
         if (_autoSearchType == eOrderSet) {
-            _favouriteContentsArray = [NSMutableArray arrayWithArray:[[self getFavouriteOrdersetArray] filteredArrayUsingPredicate:        searchPredicate]];
+            _favouriteContentsArray = [NSMutableArray arrayWithArray:[[self favouriteOrdersetArray] filteredArrayUsingPredicate:        searchPredicate]];
             if (substring.length == 0) {
                 _searchedContentsArray = [NSMutableArray arrayWithArray:@[]];
-                _favouriteContentsArray = [NSMutableArray arrayWithArray:[self getFavouriteOrdersetArray]];
+                _favouriteContentsArray = [NSMutableArray arrayWithArray:[self favouriteOrdersetArray]];
                 isShowAllTapped = NO;
             } else {
                 if (_searchedContentsArray.count == 0) {
@@ -192,7 +192,7 @@
         searchCell = [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([DCAutoSearchCell class]) owner:self options:nil] objectAtIndex:0];
     }
     searchCell.layoutMargins = UIEdgeInsetsZero;
-    NSDictionary *searchValueDictionary = [self getSearchCellValueAndSearchNameLabelFromIndexPath:indexPath];
+    NSDictionary *searchValueDictionary = [self searchCellValueAndSearchNameLabelFromIndexPath:indexPath];
     searchCell.searchValue = [searchValueDictionary valueForKey:SEARCH_CELL_VALUE];
     searchCell.searchNameLabel.text = [searchValueDictionary valueForKey:SEARCH_NAME_LABEL];
     return searchCell;
@@ -207,7 +207,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSDictionary *searchValueDictionary = [self getSearchCellValueAndSearchNameLabelFromIndexPath:indexPath];
+    NSDictionary *searchValueDictionary = [self searchCellValueAndSearchNameLabelFromIndexPath:indexPath];
     CGSize stepSize = [DCUtility requiredSizeForText:[searchValueDictionary valueForKey:SEARCH_CELL_VALUE]
                                                    font:LATO_REGULAR_SIXTEEN
                                                maxWidth:290];
@@ -241,7 +241,7 @@
     }
 }
 
-- (NSDictionary *)getSearchCellValueAndSearchNameLabelFromIndexPath :(NSIndexPath *)indexPath {
+- (NSDictionary *)searchCellValueAndSearchNameLabelFromIndexPath :(NSIndexPath *)indexPath {
     
     NSMutableDictionary *searchDictionary = [[NSMutableDictionary alloc] init];
     if (indexPath.section == 0 && _autoSearchType == eOrderSet) {

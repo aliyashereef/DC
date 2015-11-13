@@ -213,7 +213,7 @@
 - (void)deselectAdministratingTimeSlots {
     
     //deselect all time slots
-    _timeArray =  [NSMutableArray arrayWithArray:[DCPlistManager getAdministratingTimeList]];
+    _timeArray =  [NSMutableArray arrayWithArray:[DCPlistManager administratingTimeList]];
     for (DCAdministratingTimeView *timeView in self.subviews) {
         if ([timeView isKindOfClass:[DCAdministratingTimeView class]]) {
             [timeView setStatusImageForSelectionState:0];

@@ -13,6 +13,6 @@
 @property (nonatomic, strong) NSMutableArray *patientsAlertsArray;
 @property (nonatomic, strong) NSMutableArray *patientsAllergyArray;
 
-- (CGFloat)getAllergyAndAlertDisplayTableViewHeightForContent:(NSArray *)displayArray ;
+- (CGFloat)allergyAndAlertDisplayTableViewHeightForContent:(NSArray *)displayArray ;
 
 @end

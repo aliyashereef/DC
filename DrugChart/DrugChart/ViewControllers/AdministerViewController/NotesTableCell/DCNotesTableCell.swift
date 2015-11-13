@@ -38,7 +38,7 @@ class DCNotesTableCell: UITableViewCell, UITextViewDelegate {
         if let delegate = self.delegate {
             delegate.notesSelected(true, withIndexPath: selectedIndexPath!)
         }
-        if (textView.text == getHintText()) {
+        if (textView.text == hintText()) {
             textView.textColor = UIColor.blackColor()
             textView.text = EMPTY_STRING
         }
@@ -47,7 +47,7 @@ class DCNotesTableCell: UITableViewCell, UITextViewDelegate {
     
     func textViewDidChange(textView: UITextView) {
         
-        if (textView.text != getHintText()) {
+        if (textView.text != hintText()) {
             if let delegate = self.delegate {
                 delegate.enteredNote(textView.text)
             }
@@ -65,11 +65,11 @@ class DCNotesTableCell: UITableViewCell, UITextViewDelegate {
 
         if (textView.text == EMPTY_STRING) {
             textView.textColor = UIColor(forHexString: "#8f8f95")
-            textView.text = getHintText()
+            textView.text = hintText()
         }
     }
     
-    func getHintText() -> String {
+    func hintText() -> String {
         
         //initial hint text in table cell
         var hint : String

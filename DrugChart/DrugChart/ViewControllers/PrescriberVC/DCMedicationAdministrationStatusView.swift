@@ -163,7 +163,7 @@ class DCMedicationAdministrationStatusView: UIView {
             statusIcon!.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
             statusIcon?.image = (administeredCount == timeArray.count) ? ADMINISTRATION_SUCCESS_IMAGE : ADMINISTRATION_FAILURE_IMAGE
         } else {
-            let nearestSlot : DCMedicationSlot? = getNearestMedicationSlotToBeAdministered()
+            let nearestSlot : DCMedicationSlot? = nearestMedicationSlotToBeAdministered()
             if (nearestSlot != nil) {
                 if (nearestSlot?.medicationAdministration?.actualAdministrationTime == nil) {
                     // get date string from the nearest slot time
@@ -189,7 +189,7 @@ class DCMedicationAdministrationStatusView: UIView {
         }
      }
     
-    func getNearestMedicationSlotToBeAdministered () -> DCMedicationSlot? {
+    func nearestMedicationSlotToBeAdministered () -> DCMedicationSlot? {
         
         //initialise medication slot to administer object
         var nearestSlot =  DCMedicationSlot.init()

@@ -52,12 +52,12 @@
         sortCell.textLabel.text = [contentArray objectAtIndex:indexPath.row];
     } else {
         NSString *selectedCriteria = [[contentArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+        sortCell.textLabel.text = selectedCriteria;
         if (indexPath.section == 0) {
             sortCell.accessoryType = _showDiscontinuedMedications ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
         } else if ([selectedCriteria isEqualToString:_previousSelectedCategory]) {
             sortCell.accessoryType = UITableViewCellAccessoryCheckmark;
         }
-        sortCell.textLabel.text = selectedCriteria;
     }
     return sortCell;
 }
@@ -152,7 +152,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    [tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryCheckmark;
     NSString *selectedValue;
     if (_sortView == ePatientList) {
         selectedValue = [contentArray objectAtIndex:indexPath.row];

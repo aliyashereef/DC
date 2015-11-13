@@ -110,28 +110,19 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     
     func todayButtonClicked () {
         
-        if (displayMedicationListArray.count > 0) {
-            let indexPathArray : [AnyObject] = medicationTableView!.indexPathsForVisibleRows!
-            indexPathArray[0]
-            if indexPathArray.count > 0 {
-                let medicationCell = medicationTableView?.cellForRowAtIndexPath(indexPathArray[0] as! NSIndexPath) as? PrescriberMedicationTableViewCell
-                print(medicationCell!.leadingSpaceMasterToContainerView.constant)
-                if medicationCell!.leadingSpaceMasterToContainerView.constant != 0 {
-                    if let parentDelegate = self.delegate {
-                        parentDelegate.todayActionForCalendarTop()
-                    }
-                    for var count = 0; count < indexPathArray.count; count++ {
-                        let indexPath = indexPathArray[count]
-                        let meditationCell = medicationTableView?.cellForRowAtIndexPath(indexPath as! NSIndexPath) as? PrescriberMedicationTableViewCell
-                        meditationCell!.todayButtonAction()
-                    }
-                }
-            }
+        let weekdate = currentWeekDatesArray.objectAtIndex(7)
+        let todaysDate : NSDate = NSDate()
+        let order = NSCalendar.currentCalendar().compareDate(weekdate as! NSDate, toDate:todaysDate,
+            toUnitGranularity: .Day)
+        if order == NSComparisonResult.OrderedSame {
+            // Do Nothing
+        } else {
+            let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
+            parentViewController.loadCurrentWeekDate()
+            self.modifyParentViewOnSwipeEnd(parentViewController)
         }
     }
-    
-    // MARK: - Private Methods
-    // MARK: - Pan Gesture Methods
+
     func addPanGestureToPrescriberTableView () {
         
         // add pan gesture to table view
@@ -206,7 +197,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         return false
     }
     
-    func getAllIndexPaths() -> [AnyObject] {
+    func allIndexPaths() -> [AnyObject] {
         
         var indexes = [AnyObject]()
         for j in 0...medicationTableView!.numberOfRowsInSection(0)-1
@@ -287,7 +278,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     
     func modifyParentViewOnSwipeEnd (parentViewController : DCPrescriberMedicationViewController) {
         
-        parentViewController.reloadAndUpdatePrescriberMedicationDetails()
+        parentViewController.updatePrescriberMedicationListDetails()
         parentViewController.modifyWeekDatesInCalendarTopPortion()
         parentViewController.reloadCalendarTopPortion()
         parentViewController.cancelPreviousMedicationListFetchRequest()

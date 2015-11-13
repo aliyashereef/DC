@@ -89,7 +89,7 @@
 - (void)configureViewElements {
     
     medicineNameLabel.text = _medicationList.name;
-    CGFloat medicineNameHeight = [DCUtility heightValueForText:_medicationList.name withFont:[DCFontUtility getLatoRegularFontWithSize:16.0f] maxWidth:medicineNameLabel.frame.size.width];
+    CGFloat medicineNameHeight = [DCUtility heightValueForText:_medicationList.name withFont:[DCFontUtility latoRegularFontWithSize:16.0f] maxWidth:medicineNameLabel.frame.size.width];
     if (medicineNameHeight > MEDICINE_NAME_MAX_HEIGHT) {
         medicineNameHeightConstraint.constant = medicineNameHeight + NAME_OFFSET;
         medicineTitleContainerHeightConstraint.constant = medicineNameHeight + TITLE_VIEW_CONTENTS_HEIGHT_EXCEPT_NAME;
@@ -110,7 +110,7 @@
     //get dosage and instruction text for display
     
     NSDictionary *dosageAttributes = @{
-                                       NSFontAttributeName : [DCFontUtility getLatoBoldFontWithSize:17.0f],
+                                       NSFontAttributeName : [DCFontUtility latoBoldFontWithSize:17.0f],
                                        NSForegroundColorAttributeName : [UIColor colorForHexString:@"#3b3b3b"]
                                        };
     NSMutableAttributedString *dosageAttributedString = [[NSMutableAttributedString alloc] initWithString:route];
@@ -120,7 +120,7 @@
     NSMutableAttributedString *medicineInstructionAttributedString = [[NSMutableAttributedString alloc]
                                                                       initWithString:instructionDisplayString];
     NSDictionary *instructionAttributes = @{
-                                            NSFontAttributeName : [DCFontUtility getLatoRegularFontWithSize:15.0f],
+                                            NSFontAttributeName : [DCFontUtility latoRegularFontWithSize:15.0f],
                                             NSForegroundColorAttributeName : [UIColor colorForHexString:@"#676767"]
                                             };
     [medicineInstructionAttributedString setAttributes:instructionAttributes range:NSMakeRange(0, [instructionDisplayString length])];

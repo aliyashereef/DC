@@ -23,7 +23,7 @@
 - (void)setSearchValue:(NSString *)searchValue {
     
     _searchValue = searchValue;
-    CGFloat heightValue = [DCUtility heightValueForText:_searchValue withFont:[DCFontUtility getLatoRegularFontWithSize:16.0f] maxWidth:420];
+    CGFloat heightValue = [DCUtility heightValueForText:_searchValue withFont:[DCFontUtility latoRegularFontWithSize:16.0f] maxWidth:420];
     [_searchNameLabel setText:_searchValue];
     _nameLabelHeightConstraint.constant = heightValue + 10;
     [self layoutSubviews];

@@ -19,41 +19,41 @@
 
 @implementation DCPlistManager
 
-+ (NSArray *)getMedicationRoutesList {
++ (NSArray *)medicationRoutesList {
     
     //get medication routes
-    NSArray *contentArray = [self getContentsFromPlist:ROUTES];
+    NSArray *contentArray = [self contentsFromPlist:ROUTES];
     return contentArray;
 }
 
-+ (NSArray *)getMedicineNamesList {
++ (NSArray *)medicineNamesList {
     
     //get medicine names
-    NSArray *contentArray = [self getContentsFromPlist:MEDICINE_LIST];
+    NSArray *contentArray = [self contentsFromPlist:MEDICINE_LIST];
     return contentArray;
 }
 
 // sample graphic details from the plist
-+ (NSArray *)getBedGraphicalDetails {
++ (NSArray *)bedGraphicalDetails {
     
-    NSArray *graphicsArray = [self getContentsFromPlist:GRAPHICAL_COORDINATES];
+    NSArray *graphicsArray = [self contentsFromPlist:GRAPHICAL_COORDINATES];
     return graphicsArray;
 }
 
-+ (NSArray *)getPositionablegraphics {
++ (NSArray *)positionablegraphics {
     
-    NSArray *positionableGraphicsArray = [self getContentsFromPlist:POSITIONABLE_GRAPHICS];
+    NSArray *positionableGraphicsArray = [self contentsFromPlist:POSITIONABLE_GRAPHICS];
     return positionableGraphicsArray;
 }
 
-+ (NSArray *)getContentsFromPlist:(NSString *)name {
++ (NSArray *)contentsFromPlist:(NSString *)name {
     
     NSString *sourcePath = [[NSBundle mainBundle] pathForResource:name ofType:@"plist"];
     NSArray *contentArray = [NSArray arrayWithContentsOfFile:sourcePath];
     return contentArray;
 }
 
-+ (NSArray *)getAdministratingTimeList {
++ (NSArray *)administratingTimeList {
     
     //get administrating time list
     NSString *sourcePath = [[NSBundle mainBundle] pathForResource:ADMINSTRATING_TIME_LIST ofType:@"plist"];
@@ -61,7 +61,7 @@
     return contentArray;
 }
 
-+ (NSArray *)getOrderSetList {
++ (NSArray *)orderSetList {
     
     //get orderset list
     NSString *sourcePath = [[NSBundle mainBundle] pathForResource:ORDER_SET_LIST ofType:@"plist"];

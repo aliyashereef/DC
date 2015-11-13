@@ -118,7 +118,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
             if let name = medication.medicationAdministration?.checkingUser?.displayName {
                 checkedBy = name
             } else {
-                checkedBy = DEFAULT_NURSE_NAME
+                checkedBy = NONE_TEXT
             }
             cell!.value.text = checkedBy
             break
@@ -213,7 +213,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         case 2:
             let reason : NSString
             if let reasonText = medication.medicationAdministration?.refusedNotes {
-                reason = reasonText
+                reason =  (reasonText == EMPTY_STRING) ? NONE_TEXT : reasonText
             } else {
                 reason = NONE_TEXT
             }
@@ -240,7 +240,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         case 1:
             let reason : NSString
             if let reasonText = medication.medicationAdministration?.omittedNotes {
-                reason = reasonText
+                reason =  (reasonText == EMPTY_STRING) ? NONE_TEXT : reasonText
             } else {
                 reason = NONE_TEXT
             }
@@ -267,7 +267,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
     //The number of rows is determined by the medication slot status, if is administrated, the section will require 6 rows, if ommitted it may require 2 rows and 3 for the refused state.
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return getNumberOfRowsFromMedicationSlotArray(medicationSlotArray[section])
+        return numberOfRowsFromMedicationSlotArray(medicationSlotArray[section])
     }
     
     //The height of the table view row is the default for every rows other than the notes cell.
@@ -347,7 +347,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
     
     // calculating the number of rows from medication slot array
     
-    func getNumberOfRowsFromMedicationSlotArray( medication : DCMedicationSlot) -> Int {
+    func numberOfRowsFromMedicationSlotArray( medication : DCMedicationSlot) -> Int {
         var rowCount : Int
         if let medicationValue : DCMedicationSlot = medication {
             if (medicationValue.medicationAdministration?.status == IS_GIVEN || medicationValue.medicationAdministration?.status == SELF_ADMINISTERED){

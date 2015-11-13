@@ -45,7 +45,7 @@
                             }];
 }
 
-- (NSDictionary *)getMedicationDetailsDictionaryForMedicationDetail:(DCMedicationScheduleDetails *)medication {
+- (NSDictionary *)medicationDetailsDictionaryForMedicationDetail:(DCMedicationScheduleDetails *)medication {
     
     NSString *startDateString = [DCDateUtility dateStringFromDate:[DCDateUtility dateFromSourceString:medication.startDate] inFormat:EMIS_DATE_FORMAT];
     NSString *endDateString = [DCDateUtility dateStringFromDate:[DCDateUtility dateFromSourceString:medication.endDate] inFormat:EMIS_DATE_FORMAT];
@@ -55,7 +55,7 @@
     [medicationDictionary setValue:medication.dosage forKey:DOSAGE_VALUE];
     [medicationDictionary setValue:medication.instruction forKey:INSTRUCTIONS];
     //TO DO : Currently hard cording the value for route code id, have to change it according to the route user chooses.
-    NSString *routeCodeId = [self getRouteCodeIdForRoute:medication.route];
+    NSString *routeCodeId = [self routeCodeIdForRoute:medication.route];
     [medicationDictionary setValue:routeCodeId forKey:ROUTE_CODE_ID];
     NSMutableArray *scheduleArray = [[NSMutableArray alloc] init];
     for (NSDictionary *timeSchedule in medication.timeArray) {
@@ -85,7 +85,7 @@
     return medicationDictionary;
 }
 
-- (NSString *)getRouteCodeIdForRoute:(NSString *)routeString {
+- (NSString *)routeCodeIdForRoute:(NSString *)routeString {
     
     if ([routeString isEqualToString:ORAL] || [routeString isEqualToString:@"Oral"]) {
         return ORAL_ID;

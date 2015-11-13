@@ -178,6 +178,7 @@ typedef enum : NSUInteger {
         if (_patient.medicationListArray) {
             _patient.medicationListArray = nil;
         }
+        selectedSortType = START_DATE_ORDER;
         [self fetchMedicationListForPatient];
     }
 }
@@ -196,7 +197,7 @@ typedef enum : NSUInteger {
     }
 }
 
-- (void)getDisplayMedicationListArray {
+- (void)displayMedicationListArray {
     
     if (displayMedicationListArray.count > 0) {
         displayMedicationListArray = nil;
@@ -307,7 +308,7 @@ typedef enum : NSUInteger {
                             _patient.medicationListArray = result;
                             [self configureAlertsAndAllergiesArrayForDisplay];
                             [self addAlertsAndAllergyBarButtonToNavigationBar];
-                            [self getDisplayMedicationListArray];
+                            [self displayMedicationListArray];
                             if ([displayMedicationListArray count] > 0) {
                                 if (prescriberMedicationListViewController) {
                                     [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
@@ -417,10 +418,10 @@ typedef enum : NSUInteger {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         if (discontinuedMedicationShown) {
             discontinuedMedicationShown = NO;
-            [self getDisplayMedicationListArray];
+            [self displayMedicationListArray];
         } else {
             discontinuedMedicationShown = YES;
-            [self getDisplayMedicationListArray];
+            [self displayMedicationListArray];
             if (sortType != kSortDrugType) {
                 [self sortPrescriberMedicationList];
             }
@@ -484,7 +485,7 @@ typedef enum : NSUInteger {
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:patientAlertsAllergyViewController];
     navigationController.modalPresentationStyle = UIModalPresentationPopover;
     // Calculating the height for popover.
-    CGFloat popOverHeight = [patientAlertsAllergyViewController getAllergyAndAlertDisplayTableViewHeightForContent:alertsArray];
+    CGFloat popOverHeight = [patientAlertsAllergyViewController allergyAndAlertDisplayTableViewHeightForContent:alertsArray];
     navigationController.preferredContentSize = CGSizeMake(ALERT_ALLERGY_CELL_WIDTH, popOverHeight+ CELL_PADDING );
     [self presentViewController:navigationController animated:YES completion:nil];
     // Presenting the popover presentation controller on the navigation controller.
@@ -562,8 +563,15 @@ typedef enum : NSUInteger {
     }
     detailViewController.weekDate = date;
     detailViewController.patientId = self.patient.patientId;
-    detailViewController.modalPresentationStyle = UIModalPresentationFormSheet;
-    [self presentViewController:detailViewController animated:YES completion:nil];
+    UINavigationController *navigationController =
+    [[UINavigationController alloc] initWithRootViewController:detailViewController];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:EMPTY_STRING style:UIBarButtonItemStylePlain target:nil action:nil];
+    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)
+                                                         forBarMetrics:UIBarMetricsDefault];
+    navigationController.navigationItem.backBarButtonItem = backButton;
+    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+
+    [self presentViewController:navigationController animated:YES completion:nil];
 }
 
 - (void)modifyStartDayAndWeekDates:(BOOL)isNextWeek {
@@ -576,6 +584,10 @@ typedef enum : NSUInteger {
         firstDisplayDate = [DCDateUtility initialDateForCalendarDisplay:firstDisplayDate withAdderValue:-5];
         currentWeekDatesArray = [DCDateUtility nextAndPreviousSevenDaysWithReferenceToDate:firstDisplayDate];
     }
+}
+- (void)loadCurrentWeekDate {
+    
+    [self setCurrentWeekDatesArrayFromToday];
 }
 
 - (void)modifyWeekDatesInCalendarTopPortion {
@@ -592,7 +604,7 @@ typedef enum : NSUInteger {
     [self populateMonthYearLabel];
 }
 
-- (void)reloadAndUpdatePrescriberMedicationDetails {
+- (void)updatePrescriberMedicationListDetails {
     if (prescriberMedicationListViewController) {
         prescriberMedicationListViewController.currentWeekDatesArray = currentWeekDatesArray;
         [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];

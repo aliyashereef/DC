@@ -68,14 +68,14 @@
                 [adminDetails addObject:[[scheduleDict objectForKey:DRUG_ADMINISTRATIONS] objectAtIndex:0]];
             }
             administrationArray = adminDetails;
-            self.administrationDetailsArray = [self getAdministrationDetailsForMedication:administrationArray];
-            NSMutableArray *slotsArray = [self getMedicationScheduleTimeArrayForWhenRequiredMedicationsForStartWeekDate:weekStartDate andEndWeekDate:weekEndDate withActiveStatus:self.isActive];
+            self.administrationDetailsArray = [self administrationDetailsForMedication:administrationArray];
+            NSMutableArray *slotsArray = [self medicationScheduleTimeArrayForWhenRequiredMedicationsForStartWeekDate:weekStartDate endWeekDate:weekEndDate withActiveStatus:self.isActive];
             self.timeChart = slotsArray;
         } else {
             administrationArray = [[NSMutableArray alloc] initWithArray:[schedulesDictionary objectForKey:DRUG_ADMINISTRATIONS]];
-            self.administrationDetailsArray = [self getAdministrationDetailsForMedication:administrationArray];
-            NSMutableArray *slotsArray = [self getMedicationScheduleTimeArrayFromScheduleDictionary:schedulesDictionary
-                                                                                  withStartWeekDate:weekStartDate andEndWeekDate:weekEndDate withActiveStatus:self.isActive];
+            self.administrationDetailsArray = [self administrationDetailsForMedication:administrationArray];
+            NSMutableArray *slotsArray = [self medicationScheduleTimeArrayFromScheduleDictionary:schedulesDictionary
+                                                                                  withStartWeekDate:weekStartDate endWeekDate:weekEndDate withActiveStatus:self.isActive];
             self.timeChart = slotsArray;
         }
       
@@ -88,7 +88,7 @@
 
 #pragma mark - Private methods
 
-- (NSMutableArray *)getAdministrationDetailsForMedication:(NSArray *)administrationArray {
+- (NSMutableArray *)administrationDetailsForMedication:(NSArray *)administrationArray {
     
     NSMutableArray *administrationDetailsArray = [[NSMutableArray alloc] init];
     for (NSDictionary *administrationDictionary in administrationArray) {
@@ -99,7 +99,7 @@
 }
 
 
-- (NSDate *)getStartDateForMedicationStartdate:(NSDate *)medicationStartDate
+- (NSDate *)startDateForMedicationStartdate:(NSDate *)medicationStartDate
                                                     medicationEndDate:(NSDate *)medicationEndDate
                                                         startWeekDate:(NSDate *)startWeekDate
                                                           endWeekDate:(NSDate *)endWeekDate {
@@ -121,7 +121,7 @@
     return calculatedStartDate;
 }
 
-- (NSDate *)getEndDateForMedicationStartdate:(NSDate *)medicationStartDate
+- (NSDate *)endDateForMedicationStartdate:(NSDate *)medicationStartDate
                              medicationEndDate:(NSDate *)medicationEndDate
                                  startWeekDate:(NSDate *)startWeekDate
                                  endWeekDate:(NSDate *)endWeekDate {
@@ -144,8 +144,8 @@
 }
 
 
-- (NSMutableArray *)getMedicationScheduleTimeArrayForWhenRequiredMedicationsForStartWeekDate:(NSDate *)startWeekDate
-                                                          andEndWeekDate:(NSDate *)endWeekDate
+- (NSMutableArray *)medicationScheduleTimeArrayForWhenRequiredMedicationsForStartWeekDate:(NSDate *)startWeekDate
+                                                          endWeekDate:(NSDate *)endWeekDate
                                                         withActiveStatus:(BOOL)isActive {
     
     NSMutableArray *timeSlotsArray = [[NSMutableArray alloc] init];
@@ -156,8 +156,8 @@
     } else {
         endDate = [DCDateUtility dateFromSourceString:self.endDate];
     }
-    NSDate *calculatedStartDate = [self getStartDateForMedicationStartdate:startDate medicationEndDate:endDate startWeekDate:startWeekDate endWeekDate:endWeekDate];
-    NSDate *calculatedEndDate = [self getEndDateForMedicationStartdate:startDate medicationEndDate:endDate startWeekDate:startWeekDate endWeekDate:endWeekDate];
+    NSDate *calculatedStartDate = [self startDateForMedicationStartdate:startDate medicationEndDate:endDate startWeekDate:startWeekDate endWeekDate:endWeekDate];
+    NSDate *calculatedEndDate = [self endDateForMedicationStartdate:startDate medicationEndDate:endDate startWeekDate:startWeekDate endWeekDate:endWeekDate];
     NSDate *nextDate;
     if (calculatedStartDate != nil && calculatedEndDate != nil) {
         for (nextDate = calculatedStartDate ; [nextDate compare:calculatedEndDate] <= 0 ; nextDate = [nextDate dateByAddingTimeInterval:24*60*60] ) {
@@ -182,9 +182,9 @@
 }
 
 
-- (NSMutableArray *)getMedicationScheduleTimeArrayFromScheduleDictionary:(NSDictionary *)scheduleDictionary
+- (NSMutableArray *)medicationScheduleTimeArrayFromScheduleDictionary:(NSDictionary *)scheduleDictionary
                                                            withStartWeekDate:(NSDate *)startWeekDate
-                                                              andEndWeekDate:(NSDate *)endWeekDate
+                                                              endWeekDate:(NSDate *)endWeekDate
                                                         withActiveStatus:(BOOL)isActive {
     
     NSArray *timesArray = (NSArray *)[scheduleDictionary objectForKey:DRUG_SCHEDULE_TIMES];
@@ -198,8 +198,8 @@
         endDate = [DCDateUtility dateFromSourceString:self.endDate];
     }
     
-    NSDate *calculatedStartDate = [self getStartDateForMedicationStartdate:startDate medicationEndDate:endDate startWeekDate:startWeekDate endWeekDate:endWeekDate];
-    NSDate *calculatedEndDate = [self getEndDateForMedicationStartdate:startDate medicationEndDate:endDate startWeekDate:startWeekDate endWeekDate:endWeekDate];
+    NSDate *calculatedStartDate = [self startDateForMedicationStartdate:startDate medicationEndDate:endDate startWeekDate:startWeekDate endWeekDate:endWeekDate];
+    NSDate *calculatedEndDate = [self endDateForMedicationStartdate:startDate medicationEndDate:endDate startWeekDate:startWeekDate endWeekDate:endWeekDate];
     NSDate *nextDate;
     NSCalendar *calendar = [NSCalendar currentCalendar];
     [calendar setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];

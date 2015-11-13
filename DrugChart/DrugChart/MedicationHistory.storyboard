@@ -123,7 +123,7 @@
                                             <outlet property="value" destination="VUV-tj-g19" id="ZdR-27-ZAg"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NoteAndReasonCell" rowHeight="44" id="Xot-SH-e3I" customClass="DCNotesAndReasonCell" customModule="DrugChart" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="NoteAndReasonCell" rowHeight="44" id="Xot-SH-e3I" customClass="DCNotesAndReasonCell" customModule="DrugChart" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="72" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Xot-SH-e3I" id="KGn-YC-az2">

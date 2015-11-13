@@ -31,12 +31,12 @@
             self.positionableGraphicsType = [self posititionableGraphicsTypeForString:graphicalItemString];
             self.headDirection = [positionDictionary objectForKey:HEAD_DIRECTION];
             NSString *coordinateString = [positionDictionary objectForKey:COORDINATES];
-            CGPoint wardCoordinates = [DCUtility getCoordinatesFromString:coordinateString];
+            CGPoint wardCoordinates = [DCUtility coordinatesFromString:coordinateString];
             if (self.positionableGraphicsType == kNurseStation) {
-                self.viewFrame = [self getNurseStationFrameFromCoordinates:wardCoordinates];
+                self.viewFrame = [self nurseStationFrameFromCoordinates:wardCoordinates];
             }
             else if (self.positionableGraphicsType == kDivider) {
-                self.viewFrame = [self getDividerGraphicsFrameFromCoordinates:wardCoordinates];
+                self.viewFrame = [self dividerGraphicsFrameFromCoordinates:wardCoordinates];
             }
         }
         @catch (NSException *exception) {
@@ -57,7 +57,7 @@
     return kUnknownTypes;
 }
 
-- (CGRect)getNurseStationFrameFromCoordinates:(CGPoint)coordinates {
+- (CGRect)nurseStationFrameFromCoordinates:(CGPoint)coordinates {
     
     if ([self.headDirection isEqualToString:TOP_DIRECTION] ||
         [self.headDirection isEqualToString:BOTTOM_DIRECTION]) {
@@ -69,7 +69,7 @@
     return CGRectZero;
 }
 
-- (CGRect)getDividerGraphicsFrameFromCoordinates:(CGPoint)coordinates {
+- (CGRect)dividerGraphicsFrameFromCoordinates:(CGPoint)coordinates {
     
     if ([self.headDirection isEqualToString:TOP_DIRECTION] ||
         [self.headDirection isEqualToString:BOTTOM_DIRECTION]) {
