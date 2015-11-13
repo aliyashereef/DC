@@ -35,7 +35,7 @@ class TabularDashBoardView: UIView ,UITableViewDelegate,UITableViewDataSource {
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 2
     }
-    
+
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
@@ -50,16 +50,16 @@ class TabularDashBoardView: UIView ,UITableViewDelegate,UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-                let mainStoryboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
+                let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
                 let observationDetails : UIViewController = mainStoryboard.instantiateViewControllerWithIdentifier("vcObservationMaintenance") as UIViewController
                 let navigationController : UINavigationController? = UINavigationController(rootViewController: observationDetails)
-                navigationController?.modalPresentationStyle = UIModalPresentationStyle.Popover
-                let popover = navigationController?.popoverPresentationController
-                observationDetails.preferredContentSize = CGSizeMake(300,430)
-                popover?.permittedArrowDirections = .Up
-                popover?.preferredContentSize
-                let cell = tableView.cellForRowAtIndexPath(indexPath) as! ObservationsDetailsCell?
-                popover!.sourceView = cell
+                navigationController?.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+//                let popover = navigationController?.popoverPresentationController
+//                observationDetails.preferredContentSize = CGSizeMake(300,430)
+//                popover?.permittedArrowDirections = .Up
+//                popover?.preferredContentSize
+//                let cell = tableView.cellForRowAtIndexPath(indexPath) as! ObservationsDetailsCell?
+//                popover!.sourceView = cell
                 self.delegate?.EditObservation(navigationController!)
 
     }

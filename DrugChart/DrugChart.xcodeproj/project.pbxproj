@@ -142,6 +142,7 @@
 		0BF2DA561ACAB12700B3ED97 /* DCErrorPopOverBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF2DA551ACAB12700B3ED97 /* DCErrorPopOverBackgroundView.m */; };
 		0BF3890F1AA46746006792DE /* DCPatient.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF3890E1AA46746006792DE /* DCPatient.m */; };
 		0BF389151AA468C6006792DE /* DCUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF389141AA468C6006792DE /* DCUtility.m */; };
+		1F3007061BF5552E00DDF3F3 /* VitalSignObservation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3007051BF5552E00DDF3F3 /* VitalSignObservation.swift */; };
 		1FD4FCAA1BF4B5CC00B77B94 /* VitalsignDashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCA91BF4B5CC00B77B94 /* VitalsignDashboard.swift */; };
 		1FD4FCAC1BF4B5FB00B77B94 /* ObservationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCAB1BF4B5FB00B77B94 /* ObservationViewController.swift */; };
 		1FD4FCB51BF4B6B700B77B94 /* BloodPressure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCAE1BF4B6B700B77B94 /* BloodPressure.swift */; };
@@ -511,6 +512,7 @@
 		0BF3890E1AA46746006792DE /* DCPatient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DCPatient.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0BF389131AA468C6006792DE /* DCUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DCUtility.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		0BF389141AA468C6006792DE /* DCUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DCUtility.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		1F3007051BF5552E00DDF3F3 /* VitalSignObservation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VitalSignObservation.swift; sourceTree = "<group>"; };
 		1FD4FCA91BF4B5CC00B77B94 /* VitalsignDashboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VitalsignDashboard.swift; sourceTree = "<group>"; };
 		1FD4FCAB1BF4B5FB00B77B94 /* ObservationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservationViewController.swift; sourceTree = "<group>"; };
 		1FD4FCAE1BF4B6B700B77B94 /* BloodPressure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BloodPressure.swift; sourceTree = "<group>"; };
@@ -1853,6 +1855,7 @@
 				1FD4FCB21BF4B6B700B77B94 /* Pulse.swift */,
 				1FD4FCB31BF4B6B700B77B94 /* Respiratory.swift */,
 				1FD4FCB41BF4B6B700B77B94 /* SPO2.swift */,
+				1F3007051BF5552E00DDF3F3 /* VitalSignObservation.swift */,
 			);
 			name = VitalSign;
 			sourceTree = "<group>";
@@ -2616,6 +2619,7 @@
 				0B95FAF01B5E6634002939DF /* DCWarningsHeaderView.m in Sources */,
 				0BBC8F8D1AA457E10085ABAB /* DCUser.m in Sources */,
 				0B8886AF1B0C7814006FF1BF /* DCDatePickerViewController.m in Sources */,
+				1F3007061BF5552E00DDF3F3 /* VitalSignObservation.swift in Sources */,
 				0BC5FAFE1B442B6B0019BF36 /* DCOrderSet.m in Sources */,
 				4D9649921BA296CC008630B4 /* DCBedsAndPatientsWebService.m in Sources */,
 				4DC440181B67990D000EC7AB /* DCOrderSetWebService.m in Sources */,
