@@ -620,13 +620,19 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         if (medicationSlot?.medicationAdministration.status == ADMINISTERED) {
             //configure tablecells for medication status administered
             let administeredTableCell = populatedAdministeredTableViewCellAtIndexPath(indexPath)
+            administeredTableCell.separatorInset = UIEdgeInsetsZero
+            administeredTableCell.layoutMargins = UIEdgeInsetsZero
             return administeredTableCell
         } else if (medicationSlot?.medicationAdministration.status == OMITTED) {
             let omittedTableCell = populatedOmittedTableViewCellAtIndexPath(indexPath)
+            omittedTableCell.separatorInset = UIEdgeInsetsZero
+            omittedTableCell.layoutMargins = UIEdgeInsetsZero
             return omittedTableCell
         } else if (medicationSlot?.medicationAdministration.status == REFUSED){
             //refused status
             let refusedTableCell = populatedRefusedTableCellAtIndexPath(indexPath)
+            refusedTableCell.separatorInset = UIEdgeInsetsZero
+            refusedTableCell.layoutMargins = UIEdgeInsetsZero
             return refusedTableCell
         } else {
             let administerCell : DCAdministerCell = (administerTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
@@ -638,6 +644,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             } else {
                 administerCell.titleLabel.textColor = UIColor(forHexString: "#676767")
             }
+            administerCell.separatorInset = UIEdgeInsetsZero
+            administerCell.layoutMargins = UIEdgeInsetsZero
             return administerCell
         }
     }

@@ -27,7 +27,6 @@
 #define SORT_KEY_MEDICINE_START_DATE @"startDate"
 
 typedef enum : NSUInteger {
-    kSortDrugType,
     kSortDrugStartDate,
     kSortDrugName
 } SortType;
@@ -366,7 +365,6 @@ typedef enum : NSUInteger {
 
 - (void)sortMedicationListSelectionChanged:(NSInteger)currentSelection {
     
-    sortType = kSortDrugType;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         if (currentSelection == 1) {
             sortType = kSortDrugStartDate;
@@ -388,12 +386,10 @@ typedef enum : NSUInteger {
 
 - (void)sortCalendarViewBasedOnCriteria:(NSString *)criteriaString {
     
-    sortType = kSortDrugType;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
         if ([criteriaString isEqualToString:INCLUDE_DISCONTINUED]) {
             [self includeDiscontinuedMedications];
-            
         }
         if ([criteriaString isEqualToString:START_DATE_ORDER]) {
             sortType = kSortDrugStartDate;
@@ -422,10 +418,8 @@ typedef enum : NSUInteger {
         } else {
             discontinuedMedicationShown = YES;
             [self displayMedicationListArray];
-            if (sortType != kSortDrugType) {
-                [self sortPrescriberMedicationList];
-            }
         }
+        [self sortPrescriberMedicationList];
         dispatch_async(dispatch_get_main_queue(), ^{
             if ([displayMedicationListArray count] > 0) {
                 if (prescriberMedicationListViewController) {
