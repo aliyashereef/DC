@@ -110,53 +110,16 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     
     func todayButtonClicked () {
         
-        let weekdate = currentWeekDatesArray.objectAtIndex(7)
+        let weekdate = currentWeekDatesArray.objectAtIndex(7) // extracting the middle date - todays date
         let todaysDate : NSDate = NSDate()
         let order = NSCalendar.currentCalendar().compareDate(weekdate as! NSDate, toDate:todaysDate,
             toUnitGranularity: .Day)
-        let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
-        let indexPathArray : [NSIndexPath] = medicationTableView!.indexPathsForVisibleRows!
-        let calendarWidth : CGFloat = (DCUtility.mainWindowSize().width - MEDICATION_VIEW_WIDTH);
         if order == NSComparisonResult.OrderedSame {
             // Do Nothing
         } else if order == NSComparisonResult.OrderedAscending {
-            for var count = 0; count < indexPathArray.count; count++ {
-                let indexPath = indexPathArray[count]
-                let medicationCell = medicationTableView?.cellForRowAtIndexPath(indexPath) as? PrescriberMedicationTableViewCell
-                var isLastCell : Bool = false
-                var weekViewAnimated : Bool = false
-                if (count == indexPathArray.count - 1) {
-                    isLastCell = true
-                }
-                UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
-                                    if (medicationCell!.leadingSpaceMasterToContainerView.constant == 0) {
-                                        // animate to right , load previous week
-                                        medicationCell!.leadingSpaceMasterToContainerView.constant = calendarWidth
-                                    } else {
-                                        medicationCell!.leadingSpaceMasterToContainerView.constant = 0.0
-                                    }
-                                    if (weekViewAnimated == false) {
-                                        parentViewController.modifyWeekDatesViewConstraint(medicationCell!.leadingSpaceMasterToContainerView.constant)
-                                        weekViewAnimated = true
-                                    }
-                                    medicationCell!.layoutIfNeeded()
-                                    }) { (Bool) -> Void in
-                    
-                                        if isLastCell {
-                                            if ( medicationCell!.leadingSpaceMasterToContainerView.constant == calendarWidth) {
-                                                autoreleasepool({ () -> () in
-                                                    parentViewController.loadCurrentWeekDate()
-                                                    parentViewController.modifyWeekDatesViewConstraint(0)
-                                                    self.modifyParentViewOnSwipeEnd(parentViewController)
-                                                })
-                                            }
-                                        }
-                                        medicationCell!.leadingSpaceMasterToContainerView.constant = 0.0
-                                        medicationCell!.layoutIfNeeded()
-                                }
-            }
+            self.animateAdministratorDetailsView(true)
         } else if order == NSComparisonResult.OrderedDescending {
-            
+            self.animateAdministratorDetailsView(false)
         }
     }
 
@@ -496,6 +459,49 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
 //    
 //    [prescriberMedicationListViewController animatePrescriberCellToOriginalStateAtIndexPath:editIndexPath];
 //    }
+    
+    func animateAdministratorDetailsView (isRight : Bool) {
+        let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
+        let indexPathArray : [NSIndexPath] = medicationTableView!.indexPathsForVisibleRows!
+        let calendarWidth : CGFloat = (DCUtility.mainWindowSize().width - MEDICATION_VIEW_WIDTH);
+        var calendarWidthConstraint : CGFloat = calendarWidth
+        if (!isRight) {
+            calendarWidthConstraint = -calendarWidth
+        }
+        for var count = 0; count < indexPathArray.count; count++ {
+            let indexPath = indexPathArray[count]
+            let medicationCell = medicationTableView?.cellForRowAtIndexPath(indexPath) as? PrescriberMedicationTableViewCell
+            var isLastCell : Bool = false
+            var weekViewAnimated : Bool = false
+            if (count == indexPathArray.count - 1) {
+                isLastCell = true
+            }
+            UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
+                if (medicationCell!.leadingSpaceMasterToContainerView.constant == 0) {
+                    medicationCell!.leadingSpaceMasterToContainerView.constant = calendarWidthConstraint
+                } else {
+                    medicationCell!.leadingSpaceMasterToContainerView.constant = 0.0
+                }
+                if (weekViewAnimated == false) {
+                    parentViewController.modifyWeekDatesViewConstraint(medicationCell!.leadingSpaceMasterToContainerView.constant)
+                    weekViewAnimated = true
+                }
+                medicationCell!.layoutIfNeeded()
+                }) { (Bool) -> Void in
+                    if isLastCell {
+                        if ( medicationCell!.leadingSpaceMasterToContainerView.constant == calendarWidthConstraint) {
+                            autoreleasepool({ () -> () in
+                                parentViewController.loadCurrentWeekDate()
+                                parentViewController.modifyWeekDatesViewConstraint(0)
+                                self.modifyParentViewOnSwipeEnd(parentViewController)
+                            })
+                        }
+                    }
+                    medicationCell!.leadingSpaceMasterToContainerView.constant = 0.0
+                    medicationCell!.layoutIfNeeded()
+            }
+        }
+    }
     
     func medicationEditCancelledForIndexPath(editIndexPath: NSIndexPath!) {
         
