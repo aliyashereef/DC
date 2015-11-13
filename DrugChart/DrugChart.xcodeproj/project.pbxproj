@@ -25,6 +25,7 @@
 		0B5948BE1B218B0A0085FB26 /* DCPatientAllergy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B5948BD1B218B0A0085FB26 /* DCPatientAllergy.m */; };
 		0B6B497A1B2ED50700288117 /* DCScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B6B49791B2ED50700288117 /* DCScrollView.m */; };
 		0B6B9DC21B4111B000395AC5 /* AdministratingTime.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0B6B9DC11B4111B000395AC5 /* AdministratingTime.plist */; };
+		0B6DDB891BF5CFD700A61D14 /* DCSchedulingPickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6DDB881BF5CFD700A61D14 /* DCSchedulingPickerCell.swift */; settings = {ASSET_TAGS = (); }; };
 		0B720B4F1B1D87B800144665 /* DCMedicationSearchWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B720B4E1B1D87B800144665 /* DCMedicationSearchWebService.m */; };
 		0B720B531B1DA4FD00144665 /* DCSearchMedication.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B720B521B1DA4FD00144665 /* DCSearchMedication.m */; };
 		0B7D5CD31BB90E210044BE1B /* DCBNFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7D5CD21BB90E210044BE1B /* DCBNFViewController.swift */; settings = {ASSET_TAGS = (); }; };
@@ -274,6 +275,7 @@
 		0B6B49781B2ED50700288117 /* DCScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCScrollView.h; sourceTree = "<group>"; };
 		0B6B49791B2ED50700288117 /* DCScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCScrollView.m; sourceTree = "<group>"; };
 		0B6B9DC11B4111B000395AC5 /* AdministratingTime.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AdministratingTime.plist; sourceTree = "<group>"; };
+		0B6DDB881BF5CFD700A61D14 /* DCSchedulingPickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCSchedulingPickerCell.swift; sourceTree = "<group>"; };
 		0B720B4D1B1D87B800144665 /* DCMedicationSearchWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCMedicationSearchWebService.h; sourceTree = "<group>"; };
 		0B720B4E1B1D87B800144665 /* DCMedicationSearchWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCMedicationSearchWebService.m; sourceTree = "<group>"; };
 		0B720B511B1DA4FD00144665 /* DCSearchMedication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCSearchMedication.h; sourceTree = "<group>"; };
@@ -779,6 +781,14 @@
 			path = DCScrollView;
 			sourceTree = "<group>";
 		};
+		0B6DDB871BF5CFA800A61D14 /* SchedulingPickerCell */ = {
+			isa = PBXGroup;
+			children = (
+				0B6DDB881BF5CFD700A61D14 /* DCSchedulingPickerCell.swift */,
+			);
+			path = SchedulingPickerCell;
+			sourceTree = "<group>";
+		};
 		0B720B4C1B1D879400144665 /* MedicationSearchWebService */ = {
 			isa = PBXGroup;
 			children = (
@@ -1031,6 +1041,7 @@
 			isa = PBXGroup;
 			children = (
 				0BA5A3911BF35E2700251F94 /* DCSchedulingDetailViewController.swift */,
+				0B6DDB871BF5CFA800A61D14 /* SchedulingPickerCell */,
 				0B38AC061BF458E90027B8E6 /* ShedulingCell */,
 			);
 			path = SchedulingDetailViewController;
@@ -2395,6 +2406,7 @@
 				0BA803741BA80DCD00DBB45D /* DCWarningsCell.swift in Sources */,
 				7DE017691BC2439A0094928C /* DCGraphicalViewHelper.m in Sources */,
 				4D7627821BE8E12E0070BAF2 /* DCPatientMenuViewController.swift in Sources */,
+				0B6DDB891BF5CFD700A61D14 /* DCSchedulingPickerCell.swift in Sources */,
 				4D011C581BB147D7005C79A2 /* DCMedicationHistoryViewController.swift in Sources */,
 				0B1589EB1AD52D3B005F3811 /* DCHTTPRequestOperationManager.m in Sources */,
 				0BA40BB91B299D67005B80AD /* HTMLNode.m in Sources */,

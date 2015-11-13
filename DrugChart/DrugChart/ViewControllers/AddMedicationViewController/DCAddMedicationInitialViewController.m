@@ -270,23 +270,26 @@
                 //has end date,
                 if (indexPath.row == DATE_PICKER_INDEX_START_DATE + 2)  {
                     dateAndTimeCell = [self updatedEndDateTableCell:dateAndTimeCell];
-                } else if (indexPath.row == DATE_PICKER_INDEX_START_DATE + 3) {
-                    dateAndTimeCell = [self updatedAdministrationTimeTableCell:dateAndTimeCell];
                 }
-            } else {
-                if (indexPath.row == DATE_PICKER_INDEX_START_DATE + 2)  {
-                    dateAndTimeCell = [self updatedAdministrationTimeTableCell:dateAndTimeCell];
-                }
+//                else if (indexPath.row == DATE_PICKER_INDEX_START_DATE + 3) {
+//                    dateAndTimeCell = [self updatedAdministrationTimeTableCell:dateAndTimeCell];
+//                }
             }
+//            else {
+//                if (indexPath.row == DATE_PICKER_INDEX_START_DATE + 2)  {
+//                    dateAndTimeCell = [self updatedAdministrationTimeTableCell:dateAndTimeCell];
+//                }
+//            }
         } else if (self.datePickerIndexPath.row == DATE_PICKER_INDEX_END_DATE) {
             //has inline picker at end date cell. End date cell has inline date picker displayed, the very next and last row will be the administration times cell. datePickerIndexPath.row - 1 is the end date cell. datePickerIndexPath.row - 2 is the no end date cell.
             if (indexPath.row == DATE_PICKER_INDEX_END_DATE - 2) {
                 dateAndTimeCell = [self noEndDateTableCell:dateAndTimeCell];
             } else if (indexPath.row == DATE_PICKER_INDEX_END_DATE - 1)  {
                 dateAndTimeCell = [self updatedEndDateTableCell:dateAndTimeCell];
-            } else if (indexPath.row == DATE_PICKER_INDEX_END_DATE + 1) {
-                dateAndTimeCell = [self updatedAdministrationTimeTableCell:dateAndTimeCell];
             }
+//            else if (indexPath.row == DATE_PICKER_INDEX_END_DATE + 1) {
+//                dateAndTimeCell = [self updatedAdministrationTimeTableCell:dateAndTimeCell];
+//            }
         } else {
             //no inline date picker.
             if (indexPath.row == NO_END_DATE_ROW_INDEX) {
@@ -295,12 +298,14 @@
                 if (self.selectedMedication.hasEndDate) { //has end date
                     if (indexPath.row == END_DATE_ROW_INDEX) {
                         dateAndTimeCell = [self updatedEndDateTableCell:dateAndTimeCell];
-                    } else {
-                        dateAndTimeCell = [self updatedAdministrationTimeTableCell:dateAndTimeCell];
                     }
-                } else {
-                    dateAndTimeCell = [self updatedAdministrationTimeTableCell:dateAndTimeCell];
+//                    else {
+//                        dateAndTimeCell = [self updatedAdministrationTimeTableCell:dateAndTimeCell];
+//                    }
                 }
+//                else {
+//                    dateAndTimeCell = [self updatedAdministrationTimeTableCell:dateAndTimeCell];
+//                }
             }
         }
     }
@@ -574,9 +579,9 @@
             return (showWarnings ? rowCount : MEDICATION_NAME_ROW_COUNT);
         }
         case eFifthSection:
-            return showWarnings ? 1 : 3;
+            return showWarnings ? 1 : SPECIFIC_TIMES_SCHEDULING_ROW_COUNT;
         case eSixthSection:
-            return 3;
+            return SPECIFIC_TIMES_SCHEDULING_ROW_COUNT;
         default:
             break;
     }
@@ -708,12 +713,14 @@
     DCSchedulingDetailViewController *schedulingDetailViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:SCHEDULING_DETAIL_STORYBOARD_ID];
     AddMedicationDetailType detailType = [DCAddMedicationHelper medicationDetailTypeForIndexPath:indexPath hasWarnings:showWarnings];
     schedulingDetailViewController.detailType = detailType;
+    schedulingDetailViewController.repeatValue = self.selectedMedication.scheduling.repeat;
     schedulingDetailViewController.selectedEntry = ^ (NSString *selectedValue){
         NSLog(@"***** Selected Value is %@", selectedValue);
         if (detailType == eDetailSchedulingType) {
             self.selectedMedication.scheduling.type = selectedValue;
         } else if (detailType == eDetailRepeatType) {
-           // self.selectedMedication.scheduling.repeat.repeatType = selectedValue;
+            self.selectedMedication.scheduling.repeat.repeatType = selectedValue;
+            self.selectedMedication.scheduling.repeat.frequency = @"1 day";
         }
     };
     DCAddMedicationContentCell *selectedCell = [self selectedCellAtIndexPath:indexPath];

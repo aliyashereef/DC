@@ -758,6 +758,32 @@
                                             <outlet property="titleLabel" destination="TLc-4f-b72" id="f8o-YM-o5M"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SchedulingPickerCellId" rowHeight="216" id="BDL-qs-S9D" customClass="DCSchedulingPickerCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="94" width="310" height="216"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BDL-qs-S9D" id="mBo-RL-Gqf">
+                                            <rect key="frame" x="0.0" y="0.0" width="310" height="215"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y7h-sO-2ht">
+                                                    <rect key="frame" x="0.0" y="0.0" width="310" height="215"/>
+                                                    <connections>
+                                                        <outlet property="dataSource" destination="BDL-qs-S9D" id="PO4-dJ-JN3"/>
+                                                        <outlet property="delegate" destination="BDL-qs-S9D" id="f7H-dH-LYn"/>
+                                                    </connections>
+                                                </pickerView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Y7h-sO-2ht" firstAttribute="top" secondItem="mBo-RL-Gqf" secondAttribute="top" id="4ew-rP-shW"/>
+                                                <constraint firstItem="Y7h-sO-2ht" firstAttribute="leading" secondItem="mBo-RL-Gqf" secondAttribute="leading" id="dg9-1k-seJ"/>
+                                                <constraint firstAttribute="trailing" secondItem="Y7h-sO-2ht" secondAttribute="trailing" id="hs2-Nm-0VN"/>
+                                                <constraint firstAttribute="bottom" secondItem="Y7h-sO-2ht" secondAttribute="bottom" id="kT1-G4-Te1"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="pickerView" destination="Y7h-sO-2ht" id="WAh-j4-6Jb"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="QIp-OG-M7Q" id="ciR-KV-6vb"/>

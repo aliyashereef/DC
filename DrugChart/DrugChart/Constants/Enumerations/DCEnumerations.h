@@ -98,4 +98,10 @@ typedef enum : NSUInteger {
     eReason
 } NotesType;
 
+typedef enum : NSUInteger {
+    
+    eSchedulingFrequency
+    
+} PickerType;
+
 #endif
