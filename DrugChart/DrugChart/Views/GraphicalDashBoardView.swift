@@ -11,13 +11,14 @@ import UIKit
 class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionViewDelegate {
 
     @IBOutlet weak var collectionView: UICollectionView!
-    var temperatureList = [BodyTemperature]()
-    var respiratoryList = [Respiratory]()
-    var pulseList = [Pulse]()
-    var spO2List = [SPO2]()
-    var bmList = [BowelMovement]()
-    var bpList = [BloodPressure]()
-    
+//    var temperatureList = [BodyTemperature]()
+//    var respiratoryList = [Respiratory]()
+//    var pulseList = [Pulse]()
+//    var spO2List = [SPO2]()
+//    var bmList = [BowelMovement]()
+//    var bpList = [BloodPressure]()
+//
+    var observationList = [VitalSignObservation]()
     class func instanceFromNib() -> UIView {
         return UINib(nibName: "GraphicalDashBoardView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
     }
@@ -53,57 +54,85 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
         case DashBoardRow.Respiratory.rawValue:
             chartType = ChartType.LineChart
             cellTitle = "Respiratory"
-            for respiratory in respiratoryList
+            for observation in observationList
             {
-                yAxisValue.append(respiratory.repiratoryRate)
-                xAxisValue.append(formatter.stringFromDate(respiratory.date))
+                if observation.respiratiory == nil
+                {
+                    continue
+                }
+                    yAxisValue.append((observation.respiratiory?.repiratoryRate)!)
+                    xAxisValue.append(formatter.stringFromDate(observation.date))
+                
             }
             
         case DashBoardRow.Temperature.rawValue:
             chartType = ChartType.LineChart
             cellTitle = "Temperature"
             
-            for temperature in temperatureList
+            for observation in observationList
             {
-                yAxisValue.append(temperature.value)
-                xAxisValue.append(formatter.stringFromDate(temperature.date))
+                if observation.temperature == nil
+                {
+                    continue
+                }
+                    yAxisValue.append((observation.temperature?.value)!)
+                    xAxisValue.append(formatter.stringFromDate(observation.date))
+                
             }
         case DashBoardRow.Pulse.rawValue:
             chartType = ChartType.LineChart
             cellTitle = "Pulse"
             
-            for pulse in pulseList
+            for observation in observationList
             {
-                yAxisValue.append(pulse.pulseRate)
-                xAxisValue.append(formatter.stringFromDate(pulse.date))
+                if observation.pulse == nil
+                {
+                    continue
+                }
+                    yAxisValue.append((observation.pulse?.pulseRate)!)
+                    xAxisValue.append(formatter.stringFromDate(observation.date))
+                
             }
         case DashBoardRow.SpO2.rawValue:
             chartType = ChartType.LineChart
             cellTitle = "SPO2"
             
-            for spO2 in spO2List
+            for observation in observationList
             {
-                yAxisValue.append(spO2.spO2Percentage)
-                xAxisValue.append(formatter.stringFromDate(spO2.date))
+                if observation.spo2 == nil{
+                    continue
+                }
+                    yAxisValue.append((observation.spo2?.spO2Percentage)!)
+                    xAxisValue.append(formatter.stringFromDate(observation.date))
+                
             }
         case DashBoardRow.BM.rawValue:
                 chartType = ChartType.LineChart
                 cellTitle = "BM"
                 
-                for bm in bmList
+                for observation in observationList
                 {
-                    yAxisValue.append(bm.value)
-                    xAxisValue.append(formatter.stringFromDate(bm.date))
-                }
+                    if observation.bm == nil
+                    {
+                        continue
+                    }
+                        yAxisValue.append((observation.bm?.value)!)
+                        xAxisValue.append(formatter.stringFromDate(observation.date))
+                    
+                 }
         case DashBoardRow.BloodPressure.rawValue:
             chartType = ChartType.BarChart
             cellTitle = "Blood Pressure"
             
-            for bp in bpList
+            for observation in observationList
             {
-                yAxisValue.append(bp.systolic)
-                yAxisValue2.append(bp.diastolic)
-                xAxisValue.append(formatter.stringFromDate(bp.date))
+                if observation.bloodPressure == nil{
+                    continue
+                }
+                    yAxisValue.append((observation.bloodPressure?.systolic)!)
+                    yAxisValue2.append((observation.bloodPressure?.diastolic)!)
+                    xAxisValue.append(formatter.stringFromDate(observation.date))
+             
             }
         default:
             chartType = ChartType.None
@@ -141,14 +170,9 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
         return CGSizeMake(308,264)
     }
     
-    func reloadView(paramTemperatureList:[BodyTemperature],paramRespiratoryList:[Respiratory] , paramPulseList :[Pulse],paramSPO2List:[SPO2],paramBMList:[BowelMovement],paramBPList:[BloodPressure])
+    func reloadView(observationList :[VitalSignObservation])
     {
-        temperatureList = paramTemperatureList
-        respiratoryList = paramRespiratoryList
-        pulseList = paramPulseList
-        spO2List = paramSPO2List
-        bmList = paramBMList
-        bpList = paramBPList
+        self.observationList = observationList
         collectionView.reloadData()
     }
     

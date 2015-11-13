@@ -14,12 +14,13 @@ class VitalsignDashboard: DCBaseViewController , ObservationEditDelegate{
     
     
     @IBOutlet weak var parentView: UIView!
-    var temperatureList = [BodyTemperature]()
-    var respiratoryList = [Respiratory]()
-    var pulseList = [Pulse]()
-    var spO2List = [SPO2]()
-    var bmList = [BowelMovement]()
-    var bpList = [BloodPressure]()
+//    var temperatureList = [BodyTemperature]()
+//    var respiratoryList = [Respiratory]()
+//    var pulseList = [Pulse]()
+//    var spO2List = [SPO2]()
+//    var bmList = [BowelMovement]()
+//    var bpList = [BloodPressure]()
+    var observationList = [VitalSignObservation]()
     var graphicalDashBoardView:GraphicalDashBoardView!
     var tabularDashBoardView:TabularDashBoardView!
     
@@ -57,16 +58,9 @@ class VitalsignDashboard: DCBaseViewController , ObservationEditDelegate{
     {
         if let sourceViewController = sender.sourceViewController as? ObservationViewController
         {
-            // add the temperature to the list
-            temperatureList.append(sourceViewController.generalObservationView.obsBodyTemperature)
-            respiratoryList.append(sourceViewController.generalObservationView.obsRespiratory)
-            pulseList.append(sourceViewController.generalObservationView.obsPulse )
-            spO2List.append(sourceViewController.generalObservationView.obsSPO2)
-            bmList.append(sourceViewController.generalObservationView.obsBM)
-            bpList.append(sourceViewController.generalObservationView.obsBP)
+             observationList.append(sourceViewController.generalObservationView.observation)
         }
-        graphicalDashBoardView.reloadView(temperatureList, paramRespiratoryList: respiratoryList, paramPulseList: pulseList, paramSPO2List: spO2List , paramBMList: bmList, paramBPList: bpList)
-        //collectionView.reloadData() : TODO : NEED TO WRITE A LOADING LINE HERE.
+        graphicalDashBoardView.reloadView(observationList)
     }
     
     func EditObservation(navigationController:UINavigationController)

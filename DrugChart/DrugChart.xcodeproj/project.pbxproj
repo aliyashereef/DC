@@ -214,7 +214,6 @@
 		4D66A06B1B737B100075677E /* DCOrderSetAutoSearchHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D66A06A1B737B100075677E /* DCOrderSetAutoSearchHeaderView.m */; };
 		4D66A06F1B737BEE0075677E /* DCOrderSetAutoSearchHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D66A06E1B737BEE0075677E /* DCOrderSetAutoSearchHeaderView.xib */; };
 		4D7627821BE8E12E0070BAF2 /* DCPatientMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7627811BE8E12E0070BAF2 /* DCPatientMenuViewController.swift */; };
-		4D7627861BE8E1A10070BAF2 /* DCVitalSignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7627851BE8E1A10070BAF2 /* DCVitalSignViewController.swift */; };
 		4D7627881BE8E22D0070BAF2 /* PatientMenu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4D7627871BE8E22D0070BAF2 /* PatientMenu.storyboard */; };
 		4D766C0B1BBCF79900413E08 /* DCCalendarDateDisplayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D766C0A1BBCF79900413E08 /* DCCalendarDateDisplayViewController.swift */; };
 		4D766C0D1BBCFE6400413E08 /* DCCalendarDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D766C0C1BBCFE6400413E08 /* DCCalendarDateView.swift */; };
@@ -576,7 +575,6 @@
 		4D66A06A1B737B100075677E /* DCOrderSetAutoSearchHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCOrderSetAutoSearchHeaderView.m; sourceTree = "<group>"; };
 		4D66A06E1B737BEE0075677E /* DCOrderSetAutoSearchHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCOrderSetAutoSearchHeaderView.xib; sourceTree = "<group>"; };
 		4D7627811BE8E12E0070BAF2 /* DCPatientMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCPatientMenuViewController.swift; sourceTree = "<group>"; };
-		4D7627851BE8E1A10070BAF2 /* DCVitalSignViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCVitalSignViewController.swift; sourceTree = "<group>"; };
 		4D7627871BE8E22D0070BAF2 /* PatientMenu.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = PatientMenu.storyboard; sourceTree = "<group>"; };
 		4D766C0A1BBCF79900413E08 /* DCCalendarDateDisplayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCCalendarDateDisplayViewController.swift; sourceTree = "<group>"; };
 		4D766C0C1BBCFE6400413E08 /* DCCalendarDateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCCalendarDateView.swift; sourceTree = "<group>"; };
@@ -1940,7 +1938,6 @@
 			children = (
 				1FD4FCAB1BF4B5FB00B77B94 /* ObservationViewController.swift */,
 				1FD4FCA91BF4B5CC00B77B94 /* VitalsignDashboard.swift */,
-				4D7627851BE8E1A10070BAF2 /* DCVitalSignViewController.swift */,
 			);
 			name = VitalSignViewController;
 			sourceTree = "<group>";
@@ -2515,7 +2512,6 @@
 				4D4891591BC900DB002AC8CA /* DCPatientDetailsHelper.m in Sources */,
 				1FD4FD041BF4BAAD00B77B94 /* ObservationsDetailsCell.swift in Sources */,
 				0B8D6E7A1B3136C200F0B972 /* DCKeyChainManager.m in Sources */,
-				4D7627861BE8E1A10070BAF2 /* DCVitalSignViewController.swift in Sources */,
 				7D6335571AE66A9F00463E12 /* DCBed.m in Sources */,
 				1FD4FCB81BF4B6B700B77B94 /* KeyValue.swift in Sources */,
 				4D4891611BC90176002AC8CA /* DCWardsListingPopoverViewController.swift in Sources */,
@@ -2547,7 +2543,6 @@
 				0BAA87381AF8B48600FCA686 /* DCSecurityPinWebService.m in Sources */,
 				0BC542D41AB8556A004DDFCC /* DCAdministerMedication.m in Sources */,
 				7D63355A1AE66AB700463E12 /* DCWard.m in Sources */,
-			7D4DBE951AA5438B00A5E39B /* DCPatientTableViewCell.m in Sources */,
 				1FD4FCFF1BF4BAAD00B77B94 /* BarChartCell.swift in Sources */,
 				4D16FADD1B5E34210034406A /* DCStopMedicationWebService.m in Sources */,
 				7D6010761B4BE1AA00135DBD /* DCMedicationSchedulesWebService.m in Sources */,
@@ -2555,7 +2550,6 @@
 				7D930D1F1AADF82E00C0607F /* DCDateUtility.m in Sources */,
 				0B1E308F1AF20213003E49C4 /* DCSecurityPinViewController.m in Sources */,
 				1FD4FCB71BF4B6B700B77B94 /* BowelMovement.swift in Sources */,
-				0B26E8341B4D12B300B20CE3 /* DCAdministratingTimeContainerView.m in Sources */,
 				7DE017661BC23E230094928C /* PrescriberMedicationTableViewCell.swift in Sources */,
 				0BCF5EA71AE0D8ED002467BF /* DCPlistManager.m in Sources */,
 				1FD4FD051BF4BAAD00B77B94 /* PickerCell.swift in Sources */,
@@ -2582,7 +2576,6 @@
 				4DECF30C1B79D2000085E75B /* DCOrderSetWarningCount.m in Sources */,
 				1FD4FD061BF4BAAD00B77B94 /* SelectionCell.swift in Sources */,
 				4D4891561BC90053002AC8CA /* DCSwiftObjCNavigationHelper.m in Sources */,
-				7D3234AC1AF119E60020CC8F /* DCSettingsPopOverBackgroundView.m in Sources */,
 				1FD4FD0A1BF4BAE000B77B94 /* Enumerations.swift in Sources */,
 				4DDE0ADE1BBBBEDE0044295B /* DCAdministratedByPinVerificationViewController.swift in Sources */,
 				1FD4FCC91BF4B7E000B77B94 /* CommaScoreView.swift in Sources */,
@@ -2600,7 +2593,6 @@
 				0B90D6541B734EE0003A37E4 /* UICKeyChainStore.m in Sources */,
 				0BAE36941B450A6C007CD64C /* DCAutoSearchCell.m in Sources */,
 				1FD4FCAA1BF4B5CC00B77B94 /* VitalsignDashboard.swift in Sources */,
-				0BBEDFE21B58DCA200FFFF13 /* DCDosagePopOverBackgroundView.m in Sources */,
 				0B14CD8D1BB151EA0085E40C /* DCAdministerCell.swift in Sources */,
 				1FD4FCE71BF4B8F400B77B94 /* LineChartCell.swift in Sources */,
 				0B7F74FC1B84394B00E3B0A0 /* DCSortTableViewController.m in Sources */,

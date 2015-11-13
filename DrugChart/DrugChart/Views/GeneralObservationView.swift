@@ -11,12 +11,13 @@ import UIKit
 class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
 
     @IBOutlet var tableView: UITableView!
-    var obsBodyTemperature = BodyTemperature()
-    var obsRespiratory = Respiratory()
-    var obsPulse = Pulse()
-    var obsSPO2 = SPO2()
-    var obsBM = BowelMovement()
-    var obsBP = BloodPressure()
+    private var obsBodyTemperature = BodyTemperature()
+    private var obsRespiratory = Respiratory()
+    private var obsPulse = Pulse()
+    private var obsSPO2 = SPO2()
+    private var obsBM = BowelMovement()
+    private var obsBP = BloodPressure()
+    var observation = VitalSignObservation()
     /*
     // Only override drawRect: if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
@@ -182,12 +183,13 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
             {
             case ObservationType.Date.rawValue:
                 let dateCell = cell as! DatePickerCellInline
-                obsBodyTemperature.date = dateCell.date
-                obsRespiratory.date = dateCell.date
-                obsPulse.date = dateCell.date
-                obsSPO2.date = dateCell.date
-                obsBM.date = dateCell.date
-                obsBP.date = dateCell.date
+                observation.date = dateCell.date
+//                obsBodyTemperature.date = dateCell.date
+//                obsRespiratory.date = dateCell.date
+//                obsPulse.date = dateCell.date
+//                obsSPO2.date = dateCell.date
+//                obsBM.date = dateCell.date
+//                obsBP.date = dateCell.date
             case ObservationType.Temperature.rawValue:
                 let doubleCell = cell as! DoubleCell
                 obsBodyTemperature.value = doubleCell.getValue()
@@ -210,6 +212,12 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
             default:
                 print("nothing have been selected", terminator: "")
             }
+            observation.bm = obsBM
+            observation.bloodPressure = obsBP
+            observation.spo2 = obsSPO2
+            observation.respiratiory = obsRespiratory
+            observation.temperature = obsBodyTemperature
+            observation.pulse = obsPulse
     }
     }
     

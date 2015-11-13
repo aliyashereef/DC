@@ -56,24 +56,6 @@
             </objects>
             <point key="canvasLocation" x="-2729" y="-1818"/>
         </scene>
-        <!--Vital Sign View Controller-->
-        <scene sceneID="fPp-nt-n3T">
-            <objects>
-                <viewController id="06V-I6-ex7" customClass="DCVitalSignViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="8dG-tp-vdP"/>
-                        <viewControllerLayoutGuide type="bottom" id="KfL-09-7oK"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="9uf-YR-j7Y">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="3i0-80-rZU" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-2066" y="-1826"/>
-        </scene>
         <!--GHA Adult Observation-->
         <scene sceneID="WBW-UK-0HZ">
             <objects>
