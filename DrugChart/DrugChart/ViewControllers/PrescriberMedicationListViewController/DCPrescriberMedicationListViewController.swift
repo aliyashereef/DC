@@ -463,6 +463,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     
     func animateAdministratorDetailsView (isRight : Bool) {
         let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
+        parentViewController.showActivityIndicationOnViewRefresh(true)
         let indexPathArray : [NSIndexPath] = medicationTableView!.indexPathsForVisibleRows!
         let calendarWidth : CGFloat = (DCUtility.mainWindowSize().width - MEDICATION_VIEW_WIDTH);
         var calendarWidthConstraint = calendarWidth
@@ -476,7 +477,11 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             var weekViewAnimated : Bool = false
             if (count == indexPathArray.count - 1) {
                 isLastCell = true
+                parentViewController.loadCurrentWeekDate()
+                parentViewController.modifyWeekDatesInCalendarTopPortion()
+                parentViewController.reloadCalendarTopPortion()
             }
+            
             UIView.animateWithDuration(0.6, animations: { () -> Void in
                 if (medicationCell!.leadingSpaceMasterToContainerView.constant == 0) {
                     medicationCell!.leadingSpaceMasterToContainerView.constant = calendarWidthConstraint
@@ -484,17 +489,19 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                     medicationCell!.leadingSpaceMasterToContainerView.constant = 0.0
                 }
                 if (weekViewAnimated == false) {
-                    parentViewController.modifyWeekDatesViewConstraint(medicationCell!.leadingSpaceMasterToContainerView.constant)
+                    parentViewController.modifyWeekDatesViewConstraint(0)
                     weekViewAnimated = true
                 }
                 medicationCell!.layoutIfNeeded()
                 }) { (Bool) -> Void in
-                    parentViewController.loadCurrentWeekDate()
-                    self.modifyParentViewOnSwipeEnd(parentViewController)
+                    parentViewController.updatePrescriberMedicationListDetails()
+                    parentViewController.cancelPreviousMedicationListFetchRequest()
+                    parentViewController.fetchMedicationListForPatient()
                     if isLastCell {
                         if ( medicationCell!.leadingSpaceMasterToContainerView.constant == calendarWidthConstraint) {
                             autoreleasepool({ () -> () in
                                 parentViewController.modifyWeekDatesViewConstraint(0)
+
                             })
                         }
                     }
