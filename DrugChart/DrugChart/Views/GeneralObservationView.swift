@@ -17,7 +17,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
     private var obsSPO2 = SPO2()
     private var obsBM = BowelMovement()
     private var obsBP = BloodPressure()
-    var observation = VitalSignObservation()
+    var observation:VitalSignObservation!
     /*
     // Only override drawRect: if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
@@ -30,13 +30,14 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
         return UINib(nibName: "GeneralObservationView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
     }
     
-    func commonInit()
+    func commonInit(observation:VitalSignObservation)
     {
+        self.observation = observation
         tableView.delegate=self
         tableView.dataSource=self
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 44
-//        
+        
         let nib = UINib(nibName: "DoubleCell", bundle: nil)
         self.tableView.registerNib(nib, forCellReuseIdentifier: "DoubleCell")
         
@@ -49,6 +50,11 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
         self.tableView.registerClass(DatePickerCellInline.self, forCellReuseIdentifier: "DatePickerCell")
         
         //
+    }
+    func configureView(observation:VitalSignObservation)
+    {
+        self.observation = observation
+        self.tableView.reloadData()
     }
     // MARK: - Table view data source
     
@@ -72,12 +78,11 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
     
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
         var cellTitle:String = ""
         var placeHolderText = "enter value"
         var rowTag : Int = -1
         var cellType:CellType = CellType.Double
-        
+        var populateValue :Bool = observation != nil
         switch (indexPath.section)
         {
         case ObservationType.Date.rawValue:
@@ -135,7 +140,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
             return cell
         default:
             let cell = tableView.dequeueReusableCellWithIdentifier("DoubleCell", forIndexPath: indexPath) as! DoubleCell
-            cell.configureCell(cellTitle, valuePlaceHolderText: placeHolderText)
+            cell.configureCell(cellTitle, valuePlaceHolderText: placeHolderText,selectedValue: nil)
             cell.tag = rowTag
             return cell
         }
@@ -178,18 +183,13 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
 //    
     func prepareObjects()
     {
+       // observation = VitalSignObservation()
         for cell in tableView.visibleCells {
             switch(cell.tag)
             {
             case ObservationType.Date.rawValue:
                 let dateCell = cell as! DatePickerCellInline
                 observation.date = dateCell.date
-//                obsBodyTemperature.date = dateCell.date
-//                obsRespiratory.date = dateCell.date
-//                obsPulse.date = dateCell.date
-//                obsSPO2.date = dateCell.date
-//                obsBM.date = dateCell.date
-//                obsBP.date = dateCell.date
             case ObservationType.Temperature.rawValue:
                 let doubleCell = cell as! DoubleCell
                 obsBodyTemperature.value = doubleCell.getValue()

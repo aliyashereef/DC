@@ -14,26 +14,32 @@ class TabularDashBoardView: UIView ,UITableViewDelegate,UITableViewDataSource {
     // MARK: - Table view data source
     
     var delegate: ObservationEditDelegate? = nil
-    
+    var dataSource:[VitalSignObservation] = []
     func commonInit()
     {
         tableView.delegate=self
         tableView.dataSource=self
-        //delegate = ObservationEditDelegate
         let nib = UINib(nibName: "ObservationsDetailsCell", bundle: nil)
         self.tableView.registerNib(nib, forCellReuseIdentifier: "ObservationDetailsCell")
     }
     class func instanceFromNib() -> UIView {
         return UINib(nibName: "TabularDashBoardView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
     }
-
+    
+    func configureView(dataSource:[VitalSignObservation])
+    {
+        self.dataSource = dataSource
+        self.tableView.reloadData()
+    }
+    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
         return 1
     }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return dataSource.count
     }
 
     
@@ -41,17 +47,21 @@ class TabularDashBoardView: UIView ,UITableViewDelegate,UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("ObservationDetailsCell", forIndexPath: indexPath) as! ObservationsDetailsCell
         cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
-        
+        let observation = dataSource[indexPath.row]
+        cell.configureCell(observation)
         return cell;
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 130;
+        return 140;
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-                let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
-                let observationDetails : UIViewController = mainStoryboard.instantiateViewControllerWithIdentifier("vcObservationMaintenance") as UIViewController
+        let cell = tableView.cellForRowAtIndexPath(indexPath) as! ObservationsDetailsCell?
+        
+            let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
+                let observationDetails : ObservationViewController = mainStoryboard.instantiateViewControllerWithIdentifier("ObservationMaintenance") as! ObservationViewController
+                observationDetails.observation = cell?.getObservation()
                 let navigationController : UINavigationController? = UINavigationController(rootViewController: observationDetails)
                 navigationController?.modalPresentationStyle = UIModalPresentationStyle.FormSheet
 //                let popover = navigationController?.popoverPresentationController
@@ -63,20 +73,4 @@ class TabularDashBoardView: UIView ,UITableViewDelegate,UITableViewDataSource {
                 self.delegate?.EditObservation(navigationController!)
 
     }
-    //MARK : TODO: NEED TO RESOLVE THE ACCESSORY BUTTON TYPE NOT CALLING ISSUE
-//    func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
-//        let mainStoryboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
-//        let observationDetails : UIViewController = mainStoryboard.instantiateViewControllerWithIdentifier("testViewController") as UIViewController
-//        let navigationController : UINavigationController? = UINavigationController(rootViewController: observationDetails)
-//        navigationController?.modalPresentationStyle = UIModalPresentationStyle.Popover
-//        let popover = navigationController?.popoverPresentationController
-//        observationDetails.preferredContentSize = CGSizeMake(300,300)
-//        popover?.permittedArrowDirections = .Up
-//        popover?.preferredContentSize
-//        let cell = tableView.cellForRowAtIndexPath(indexPath) as! ObservationsDetailsCell?
-//        popover!.sourceView = cell
-//        self.delegate?.EditObservation(navigationController!)
-//
-//    }
-    
 }

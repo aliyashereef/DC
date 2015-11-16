@@ -47,6 +47,7 @@ class VitalsignDashboard: DCBaseViewController , ObservationEditDelegate{
         case 0:
             Helper.displayInChildView(graphicalDashBoardView,parentView:parentView)
         case 1:
+            tabularDashBoardView.configureView(observationList)
             Helper.displayInChildView(tabularDashBoardView,parentView:parentView)
         default:
             print("no default value is present", terminator: "")

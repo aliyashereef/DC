@@ -42,10 +42,14 @@ class DoubleCell: UITableViewCell ,UITextFieldDelegate {
         return (value.text as NSString!).doubleValue
     }
     
-    func configureCell(title:String , valuePlaceHolderText:String )
+    func configureCell(title:String , valuePlaceHolderText:String , selectedValue:Double! )
     {
         titleText.text = title;
         value.placeholder = valuePlaceHolderText
+        if selectedValue != nil
+        {
+            value.text = String(selectedValue)
+        }
     }
     
 //    func addDoneButtonToKeyboard() {

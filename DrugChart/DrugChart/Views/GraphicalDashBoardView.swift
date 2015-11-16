@@ -11,13 +11,6 @@ import UIKit
 class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionViewDelegate {
 
     @IBOutlet weak var collectionView: UICollectionView!
-//    var temperatureList = [BodyTemperature]()
-//    var respiratoryList = [Respiratory]()
-//    var pulseList = [Pulse]()
-//    var spO2List = [SPO2]()
-//    var bmList = [BowelMovement]()
-//    var bpList = [BloodPressure]()
-//
     var observationList = [VitalSignObservation]()
     class func instanceFromNib() -> UIView {
         return UINib(nibName: "GraphicalDashBoardView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
