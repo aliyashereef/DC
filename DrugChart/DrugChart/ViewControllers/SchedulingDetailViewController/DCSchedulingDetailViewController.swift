@@ -11,6 +11,8 @@ import UIKit
 let TABLE_VIEW_ROW_HEIGHT : CGFloat = 44.0
 let PICKER_CELL_HEIGHT : CGFloat = 216.0
 
+typealias RepeatCompletion = DCRepeat? -> Void
+
 class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var detailTableView: UITableView!
@@ -18,12 +20,16 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
     var displayArray : NSMutableArray = []
     var inlinePickerIndexPath : NSIndexPath?
     var repeatValue : DCRepeat?
+    //typealias CompletionBlock = NSString? -> Void
+    var repeatCompletion: RepeatCompletion = { value in }
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
         prepareViewElements()
         populateDisplayArray()
+        NSLog("*** Repeat type %@", (repeatValue?.repeatType)!)
+        NSLog("*** repeat frequency is %@", (repeatValue?.frequency)!)
     }
     
     func configureNavigationTitleView() {
@@ -48,7 +54,7 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
         if (self.detailType == eDetailSchedulingType) {
             displayArray = [SPECIFIC_TIMES, INTERVAL]
         } else if (self.detailType == eDetailRepeatType) {
-            displayArray = ["Frequency", "Every"]
+            displayArray = [FREQUENCY, EVERY]
         }
     }
     
@@ -70,9 +76,18 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
         pickerCell?.configurePickerCellForPickerType(pickerType)
         pickerCell?.completion = { value in
             NSLog("*** Value is %@", value!);
-            self.selectedEntry(value! as String)
             self.detailTableView.beginUpdates()
-            self.detailTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Fade)
+            var indexPathToReload : NSIndexPath
+            if (pickerType == eSchedulingFrequency) {
+                //self.selectedEntry(value! as String)
+                self.repeatValue?.repeatType = value as! String
+                indexPathToReload = NSIndexPath(forRow: 0, inSection: 0)
+            } else {
+                self.repeatValue?.frequency = NSString(format: "%@ days", value!) as String
+                indexPathToReload = NSIndexPath(forRow: 1, inSection: 0)
+            }
+            self.repeatCompletion(self.repeatValue)
+            self.detailTableView.reloadRowsAtIndexPaths([indexPathToReload], withRowAnimation: UITableViewRowAnimation.Fade)
             self.detailTableView.endUpdates()
         }
         return pickerCell!
@@ -84,6 +99,9 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
         schedulingCell?.layoutMargins = UIEdgeInsetsZero
         let displayString = displayArray.objectAtIndex(indexPath.item) as? String
         schedulingCell!.accessoryType = (displayString == previousFilledValue) ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
+        if (indexPath.row == 1) {
+            schedulingCell?.selectionStyle = UITableViewCellSelectionStyle.None
+        }
         schedulingCell!.descriptionLabel.hidden = true
         schedulingCell!.titleLabel?.text = displayString
         return schedulingCell!
@@ -113,7 +131,6 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
         if (tableViewHasInlinePicker()) {
             pickerBeforeSelectedIndexPath = self.inlinePickerIndexPath!.row < indexPath.row
             sameCellClicked = (self.inlinePickerIndexPath!.row - 1 == indexPath.row);
-            NSLog("INline picker indexpath is %@", self.inlinePickerIndexPath!)
             let pickerIndexPath : NSIndexPath = self.inlinePickerIndexPath!
             self.inlinePickerIndexPath = nil
             detailTableView.deleteRowsAtIndexPaths([pickerIndexPath], withRowAnimation: UITableViewRowAnimation.Fade)
@@ -168,16 +185,16 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
                 let repeatCell : DCSchedulingCell = repeatCellAtIndexPath(indexPath)
                 return repeatCell
             } else if (indexPath.row == 1) {
-                if (tableViewHasInlinePicker()) {
+                if (tableViewHasInlinePicker() && self.inlinePickerIndexPath?.row == 1) {
                     let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: eSchedulingFrequency)
                     return pickerCell
                 } else {
-                    let schedulingCell : DCSchedulingCell = schedulingTypeCellAtIndexPath(indexPath)
-                    return schedulingCell
+                    let repeatCell : DCSchedulingCell =  repeatCellAtIndexPath(indexPath)
+                    return repeatCell
                 }
             } else {
-                let schedulingCell : DCSchedulingCell = schedulingTypeCellAtIndexPath(indexPath)
-                return schedulingCell
+                let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: eDailyCount)
+                return pickerCell
             }
         }
     }
@@ -185,13 +202,15 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         if (self.detailType == eDetailSchedulingType) {
-            self.selectedEntry(displayArray.objectAtIndex(indexPath.item) as! String)
-            self.navigationController?.popToRootViewControllerAnimated(true)
-        } else if (self.detailType == eDetailRepeatType) {
             if (indexPath.row == 0) {
+                self.selectedEntry(displayArray.objectAtIndex(indexPath.item) as! String)
+                self.navigationController?.popToRootViewControllerAnimated(true)
+            }
+        } else if (self.detailType == eDetailRepeatType) {
+           // if (indexPath.row == 0) {
                 // display picker here
                 displayInlinePickerForRowAtIndexPath(indexPath)
-            }
+          //  }
         }
     }
     

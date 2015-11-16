@@ -64,6 +64,7 @@
 		0BAAEDBC1B28620B00DF0DF6 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BAAEDBB1B28620B00DF0DF6 /* SystemConfiguration.framework */; };
 		0BAAEDBE1B28621F00DF0DF6 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BAAEDBD1B28621F00DF0DF6 /* libc++.dylib */; };
 		0BAAEDC01B28623500DF0DF6 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BAAEDBF1B28623500DF0DF6 /* libz.dylib */; };
+		0BADF3E21BF6172400A78175 /* DCSchedulingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BADF3E11BF6172400A78175 /* DCSchedulingHelper.swift */; settings = {ASSET_TAGS = (); }; };
 		0BAE36941B450A6C007CD64C /* DCAutoSearchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BAE36931B450A6C007CD64C /* DCAutoSearchCell.m */; };
 		0BAE36961B450AB0007CD64C /* DCAutoSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BAE36951B450AB0007CD64C /* DCAutoSearchCell.xib */; };
 		0BAE369A1B455DDF007CD64C /* DCOrderSetMedicineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BAE36991B455DDF007CD64C /* DCOrderSetMedicineView.m */; };
@@ -336,6 +337,7 @@
 		0BAAEDBB1B28620B00DF0DF6 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		0BAAEDBD1B28621F00DF0DF6 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		0BAAEDBF1B28623500DF0DF6 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		0BADF3E11BF6172400A78175 /* DCSchedulingHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCSchedulingHelper.swift; sourceTree = "<group>"; };
 		0BAE36921B450A6C007CD64C /* DCAutoSearchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCAutoSearchCell.h; sourceTree = "<group>"; };
 		0BAE36931B450A6C007CD64C /* DCAutoSearchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DCAutoSearchCell.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0BAE36951B450AB0007CD64C /* DCAutoSearchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCAutoSearchCell.xib; sourceTree = "<group>"; };
@@ -962,6 +964,7 @@
 				4D4891531BC90053002AC8CA /* NavigationHelper */,
 				7DE017671BC2439A0094928C /* DCGraphicalViewHelper.h */,
 				7DE017681BC2439A0094928C /* DCGraphicalViewHelper.m */,
+				0BADF3E01BF616D400A78175 /* SchedulingHelper */,
 				0B9D6D4F1BA1722C009E0A4E /* AddMedicationHelper */,
 				0BA3572E1B746E9400A5C3BC /* OrderSetOperationQueue */,
 				0BA357291B74647200A5C3BC /* AddMedicationOperation */,
@@ -1071,6 +1074,14 @@
 				0BAA87371AF8B48600FCA686 /* DCSecurityPinWebService.m */,
 			);
 			path = SecurityPinWebService;
+			sourceTree = "<group>";
+		};
+		0BADF3E01BF616D400A78175 /* SchedulingHelper */ = {
+			isa = PBXGroup;
+			children = (
+				0BADF3E11BF6172400A78175 /* DCSchedulingHelper.swift */,
+			);
+			path = SchedulingHelper;
 			sourceTree = "<group>";
 		};
 		0BAE36911B450A4F007CD64C /* DCAutoSearchCell */ = {
@@ -2328,6 +2339,7 @@
 				0BC5FAFE1B442B6B0019BF36 /* DCOrderSet.m in Sources */,
 				4D9649921BA296CC008630B4 /* DCBedsAndPatientsWebService.m in Sources */,
 				4DC440181B67990D000EC7AB /* DCOrderSetWebService.m in Sources */,
+				0BADF3E21BF6172400A78175 /* DCSchedulingHelper.swift in Sources */,
 				4D48915E1BC90176002AC8CA /* DCPatientListingCell.swift in Sources */,
 				0BBD58441AD3B0C20027F8FE /* DCUsersListWebService.m in Sources */,
 				4D4891591BC900DB002AC8CA /* DCPatientDetailsHelper.m in Sources */,

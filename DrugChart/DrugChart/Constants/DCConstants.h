@@ -352,6 +352,8 @@
 #define WEEKLY @"Weekly"
 #define MONTHLY @"Monthly"
 #define YEARLY @"Yearly"
+#define FREQUENCY @"Frequency"
+#define EVERY @"Every"
 
 //Roles
 

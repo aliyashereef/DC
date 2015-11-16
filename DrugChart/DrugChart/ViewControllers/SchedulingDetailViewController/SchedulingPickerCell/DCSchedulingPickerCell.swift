@@ -23,6 +23,12 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
         pickerType = type
         if (pickerType! == eSchedulingFrequency) {
             contentArray = [DAILY, WEEKLY, MONTHLY, YEARLY]
+        } else if (pickerType! == eDailyCount) {
+            contentArray = NSMutableArray()
+            for number : NSInteger in 1...7 {
+                [contentArray?.addObject(number)]
+            }
+            NSLog("*** contentArray is %@", contentArray!)
         }
     }
     
@@ -30,24 +36,45 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
     
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
         
-        return 1
+        return  pickerType! == eSchedulingFrequency ? 1 : 2
     }
     
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         
-        return 4;
+        return (component == 0) ? (contentArray?.count)! : 1
     }
     
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         
-        let displayString = contentArray?.objectAtIndex(row) as? String
+        var displayString : String = EMPTY_STRING
+        if (pickerType! == eSchedulingFrequency) {
+            displayString = contentArray?.objectAtIndex(row) as! String
+        } else if (pickerType! == eDailyCount) {
+            if (component == 0) {
+                let valueToDisplay = String((contentArray?.objectAtIndex(row))!)
+                displayString = String(valueToDisplay)
+            } else {
+                displayString = "days"
+            }
+        }
         return displayString
     }
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
-        let selectedValue = contentArray?.objectAtIndex(row) as? String
-        NSLog("**** Selected Value is %@", selectedValue!);
-        completion(selectedValue)
+        if (component == 0) {
+            var selectedValue : String = EMPTY_STRING
+            if (pickerType! == eSchedulingFrequency) {
+                if (row == 0) { // Selection allowed for daily for this release
+                    selectedValue = (contentArray?.objectAtIndex(row) as? String)!
+                    completion(selectedValue)
+                }
+            } else {
+                //selectedValue = (contentArray?.objectAtIndex(row))!
+                let valueToDisplay = String((contentArray?.objectAtIndex(row))!)
+                selectedValue = String(valueToDisplay)
+                completion(selectedValue)
+            }
+        }
     }
 }

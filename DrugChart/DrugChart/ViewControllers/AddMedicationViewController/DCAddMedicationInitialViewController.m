@@ -161,6 +161,7 @@
     } else if (type == eAdministratingTimeCell) {
         cell.titleLabel.text = NSLocalizedString(@"ADMINISTRATING_TIME", @"");
         [cell configureMedicationAdministratingTimeCell];
+        cell = [self updatedAdministrationTimeTableCell:cell];
     } else if (type == eRepeatCell) {
         cell.titleLabel.text = NSLocalizedString(@"REPEAT", @"");
         [cell configureContentCellWithContent:self.selectedMedication.scheduling.repeat.repeatType];
@@ -442,17 +443,16 @@
     [tableCell.noEndDateSwitch setUserInteractionEnabled:YES];
 }
 
-- (DCDateTableViewCell *)updatedAdministrationTimeTableCell:(DCDateTableViewCell *)tableCell {
+- (DCAddMedicationContentCell *)updatedAdministrationTimeTableCell:(DCAddMedicationContentCell *)tableCell {
     
-    tableCell.dateTypeWidth.constant =  ADMINISTRATING_TITLE_LABEL_WIDTH;
     if (doneClicked) {
         if ([self.selectedMedication.timeArray count] == 0) {
-            tableCell.dateTypeLabel.textColor = [UIColor redColor];
+            tableCell.titleLabel.textColor = [UIColor redColor];
         } else {
-            tableCell.dateTypeLabel.textColor = [UIColor blackColor];
+            tableCell.titleLabel.textColor = [UIColor blackColor];
         }
     }
-    tableCell.dateTypeLabel.text = NSLocalizedString(@"ADMINISTRATING_TIME", @"administration time title");
+    tableCell.titleLabel.text = NSLocalizedString(@"ADMINISTRATING_TIME", @"administration time title");
     return tableCell;
 }
 
@@ -718,10 +718,11 @@
         NSLog(@"***** Selected Value is %@", selectedValue);
         if (detailType == eDetailSchedulingType) {
             self.selectedMedication.scheduling.type = selectedValue;
-        } else if (detailType == eDetailRepeatType) {
-            self.selectedMedication.scheduling.repeat.repeatType = selectedValue;
-            self.selectedMedication.scheduling.repeat.frequency = @"1 day";
         }
+    };
+    
+    schedulingDetailViewController.repeatCompletion = ^ (DCRepeat *repeat) {
+        self.selectedMedication.scheduling.repeat = repeat;
     };
     DCAddMedicationContentCell *selectedCell = [self selectedCellAtIndexPath:indexPath];
     schedulingDetailViewController.previousFilledValue = selectedCell.descriptionLabel.text;
