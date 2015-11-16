@@ -222,20 +222,27 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
-        return (section == 0) ? 0 : 40.0
+        if (self.detailType == eDetailSchedulingType) {
+            return 0
+        } else {
+            return (section == 0) ? 0 : 40.0
+        }
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        if (section == 1) {
-            let headerView = NSBundle.mainBundle().loadNibNamed(SCHEDULING_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCSchedulingHeaderView
-            headerView!.backgroundColor = UIColor.clearColor()
-            headerView?.populateMessageLabelWithRepeatValue(repeatValue!)
-            return headerView!
-        } else {
-            return nil
+        if (self.detailType != eDetailSchedulingType) {
+            if (section == 1) {
+                let headerView = NSBundle.mainBundle().loadNibNamed(SCHEDULING_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCSchedulingHeaderView
+                headerView!.backgroundColor = UIColor.clearColor()
+                headerView?.populateMessageLabelWithRepeatValue(repeatValue!)
+                return headerView!
+            } else {
+                return nil
+            }
         }
-     }
+        return nil
+    }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
