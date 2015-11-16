@@ -111,15 +111,16 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     func todayButtonClicked () {
         
         let weekdate = currentWeekDatesArray.objectAtIndex(7) // extracting the middle date - todays date
-        let todaysDate : NSDate = NSDate()
+        let calendar : NSCalendar = NSCalendar.init(calendarIdentifier: NSCalendarIdentifierGregorian)!
+        let todaysDate : NSDate = calendar.startOfDayForDate(NSDate())
         let order = NSCalendar.currentCalendar().compareDate(weekdate as! NSDate, toDate:todaysDate,
             toUnitGranularity: .Day)
         if order == NSComparisonResult.OrderedSame {
             // Do Nothing
         } else if order == NSComparisonResult.OrderedAscending {
-            self.animateAdministratorDetailsView(true)
-        } else if order == NSComparisonResult.OrderedDescending {
             self.animateAdministratorDetailsView(false)
+        } else if order == NSComparisonResult.OrderedDescending {
+            self.animateAdministratorDetailsView(true)
         }
     }
 
@@ -467,9 +468,10 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     
     func animateAdministratorDetailsView (isRight : Bool) {
         let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
+        parentViewController.showActivityIndicationOnViewRefresh(true)
         let indexPathArray : [NSIndexPath] = medicationTableView!.indexPathsForVisibleRows!
         let calendarWidth : CGFloat = (DCUtility.mainWindowSize().width - MEDICATION_VIEW_WIDTH);
-        var calendarWidthConstraint : CGFloat = calendarWidth
+        var calendarWidthConstraint = calendarWidth
         if (!isRight) {
             calendarWidthConstraint = -calendarWidth
         }
@@ -480,25 +482,31 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             var weekViewAnimated : Bool = false
             if (count == indexPathArray.count - 1) {
                 isLastCell = true
+                parentViewController.loadCurrentWeekDate()
+                parentViewController.modifyWeekDatesInCalendarTopPortion()
+                parentViewController.reloadCalendarTopPortion()
             }
-            UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
+            
+            UIView.animateWithDuration(0.6, animations: { () -> Void in
                 if (medicationCell!.leadingSpaceMasterToContainerView.constant == 0) {
                     medicationCell!.leadingSpaceMasterToContainerView.constant = calendarWidthConstraint
                 } else {
                     medicationCell!.leadingSpaceMasterToContainerView.constant = 0.0
                 }
                 if (weekViewAnimated == false) {
-                    parentViewController.modifyWeekDatesViewConstraint(medicationCell!.leadingSpaceMasterToContainerView.constant)
+                    parentViewController.modifyWeekDatesViewConstraint(0)
                     weekViewAnimated = true
                 }
                 medicationCell!.layoutIfNeeded()
                 }) { (Bool) -> Void in
+                    parentViewController.updatePrescriberMedicationListDetails()
+                    parentViewController.cancelPreviousMedicationListFetchRequest()
+                    parentViewController.fetchMedicationListForPatient()
                     if isLastCell {
                         if ( medicationCell!.leadingSpaceMasterToContainerView.constant == calendarWidthConstraint) {
                             autoreleasepool({ () -> () in
-                                parentViewController.loadCurrentWeekDate()
                                 parentViewController.modifyWeekDatesViewConstraint(0)
-                                self.modifyParentViewOnSwipeEnd(parentViewController)
+
                             })
                         }
                     }
