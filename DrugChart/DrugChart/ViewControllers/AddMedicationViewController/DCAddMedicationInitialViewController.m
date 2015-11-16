@@ -713,15 +713,28 @@
     DCSchedulingDetailViewController *schedulingDetailViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:SCHEDULING_DETAIL_STORYBOARD_ID];
     AddMedicationDetailType detailType = [DCAddMedicationHelper medicationDetailTypeForIndexPath:indexPath hasWarnings:showWarnings];
     schedulingDetailViewController.detailType = detailType;
+    //TODO: temporarrly added... remove this on actual scheduling data from api 
+    if (self.isEditMedication) {
+        if (self.selectedMedication.scheduling == nil) {
+            self.selectedMedication.scheduling = [[DCScheduling alloc] init];
+            self.selectedMedication.scheduling.type = SPECIFIC_TIMES;
+        }
+        if (self.selectedMedication.scheduling.repeat == nil) {
+            self.selectedMedication.scheduling.repeat = [[DCRepeat alloc] init];
+            self.selectedMedication.scheduling.repeat.repeatType = DAILY;
+            self.selectedMedication.scheduling.repeat.frequency = @"1 day";
+        }
+    }
     schedulingDetailViewController.repeatValue = self.selectedMedication.scheduling.repeat;
     schedulingDetailViewController.selectedEntry = ^ (NSString *selectedValue){
-        NSLog(@"***** Selected Value is %@", selectedValue);
+        
         if (detailType == eDetailSchedulingType) {
             self.selectedMedication.scheduling.type = selectedValue;
         }
     };
     
     schedulingDetailViewController.repeatCompletion = ^ (DCRepeat *repeat) {
+        
         self.selectedMedication.scheduling.repeat = repeat;
     };
     DCAddMedicationContentCell *selectedCell = [self selectedCellAtIndexPath:indexPath];

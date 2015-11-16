@@ -411,6 +411,11 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         let addMedicationViewController : DCAddMedicationInitialViewController? = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(ADD_MEDICATION_POPOVER_SB_ID) as? DCAddMedicationInitialViewController
 
         addMedicationViewController?.patientId = self.patientId as String
+        //TODO: Remove shedule details when scheduling is available from api
+        if (medicationScheduleDetails.scheduling == nil) {
+            medicationScheduleDetails.scheduling = DCScheduling.init();
+            medicationScheduleDetails.scheduling.type = SPECIFIC_TIMES;
+        }
         addMedicationViewController?.selectedMedication = medicationScheduleDetails
         addMedicationViewController?.isEditMedication = true
         addMedicationViewController?.delegate = self

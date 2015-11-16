@@ -20,7 +20,6 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
     var displayArray : NSMutableArray = []
     var inlinePickerIndexPath : NSIndexPath?
     var repeatValue : DCRepeat?
-    //typealias CompletionBlock = NSString? -> Void
     var repeatCompletion: RepeatCompletion = { value in }
     
     override func viewDidLoad() {
@@ -28,8 +27,6 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
         super.viewDidLoad()
         prepareViewElements()
         populateDisplayArray()
-        NSLog("*** Repeat type %@", (repeatValue?.repeatType)!)
-        NSLog("*** repeat frequency is %@", (repeatValue?.frequency)!)
     }
     
     func configureNavigationTitleView() {
