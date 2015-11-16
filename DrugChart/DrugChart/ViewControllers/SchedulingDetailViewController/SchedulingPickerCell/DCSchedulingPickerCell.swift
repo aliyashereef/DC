@@ -28,6 +28,9 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
             for number : NSInteger in 1...7 {
                 [contentArray?.addObject(number)]
             }
+        } else if (pickerType! == eWeeklyCount) {
+            
+            
         }
         pickerView.reloadAllComponents()
     }
@@ -65,10 +68,10 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
         if (component == 0) {
             var selectedValue : String = EMPTY_STRING
             if (pickerType! == eSchedulingFrequency) {
-                if (row == 0) { // Selection allowed for daily for this release
+               // if (row == 0) { // Selection allowed for daily for this release
                     selectedValue = (contentArray?.objectAtIndex(row) as? String)!
                     completion(selectedValue)
-                }
+               // }
             } else {
                 let valueToDisplay = String((contentArray?.objectAtIndex(row))!)
                 selectedValue = String(valueToDisplay)

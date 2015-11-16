@@ -263,7 +263,7 @@
         dateAndTimeCell = [self populatedStartDateTableCell:dateAndTimeCell];
     } else {
         if (self.datePickerIndexPath.row == DATE_PICKER_INDEX_START_DATE) {
-            //  Start date cell has inline picker shown, So the very next cell to inline picker will be no wnd date cell. If opted to have end date, datePickerIndexPath.row + 2 shows end date cell and the last row will be administartion times cell. If no end date is chosen, datePickerIndexPath.row + 2 displays administration times cell
+            //  Start date cell has inline picker shown, So the very next cell to inline picker will be no wnd date cell. If opted to have end date, datePickerIndexPath.row + 2 shows end date cell
             if (indexPath.row == DATE_PICKER_INDEX_START_DATE + 1) {
                 dateAndTimeCell = [self noEndDateTableCell:dateAndTimeCell];
             }
@@ -272,25 +272,14 @@
                 if (indexPath.row == DATE_PICKER_INDEX_START_DATE + 2)  {
                     dateAndTimeCell = [self updatedEndDateTableCell:dateAndTimeCell];
                 }
-//                else if (indexPath.row == DATE_PICKER_INDEX_START_DATE + 3) {
-//                    dateAndTimeCell = [self updatedAdministrationTimeTableCell:dateAndTimeCell];
-//                }
             }
-//            else {
-//                if (indexPath.row == DATE_PICKER_INDEX_START_DATE + 2)  {
-//                    dateAndTimeCell = [self updatedAdministrationTimeTableCell:dateAndTimeCell];
-//                }
-//            }
         } else if (self.datePickerIndexPath.row == DATE_PICKER_INDEX_END_DATE) {
-            //has inline picker at end date cell. End date cell has inline date picker displayed, the very next and last row will be the administration times cell. datePickerIndexPath.row - 1 is the end date cell. datePickerIndexPath.row - 2 is the no end date cell.
+            //has inline picker at end date cell. End date cell has inline date picker displayed. datePickerIndexPath.row - 1 is the end date cell. datePickerIndexPath.row - 2 is the no end date cell.
             if (indexPath.row == DATE_PICKER_INDEX_END_DATE - 2) {
                 dateAndTimeCell = [self noEndDateTableCell:dateAndTimeCell];
             } else if (indexPath.row == DATE_PICKER_INDEX_END_DATE - 1)  {
                 dateAndTimeCell = [self updatedEndDateTableCell:dateAndTimeCell];
             }
-//            else if (indexPath.row == DATE_PICKER_INDEX_END_DATE + 1) {
-//                dateAndTimeCell = [self updatedAdministrationTimeTableCell:dateAndTimeCell];
-//            }
         } else {
             //no inline date picker.
             if (indexPath.row == NO_END_DATE_ROW_INDEX) {
@@ -300,13 +289,7 @@
                     if (indexPath.row == END_DATE_ROW_INDEX) {
                         dateAndTimeCell = [self updatedEndDateTableCell:dateAndTimeCell];
                     }
-//                    else {
-//                        dateAndTimeCell = [self updatedAdministrationTimeTableCell:dateAndTimeCell];
-//                    }
                 }
-//                else {
-//                    dateAndTimeCell = [self updatedAdministrationTimeTableCell:dateAndTimeCell];
-//                }
             }
         }
     }
