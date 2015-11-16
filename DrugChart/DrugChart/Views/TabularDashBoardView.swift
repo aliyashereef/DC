@@ -53,7 +53,7 @@ class TabularDashBoardView: UIView ,UITableViewDelegate,UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 140;
+        return 145;
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -64,12 +64,7 @@ class TabularDashBoardView: UIView ,UITableViewDelegate,UITableViewDataSource {
                 observationDetails.observation = cell?.getObservation()
                 let navigationController : UINavigationController? = UINavigationController(rootViewController: observationDetails)
                 navigationController?.modalPresentationStyle = UIModalPresentationStyle.FormSheet
-//                let popover = navigationController?.popoverPresentationController
-//                observationDetails.preferredContentSize = CGSizeMake(300,430)
-//                popover?.permittedArrowDirections = .Up
-//                popover?.preferredContentSize
-//                let cell = tableView.cellForRowAtIndexPath(indexPath) as! ObservationsDetailsCell?
-//                popover!.sourceView = cell
+
                 self.delegate?.EditObservation(navigationController!)
 
     }

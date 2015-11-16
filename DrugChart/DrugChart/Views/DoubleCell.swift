@@ -42,6 +42,19 @@ class DoubleCell: UITableViewCell ,UITextFieldDelegate {
         return (value.text as NSString!).doubleValue
     }
     
+    func isValueEntered() -> Bool
+    {
+        //if  (value.text != nil && value.text?.isEmpty==false)
+        if (value.text == nil || value.text!.isEmpty == true)
+        {
+            return false
+        }
+        else
+        {
+            return true
+        }
+    }
+    
     func configureCell(title:String , valuePlaceHolderText:String , selectedValue:Double! )
     {
         titleText.text = title;

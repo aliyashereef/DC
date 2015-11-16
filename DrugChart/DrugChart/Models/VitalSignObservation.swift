@@ -122,7 +122,7 @@ class VitalSignObservation
     {
         if(bloodPressure != nil)
         {
-            return String (bloodPressure?.systolic ) + "/" + String (bloodPressure?.diastolic)
+            return String (bloodPressure!.systolic ) + "/" + String (bloodPressure!.diastolic)
         }
         else
         {
@@ -133,7 +133,7 @@ class VitalSignObservation
     {
         if(spo2 != nil)
         {
-            return String (spo2?.spO2Percentage)
+            return String (spo2!.spO2Percentage)
         }
         else
         {
@@ -144,7 +144,7 @@ class VitalSignObservation
     {
         if(pulse != nil)
         {
-            return String(pulse?.pulseRate)
+            return String(pulse!.pulseRate)
         }
         else
         {
@@ -155,7 +155,7 @@ class VitalSignObservation
     {
         if respiratiory != nil
         {
-            return String(respiratiory?.repiratoryRate)
+            return String(respiratiory!.repiratoryRate)
         }
         else
         {
@@ -166,7 +166,7 @@ class VitalSignObservation
     {
         if temperature != nil
         {
-            return String(temperature?.value)
+            return String(temperature!.value)
         }
         else
         {
@@ -177,7 +177,7 @@ class VitalSignObservation
     {
         if bm != nil
         {
-            return String(bm?.value)
+            return String(bm!.value)
         }
         else
         {

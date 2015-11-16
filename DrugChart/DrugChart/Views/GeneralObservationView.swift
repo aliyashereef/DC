@@ -11,12 +11,12 @@ import UIKit
 class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
 
     @IBOutlet var tableView: UITableView!
-    private var obsBodyTemperature = BodyTemperature()
-    private var obsRespiratory = Respiratory()
-    private var obsPulse = Pulse()
-    private var obsSPO2 = SPO2()
-    private var obsBM = BowelMovement()
-    private var obsBP = BloodPressure()
+    private var obsBodyTemperature:BodyTemperature?
+    private var obsRespiratory : Respiratory?
+    private var obsPulse :Pulse?
+    private var obsSPO2 : SPO2?
+    private var obsBM : BowelMovement?
+    private var obsBP :BloodPressure?
     var observation:VitalSignObservation!
     /*
     // Only override drawRect: if you perform custom drawing.
@@ -192,23 +192,71 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
                 observation.date = dateCell.date
             case ObservationType.Temperature.rawValue:
                 let doubleCell = cell as! DoubleCell
-                obsBodyTemperature.value = doubleCell.getValue()
+                if doubleCell.isValueEntered()
+                {
+                    obsBodyTemperature = BodyTemperature()
+                    obsBodyTemperature?.value = doubleCell.getValue()
+                }
+                else
+                {
+                    obsBodyTemperature = nil
+                }
             case ObservationType.Respiratory.rawValue:
                 let doubleCell = cell as! DoubleCell
-                obsRespiratory.repiratoryRate = doubleCell.getValue()
+                if(doubleCell.isValueEntered())
+                {
+                    obsRespiratory = Respiratory()
+                    obsRespiratory!.repiratoryRate = doubleCell.getValue()
+                }
+                else
+                {
+                    obsRespiratory = nil
+                }
             case ObservationType.Pulse.rawValue:
                 let doubleCell = cell as! DoubleCell
-                obsPulse.pulseRate = doubleCell.getValue()
+                if(doubleCell.isValueEntered())
+                {
+                    obsPulse = Pulse()
+                    obsPulse!.pulseRate = doubleCell.getValue()
+                }
+                else
+                {
+                    obsPulse = nil
+                }
             case ObservationType.SpO2.rawValue:
                 let doubleCell = cell as! DoubleCell
-                obsSPO2.spO2Percentage = doubleCell.getValue()
+                if (doubleCell.isValueEntered())
+                {
+                    obsSPO2 = SPO2()
+                    obsSPO2!.spO2Percentage = doubleCell.getValue()
+                }
+                else
+                {
+                    obsSPO2 = nil
+                }
             case ObservationType.BM.rawValue:
                 let doubleCell = cell as! DoubleCell
-                obsBM.value = doubleCell.getValue()
+                if(doubleCell.isValueEntered())
+                {
+                    obsBM = BowelMovement()
+                    obsBM!.value = doubleCell.getValue()
+                }
+                else
+                {
+                    obsBM = nil
+                }
             case ObservationType.BloodPressure.rawValue:
                 let bloodPressureCell = cell as! BloodPressureCell
-                obsBP.systolic = bloodPressureCell.getSystolicValue()
-                obsBP.diastolic = bloodPressureCell.getDiastolicValue()
+                if(bloodPressureCell.isValueEntered())
+                {
+                    obsBP = BloodPressure()
+                    obsBP!.systolic = bloodPressureCell.getSystolicValue()
+                    obsBP!.diastolic = bloodPressureCell.getDiastolicValue()
+                }
+                else
+                {
+                    obsBP = nil
+                }
             default:
                 print("nothing have been selected", terminator: "")
             }
