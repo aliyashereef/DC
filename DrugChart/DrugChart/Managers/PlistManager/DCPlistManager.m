@@ -56,16 +56,14 @@
 + (NSArray *)administratingTimeList {
     
     //get administrating time list
-    NSString *sourcePath = [[NSBundle mainBundle] pathForResource:ADMINSTRATING_TIME_LIST ofType:@"plist"];
-    NSArray *contentArray = [NSArray arrayWithContentsOfFile:sourcePath];
-    return contentArray;
+    NSArray *administratingTimesArray = [self contentsFromPlist:ADMINSTRATING_TIME_LIST];
+    return administratingTimesArray;
 }
 
 + (NSArray *)orderSetList {
     
     //get orderset list
-    NSString *sourcePath = [[NSBundle mainBundle] pathForResource:ORDER_SET_LIST ofType:@"plist"];
-    NSArray *contentArray = [NSArray arrayWithContentsOfFile:sourcePath];
+    NSArray *contentArray = [self contentsFromPlist:ORDER_SET_LIST];
     NSMutableArray *orderSetArray = [[NSMutableArray alloc] init];
     for (NSDictionary *contentDictionary in contentArray) {
         DCOrderSet *orderSet = [[DCOrderSet alloc] initWithOrderSetDictionary:contentDictionary];

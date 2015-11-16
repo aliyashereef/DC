@@ -114,11 +114,15 @@
 "DATE"                  =       "Date";
 "ADD_DOSAGE"            =       "Add Dosage";
 "ADD_TIME"              =       "Add New Time";
-"NO_END_DATE"           =       "No End Date";
+"NO_END_DATE"           =       "End Date";
 "SEVERE"                =       "SEVERE";
 "MILD"                  =       "MILD";
 "REASON"                =       "Reason";
 "NEW_DOSAGE"            =       "New Dosage";
+"SCHEDULING"            =       "Scheduling";
+"SPECIFIC_TIMES"        =       "Specific Times";
+"REPEAT"                =       "Repeat";
+"DESCRIPTION"           =       "Description";
 
 //Administer
 
@@ -140,4 +144,8 @@
 "PENDING"              =       "Pending";
 "OVERDUE"              =       "Overdue";
 "DUE_NOW"              =       "Due Now";
+
+// Scheduling
+
+"DAILY_DESCRIPTION"    =       "Medication will be administred every";
 
