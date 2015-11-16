@@ -1,8 +1,13 @@
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '8.0'
-pod 'AFNetworking'
-pod 'MBProgressHUD'
-pod 'Fabric'
-pod 'Crashlytics'
 
+platform :ios, '8.1'
 
+use_frameworks!
+
+xcodeproj 'DrugChart'
+
+pod 'AFNetworking', '~> 2.6.1'
+pod 'MBProgressHUD', '~> 0.9.1'
+pod 'Fabric', '~> 1.5.5'
+pod 'Crashlytics', '~> 3.3.4'
+pod 'Charts', '~> 2.1.5'

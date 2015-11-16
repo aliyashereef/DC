@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="BPCollectionViewCell" customModule="DrugChart" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="308" height="264"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="308" height="264"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4WN-Vv-a4V" customClass="ScatterChartView" customModule="Charts">
+                        <rect key="frame" x="0.0" y="0.0" width="308" height="227"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ywR-P0-awk">
+                        <rect key="frame" x="0.0" y="235" width="308" height="29"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <constraints>
+                <constraint firstItem="4WN-Vv-a4V" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="86N-dd-aOa"/>
+                <constraint firstItem="ywR-P0-awk" firstAttribute="width" secondItem="4WN-Vv-a4V" secondAttribute="width" id="H57-N8-HZj"/>
+                <constraint firstAttribute="trailing" secondItem="4WN-Vv-a4V" secondAttribute="trailing" id="R7r-Ib-pTk"/>
+                <constraint firstAttribute="bottom" secondItem="4WN-Vv-a4V" secondAttribute="bottom" constant="37" id="eIs-dC-4Ii"/>
+                <constraint firstItem="4WN-Vv-a4V" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="il2-u2-acf"/>
+                <constraint firstItem="ywR-P0-awk" firstAttribute="top" secondItem="4WN-Vv-a4V" secondAttribute="bottom" constant="8" id="wbc-xS-gKG"/>
+            </constraints>
+            <connections>
+                <outlet property="bpChart" destination="4WN-Vv-a4V" id="pSh-2w-m0P"/>
+                <outlet property="cellTitle" destination="ywR-P0-awk" id="nJx-pm-LGF"/>
+            </connections>
+            <point key="canvasLocation" x="304" y="288"/>
+        </collectionViewCell>
+    </objects>
+</document>
