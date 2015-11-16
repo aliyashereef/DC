@@ -32,6 +32,8 @@
 		0B7F74FC1B84394B00E3B0A0 /* DCSortTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B7F74FB1B84394B00E3B0A0 /* DCSortTableViewController.m */; };
 		0B7F75001B8439DA00E3B0A0 /* DCSortTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B7F74FF1B8439DA00E3B0A0 /* DCSortTableCell.m */; };
 		0B8498BD1BB11B9B00C740F2 /* DCCalendarSlotDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B8498BC1BB11B9B00C740F2 /* DCCalendarSlotDetailViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		0B85D6811BF9CBCB009CF795 /* DCSchedulingHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B85D6801BF9CBCB009CF795 /* DCSchedulingHeaderView.swift */; settings = {ASSET_TAGS = (); }; };
+		0B85D6831BF9CC02009CF795 /* DCSchedulingHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B85D6821BF9CC02009CF795 /* DCSchedulingHeaderView.xib */; settings = {ASSET_TAGS = (); }; };
 		0B8886AF1B0C7814006FF1BF /* DCDatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B8886AE1B0C7814006FF1BF /* DCDatePickerViewController.m */; };
 		0B8D6E7A1B3136C200F0B972 /* DCKeyChainManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B8D6E791B3136C200F0B972 /* DCKeyChainManager.m */; };
 		0B90D6541B734EE0003A37E4 /* UICKeyChainStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B90D6511B734EE0003A37E4 /* UICKeyChainStore.m */; };
@@ -287,6 +289,8 @@
 		0B7F74FE1B8439DA00E3B0A0 /* DCSortTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCSortTableCell.h; sourceTree = "<group>"; };
 		0B7F74FF1B8439DA00E3B0A0 /* DCSortTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCSortTableCell.m; sourceTree = "<group>"; };
 		0B8498BC1BB11B9B00C740F2 /* DCCalendarSlotDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCCalendarSlotDetailViewController.swift; sourceTree = "<group>"; };
+		0B85D6801BF9CBCB009CF795 /* DCSchedulingHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCSchedulingHeaderView.swift; sourceTree = "<group>"; };
+		0B85D6821BF9CC02009CF795 /* DCSchedulingHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCSchedulingHeaderView.xib; sourceTree = "<group>"; };
 		0B8886AD1B0C7814006FF1BF /* DCDatePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCDatePickerViewController.h; sourceTree = "<group>"; };
 		0B8886AE1B0C7814006FF1BF /* DCDatePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCDatePickerViewController.m; sourceTree = "<group>"; };
 		0B8D6E781B3136C200F0B972 /* DCKeyChainManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCKeyChainManager.h; sourceTree = "<group>"; };
@@ -846,6 +850,15 @@
 				4D011C591BB15D47005C79A2 /* MedicationHistoryCells */,
 			);
 			path = CalendarSlotDetailViewController;
+			sourceTree = "<group>";
+		};
+		0B85D67F1BF9CBAA009CF795 /* SchedulingHeaderView */ = {
+			isa = PBXGroup;
+			children = (
+				0B85D6801BF9CBCB009CF795 /* DCSchedulingHeaderView.swift */,
+				0B85D6821BF9CC02009CF795 /* DCSchedulingHeaderView.xib */,
+			);
+			path = SchedulingHeaderView;
 			sourceTree = "<group>";
 		};
 		0B8886AC1B0C77FB006FF1BF /* DatePickerViewController */ = {
@@ -1950,6 +1963,7 @@
 				0B6B49771B2ED4F200288117 /* DCScrollView */,
 				0BB27D031AEF50DF0007EB88 /* PopOverBaseBackgroundView */,
 				0B941CA21AC1619A00B54207 /* PrescriberCalendarView */,
+				0B85D67F1BF9CBAA009CF795 /* SchedulingHeaderView */,
 				0BC5FAF31B43FF720019BF36 /* SearchListView */,
 				0BAE36971B455DC7007CD64C /* OrderSetMedicineView */,
 				0B95FAED1B5E6618002939DF /* WarningsHeaderView */,
@@ -2204,6 +2218,7 @@
 				0BBDEDE21AA581630016E6FF /* Lato-Italic.ttf in Resources */,
 				0BBDEDDF1AA581630016E6FF /* Lato-HairlineItalic.ttf in Resources */,
 				4DDD99A91BD6381F002879CD /* Settings.bundle in Resources */,
+				0B85D6831BF9CC02009CF795 /* DCSchedulingHeaderView.xib in Resources */,
 				0BBDEDE91AA581630016E6FF /* Lato-SemiboldItalic.ttf in Resources */,
 				0B6B9DC21B4111B000395AC5 /* AdministratingTime.plist in Resources */,
 				0B926CE51AFB83E700D8C1BA /* Inactive.plist in Resources */,
@@ -2356,6 +2371,7 @@
 				4D4891601BC90176002AC8CA /* DCWardCell.swift in Sources */,
 				7D70F3801B20258200E4BA89 /* DCWardsGraphicalDisplayViewController.m in Sources */,
 				0BB3B79A1B99842A0011DFDF /* DCDatePickerCell.m in Sources */,
+				0B85D6811BF9CBCB009CF795 /* DCSchedulingHeaderView.swift in Sources */,
 				4DECF3031B79CB370085E75B /* DCOrderSetWarningCountWebService.m in Sources */,
 				0BF389151AA468C6006792DE /* DCUtility.m in Sources */,
 				0B7F75001B8439DA00E3B0A0 /* DCSortTableCell.m in Sources */,

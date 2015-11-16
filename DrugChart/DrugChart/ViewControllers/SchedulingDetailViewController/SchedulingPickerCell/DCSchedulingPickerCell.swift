@@ -28,8 +28,8 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
             for number : NSInteger in 1...7 {
                 [contentArray?.addObject(number)]
             }
-            NSLog("*** contentArray is %@", contentArray!)
         }
+        pickerView.reloadAllComponents()
     }
     
     // MARK: Picker Methods
@@ -70,7 +70,6 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
                     completion(selectedValue)
                 }
             } else {
-                //selectedValue = (contentArray?.objectAtIndex(row))!
                 let valueToDisplay = String((contentArray?.objectAtIndex(row))!)
                 selectedValue = String(valueToDisplay)
                 completion(selectedValue)

@@ -124,6 +124,7 @@
 //Nib files
 #define WARNINGS_HEADER_VIEW_NIB @"DCWarningsHeaderView"
 #define ADMINISTER_HEADER_VIEW_NIB @"DCAdministerTableHeaderView"
+#define SCHEDULING_HEADER_VIEW_NIB @"DCSchedulingHeaderView"
 
 // Segue Ids
 #define SHOW_PATIENT_LIST @"showPatientList"

@@ -83,11 +83,13 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
                 self.repeatValue?.repeatType = value as! String
                 indexPathToReload = NSIndexPath(forRow: 0, inSection: 0)
             } else {
-                self.repeatValue?.frequency = NSString(format: "%@ days", value!) as String
+                let days = (value == "1") ? "day" : "days"
+                self.repeatValue?.frequency = NSString(format: "%@ %@", value!, days) as String
                 indexPathToReload = NSIndexPath(forRow: 1, inSection: 0)
             }
             self.repeatCompletion(self.repeatValue)
             self.detailTableView.reloadRowsAtIndexPaths([indexPathToReload], withRowAnimation: UITableViewRowAnimation.Fade)
+            self.detailTableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.Fade)
             self.detailTableView.endUpdates()
         }
         return pickerCell!
@@ -163,16 +165,20 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        return 1
+        return 2
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        var rowCount : NSInteger = displayArray.count;
-        if (tableViewHasInlinePicker()) {
-            rowCount++
+        if (section == 0) {
+            var rowCount : NSInteger = displayArray.count;
+            if (tableViewHasInlinePicker()) {
+                rowCount++
+            }
+            return rowCount;
+        } else {
+            return 0;
         }
-        return rowCount;
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -216,8 +222,20 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
-        return 0
+        return (section == 0) ? 0 : 40.0
     }
+    
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        if (section == 1) {
+            let headerView = NSBundle.mainBundle().loadNibNamed(SCHEDULING_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCSchedulingHeaderView
+            headerView!.backgroundColor = UIColor.clearColor()
+            headerView?.populateMessageLabelWithRepeatValue(repeatValue!)
+            return headerView!
+        } else {
+            return nil
+        }
+     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         

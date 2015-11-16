@@ -145,3 +145,7 @@
 "OVERDUE"              =       "Overdue";
 "DUE_NOW"              =       "Due Now";
 
+// Scheduling
+
+"DAILY_DESCRIPTION"    =       "Medication will be administred every";
+
