@@ -494,19 +494,17 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                     medicationCell!.leadingSpaceMasterToContainerView.constant = 0.0
                 }
                 if (weekViewAnimated == false) {
-                    parentViewController.modifyWeekDatesViewConstraint(0)
+                    parentViewController.modifyWeekDatesViewConstraint(0.0)
                     weekViewAnimated = true
                 }
                 medicationCell!.layoutIfNeeded()
                 }) { (Bool) -> Void in
-                    parentViewController.updatePrescriberMedicationListDetails()
-                    parentViewController.cancelPreviousMedicationListFetchRequest()
-                    parentViewController.fetchMedicationListForPatient()
-                    if isLastCell {
+                if isLastCell {
                         if ( medicationCell!.leadingSpaceMasterToContainerView.constant == calendarWidthConstraint) {
                             autoreleasepool({ () -> () in
-                                parentViewController.modifyWeekDatesViewConstraint(0)
-
+                                parentViewController.updatePrescriberMedicationListDetails()
+                                parentViewController.cancelPreviousMedicationListFetchRequest()
+                                parentViewController.fetchMedicationListForPatient()
                             })
                         }
                     }
