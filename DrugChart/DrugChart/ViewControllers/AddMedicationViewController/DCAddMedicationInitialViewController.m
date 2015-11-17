@@ -710,14 +710,11 @@
     }
     schedulingDetailViewController.repeatValue = self.selectedMedication.scheduling.repeat;
     schedulingDetailViewController.selectedEntry = ^ (NSString *selectedValue){
-        
         if (detailType == eDetailSchedulingType) {
             self.selectedMedication.scheduling.type = selectedValue;
         }
     };
-    
     schedulingDetailViewController.repeatCompletion = ^ (DCRepeat *repeat) {
-        
         self.selectedMedication.scheduling.repeat = repeat;
     };
     DCAddMedicationContentCell *selectedCell = [self selectedCellAtIndexPath:indexPath];

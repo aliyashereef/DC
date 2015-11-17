@@ -29,8 +29,10 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
                 [contentArray?.addObject(number)]
             }
         } else if (pickerType! == eWeeklyCount) {
-            
-            
+            contentArray = NSMutableArray()
+            for number : NSInteger in 1...5 {
+                [contentArray?.addObject(number)]
+            }
         }
         pickerView.reloadAllComponents()
     }
@@ -52,12 +54,12 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
         var displayString : String = EMPTY_STRING
         if (pickerType! == eSchedulingFrequency) {
             displayString = contentArray?.objectAtIndex(row) as! String
-        } else if (pickerType! == eDailyCount) {
+        } else /*if (pickerType! == eDailyCount) */{
             if (component == 0) {
                 let valueToDisplay = String((contentArray?.objectAtIndex(row))!)
                 displayString = String(valueToDisplay)
             } else {
-                displayString = "days"
+                displayString = (pickerType! == eDailyCount) ? "days" : "weeks"
             }
         }
         return displayString
