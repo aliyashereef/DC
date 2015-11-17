@@ -60,6 +60,7 @@ class VitalsignDashboard: DCBaseViewController , ObservationEditDelegate{
         }
         observationList.sortInPlace({ $0.date.compare($1.date) == NSComparisonResult.OrderedAscending })
         graphicalDashBoardView.reloadView(observationList)
+        tabularDashBoardView.configureView(observationList)
     }
     
     func EditObservation(navigationController:UINavigationController)

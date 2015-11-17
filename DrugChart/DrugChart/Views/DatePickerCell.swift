@@ -23,13 +23,13 @@ class DatePickerCell: UITableViewCell {
      var date:NSDate = NSDate() {
         didSet {
             datePickerView.date = date
-            DatePickerCellInline.Stored.dateFormatter.dateStyle = dateStyle
-            DatePickerCellInline.Stored.dateFormatter.timeStyle = timeStyle
-            dateTextField.text = DatePickerCellInline.Stored.dateFormatter.stringFromDate(date)
+            DatePickerCell.Stored.dateFormatter.dateStyle = dateStyle
+            DatePickerCell.Stored.dateFormatter.timeStyle = timeStyle
+            dateTextField.text = DatePickerCell.Stored.dateFormatter.stringFromDate(date)
         }
     }
     /// The timestyle.
-     var timeStyle = NSDateFormatterStyle.NoStyle
+     var timeStyle = NSDateFormatterStyle.ShortStyle
     /// The datestyle.
      var dateStyle = NSDateFormatterStyle.MediumStyle
     
@@ -54,7 +54,7 @@ class DatePickerCell: UITableViewCell {
     
     @IBAction func textFieldEditing(sender: UITextField) {
         
-        datePickerView.datePickerMode = UIDatePickerMode.Date
+        datePickerView.datePickerMode = UIDatePickerMode.DateAndTime
         
         sender.inputView = datePickerView
         // configure the toolbar as well
@@ -101,7 +101,7 @@ class DatePickerCell: UITableViewCell {
         
         dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
         
-        dateFormatter.timeStyle = NSDateFormatterStyle.NoStyle
+        dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
         
         date = datePickerView.date
         dateTextField.text = dateFormatter.stringFromDate(datePickerView.date)

@@ -17,6 +17,7 @@ class VitalSignObservation
     var respiratiory:Respiratory?
     var spo2:SPO2?
     var date:NSDate
+    var time:NSDate
     
     var eyesOpen:KeyValue?
     var bestVerbalResponse:KeyValue?
@@ -31,11 +32,31 @@ class VitalSignObservation
         respiratiory = nil
         spo2 = nil
         date = NSDate()
+        time = NSDate()
         eyesOpen = nil
         bestVerbalResponse = nil
-        bestMotorResponse=nil
+        bestMotorResponse = nil
     }
     
+//    func getConsolidatedDate() ->NSDate
+//    {
+////        let calendar = NSCalendar.currentCalendar()
+////      //  let comp = NSCalendarUnit.Day | NSCalendarUnit.Month | NSCalendarUnit.Year
+////        let components = calendar.components(NSCalendarUnit.Day , fromDate: date)
+////        let year = components.year
+////        
+//    
+//        var newDate:NSDate!
+//        let calendar = NSCalendar.currentCalendar()
+//        let components = NSDateComponents()
+//        components.day = 5
+//        components.month = 01
+//        components.year = 2016
+//        components.hour = 19
+//        components.minute = 30
+//        newDate = calendar.dateFromComponents(components)
+//        return newDate
+//    }
     func getComaScore()  -> String
     {
         var score :Int = 0
@@ -53,6 +74,12 @@ class VitalSignObservation
             score += (bestMotorResponse?.key)!
         }
         return score < 3 ? "N/A" : String(score)
+    }
+    func getFormattedTime() ->String
+    {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "h:mm a"
+        return dateFormatter.stringFromDate(self.date)
     }
     func getFormattedDate() -> String
     {

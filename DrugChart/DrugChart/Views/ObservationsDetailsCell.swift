@@ -50,6 +50,7 @@ class ObservationsDetailsCell: UITableViewCell {
         bm.text = observation.getBMReading()
         temperature.text = observation.getTemperatureReading()
         date.text = observation.getFormattedDate()
+        time.text = observation.getFormattedTime()
         
     }
     

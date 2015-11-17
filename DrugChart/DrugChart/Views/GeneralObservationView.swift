@@ -71,7 +71,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
         switch (section)
         {
         case ObservationType.Date.rawValue:
-            return 2;
+            return 1;
         default:
             return 1
             

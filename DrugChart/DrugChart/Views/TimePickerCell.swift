@@ -10,7 +10,6 @@ import UIKit
 
 class TimePickerCell: UITableViewCell {
     
-   // @IBOutlet weak var timeTextField: UITextField!
     @IBOutlet weak var timeTextField: UITextField!
     override func awakeFromNib() {
     super.awakeFromNib()
