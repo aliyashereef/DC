@@ -38,8 +38,8 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
         var yAxisValue = [Double]()
         var yAxisValue2 = [Double]()
         var xAxisValue = [String]()
-        let formatter = NSDateFormatter()
-        formatter.dateFormat = "dd/MM/yyyy"
+//        let formatter = NSDateFormatter()
+//        formatter.dateFormat = "dd/MM/yyyy"
         var cellTitle:String = ""
         
         switch(indexPath.row)
@@ -54,7 +54,7 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
                     continue
                 }
                     yAxisValue.append((observation.respiratiory?.repiratoryRate)!)
-                    xAxisValue.append(formatter.stringFromDate(observation.date))
+                    xAxisValue.append(observation.getFormattedDate())
                 
             }
             
@@ -69,7 +69,7 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
                     continue
                 }
                     yAxisValue.append((observation.temperature?.value)!)
-                    xAxisValue.append(formatter.stringFromDate(observation.date))
+                    xAxisValue.append(observation.getFormattedDate())
                 
             }
         case DashBoardRow.Pulse.rawValue:
@@ -83,7 +83,7 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
                     continue
                 }
                     yAxisValue.append((observation.pulse?.pulseRate)!)
-                    xAxisValue.append(formatter.stringFromDate(observation.date))
+                    xAxisValue.append(observation.getFormattedDate())
                 
             }
         case DashBoardRow.SpO2.rawValue:
@@ -96,7 +96,7 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
                     continue
                 }
                     yAxisValue.append((observation.spo2?.spO2Percentage)!)
-                    xAxisValue.append(formatter.stringFromDate(observation.date))
+                    xAxisValue.append(observation.getFormattedDate())
                 
             }
         case DashBoardRow.BM.rawValue:
@@ -110,7 +110,7 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
                         continue
                     }
                         yAxisValue.append((observation.bm?.value)!)
-                        xAxisValue.append(formatter.stringFromDate(observation.date))
+                        xAxisValue.append(observation.getFormattedDate())
                     
                  }
         case DashBoardRow.BloodPressure.rawValue:
@@ -124,7 +124,7 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
                 }
                     yAxisValue.append((observation.bloodPressure?.systolic)!)
                     yAxisValue2.append((observation.bloodPressure?.diastolic)!)
-                    xAxisValue.append(formatter.stringFromDate(observation.date))
+                    xAxisValue.append(observation.getFormattedDate())
              
             }
         default:

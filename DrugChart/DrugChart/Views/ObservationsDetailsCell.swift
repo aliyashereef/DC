@@ -18,6 +18,8 @@ class ObservationsDetailsCell: UITableViewCell {
     @IBOutlet weak var pulse: UILabel!
     @IBOutlet weak var bm: UILabel!
     @IBOutlet weak var bp: UILabel!
+    @IBOutlet weak var date: UILabel!
+    @IBOutlet weak var time: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -47,6 +49,8 @@ class ObservationsDetailsCell: UITableViewCell {
         bp.text = observation.getBloodPressureReading()
         bm.text = observation.getBMReading()
         temperature.text = observation.getTemperatureReading()
+        date.text = observation.getFormattedDate()
+        
     }
     
 }

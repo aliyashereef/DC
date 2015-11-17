@@ -54,6 +54,12 @@ class VitalSignObservation
         }
         return score < 3 ? "N/A" : String(score)
     }
+    func getFormattedDate() -> String
+    {
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy"
+        return formatter.stringFromDate(self.date)
+    }
     
     func getNews() ->String
     {

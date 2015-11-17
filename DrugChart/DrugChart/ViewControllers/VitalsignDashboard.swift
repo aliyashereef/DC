@@ -58,6 +58,7 @@ class VitalsignDashboard: DCBaseViewController , ObservationEditDelegate{
              observationList.append(sourceViewController.generalObservationView.observation)
             Helper.VitalSignObservationList.append(sourceViewController.generalObservationView.observation)
         }
+        observationList.sortInPlace({ $0.date.compare($1.date) == NSComparisonResult.OrderedAscending })
         graphicalDashBoardView.reloadView(observationList)
     }
     
