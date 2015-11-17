@@ -16,12 +16,14 @@ import UIKit
         @IBOutlet weak var childView: UIView!
         var generalObservationView : GeneralObservationView!
         var commaScoreView:CommaScoreView!
+        var observation:VitalSignObservation!
     override func viewDidLoad() {
         super.viewDidLoad()
+        observation = VitalSignObservation()
         generalObservationView = (GeneralObservationView.instanceFromNib() as! GeneralObservationView)
-        generalObservationView.commonInit()
+        generalObservationView.commonInit(observation)
         commaScoreView = CommaScoreView.instanceFromNib() as! CommaScoreView
-        commaScoreView.commonInit()
+        commaScoreView.commonInit(observation)
         commaScoreView.delegate=self
         displayChildView(generalObservationView)
     }
@@ -40,6 +42,7 @@ import UIKit
             switch(sender.selectedSegmentIndex)
             {
             case 0:
+                generalObservationView.configureView(self.observation)
                 displayChildView(generalObservationView)
             case 1:
                 displayChildView(commaScoreView)
@@ -64,12 +67,30 @@ import UIKit
         
         //MARK: Delegate implementation
         
-        func RowSelected(dataSource:[KeyValue])
+        func RowSelectedWithList(dataSource:[KeyValue],tag:Int,selectedValue:KeyValue?)
         {
             let selectionController = SelectionView(nibName:"SelectionView",bundle:nil)
-            selectionController.dataSource=dataSource
+            selectionController.configureView(dataSource,tag: tag,selectedValue: selectedValue)
+            selectionController.delegate = self
             self.navigationController?.pushViewController(selectionController, animated: true)
             
+        }
+        
+        func RowSelectedWithObject(dataSource:KeyValue ,tag:Int)
+        {
+            switch(tag)
+            {
+            case CommaScoreTableRow.EyesOpen.rawValue:
+                commaScoreView.eyesOpen = dataSource
+            case CommaScoreTableRow.BestVerbalResponse.rawValue:
+                commaScoreView.bestVerbalResponse = dataSource
+            case CommaScoreTableRow.BestMotorResponse.rawValue:
+                commaScoreView.bestMotorResponse = dataSource
+            default:
+                NSLog("Do nothing")
+            }
+            commaScoreView.Refresh()
+            navigationController?.popViewControllerAnimated(true)
         }
         
     // MARK: - Navigation
@@ -79,6 +100,7 @@ import UIKit
         if let _ = sender as? UIBarButtonItem
         {
             generalObservationView.prepareObjects()
+            commaScoreView.prepareObject()
         }
         self.dismissViewControllerAnimated(true, completion: nil)
     }
