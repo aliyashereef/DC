@@ -29,13 +29,13 @@ class DoubleCell: UITableViewCell ,UITextFieldDelegate {
     
     
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if let touch = touches.first as UITouch! {
-            value.resignFirstResponder()
-        }
-        super.touchesBegan(touches , withEvent:event)
-    }
-    
+//    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+//        if let touch = touches.first as UITouch! {
+//            value.resignFirstResponder()
+//        }
+//        super.touchesBegan(touches , withEvent:event)
+//    }
+//    
     
     func  getValue() ->Double
     {
@@ -44,7 +44,6 @@ class DoubleCell: UITableViewCell ,UITextFieldDelegate {
     
     func isValueEntered() -> Bool
     {
-        //if  (value.text != nil && value.text?.isEmpty==false)
         if (value.text == nil || value.text!.isEmpty == true)
         {
             return false
@@ -63,6 +62,11 @@ class DoubleCell: UITableViewCell ,UITextFieldDelegate {
         {
             value.text = String(selectedValue)
         }
+    }
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        
+        value.resignFirstResponder()
+        return true
     }
     
 //    func addDoneButtonToKeyboard() {

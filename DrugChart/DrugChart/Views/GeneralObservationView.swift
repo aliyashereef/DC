@@ -44,10 +44,12 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
         let nibTimePicker = UINib(nibName: "TimePickerCell", bundle: nil)
         self.tableView.registerNib(nibTimePicker, forCellReuseIdentifier: "TimePickerCell")
         
+        let datePicker = UINib(nibName: "DatePickerCell", bundle: nil)
+        self.tableView.registerNib(datePicker, forCellReuseIdentifier: "DatePickerCell")
+        
         let nibBloodPressure = UINib(nibName: "BloodPressureCell", bundle: nil)
         self.tableView.registerNib(nibBloodPressure, forCellReuseIdentifier: "BloodPressureCell")
         
-        self.tableView.registerClass(DatePickerCellInline.self, forCellReuseIdentifier: "DatePickerCell")
         
         //
     }
@@ -127,7 +129,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
         switch(cellType)
         {
         case CellType.Date:
-            let cell = tableView.dequeueReusableCellWithIdentifier("DatePickerCell", forIndexPath: indexPath) as! DatePickerCellInline
+            let cell = tableView.dequeueReusableCellWithIdentifier("DatePickerCell", forIndexPath: indexPath) as! DatePickerCell
             cell.tag = rowTag
             return cell
         case CellType.Time:
@@ -188,7 +190,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
             switch(cell.tag)
             {
             case ObservationType.Date.rawValue:
-                let dateCell = cell as! DatePickerCellInline
+                let dateCell = cell as! DatePickerCell
                 observation.date = dateCell.date
             case ObservationType.Temperature.rawValue:
                 let doubleCell = cell as! DoubleCell

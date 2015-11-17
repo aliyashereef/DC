@@ -40,6 +40,14 @@ class BloodPressureCell: UITableViewCell ,UITextFieldDelegate{
         }
     }
     
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        
+        systolicValue.resignFirstResponder()
+        diastolicValue.resignFirstResponder()
+        return true
+    }
+    
+    
     func  getSystolicValue() ->Double
     {
         return (systolicValue.text as NSString!).doubleValue

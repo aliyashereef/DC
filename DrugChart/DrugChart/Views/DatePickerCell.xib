@@ -21,8 +21,8 @@
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QBe-HF-3qv">
-                        <rect key="frame" x="235" y="10" width="76.5" height="30"/>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QBe-HF-3qv">
+                        <rect key="frame" x="99" y="10" width="212.5" height="30"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <textInputTraits key="textInputTraits" spellCheckingType="no" keyboardType="decimalPad"/>
                         <connections>
@@ -32,6 +32,7 @@
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailingMargin" secondItem="QBe-HF-3qv" secondAttribute="trailing" constant="0.5" id="NWT-gH-4AD"/>
+                    <constraint firstItem="QBe-HF-3qv" firstAttribute="leading" secondItem="ghG-ZT-7XW" secondAttribute="trailing" id="bvM-Mg-IyC"/>
                     <constraint firstItem="QBe-HF-3qv" firstAttribute="bottom" secondItem="ghG-ZT-7XW" secondAttribute="bottom" constant="1" id="h6q-hw-1fJ"/>
                     <constraint firstItem="QBe-HF-3qv" firstAttribute="top" secondItem="ghG-ZT-7XW" secondAttribute="top" constant="-4" id="lsM-Uw-Gp6"/>
                     <constraint firstItem="ghG-ZT-7XW" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="zfg-Wv-tu6"/>

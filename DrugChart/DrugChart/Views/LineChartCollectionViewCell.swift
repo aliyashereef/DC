@@ -20,9 +20,11 @@ class LineChartCollectionViewCell: UICollectionViewCell {
     func configureCell(title:String)
     {
         cellTitle.text = title
+        lineChart.clear()
     }
     func drawChart(dataPoints:[String] , values :[Double])
     {
+        lineChart.clear()
         var dataEntries:[ChartDataEntry] = []
         
         for i in 0..<dataPoints.count {

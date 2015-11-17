@@ -15,22 +15,23 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter a value" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zRd-af-an9">
-                        <rect key="frame" x="235.5" y="7" width="76.5" height="22"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <textInputTraits key="textInputTraits" spellCheckingType="no" keyboardType="decimalPad"/>
-                        <connections>
-                            <action selector="hideKeyBoard:" destination="KGk-i7-Jjw" eventType="editingDidEndOnExit" id="7AL-2u-5TW"/>
-                        </connections>
-                    </textField>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Value" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z4T-K7-v0t">
                         <rect key="frame" x="8" y="11" width="91" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter a value" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zRd-af-an9">
+                        <rect key="frame" x="99" y="7" width="212.5" height="22"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <textInputTraits key="textInputTraits" spellCheckingType="no" keyboardType="decimalPad"/>
+                        <connections>
+                            <action selector="hideKeyBoard:" destination="KGk-i7-Jjw" eventType="editingDidEndOnExit" id="7AL-2u-5TW"/>
+                        </connections>
+                    </textField>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="zRd-af-an9" firstAttribute="leading" secondItem="z4T-K7-v0t" secondAttribute="trailing" id="9i1-Br-mZj"/>
                     <constraint firstItem="zRd-af-an9" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="-1" id="FLq-Y3-Hi0"/>
                     <constraint firstItem="zRd-af-an9" firstAttribute="bottom" secondItem="z4T-K7-v0t" secondAttribute="bottom" constant="1" id="HKH-Fd-roM"/>
                     <constraint firstItem="zRd-af-an9" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="Sch-aw-sDT"/>

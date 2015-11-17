@@ -21,8 +21,8 @@
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pN2-XF-NEu">
-                        <rect key="frame" x="235" y="10" width="76.5" height="30"/>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pN2-XF-NEu">
+                        <rect key="frame" x="99" y="10" width="212.5" height="30"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <textInputTraits key="textInputTraits" spellCheckingType="no" keyboardType="decimalPad"/>
                         <connections>
@@ -32,6 +32,7 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="pN2-XF-NEu" firstAttribute="top" secondItem="YhS-ft-qR6" secondAttribute="top" constant="-4" id="46x-cR-fGk"/>
+                    <constraint firstItem="pN2-XF-NEu" firstAttribute="leading" secondItem="YhS-ft-qR6" secondAttribute="trailing" id="EwN-Uk-RdX"/>
                     <constraint firstAttribute="trailingMargin" secondItem="pN2-XF-NEu" secondAttribute="trailing" constant="0.5" id="WYN-nN-vof"/>
                     <constraint firstItem="YhS-ft-qR6" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="ZZA-Ji-li1"/>
                     <constraint firstItem="pN2-XF-NEu" firstAttribute="bottom" secondItem="YhS-ft-qR6" secondAttribute="bottom" constant="-3" id="tJF-Fq-iHu"/>
