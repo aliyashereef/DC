@@ -21,4 +21,5 @@ class Helper
         subView.frame.origin.y = 0
         parentView.addSubview(subView)
     }
+    static var VitalSignObservationList:[VitalSignObservation] = []
 }
