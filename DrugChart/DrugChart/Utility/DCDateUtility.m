@@ -182,4 +182,13 @@
     return currentDateString;
 }
 
++ (NSInteger)currentWeekDayIndex {
+    
+    //current week day index
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *components = [calendar components:NSCalendarUnitWeekday fromDate:[NSDate date]];
+    NSInteger weekDay = components.weekday;
+    return weekDay;
+}
+
 @end

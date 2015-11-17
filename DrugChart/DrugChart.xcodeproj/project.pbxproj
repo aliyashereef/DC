@@ -131,6 +131,7 @@
 		0BCF5EA71AE0D8ED002467BF /* DCPlistManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCF5EA61AE0D8ED002467BF /* DCPlistManager.m */; };
 		0BCF5EB01AE10C2D002467BF /* MedicineList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0BCF5EAF1AE10C2D002467BF /* MedicineList.plist */; };
 		0BD3D4DF1AB2CA89002B8711 /* DCMedicationSlot.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD3D4DE1AB2CA89002B8711 /* DCMedicationSlot.m */; };
+		0BD5181D1BFB2F790076B018 /* WeekDays.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0BD5181C1BFB2F790076B018 /* WeekDays.plist */; settings = {ASSET_TAGS = (); }; };
 		0BD659541BD6660D00D3097B /* UIButton+ButtonHighlight.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD659531BD6660D00D3097B /* UIButton+ButtonHighlight.m */; };
 		0BD659561BD6685A00D3097B /* DCAdministerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD659551BD6685A00D3097B /* DCAdministerButton.swift */; };
 		0BD699161BB272BB008797A2 /* DCAdministerTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD699151BB272BB008797A2 /* DCAdministerTableHeaderView.swift */; };
@@ -487,6 +488,7 @@
 		0BCF5EAF1AE10C2D002467BF /* MedicineList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MedicineList.plist; sourceTree = "<group>"; };
 		0BD3D4DD1AB2CA89002B8711 /* DCMedicationSlot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCMedicationSlot.h; sourceTree = "<group>"; };
 		0BD3D4DE1AB2CA89002B8711 /* DCMedicationSlot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCMedicationSlot.m; sourceTree = "<group>"; };
+		0BD5181C1BFB2F790076B018 /* WeekDays.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = WeekDays.plist; sourceTree = "<group>"; };
 		0BD659521BD6660D00D3097B /* UIButton+ButtonHighlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+ButtonHighlight.h"; sourceTree = "<group>"; };
 		0BD659531BD6660D00D3097B /* UIButton+ButtonHighlight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+ButtonHighlight.m"; sourceTree = "<group>"; };
 		0BD659551BD6685A00D3097B /* DCAdministerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministerButton.swift; sourceTree = "<group>"; };
@@ -1381,6 +1383,7 @@
 				0B6B9DC11B4111B000395AC5 /* AdministratingTime.plist */,
 				7D9EA9EB1B29846C00337E6A /* PositionableGraphics.plist */,
 				0BB397801B42AF500037C8E1 /* OrderSet.plist */,
+				0BD5181C1BFB2F790076B018 /* WeekDays.plist */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -2425,6 +2428,7 @@
 				0BBDEDDF1AA581630016E6FF /* Lato-HairlineItalic.ttf in Resources */,
 				4DDD99A91BD6381F002879CD /* Settings.bundle in Resources */,
 				0B85D6831BF9CC02009CF795 /* DCSchedulingHeaderView.xib in Resources */,
+				0BD5181D1BFB2F790076B018 /* WeekDays.plist in Resources */,
 				0BBDEDE91AA581630016E6FF /* Lato-SemiboldItalic.ttf in Resources */,
 				1FD4FCD21BF4B7E000B77B94 /* TabularDashBoardView.xib in Resources */,
 				0B6B9DC21B4111B000395AC5 /* AdministratingTime.plist in Resources */,

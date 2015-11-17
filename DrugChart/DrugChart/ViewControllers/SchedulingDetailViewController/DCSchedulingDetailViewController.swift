@@ -10,6 +10,8 @@ import UIKit
 
 let TABLE_VIEW_ROW_HEIGHT : CGFloat = 44.0
 let PICKER_CELL_HEIGHT : CGFloat = 216.0
+let WEEK_DAYS_COUNT : NSInteger = 7
+
 
 typealias RepeatCompletion = DCRepeat? -> Void
 
@@ -18,6 +20,7 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
     @IBOutlet weak var detailTableView: UITableView!
     
     var displayArray : NSMutableArray = []
+    var weekDaysArray = NSMutableArray()
     var inlinePickerIndexPath : NSIndexPath?
     var repeatValue : DCRepeat?
     var repeatCompletion: RepeatCompletion = { value in }
@@ -27,6 +30,7 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
         super.viewDidLoad()
         prepareViewElements()
         populateDisplayArray()
+        populateWeekDaysArray()
     }
     
     func configureNavigationTitleView() {
@@ -45,6 +49,12 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
         
         //populate display array
         displayArray = DCSchedulingHelper.scheduleDisplayArrayForScreenType(self.detailType)
+    }
+    
+    func populateWeekDaysArray() {
+        
+        // week days array
+        weekDaysArray = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
     }
     
     func tableViewHasInlinePicker () -> Bool {
@@ -67,14 +77,14 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
         pickerCell?.completion = { value in
             
             NSLog("*** Value is %@", value!);
-            self.detailTableView.beginUpdates()
-            var indexPathArray : NSArray
+           // self.detailTableView.beginUpdates()
+           // var indexPathArray : NSArray
             if (pickerType == eSchedulingFrequency) {
                 self.repeatValue?.repeatType = value as! String
                 if (value == WEEKLY) {
                     self.repeatValue?.frequency = "1 week"
                 }
-                indexPathArray = [NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 2, inSection: 0)]
+              //  indexPathArray = [NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 2, inSection: 0)]
             } else {
                 if (pickerType == eDailyCount) {
                     let days = (value == "1") ? "day" : "days"
@@ -83,12 +93,13 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
                     let week = (value == "1") ? "week" : "weeks"
                     self.repeatValue?.frequency = NSString(format: "%@ %@", value!, week) as String
                 }
-                indexPathArray = [NSIndexPath(forRow: 1, inSection: 0)]
+               // indexPathArray = [NSIndexPath(forRow: 1, inSection: 0)]
             }
             self.repeatCompletion(self.repeatValue)
-            self.detailTableView.reloadRowsAtIndexPaths(indexPathArray as! [NSIndexPath], withRowAnimation: UITableViewRowAnimation.Fade)
-            self.detailTableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.Fade)
-            self.detailTableView.endUpdates()
+//            self.detailTableView.reloadRowsAtIndexPaths(indexPathArray as! [NSIndexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+//            self.detailTableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.Fade)
+//            self.detailTableView.endUpdates()
+            self.detailTableView.reloadData()
         }
         return pickerCell!
     }
@@ -97,8 +108,24 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
         
         let schedulingCell : DCSchedulingCell? = detailTableView.dequeueReusableCellWithIdentifier(SCHEDULING_CELL_ID) as? DCSchedulingCell
         schedulingCell?.layoutMargins = UIEdgeInsetsZero
-        let displayString = displayArray.objectAtIndex(indexPath.item) as? String
-        schedulingCell!.accessoryType = (displayString == previousFilledValue) ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
+        var displayString = EMPTY_STRING
+        if (indexPath.section == 1 && self.repeatValue?.repeatType == WEEKLY) {
+            displayString = weekDaysArray.objectAtIndex(indexPath.item) as! String
+            NSLog("Current week day index is %d", DCDateUtility.currentWeekDayIndex())
+            let currentDayIndex : NSInteger = DCDateUtility.currentWeekDayIndex()
+            if (repeatValue?.weekDay == displayString) {
+                schedulingCell?.accessoryType = UITableViewCellAccessoryType.Checkmark
+            } else {
+                if (currentDayIndex == indexPath.row) {
+                    schedulingCell?.accessoryType = UITableViewCellAccessoryType.Checkmark
+                } else {
+                    schedulingCell?.accessoryType = UITableViewCellAccessoryType.None
+                }
+            }
+        } else {
+            displayString = (displayArray.objectAtIndex(indexPath.item) as? String)!
+            schedulingCell!.accessoryType = (displayString == previousFilledValue) ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
+        }
         if (indexPath.row == 1) {
             schedulingCell?.selectionStyle = UITableViewCellSelectionStyle.None
         }
@@ -182,56 +209,70 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
             }
             return rowCount;
         } else {
-            return 0;
+            if (repeatValue?.repeatType == WEEKLY) {
+                return WEEK_DAYS_COUNT
+            }
         }
+        return 0
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        if (self.detailType == eDetailSchedulingType) {
-            let schedulingCell : DCSchedulingCell = schedulingTypeCellAtIndexPath(indexPath)
-            return schedulingCell
-        } else {
-            if (indexPath.row == 0) {
-                let repeatCell : DCSchedulingCell = repeatCellAtIndexPath(indexPath)
-                return repeatCell
-            } else if (indexPath.row == 1) {
-                if (tableViewHasInlinePicker() && self.inlinePickerIndexPath?.row == 1) {
-                    let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: eSchedulingFrequency)
-                    return pickerCell
-                } else {
-                    let repeatCell : DCSchedulingCell =  repeatCellAtIndexPath(indexPath)
-                    return repeatCell
-                }
+        if (indexPath.section == 0) {
+            if (self.detailType == eDetailSchedulingType) {
+                let schedulingCell : DCSchedulingCell = schedulingTypeCellAtIndexPath(indexPath)
+                return schedulingCell
             } else {
-                if (tableViewHasInlinePicker() && self.inlinePickerIndexPath?.row == 1) {
-                    let repeatCell : DCSchedulingCell =  repeatCellAtIndexPath(indexPath)
+                if (indexPath.row == 0) {
+                    let repeatCell : DCSchedulingCell = repeatCellAtIndexPath(indexPath)
                     return repeatCell
+                } else if (indexPath.row == 1) {
+                    if (tableViewHasInlinePicker() && self.inlinePickerIndexPath?.row == 1) {
+                        let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: eSchedulingFrequency)
+                        return pickerCell
+                    } else {
+                        let repeatCell : DCSchedulingCell =  repeatCellAtIndexPath(indexPath)
+                        return repeatCell
+                    }
                 } else {
-                    if (repeatValue?.repeatType == DAILY) {
-                        let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: eDailyCount)
-                        return pickerCell
-                    } else /*if (repeatValue?.repeatType == WEEKLY)*/ {
-                        let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: eWeeklyCount)
-                        return pickerCell
+                    if (tableViewHasInlinePicker() && self.inlinePickerIndexPath?.row == 1) {
+                        let repeatCell : DCSchedulingCell =  repeatCellAtIndexPath(indexPath)
+                        return repeatCell
+                    } else {
+                        if (repeatValue?.repeatType == DAILY) {
+                            let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: eDailyCount)
+                            return pickerCell
+                        } else /*if (repeatValue?.repeatType == WEEKLY)*/ {
+                            let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: eWeeklyCount)
+                            return pickerCell
+                        }
                     }
                 }
             }
+        } else {
+            //weekly cell
+            let weekDaysCell : DCSchedulingCell = schedulingTypeCellAtIndexPath(indexPath)
+            return weekDaysCell
         }
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        if (self.detailType == eDetailSchedulingType) {
-            //if (indexPath.row == 0) {
+        if (indexPath.section == 0) {
+            if (self.detailType == eDetailSchedulingType) {
                 self.selectedEntry(displayArray.objectAtIndex(indexPath.item) as! String)
                 self.navigationController?.popToRootViewControllerAnimated(true)
-           // }
-        } else if (self.detailType == eDetailRepeatType) {
-           // if (indexPath.row == 0) {
+            } else if (self.detailType == eDetailRepeatType) {
                 // display picker here
                 displayInlinePickerForRowAtIndexPath(indexPath)
-          //  }
+            }
+        } else {
+            //weekly schedule
+            self.repeatValue?.weekDay = weekDaysArray.objectAtIndex(indexPath.item) as? String
+            self.repeatCompletion(self.repeatValue)
+            tableView.beginUpdates()
+            self.detailTableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.Fade)
+            tableView.endUpdates()
         }
     }
     
@@ -261,7 +302,11 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
-        return (indexPathHasPicker(indexPath)) ? PICKER_CELL_HEIGHT : TABLE_VIEW_ROW_HEIGHT
+        if (indexPath.section == 1) {
+            return TABLE_VIEW_ROW_HEIGHT
+        } else {
+            return (indexPathHasPicker(indexPath)) ? PICKER_CELL_HEIGHT : TABLE_VIEW_ROW_HEIGHT
+        }
     }
     
 }

@@ -10,7 +10,7 @@ import UIKit
 
 class DCSchedulingHelper: NSObject {
     
-    class func screenTitleForScreenType(screenType : AddMedicationDetailType) -> String {
+    static func screenTitleForScreenType(screenType : AddMedicationDetailType) -> String {
         
         //screen title for detail type
         var title = EMPTY_STRING
@@ -22,7 +22,7 @@ class DCSchedulingHelper: NSObject {
         return title
     }
     
-    class func scheduleDisplayArrayForScreenType(screenType : AddMedicationDetailType) -> NSMutableArray {
+    static func scheduleDisplayArrayForScreenType(screenType : AddMedicationDetailType) -> NSMutableArray {
         
         var scheduleArray = NSMutableArray()
         if (screenType == eDetailSchedulingType) {
@@ -33,7 +33,7 @@ class DCSchedulingHelper: NSObject {
         return scheduleArray
     }
     
-    class func scheduleDescriptionForReapeatValue(repeatValue : DCRepeat) -> String {
+    static func scheduleDescriptionForReapeatValue(repeatValue : DCRepeat) -> String {
         
         var descriptionText = EMPTY_STRING
         if (repeatValue.frequency == "1 day") {
@@ -43,5 +43,6 @@ class DCSchedulingHelper: NSObject {
         }
         return descriptionText
     }
+    
     
 }

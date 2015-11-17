@@ -17,7 +17,6 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
     var contentArray : NSMutableArray?
     var completion: SelectedPickerContent = { value in }
         
-    
     func configurePickerCellForPickerType(type : PickerType) {
         
         pickerType = type
