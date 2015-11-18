@@ -10,16 +10,21 @@ import UIKit
 
 class SelectionView: UITableViewController {
         
-    var dataSource:[KeyValue] = [KeyValue]()
-    var selectedValue:KeyValue?
+    private var dataSource:[KeyValue] = [KeyValue]()
+    private var selectedValue:KeyValue?
+    var delegate:RowSelectedDelegate?
+    var tag:Int!
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
-    func setupSelectionData(data:[KeyValue])
+    func configureView(data:[KeyValue],tag:Int,selectedValue:KeyValue?)
     {
         dataSource = data
+        self.tag = tag
+        self.selectedValue = selectedValue
     }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -49,12 +54,17 @@ class SelectionView: UITableViewController {
         
         let rowData = dataSource[indexPath.row]
         cell?.textLabel?.text = rowData.value
-        cell?.accessoryType = UITableViewCellAccessoryType.Checkmark
+        if selectedValue?.key == rowData.key
+        {
+            cell.accessoryType = UITableViewCellAccessoryType.Checkmark
+        }
         return cell
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-      navigationController?.popViewControllerAnimated(true)
+        
+        let selectedData = dataSource[indexPath.row]
+        delegate?.RowSelectedWithObject(selectedData, tag:tag)
     }
     
 }
