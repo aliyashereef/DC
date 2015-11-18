@@ -13,5 +13,7 @@
 @property (nonatomic, strong) NSString *repeatType;
 @property (nonatomic, strong) NSString *frequency;
 @property (nonatomic, strong) NSString *weekDay;
+@property (nonatomic, strong) NSString *eachValue;
+@property (nonatomic, strong) NSString *onTheValue;
 
 @end

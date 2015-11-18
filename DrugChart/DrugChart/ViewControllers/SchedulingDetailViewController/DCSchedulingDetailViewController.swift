@@ -142,21 +142,7 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
         let repeatCell : DCSchedulingCell? = detailTableView.dequeueReusableCellWithIdentifier(SCHEDULING_CELL_ID) as? DCSchedulingCell
         repeatCell!.layoutMargins = UIEdgeInsetsZero
         repeatCell!.accessoryType = UITableViewCellAccessoryType.None
-        NSLog("***** Display Array is %@", displayArray)
-        var displayString = EMPTY_STRING
-        if (indexPath.row > displayArray.count) {
-            displayString = (displayArray.objectAtIndex(indexPath.item) as? String)!
-        } else {
-            displayString = (displayArray.lastObject as? String)!
-        }
-        NSLog("displayString is %@", displayString)
-        repeatCell!.titleLabel.text = displayString
         repeatCell!.descriptionLabel.hidden = false
-        if (indexPath.row == 0) {
-            repeatCell!.descriptionLabel.text = repeatValue?.repeatType
-        } else {
-            repeatCell!.descriptionLabel.text = repeatValue?.frequency
-        }
         return repeatCell!
     }
     
@@ -206,7 +192,8 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if (section == 0) {
-            var rowCount : NSInteger = displayArray.count;
+            //var rowCount : NSInteger = displayArray.count;
+            var rowCount = 2;
             if (tableViewHasInlinePicker()) {
                 rowCount++
             }
@@ -214,6 +201,8 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
         } else {
             if (repeatValue?.repeatType == WEEKLY) {
                 return WEEK_DAYS_COUNT
+            } else if (repeatValue?.repeatType == MONTHLY || repeatValue?.repeatType == YEARLY) {
+                return 2
             }
         }
         return 0
@@ -228,6 +217,8 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
             } else {
                 if (indexPath.row == 0) {
                     let repeatCell : DCSchedulingCell = repeatCellAtIndexPath(indexPath)
+                    repeatCell.titleLabel.text = FREQUENCY
+                    repeatCell.descriptionLabel.text = repeatValue?.repeatType
                     return repeatCell
                 } else if (indexPath.row == 1) {
                     if (tableViewHasInlinePicker() && self.inlinePickerIndexPath?.row == 1) {
@@ -235,13 +226,12 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
                         return pickerCell
                     } else {
                         let repeatCell : DCSchedulingCell =  repeatCellAtIndexPath(indexPath)
+                        repeatCell.titleLabel.text = EVERY
+                        repeatCell.descriptionLabel.text = repeatValue?.frequency
                         return repeatCell
                     }
                 } else {
-                    if (tableViewHasInlinePicker() && self.inlinePickerIndexPath?.row == 1) {
-                        let repeatCell : DCSchedulingCell =  repeatCellAtIndexPath(indexPath)
-                        return repeatCell
-                    } else {
+                    if (tableViewHasInlinePicker() && self.inlinePickerIndexPath == indexPath) {
                         if (repeatValue?.repeatType == DAILY) {
                             let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: eDailyCount)
                             return pickerCell
@@ -249,14 +239,31 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
                             let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: eWeeklyCount)
                             return pickerCell
                         }
+                    } else {
+                        let repeatCell : DCSchedulingCell =  repeatCellAtIndexPath(indexPath)
+                        repeatCell.titleLabel.text = EVERY
+                        repeatCell.descriptionLabel.text = repeatValue?.frequency
+                        return repeatCell
                     }
                 }
             }
         } else {
             //weekly cell
-            let weekDaysCell : DCSchedulingCell = schedulingTypeCellAtIndexPath(indexPath)
-            return weekDaysCell
-        }
+            if (repeatValue?.repeatType == WEEKLY) {
+                let weekDaysCell : DCSchedulingCell = schedulingTypeCellAtIndexPath(indexPath)
+                return weekDaysCell
+            } else {
+                let repeatCell : DCSchedulingCell =  repeatCellAtIndexPath(indexPath)
+                if (indexPath.row == 0) {
+                    repeatCell.titleLabel.text = EACH
+                    repeatCell.descriptionLabel.text = repeatValue?.eachValue
+                } else {
+                    repeatCell.titleLabel.text = ON_THE
+                    repeatCell.descriptionLabel.text = repeatValue?.onTheValue
+                }
+                return repeatCell
+            }
+         }
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
