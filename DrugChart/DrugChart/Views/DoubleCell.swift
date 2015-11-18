@@ -29,23 +29,44 @@ class DoubleCell: UITableViewCell ,UITextFieldDelegate {
     
     
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if let touch = touches.first as UITouch! {
-            value.resignFirstResponder()
-        }
-        super.touchesBegan(touches , withEvent:event)
-    }
-    
+//    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+//        if let touch = touches.first as UITouch! {
+//            value.resignFirstResponder()
+//        }
+//        super.touchesBegan(touches , withEvent:event)
+//    }
+//    
     
     func  getValue() ->Double
     {
         return (value.text as NSString!).doubleValue
     }
     
-    func configureCell(title:String , valuePlaceHolderText:String )
+    func isValueEntered() -> Bool
+    {
+        if (value.text == nil || value.text!.isEmpty == true)
+        {
+            return false
+        }
+        else
+        {
+            return true
+        }
+    }
+    
+    func configureCell(title:String , valuePlaceHolderText:String , selectedValue:Double! )
     {
         titleText.text = title;
         value.placeholder = valuePlaceHolderText
+        if selectedValue != nil
+        {
+            value.text = String(selectedValue)
+        }
+    }
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        
+        value.resignFirstResponder()
+        return true
     }
     
 //    func addDoneButtonToKeyboard() {
