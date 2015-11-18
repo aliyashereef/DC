@@ -11,13 +11,13 @@ import UIKit
 class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
 
     @IBOutlet var tableView: UITableView!
-    private var obsBodyTemperature = BodyTemperature()
-    private var obsRespiratory = Respiratory()
-    private var obsPulse = Pulse()
-    private var obsSPO2 = SPO2()
-    private var obsBM = BowelMovement()
-    private var obsBP = BloodPressure()
-    var observation = VitalSignObservation()
+    private var obsBodyTemperature:BodyTemperature?
+    private var obsRespiratory : Respiratory?
+    private var obsPulse :Pulse?
+    private var obsSPO2 : SPO2?
+    private var obsBM : BowelMovement?
+    private var obsBP :BloodPressure?
+    var observation:VitalSignObservation!
     /*
     // Only override drawRect: if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
@@ -30,25 +30,33 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
         return UINib(nibName: "GeneralObservationView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
     }
     
-    func commonInit()
+    func commonInit(observation:VitalSignObservation)
     {
+        self.observation = observation
         tableView.delegate=self
         tableView.dataSource=self
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 44
-//        
+        
         let nib = UINib(nibName: "DoubleCell", bundle: nil)
         self.tableView.registerNib(nib, forCellReuseIdentifier: "DoubleCell")
         
         let nibTimePicker = UINib(nibName: "TimePickerCell", bundle: nil)
         self.tableView.registerNib(nibTimePicker, forCellReuseIdentifier: "TimePickerCell")
         
+        let datePicker = UINib(nibName: "DatePickerCell", bundle: nil)
+        self.tableView.registerNib(datePicker, forCellReuseIdentifier: "DatePickerCell")
+        
         let nibBloodPressure = UINib(nibName: "BloodPressureCell", bundle: nil)
         self.tableView.registerNib(nibBloodPressure, forCellReuseIdentifier: "BloodPressureCell")
         
-        self.tableView.registerClass(DatePickerCellInline.self, forCellReuseIdentifier: "DatePickerCell")
         
         //
+    }
+    func configureView(observation:VitalSignObservation)
+    {
+        self.observation = observation
+        self.tableView.reloadData()
     }
     // MARK: - Table view data source
     
@@ -63,7 +71,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
         switch (section)
         {
         case ObservationType.Date.rawValue:
-            return 2;
+            return 1;
         default:
             return 1
             
@@ -72,12 +80,11 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
     
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
         var cellTitle:String = ""
         var placeHolderText = "enter value"
         var rowTag : Int = -1
         var cellType:CellType = CellType.Double
-        
+        var populateValue :Bool = observation != nil
         switch (indexPath.section)
         {
         case ObservationType.Date.rawValue:
@@ -122,7 +129,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
         switch(cellType)
         {
         case CellType.Date:
-            let cell = tableView.dequeueReusableCellWithIdentifier("DatePickerCell", forIndexPath: indexPath) as! DatePickerCellInline
+            let cell = tableView.dequeueReusableCellWithIdentifier("DatePickerCell", forIndexPath: indexPath) as! DatePickerCell
             cell.tag = rowTag
             return cell
         case CellType.Time:
@@ -135,7 +142,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
             return cell
         default:
             let cell = tableView.dequeueReusableCellWithIdentifier("DoubleCell", forIndexPath: indexPath) as! DoubleCell
-            cell.configureCell(cellTitle, valuePlaceHolderText: placeHolderText)
+            cell.configureCell(cellTitle, valuePlaceHolderText: placeHolderText,selectedValue: nil)
             cell.tag = rowTag
             return cell
         }
@@ -178,37 +185,80 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
 //    
     func prepareObjects()
     {
+       // observation = VitalSignObservation()
         for cell in tableView.visibleCells {
             switch(cell.tag)
             {
             case ObservationType.Date.rawValue:
-                let dateCell = cell as! DatePickerCellInline
+                let dateCell = cell as! DatePickerCell
                 observation.date = dateCell.date
-//                obsBodyTemperature.date = dateCell.date
-//                obsRespiratory.date = dateCell.date
-//                obsPulse.date = dateCell.date
-//                obsSPO2.date = dateCell.date
-//                obsBM.date = dateCell.date
-//                obsBP.date = dateCell.date
             case ObservationType.Temperature.rawValue:
                 let doubleCell = cell as! DoubleCell
-                obsBodyTemperature.value = doubleCell.getValue()
+                if doubleCell.isValueEntered()
+                {
+                    obsBodyTemperature = BodyTemperature()
+                    obsBodyTemperature?.value = doubleCell.getValue()
+                }
+                else
+                {
+                    obsBodyTemperature = nil
+                }
             case ObservationType.Respiratory.rawValue:
                 let doubleCell = cell as! DoubleCell
-                obsRespiratory.repiratoryRate = doubleCell.getValue()
+                if(doubleCell.isValueEntered())
+                {
+                    obsRespiratory = Respiratory()
+                    obsRespiratory!.repiratoryRate = doubleCell.getValue()
+                }
+                else
+                {
+                    obsRespiratory = nil
+                }
             case ObservationType.Pulse.rawValue:
                 let doubleCell = cell as! DoubleCell
-                obsPulse.pulseRate = doubleCell.getValue()
+                if(doubleCell.isValueEntered())
+                {
+                    obsPulse = Pulse()
+                    obsPulse!.pulseRate = doubleCell.getValue()
+                }
+                else
+                {
+                    obsPulse = nil
+                }
             case ObservationType.SpO2.rawValue:
                 let doubleCell = cell as! DoubleCell
-                obsSPO2.spO2Percentage = doubleCell.getValue()
+                if (doubleCell.isValueEntered())
+                {
+                    obsSPO2 = SPO2()
+                    obsSPO2!.spO2Percentage = doubleCell.getValue()
+                }
+                else
+                {
+                    obsSPO2 = nil
+                }
             case ObservationType.BM.rawValue:
                 let doubleCell = cell as! DoubleCell
-                obsBM.value = doubleCell.getValue()
+                if(doubleCell.isValueEntered())
+                {
+                    obsBM = BowelMovement()
+                    obsBM!.value = doubleCell.getValue()
+                }
+                else
+                {
+                    obsBM = nil
+                }
             case ObservationType.BloodPressure.rawValue:
                 let bloodPressureCell = cell as! BloodPressureCell
-                obsBP.systolic = bloodPressureCell.getSystolicValue()
-                obsBP.diastolic = bloodPressureCell.getDiastolicValue()
+                if(bloodPressureCell.isValueEntered())
+                {
+                    obsBP = BloodPressure()
+                    obsBP!.systolic = bloodPressureCell.getSystolicValue()
+                    obsBP!.diastolic = bloodPressureCell.getDiastolicValue()
+                }
+                else
+                {
+                    obsBP = nil
+                }
             default:
                 print("nothing have been selected", terminator: "")
             }

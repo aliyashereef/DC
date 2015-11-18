@@ -26,6 +26,28 @@ class BloodPressureCell: UITableViewCell ,UITextFieldDelegate{
         // Configure the view for the selected state
     }
     
+    func isValueEntered() -> Bool
+    {
+       // if  (systolicValue.text != nil && systolicValue.text?.isEmpty==false)
+        if (systolicValue.text == nil || systolicValue.text!.isEmpty == true)
+            
+        {
+            return false
+        }
+        else
+        {
+            return true
+        }
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        
+        systolicValue.resignFirstResponder()
+        diastolicValue.resignFirstResponder()
+        return true
+    }
+    
+    
     func  getSystolicValue() ->Double
     {
         return (systolicValue.text as NSString!).doubleValue

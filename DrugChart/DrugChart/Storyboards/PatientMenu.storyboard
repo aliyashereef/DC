@@ -59,7 +59,7 @@
         <!--GHA Adult Observation-->
         <scene sceneID="WBW-UK-0HZ">
             <objects>
-                <viewController storyboardIdentifier="vcObservationMaintenance" id="0pK-wZ-bGg" customClass="ObservationViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ObservationMaintenance" id="0pK-wZ-bGg" customClass="ObservationViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="44l-UI-L5N"/>
                         <viewControllerLayoutGuide type="bottom" id="GyR-vX-P69"/>

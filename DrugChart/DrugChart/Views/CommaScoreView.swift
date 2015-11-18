@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CommaScoreView: UIView,UITableViewDelegate,UITableViewDataSource {
+class CommaScoreView: UIView,UITableViewDelegate,UITableViewDataSource{
 
     /*
     // Only override drawRect: if you perform custom drawing.
@@ -17,27 +17,27 @@ class CommaScoreView: UIView,UITableViewDelegate,UITableViewDataSource {
         // Drawing code
     }
     */
-    
+    var eyesOpen:KeyValue!
+    var bestVerbalResponse:KeyValue!
+    var bestMotorResponse:KeyValue!
+    var observation:VitalSignObservation!
     
     @IBOutlet weak var tableView: UITableView!
     var delegate:RowSelectedDelegate?
     class func instanceFromNib() -> UIView {
         return UINib(nibName: "CommaScoreView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
     }
-    func commonInit()
+    func commonInit(observation:VitalSignObservation)
     {
+        self.observation = observation
         tableView.delegate=self
         tableView.dataSource=self
-        let nib = UINib(nibName: "DoubleCell", bundle: nil)
-        self.tableView.registerNib(nib, forCellReuseIdentifier: "DoubleCell")
-        
-        let nibPickerCell = UINib(nibName: "PickerCell", bundle: nil)
-        self.tableView.registerNib(nibPickerCell, forCellReuseIdentifier: "PickerCell")
-        
         let nibSelectionCell = UINib(nibName: "SelectionCell", bundle: nil)
         self.tableView.registerNib(nibSelectionCell, forCellReuseIdentifier: "SelectionCell")
-        
-        
+    }
+    func Refresh()
+    {
+        self.tableView.reloadData()
     }
     // MARK: - Table view data source
     
@@ -76,20 +76,25 @@ class CommaScoreView: UIView,UITableViewDelegate,UITableViewDataSource {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var title:String
         var selectableOptions:[KeyValue]=[]
-        
+        var tag:Int = 0
+        var selectedData:KeyValue?
         switch(indexPath.section,indexPath.row)
         {
         case (0,0):
             selectableOptions = getKeyValuePairs(["Spontaneously","To speech","To pain","None"])
             title="Eyes open"
+            tag = CommaScoreTableRow.EyesOpen.rawValue
+            selectedData = eyesOpen
         case (0,1):
             selectableOptions = getKeyValuePairs(["Oriented","Confused","Inappropriate words","Incomprehensible sounds","None"]);
             title="Best verbal response"
-            
+            tag = CommaScoreTableRow.BestVerbalResponse.rawValue
+            selectedData = bestVerbalResponse
         case (0,2):
             selectableOptions = getKeyValuePairs(["Obeys commands","Localise to pain","Withdraw to pain","Flexion to pain","Extension to pain","None"])
             title="Best motor response"
-            
+            tag = CommaScoreTableRow.BestMotorResponse.rawValue
+            selectedData = bestMotorResponse
         case (1,0):
             selectableOptions = getKeyValuePairs( ["Brisk reaction","No reaction","Some reaction"])
             title="Right"
@@ -110,7 +115,8 @@ class CommaScoreView: UIView,UITableViewDelegate,UITableViewDataSource {
                 title=""
         }
             let cell = tableView.dequeueReusableCellWithIdentifier("SelectionCell", forIndexPath: indexPath) as! SelectionCell
-        cell.configureCell(title,selectedValue: KeyValue(paramKey:0,paramValue:""), dataSource:selectableOptions )
+        cell.configureCell(title,selectedValue: selectedData, dataSource:selectableOptions )
+        cell.tag = tag
             cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
             return cell
         
@@ -119,7 +125,7 @@ class CommaScoreView: UIView,UITableViewDelegate,UITableViewDataSource {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         let cell = tableView.cellForRowAtIndexPath(indexPath) as! SelectionCell
-        delegate?.RowSelected(cell.dataSource)
+        delegate?.RowSelectedWithList(cell.dataSource,tag:cell.tag,selectedValue:cell.selectedValue)
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -137,8 +143,11 @@ class CommaScoreView: UIView,UITableViewDelegate,UITableViewDataSource {
             return ""
         }
     }
-    func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        //   view.tintColor = UIColor(red: 0/255, green: 102/255, blue: 153/255, alpha: 1)
-    }
     
+    func prepareObject()
+    {
+        observation.eyesOpen = eyesOpen
+        observation.bestVerbalResponse = bestVerbalResponse
+        observation.bestMotorResponse = bestMotorResponse
+    }
 }

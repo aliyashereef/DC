@@ -13,6 +13,7 @@ class SelectionCell: UITableViewCell {
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var details: UILabel!
     var dataSource:[KeyValue]=[]
+    var selectedValue:KeyValue?
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -23,10 +24,11 @@ class SelectionCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    func configureCell(cellTitle:String,selectedValue:KeyValue,dataSource:[KeyValue])
+    func configureCell(cellTitle:String,selectedValue:KeyValue?,dataSource:[KeyValue])
     {
         title.text = cellTitle
-        details.text = selectedValue.value
+        self.selectedValue = selectedValue
+        details.text = selectedValue?.value
         self.dataSource = dataSource
     }
     
