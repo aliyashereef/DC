@@ -15,7 +15,7 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
     @IBOutlet weak var pickerView: UIPickerView!
     var pickerType : PickerType?
     var contentArray : NSMutableArray?
-    var completion: SelectedPickerContent = { value in }
+    var pickerCompletion: SelectedPickerContent = { value in }
         
     func configurePickerCellForPickerType(type : PickerType) {
         
@@ -71,12 +71,12 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
             if (pickerType! == eSchedulingFrequency) {
                // if (row == 0) { // Selection allowed for daily for this release
                     selectedValue = (contentArray?.objectAtIndex(row) as? String)!
-                    completion(selectedValue)
+                    pickerCompletion(selectedValue)
                // }
             } else {
                 let valueToDisplay = String((contentArray?.objectAtIndex(row))!)
                 selectedValue = String(valueToDisplay)
-                completion(selectedValue)
+                pickerCompletion(selectedValue)
             }
         }
     }

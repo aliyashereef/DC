@@ -355,6 +355,8 @@
 #define YEARLY @"Yearly"
 #define FREQUENCY @"Frequency"
 #define EVERY @"Every"
+#define EACH @"Each"
+#define ON_THE @"On the..."
 
 //Roles
 

@@ -74,15 +74,23 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
         pickerCell?.layoutMargins = UIEdgeInsetsZero
         pickerCell?.configurePickerCellForPickerType(pickerType)
         NSLog("pickerType is %d", pickerType.rawValue)
-        pickerCell?.completion = { value in
+        pickerCell?.pickerCompletion = { value in
             
             NSLog("*** Value is %@", value!);
            // self.detailTableView.beginUpdates()
            // var indexPathArray : NSArray
             if (pickerType == eSchedulingFrequency) {
                 self.repeatValue?.repeatType = value as! String
-                if (value == WEEKLY) {
+                if (value == DAILY) {
+                    self.displayArray = [FREQUENCY, EVERY]
+                } else if (value == WEEKLY) {
                     self.repeatValue?.frequency = "1 week"
+                    self.displayArray = [FREQUENCY, EVERY]
+                } else if (value == MONTHLY) {
+                    self.repeatValue?.frequency = "1 month"
+                    self.displayArray = [FREQUENCY, EVERY, EACH, ON_THE]
+                } else if (value == YEARLY) {
+                    self.displayArray = [FREQUENCY, EVERY, EACH, ON_THE]
                 }
               //  indexPathArray = [NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 2, inSection: 0)]
             } else {
@@ -111,16 +119,11 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
         var displayString = EMPTY_STRING
         if (indexPath.section == 1 && self.repeatValue?.repeatType == WEEKLY) {
             displayString = weekDaysArray.objectAtIndex(indexPath.item) as! String
-            NSLog("Current week day index is %d", DCDateUtility.currentWeekDayIndex())
             let currentDayIndex : NSInteger = DCDateUtility.currentWeekDayIndex()
-            if (repeatValue?.weekDay == displayString) {
-                schedulingCell?.accessoryType = UITableViewCellAccessoryType.Checkmark
+            if (repeatValue?.weekDay == nil) {
+                schedulingCell?.accessoryType = (currentDayIndex == indexPath.row) ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
             } else {
-                if (currentDayIndex == indexPath.row) {
-                    schedulingCell?.accessoryType = UITableViewCellAccessoryType.Checkmark
-                } else {
-                    schedulingCell?.accessoryType = UITableViewCellAccessoryType.None
-                }
+                schedulingCell?.accessoryType = (repeatValue?.weekDay == displayString) ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
             }
         } else {
             displayString = (displayArray.objectAtIndex(indexPath.item) as? String)!
