@@ -100,7 +100,7 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
                 } else if (pickerType == eMonthlyCount) {
                     let week = (value == "1") ? "month" : "months"
                     self.repeatValue?.frequency = NSString(format: "%@ %@", value!, week) as String
-                } else if (pickerType == eMonthDaysCount) {
+                } else if (pickerType == eMonthEachCount) {
                     self.repeatValue?.eachValue = value! as String
                 }
             }
@@ -267,7 +267,7 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
                    // repeatCell.descriptionLabel.text = repeatValue?.eachValue
                 } else if (indexPath.row == 1) {
                     if (tableViewHasInlinePickerForSection(indexPath.section) && self.inlinePickerIndexPath == indexPath) {
-                        let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: eMonthDaysCount)
+                        let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: eMonthEachCount)
                         return pickerCell
                     } else {
                         repeatCell.titleLabel.text = ON_THE

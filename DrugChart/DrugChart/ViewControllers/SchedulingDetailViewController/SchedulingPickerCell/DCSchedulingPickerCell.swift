@@ -36,7 +36,7 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
             for number : NSInteger in 1...12 {
                 [contentArray?.addObject(number)]
             }
-        } else if (pickerType! == eMonthDaysCount) {
+        } else if (pickerType! == eMonthEachCount) {
             for number : NSInteger in 1...31 {
                 [contentArray?.addObject(number)]
             }
@@ -50,7 +50,7 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
     
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
         
-        if (pickerType! == eSchedulingFrequency || pickerType! == eMonthDaysCount) {
+        if (pickerType! == eSchedulingFrequency || pickerType! == eMonthEachCount) {
             return 1
         } else {
             return 2
