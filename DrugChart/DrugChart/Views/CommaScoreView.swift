@@ -20,6 +20,10 @@ class CommaScoreView: UIView,UITableViewDelegate,UITableViewDataSource{
     var eyesOpen:KeyValue!
     var bestVerbalResponse:KeyValue!
     var bestMotorResponse:KeyValue!
+    var pupilRight:KeyValue!
+    var pupilLeft:KeyValue!
+    var limbMovementArms:KeyValue!
+    var limbMovementLegs:KeyValue!
     var observation:VitalSignObservation!
     
     @IBOutlet weak var tableView: UITableView!
@@ -98,17 +102,23 @@ class CommaScoreView: UIView,UITableViewDelegate,UITableViewDataSource{
         case (1,0):
             selectableOptions = getKeyValuePairs( ["Brisk reaction","No reaction","Some reaction"])
             title="Right"
-            
+            tag = CommaScoreTableRow.RightPupil.rawValue
+            selectedData = pupilRight
         case (1,1):
             selectableOptions = getKeyValuePairs(["Brisk reaction","No reaction","Some reaction"])
             title="Left"
-            
+            tag = CommaScoreTableRow.LeftPupil.rawValue
+            selectedData = pupilLeft
         case (2,0):
                 selectableOptions = getKeyValuePairs(["Normal power","Mild weakness","Severe weakness","Spastic flexion","Extension","No response"])
                 title="Arms"
+                tag = CommaScoreTableRow.ArmsMovement.rawValue
+            selectedData = limbMovementArms
         case (2,1):
                 selectableOptions = getKeyValuePairs(["Normal power","Mild weakness","Severe weakness","Extension","No response"])
                 title="Legs"
+                tag = CommaScoreTableRow.LegsMovement.rawValue
+                selectedData = limbMovementLegs
               default:
                 //TODO: NEED TO THROW EXCEPTION, THIS CASE WILL NEVER OCCUR
                 selectableOptions = getKeyValuePairs([""])

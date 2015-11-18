@@ -86,6 +86,14 @@ import UIKit
                 commaScoreView.bestVerbalResponse = dataSource
             case CommaScoreTableRow.BestMotorResponse.rawValue:
                 commaScoreView.bestMotorResponse = dataSource
+            case CommaScoreTableRow.RightPupil.rawValue:
+                commaScoreView.pupilRight = dataSource
+            case CommaScoreTableRow.LeftPupil.rawValue:
+                commaScoreView.pupilLeft = dataSource
+            case CommaScoreTableRow.ArmsMovement.rawValue:
+                commaScoreView.limbMovementArms = dataSource
+            case CommaScoreTableRow.LegsMovement.rawValue:
+                commaScoreView.limbMovementLegs = dataSource
             default:
                 NSLog("Do nothing")
             }

@@ -22,6 +22,10 @@ class VitalSignObservation
     var eyesOpen:KeyValue?
     var bestVerbalResponse:KeyValue?
     var bestMotorResponse:KeyValue?
+    var pupilRight:KeyValue?
+    var pupilLeft:KeyValue?
+    var limbMovementArms:KeyValue?
+    var limbMovementLegs:KeyValue?
     
     init()
     {
@@ -36,6 +40,10 @@ class VitalSignObservation
         eyesOpen = nil
         bestVerbalResponse = nil
         bestMotorResponse = nil
+        pupilLeft = nil
+        pupilRight = nil
+        limbMovementArms = nil
+        limbMovementLegs = nil
     }
     
 //    func getConsolidatedDate() ->NSDate
