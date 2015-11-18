@@ -57,14 +57,14 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
         weekDaysArray = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
     }
     
-    func tableViewHasInlinePicker () -> Bool {
+    func tableViewHasInlinePickerForSection (section : NSInteger) -> Bool {
         
-        return (self.inlinePickerIndexPath != nil)
+        return (self.inlinePickerIndexPath != nil && section == self.inlinePickerIndexPath?.section)
     }
 
     func indexPathHasPicker(indexPath : NSIndexPath) -> Bool {
         
-        return (tableViewHasInlinePicker() && self.inlinePickerIndexPath!.row == indexPath.row);
+        return (tableViewHasInlinePickerForSection(indexPath.section) && self.inlinePickerIndexPath!.row == indexPath.row);
     }
     
     func inlinePickerCellAtIndexPath(indexPath : NSIndexPath, forPickerType pickerType : PickerType) -> DCSchedulingPickerCell {
@@ -77,8 +77,6 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
         pickerCell?.pickerCompletion = { value in
             
             NSLog("*** Value is %@", value!);
-           // self.detailTableView.beginUpdates()
-           // var indexPathArray : NSArray
             if (pickerType == eSchedulingFrequency) {
                 self.repeatValue?.repeatType = value as! String
                 if (value == DAILY) {
@@ -92,7 +90,6 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
                 } else if (value == YEARLY) {
                     self.displayArray = [FREQUENCY, EVERY, EACH, ON_THE]
                 }
-              //  indexPathArray = [NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 2, inSection: 0)]
             } else {
                 if (pickerType == eDailyCount) {
                     let days = (value == "1") ? "day" : "days"
@@ -103,13 +100,11 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
                 } else if (pickerType == eMonthlyCount) {
                     let week = (value == "1") ? "month" : "months"
                     self.repeatValue?.frequency = NSString(format: "%@ %@", value!, week) as String
+                } else if (pickerType == eMonthDaysCount) {
+                    self.repeatValue?.eachValue = value! as String
                 }
-               // indexPathArray = [NSIndexPath(forRow: 1, inSection: 0)]
             }
             self.repeatCompletion(self.repeatValue)
-//            self.detailTableView.reloadRowsAtIndexPaths(indexPathArray as! [NSIndexPath], withRowAnimation: UITableViewRowAnimation.Fade)
-//            self.detailTableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.Fade)
-//            self.detailTableView.endUpdates()
             self.detailTableView.reloadData()
         }
         return pickerCell!
@@ -154,9 +149,11 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
         detailTableView.beginUpdates()
         var pickerBeforeSelectedIndexPath = false
         var sameCellClicked = false
-        if (tableViewHasInlinePicker()) {
+        if (/*tableViewHasInlinePickerForSection(indexPath.section)*/self.inlinePickerIndexPath != nil) {
             pickerBeforeSelectedIndexPath = self.inlinePickerIndexPath!.row < indexPath.row
-            sameCellClicked = (self.inlinePickerIndexPath!.row - 1 == indexPath.row);
+            if (tableViewHasInlinePickerForSection(indexPath.section)) {
+                sameCellClicked = (self.inlinePickerIndexPath!.row - 1 == indexPath.row);
+            }
             let pickerIndexPath : NSIndexPath = self.inlinePickerIndexPath!
             self.inlinePickerIndexPath = nil
             detailTableView.deleteRowsAtIndexPaths([pickerIndexPath], withRowAnimation: UITableViewRowAnimation.Fade)
@@ -177,7 +174,7 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
         
        // detailTableView.beginUpdates()
         let indexPaths = [NSIndexPath(forItem: indexPath.row + 1, inSection: indexPath.section)]
-        if (tableViewHasInlinePicker()) {
+        if (tableViewHasInlinePickerForSection(indexPath.section)) {
             detailTableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.Fade)
         } else {
             // didn't find a picker below it, so we should insert it
@@ -197,18 +194,22 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
         if (section == 0) {
             //var rowCount : NSInteger = displayArray.count;
             var rowCount = 2;
-            if (tableViewHasInlinePicker()) {
+            if (tableViewHasInlinePickerForSection(section)) {
                 rowCount++
             }
-            return rowCount;
+            return rowCount
         } else {
+            var rowCount : NSInteger = 0
             if (repeatValue?.repeatType == WEEKLY) {
-                return WEEK_DAYS_COUNT
+                rowCount = WEEK_DAYS_COUNT
             } else if (repeatValue?.repeatType == MONTHLY || repeatValue?.repeatType == YEARLY) {
-                return 2
+                rowCount = 2
             }
+            if (tableViewHasInlinePickerForSection(section)) {
+                rowCount++
+            }
+            return rowCount
         }
-        return 0
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -224,7 +225,7 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
                     repeatCell.descriptionLabel.text = repeatValue?.repeatType
                     return repeatCell
                 } else if (indexPath.row == 1) {
-                    if (tableViewHasInlinePicker() && self.inlinePickerIndexPath?.row == 1) {
+                    if (tableViewHasInlinePickerForSection(indexPath.section) && self.inlinePickerIndexPath?.row == 1) {
                         let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: eSchedulingFrequency)
                         return pickerCell
                     } else {
@@ -234,7 +235,7 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
                         return repeatCell
                     }
                 } else {
-                    if (tableViewHasInlinePicker() && self.inlinePickerIndexPath == indexPath) {
+                    if (tableViewHasInlinePickerForSection(indexPath.section) && self.inlinePickerIndexPath == indexPath) {
                         if (repeatValue?.repeatType == DAILY) {
                             let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: eDailyCount)
                             return pickerCell
@@ -262,10 +263,26 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
                 let repeatCell : DCSchedulingCell =  repeatCellAtIndexPath(indexPath)
                 if (indexPath.row == 0) {
                     repeatCell.titleLabel.text = EACH
-                    repeatCell.descriptionLabel.text = repeatValue?.eachValue
-                } else {
-                    repeatCell.titleLabel.text = ON_THE
-                    repeatCell.descriptionLabel.text = repeatValue?.onTheValue
+                    repeatCell.descriptionLabel.hidden = true
+                   // repeatCell.descriptionLabel.text = repeatValue?.eachValue
+                } else if (indexPath.row == 1) {
+                    if (tableViewHasInlinePickerForSection(indexPath.section) && self.inlinePickerIndexPath == indexPath) {
+                        let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: eMonthDaysCount)
+                        return pickerCell
+                    } else {
+                        repeatCell.titleLabel.text = ON_THE
+                        //repeatCell.descriptionLabel.text = repeatValue?.onTheValue
+                        repeatCell.descriptionLabel.hidden = true
+                    }
+                } else /*if (indexPath.row == 2)*/ {
+                    if (tableViewHasInlinePickerForSection(indexPath.section) && self.inlinePickerIndexPath == indexPath) {
+                        let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: eMonthOnTheCount)
+                        return pickerCell
+                    } else {
+                        repeatCell.titleLabel.text = ON_THE
+                       // repeatCell.descriptionLabel.text = repeatValue?.onTheValue
+                        repeatCell.descriptionLabel.hidden = true
+                    }
                 }
                 return repeatCell
             }
@@ -322,11 +339,11 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
-        if (indexPath.section == 1) {
-            return TABLE_VIEW_ROW_HEIGHT
-        } else {
+//        if (indexPath.section == 1) {
+//            return TABLE_VIEW_ROW_HEIGHT
+//        } else {
             return (indexPathHasPicker(indexPath)) ? PICKER_CELL_HEIGHT : TABLE_VIEW_ROW_HEIGHT
-        }
+    //    }
     }
     
 }

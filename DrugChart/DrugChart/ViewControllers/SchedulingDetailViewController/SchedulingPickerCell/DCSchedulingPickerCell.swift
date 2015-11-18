@@ -15,28 +15,33 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
     @IBOutlet weak var pickerView: UIPickerView!
     var pickerType : PickerType?
     var contentArray : NSMutableArray?
+    var weekDaysArray : NSArray = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
     var pickerCompletion: SelectedPickerContent = { value in }
         
     func configurePickerCellForPickerType(type : PickerType) {
         
         pickerType = type
+        contentArray = NSMutableArray()
         if (pickerType! == eSchedulingFrequency) {
             contentArray = [DAILY, WEEKLY, MONTHLY, YEARLY]
         } else if (pickerType! == eDailyCount) {
-            contentArray = NSMutableArray()
             for number : NSInteger in 1...7 {
                 [contentArray?.addObject(number)]
             }
         } else if (pickerType! == eWeeklyCount) {
-            contentArray = NSMutableArray()
             for number : NSInteger in 1...5 {
                 [contentArray?.addObject(number)]
             }
         } else if (pickerType! == eMonthlyCount) {
-            contentArray = NSMutableArray()
             for number : NSInteger in 1...12 {
                 [contentArray?.addObject(number)]
             }
+        } else if (pickerType! == eMonthDaysCount) {
+            for number : NSInteger in 1...31 {
+                [contentArray?.addObject(number)]
+            }
+        } else if (pickerType! == eMonthOnTheCount) {
+            contentArray = [FIRST, SECOND, THIRD, FOURTH, FIFTH, LAST]
         }
         pickerView.reloadAllComponents()
     }
@@ -45,12 +50,21 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
     
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
         
-        return  pickerType! == eSchedulingFrequency ? 1 : 2
+        if (pickerType! == eSchedulingFrequency || pickerType! == eMonthDaysCount) {
+            return 1
+        } else {
+            return 2
+        }
     }
     
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         
-        return (component == 0) ? (contentArray?.count)! : 1
+        if (component == 0) {
+            return (contentArray?.count)!
+        } else {
+            return (pickerType! == eMonthOnTheCount) ? (weekDaysArray.count) : 1
+        }
+        
     }
     
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
@@ -67,8 +81,10 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
                     displayString = "days"
                 } else if (pickerType! == eWeeklyCount) {
                     displayString = "weeks"
-                } else {
+                } else if (pickerType! == eMonthlyCount) {
                     displayString = "months"
+                } else if (pickerType! == eMonthOnTheCount) {
+                    displayString = weekDaysArray.objectAtIndex(row) as! String
                 }
             }
         }
@@ -77,13 +93,18 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
-        if (component == 0) {
+        if (pickerType! == eMonthOnTheCount) {
+            let weekDayIndex = contentArray?.objectAtIndex(pickerView.selectedRowInComponent(0)) as? String
+            let weekday = weekDaysArray.objectAtIndex(pickerView.selectedRowInComponent(1)) as? String
+            let monthValue = NSString(format: "%@ %@", weekDayIndex!, weekday!)
+            pickerCompletion(monthValue)
+        } else {
             var selectedValue : String = EMPTY_STRING
             if (pickerType! == eSchedulingFrequency) {
-               // if (row == 0) { // Selection allowed for daily for this release
-                    selectedValue = (contentArray?.objectAtIndex(row) as? String)!
-                    pickerCompletion(selectedValue)
-               // }
+                // if (row == 0) { // Selection allowed for daily for this release
+                selectedValue = (contentArray?.objectAtIndex(row) as? String)!
+                pickerCompletion(selectedValue)
+                // }
             } else {
                 let valueToDisplay = String((contentArray?.objectAtIndex(row))!)
                 selectedValue = String(valueToDisplay)
@@ -92,3 +113,4 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
         }
     }
 }
+
