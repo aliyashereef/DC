@@ -103,7 +103,8 @@ typedef enum : NSUInteger {
     eSchedulingFrequency,
     eDailyCount,
     eWeeklyCount,
-    eWeekDays
+    eWeekDays,
+    eMonthlyCount
     
 } PickerType;
 

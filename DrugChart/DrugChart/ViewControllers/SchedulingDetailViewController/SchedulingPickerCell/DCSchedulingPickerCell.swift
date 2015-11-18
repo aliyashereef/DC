@@ -32,6 +32,11 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
             for number : NSInteger in 1...5 {
                 [contentArray?.addObject(number)]
             }
+        } else if (pickerType! == eMonthlyCount) {
+            contentArray = NSMutableArray()
+            for number : NSInteger in 1...12 {
+                [contentArray?.addObject(number)]
+            }
         }
         pickerView.reloadAllComponents()
     }
@@ -58,7 +63,13 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
                 let valueToDisplay = String((contentArray?.objectAtIndex(row))!)
                 displayString = String(valueToDisplay)
             } else {
-                displayString = (pickerType! == eDailyCount) ? "days" : "weeks"
+                if (pickerType! == eDailyCount) {
+                    displayString = "days"
+                } else if (pickerType! == eWeeklyCount) {
+                    displayString = "weeks"
+                } else {
+                    displayString = "months"
+                }
             }
         }
         return displayString
