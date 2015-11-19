@@ -54,6 +54,7 @@ typedef enum : NSUInteger {
     SortType sortType;
     
     DCPrescriberMedicationListViewController *prescriberMedicationListViewController;
+    CalendarOneThirdViewController *prescriberMedicationOneThirdSizeViewController;
     DCCalendarDateDisplayViewController *calendarDateDisplayViewController;
 }
 
@@ -75,11 +76,10 @@ typedef enum : NSUInteger {
     [super viewDidLoad];
     [self addCustomTitleViewToNavigationBar];
     [self setCurrentWeekDatesArrayFromToday];
-    [self populateMonthYearLabel];
     [self addAddMedicationButtonToNavigationBar];
+    [self populateMonthYearLabel];
     [self hideCalendarTopPortion];
     [self fillPrescriberMedicationDetailsInCalendarView];
-    [self addTopDatePortionInCalendar];
     [self obtainReferencesToChildViewControllersAddedFromStoryBoard];
 }
 
@@ -94,11 +94,13 @@ typedef enum : NSUInteger {
     [super viewWillDisappear:animated];
 }
 
-- (void)viewWillLayoutSubviews {
-    [super viewWillLayoutSubviews];
+- (void)viewDidLayoutSubviews {
+    [self addMedicationListChildViewController];
+    [super viewDidLayoutSubviews];
 }
 
 - (void)didReceiveMemoryWarning {
+    
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
@@ -158,18 +160,18 @@ typedef enum : NSUInteger {
     slotWidth = ([DCUtility mainWindowSize].width - 300)/5;
 }
 
-// Not needed for now, since the childviewcontroller is added from IB.
 - (void)addMedicationListChildViewController {
     
-    if (!prescriberMedicationListViewController) {
-        UIStoryboard *prescriberStoryBoard = [UIStoryboard storyboardWithName:PRESCRIBER_DETAILS_STORYBOARD bundle:nil];
-        prescriberMedicationListViewController = [prescriberStoryBoard instantiateViewControllerWithIdentifier:PRESCRIBER_LIST_SBID];
-        [self addChildViewController:prescriberMedicationListViewController];
-        prescriberMedicationListViewController.view.frame = medicationListHolderView.frame;
-        prescriberMedicationListViewController.delegate = self;
-        [self.view addSubview:prescriberMedicationListViewController.view];
+    CGFloat windowWidth= [DCUtility mainWindowSize].width;
+    CGFloat screenWidth= [UIScreen mainScreen].bounds.size.width;
+    if (windowWidth <= screenWidth/3 || windowWidth <= screenWidth/2) {
+        
+        [self hideCalendarTopPortion];
+        [self addOneThirdScreenMedicationListView];
+    } else {
+        
+        [self addTwoThirdScreenMedicationListView];
     }
-    [prescriberMedicationListViewController didMoveToParentViewController:self];
 }
 
 // Make the API call to fetch the medicationschedules for a patient.
@@ -315,6 +317,7 @@ typedef enum : NSUInteger {
                             if ([displayMedicationListArray count] > 0) {
                                 if (prescriberMedicationListViewController) {
                                     [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
+                                    [prescriberMedicationOneThirdSizeViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
                                     selectedSortType = START_DATE_ORDER;
                                     prescriberMedicationListViewController.patientId = self.patient.patientId;
                                     prescriberMedicationListViewController.currentWeekDatesArray = currentWeekDatesArray;
@@ -383,6 +386,7 @@ typedef enum : NSUInteger {
             if ([displayMedicationListArray count] > 0) {
                 if (prescriberMedicationListViewController) {
                     [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
+                    [prescriberMedicationOneThirdSizeViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
                 }
             }
         });
@@ -408,6 +412,7 @@ typedef enum : NSUInteger {
             if ([displayMedicationListArray count] > 0) {
                 if (prescriberMedicationListViewController) {
                     [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
+                    [prescriberMedicationOneThirdSizeViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
                 }
             }
         });
@@ -429,6 +434,7 @@ typedef enum : NSUInteger {
             if ([displayMedicationListArray count] > 0) {
                 if (prescriberMedicationListViewController) {
                     [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
+                    [prescriberMedicationOneThirdSizeViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
                 }
             }
         });
@@ -607,6 +613,7 @@ typedef enum : NSUInteger {
     if (prescriberMedicationListViewController) {
         prescriberMedicationListViewController.currentWeekDatesArray = currentWeekDatesArray;
         [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
+        [prescriberMedicationOneThirdSizeViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
     }
 }
 
@@ -631,6 +638,44 @@ typedef enum : NSUInteger {
             [self.view sendSubviewToBack:activityIndicatorView];
         }
     });
+}
+
+- (void)addOneThirdScreenMedicationListView {
+    
+    [prescriberMedicationListViewController.view removeFromSuperview];
+    if (!prescriberMedicationOneThirdSizeViewController) {
+        UIStoryboard *prescriberOneThirdStoryBoard = [UIStoryboard storyboardWithName:ONE_THIRD_SCREEN_SB bundle:nil];
+        prescriberMedicationOneThirdSizeViewController = [prescriberOneThirdStoryBoard instantiateViewControllerWithIdentifier:PRESCRIBER_LIST_ONE_THIRD_SBID];
+        [self addChildViewController:prescriberMedicationOneThirdSizeViewController];
+        prescriberMedicationOneThirdSizeViewController.view.frame = medicationListHolderView.frame;
+        [self.view addSubview:prescriberMedicationOneThirdSizeViewController.view];
+    }
+    if(![prescriberMedicationOneThirdSizeViewController.view isDescendantOfView:self.view]) {
+        [self.view addSubview:prescriberMedicationOneThirdSizeViewController.view];
+    }
+    [self.view bringSubviewToFront:prescriberMedicationOneThirdSizeViewController.view];
+    [prescriberMedicationOneThirdSizeViewController didMoveToParentViewController:self];
+}
+
+- (void)addTwoThirdScreenMedicationListView {
+    
+    if (!calendarDateDisplayViewController) {
+        [self addTopDatePortionInCalendar];
+    }
+    [prescriberMedicationOneThirdSizeViewController.view removeFromSuperview];
+    if (!prescriberMedicationListViewController) {
+        UIStoryboard *prescriberStoryBoard = [UIStoryboard storyboardWithName:PRESCRIBER_DETAILS_STORYBOARD bundle:nil];
+        prescriberMedicationListViewController = [prescriberStoryBoard instantiateViewControllerWithIdentifier:PRESCRIBER_LIST_SBID];
+        [self addChildViewController:prescriberMedicationListViewController];
+        prescriberMedicationListViewController.view.frame = medicationListHolderView.frame;
+        prescriberMedicationListViewController.delegate = self;
+        [self.view addSubview:prescriberMedicationListViewController.view];
+    }
+    if(![prescriberMedicationListViewController.view isDescendantOfView:self.view]) {
+        [self.view addSubview:prescriberMedicationListViewController.view];
+    }
+    [self.view bringSubviewToFront:prescriberMedicationListViewController.view];
+    [prescriberMedicationListViewController didMoveToParentViewController:self];
 }
 
 #pragma mark - DCAddMedicationViewControllerDelegate implementation
