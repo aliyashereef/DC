@@ -72,8 +72,8 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
         //display inline picker
         let pickerCell : DCSchedulingPickerCell? = detailTableView.dequeueReusableCellWithIdentifier(SCHEDULING_PICKER_CELL_ID) as? DCSchedulingPickerCell
         pickerCell?.layoutMargins = UIEdgeInsetsZero
+        pickerCell?.repeatValue = repeatValue
         pickerCell?.configurePickerCellForPickerType(pickerType)
-        NSLog("pickerType is %d", pickerType.rawValue)
         pickerCell?.pickerCompletion = { value in
             
             NSLog("*** Value is %@", value!);
@@ -264,7 +264,9 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
                 if (indexPath.row == 0) {
                     repeatCell.titleLabel.text = EACH
                     repeatCell.descriptionLabel.hidden = true
+                   // repeatCell.accessoryType = UITableViewCellAccessoryType.Checkmark
                    // repeatCell.descriptionLabel.text = repeatValue?.eachValue
+                    repeatCell.accessoryType = (repeatValue?.eachValue != nil) ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
                 } else if (indexPath.row == 1) {
                     if (tableViewHasInlinePickerForSection(indexPath.section) && self.inlinePickerIndexPath == indexPath) {
                         let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: eMonthEachCount)
@@ -273,6 +275,8 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
                         repeatCell.titleLabel.text = ON_THE
                         //repeatCell.descriptionLabel.text = repeatValue?.onTheValue
                         repeatCell.descriptionLabel.hidden = true
+                       // repeatCell.accessoryType = UITableViewCellAccessoryType.Checkmark
+                        repeatCell.accessoryType = (repeatValue?.onTheValue != nil) ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
                     }
                 } else /*if (indexPath.row == 2)*/ {
                     if (tableViewHasInlinePickerForSection(indexPath.section) && self.inlinePickerIndexPath == indexPath) {
@@ -282,6 +286,7 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
                         repeatCell.titleLabel.text = ON_THE
                        // repeatCell.descriptionLabel.text = repeatValue?.onTheValue
                         repeatCell.descriptionLabel.hidden = true
+                        repeatCell.accessoryType = (repeatValue?.onTheValue != nil) ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
                     }
                 }
                 return repeatCell
@@ -327,7 +332,7 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
         if (self.detailType != eDetailSchedulingType) {
             if (section == 1) {
                 let headerView = NSBundle.mainBundle().loadNibNamed(SCHEDULING_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCSchedulingHeaderView
-                headerView!.backgroundColor = UIColor.clearColor()
+               // headerView!.backgroundColor = UIColor.clearColor()
                 headerView?.populateMessageLabelWithRepeatValue(repeatValue!)
                 return headerView!
             } else {

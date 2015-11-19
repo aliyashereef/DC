@@ -15,5 +15,6 @@ class DCSchedulingHeaderView: UIView {
     func populateMessageLabelWithRepeatValue(repeatValue : DCRepeat) {
         
         messageLabel.text = DCSchedulingHelper.scheduleDescriptionForReapeatValue(repeatValue)
+        messageLabel.sizeToFit()
     }
 }

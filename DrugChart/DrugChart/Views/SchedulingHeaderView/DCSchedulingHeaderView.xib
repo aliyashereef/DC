@@ -12,7 +12,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="bottomLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ddd dsfdsgvfcd awrdefw" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HaE-CL-ZS3" userLabel="message Label">
-                    <rect key="frame" x="15" y="0.0" width="285" height="35"/>
+                    <rect key="frame" x="15" y="3" width="285" height="34"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" red="0.40784313725490196" green="0.40784313725490196" blue="0.40784313725490196" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
@@ -21,12 +21,18 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="HaE-CL-ZS3" secondAttribute="trailing" constant="10" id="6zb-fk-44d"/>
-                <constraint firstItem="HaE-CL-ZS3" firstAttribute="top" secondItem="WND-H8-Cce" secondAttribute="top" id="U3e-Pk-Nh5"/>
+                <constraint firstItem="HaE-CL-ZS3" firstAttribute="top" secondItem="WND-H8-Cce" secondAttribute="top" constant="3" id="U3e-Pk-Nh5"/>
                 <constraint firstAttribute="bottom" secondItem="HaE-CL-ZS3" secondAttribute="bottom" constant="5" id="n8v-v8-Lbq"/>
                 <constraint firstItem="HaE-CL-ZS3" firstAttribute="leading" secondItem="WND-H8-Cce" secondAttribute="leading" constant="15" id="ncK-WZ-EaJ"/>
+                <constraint firstAttribute="bottom" secondItem="HaE-CL-ZS3" secondAttribute="bottom" constant="3" id="tQz-wh-qhi"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="n8v-v8-Lbq"/>
+                </mask>
+            </variation>
             <connections>
                 <outlet property="messageLabel" destination="HaE-CL-ZS3" id="8mf-yZ-ggm"/>
             </connections>
