@@ -81,17 +81,25 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
                 self.repeatValue?.repeatType = value as! String
                 if (value == DAILY) {
                     self.displayArray = [FREQUENCY, EVERY]
+                    self.repeatValue?.frequency = "day"
                 } else if (value == WEEKLY) {
-                    self.repeatValue?.frequency = "1 week"
+                    self.repeatValue?.frequency = "week"
                     self.displayArray = [FREQUENCY, EVERY]
                 } else if (value == MONTHLY) {
-                    self.repeatValue?.frequency = "1 month"
+                    self.repeatValue?.frequency = "month"
+                    self.repeatValue?.isEachValue = true
                     self.displayArray = [FREQUENCY, EVERY, EACH, ON_THE]
                 } else if (value == YEARLY) {
+                    self.repeatValue?.frequency = "year"
                     self.displayArray = [FREQUENCY, EVERY, EACH, ON_THE]
                 }
             } else {
                 if (pickerType == eDailyCount) {
+                    if (value == "1") {
+                        self.repeatValue?.frequency = "day"
+                    } else {
+                        
+                    }
                     let days = (value == "1") ? "day" : "days"
                     self.repeatValue?.frequency = NSString(format: "%@ %@", value!, days) as String
                 } else if (pickerType == eWeeklyCount) {
@@ -101,7 +109,11 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
                     let week = (value == "1") ? "month" : "months"
                     self.repeatValue?.frequency = NSString(format: "%@ %@", value!, week) as String
                 } else if (pickerType == eMonthEachCount) {
+                    self.repeatValue?.isEachValue = true
                     self.repeatValue?.eachValue = value! as String
+                } else if (pickerType == eMonthOnTheCount) {
+                    self.repeatValue?.isEachValue = false
+                    self.repeatValue?.onTheValue = value! as String
                 }
             }
             self.repeatCompletion(self.repeatValue)
@@ -194,6 +206,13 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
         }
     }
     
+//    func reloadTableViewForSection (section : NSInteger) {
+//        
+//        self.detailTableView.beginUpdates()
+//        self.detailTableView.reloadSections(NSIndexSet(index: section), withRowAnimation: UITableViewRowAnimation.Fade)
+//        self.detailTableView.endUpdates()
+//    }
+    
     // MARK: TableView Methods
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -276,9 +295,8 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
                 if (indexPath.row == 0) {
                     repeatCell.titleLabel.text = EACH
                     repeatCell.descriptionLabel.hidden = true
-                   // repeatCell.accessoryType = UITableViewCellAccessoryType.Checkmark
                    // repeatCell.descriptionLabel.text = repeatValue?.eachValue
-                    repeatCell.accessoryType = (repeatValue?.eachValue != nil) ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
+                    repeatCell.accessoryType = (repeatValue?.isEachValue == true) ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
                 } else if (indexPath.row == 1) {
                     if (tableViewHasInlinePickerForSection(indexPath.section) && self.inlinePickerIndexPath == indexPath) {
                         let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: eMonthEachCount)
@@ -287,8 +305,7 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
                         repeatCell.titleLabel.text = ON_THE
                         //repeatCell.descriptionLabel.text = repeatValue?.onTheValue
                         repeatCell.descriptionLabel.hidden = true
-                       // repeatCell.accessoryType = UITableViewCellAccessoryType.Checkmark
-                        repeatCell.accessoryType = (repeatValue?.onTheValue != nil) ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
+                        repeatCell.accessoryType = (repeatValue?.isEachValue == false) ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
                     }
                 } else /*if (indexPath.row == 2)*/ {
                     if (tableViewHasInlinePickerForSection(indexPath.section) && self.inlinePickerIndexPath == indexPath) {
@@ -298,7 +315,7 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
                         repeatCell.titleLabel.text = ON_THE
                        // repeatCell.descriptionLabel.text = repeatValue?.onTheValue
                         repeatCell.descriptionLabel.hidden = true
-                        repeatCell.accessoryType = (repeatValue?.onTheValue != nil) ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
+                        repeatCell.accessoryType = (repeatValue?.isEachValue == false) ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
                     }
                 }
                 return repeatCell
@@ -333,7 +350,20 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
                 self.detailTableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.Fade)
                 tableView.endUpdates()
             } else {
-                displayInlinePickerForRowAtIndexPath(indexPath)
+                if (indexPath.row == 0) {
+                    repeatValue?.isEachValue = true
+                } else if (indexPath.row == 1 || indexPath.row == 2) {
+                    repeatValue?.isEachValue = false
+                }
+                self.detailTableView.beginUpdates()
+                self.detailTableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.Automatic)
+                self.detailTableView.endUpdates()
+                let dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC)))
+                dispatch_after(dispatchTime, dispatch_get_main_queue(), {
+                    // your function here
+                    self.displayInlinePickerForRowAtIndexPath(indexPath)
+
+                })
             }
         }
     }
@@ -352,7 +382,6 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
         if (self.detailType != eDetailSchedulingType) {
             if (section == 1) {
                 let headerView = NSBundle.mainBundle().loadNibNamed(SCHEDULING_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCSchedulingHeaderView
-               // headerView!.backgroundColor = UIColor.clearColor()
                 headerView?.populateMessageLabelWithRepeatValue(repeatValue!)
                 return headerView!
             } else {
@@ -364,11 +393,7 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
-//        if (indexPath.section == 1) {
-//            return TABLE_VIEW_ROW_HEIGHT
-//        } else {
-            return (indexPathHasPicker(indexPath)) ? PICKER_CELL_HEIGHT : TABLE_VIEW_ROW_HEIGHT
-    //    }
+        return (indexPathHasPicker(indexPath)) ? PICKER_CELL_HEIGHT : TABLE_VIEW_ROW_HEIGHT
     }
     
 }
