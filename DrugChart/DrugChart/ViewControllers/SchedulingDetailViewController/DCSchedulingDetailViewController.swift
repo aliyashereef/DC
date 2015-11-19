@@ -117,11 +117,23 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
         var displayString = EMPTY_STRING
         if (indexPath.section == 1 && self.repeatValue?.repeatType == WEEKLY) {
             displayString = weekDaysArray.objectAtIndex(indexPath.item) as! String
-            let currentDayIndex : NSInteger = DCDateUtility.currentWeekDayIndex()
-            if (repeatValue?.weekDay == nil) {
-                schedulingCell?.accessoryType = (currentDayIndex == indexPath.row) ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
+            if (repeatValue?.weekDays == nil) {
+                let currentDayIndex : NSInteger = DCDateUtility.currentWeekDayIndex()
+                if (currentDayIndex-1 == indexPath.row) { // There was a mismatch in the week days displayed. have to correct that one
+                    repeatValue?.weekDays = NSMutableArray()
+                    repeatValue?.weekDays.addObject(displayString)
+                    schedulingCell?.accessoryType = UITableViewCellAccessoryType.Checkmark
+                } else {
+                    schedulingCell?.accessoryType = UITableViewCellAccessoryType.None
+                }
             } else {
-                schedulingCell?.accessoryType = (repeatValue?.weekDay == displayString) ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
+                let valueExists : Bool = (repeatValue?.weekDays.containsObject(displayString))!
+                if (valueExists && weekDaysArray.indexOfObject(displayString) == indexPath.row) {
+                    schedulingCell?.accessoryType = UITableViewCellAccessoryType.Checkmark
+                } else {
+                    
+                        schedulingCell?.accessoryType = UITableViewCellAccessoryType.None
+                }
             }
         } else {
             displayString = (displayArray.objectAtIndex(indexPath.item) as? String)!
@@ -307,7 +319,15 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
         } else {
             //weekly schedule
             if (repeatValue?.repeatType == WEEKLY) {
-                self.repeatValue?.weekDay = weekDaysArray.objectAtIndex(indexPath.item) as? String
+                let weekDay = weekDaysArray.objectAtIndex(indexPath.item)
+                let index : NSInteger = (self.repeatValue?.weekDays.indexOfObject(weekDay))!
+                let valueExists : Bool = (repeatValue?.weekDays.containsObject(weekDay))!
+                if (valueExists == false) {
+                    self.repeatValue?.weekDays.addObject(weekDay)
+                } else {
+                    //remove the already existing object from array
+                    self.repeatValue?.weekDays.removeObjectAtIndex(index)
+                 }
                 self.repeatCompletion(self.repeatValue)
                 tableView.beginUpdates()
                 self.detailTableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.Fade)

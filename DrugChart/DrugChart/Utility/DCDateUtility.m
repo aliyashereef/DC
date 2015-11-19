@@ -186,7 +186,8 @@
     
     //current week day index
     NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *components = [calendar components:NSCalendarUnitWeekday fromDate:[NSDate date]];
+    NSDate *currentSystemDate = [self dateInCurrentTimeZone:[NSDate date]];
+    NSDateComponents *components = [calendar components:NSCalendarUnitWeekday fromDate:currentSystemDate];
     NSInteger weekDay = components.weekday;
     return weekDay;
 }
