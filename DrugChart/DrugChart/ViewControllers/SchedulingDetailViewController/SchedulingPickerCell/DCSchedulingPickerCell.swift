@@ -25,64 +25,102 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
         pickerType = type
         contentArray = NSMutableArray()
         if (pickerType! == eSchedulingFrequency) {
-            contentArray = [DAILY, WEEKLY, MONTHLY, YEARLY]
-            if let repeatType = repeatValue?.repeatType {
-                let selectedIndex = contentArray?.indexOfObject(repeatType)
-                [pickerView .selectRow(selectedIndex!, inComponent: 0, animated: true)]
-            }
+            configurePickerViewForSchedulingFrequency()
         } else if (pickerType! == eDailyCount) {
-            for number : NSInteger in 1...7 {
-                [contentArray?.addObject(number)]
-            }
-            if let dailyFrequency = repeatValue?.frequency {
-                if let range = dailyFrequency.rangeOfString(" ") {
-                    let dailyCount = dailyFrequency.substringToIndex(range.startIndex)
-                    let selectedIndex = contentArray?.indexOfObject(Int(dailyCount)!)
-                    [pickerView .selectRow(selectedIndex!, inComponent: 0, animated: true)]
-                }
-            }
+            configurePickerViewForDailyCount()
         } else if (pickerType! == eWeeklyCount) {
-            for number : NSInteger in 1...5 {
-                [contentArray?.addObject(number)]
-            }
-            if let weeklyFrequency = repeatValue?.frequency {
-                if let range = weeklyFrequency.rangeOfString(" ") {
-                    let weeklyCount = weeklyFrequency.substringToIndex(range.startIndex)
-                    let selectedIndex = contentArray?.indexOfObject(Int(weeklyCount)!)
-                    [pickerView .selectRow(selectedIndex!, inComponent: 0, animated: true)]
-                }
-            }
+            configurePickerViewForWeeklyCount()
         } else if (pickerType! == eMonthlyCount) {
-            for number : NSInteger in 1...12 {
-                [contentArray?.addObject(number)]
-            }
-            if let monthlyFrequency = repeatValue?.frequency {
-                if let range = monthlyFrequency.rangeOfString(" ") {
-                    let monthlyCount = monthlyFrequency.substringToIndex(range.startIndex)
-                    let selectedIndex = contentArray?.indexOfObject(Int(monthlyCount)!)
-                    [pickerView .selectRow(selectedIndex!, inComponent: 0, animated: true)]
-                }
-            }
+            configurePickerViewForMonthlyCount()
         } else if (pickerType! == eMonthEachCount) {
-            for number : NSInteger in 1...31 {
-                [contentArray?.addObject(number)]
-            }
-            if let monthEach = repeatValue?.eachValue {
-                if let range = monthEach.rangeOfString(" ") {
-                    let monthlyCount = monthEach.substringToIndex(range.startIndex)
-                    let selectedIndex = contentArray?.indexOfObject(Int(monthlyCount)!)
-                    [pickerView .selectRow(selectedIndex!, inComponent: 0, animated: true)]
-                }
-            }
+            configureMonthlyEachPickerView()
         } else if (pickerType! == eMonthOnTheCount) {
-            contentArray = [FIRST, SECOND, THIRD, FOURTH, FIFTH, LAST]
+            configureMonthlyOnThePickerView()
         }
         pickerView.reloadAllComponents()
     }
     
-    func selectPickerViewRowForRepeatParameter(repeatParameter : NSString) {
+    func configurePickerViewForSchedulingFrequency() {
         
-        //
+        //scheduling frequency type
+        contentArray = [DAILY, WEEKLY, MONTHLY, YEARLY]
+        if let repeatType = repeatValue?.repeatType {
+            let selectedIndex = contentArray?.indexOfObject(repeatType)
+            [pickerView .selectRow(selectedIndex!, inComponent: 0, animated: true)]
+        }
+    }
+    
+    func configurePickerViewForDailyCount() {
+        
+        //daily count
+        for number : NSInteger in 1...7 {
+            [contentArray?.addObject(number)]
+        }
+        if let dailyFrequency = repeatValue?.frequency {
+            if let range = dailyFrequency.rangeOfString(" ") {
+                let dailyCount = dailyFrequency.substringToIndex(range.startIndex)
+                let selectedIndex = contentArray?.indexOfObject(Int(dailyCount)!)
+                [pickerView .selectRow(selectedIndex!, inComponent: 0, animated: true)]
+            }
+        }
+    }
+    
+    func configurePickerViewForWeeklyCount() {
+        
+        // weekly count
+        for number : NSInteger in 1...5 {
+            [contentArray?.addObject(number)]
+        }
+        if let weeklyFrequency = repeatValue?.frequency {
+            if let range = weeklyFrequency.rangeOfString(" ") {
+                let weeklyCount = weeklyFrequency.substringToIndex(range.startIndex)
+                let selectedIndex = contentArray?.indexOfObject(Int(weeklyCount)!)
+                [pickerView .selectRow(selectedIndex!, inComponent: 0, animated: true)]
+            }
+        }
+    }
+    func configurePickerViewForMonthlyCount() {
+        
+        //monthly count
+        for number : NSInteger in 1...12 {
+            [contentArray?.addObject(number)]
+        }
+        if let monthlyFrequency = repeatValue?.frequency {
+            if let range = monthlyFrequency.rangeOfString(" ") {
+                let monthlyCount = monthlyFrequency.substringToIndex(range.startIndex)
+                let selectedIndex = contentArray?.indexOfObject(Int(monthlyCount)!)
+                [pickerView .selectRow(selectedIndex!, inComponent: 0, animated: true)]
+            } else {
+                [pickerView .selectRow(0, inComponent: 0, animated: true)]
+            }
+        }
+    }
+    
+    func configureMonthlyEachPickerView() {
+        
+        for number : NSInteger in 1...31 {
+            [contentArray?.addObject(number)]
+        }
+        if let monthEach = repeatValue?.eachValue {
+            let selectedIndex = contentArray?.indexOfObject(Int(monthEach)!)
+            [pickerView .selectRow(selectedIndex!, inComponent: 0, animated: true)]
+        }
+    }
+    
+    func configureMonthlyOnThePickerView() {
+        
+        contentArray = [FIRST, SECOND, THIRD, FOURTH, FIFTH, LAST]
+        if let monthOnThe = repeatValue?.onTheValue {
+            if (monthOnThe != EMPTY_STRING) {
+                let (indexValue, weekDay) = DCSchedulingHelper.splitMonthOnTheValues(monthOnThe)
+                let firstComponentIndex = contentArray?.indexOfObject(indexValue)
+                [pickerView.selectRow(firstComponentIndex!, inComponent: 0, animated: true)]
+                let secondComponentIndex = weekDaysArray?.indexOfObject(weekDay)
+                if (pickerView.numberOfComponents == 2) {
+                    [pickerView.selectRow(secondComponentIndex!, inComponent: 1, animated: true)]
+                }
+            }
+        }
     }
     
     // MARK: Picker Methods
@@ -118,7 +156,7 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
             } else {
                 let firstComponentValue = contentArray?.objectAtIndex(pickerView.selectedRowInComponent(0))
                 if (pickerType! == eDailyCount) {
-                    displayString = (firstComponentValue === 1) ? "day" : "days"
+                    displayString = (firstComponentValue === 1) ? DAY : "days"
                 } else if (pickerType! == eWeeklyCount) {
                     displayString = (firstComponentValue === 1) ? "week" : "weeks"
                 } else if (pickerType! == eMonthlyCount) {

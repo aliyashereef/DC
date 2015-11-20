@@ -363,6 +363,7 @@
 #define FOURTH @"Fourth"
 #define FIFTH @"Fifth"
 #define LAST @"Last"
+#define DAY @"day"
 
 //Roles
 

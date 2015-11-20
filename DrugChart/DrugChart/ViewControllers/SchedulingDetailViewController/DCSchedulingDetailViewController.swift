@@ -80,18 +80,18 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
         pickerCell?.configurePickerCellForPickerType(pickerType)
         pickerCell?.pickerCompletion = { value in
             
-            NSLog("*** Value is %@", value!);
             if (pickerType == eSchedulingFrequency) {
                 self.repeatValue?.repeatType = value as! String
                 if (value == DAILY) {
                     self.displayArray = [FREQUENCY, EVERY]
-                    self.repeatValue?.frequency = "day"
+                    self.repeatValue?.frequency = DAY
                 } else if (value == WEEKLY) {
                     self.repeatValue?.frequency = "week"
                     self.displayArray = [FREQUENCY, EVERY]
                 } else if (value == MONTHLY) {
                     self.repeatValue?.frequency = "month"
                     self.repeatValue?.isEachValue = true
+                    self.repeatValue?.onTheValue = ""
                     self.displayArray = [FREQUENCY, EVERY, EACH, ON_THE]
                 } else if (value == YEARLY) {
                     self.repeatValue?.frequency = "year"
@@ -100,11 +100,11 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
             } else {
                 if (pickerType == eDailyCount) {
                     if (value == "1") {
-                        self.repeatValue?.frequency = "day"
+                        self.repeatValue?.frequency = DAY
                     } else {
                         
                     }
-                    let days = (value == "1") ? "day" : "days"
+                    let days = (value == "1") ? DAY : "days"
                     self.repeatValue?.frequency = NSString(format: "%@ %@", value!, days) as String
                 } else if (pickerType == eWeeklyCount) {
                     let week = (value == "1") ? "week" : "weeks"
@@ -260,7 +260,7 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
                         let repeatCell : DCSchedulingCell =  repeatCellAtIndexPath(indexPath)
                         repeatCell.titleLabel.text = EVERY
                         if (repeatValue?.frequency == "1 day") {
-                            repeatCell.descriptionLabel.text = "day"
+                            repeatCell.descriptionLabel.text = DAY
                         } else if (repeatValue?.frequency == "1 week") {
                             repeatCell.descriptionLabel.text = "week"
                         } else if (repeatValue?.frequency == "1 month") {
@@ -363,7 +363,7 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
                 self.detailTableView.beginUpdates()
                 self.detailTableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.Automatic)
                 self.detailTableView.endUpdates()
-                let dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC)))
+                let dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(0.14 * Double(NSEC_PER_SEC)))
                 dispatch_after(dispatchTime, dispatch_get_main_queue(), {
                     // your function here
                     self.displayInlinePickerForRowAtIndexPath(indexPath)
