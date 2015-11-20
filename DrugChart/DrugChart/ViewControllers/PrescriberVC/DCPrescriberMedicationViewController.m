@@ -41,6 +41,7 @@ typedef enum : NSUInteger {
     IBOutlet UIView *calendarTopHolderView;
     IBOutlet UIView *medicationListHolderView;
     IBOutlet UILabel *monthYearLabel;
+    UIView *dateView;
 
     NSDate *firstDisplayDate;
     UIBarButtonItem *addButton;
@@ -164,9 +165,10 @@ typedef enum : NSUInteger {
 - (void)addMedicationListChildViewController {
     CGFloat windowWidth= [DCUtility mainWindowSize].width;
     CGFloat screenWidth= [UIScreen mainScreen].bounds.size.width;
-    if (windowWidth <= screenWidth/3 || windowWidth <= screenWidth/2) {
+    if (windowWidth <= screenWidth/2) {
         isOneThirdMedicationViewShown = YES;
         [self hideCalendarTopPortion];
+        [self loadCurrentDayDisplayForOneThird];
         [self addOneThirdScreenMedicationListView];
     } else {
         isOneThirdMedicationViewShown = NO;
@@ -241,7 +243,7 @@ typedef enum : NSUInteger {
 }
 
 - (void)showCalendarTopPortion {
-    
+
     [calendarDaysDisplayView setHidden:NO];
     [calendarTopHolderView setHidden:NO];
 }
@@ -328,6 +330,8 @@ typedef enum : NSUInteger {
                                 }
                                 if (prescriberMedicationOneThirdSizeViewController) {
                                     [prescriberMedicationOneThirdSizeViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
+                                    //NSMutableArray *dateArray = [NSMutableArray arrayWithObject:[currentWeekDatesArray objectAtIndex:7]];
+                                    prescriberMedicationOneThirdSizeViewController.currentWeekDatesArray = currentWeekDatesArray;
                                 }
                                 [medicationListHolderView setHidden:NO];
                                 [calendarDaysDisplayView setHidden:NO];
@@ -622,12 +626,31 @@ typedef enum : NSUInteger {
     [self populateMonthYearLabel];
 }
 
+- (void)loadCurrentDayDisplayForOneThird {
+    if (!dateView) {
+        dateView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 600, 50)];
+        [dateView setBackgroundColor:[UIColor whiteColor]];
+        UILabel *dateLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 0, 600, 49)];
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        [dateFormat setDateFormat:@"EE, d LLLL, yyyy"];
+        NSString *dateString = [dateFormat stringFromDate:[currentWeekDatesArray objectAtIndex:7]];
+        dateLabel.text = dateString;
+        dateLabel.backgroundColor = [UIColor whiteColor];
+        dateLabel.font = [UIFont systemFontOfSize:20];
+        dateLabel.numberOfLines = 1;
+        [dateView addSubview:dateLabel];
+    }
+    [calendarTopHolderView addSubview:dateView];
+    [calendarTopHolderView setHidden:NO];
+}
+
 - (void)updatePrescriberMedicationListDetails {
     if (prescriberMedicationListViewController) {
         prescriberMedicationListViewController.currentWeekDatesArray = currentWeekDatesArray;
         [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
     }
     if (prescriberMedicationOneThirdSizeViewController) {
+        prescriberMedicationOneThirdSizeViewController.currentWeekDatesArray = currentWeekDatesArray;
         [prescriberMedicationOneThirdSizeViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
     }
 }
@@ -675,6 +698,8 @@ typedef enum : NSUInteger {
     if (!calendarDateDisplayViewController) {
         [self addTopDatePortionInCalendar];
     }
+    [dateView removeFromSuperview];
+    [self reloadCalendarTopPortion];
     [self showCalendarTopPortion];
     [prescriberMedicationOneThirdSizeViewController.view removeFromSuperview];
     if (!prescriberMedicationListViewController) {

@@ -309,10 +309,6 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         rowDisplayMedicationSlotsArray:NSMutableArray,
         atIndexPath indexPath:NSIndexPath,
         andSlotIndex index:NSInteger) {
-            
-            // just for the display purpose.
-            // metjod implementation in progress.
-            //TODO: commented out for Oct 12 release. Logic to be corrected. Temporary logic for left and right display.
             if (index < 5) {
                 let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell, toContainerSubview: medicationCell.leftMedicationAdministerDetailsView, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary, atIndexPath: indexPath, atSlotIndex: index);
                 let weekdate = currentWeekDatesArray.objectAtIndex(index) as? NSDate
@@ -358,6 +354,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             statusView.delegate = self
             statusView.tag = tag
             statusView.currentIndexPath = indexPath
+            statusView.isOneThirdScreen = false
             statusView.medicationCategory = medicationSchedules.medicineCategory
             statusView.backgroundColor = UIColor.whiteColor()
             statusView.updateAdministrationStatusViewWithMedicationSlotDictionary(slotDictionary)

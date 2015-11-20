@@ -16,4 +16,5 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!
 
+    @IBOutlet weak var adminstrationStatusView: UIView!
 }
