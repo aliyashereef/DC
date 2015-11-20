@@ -366,6 +366,11 @@
 #define FIFTH @"Fifth"
 #define LAST @"Last"
 #define DAY @"day"
+#define DAYS @"days"
+#define WEEK @"week"
+#define WEEKS @"weeks"
+#define MONTH @"month"
+#define MONTHS @"months"
 
 //Roles
 
