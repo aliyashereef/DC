@@ -43,10 +43,20 @@ class DCSchedulingHelper: NSObject {
                 descriptionText = NSMutableString(format: "%@ %@", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), repeatValue.frequency)
             }
         } else if (repeatValue.repeatType == WEEKLY) {
-            if (repeatValue.frequency == "1 week") {
-                descriptionText = NSMutableString(format: "%@ week.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
+            let weekDays = repeatValue.weekDays as NSArray as? [String]
+            let weeksString = weekDays!.joinWithSeparator(", ")
+            if (repeatValue.weekDays.count > 0) {
+                if (repeatValue.frequency == "1 week") {
+                    descriptionText = NSMutableString(format: "%@ week on %@.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), weeksString)
+                } else {
+                    descriptionText = NSMutableString(format: "%@ %@ on %@.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), repeatValue.frequency, weeksString)
+                }
             } else {
-                descriptionText = NSMutableString(format: "%@ %@", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), repeatValue.frequency)
+                if (repeatValue.frequency == "1 week") {
+                     descriptionText = NSMutableString(format: "%@ week.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
+                } else {
+                    descriptionText = NSMutableString(format: "%@ %@.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), repeatValue.frequency)
+                }
             }
         } else if (repeatValue.repeatType == MONTHLY) {
             if (repeatValue.frequency == "1 month") {
@@ -59,6 +69,5 @@ class DCSchedulingHelper: NSObject {
         }
         return descriptionText
     }
-    
     
 }

@@ -15,7 +15,7 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
     @IBOutlet weak var pickerView: UIPickerView!
     var pickerType : PickerType?
     var contentArray : NSMutableArray?
-    var weekDaysArray : NSArray = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    var weekDaysArray : NSArray?
     var previousFilledValue : NSString?
     var repeatValue : DCRepeat?
     var pickerCompletion: SelectedPickerContent = { value in }
@@ -101,7 +101,7 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
         if (component == 0) {
             return (contentArray?.count)!
         } else {
-            return (pickerType! == eMonthOnTheCount) ? (weekDaysArray.count) : 1
+            return (pickerType! == eMonthOnTheCount) ? (weekDaysArray!.count) : 1
         }
         
     }
@@ -124,7 +124,7 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
                 } else if (pickerType! == eMonthlyCount) {
                     displayString = (firstComponentValue === 1) ? "month" : "months"
                 } else if (pickerType! == eMonthOnTheCount) {
-                    displayString = weekDaysArray.objectAtIndex(row) as! String
+                    displayString = weekDaysArray!.objectAtIndex(row) as! String
                 }
             }
         }
@@ -135,7 +135,7 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
         
         if (pickerType! == eMonthOnTheCount) {
             let weekDayIndex = contentArray?.objectAtIndex(pickerView.selectedRowInComponent(0)) as? String
-            let weekday = weekDaysArray.objectAtIndex(pickerView.selectedRowInComponent(1)) as? String
+            let weekday = weekDaysArray!.objectAtIndex(pickerView.selectedRowInComponent(1)) as? String
             let monthValue = NSString(format: "%@ %@", weekDayIndex!, weekday!)
             pickerCompletion(monthValue)
         } else {

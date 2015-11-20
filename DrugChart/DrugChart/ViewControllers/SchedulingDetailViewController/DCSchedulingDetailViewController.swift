@@ -11,6 +11,8 @@ import UIKit
 let TABLE_VIEW_ROW_HEIGHT : CGFloat = 44.0
 let PICKER_CELL_HEIGHT : CGFloat = 216.0
 let WEEK_DAYS_COUNT : NSInteger = 7
+let HEADER_VIEW_MIN_HEIGHT : CGFloat = 40
+let HEADER_VIEW_LABEL_MAX_WIDTH : CGFloat = 270
 
 
 typealias RepeatCompletion = DCRepeat? -> Void
@@ -24,6 +26,7 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
     var inlinePickerIndexPath : NSIndexPath?
     var repeatValue : DCRepeat?
     var repeatCompletion: RepeatCompletion = { value in }
+    var headerHeight : CGFloat = 0.0
     
     override func viewDidLoad() {
         
@@ -72,6 +75,7 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
         //display inline picker
         let pickerCell : DCSchedulingPickerCell? = detailTableView.dequeueReusableCellWithIdentifier(SCHEDULING_PICKER_CELL_ID) as? DCSchedulingPickerCell
         pickerCell?.layoutMargins = UIEdgeInsetsZero
+        pickerCell?.weekDaysArray = weekDaysArray
         pickerCell?.repeatValue = repeatValue
         pickerCell?.configurePickerCellForPickerType(pickerType)
         pickerCell?.pickerCompletion = { value in
@@ -205,13 +209,6 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
             detailTableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.Fade)
         }
     }
-    
-//    func reloadTableViewForSection (section : NSInteger) {
-//        
-//        self.detailTableView.beginUpdates()
-//        self.detailTableView.reloadSections(NSIndexSet(index: section), withRowAnimation: UITableViewRowAnimation.Fade)
-//        self.detailTableView.endUpdates()
-//    }
     
     // MARK: TableView Methods
     
@@ -381,7 +378,11 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
         if (self.detailType == eDetailSchedulingType) {
             return 0
         } else {
-            return (section == 0) ? 0 : 40.0
+            if (section == 0) {
+                return 0
+            } else {
+                return (headerHeight > HEADER_VIEW_MIN_HEIGHT) ? headerHeight : HEADER_VIEW_MIN_HEIGHT
+            }
         }
     }
     
@@ -391,6 +392,7 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
             if (section == 1) {
                 let headerView = NSBundle.mainBundle().loadNibNamed(SCHEDULING_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCSchedulingHeaderView
                 headerView?.populateMessageLabelWithRepeatValue(repeatValue!)
+                headerHeight = DCUtility.textViewSizeWithText(headerView?.messageLabel.text, maxWidth: HEADER_VIEW_LABEL_MAX_WIDTH, font: UIFont.systemFontOfSize(13.0)).height + 10
                 return headerView!
             } else {
                 return nil
