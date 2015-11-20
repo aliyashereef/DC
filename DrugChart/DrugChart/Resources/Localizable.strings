@@ -148,4 +148,5 @@
 // Scheduling
 
 "DAILY_DESCRIPTION"    =       "Medication will be administred every";
+"SCHEDULING_GENERAL_DESCRIPTION"    =   "";
 

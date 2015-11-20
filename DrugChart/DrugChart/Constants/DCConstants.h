@@ -355,6 +355,15 @@
 #define YEARLY @"Yearly"
 #define FREQUENCY @"Frequency"
 #define EVERY @"Every"
+#define EACH @"Each"
+#define ON_THE @"On the..."
+#define FIRST @"First"
+#define SECOND @"Second"
+#define THIRD @"Third"
+#define FOURTH @"Fourth"
+#define FIFTH @"Fifth"
+#define LAST @"Last"
+#define DAY @"day"
 
 //Roles
 
