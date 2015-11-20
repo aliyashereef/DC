@@ -262,7 +262,15 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
                     } else {
                         let repeatCell : DCSchedulingCell =  repeatCellAtIndexPath(indexPath)
                         repeatCell.titleLabel.text = EVERY
-                        repeatCell.descriptionLabel.text = repeatValue?.frequency
+                        if (repeatValue?.frequency == "1 day") {
+                            repeatCell.descriptionLabel.text = "day"
+                        } else if (repeatValue?.frequency == "1 week") {
+                            repeatCell.descriptionLabel.text = "week"
+                        } else if (repeatValue?.frequency == "1 month") {
+                            repeatCell.descriptionLabel.text = "month"
+                        } else {
+                            repeatCell.descriptionLabel.text = repeatValue?.frequency
+                        }
                         return repeatCell
                     }
                 } else {

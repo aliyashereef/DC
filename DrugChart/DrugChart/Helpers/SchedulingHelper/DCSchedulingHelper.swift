@@ -57,15 +57,6 @@ class DCSchedulingHelper: NSObject {
         } else {
             descriptionText = NSMutableString(format: "%@ %@", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), repeatValue.frequency)
         }
-//        if (repeatValue.frequency == "1 day") {
-//            descriptionText = NSString(format: "%@ day.", NSLocalizedString("DAILY_DESCRIPTION", comment: "")) as String
-//        } else if (repeatValue.frequency == "1 week") {
-//            descriptionText = NSString(format: "%@ week.", NSLocalizedString("DAILY_DESCRIPTION", comment: "")) as String
-//        } else if (repeatValue.frequency == "1 month") {
-//            descriptionText = NSString(format: "%@ month.", NSLocalizedString("DAILY_DESCRIPTION", comment: "")) as String
-//        } else {
-//            descriptionText = NSString(format: "%@ %@", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), repeatValue.frequency) as String
-//        }
         return descriptionText
     }
     

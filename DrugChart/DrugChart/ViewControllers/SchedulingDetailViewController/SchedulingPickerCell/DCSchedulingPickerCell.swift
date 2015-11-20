@@ -80,10 +80,9 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
         pickerView.reloadAllComponents()
     }
     
-    func selectPickerViewRowForRepeatParameter(repeatParameter : NSString, forContentArray contents : NSArray) {
-        //
+    func selectPickerViewRowForRepeatParameter(repeatParameter : NSString) {
         
-    
+        //
     }
     
     // MARK: Picker Methods
@@ -112,17 +111,18 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
         var displayString : String = EMPTY_STRING
         if (pickerType! == eSchedulingFrequency) {
             displayString = contentArray?.objectAtIndex(row) as! String
-        } else /*if (pickerType! == eDailyCount) */{
+        } else {
             if (component == 0) {
                 let valueToDisplay = String((contentArray?.objectAtIndex(row))!)
                 displayString = String(valueToDisplay)
             } else {
+                let firstComponentValue = contentArray?.objectAtIndex(pickerView.selectedRowInComponent(0))
                 if (pickerType! == eDailyCount) {
-                    displayString = "days"
+                    displayString = (firstComponentValue === 1) ? "day" : "days"
                 } else if (pickerType! == eWeeklyCount) {
-                    displayString = "weeks"
+                    displayString = (firstComponentValue === 1) ? "week" : "weeks"
                 } else if (pickerType! == eMonthlyCount) {
-                    displayString = "months"
+                    displayString = (firstComponentValue === 1) ? "month" : "months"
                 } else if (pickerType! == eMonthOnTheCount) {
                     displayString = weekDaysArray.objectAtIndex(row) as! String
                 }
@@ -141,10 +141,8 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
         } else {
             var selectedValue : String = EMPTY_STRING
             if (pickerType! == eSchedulingFrequency) {
-                // if (row == 0) { // Selection allowed for daily for this release
                 selectedValue = (contentArray?.objectAtIndex(row) as? String)!
                 pickerCompletion(selectedValue)
-                // }
             } else {
                 let valueToDisplay = String((contentArray?.objectAtIndex(row))!)
                 selectedValue = String(valueToDisplay)
