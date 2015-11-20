@@ -62,7 +62,10 @@ class DCSchedulingHelper: NSObject {
             if (repeatValue.isEachValue == true) {
                 var eachValue : String = EMPTY_STRING
                 if (repeatValue.eachValue == nil) {
-                    repeatValue.eachValue = "1"
+                   // repeatValue.eachValue = "1"
+                    let currentDay = DCDateUtility.currentDay()
+                    NSLog("currentDay is %d", currentDay)
+                    repeatValue.eachValue = String(currentDay)
                 }
                 if let number = Int(repeatValue.eachValue) {
                     let convertedNumber = NSNumber(integer:number)

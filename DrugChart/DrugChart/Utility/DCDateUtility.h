@@ -45,4 +45,6 @@
 
 + (NSInteger)currentWeekDayIndex;
 
++ (NSInteger)currentDay;
+
 @end
