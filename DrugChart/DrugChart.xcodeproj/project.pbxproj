@@ -60,7 +60,6 @@
 		0BA449E31B985100009F84E5 /* DCAddMedicationDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BA449E21B985100009F84E5 /* DCAddMedicationDetailViewController.m */; };
 		0BA5A38D1BF341DC00251F94 /* DCScheduling.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BA5A38C1BF341DC00251F94 /* DCScheduling.m */; settings = {ASSET_TAGS = (); }; };
 		0BA5A3921BF35E2700251F94 /* DCSchedulingDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA5A3911BF35E2700251F94 /* DCSchedulingDetailViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		0BA5ECB71BFEEF3D00F80C12 /* OrdinalNumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA5ECB61BFEEF3D00F80C12 /* OrdinalNumberFormatter.swift */; settings = {ASSET_TAGS = (); }; };
 		0BA5ECBB1BFEF0F700F80C12 /* NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BA5ECBA1BFEF0F700F80C12 /* NSString+Additions.m */; settings = {ASSET_TAGS = (); }; };
 		0BA803711BA7ED7100DBB45D /* DCWarningsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA803701BA7ED7100DBB45D /* DCWarningsListViewController.swift */; };
 		0BA803741BA80DCD00DBB45D /* DCWarningsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA803731BA80DCD00DBB45D /* DCWarningsCell.swift */; };
@@ -385,7 +384,6 @@
 		0BA5A38B1BF341DC00251F94 /* DCScheduling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCScheduling.h; sourceTree = "<group>"; };
 		0BA5A38C1BF341DC00251F94 /* DCScheduling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCScheduling.m; sourceTree = "<group>"; };
 		0BA5A3911BF35E2700251F94 /* DCSchedulingDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCSchedulingDetailViewController.swift; sourceTree = "<group>"; };
-		0BA5ECB61BFEEF3D00F80C12 /* OrdinalNumberFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrdinalNumberFormatter.swift; sourceTree = "<group>"; };
 		0BA5ECB91BFEF0F700F80C12 /* NSString+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Additions.h"; sourceTree = "<group>"; };
 		0BA5ECBA1BFEF0F700F80C12 /* NSString+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Additions.m"; sourceTree = "<group>"; };
 		0BA8036C1BA7C9F200DBB45D /* DrugChart-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DrugChart-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -1169,14 +1167,6 @@
 			path = SchedulingDetailViewController;
 			sourceTree = "<group>";
 		};
-		0BA5ECB51BFEEF3D00F80C12 /* OrdinalNumberFormatter */ = {
-			isa = PBXGroup;
-			children = (
-				0BA5ECB61BFEEF3D00F80C12 /* OrdinalNumberFormatter.swift */,
-			);
-			path = OrdinalNumberFormatter;
-			sourceTree = "<group>";
-		};
 		0BA5ECB81BFEF0D700F80C12 /* Ordinals */ = {
 			isa = PBXGroup;
 			children = (
@@ -1657,7 +1647,6 @@
 			isa = PBXGroup;
 			children = (
 				0BA5ECB81BFEF0D700F80C12 /* Ordinals */,
-				0BA5ECB51BFEEF3D00F80C12 /* OrdinalNumberFormatter */,
 				0B90D64D1B734EE0003A37E4 /* UICKeyChainStore */,
 				0BA40BB31B299D67005B80AD /* HTMLParser */,
 				0BBEEB581AD4FF4F00C1D986 /* PresentationController */,
@@ -2668,7 +2657,6 @@
 				0B1E308F1AF20213003E49C4 /* DCSecurityPinViewController.m in Sources */,
 				1FD4FCB71BF4B6B700B77B94 /* BowelMovement.swift in Sources */,
 				7DE017661BC23E230094928C /* PrescriberMedicationTableViewCell.swift in Sources */,
-				0BA5ECB71BFEEF3D00F80C12 /* OrdinalNumberFormatter.swift in Sources */,
 				0BCF5EA71AE0D8ED002467BF /* DCPlistManager.m in Sources */,
 				1FD4FD051BF4BAAD00B77B94 /* PickerCell.swift in Sources */,
 				0BBEEB5D1AD4FF4F00C1D986 /* BounceAnimationController.m in Sources */,
