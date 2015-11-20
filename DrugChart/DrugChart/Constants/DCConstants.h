@@ -77,6 +77,7 @@
 #define ADD_MEDICATION_STORYBOARD @"AddMedication"
 #define AUTHORIZATION_STORYBOARD @"Authorization"
 #define PRESCRIBER_DETAILS_STORYBOARD @"PrescriberDetails"
+#define ONE_THIRD_SCREEN_SB @"OneThirdScreenSizeCalendar"
 #define ORDERSET_STORYBOARD @"OrderSet"
 #define PATIENT_LIST_STORYBOARD @"PatientList"
 
@@ -115,6 +116,7 @@
 #define MEDICATION_STORYBOARD_ID @"MedicationHistory"
 #define BNF_STORYBOARD_ID @"BNFViewController"
 #define PRESCRIBER_LIST_SBID @"PrescriberMedicationList"
+#define PRESCRIBER_LIST_ONE_THIRD_SBID @"PrescriberOneThirdMedicationList"
 #define PATIENT_MENU_VIEW_CONTROLLER_SB_ID @"PatientMenuViewController"
 #define VITAL_SIGNS_VIEW_CONTROLLER_VIEW_CONTROLLER_SB_ID @"VitalSignViewController"
 #define SCHEDULING_DETAIL_STORYBOARD_ID @"SchedulingDetailView"

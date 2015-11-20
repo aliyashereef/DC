@@ -309,10 +309,6 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         rowDisplayMedicationSlotsArray:NSMutableArray,
         atIndexPath indexPath:NSIndexPath,
         andSlotIndex index:NSInteger) {
-            
-            // just for the display purpose.
-            // metjod implementation in progress.
-            //TODO: commented out for Oct 12 release. Logic to be corrected. Temporary logic for left and right display.
             if (index < 5) {
                 let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell, toContainerSubview: medicationCell.leftMedicationAdministerDetailsView, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary, atIndexPath: indexPath, atSlotIndex: index);
                 let weekdate = currentWeekDatesArray.objectAtIndex(index) as? NSDate
@@ -358,6 +354,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             statusView.delegate = self
             statusView.tag = tag
             statusView.currentIndexPath = indexPath
+            statusView.isOneThirdScreen = false
             statusView.medicationCategory = medicationSchedules.medicineCategory
             statusView.backgroundColor = UIColor.whiteColor()
             statusView.updateAdministrationStatusViewWithMedicationSlotDictionary(slotDictionary)
@@ -494,19 +491,17 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                     medicationCell!.leadingSpaceMasterToContainerView.constant = 0.0
                 }
                 if (weekViewAnimated == false) {
-                    parentViewController.modifyWeekDatesViewConstraint(0)
+                    parentViewController.modifyWeekDatesViewConstraint(0.0)
                     weekViewAnimated = true
                 }
                 medicationCell!.layoutIfNeeded()
                 }) { (Bool) -> Void in
-                    parentViewController.updatePrescriberMedicationListDetails()
-                    parentViewController.cancelPreviousMedicationListFetchRequest()
-                    parentViewController.fetchMedicationListForPatient()
-                    if isLastCell {
+                if isLastCell {
                         if ( medicationCell!.leadingSpaceMasterToContainerView.constant == calendarWidthConstraint) {
                             autoreleasepool({ () -> () in
-                                parentViewController.modifyWeekDatesViewConstraint(0)
-
+                                parentViewController.updatePrescriberMedicationListDetails()
+                                parentViewController.cancelPreviousMedicationListFetchRequest()
+                                parentViewController.fetchMedicationListForPatient()
                             })
                         }
                     }
