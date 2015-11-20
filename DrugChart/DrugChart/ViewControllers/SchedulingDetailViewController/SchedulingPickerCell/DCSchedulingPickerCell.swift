@@ -156,11 +156,11 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
             } else {
                 let firstComponentValue = contentArray?.objectAtIndex(pickerView.selectedRowInComponent(0))
                 if (pickerType! == eDailyCount) {
-                    displayString = (firstComponentValue === 1) ? DAY : "days"
+                    displayString = (firstComponentValue === 1) ? DAY : DAYS
                 } else if (pickerType! == eWeeklyCount) {
-                    displayString = (firstComponentValue === 1) ? "week" : "weeks"
+                    displayString = (firstComponentValue === 1) ? WEEK : WEEKS
                 } else if (pickerType! == eMonthlyCount) {
-                    displayString = (firstComponentValue === 1) ? "month" : "months"
+                    displayString = (firstComponentValue === 1) ? MONTH : MONTHS
                 } else if (pickerType! == eMonthOnTheCount) {
                     displayString = weekDaysArray!.objectAtIndex(row) as! String
                 }

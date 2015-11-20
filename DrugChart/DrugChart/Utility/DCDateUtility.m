@@ -182,14 +182,28 @@
     return currentDateString;
 }
 
++ (NSDateComponents *)currentDateComponentsForCalendarUnit:(NSCalendarUnit)unit {
+    
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDate *currentSystemDate = [self dateInCurrentTimeZone:[NSDate date]];
+    NSDateComponents *components = [calendar components:unit fromDate:currentSystemDate];
+    return  components;
+}
+
 + (NSInteger)currentWeekDayIndex {
     
     //current week day index
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDate *currentSystemDate = [self dateInCurrentTimeZone:[NSDate date]];
-    NSDateComponents *components = [calendar components:NSCalendarUnitWeekday fromDate:currentSystemDate];
+    NSDateComponents *components = [self currentDateComponentsForCalendarUnit:NSCalendarUnitWeekday];
     NSInteger weekDay = components.weekday;
     return weekDay;
+}
+
++ (NSInteger)currentDay {
+    
+    //current day
+    NSDateComponents *components = [self currentDateComponentsForCalendarUnit:NSCalendarUnitDay];
+    NSInteger day = components.day;
+    return day;
 }
 
 @end

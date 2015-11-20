@@ -86,10 +86,10 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
                     self.displayArray = [FREQUENCY, EVERY]
                     self.repeatValue?.frequency = DAY
                 } else if (value == WEEKLY) {
-                    self.repeatValue?.frequency = "week"
+                    self.repeatValue?.frequency = WEEK
                     self.displayArray = [FREQUENCY, EVERY]
                 } else if (value == MONTHLY) {
-                    self.repeatValue?.frequency = "month"
+                    self.repeatValue?.frequency = MONTH
                     self.repeatValue?.isEachValue = true
                     self.repeatValue?.onTheValue = ""
                     self.displayArray = [FREQUENCY, EVERY, EACH, ON_THE]
@@ -99,18 +99,13 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
                 }
             } else {
                 if (pickerType == eDailyCount) {
-                    if (value == "1") {
-                        self.repeatValue?.frequency = DAY
-                    } else {
-                        
-                    }
-                    let days = (value == "1") ? DAY : "days"
+                    let days = (value == "1") ? DAY : DAYS
                     self.repeatValue?.frequency = NSString(format: "%@ %@", value!, days) as String
                 } else if (pickerType == eWeeklyCount) {
-                    let week = (value == "1") ? "week" : "weeks"
+                    let week = (value == "1") ? WEEK : WEEKS
                     self.repeatValue?.frequency = NSString(format: "%@ %@", value!, week) as String
                 } else if (pickerType == eMonthlyCount) {
-                    let week = (value == "1") ? "month" : "months"
+                    let week = (value == "1") ? MONTH : MONTHS
                     self.repeatValue?.frequency = NSString(format: "%@ %@", value!, week) as String
                 } else if (pickerType == eMonthEachCount) {
                     self.repeatValue?.isEachValue = true
@@ -147,8 +142,7 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
                 if (valueExists && weekDaysArray.indexOfObject(displayString) == indexPath.row) {
                     schedulingCell?.accessoryType = UITableViewCellAccessoryType.Checkmark
                 } else {
-                    
-                        schedulingCell?.accessoryType = UITableViewCellAccessoryType.None
+                    schedulingCell?.accessoryType = UITableViewCellAccessoryType.None
                 }
             }
         } else {
@@ -177,7 +171,7 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
         detailTableView.beginUpdates()
         var pickerBeforeSelectedIndexPath = false
         var sameCellClicked = false
-        if (/*tableViewHasInlinePickerForSection(indexPath.section)*/self.inlinePickerIndexPath != nil) {
+        if (self.inlinePickerIndexPath != nil) {
             pickerBeforeSelectedIndexPath = self.inlinePickerIndexPath!.row < indexPath.row
             if (tableViewHasInlinePickerForSection(indexPath.section)) {
                 sameCellClicked = (self.inlinePickerIndexPath!.row - 1 == indexPath.row);
@@ -214,11 +208,7 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        if (self.detailType == eDetailSchedulingType) {
-            return 1
-        } else {
-            return 2
-        }
+        return (self.detailType == eDetailSchedulingType) ? 1 : 2
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -265,9 +255,9 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
                         if (repeatValue?.frequency == "1 day") {
                             repeatCell.descriptionLabel.text = DAY
                         } else if (repeatValue?.frequency == "1 week") {
-                            repeatCell.descriptionLabel.text = "week"
+                            repeatCell.descriptionLabel.text = WEEK
                         } else if (repeatValue?.frequency == "1 month") {
-                            repeatCell.descriptionLabel.text = "month"
+                            repeatCell.descriptionLabel.text = MONTH
                         } else {
                             repeatCell.descriptionLabel.text = repeatValue?.frequency
                         }
@@ -303,7 +293,6 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
                 if (indexPath.row == 0) {
                     repeatCell.titleLabel.text = EACH
                     repeatCell.descriptionLabel.hidden = true
-                   // repeatCell.descriptionLabel.text = repeatValue?.eachValue
                     repeatCell.accessoryType = (repeatValue?.isEachValue == true) ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
                 } else if (indexPath.row == 1) {
                     if (tableViewHasInlinePickerForSection(indexPath.section) && self.inlinePickerIndexPath == indexPath) {
@@ -311,7 +300,6 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
                         return pickerCell
                     } else {
                         repeatCell.titleLabel.text = ON_THE
-                        //repeatCell.descriptionLabel.text = repeatValue?.onTheValue
                         repeatCell.descriptionLabel.hidden = true
                         repeatCell.accessoryType = (repeatValue?.isEachValue == false) ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
                     }
@@ -321,7 +309,6 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
                         return pickerCell
                     } else {
                         repeatCell.titleLabel.text = ON_THE
-                       // repeatCell.descriptionLabel.text = repeatValue?.onTheValue
                         repeatCell.descriptionLabel.hidden = true
                         repeatCell.accessoryType = (repeatValue?.isEachValue == false) ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
                     }
@@ -380,15 +367,12 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
-        if (self.detailType == eDetailSchedulingType) {
-            return 0
-        } else {
-            if (section == 0) {
-                return 0
-            } else {
+        if (self.detailType != eDetailSchedulingType) {
+            if (section == 1) {
                 return (headerHeight > HEADER_VIEW_MIN_HEIGHT) ? headerHeight : HEADER_VIEW_MIN_HEIGHT
             }
         }
+        return 0
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -399,8 +383,6 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
                 headerView?.populateMessageLabelWithRepeatValue(repeatValue!)
                 headerHeight = DCUtility.textViewSizeWithText(headerView?.messageLabel.text, maxWidth: HEADER_VIEW_LABEL_MAX_WIDTH, font: UIFont.systemFontOfSize(13.0)).height + 10
                 return headerView!
-            } else {
-                return nil
             }
         }
         return nil
