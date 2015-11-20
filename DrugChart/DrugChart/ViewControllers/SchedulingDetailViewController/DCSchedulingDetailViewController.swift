@@ -214,13 +214,16 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        return 2
+        if (self.detailType == eDetailSchedulingType) {
+            return 1
+        } else {
+            return 2
+        }
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if (section == 0) {
-            //var rowCount : NSInteger = displayArray.count;
             var rowCount = 2;
             if (tableViewHasInlinePickerForSection(section)) {
                 rowCount++
@@ -332,7 +335,9 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
         
         if (indexPath.section == 0) {
             if (self.detailType == eDetailSchedulingType) {
-                self.selectedEntry(displayArray.objectAtIndex(indexPath.item) as! String)
+                if (indexPath.row == 0) {
+                    self.selectedEntry(displayArray.objectAtIndex(indexPath.item) as! String)
+                }
                 self.navigationController?.popToRootViewControllerAnimated(true)
             } else if (self.detailType == eDetailRepeatType) {
                 // display picker here
