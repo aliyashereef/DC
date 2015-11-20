@@ -16,8 +16,8 @@ class VitalsignDashboard: DCBaseViewController , ObservationEditDelegate{
     @IBOutlet weak var parentView: UIView!
     var observationList = [VitalSignObservation]()
     var graphicalDashBoardView:GraphicalDashBoardView!
-    var tabularDashBoardView:TabularDashBoardView!
-    
+    //var tabularDashBoardView:TabularDashBoardView!
+    var tabularDashBoardView:ExcelTabularView!
     override func viewDidLoad() {
         super.viewDidLoad()
         observationList.appendContentsOf(Helper.VitalSignObservationList)
@@ -25,9 +25,9 @@ class VitalsignDashboard: DCBaseViewController , ObservationEditDelegate{
         graphicalDashBoardView.commonInit()
         graphicalDashBoardView.reloadView(observationList)
         Helper.displayInChildView(graphicalDashBoardView, parentView: parentView)
-        tabularDashBoardView = TabularDashBoardView.instanceFromNib() as! TabularDashBoardView
-        tabularDashBoardView.commonInit()
-        tabularDashBoardView.delegate = self
+        tabularDashBoardView = ExcelTabularView.instanceFromNib() as! ExcelTabularView
+        tabularDashBoardView.configureView(observationList)
+        //tabularDashBoardView.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
@@ -43,7 +43,8 @@ class VitalsignDashboard: DCBaseViewController , ObservationEditDelegate{
             Helper.displayInChildView(graphicalDashBoardView,parentView:parentView)
             graphicalDashBoardView.reloadView(observationList)
         case 1:
-            tabularDashBoardView.configureView(observationList)
+            //tabularDashBoardView.configureView(observationList)
+            tabularDashBoardView.reloadView(observationList)
             Helper.displayInChildView(tabularDashBoardView,parentView:parentView)
         default:
             print("no default value is present", terminator: "")
@@ -60,7 +61,7 @@ class VitalsignDashboard: DCBaseViewController , ObservationEditDelegate{
         }
         observationList.sortInPlace({ $0.date.compare($1.date) == NSComparisonResult.OrderedAscending })
         graphicalDashBoardView.reloadView(observationList)
-        tabularDashBoardView.configureView(observationList)
+       // tabularDashBoardView.configureView(observationList)
     }
     
     func EditObservation(navigationController:UINavigationController)

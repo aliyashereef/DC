@@ -133,6 +133,14 @@
 		0BF2DA561ACAB12700B3ED97 /* DCErrorPopOverBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF2DA551ACAB12700B3ED97 /* DCErrorPopOverBackgroundView.m */; };
 		0BF3890F1AA46746006792DE /* DCPatient.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF3890E1AA46746006792DE /* DCPatient.m */; };
 		0BF389151AA468C6006792DE /* DCUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF389141AA468C6006792DE /* DCUtility.m */; };
+		1F1977071BFDE59000106023 /* CustomCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1977061BFDE59000106023 /* CustomCollectionViewLayout.swift */; };
+		1F1977091BFDE5E700106023 /* ExcelTabularView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1977081BFDE5E700106023 /* ExcelTabularView.swift */; };
+		1F19770B1BFDE60E00106023 /* ExcelTabularView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F19770A1BFDE60E00106023 /* ExcelTabularView.xib */; };
+		1F19770E1BFDE75900106023 /* HeaderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F19770C1BFDE75900106023 /* HeaderCollectionViewCell.swift */; };
+		1F19770F1BFDE75900106023 /* HeaderCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F19770D1BFDE75900106023 /* HeaderCollectionViewCell.xib */; };
+		1F1977121BFDE77500106023 /* ContentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1977101BFDE77500106023 /* ContentCollectionViewCell.swift */; };
+		1F1977131BFDE77500106023 /* ContentCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F1977111BFDE77500106023 /* ContentCollectionViewCell.xib */; };
+		1F1977191BFF5C1A00106023 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1977181BFF5C1A00106023 /* Constant.swift */; };
 		1F3007061BF5552E00DDF3F3 /* VitalSignObservation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3007051BF5552E00DDF3F3 /* VitalSignObservation.swift */; };
 		1FB412681BFB522900D91487 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB412671BFB522900D91487 /* String.swift */; };
 		1FD4FCAA1BF4B5CC00B77B94 /* VitalsignDashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCA91BF4B5CC00B77B94 /* VitalsignDashboard.swift */; };
@@ -485,6 +493,14 @@
 		0BF3890E1AA46746006792DE /* DCPatient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DCPatient.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0BF389131AA468C6006792DE /* DCUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DCUtility.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		0BF389141AA468C6006792DE /* DCUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DCUtility.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		1F1977061BFDE59000106023 /* CustomCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewLayout.swift; sourceTree = "<group>"; };
+		1F1977081BFDE5E700106023 /* ExcelTabularView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExcelTabularView.swift; sourceTree = "<group>"; };
+		1F19770A1BFDE60E00106023 /* ExcelTabularView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExcelTabularView.xib; sourceTree = "<group>"; };
+		1F19770C1BFDE75900106023 /* HeaderCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderCollectionViewCell.swift; sourceTree = "<group>"; };
+		1F19770D1BFDE75900106023 /* HeaderCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderCollectionViewCell.xib; sourceTree = "<group>"; };
+		1F1977101BFDE77500106023 /* ContentCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentCollectionViewCell.swift; sourceTree = "<group>"; };
+		1F1977111BFDE77500106023 /* ContentCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContentCollectionViewCell.xib; sourceTree = "<group>"; };
+		1F1977181BFF5C1A00106023 /* Constant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		1F3007051BF5552E00DDF3F3 /* VitalSignObservation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VitalSignObservation.swift; sourceTree = "<group>"; };
 		1FB412671BFB522900D91487 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		1FD4FCA91BF4B5CC00B77B94 /* VitalsignDashboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VitalsignDashboard.swift; sourceTree = "<group>"; };
@@ -1753,6 +1769,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		1F1977051BFDE56500106023 /* CustomLayout */ = {
+			isa = PBXGroup;
+			children = (
+				1F1977061BFDE59000106023 /* CustomCollectionViewLayout.swift */,
+			);
+			name = CustomLayout;
+			sourceTree = "<group>";
+		};
 		1FD4FCAD1BF4B60E00B77B94 /* VitalSign */ = {
 			isa = PBXGroup;
 			children = (
@@ -1771,6 +1795,7 @@
 		1FD4FCBC1BF4B70200B77B94 /* VitalSign */ = {
 			isa = PBXGroup;
 			children = (
+				1F1977051BFDE56500106023 /* CustomLayout */,
 				1FD4FCBE1BF4B73800B77B94 /* CustomCell */,
 				1FD4FCBD1BF4B72D00B77B94 /* CustomView */,
 			);
@@ -1790,6 +1815,8 @@
 				1FD4FCC61BF4B7E000B77B94 /* GraphicalDashBoardView.xib */,
 				1FD4FCC71BF4B7E000B77B94 /* SelectionView.xib */,
 				1FD4FCC81BF4B7E000B77B94 /* TabularDashBoardView.xib */,
+				1F1977081BFDE5E700106023 /* ExcelTabularView.swift */,
+				1F19770A1BFDE60E00106023 /* ExcelTabularView.xib */,
 			);
 			name = CustomView;
 			sourceTree = "<group>";
@@ -1797,6 +1824,10 @@
 		1FD4FCBE1BF4B73800B77B94 /* CustomCell */ = {
 			isa = PBXGroup;
 			children = (
+				1F1977101BFDE77500106023 /* ContentCollectionViewCell.swift */,
+				1F1977111BFDE77500106023 /* ContentCollectionViewCell.xib */,
+				1F19770C1BFDE75900106023 /* HeaderCollectionViewCell.swift */,
+				1F19770D1BFDE75900106023 /* HeaderCollectionViewCell.xib */,
 				1FD4FCF71BF4BAAD00B77B94 /* BarChartCell.swift */,
 				1FD4FCF81BF4BAAD00B77B94 /* BarChartCollectionViewCell.swift */,
 				1FD4FCF91BF4BAAD00B77B94 /* BloodPressureCell.swift */,
@@ -1832,6 +1863,7 @@
 			children = (
 				1FD4FD081BF4BAE000B77B94 /* Enumerations.swift */,
 				1FD4FD091BF4BAE000B77B94 /* Helper.swift */,
+				1F1977181BFF5C1A00106023 /* Constant.swift */,
 			);
 			name = VitalSign;
 			sourceTree = "<group>";
@@ -2363,6 +2395,7 @@
 				7D9EA9F01B29C10500337E6A /* DCLandScapeLeftPatientView.xib in Resources */,
 				7D5567DD1B4FEE2100BA6733 /* OnceMedicationSample.plist in Resources */,
 				7D9EA9EC1B29846C00337E6A /* PositionableGraphics.plist in Resources */,
+				1F1977131BFDE77500106023 /* ContentCollectionViewCell.xib in Resources */,
 				1FD4FCF11BF4B8F400B77B94 /* LineChartCell.xib in Resources */,
 				1FD4FCCE1BF4B7E000B77B94 /* CommaScoreView.xib in Resources */,
 				7D44BF7B1AAFE4B4006B3C9A /* IPRJ2623520.plist in Resources */,
@@ -2375,6 +2408,8 @@
 				0BBDEDE11AA581630016E6FF /* Lato-HeavyItalic.ttf in Resources */,
 				1FD4FCD01BF4B7E000B77B94 /* GraphicalDashBoardView.xib in Resources */,
 				0BBDEDDD1AA581630016E6FF /* Lato-BoldItalic.ttf in Resources */,
+				1F19770F1BFDE75900106023 /* HeaderCollectionViewCell.xib in Resources */,
+				1F19770B1BFDE60E00106023 /* ExcelTabularView.xib in Resources */,
 				0BBDEDDB1AA581630016E6FF /* Lato-BlackItalic.ttf in Resources */,
 				0BBDEDEC1AA581630016E6FF /* OFL.txt in Resources */,
 				0BBDEDE51AA581630016E6FF /* Lato-Medium.ttf in Resources */,
@@ -2507,6 +2542,7 @@
 				0B8886AF1B0C7814006FF1BF /* DCDatePickerViewController.m in Sources */,
 				1F3007061BF5552E00DDF3F3 /* VitalSignObservation.swift in Sources */,
 				0BC5FAFE1B442B6B0019BF36 /* DCOrderSet.m in Sources */,
+				1F1977091BFDE5E700106023 /* ExcelTabularView.swift in Sources */,
 				4D9649921BA296CC008630B4 /* DCBedsAndPatientsWebService.m in Sources */,
 				4DC440181B67990D000EC7AB /* DCOrderSetWebService.m in Sources */,
 				4D48915E1BC90176002AC8CA /* DCPatientListingCell.swift in Sources */,
@@ -2538,6 +2574,7 @@
 				0BF389151AA468C6006792DE /* DCUtility.m in Sources */,
 				0B7F75001B8439DA00E3B0A0 /* DCSortTableCell.m in Sources */,
 				7D9EA9E81B295DDE00337E6A /* DCBedGraphics.m in Sources */,
+				1F1977191BFF5C1A00106023 /* Constant.swift in Sources */,
 				1FD4FD111BF4BBCB00B77B94 /* RowSeletedDelegate.swift in Sources */,
 				4D9C7DC41BA1578C00C69094 /* DCAddMedicationWebServiceManager.m in Sources */,
 				4D4126C51B4AA1E700255D5E /* DCAddMedicationWebService.m in Sources */,
@@ -2606,10 +2643,13 @@
 				4D4D1D6D1B983E9C0007C153 /* DCMedicationListTableViewCell.m in Sources */,
 				0BA803741BA80DCD00DBB45D /* DCWarningsCell.swift in Sources */,
 				7DE017691BC2439A0094928C /* DCGraphicalViewHelper.m in Sources */,
+				1F1977071BFDE59000106023 /* CustomCollectionViewLayout.swift in Sources */,
 				4D7627821BE8E12E0070BAF2 /* DCPatientMenuViewController.swift in Sources */,
 				4D011C581BB147D7005C79A2 /* DCMedicationHistoryViewController.swift in Sources */,
 				0B1589EB1AD52D3B005F3811 /* DCHTTPRequestOperationManager.m in Sources */,
 				0BA40BB91B299D67005B80AD /* HTMLNode.m in Sources */,
+				1F19770E1BFDE75900106023 /* HeaderCollectionViewCell.swift in Sources */,
+				1F1977121BFDE77500106023 /* ContentCollectionViewCell.swift in Sources */,
 				7D2FF0581BB9024400B92B85 /* DCCalendarDayView.swift in Sources */,
 				7D2FF1171BBCD1C000B92B85 /* DCMedicationAdministrationStatusView.swift in Sources */,
 				1FD4FCCC1BF4B7E000B77B94 /* SelectionView.swift in Sources */,

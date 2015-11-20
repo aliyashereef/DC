@@ -152,17 +152,17 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
         switch (section)
         {
         case  ObservationType.Respiratory.rawValue:
-            return "Respiratory"
+            return Constant.RESPIRATORY
         case ObservationType.SpO2.rawValue:
-            return "SPO2"
+            return Constant.SPO2
         case ObservationType.Temperature.rawValue:
-            return "Temperature"
+            return Constant.TEMPERATURE
         case ObservationType.BloodPressure.rawValue:
-            return "Blood Pressure"
+            return Constant.BLOOD_PRESSURE
         case ObservationType.Pulse.rawValue:
-            return "Pulse"
+            return Constant.PULSE
         case ObservationType.BM.rawValue:
-            return "BM Score"
+            return Constant.BM
         default:
             return ""
         }

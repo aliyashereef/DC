@@ -23,3 +23,4 @@ class Helper
     }
     static var VitalSignObservationList:[VitalSignObservation] = []
 }
+
