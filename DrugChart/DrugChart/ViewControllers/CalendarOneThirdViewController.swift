@@ -92,31 +92,34 @@ class CalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource
     
     func prepareMedicationSlotsForDisplayInCellFromScheduleDetails (medicationScheduleDetails: DCMedicationScheduleDetails) -> NSMutableArray {
             
-        var count = 0, weekDays = 15
+        var count = 0, weekDays = 1
         let medicationSlotsArray: NSMutableArray = []
         while (count < weekDays) {
                 let slotsDictionary = NSMutableDictionary()
-                if count < self.currentWeekDatesArray.count {
-                    let date = self.currentWeekDatesArray.objectAtIndex(count)
-                    let formattedDateString = DCDateUtility.dateStringFromDate(date as! NSDate, inFormat: SHORT_DATE_FORMAT)
-                    let predicateString = NSString(format: "medDate contains[cd] '%@'",formattedDateString)
-                    let predicate = NSPredicate(format: predicateString as String)
-                    //TODO: check if this is right practise. If not change this checks accordingly.
-                    if let scheduleArray = medicationScheduleDetails.timeChart {
-                        if let slotDetailsArray : NSArray = scheduleArray.filteredArrayUsingPredicate(predicate) {
-                            if slotDetailsArray.count != 0 {
-                                if let medicationSlotArray = slotDetailsArray.objectAtIndex(0).valueForKey(MED_DETAILS) {
-                                    slotsDictionary.setObject(medicationSlotArray, forKey: PRESCRIBER_TIME_SLOTS)
+                if count < 1{
+                    if(self.currentWeekDatesArray.count > 0) {
+                        let date = self.currentWeekDatesArray.objectAtIndex(7)
+                        let formattedDateString = DCDateUtility.dateStringFromDate(date as! NSDate, inFormat: SHORT_DATE_FORMAT)
+                        let predicateString = NSString(format: "medDate contains[cd] '%@'",formattedDateString)
+                        let predicate = NSPredicate(format: predicateString as String)
+                        //TODO: check if this is right practise. If not change this checks accordingly.
+                        if let scheduleArray = medicationScheduleDetails.timeChart {
+                            if let slotDetailsArray : NSArray = scheduleArray.filteredArrayUsingPredicate(predicate) {
+                                if slotDetailsArray.count != 0 {
+                                    if let medicationSlotArray = slotDetailsArray.objectAtIndex(0).valueForKey(MED_DETAILS) {
+                                        slotsDictionary.setObject(medicationSlotArray, forKey: PRESCRIBER_TIME_SLOTS)
+                                    }
                                 }
                             }
                         }
+                        slotsDictionary.setObject(NSNumber (integer: count + 1), forKey: PRESCRIBER_SLOT_VIEW_TAG)
+                        medicationSlotsArray.addObject(slotsDictionary)
+                        count++
+
                     }
-                    slotsDictionary.setObject(NSNumber (integer: count + 1), forKey: PRESCRIBER_SLOT_VIEW_TAG)
-                    medicationSlotsArray.addObject(slotsDictionary)
-                    count++
-                }
             }
-            return medicationSlotsArray
+        }
+    return medicationSlotsArray
     }
     
     func addAdministerStatusViewsToTableCell(medicationCell:DCOneThirdCalendarScreenMedicationCell , toContainerSubview containerView: UIView,  forMedicationSlotDictionary slotDictionary:NSDictionary,
@@ -144,10 +147,10 @@ class CalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource
         rowDisplayMedicationSlotsArray:NSMutableArray,
         atIndexPath indexPath:NSIndexPath,
         andSlotIndex index:NSInteger) {
-            if (index == 7) {
-                let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell, toContainerSubview: medicationCell.adminstrationStatusView, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
+            if (index == 0) {
+                let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell, toContainerSubview: medicationCell.adminstrationStatusView, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(0) as! NSDictionary,
                     atIndexPath: indexPath,
-                    atSlotIndex: index - 5)
+                    atSlotIndex:0)
                 statusView.isOneThirdScreen = true
                 let weekdate = currentWeekDatesArray.objectAtIndex(index) as? NSDate
                 medicationCell.adminstrationStatusView.addSubview(statusView)
