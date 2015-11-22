@@ -25,6 +25,13 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         case atCenter
         case panRight
     }
+    
+    enum CurrentWindowState {
+        case oneThirdWindow
+        case halfWindow
+        case twoThirdWindow
+        case fullWindow
+    }
 
     @IBOutlet var medicationTableView: UITableView?
     var displayMedicationListArray : NSMutableArray = []
@@ -309,6 +316,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         rowDisplayMedicationSlotsArray:NSMutableArray,
         atIndexPath indexPath:NSIndexPath,
         andSlotIndex index:NSInteger) {
+
             if (index < 5) {
                 let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell, toContainerSubview: medicationCell.leftMedicationAdministerDetailsView, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary, atIndexPath: indexPath, atSlotIndex: index);
                 let weekdate = currentWeekDatesArray.objectAtIndex(index) as? NSDate

@@ -97,6 +97,7 @@ typedef enum : NSUInteger {
 }
 
 - (void)viewDidLayoutSubviews {
+    
     [self addMedicationListChildViewController];
     [super viewDidLayoutSubviews];
 }
@@ -111,7 +112,9 @@ typedef enum : NSUInteger {
                                                  xVelocity:(CGFloat)xVelocity
                                                  panEnded:(BOOL)panEnded {
     
-    [calendarDateDisplayViewController translateCalendarContainerViewsForTranslationParameters:xPoint withXVelocity:xVelocity panEndedValue:panEnded];
+    [calendarDateDisplayViewController translateCalendarContainerViewsForTranslationParameters:xPoint
+                                                                                 withXVelocity:xVelocity
+                                                                                 panEndedValue:panEnded];
 }
 
 - (void)todayActionForCalendarTop {
@@ -135,7 +138,9 @@ typedef enum : NSUInteger {
 - (void)addAddMedicationButtonToNavigationBar {
     
     addButton = [[UIBarButtonItem alloc]
-                 initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addMedicationButtonPressed:)];
+                 initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                 target:self
+                 action:@selector(addMedicationButtonPressed:)];
     self.navigationItem.rightBarButtonItem = addButton;
 }
 
@@ -170,7 +175,11 @@ typedef enum : NSUInteger {
         [self hideCalendarTopPortion];
         [self loadCurrentDayDisplayForOneThird];
         [self addOneThirdScreenMedicationListView];
-    } else {
+    } else if (windowWidth <= screenWidth * 2/3) {
+        isOneThirdMedicationViewShown = NO;
+        [self addTwoThirdScreenMedicationListView];
+    }
+    else {
         isOneThirdMedicationViewShown = NO;
         [self addTwoThirdScreenMedicationListView];
     }
@@ -204,7 +213,7 @@ typedef enum : NSUInteger {
     }
 }
 
-- (void)displayMedicationListArray {
+- (void)setDisplayMedicationListArray {
     
     if (displayMedicationListArray.count > 0) {
         displayMedicationListArray = nil;
@@ -320,7 +329,7 @@ typedef enum : NSUInteger {
                             _patient.medicationListArray = result;
                             [self configureAlertsAndAllergiesArrayForDisplay];
                             [self addAlertsAndAllergyBarButtonToNavigationBar];
-                            [self displayMedicationListArray];
+                            [self setDisplayMedicationListArray];
                             if ([displayMedicationListArray count] > 0) {
                                 if (prescriberMedicationListViewController) {
                                     [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
@@ -438,10 +447,10 @@ typedef enum : NSUInteger {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         if (discontinuedMedicationShown) {
             discontinuedMedicationShown = NO;
-            [self displayMedicationListArray];
+            [self setDisplayMedicationListArray];
         } else {
             discontinuedMedicationShown = YES;
-            [self displayMedicationListArray];
+            [self setDisplayMedicationListArray];
         }
         [self sortPrescriberMedicationList];
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -717,6 +726,10 @@ typedef enum : NSUInteger {
     [prescriberMedicationListViewController didMoveToParentViewController:self];
     [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
     [self.view bringSubviewToFront:activityIndicatorView];
+}
+
+- (void)addFullScreenMedicationListView {
+    
 }
 
 #pragma mark - DCAddMedicationViewControllerDelegate implementation
