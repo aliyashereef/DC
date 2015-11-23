@@ -104,19 +104,10 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             
         }
         else {
-            print("the displ med array before removal :%@", displayMedicationListArray)
-            if (displayMedicationListArray.isKindOfClass(NSMutableArray)) {
-                print("its mutable array");
-            }
-            if (displayMedicationListArray.isKindOfClass(NSArray)) {
-                print("its just array");
-            }
-            
             if (displayMedicationListArray.count > 0) {
                 displayMedicationListArray.removeObjectAtIndex(0)
                 displayMedicationListArray.removeObjectAtIndex(1)
                 displayMedicationListArray.removeObjectAtIndex(2)
-                
             }
         }
         print("the medarray after removal :%@", displayMedicationListArray)
