@@ -170,18 +170,21 @@ typedef enum : NSUInteger {
 - (void)addMedicationListChildViewController {
     CGFloat windowWidth= [DCUtility mainWindowSize].width;
     CGFloat screenWidth= [UIScreen mainScreen].bounds.size.width;
+    DCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     if (windowWidth <= screenWidth/2) {
         isOneThirdMedicationViewShown = YES;
         [self hideCalendarTopPortion];
         [self loadCurrentDayDisplayForOneThird];
         [self addOneThirdScreenMedicationListView];
-    } else if (windowWidth <= screenWidth * 2/3) {
+    } else  {
+        if (windowWidth == screenWidth) {
+            appDelegate.windowState = fullWindow;
+        }
+        else {
+            appDelegate.windowState = halfWindow;
+        }
         isOneThirdMedicationViewShown = NO;
-        [self addTwoThirdScreenMedicationListView];
-    }
-    else {
-        isOneThirdMedicationViewShown = NO;
-        [self addTwoThirdScreenMedicationListView];
+        [self addFullScreenMedicationListView];
     }
 }
 
@@ -720,16 +723,39 @@ typedef enum : NSUInteger {
         prescriberMedicationListViewController = [prescriberStoryBoard instantiateViewControllerWithIdentifier:PRESCRIBER_LIST_SBID];
         [self addChildViewController:prescriberMedicationListViewController];
     }
+    prescriberMedicationListViewController.windowSize = @"twoThirdWindow";
     prescriberMedicationListViewController.view.frame = medicationListHolderView.frame;
     prescriberMedicationListViewController.delegate = self;
     [self.view addSubview:prescriberMedicationListViewController.view];
     [prescriberMedicationListViewController didMoveToParentViewController:self];
+    
+    
     [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
     [self.view bringSubviewToFront:activityIndicatorView];
 }
 
 - (void)addFullScreenMedicationListView {
     
+    if (!calendarDateDisplayViewController) {
+        [self addTopDatePortionInCalendar];
+    }
+    [dateView removeFromSuperview];
+    [self reloadCalendarTopPortion];
+    [self showCalendarTopPortion];
+    [prescriberMedicationOneThirdSizeViewController.view removeFromSuperview];
+    if (!prescriberMedicationListViewController) {
+        UIStoryboard *prescriberStoryBoard = [UIStoryboard storyboardWithName:PRESCRIBER_DETAILS_STORYBOARD bundle:nil];
+        prescriberMedicationListViewController = [prescriberStoryBoard instantiateViewControllerWithIdentifier:PRESCRIBER_LIST_SBID];
+        [self addChildViewController:prescriberMedicationListViewController];
+    }
+    prescriberMedicationListViewController.windowSize = @"fullWindow";
+    prescriberMedicationListViewController.view.frame = medicationListHolderView.frame;
+    prescriberMedicationListViewController.delegate = self;
+    [self.view addSubview:prescriberMedicationListViewController.view];
+    [prescriberMedicationListViewController didMoveToParentViewController:self];
+    
+    [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
+    [self.view bringSubviewToFront:activityIndicatorView];
 }
 
 #pragma mark - DCAddMedicationViewControllerDelegate implementation

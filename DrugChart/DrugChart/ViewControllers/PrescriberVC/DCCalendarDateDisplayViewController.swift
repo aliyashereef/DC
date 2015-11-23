@@ -16,6 +16,7 @@ import UIKit
     @IBOutlet weak var rightCalendarView: DCCalendarDateView!
     @IBOutlet weak var calendarViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var calendarViewWidthConstraint: NSLayoutConstraint!
+    let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
 
     var currentWeekDateArray : NSMutableArray?
     var lastDateForCurrentWeek : NSDate?
@@ -123,17 +124,35 @@ import UIKit
         let centerDatesArray : NSMutableArray = []
         let rightDatesArray : NSMutableArray = []
         
-        for ( index = 0; index < displayDatesArray.count; index++) {
-            if (index < 5) {
-                leftDatesArray.addObject(displayDatesArray.objectAtIndex(index))
-            }
-            else if (index >= 5 && index < 10) {
-                centerDatesArray.addObject(displayDatesArray.objectAtIndex(index))
-            }
-            else if (index >= 10 && index < 15) {
-                rightDatesArray.addObject(displayDatesArray.objectAtIndex(index))
+        if (appDelegate.windowState == DCWindowState.fullWindow) {
+            
+            print("the dates array is: %@", displayDatesArray)
+            for ( index = 0; index < displayDatesArray.count; index++) {
+                if (index < 5) {
+                    leftDatesArray.addObject(displayDatesArray.objectAtIndex(index))
+                }
+                else if (index >= 5 && index < 10) {
+                    centerDatesArray.addObject(displayDatesArray.objectAtIndex(index))
+                }
+                else if (index >= 10 && index < 15) {
+                    rightDatesArray.addObject(displayDatesArray.objectAtIndex(index))
+                }
             }
         }
+        else {
+            for ( index = 3; index < displayDatesArray.count; index++) {
+                if (index < 6) {
+                    leftDatesArray.addObject(displayDatesArray.objectAtIndex(index))
+                }
+                else if (index >= 6 && index < 9) {
+                    centerDatesArray.addObject(displayDatesArray.objectAtIndex(index))
+                }
+                else if (index >= 9 && index < 12) {
+                    rightDatesArray.addObject(displayDatesArray.objectAtIndex(index))
+                }
+            }
+        }
+        
         leftCalendarView .populateViewForDateArray(leftDatesArray)
         centerCalendarView.populateViewForDateArray(centerDatesArray)
         rightCalendarView.populateViewForDateArray(rightDatesArray)
