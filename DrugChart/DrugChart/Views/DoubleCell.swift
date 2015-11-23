@@ -69,25 +69,31 @@ class DoubleCell: UITableViewCell ,UITextFieldDelegate {
         return true
     }
     
-//    func addDoneButtonToKeyboard() {
-//        var doneButton:UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "hideKeyboard")
-//        
-//        var space:UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
-//        
-//        var items = [AnyObject]()
-//        items.append(space)
-//        items.append(doneButton)
-//        var toolbar = UIToolbar.new()
-//        
-//        toolbar.frame.size.height = 35
-//        
-//        toolbar.items = items
-//        
-//        value.inputAccessoryView = toolbar
-//    }
+    func textField(textField: UITextField,
+        shouldChangeCharactersInRange range: NSRange,
+        replacementString string: String)
+        -> Bool
+    {
+        // We ignore any change that doesn't add characters to the text field.
+        // These changes are things like character deletions and cuts, as well
+        // as moving the insertion point.
+        //
+        // We still return true to allow the change to take place.
+        if string.characters.count == 0 {
+            return true
+        }
+        
+        // Check to see if the text field's contents still fit the constraints
+        // with the new content added to it.
+        // If the contents still fit the constraints, allow the change
+        // by returning true; otherwise disallow the change by returning false.
+        let currentText = textField.text ?? ""
+        let prospectiveText = (currentText as NSString).stringByReplacingCharactersInRange(range, withString: string)
+        
+        return prospectiveText.containsOnlyCharactersIn("0123456789.") &&
+            prospectiveText.characters.count <= 5
+    }
     
-//    func hideKeyboard() {
-//        value.resignFirstResponder()
-//    }
+    
 
 }

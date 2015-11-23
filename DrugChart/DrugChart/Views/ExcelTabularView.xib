@@ -7,27 +7,27 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="TabularDashBoardView" customModule="DrugChart" customModuleProvider="target">
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="ExcelTabularView" customModule="DrugChart" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="9e7-A6-Ch3">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="701"/>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="YZ0-zl-k80">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                </tableView>
+                    <collectionViewLayout key="collectionViewLayout" id="dB8-gY-bNH" customClass="CustomCollectionViewLayout" customModule="DrugChart" customModuleProvider="target"/>
+                </collectionView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="9e7-A6-Ch3" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="6SP-dW-TuK"/>
-                <constraint firstAttribute="bottom" secondItem="9e7-A6-Ch3" secondAttribute="bottom" constant="-34" id="N1H-vb-QpE"/>
-                <constraint firstAttribute="trailing" secondItem="9e7-A6-Ch3" secondAttribute="trailing" id="kKE-BT-Zc7"/>
-                <constraint firstItem="9e7-A6-Ch3" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="lWR-2k-i9N"/>
+                <constraint firstItem="YZ0-zl-k80" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="OGh-aU-Cki"/>
+                <constraint firstAttribute="bottom" secondItem="YZ0-zl-k80" secondAttribute="bottom" id="bYo-tA-4p5"/>
+                <constraint firstItem="YZ0-zl-k80" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="d0G-ka-Vzd"/>
+                <constraint firstAttribute="trailing" secondItem="YZ0-zl-k80" secondAttribute="trailing" id="dIR-ps-OOi"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
             <connections>
-                <outlet property="tableView" destination="9e7-A6-Ch3" id="wMG-u8-d0D"/>
+                <outlet property="collectionView" destination="YZ0-zl-k80" id="Pjc-z6-jdR"/>
             </connections>
-            <point key="canvasLocation" x="288.5" y="294.5"/>
         </view>
     </objects>
 </document>

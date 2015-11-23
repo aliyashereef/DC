@@ -26,6 +26,8 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
     }
     */
     
+    var datePickerCell:DatePickerCellInline!
+    
     class func instanceFromNib() -> UIView {
         return UINib(nibName: "GeneralObservationView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
     }
@@ -37,21 +39,17 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
         tableView.dataSource=self
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 44
-        
+        self.tableView.allowsMultipleSelection = false
         let nib = UINib(nibName: "DoubleCell", bundle: nil)
         self.tableView.registerNib(nib, forCellReuseIdentifier: "DoubleCell")
         
         let nibTimePicker = UINib(nibName: "TimePickerCell", bundle: nil)
         self.tableView.registerNib(nibTimePicker, forCellReuseIdentifier: "TimePickerCell")
         
-        let datePicker = UINib(nibName: "DatePickerCell", bundle: nil)
-        self.tableView.registerNib(datePicker, forCellReuseIdentifier: "DatePickerCell")
         
         let nibBloodPressure = UINib(nibName: "BloodPressureCell", bundle: nil)
         self.tableView.registerNib(nibBloodPressure, forCellReuseIdentifier: "BloodPressureCell")
-        
-        
-        //
+        datePickerCell = DatePickerCellInline(style: UITableViewCellStyle.Default, reuseIdentifier: nil)
     }
     func configureView(observation:VitalSignObservation)
     {
@@ -129,7 +127,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
         switch(cellType)
         {
         case CellType.Date:
-            let cell = tableView.dequeueReusableCellWithIdentifier("DatePickerCell", forIndexPath: indexPath) as! DatePickerCell
+            let cell = datePickerCell
             cell.tag = rowTag
             return cell
         case CellType.Time:
@@ -154,43 +152,58 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
         switch (section)
         {
         case  ObservationType.Respiratory.rawValue:
-            return "Respiratory"
+            return Constant.RESPIRATORY
         case ObservationType.SpO2.rawValue:
-            return "SPO2"
+            return Constant.SPO2
         case ObservationType.Temperature.rawValue:
-            return "Temperature"
+            return Constant.TEMPERATURE
         case ObservationType.BloodPressure.rawValue:
-            return "Blood Pressure"
+            return Constant.BLOOD_PRESSURE
         case ObservationType.Pulse.rawValue:
-            return "Pulse"
+            return Constant.PULSE
         case ObservationType.BM.rawValue:
-            return "BM Score"
+            return Constant.BM
         default:
             return ""
         }
     }
    
-//    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-//        // Get the correct height if the cell is a DatePickerCell.
-//        let cell = self.tableView(tableView, cellForRowAtIndexPath: indexPath)
-//        if (cell.isKindOfClass(DatePickerCellInline)) {
-//            return (cell as! DatePickerCellInline).datePickerHeight()
-//        }
-//        else
-//        {
-//            //return self.tableView(tableView, heightForRowAtIndexPath: indexPath)
-//            return 44
-//        }
-//    }
-//    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+
+                switch(indexPath.section)
+        {
+            case ObservationType.Date.rawValue:
+                return datePickerCell.datePickerHeight()
+            default:
+                return self.tableView.rowHeight
+        }
+    }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        // Deselect automatically if the cell is a DatePickerCell.
+        let cell = self.tableView(tableView, cellForRowAtIndexPath: indexPath)
+        if (cell.isKindOfClass(DatePickerCellInline)) {
+            let datePickerTableViewCell = cell as! DatePickerCellInline
+            datePickerTableViewCell.selectedInTableView(tableView)
+            self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
+        else
+        {
+            if datePickerCell.expanded
+            {
+                datePickerCell.selectedInTableView(tableView)
+            }
+          
+        }
+    }
+    
     func prepareObjects()
     {
-       // observation = VitalSignObservation()
         for cell in tableView.visibleCells {
             switch(cell.tag)
             {
             case ObservationType.Date.rawValue:
-                let dateCell = cell as! DatePickerCell
+                let dateCell = cell as! DatePickerCellInline
                 observation.date = dateCell.date
             case ObservationType.Temperature.rawValue:
                 let doubleCell = cell as! DoubleCell

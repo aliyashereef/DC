@@ -46,7 +46,7 @@ public class DatePickerCellInline: UITableViewCell {
         }
     }
     /// The timestyle.
-    public var timeStyle = NSDateFormatterStyle.NoStyle
+    public var timeStyle = NSDateFormatterStyle.ShortStyle
     /// The datestyle.
     public var dateStyle = NSDateFormatterStyle.MediumStyle
     
@@ -85,7 +85,7 @@ public class DatePickerCellInline: UITableViewCell {
 //         The datePicker overhangs the view slightly to avoid invalid constraints.
         self.clipsToBounds = true
         
-        datePicker.datePickerMode = UIDatePickerMode.Date
+        datePicker.datePickerMode = UIDatePickerMode.DateAndTime
         
         let views = [leftLabel, rightLabel, seperator, datePickerContainer, datePicker]
         for view in views {
