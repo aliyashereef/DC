@@ -14,10 +14,7 @@ class DCSchedulingHeaderView: UIView {
     
     func populateMessageLabelWithRepeatValue(repeatValue : DCRepeat) {
         
-        if (repeatValue.frequency == "1 day") {
-            messageLabel.text = NSString(format: "%@ day.", NSLocalizedString("DAILY_DESCRIPTION", comment: "")) as String
-        } else {
-            messageLabel.text = NSString(format: "Medication will be administered every %@", repeatValue.frequency) as String
-        }
+        messageLabel.text = DCSchedulingHelper.scheduleDescriptionForReapeatValue(repeatValue) as String
+        messageLabel.sizeToFit()
     }
 }

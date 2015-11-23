@@ -43,4 +43,8 @@
 
 + (NSString *)systemDateStringInShortDisplayFormat;
 
++ (NSInteger)currentWeekDayIndex;
+
++ (NSInteger)currentDay;
+
 @end

@@ -77,6 +77,7 @@
 #define ADD_MEDICATION_STORYBOARD @"AddMedication"
 #define AUTHORIZATION_STORYBOARD @"Authorization"
 #define PRESCRIBER_DETAILS_STORYBOARD @"PrescriberDetails"
+#define ONE_THIRD_SCREEN_SB @"OneThirdScreenSizeCalendar"
 #define ORDERSET_STORYBOARD @"OrderSet"
 #define PATIENT_LIST_STORYBOARD @"PatientList"
 
@@ -115,6 +116,7 @@
 #define MEDICATION_STORYBOARD_ID @"MedicationHistory"
 #define BNF_STORYBOARD_ID @"BNFViewController"
 #define PRESCRIBER_LIST_SBID @"PrescriberMedicationList"
+#define PRESCRIBER_LIST_ONE_THIRD_SBID @"PrescriberOneThirdMedicationList"
 #define PATIENT_MENU_VIEW_CONTROLLER_SB_ID @"PatientMenuViewController"
 #define VITAL_SIGNS_VIEW_CONTROLLER_VIEW_CONTROLLER_SB_ID @"VitalSignViewController"
 #define SCHEDULING_DETAIL_STORYBOARD_ID @"SchedulingDetailView"
@@ -355,6 +357,20 @@
 #define YEARLY @"Yearly"
 #define FREQUENCY @"Frequency"
 #define EVERY @"Every"
+#define EACH @"Each"
+#define ON_THE @"On the..."
+#define FIRST @"First"
+#define SECOND @"Second"
+#define THIRD @"Third"
+#define FOURTH @"Fourth"
+#define FIFTH @"Fifth"
+#define LAST @"Last"
+#define DAY @"day"
+#define DAYS @"days"
+#define WEEK @"week"
+#define WEEKS @"weeks"
+#define MONTH @"month"
+#define MONTHS @"months"
 
 //Roles
 

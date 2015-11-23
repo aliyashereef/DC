@@ -29,7 +29,6 @@ import UIKit
         
         super.viewDidLoad()
         calendarViewWidthConstraint.constant = (DCUtility.mainWindowSize().width - MEDICATION_VIEW_WIDTH);
-        displayWeekDatesArray()
         self.displayDatesInView()
     }
     
