@@ -141,6 +141,8 @@
 		1F1977121BFDE77500106023 /* ContentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1977101BFDE77500106023 /* ContentCollectionViewCell.swift */; };
 		1F1977131BFDE77500106023 /* ContentCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F1977111BFDE77500106023 /* ContentCollectionViewCell.xib */; };
 		1F1977191BFF5C1A00106023 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1977181BFF5C1A00106023 /* Constant.swift */; };
+		1F1977201C0485C500106023 /* RowHeaderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F19771E1C0485C500106023 /* RowHeaderCollectionViewCell.swift */; };
+		1F1977211C0485C500106023 /* RowHeaderCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F19771F1C0485C500106023 /* RowHeaderCollectionViewCell.xib */; };
 		1F3007061BF5552E00DDF3F3 /* VitalSignObservation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3007051BF5552E00DDF3F3 /* VitalSignObservation.swift */; };
 		1FB412681BFB522900D91487 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB412671BFB522900D91487 /* String.swift */; };
 		1FD4FCAA1BF4B5CC00B77B94 /* VitalsignDashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCA91BF4B5CC00B77B94 /* VitalsignDashboard.swift */; };
@@ -501,6 +503,8 @@
 		1F1977101BFDE77500106023 /* ContentCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentCollectionViewCell.swift; sourceTree = "<group>"; };
 		1F1977111BFDE77500106023 /* ContentCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContentCollectionViewCell.xib; sourceTree = "<group>"; };
 		1F1977181BFF5C1A00106023 /* Constant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		1F19771E1C0485C500106023 /* RowHeaderCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RowHeaderCollectionViewCell.swift; sourceTree = "<group>"; };
+		1F19771F1C0485C500106023 /* RowHeaderCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RowHeaderCollectionViewCell.xib; sourceTree = "<group>"; };
 		1F3007051BF5552E00DDF3F3 /* VitalSignObservation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VitalSignObservation.swift; sourceTree = "<group>"; };
 		1FB412671BFB522900D91487 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		1FD4FCA91BF4B5CC00B77B94 /* VitalsignDashboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VitalsignDashboard.swift; sourceTree = "<group>"; };
@@ -1854,6 +1858,8 @@
 				1FD4FCE21BF4B8F400B77B94 /* PickerCell.xib */,
 				1FD4FCE31BF4B8F400B77B94 /* SelectionCell.xib */,
 				1FD4FCE41BF4B8F400B77B94 /* TimePickerCell.xib */,
+				1F19771E1C0485C500106023 /* RowHeaderCollectionViewCell.swift */,
+				1F19771F1C0485C500106023 /* RowHeaderCollectionViewCell.xib */,
 			);
 			name = CustomCell;
 			sourceTree = "<group>";
@@ -2440,6 +2446,7 @@
 				0BBDEDED1AA581630016E6FF /* README.txt in Resources */,
 				0BCC190B1ABAC404003552C9 /* IPRJ2623512.plist in Resources */,
 				0B9173A61B02105B00BC9337 /* DCPrescriberDetailsTimeView.xib in Resources */,
+				1F1977211C0485C500106023 /* RowHeaderCollectionViewCell.xib in Resources */,
 				7D5567DE1B4FEE2100BA6733 /* RegularMedicationSample.plist in Resources */,
 				4D83869E1BB26BC60012EF7D /* DCMedicationHistoryHeaderView.xib in Resources */,
 				0BB397811B42AF500037C8E1 /* OrderSet.plist in Resources */,
@@ -2536,6 +2543,7 @@
 				0BC5FAF61B43FF930019BF36 /* DCAutoSearchView.m in Sources */,
 				4DDEED511B4D0E3F00D8E0FF /* DCPatientAllergyWebService.m in Sources */,
 				7DE60BCF1B2866CD00BCA745 /* DCPatientGraphicalRepresentationView.m in Sources */,
+				1F1977201C0485C500106023 /* RowHeaderCollectionViewCell.swift in Sources */,
 				7D4DBE9E1AA57E1700A5E39B /* UIColor+ColorFromHex.m in Sources */,
 				0B95FAF01B5E6634002939DF /* DCWarningsHeaderView.m in Sources */,
 				0BBC8F8D1AA457E10085ABAB /* DCUser.m in Sources */,
@@ -2823,6 +2831,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = 2;
 				VALIDATE_PRODUCT = YES;
 			};

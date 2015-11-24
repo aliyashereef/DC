@@ -8,19 +8,19 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="headerCellIdentifier" id="gTV-IL-0wX" customClass="HeaderCollectionViewCell" customModule="DrugChart" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="165" height="70"/>
+            <rect key="frame" x="0.0" y="0.0" width="165" height="60"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="165" height="70"/>
+                <rect key="frame" x="0.0" y="0.0" width="165" height="60"/>
                 <subviews>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Mar-15" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h0r-kt-fGI">
-                        <rect key="frame" x="0.0" y="0.0" width="165" height="35"/>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Mar-15" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h0r-kt-fGI">
+                        <rect key="frame" x="0.0" y="0.0" width="165" height="30"/>
                         <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="14"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Mar-15" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gnh-S0-9Hk">
-                        <rect key="frame" x="0.0" y="35" width="165" height="35"/>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Mar-15" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gnh-S0-9Hk">
+                        <rect key="frame" x="0.0" y="28" width="165" height="30"/>
                         <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="14"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
@@ -28,6 +28,13 @@
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="Gnh-S0-9Hk" secondAttribute="trailing" id="7zZ-3N-zZ7"/>
+                <constraint firstItem="Gnh-S0-9Hk" firstAttribute="top" secondItem="h0r-kt-fGI" secondAttribute="bottom" constant="-2" id="Wlh-Q6-UXQ"/>
+                <constraint firstItem="Gnh-S0-9Hk" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="eOt-mD-J3u"/>
+                <constraint firstItem="h0r-kt-fGI" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="kaH-4q-tIR"/>
+                <constraint firstAttribute="trailing" secondItem="h0r-kt-fGI" secondAttribute="trailing" id="r4G-I8-zfa"/>
+            </constraints>
             <size key="customSize" width="192" height="80"/>
             <connections>
                 <outlet property="dateLabel" destination="h0r-kt-fGI" id="X6x-Hh-v72"/>

@@ -20,5 +20,7 @@ class HeaderCollectionViewCell: UICollectionViewCell {
     {
         self.layer.borderWidth = 1.0
         self.layer.borderColor = UIColor.lightGrayColor().CGColor
+        dateLabel.textColor = UIColor.whiteColor()
+        timeLabel.textColor = UIColor.whiteColor()
     }
 }

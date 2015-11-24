@@ -12,7 +12,9 @@ class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDel
 
     
     let headerCellIdentifier = "headerCellIdentifier"
-    let contentCellIdentifier = "ContentCellIdentifier"
+    let contentCellIdentifier = "contentCellIdentifier"
+    let rowHeaderCellIdentifier = "rowHeaderCellIdentifier"
+    
     @IBOutlet weak var collectionView: UICollectionView!
     var observationList:[VitalSignObservation]!
     
@@ -23,6 +25,9 @@ class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDel
         self.collectionView.dataSource = self
         self.collectionView .registerNib(UINib(nibName: "HeaderCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: headerCellIdentifier)
         self.collectionView .registerNib(UINib(nibName: "ContentCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: contentCellIdentifier)
+
+        self.collectionView .registerNib(UINib(nibName: "RowHeaderCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: rowHeaderCellIdentifier)
+
     }
     
     func reloadView(observationList:[VitalSignObservation])
@@ -63,16 +68,19 @@ class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDel
             
             if indexPath.row == 0 {
                 headerCell.dateLabel.text = "Date"
+                headerCell.timeLabel.text = "Time"
+                headerCell.backgroundColor = UIColor(red: 31/255, green: 146/255, blue: 190/255, alpha: 1.0)
                 return headerCell
             } else {
                 let observation = observationList[indexPath.row - 1]
                 headerCell.dateLabel.text = observation.getFormattedDate()
                 headerCell.timeLabel.text = observation.getFormattedTime()
+                headerCell.backgroundColor = UIColor(red: 31/255, green: 146/255, blue: 190/255, alpha: 1.0)
                 return headerCell
             }
         } else {
             if indexPath.row == 0 {
-                let headerCell : HeaderCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(headerCellIdentifier, forIndexPath: indexPath) as! HeaderCollectionViewCell
+                let headerCell : RowHeaderCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(rowHeaderCellIdentifier, forIndexPath: indexPath) as! RowHeaderCollectionViewCell
                 
                 headerCell.configureCell()
                 var headerText:String
@@ -94,7 +102,9 @@ class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDel
                 default:
                     headerText = ""
                  }
-                headerCell.dateLabel.text = headerText
+                headerCell.backgroundColor = UIColor.whiteColor()
+                
+                headerCell.label.text = headerText
                 return headerCell
             } else {
                 let contentCell : ContentCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(contentCellIdentifier, forIndexPath: indexPath) as! ContentCollectionViewCell
@@ -117,6 +127,10 @@ class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDel
                 default:
                   print("come in default section")
                 }
+                
+                contentCell.backgroundColor = UIColor.whiteColor()
+                
+                
                 return contentCell
             }
         }
