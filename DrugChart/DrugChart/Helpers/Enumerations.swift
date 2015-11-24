@@ -77,7 +77,7 @@ enum ChartType:Int
 }
 enum ObservationTabularViewRow:Int
 {
-    case Respiratory = 1 , SPO2 , Temperature , BloodPressure , Pulse, BM
+    case Respiratory = 1 , SPO2 , Temperature , BloodPressure , Pulse, BM , News , CommaScore
     
     static var count: Int {  // I called this "maximumRawValue" in the post
         var max: Int = 0

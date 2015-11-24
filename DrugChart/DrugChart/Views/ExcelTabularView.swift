@@ -46,7 +46,7 @@ class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDel
     // MARK - UICollectionViewDataSource
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return 7
+        return ObservationTabularViewRow.count
     }
     
     
@@ -54,9 +54,6 @@ class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDel
         return ( observationList.count + 1 )
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return CGSizeMake(165,35)
-    }
     
     
     
@@ -99,6 +96,10 @@ class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDel
                     headerText = Constant.PULSE
                 case ObservationTabularViewRow.BM.rawValue:
                     headerText = Constant.BM
+                case ObservationTabularViewRow.News.rawValue:
+                    headerText = Constant.NEWS
+                case ObservationTabularViewRow.CommaScore.rawValue:
+                    headerText = Constant.COMMA_SCORE
                 default:
                     headerText = ""
                  }
@@ -124,13 +125,14 @@ class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDel
                     contentCell.contentLabel.text = observation.getPulseReading()
                 case ObservationTabularViewRow.BM.rawValue:
                     contentCell.contentLabel.text = observation.getBMReading()
+                case ObservationTabularViewRow.News.rawValue:
+                    contentCell.contentLabel.text = observation.getNews()
+                case ObservationTabularViewRow.CommaScore.rawValue:
+                    contentCell.contentLabel.text = observation.getComaScore()
                 default:
                   print("come in default section")
                 }
-                
                 contentCell.backgroundColor = UIColor.whiteColor()
-                
-                
                 return contentCell
             }
         }
