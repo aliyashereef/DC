@@ -135,7 +135,7 @@ class CommaScoreView: UIView,UITableViewDelegate,UITableViewDataSource{
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         let cell = tableView.cellForRowAtIndexPath(indexPath) as! SelectionCell
-        delegate?.RowSelectedWithList(cell.dataSource,tag:cell.tag,selectedValue:cell.selectedValue)
+        delegate?.RowSelectedWithList(cell.dataSource,tag:cell.tag,selectedValue:cell.selectedValue,title: cell.title.text!)
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

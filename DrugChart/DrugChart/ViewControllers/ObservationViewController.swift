@@ -67,10 +67,10 @@ import UIKit
         
         //MARK: Delegate implementation
         
-        func RowSelectedWithList(dataSource:[KeyValue],tag:Int,selectedValue:KeyValue?)
+        func RowSelectedWithList(dataSource:[KeyValue],tag:Int,selectedValue:KeyValue?,title:String)
         {
             let selectionController = SelectionView(nibName:"SelectionView",bundle:nil)
-            selectionController.configureView(dataSource,tag: tag,selectedValue: selectedValue)
+            selectionController.configureView(dataSource,tag: tag,selectedValue: selectedValue,title: title)
             selectionController.delegate = self
             self.navigationController?.pushViewController(selectionController, animated: true)
             

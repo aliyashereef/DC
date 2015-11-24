@@ -61,7 +61,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
-        return ObservationType.count
+        return 2
     }
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
@@ -71,32 +71,38 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
         case ObservationType.Date.rawValue:
             return 1;
         default:
-            return 1
+            return 6
             
         }
     }
     
     
+    func getRowNumber(indexPath:NSIndexPath) -> Int
+    {
+        var rowNumber = 0
+        for var section = ( indexPath.section - 1 )   ; section >= 0 ; --section
+        {
+            rowNumber += self.tableView.numberOfRowsInSection(section)
+        }
+        rowNumber += indexPath.row
+        return rowNumber
+    }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cellTitle:String = ""
         var placeHolderText = "enter value"
         var rowTag : Int = -1
         var cellType:CellType = CellType.Double
         var populateValue :Bool = observation != nil
-        switch (indexPath.section)
+        let rowNumber = getRowNumber(indexPath)
+        
+        switch (rowNumber)
         {
         case ObservationType.Date.rawValue:
-            if(indexPath.row == 0)
-            {
-                cellType = CellType.Date
-                rowTag = ObservationType.Date.rawValue
-            }
-            else
-            {
-                cellType = CellType.Time
-            }
+            cellType = CellType.Date
+            rowTag = ObservationType.Date.rawValue
+        
         case ObservationType.Respiratory.rawValue:
-            cellTitle = "Resps(per minute)"
+            cellTitle = "Resps (per minute)"
             rowTag = ObservationType.Respiratory.rawValue
         case ObservationType.SpO2.rawValue:
             cellTitle = "Oxygen Saturation & Inspired O2"
@@ -104,7 +110,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
             rowTag = ObservationType.SpO2.rawValue
             
         case ObservationType.Temperature.rawValue:
-            cellTitle = "Temperature (Celcius)"
+            cellTitle = "Temperature (°C)"
             rowTag = ObservationType.Temperature.rawValue
             
         case ObservationType.BloodPressure.rawValue:
@@ -112,7 +118,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
             rowTag = ObservationType.BloodPressure.rawValue
             cellType = CellType.BloodPressure
         case ObservationType.Pulse.rawValue:
-            cellTitle = "Pulse(beats/min)"
+            cellTitle = "Pulse (beats/min)"
             rowTag = ObservationType.Pulse.rawValue
             
         case ObservationType.BM.rawValue:
@@ -147,30 +153,9 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
         
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
-        switch (section)
-        {
-        case  ObservationType.Respiratory.rawValue:
-            return Constant.RESPIRATORY
-        case ObservationType.SpO2.rawValue:
-            return Constant.SPO2
-        case ObservationType.Temperature.rawValue:
-            return Constant.TEMPERATURE
-        case ObservationType.BloodPressure.rawValue:
-            return Constant.BLOOD_PRESSURE
-        case ObservationType.Pulse.rawValue:
-            return Constant.PULSE
-        case ObservationType.BM.rawValue:
-            return Constant.BM
-        default:
-            return ""
-        }
-    }
-   
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
 
-                switch(indexPath.section)
+        switch(indexPath.section)
         {
             case ObservationType.Date.rawValue:
                 return datePickerCell.datePickerHeight()

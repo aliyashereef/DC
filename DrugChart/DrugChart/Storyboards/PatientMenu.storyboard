@@ -56,7 +56,7 @@
             </objects>
             <point key="canvasLocation" x="-2729" y="-1818"/>
         </scene>
-        <!--GHA Adult Observation-->
+        <!--Observation-->
         <scene sceneID="WBW-UK-0HZ">
             <objects>
                 <viewController storyboardIdentifier="ObservationMaintenance" id="0pK-wZ-bGg" customClass="ObservationViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
@@ -94,7 +94,7 @@
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="GHA Adult Observation" id="4lZ-Me-qCC">
+                    <navigationItem key="navigationItem" title="Observation" id="4lZ-Me-qCC">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="PLU-1e-xOa">
                             <connections>
                                 <action selector="cancelClick:" destination="0pK-wZ-bGg" id="1L6-wk-1RZ"/>

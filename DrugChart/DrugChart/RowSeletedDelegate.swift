@@ -11,7 +11,7 @@ import UIKit
 
 protocol RowSelectedDelegate
 {
-    func RowSelectedWithList(dataSource:[KeyValue],tag:Int,selectedValue:KeyValue?)
+    func RowSelectedWithList(dataSource:[KeyValue],tag:Int,selectedValue:KeyValue?,title:String)
      func RowSelectedWithObject(dataSource:KeyValue ,tag:Int)
 }
 
