@@ -705,6 +705,10 @@ typedef enum : NSUInteger {
     prescriberMedicationOneThirdSizeViewController.view.frame = medicationListHolderView.frame;
     [self.view addSubview:prescriberMedicationOneThirdSizeViewController.view];
     [prescriberMedicationOneThirdSizeViewController didMoveToParentViewController:self];
+    if (currentWeekDatesArray.count == 0) {
+        [self setCurrentWeekDatesArrayFromToday];
+    }
+    prescriberMedicationOneThirdSizeViewController.currentWeekDatesArray = currentWeekDatesArray;
     [prescriberMedicationOneThirdSizeViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
     [self.view bringSubviewToFront:activityIndicatorView];
 }

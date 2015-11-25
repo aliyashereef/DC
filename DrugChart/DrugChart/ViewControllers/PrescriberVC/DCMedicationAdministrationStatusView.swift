@@ -24,6 +24,8 @@ let OVERDUE_FONT_COLOR              =   UIColor(forHexString: "#ff8972") // get 
 let DUE_NOW_FONT_COLOR              =   UIColor.whiteColor()
 let CURRENT_DAY_BACKGROUND_COLOR    =   UIColor(forHexString: "#fafafa")
 
+typealias AdministerButtonTappedCallback = (Bool) -> Void
+
 protocol DCMedicationAdministrationStatusProtocol:class {
     
     func administerMedicationWithMedicationSlots (medicationSLotDictionary: NSDictionary, atIndexPath indexPath: NSIndexPath ,withWeekDate date : NSDate)
@@ -44,6 +46,8 @@ class DCMedicationAdministrationStatusView: UIView {
     var startDate : NSDate?
     var endDate : NSDate?
     var isOneThirdScreen : Bool = false
+    var administerButtonCallback: AdministerButtonTappedCallback!
+    
     override init(frame: CGRect) {
         
         super.init(frame: frame)
@@ -329,12 +333,22 @@ class DCMedicationAdministrationStatusView: UIView {
         }
     }
     
-    @IBAction func administerButtonClicked (sender: UIButton ) {
-        if(!isOneThirdScreen){
-            if let slotDictionary = medicationSlotDictionary {
-                delegate?.administerMedicationWithMedicationSlots(slotDictionary, atIndexPath: currentIndexPath!, withWeekDate: weekDate!)
-            }
+    func administerMedicationWithMedicationSlot() {
+        
+        if let slotDictionary = medicationSlotDictionary {
+            delegate?.administerMedicationWithMedicationSlots(slotDictionary, atIndexPath: currentIndexPath!, withWeekDate: weekDate!)
         }
     }
     
+    @IBAction func administerButtonClicked (sender: UIButton ) {
+
+        if(!isOneThirdScreen){
+            self.administerMedicationWithMedicationSlot()
+        }
+    }
+    
+    func administerMedicationCellTappedInOneThirdScreenAtIndexPath(indexPath : NSIndexPath) {
+        
+        self.administerMedicationWithMedicationSlot()
+    }
 }

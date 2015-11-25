@@ -8,26 +8,25 @@
 
 import Foundation
 
-class CalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource, UITableViewDelegate {
-    //MARK: Table View Data Source Methods
+class CalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource, UITableViewDelegate, DCMedicationAdministrationStatusProtocol {
     
     @IBOutlet var medicationTableView: UITableView?
     var displayMedicationListArray : NSMutableArray = []
     let existingStatusViews : NSMutableArray = []
 
     var currentWeekDatesArray : NSMutableArray = []
+    
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
         
+        super.init(coder: aDecoder)
     }
 
     override func didReceiveMemoryWarning() {
+        
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     // MARK: - View Management Methods
-    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -36,7 +35,14 @@ class CalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource
         
     }
 
+    override func viewDidLayoutSubviews() {
+        
+        super.viewDidLayoutSubviews()
+    }
+    
+    //MARK: - Table View Delegate Methods
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         return displayMedicationListArray.count
     }
     
@@ -48,15 +54,36 @@ class CalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource
                 "MedicationCell")
         }
         let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
+        cell!.isMedicationActive = medicationScheduleDetails.isActive
         let rowDisplayMedicationSlotsArray = self.prepareMedicationSlotsForDisplayInCellFromScheduleDetails(medicationScheduleDetails)
+        
         var index : NSInteger = 0
         for ( index = 0; index < rowDisplayMedicationSlotsArray.count; index++) {
             
             self.configureMedicationCell(cell!,withMedicationSlotsArray: rowDisplayMedicationSlotsArray,atIndexPath: indexPath,andSlotIndex: index)
         }
         self.fillInMedicationDetailsInTableCell(cell!, atIndexPath: indexPath)
+        if (cell!.inEditMode == true) {
+            UIView.animateWithDuration(0.05, animations: { () -> Void in
+                cell!.medicationViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET;
+            })
+        }
         cell!.layoutMargins = UIEdgeInsetsZero
         return cell!
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        let tableCell: DCOneThirdCalendarScreenMedicationCell = tableView.cellForRowAtIndexPath(indexPath) as! DCOneThirdCalendarScreenMedicationCell
+        let subViewArray = tableCell.contentView.subviews[1].subviews[2].subviews
+        
+        for subVeiw in subViewArray {
+            if subVeiw .isKindOfClass(DCMedicationAdministrationStatusView){
+                (subVeiw as! DCMedicationAdministrationStatusView).administerMedicationWithMedicationSlot()
+                break
+            }
+        }
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
     // MARK: - Data display methods in table view
@@ -68,7 +95,6 @@ class CalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource
                 
                 let medicationSchedules = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
                 medicationCell.medicineName.text = medicationSchedules.name;
-
                 let routeString : String = medicationSchedules.route.stringByReplacingOccurrencesOfString(" ", withString: EMPTY_STRING)
                 let attributedRouteString : NSMutableAttributedString = NSMutableAttributedString(string: routeString, attributes: [NSFontAttributeName : UIFont.systemFontOfSize(16.0)])
                 let attributedInstructionsString : NSMutableAttributedString
@@ -135,6 +161,7 @@ class CalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource
             let statusView : DCMedicationAdministrationStatusView = DCMedicationAdministrationStatusView(frame: viewFrame)
             let medicationSchedules = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
             statusView.tag = tag
+            statusView.delegate = self
             statusView.currentIndexPath = indexPath
             statusView.medicationCategory = medicationSchedules.medicineCategory
             statusView.backgroundColor = UIColor.whiteColor()
@@ -161,4 +188,11 @@ class CalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource
             }
     }
     
+    //MARK - DCMedicationAdministrationStatusProtocol delegate implementation
+    
+    func administerMedicationWithMedicationSlots (medicationSLotDictionary: NSDictionary, atIndexPath indexPath: NSIndexPath ,withWeekDate date : NSDate) {
+        let parentView : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
+        parentView.displayAdministrationViewForMedicationSlot(medicationSLotDictionary as [NSObject : AnyObject], atIndexPath: indexPath, withWeekDate: date)
+    }
+
 }
