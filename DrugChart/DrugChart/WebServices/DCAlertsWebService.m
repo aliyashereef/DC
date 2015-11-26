@@ -13,7 +13,7 @@
 static NSString *const kAlertsUrl = @"patients/%@/warnings";
 
 
-- (void)getPatientAlertsForId:(NSString *)patientId
+- (void)patientAlertsForId:(NSString *)patientId
           withCallBackHandler:(void (^)(NSArray *alertsArray, NSError *error))callBackHandler {
     
     NSString *alertsUrl = [NSString stringWithFormat:kAlertsUrl, patientId];

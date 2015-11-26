@@ -15,11 +15,11 @@
     if (state == 1) {
         
         [_statusImageView setImage:[UIImage imageNamed:ADMINISTRATING_TIME_SELECTED]];
-        [_timeLabel setTextColor:[UIColor getColorForHexString:@"#181818"]];
+        [_timeLabel setTextColor:[UIColor colorForHexString:@"#181818"]];
     } else {
         
         [_statusImageView setImage:[UIImage imageNamed:ADMINISTRATING_TIME_UNSELECTED]];
-        [_timeLabel setTextColor:[UIColor getColorForHexString:@"#b7b7b7"]];
+        [_timeLabel setTextColor:[UIColor colorForHexString:@"#b7b7b7"]];
     }
 }
 

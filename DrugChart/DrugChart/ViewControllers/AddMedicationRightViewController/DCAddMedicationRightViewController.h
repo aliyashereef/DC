@@ -13,7 +13,6 @@
 @property (nonatomic, strong) NSMutableArray *medicationArray;
 @property (nonatomic, strong) NSMutableArray *allergiesArray;
 
-
 - (void)displayWarningsSection:(BOOL)show;
 - (void)populateViewWithWarningsArray:(NSArray *)warnings;
 

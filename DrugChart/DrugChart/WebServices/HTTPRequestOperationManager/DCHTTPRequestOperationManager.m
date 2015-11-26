@@ -88,7 +88,7 @@
     if (self) {
         self.requestSerializer = [AFJSONRequestSerializer serializer];
         self.requestSerializer.timeoutInterval = 30.0f;
-        [self setHeaderFieldsForRequest];
+        [self configureHeaderFieldsForRequest];
         self.responseSerializer = [AFJSONResponseSerializer serializer];
     }
     return self;
@@ -100,7 +100,7 @@
     if (self) {
         self.requestSerializer = [AFJSONRequestSerializer serializer];
         self.requestSerializer.timeoutInterval = 30.0f;
-        [self setHeaderFieldsForRequest];
+        [self configureHeaderFieldsForRequest];
         self.responseSerializer = [AFJSONResponseSerializer serializer];
     }
     return self;
@@ -112,8 +112,8 @@
     if (self) {
         self.requestSerializer = [AFJSONRequestSerializer serializer];
         self.requestSerializer.timeoutInterval = 30.0f;
-        [self setHeaderFieldsForRequest];
-        [self setAdditionalHeadersForMedication];
+        [self configureHeaderFieldsForRequest];
+        [self configureAdditionalHeadersForMedication];
         self.responseSerializer = [AFHTTPResponseSerializer serializer];
         self.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json+fhir"];
     }
@@ -126,8 +126,8 @@
     if (self) {
         self.requestSerializer = [AFJSONRequestSerializer serializer];
         self.requestSerializer.timeoutInterval = 30.0f;
-        [self setHeaderFieldsForRequest];
-        [self setAdditionalHeadersForMedication];
+        [self configureHeaderFieldsForRequest];
+        [self configureAdditionalHeadersForMedication];
         self.responseSerializer = [AFHTTPResponseSerializer serializer];
         self.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json+fhir"];
     }
@@ -140,7 +140,7 @@
     if (self) {
         self.requestSerializer = [AFJSONRequestSerializer serializer];
         self.requestSerializer.timeoutInterval = 30.0f;
-        [self setHeaderFieldsForRequest];
+        [self configureHeaderFieldsForRequest];
         self.responseSerializer = [AFJSONResponseSerializer serializer];
         self.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
     }
@@ -153,14 +153,14 @@
     if (self) {
         self.requestSerializer = [AFJSONRequestSerializer serializer];
         self.requestSerializer.timeoutInterval = 30.0f;
-        [self setHeaderFieldsForRequest];
+        [self configureHeaderFieldsForRequest];
         self.responseSerializer = [AFJSONResponseSerializer serializer];
         self.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json"];
     }
     return self;
 }
 
-- (void)setHeaderFieldsForRequest {
+- (void)configureHeaderFieldsForRequest {
     
     NSString *accessToken = [[DCKeyChainManager sharedKeyChainManager] getTokenForKey:kUserAccessToken];
     [self.requestSerializer setValue:[NSString stringWithFormat:@"Bearer %@", accessToken] forHTTPHeaderField:@"Authorization"];
@@ -169,7 +169,7 @@
 }
 
 
-- (void)setAdditionalHeadersForMedication {
+- (void)configureAdditionalHeadersForMedication {
     
     [self.requestSerializer setValue:@"application/json+fhir" forHTTPHeaderField:@"Content-Type"];
     [self.requestSerializer setValue:@"application/json+fhir" forHTTPHeaderField:@"Accept"];

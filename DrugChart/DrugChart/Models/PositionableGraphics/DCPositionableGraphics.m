@@ -20,12 +20,6 @@
 #define LEFT_DIRECTION @"Left"
 #define RIGHT_DIRECTION @"Right"
 
-//#define X_COORDINATE @"xCoordinate"
-//#define Y_COORDINATE @"yCoordinate"
-//#define WIDTH @"width"
-//#define HEIGHT @"height"
-//#define ITEM_TYPE @"itemType"
-
 @implementation DCPositionableGraphics
 
 - (id)initWithPositionDetailsDictionary:(NSDictionary *)positionDictionary {
@@ -34,15 +28,15 @@
     if (self) {
         @try {
             NSString *graphicalItemString = [positionDictionary objectForKey:GRAPHICAL_ITEM_TYPE];
-            self.positionableGraphicsType = [self getPosititionableGraphicsTypeForString:graphicalItemString];
+            self.positionableGraphicsType = [self posititionableGraphicsTypeForString:graphicalItemString];
             self.headDirection = [positionDictionary objectForKey:HEAD_DIRECTION];
             NSString *coordinateString = [positionDictionary objectForKey:COORDINATES];
-            CGPoint wardCoordinates = [DCUtility getCoordinatesFromString:coordinateString];
+            CGPoint wardCoordinates = [DCUtility coordinatesFromString:coordinateString];
             if (self.positionableGraphicsType == kNurseStation) {
-                self.viewFrame = [self getNurseStationFrameFromCoordinates:wardCoordinates];
+                self.viewFrame = [self nurseStationFrameFromCoordinates:wardCoordinates];
             }
             else if (self.positionableGraphicsType == kDivider) {
-                self.viewFrame = [self getDividerGraphicsFrameFromCoordinates:wardCoordinates];
+                self.viewFrame = [self dividerGraphicsFrameFromCoordinates:wardCoordinates];
             }
         }
         @catch (NSException *exception) {
@@ -52,29 +46,7 @@
     return self;
 }
 
-//- (id)initWithPositionDetailsDictionary:(NSDictionary *)positionDictionary {
-//    
-//    self = [super init];
-//    if (self) {
-//        @try {
-//            NSNumber *xCoordinate = [positionDictionary objectForKey:X_COORDINATE];
-//            NSNumber *yCoordinate = [positionDictionary objectForKey:Y_COORDINATE];
-//            NSNumber *width = [positionDictionary objectForKey:WIDTH];
-//            NSNumber *height = [positionDictionary objectForKey:HEIGHT];
-//            CGRect graphicsFrame = CGRectMake([xCoordinate floatValue], [yCoordinate floatValue], [width floatValue], [height floatValue]);
-//            
-//            //set the values.
-//            self.viewFrame = graphicsFrame;
-//            self.positionableGraphicsType = [self getPosititionableGraphicsTypeForString:[positionDictionary objectForKey:ITEM_TYPE]];
-//        }
-//        @catch (NSException *exception) {
-//           
-//        }
-//    }
-//    return self;
-//}
-
-- (PositionableGraphicsType)getPosititionableGraphicsTypeForString:(NSString *)typeString {
+- (PositionableGraphicsType)posititionableGraphicsTypeForString:(NSString *)typeString {
     
     if ([typeString isEqualToString:DIVIDER]) {
         return kDivider;
@@ -85,7 +57,7 @@
     return kUnknownTypes;
 }
 
-- (CGRect)getNurseStationFrameFromCoordinates:(CGPoint)coordinates {
+- (CGRect)nurseStationFrameFromCoordinates:(CGPoint)coordinates {
     
     if ([self.headDirection isEqualToString:TOP_DIRECTION] ||
         [self.headDirection isEqualToString:BOTTOM_DIRECTION]) {
@@ -97,7 +69,7 @@
     return CGRectZero;
 }
 
-- (CGRect)getDividerGraphicsFrameFromCoordinates:(CGPoint)coordinates {
+- (CGRect)dividerGraphicsFrameFromCoordinates:(CGPoint)coordinates {
     
     if ([self.headDirection isEqualToString:TOP_DIRECTION] ||
         [self.headDirection isEqualToString:BOTTOM_DIRECTION]) {

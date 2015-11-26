@@ -67,7 +67,7 @@
     NSArray *subComponents = [idToken componentsSeparatedByString:DOT];
     NSString *roleProfileEncodedString = [subComponents objectAtIndex:1];
     NSString *roleProfileDecodedString = [DCUtility decodeBase64EncodedString:roleProfileEncodedString];
-    NSDictionary *roleProfileDictionary = [DCUtility convertjsonStringToDictionary:roleProfileDecodedString];
+    NSDictionary *roleProfileDictionary = [DCUtility convertJsonStringToDictionary:roleProfileDecodedString];
     NSArray *rolesArray = [DCUtility convertJSONStringToArray:[roleProfileDictionary objectForKey:ROLE_PROFILE_KEY]];
     //TODO: - currently role checked commented, complete this after clarification
     //[self setUserRoleFromRolesArray:rolesArray];
@@ -84,7 +84,7 @@
     NSString *roleProfileName = EMPTY_STRING;
     for (id content in rolesArray) {
         //check for roles in array
-        NSDictionary *roleDictionary = [DCUtility convertjsonStringToDictionary:content];
+        NSDictionary *roleDictionary = [DCUtility convertJsonStringToDictionary:content];
         roleProfileName = [roleDictionary valueForKey:ROLE_PROFILE_NAME_KEY];
         if ([roleProfileName isEqualToString:CLINICAL_PRACTITIONER_ROLE] || [roleProfileName isEqualToString:PRACTICE_MANAGER_ROLE]) {
             //nurse role

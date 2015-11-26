@@ -17,6 +17,6 @@
                                  WithPatientId:(NSString *)patientId
                            withCallbackHandler:(void (^)( NSError *))callBackHandler ;
 
-- (NSDictionary *)getMedicationDetailsDictionaryForMedicationDetail:(DCMedicationScheduleDetails *)medication ;
+- (NSDictionary *)medicationDetailsDictionaryForMedicationDetail:(DCMedicationScheduleDetails *)medication ;
 
 @end

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "DCMedication.h"
+#import "DCScheduling.h"
 
 @interface DCMedicationDetails : DCMedication
 
@@ -23,8 +24,9 @@
 @property (nonatomic, strong) NSString *warning;
 @property (nonatomic, strong) NSString *onceMedicationDate;
 @property (nonatomic, strong) NSMutableArray *timeArray;
-@property (nonatomic) BOOL noEndDate;
+@property (nonatomic) BOOL hasEndDate;
 @property (nonatomic) BOOL overiddenSevereWarning;
+@property (nonatomic, strong) DCScheduling *scheduling;
 
 
 - (DCMedicationDetails *)initWithOrderSetMedicationDictionary :(NSDictionary *)medicationDictionary;

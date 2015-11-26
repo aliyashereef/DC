@@ -11,7 +11,7 @@
 
 @interface DCAlertsWebService : NSObject
 
-- (void)getPatientAlertsForId:(NSString *)patientId
+- (void)patientAlertsForId:(NSString *)patientId
         withCallBackHandler:(void (^)(NSArray *alertsArray, NSError *error))callBackHandler;
 
 @end

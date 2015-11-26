@@ -12,22 +12,36 @@ import UIKit
 @objc class DCCalendarDateView : UIView {
     var dateArray : NSArray = NSArray()
     var weekViewWidth: CGFloat = 0.0
+    let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
         
     func calculateWeekViewSlotWidth () {
         
-        weekViewWidth = (DCUtility.getMainWindowSize().width - 300)/5
+        // here width has to be changed.
+        if (appDelegate.windowState == DCWindowState.fullWindow) {
+            weekViewWidth = (DCUtility.mainWindowSize().width - 300)/5
+        }
+        else {
+            weekViewWidth = (DCUtility.mainWindowSize().width - 300)/3
+        }
     }
     
     func populateViewForDateArray(dateArray : NSArray) {
         
         self.dateArray = dateArray
-        self.setDatesInView( dateArray)
+        self.showDatesInView(dateArray)
     }
 
-    func setDatesInView( dateArray : NSArray ) {
+    // To arrange the date views in the view to show a week
+    
+    func showDatesInView( dateArray : NSArray ) {
         
         calculateWeekViewSlotWidth()
-        for index in 0...4 {
+        var counterLimit : NSInteger = 2
+        if (appDelegate.windowState == DCWindowState.fullWindow) {
+            counterLimit = 4
+        }
+        
+        for index in 0...counterLimit {
             let dateX : CGFloat = CGFloat(index) * weekViewWidth + CGFloat(index) + 1
             let frame : CGRect = CGRectMake(dateX, 0, weekViewWidth, 49)
             if (self.viewWithTag(index + 1) != nil) {
@@ -40,7 +54,7 @@ import UIKit
             if (index == 0) {
                 //This is added since the current week separation is not shown
                 let borderView : UIView = UIView.init(frame: CGRectMake(-0.9, 0, 1, 49))
-                borderView.backgroundColor = UIColor.getColorForHexString("#efeff4")
+                borderView.backgroundColor = UIColor(forHexString: "#efeff4")
                 dateView.addSubview(borderView)
             }
         }

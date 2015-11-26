@@ -13,6 +13,8 @@
 
 @implementation DCAdministrationStatusTableViewController
 
+#pragma mark - View Management Methods
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     _namesArray = @[ADMINISTERED, REFUSED, OMITTED];
@@ -24,19 +26,20 @@
     self.navigationController.navigationBarHidden = YES;
 
 }
+
+#pragma mark - Memory Management Methods
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Table view data source
-
+#pragma mark - Table View Data Source Methods
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
     return [_namesArray count];
 }
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:TABLE_REUSE_IDENTIFIER forIndexPath:indexPath];
@@ -47,6 +50,8 @@
     cell.textLabel.font = [UIFont systemFontOfSize:15.0];
     cell.textLabel.text = status;
     cell.accessoryType = ([status isEqualToString:_previousSelectedValue]) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+    cell.layoutMargins = UIEdgeInsetsZero;
+    cell.separatorInset = UIEdgeInsetsZero;
     return cell;
 }
 

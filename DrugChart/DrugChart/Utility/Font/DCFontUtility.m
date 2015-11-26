@@ -10,11 +10,11 @@
 
 @implementation DCFontUtility
 
-+ (UIFont *)getLatoRegularFontWithSize:(CGFloat)size {
++ (UIFont *)latoRegularFontWithSize:(CGFloat)size {
     return [UIFont fontWithName:@"Lato-Regular" size:size];
 }
 
-+ (UIFont *)getLatoBoldFontWithSize:(CGFloat)size {
++ (UIFont *)latoBoldFontWithSize:(CGFloat)size {
     return [UIFont fontWithName:@"Lato-Bold" size:size];
     
 }

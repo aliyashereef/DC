@@ -7,6 +7,8 @@
 //
 
 #import "DCMedicationDetails.h"
+#import "DrugChart-Swift.h"
+
 
 #define PREPARATION_TERM @"preparationTerm"
 #define PREPARATION_CODE_ID @"preparationCodeId"

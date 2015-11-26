@@ -13,7 +13,7 @@ class DCAdministerButton: UIButton {
     override var highlighted: Bool {
         didSet {
             if (highlighted) {
-                self.backgroundColor = UIColor.getColorForHexString("#e8e8e8")
+                self.backgroundColor = UIColor(forHexString :"#e8e8e8")
             } else {
                 self.backgroundColor = UIColor.clearColor()
             }

@@ -20,6 +20,6 @@
 @property (nonatomic, strong) UIColor *bedColor;
 
 - (id)initWithBedGraphicsDictionary:(NSDictionary *)graphicsDictionary;
-- (NSString *)getNibFileForHeadDirection;
+- (NSString *)nibFileNameForHeadDirection;
 
 @end

@@ -8,6 +8,9 @@
 
 import Foundation
 
+let wardViewTitle : NSString = "Wards"
+let wardsTableViewCellID : NSString = "WardsCell"
+
 protocol WardSelectionDelegate {
     func newWardSelected( row : NSInteger)
 }
@@ -19,22 +22,25 @@ class DCWardsListingPopoverViewController : DCBaseViewController , UITableViewDe
     @IBOutlet var wardsTableView: UITableView!
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         self.wardsTableView.delegate = self
-        self.title = "Wards"
-        let cancelButton : UIBarButtonItem = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target:self, action: "cancelButtonPressed")
+        self.title = wardViewTitle as String
+        let cancelButton : UIBarButtonItem = UIBarButtonItem(title:CANCEL_BUTTON_TITLE, style: UIBarButtonItemStyle.Plain, target:self, action: "cancelButtonPressed")
         self.navigationItem.rightBarButtonItem = cancelButton
         self.preferredContentSize = CGSizeMake(305, CGFloat(Double(wardsArray.count-1)*45.0))
         wardsTableView.reloadData()
     }
     
     override func viewDidLayoutSubviews() {
+        
         displayNavigationBarBasedOnSizeClass()
         super.viewDidLayoutSubviews()
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell : DCWardsCell = (tableView.dequeueReusableCellWithIdentifier("WardsCell") as? DCWardsCell)!
+        
+        let cell : DCWardsCell = (tableView.dequeueReusableCellWithIdentifier(wardsTableViewCellID as String) as? DCWardsCell)!
         cell.layoutMargins = UIEdgeInsetsZero
         let ward : DCWard  = wardsArray.objectAtIndex(indexPath.row) as! DCWard
         if let name = ward.wardName {
@@ -47,14 +53,17 @@ class DCWardsListingPopoverViewController : DCBaseViewController , UITableViewDe
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         return wardsArray.count
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        
         return 1
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
         if let delegate = self.delegate {
             delegate.newWardSelected(indexPath.row)
         }
@@ -64,9 +73,10 @@ class DCWardsListingPopoverViewController : DCBaseViewController , UITableViewDe
     }
     
     func displayNavigationBarBasedOnSizeClass(){
+        
         let orientation : UIInterfaceOrientation = UIApplication.sharedApplication().statusBarOrientation
         let screenWidth = UIScreen.mainScreen().bounds.size.width
-        let windowWidth = DCUtility.getMainWindowSize().width
+        let windowWidth = DCUtility.mainWindowSize().width
         if ((orientation == UIInterfaceOrientation.LandscapeLeft) || (orientation == UIInterfaceOrientation.LandscapeRight)) {
             if windowWidth > screenWidth/2 {
                 showNavigationBar(false)
@@ -83,6 +93,7 @@ class DCWardsListingPopoverViewController : DCBaseViewController , UITableViewDe
     }
     
     func showNavigationBar(show:Bool) {
+        
         if show == true {
             self.navigationController?.navigationBar.hidden = false
         } else {

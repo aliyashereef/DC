@@ -87,7 +87,9 @@ typedef enum : NSUInteger {
     eDetailAdministrationTime,
     eNewDosage,
     eNewAdministrationTime,
-    eOverrideReason
+    eOverrideReason,
+    eDetailSchedulingType,
+    eDetailRepeatType,
     
 } AddMedicationDetailType;
 
@@ -95,5 +97,26 @@ typedef enum : NSUInteger {
     eNotes,
     eReason
 } NotesType;
+
+typedef enum : NSUInteger {
+    
+    eSchedulingFrequency,
+    eDailyCount,
+    eWeeklyCount,
+    eWeekDays,
+    eMonthlyCount,
+    eMonthEachCount,
+    eMonthOnTheCount
+    
+} PickerType;
+
+
+//typedef enum : NSUInteger {
+//    
+//    oneThirdWindow,
+//    halfWindow,
+//    twoThirdWindow,
+//    fullWindow
+//} CurrentWindowState;
 
 #endif

@@ -55,7 +55,7 @@
             self.patientNumber = [NSString stringWithFormat:@"%@",[patientDictionary valueForKey:PATIENT_NUMBER]];
             if ([patientDictionary valueForKey:NEXT_DUE_MEDICATION] &&
                 ![[patientDictionary valueForKey:NEXT_DUE_MEDICATION] isEqual:[NSNull null]]) {
-                self.nextMedicationDate = [self getNextMedicationDateFromDateString:
+                self.nextMedicationDate = [self nextMedicationDateFromDateString:
                                            [[patientDictionary objectForKey:NEXT_DUE_MEDICATION]valueForKey:NEXT_DUE_ADMINISTRATION_DATE_TIME]];
             }
         
@@ -64,8 +64,8 @@
             DCAppDelegate *appDelegate = DCAPPDELEGATE;
             requestUrl = [requestUrl stringByReplacingOccurrencesOfString:LOCALHOST_PATH withString:appDelegate.baseURL];
             self.url  = requestUrl;
-            [self getPatientsAlerts];
-            [self getPatientsAllergies];
+            [self setPatientsAlerts];
+            [self setPatientsAllergies];
         }
         @catch (NSException *exception) {
             DCDebugLog(@"Exception in patient model class: %@", exception.description);
@@ -84,7 +84,7 @@
     self.bedType = bedType;
 }
 
-- (NSDate *)getNextMedicationDateFromDateString:(NSString *)dateString {
+- (NSDate *)nextMedicationDateFromDateString:(NSString *)dateString {
     
     NSString *formatterString = @"yyyy-MM-dd'T'HH:mm:ss";
     NSDate *nextMedicationDate = [DCDateUtility dateForDateString:dateString
@@ -94,13 +94,13 @@
 
 
 //TODO: this function contains the logic to calculate the medication status.
-- (MedicationStatus)getMedicationStatus {
+- (MedicationStatus)medicationStatusForPatient {
     
     if (self.nextMedicationDate == nil) {
         return kMedicationDue;
     } else {
         
-        NSTimeInterval timeInterval = [self.nextMedicationDate timeIntervalSinceDate:[DCDateUtility getDateInCurrentTimeZone:[NSDate date]]];
+        NSTimeInterval timeInterval = [self.nextMedicationDate timeIntervalSinceDate:[DCDateUtility dateInCurrentTimeZone:[NSDate date]]];
         if (timeInterval < MEDICATION_DUE) {
             return kMedicationDue;
         }
@@ -122,45 +122,45 @@
     }
  }
 
-- (UIColor *)getDisplayColorForMedicationStatus {
+- (UIColor *)displayColorForMedicationStatus {
     
-    MedicationStatus status = [self getMedicationStatus];
+    MedicationStatus status = [self medicationStatusForPatient];
     self.emergencyStatus = status;
     UIColor *statusColor;
     if (!self.nextMedicationDate) {
-        statusColor = [UIColor getColorForHexString:NO_MEDICATION_COLOR];
+        statusColor = [UIColor colorForHexString:NO_MEDICATION_COLOR];
     }
     else {
         switch (status) {
             case kMedicationDue:
-                statusColor = [UIColor getColorForHexString:MEDICATION_DUE_COLOR];
+                statusColor = [UIColor colorForHexString:MEDICATION_DUE_COLOR];
                 break;
                 
             case kMedicationInHalfHour:
-                statusColor = [UIColor getColorForHexString:MEDICATION_HALF_HOUR_COLOR];
+                statusColor = [UIColor colorForHexString:MEDICATION_HALF_HOUR_COLOR];
                 break;
                 
             case kMedicationInOneHour:
-                statusColor = [UIColor getColorForHexString:MEDICATION_ONE_HOUR_COLOR];
+                statusColor = [UIColor colorForHexString:MEDICATION_ONE_HOUR_COLOR];
                 break;
                 
             case kMedicationInOneAndHalfHour:
-                statusColor = [UIColor getColorForHexString:MEDICATION_ONE_AND_HALF_HOUR_COLOR];
+                statusColor = [UIColor colorForHexString:MEDICATION_ONE_AND_HALF_HOUR_COLOR];
                 break;
                 
             case kMedicationInTwoHours:
-                statusColor = [UIColor getColorForHexString:MEDICATION_TWO_HOUR_COLOR];
+                statusColor = [UIColor colorForHexString:MEDICATION_TWO_HOUR_COLOR];
                 break;
                 
             default:
-                statusColor = [UIColor getColorForHexString:MEDICATION_DEFAULT_COLOR];
+                statusColor = [UIColor colorForHexString:MEDICATION_DEFAULT_COLOR];
                 break;
         }
     }
     return statusColor;
 }
 
-- (NSMutableAttributedString *)getFormattedDisplayMedicationDateForPatient {
+- (NSMutableAttributedString *)formattedDisplayMedicationDateForPatient {
     
     if (self.nextMedicationDate) {
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -173,10 +173,10 @@
                 NSString *timeString = [splittedDateArray objectAtIndex:0];
                 NSString *dateString = [splittedDateArray objectAtIndex:1];
                 NSDictionary *timeAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                [DCFontUtility getLatoBoldFontWithSize:20.0f], NSFontAttributeName,
+                                                [DCFontUtility latoBoldFontWithSize:20.0f], NSFontAttributeName,
                                                 nil];
                 NSDictionary *dateAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                [DCFontUtility getLatoRegularFontWithSize:15.0f], NSFontAttributeName, nil];
+                                                [DCFontUtility latoRegularFontWithSize:15.0f], NSFontAttributeName, nil];
                 NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]  initWithString:displayDateString];
                 [attributedString setAttributes:timeAttributes range:NSMakeRange(0, timeString.length+1)];
                 [attributedString setAttributes:dateAttributes range:NSMakeRange(timeString.length, dateString.length)];
@@ -188,10 +188,10 @@
 }
 
 
-- (void)getPatientsAlerts {
+- (void)setPatientsAlerts {
     
     DCAlertsWebService *webService = [[DCAlertsWebService alloc] init];
-    [webService getPatientAlertsForId:self.patientId withCallBackHandler:^(NSArray *alertsArray, NSError *error) {
+    [webService patientAlertsForId:self.patientId withCallBackHandler:^(NSArray *alertsArray, NSError *error) {
         DCDebugLog(@"the patients alerts Array: %@", alertsArray);
         NSMutableArray *patientAlertsArray = [[NSMutableArray alloc] init];        
         if ([alertsArray count] > 0) {
@@ -205,7 +205,7 @@
     }];
 }
 
-- (void)getPatientsAllergies {
+- (void)setPatientsAllergies {
     
     DCPatientAllergyWebService *webService = [[DCPatientAllergyWebService alloc] init];
     [webService getPatientAllergiesForId:self.patientId withCallBackHandler:^(NSArray *alergiesArray, NSError *error) {

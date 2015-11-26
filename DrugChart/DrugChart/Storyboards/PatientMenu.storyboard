@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Patient Menu View Controller-->
@@ -25,12 +26,9 @@
                                         <rect key="frame" x="0.0" y="1" width="600" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Fib-11-BqO" id="FhU-xs-OrZ">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="59.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="59"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="06V-I6-ex7" kind="show" trigger="accessoryAction" id="4It-pL-9e5"/>
-                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -58,23 +56,159 @@
             </objects>
             <point key="canvasLocation" x="-2729" y="-1818"/>
         </scene>
-        <!--Vital Sign View Controller-->
-        <scene sceneID="fPp-nt-n3T">
+        <!--GHA Adult Observation-->
+        <scene sceneID="WBW-UK-0HZ">
             <objects>
-                <viewController storyboardIdentifier="VitalSignViewController" id="06V-I6-ex7" customClass="DCVitalSignViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ObservationMaintenance" id="0pK-wZ-bGg" customClass="ObservationViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="8dG-tp-vdP"/>
-                        <viewControllerLayoutGuide type="bottom" id="KfL-09-7oK"/>
+                        <viewControllerLayoutGuide type="top" id="44l-UI-L5N"/>
+                        <viewControllerLayoutGuide type="bottom" id="GyR-vX-P69"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="9uf-YR-j7Y">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <view key="view" contentMode="scaleToFill" id="G4l-d1-fyH">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <subviews>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="eTf-SJ-PU8">
+                                <rect key="frame" x="24" y="78" width="327" height="29"/>
+                                <segments>
+                                    <segment title="Observations"/>
+                                    <segment title="Comma Score"/>
+                                </segments>
+                                <connections>
+                                    <action selector="indexChange:" destination="0pK-wZ-bGg" eventType="valueChanged" id="bdA-0s-g4H"/>
+                                </connections>
+                            </segmentedControl>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hZl-k9-B0F">
+                                <rect key="frame" x="0.0" y="119" width="375" height="504"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="GyR-vX-P69" firstAttribute="top" secondItem="hZl-k9-B0F" secondAttribute="bottom" id="5S6-da-7Q5"/>
+                            <constraint firstItem="hZl-k9-B0F" firstAttribute="leading" secondItem="G4l-d1-fyH" secondAttribute="leadingMargin" constant="-16" id="5WO-Wk-3X3"/>
+                            <constraint firstItem="hZl-k9-B0F" firstAttribute="top" secondItem="eTf-SJ-PU8" secondAttribute="bottom" constant="13" id="D8a-FJ-JGf"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="hZl-k9-B0F" secondAttribute="trailing" constant="-16" id="IZi-Hc-c3d"/>
+                            <constraint firstItem="eTf-SJ-PU8" firstAttribute="top" secondItem="44l-UI-L5N" secondAttribute="bottom" constant="14" id="Sh5-Md-v70"/>
+                            <constraint firstItem="eTf-SJ-PU8" firstAttribute="leading" secondItem="G4l-d1-fyH" secondAttribute="leadingMargin" constant="8" id="m5z-ZG-dkz"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="eTf-SJ-PU8" secondAttribute="trailing" constant="8" id="qOJ-mu-uPJ"/>
+                        </constraints>
                     </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="GHA Adult Observation" id="4lZ-Me-qCC">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="PLU-1e-xOa">
+                            <connections>
+                                <action selector="cancelClick:" destination="0pK-wZ-bGg" id="1L6-wk-1RZ"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="fe3-Rh-zzX">
+                            <connections>
+                                <segue destination="VIi-hm-8Qe" kind="unwind" unwindAction="unwindToObservationList:" id="HDa-OZ-BqG"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="childView" destination="hZl-k9-B0F" id="phP-g6-y72"/>
+                        <outlet property="observationSegmentedView" destination="eTf-SJ-PU8" id="OeG-U2-QVN"/>
+                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="3i0-80-rZU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hEH-K6-vFT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="VIi-hm-8Qe" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-2066" y="-1826"/>
+            <point key="canvasLocation" x="2477.5" y="-639.5"/>
+        </scene>
+        <!--Observation Chart-->
+        <scene sceneID="3a1-z0-WVB">
+            <objects>
+                <viewController storyboardIdentifier="VitalSignViewController" id="0Ui-sx-cxg" customClass="VitalsignDashboard" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="t7l-FI-hhI"/>
+                        <viewControllerLayoutGuide type="bottom" id="wdm-9N-oQq"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ZpH-Ij-a9C">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="hV8-Kr-KP1">
+                                <rect key="frame" x="122" y="72" width="145" height="29"/>
+                                <segments>
+                                    <segment title="Graphical"/>
+                                    <segment title="Tabular"/>
+                                </segments>
+                                <connections>
+                                    <action selector="indexChange:" destination="0Ui-sx-cxg" eventType="valueChanged" id="vfB-tT-rAi"/>
+                                </connections>
+                            </segmentedControl>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BEa-Zn-RuB">
+                                <rect key="frame" x="0.0" y="108" width="375" height="510"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="hV8-Kr-KP1" secondAttribute="centerX" constant="-7" id="CCL-Nt-zkr"/>
+                            <constraint firstItem="wdm-9N-oQq" firstAttribute="top" secondItem="BEa-Zn-RuB" secondAttribute="bottom" id="nrQ-Zx-heW"/>
+                            <constraint firstItem="hV8-Kr-KP1" firstAttribute="top" secondItem="t7l-FI-hhI" secondAttribute="bottom" constant="8" id="pc2-Pe-B6P"/>
+                            <constraint firstItem="BEa-Zn-RuB" firstAttribute="leading" secondItem="ZpH-Ij-a9C" secondAttribute="leadingMargin" constant="-16" id="tfh-tY-3qr"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="BEa-Zn-RuB" secondAttribute="trailing" constant="-16" id="v1E-7M-pB7"/>
+                            <constraint firstItem="BEa-Zn-RuB" firstAttribute="top" secondItem="hV8-Kr-KP1" secondAttribute="bottom" constant="8" id="xG9-6Q-J0t"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Item" id="rTL-AQ-xfS"/>
+                    <navigationItem key="navigationItem" title="Observation Chart" id="gql-ip-e6Y">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="mhF-6M-N48">
+                            <connections>
+                                <segue destination="NAb-Vw-fUr" kind="presentation" modalPresentationStyle="formSheet" id="l5X-8H-cCl"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="parentView" destination="BEa-Zn-RuB" id="rKg-d8-zL7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ckw-TF-wwa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="952.5" y="249.5"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="ryH-MO-qTE">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Fcl-JG-fdR" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="27j-c8-UDG">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="0Ui-sx-cxg" kind="relationship" relationship="rootViewController" id="JAv-L4-Fsc"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pQ3-WO-baH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2728.5" y="-1006.5"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="gh8-bi-Bdl">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="NAb-Vw-fUr" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Xin-TW-xmH">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="0pK-wZ-bGg" kind="relationship" relationship="rootViewController" id="ia5-Wv-10f"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bkE-iu-L6z" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1729.5" y="-514.5"/>
         </scene>
     </scenes>
 </document>

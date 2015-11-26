@@ -28,7 +28,7 @@ class DCPatientListingCell: UITableViewCell {
     
     //populate bed no label
     let titleAttributes  = [NSFontAttributeName: UIFont.systemFontOfSize(13), NSForegroundColorAttributeName : UIColor.blackColor()]
-    let contentAttributes  = [NSFontAttributeName: UIFont.systemFontOfSize(13), NSForegroundColorAttributeName : UIColor.getColorForHexString("#878787")]
+    let contentAttributes  = [NSFontAttributeName: UIFont.systemFontOfSize(13), NSForegroundColorAttributeName : UIColor(forHexString: "#878787")]
     let attributedString = NSMutableAttributedString(string:"Bed No \(patientDetails.bedNumber)")
         attributedString.setAttributes(titleAttributes, range: NSMakeRange(0, 6))
         attributedString.setAttributes(contentAttributes, range: NSMakeRange(6, (patientDetails?.bedNumber.characters.count)!))
@@ -38,7 +38,7 @@ class DCPatientListingCell: UITableViewCell {
     
     func manageNextMedicationDisplayForPatient() {
         if let date : NSDate = patientDetails.nextMedicationDate {
-            dateLabel.text = DCDateUtility.getNextMedicationDisplayStringForPatientFromDate(date)
+            dateLabel.text = DCDateUtility.nextMedicationDisplayStringFromDate(date)
         } else {
             dateLabel.text = EMPTY_STRING
         }

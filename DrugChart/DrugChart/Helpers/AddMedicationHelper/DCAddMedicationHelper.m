@@ -54,7 +54,7 @@
     if ([selectedMedication.startDate isEqualToString:EMPTY_STRING] || selectedMedication.startDate == nil) {
         return !isValid;
     }
-    if (!selectedMedication.noEndDate) {
+    if (selectedMedication.hasEndDate) {
         if ([selectedMedication.endDate isEqualToString:EMPTY_STRING] || selectedMedication.endDate == nil) {
             return !isValid;
         }
@@ -67,11 +67,98 @@
     return isValid;
 }
 
-+ (CGFloat)getHeightForMedicineName:(NSString *)medicine {
++ (CGFloat)heightForMedicineName:(NSString *)medicine {
     
     //get the height of medicine name to set the corresponding cell height
-    CGFloat height = [DCUtility getHeightValueForText:medicine withFont:SYSTEM_FONT_SIZE_FIFTEEN maxWidth:MEDICINE_NAME_FIELD_MAX_WIDTH] + OFFSET_VALUE;
+    CGFloat height = [DCUtility heightValueForText:medicine withFont:SYSTEM_FONT_SIZE_FIFTEEN maxWidth:MEDICINE_NAME_FIELD_MAX_WIDTH] + OFFSET_VALUE;
     return height;
+}
+
++ (NSMutableArray *)timesArrayFromScheduleArray:(NSArray *)scheduleArray {
+    
+    NSMutableArray *timeArray = [[NSMutableArray alloc] init];
+    for (NSString *time in scheduleArray) {
+        NSString *dateString = [DCUtility convertTimeToHourMinuteFormat:time];
+        NSDictionary *dict = @{@"time" : dateString, @"selected" : @1};
+        [timeArray addObject:dict];
+    }
+    return timeArray;
+}
+
++ (CellType)cellTypeForSpecificTimesSchedulingAtIndexPath:(NSIndexPath *)indexPath {
+    
+    //get the cell type corresponding to Specific times.
+    CellType cellType;
+    switch (indexPath.row) {
+        case ADMINISTRATION_CELL_INDEX:
+            cellType = eAdministratingTimeCell;
+            break;
+        case REPEAT_CELL_INDEX:
+            cellType = eRepeatCell;
+            break;
+        default:
+            break;
+    }
+    return cellType;
+}
+
++ (AddMedicationDetailType)medicationDetailTypeForIndexPath:(NSIndexPath *)indexPath hasWarnings:(BOOL)showWarnings {
+    
+    switch (indexPath.section) {
+        case eFirstSection: {
+            if (showWarnings) {
+                return eDetailWarning;
+            } else {
+                if (indexPath.row == DOSAGE_INDEX) {
+                    return eDetailDosage;
+                } else if (indexPath.row == ROUTE_INDEX) {
+                    return eDetailRoute;
+                } else {
+                    return eDetailType;
+                }
+            }
+        }
+            break;
+        case eSecondSection: {
+            if (showWarnings) {
+                if (indexPath.row == DOSAGE_INDEX) {
+                    return eDetailDosage;
+                } else if (indexPath.row == ROUTE_INDEX) {
+                    return eDetailRoute;
+                } else {
+                    return eDetailType;
+                }
+            }
+        }
+            break;
+        case eFourthSection: {
+            if (!showWarnings) {
+                //return eDetailAdministrationTime;
+                return eDetailSchedulingType;
+            }
+            break;
+        }
+        case eFifthSection:
+            if (showWarnings) {
+                return eDetailSchedulingType;
+            } else {
+                if (indexPath.row == 0) {
+                    return eDetailAdministrationTime;
+                } else if (indexPath.row == 1) {
+                    return eDetailRepeatType;
+                }
+            }
+            break;
+        case eSixthSection:
+            if (indexPath.row == 0) {
+                return eDetailAdministrationTime;
+            } else if (indexPath.row == 1) {
+                return eDetailRepeatType;
+            }
+        default:
+            break;
+    }
+    return 0;
 }
 
 

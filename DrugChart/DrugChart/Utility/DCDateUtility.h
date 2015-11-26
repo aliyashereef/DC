@@ -16,68 +16,35 @@
 
 @interface DCDateUtility : NSObject
 
-+ (NSInteger)calculateAgeFromDate:(NSDate *)birthbDate;
-
-+ (NSDate *)getNextWeekStartDate:(NSDate *)date;
-
-+ (NSString *)getDisplayStringForStartDate:(NSDate *)startDate andEndDate:(NSDate *)endDate;
-
-+ (NSAttributedString *)getMonthAndYearAttributedStringFromStartDate:(NSDate *)startDate andEndDate:(NSDate *)endDate;
-
-+ (NSString *)getMonthNameAndYearForWeekDatesArray:(NSArray *)datesArray;
-
-+ (NSDate *)getPreviousWeekEndDate:(NSDate *)date;
-
-+ (NSMutableArray *)getDaysOfWeekFromDate:(NSDate *)date;
-
-+ (NSMutableArray *)getDateDisplayStringForDateArray:(NSArray *)dateArray;
++ (NSString *)monthNameAndYearForWeekDatesArray:(NSArray *)datesArray;
 
 + (NSDate *)dateForDateString:(NSString *)dateString
                withDateFormat:(NSString *)dateFormatString;
 
-+ (NSString *)getStartDateDisplayString:(NSString *)date;
++ (NSString *)dateStringFromDate:(NSDate *)date
+                        inFormat:(NSString *)formatString;
 
-+ (NSString *)getDisplayStringInTwelveHourFormatFromTimeString:(NSString *)timeString;
++ (NSDate *)dateInCurrentTimeZone:(NSDate *)date;
 
-+ (BOOL)isDate:(NSDate *)date inRangeFirstDate:(NSDate *)firstDate lastDate:(NSDate *)lastDate;
-
-+ (NSString *)convertDate:(NSDate *)date FromFormat:(NSString *)initialFormat ToFormat:(NSString *)finalFormat;
-
-+ (NSString *)getCurrentSystemTime;
-
-+ (NSDate *)getDateInCurrentTimeZone:(NSDate *)date;
-
-+ (NSDate *)GetDateInGMTTimeZone :(NSDate *)date ;
-
-+ (NSDate *)getTodaysEndTime;
-
-+ (NSInteger )getWeekdayForDate:(NSDate *)date;
-
-+ (NSDate *)getInitialDateOfWeekForDisplay:(NSDate *)date;
-
-+ (NSString *)getNextMedicationTimeInterval:(NSDate *)date;
-
-+ (NSString *)getDisplayDateForAddMedication:(NSDate *)date dateAndTime:(BOOL)dateAndTime;
-
-+ (NSString *)getDisplayDateInTwentyFourHourFormat:(NSDate *)date;
-
-+ (NSString *)getShortDateDisplayForDate:(NSDate *)date;
++ (NSString *)displayDateInTwentyFourHourFormat:(NSDate *)date;
 
 + (NSDate *)dateFromSourceString:(NSString *)sourceString;
 
-+ (NSString *)dateStringFromSourceString:(NSString *)sourceString;
++ (NSString *)nextMedicationDisplayStringFromDate:(NSDate *)date;
 
-+ (NSString *)getNextMedicationDisplayStringForPatientFromDate:(NSDate *)date;
++ (NSString *)timeStringInTwentyFourHourFormat:(NSDate *)time;
 
-+ (NSString *)getTimeStringInTwentyFourHourFormat:(NSDate *)time;
++ (NSMutableArray *)nextAndPreviousSevenDaysWithReferenceToDate:(NSDate *)date;
 
-+ (NSMutableArray *)getFiveDaysOfWeekFromDate:(NSDate *)date;
-
-+ (NSDate *)getInitialDateForCalendarDisplay:(NSDate *)date
++ (NSDate *)initialDateForCalendarDisplay:(NSDate *)date
                               withAdderValue:(NSInteger)adder;
 
-+ (NSDate *)getAdministrationDateForString:(NSString *)dateString;
++ (NSDate *)administrationDateForString:(NSString *)dateString;
 
-+ (NSString *)getCurrentSystemDateStringInShortDisplayFormat;
++ (NSString *)systemDateStringInShortDisplayFormat;
+
++ (NSInteger)currentWeekDayIndex;
+
++ (NSInteger)currentDay;
 
 @end

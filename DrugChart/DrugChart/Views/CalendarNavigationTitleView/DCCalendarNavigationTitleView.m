@@ -30,7 +30,7 @@
     NSInteger horizontalClass = self.traitCollection.horizontalSizeClass;
     switch (horizontalClass) {
         case UIUserInterfaceSizeClassCompact :
-            _patientNameLabel.textAlignment = [DCUtility getMainWindowSize].width < HALF_WIDTH_LIMIT ?
+            _patientNameLabel.textAlignment = [DCUtility mainWindowSize].width < HALF_WIDTH_LIMIT ?
             NSTextAlignmentLeft : NSTextAlignmentCenter;
             break;
         default :

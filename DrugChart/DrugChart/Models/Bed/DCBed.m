@@ -42,18 +42,18 @@
             self.headDirection = [bedDictionary objectForKey:BED_HEAD_DIRECTION];
             
             NSString *coordinateString = [bedDictionary objectForKey:BED_COORDINATES];
-            CGPoint coordinates = [DCUtility getCoordinatesFromString:coordinateString];
-            self.bedFrame = [self getBedFrameFromCoordinates:coordinates];
+            CGPoint coordinates = [DCUtility coordinatesFromString:coordinateString];
+            self.bedFrame = [self bedFrameFromCoordinates:coordinates];
             
             NSString *colorString = [bedDictionary objectForKey:BED_COLOR];
-            self.bedColor = [self getBedColorFromString:colorString];
+            self.bedColor = [self bedColorFromString:colorString];
             
             NSDictionary *patientDictionary = [bedDictionary objectForKey:PATIENT_KEY];
             if (patientDictionary) {
                 self.patient = [[DCPatient alloc] init];
                 self.patient.patientName = [patientDictionary valueForKey:BED_DISPLAY_TEXT];
                 NSString *requestUrl = [patientDictionary valueForKey:PATIENT_REFERENCE_URL];
-                self.patient.patientId = [self getPatientIdFromPatientReferenceUrl:requestUrl];
+                self.patient.patientId = [self patientIdFromPatientReferenceUrl:requestUrl];
 
                 self.patient.bedId = [NSString stringWithFormat:@"%@",self.bedId];
                 self.patient.bedType = self.bedType;
@@ -71,7 +71,7 @@
 }
 //
 // Depending on the bed headDirection the respective nib files are loaded.
-- (NSString *)getNibFileForHeadDirection {
+- (NSString *)nibFileNameForHeadDirection {
     
     if ([self.headDirection isEqualToString:TOP_DIRECTION]) {
         return GRAPHICAL_PORTRAIT_TOP;
@@ -91,7 +91,7 @@
 // the width and height(135, 180) are currently given with respect to the dimensions used in web.
 // used since the view for display of the graphical view is currently a scroll view.
 // If Scrollview can't be used, we need to change this.
-- (CGRect)getBedFrameFromCoordinates:(CGPoint)coordinates {
+- (CGRect)bedFrameFromCoordinates:(CGPoint)coordinates {
     
     if ([self.headDirection isEqualToString:TOP_DIRECTION] ||
         [self.headDirection isEqualToString:BOTTOM_DIRECTION]) {
@@ -105,7 +105,7 @@
 
 // server returns the color value as a string, we extract the RGB values from this string.
 // convert it to UIColor.
-- (UIColor *)getBedColorFromString:(NSString *)colorString {
+- (UIColor *)bedColorFromString:(NSString *)colorString {
     
     NSArray *colorsArray = [colorString componentsSeparatedByString:COMMA];
     if ([colorsArray count] == 3) {
@@ -120,7 +120,7 @@
     return [UIColor clearColor];
 }
 
-- (NSString *)getPatientIdFromPatientReferenceUrl:(NSString *)referenceUrl {
+- (NSString *)patientIdFromPatientReferenceUrl:(NSString *)referenceUrl {
     
     NSArray*urlComponents = [referenceUrl componentsSeparatedByString: @"/"];
     NSUInteger count = [urlComponents count];

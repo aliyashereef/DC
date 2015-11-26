@@ -40,6 +40,7 @@
 
 - (DCSortTableCell *)configureTableViewCellAtIndexPath:(NSIndexPath *)indexPath {
     
+    //configure sort table cell
     DCSortTableCell *sortCell = [self.tableView dequeueReusableCellWithIdentifier:SORT_CELL_IDENTIFIER];
     if (sortCell == nil) {
         sortCell = [[DCSortTableCell alloc] initWithStyle:UITableViewCellStyleDefault
@@ -51,12 +52,12 @@
         sortCell.textLabel.text = [contentArray objectAtIndex:indexPath.row];
     } else {
         NSString *selectedCriteria = [[contentArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+        sortCell.textLabel.text = selectedCriteria;
         if (indexPath.section == 0) {
             sortCell.accessoryType = _showDiscontinuedMedications ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
         } else if ([selectedCriteria isEqualToString:_previousSelectedCategory]) {
             sortCell.accessoryType = UITableViewCellAccessoryCheckmark;
         }
-        sortCell.textLabel.text = selectedCriteria;
     }
     return sortCell;
 }
@@ -88,7 +89,7 @@
     
     //display navigation bar only for 1/2 or 1/3 screens
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
-    NSInteger windowWidth = [DCUtility getMainWindowSize].width;
+    NSInteger windowWidth = [DCUtility mainWindowSize].width;
     NSInteger screenWidth = [[UIScreen mainScreen] bounds].size.width;
     if (orientation == UIDeviceOrientationLandscapeLeft || orientation == UIDeviceOrientationLandscapeRight) {
         if (windowWidth > screenWidth/2) {
@@ -151,7 +152,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    [tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryCheckmark;
     NSString *selectedValue;
     if (_sortView == ePatientList) {
         selectedValue = [contentArray objectAtIndex:indexPath.row];

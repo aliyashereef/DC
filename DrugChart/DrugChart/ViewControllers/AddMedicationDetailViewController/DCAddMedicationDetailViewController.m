@@ -48,13 +48,13 @@
 - (void)didReceiveMemoryWarning {
     
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Private Methods
 
 - (void)configureViewElements {
     
+    //configure view properties
     detailTableView.layoutMargins = UIEdgeInsetsZero;
     detailTableView.separatorInset = UIEdgeInsetsZero;
     [self configureNavigationBarItems];
@@ -112,6 +112,7 @@
 
 - (void)addNavigationBarButtonItems {
     
+    //navigation bar button items
     if (_detailType == eNewDosage || _detailType == eDetailAdministrationTime|| _detailType == eNewAdministrationTime || _detailType == eOverrideReason) {
         UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:CANCEL_BUTTON_TITLE  style:UIBarButtonItemStylePlain target:self action:@selector(cancelButtonPressed:)];
         self.navigationItem.leftBarButtonItem = cancelButton;
@@ -119,29 +120,24 @@
                                        initWithTitle:DONE_BUTTON_TITLE style:UIBarButtonItemStylePlain  target:self action:@selector(doneButtonPressed:)];
         self.navigationItem.rightBarButtonItem = doneButton;
     }
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:EMPTY_STRING style:UIBarButtonItemStylePlain target:nil action:nil];
-    self.navigationItem.backBarButtonItem = backButton;
 }
 
 - (void)populateContentArray {
     
     switch (_detailType) {
         case eDetailType:
+            //for medication type
             _contentArray = [NSMutableArray arrayWithArray:@[REGULAR_MEDICATION, ONCE_MEDICATION, WHEN_REQUIRED_VALUE]];
             break;
         case eDetailRoute:
-            _contentArray = [NSMutableArray arrayWithArray:[DCPlistManager getMedicationRoutesList]];
+            //medication routes
+            _contentArray = [NSMutableArray arrayWithArray:[DCPlistManager medicationRoutesList]];
             break;
         case eDetailAdministrationTime:
+            //populate default administrating times
             if ([_contentArray count] == 0) {
-                 _contentArray = [NSMutableArray arrayWithArray:[DCPlistManager getAdministratingTimeList]];
+                 _contentArray = [NSMutableArray arrayWithArray:[DCPlistManager administratingTimeList]];
             }
-//            else {
-//                NSMutableArray *administratingTimeArray = [NSMutableArray arrayWithArray:[DCPlistManager getAdministratingTimeList]];
-//                [_contentArray addObjectsFromArray:administratingTimeArray];
-//                NSOrderedSet *orderedSet = [NSOrderedSet orderedSetWithArray:_contentArray];
-//                _contentArray = [NSMutableArray arrayWithArray:[orderedSet array]];
-//            }
             break;
         default:
             break;
@@ -183,22 +179,22 @@
 
 - (void)refreshViewWithAddedAdministrationTime:(NSDate *)newTime {
     
-    NSDictionary *timeDict = @{TIME_KEY : [DCDateUtility getTimeStringInTwentyFourHourFormat:newTime],
+    NSDictionary *timeDictionary = @{TIME_KEY : [DCDateUtility timeStringInTwentyFourHourFormat:newTime],
                                SELECTED_KEY : @1};
     NSMutableArray *timeArray = [NSMutableArray arrayWithArray:_contentArray];
     BOOL timeAlreadyAdded = NO;
     NSInteger alreadyAddedSlotTag = 0;
-    for (NSDictionary *dict in timeArray) {
-        if ([dict[TIME_KEY] isEqualToString:timeDict[TIME_KEY]]) {
+    for (NSDictionary *contentDictionary in timeArray) {
+        if ([contentDictionary[TIME_KEY] isEqualToString:timeDictionary[TIME_KEY]]) {
             timeAlreadyAdded = YES;
-            alreadyAddedSlotTag = [timeArray indexOfObject:dict];
+            alreadyAddedSlotTag = [timeArray indexOfObject:contentDictionary];
             break;
         }
     }
     if (timeAlreadyAdded) {
-        [timeArray replaceObjectAtIndex:alreadyAddedSlotTag withObject:timeDict];
+        [timeArray replaceObjectAtIndex:alreadyAddedSlotTag withObject:timeDictionary];
     } else {
-        [timeArray addObject:timeDict];
+        [timeArray addObject:timeDictionary];
     }
     timeArray = [NSMutableArray arrayWithArray:[DCUtility sortArray:timeArray
                                                          basedOnKey:TIME_KEY ascending:YES]];
@@ -248,7 +244,7 @@
         if (cell == nil) {
             cell = [[DCAddDosageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
-        cell.dosageTextField.attributedPlaceholder = [DCUtility getDosagePlaceHolderForValidState:doneClicked];
+        cell.dosageTextField.attributedPlaceholder = [DCUtility dosagePlaceHolderForValidState:doneClicked];
         return cell;
     } else if (_detailType == eOverrideReason) {
         static NSString *cellIdentifier = OVERRIDE_REASON_CELL_ID;
@@ -257,7 +253,7 @@
         if (reasonCell == nil) {
             reasonCell = [[DCReasonCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
-        reasonCell.reasonTextView.textColor = doneClicked ? [UIColor redColor] : [UIColor getColorForHexString:@"#8f8f95"];
+        reasonCell.reasonTextView.textColor = doneClicked ? [UIColor redColor] : [UIColor colorForHexString:@"#8f8f95"];
         return reasonCell;
     } else {
         static NSString *cellIdentifier = ADD_MEDICATION_DETAIL_CELL_IDENTIFIER;
@@ -366,11 +362,11 @@
     } else {
         if (_detailType == eNewAdministrationTime) {
             [self dismissViewControllerAnimated:YES completion:^{
-                self.newTime([DCDateUtility getDateInCurrentTimeZone:timePickerView.date]);
+                self.newTime([DCDateUtility dateInCurrentTimeZone:timePickerView.date]);
             }];
         } else if (_detailType == eOverrideReason) {
             DCReasonCell *reasonCell = (DCReasonCell *)[detailTableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
-            if (![reasonCell.reasonTextView.text isEqualToString:EMPTY_STRING] && ![reasonCell.reasonTextView.text isEqualToString:@"Reason"]) {
+            if (![reasonCell.reasonTextView.text isEqualToString:EMPTY_STRING] && ![reasonCell.reasonTextView.text isEqualToString:REASON]) {
                 [self.navigationController dismissViewControllerAnimated:YES completion:^{
                     if (self.delegate && [self.delegate respondsToSelector:@selector(overrideReasonSubmitted:)]) {
                         [self.delegate overrideReasonSubmitted:reasonCell.reasonTextView.text];

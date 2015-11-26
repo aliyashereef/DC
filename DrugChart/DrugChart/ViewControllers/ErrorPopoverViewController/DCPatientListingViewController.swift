@@ -13,6 +13,7 @@ let overDueTitle : NSString = "MEDICATION - OVERDUE"
 let immediateTitle : NSString = "MEDICATION - IMMEDIATE"
 let notImmediateTitle : NSString = "MEDICATION - UPCOMING"
 let searchBarHeight : NSInteger = 44
+let searchText : NSString = "Search"
 
 enum SectionValue : NSInteger {
     case eOverDue = 0
@@ -106,7 +107,7 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
         searchBar.searchBarStyle = UISearchBarStyle.Default
         searchBar.showsCancelButton = false
         searchBar.delegate = self
-        searchBar.placeholder = "Search"
+        searchBar.placeholder = searchText as String
     }
     
     func cancelSearching () {
@@ -139,11 +140,11 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
     //MARK: Table view methods
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return getSectionCountForPatientTableView()
+        return sectionCountForPatientTableView()
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return getHeaderViewForSection(section)
+        return headerViewForSection(section)
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -151,13 +152,13 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return getRowCountForSection(section)
+        return rowCountForSection(section)
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell : DCPatientListingCell = (tableView.dequeueReusableCellWithIdentifier("PatientCell") as? DCPatientListingCell)!
         cell.layoutMargins = UIEdgeInsetsZero
-        let patient : DCPatient  = getPatientForTableCellAtIndexPath(indexPath)
+        let patient : DCPatient  = patientForTableCellAtIndexPath(indexPath)
         cell.populatePatientCellWithPatientDetails(patient)
         return cell
     }
@@ -169,7 +170,7 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
 
-    func getSectionTitleForSection( section :NSInteger ) -> NSString {
+    func sectionTitleForSection( section :NSInteger ) -> NSString {
         //get section title
         var sectionTitle : String = EMPTY_STRING
         let contentArray : NSArray = isSearching ? self.sortedSearchListArray : sortedPatientListArray
@@ -216,15 +217,14 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
         
         let menuViewController : DCPatientMenuViewController? = UIStoryboard(name: PATIENT_MENU_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(PATIENT_MENU_VIEW_CONTROLLER_SB_ID) as? DCPatientMenuViewController
         
-        let patient : DCPatient = getPatientForTableCellAtIndexPath(indexPath)
+        let patient : DCPatient = patientForTableCellAtIndexPath(indexPath)
         menuViewController?.patient = patient
-//        let navigationController : UINavigationController? = UINavigationController(rootViewController: menuViewController!)
         self.navigationController!.showViewController(menuViewController!,sender: self)
     }
 
     // Private Methods
     
-    func getSortedArray (listArray :NSMutableArray) -> NSMutableArray {
+    func sortedArray (listArray :NSMutableArray) -> NSMutableArray {
         var sortedArray : NSMutableArray = []
         let helper : DCPatientDetailsHelper = DCPatientDetailsHelper()
         helper.patientsListArray = listArray
@@ -234,24 +234,24 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
 
     //MARK: Private methods, Table view helper methods
     
-    func getHeaderViewForSection (section:NSInteger) -> UIView {
+    func headerViewForSection (section:NSInteger) -> UIView {
         
         let headerView : UIView = UIView.init()
         let contentArray : NSArray = isSearching ? self.sortedSearchListArray : sortedPatientListArray
         if contentArray.count > 0 {
-            let sectionTitle : NSString = getSectionTitleForSection(section)
+            let sectionTitle : NSString = sectionTitleForSection(section)
             let headerLabel: UILabel = UILabel.init(frame: CGRectMake(20, 35, 320, 20))
             headerLabel.backgroundColor = UIColor.clearColor()
-            headerLabel.textColor = UIColor.getColorForHexString("#6D6D72")
+            headerLabel.textColor = UIColor(forHexString: "#6D6D72")
             headerLabel.font = UIFont.boldSystemFontOfSize(14)
             headerLabel.text = sectionTitle as String
-            headerView.backgroundColor = UIColor.getColorForHexString("#EFEFF6")
+            headerView.backgroundColor = UIColor(forHexString: "#EFEFF6")
             headerView.addSubview(headerLabel)
         }
         return headerView
     }
     
-    func getSectionCountForPatientTableView() -> NSInteger {
+    func sectionCountForPatientTableView() -> NSInteger {
         let contentArray : NSArray = isSearching ? self.sortedSearchListArray : sortedPatientListArray
 
         let overDueDictionary : NSDictionary = contentArray.objectAtIndex(0) as! NSDictionary
@@ -276,7 +276,7 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
         return sectionCount
     }
 
-    func getRowCountForSection(section:NSInteger) -> NSInteger {
+    func rowCountForSection(section:NSInteger) -> NSInteger {
         let contentArray : NSArray = isSearching ? self.sortedSearchListArray : sortedPatientListArray
 
         let overDueDictionary : NSDictionary = contentArray.objectAtIndex(0) as! NSDictionary
@@ -313,7 +313,7 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
         return 0
     }
 
-    func getPatientForTableCellAtIndexPath( indexPath: NSIndexPath ) -> DCPatient {
+    func patientForTableCellAtIndexPath( indexPath: NSIndexPath ) -> DCPatient {
 
         let contentArray : NSArray = isSearching ? self.sortedSearchListArray : sortedPatientListArray
 
@@ -364,7 +364,6 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
         let popover : UIPopoverPresentationController = navigationController.popoverPresentationController!
         popover.permittedArrowDirections = UIPopoverArrowDirection.Any
         popover.sourceView = self.navigationController?.navigationBar
-        //        popover.sourceRect = CGRectMake(0, 0, 305,20)
         popover.barButtonItem = sender as UIBarButtonItem
         self.presentViewController(navigationController, animated:false, completion: nil)
     }
@@ -414,7 +413,7 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
         let idPredicate : NSPredicate = NSPredicate(format: patientIdString as String)
         let searchPredicates = NSCompoundPredicate(orPredicateWithSubpredicates: [namePredicate,idPredicate])
         let searchResult : NSArray  = patientListArray.filteredArrayUsingPredicate(searchPredicates)
-        self.sortedSearchListArray = getSortedArray( searchResult.mutableCopy() as! NSMutableArray)
+        self.sortedSearchListArray = sortedArray( searchResult.mutableCopy() as! NSMutableArray)
         patientListTableView.reloadData()
     }
     
@@ -427,7 +426,7 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
             if error == nil {
                 self.patientListArray = array as NSMutableArray
                 self.bedsArray = bedsArray as NSMutableArray
-                self.sortedPatientListArray = self.getSortedArray(self.patientListArray)
+                self.sortedPatientListArray = self.sortedArray(self.patientListArray)
                 self.patientListTableView.reloadData()
                 self.patientListTableView.hidden = false
             } else {
@@ -461,9 +460,5 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
             self.refreshControl.endRefreshing()
         }
     }
-//    func displayAlertWithTitle(title : NSString, message : NSString) {
-//    
-//        let alertView : UIAlertView = UIAlertView.init(title: title as String, message: message as String, delegate: self, cancelButtonTitle: OK_BUTTON_TITLE)
-//        alertView.show()
-//    }
+
 }

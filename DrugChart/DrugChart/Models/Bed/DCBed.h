@@ -22,6 +22,6 @@
 @property (nonatomic, strong) NSString *headDirection;
 
 - (DCBed *)initWithDictionary:(NSDictionary *)bedDictionary;
-- (NSString *)getNibFileForHeadDirection;
+- (NSString *)nibFileNameForHeadDirection;
 
 @end

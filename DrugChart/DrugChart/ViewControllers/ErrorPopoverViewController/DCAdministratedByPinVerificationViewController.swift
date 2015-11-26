@@ -8,6 +8,9 @@
 
 import Foundation
 
+let dotImageName : NSString = "dotImage"
+let lineImageName : NSString = "lineImage"
+
 protocol SecurityPinMatchDelegate {
     
     func securityPinMatchedForUser (user : DCUser)
@@ -60,15 +63,15 @@ protocol SecurityPinMatchDelegate {
     
     //  Updating digits values
     func updateDigits() {
-        let digitImage : UIImage = UIImage(named:"dotImage")!
-        let blankImage : UIImage = UIImage(named:"lineImage")!
+        let digitImage : UIImage = UIImage(named:dotImageName as String)!
+        let blankImage : UIImage = UIImage(named:lineImageName as String)!
 
         switch (digits.count) {
             case 0:
-                firstDigit.setTitle("", forState:UIControlState.Normal)
-                secondDigit.setTitle("", forState:UIControlState.Normal)
-                thirdDigit.setTitle("", forState:UIControlState.Normal)
-                fourthDigit.setTitle("", forState:UIControlState.Normal)
+                firstDigit.setTitle(EMPTY_STRING, forState:UIControlState.Normal)
+                secondDigit.setTitle(EMPTY_STRING, forState:UIControlState.Normal)
+                thirdDigit.setTitle(EMPTY_STRING, forState:UIControlState.Normal)
+                fourthDigit.setTitle(EMPTY_STRING, forState:UIControlState.Normal)
                 
                 firstDigit.setImage(blankImage, forState: UIControlState.Normal)
                 secondDigit.setImage(blankImage , forState: UIControlState.Normal)
@@ -78,9 +81,9 @@ protocol SecurityPinMatchDelegate {
                 break;
             case 1:
                 firstDigit.setTitle(digits[0] as? String, forState:UIControlState.Normal)
-                secondDigit.setTitle("", forState:UIControlState.Normal)
-                thirdDigit.setTitle("", forState:UIControlState.Normal)
-                fourthDigit.setTitle("", forState:UIControlState.Normal)
+                secondDigit.setTitle(EMPTY_STRING, forState:UIControlState.Normal)
+                thirdDigit.setTitle(EMPTY_STRING, forState:UIControlState.Normal)
+                fourthDigit.setTitle(EMPTY_STRING, forState:UIControlState.Normal)
                 firstDigit.setImage(digitImage, forState: UIControlState.Normal)
                 secondDigit.setImage(blankImage , forState: UIControlState.Normal)
                 thirdDigit.setImage(blankImage , forState: UIControlState.Normal)
@@ -89,8 +92,8 @@ protocol SecurityPinMatchDelegate {
             case 2:
                 firstDigit.setTitle(digits[0] as? String, forState:UIControlState.Normal)
                 secondDigit.setTitle(digits[1] as? String, forState:UIControlState.Normal)
-                thirdDigit.setTitle("", forState:UIControlState.Normal)
-                fourthDigit.setTitle("", forState:UIControlState.Normal)
+                thirdDigit.setTitle(EMPTY_STRING, forState:UIControlState.Normal)
+                fourthDigit.setTitle(EMPTY_STRING, forState:UIControlState.Normal)
                 firstDigit.setImage(digitImage, forState: UIControlState.Normal)
                 secondDigit.setImage(digitImage , forState: UIControlState.Normal)
                 thirdDigit.setImage(blankImage , forState: UIControlState.Normal)
@@ -101,7 +104,7 @@ protocol SecurityPinMatchDelegate {
                 firstDigit.setTitle(digits[0] as? String, forState:UIControlState.Normal)
                 secondDigit.setTitle(digits[1] as? String, forState:UIControlState.Normal)
                 thirdDigit.setTitle(digits[2] as? String, forState:UIControlState.Normal)
-                fourthDigit.setTitle("", forState:UIControlState.Normal)
+                fourthDigit.setTitle(EMPTY_STRING, forState:UIControlState.Normal)
                 firstDigit.setImage(digitImage, forState: UIControlState.Normal)
                 secondDigit.setImage(digitImage , forState: UIControlState.Normal)
                 thirdDigit.setImage(digitImage , forState: UIControlState.Normal)
