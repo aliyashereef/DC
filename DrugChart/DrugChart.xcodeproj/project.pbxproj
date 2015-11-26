@@ -210,6 +210,7 @@
 		4D16FAD51B5E21DB0034406A /* DCUsersListWebServiceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D16FAD41B5E21DB0034406A /* DCUsersListWebServiceTests.m */; };
 		4D16FADD1B5E34210034406A /* DCStopMedicationWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D16FADC1B5E34210034406A /* DCStopMedicationWebService.m */; };
 		4D16FAE21B5E56160034406A /* DCContraIndicationWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D16FAE11B5E56160034406A /* DCContraIndicationWebService.m */; };
+		4D28B8C81C06E8E700011888 /* DCOneThirdCalendarNavigationTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D28B8C71C06E8E700011888 /* DCOneThirdCalendarNavigationTitleView.swift */; };
 		4D2DD3CC1B9889F0008CDEA0 /* DCDateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D2DD3CB1B9889F0008CDEA0 /* DCDateTableViewCell.m */; };
 		4D4126C51B4AA1E700255D5E /* DCAddMedicationWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D4126C41B4AA1E700255D5E /* DCAddMedicationWebService.m */; };
 		4D415ED01B4FD99200E796F2 /* DCPatientAllergyWebServiceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D415ECF1B4FD99200E796F2 /* DCPatientAllergyWebServiceTests.m */; };
@@ -249,6 +250,7 @@
 		4D9C7DC41BA1578C00C69094 /* DCAddMedicationWebServiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D9C7DC31BA1578C00C69094 /* DCAddMedicationWebServiceManager.m */; };
 		4DC440181B67990D000EC7AB /* DCOrderSetWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC440171B67990D000EC7AB /* DCOrderSetWebService.m */; };
 		4DC527F11BE1EE2F00E2EF09 /* DCDosageMultiLineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC527F01BE1EE2F00E2EF09 /* DCDosageMultiLineCell.swift */; };
+		4DDB53731C0725B900C2C6BA /* DCOneThirdCalendarNavigationTitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DDB53721C0725B900C2C6BA /* DCOneThirdCalendarNavigationTitleView.xib */; };
 		4DDD99A91BD6381F002879CD /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4DDD99A81BD6381F002879CD /* Settings.bundle */; };
 		4DDE0ADE1BBBBEDE0044295B /* DCAdministratedByPinVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDE0ADD1BBBBEDE0044295B /* DCAdministratedByPinVerificationViewController.swift */; };
 		4DDEED481B4CEB6A00D8E0FF /* DCBedWebServiceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DDEED471B4CEB6A00D8E0FF /* DCBedWebServiceTests.m */; };
@@ -587,6 +589,7 @@
 		4D16FADC1B5E34210034406A /* DCStopMedicationWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCStopMedicationWebService.m; sourceTree = "<group>"; };
 		4D16FAE01B5E56160034406A /* DCContraIndicationWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCContraIndicationWebService.h; sourceTree = "<group>"; };
 		4D16FAE11B5E56160034406A /* DCContraIndicationWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCContraIndicationWebService.m; sourceTree = "<group>"; };
+		4D28B8C71C06E8E700011888 /* DCOneThirdCalendarNavigationTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCOneThirdCalendarNavigationTitleView.swift; sourceTree = "<group>"; };
 		4D2DD3CA1B9889F0008CDEA0 /* DCDateTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCDateTableViewCell.h; sourceTree = "<group>"; };
 		4D2DD3CB1B9889F0008CDEA0 /* DCDateTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCDateTableViewCell.m; sourceTree = "<group>"; };
 		4D4126C31B4AA1E700255D5E /* DCAddMedicationWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCAddMedicationWebService.h; sourceTree = "<group>"; };
@@ -638,6 +641,7 @@
 		4DC440161B67990D000EC7AB /* DCOrderSetWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DCOrderSetWebService.h; path = DrugChart/WebServices/DCOrderSetWebService.h; sourceTree = SOURCE_ROOT; };
 		4DC440171B67990D000EC7AB /* DCOrderSetWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DCOrderSetWebService.m; path = DrugChart/WebServices/DCOrderSetWebService.m; sourceTree = SOURCE_ROOT; };
 		4DC527F01BE1EE2F00E2EF09 /* DCDosageMultiLineCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageMultiLineCell.swift; sourceTree = "<group>"; };
+		4DDB53721C0725B900C2C6BA /* DCOneThirdCalendarNavigationTitleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCOneThirdCalendarNavigationTitleView.xib; sourceTree = "<group>"; };
 		4DDD99A81BD6381F002879CD /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		4DDE0ADD1BBBBEDE0044295B /* DCAdministratedByPinVerificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministratedByPinVerificationViewController.swift; sourceTree = "<group>"; };
 		4DDEED471B4CEB6A00D8E0FF /* DCBedWebServiceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCBedWebServiceTests.m; sourceTree = "<group>"; };
@@ -1083,6 +1087,8 @@
 				0B989E951B8C22960012AFE8 /* DCCalendarNavigationTitleView.h */,
 				0B989E961B8C22960012AFE8 /* DCCalendarNavigationTitleView.m */,
 				0B989E981B8C22CD0012AFE8 /* DCCalendarNavigationTitleView.xib */,
+				4DDB53721C0725B900C2C6BA /* DCOneThirdCalendarNavigationTitleView.xib */,
+				4D28B8C71C06E8E700011888 /* DCOneThirdCalendarNavigationTitleView.swift */,
 			);
 			path = CalendarNavigationTitleView;
 			sourceTree = "<group>";
@@ -2477,6 +2483,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4DDB53731C0725B900C2C6BA /* DCOneThirdCalendarNavigationTitleView.xib in Resources */,
 				7D2FF05A1BB9027600B92B85 /* DCCalendarDayView.xib in Resources */,
 				7DE60BD11B2866CD00BCA745 /* DCPortraitBottomUpPatientView.xib in Resources */,
 				0BBDEDDC1AA581630016E6FF /* Lato-Bold.ttf in Resources */,
@@ -2769,6 +2776,7 @@
 				0BB33DD41B79F4ED00B05E4D /* DCMedication.m in Sources */,
 				4D4D1D6D1B983E9C0007C153 /* DCMedicationListTableViewCell.m in Sources */,
 				0BA803741BA80DCD00DBB45D /* DCWarningsCell.swift in Sources */,
+				4D28B8C81C06E8E700011888 /* DCOneThirdCalendarNavigationTitleView.swift in Sources */,
 				7DE017691BC2439A0094928C /* DCGraphicalViewHelper.m in Sources */,
 				1F1977071BFDE59000106023 /* CustomCollectionViewLayout.swift in Sources */,
 				4D7627821BE8E12E0070BAF2 /* DCPatientMenuViewController.swift in Sources */,

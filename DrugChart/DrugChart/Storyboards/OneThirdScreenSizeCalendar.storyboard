@@ -46,12 +46,9 @@
                                                                 <constraint firstAttribute="width" constant="60" id="v6W-Pt-Vby"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
-                                                            <state key="normal" title="Edit">
+                                                            <state key="normal">
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
-                                                            <connections>
-                                                                <action selector="editMedicationButtonPressed:" destination="U9D-UO-QQa" eventType="touchUpInside" id="Xwk-70-RdC"/>
-                                                            </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O9M-Tr-DJu">
                                                             <rect key="frame" x="240" y="0.0" width="60" height="77"/>
@@ -62,7 +59,7 @@
                                                                 <constraint firstAttribute="width" constant="60" id="yfo-6T-Syb"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
-                                                            <state key="normal" title="Stop">
+                                                            <state key="normal">
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
                                                             <variation key="default">
@@ -75,9 +72,6 @@
                                                                     <include reference="RJv-58-wVp"/>
                                                                 </mask>
                                                             </variation>
-                                                            <connections>
-                                                                <action selector="stopMedicationButtonPressed:" destination="U9D-UO-QQa" eventType="touchUpInside" id="lHy-ox-3Ww"/>
-                                                            </connections>
                                                         </button>
                                                     </subviews>
                                                     <animations/>
@@ -163,6 +157,7 @@
                                                         </constraint>
                                                         <constraint firstAttribute="bottom" secondItem="l95-bK-TJI" secondAttribute="bottom" constant="37" id="pQY-nr-J66"/>
                                                         <constraint firstItem="Tzt-gb-W1V" firstAttribute="top" secondItem="grT-Gz-dsz" secondAttribute="top" constant="13" id="qs2-xK-Ff6"/>
+                                                        <constraint firstAttribute="trailing" secondItem="KME-xv-QmP" secondAttribute="trailing" constant="8" id="xDa-FF-cPn"/>
                                                         <constraint firstItem="l95-bK-TJI" firstAttribute="top" secondItem="grT-Gz-dsz" secondAttribute="top" constant="6" id="yMG-5p-0vh"/>
                                                     </constraints>
                                                     <variation key="default">
@@ -176,6 +171,7 @@
                                                             <exclude reference="4pG-YK-GN5"/>
                                                             <exclude reference="BMC-JM-c3r"/>
                                                             <exclude reference="ZEh-Yf-Q49"/>
+                                                            <exclude reference="xDa-FF-cPn"/>
                                                             <exclude reference="96u-7t-ZgT"/>
                                                             <exclude reference="emB-9o-PlN"/>
                                                             <exclude reference="pQY-nr-J66"/>
@@ -193,6 +189,7 @@
                                                             <include reference="4pG-YK-GN5"/>
                                                             <include reference="BMC-JM-c3r"/>
                                                             <include reference="ZEh-Yf-Q49"/>
+                                                            <include reference="xDa-FF-cPn"/>
                                                             <include reference="96u-7t-ZgT"/>
                                                             <include reference="emB-9o-PlN"/>
                                                             <include reference="pQY-nr-J66"/>
