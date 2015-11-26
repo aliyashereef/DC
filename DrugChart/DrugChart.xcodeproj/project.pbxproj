@@ -143,6 +143,7 @@
 		1F1977191BFF5C1A00106023 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1977181BFF5C1A00106023 /* Constant.swift */; };
 		1F1977201C0485C500106023 /* RowHeaderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F19771E1C0485C500106023 /* RowHeaderCollectionViewCell.swift */; };
 		1F1977211C0485C500106023 /* RowHeaderCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F19771F1C0485C500106023 /* RowHeaderCollectionViewCell.xib */; };
+		1F1977241C05DB1400106023 /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1977231C05DB1400106023 /* UITextField.swift */; };
 		1F3007061BF5552E00DDF3F3 /* VitalSignObservation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3007051BF5552E00DDF3F3 /* VitalSignObservation.swift */; };
 		1FB412681BFB522900D91487 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB412671BFB522900D91487 /* String.swift */; };
 		1FD4FCAA1BF4B5CC00B77B94 /* VitalsignDashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCA91BF4B5CC00B77B94 /* VitalsignDashboard.swift */; };
@@ -192,7 +193,7 @@
 		1FD4FD061BF4BAAD00B77B94 /* SelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCFE1BF4BAAD00B77B94 /* SelectionCell.swift */; };
 		1FD4FD0A1BF4BAE000B77B94 /* Enumerations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FD081BF4BAE000B77B94 /* Enumerations.swift */; };
 		1FD4FD0B1BF4BAE000B77B94 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FD091BF4BAE000B77B94 /* Helper.swift */; };
-		1FD4FD101BF4BBCB00B77B94 /* ObservationEditDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FD0E1BF4BBCB00B77B94 /* ObservationEditDelegate.swift */; };
+		1FD4FD101BF4BBCB00B77B94 /* ObservationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FD0E1BF4BBCB00B77B94 /* ObservationDelegate.swift */; };
 		1FD4FD111BF4BBCB00B77B94 /* RowSeletedDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FD0F1BF4BBCB00B77B94 /* RowSeletedDelegate.swift */; };
 		263AE8A048794A9FC5DDF137 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95B692258EF6A48813AE6977 /* Pods.framework */; };
 		4D011C521BB14374005C79A2 /* MedicationHistory.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4D011C511BB14374005C79A2 /* MedicationHistory.storyboard */; };
@@ -505,6 +506,7 @@
 		1F1977181BFF5C1A00106023 /* Constant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		1F19771E1C0485C500106023 /* RowHeaderCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RowHeaderCollectionViewCell.swift; sourceTree = "<group>"; };
 		1F19771F1C0485C500106023 /* RowHeaderCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RowHeaderCollectionViewCell.xib; sourceTree = "<group>"; };
+		1F1977231C05DB1400106023 /* UITextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
 		1F3007051BF5552E00DDF3F3 /* VitalSignObservation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VitalSignObservation.swift; sourceTree = "<group>"; };
 		1FB412671BFB522900D91487 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		1FD4FCA91BF4B5CC00B77B94 /* VitalsignDashboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VitalsignDashboard.swift; sourceTree = "<group>"; };
@@ -554,7 +556,7 @@
 		1FD4FCFE1BF4BAAD00B77B94 /* SelectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionCell.swift; sourceTree = "<group>"; };
 		1FD4FD081BF4BAE000B77B94 /* Enumerations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enumerations.swift; sourceTree = "<group>"; };
 		1FD4FD091BF4BAE000B77B94 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
-		1FD4FD0E1BF4BBCB00B77B94 /* ObservationEditDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservationEditDelegate.swift; sourceTree = "<group>"; };
+		1FD4FD0E1BF4BBCB00B77B94 /* ObservationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservationDelegate.swift; sourceTree = "<group>"; };
 		1FD4FD0F1BF4BBCB00B77B94 /* RowSeletedDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RowSeletedDelegate.swift; sourceTree = "<group>"; };
 		4D011C511BB14374005C79A2 /* MedicationHistory.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = MedicationHistory.storyboard; path = ../MedicationHistory.storyboard; sourceTree = "<group>"; };
 		4D011C571BB147D7005C79A2 /* DCMedicationHistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCMedicationHistoryViewController.swift; sourceTree = "<group>"; };
@@ -1489,6 +1491,7 @@
 		0BBE3B5C1AA42DC5004CA6E9 /* DrugChart */ = {
 			isa = PBXGroup;
 			children = (
+				1F1977221C05DAB400106023 /* Extension */,
 				1FD4FD0C1BF4BB9100B77B94 /* Delegate */,
 				7D4DBE921AA5437300A5E39B /* Views */,
 				0BF389121AA468A9006792DE /* Utility */,
@@ -1781,6 +1784,15 @@
 			name = CustomLayout;
 			sourceTree = "<group>";
 		};
+		1F1977221C05DAB400106023 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				1FB412671BFB522900D91487 /* String.swift */,
+				1F1977231C05DB1400106023 /* UITextField.swift */,
+			);
+			name = Extension;
+			sourceTree = "<group>";
+		};
 		1FD4FCAD1BF4B60E00B77B94 /* VitalSign */ = {
 			isa = PBXGroup;
 			children = (
@@ -1885,9 +1897,8 @@
 		1FD4FD0D1BF4BB9B00B77B94 /* VitalSign */ = {
 			isa = PBXGroup;
 			children = (
-				1FD4FD0E1BF4BBCB00B77B94 /* ObservationEditDelegate.swift */,
+				1FD4FD0E1BF4BBCB00B77B94 /* ObservationDelegate.swift */,
 				1FD4FD0F1BF4BBCB00B77B94 /* RowSeletedDelegate.swift */,
-				1FB412671BFB522900D91487 /* String.swift */,
 			);
 			name = VitalSign;
 			sourceTree = "<group>";
@@ -2595,6 +2606,7 @@
 				4D16FADD1B5E34210034406A /* DCStopMedicationWebService.m in Sources */,
 				7D6010761B4BE1AA00135DBD /* DCMedicationSchedulesWebService.m in Sources */,
 				7D5319BE1BF21EDB003C3F92 /* DCAlertsAllergyPopOverViewController.m in Sources */,
+				1F1977241C05DB1400106023 /* UITextField.swift in Sources */,
 				7D930D1F1AADF82E00C0607F /* DCDateUtility.m in Sources */,
 				0B1E308F1AF20213003E49C4 /* DCSecurityPinViewController.m in Sources */,
 				1FD4FCB71BF4B6B700B77B94 /* BowelMovement.swift in Sources */,
@@ -2665,7 +2677,7 @@
 				0B91739E1B01F36200BC9337 /* DCPrescriberDetailsViewController.m in Sources */,
 				4DC527F11BE1EE2F00E2EF09 /* DCDosageMultiLineCell.swift in Sources */,
 				1FD4FCCA1BF4B7E000B77B94 /* GeneralObservationView.swift in Sources */,
-				1FD4FD101BF4BBCB00B77B94 /* ObservationEditDelegate.swift in Sources */,
+				1FD4FD101BF4BBCB00B77B94 /* ObservationDelegate.swift in Sources */,
 				0BBE3B601AA42DC5004CA6E9 /* main.m in Sources */,
 				0BB535861BBA472D0043BC61 /* DCAdministerPickerCell.swift in Sources */,
 				0B5948BE1B218B0A0085FB26 /* DCPatientAllergy.m in Sources */,

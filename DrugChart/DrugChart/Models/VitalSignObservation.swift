@@ -14,7 +14,7 @@ class VitalSignObservation
     var temperature:BodyTemperature?
     var bm:BowelMovement?
     var pulse:Pulse?
-    var respiratiory:Respiratory?
+    var respiratory:Respiratory?
     var spo2:SPO2?
     var date:NSDate
     var time:NSDate
@@ -33,7 +33,7 @@ class VitalSignObservation
         temperature = nil
         bm = nil
         pulse = nil
-        respiratiory = nil
+        respiratory = nil
         spo2 = nil
         date = NSDate()
         time = NSDate()
@@ -102,9 +102,9 @@ class VitalSignObservation
         var invalidResult:Bool = true
         var foundValue:Bool = false
         var interimScore : Int
-        if respiratiory != nil
+        if respiratory != nil
         {
-            interimScore = getRepiratoryRating((respiratiory?.repiratoryRate)!)
+            interimScore = getRepiratoryRating((respiratory?.repiratoryRate)!)
             if(interimScore == -1)
             {
                 invalidResult = true
@@ -194,14 +194,22 @@ class VitalSignObservation
     }
     func getRespiratoryReading() -> String
     {
-        if respiratiory != nil
+        if respiratory != nil
         {
-            return String(respiratiory!.repiratoryRate)
+            return String(respiratory!.repiratoryRate)
         }
         else
         {
             return " "
         }
+    }
+    func setRespiratoryReading(value:Double )
+    {
+        if(respiratory == nil)
+        {
+            respiratory = Respiratory()
+        }
+        respiratory?.repiratoryRate = value
     }
     func getTemperatureReading() -> String
     {

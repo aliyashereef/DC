@@ -8,7 +8,7 @@
 
 import UIKit
 
-class VitalsignDashboard: DCBaseViewController , ObservationEditDelegate{
+class VitalsignDashboard: DCBaseViewController , ObservationDelegate{
 
 //    @IBOutlet weak var collectionView: UICollectionView!
     

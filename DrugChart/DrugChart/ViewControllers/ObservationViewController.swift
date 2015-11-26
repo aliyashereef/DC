@@ -10,7 +10,7 @@ import UIKit
 
 
 
-    class ObservationViewController: UIViewController ,RowSelectedDelegate{
+    class ObservationViewController: UIViewController ,RowSelectedDelegate , ObservationDelegate {
         @IBOutlet weak var observationSegmentedView: UISegmentedControl!
 
         @IBOutlet weak var childView: UIView!
@@ -22,6 +22,7 @@ import UIKit
         observation = VitalSignObservation()
         generalObservationView = (GeneralObservationView.instanceFromNib() as! GeneralObservationView)
         generalObservationView.commonInit(observation)
+        generalObservationView.delegate = self
         commaScoreView = CommaScoreView.instanceFromNib() as! CommaScoreView
         commaScoreView.commonInit(observation)
         commaScoreView.delegate=self
@@ -74,6 +75,15 @@ import UIKit
             selectionController.delegate = self
             self.navigationController?.pushViewController(selectionController, animated: true)
             
+        }
+        
+        func TakeObservationInput(viewController:UIAlertController)
+        {
+            self.presentViewController(viewController, animated: true)
+            {
+                let textView = viewController.view.viewWithTag(10) as! UITextField
+                print(textView)
+            }
         }
         
         func RowSelectedWithObject(dataSource:KeyValue ,tag:Int)
