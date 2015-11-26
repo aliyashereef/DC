@@ -35,7 +35,11 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
         
         //add pan gesture to medication detail holder view
         let panGesture = UIPanGestureRecognizer(target: self, action: Selector("swipeMedicationDetailView:"))
+        panGesture.delegate = self
         medicineDetailHolderView.addGestureRecognizer(panGesture)
+    }
+    override func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
     
     // MARK: Action Methods
@@ -75,8 +79,7 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
                         })
                     }
                 }
-            }
-            
+            }            
             if (panGesture.state == UIGestureRecognizerState.Ended) {
                 //All fingers are lifted.
                 adjustMedicationDetailViewOnPanGestureEndWithTranslationPoint(translate)
