@@ -175,16 +175,16 @@ typedef enum : NSUInteger {
         isOneThirdMedicationViewShown = YES;
         [self hideCalendarTopPortion];
         [self loadCurrentDayDisplayForOneThird];
-        [self addOneThirdScreenMedicationListView];
+        [self addPrescriberDrugChartViewForOneThirdWindow];
     } else  {
         if (windowWidth == screenWidth) {
             appDelegate.windowState = fullWindow;
         }
         else {
-            appDelegate.windowState = halfWindow;
+            appDelegate.windowState = twoThirdWindow; // verify and change to twoThird
         }
         isOneThirdMedicationViewShown = NO;
-        [self addFullScreenMedicationListView];
+        [self addPrescriberDrugChartViewForFullAndTwoThirdWindow];
     }
 }
 
@@ -704,7 +704,7 @@ typedef enum : NSUInteger {
     });
 }
 
-- (void)addOneThirdScreenMedicationListView {
+- (void)addPrescriberDrugChartViewForOneThirdWindow {
     
     [prescriberMedicationListViewController.view removeFromSuperview];
     if (!prescriberMedicationOneThirdSizeViewController) {
@@ -723,7 +723,7 @@ typedef enum : NSUInteger {
     [self.view bringSubviewToFront:activityIndicatorView];
 }
 
-- (void)addTwoThirdScreenMedicationListView {
+- (void)addPrescriberDrugChartViewForFullAndTwoThirdWindow {
     
     if (!calendarDateDisplayViewController) {
         [self addTopDatePortionInCalendar];
@@ -737,32 +737,6 @@ typedef enum : NSUInteger {
         prescriberMedicationListViewController = [prescriberStoryBoard instantiateViewControllerWithIdentifier:PRESCRIBER_LIST_SBID];
         [self addChildViewController:prescriberMedicationListViewController];
     }
-    prescriberMedicationListViewController.windowSize = @"twoThirdWindow";
-    prescriberMedicationListViewController.view.frame = medicationListHolderView.frame;
-    prescriberMedicationListViewController.delegate = self;
-    [self.view addSubview:prescriberMedicationListViewController.view];
-    [prescriberMedicationListViewController didMoveToParentViewController:self];
-    
-    
-    [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
-    [self.view bringSubviewToFront:activityIndicatorView];
-}
-
-- (void)addFullScreenMedicationListView {
-    
-    if (!calendarDateDisplayViewController) {
-        [self addTopDatePortionInCalendar];
-    }
-    [dateView removeFromSuperview];
-    [self reloadCalendarTopPortion];
-    [self showCalendarTopPortion];
-    [prescriberMedicationOneThirdSizeViewController.view removeFromSuperview];
-    if (!prescriberMedicationListViewController) {
-        UIStoryboard *prescriberStoryBoard = [UIStoryboard storyboardWithName:PRESCRIBER_DETAILS_STORYBOARD bundle:nil];
-        prescriberMedicationListViewController = [prescriberStoryBoard instantiateViewControllerWithIdentifier:PRESCRIBER_LIST_SBID];
-        [self addChildViewController:prescriberMedicationListViewController];
-    }
-    prescriberMedicationListViewController.windowSize = @"fullWindow";
     prescriberMedicationListViewController.view.frame = medicationListHolderView.frame;
     prescriberMedicationListViewController.delegate = self;
     [self.view addSubview:prescriberMedicationListViewController.view];

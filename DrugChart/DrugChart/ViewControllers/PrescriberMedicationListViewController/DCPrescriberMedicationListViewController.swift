@@ -32,7 +32,6 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     var patientId : NSString = EMPTY_STRING
     var panGestureDirection : PanDirection = PanDirection.atCenter
     let existingStatusViews : NSMutableArray = []
-    var windowSize : NSString?
     
     let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
     
