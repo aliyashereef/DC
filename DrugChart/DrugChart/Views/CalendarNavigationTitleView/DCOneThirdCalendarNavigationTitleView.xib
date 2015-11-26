@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="DCOneThirdCalendarNavigationTitleView" customModule="DrugChart" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="300" height="44"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LDZ-fI-Tj5">
+                    <rect key="frame" x="0.0" y="0.0" width="300" height="16"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="16" id="Y8r-1a-d1K"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ues-yn-PBm">
+                    <rect key="frame" x="0.0" y="16" width="300" height="14"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="14" id="YTS-9g-wfk"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fPe-O8-WX5">
+                    <rect key="frame" x="0.0" y="30" width="300" height="14"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="LDZ-fI-Tj5" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="A7d-ba-RFV"/>
+                <constraint firstAttribute="trailing" secondItem="Ues-yn-PBm" secondAttribute="trailing" id="Djq-zQ-hcK"/>
+                <constraint firstAttribute="trailing" secondItem="fPe-O8-WX5" secondAttribute="trailing" id="HWV-HG-glq"/>
+                <constraint firstItem="fPe-O8-WX5" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="JAT-1Y-cNR"/>
+                <constraint firstAttribute="bottom" secondItem="fPe-O8-WX5" secondAttribute="bottom" id="dSE-O4-LWX"/>
+                <constraint firstItem="LDZ-fI-Tj5" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="gMa-Ka-eZA"/>
+                <constraint firstItem="Ues-yn-PBm" firstAttribute="top" secondItem="LDZ-fI-Tj5" secondAttribute="bottom" id="n0o-2L-NWt"/>
+                <constraint firstItem="fPe-O8-WX5" firstAttribute="top" secondItem="Ues-yn-PBm" secondAttribute="bottom" id="qvr-5p-Cp9"/>
+                <constraint firstItem="Ues-yn-PBm" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="uAE-id-KBU"/>
+                <constraint firstAttribute="trailing" secondItem="LDZ-fI-Tj5" secondAttribute="trailing" id="wvx-pB-Eou"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="dobLabel" destination="Ues-yn-PBm" id="VLb-Uo-K1o"/>
+                <outlet property="nhsLabel" destination="fPe-O8-WX5" id="gXL-Vf-p1q"/>
+                <outlet property="patientNameLabel" destination="LDZ-fI-Tj5" id="Xgs-cQ-OLu"/>
+            </connections>
+        </view>
+    </objects>
+</document>

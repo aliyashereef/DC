@@ -49,10 +49,16 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         medicationTableView!.delaysContentTouches = false;
         addPanGestureToPrescriberTableView()
     }
-
+    
+    override func viewWillAppear(animated: Bool) {
+        let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
+        parentViewController.reloadCalendarTopPortion()
+        super.viewWillAppear(animated)
+    }
+    
     override func didReceiveMemoryWarning() {
+
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     // MARK: - UITableView DataSource Methods
