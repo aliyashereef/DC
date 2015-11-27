@@ -152,7 +152,7 @@ import UIKit
                 }
             }
         }
-        
+        print(centerCalendarView.backgroundColor)
         leftCalendarView .populateViewForDateArray(leftDatesArray)
         centerCalendarView.populateViewForDateArray(centerDatesArray)
         rightCalendarView.populateViewForDateArray(rightDatesArray)
