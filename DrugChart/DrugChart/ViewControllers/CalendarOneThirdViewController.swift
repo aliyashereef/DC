@@ -66,10 +66,12 @@ class CalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource
             toUnitGranularity: .Day)
         cell.indicatorLabel.removeFromSuperview()
         if (order == NSComparisonResult.OrderedSame){
+            cell.indicatorLabel.removeFromSuperview()
             cell.addTodayIndicatorInCell()
         }
         cell.dateLabel.text = DCDateUtility.dateStringFromDate(date, inFormat:"dd")
         cell.weekdayLabel.text = DCDateUtility.dateStringFromDate(date, inFormat:"EEE").uppercaseString
+        cell.layoutIfNeeded()
         return cell
     }
     
@@ -185,7 +187,8 @@ class CalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource
         let slotsDictionary = NSMutableDictionary()
         if count < 1{
             if(self.currentWeekDatesArray.count > 0) {
-               let date = self.currentWeekDatesArray.objectAtIndex(7)
+                let centerDisplayDate = self.currentWeekDatesArray.count == 15 ? 7 : 4
+               let date = self.currentWeekDatesArray.objectAtIndex(centerDisplayDate)
                 let formattedDateString = DCDateUtility.dateStringFromDate(date as! NSDate, inFormat: SHORT_DATE_FORMAT)
                 let predicateString = NSString(format: "medDate contains[cd] '%@'",formattedDateString)
                 let predicate = NSPredicate(format: predicateString as String)
