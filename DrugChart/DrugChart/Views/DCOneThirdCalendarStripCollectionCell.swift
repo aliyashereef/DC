@@ -18,7 +18,7 @@ class DCOneThirdCalendarStripCollectionCell: UICollectionViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-
+    
     func addTodayIndicatorInCell() {
         
         let today : NSDate = NSDate()

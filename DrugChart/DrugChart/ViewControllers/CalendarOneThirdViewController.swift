@@ -44,7 +44,9 @@ class CalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         calendarStripCollectionView.reloadData()
+        self.adjustContentOffsetToShowCurrentDayInCollectionView()
         self.view.layoutIfNeeded()
+        
     }
     
     //MARK: - Collection View Delegate Methods
@@ -64,10 +66,12 @@ class CalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource
             toUnitGranularity: .Day)
         cell.indicatorLabel.removeFromSuperview()
         if (order == NSComparisonResult.OrderedSame){
+            cell.indicatorLabel.removeFromSuperview()
             cell.addTodayIndicatorInCell()
         }
         cell.dateLabel.text = DCDateUtility.dateStringFromDate(date, inFormat:"dd")
         cell.weekdayLabel.text = DCDateUtility.dateStringFromDate(date, inFormat:"EEE").uppercaseString
+        cell.layoutIfNeeded()
         return cell
     }
     
@@ -183,7 +187,8 @@ class CalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource
         let slotsDictionary = NSMutableDictionary()
         if count < 1{
             if(self.currentWeekDatesArray.count > 0) {
-               let date = self.currentWeekDatesArray.objectAtIndex(7)
+                let centerDisplayDate = self.currentWeekDatesArray.count == 15 ? 7 : 4
+               let date = self.currentWeekDatesArray.objectAtIndex(centerDisplayDate)
                 let formattedDateString = DCDateUtility.dateStringFromDate(date as! NSDate, inFormat: SHORT_DATE_FORMAT)
                 let predicateString = NSString(format: "medDate contains[cd] '%@'",formattedDateString)
                 let predicate = NSPredicate(format: predicateString as String)
@@ -243,6 +248,18 @@ class CalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource
             for subView in existingStatusViews {
                 subView.removeFromSuperview()
             }
+    }
+    
+    func adjustContentOffsetToShowCurrentDayInCollectionView() {
+        var centerElement : CGFloat = 0
+        if currentWeekDatesArray.count == 15 {
+            centerElement = 7
+        } else {
+            centerElement = 4
+        }
+        let windowWidth : CGFloat = DCUtility.mainWindowSize().width
+        calendarStripCollectionView.setContentOffset(CGPointMake((windowWidth/5)*centerElement , 0), animated: true)
+        self.view .layoutIfNeeded()
     }
     
     //MARK - DCMedicationAdministrationStatusProtocol delegate implementation
