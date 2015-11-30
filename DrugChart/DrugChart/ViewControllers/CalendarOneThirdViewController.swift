@@ -34,7 +34,7 @@ class CalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource
         super.viewDidLoad()
         medicationTableView!.tableFooterView = UIView(frame: CGRectZero)
         medicationTableView!.delaysContentTouches = false
-        calendarStripCollectionView.reloadData()
+        calendarStripCollectionView.reloadData() 
         
     }
 
