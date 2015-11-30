@@ -46,7 +46,7 @@ enum CellType:Int
 
 enum CommaScoreTableSection:Int
 {
-    case CommaScale,Pupils,LimbMovement
+    case Date,CommaScale,Pupils,LimbMovement
     
     static var count: Int {  // I called this "maximumRawValue" in the post
         var max: Int = 0

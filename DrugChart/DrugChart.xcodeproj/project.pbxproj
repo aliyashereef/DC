@@ -147,6 +147,7 @@
 		1F3007061BF5552E00DDF3F3 /* VitalSignObservation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3007051BF5552E00DDF3F3 /* VitalSignObservation.swift */; };
 		1FB412681BFB522900D91487 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB412671BFB522900D91487 /* String.swift */; };
 		1FB5D07B1C0751D700F9A2F7 /* ObservationSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB5D07A1C0751D700F9A2F7 /* ObservationSelectionViewController.swift */; };
+		1FB5D07D1C08681F00F9A2F7 /* CommaScoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB5D07C1C08681F00F9A2F7 /* CommaScoreViewController.swift */; };
 		1FD4FCAA1BF4B5CC00B77B94 /* VitalsignDashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCA91BF4B5CC00B77B94 /* VitalsignDashboard.swift */; };
 		1FD4FCAC1BF4B5FB00B77B94 /* ObservationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCAB1BF4B5FB00B77B94 /* ObservationViewController.swift */; };
 		1FD4FCB51BF4B6B700B77B94 /* BloodPressure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCAE1BF4B6B700B77B94 /* BloodPressure.swift */; };
@@ -511,6 +512,7 @@
 		1F3007051BF5552E00DDF3F3 /* VitalSignObservation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VitalSignObservation.swift; sourceTree = "<group>"; };
 		1FB412671BFB522900D91487 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		1FB5D07A1C0751D700F9A2F7 /* ObservationSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservationSelectionViewController.swift; sourceTree = "<group>"; };
+		1FB5D07C1C08681F00F9A2F7 /* CommaScoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommaScoreViewController.swift; sourceTree = "<group>"; };
 		1FD4FCA91BF4B5CC00B77B94 /* VitalsignDashboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VitalsignDashboard.swift; sourceTree = "<group>"; };
 		1FD4FCAB1BF4B5FB00B77B94 /* ObservationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservationViewController.swift; sourceTree = "<group>"; };
 		1FD4FCAE1BF4B6B700B77B94 /* BloodPressure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BloodPressure.swift; sourceTree = "<group>"; };
@@ -1993,6 +1995,7 @@
 				1FD4FCAB1BF4B5FB00B77B94 /* ObservationViewController.swift */,
 				1FD4FCA91BF4B5CC00B77B94 /* VitalsignDashboard.swift */,
 				1FB5D07A1C0751D700F9A2F7 /* ObservationSelectionViewController.swift */,
+				1FB5D07C1C08681F00F9A2F7 /* CommaScoreViewController.swift */,
 			);
 			name = VitalSignViewController;
 			sourceTree = "<group>";
@@ -2641,6 +2644,7 @@
 				1FD4FD061BF4BAAD00B77B94 /* SelectionCell.swift in Sources */,
 				4D4891561BC90053002AC8CA /* DCSwiftObjCNavigationHelper.m in Sources */,
 				1FD4FD0A1BF4BAE000B77B94 /* Enumerations.swift in Sources */,
+				1FB5D07D1C08681F00F9A2F7 /* CommaScoreViewController.swift in Sources */,
 				4DDE0ADE1BBBBEDE0044295B /* DCAdministratedByPinVerificationViewController.swift in Sources */,
 				1FD4FCC91BF4B7E000B77B94 /* CommaScoreView.swift in Sources */,
 				0BD659541BD6660D00D3097B /* UIButton+ButtonHighlight.m in Sources */,
@@ -2789,6 +2793,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				DEFINES_MODULE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -2833,6 +2838,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				DEFINES_MODULE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = NO;

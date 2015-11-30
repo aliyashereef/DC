@@ -55,14 +55,25 @@ class ObservationSelectionViewController: UITableViewController {
         self.dismissViewControllerAnimated(true, completion: nil)
         
         // now show the modal dialog to take the input
-        
-        let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
-        let observationDetails : ObservationViewController = mainStoryboard.instantiateViewControllerWithIdentifier("ObservationViewController") as! ObservationViewController
-        //observationDetails.observation = cell?.getObservation()
-        let navigationController : UINavigationController? = UINavigationController(rootViewController: observationDetails)
-        navigationController?.modalPresentationStyle = UIModalPresentationStyle.FormSheet
-        delegate?.EditObservation(navigationController!)
-      }
+        if(indexPath.row == 0)
+        {
+            let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
+            let observationDetails : ObservationViewController = mainStoryboard.instantiateViewControllerWithIdentifier("ObservationViewController") as! ObservationViewController
+            //observationDetails.observation = cell?.getObservation()
+            let navigationController : UINavigationController? = UINavigationController(rootViewController: observationDetails)
+            navigationController?.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+            delegate?.EditObservation(navigationController!)
+        }
+        else
+        {
+            let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
+            let commaDetails : CommaScoreViewController = mainStoryboard.instantiateViewControllerWithIdentifier("CommaScoreViewController") as! CommaScoreViewController
+            //observationDetails.observation = cell?.getObservation()
+            let navigationController : UINavigationController? = UINavigationController(rootViewController: commaDetails)
+            navigationController?.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+            delegate?.EditObservation(navigationController!)
+        }
+    }
     
     /*
     // Override to support conditional editing of the table view.
