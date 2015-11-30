@@ -117,7 +117,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     
     func todayButtonClicked () {
         
-        // currently today works only in full screen.
+        // currently today works only in full screen and 2/3rd screen.w
         if (appDelegate.windowState == DCWindowState.fullWindow ||
             appDelegate.windowState == DCWindowState.twoThirdWindow) {
                 let index = (appDelegate.windowState == DCWindowState.fullWindow) ? 7 : 4
