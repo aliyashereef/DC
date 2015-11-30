@@ -118,19 +118,21 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     func todayButtonClicked () {
         
         // currently today works only in full screen.
-        if (appDelegate.windowState == DCWindowState.fullWindow) {
-            let weekdate = currentWeekDatesArray.objectAtIndex(7) // extracting the middle date - todays date
-            let calendar : NSCalendar = NSCalendar.init(calendarIdentifier: NSCalendarIdentifierGregorian)!
-            let todaysDate : NSDate = calendar.startOfDayForDate(NSDate())
-            let order = NSCalendar.currentCalendar().compareDate(weekdate as! NSDate, toDate:todaysDate,
-                toUnitGranularity: .Day)
-            if order == NSComparisonResult.OrderedSame {
-                // Do Nothing
-            } else if order == NSComparisonResult.OrderedAscending {
-                self.animateAdministratorDetailsView(false)
-            } else if order == NSComparisonResult.OrderedDescending {
-                self.animateAdministratorDetailsView(true)
-            }
+        if (appDelegate.windowState == DCWindowState.fullWindow ||
+            appDelegate.windowState == DCWindowState.twoThirdWindow) {
+                let index = (appDelegate.windowState == DCWindowState.fullWindow) ? 7 : 4
+                let weekdate = currentWeekDatesArray.objectAtIndex(index) // extracting the middle date - todays date
+                let calendar : NSCalendar = NSCalendar.init(calendarIdentifier: NSCalendarIdentifierGregorian)!
+                let todaysDate : NSDate = calendar.startOfDayForDate(NSDate())
+                let order = NSCalendar.currentCalendar().compareDate(weekdate as! NSDate, toDate:todaysDate,
+                    toUnitGranularity: .Day)
+                if order == NSComparisonResult.OrderedSame {
+                    // Do Nothing
+                } else if order == NSComparisonResult.OrderedAscending {
+                    self.animateAdministratorDetailsView(false)
+                } else if order == NSComparisonResult.OrderedDescending {
+                    self.animateAdministratorDetailsView(true)
+                }
         }
     }
 
