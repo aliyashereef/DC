@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -286,7 +287,7 @@
                                     <outlet property="delegate" destination="njj-GT-iRf" id="mAF-Cg-UEU"/>
                                 </connections>
                             </tableView>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="LAP-xe-rvT">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="LAP-xe-rvT">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <color key="backgroundColor" red="0.84705882352941175" green="0.84705882352941175" blue="0.84705882352941175" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -382,12 +383,6 @@
                                                 <exclude reference="8x2-0m-GbS"/>
                                             </mask>
                                             <mask key="constraints">
-                                                <exclude reference="C4c-bV-PZe"/>
-                                                <exclude reference="Vnu-az-5Km"/>
-                                                <exclude reference="YPk-vQ-4hC"/>
-                                                <exclude reference="bNS-rb-2fO"/>
-                                                <exclude reference="gdi-wC-ic9"/>
-                                                <exclude reference="hty-rC-fAz"/>
                                                 <exclude reference="8aR-wQ-xbf"/>
                                                 <exclude reference="Hys-0R-Zmo"/>
                                                 <exclude reference="PHd-wI-8e5"/>
@@ -397,6 +392,12 @@
                                                 <exclude reference="l6w-9W-rfz"/>
                                                 <exclude reference="raG-lk-4LM"/>
                                                 <exclude reference="tQV-Vc-Y3w"/>
+                                                <exclude reference="C4c-bV-PZe"/>
+                                                <exclude reference="Vnu-az-5Km"/>
+                                                <exclude reference="YPk-vQ-4hC"/>
+                                                <exclude reference="bNS-rb-2fO"/>
+                                                <exclude reference="gdi-wC-ic9"/>
+                                                <exclude reference="hty-rC-fAz"/>
                                             </mask>
                                         </variation>
                                         <variation key="heightClass=regular-widthClass=compact">
@@ -405,12 +406,6 @@
                                                 <include reference="8x2-0m-GbS"/>
                                             </mask>
                                             <mask key="constraints">
-                                                <exclude reference="C4c-bV-PZe"/>
-                                                <exclude reference="Vnu-az-5Km"/>
-                                                <exclude reference="YPk-vQ-4hC"/>
-                                                <include reference="bNS-rb-2fO"/>
-                                                <exclude reference="gdi-wC-ic9"/>
-                                                <include reference="hty-rC-fAz"/>
                                                 <exclude reference="8aR-wQ-xbf"/>
                                                 <exclude reference="Hys-0R-Zmo"/>
                                                 <exclude reference="PHd-wI-8e5"/>
@@ -420,6 +415,12 @@
                                                 <exclude reference="l6w-9W-rfz"/>
                                                 <include reference="raG-lk-4LM"/>
                                                 <exclude reference="tQV-Vc-Y3w"/>
+                                                <exclude reference="C4c-bV-PZe"/>
+                                                <exclude reference="Vnu-az-5Km"/>
+                                                <exclude reference="YPk-vQ-4hC"/>
+                                                <include reference="bNS-rb-2fO"/>
+                                                <exclude reference="gdi-wC-ic9"/>
+                                                <include reference="hty-rC-fAz"/>
                                             </mask>
                                         </variation>
                                         <connections>
