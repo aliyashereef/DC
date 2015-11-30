@@ -44,7 +44,9 @@ class CalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         calendarStripCollectionView.reloadData()
+        self.adjustContentOffsetToShowCurrentDayInCollectionView()
         self.view.layoutIfNeeded()
+        
     }
     
     //MARK: - Collection View Delegate Methods
@@ -243,6 +245,18 @@ class CalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource
             for subView in existingStatusViews {
                 subView.removeFromSuperview()
             }
+    }
+    
+    func adjustContentOffsetToShowCurrentDayInCollectionView() {
+        var centerElement : CGFloat = 0
+        if currentWeekDatesArray.count == 15 {
+            centerElement = 7
+        } else {
+            centerElement = 4
+        }
+        let windowWidth : CGFloat = DCUtility.mainWindowSize().width
+        calendarStripCollectionView.setContentOffset(CGPointMake((windowWidth/5)*centerElement , 0), animated: true)
+        self.view .layoutIfNeeded()
     }
     
     //MARK - DCMedicationAdministrationStatusProtocol delegate implementation
