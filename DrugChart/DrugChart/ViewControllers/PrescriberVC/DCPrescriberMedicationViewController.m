@@ -710,26 +710,27 @@ typedef enum : NSUInteger {
 }
 
 - (void)loadCurrentDayDisplayForOneThird {
+    CGFloat windowWidth= [DCUtility mainWindowSize].width;
     if (!dateView) {
-        CGFloat windowWidth= [DCUtility mainWindowSize].width;
-        dateView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, windowWidth, 50)];
-        UIView *seperatorView = [[UIView alloc] initWithFrame:CGRectMake(0, 49.5, windowWidth, 0.5)];
-        [seperatorView setBackgroundColor:[UIColor colorForHexString:@"#E1E7EA"]];
-        [dateView addSubview:seperatorView];
-        [dateView setBackgroundColor:[UIColor whiteColor]];
-        UILabel *dateLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, windowWidth, 49)];
-        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-        [dateFormat setDateFormat:@"LLLL yyyy"];
-        if (currentWeekDatesArray.count > 0) {
-            NSString *dateString = [dateFormat stringFromDate:[currentWeekDatesArray objectAtIndex:7]];
-            dateLabel.text = dateString;
-        }
-        dateLabel.backgroundColor = [UIColor whiteColor];
-        dateLabel.textAlignment = NSTextAlignmentCenter;
-        dateLabel.font = [UIFont systemFontOfSize:20];
-        dateLabel.numberOfLines = 1;
-        [dateView addSubview:dateLabel];
+        dateView = [[UIView alloc] init];
     }
+    dateView.frame = CGRectMake(0, 0, windowWidth, 50);
+    UIView *seperatorView = [[UIView alloc] initWithFrame:CGRectMake(0, 49.5, windowWidth, 0.5)];
+    [seperatorView setBackgroundColor:[UIColor colorForHexString:@"#E1E7EA"]];
+    [dateView addSubview:seperatorView];
+    [dateView setBackgroundColor:[UIColor whiteColor]];
+    UILabel *dateLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, windowWidth, 49)];
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"LLLL yyyy"];
+    if (currentWeekDatesArray.count > 0) {
+        NSString *dateString = [dateFormat stringFromDate:[currentWeekDatesArray objectAtIndex:7]];
+        dateLabel.text = dateString;
+    }
+    dateLabel.backgroundColor = [UIColor whiteColor];
+    dateLabel.textAlignment = NSTextAlignmentCenter;
+    dateLabel.font = [UIFont systemFontOfSize:20];
+    dateLabel.numberOfLines = 1;
+    [dateView addSubview:dateLabel];
     [calendarTopHolderView addSubview:dateView];
     [calendarTopHolderView setHidden:NO];
 }

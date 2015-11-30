@@ -34,8 +34,11 @@ class CalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource
         super.viewDidLoad()
         medicationTableView!.tableFooterView = UIView(frame: CGRectZero)
         medicationTableView!.delaysContentTouches = false
-        calendarStripCollectionView.reloadData() 
-        
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.view.layoutIfNeeded()
     }
 
     override func viewDidLayoutSubviews() {
@@ -55,11 +58,14 @@ class CalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource
         
         let date = self.currentWeekDatesArray.objectAtIndex(indexPath.row) as! NSDate
         let today : NSDate = NSDate()
-        if (date.compare(today) == NSComparisonResult.OrderedSame){
-            cell.addTodayIndicator()
+        let order = NSCalendar.currentCalendar().compareDate(date , toDate:today,
+            toUnitGranularity: .Day)
+        cell.indicatorLabel.removeFromSuperview()
+        if (order == NSComparisonResult.OrderedSame){
+            cell.addTodayIndicatorInCell()
         }
         cell.dateLabel.text = DCDateUtility.dateStringFromDate(date, inFormat:"dd")
-        cell.weekdayLabel.text = DCDateUtility.dateStringFromDate(date, inFormat:"EE")
+        cell.weekdayLabel.text = DCDateUtility.dateStringFromDate(date, inFormat:"EEE").uppercaseString
         return cell
     }
     
@@ -152,23 +158,23 @@ class CalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource
     
     func prepareMedicationSlotsForDisplayInCellFromScheduleDetails (medicationScheduleDetails: DCMedicationScheduleDetails) -> NSMutableArray {
             
-        var count = 0, weekDays = 15
+        var count = 0
         let medicationSlotsArray: NSMutableArray = []
-        while (count < weekDays) {
-            let slotsDictionary = NSMutableDictionary()
-            if count < self.currentWeekDatesArray.count {
-                let date = self.currentWeekDatesArray.objectAtIndex(count)
+        let slotsDictionary = NSMutableDictionary()
+        if count < 1{
+            if(self.currentWeekDatesArray.count > 0) {
+               let date = self.currentWeekDatesArray.objectAtIndex(7)
                 let formattedDateString = DCDateUtility.dateStringFromDate(date as! NSDate, inFormat: SHORT_DATE_FORMAT)
                 let predicateString = NSString(format: "medDate contains[cd] '%@'",formattedDateString)
                 let predicate = NSPredicate(format: predicateString as String)
                 //TODO: check if this is right practise. If not change this checks accordingly.
                 if let scheduleArray = medicationScheduleDetails.timeChart {
-                    if let slotDetailsArray : NSArray = scheduleArray.filteredArrayUsingPredicate(predicate) {
-                        if slotDetailsArray.count != 0 {
+                   if let slotDetailsArray : NSArray = scheduleArray.filteredArrayUsingPredicate(predicate) {
+                       if slotDetailsArray.count != 0 {
                             if let medicationSlotArray = slotDetailsArray.objectAtIndex(0).valueForKey(MED_DETAILS) {
-                                slotsDictionary.setObject(medicationSlotArray, forKey: PRESCRIBER_TIME_SLOTS)
+                                    slotsDictionary.setObject(medicationSlotArray, forKey: PRESCRIBER_TIME_SLOTS)
                             }
-                        }
+                    }
                     }
                 }
                 slotsDictionary.setObject(NSNumber (integer: count + 1), forKey: PRESCRIBER_SLOT_VIEW_TAG)
