@@ -203,41 +203,21 @@ typedef enum : NSUInteger {
 
 - (void)prescriberCalendarChildViewControllerBasedOnWindowState {
     
-    if ([DCAPPDELEGATE windowState] == halfWindow || oneThirdWindow) {
+    if ([DCAPPDELEGATE windowState] == halfWindow ||
+        [DCAPPDELEGATE windowState] == oneThirdWindow) {
         isOneThirdMedicationViewShown = YES;
         [self hideCalendarTopPortion];
         [self loadCurrentDayDisplayForOneThird];
         [self addPrescriberDrugChartViewForOneThirdWindow];
     }
-    else if (fullWindow | twoThirdWindow) {
+    else if ([DCAPPDELEGATE windowState] == fullWindow ||
+             [DCAPPDELEGATE windowState] == twoThirdWindow) {
         isOneThirdMedicationViewShown = NO;
         [self showActivityIndicationOnViewRefresh:true];
         [self addPrescriberDrugChartViewForFullAndTwoThirdWindow];
         [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
         }];
     }
-    
-//    CGFloat windowWidth= [DCUtility mainWindowSize].width;
-//    CGFloat screenWidth= [UIScreen mainScreen].bounds.size.width;
-//    DCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-//    if (windowWidth <= screenWidth/2) {
-//        isOneThirdMedicationViewShown = YES;
-//        [self hideCalendarTopPortion];
-//        [self loadCurrentDayDisplayForOneThird];
-//        [self addPrescriberDrugChartViewForOneThirdWindow];
-//    } else  {
-//        if (windowWidth == screenWidth) {
-//            appDelegate.windowState = fullWindow;
-//        }
-//        else {
-//            appDelegate.windowState = twoThirdWindow;
-//        }
-//        isOneThirdMedicationViewShown = NO;
-//        [self showActivityIndicationOnViewRefresh:true];
-//        [self addPrescriberDrugChartViewForFullAndTwoThirdWindow];
-//        [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
-//        }];
-//    }
 }
 
 // Make the API call to fetch the medicationschedules for a patient.
