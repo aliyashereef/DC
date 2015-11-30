@@ -74,6 +74,10 @@ class DCMedicationAdministrationStatusView: UIView {
         self.sendSubviewToBack(administerButton!)
         administerButton?.addTarget(self, action: Selector("administerButtonClicked:"), forControlEvents: .TouchUpInside)
     }
+    
+    func hideViewElementsOnCancellingWebCall() {
+        
+    }
  
 
     func updateAdministrationStatusViewWithMedicationSlotDictionary(slotDictionary : NSDictionary) {

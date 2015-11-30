@@ -56,12 +56,13 @@
     return monthYear;
 }
 
-+ (NSMutableArray *)nextAndPreviousSevenDaysWithReferenceToDate:(NSDate *)date {
++ (NSMutableArray *)nextAndPreviousDays:(NSInteger)daysCount
+                    withReferenceToDate:(NSDate *)date {
     //get dates of week
     NSDateComponents *components = [[NSDateComponents alloc] init];
     [components setDay:1];
     NSMutableArray *weekdays = [[NSMutableArray alloc] init];
-    for (int i = 0; i < 15; i++) {
+    for (int i = 0; i < daysCount; i++) {
         [weekdays addObject:date];
         date = [[NSCalendar currentCalendar] dateByAddingComponents:components toDate:date options:0];
     }

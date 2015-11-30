@@ -41,7 +41,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
     //Configuring the basic view with the medication details, route and time
     
     func configureMedicationDetails () {
-        
+
         medicationNameLabel.text = medicationDetails?.name
         if (medicationDetails?.route != nil) {
             populateRouteAndInstructionLabels()
