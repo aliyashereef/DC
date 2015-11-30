@@ -23,7 +23,7 @@ class DCOneThirdCalendarNavigationTitleView: UIView {
         dateFormatter.dateFormat = BIRTH_DATE_FORMAT
         let dobDateString = dateFormatter.stringFromDate(dateOfBirth)
         patientNameLabel.text = patientName as String
-        dobLabel.text = String(format: (dobDateString as String) + " (" + " " +  (age as String) + " years)")
+        dobLabel.text = String(format: "\(dobDateString as String) (\(age as String) years)")
         nhsLabel.text = nhsNumber as String
     }
 }

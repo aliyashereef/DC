@@ -8,7 +8,8 @@
 
 import Foundation
 
-class CalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource, UITableViewDelegate, DCMedicationAdministrationStatusProtocol {
+class CalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource, UITableViewDelegate, DCMedicationAdministrationStatusProtocol , UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    @IBOutlet weak var calendarStripCollectionView: UICollectionView!
     
     @IBOutlet var medicationTableView: UITableView?
     var displayMedicationListArray : NSMutableArray = []
@@ -16,6 +17,7 @@ class CalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource
 
     var currentWeekDatesArray : NSMutableArray = []
     
+    let collectionViewReuseIdentifier = "CalendarStripCellIdentifier"
     required init?(coder aDecoder: NSCoder) {
         
         super.init(coder: aDecoder)
@@ -31,13 +33,45 @@ class CalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource
         
         super.viewDidLoad()
         medicationTableView!.tableFooterView = UIView(frame: CGRectZero)
-        medicationTableView!.delaysContentTouches = false;
+        medicationTableView!.delaysContentTouches = false
+        calendarStripCollectionView.reloadData()
         
     }
 
     override func viewDidLayoutSubviews() {
         
+        calendarStripCollectionView.reloadData()
         super.viewDidLayoutSubviews()
+    }
+    
+    //MARK: - Collection View Delegate Methods
+    
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return currentWeekDatesArray.count
+    }
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(collectionViewReuseIdentifier, forIndexPath: indexPath) as! DCOneThirdCalendarStripCollectionCell
+        
+        let date = self.currentWeekDatesArray.objectAtIndex(indexPath.row) as! NSDate
+        let today : NSDate = NSDate()
+        if (date.compare(today) == NSComparisonResult.OrderedSame){
+            cell.addTodayIndicator()
+        }
+        cell.dateLabel.text = DCDateUtility.dateStringFromDate(date, inFormat:"dd")
+        cell.weekdayLabel.text = DCDateUtility.dateStringFromDate(date, inFormat:"EE")
+        return cell
+    }
+    
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        
+        let windowWidth : CGFloat = DCUtility.mainWindowSize().width
+        let cellSize = CGSizeMake(windowWidth/5 - 0.5, 55.5)
+        return cellSize
     }
     
     //MARK: - Table View Delegate Methods
@@ -118,31 +152,28 @@ class CalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource
     
     func prepareMedicationSlotsForDisplayInCellFromScheduleDetails (medicationScheduleDetails: DCMedicationScheduleDetails) -> NSMutableArray {
             
-        var count = 0, weekDays = 1
+        var count = 0, weekDays = 15
         let medicationSlotsArray: NSMutableArray = []
         while (count < weekDays) {
-                let slotsDictionary = NSMutableDictionary()
-                if count < 1{
-                    if(self.currentWeekDatesArray.count > 0) {
-                        let date = self.currentWeekDatesArray.objectAtIndex(7)
-                        let formattedDateString = DCDateUtility.dateStringFromDate(date as! NSDate, inFormat: SHORT_DATE_FORMAT)
-                        let predicateString = NSString(format: "medDate contains[cd] '%@'",formattedDateString)
-                        let predicate = NSPredicate(format: predicateString as String)
-                        //TODO: check if this is right practise. If not change this checks accordingly.
-                        if let scheduleArray = medicationScheduleDetails.timeChart {
-                            if let slotDetailsArray : NSArray = scheduleArray.filteredArrayUsingPredicate(predicate) {
-                                if slotDetailsArray.count != 0 {
-                                    if let medicationSlotArray = slotDetailsArray.objectAtIndex(0).valueForKey(MED_DETAILS) {
-                                        slotsDictionary.setObject(medicationSlotArray, forKey: PRESCRIBER_TIME_SLOTS)
-                                    }
-                                }
+            let slotsDictionary = NSMutableDictionary()
+            if count < self.currentWeekDatesArray.count {
+                let date = self.currentWeekDatesArray.objectAtIndex(count)
+                let formattedDateString = DCDateUtility.dateStringFromDate(date as! NSDate, inFormat: SHORT_DATE_FORMAT)
+                let predicateString = NSString(format: "medDate contains[cd] '%@'",formattedDateString)
+                let predicate = NSPredicate(format: predicateString as String)
+                //TODO: check if this is right practise. If not change this checks accordingly.
+                if let scheduleArray = medicationScheduleDetails.timeChart {
+                    if let slotDetailsArray : NSArray = scheduleArray.filteredArrayUsingPredicate(predicate) {
+                        if slotDetailsArray.count != 0 {
+                            if let medicationSlotArray = slotDetailsArray.objectAtIndex(0).valueForKey(MED_DETAILS) {
+                                slotsDictionary.setObject(medicationSlotArray, forKey: PRESCRIBER_TIME_SLOTS)
                             }
                         }
-                        slotsDictionary.setObject(NSNumber (integer: count + 1), forKey: PRESCRIBER_SLOT_VIEW_TAG)
-                        medicationSlotsArray.addObject(slotsDictionary)
-                        count++
-
                     }
+                }
+                slotsDictionary.setObject(NSNumber (integer: count + 1), forKey: PRESCRIBER_SLOT_VIEW_TAG)
+                medicationSlotsArray.addObject(slotsDictionary)
+                count++
             }
         }
     return medicationSlotsArray
