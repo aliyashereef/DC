@@ -293,18 +293,18 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="56" id="0Gt-EL-qZb"/>
                                 </constraints>
-                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.5" minimumInteritemSpacing="0.5" id="GZI-Ml-czs">
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="GZI-Ml-czs">
                                     <size key="itemSize" width="50" height="56"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.5" minY="0.0" maxX="0.5" maxY="0.5"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CalendarStripCellIdentifier" id="2ky-vV-ZsK" customClass="DCOneThirdCalendarStripCollectionCell" customModule="DrugChart" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="50" height="54"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="56"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zh2-NB-X9d">
@@ -359,6 +359,9 @@
                                             <constraint firstItem="8x2-0m-GbS" firstAttribute="leading" secondItem="2ky-vV-ZsK" secondAttribute="leading" id="8aR-wQ-xbf"/>
                                             <constraint firstItem="Zh2-NB-X9d" firstAttribute="top" secondItem="2ky-vV-ZsK" secondAttribute="top" constant="6" id="C4c-bV-PZe"/>
                                             <constraint firstAttribute="trailing" secondItem="8x2-0m-GbS" secondAttribute="trailing" id="Hys-0R-Zmo"/>
+                                            <constraint firstItem="8x2-0m-GbS" firstAttribute="top" secondItem="Zh2-NB-X9d" secondAttribute="bottom" constant="1" id="NAo-cH-Gcn">
+                                                <variation key="heightClass=regular-widthClass=compact" constant="3"/>
+                                            </constraint>
                                             <constraint firstItem="8x2-0m-GbS" firstAttribute="top" secondItem="Zh2-NB-X9d" secondAttribute="bottom" id="PHd-wI-8e5"/>
                                             <constraint firstItem="Zh2-NB-X9d" firstAttribute="centerX" secondItem="2ky-vV-ZsK" secondAttribute="centerX" id="Vnu-az-5Km"/>
                                             <constraint firstItem="Zh2-NB-X9d" firstAttribute="leading" secondItem="2ky-vV-ZsK" secondAttribute="leading" id="YPk-vQ-4hC"/>
@@ -370,13 +373,13 @@
                                             <constraint firstAttribute="bottom" secondItem="8x2-0m-GbS" secondAttribute="bottom" constant="8" id="htF-Y4-bWe"/>
                                             <constraint firstItem="Zh2-NB-X9d" firstAttribute="centerX" secondItem="2ky-vV-ZsK" secondAttribute="centerX" id="hty-rC-fAz"/>
                                             <constraint firstAttribute="bottom" secondItem="8x2-0m-GbS" secondAttribute="bottom" constant="8" id="iNn-hF-lD6">
-                                                <variation key="heightClass=regular-widthClass=compact" constant="14"/>
+                                                <variation key="heightClass=regular-widthClass=compact" constant="12"/>
                                             </constraint>
                                             <constraint firstItem="8x2-0m-GbS" firstAttribute="bottom" secondItem="2ky-vV-ZsK" secondAttribute="bottomMargin" id="l6w-9W-rfz"/>
                                             <constraint firstItem="8x2-0m-GbS" firstAttribute="centerX" secondItem="2ky-vV-ZsK" secondAttribute="centerX" id="raG-lk-4LM"/>
                                             <constraint firstItem="8x2-0m-GbS" firstAttribute="top" secondItem="Zh2-NB-X9d" secondAttribute="bottom" id="tQV-Vc-Y3w"/>
                                         </constraints>
-                                        <size key="customSize" width="50" height="54"/>
+                                        <size key="customSize" width="50" height="56"/>
                                         <variation key="default">
                                             <mask key="subviews">
                                                 <exclude reference="Zh2-NB-X9d"/>
@@ -385,6 +388,7 @@
                                             <mask key="constraints">
                                                 <exclude reference="8aR-wQ-xbf"/>
                                                 <exclude reference="Hys-0R-Zmo"/>
+                                                <exclude reference="NAo-cH-Gcn"/>
                                                 <exclude reference="PHd-wI-8e5"/>
                                                 <exclude reference="cfk-qo-qUg"/>
                                                 <exclude reference="htF-Y4-bWe"/>
@@ -408,6 +412,7 @@
                                             <mask key="constraints">
                                                 <exclude reference="8aR-wQ-xbf"/>
                                                 <exclude reference="Hys-0R-Zmo"/>
+                                                <include reference="NAo-cH-Gcn"/>
                                                 <exclude reference="PHd-wI-8e5"/>
                                                 <exclude reference="cfk-qo-qUg"/>
                                                 <exclude reference="htF-Y4-bWe"/>
@@ -418,7 +423,7 @@
                                                 <exclude reference="C4c-bV-PZe"/>
                                                 <exclude reference="Vnu-az-5Km"/>
                                                 <exclude reference="YPk-vQ-4hC"/>
-                                                <include reference="bNS-rb-2fO"/>
+                                                <exclude reference="bNS-rb-2fO"/>
                                                 <exclude reference="gdi-wC-ic9"/>
                                                 <include reference="hty-rC-fAz"/>
                                             </mask>
