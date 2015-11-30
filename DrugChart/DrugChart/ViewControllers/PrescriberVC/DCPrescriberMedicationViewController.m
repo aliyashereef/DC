@@ -184,6 +184,7 @@ typedef enum : NSUInteger {
                                            withReferenceToDate:firstDisplayDate];
     centerDisplayDate = (appDelegate.windowState == twoThirdWindow) ? [currentWeekDatesArray objectAtIndex:4] :
     [currentWeekDatesArray objectAtIndex:7];
+    NSLog(@"the current weeks array: %@", currentWeekDatesArray);
 }
 
 - (void)populateMonthYearLabel {
@@ -800,6 +801,7 @@ typedef enum : NSUInteger {
     }
     [dateView removeFromSuperview];
     [self currentWeekDatesArrayFromDate:centerDisplayDate];
+    [self modifyWeekDatesInCalendarTopPortion];
     [self reloadCalendarTopPortion];
     [self showCalendarTopPortion];
     [prescriberMedicationOneThirdSizeViewController.view removeFromSuperview];
