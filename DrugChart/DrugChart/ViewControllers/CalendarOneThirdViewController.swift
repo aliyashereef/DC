@@ -9,7 +9,7 @@
 import Foundation
 
 class CalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource, UITableViewDelegate, DCMedicationAdministrationStatusProtocol , UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    @IBOutlet weak var calendarStripCollectionView: UICollectionView!
+    @IBOutlet var calendarStripCollectionView: UICollectionView!
     
     @IBOutlet var medicationTableView: UITableView?
     var displayMedicationListArray : NSMutableArray = []
@@ -37,23 +37,25 @@ class CalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource
     }
     
     override func viewWillAppear(animated: Bool) {
+        
         super.viewWillAppear(animated)
-        self.view.layoutIfNeeded()
     }
 
     override func viewDidLayoutSubviews() {
-        
-        calendarStripCollectionView.reloadData()
         super.viewDidLayoutSubviews()
+        calendarStripCollectionView.reloadData()
+        self.view.layoutIfNeeded()
     }
     
     //MARK: - Collection View Delegate Methods
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
         return currentWeekDatesArray.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(collectionViewReuseIdentifier, forIndexPath: indexPath) as! DCOneThirdCalendarStripCollectionCell
         
         let date = self.currentWeekDatesArray.objectAtIndex(indexPath.row) as! NSDate
@@ -70,17 +72,34 @@ class CalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource
     }
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        
         return 1
     }
+    
+    //MARK: Collection view flow layout methods
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         
         let windowWidth : CGFloat = DCUtility.mainWindowSize().width
-        let cellSize = CGSizeMake(windowWidth/5 - 0.5, 55.5)
+        let cellSize = CGSizeMake((windowWidth/5) - 1, 54)
         return cellSize
     }
     
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+        let edgeInsets : UIEdgeInsets = UIEdgeInsetsMake(0.5, 0.5, 0.5, 0.5)
+        return edgeInsets
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+        return 1
+    }
+   
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
+        return 0.5
+    }
+    
     //MARK: - Table View Delegate Methods
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return displayMedicationListArray.count
@@ -102,6 +121,7 @@ class CalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource
             
             self.configureMedicationCell(cell!,withMedicationSlotsArray: rowDisplayMedicationSlotsArray,atIndexPath: indexPath,andSlotIndex: index)
         }
+        
         self.fillInMedicationDetailsInTableCell(cell!, atIndexPath: indexPath)
         if (cell!.inEditMode == true) {
             UIView.animateWithDuration(0.05, animations: { () -> Void in

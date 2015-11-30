@@ -716,11 +716,8 @@ typedef enum : NSUInteger {
         dateView = [[UIView alloc] init];
     }
     dateView.frame = CGRectMake(0, 0, windowWidth, 50);
-    UIView *seperatorView = [[UIView alloc] initWithFrame:CGRectMake(0, 49.5, windowWidth, 0.5)];
-    [seperatorView setBackgroundColor:[UIColor colorForHexString:@"#E1E7EA"]];
-    [dateView addSubview:seperatorView];
     [dateView setBackgroundColor:[UIColor whiteColor]];
-    UILabel *dateLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, windowWidth, 49)];
+    UILabel *dateLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, windowWidth, 50)];
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"LLLL yyyy"];
     if (currentWeekDatesArray.count > 0) {
