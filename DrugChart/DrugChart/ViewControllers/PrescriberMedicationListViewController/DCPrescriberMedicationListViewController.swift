@@ -117,20 +117,22 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     
     func todayButtonClicked () {
         
-        // currently today works only in full screen.
-        if (appDelegate.windowState == DCWindowState.fullWindow) {
-            let weekdate = currentWeekDatesArray.objectAtIndex(7) // extracting the middle date - todays date
-            let calendar : NSCalendar = NSCalendar.init(calendarIdentifier: NSCalendarIdentifierGregorian)!
-            let todaysDate : NSDate = calendar.startOfDayForDate(NSDate())
-            let order = NSCalendar.currentCalendar().compareDate(weekdate as! NSDate, toDate:todaysDate,
-                toUnitGranularity: .Day)
-            if order == NSComparisonResult.OrderedSame {
-                // Do Nothing
-            } else if order == NSComparisonResult.OrderedAscending {
-                self.animateAdministratorDetailsView(false)
-            } else if order == NSComparisonResult.OrderedDescending {
-                self.animateAdministratorDetailsView(true)
-            }
+        // currently today works only in full screen and 2/3rd screen.w
+        if (appDelegate.windowState == DCWindowState.fullWindow ||
+            appDelegate.windowState == DCWindowState.twoThirdWindow) {
+                let index = (appDelegate.windowState == DCWindowState.fullWindow) ? 7 : 4
+                let weekdate = currentWeekDatesArray.objectAtIndex(index) // extracting the middle date - todays date
+                let calendar : NSCalendar = NSCalendar.init(calendarIdentifier: NSCalendarIdentifierGregorian)!
+                let todaysDate : NSDate = calendar.startOfDayForDate(NSDate())
+                let order = NSCalendar.currentCalendar().compareDate(weekdate as! NSDate, toDate:todaysDate,
+                    toUnitGranularity: .Day)
+                if order == NSComparisonResult.OrderedSame {
+                    // Do Nothing
+                } else if order == NSComparisonResult.OrderedAscending {
+                    self.animateAdministratorDetailsView(false)
+                } else if order == NSComparisonResult.OrderedDescending {
+                    self.animateAdministratorDetailsView(true)
+                }
         }
     }
 
@@ -356,7 +358,6 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         atIndexPath indexPath:NSIndexPath,
         andSlotIndex index:NSInteger) {
             let calendarStripDaysCount = (appDelegate.windowState == DCWindowState.fullWindow) ? 5:3
-            print("the calendar strip is: %f", calendarStripDaysCount)
             if (index < calendarStripDaysCount) {
                 let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell, toContainerSubview: medicationCell.leftMedicationAdministerDetailsView, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary, atIndexPath: indexPath, atSlotIndex: index);
                 let weekdate = currentWeekDatesArray.objectAtIndex(index) as? NSDate
@@ -399,7 +400,6 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             if (appDelegate.windowState == DCWindowState.fullWindow) {
                 viewWidth = (slotWidth - 300)/5
             }
-            print("the slot width %f", viewWidth)
             let xValue : CGFloat = CGFloat(tag) * viewWidth + CGFloat(tag) + 1;
             let viewFrame = CGRectMake(xValue, 0, viewWidth, 78.0)
             let statusView : DCMedicationAdministrationStatusView = DCMedicationAdministrationStatusView(frame: viewFrame)
@@ -423,7 +423,6 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         let medicationSlotsArray: NSMutableArray = []
         while (count < weekDays) {
             
-            print("the execution %d",count)
             let slotsDictionary = NSMutableDictionary()
             if count < self.currentWeekDatesArray.count {
                 let date = self.currentWeekDatesArray.objectAtIndex(count)
