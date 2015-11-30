@@ -36,6 +36,7 @@ class DCOneThirdCalendarStripCollectionCell: UICollectionViewCell {
         indicatorLabel.layer.masksToBounds = true
         self.addSubview(indicatorLabel)
         self.bringSubviewToFront(indicatorLabel)
+        self.layoutIfNeeded()
     }
 
 }
