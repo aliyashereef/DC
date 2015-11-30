@@ -123,33 +123,17 @@ import UIKit
         let leftDatesArray : NSMutableArray = []
         let centerDatesArray : NSMutableArray = []
         let rightDatesArray : NSMutableArray = []
+        let calendarStripDaysCount = (appDelegate.windowState == DCWindowState.fullWindow) ? 5:3
         
-        if (appDelegate.windowState == DCWindowState.fullWindow) {
-            
-            print("the dates array is: %@", displayDatesArray)
-            for ( index = 0; index < displayDatesArray.count; index++) {
-                if (index < 5) {
-                    leftDatesArray.addObject(displayDatesArray.objectAtIndex(index))
-                }
-                else if (index >= 5 && index < 10) {
-                    centerDatesArray.addObject(displayDatesArray.objectAtIndex(index))
-                }
-                else if (index >= 10 && index < 15) {
-                    rightDatesArray.addObject(displayDatesArray.objectAtIndex(index))
-                }
+        for ( index = 0; index < displayDatesArray.count; index++) {
+            if (index < calendarStripDaysCount) {
+                leftDatesArray.addObject(displayDatesArray.objectAtIndex(index))
             }
-        }
-        else {
-            for ( index = 3; index < displayDatesArray.count; index++) {
-                if (index < 6) {
-                    leftDatesArray.addObject(displayDatesArray.objectAtIndex(index))
-                }
-                else if (index >= 6 && index < 9) {
-                    centerDatesArray.addObject(displayDatesArray.objectAtIndex(index))
-                }
-                else if (index >= 9 && index < 12) {
-                    rightDatesArray.addObject(displayDatesArray.objectAtIndex(index))
-                }
+            else if (index >= calendarStripDaysCount && index < 2 * calendarStripDaysCount) {
+                centerDatesArray.addObject(displayDatesArray.objectAtIndex(index))
+            }
+            else if (index >= 2 * calendarStripDaysCount && index < 3 * calendarStripDaysCount) {
+                rightDatesArray.addObject(displayDatesArray.objectAtIndex(index))
             }
         }
         print(centerCalendarView.backgroundColor)

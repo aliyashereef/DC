@@ -103,19 +103,8 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     
     func reloadMedicationListWithDisplayArray (displayArray: NSMutableArray) {
 
-        let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
+        //let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
         displayMedicationListArray = NSMutableArray.init(array: displayArray)
-        if (appDelegate.windowState == DCWindowState.fullWindow) {
-            
-        }
-        else {
-            if (displayMedicationListArray.count > 0) {
-                displayMedicationListArray.removeObjectAtIndex(0)
-                displayMedicationListArray.removeObjectAtIndex(1)
-                displayMedicationListArray.removeObjectAtIndex(2)
-            }
-        }
-        print("the medarray after removal :%@", displayMedicationListArray)
         medicationTableView?.reloadData()
     }
     
@@ -366,54 +355,31 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         rowDisplayMedicationSlotsArray:NSMutableArray,
         atIndexPath indexPath:NSIndexPath,
         andSlotIndex index:NSInteger) {
-            if (appDelegate.windowState == DCWindowState.fullWindow) {
-                if (index < 5) {
-                    let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell, toContainerSubview: medicationCell.leftMedicationAdministerDetailsView, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary, atIndexPath: indexPath, atSlotIndex: index);
-                    let weekdate = currentWeekDatesArray.objectAtIndex(index) as? NSDate
-                    medicationCell.leftMedicationAdministerDetailsView.addSubview(statusView)
-                    statusView.configureStatusViewForWeekDate(weekdate!)
-                }
-                else if (index >= 5 && index < 10) {
-                    let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell, toContainerSubview: medicationCell.masterMedicationAdministerDetailsView, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
-                        atIndexPath: indexPath,
-                        atSlotIndex: index - 5)
-                    let weekdate = currentWeekDatesArray.objectAtIndex(index) as? NSDate
-                    medicationCell.masterMedicationAdministerDetailsView.addSubview(statusView)
-                    statusView.configureStatusViewForWeekDate(weekdate!)
-                }
-                else if (index >= 10 && index < 15) {
-                    let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell, toContainerSubview: medicationCell.rightMedicationAdministerDetailsView, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
-                        atIndexPath: indexPath,
-                        atSlotIndex: index - 10)
-                    let weekdate = currentWeekDatesArray.objectAtIndex(index) as? NSDate
-                    medicationCell.rightMedicationAdministerDetailsView.addSubview(statusView)
-                    statusView.configureStatusViewForWeekDate(weekdate!)
-                }
+            let calendarStripDaysCount = (appDelegate.windowState == DCWindowState.fullWindow) ? 5:3
+            print("the calendar strip is: %f", calendarStripDaysCount)
+            if (index < calendarStripDaysCount) {
+                let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell, toContainerSubview: medicationCell.leftMedicationAdministerDetailsView, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary, atIndexPath: indexPath, atSlotIndex: index);
+                let weekdate = currentWeekDatesArray.objectAtIndex(index) as? NSDate
+                medicationCell.leftMedicationAdministerDetailsView.addSubview(statusView)
+                statusView.configureStatusViewForWeekDate(weekdate!)
             }
-            else {
-                if (index < 3) {
-                    let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell, toContainerSubview: medicationCell.leftMedicationAdministerDetailsView, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary, atIndexPath: indexPath, atSlotIndex: index);
-                    let weekdate = currentWeekDatesArray.objectAtIndex(index) as? NSDate
-                    medicationCell.leftMedicationAdministerDetailsView.addSubview(statusView)
-                    statusView.configureStatusViewForWeekDate(weekdate!)
-                }
-                else if (index >= 3 && index < 6) {
-                    let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell, toContainerSubview: medicationCell.masterMedicationAdministerDetailsView, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
-                        atIndexPath: indexPath,
-                        atSlotIndex: index - 3)
-                    let weekdate = currentWeekDatesArray.objectAtIndex(index) as? NSDate
-                    medicationCell.masterMedicationAdministerDetailsView.addSubview(statusView)
-                    statusView.configureStatusViewForWeekDate(weekdate!)
-                }
-                else if (index >= 6 && index < 9) {
-                    let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell, toContainerSubview: medicationCell.rightMedicationAdministerDetailsView, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
-                        atIndexPath: indexPath,
-                        atSlotIndex: index - 6)
-                    let weekdate = currentWeekDatesArray.objectAtIndex(index) as? NSDate
-                    medicationCell.rightMedicationAdministerDetailsView.addSubview(statusView)
-                    statusView.configureStatusViewForWeekDate(weekdate!)
-                }
+            else if (index >= calendarStripDaysCount && index < 2 * calendarStripDaysCount) {
+                let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell, toContainerSubview: medicationCell.masterMedicationAdministerDetailsView, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
+                    atIndexPath: indexPath,
+                    atSlotIndex: index - calendarStripDaysCount)
+                let weekdate = currentWeekDatesArray.objectAtIndex(index) as? NSDate
+                medicationCell.masterMedicationAdministerDetailsView.addSubview(statusView)
+                statusView.configureStatusViewForWeekDate(weekdate!)
             }
+            else if (index >= 2 * calendarStripDaysCount  && index < 3 * calendarStripDaysCount) {
+                let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell, toContainerSubview: medicationCell.rightMedicationAdministerDetailsView, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
+                    atIndexPath: indexPath,
+                    atSlotIndex: index - 2 * calendarStripDaysCount)
+                let weekdate = currentWeekDatesArray.objectAtIndex(index) as? NSDate
+                medicationCell.rightMedicationAdministerDetailsView.addSubview(statusView)
+                statusView.configureStatusViewForWeekDate(weekdate!)
+            }
+
             for subView in existingStatusViews {
                 subView.removeFromSuperview()
             }
@@ -433,6 +399,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             if (appDelegate.windowState == DCWindowState.fullWindow) {
                 viewWidth = (slotWidth - 300)/5
             }
+            print("the slot width %f", viewWidth)
             let xValue : CGFloat = CGFloat(tag) * viewWidth + CGFloat(tag) + 1;
             let viewFrame = CGRectMake(xValue, 0, viewWidth, 78.0)
             let statusView : DCMedicationAdministrationStatusView = DCMedicationAdministrationStatusView(frame: viewFrame)
@@ -449,18 +416,14 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     
     func prepareMedicationSlotsForDisplayInCellFromScheduleDetails (medicationScheduleDetails: DCMedicationScheduleDetails) -> NSMutableArray {
     
-        //TODO: commented out for Oct 12 release. Logic to be corrected.
         var count = 0, weekDays = 15
-        if (appDelegate.windowState == DCWindowState.fullWindow) {
-            
+        if (appDelegate.windowState == DCWindowState.twoThirdWindow) {
+            weekDays = 9
         }
-        else {
-            count = 3
-            weekDays = 12
-        }
-        
         let medicationSlotsArray: NSMutableArray = []
         while (count < weekDays) {
+            
+            print("the execution %d",count)
             let slotsDictionary = NSMutableDictionary()
             if count < self.currentWeekDatesArray.count {
                 let date = self.currentWeekDatesArray.objectAtIndex(count)
