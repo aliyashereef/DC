@@ -119,6 +119,7 @@ import UIKit
     func displayDatesInView () {
         
         let displayDatesArray = displayWeekDatesArray()
+        print("the dates array : %@", displayDatesArray)
         var index : NSInteger = 0
         let leftDatesArray : NSMutableArray = []
         let centerDatesArray : NSMutableArray = []
@@ -126,6 +127,7 @@ import UIKit
         let calendarStripDaysCount = (appDelegate.windowState == DCWindowState.fullWindow) ? 5:3
         
         for ( index = 0; index < displayDatesArray.count; index++) {
+            print("the calendar strips count: %d", calendarStripDaysCount)
             if (index < calendarStripDaysCount) {
                 leftDatesArray.addObject(displayDatesArray.objectAtIndex(index))
             }
@@ -137,6 +139,7 @@ import UIKit
             }
         }
         print(centerCalendarView.backgroundColor)
+        print("the arrays: %@ %@ %@", leftDatesArray, centerDatesArray,rightDatesArray)
         leftCalendarView .populateViewForDateArray(leftDatesArray)
         centerCalendarView.populateViewForDateArray(centerDatesArray)
         rightCalendarView.populateViewForDateArray(rightDatesArray)
