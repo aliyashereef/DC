@@ -169,16 +169,12 @@
 		1FD4FCB91BF4B6B700B77B94 /* Pulse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCB21BF4B6B700B77B94 /* Pulse.swift */; };
 		1FD4FCBA1BF4B6B700B77B94 /* Respiratory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCB31BF4B6B700B77B94 /* Respiratory.swift */; };
 		1FD4FCBB1BF4B6B700B77B94 /* SPO2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCB41BF4B6B700B77B94 /* SPO2.swift */; };
-		1FD4FCC91BF4B7E000B77B94 /* CommaScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCBF1BF4B7E000B77B94 /* CommaScoreView.swift */; };
 		1FD4FCCA1BF4B7E000B77B94 /* GeneralObservationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCC01BF4B7E000B77B94 /* GeneralObservationView.swift */; };
 		1FD4FCCB1BF4B7E000B77B94 /* GraphicalDashBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCC11BF4B7E000B77B94 /* GraphicalDashBoardView.swift */; };
 		1FD4FCCC1BF4B7E000B77B94 /* SelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCC21BF4B7E000B77B94 /* SelectionView.swift */; };
-		1FD4FCCD1BF4B7E000B77B94 /* TabularDashBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCC31BF4B7E000B77B94 /* TabularDashBoardView.swift */; };
-		1FD4FCCE1BF4B7E000B77B94 /* CommaScoreView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD4FCC41BF4B7E000B77B94 /* CommaScoreView.xib */; };
 		1FD4FCCF1BF4B7E000B77B94 /* GeneralObservationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD4FCC51BF4B7E000B77B94 /* GeneralObservationView.xib */; };
 		1FD4FCD01BF4B7E000B77B94 /* GraphicalDashBoardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD4FCC61BF4B7E000B77B94 /* GraphicalDashBoardView.xib */; };
 		1FD4FCD11BF4B7E000B77B94 /* SelectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD4FCC71BF4B7E000B77B94 /* SelectionView.xib */; };
-		1FD4FCD21BF4B7E000B77B94 /* TabularDashBoardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD4FCC81BF4B7E000B77B94 /* TabularDashBoardView.xib */; };
 		1FD4FCE51BF4B8F400B77B94 /* DatePickerCell_Inline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCD31BF4B8F400B77B94 /* DatePickerCell_Inline.swift */; };
 		1FD4FCE61BF4B8F400B77B94 /* DatePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCD41BF4B8F400B77B94 /* DatePickerCell.swift */; };
 		1FD4FCE71BF4B8F400B77B94 /* LineChartCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCD51BF4B8F400B77B94 /* LineChartCell.swift */; };
@@ -555,16 +551,12 @@
 		1FD4FCB21BF4B6B700B77B94 /* Pulse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pulse.swift; sourceTree = "<group>"; };
 		1FD4FCB31BF4B6B700B77B94 /* Respiratory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Respiratory.swift; sourceTree = "<group>"; };
 		1FD4FCB41BF4B6B700B77B94 /* SPO2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SPO2.swift; sourceTree = "<group>"; };
-		1FD4FCBF1BF4B7E000B77B94 /* CommaScoreView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommaScoreView.swift; sourceTree = "<group>"; };
 		1FD4FCC01BF4B7E000B77B94 /* GeneralObservationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralObservationView.swift; sourceTree = "<group>"; };
 		1FD4FCC11BF4B7E000B77B94 /* GraphicalDashBoardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphicalDashBoardView.swift; sourceTree = "<group>"; };
 		1FD4FCC21BF4B7E000B77B94 /* SelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionView.swift; sourceTree = "<group>"; };
-		1FD4FCC31BF4B7E000B77B94 /* TabularDashBoardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabularDashBoardView.swift; sourceTree = "<group>"; };
-		1FD4FCC41BF4B7E000B77B94 /* CommaScoreView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommaScoreView.xib; sourceTree = "<group>"; };
 		1FD4FCC51BF4B7E000B77B94 /* GeneralObservationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GeneralObservationView.xib; sourceTree = "<group>"; };
 		1FD4FCC61BF4B7E000B77B94 /* GraphicalDashBoardView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GraphicalDashBoardView.xib; sourceTree = "<group>"; };
 		1FD4FCC71BF4B7E000B77B94 /* SelectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectionView.xib; sourceTree = "<group>"; };
-		1FD4FCC81BF4B7E000B77B94 /* TabularDashBoardView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TabularDashBoardView.xib; sourceTree = "<group>"; };
 		1FD4FCD31BF4B8F400B77B94 /* DatePickerCell_Inline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerCell_Inline.swift; sourceTree = "<group>"; };
 		1FD4FCD41BF4B8F400B77B94 /* DatePickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerCell.swift; sourceTree = "<group>"; };
 		1FD4FCD51BF4B8F400B77B94 /* LineChartCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartCell.swift; sourceTree = "<group>"; };
@@ -1961,16 +1953,12 @@
 		1FD4FCBD1BF4B72D00B77B94 /* CustomView */ = {
 			isa = PBXGroup;
 			children = (
-				1FD4FCBF1BF4B7E000B77B94 /* CommaScoreView.swift */,
 				1FD4FCC01BF4B7E000B77B94 /* GeneralObservationView.swift */,
 				1FD4FCC11BF4B7E000B77B94 /* GraphicalDashBoardView.swift */,
 				1FD4FCC21BF4B7E000B77B94 /* SelectionView.swift */,
-				1FD4FCC31BF4B7E000B77B94 /* TabularDashBoardView.swift */,
-				1FD4FCC41BF4B7E000B77B94 /* CommaScoreView.xib */,
 				1FD4FCC51BF4B7E000B77B94 /* GeneralObservationView.xib */,
 				1FD4FCC61BF4B7E000B77B94 /* GraphicalDashBoardView.xib */,
 				1FD4FCC71BF4B7E000B77B94 /* SelectionView.xib */,
-				1FD4FCC81BF4B7E000B77B94 /* TabularDashBoardView.xib */,
 				1F1977081BFDE5E700106023 /* ExcelTabularView.swift */,
 				1F19770A1BFDE60E00106023 /* ExcelTabularView.xib */,
 			);
@@ -2551,7 +2539,6 @@
 				0B85D6831BF9CC02009CF795 /* DCSchedulingHeaderView.xib in Resources */,
 				0BD5181D1BFB2F790076B018 /* WeekDays.plist in Resources */,
 				0BBDEDE91AA581630016E6FF /* Lato-SemiboldItalic.ttf in Resources */,
-				1FD4FCD21BF4B7E000B77B94 /* TabularDashBoardView.xib in Resources */,
 				4D54C0761BFB245A00A61273 /* OneThirdScreenSizeCalendar.storyboard in Resources */,
 				0B6B9DC21B4111B000395AC5 /* AdministratingTime.plist in Resources */,
 				0B926CE51AFB83E700D8C1BA /* Inactive.plist in Resources */,
@@ -2573,7 +2560,6 @@
 				7D9EA9EC1B29846C00337E6A /* PositionableGraphics.plist in Resources */,
 				1F1977131BFDE77500106023 /* ContentCollectionViewCell.xib in Resources */,
 				1FD4FCF11BF4B8F400B77B94 /* LineChartCell.xib in Resources */,
-				1FD4FCCE1BF4B7E000B77B94 /* CommaScoreView.xib in Resources */,
 				7D44BF7B1AAFE4B4006B3C9A /* IPRJ2623520.plist in Resources */,
 				0BC5FAFA1B4411DE0019BF36 /* DCAutoSearchView.xib in Resources */,
 				0B9173A01B01F3BA00BC9337 /* PrescriberDetails.storyboard in Resources */,
@@ -2804,7 +2790,6 @@
 				1FD4FD0A1BF4BAE000B77B94 /* Enumerations.swift in Sources */,
 				1FB5D07D1C08681F00F9A2F7 /* CommaScoreViewController.swift in Sources */,
 				4DDE0ADE1BBBBEDE0044295B /* DCAdministratedByPinVerificationViewController.swift in Sources */,
-				1FD4FCC91BF4B7E000B77B94 /* CommaScoreView.swift in Sources */,
 				0BD659541BD6660D00D3097B /* UIButton+ButtonHighlight.m in Sources */,
 				0BBEFFD01B5F72EF00E70CCC /* DCWarning.m in Sources */,
 				0B21570C1AB7D1D400BC4611 /* DCNameSelectionTableViewController.m in Sources */,
@@ -2875,7 +2860,6 @@
 				0BD6991B1BB2BAC1008797A2 /* DCBatchNumberCell.swift in Sources */,
 				1FD4FCB61BF4B6B700B77B94 /* BodyTemperature.swift in Sources */,
 				1FD4FD0B1BF4BAE000B77B94 /* Helper.swift in Sources */,
-				1FD4FCCD1BF4B7E000B77B94 /* TabularDashBoardView.swift in Sources */,
 				1FB412681BFB522900D91487 /* String.swift in Sources */,
 				7D3234A81AF108990020CC8F /* DCSettingsViewController.m in Sources */,
 				0B14CD8A1BB13BEB0085E40C /* DCAdministerViewController.swift in Sources */,
