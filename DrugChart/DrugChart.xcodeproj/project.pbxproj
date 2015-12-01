@@ -145,6 +145,8 @@
 		1F1977211C0485C500106023 /* RowHeaderCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F19771F1C0485C500106023 /* RowHeaderCollectionViewCell.xib */; };
 		1F1977241C05DB1400106023 /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1977231C05DB1400106023 /* UITextField.swift */; };
 		1F3007061BF5552E00DDF3F3 /* VitalSignObservation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3007051BF5552E00DDF3F3 /* VitalSignObservation.swift */; };
+		1F3C316E1C0DB3CB007C6AE7 /* PatientViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3C316D1C0DB3CB007C6AE7 /* PatientViewController.swift */; };
+		1F3C31701C0DB8F8007C6AE7 /* Patient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3C316F1C0DB8F8007C6AE7 /* Patient.swift */; };
 		1FB412681BFB522900D91487 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB412671BFB522900D91487 /* String.swift */; };
 		1FB5D07B1C0751D700F9A2F7 /* ObservationSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB5D07A1C0751D700F9A2F7 /* ObservationSelectionViewController.swift */; };
 		1FB5D07D1C08681F00F9A2F7 /* CommaScoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB5D07C1C08681F00F9A2F7 /* CommaScoreViewController.swift */; };
@@ -510,6 +512,8 @@
 		1F19771F1C0485C500106023 /* RowHeaderCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RowHeaderCollectionViewCell.xib; sourceTree = "<group>"; };
 		1F1977231C05DB1400106023 /* UITextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
 		1F3007051BF5552E00DDF3F3 /* VitalSignObservation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VitalSignObservation.swift; sourceTree = "<group>"; };
+		1F3C316D1C0DB3CB007C6AE7 /* PatientViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatientViewController.swift; sourceTree = "<group>"; };
+		1F3C316F1C0DB8F8007C6AE7 /* Patient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Patient.swift; sourceTree = "<group>"; };
 		1FB412671BFB522900D91487 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		1FB5D07A1C0751D700F9A2F7 /* ObservationSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservationSelectionViewController.swift; sourceTree = "<group>"; };
 		1FB5D07C1C08681F00F9A2F7 /* CommaScoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommaScoreViewController.swift; sourceTree = "<group>"; };
@@ -1495,6 +1499,7 @@
 		0BBE3B5C1AA42DC5004CA6E9 /* DrugChart */ = {
 			isa = PBXGroup;
 			children = (
+				1F3C316B1C0DAFF8007C6AE7 /* Classes */,
 				1F1977221C05DAB400106023 /* Extension */,
 				1FD4FD0C1BF4BB9100B77B94 /* Delegate */,
 				7D4DBE921AA5437300A5E39B /* Views */,
@@ -1797,6 +1802,22 @@
 			name = Extension;
 			sourceTree = "<group>";
 		};
+		1F3C316B1C0DAFF8007C6AE7 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				1F3C316C1C0DB1A5007C6AE7 /* BaseClass */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1F3C316C1C0DB1A5007C6AE7 /* BaseClass */ = {
+			isa = PBXGroup;
+			children = (
+				1F3C316D1C0DB3CB007C6AE7 /* PatientViewController.swift */,
+			);
+			name = BaseClass;
+			sourceTree = "<group>";
+		};
 		1FD4FCAD1BF4B60E00B77B94 /* VitalSign */ = {
 			isa = PBXGroup;
 			children = (
@@ -1894,6 +1915,7 @@
 			isa = PBXGroup;
 			children = (
 				1FD4FD0D1BF4BB9B00B77B94 /* VitalSign */,
+				1F3C316F1C0DB8F8007C6AE7 /* Patient.swift */,
 			);
 			name = Delegate;
 			sourceTree = "<group>";
@@ -2613,6 +2635,7 @@
 				7D6010761B4BE1AA00135DBD /* DCMedicationSchedulesWebService.m in Sources */,
 				7D5319BE1BF21EDB003C3F92 /* DCAlertsAllergyPopOverViewController.m in Sources */,
 				1F1977241C05DB1400106023 /* UITextField.swift in Sources */,
+				1F3C316E1C0DB3CB007C6AE7 /* PatientViewController.swift in Sources */,
 				7D930D1F1AADF82E00C0607F /* DCDateUtility.m in Sources */,
 				1FB5D07B1C0751D700F9A2F7 /* ObservationSelectionViewController.swift in Sources */,
 				0B1E308F1AF20213003E49C4 /* DCSecurityPinViewController.m in Sources */,
@@ -2717,6 +2740,7 @@
 				4D8386A01BB26D000012EF7D /* DCMedicationHistoryHeaderView.swift in Sources */,
 				0BB33DD01B79D48E00B05E4D /* DCAuthorizationManager.m in Sources */,
 				0BB33DD81B79F56900B05E4D /* DCMedicationDetails.m in Sources */,
+				1F3C31701C0DB8F8007C6AE7 /* Patient.swift in Sources */,
 				0BA449DB1B983265009F84E5 /* DCInstructionsTableCell.m in Sources */,
 				7D06524B1B564C0B0068CA83 /* DCMedicationAdministration.m in Sources */,
 				0BA3F80C1BAA828A00DC1C2A /* DCReasonCell.swift in Sources */,

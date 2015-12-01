@@ -254,7 +254,6 @@
                             <constraint firstItem="BEa-Zn-RuB" firstAttribute="top" secondItem="hV8-Kr-KP1" secondAttribute="bottom" constant="8" id="xG9-6Q-J0t"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="rTL-AQ-xfS"/>
                     <navigationItem key="navigationItem" title="Observation Chart" id="gql-ip-e6Y">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="mhF-6M-N48">
                             <connections>

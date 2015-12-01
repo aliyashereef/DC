@@ -9,7 +9,7 @@
 import UIKit
 
 
-class VitalsignDashboard: DCBaseViewController , ObservationDelegate{
+class VitalsignDashboard: PatientViewController , ObservationDelegate {
 
 //    @IBOutlet weak var collectionView: UICollectionView!
     
@@ -17,7 +17,6 @@ class VitalsignDashboard: DCBaseViewController , ObservationDelegate{
     @IBOutlet weak var parentView: UIView!
     var observationList = [VitalSignObservation]()
     var graphicalDashBoardView:GraphicalDashBoardView!
-    //var tabularDashBoardView:TabularDashBoardView!
     var tabularDashBoardView:ExcelTabularView!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,18 +27,17 @@ class VitalsignDashboard: DCBaseViewController , ObservationDelegate{
         Helper.displayInChildView(graphicalDashBoardView, parentView: parentView)
         tabularDashBoardView = ExcelTabularView.instanceFromNib() as! ExcelTabularView
         tabularDashBoardView.configureView(observationList)
-        //tabularDashBoardView.delegate = self
         self.displayTitle()
     }
 
     func displayTitle()
     {
-       // var titleView:DCCalendarNavigationTitleView!
-        //DCCalendarNavigationTitleView *titleView = [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([DCCalendarNavigationTitleView class]) owner:self options:nil] objectAtIndex:0];
-        
-//        [titleView populateViewWithPatientName:self.patient.patientName nhsNumber:self.patient.nhs dateOfBirth:_patient.dob age:_patient.age
-//        ];
-//        self.navigationItem.titleView = titleView;
+        var titleView:DCCalendarNavigationTitleView?
+        titleView = NSBundle.mainBundle().loadNibNamed("DCCalendarNavigationTitleView", owner: self, options: nil)[0] as? DCCalendarNavigationTitleView
+   //     [titleView populateViewWithPatientName:self.patient.patientName nhsNumber:self.patient.nhs dateOfBirth:_patient.dob age:_patient.age
+            
+       titleView!.populateViewWithPatientName(patient.patientName, nhsNumber:patient.nhs, dateOfBirth: patient.dob, age: patient.age)
+       self.navigationItem.titleView = titleView
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -54,7 +52,6 @@ class VitalsignDashboard: DCBaseViewController , ObservationDelegate{
             Helper.displayInChildView(graphicalDashBoardView,parentView:parentView)
             graphicalDashBoardView.reloadView(observationList)
         case 1:
-            //tabularDashBoardView.configureView(observationList)
             tabularDashBoardView.reloadView(observationList)
             Helper.displayInChildView(tabularDashBoardView,parentView:parentView)
         default:
