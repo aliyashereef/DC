@@ -120,9 +120,11 @@
 "REASON"                =       "Reason";
 "NEW_DOSAGE"            =       "New Dosage";
 "SCHEDULING"            =       "Scheduling";
+"FREQUENCY"             =       "Frequency";
 "SPECIFIC_TIMES"        =       "Specific Times";
 "REPEAT"                =       "Repeat";
 "DESCRIPTION"           =       "Description";
+"DOSE"                  =       "Dose";
 
 //Administer
 

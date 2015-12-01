@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "DCMedicationDetails.h"
+#import "DCMedicationScheduleDetails.h"
 
 #define INITIAL_SECTION_COUNT                   1
 #define MEDICATION_NAME_ROW_COUNT               1
@@ -16,13 +17,13 @@
 #define REGULAR_MEDICATION_SECTION_COUNT        7
 #define ONCE_WHEN_REQUIRED_SECTION_COUNT        5
 #define WARNINGS_ROW_COUNT                      1
-#define MEDICATION_DETAILS_ROW_COUNT            3
+#define MEDICATION_DETAILS_ROW_COUNT            2
 #define INSTRUCTIONS_ROW_COUNT                  1
 #define REGULAR_DATEANDTIME_ROW_COUNT           3
 #define ONCE_DATEANDTIME_ROW_COUNT              1
 #define WHEN_REQUIRED_DATEANDTIME_ROW_COUNT     3
 #define DOSAGE_INDEX                            0
-#define ROUTE_INDEX                             1
+#define ROUTE_INDEX                             0
 #define TYPE_INDEX                              2
 #define START_DATE_ROW_INDEX                    0
 #define NO_END_DATE_ROW_INDEX                   1
@@ -38,9 +39,14 @@
 #define PICKER_VIEW_CELL_HEIGHT                 200.0f
 #define ADMINISTRATION_CELL_INDEX               0
 #define REPEAT_CELL_INDEX                       1
-
-
 #define MAXIMUM_CHARACTERS_INCLUDED_IN_ONE_LINE 15
+#define TITLE_VIEW_RECT CGRectMake(0, 0, 150, 50)
+#define VIEW_TOP_LAYOUT_VIEW_HEIGHT 50
+#define START_DATE_FORMAT @"d-MMM-yyyy HH:mm"
+
+// Dictionary keys
+#define SELECTED @"selected"
+#define TIME @"time"
 
 //Constants
 static NSString *kDateCellID = @"datecell";
@@ -76,5 +82,8 @@ typedef enum : NSUInteger {
 + (CellType)cellTypeForSpecificTimesSchedulingAtIndexPath:(NSIndexPath *)indexPath;
 
 + (AddMedicationDetailType)medicationDetailTypeForIndexPath:(NSIndexPath *)indexPath hasWarnings:(BOOL)showWarnings;
+
++ (NSInteger)numberOfSectionsInMedicationTableViewForSelectedMedication:(DCMedicationScheduleDetails *)selectedmedication
+                                                           showWarnings:(BOOL)showWarnings;
 
 @end
