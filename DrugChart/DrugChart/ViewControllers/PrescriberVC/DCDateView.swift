@@ -16,7 +16,7 @@ import QuartzCore
     var indicatorLabel: UILabel = UILabel()
     let dateViewFormat : NSString = "EEE d"
     let dayViewFormat : NSString = "d"
-    let weekDayViewFormat : NSString = "EEE  "
+    let weekDayViewFormat : NSString = "EEE   '...'"
 
 
      init(frame: CGRect, date : NSString) {
@@ -62,7 +62,7 @@ import QuartzCore
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = dayViewFormat as String
         let dateString = dateFormatter.stringFromDate(today)
-        indicatorLabel.frame = CGRectMake(95, 12.0, 25, 25)
+        indicatorLabel.frame = CGRectMake(81, 12.0, 25, 25)
         indicatorLabel.font = UIFont.systemFontOfSize(17)
         indicatorLabel.textAlignment = .Center
         indicatorLabel.textColor = UIColor.whiteColor()

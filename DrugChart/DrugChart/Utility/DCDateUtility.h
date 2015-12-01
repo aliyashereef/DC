@@ -34,7 +34,8 @@
 
 + (NSString *)timeStringInTwentyFourHourFormat:(NSDate *)time;
 
-+ (NSMutableArray *)nextAndPreviousSevenDaysWithReferenceToDate:(NSDate *)date;
++ (NSMutableArray *)nextAndPreviousDays:(NSInteger)daysCount
+                    withReferenceToDate:(NSDate *)date;
 
 + (NSDate *)initialDateForCalendarDisplay:(NSDate *)date
                               withAdderValue:(NSInteger)adder;
@@ -42,5 +43,9 @@
 + (NSDate *)administrationDateForString:(NSString *)dateString;
 
 + (NSString *)systemDateStringInShortDisplayFormat;
+
++ (NSInteger)currentWeekDayIndex;
+
++ (NSInteger)currentDay;
 
 @end

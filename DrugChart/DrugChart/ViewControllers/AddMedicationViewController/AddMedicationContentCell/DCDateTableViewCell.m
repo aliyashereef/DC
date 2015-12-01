@@ -31,7 +31,7 @@
 - (void)configureCellWithNoEndDateSwitchState:(BOOL)state {
     
     if (!_isEditMedication) {
-        _previousSwitchState = 1;
+        _previousSwitchState = 0;
         [_dateValueLabel setHidden:YES];
     } else {
         [_dateValueLabel setHidden:NO];

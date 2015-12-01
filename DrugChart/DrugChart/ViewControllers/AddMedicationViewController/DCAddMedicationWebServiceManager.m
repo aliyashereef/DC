@@ -67,20 +67,16 @@
         
         [medicationDictionary setValue:startDateString forKey:START_DATE_TIME];
         [medicationDictionary setValue:scheduleArray forKey:SCHEDULE_TIMES];
-                if (!medication.noEndDate) {
-                    [medicationDictionary setValue:endDateString forKey:END_DATE_TIME];
-                }
-        
+        if (medication.hasEndDate) {
+            [medicationDictionary setValue:endDateString forKey:END_DATE_TIME];
+        }
     } else if ([medication.medicineCategory isEqualToString:ONCE_MEDICATION]) {
-        
         [medicationDictionary setValue:startDateString forKey:SCHEDULED_DATE_TIME];
-        
     } else {
-        
         [medicationDictionary setValue:startDateString forKey:START_DATE_TIME];
-                if (!medication.noEndDate) {
-                    [medicationDictionary setValue:endDateString forKey:END_DATE_TIME];
-                }
+        if (medication.hasEndDate) {
+            [medicationDictionary setValue:endDateString forKey:END_DATE_TIME];
+        }
     }
     return medicationDictionary;
 }

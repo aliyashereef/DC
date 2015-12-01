@@ -10,7 +10,10 @@
 #import "DCLogOutWebService.h"
 #import "DCKeyChainManager.h"
 
-@interface DCBaseViewController ()
+@interface DCBaseViewController () {
+
+    BOOL sizeChanged;
+}
 
 @end
 
@@ -37,6 +40,31 @@
     
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewDidLayoutSubviews {
+    
+    [super viewDidLayoutSubviews];
+    CGFloat windowWidth= [DCUtility mainWindowSize].width;
+    CGFloat screenWidth= [UIScreen mainScreen].bounds.size.width;
+    DCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    if (windowWidth <= screenWidth/2) {
+        appDelegate.windowState = halfWindow;
+    } else  {
+        if (windowWidth == screenWidth) {
+            appDelegate.windowState = fullWindow;
+        }
+        else {
+            appDelegate.windowState = twoThirdWindow;
+        }
+    }
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size
+       withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    sizeChanged = YES;
 }
 
 /*
