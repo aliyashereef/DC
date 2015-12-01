@@ -558,9 +558,11 @@
             return (showWarnings ? rowCount : MEDICATION_NAME_ROW_COUNT);
         }
         case eFifthSection:
-            return showWarnings ? 1 : SPECIFIC_TIMES_SCHEDULING_ROW_COUNT;
         case eSixthSection:
+            //return showWarnings ? 1 : SPECIFIC_TIMES_SCHEDULING_ROW_COUNT;
             return 1;
+//        case eSixthSection:
+//            return 1;
         default:
             break;
     }
@@ -803,19 +805,21 @@
             if (showWarnings) {
                 [self displaySchedulingDetailViewForTableViewAtIndexPath:indexPath];
             } else {
-                if (indexPath.row == 0) {
-                    [self presentAdministrationTimeView];
-                } else if (indexPath.row == 1) {
-                    [self displaySchedulingDetailViewForTableViewAtIndexPath:indexPath];
-                }
+//                if (indexPath.row == 0) {
+//                    [self presentAdministrationTimeView];
+//                } else if (indexPath.row == 1) {
+//                    [self displaySchedulingDetailViewForTableViewAtIndexPath:indexPath];
+//                }
+                [self displayAddMedicationDetailViewForTableRowAtIndexPath:indexPath];
             }
             break;
-        case eSixthSection:
+ //       case eSixthSection:
 //            if (indexPath.row == 0) {
 //                [self presentAdministrationTimeView];
 //            } else if (indexPath.row == 1) {
 //                [self displaySchedulingDetailViewForTableViewAtIndexPath:indexPath];
 //            }
+            
 //            break;
         default:{
             [self displayAddMedicationDetailViewForTableRowAtIndexPath:indexPath];
@@ -1035,17 +1039,38 @@
             CellType cellType;
             if (showWarnings) {
                 cellType = eSchedulingCell;
-            } else {
-                cellType = [DCAddMedicationHelper cellTypeForSpecificTimesSchedulingAtIndexPath:indexPath];
-            }
-            if (indexPath.row == 2) {
-                //display description cell
-                DCInstructionsTableCell *descriptionCell = [self schedulingDescriptionTableCell];
-                return descriptionCell;
-            } else {
                 DCAddMedicationContentCell *contentCell = [self populatedAddMedicationCellForIndexPath:indexPath forCellType:cellType];
                 return contentCell;
+            } else {
+               // cellType = [DCAddMedicationHelper cellTypeForSpecificTimesSchedulingAtIndexPath:indexPath];
+                
+                if (indexPath.row == DOSAGE_INDEX && self.selectedMedication.dosage.length > MAXIMUM_CHARACTERS_INCLUDED_IN_ONE_LINE) {
+                    DCDosageMultiLineCell *dosageCell = [self dosageCellAtIndexPath:indexPath];
+                    return dosageCell;
+                } else {
+                    static NSString *cellIdentifier = ADD_MEDICATION_CONTENT_CELL;
+                    DCAddMedicationContentCell *cell = [medicationDetailsTableView dequeueReusableCellWithIdentifier:cellIdentifier];
+                    cell.layoutMargins = UIEdgeInsetsZero;
+                    if (doneClicked) {
+                        if ([self.selectedMedication.dosage isEqualToString:EMPTY_STRING] || self.selectedMedication.dosage == nil) {
+                            cell.titleLabel.textColor = [UIColor redColor];
+                        } else {
+                            cell.titleLabel.textColor = [UIColor blackColor];
+                        }
+                    }
+                    cell.titleLabel.text = NSLocalizedString(@"DOSE", @"Dose cell title");
+                    [cell configureContentCellWithContent:self.selectedMedication.dosage];
+                    return cell;
+                }
             }
+//            if (indexPath.row == 2) {
+//                //display description cell
+//                DCInstructionsTableCell *descriptionCell = [self schedulingDescriptionTableCell];
+//                return descriptionCell;
+//            } else {
+//                DCAddMedicationContentCell *contentCell = [self populatedAddMedicationCellForIndexPath:indexPath forCellType:cellType];
+//                return contentCell;
+//            }
          }
         case eSixthSection: {
 //            if (indexPath.row == 2) {
@@ -1062,10 +1087,6 @@
                 DCDosageMultiLineCell *dosageCell = [self dosageCellAtIndexPath:indexPath];
                 return dosageCell;
             } else {
-//                DCAddMedicationContentCell *contentCell = [self populatedAddMedicationCellForIndexPath:indexPath forCellType:eMedicationDetailsCell];
-//                return contentCell;
-                
-                
                 static NSString *cellIdentifier = ADD_MEDICATION_CONTENT_CELL;
                 DCAddMedicationContentCell *cell = [medicationDetailsTableView dequeueReusableCellWithIdentifier:cellIdentifier];
                 cell.layoutMargins = UIEdgeInsetsZero;
@@ -1076,25 +1097,10 @@
                         cell.titleLabel.textColor = [UIColor blackColor];
                     }
                 }
-                cell.titleLabel.text = NSLocalizedString(@"DOSE", @"Dosage cell title");
+                cell.titleLabel.text = NSLocalizedString(@"DOSE", @"Dose cell title");
                 [cell configureContentCellWithContent:self.selectedMedication.dosage];
                 return cell;
             }
-            
-//            if (indexPath.row == DOSAGE_INDEX && self.selectedMedication.dosage.length <= MAXIMUM_CHARACTERS_INCLUDED_IN_ONE_LINE) {
-//                //check if dosage is valid, if not valid highlight field in red
-//                if (doneClicked) {
-//                    if ([self.selectedMedication.dosage isEqualToString:EMPTY_STRING] || self.selectedMedication.dosage == nil) {
-//                        cell.titleLabel.textColor = [UIColor redColor];
-//                    } else {
-//                        cell.titleLabel.textColor = [UIColor blackColor];
-//                    }
-//                }
-//                cell.titleLabel.text = NSLocalizedString(@"DOSAGE", @"Dosage cell title");
-//                [cell configureContentCellWithContent:self.selectedMedication.dosage];
-//            }
-            
-            
         }
     }
     return nil;
@@ -1118,31 +1124,34 @@
             nameHeight = (nameHeight < TABLE_CELL_DEFAULT_ROW_HEIGHT) ? TABLE_CELL_DEFAULT_ROW_HEIGHT : nameHeight;
         }
         return nameHeight;
-    } else if (indexPath.section == eFirstSection){
-        if (!showWarnings) {
-            if (indexPath.row == DOSAGE_INDEX) {
-                // calculate the height for the given text
-                if (self.selectedMedication.dosage.length > MAXIMUM_CHARACTERS_INCLUDED_IN_ONE_LINE) {
-                    CGSize textSize = [DCUtility textViewSizeWithText:self.selectedMedication.dosage maxWidth:258 font:[UIFont systemFontOfSize:15]];
-                    return textSize.height + 40; // padding size of 40
-                }
-            }
-        }
-    } else if (indexPath.section == eSecondSection){
+    }
+//    else if (indexPath.section == eFirstSection){
+//        if (!showWarnings) {
+//            if (indexPath.row == DOSAGE_INDEX) {
+//                // calculate the height for the given text
+//                if (self.selectedMedication.dosage.length > MAXIMUM_CHARACTERS_INCLUDED_IN_ONE_LINE) {
+//                    CGSize textSize = [DCUtility textViewSizeWithText:self.selectedMedication.dosage maxWidth:258 font:[UIFont systemFontOfSize:15]];
+//                    return textSize.height + 40; // padding size of 40
+//                }
+//            }
+//        }
+//    }
+    else if (indexPath.section == eSecondSection){
         if (showWarnings) {
-                if (indexPath.row == DOSAGE_INDEX) {
-                    // calculate the height for the given text
-                    if (self.selectedMedication.dosage.length > MAXIMUM_CHARACTERS_INCLUDED_IN_ONE_LINE) {
-                        CGSize textSize = [DCUtility textViewSizeWithText:self.selectedMedication.dosage maxWidth:258 font:[UIFont systemFontOfSize:15]];
-                        return textSize.height + 40; // padding size of 40
-                    }
-                }else {
-                    return TABLE_CELL_DEFAULT_ROW_HEIGHT;
-                }
+//                if (indexPath.row == DOSAGE_INDEX) {
+//                    // calculate the height for the given text
+//                    if (self.selectedMedication.dosage.length > MAXIMUM_CHARACTERS_INCLUDED_IN_ONE_LINE) {
+//                        CGSize textSize = [DCUtility textViewSizeWithText:self.selectedMedication.dosage maxWidth:258 font:[UIFont systemFontOfSize:15]];
+//                        return textSize.height + 40; // padding size of 40
+//                    }
+//                }else {
+//                    return TABLE_CELL_DEFAULT_ROW_HEIGHT;
+//                }
         } else {
             return INSTRUCTIONS_ROW_HEIGHT;
         }
-    } else if (indexPath.section == eThirdSection){
+    }
+    else if (indexPath.section == eThirdSection){
         if (showWarnings) {
             return INSTRUCTIONS_ROW_HEIGHT;
         } else {
@@ -1153,9 +1162,16 @@
             return ([self indexPathHasPicker:indexPath] ? PICKER_VIEW_CELL_HEIGHT : medicationDetailsTableView.rowHeight);
         }
     } else if ((indexPath.section == eFifthSection && !showWarnings) || (indexPath.section == eSixthSection)) {
-        if (indexPath.row == 2) {
-            return INSTRUCTIONS_ROW_HEIGHT;
-        }
+//        if (indexPath.row == 2) {
+//            return INSTRUCTIONS_ROW_HEIGHT;
+//        }
+       // if (indexPath.row == DOSAGE_INDEX) {
+            // calculate the height for the given text
+            if (self.selectedMedication.dosage.length > MAXIMUM_CHARACTERS_INCLUDED_IN_ONE_LINE) {
+                CGSize textSize = [DCUtility textViewSizeWithText:self.selectedMedication.dosage maxWidth:258 font:[UIFont systemFontOfSize:15]];
+                return textSize.height + 40; // padding size of 40
+            }
+       // }
     }
     return TABLE_CELL_DEFAULT_ROW_HEIGHT;
 }

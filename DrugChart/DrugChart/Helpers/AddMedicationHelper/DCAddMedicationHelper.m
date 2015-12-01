@@ -144,11 +144,12 @@
             if (showWarnings) {
                 return eDetailSchedulingType;
             } else {
-                if (indexPath.row == 0) {
-                    return eDetailAdministrationTime;
-                } else if (indexPath.row == 1) {
-                    return eDetailRepeatType;
-                }
+//                if (indexPath.row == 0) {
+//                    return eDetailAdministrationTime;
+//                } else if (indexPath.row == 1) {
+//                    return eDetailRepeatType;
+//                }
+                return eDetailDosage;
             }
             break;
         case eSixthSection:
