@@ -79,7 +79,7 @@
     NSMutableArray *timeArray = [[NSMutableArray alloc] init];
     for (NSString *time in scheduleArray) {
         NSString *dateString = [DCUtility convertTimeToHourMinuteFormat:time];
-        NSDictionary *dict = @{@"time" : dateString, @"selected" : @1};
+        NSDictionary *dict = @{TIME : dateString, SELECTED : @1};
         [timeArray addObject:dict];
     }
     return timeArray;
@@ -109,60 +109,36 @@
             if (showWarnings) {
                 return eDetailWarning;
             } else {
-//                if (indexPath.row == DOSAGE_INDEX) {
-//                    return eDetailDosage;
-//                } else
-                    if (indexPath.row == ROUTE_INDEX) {
+                if (indexPath.row == ROUTE_INDEX) {
                     return eDetailRoute;
                 } else {
                     return eDetailType;
                 }
             }
         }
-            break;
         case eSecondSection: {
             if (showWarnings) {
-//                if (indexPath.row == DOSAGE_INDEX) {
-//                    return eDetailDosage;
-//                } else
-                    if (indexPath.row == ROUTE_INDEX) {
+                if (indexPath.row == ROUTE_INDEX) {
                     return eDetailRoute;
                 } else {
                     return eDetailType;
                 }
             }
         }
-            break;
         case eFourthSection: {
-            if (!showWarnings) {
-                //return eDetailAdministrationTime;
-                return eDetailSchedulingType;
-            }
-            break;
-        }
-        case eFifthSection:
             if (showWarnings) {
                 return eDetailSchedulingType;
             } else {
-//                if (indexPath.row == 0) {
-//                    return eDetailAdministrationTime;
-//                } else if (indexPath.row == 1) {
-//                    return eDetailRepeatType;
-//                }
                 return eDetailDosage;
             }
-            break;
-        case eSixthSection:
-//            if (indexPath.row == 0) {
-//                return eDetailAdministrationTime;
-//            } else if (indexPath.row == 1) {
-//                return eDetailRepeatType;
-//            }
-            return eDetailDosage;
+        }
+        case eFifthSection:
+            if (showWarnings) {
+                return eDetailDosage;
+            }
         default:
-            break;
+             return 0;
     }
-    return 0;
 }
 
 + (NSInteger)numberOfSectionsInMedicationTableViewForSelectedMedication:(DCMedicationScheduleDetails *)selectedmedication
