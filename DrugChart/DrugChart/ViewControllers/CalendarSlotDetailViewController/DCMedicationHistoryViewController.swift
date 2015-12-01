@@ -41,7 +41,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
     //Configuring the basic view with the medication details, route and time
     
     func configureMedicationDetails () {
-        
+
         medicationNameLabel.text = medicationDetails?.name
         if (medicationDetails?.route != nil) {
             populateRouteAndInstructionLabels()
@@ -81,6 +81,8 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         if cell == nil {
             cell = DCAdminsteredMedicationCell(style: UITableViewCellStyle.Value1, reuseIdentifier: ADMINSTER_MEDICATION_HISTORY_CELL)
         }
+        cell!.separatorInset = UIEdgeInsetsZero
+        cell!.layoutMargins = UIEdgeInsetsZero
         switch (indexPath.row) {
         case 0:
             cell!.contentType.text = STATUS
@@ -185,6 +187,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
             noteCell!.moreButtonWidthConstaint.constant = 46.0
         }
         noteCell!.layoutMargins = UIEdgeInsetsZero
+        noteCell!.separatorInset = UIEdgeInsetsZero
         return noteCell!
     }
     
@@ -195,6 +198,8 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         if cell == nil {
             cell = DCAdminsteredMedicationCell(style: UITableViewCellStyle.Value1, reuseIdentifier: ADMINSTER_MEDICATION_HISTORY_CELL)
         }
+        cell!.separatorInset = UIEdgeInsetsZero
+        cell!.layoutMargins = UIEdgeInsetsZero
         switch (indexPath.row) {
         case 0:
             cell!.contentType.text = STATUS
@@ -221,7 +226,6 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         default:
             break
         }
-        cell!.layoutMargins = UIEdgeInsetsZero
         return cell!
     }
     
@@ -232,6 +236,8 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         if cell == nil {
             cell = DCAdminsteredMedicationCell(style: UITableViewCellStyle.Value1, reuseIdentifier: ADMINSTER_MEDICATION_HISTORY_CELL)
         }
+        cell!.separatorInset = UIEdgeInsetsZero
+        cell!.layoutMargins = UIEdgeInsetsZero
         switch (indexPath.row) {
         case 0:
             cell!.contentType.text = STATUS
@@ -248,7 +254,6 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         default:
             break
         }
-        cell!.layoutMargins = UIEdgeInsetsZero
         return cell!
     }
     

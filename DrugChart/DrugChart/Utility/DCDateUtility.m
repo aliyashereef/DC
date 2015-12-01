@@ -56,12 +56,13 @@
     return monthYear;
 }
 
-+ (NSMutableArray *)nextAndPreviousSevenDaysWithReferenceToDate:(NSDate *)date {
++ (NSMutableArray *)nextAndPreviousDays:(NSInteger)daysCount
+                    withReferenceToDate:(NSDate *)date {
     //get dates of week
     NSDateComponents *components = [[NSDateComponents alloc] init];
     [components setDay:1];
     NSMutableArray *weekdays = [[NSMutableArray alloc] init];
-    for (int i = 0; i < 15; i++) {
+    for (int i = 0; i < daysCount; i++) {
         [weekdays addObject:date];
         date = [[NSCalendar currentCalendar] dateByAddingComponents:components toDate:date options:0];
     }
@@ -180,6 +181,30 @@
     NSDate *currentSystemDate = [self dateInCurrentTimeZone:[NSDate date]];
     NSString *currentDateString = [self dateStringFromDate:currentSystemDate inFormat:SHORT_DATE_FORMAT];
     return currentDateString;
+}
+
++ (NSDateComponents *)currentDateComponentsForCalendarUnit:(NSCalendarUnit)unit {
+    
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDate *currentSystemDate = [self dateInCurrentTimeZone:[NSDate date]];
+    NSDateComponents *components = [calendar components:unit fromDate:currentSystemDate];
+    return  components;
+}
+
++ (NSInteger)currentWeekDayIndex {
+    
+    //current week day index
+    NSDateComponents *components = [self currentDateComponentsForCalendarUnit:NSCalendarUnitWeekday];
+    NSInteger weekDay = components.weekday;
+    return weekDay;
+}
+
++ (NSInteger)currentDay {
+    
+    //current day
+    NSDateComponents *components = [self currentDateComponentsForCalendarUnit:NSCalendarUnitDay];
+    NSInteger day = components.day;
+    return day;
 }
 
 @end

@@ -54,7 +54,7 @@
     if ([selectedMedication.startDate isEqualToString:EMPTY_STRING] || selectedMedication.startDate == nil) {
         return !isValid;
     }
-    if (!selectedMedication.noEndDate) {
+    if (selectedMedication.hasEndDate) {
         if ([selectedMedication.endDate isEqualToString:EMPTY_STRING] || selectedMedication.endDate == nil) {
             return !isValid;
         }
@@ -84,5 +84,82 @@
     }
     return timeArray;
 }
+
++ (CellType)cellTypeForSpecificTimesSchedulingAtIndexPath:(NSIndexPath *)indexPath {
+    
+    //get the cell type corresponding to Specific times.
+    CellType cellType;
+    switch (indexPath.row) {
+        case ADMINISTRATION_CELL_INDEX:
+            cellType = eAdministratingTimeCell;
+            break;
+        case REPEAT_CELL_INDEX:
+            cellType = eRepeatCell;
+            break;
+        default:
+            break;
+    }
+    return cellType;
+}
+
++ (AddMedicationDetailType)medicationDetailTypeForIndexPath:(NSIndexPath *)indexPath hasWarnings:(BOOL)showWarnings {
+    
+    switch (indexPath.section) {
+        case eFirstSection: {
+            if (showWarnings) {
+                return eDetailWarning;
+            } else {
+                if (indexPath.row == DOSAGE_INDEX) {
+                    return eDetailDosage;
+                } else if (indexPath.row == ROUTE_INDEX) {
+                    return eDetailRoute;
+                } else {
+                    return eDetailType;
+                }
+            }
+        }
+            break;
+        case eSecondSection: {
+            if (showWarnings) {
+                if (indexPath.row == DOSAGE_INDEX) {
+                    return eDetailDosage;
+                } else if (indexPath.row == ROUTE_INDEX) {
+                    return eDetailRoute;
+                } else {
+                    return eDetailType;
+                }
+            }
+        }
+            break;
+        case eFourthSection: {
+            if (!showWarnings) {
+                //return eDetailAdministrationTime;
+                return eDetailSchedulingType;
+            }
+            break;
+        }
+        case eFifthSection:
+            if (showWarnings) {
+                return eDetailSchedulingType;
+            } else {
+                if (indexPath.row == 0) {
+                    return eDetailAdministrationTime;
+                } else if (indexPath.row == 1) {
+                    return eDetailRepeatType;
+                }
+            }
+            break;
+        case eSixthSection:
+            if (indexPath.row == 0) {
+                return eDetailAdministrationTime;
+            } else if (indexPath.row == 1) {
+                return eDetailRepeatType;
+            }
+        default:
+            break;
+    }
+    return 0;
+}
+
 
 @end

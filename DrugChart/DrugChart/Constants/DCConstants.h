@@ -77,14 +77,12 @@
 #define ADD_MEDICATION_STORYBOARD @"AddMedication"
 #define AUTHORIZATION_STORYBOARD @"Authorization"
 #define PRESCRIBER_DETAILS_STORYBOARD @"PrescriberDetails"
+#define ONE_THIRD_SCREEN_SB @"OneThirdScreenSizeCalendar"
 #define ORDERSET_STORYBOARD @"OrderSet"
 #define PATIENT_LIST_STORYBOARD @"PatientList"
 
 // Storyboard Ids
 #define PATIENT_LIST_VIEW_CONTROLLER @"patientsListViewController"
-#define CALENDAR_VIEW_CONTROLLER_STORYBOARD_ID @"CalendarChartViewController"
-#define MEDICATION_VIEW_CONTROLLER_STORYBOARD_ID @"MedicationViewController"
-#define PRESCRIBER_VIEW_CONTROLLER_STORYBOARD_ID @"PrescriberViewController"
 #define ERROR_CONTENT_VIEW_CONTROLLER_STORYBOARD_ID @"ErrorPopOverController"
 #define PRESCRIBER_FILTER_TABLE_VIEW_CONTROLLER @"PrescriberFilterTableViewController"
 #define EARLY_ADMINISTERED_VIEW_CONTROLLER @"EarlyAdministeredViewController"
@@ -118,14 +116,17 @@
 #define MEDICATION_STORYBOARD_ID @"MedicationHistory"
 #define BNF_STORYBOARD_ID @"BNFViewController"
 #define PRESCRIBER_LIST_SBID @"PrescriberMedicationList"
+#define PRESCRIBER_LIST_ONE_THIRD_SBID @"PrescriberOneThirdMedicationList"
 #define PATIENT_MENU_VIEW_CONTROLLER_SB_ID @"PatientMenuViewController"
 #define VITAL_SIGNS_VIEW_CONTROLLER_VIEW_CONTROLLER_SB_ID @"VitalSignViewController"
+#define SCHEDULING_DETAIL_STORYBOARD_ID @"SchedulingDetailView"
 
 #define PRESCRIBER_MEDICATION_SBID @"PrescriberMedicationViewControllerSBID"
 
 //Nib files
 #define WARNINGS_HEADER_VIEW_NIB @"DCWarningsHeaderView"
 #define ADMINISTER_HEADER_VIEW_NIB @"DCAdministerTableHeaderView"
+#define SCHEDULING_HEADER_VIEW_NIB @"DCSchedulingHeaderView"
 
 // Segue Ids
 #define SHOW_PATIENT_LIST @"showPatientList"
@@ -148,8 +149,6 @@
 #define PATIENT_CELL_IDENTIFIER @"patientCell"
 #define MEDICATION_CELL_IDENTIFIER @"medicationCell"
 #define CALENDAR_CELL_IDENTIFIER @"calendarCell"
-#define FILTER_CELL_IDENTIFIER   @"FilterCell"
-#define MEDICINE_FILTER_CELL_IDENTIFIER @"MedicineFilterCell"
 #define ALLERGY_CELL_IDENTIFIER @"AllergyCell"
 #define ALLERGY_NOTIFICATION_CELL_IDENTIFIER @"AllergyCellID"
 #define ADD_MEDICATION_CELL_IDENTIFIER @"AddMedicationCell"
@@ -158,8 +157,6 @@
 #define MEDICINE_NAME_CELL_IDENTIFIER @"MedicineNameCell"
 #define ORDER_CELL_IDENTIFIER @"OrderSetCell"
 #define AUTO_SEARCH_CELL_IDENTIFIER @"AutoSearchCell"
-#define WARNINGS_CELL_IDENTIFIER @"WarningsCellIdentifier"
-#define WARNINGS_POPOVER_CELL_IDENTIFIER @"WarningsPopoverCell"
 #define SORT_CELL_IDENTIFIER @"SortTableCell"
 #define ADD_MEDICATION_CELL_IDENTIFIER @"AddMedicationCell"
 #define MEDICATION_LIST_CELL_IDENTIFIER @"MedicationListCell"
@@ -168,7 +165,6 @@
 #define ADD_MEDICATION_DETAIL_CELL_IDENTIFIER @"DetailCell"
 #define DATE_PICKER_CELL_IDENTIFIER @"pickercell"
 #define ADD_DOSAGE_CELL_IDENTIFIER @"AddDosageCell"
-#define NO_DATE_CELL_IDENTIFIER @"NoEndDateCell"
 #define WARNINGS_CELL_ID @"WarningsCell"
 #define OVERRIDE_REASON_CELL_ID @"OverrideReasonCell"
 #define ADMINISTER_CELL_ID @"AdministerCell"
@@ -180,6 +176,8 @@
 #define NOTES_CELL_ID @"NotesCell"
 #define MEDICATION_HISTORY_HEADER_VIEW @"DCMedicationHistoryHeaderView"
 #define ADMINISTER_PICKER_CELL_ID @"AdministerPickerCellId"
+#define SCHEDULING_CELL_ID @"SchedulingCellId"
+#define SCHEDULING_PICKER_CELL_ID @"SchedulingPickerCellId"
 
 // title for views
 #define INPATIENT_TITLE @"In Patients"
@@ -349,7 +347,30 @@
 
 #define HAS_LAUNCHED_ONCE @"HasLaunchedOnce"
 
+//Scheduling
 
+#define SPECIFIC_TIMES @"Specific Times"
+#define INTERVAL @"Interval"
+#define DAILY @"Daily"
+#define WEEKLY @"Weekly"
+#define MONTHLY @"Monthly"
+#define YEARLY @"Yearly"
+#define FREQUENCY @"Frequency"
+#define EVERY @"Every"
+#define EACH @"Each"
+#define ON_THE @"On the..."
+#define FIRST @"First"
+#define SECOND @"Second"
+#define THIRD @"Third"
+#define FOURTH @"Fourth"
+#define FIFTH @"Fifth"
+#define LAST @"Last"
+#define DAY @"day"
+#define DAYS @"days"
+#define WEEK @"week"
+#define WEEKS @"weeks"
+#define MONTH @"month"
+#define MONTHS @"months"
 
 //Roles
 
