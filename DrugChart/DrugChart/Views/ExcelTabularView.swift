@@ -11,8 +11,10 @@ import UIKit
 class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDelegate {
 
     
-    let dateCellIdentifier = "DateCellIdentifier"
-    let contentCellIdentifier = "ContentCellIdentifier"
+    let headerCellIdentifier = "headerCellIdentifier"
+    let contentCellIdentifier = "contentCellIdentifier"
+    let rowHeaderCellIdentifier = "rowHeaderCellIdentifier"
+    
     @IBOutlet weak var collectionView: UICollectionView!
     var observationList:[VitalSignObservation]!
     
@@ -21,8 +23,11 @@ class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDel
         self.observationList = observationList
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
-        self.collectionView .registerNib(UINib(nibName: "HeaderCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: dateCellIdentifier)
+        self.collectionView .registerNib(UINib(nibName: "HeaderCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: headerCellIdentifier)
         self.collectionView .registerNib(UINib(nibName: "ContentCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: contentCellIdentifier)
+
+        self.collectionView .registerNib(UINib(nibName: "RowHeaderCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: rowHeaderCellIdentifier)
+
     }
     
     func reloadView(observationList:[VitalSignObservation])
@@ -41,7 +46,7 @@ class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDel
     // MARK - UICollectionViewDataSource
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return 7
+        return ObservationTabularViewRow.count
     }
     
     
@@ -50,24 +55,31 @@ class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDel
     }
     
     
+    
+    
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         if indexPath.section == 0 {
-            let headerCell : HeaderCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(dateCellIdentifier, forIndexPath: indexPath) as! HeaderCollectionViewCell
+            let headerCell : HeaderCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(headerCellIdentifier, forIndexPath: indexPath) as! HeaderCollectionViewCell
             headerCell.configureCell()
             
             if indexPath.row == 0 {
-                headerCell.label.text = "Date"
+                headerCell.dateLabel.text = "Date"
+                headerCell.timeLabel.text = "Time"
+                headerCell.backgroundColor = UIColor(red: 31/255, green: 146/255, blue: 190/255, alpha: 1.0)
                 return headerCell
             } else {
                 let observation = observationList[indexPath.row - 1]
-                headerCell.label.text = observation.getFormattedDate()
+                headerCell.dateLabel.text = observation.getFormattedDate()
+                headerCell.timeLabel.text = observation.getFormattedTime()
+                headerCell.backgroundColor = UIColor(red: 31/255, green: 146/255, blue: 190/255, alpha: 1.0)
                 return headerCell
             }
         } else {
             if indexPath.row == 0 {
-                let headerCell : HeaderCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(dateCellIdentifier, forIndexPath: indexPath) as! HeaderCollectionViewCell
+                let headerCell : RowHeaderCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(rowHeaderCellIdentifier, forIndexPath: indexPath) as! RowHeaderCollectionViewCell
                 
+                headerCell.configureCell()
                 var headerText:String
                 
                 switch(indexPath.section)
@@ -80,26 +92,47 @@ class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDel
                     headerText = Constant.TEMPERATURE
                 case ObservationTabularViewRow.BloodPressure.rawValue:
                     headerText = Constant.BLOOD_PRESSURE
+                case ObservationTabularViewRow.Pulse.rawValue:
+                    headerText = Constant.PULSE
                 case ObservationTabularViewRow.BM.rawValue:
                     headerText = Constant.BM
+                case ObservationTabularViewRow.News.rawValue:
+                    headerText = Constant.NEWS
+                case ObservationTabularViewRow.CommaScore.rawValue:
+                    headerText = Constant.COMMA_SCORE
                 default:
                     headerText = ""
                  }
+                headerCell.backgroundColor = UIColor.whiteColor()
+                
                 headerCell.label.text = headerText
                 return headerCell
             } else {
                 let contentCell : ContentCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(contentCellIdentifier, forIndexPath: indexPath) as! ContentCollectionViewCell
-                contentCell.contentLabel.font = UIFont.systemFontOfSize(13)
-                contentCell.contentLabel.textColor = UIColor.blackColor()
-                contentCell.contentLabel.text = "Content"
-                contentCell.layer.borderWidth = 0.75
-                contentCell.layer.borderColor = UIColor.lightGrayColor().CGColor
-                if indexPath.section % 2 != 0 {
-                    contentCell.backgroundColor = UIColor(white: 242/255.0, alpha: 1.0)
-                } else {
-                    contentCell.backgroundColor = UIColor.whiteColor()
+                contentCell.configureCell()
+                let observation = observationList[indexPath.row - 1]
+                switch(indexPath.section)
+                {
+                case ObservationTabularViewRow.Respiratory.rawValue:
+                    contentCell.contentLabel.text = observation.getRespiratoryReading()
+                case ObservationTabularViewRow.SPO2.rawValue:
+                    contentCell.contentLabel.text = observation.getSpo2Reading()
+                case ObservationTabularViewRow.Temperature.rawValue:
+                     contentCell.contentLabel.text = observation.getTemperatureReading()
+                case ObservationTabularViewRow.BloodPressure.rawValue:
+                     contentCell.contentLabel.text = observation.getBloodPressureReading()
+                case ObservationTabularViewRow.Pulse.rawValue:
+                    contentCell.contentLabel.text = observation.getPulseReading()
+                case ObservationTabularViewRow.BM.rawValue:
+                    contentCell.contentLabel.text = observation.getBMReading()
+                case ObservationTabularViewRow.News.rawValue:
+                    contentCell.contentLabel.text = observation.getNews()
+                case ObservationTabularViewRow.CommaScore.rawValue:
+                    contentCell.contentLabel.text = observation.getComaScore()
+                default:
+                  print("come in default section")
                 }
-                
+                contentCell.backgroundColor = UIColor.whiteColor()
                 return contentCell
             }
         }

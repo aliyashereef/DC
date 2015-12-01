@@ -16,4 +16,7 @@ class Constant
     static let BLOOD_PRESSURE :String = "Blood Pressure"
     static let PULSE :String = "Pulse"
     static let BM :String = "BM"
+    static let NEWS :String = "News"
+    static let COMMA_SCORE :String = "Comma Score"
+
 }

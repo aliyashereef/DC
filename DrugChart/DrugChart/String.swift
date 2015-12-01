@@ -46,4 +46,26 @@ extension String {
         return scanner.scanDecimal(nil) && scanner.atEnd
     }
     
+    func clean() -> String {
+        
+        //PrintF(.Verbose)
+        
+        let cleaned = self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        
+        return cleaned;
+        
+    }
+    
+    func trimToLength(length: Int) -> String {
+        
+        //PrintF(.Verbose)
+        
+        let index = self.startIndex.advancedBy(length, limit: self.endIndex)
+        
+        let trimmed = self.substringToIndex(index)
+        
+        return trimmed
+        
+    }
+    
 }

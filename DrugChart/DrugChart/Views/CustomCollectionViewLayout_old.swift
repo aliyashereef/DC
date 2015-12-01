@@ -86,11 +86,11 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
     {
         if row == 0
         {
-            return CGSizeMake(165, 60)
+            return CGSizeMake(165, 70)
         }
         else
         {
-            return CGSizeMake(165, 30)
+            return CGSizeMake(165, 35)
         }
         
     }
