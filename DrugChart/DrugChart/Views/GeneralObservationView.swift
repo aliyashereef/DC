@@ -18,6 +18,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
     private var obsBM : BowelMovement?
     private var obsBP :BloodPressure?
     var observation:VitalSignObservation!
+    var delegate:ObservationDelegate? =  nil
     /*
     // Only override drawRect: if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
@@ -61,7 +62,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
-        return ObservationType.count
+        return 2
     }
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
@@ -71,40 +72,47 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
         case ObservationType.Date.rawValue:
             return 1;
         default:
-            return 1
+            return 6
             
         }
     }
     
     
+    func getRowNumber(indexPath:NSIndexPath) -> Int
+    {
+        var rowNumber = 0
+        for var section = ( indexPath.section - 1 )   ; section >= 0 ; --section
+        {
+            rowNumber += self.tableView.numberOfRowsInSection(section)
+        }
+        rowNumber += indexPath.row
+        return rowNumber
+    }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cellTitle:String = ""
         var placeHolderText = "enter value"
         var rowTag : Int = -1
         var cellType:CellType = CellType.Double
-        var populateValue :Bool = observation != nil
-        switch (indexPath.section)
+        let rowNumber = getRowNumber(indexPath)
+        
+        switch (rowNumber)
         {
         case ObservationType.Date.rawValue:
-            if(indexPath.row == 0)
-            {
-                cellType = CellType.Date
-                rowTag = ObservationType.Date.rawValue
-            }
-            else
-            {
-                cellType = CellType.Time
-            }
+            cellType = CellType.Date
+            rowTag = ObservationType.Date.rawValue
+        
         case ObservationType.Respiratory.rawValue:
-            cellTitle = "Resps(per minute)"
+            
+            cellTitle = "Resps (per minute)"
             rowTag = ObservationType.Respiratory.rawValue
+            
         case ObservationType.SpO2.rawValue:
             cellTitle = "Oxygen Saturation & Inspired O2"
             placeHolderText = "enter %"
             rowTag = ObservationType.SpO2.rawValue
             
         case ObservationType.Temperature.rawValue:
-            cellTitle = "Temperature (Celcius)"
+            cellTitle = "Temperature (°C)"
             rowTag = ObservationType.Temperature.rawValue
             
         case ObservationType.BloodPressure.rawValue:
@@ -112,7 +120,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
             rowTag = ObservationType.BloodPressure.rawValue
             cellType = CellType.BloodPressure
         case ObservationType.Pulse.rawValue:
-            cellTitle = "Pulse(beats/min)"
+            cellTitle = "Pulse (beats/min)"
             rowTag = ObservationType.Pulse.rawValue
             
         case ObservationType.BM.rawValue:
@@ -140,37 +148,28 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
             return cell
         default:
             let cell = tableView.dequeueReusableCellWithIdentifier("DoubleCell", forIndexPath: indexPath) as! DoubleCell
-            cell.configureCell(cellTitle, valuePlaceHolderText: placeHolderText,selectedValue: nil)
+            cell.configureCell(cellTitle, valuePlaceHolderText: placeHolderText,selectedValue: getSelectedValue(indexPath))
             cell.tag = rowTag
             return cell
         }
         
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func getSelectedValue(indexPath:NSIndexPath) ->Double!
+    {
+        let rowNumber = getRowNumber(indexPath)
         
-        switch (section)
+        switch(rowNumber)
         {
-        case  ObservationType.Respiratory.rawValue:
-            return Constant.RESPIRATORY
-        case ObservationType.SpO2.rawValue:
-            return Constant.SPO2
-        case ObservationType.Temperature.rawValue:
-            return Constant.TEMPERATURE
-        case ObservationType.BloodPressure.rawValue:
-            return Constant.BLOOD_PRESSURE
-        case ObservationType.Pulse.rawValue:
-            return Constant.PULSE
-        case ObservationType.BM.rawValue:
-            return Constant.BM
-        default:
-            return ""
+            case ObservationType.Respiratory.rawValue:
+                return observation.respiratory?.repiratoryRate
+            default:
+                return nil
         }
     }
-   
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
 
-                switch(indexPath.section)
+        switch(indexPath.section)
         {
             case ObservationType.Date.rawValue:
                 return datePickerCell.datePickerHeight()
@@ -180,20 +179,91 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        // Deselect automatically if the cell is a DatePickerCell.
-        let cell = self.tableView(tableView, cellForRowAtIndexPath: indexPath)
-        if (cell.isKindOfClass(DatePickerCellInline)) {
+//        // Deselect automatically if the cell is a DatePickerCell.
+//        let cell = self.tableView(tableView, cellForRowAtIndexPath: indexPath)
+//        if (cell.isKindOfClass(DatePickerCellInline)) {
+//            let datePickerTableViewCell = cell as! DatePickerCellInline
+//            datePickerTableViewCell.selectedInTableView(tableView)
+//            self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
+//        }
+//        else
+//        {
+//            if datePickerCell.expanded
+//            {
+//                datePickerCell.selectedInTableView(tableView)
+//            }
+//        }
+        let rowNumber = getRowNumber(indexPath)
+        
+        switch (rowNumber)
+        {
+        case ObservationType.Date.rawValue:
+            let cell = self.tableView(tableView, cellForRowAtIndexPath: indexPath)
             let datePickerTableViewCell = cell as! DatePickerCellInline
             datePickerTableViewCell.selectedInTableView(tableView)
             self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        }
-        else
-        {
+        case ObservationType.Respiratory.rawValue:
             if datePickerCell.expanded
             {
                 datePickerCell.selectedInTableView(tableView)
             }
-          
+         
+            
+            let alertControlller = UIAlertController(title: NSLocalizedString(Constant.RESPIRATORY, comment: Constant.RESPIRATORY), message: nil, preferredStyle: .Alert)
+            
+            var localObserver: NSObjectProtocol?
+            
+            alertControlller.addTextFieldWithConfigurationHandler { (textField) in
+                //textField.layer.borderWidth = 0
+                //textField.borderStyle = UITextBorderStyle.None
+                textField.superview?.backgroundColor = UIColor.clearColor()
+                textField.superview?.superview?.backgroundColor = UIColor.clearColor()
+                textField.backgroundColor = UIColor.clearColor()
+                textField.opaque = true
+                textField.tag = 10
+                textField.configureForNumericInput()
+                textField.accessibilityIdentifier = "myText"
+                textField.placeholder = NSLocalizedString("Enter a numeric value", comment: "Enter a numeric value")
+                
+                textField.text = self.observation.getRespiratoryReading()
+                
+                localObserver = NSNotificationCenter.defaultCenter().addObserverForName(UITextFieldTextDidChangeNotification, object: textField, queue: NSOperationQueue.mainQueue()) { (notification) in
+                    
+                    if let confirmedText = textField.text?.clean().trimToLength(3),
+                    let confirmedValue = (confirmedText as NSString?)?.doubleValue {
+                            textField.text = confirmedText
+                            self.observation.setRespiratoryReading(confirmedValue)
+                    } else {
+                        textField.text = nil
+                        self.observation.respiratory = nil
+                    }
+                    
+                }
+                
+            }
+            
+            alertControlller.addAction(UIAlertAction(title: NSLocalizedString("Done", comment: "Done"), style: .Default, handler: {(alert: UIAlertAction) in
+                
+                if let confirmedLocalObserver = localObserver {
+                    NSNotificationCenter.defaultCenter().removeObserver(confirmedLocalObserver)
+                }
+                self.tableView.reloadData()
+                
+            }))
+            
+            alertControlller.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel"), style: .Cancel, handler: {(alert: UIAlertAction) in
+                
+                if let confirmedLocalObserver = localObserver {
+                    NSNotificationCenter.defaultCenter().removeObserver(confirmedLocalObserver)
+                }
+                
+            }))
+            self.delegate!.TakeObservationInput(alertControlller)
+        default:
+            if datePickerCell.expanded
+            {
+                datePickerCell.selectedInTableView(tableView)
+            }
         }
     }
     
@@ -278,7 +348,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
             observation.bm = obsBM
             observation.bloodPressure = obsBP
             observation.spo2 = obsSPO2
-            observation.respiratiory = obsRespiratory
+            observation.respiratory = obsRespiratory
             observation.temperature = obsBodyTemperature
             observation.pulse = obsPulse
     }

@@ -49,11 +49,11 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
             cellTitle = "Respiratory"
             for observation in observationList
             {
-                if observation.respiratiory == nil
+                if observation.respiratory == nil
                 {
                     continue
                 }
-                    yAxisValue.append((observation.respiratiory?.repiratoryRate)!)
+                    yAxisValue.append((observation.respiratory?.repiratoryRate)!)
                     xAxisValue.append(observation.getFormattedDate())
                 
             }

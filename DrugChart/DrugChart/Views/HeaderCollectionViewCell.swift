@@ -9,7 +9,8 @@
 import UIKit
 
 class HeaderCollectionViewCell: UICollectionViewCell {
-    @IBOutlet weak var label: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var timeLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -17,10 +18,9 @@ class HeaderCollectionViewCell: UICollectionViewCell {
     }
     func configureCell()
     {
-       // self.backgroundColor = UIColor.whiteColor()
-      //  self.dateLabel.font = UIFont.systemFontOfSize(13)
-      //  self.dateLabel.textColor = UIColor.blackColor()
-        self.layer.borderWidth = 0.75
+        self.layer.borderWidth = 1.0
         self.layer.borderColor = UIColor.lightGrayColor().CGColor
+        dateLabel.textColor = UIColor.whiteColor()
+        timeLabel.textColor = UIColor.whiteColor()
     }
 }

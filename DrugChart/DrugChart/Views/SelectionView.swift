@@ -18,8 +18,9 @@ class SelectionView: UITableViewController {
         super.viewDidLoad()
     }
     
-    func configureView(data:[KeyValue],tag:Int,selectedValue:KeyValue?)
+    func configureView(data:[KeyValue],tag:Int,selectedValue:KeyValue? , title:String)
     {
+        self.navigationItem.title = title
         dataSource = data
         self.tag = tag
         self.selectedValue = selectedValue
