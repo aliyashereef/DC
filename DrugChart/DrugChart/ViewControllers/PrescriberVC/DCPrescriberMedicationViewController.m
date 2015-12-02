@@ -58,7 +58,7 @@ typedef enum : NSUInteger {
     SortType sortType;
     
     DCPrescriberMedicationListViewController *prescriberMedicationListViewController;
-    CalendarOneThirdViewController *prescriberMedicationOneThirdSizeViewController;
+    DCCalendarOneThirdViewController *prescriberMedicationOneThirdSizeViewController;
     DCCalendarDateDisplayViewController *calendarDateDisplayViewController;
 }
 
@@ -616,6 +616,8 @@ typedef enum : NSUInteger {
     
     if (prescriberMedicationListViewController && !isOneThirdMedicationViewShown) {
         [prescriberMedicationListViewController todayButtonClicked];
+    } else {
+        [prescriberMedicationOneThirdSizeViewController todayButtonClicked];
     }
 }
 
