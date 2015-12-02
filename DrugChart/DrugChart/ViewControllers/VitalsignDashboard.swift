@@ -8,7 +8,8 @@
 
 import UIKit
 
-class VitalsignDashboard: DCBaseViewController , ObservationEditDelegate{
+
+class VitalsignDashboard: DCBaseViewController , ObservationDelegate{
 
 //    @IBOutlet weak var collectionView: UICollectionView!
     
@@ -28,8 +29,18 @@ class VitalsignDashboard: DCBaseViewController , ObservationEditDelegate{
         tabularDashBoardView = ExcelTabularView.instanceFromNib() as! ExcelTabularView
         tabularDashBoardView.configureView(observationList)
         //tabularDashBoardView.delegate = self
+        self.displayTitle()
     }
 
+    func displayTitle()
+    {
+       // var titleView:DCCalendarNavigationTitleView!
+        //DCCalendarNavigationTitleView *titleView = [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([DCCalendarNavigationTitleView class]) owner:self options:nil] objectAtIndex:0];
+        
+//        [titleView populateViewWithPatientName:self.patient.patientName nhsNumber:self.patient.nhs dateOfBirth:_patient.dob age:_patient.age
+//        ];
+//        self.navigationItem.titleView = titleView;
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -59,6 +70,12 @@ class VitalsignDashboard: DCBaseViewController , ObservationEditDelegate{
              observationList.append(sourceViewController.generalObservationView.observation)
             Helper.VitalSignObservationList.append(sourceViewController.generalObservationView.observation)
         }
+        else if let sourceViewController = sender.sourceViewController as? CommaScoreViewController
+        {
+            observationList.append(sourceViewController.observation)
+            Helper.VitalSignObservationList.append(sourceViewController.observation)
+        }
+
         observationList.sortInPlace({ $0.date.compare($1.date) == NSComparisonResult.OrderedAscending })
         graphicalDashBoardView.reloadView(observationList)
        // tabularDashBoardView.configureView(observationList)
@@ -70,14 +87,15 @@ class VitalsignDashboard: DCBaseViewController , ObservationEditDelegate{
     }
     
     
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if let controller:ObservationSelectionViewController = segue.destinationViewController as?ObservationSelectionViewController
+        {
+            controller.delegate = self
+        }
     }
-    */
-
+    
 }

@@ -25,7 +25,7 @@ enum DashBoardRow:Int
 enum ObservationType:Int
 {
     case Date
-    case Respiratory , SpO2, Temperature , BloodPressure , Pulse , BM
+    case Respiratory  , SpO2, Temperature , BloodPressure , Pulse , BM
     
     static var count: Int {  // I called this "maximumRawValue" in the post
         var max: Int = 0
@@ -46,7 +46,7 @@ enum CellType:Int
 
 enum CommaScoreTableSection:Int
 {
-    case CommaScale,Pupils,LimbMovement
+    case Date,CommaScale,Pupils,LimbMovement
     
     static var count: Int {  // I called this "maximumRawValue" in the post
         var max: Int = 0
@@ -77,7 +77,7 @@ enum ChartType:Int
 }
 enum ObservationTabularViewRow:Int
 {
-    case Respiratory = 1 , SPO2 , Temperature , BloodPressure , Pulse, BM
+    case Respiratory = 1 , SPO2 , Temperature , BloodPressure , Pulse, BM , News , CommaScore
     
     static var count: Int {  // I called this "maximumRawValue" in the post
         var max: Int = 0

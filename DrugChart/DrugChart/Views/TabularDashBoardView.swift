@@ -13,7 +13,7 @@ class TabularDashBoardView: UIView ,UITableViewDelegate,UITableViewDataSource {
     @IBOutlet weak var tableView: UITableView!
     // MARK: - Table view data source
     
-    var delegate: ObservationEditDelegate? = nil
+    var delegate: ObservationDelegate? = nil
     var dataSource:[VitalSignObservation] = []
     func commonInit()
     {
