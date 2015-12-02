@@ -99,24 +99,6 @@ import UIKit
 //            navigationController?.popViewControllerAnimated(true)
 //        }
         
-        
-        @IBAction func unwindToObservationTestList(sender:UIStoryboardSegue)
-        {
-//            if let sourceViewController = sender.sourceViewController as? ObservationViewController
-//            {
-//                observationList.append(sourceViewController.generalObservationView.observation)
-//                Helper.VitalSignObservationList.append(sourceViewController.generalObservationView.observation)
-//            }
-//            observationList.sortInPlace({ $0.date.compare($1.date) == NSComparisonResult.OrderedAscending })
-//            graphicalDashBoardView.reloadView(observationList)
-//            // tabularDashBoardView.configureView(observationList)
-                    let alert = UIAlertView()
-                    alert.title = "my title"
-                    alert.message = "things are working slowly"
-                    alert.addButtonWithTitle("Ok")
-                    alert.delegate = self
-                    alert.show()
-        }
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation

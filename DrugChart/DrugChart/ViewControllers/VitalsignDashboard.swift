@@ -26,6 +26,7 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate {
         graphicalDashBoardView.reloadView(observationList)
         Helper.displayInChildView(graphicalDashBoardView, parentView: parentView)
         tabularDashBoardView = ExcelTabularView.instanceFromNib() as! ExcelTabularView
+        tabularDashBoardView.delegate = self
         tabularDashBoardView.configureView(observationList)
         self.displayTitle()
     }
@@ -34,8 +35,7 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate {
     {
         var titleView:DCCalendarNavigationTitleView?
         titleView = NSBundle.mainBundle().loadNibNamed("DCCalendarNavigationTitleView", owner: self, options: nil)[0] as? DCCalendarNavigationTitleView
-   //     [titleView populateViewWithPatientName:self.patient.patientName nhsNumber:self.patient.nhs dateOfBirth:_patient.dob age:_patient.age
-            
+        
        titleView!.populateViewWithPatientName(patient.patientName, nhsNumber:patient.nhs, dateOfBirth: patient.dob, age: patient.age)
        self.navigationItem.titleView = titleView
     }
@@ -78,12 +78,16 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate {
        // tabularDashBoardView.configureView(observationList)
     }
     
+    //Mark: Delegate Implementation
     func EditObservation(navigationController:UINavigationController)
     {
         self.presentViewController(navigationController, animated: false, completion: nil)
     }
     
-    
+    func EditObservationViewController(viewController:UIViewController)
+    {
+        self.presentViewController(viewController, animated: false, completion: nil)
+    }
     
     // MARK: - Navigation
 

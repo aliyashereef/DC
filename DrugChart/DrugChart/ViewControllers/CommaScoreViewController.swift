@@ -173,12 +173,24 @@ class CommaScoreViewController: UIViewController,UITableViewDelegate,UITableView
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
+        switch(indexPath.section,indexPath.row)
+        {
+        case (0,0):
+            let cell = self.tableView(tableView, cellForRowAtIndexPath: indexPath)
+            let datePickerTableViewCell = cell as! DatePickerCellInline
+            datePickerTableViewCell.selectedInTableView(tableView)
+            self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        default:
+            if datePickerCell.expanded
+            {
+                datePickerCell.selectedInTableView(tableView)
+            }
         let cell = tableView.cellForRowAtIndexPath(indexPath) as! SelectionCell
         let selectionController = SelectionView(nibName:"SelectionView",bundle:nil)
         selectionController.configureView(cell.dataSource,tag: cell.tag,selectedValue: cell.selectedValue,title: cell.title.text!)
         selectionController.delegate = self
         self.navigationController?.pushViewController(selectionController, animated: true)
-        
+        }
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -235,6 +247,7 @@ class CommaScoreViewController: UIViewController,UITableViewDelegate,UITableView
     
     func prepareObject()
     {
+        observation.date = datePickerCell.date
         observation.eyesOpen = eyesOpen
         observation.bestVerbalResponse = bestVerbalResponse
         observation.bestMotorResponse = bestMotorResponse

@@ -8,8 +8,9 @@
 
 import UIKit
 
-class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDelegate {
+class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDelegate , ObservationDelegate {
 
+    @IBOutlet weak var sortMenuItem: UIBarButtonItem!
     
     let headerCellIdentifier = "headerCellIdentifier"
     let contentCellIdentifier = "contentCellIdentifier"
@@ -17,10 +18,14 @@ class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDel
     
     @IBOutlet weak var collectionView: UICollectionView!
     var observationList:[VitalSignObservation]!
+    var filteredObservations:[VitalSignObservation]!
+    var delegate:ObservationDelegate?
+    private var viewByDate:NSDate = NSDate()
     
     func configureView(observationList:[VitalSignObservation])
     {
         self.observationList = observationList
+        filterList()
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
         self.collectionView .registerNib(UINib(nibName: "HeaderCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: headerCellIdentifier)
@@ -32,9 +37,10 @@ class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDel
     
     func reloadView(observationList:[VitalSignObservation])
     {
+        self.observationList = observationList // order matters here
+        filterList()
         let collectionViewLayOut = self.collectionView.collectionViewLayout as! CustomCollectionViewLayout
-        self.observationList = observationList
-        collectionViewLayOut.setNoOfColumns(observationList.count + 1)
+        collectionViewLayOut.setNoOfColumns(filteredObservations.count + 1)
         self.collectionView.reloadData()
     }
     
@@ -51,7 +57,7 @@ class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDel
     
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return ( observationList.count + 1 )
+        return ( filteredObservations.count + 1 )
     }
     
     
@@ -69,7 +75,7 @@ class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDel
                 headerCell.backgroundColor = UIColor(red: 31/255, green: 146/255, blue: 190/255, alpha: 1.0)
                 return headerCell
             } else {
-                let observation = observationList[indexPath.row - 1]
+                let observation = filteredObservations[indexPath.row - 1]
                 headerCell.dateLabel.text = observation.getFormattedDate()
                 headerCell.timeLabel.text = observation.getFormattedTime()
                 headerCell.backgroundColor = UIColor(red: 31/255, green: 146/255, blue: 190/255, alpha: 1.0)
@@ -110,7 +116,7 @@ class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDel
             } else {
                 let contentCell : ContentCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(contentCellIdentifier, forIndexPath: indexPath) as! ContentCollectionViewCell
                 contentCell.configureCell()
-                let observation = observationList[indexPath.row - 1]
+                let observation = filteredObservations[indexPath.row - 1]
                 switch(indexPath.section)
                 {
                 case ObservationTabularViewRow.Respiratory.rawValue:
@@ -135,6 +141,33 @@ class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDel
                 contentCell.backgroundColor = UIColor.whiteColor()
                 return contentCell
             }
+        }
+    }
+    // Mark: Sorting option implementation
+    @IBAction func showCalendar()
+    {
+        let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
+        let calendarViewController : CalendarViewController = mainStoryboard.instantiateViewControllerWithIdentifier("CalendarViewController") as! CalendarViewController
+        calendarViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
+        calendarViewController.preferredContentSize = CGSizeMake(320,250)
+        calendarViewController.popoverPresentationController?.barButtonItem = sortMenuItem
+        calendarViewController.delegate = self
+     delegate?.EditObservationViewController(calendarViewController)
+    }
+    // Mark: Delegate implementation
+    func DateSelected(value:NSDate)
+    {
+        viewByDate = value
+        reloadView(observationList)
+    }
+    func filterList()
+    {
+        let calendar = NSCalendar.currentCalendar()
+        let chosenDateComponents = calendar.components([.Month , .Year], fromDate: viewByDate)
+        
+        filteredObservations = observationList.filter { (observationList) -> Bool in
+            let components = calendar.components([.Month, .Year], fromDate:observationList.date)
+            return components.month == chosenDateComponents.month && components.year == chosenDateComponents.year
         }
     }
 }

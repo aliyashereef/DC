@@ -157,6 +157,8 @@
 		1F3007061BF5552E00DDF3F3 /* VitalSignObservation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3007051BF5552E00DDF3F3 /* VitalSignObservation.swift */; };
 		1F3C316E1C0DB3CB007C6AE7 /* PatientViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3C316D1C0DB3CB007C6AE7 /* PatientViewController.swift */; };
 		1F3C31701C0DB8F8007C6AE7 /* Patient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3C316F1C0DB8F8007C6AE7 /* Patient.swift */; };
+		1F3C31781C0DE0CF007C6AE7 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3C31771C0DE0CF007C6AE7 /* CalendarViewController.swift */; };
+		1F3C317A1C0DF755007C6AE7 /* MonthYearPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3C31791C0DF755007C6AE7 /* MonthYearPickerView.swift */; };
 		1FB412681BFB522900D91487 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB412671BFB522900D91487 /* String.swift */; };
 		1FB5D07B1C0751D700F9A2F7 /* ObservationSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB5D07A1C0751D700F9A2F7 /* ObservationSelectionViewController.swift */; };
 		1FB5D07D1C08681F00F9A2F7 /* CommaScoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB5D07C1C08681F00F9A2F7 /* CommaScoreViewController.swift */; };
@@ -539,6 +541,8 @@
 		1F3007051BF5552E00DDF3F3 /* VitalSignObservation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VitalSignObservation.swift; sourceTree = "<group>"; };
 		1F3C316D1C0DB3CB007C6AE7 /* PatientViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatientViewController.swift; sourceTree = "<group>"; };
 		1F3C316F1C0DB8F8007C6AE7 /* Patient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Patient.swift; sourceTree = "<group>"; };
+		1F3C31771C0DE0CF007C6AE7 /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
+		1F3C31791C0DF755007C6AE7 /* MonthYearPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonthYearPickerView.swift; sourceTree = "<group>"; };
 		1FB412671BFB522900D91487 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		1FB5D07A1C0751D700F9A2F7 /* ObservationSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservationSelectionViewController.swift; sourceTree = "<group>"; };
 		1FB5D07C1C08681F00F9A2F7 /* CommaScoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommaScoreViewController.swift; sourceTree = "<group>"; };
@@ -1953,6 +1957,7 @@
 		1FD4FCBD1BF4B72D00B77B94 /* CustomView */ = {
 			isa = PBXGroup;
 			children = (
+				1F3C31791C0DF755007C6AE7 /* MonthYearPickerView.swift */,
 				1FD4FCC01BF4B7E000B77B94 /* GeneralObservationView.swift */,
 				1FD4FCC11BF4B7E000B77B94 /* GraphicalDashBoardView.swift */,
 				1FD4FCC21BF4B7E000B77B94 /* SelectionView.swift */,
@@ -2129,6 +2134,7 @@
 				1FD4FCA91BF4B5CC00B77B94 /* VitalsignDashboard.swift */,
 				1FB5D07A1C0751D700F9A2F7 /* ObservationSelectionViewController.swift */,
 				1FB5D07C1C08681F00F9A2F7 /* CommaScoreViewController.swift */,
+				1F3C31771C0DE0CF007C6AE7 /* CalendarViewController.swift */,
 			);
 			name = VitalSignViewController;
 			sourceTree = "<group>";
@@ -2722,6 +2728,7 @@
 				1FD4FCB81BF4B6B700B77B94 /* KeyValue.swift in Sources */,
 				4D4891611BC90176002AC8CA /* DCWardsListingPopoverViewController.swift in Sources */,
 				0BF3890F1AA46746006792DE /* DCPatient.m in Sources */,
+				1F3C317A1C0DF755007C6AE7 /* MonthYearPickerView.swift in Sources */,
 				1FD4FCE91BF4B8F400B77B94 /* TimePickerCell_Inline.swift in Sources */,
 				0B941CA51AC161B300B54207 /* DCPrescriberCalendarView.m in Sources */,
 				1FD4FCB51BF4B6B700B77B94 /* BloodPressure.swift in Sources */,
@@ -2763,6 +2770,7 @@
 				1FD4FCB71BF4B6B700B77B94 /* BowelMovement.swift in Sources */,
 				7DE017661BC23E230094928C /* PrescriberMedicationTableViewCell.swift in Sources */,
 				0BCF5EA71AE0D8ED002467BF /* DCPlistManager.m in Sources */,
+				1F3C31781C0DE0CF007C6AE7 /* CalendarViewController.swift in Sources */,
 				1FD4FD051BF4BAAD00B77B94 /* PickerCell.swift in Sources */,
 				0BBEEB5D1AD4FF4F00C1D986 /* BounceAnimationController.m in Sources */,
 				4D66A06B1B737B100075677E /* DCOrderSetAutoSearchHeaderView.m in Sources */,
