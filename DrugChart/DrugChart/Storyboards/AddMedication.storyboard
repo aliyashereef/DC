@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="PNi-7l-TpA">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="PNi-7l-TpA">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="Lato-Bold.ttf">
@@ -691,6 +691,103 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wTp-yH-Kga" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3343" y="-967"/>
+        </scene>
+        <!--Scheduling Initial View Controller-->
+        <scene sceneID="brG-65-yTm">
+            <objects>
+                <viewController storyboardIdentifier="SchedulingInitialView" id="BLx-xC-L5E" customClass="DCSchedulingInitialViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="R7n-hl-Ed8"/>
+                        <viewControllerLayoutGuide type="bottom" id="kpg-2O-aqd"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="JPy-fM-gKB">
+                        <rect key="frame" x="0.0" y="0.0" width="310" height="690"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="XKj-eu-iaa" userLabel="Scheduling Initial Table View">
+                                <rect key="frame" x="0.0" y="-15" width="310" height="705"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SchedulingInitialCellId" id="ntd-Wg-kAe" customClass="DCSchedulingCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="310" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ntd-Wg-kAe" id="vCO-3N-NLd">
+                                            <rect key="frame" x="0.0" y="0.0" width="310" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kgk-dE-QfF" userLabel="Title Label">
+                                                    <rect key="frame" x="15" y="13" width="135" height="18"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="135" id="IAl-9w-KlK"/>
+                                                        <constraint firstAttribute="width" constant="135" id="mEo-Ml-e0f"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="mEo-Ml-e0f"/>
+                                                        </mask>
+                                                    </variation>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AHX-lz-mFf" userLabel="Description Label">
+                                                    <rect key="frame" x="179" y="13" width="116" height="18"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="116" id="A4u-BA-LV2"/>
+                                                        <constraint firstAttribute="width" constant="116" id="rYJ-Nj-Yo5"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" red="0.56078431370000004" green="0.56078431370000004" blue="0.58431372550000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="rYJ-Nj-Yo5"/>
+                                                        </mask>
+                                                    </variation>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Kgk-dE-QfF" firstAttribute="centerY" secondItem="vCO-3N-NLd" secondAttribute="centerY" id="CST-WJ-C35"/>
+                                                <constraint firstAttribute="trailing" secondItem="AHX-lz-mFf" secondAttribute="trailing" constant="15" id="aL6-aU-A10"/>
+                                                <constraint firstItem="AHX-lz-mFf" firstAttribute="centerY" secondItem="vCO-3N-NLd" secondAttribute="centerY" id="lZk-Pf-NlL"/>
+                                                <constraint firstItem="Kgk-dE-QfF" firstAttribute="leading" secondItem="vCO-3N-NLd" secondAttribute="leading" constant="15" id="zIG-bj-8TY"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="descriptionLabel" destination="AHX-lz-mFf" id="iln-lZ-sGC"/>
+                                            <outlet property="titleLabel" destination="Kgk-dE-QfF" id="KAA-Cr-JxO"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="BLx-xC-L5E" id="6mY-jq-JN9"/>
+                                    <outlet property="delegate" destination="BLx-xC-L5E" id="y5f-j9-6Zw"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="XKj-eu-iaa" firstAttribute="top" secondItem="R7n-hl-Ed8" secondAttribute="bottom" constant="-35" id="Fok-uV-k7k"/>
+                            <constraint firstAttribute="trailing" secondItem="XKj-eu-iaa" secondAttribute="trailing" id="I60-Hx-XKi"/>
+                            <constraint firstItem="kpg-2O-aqd" firstAttribute="top" secondItem="XKj-eu-iaa" secondAttribute="bottom" id="TLm-pv-J0W"/>
+                            <constraint firstItem="XKj-eu-iaa" firstAttribute="leading" secondItem="JPy-fM-gKB" secondAttribute="leading" id="Vl2-Eb-bAL"/>
+                            <constraint firstItem="XKj-eu-iaa" firstAttribute="top" secondItem="JPy-fM-gKB" secondAttribute="top" constant="40" id="hUZ-2a-9uC"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="hUZ-2a-9uC"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="310" height="690"/>
+                    <connections>
+                        <outlet property="schedulingTableView" destination="XKj-eu-iaa" id="n9n-x2-VZs"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="I0D-K4-3Ne" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2624" y="-1086"/>
         </scene>
         <!--Scheduling Detail View Controller-->
         <scene sceneID="C8g-Jg-u0o">

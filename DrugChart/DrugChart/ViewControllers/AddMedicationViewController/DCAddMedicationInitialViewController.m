@@ -652,32 +652,32 @@
 - (void)displaySchedulingDetailViewForTableViewAtIndexPath:(NSIndexPath *)indexPath {
     
     UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
-    DCSchedulingDetailViewController *schedulingDetailViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:SCHEDULING_DETAIL_STORYBOARD_ID];
-    AddMedicationDetailType detailType = [DCAddMedicationHelper medicationDetailTypeForIndexPath:indexPath hasWarnings:showWarnings];
-    schedulingDetailViewController.detailType = detailType;
-    //TODO: temporarrly added... remove this on actual scheduling data from api 
-    if (self.isEditMedication) {
-        if (self.selectedMedication.scheduling == nil) {
-            self.selectedMedication.scheduling = [[DCScheduling alloc] init];
-            self.selectedMedication.scheduling.type = SPECIFIC_TIMES;
-        }
-        if (self.selectedMedication.scheduling.repeat == nil) {
-            self.selectedMedication.scheduling.repeat = [[DCRepeat alloc] init];
-            self.selectedMedication.scheduling.repeat.repeatType = DAILY;
-            self.selectedMedication.scheduling.repeat.frequency = @"1 day";
-        }
-    }
-    schedulingDetailViewController.repeatValue = self.selectedMedication.scheduling.repeat;
-    schedulingDetailViewController.selectedEntry = ^ (NSString *selectedValue){
-        if (detailType == eDetailSchedulingType) {
-            self.selectedMedication.scheduling.type = selectedValue;
-        }
-    };
-    schedulingDetailViewController.repeatCompletion = ^ (DCRepeat *repeat) {
-        self.selectedMedication.scheduling.repeat = repeat;
-    };
-    DCAddMedicationContentCell *selectedCell = [self selectedCellAtIndexPath:indexPath];
-    schedulingDetailViewController.previousFilledValue = selectedCell.descriptionLabel.text;
+    DCSchedulingDetailViewController *schedulingDetailViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:SCHEDULING_INITIAL_STORYBOARD_ID];
+//    AddMedicationDetailType detailType = [DCAddMedicationHelper medicationDetailTypeForIndexPath:indexPath hasWarnings:showWarnings];
+//    schedulingDetailViewController.detailType = detailType;
+//    //TODO: temporarrly added... remove this on actual scheduling data from api 
+//    if (self.isEditMedication) {
+//        if (self.selectedMedication.scheduling == nil) {
+//            self.selectedMedication.scheduling = [[DCScheduling alloc] init];
+//            self.selectedMedication.scheduling.type = SPECIFIC_TIMES;
+//        }
+//        if (self.selectedMedication.scheduling.repeat == nil) {
+//            self.selectedMedication.scheduling.repeat = [[DCRepeat alloc] init];
+//            self.selectedMedication.scheduling.repeat.repeatType = DAILY;
+//            self.selectedMedication.scheduling.repeat.frequency = @"1 day";
+//        }
+//    }
+//    schedulingDetailViewController.repeatValue = self.selectedMedication.scheduling.repeat;
+//    schedulingDetailViewController.selectedEntry = ^ (NSString *selectedValue){
+//        if (detailType == eDetailSchedulingType) {
+//            self.selectedMedication.scheduling.type = selectedValue;
+//        }
+//    };
+//    schedulingDetailViewController.repeatCompletion = ^ (DCRepeat *repeat) {
+//        self.selectedMedication.scheduling.repeat = repeat;
+//    };
+//    DCAddMedicationContentCell *selectedCell = [self selectedCellAtIndexPath:indexPath];
+//    schedulingDetailViewController.previousFilledValue = selectedCell.descriptionLabel.text;
     [self.navigationController pushViewController:schedulingDetailViewController animated:YES];
 }
 
@@ -1062,17 +1062,15 @@
             nameHeight = (nameHeight < TABLE_CELL_DEFAULT_ROW_HEIGHT) ? TABLE_CELL_DEFAULT_ROW_HEIGHT : nameHeight;
         }
         return nameHeight;
-    }
-    else if (indexPath.section == eSecondSection){
+    } else if (indexPath.section == eSecondSection){
         if (!showWarnings) {
             return ([self indexPathHasPicker:indexPath] ? PICKER_VIEW_CELL_HEIGHT : medicationDetailsTableView.rowHeight);
         }
-    }
-    else if (indexPath.section == eThirdSection){
+    } else if (indexPath.section == eThirdSection){
         if (showWarnings) {
             return ([self indexPathHasPicker:indexPath] ? PICKER_VIEW_CELL_HEIGHT : medicationDetailsTableView.rowHeight);
         }
-    } if (indexPath.section == eFourthSection) {
+    } else if (indexPath.section == eFourthSection) {
         if (showWarnings) {
             return ([self indexPathHasPicker:indexPath] ? PICKER_VIEW_CELL_HEIGHT : medicationDetailsTableView.rowHeight);
         } else {
@@ -1093,7 +1091,6 @@
         }
     } else if (indexPath.section == eSixthSection) {
         return INSTRUCTIONS_ROW_HEIGHT;
-        
     }
     return TABLE_CELL_DEFAULT_ROW_HEIGHT;
 }

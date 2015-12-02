@@ -120,6 +120,7 @@
 #define PATIENT_MENU_VIEW_CONTROLLER_SB_ID @"PatientMenuViewController"
 #define VITAL_SIGNS_VIEW_CONTROLLER_VIEW_CONTROLLER_SB_ID @"VitalSignViewController"
 #define SCHEDULING_DETAIL_STORYBOARD_ID @"SchedulingDetailView"
+#define SCHEDULING_INITIAL_STORYBOARD_ID @"SchedulingInitialView"
 
 #define PRESCRIBER_MEDICATION_SBID @"PrescriberMedicationViewControllerSBID"
 
@@ -178,6 +179,7 @@
 #define ADMINISTER_PICKER_CELL_ID @"AdministerPickerCellId"
 #define SCHEDULING_CELL_ID @"SchedulingCellId"
 #define SCHEDULING_PICKER_CELL_ID @"SchedulingPickerCellId"
+
 
 // title for views
 #define INPATIENT_TITLE @"In Patients"

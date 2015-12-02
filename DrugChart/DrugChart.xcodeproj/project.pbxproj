@@ -122,6 +122,7 @@
 		0BBEEB5E1AD4FF4F00C1D986 /* RoundRectPresentationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BBEEB5C1AD4FF4F00C1D986 /* RoundRectPresentationController.m */; };
 		0BBEFFD01B5F72EF00E70CCC /* DCWarning.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BBEFFCF1B5F72EF00E70CCC /* DCWarning.m */; };
 		0BC0C4681ADF7BC3002707DC /* AddMedication.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0BC0C4671ADF7BC3002707DC /* AddMedication.storyboard */; };
+		0BC3ACB31C0DB70B0028AF03 /* DCSchedulingInitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC3ACB21C0DB70B0028AF03 /* DCSchedulingInitialViewController.swift */; };
 		0BC542D41AB8556A004DDFCC /* DCAdministerMedication.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BC542D31AB8556A004DDFCC /* DCAdministerMedication.m */; };
 		0BC5FAF61B43FF930019BF36 /* DCAutoSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BC5FAF51B43FF930019BF36 /* DCAutoSearchView.m */; };
 		0BC5FAFA1B4411DE0019BF36 /* DCAutoSearchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BC5FAF91B4411DE0019BF36 /* DCAutoSearchView.xib */; };
@@ -490,6 +491,7 @@
 		0BBEFFCE1B5F72EF00E70CCC /* DCWarning.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCWarning.h; sourceTree = "<group>"; };
 		0BBEFFCF1B5F72EF00E70CCC /* DCWarning.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCWarning.m; sourceTree = "<group>"; };
 		0BC0C4671ADF7BC3002707DC /* AddMedication.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AddMedication.storyboard; sourceTree = "<group>"; };
+		0BC3ACB21C0DB70B0028AF03 /* DCSchedulingInitialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCSchedulingInitialViewController.swift; sourceTree = "<group>"; };
 		0BC542D21AB8556A004DDFCC /* DCAdministerMedication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCAdministerMedication.h; sourceTree = "<group>"; };
 		0BC542D31AB8556A004DDFCC /* DCAdministerMedication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCAdministerMedication.m; sourceTree = "<group>"; };
 		0BC5FAF41B43FF930019BF36 /* DCAutoSearchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCAutoSearchView.h; sourceTree = "<group>"; };
@@ -1472,6 +1474,7 @@
 				0B14CD881BB13BD80085E40C /* AdministerViewController */,
 				0BC0C4621ADF777D002707DC /* AddMedicationViewController */,
 				0BA449E01B9850E5009F84E5 /* AddMedicationDetailViewController */,
+				0BC3ACB11C0DB6D60028AF03 /* SchedulingInitialViewController */,
 				0BA5A38E1BF348C200251F94 /* SchedulingDetailViewController */,
 				0B2442F11B96F6F600E8F0EB /* MedicationListViewController */,
 				0B8498B31BB1058400C740F2 /* CalendarSlotDetailViewController */,
@@ -1716,6 +1719,14 @@
 				4D54C0751BFB245A00A61273 /* OneThirdScreenSizeCalendar.storyboard */,
 			);
 			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		0BC3ACB11C0DB6D60028AF03 /* SchedulingInitialViewController */ = {
+			isa = PBXGroup;
+			children = (
+				0BC3ACB21C0DB70B0028AF03 /* DCSchedulingInitialViewController.swift */,
+			);
+			path = SchedulingInitialViewController;
 			sourceTree = "<group>";
 		};
 		0BC542D11AB85552004DDFCC /* AdministerMedication */ = {
@@ -2795,6 +2806,7 @@
 				4D48915F1BC90176002AC8CA /* DCPatientListingViewController.swift in Sources */,
 				0B91739E1B01F36200BC9337 /* DCPrescriberDetailsViewController.m in Sources */,
 				4DC527F11BE1EE2F00E2EF09 /* DCDosageMultiLineCell.swift in Sources */,
+				0BC3ACB31C0DB70B0028AF03 /* DCSchedulingInitialViewController.swift in Sources */,
 				1FD4FCCA1BF4B7E000B77B94 /* GeneralObservationView.swift in Sources */,
 				1FD4FD101BF4BBCB00B77B94 /* ObservationEditDelegate.swift in Sources */,
 				0BBE3B601AA42DC5004CA6E9 /* main.m in Sources */,
