@@ -13,6 +13,6 @@
 
 @property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong) NSString *schedulingDescription;
-@property (nonatomic, strong) DCRepeat *repeat;
+@property (nonatomic, strong) DCRepeat *repeatObject;
 
 @end

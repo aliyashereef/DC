@@ -126,11 +126,11 @@
             }
         }
         case eFourthSection: {
-            if (showWarnings) {
-                return eDetailSchedulingType;
-            } else {
+//            if (showWarnings) {
+//                return eDetailSchedulingType;
+//            } else {
                 return eDetailDosage;
-            }
+          //  }
         }
         case eFifthSection:
             if (showWarnings) {

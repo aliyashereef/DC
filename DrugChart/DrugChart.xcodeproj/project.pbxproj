@@ -21,6 +21,7 @@
 		0B294B441B9D667900F8D574 /* DCAddDosageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B294B431B9D667800F8D574 /* DCAddDosageCell.m */; };
 		0B38AC081BF4592E0027B8E6 /* DCSchedulingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B38AC071BF4592E0027B8E6 /* DCSchedulingCell.swift */; };
 		0B38AC0C1BF4899A0027B8E6 /* DCRepeat.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B38AC0B1BF4899A0027B8E6 /* DCRepeat.m */; };
+		0B47963E1C0EE80300A8E78A /* DCSchedulingDescriptionTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B47963D1C0EE80300A8E78A /* DCSchedulingDescriptionTableCell.swift */; };
 		0B5948BA1B2188A90085FB26 /* PatientAllergies.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0B5948B91B2188A90085FB26 /* PatientAllergies.plist */; };
 		0B5948BE1B218B0A0085FB26 /* DCPatientAllergy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B5948BD1B218B0A0085FB26 /* DCPatientAllergy.m */; };
 		0B6B497A1B2ED50700288117 /* DCScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B6B49791B2ED50700288117 /* DCScrollView.m */; };
@@ -344,6 +345,7 @@
 		0B38AC071BF4592E0027B8E6 /* DCSchedulingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCSchedulingCell.swift; sourceTree = "<group>"; };
 		0B38AC0A1BF4899A0027B8E6 /* DCRepeat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCRepeat.h; sourceTree = "<group>"; };
 		0B38AC0B1BF4899A0027B8E6 /* DCRepeat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCRepeat.m; sourceTree = "<group>"; };
+		0B47963D1C0EE80300A8E78A /* DCSchedulingDescriptionTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCSchedulingDescriptionTableCell.swift; sourceTree = "<group>"; };
 		0B5948B91B2188A90085FB26 /* PatientAllergies.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PatientAllergies.plist; sourceTree = "<group>"; };
 		0B5948BC1B218B0A0085FB26 /* DCPatientAllergy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCPatientAllergy.h; sourceTree = "<group>"; };
 		0B5948BD1B218B0A0085FB26 /* DCPatientAllergy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCPatientAllergy.m; sourceTree = "<group>"; };
@@ -905,6 +907,14 @@
 				0B38AC0B1BF4899A0027B8E6 /* DCRepeat.m */,
 			);
 			path = Repeat;
+			sourceTree = "<group>";
+		};
+		0B47963C1C0EE7DB00A8E78A /* SchedulingDescriptionTableCell */ = {
+			isa = PBXGroup;
+			children = (
+				0B47963D1C0EE80300A8E78A /* DCSchedulingDescriptionTableCell.swift */,
+			);
+			path = SchedulingDescriptionTableCell;
 			sourceTree = "<group>";
 		};
 		0B5948BB1B218AF60085FB26 /* PatientAllergy */ = {
@@ -1736,6 +1746,7 @@
 			isa = PBXGroup;
 			children = (
 				0BC3ACB21C0DB70B0028AF03 /* DCSchedulingInitialViewController.swift */,
+				0B47963C1C0EE7DB00A8E78A /* SchedulingDescriptionTableCell */,
 			);
 			path = SchedulingInitialViewController;
 			sourceTree = "<group>";
@@ -2753,6 +2764,7 @@
 				0BD699161BB272BB008797A2 /* DCAdministerTableHeaderView.swift in Sources */,
 				0BAA87381AF8B48600FCA686 /* DCSecurityPinWebService.m in Sources */,
 				0BC542D41AB8556A004DDFCC /* DCAdministerMedication.m in Sources */,
+				0B47963E1C0EE80300A8E78A /* DCSchedulingDescriptionTableCell.swift in Sources */,
 				7D63355A1AE66AB700463E12 /* DCWard.m in Sources */,
 				1FD4FCFF1BF4BAAD00B77B94 /* BarChartCell.swift in Sources */,
 				4D16FADD1B5E34210034406A /* DCStopMedicationWebService.m in Sources */,

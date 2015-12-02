@@ -151,4 +151,5 @@
 
 "DAILY_DESCRIPTION"    =       "Medication will be administred every";
 "SCHEDULING_GENERAL_DESCRIPTION"    =   "";
-
+"BASE_FREQUENCY"       =       "Base Frequency on";
+"ADMINISTRATION_TIMES" =       "Administration Times";

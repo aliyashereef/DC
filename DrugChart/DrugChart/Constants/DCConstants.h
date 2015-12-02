@@ -179,6 +179,8 @@
 #define ADMINISTER_PICKER_CELL_ID @"AdministerPickerCellId"
 #define SCHEDULING_CELL_ID @"SchedulingCellId"
 #define SCHEDULING_PICKER_CELL_ID @"SchedulingPickerCellId"
+#define SCHEDULING_INITIAL_CELL_ID @"SchedulingInitialCellId"
+#define SCHEDULING_DESCRIPTION_CELL_ID @"SchedulingDescriptionCell"
 
 
 // title for views

@@ -148,6 +148,9 @@
         cell = [self updatedMedicationDetailsCell:cell atIndexPath:indexPath];
     } else if (type == eSchedulingCell) {
         cell.titleLabel.text = NSLocalizedString(@"FREQUENCY", @"");
+        if (doneClicked) {
+            cell.titleLabel.textColor = (self.selectedMedication.scheduling.type == nil)? [UIColor redColor] : [UIColor blackColor];
+        }
         cell.descriptionLabel.text = self.selectedMedication.scheduling.type;
     } else if (type == eAdministratingTimeCell) {
         cell.titleLabel.text = NSLocalizedString(@"ADMINISTRATING_TIME", @"");
@@ -155,7 +158,7 @@
         cell = [self updatedAdministrationTimeTableCell:cell];
     } else if (type == eRepeatCell) {
         cell.titleLabel.text = NSLocalizedString(@"REPEAT", @"");
-        [cell configureContentCellWithContent:self.selectedMedication.scheduling.repeat.repeatType];
+        [cell configureContentCellWithContent:self.selectedMedication.scheduling.repeatObject.repeatType];
     }
     return cell;
 }
@@ -583,10 +586,10 @@
     self.selectedMedication.mildWarningCount = mildArray.count;
     self.selectedMedication.medicineCategory = REGULAR_MEDICATION;
     self.selectedMedication.scheduling = [[DCScheduling alloc] init];
-    self.selectedMedication.scheduling.type = SPECIFIC_TIMES;
-    self.selectedMedication.scheduling.repeat = [[DCRepeat alloc] init];
-    self.selectedMedication.scheduling.repeat.repeatType = DAILY;
-    self.selectedMedication.scheduling.repeat.frequency = @"1 day";
+//    self.selectedMedication.scheduling.type = SPECIFIC_TIMES;
+//    self.selectedMedication.scheduling.repeat = [[DCRepeat alloc] init];
+//    self.selectedMedication.scheduling.repeat.repeatType = DAILY;
+//    self.selectedMedication.scheduling.repeat.frequency = @"1 day";
     dosageArray = [NSMutableArray arrayWithObjects:medication.dosage, nil];
     [medicationDetailsTableView reloadData];
 }
@@ -652,10 +655,10 @@
 - (void)displaySchedulingDetailViewForTableViewAtIndexPath:(NSIndexPath *)indexPath {
     
     UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
-    DCSchedulingDetailViewController *schedulingDetailViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:SCHEDULING_INITIAL_STORYBOARD_ID];
-//    AddMedicationDetailType detailType = [DCAddMedicationHelper medicationDetailTypeForIndexPath:indexPath hasWarnings:showWarnings];
+    DCSchedulingInitialViewController *schedulingViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:SCHEDULING_INITIAL_STORYBOARD_ID];
+   // AddMedicationDetailType detailType = [DCAddMedicationHelper medicationDetailTypeForIndexPath:indexPath hasWarnings:showWarnings];
 //    schedulingDetailViewController.detailType = detailType;
-//    //TODO: temporarrly added... remove this on actual scheduling data from api 
+    //TODO: temporarrly added... remove this on actual scheduling data from api
 //    if (self.isEditMedication) {
 //        if (self.selectedMedication.scheduling == nil) {
 //            self.selectedMedication.scheduling = [[DCScheduling alloc] init];
@@ -678,7 +681,20 @@
 //    };
 //    DCAddMedicationContentCell *selectedCell = [self selectedCellAtIndexPath:indexPath];
 //    schedulingDetailViewController.previousFilledValue = selectedCell.descriptionLabel.text;
-    [self.navigationController pushViewController:schedulingDetailViewController animated:YES];
+    schedulingViewController.selectedSchedulingValue = ^ (DCScheduling *scheduling) {
+        
+    };
+    schedulingViewController.updatedTimeArray = ^ (NSMutableArray *timeArray) {
+        self.selectedMedication.timeArray = timeArray;
+    };
+    if (self.isEditMedication) {
+        if (self.selectedMedication.scheduling == nil) {
+            self.selectedMedication.scheduling = [[DCScheduling alloc] init];
+        }
+    }
+    schedulingViewController.scheduling = self.selectedMedication.scheduling;
+    schedulingViewController.timeArray = self.selectedMedication.timeArray;
+    [self.navigationController pushViewController:schedulingViewController animated:YES];
 }
 
 - (DCAddMedicationContentCell *)selectedCellAtIndexPath:(NSIndexPath *)indexPath {

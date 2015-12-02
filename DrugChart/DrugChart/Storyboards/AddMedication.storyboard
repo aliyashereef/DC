@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="Lato-Bold.ttf">
@@ -708,17 +709,18 @@
                                 <rect key="frame" x="0.0" y="-15" width="310" height="705"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SchedulingInitialCellId" id="ntd-Wg-kAe" customClass="DCSchedulingCell" customModule="DrugChart" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SchedulingInitialCellId" id="ntd-Wg-kAe" customClass="DCSchedulingCell" customModule="DrugChart" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="50" width="310" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ntd-Wg-kAe" id="vCO-3N-NLd">
-                                            <rect key="frame" x="0.0" y="0.0" width="310" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="277" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kgk-dE-QfF" userLabel="Title Label">
-                                                    <rect key="frame" x="15" y="13" width="135" height="18"/>
+                                                    <rect key="frame" x="15" y="11" width="145" height="21"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="135" id="IAl-9w-KlK"/>
+                                                        <constraint firstAttribute="width" constant="145" id="IAl-9w-KlK"/>
+                                                        <constraint firstAttribute="height" constant="21" id="jU5-BW-p6i"/>
                                                         <constraint firstAttribute="width" constant="135" id="mEo-Ml-e0f"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -730,10 +732,11 @@
                                                         </mask>
                                                     </variation>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AHX-lz-mFf" userLabel="Description Label">
-                                                    <rect key="frame" x="179" y="13" width="116" height="18"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AHX-lz-mFf" userLabel="Description Label">
+                                                    <rect key="frame" x="156" y="11" width="116" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="116" id="A4u-BA-LV2"/>
+                                                        <constraint firstAttribute="height" constant="21" id="Knf-rQ-SNI"/>
                                                         <constraint firstAttribute="width" constant="116" id="rYJ-Nj-Yo5"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -748,14 +751,45 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="Kgk-dE-QfF" firstAttribute="centerY" secondItem="vCO-3N-NLd" secondAttribute="centerY" id="CST-WJ-C35"/>
-                                                <constraint firstAttribute="trailing" secondItem="AHX-lz-mFf" secondAttribute="trailing" constant="15" id="aL6-aU-A10"/>
+                                                <constraint firstItem="AHX-lz-mFf" firstAttribute="top" secondItem="vCO-3N-NLd" secondAttribute="topMargin" constant="5" id="Krk-xQ-xYv"/>
+                                                <constraint firstAttribute="trailing" secondItem="AHX-lz-mFf" secondAttribute="trailing" constant="5" id="aL6-aU-A10"/>
                                                 <constraint firstItem="AHX-lz-mFf" firstAttribute="centerY" secondItem="vCO-3N-NLd" secondAttribute="centerY" id="lZk-Pf-NlL"/>
+                                                <constraint firstItem="AHX-lz-mFf" firstAttribute="top" secondItem="Kgk-dE-QfF" secondAttribute="top" id="n13-7F-EPG"/>
                                                 <constraint firstItem="Kgk-dE-QfF" firstAttribute="leading" secondItem="vCO-3N-NLd" secondAttribute="leading" constant="15" id="zIG-bj-8TY"/>
                                             </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="Krk-xQ-xYv"/>
+                                                    <exclude reference="n13-7F-EPG"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="descriptionLabel" destination="AHX-lz-mFf" id="iln-lZ-sGC"/>
                                             <outlet property="titleLabel" destination="Kgk-dE-QfF" id="KAA-Cr-JxO"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="SchedulingDescriptionCell" rowHeight="78" id="YJw-UZ-PkD" userLabel="DescriptionCell" customClass="DCSchedulingDescriptionTableCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="94" width="310" height="78"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="YJw-UZ-PkD" id="ejb-jk-LS6">
+                                            <rect key="frame" x="0.0" y="0.0" width="310" height="77"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Description" translatesAutoresizingMaskIntoConstraints="NO" id="BoF-gt-g7U">
+                                                    <rect key="frame" x="12" y="5" width="289" height="65"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" red="0.56078431370000004" green="0.56078431370000004" blue="0.58431372550000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="YJw-UZ-PkD" id="0Ke-co-JML"/>
+                                                    </connections>
+                                                </textView>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="descriptionTextView" destination="BoF-gt-g7U" id="kFx-kl-D7i"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -802,7 +836,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="htx-Zi-x4Y" userLabel="Scheduling Table View">
-                                <rect key="frame" x="0.0" y="-35" width="310" height="725"/>
+                                <rect key="frame" x="0.0" y="-34" width="310" height="724"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SchedulingCellId" id="1qR-gW-Kpb" customClass="DCSchedulingCell" customModule="DrugChart" customModuleProvider="target">
@@ -891,7 +925,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="lTt-ia-XfJ" firstAttribute="top" secondItem="htx-Zi-x4Y" secondAttribute="bottom" id="0UX-Bk-VlW"/>
-                            <constraint firstItem="htx-Zi-x4Y" firstAttribute="top" secondItem="QUI-xi-5KU" secondAttribute="top" constant="-35" id="gHs-1P-oid"/>
+                            <constraint firstItem="htx-Zi-x4Y" firstAttribute="top" secondItem="QUI-xi-5KU" secondAttribute="top" constant="-34" id="gHs-1P-oid"/>
                             <constraint firstAttribute="trailing" secondItem="htx-Zi-x4Y" secondAttribute="trailing" id="nRG-re-xID"/>
                             <constraint firstItem="htx-Zi-x4Y" firstAttribute="leading" secondItem="QUI-xi-5KU" secondAttribute="leading" id="on3-Vs-qpD"/>
                         </constraints>
