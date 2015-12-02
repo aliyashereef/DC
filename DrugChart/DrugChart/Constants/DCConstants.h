@@ -211,6 +211,8 @@
 
 //date
 
+#define WEEK_DAY_FORMAT                 @"EEE"
+#define DAY_DATE_FORMAT                 @"dd"
 #define DEFAULT_DATE_FORMAT             @"yyyy-MM-dd hh:mm:ss z"
 #define SHORT_DATE_FORMAT               @"yyyy-MM-dd"
 #define DATE_FORMAT_RANGE               @"yyyy-MM-dd HH:mm"
