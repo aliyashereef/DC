@@ -120,9 +120,11 @@
 "REASON"                =       "Reason";
 "NEW_DOSAGE"            =       "New Dosage";
 "SCHEDULING"            =       "Scheduling";
+"FREQUENCY"             =       "Frequency";
 "SPECIFIC_TIMES"        =       "Specific Times";
 "REPEAT"                =       "Repeat";
 "DESCRIPTION"           =       "Description";
+"DOSE"                  =       "Dose";
 
 //Administer
 
@@ -149,4 +151,5 @@
 
 "DAILY_DESCRIPTION"    =       "Medication will be administred every";
 "SCHEDULING_GENERAL_DESCRIPTION"    =   "";
-
+"BASE_FREQUENCY"       =       "Base Frequency on";
+"ADMINISTRATION_TIMES" =       "Administration Times";
