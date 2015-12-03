@@ -8,7 +8,8 @@
 
 import UIKit
 
-let SECTION_COUNT : NSInteger = 2
+let INITIAL_SECTION_COUNT : NSInteger = 1
+let TOTAL_SECTION_COUNT : NSInteger = 2
 let TABLE_SECTION_HEIGHT : CGFloat = 10.0
 let DESCRIPTION_CELL_INDEX : NSInteger = 2
 let INSTRUCTIONS_ROW_HEIGHT : CGFloat = 78
@@ -23,6 +24,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
     var scheduling : DCScheduling?
     var timeArray : NSMutableArray? = []
     var isEditMedication : Bool?
+    var validate : Bool = false
     var selectedSchedulingValue : SelectedScheduling = {value in }
     var updatedTimeArray : UpdatedTimeArray = {times in }
     
@@ -95,10 +97,14 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         schedulingCell?.layoutMargins = UIEdgeInsetsZero
         schedulingCell?.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         if (indexPath.section == 0) {
+            //highlight field in red if scheduling type is nil when save button is pressed in add medication screen
+            schedulingCell!.titleLabel.textColor = (validate && scheduling?.type == nil) ? UIColor.redColor() : UIColor.blackColor()
             schedulingCell!.titleLabel?.text = NSLocalizedString("BASE_FREQUENCY", comment: "")
             schedulingCell!.descriptionLabel.text = scheduling?.type
         } else {
             if (indexPath.row == 0) {
+                //highlight field in red if time array is empty when save button is pressed in add medication screen
+                schedulingCell!.titleLabel.textColor = (validate &&  (timeArray == nil || timeArray?.count == 0)) ? UIColor.redColor() : UIColor.blackColor()
                 schedulingCell!.titleLabel?.text = NSLocalizedString("ADMINISTRATION_TIMES", comment: "")
             } else if (indexPath.row == 1) {
                 schedulingCell!.titleLabel?.text = NSLocalizedString("REPEAT", comment: "")
@@ -128,7 +134,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        return SECTION_COUNT
+        return (self.scheduling?.type != nil) ? TOTAL_SECTION_COUNT : INITIAL_SECTION_COUNT
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -142,19 +148,24 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        if (indexPath.row == DESCRIPTION_CELL_INDEX) {
-            // display description field for specific times scheduling
-            let descriptionCell : DCSchedulingDescriptionTableCell? = descriptionCellAtIndexPath(indexPath)
-            return descriptionCell!
-        } else {
+        if (self.scheduling?.type == nil) {
             let schedulingCell : DCSchedulingCell? = frequencyCellAtIndexPath(indexPath)
             return schedulingCell!
+        } else {
+            if (indexPath.row == DESCRIPTION_CELL_INDEX) {
+                // display description field for specific times scheduling
+                let descriptionCell : DCSchedulingDescriptionTableCell? = descriptionCellAtIndexPath(indexPath)
+                return descriptionCell!
+            } else {
+                let schedulingCell : DCSchedulingCell? = frequencyCellAtIndexPath(indexPath)
+                return schedulingCell!
+            }
         }
-    }
+        
+     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
-        //return (indexPathHasPicker(indexPath)) ? PICKER_CELL_HEIGHT : TABLE_VIEW_ROW_HEIGHT
         if (indexPath.row == DESCRIPTION_CELL_INDEX) {
             return INSTRUCTIONS_ROW_HEIGHT
         } else {

@@ -149,7 +149,7 @@
     } else if (type == eSchedulingCell) {
         cell.titleLabel.text = NSLocalizedString(@"FREQUENCY", @"");
         if (doneClicked) {
-            cell.titleLabel.textColor = (self.selectedMedication.scheduling.type == nil)? [UIColor redColor] : [UIColor blackColor];
+            cell.titleLabel.textColor = (self.selectedMedication.scheduling.type == nil || self.selectedMedication.timeArray.count == 0)? [UIColor redColor] : [UIColor blackColor];
         }
         cell.descriptionLabel.text = self.selectedMedication.scheduling.type;
     } else if (type == eAdministratingTimeCell) {
@@ -694,6 +694,8 @@
     }
     schedulingViewController.scheduling = self.selectedMedication.scheduling;
     schedulingViewController.timeArray = self.selectedMedication.timeArray;
+    schedulingViewController.validate = doneClicked;
+    
     [self.navigationController pushViewController:schedulingViewController animated:YES];
 }
 
