@@ -13,6 +13,7 @@
 @interface DCBaseViewController () {
 
     BOOL isLandScapeMode;
+    BOOL sizeChanged;
 }
 
 @end
@@ -23,6 +24,7 @@
     
     [super viewDidLoad];
     [self configureCurrentOrientation];
+    [self configureCurrentWindowState];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -46,7 +48,10 @@
 - (void)viewDidLayoutSubviews {
     
     [super viewDidLayoutSubviews];
-    [self configureCurrentWindowState];
+    if (sizeChanged) {
+        sizeChanged = NO;
+        [self configureCurrentWindowState];
+    }
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size
@@ -54,6 +59,7 @@
     
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     [self configureCurrentOrientation];
+    sizeChanged = YES;
 }
 
 /*
@@ -90,7 +96,7 @@
     if (IS_IPHONE) {
         if (!isLandScapeMode) {
             appDelegate.windowState = oneThirdWindow;
-        }        
+        }
     }
     else {
         if (windowWidth <= screenWidth/2) {
@@ -104,16 +110,18 @@
             }
         }
     }
-    
     NSLog(@"The window state is : %ld", (unsigned long int)appDelegate.windowState);
+    
 }
 
 - (void)configureCurrentOrientation {
     
     CGSize screenSize = [UIScreen mainScreen].bounds.size;
-    isLandScapeMode = NO;
-    if (screenSize.width > screenSize.height) {
-        isLandScapeMode = YES;
+    @synchronized(self) {
+        isLandScapeMode = NO;
+        if (screenSize.width > screenSize.height) {
+            isLandScapeMode = YES;
+        }
     }
 }
 

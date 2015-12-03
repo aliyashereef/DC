@@ -363,6 +363,9 @@ typedef enum : NSUInteger {
     [noMedicationsAvailableLabel setHidden:YES];
     [self fetchMedicationListForPatientId:self.patient.patientId
                     withCompletionHandler:^(NSArray *result, NSError *error) {
+                        
+                        NSLog(@"the response is recieved ************");
+                        [self showActivityIndicationOnViewRefresh:false];
                         if (!error) {
                             _patient.medicationListArray = result;
                             [self configureAlertsAndAllergiesArrayForDisplay];
@@ -395,7 +398,6 @@ typedef enum : NSUInteger {
                                 }
                                 [noMedicationsAvailableLabel setHidden:NO];
                             }
-                            [self showActivityIndicationOnViewRefresh:false];
                         }
                         else {
                             if (error.code == NETWORK_NOT_REACHABLE) {
