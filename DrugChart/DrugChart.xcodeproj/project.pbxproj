@@ -239,7 +239,7 @@
 		4D52D5841BCD02FB002ABA8D /* DCAdministerMedicationWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D52D5831BCD02FB002ABA8D /* DCAdministerMedicationWebService.m */; };
 		4D52D58B1BCE74DB002ABA8D /* DCAdministrationStatusTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D52D58A1BCE74DB002ABA8D /* DCAdministrationStatusTableViewController.m */; };
 		4D54C0761BFB245A00A61273 /* OneThirdScreenSizeCalendar.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4D54C0751BFB245A00A61273 /* OneThirdScreenSizeCalendar.storyboard */; };
-		4D54C0791BFB2DF800A61273 /* CalendarOneThirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D54C0781BFB2DF800A61273 /* CalendarOneThirdViewController.swift */; };
+		4D54C0791BFB2DF800A61273 /* DCCalendarOneThirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D54C0781BFB2DF800A61273 /* DCCalendarOneThirdViewController.swift */; };
 		4D54C07B1BFB351200A61273 /* DCOneThirdCalendarScreenMedicationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D54C07A1BFB351200A61273 /* DCOneThirdCalendarScreenMedicationCell.swift */; };
 		4D66A06B1B737B100075677E /* DCOrderSetAutoSearchHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D66A06A1B737B100075677E /* DCOrderSetAutoSearchHeaderView.m */; };
 		4D66A06F1B737BEE0075677E /* DCOrderSetAutoSearchHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D66A06E1B737BEE0075677E /* DCOrderSetAutoSearchHeaderView.xib */; };
@@ -634,7 +634,7 @@
 		4D52D5891BCE74DB002ABA8D /* DCAdministrationStatusTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCAdministrationStatusTableViewController.h; sourceTree = "<group>"; };
 		4D52D58A1BCE74DB002ABA8D /* DCAdministrationStatusTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCAdministrationStatusTableViewController.m; sourceTree = "<group>"; };
 		4D54C0751BFB245A00A61273 /* OneThirdScreenSizeCalendar.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OneThirdScreenSizeCalendar.storyboard; sourceTree = "<group>"; };
-		4D54C0781BFB2DF800A61273 /* CalendarOneThirdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarOneThirdViewController.swift; sourceTree = "<group>"; };
+		4D54C0781BFB2DF800A61273 /* DCCalendarOneThirdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCCalendarOneThirdViewController.swift; sourceTree = "<group>"; };
 		4D54C07A1BFB351200A61273 /* DCOneThirdCalendarScreenMedicationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCOneThirdCalendarScreenMedicationCell.swift; sourceTree = "<group>"; };
 		4D66A0691B737B100075677E /* DCOrderSetAutoSearchHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCOrderSetAutoSearchHeaderView.h; sourceTree = "<group>"; };
 		4D66A06A1B737B100075677E /* DCOrderSetAutoSearchHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCOrderSetAutoSearchHeaderView.m; sourceTree = "<group>"; };
@@ -2121,7 +2121,7 @@
 		4D54C0771BFB2BD700A61273 /* CalendarOneThirdViewController */ = {
 			isa = PBXGroup;
 			children = (
-				4D54C0781BFB2DF800A61273 /* CalendarOneThirdViewController.swift */,
+				4D54C0781BFB2DF800A61273 /* DCCalendarOneThirdViewController.swift */,
 			);
 			name = CalendarOneThirdViewController;
 			sourceTree = "<group>";
@@ -2823,7 +2823,7 @@
 				0B14CD8D1BB151EA0085E40C /* DCAdministerCell.swift in Sources */,
 				1FD4FCE71BF4B8F400B77B94 /* LineChartCell.swift in Sources */,
 				0B7F74FC1B84394B00E3B0A0 /* DCSortTableViewController.m in Sources */,
-				4D54C0791BFB2DF800A61273 /* CalendarOneThirdViewController.swift in Sources */,
+				4D54C0791BFB2DF800A61273 /* DCCalendarOneThirdViewController.swift in Sources */,
 				4D766C0F1BBD004800413E08 /* DCDateView.swift in Sources */,
 				4D8386A21BB2887D0012EF7D /* DCNotesAndReasonCell.swift in Sources */,
 				0BA40BBA1B299D67005B80AD /* HTMLParser.m in Sources */,

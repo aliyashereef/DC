@@ -16,7 +16,7 @@
         <!--Calendar One Third View Controller-->
         <scene sceneID="Nnd-ff-m95">
             <objects>
-                <viewController storyboardIdentifier="PrescriberOneThirdMedicationList" id="njj-GT-iRf" customClass="CalendarOneThirdViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PrescriberOneThirdMedicationList" id="njj-GT-iRf" customClass="DCCalendarOneThirdViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="gMK-4y-abi"/>
                         <viewControllerLayoutGuide type="bottom" id="ttX-lP-DEm"/>

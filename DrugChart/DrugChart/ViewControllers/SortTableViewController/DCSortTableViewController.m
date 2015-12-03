@@ -159,6 +159,7 @@
         selectedValue = [[contentArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     }
     self.criteria (selectedValue);
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Action Methods

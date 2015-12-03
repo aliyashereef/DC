@@ -18,6 +18,7 @@
 - (void)displayAdministrationViewForMedicationSlot:(NSDictionary *)medicationSLotsDictionary
                                        atIndexPath:(NSIndexPath *)indexPath
                                       withWeekDate:(NSDate *)date;
+- (void)loadCurrentDayDisplayForOneThirdWithDate : (NSDate *)date ;
 - (void)modifyStartDayAndWeekDates:(BOOL)isNextWeek;
 - (void)updatePrescriberMedicationListDetails;
 - (void)loadCurrentWeekDate ;
