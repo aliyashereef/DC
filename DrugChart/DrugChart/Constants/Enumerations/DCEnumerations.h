@@ -88,10 +88,17 @@ typedef enum : NSUInteger {
     eNewDosage,
     eNewAdministrationTime,
     eOverrideReason,
-    eDetailSchedulingType,
-    eDetailRepeatType,
+   // eDetailSchedulingType,
+   // eDetailRepeatType,
     
 } AddMedicationDetailType;
+
+typedef enum : NSUInteger {
+    
+    eDetailSchedulingType,
+    eDetailRepeatType
+    
+} SchedulingDetailType;
 
 typedef enum : NSUInteger {
     eNotes,

@@ -10,19 +10,19 @@ import UIKit
 
 class DCSchedulingHelper: NSObject {
     
-    static func screenTitleForScreenType(screenType : AddMedicationDetailType) -> String {
+    static func screenTitleForScreenType(screenType : SchedulingDetailType) -> String {
         
         //screen title for detail type
         var title = EMPTY_STRING
         if (screenType == eDetailSchedulingType) {
-            title = NSLocalizedString("SCHEDULING", comment:"")
+            title = NSLocalizedString("BASE_FREQUENCY", comment:"")
         } else if (screenType == eDetailRepeatType) {
             title = NSLocalizedString("REPEAT", comment: "")
         }
         return title
     }
     
-    static func scheduleDisplayArrayForScreenType(screenType : AddMedicationDetailType) -> NSMutableArray {
+    static func scheduleDisplayArrayForScreenType(screenType : SchedulingDetailType) -> NSMutableArray {
         
         var scheduleArray = NSMutableArray()
         if (screenType == eDetailSchedulingType) {
@@ -31,6 +31,18 @@ class DCSchedulingHelper: NSObject {
             scheduleArray = [FREQUENCY, EVERY]
         }
         return scheduleArray
+    }
+    
+    static func schedulingDetailTypeAtIndexPath(indexPath : NSIndexPath) -> SchedulingDetailType? {
+        
+        if indexPath.section == 0 {
+            return eDetailSchedulingType
+        } else {
+            if indexPath.row == 1 {
+                return eDetailRepeatType
+            }
+        }
+        return nil
     }
     
     static func scheduleDescriptionForReapeatValue(repeatValue : DCRepeat) -> NSMutableString {
