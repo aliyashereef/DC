@@ -588,11 +588,10 @@ typedef enum : NSUInteger {
 }
 
 - (IBAction)sortButtonPressed:(id)sender {
-    
+
     //display sort options in a pop over controller,
     //showDiscontinuedMedications denotes if discontinued medications are to be shown
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:MAIN_STORYBOARD bundle: nil];
-    UIPopoverController *popOverController;
     DCSortTableViewController *sortViewController = [mainStoryboard instantiateViewControllerWithIdentifier:SORT_VIEWCONTROLLER_STORYBOARD_ID];
     sortViewController.sortView = eCalendarView;
     sortViewController.previousSelectedCategory = selectedSortType;
@@ -601,10 +600,17 @@ typedef enum : NSUInteger {
     }
     UINavigationController *navigationController =
     [[UINavigationController alloc] initWithRootViewController:sortViewController];
-    popOverController = [[UIPopoverController alloc] initWithContentViewController:navigationController];
-    popOverController.popoverContentSize = CGSizeMake(305, 200);
-    [popOverController presentPopoverFromBarButtonItem:sender
-                              permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    navigationController.modalPresentationStyle = UIModalPresentationPopover;
+    
+    [self presentViewController:navigationController animated:YES completion:nil];
+    UIPopoverPresentationController *presentationController =
+    [navigationController popoverPresentationController];
+    presentationController.permittedArrowDirections =
+    UIPopoverArrowDirectionAny;
+    sortViewController.preferredContentSize = CGSizeMake(305, 200);
+    presentationController.sourceView = self.view;
+    presentationController.barButtonItem = (UIBarButtonItem *)sender;
+    
     sortViewController.criteria = ^ (NSString * type) {
         if (![type isEqualToString:INCLUDE_DISCONTINUED]) {
             selectedSortType =  type;

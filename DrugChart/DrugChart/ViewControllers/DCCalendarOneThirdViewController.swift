@@ -179,24 +179,25 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     }
     
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        let firstDate : NSDate = currentWeekDatesArray.objectAtIndex(0) as! NSDate
-        let lastDate : NSDate = currentWeekDatesArray.lastObject as! NSDate
-        let visibleCells : NSArray = calendarStripCollectionView.visibleCells()
-        if visibleCells.count > 0 {
-            let cell : DCOneThirdCalendarStripCollectionCell = visibleCells.lastObject as! DCOneThirdCalendarStripCollectionCell
-            print(cell.displayDate)
-            for obj : AnyObject in visibleCells  {
-                if let cell = obj as? DCOneThirdCalendarStripCollectionCell{
-                    if cell.displayDate?.compare(lastDate) == NSComparisonResult.OrderedSame {
-                        self.modifyStartDateAndWeekDatesArray(true, adderValue: 5)
-                        self.calendarStripCollectionView.reloadData()
-                    } else if cell.displayDate?.compare(firstDate) == NSComparisonResult.OrderedSame {
-                        self.modifyStartDateAndWeekDatesArray(false, adderValue: 5)
-                        self.calendarStripCollectionView.reloadData()
+        if scrollView == calendarStripCollectionView {
+            let firstDate : NSDate = currentWeekDatesArray.objectAtIndex(0) as! NSDate
+            let lastDate : NSDate = currentWeekDatesArray.lastObject as! NSDate
+            let visibleCells : NSArray = calendarStripCollectionView.visibleCells()
+            if visibleCells.count > 0 {
+                let cell : DCOneThirdCalendarStripCollectionCell = visibleCells.lastObject as! DCOneThirdCalendarStripCollectionCell
+                print(cell.displayDate)
+                for obj : AnyObject in visibleCells  {
+                    if let cell = obj as? DCOneThirdCalendarStripCollectionCell{
+                        if cell.displayDate?.compare(lastDate) == NSComparisonResult.OrderedSame {
+                            self.modifyStartDateAndWeekDatesArray(true, adderValue: 5)
+                            self.calendarStripCollectionView.reloadData()
+                        } else if cell.displayDate?.compare(firstDate) == NSComparisonResult.OrderedSame {
+                            self.modifyStartDateAndWeekDatesArray(false, adderValue: 5)
+                            self.calendarStripCollectionView.reloadData()
+                        }
                     }
                 }
             }
-
         }
     }
     // MARK: - Data display methods in table view
