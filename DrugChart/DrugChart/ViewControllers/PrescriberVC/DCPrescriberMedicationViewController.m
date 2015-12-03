@@ -608,7 +608,6 @@ typedef enum : NSUInteger {
             selectedSortType =  type;
         }
         [self sortCalendarViewBasedOnCriteria:type];
-        [popOverController dismissPopoverAnimated:YES];
     };
 }
 
