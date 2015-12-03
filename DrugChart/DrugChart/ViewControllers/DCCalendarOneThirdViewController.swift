@@ -9,8 +9,8 @@
 import Foundation
 
 class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource, UITableViewDelegate, DCMedicationAdministrationStatusProtocol , UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    @IBOutlet var calendarStripCollectionView: UICollectionView!
     
+    @IBOutlet var calendarStripCollectionView: UICollectionView!
     @IBOutlet var medicationTableView: UITableView?
     var displayMedicationListArray : NSMutableArray = []
     let existingStatusViews : NSMutableArray = []
@@ -50,12 +50,12 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     override func viewDidLayoutSubviews() {
         
         super.viewDidLayoutSubviews()
-        calendarStripCollectionView.reloadData()
         if let _ = centerDate {
             
         } else {
             centerDate = NSDate.init()
         }
+        calendarStripCollectionView.reloadData()
         self.adjustContentOffsetToShowCenterDayInCollectionView()
         self.view.layoutIfNeeded()
     }
@@ -86,12 +86,6 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         if date.compare(centerDate!) == NSComparisonResult.OrderedSame {
             cell.showSelection()
         }
-        let selectionOrder = NSCalendar.currentCalendar().compareDate(date , toDate:centerDate!,
-            toUnitGranularity: .Day)
-        if (selectionOrder == NSComparisonResult.OrderedSame){
-            collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: true)
-        }
-
         cell.layoutIfNeeded()
         return cell
     }
@@ -105,26 +99,10 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         
         let cell = calendarStripCollectionView.cellForItemAtIndexPath(indexPath) as! DCOneThirdCalendarStripCollectionCell
         centerDate = cell.displayDate!
-        let firstDate : NSDate = currentWeekDatesArray.objectAtIndex(0) as! NSDate
-        let secondDate : NSDate = currentWeekDatesArray.objectAtIndex(1) as! NSDate
-        let lastDate : NSDate = currentWeekDatesArray.lastObject as! NSDate
-        let secondLastDate : NSDate = currentWeekDatesArray.objectAtIndex(currentWeekDatesArray.count - 2) as! NSDate
-        if cell.displayDate?.compare(lastDate) == NSComparisonResult.OrderedSame {
-            self.modifyStartDateAndWeekDatesArray(true, adderValue: 2)
-        } else if  cell.displayDate?.compare(secondDate) == NSComparisonResult.OrderedSame  {
-            self.modifyStartDateAndWeekDatesArray(false, adderValue: 2)
-        } else if cell.displayDate?.compare(firstDate) == NSComparisonResult.OrderedSame {
-            self.modifyStartDateAndWeekDatesArray(false, adderValue: 2)
-        } else if cell.displayDate?.compare(secondLastDate) == NSComparisonResult.OrderedSame {
-            self.modifyStartDateAndWeekDatesArray(true, adderValue: 2)
-        }
         medicationTableView?.reloadData()
-        UIView.animateWithDuration(0.0, animations: {
-            self.calendarStripCollectionView.reloadData()
-            }, completion: {
-                (value: Bool) in
-                //self.calendarStripCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: true)
-        })
+        self.calendarStripCollectionView.reloadData()
+        let parentView : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
+        parentView.loadCurrentDayDisplayForOneThirdWithDate(centerDate)
         collectionView.deselectItemAtIndexPath(indexPath, animated: false)
     }
     
@@ -248,6 +226,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     func reloadMedicationListWithDisplayArray (displayArray: NSMutableArray) {
         
         displayMedicationListArray =  displayArray as NSMutableArray
+        adjustContentOffsetToShowCenterDayInCollectionView()
         medicationTableView?.reloadData()
     }
     
@@ -360,7 +339,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         if !isCurrentWeekArray {
             generateCurrentWeekDatesArray()
             let centerDisplayDate = self.currentWeekDatesArray.count == 15 ? 7 : 4
-            let indexPath : NSIndexPath = NSIndexPath(forRow:centerDisplayDate - 1 , inSection: 0)
+            let indexPath : NSIndexPath = NSIndexPath(forRow:centerDisplayDate, inSection: 0)
             calendarStripCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: true)
             calendarStripCollectionView.reloadData()
             medicationTableView?.reloadData()

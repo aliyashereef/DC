@@ -207,7 +207,9 @@ typedef enum : NSUInteger {
         [DCAPPDELEGATE windowState] == oneThirdWindow) {
         isOneThirdMedicationViewShown = YES;
         [self hideCalendarTopPortion];
-        [self loadCurrentDayDisplayForOneThird];
+        if (currentWeekDatesArray.count > 0) {
+            [self loadCurrentDayDisplayForOneThirdWithDate:centerDisplayDate];
+        }
         [self addPrescriberDrugChartViewForOneThirdWindow];
     }
     else if ([DCAPPDELEGATE windowState] == fullWindow ||
@@ -691,7 +693,7 @@ typedef enum : NSUInteger {
     [self populateMonthYearLabel];
 }
 
-- (void)loadCurrentDayDisplayForOneThird {
+- (void)loadCurrentDayDisplayForOneThirdWithDate : (NSDate *)date {
     CGFloat windowWidth= [DCUtility mainWindowSize].width;
     if (!dateView) {
         dateView = [[UIView alloc] init];
@@ -701,10 +703,8 @@ typedef enum : NSUInteger {
     UILabel *dateLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, windowWidth, 50)];
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"LLLL yyyy"];
-    if (currentWeekDatesArray.count > 0) {
-        NSString *dateString = [dateFormat stringFromDate:[currentWeekDatesArray objectAtIndex:7]];
-        dateLabel.text = dateString;
-    }
+    NSString *dateString = [dateFormat stringFromDate:date];
+    dateLabel.text = dateString;
     dateLabel.backgroundColor = [UIColor whiteColor];
     dateLabel.textAlignment = NSTextAlignmentCenter;
     dateLabel.font = [UIFont systemFontOfSize:20];
@@ -767,7 +767,10 @@ typedef enum : NSUInteger {
     if (currentWeekDatesArray.count == 0) {
         [self currentWeekDatesArrayFromDate:[DCDateUtility dateInCurrentTimeZone:[NSDate date]]];
     }
-    prescriberMedicationOneThirdSizeViewController.currentWeekDatesArray = currentWeekDatesArray;
+    prescriberMedicationOneThirdSizeViewController.centerDate = centerDisplayDate;
+    NSDate *date = [DCDateUtility initialDateForCalendarDisplay:centerDisplayDate withAdderValue:-7];
+    NSMutableArray *oneThirdweekDatesArray = [DCDateUtility nextAndPreviousDays:15 withReferenceToDate:date];
+    prescriberMedicationOneThirdSizeViewController.currentWeekDatesArray = oneThirdweekDatesArray;
     [prescriberMedicationOneThirdSizeViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
     [self.view bringSubviewToFront:activityIndicatorView];
 }
