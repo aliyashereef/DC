@@ -75,7 +75,7 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate {
 
         observationList.sortInPlace({ $0.date.compare($1.date) == NSComparisonResult.OrderedAscending })
         graphicalDashBoardView.reloadView(observationList)
-       // tabularDashBoardView.configureView(observationList)
+        tabularDashBoardView.reloadView(observationList)
     }
     
     //Mark: Delegate Implementation

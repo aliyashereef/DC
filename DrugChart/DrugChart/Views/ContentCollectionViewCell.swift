@@ -20,6 +20,20 @@ class ContentCollectionViewCell: UICollectionViewCell {
     {
         self.layer.borderWidth = 1
         self.layer.borderColor = UIColor.lightGrayColor().CGColor
+        
+        let tap = UITapGestureRecognizer(target: self, action: "doubleTapped")
+        tap.numberOfTapsRequired = 2
+        self.addGestureRecognizer(tap)
     }
+    
+    func doubleTapped() {
+                let alert = UIAlertView()
+                alert.title = "my title"
+                alert.message = "things are working slowly"
+                alert.addButtonWithTitle("Ok")
+                alert.delegate = self
+                alert.show()
+    }
+
 
 }

@@ -62,7 +62,6 @@ class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDel
     
     
     
-    
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         if indexPath.section == 0 {
