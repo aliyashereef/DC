@@ -419,6 +419,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         var count = 0, weekDays = 15
         if (appDelegate.windowState == DCWindowState.twoThirdWindow) {
             weekDays = 9
+            print("it is 2/3rd accidentally ***********************");
         }
         let medicationSlotsArray: NSMutableArray = []
         while (count < weekDays) {
@@ -513,11 +514,6 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             }
         }
     }
-    
-//    - (void)medicationEditCancelledForIndexPath:(NSIndexPath *)editIndexPath {
-//    
-//    [prescriberMedicationListViewController animatePrescriberCellToOriginalStateAtIndexPath:editIndexPath];
-//    }
     
     func animateAdministratorDetailsView (isRight : Bool) {
         let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController

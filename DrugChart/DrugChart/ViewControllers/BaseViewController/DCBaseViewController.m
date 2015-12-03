@@ -12,7 +12,7 @@
 
 @interface DCBaseViewController () {
 
-    BOOL sizeChanged;
+    BOOL isLandScapeMode;
 }
 
 @end
@@ -22,6 +22,7 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+    [self configureCurrentOrientation];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -45,26 +46,14 @@
 - (void)viewDidLayoutSubviews {
     
     [super viewDidLayoutSubviews];
-    CGFloat windowWidth= [DCUtility mainWindowSize].width;
-    CGFloat screenWidth= [UIScreen mainScreen].bounds.size.width;
-    DCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    if (windowWidth <= screenWidth/2) {
-        appDelegate.windowState = halfWindow;
-    } else  {
-        if (windowWidth == screenWidth) {
-            appDelegate.windowState = fullWindow;
-        }
-        else {
-            appDelegate.windowState = twoThirdWindow;
-        }
-    }
+    [self configureCurrentWindowState];
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size
        withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-    sizeChanged = YES;
+    [self configureCurrentOrientation];
 }
 
 /*
@@ -91,6 +80,41 @@
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultsValueChanged) name:NSUserDefaultsDidChangeNotification object:nil];
     
+}
+
+- (void)configureCurrentWindowState {
+    
+    CGFloat windowWidth= [DCUtility mainWindowSize].width;
+    CGFloat screenWidth= [UIScreen mainScreen].bounds.size.width;
+    DCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    if (IS_IPHONE) {
+        if (!isLandScapeMode) {
+            appDelegate.windowState = oneThirdWindow;
+        }        
+    }
+    else {
+        if (windowWidth <= screenWidth/2) {
+            appDelegate.windowState = halfWindow;
+        } else  {
+            if (windowWidth == screenWidth) {
+                appDelegate.windowState = isLandScapeMode? fullWindow : twoThirdWindow;
+            }
+            else {
+                appDelegate.windowState = isLandScapeMode? twoThirdWindow : halfWindow;
+            }
+        }
+    }
+    
+    NSLog(@"The window state is : %ld", (unsigned long int)appDelegate.windowState);
+}
+
+- (void)configureCurrentOrientation {
+    
+    CGSize screenSize = [UIScreen mainScreen].bounds.size;
+    isLandScapeMode = NO;
+    if (screenSize.width > screenSize.height) {
+        isLandScapeMode = YES;
+    }
 }
 
 #pragma mark - Public Methods
