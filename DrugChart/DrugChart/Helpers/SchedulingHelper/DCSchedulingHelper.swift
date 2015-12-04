@@ -102,8 +102,6 @@ class DCSchedulingHelper: NSObject {
         } else if (repeatValue.repeatType == YEARLY) {
             if (repeatValue.isEachValue == true) {
                 var eachValue : String = EMPTY_STRING
-               // print("**** eachValue is %@", repeatValue.eachValue)
-               // print("**** on the value is %@", repeatValue.onTheValue)
                 if (repeatValue.yearEachValue == nil) {
                     // repeatValue.eachValue = "1"
                     let currentDay = DCDateUtility.currentDay()

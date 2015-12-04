@@ -791,27 +791,14 @@
             if (showWarnings) {
                 [self displayAddMedicationDetailViewForTableRowAtIndexPath:indexPath];
             } else {
-//                if (indexPath.row == 0) {
-//                    [self presentAdministrationTimeView];
-//                } else if (indexPath.row == 1) {
-//                    [self displaySchedulingDetailViewForTableViewAtIndexPath:indexPath];
-//                }
-               // [self displayAddMedicationDetailViewForTableRowAtIndexPath:indexPath];
                 DCInstructionsTableCell *instructionsCell = (DCInstructionsTableCell *)[medicationDetailsTableView cellForRowAtIndexPath:indexPath];
                 [instructionsCell.instructionsTextView becomeFirstResponder];
             }
             break;
         case eSixthSection: {
-//            if (indexPath.row == 0) {
-//                [self presentAdministrationTimeView];
-//            } else if (indexPath.row == 1) {
-//                [self displaySchedulingDetailViewForTableViewAtIndexPath:indexPath];
-//            }
-            
             DCInstructionsTableCell *instructionsCell = (DCInstructionsTableCell *)[medicationDetailsTableView cellForRowAtIndexPath:indexPath];
             [instructionsCell.instructionsTextView becomeFirstResponder];
         }
-            
             break;
         default:{
             [self displayAddMedicationDetailViewForTableRowAtIndexPath:indexPath];
@@ -1159,6 +1146,11 @@
 //                        [self displayAlertWithTitle:@"ERROR" message:@"Edit medication failed"];
 //                    }
 //                }];
+//TODO : temporarly added till api is available
+                if (self.delegate && [self.delegate respondsToSelector:@selector(medicationEditCancelledForIndexPath:)]) {
+                    [self.delegate medicationEditCancelledForIndexPath:_medicationEditIndexPath];
+                }
+                [self dismissViewControllerAnimated:YES completion:nil];
             } else {
                 [addButton setEnabled:NO];
                 [self callAddMedicationWebService];
