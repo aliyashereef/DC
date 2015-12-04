@@ -70,6 +70,12 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
             //inside our closure
             print("Frequency value is %@", value)
             self.scheduling?.type = String(value!)
+            if (self.scheduling?.repeatObject?.repeatType == nil) {
+                self.scheduling?.repeatObject = DCRepeat.init()
+                self.scheduling?.repeatObject.repeatType = DAILY
+                self.scheduling?.repeatObject.frequency = "1 day"
+                self.scheduling?.schedulingDescription = String(format: "%@ day.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
+            }
             self.schedulingTableView.reloadData()
         }
         self.navigationController?.pushViewController(schedulingDetailViewController!, animated: true)
@@ -108,6 +114,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
                 schedulingCell!.titleLabel?.text = NSLocalizedString("ADMINISTRATION_TIMES", comment: "")
             } else if (indexPath.row == 1) {
                 schedulingCell!.titleLabel?.text = NSLocalizedString("REPEAT", comment: "")
+                schedulingCell!.descriptionLabel.text = scheduling?.repeatObject?.repeatType
             } else {
                 schedulingCell!.titleLabel?.text = NSLocalizedString("DESCRIPTION", comment: "")
             }
