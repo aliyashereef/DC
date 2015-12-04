@@ -336,13 +336,7 @@
 }
 
 - (void)configureNoEndDateTableCellDisplayBasedOnSwitchState {
-//    if(_isEditMedication) {
-//        if (self.selectedMedication.hasWarning) {
-//            lastSection = eFourthSection;
-//        } else {
-//            lastSection = eThirdSection;
-//        }
-//    }
+
     //hide/show no date table cell
     if (!self.selectedMedication.hasEndDate) {
         //hide tablecell
@@ -546,10 +540,8 @@
     NSArray *mildArray = [[warningsArray objectAtIndex:1] valueForKey:MILD_WARNING];
     if ([severeArray count] > 0 || [mildArray count] > 0) {
         showWarnings = YES;
-       // lastSection = eFourthSection;
     } else {
         showWarnings = NO;
-       // lastSection = eThirdSection;
     }
     self.selectedMedication = [[DCMedicationScheduleDetails alloc] init];
     self.selectedMedication.name = medication.name;
@@ -801,15 +793,9 @@
 - (void)displayDetailViewForRegularMedicationAtIndexPath:(NSIndexPath *)indexPath {
     
     if (!_datePickerIndexPath) { // If inline datepicker is not shown
-       // if (self.selectedMedication.hasEndDate) { //has end date
-            if (indexPath.row != NO_END_DATE_ROW_INDEX) { // disable section of no end date cell, show inline date pickers on other cell selection
-                [self displayInlineDatePickerForRowAtIndexPath:indexPath];
-            }
-//         } else {
-//             if (indexPath.row != NO_END_DATE_ROW_INDEX) {
-//                 [self displayInlineDatePickerForRowAtIndexPath:indexPath];
-//             }
-//         }
+        if (indexPath.row != NO_END_DATE_ROW_INDEX) { // disable section of no end date cell, show inline date pickers on other cell selection
+            [self displayInlineDatePickerForRowAtIndexPath:indexPath];
+        }
     } else {
         if (_datePickerIndexPath.row == DATE_PICKER_INDEX_START_DATE) {
             if (indexPath.row != DATE_PICKER_INDEX_START_DATE + 1) {
@@ -1075,13 +1061,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-//    if(_isEditMedication) {
-//        if (self.selectedMedication.hasWarning) {
-//            lastSection = eFourthSection;
-//        } else {
-//            lastSection = eThirdSection;
-//        }
-//    }
     //shrink already opened date picker cell
     [self resignKeyboard];
     if ((indexPath.section != _datePickerIndexPath.section)) {

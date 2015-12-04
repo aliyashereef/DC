@@ -100,7 +100,6 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         let schedulingCell : DCSchedulingCell? = schedulingTableView.dequeueReusableCellWithIdentifier(SCHEDULING_INITIAL_CELL_ID) as? DCSchedulingCell
         if (indexPath.section == 0) {
             //highlight field in red if scheduling type is nil when save button is pressed in add medication screen
-            //schedulingCell!.titleLabel.textColor = (validate && scheduling?.type == nil) ? UIColor.redColor() : UIColor.blackColor()
             if (indexPath.row == 0) {
                 schedulingCell!.titleLabel?.text = SPECIFIC_TIMES
                 if (scheduling?.type == SPECIFIC_TIMES) {
@@ -122,6 +121,26 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
                 //highlight field in red if time array is empty when save button is pressed in add medication screen
                 schedulingCell!.titleLabel.textColor = (validate &&  (timeArray == nil || timeArray?.count == 0)) ? UIColor.redColor() : UIColor.blackColor()
                 schedulingCell!.titleLabel?.text = NSLocalizedString("ADMINISTRATION_TIMES", comment: "")
+                let predicate = NSPredicate(format: "selected == 1")
+                print("timearray is %@", timeArray)
+                if let filteredArray = timeArray?.filteredArrayUsingPredicate(predicate) {
+                    // do something with array
+                    print("***** filteredArray is %@", filteredArray)
+                   // let arr = filteredArray(valueForKey("time))
+                    var arr =  [String]()
+                    for timeDictionary in filteredArray {
+//                        if let time : String = timeDictionary!["time"] {
+//                            arr.append(time)
+//                        }
+                        let time = timeDictionary["time"]
+                        arr.append((time as? String)!)
+                    }
+                    print("time Arr is %@", arr);
+                    let timeString = arr.joinWithSeparator(", ")
+                    print("***** timeString is %@", timeString)
+                    schedulingCell!.descriptionLabel.text = timeString
+                }
+                
             } else if (indexPath.row == 1) {
                 schedulingCell!.titleLabel?.text = NSLocalizedString("REPEAT", comment: "")
                 schedulingCell!.descriptionLabel.text = scheduling?.repeatObject?.repeatType
@@ -182,7 +201,6 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
                 return schedulingCell!
             }
         }
-        
      }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
