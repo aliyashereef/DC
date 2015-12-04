@@ -251,8 +251,6 @@ class CommaScoreViewController: UIViewController,UITableViewDelegate,UITableView
         observation.eyesOpen = eyesOpen
         observation.bestVerbalResponse = bestVerbalResponse
         observation.bestMotorResponse = bestMotorResponse
-        // ajj to bari hi beizzati ho rahi ha.
-        
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
