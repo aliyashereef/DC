@@ -45,6 +45,14 @@
     [self configureViewElements];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    
+    [super viewWillDisappear:animated];
+    if (_detailType == eDetailAdministrationTime) {
+        [self passAdministrationTimeArrayToAddMedicationinitialView];
+    }
+}
+
 - (void)didReceiveMemoryWarning {
     
     [super didReceiveMemoryWarning];
@@ -105,6 +113,9 @@
         case eOverrideReason:
             self.title = NSLocalizedString(@"REASON", @"");
             break;
+        case eNewAdministrationTime:
+            self.title = NSLocalizedString(@"ADD_TIME", @"");
+            break;
         default:
             break;
     }
@@ -113,7 +124,7 @@
 - (void)addNavigationBarButtonItems {
     
     //navigation bar button items
-    if (_detailType == eNewDosage || _detailType == eDetailAdministrationTime|| _detailType == eNewAdministrationTime || _detailType == eOverrideReason) {
+    if (_detailType == eNewDosage || _detailType == eNewAdministrationTime || _detailType == eOverrideReason) {
         UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:CANCEL_BUTTON_TITLE  style:UIBarButtonItemStylePlain target:self action:@selector(cancelButtonPressed:)];
         self.navigationItem.leftBarButtonItem = cancelButton;
         UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]
@@ -376,9 +387,6 @@
                 [detailTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
             }
         } else {
-            if (_detailType == eDetailAdministrationTime) {
-                [self passAdministrationTimeArrayToAddMedicationinitialView];
-        }
             [self dismissViewControllerAnimated:YES completion:nil];
         }
     }

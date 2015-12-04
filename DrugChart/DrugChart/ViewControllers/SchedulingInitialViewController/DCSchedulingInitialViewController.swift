@@ -91,9 +91,9 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         }
         medicationDetailViewController!.detailType = eDetailAdministrationTime
         medicationDetailViewController!.contentArray = timeArray
-        let navigationController = UINavigationController.init(rootViewController: medicationDetailViewController!)
-        navigationController.modalPresentationStyle = UIModalPresentationStyle.CurrentContext
-        self.presentViewController(navigationController, animated: true, completion: nil)
+//        let navigationController = UINavigationController.init(rootViewController: medicationDetailViewController!)
+//        navigationController.modalPresentationStyle = UIModalPresentationStyle.CurrentContext
+        self.navigationController?.pushViewController(medicationDetailViewController!, animated: true)
     }
     
     func frequencyCellAtIndexPath(indexPath : NSIndexPath) -> DCSchedulingCell {

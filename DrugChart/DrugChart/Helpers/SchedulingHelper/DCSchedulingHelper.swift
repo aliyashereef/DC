@@ -76,7 +76,6 @@ class DCSchedulingHelper: NSObject {
                 if (repeatValue.eachValue == nil) {
                    // repeatValue.eachValue = "1"
                     let currentDay = DCDateUtility.currentDay()
-                    NSLog("currentDay is %d", currentDay)
                     repeatValue.eachValue = String(currentDay)
                 }
                 if let number = Int(repeatValue.eachValue) {
@@ -109,8 +108,6 @@ class DCSchedulingHelper: NSObject {
                     // repeatValue.eachValue = "1"
                     let currentDay = DCDateUtility.currentDay()
                     let currentMonth = DCDateUtility.currentMonth()
-                    NSLog("currentDay is %d", currentDay)
-                    NSLog("currentmonth is %d", currentMonth)
                     let monthString = DCDateUtility.monthNames()[currentMonth - 1]
                     repeatValue.yearEachValue = String("\(currentDay) \(monthString)")
                 }
