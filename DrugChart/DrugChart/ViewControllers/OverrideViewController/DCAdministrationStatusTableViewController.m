@@ -50,8 +50,6 @@
     cell.textLabel.font = [UIFont systemFontOfSize:15.0];
     cell.textLabel.text = status;
     cell.accessoryType = ([status isEqualToString:_previousSelectedValue]) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
-    cell.layoutMargins = UIEdgeInsetsZero;
-    cell.separatorInset = UIEdgeInsetsZero;
     return cell;
 }
 

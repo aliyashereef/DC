@@ -64,8 +64,6 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
     func prepareViewElements() {
         
         //set view properties and values
-        detailTableView.layoutMargins = UIEdgeInsetsZero;
-        detailTableView.separatorInset = UIEdgeInsetsZero;
         //calculate header view height
         headerHeight = DCUtility.textViewSizeWithText(self.scheduling?.schedulingDescription, maxWidth: HEADER_VIEW_LABEL_MAX_WIDTH, font: UIFont.systemFontOfSize(13.0)).height + 10
         configureNavigationView()
@@ -99,7 +97,6 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
         
         //display inline picker
         let pickerCell : DCSchedulingPickerCell? = detailTableView.dequeueReusableCellWithIdentifier(SCHEDULING_PICKER_CELL_ID) as? DCSchedulingPickerCell
-      //  pickerCell?.layoutMargins = UIEdgeInsetsZero
         pickerCell?.weekDaysArray = weekDaysArray
        // pickerCell?.repeatValue = repeatValue
         pickerCell?.repeatValue = scheduling?.repeatObject
@@ -184,7 +181,6 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
         } else {
             displayString = (displayArray.objectAtIndex(indexPath.item) as? String)!
             schedulingCell!.accessoryType = (displayString == previousFilledValue) ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
-           // schedulingCell?.layoutMargins = UIEdgeInsetsZero
         }
         if (indexPath.row == 1) {
             schedulingCell?.selectionStyle = UITableViewCellSelectionStyle.None
@@ -197,7 +193,6 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
     func repeatCellAtIndexPath(indexPath : NSIndexPath) -> DCSchedulingCell {
         
         let repeatCell : DCSchedulingCell? = detailTableView.dequeueReusableCellWithIdentifier(SCHEDULING_CELL_ID) as? DCSchedulingCell
-        //repeatCell!.layoutMargins = UIEdgeInsetsZero
         repeatCell!.accessoryType = UITableViewCellAccessoryType.None
         repeatCell!.descriptionLabel.hidden = false
         return repeatCell!

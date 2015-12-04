@@ -63,8 +63,6 @@
 - (void)configureViewElements {
     
     //configure view properties
-    detailTableView.layoutMargins = UIEdgeInsetsZero;
-    detailTableView.separatorInset = UIEdgeInsetsZero;
     [self configureNavigationBarItems];
     [self populateContentArray];
     if (_detailType == eNewAdministrationTime) {
@@ -251,7 +249,6 @@
     if (_detailType == eNewDosage) {
         static NSString *cellIdentifier =  ADD_DOSAGE_CELL_IDENTIFIER;
         DCAddDosageCell *cell = [detailTableView dequeueReusableCellWithIdentifier:cellIdentifier];
-        cell.layoutMargins = UIEdgeInsetsZero;
         if (cell == nil) {
             cell = [[DCAddDosageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
@@ -260,7 +257,6 @@
     } else if (_detailType == eOverrideReason) {
         static NSString *cellIdentifier = OVERRIDE_REASON_CELL_ID;
         DCReasonCell *reasonCell = [detailTableView dequeueReusableCellWithIdentifier:cellIdentifier];
-        reasonCell.layoutMargins = UIEdgeInsetsZero;
         if (reasonCell == nil) {
             reasonCell = [[DCReasonCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
@@ -269,7 +265,6 @@
     } else {
         static NSString *cellIdentifier = ADD_MEDICATION_DETAIL_CELL_IDENTIFIER;
         UITableViewCell *cell = [detailTableView dequeueReusableCellWithIdentifier:cellIdentifier];
-        cell.layoutMargins = UIEdgeInsetsZero;
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
