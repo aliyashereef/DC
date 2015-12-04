@@ -10,6 +10,9 @@
 
 #define SHARED_APPDELEGATE (DCAppDelegate *)[[UIApplication sharedApplication] delegate]
 
+#define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+#define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+
 //TODO: We can change the base url by changing the toggle button in the settings bundle of the app.
 
 #define kDCBaseUrl @"http://interfacetest.cloudapp.net/api"

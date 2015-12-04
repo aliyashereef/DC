@@ -115,11 +115,9 @@ typedef enum : NSUInteger {
 - (void)viewWillTransitionToSize:(CGSize)size
        withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     
-    
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     NSLog(@"the size is changed");
     windowSizeChanged = YES;
-    
 }
 
 
@@ -367,6 +365,9 @@ typedef enum : NSUInteger {
     [noMedicationsAvailableLabel setHidden:YES];
     [self fetchMedicationListForPatientId:self.patient.patientId
                     withCompletionHandler:^(NSArray *result, NSError *error) {
+                        
+                        NSLog(@"the response is recieved ************");
+                        [self showActivityIndicationOnViewRefresh:false];
                         if (!error) {
                             _patient.medicationListArray = result;
                             [self configureAlertsAndAllergiesArrayForDisplay];
@@ -374,10 +375,10 @@ typedef enum : NSUInteger {
                             [self setDisplayMedicationListArray];
                             if ([displayMedicationListArray count] > 0) {
                                 if (prescriberMedicationListViewController) {
+                                    prescriberMedicationListViewController.currentWeekDatesArray = currentWeekDatesArray;
                                     [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
                                     selectedSortType = START_DATE_ORDER;
                                     prescriberMedicationListViewController.patientId = self.patient.patientId;
-                                    prescriberMedicationListViewController.currentWeekDatesArray = currentWeekDatesArray;
                                 }
                                 if (prescriberMedicationOneThirdSizeViewController) {
                                     [prescriberMedicationOneThirdSizeViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
@@ -399,7 +400,6 @@ typedef enum : NSUInteger {
                                 }
                                 [noMedicationsAvailableLabel setHidden:NO];
                             }
-                            [self showActivityIndicationOnViewRefresh:false];
                         }
                         else {
                             if (error.code == NETWORK_NOT_REACHABLE) {
@@ -514,9 +514,9 @@ typedef enum : NSUInteger {
 
 // A custom view is loaded as the title for the prescriber screen.
 - (void)addCustomTitleViewToNavigationBar {
-    CGFloat windowWidth= [DCUtility mainWindowSize].width;
-    CGFloat screenWidth= [UIScreen mainScreen].bounds.size.width;
-    if (windowWidth <= screenWidth/2) {
+    
+    if ([DCAPPDELEGATE windowState] == halfWindow ||
+        [DCAPPDELEGATE windowState] == oneThirdWindow) {
         
         DCOneThirdCalendarNavigationTitleView *titleView = [[[NSBundle mainBundle] loadNibNamed:@"DCOneThirdCalendarNavigationTitleView" owner:self options:nil] objectAtIndex:0];
         [titleView populateViewWithPatientName:self.patient.patientName nhsNumber:self.patient.nhs dateOfBirth:self.patient.dob age:self.patient.age];

@@ -234,7 +234,7 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        return (self.detailType == eDetailSchedulingType) ? 1 : 2
+        return (self.detailType! == eDetailSchedulingType) ? 1 : 2
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -262,7 +262,7 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         if (indexPath.section == 0) {
-            if (self.detailType == eDetailSchedulingType) {
+            if (self.detailType! == eDetailSchedulingType) {
                 let schedulingCell : DCSchedulingCell = schedulingTypeCellAtIndexPath(indexPath)
                 return schedulingCell
             } else {
@@ -354,14 +354,14 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         if (indexPath.section == 0) {
-            if (self.detailType == eDetailSchedulingType) {
+            if (self.detailType! == eDetailSchedulingType) {
                 if (indexPath.row == 0) {
                     previousFilledValue = displayArray.objectAtIndex(indexPath.item) as! String
                     self.frequencyValue(previousFilledValue)
                     tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: .Fade)
                 }
                 self.navigationController?.popViewControllerAnimated(true)
-            } else if (self.detailType == eDetailRepeatType) {
+            } else if (self.detailType! == eDetailRepeatType) {
                 // display picker here
                 displayInlinePickerForRowAtIndexPath(indexPath)
             }
@@ -402,7 +402,7 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
-        if (self.detailType != eDetailSchedulingType) {
+        if (self.detailType! != eDetailSchedulingType) {
             if (section == 1) {
                 return (headerHeight > HEADER_VIEW_MIN_HEIGHT) ? headerHeight : HEADER_VIEW_MIN_HEIGHT
             }
@@ -412,7 +412,7 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        if (self.detailType != eDetailSchedulingType) {
+        if (self.detailType! != eDetailSchedulingType) {
             if (section == 1) {
                 let headerView = NSBundle.mainBundle().loadNibNamed(SCHEDULING_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCSchedulingHeaderView
                 if let repeatObject = self.scheduling?.repeatObject {
