@@ -379,7 +379,7 @@ typedef enum : NSUInteger {
                                     prescriberMedicationListViewController.patientId = self.patient.patientId;
                                     prescriberMedicationListViewController.currentWeekDatesArray = currentWeekDatesArray;
                                 }
-                                if (prescriberMedicationOneThirdSizeViewController) {
+                                if (prescriberMedicationOneThirdSizeViewController && isOneThirdMedicationViewShown) {
                                     [prescriberMedicationOneThirdSizeViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
                                     prescriberMedicationOneThirdSizeViewController.currentWeekDatesArray = currentWeekDatesArray;
                                 }
@@ -450,7 +450,7 @@ typedef enum : NSUInteger {
                 if (prescriberMedicationListViewController) {
                     [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
                 }
-                if (prescriberMedicationOneThirdSizeViewController) {
+                if (prescriberMedicationOneThirdSizeViewController && isOneThirdMedicationViewShown) {
                     [prescriberMedicationOneThirdSizeViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
                 }
             }
@@ -478,7 +478,7 @@ typedef enum : NSUInteger {
                 if (prescriberMedicationListViewController) {
                     [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
                 }
-                if (prescriberMedicationOneThirdSizeViewController) {
+                if (prescriberMedicationOneThirdSizeViewController && isOneThirdMedicationViewShown) {
                     [prescriberMedicationOneThirdSizeViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
                 }
             }
@@ -502,7 +502,7 @@ typedef enum : NSUInteger {
                 if (prescriberMedicationListViewController) {
                     [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
                 }
-                if (prescriberMedicationOneThirdSizeViewController) {
+                if (prescriberMedicationOneThirdSizeViewController && isOneThirdMedicationViewShown) {
                     [prescriberMedicationOneThirdSizeViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
                 }
             }
@@ -725,7 +725,7 @@ typedef enum : NSUInteger {
         prescriberMedicationListViewController.currentWeekDatesArray = currentWeekDatesArray;
         [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
     }
-    if (prescriberMedicationOneThirdSizeViewController) {
+    if (prescriberMedicationOneThirdSizeViewController && isOneThirdMedicationViewShown) {
         prescriberMedicationOneThirdSizeViewController.currentWeekDatesArray = currentWeekDatesArray;
         [prescriberMedicationOneThirdSizeViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
     }
