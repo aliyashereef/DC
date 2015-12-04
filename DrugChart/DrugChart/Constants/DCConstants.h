@@ -380,6 +380,8 @@
 #define WEEKS @"weeks"
 #define MONTH @"month"
 #define MONTHS @"months"
+#define YEAR @"year"
+#define YEARS @"years"
 
 //Roles
 

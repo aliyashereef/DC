@@ -99,8 +99,6 @@
 
 - (void)configureViewElements {
     
-    medicationDetailsTableView.layoutMargins = UIEdgeInsetsZero;
-    medicationDetailsTableView.separatorInset = UIEdgeInsetsZero;
     self.preferredContentSize = CGSizeMake(medicationDetailsTableView.contentSize.width, medicationDetailsTableView.frame.size.height);
     if ([self respondsToSelector:@selector(loadViewIfNeeded)]) {
         [self loadViewIfNeeded];
@@ -113,7 +111,6 @@
     
     static NSString *cellIdentifier = ADD_MEDICATION_CELL_IDENTIFIER;
     UITableViewCell *cell = [medicationDetailsTableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    cell.layoutMargins = UIEdgeInsetsZero;
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
@@ -136,7 +133,6 @@
     //configuring warning cell, medication details cell, administration time cell
     static NSString *cellIdentifier = ADD_MEDICATION_CONTENT_CELL;
     DCAddMedicationContentCell *cell = [medicationDetailsTableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    cell.layoutMargins = UIEdgeInsetsZero;
     if (cell == nil) {
         cell = [[DCAddMedicationContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
@@ -166,7 +162,6 @@
 - (DCDosageMultiLineCell *)dosageCellAtIndexPath:(NSIndexPath *)indexPath {
     
     DCDosageMultiLineCell *cell = [medicationDetailsTableView dequeueReusableCellWithIdentifier:kDosageMultiLineCellID];
-    cell.layoutMargins = UIEdgeInsetsZero;
     if (cell == nil) {
         cell = [[DCDosageMultiLineCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kDosageMultiLineCellID];
     }
@@ -217,7 +212,6 @@
     
     //configuring date time section for the selected medication type. This method configures the date and time section based on the selected medication type. Regular medication will have start date, no end date ,end date, administration times cells. ONCE - has only date field. When Required has start date, no end date, end date cells
     DCDateTableViewCell *cell = [medicationDetailsTableView dequeueReusableCellWithIdentifier:kDateCellID];
-    cell.layoutMargins = UIEdgeInsetsZero;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.isEditMedication = self.isEditMedication;
     if(self.isEditMedication) {
@@ -470,7 +464,6 @@
     static NSString *cellIdentifier = INSTRUCTIONS_CELL_IDENTIFIER;
     DCInstructionsTableCell *instructionsCell = [medicationDetailsTableView dequeueReusableCellWithIdentifier:cellIdentifier];
     instructionsCell.delegate = self;
-    instructionsCell.layoutMargins = UIEdgeInsetsZero;
     if (instructionsCell == nil) {
         instructionsCell = [[DCInstructionsTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
@@ -480,25 +473,6 @@
     } else {
         instructionsCell.instructionsTextView.textColor = [UIColor colorForHexString:@"#8f8f95"];
         instructionsCell.instructionsTextView.text = NSLocalizedString(@"INSTRUCTIONS", @"Instructions field placeholder");
-    }
-    return instructionsCell;
-}
-
-- (DCInstructionsTableCell *)schedulingDescriptionTableCell {
-    
-    static NSString *cellIdentifier = INSTRUCTIONS_CELL_IDENTIFIER;
-    DCInstructionsTableCell *instructionsCell = [medicationDetailsTableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    instructionsCell.delegate = self;
-    instructionsCell.layoutMargins = UIEdgeInsetsZero;
-    if (instructionsCell == nil) {
-        instructionsCell = [[DCInstructionsTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-    }
-    [instructionsCell populatePlaceholderForFieldIsInstruction:NO];
-    if (self.selectedMedication.scheduling.schedulingDescription) {
-        instructionsCell.instructionsTextView.text = self.selectedMedication.scheduling.schedulingDescription;
-    } else {
-        instructionsCell.instructionsTextView.textColor = [UIColor colorForHexString:@"#8f8f95"];
-        instructionsCell.instructionsTextView.text = NSLocalizedString(@"DESCRIPTION", @"Description field placeholder");
     }
     return instructionsCell;
 }
@@ -791,27 +765,14 @@
             if (showWarnings) {
                 [self displayAddMedicationDetailViewForTableRowAtIndexPath:indexPath];
             } else {
-//                if (indexPath.row == 0) {
-//                    [self presentAdministrationTimeView];
-//                } else if (indexPath.row == 1) {
-//                    [self displaySchedulingDetailViewForTableViewAtIndexPath:indexPath];
-//                }
-               // [self displayAddMedicationDetailViewForTableRowAtIndexPath:indexPath];
                 DCInstructionsTableCell *instructionsCell = (DCInstructionsTableCell *)[medicationDetailsTableView cellForRowAtIndexPath:indexPath];
                 [instructionsCell.instructionsTextView becomeFirstResponder];
             }
             break;
         case eSixthSection: {
-//            if (indexPath.row == 0) {
-//                [self presentAdministrationTimeView];
-//            } else if (indexPath.row == 1) {
-//                [self displaySchedulingDetailViewForTableViewAtIndexPath:indexPath];
-//            }
-            
             DCInstructionsTableCell *instructionsCell = (DCInstructionsTableCell *)[medicationDetailsTableView cellForRowAtIndexPath:indexPath];
             [instructionsCell.instructionsTextView becomeFirstResponder];
         }
-            
             break;
         default:{
             [self displayAddMedicationDetailViewForTableRowAtIndexPath:indexPath];
@@ -964,7 +925,6 @@
     
     static NSString *cellIdentifier = ADD_MEDICATION_CONTENT_CELL;
     DCAddMedicationContentCell *cell = [medicationDetailsTableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    cell.layoutMargins = UIEdgeInsetsZero;
     if (doneClicked) {
         if ([self.selectedMedication.dosage isEqualToString:EMPTY_STRING] || self.selectedMedication.dosage == nil) {
             cell.titleLabel.textColor = [UIColor redColor];
@@ -1159,6 +1119,11 @@
 //                        [self displayAlertWithTitle:@"ERROR" message:@"Edit medication failed"];
 //                    }
 //                }];
+//TODO : temporarly added till api is available
+                if (self.delegate && [self.delegate respondsToSelector:@selector(medicationEditCancelledForIndexPath:)]) {
+                    [self.delegate medicationEditCancelledForIndexPath:_medicationEditIndexPath];
+                }
+                [self dismissViewControllerAnimated:YES completion:nil];
             } else {
                 [addButton setEnabled:NO];
                 [self callAddMedicationWebService];

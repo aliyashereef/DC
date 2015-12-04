@@ -207,4 +207,12 @@
     return day;
 }
 
++ (NSInteger)currentMonth {
+    
+    //current month
+    NSDateComponents *components = [self currentDateComponentsForCalendarUnit:NSCalendarUnitMonth];
+    NSInteger month = components.month;
+    return month;
+}
+
 @end

@@ -81,8 +81,6 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         if cell == nil {
             cell = DCAdminsteredMedicationCell(style: UITableViewCellStyle.Value1, reuseIdentifier: ADMINSTER_MEDICATION_HISTORY_CELL)
         }
-        cell!.separatorInset = UIEdgeInsetsZero
-        cell!.layoutMargins = UIEdgeInsetsZero
         switch (indexPath.row) {
         case 0:
             cell!.contentType.text = STATUS
@@ -186,8 +184,6 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         if indexPath != selectedRowIndex && count > 47{
             noteCell!.moreButtonWidthConstaint.constant = 46.0
         }
-        noteCell!.layoutMargins = UIEdgeInsetsZero
-        noteCell!.separatorInset = UIEdgeInsetsZero
         return noteCell!
     }
     
@@ -198,8 +194,6 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         if cell == nil {
             cell = DCAdminsteredMedicationCell(style: UITableViewCellStyle.Value1, reuseIdentifier: ADMINSTER_MEDICATION_HISTORY_CELL)
         }
-        cell!.separatorInset = UIEdgeInsetsZero
-        cell!.layoutMargins = UIEdgeInsetsZero
         switch (indexPath.row) {
         case 0:
             cell!.contentType.text = STATUS
@@ -236,8 +230,6 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         if cell == nil {
             cell = DCAdminsteredMedicationCell(style: UITableViewCellStyle.Value1, reuseIdentifier: ADMINSTER_MEDICATION_HISTORY_CELL)
         }
-        cell!.separatorInset = UIEdgeInsetsZero
-        cell!.layoutMargins = UIEdgeInsetsZero
         switch (indexPath.row) {
         case 0:
             cell!.contentType.text = STATUS

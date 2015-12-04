@@ -64,8 +64,6 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
     func prepareViewElements() {
         
         //set view properties and values
-        detailTableView.layoutMargins = UIEdgeInsetsZero;
-        detailTableView.separatorInset = UIEdgeInsetsZero;
         //calculate header view height
         headerHeight = DCUtility.textViewSizeWithText(self.scheduling?.schedulingDescription, maxWidth: HEADER_VIEW_LABEL_MAX_WIDTH, font: UIFont.systemFontOfSize(13.0)).height + 10
         configureNavigationView()
@@ -99,7 +97,6 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
         
         //display inline picker
         let pickerCell : DCSchedulingPickerCell? = detailTableView.dequeueReusableCellWithIdentifier(SCHEDULING_PICKER_CELL_ID) as? DCSchedulingPickerCell
-        pickerCell?.layoutMargins = UIEdgeInsetsZero
         pickerCell?.weekDaysArray = weekDaysArray
        // pickerCell?.repeatValue = repeatValue
         pickerCell?.repeatValue = scheduling?.repeatObject
@@ -122,6 +119,8 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
                 } else if (value == YEARLY) {
                     self.scheduling?.repeatObject?.frequency = "year"
                     self.displayArray = [FREQUENCY, EVERY, EACH, ON_THE]
+                    self.scheduling?.repeatObject?.isEachValue = true
+                    self.scheduling?.repeatObject?.onTheValue = ""
                 }
             } else {
                 if (pickerType == eDailyCount) {
@@ -131,14 +130,23 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
                     let week = (value == "1") ? WEEK : WEEKS
                     self.scheduling?.repeatObject?.frequency = NSString(format: "%@ %@", value!, week) as String
                 } else if (pickerType == eMonthlyCount) {
-                    let week = (value == "1") ? MONTH : MONTHS
-                    self.scheduling?.repeatObject?.frequency = NSString(format: "%@ %@", value!, week) as String
+                    let month = (value == "1") ? MONTH : MONTHS
+                    self.scheduling?.repeatObject?.frequency = NSString(format: "%@ %@", value!, month) as String
+                } else if (pickerType == eYearlyCount) {
+                    let year = (value == "1") ? YEAR : YEARS
+                    self.scheduling?.repeatObject?.frequency = NSString(format: "%@ %@", value!, year) as String
                 } else if (pickerType == eMonthEachCount) {
                     self.scheduling?.repeatObject?.isEachValue = true
                     self.scheduling?.repeatObject?.eachValue = value! as String
                 } else if (pickerType == eMonthOnTheCount) {
                     self.scheduling?.repeatObject?.isEachValue = false
                     self.scheduling?.repeatObject?.onTheValue = value! as String
+                } else if (pickerType == eYearEachCount) {
+                    self.scheduling?.repeatObject?.isEachValue = true
+                    self.scheduling?.repeatObject?.yearEachValue = String(value!)
+                } else if (pickerType == eYearOnTheCount) {
+                    self.scheduling?.repeatObject?.isEachValue = false
+                    self.scheduling?.repeatObject?.yearOnTheValue = value! as String
                 }
             }
             self.schedulingCompletion(self.scheduling)
@@ -150,7 +158,6 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
     func schedulingTypeCellAtIndexPath(indexPath : NSIndexPath) -> DCSchedulingCell {
         
         let schedulingCell : DCSchedulingCell? = detailTableView.dequeueReusableCellWithIdentifier(SCHEDULING_CELL_ID) as? DCSchedulingCell
-        schedulingCell?.layoutMargins = UIEdgeInsetsZero
         var displayString = EMPTY_STRING
         if (indexPath.section == 1 && self.scheduling?.repeatObject?.repeatType == WEEKLY) {
             displayString = weekDaysArray.objectAtIndex(indexPath.item) as! String
@@ -186,7 +193,6 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
     func repeatCellAtIndexPath(indexPath : NSIndexPath) -> DCSchedulingCell {
         
         let repeatCell : DCSchedulingCell? = detailTableView.dequeueReusableCellWithIdentifier(SCHEDULING_CELL_ID) as? DCSchedulingCell
-        repeatCell!.layoutMargins = UIEdgeInsetsZero
         repeatCell!.accessoryType = UITableViewCellAccessoryType.None
         repeatCell!.descriptionLabel.hidden = false
         return repeatCell!
@@ -304,8 +310,11 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
                         } else if (self.scheduling?.repeatObject?.repeatType == WEEKLY) {
                             let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: eWeeklyCount)
                             return pickerCell
-                        } else /*if (repeatValue?.repeatType == MONTHLY)*/ {
+                        } else if (self.scheduling?.repeatObject?.repeatType == MONTHLY) {
                             let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: eMonthlyCount)
+                            return pickerCell
+                        } else {
+                            let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: eYearlyCount)
                             return pickerCell
                         }
                     } else {
@@ -329,7 +338,8 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
                     repeatCell.accessoryType = (self.scheduling?.repeatObject?.isEachValue == true) ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
                 } else if (indexPath.row == 1) {
                     if (tableViewHasInlinePickerForSection(indexPath.section) && self.inlinePickerIndexPath == indexPath) {
-                        let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: eMonthEachCount)
+                        let pickerType : PickerType = (self.scheduling?.repeatObject?.repeatType == MONTHLY) ? eMonthEachCount : eYearEachCount
+                        let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: pickerType)
                         return pickerCell
                     } else {
                         repeatCell.titleLabel.text = ON_THE
@@ -338,7 +348,8 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
                     }
                 } else /*if (indexPath.row == 2)*/ {
                     if (tableViewHasInlinePickerForSection(indexPath.section) && self.inlinePickerIndexPath == indexPath) {
-                        let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: eMonthOnTheCount)
+                        let pickerType : PickerType = (self.scheduling?.repeatObject?.repeatType == MONTHLY) ? eMonthOnTheCount : eYearOnTheCount
+                        let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: pickerType)
                         return pickerCell
                     } else {
                         repeatCell.titleLabel.text = ON_THE
@@ -382,6 +393,7 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
                 self.detailTableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.Fade)
                 tableView.endUpdates()
             } else {
+                
                 if (indexPath.row == 0) {
                     self.scheduling?.repeatObject?.isEachValue = true
                 } else if (indexPath.row == 1 || indexPath.row == 2) {
@@ -394,7 +406,6 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
                 dispatch_after(dispatchTime, dispatch_get_main_queue(), {
                     // your function here
                     self.displayInlinePickerForRowAtIndexPath(indexPath)
-
                 })
             }
         }
