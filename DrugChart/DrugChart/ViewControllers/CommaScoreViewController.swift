@@ -9,7 +9,7 @@
 import UIKit
 
 class CommaScoreViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,RowSelectedDelegate {
-
+    
     var eyesOpen:KeyValue!
     var bestVerbalResponse:KeyValue!
     var bestMotorResponse:KeyValue!
@@ -35,21 +35,21 @@ class CommaScoreViewController: UIViewController,UITableViewDelegate,UITableView
         {
             observation = VitalSignObservation()
         }
-  }
-
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
+    
     /*
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // Get the new view controller using segue.destinationViewController.
+    // Pass the selected object to the new view controller.
     }
     */
     
@@ -66,7 +66,7 @@ class CommaScoreViewController: UIViewController,UITableViewDelegate,UITableView
         //self.navigationController?.popViewControllerAnimated(true)
         self.dismissViewControllerAnimated(true, completion: nil)
     }
-
+    
     func Refresh()
     {
         self.tableView.reloadData()
@@ -185,11 +185,11 @@ class CommaScoreViewController: UIViewController,UITableViewDelegate,UITableView
             {
                 datePickerCell.selectedInTableView(tableView)
             }
-        let cell = tableView.cellForRowAtIndexPath(indexPath) as! SelectionCell
-        let selectionController = SelectionView(nibName:"SelectionView",bundle:nil)
-        selectionController.configureView(cell.dataSource,tag: cell.tag,selectedValue: cell.selectedValue,title: cell.title.text!)
-        selectionController.delegate = self
-        self.navigationController?.pushViewController(selectionController, animated: true)
+            let cell = tableView.cellForRowAtIndexPath(indexPath) as! SelectionCell
+            let selectionController = SelectionView(nibName:"SelectionView",bundle:nil)
+            selectionController.configureView(cell.dataSource,tag: cell.tag,selectedValue: cell.selectedValue,title: cell.title.text!)
+            selectionController.delegate = self
+            self.navigationController?.pushViewController(selectionController, animated: true)
         }
     }
     
@@ -260,5 +260,5 @@ class CommaScoreViewController: UIViewController,UITableViewDelegate,UITableView
         }
         self.dismissViewControllerAnimated(true, completion: nil)
     }
-
+    
 }

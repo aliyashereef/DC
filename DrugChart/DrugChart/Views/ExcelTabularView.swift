@@ -9,7 +9,7 @@
 import UIKit
 
 class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDelegate , ObservationDelegate {
-
+    
     @IBOutlet weak var sortMenuItem: UIBarButtonItem!
     
     let headerCellIdentifier = "headerCellIdentifier"
@@ -30,11 +30,20 @@ class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDel
         self.collectionView.dataSource = self
         self.collectionView .registerNib(UINib(nibName: "HeaderCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: headerCellIdentifier)
         self.collectionView .registerNib(UINib(nibName: "ContentCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: contentCellIdentifier)
-
+        
         self.collectionView .registerNib(UINib(nibName: "RowHeaderCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: rowHeaderCellIdentifier)
-
+        
+        setDateDisplay()
     }
     
+    func setDateDisplay()
+    {
+        let calendar = NSCalendar.currentCalendar()
+        let chosenDateComponents = calendar.components([.Month , .Year], fromDate: viewByDate)
+        let displayText = String(format: "%d / %d",chosenDateComponents.month , chosenDateComponents.year)
+        sortMenuItem.title = displayText
+        
+    }
     func reloadView(observationList:[VitalSignObservation])
     {
         self.observationList = observationList // order matters here
@@ -107,15 +116,16 @@ class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDel
                     headerText = Constant.COMMA_SCORE
                 default:
                     headerText = ""
-                 }
+                }
                 headerCell.backgroundColor = UIColor.whiteColor()
                 
                 headerCell.label.text = headerText
                 return headerCell
             } else {
                 let contentCell : ContentCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(contentCellIdentifier, forIndexPath: indexPath) as! ContentCollectionViewCell
-                contentCell.configureCell()
                 let observation = filteredObservations[indexPath.row - 1]
+                contentCell.configureCell(observation)
+                contentCell.delegate = self
                 switch(indexPath.section)
                 {
                 case ObservationTabularViewRow.Respiratory.rawValue:
@@ -123,9 +133,9 @@ class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDel
                 case ObservationTabularViewRow.SPO2.rawValue:
                     contentCell.contentLabel.text = observation.getSpo2Reading()
                 case ObservationTabularViewRow.Temperature.rawValue:
-                     contentCell.contentLabel.text = observation.getTemperatureReading()
+                    contentCell.contentLabel.text = observation.getTemperatureReading()
                 case ObservationTabularViewRow.BloodPressure.rawValue:
-                     contentCell.contentLabel.text = observation.getBloodPressureReading()
+                    contentCell.contentLabel.text = observation.getBloodPressureReading()
                 case ObservationTabularViewRow.Pulse.rawValue:
                     contentCell.contentLabel.text = observation.getPulseReading()
                 case ObservationTabularViewRow.BM.rawValue:
@@ -135,7 +145,7 @@ class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDel
                 case ObservationTabularViewRow.CommaScore.rawValue:
                     contentCell.contentLabel.text = observation.getComaScore()
                 default:
-                  print("come in default section")
+                    print("come in default section")
                 }
                 contentCell.backgroundColor = UIColor.whiteColor()
                 return contentCell
@@ -151,13 +161,18 @@ class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDel
         calendarViewController.preferredContentSize = CGSizeMake(320,250)
         calendarViewController.popoverPresentationController?.barButtonItem = sortMenuItem
         calendarViewController.delegate = self
-     delegate?.EditObservationViewController(calendarViewController)
+        delegate?.EditObservationViewController(calendarViewController)
     }
     // Mark: Delegate implementation
     func DateSelected(value:NSDate)
     {
         viewByDate = value
+        setDateDisplay()
         reloadView(observationList)
+    }
+    func EditObservation(navigationController:UINavigationController)
+    {
+        delegate?.EditObservation(navigationController)
     }
     func filterList()
     {
