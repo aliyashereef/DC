@@ -32,9 +32,18 @@ class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDel
         self.collectionView .registerNib(UINib(nibName: "ContentCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: contentCellIdentifier)
 
         self.collectionView .registerNib(UINib(nibName: "RowHeaderCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: rowHeaderCellIdentifier)
-
+        
+        setDateDisplay()
     }
     
+    func setDateDisplay()
+    {
+        let calendar = NSCalendar.currentCalendar()
+        let chosenDateComponents = calendar.components([.Month , .Year], fromDate: viewByDate)
+        let displayText = String(format: "%d / %d",chosenDateComponents.month , chosenDateComponents.year)
+        sortMenuItem.title = displayText
+        
+    }
     func reloadView(observationList:[VitalSignObservation])
     {
         self.observationList = observationList // order matters here
@@ -114,8 +123,9 @@ class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDel
                 return headerCell
             } else {
                 let contentCell : ContentCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(contentCellIdentifier, forIndexPath: indexPath) as! ContentCollectionViewCell
-                contentCell.configureCell()
                 let observation = filteredObservations[indexPath.row - 1]
+                contentCell.configureCell(observation)
+                contentCell.delegate = self
                 switch(indexPath.section)
                 {
                 case ObservationTabularViewRow.Respiratory.rawValue:
@@ -157,7 +167,12 @@ class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDel
     func DateSelected(value:NSDate)
     {
         viewByDate = value
+        setDateDisplay()
         reloadView(observationList)
+    }
+    func EditObservation(navigationController:UINavigationController)
+    {
+        delegate?.EditObservation(navigationController)
     }
     func filterList()
     {
