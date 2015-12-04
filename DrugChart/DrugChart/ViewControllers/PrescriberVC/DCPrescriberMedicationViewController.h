@@ -14,11 +14,13 @@
 @property (nonatomic, strong) DCPatient *patient;
 @property (strong, nonatomic) IBOutlet UIToolbar *toolbar;
 @property (nonatomic) BOOL isLoading;
+@property (nonatomic, strong) NSDate *centerDisplayDate;
 
 - (void)displayAdministrationViewForMedicationSlot:(NSDictionary *)medicationSLotsDictionary
                                        atIndexPath:(NSIndexPath *)indexPath
                                       withWeekDate:(NSDate *)date;
 - (void)loadCurrentDayDisplayForOneThirdWithDate : (NSDate *)date ;
+- (void)currentWeeksDateArrayFromCenterDate: (NSDate *)centerDate ;
 - (void)modifyStartDayAndWeekDates:(BOOL)isNextWeek;
 - (void)updatePrescriberMedicationListDetails;
 - (void)loadCurrentWeekDate ;

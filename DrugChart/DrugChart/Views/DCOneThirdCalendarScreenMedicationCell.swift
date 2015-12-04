@@ -50,7 +50,7 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
         if isMedicationActive {
             let translate : CGPoint = panGesture.translationInView(self.contentView)
             let gestureVelocity : CGPoint = panGesture.velocityInView(self)
-            if (gestureVelocity.x > 200.0 || gestureVelocity.x < -200.0) {
+            if (gestureVelocity.x > 300.0 || gestureVelocity.x < -300.0) {
                 if ((translate.x < 0) && (medicationViewLeadingConstraint.constant == 0)) { // left swipe
                     UIView.animateWithDuration(ANIMATION_DURATION, animations: {
                         self.medicationViewLeadingConstraint.constant = -MEDICATION_VIEW_LEFT_OFFSET

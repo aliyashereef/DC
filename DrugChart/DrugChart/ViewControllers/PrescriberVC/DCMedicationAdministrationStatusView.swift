@@ -34,7 +34,7 @@ protocol DCMedicationAdministrationStatusProtocol:class {
 class DCMedicationAdministrationStatusView: UIView {
     
     var medicationSlotDictionary: NSDictionary?
-    var currentIndexPath: NSIndexPath?
+    var currentIndexPath: NSIndexPath = NSIndexPath(forItem: 0, inSection: 0)
     var weekDate : NSDate?
     var timeArray : NSArray = []
     weak var delegate:DCMedicationAdministrationStatusProtocol?
@@ -343,7 +343,7 @@ class DCMedicationAdministrationStatusView: UIView {
     func administerMedicationWithMedicationSlot() {
         
         if let slotDictionary = medicationSlotDictionary {
-            delegate?.administerMedicationWithMedicationSlots(slotDictionary, atIndexPath: currentIndexPath!, withWeekDate: weekDate!)
+            delegate?.administerMedicationWithMedicationSlots(slotDictionary, atIndexPath: currentIndexPath, withWeekDate: weekDate!)
         }
     }
     
