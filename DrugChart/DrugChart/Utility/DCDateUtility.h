@@ -46,6 +46,10 @@
 
 + (NSInteger)currentWeekDayIndex;
 
++ (NSArray *)monthNames;
+
 + (NSInteger)currentDay;
+
++ (NSInteger)currentMonth;
 
 @end

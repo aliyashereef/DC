@@ -45,6 +45,14 @@
     [self configureViewElements];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    
+    [super viewWillDisappear:animated];
+    if (_detailType == eDetailAdministrationTime) {
+        [self passAdministrationTimeArrayToAddMedicationinitialView];
+    }
+}
+
 - (void)didReceiveMemoryWarning {
     
     [super didReceiveMemoryWarning];
@@ -55,8 +63,6 @@
 - (void)configureViewElements {
     
     //configure view properties
-    detailTableView.layoutMargins = UIEdgeInsetsZero;
-    detailTableView.separatorInset = UIEdgeInsetsZero;
     [self configureNavigationBarItems];
     [self populateContentArray];
     if (_detailType == eNewAdministrationTime) {
@@ -105,6 +111,9 @@
         case eOverrideReason:
             self.title = NSLocalizedString(@"REASON", @"");
             break;
+        case eNewAdministrationTime:
+            self.title = NSLocalizedString(@"ADD_TIME", @"");
+            break;
         default:
             break;
     }
@@ -113,7 +122,7 @@
 - (void)addNavigationBarButtonItems {
     
     //navigation bar button items
-    if (_detailType == eNewDosage || _detailType == eDetailAdministrationTime|| _detailType == eNewAdministrationTime || _detailType == eOverrideReason) {
+    if (_detailType == eNewDosage || _detailType == eNewAdministrationTime || _detailType == eOverrideReason) {
         UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:CANCEL_BUTTON_TITLE  style:UIBarButtonItemStylePlain target:self action:@selector(cancelButtonPressed:)];
         self.navigationItem.leftBarButtonItem = cancelButton;
         UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]
@@ -240,7 +249,6 @@
     if (_detailType == eNewDosage) {
         static NSString *cellIdentifier =  ADD_DOSAGE_CELL_IDENTIFIER;
         DCAddDosageCell *cell = [detailTableView dequeueReusableCellWithIdentifier:cellIdentifier];
-        cell.layoutMargins = UIEdgeInsetsZero;
         if (cell == nil) {
             cell = [[DCAddDosageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
@@ -249,7 +257,6 @@
     } else if (_detailType == eOverrideReason) {
         static NSString *cellIdentifier = OVERRIDE_REASON_CELL_ID;
         DCReasonCell *reasonCell = [detailTableView dequeueReusableCellWithIdentifier:cellIdentifier];
-        reasonCell.layoutMargins = UIEdgeInsetsZero;
         if (reasonCell == nil) {
             reasonCell = [[DCReasonCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
@@ -258,7 +265,6 @@
     } else {
         static NSString *cellIdentifier = ADD_MEDICATION_DETAIL_CELL_IDENTIFIER;
         UITableViewCell *cell = [detailTableView dequeueReusableCellWithIdentifier:cellIdentifier];
-        cell.layoutMargins = UIEdgeInsetsZero;
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
@@ -376,9 +382,6 @@
                 [detailTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
             }
         } else {
-            if (_detailType == eDetailAdministrationTime) {
-                [self passAdministrationTimeArrayToAddMedicationinitialView];
-        }
             [self dismissViewControllerAnimated:YES completion:nil];
         }
     }

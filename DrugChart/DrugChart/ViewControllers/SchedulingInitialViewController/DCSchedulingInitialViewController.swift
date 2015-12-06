@@ -70,6 +70,12 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
             //inside our closure
             print("Frequency value is %@", value)
             self.scheduling?.type = String(value!)
+            if (self.scheduling?.repeatObject?.repeatType == nil) {
+                self.scheduling?.repeatObject = DCRepeat.init()
+                self.scheduling?.repeatObject.repeatType = DAILY
+                self.scheduling?.repeatObject.frequency = "1 day"
+                self.scheduling?.schedulingDescription = String(format: "%@ day.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
+            }
             self.schedulingTableView.reloadData()
         }
         self.navigationController?.pushViewController(schedulingDetailViewController!, animated: true)
@@ -85,29 +91,40 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         }
         medicationDetailViewController!.detailType = eDetailAdministrationTime
         medicationDetailViewController!.contentArray = timeArray
-        let navigationController = UINavigationController.init(rootViewController: medicationDetailViewController!)
-        navigationController.modalPresentationStyle = UIModalPresentationStyle.CurrentContext
-        self.presentViewController(navigationController, animated: true, completion: nil)
+        self.navigationController?.pushViewController(medicationDetailViewController!, animated: true)
     }
     
     func frequencyCellAtIndexPath(indexPath : NSIndexPath) -> DCSchedulingCell {
         
         //configure scheduling table cell
         let schedulingCell : DCSchedulingCell? = schedulingTableView.dequeueReusableCellWithIdentifier(SCHEDULING_INITIAL_CELL_ID) as? DCSchedulingCell
-        schedulingCell?.layoutMargins = UIEdgeInsetsZero
-        schedulingCell?.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         if (indexPath.section == 0) {
             //highlight field in red if scheduling type is nil when save button is pressed in add medication screen
-            schedulingCell!.titleLabel.textColor = (validate && scheduling?.type == nil) ? UIColor.redColor() : UIColor.blackColor()
-            schedulingCell!.titleLabel?.text = NSLocalizedString("BASE_FREQUENCY", comment: "")
-            schedulingCell!.descriptionLabel.text = scheduling?.type
+            //schedulingCell!.titleLabel.textColor = (validate && scheduling?.type == nil) ? UIColor.redColor() : UIColor.blackColor()
+            if (indexPath.row == 0) {
+                schedulingCell!.titleLabel?.text = SPECIFIC_TIMES
+                if (scheduling?.type == SPECIFIC_TIMES) {
+                    schedulingCell?.accessoryType = UITableViewCellAccessoryType.Checkmark
+                } else {
+                    schedulingCell?.accessoryType = UITableViewCellAccessoryType.None
+                }
+            } else {
+                schedulingCell!.titleLabel?.text = INTERVAL
+                if (scheduling?.type == INTERVAL) {
+                    schedulingCell?.accessoryType = UITableViewCellAccessoryType.Checkmark
+                } else {
+                    schedulingCell?.accessoryType = UITableViewCellAccessoryType.None
+                }
+            }
         } else {
+            schedulingCell?.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
             if (indexPath.row == 0) {
                 //highlight field in red if time array is empty when save button is pressed in add medication screen
                 schedulingCell!.titleLabel.textColor = (validate &&  (timeArray == nil || timeArray?.count == 0)) ? UIColor.redColor() : UIColor.blackColor()
                 schedulingCell!.titleLabel?.text = NSLocalizedString("ADMINISTRATION_TIMES", comment: "")
             } else if (indexPath.row == 1) {
                 schedulingCell!.titleLabel?.text = NSLocalizedString("REPEAT", comment: "")
+                schedulingCell!.descriptionLabel.text = scheduling?.repeatObject?.repeatType
             } else {
                 schedulingCell!.titleLabel?.text = NSLocalizedString("DESCRIPTION", comment: "")
             }
@@ -134,13 +151,17 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        return (self.scheduling?.type != nil) ? TOTAL_SECTION_COUNT : INITIAL_SECTION_COUNT
+        if (self.scheduling?.type == nil) {
+            return INITIAL_SECTION_COUNT
+        } else {
+            return TOTAL_SECTION_COUNT
+        }
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if section == 0 {
-            return 1
+            return 2
         } else {
             return 3
         }
@@ -176,10 +197,21 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        if indexPath.section == 1 && indexPath.row == 0 {
-            presentAdministrationTimeView()
+        if (indexPath.section == 0) {
+            self.scheduling?.type = (indexPath.row == 0) ? SPECIFIC_TIMES : INTERVAL
+            if (self.scheduling?.repeatObject?.repeatType == nil) {
+                self.scheduling?.repeatObject = DCRepeat.init()
+                self.scheduling?.repeatObject.repeatType = DAILY
+                self.scheduling?.repeatObject.frequency = "1 day"
+                self.scheduling?.schedulingDescription = String(format: "%@ day.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
+            }
+            tableView.reloadData()
         } else {
-            displaySchedulingDetailViewControllerForSelectedIndexPath(indexPath)
+            if (indexPath.row == 0) {
+                presentAdministrationTimeView()
+            } else if (indexPath.row == 1) {
+                displaySchedulingDetailViewControllerForSelectedIndexPath(indexPath)
+            }
         }
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }

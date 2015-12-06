@@ -112,8 +112,11 @@ typedef enum : NSUInteger {
     eWeeklyCount,
     eWeekDays,
     eMonthlyCount,
+    eYearlyCount,
     eMonthEachCount,
-    eMonthOnTheCount
+    eMonthOnTheCount,
+    eYearEachCount,
+    eYearOnTheCount
     
 } PickerType;
 
