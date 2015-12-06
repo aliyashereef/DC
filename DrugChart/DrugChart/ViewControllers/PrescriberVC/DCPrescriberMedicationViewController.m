@@ -116,7 +116,6 @@ typedef enum : NSUInteger {
        withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-    NSLog(@"the size is changed");
     windowSizeChanged = YES;
 }
 
@@ -526,7 +525,6 @@ typedef enum : NSUInteger {
         [titleView populateViewWithPatientName:self.patient.patientName nhsNumber:self.patient.nhs dateOfBirth:_patient.dob age:_patient.age
          ];
         self.navigationItem.titleView = titleView;
-
     }
 }
 //Add medication popover presentedon tapping the + bar button.

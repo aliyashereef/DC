@@ -35,7 +35,6 @@ import UIKit
     
     func showDatesInView( dateArray : NSArray ) {
         
-        print("the dates array to be shown: %@", dateArray);
         calculateWeekViewSlotWidth()
         var counterLimit : NSInteger = 2
         if (appDelegate.windowState == DCWindowState.fullWindow) {
