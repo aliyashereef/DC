@@ -94,9 +94,7 @@
     CGFloat screenWidth= [UIScreen mainScreen].bounds.size.width;
     DCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     if (IS_IPHONE) {
-        if (!isLandScapeMode) {
-            appDelegate.windowState = oneThirdWindow;
-        }
+        appDelegate.windowState = oneThirdWindow;
     }
     else {
         if (windowWidth <= screenWidth/2) {

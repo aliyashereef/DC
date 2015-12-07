@@ -532,7 +532,6 @@ typedef enum : NSUInteger {
         [titleView populateViewWithPatientName:self.patient.patientName nhsNumber:self.patient.nhs dateOfBirth:_patient.dob age:_patient.age
          ];
         self.navigationItem.titleView = titleView;
-
     }
 }
 //Add medication popover presentedon tapping the + bar button.
