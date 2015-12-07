@@ -193,7 +193,7 @@ class DCMedicationAdministrationStatusView: UIView {
             self.disableAdministerButton()
             statusIcon!.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
             if isOneThirdScreen {
-                statusIcon?.image = (administeredCount == timeArray.count) ? ADMINISTRATION_SUCCESS_IMAGE_ONETHIRD : ADMINISTRATION_FAILURE_IMAGE_ONETHIRD
+                statusIcon?.image = (administeredCount == timeArray.count) ? ADMINISTRATION_SUCCESS_IMAGE_ONETHIRD : ADMINISTRATION_OMITTED_IMAGE_ONETHIRD
             } else {
                 statusIcon?.image = (administeredCount == timeArray.count) ? ADMINISTRATION_SUCCESS_IMAGE : ADMINISTRATION_FAILURE_IMAGE
             }
@@ -308,7 +308,7 @@ class DCMedicationAdministrationStatusView: UIView {
                 statusIcon?.image = ADMINISTRATION_FAILURE_IMAGE
             } else {
                 administerButton?.enabled = false
-                statusIcon?.image = ADMINISTRATION_FAILURE_IMAGE_ONETHIRD
+                statusIcon?.image = ADMINISTRATION_OMITTED_IMAGE_ONETHIRD
             }
         }
     }

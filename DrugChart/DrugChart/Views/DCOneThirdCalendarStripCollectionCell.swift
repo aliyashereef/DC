@@ -61,10 +61,10 @@ class DCOneThirdCalendarStripCollectionCell: UICollectionViewCell {
         let today : NSDate = NSDate()
         let order = NSCalendar.currentCalendar().compareDate(displayDate! , toDate:today,
             toUnitGranularity: .Day)
-        if order == NSComparisonResult.OrderedSame {
-            self.addTodayIndicatorForCellWithSelection()
-        } else {
+        if order != NSComparisonResult.OrderedSame {
             self.showSelectionCurrentlySelectedDate()
+        } else {
+            self.addTodayIndicatorForCellWithSelection()
         }
     }
     

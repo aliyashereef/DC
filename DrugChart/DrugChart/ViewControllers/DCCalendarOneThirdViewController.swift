@@ -118,14 +118,17 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         }
         
         let today : NSDate = NSDate()
+        
         let order = NSCalendar.currentCalendar().compareDate(date , toDate:today,
             toUnitGranularity: .Day)
-        if (order == NSComparisonResult.OrderedSame){
+        if order == NSComparisonResult.OrderedSame {
             cell.addTodayIndicationForCellWithoutSelection()
         }
         if date.compare(centerDate!) == NSComparisonResult.OrderedSame {
             cell.showSelection()
         }
+        let parentView : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
+        parentView.loadCurrentDayDisplayForOneThirdWithDate(centerDate)
         cell.layoutIfNeeded()
         return cell
     }
@@ -226,18 +229,19 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
             let visibleCells : NSArray = calendarStripCollectionView.visibleCells()
             if visibleCells.count > 0 {
                 for obj : AnyObject in visibleCells  {
-                    if let cell = obj as? DCOneThirdCalendarStripCollectionCell{
-                        if cell.displayDate?.compare(lastDate) == NSComparisonResult.OrderedSame {
-                            self.modifyStartDateAndWeekDatesArray(true, adderValue:5)
-                            self.fetchPatientListAndReloadMedicationList()
-                        } else if cell.displayDate?.compare(firstDate) == NSComparisonResult.OrderedSame {
+                        if let cell = obj as? DCOneThirdCalendarStripCollectionCell{
+                        if cell.displayDate?.compare(firstDate) == NSComparisonResult.OrderedSame {
+                            calendarStripCollectionView.reloadData()
                             self.modifyStartDateAndWeekDatesArray(false, adderValue:5)
+                            self.fetchPatientListAndReloadMedicationList()
+                        } else if cell.displayDate?.compare(lastDate) == NSComparisonResult.OrderedSame {
+                            calendarStripCollectionView.reloadData()
+                            self.modifyStartDateAndWeekDatesArray(true, adderValue:5)
                             self.fetchPatientListAndReloadMedicationList()
                         }
                     }
                 }
             }
-            calendarStripCollectionView.reloadData()
         }
     }
     // MARK: - Data display methods in table view
@@ -267,7 +271,6 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     func reloadMedicationListWithDisplayArray (displayArray: NSMutableArray) {
         
         displayMedicationListArray =  displayArray as NSMutableArray
-        //adjustContentOffsetToShowCenterDayInCollectionView()
         medicationTableView?.reloadData()
     }
     
@@ -379,6 +382,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     func todayButtonClicked() {
         let today : NSDate = NSDate()
         var isCurrentWeekArray : Bool = false
+        scrollIndex = 2
         for date in self.currentWeekDatesArray {
             let order = NSCalendar.currentCalendar().compareDate(date as! NSDate, toDate:today,
                 toUnitGranularity: .Day)
