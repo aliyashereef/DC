@@ -199,7 +199,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        if (indexPath.section == 0) {
+        if (indexPath.section == 0 && indexPath.row == 0) {
             self.scheduling?.type = (indexPath.row == 0) ? SPECIFIC_TIMES : INTERVAL
             if (self.scheduling?.repeatObject?.repeatType == nil) {
                 self.scheduling?.repeatObject = DCRepeat.init()
@@ -208,7 +208,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
                 self.scheduling?.schedulingDescription = String(format: "%@ day.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
             }
             tableView.reloadData()
-        } else {
+        } else if (indexPath.section == 1) {
             if (indexPath.row == 0) {
                 presentAdministrationTimeView()
             } else if (indexPath.row == 1) {
@@ -231,10 +231,12 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
     
     func scrollTableViewToTextViewCellIfInstructionField(isInstruction: Bool) {
         
+        schedulingTableView.setContentOffset(CGPointMake(0, 80), animated: true)
     }
     
     func updateTextViewText(instructions: String!, isInstruction: Bool) {
         
+        self.scheduling?.schedulingDescription = instructions
     }
     
     //MARK: Add Medication Detail Delegate Methods
