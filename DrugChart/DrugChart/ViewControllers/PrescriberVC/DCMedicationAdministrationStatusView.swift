@@ -52,7 +52,9 @@ class DCMedicationAdministrationStatusView: UIView {
         
         super.init(frame: frame)
          addViewElements()
-        administerButton?.enabled = false
+        if isOneThirdScreen {
+            administerButton?.enabled = false
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {
