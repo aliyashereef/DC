@@ -13,10 +13,15 @@ protocol ObservationDelegate
 {
     func EditObservation(navigationController:UINavigationController)
     func TakeObservationInput(viewController:UIAlertController)
+    func EditObservationViewController(viewController:UIViewController)
+    func DateSelected(value:NSDate)
+
 }
 
 extension ObservationDelegate
 {
     func EditObservation(navigationController:UINavigationController){}
     func TakeObservationInput(viewController:UIAlertController){}
+    func EditObservationViewController(viewController:UIViewController){}
+    func DateSelected(value:NSDate){}
 }

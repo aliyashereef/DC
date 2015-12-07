@@ -12,24 +12,37 @@ import UIKit
 @objc class DCCalendarDateView : UIView {
     var dateArray : NSArray = NSArray()
     var weekViewWidth: CGFloat = 0.0
+    let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
         
     func calculateWeekViewSlotWidth () {
         
-        weekViewWidth = (DCUtility.mainWindowSize().width - 300)/5
+        // here width has to be changed.
+        if (appDelegate.windowState == DCWindowState.fullWindow) {
+            weekViewWidth = (DCUtility.mainWindowSize().width - 300)/5
+        }
+        else {
+            weekViewWidth = (DCUtility.mainWindowSize().width - 300)/3
+        }
     }
     
     func populateViewForDateArray(dateArray : NSArray) {
         
         self.dateArray = dateArray
-        self.setDatesInView(dateArray)
+        self.showDatesInView(dateArray)
     }
 
     // To arrange the date views in the view to show a week
     
-    func setDatesInView( dateArray : NSArray ) {
+    func showDatesInView( dateArray : NSArray ) {
         
+        print("the dates array to be shown: %@", dateArray);
         calculateWeekViewSlotWidth()
-        for index in 0...4 {
+        var counterLimit : NSInteger = 2
+        if (appDelegate.windowState == DCWindowState.fullWindow) {
+            counterLimit = 4
+        }
+        
+        for index in 0...counterLimit {
             let dateX : CGFloat = CGFloat(index) * weekViewWidth + CGFloat(index) + 1
             let frame : CGRect = CGRectMake(dateX, 0, weekViewWidth, 49)
             if (self.viewWithTag(index + 1) != nil) {

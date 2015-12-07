@@ -110,4 +110,13 @@ typedef enum : NSUInteger {
     
 } PickerType;
 
+
+//typedef enum : NSUInteger {
+//    
+//    oneThirdWindow,
+//    halfWindow,
+//    twoThirdWindow,
+//    fullWindow
+//} CurrentWindowState;
+
 #endif

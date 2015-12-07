@@ -2,6 +2,7 @@
 //  Use this file to import your target's public headers that you would like to expose to Swift.
 //
 
+#import "DCAppDelegate.h"
 #import "DCMedicationDetails.h"
 #import "DCConstants.h"
 #import "DCWarningsHeaderView.h"
@@ -30,6 +31,7 @@
 #import "DCBaseViewController.h"
 #import "UIButton+ButtonHighlight.h"
 #import "DCAddMedicationInitialViewController.h"
+#import "DCCalendarNavigationTitleView.h"
 #import "DCAddMedicationDetailViewController.h"
 #import "DCPlistManager.h"
 #import "NSString+Additions.h"

@@ -44,6 +44,7 @@ typedef enum : NSUInteger {
     UIView *dateView;
 
     NSDate *firstDisplayDate;
+    NSDate *centerDisplayDate;
     UIBarButtonItem *addButton;
     NSMutableArray *alertsArray;
     NSMutableArray *allergiesArray;
@@ -53,6 +54,7 @@ typedef enum : NSUInteger {
     CGFloat slotWidth;
     BOOL discontinuedMedicationShown;
     BOOL isOneThirdMedicationViewShown;
+    BOOL windowSizeChanged;
     SortType sortType;
     
     DCPrescriberMedicationListViewController *prescriberMedicationListViewController;
@@ -70,24 +72,27 @@ typedef enum : NSUInteger {
     displayMedicationListArray = [[NSMutableArray alloc] init];
     currentWeekDatesArray = [[NSMutableArray alloc] init];
     rowMedicationSlotsArray = [[NSMutableArray alloc] init];
+    centerDisplayDate = [[NSDate alloc] init];
     return self;
 }
 
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    [self addCustomTitleViewToNavigationBar];
-    [self setCurrentWeekDatesArrayFromToday];
+    [self currentWeekDatesArrayFromDate:[DCDateUtility dateInCurrentTimeZone:[NSDate date]]];
     [self addAddMedicationButtonToNavigationBar];
     [self populateMonthYearLabel];
     [self hideCalendarTopPortion];
     [self fillPrescriberMedicationDetailsInCalendarView];
     [self obtainReferencesToChildViewControllersAddedFromStoryBoard];
+    
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated {
     
-    [super viewWillAppear:animated];
+    [super viewDidAppear:animated];
+    [self prescriberCalendarChildViewControllerBasedOnWindowState];
+    [self addCustomTitleViewToNavigationBar];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -97,9 +102,26 @@ typedef enum : NSUInteger {
 }
 
 - (void)viewDidLayoutSubviews {
-    [self addMedicationListChildViewController];
+    
     [super viewDidLayoutSubviews];
+    if (windowSizeChanged) {
+        [self prescriberCalendarChildViewControllerBasedOnWindowState];
+        [self addCustomTitleViewToNavigationBar];
+        windowSizeChanged = NO;
+    }
 }
+
+
+- (void)viewWillTransitionToSize:(CGSize)size
+       withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    
+    
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    NSLog(@"the size is changed");
+    windowSizeChanged = YES;
+    
+}
+
 
 - (void)didReceiveMemoryWarning {
     
@@ -111,7 +133,9 @@ typedef enum : NSUInteger {
                                                  xVelocity:(CGFloat)xVelocity
                                                  panEnded:(BOOL)panEnded {
     
-    [calendarDateDisplayViewController translateCalendarContainerViewsForTranslationParameters:xPoint withXVelocity:xVelocity panEndedValue:panEnded];
+    [calendarDateDisplayViewController translateCalendarContainerViewsForTranslationParameters:xPoint
+                                                                                 withXVelocity:xVelocity
+                                                                                 panEndedValue:panEnded];
 }
 
 - (void)todayActionForCalendarTop {
@@ -132,20 +156,35 @@ typedef enum : NSUInteger {
     [calendarDaysDisplayView addSubview:calendarDateDisplayViewController.view];
 }
 
+- (void)modifyTopDatesDisplay {
+    
+}
+
 - (void)addAddMedicationButtonToNavigationBar {
     
     addButton = [[UIBarButtonItem alloc]
-                 initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addMedicationButtonPressed:)];
+                 initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                 target:self
+                 action:@selector(addMedicationButtonPressed:)];
     self.navigationItem.rightBarButtonItem = addButton;
 }
 
 #pragma mark - Private methods
 
-- (void)setCurrentWeekDatesArrayFromToday {
+- (void)currentWeekDatesArrayFromDate:(NSDate *)date {
     
-    firstDisplayDate = [DCDateUtility initialDateForCalendarDisplay:[DCDateUtility dateInCurrentTimeZone:[NSDate date]]
-                                                        withAdderValue:-7];
-    currentWeekDatesArray = [DCDateUtility nextAndPreviousSevenDaysWithReferenceToDate:firstDisplayDate];
+    NSInteger adderValue, daysCount;
+    DCAppDelegate *appDelegate = DCAPPDELEGATE;
+    adderValue = (appDelegate.windowState == twoThirdWindow) ? -4 : -7;
+    daysCount = (appDelegate.windowState == twoThirdWindow) ? 9 : 15;
+    
+    firstDisplayDate = [DCDateUtility initialDateForCalendarDisplay:date
+                                                     withAdderValue:adderValue];
+    currentWeekDatesArray = [DCDateUtility nextAndPreviousDays:daysCount
+                                           withReferenceToDate:firstDisplayDate];
+    centerDisplayDate = (appDelegate.windowState == twoThirdWindow) ? [currentWeekDatesArray objectAtIndex:4] :
+    [currentWeekDatesArray objectAtIndex:7];
+    NSLog(@"the current weeks array: %@", currentWeekDatesArray);
 }
 
 - (void)populateMonthYearLabel {
@@ -162,17 +201,22 @@ typedef enum : NSUInteger {
     slotWidth = ([DCUtility mainWindowSize].width - 300)/5;
 }
 
-- (void)addMedicationListChildViewController {
-    CGFloat windowWidth= [DCUtility mainWindowSize].width;
-    CGFloat screenWidth= [UIScreen mainScreen].bounds.size.width;
-    if (windowWidth <= screenWidth/2) {
+- (void)prescriberCalendarChildViewControllerBasedOnWindowState {
+    
+    if ([DCAPPDELEGATE windowState] == halfWindow ||
+        [DCAPPDELEGATE windowState] == oneThirdWindow) {
         isOneThirdMedicationViewShown = YES;
         [self hideCalendarTopPortion];
         [self loadCurrentDayDisplayForOneThird];
-        [self addOneThirdScreenMedicationListView];
-    } else {
+        [self addPrescriberDrugChartViewForOneThirdWindow];
+    }
+    else if ([DCAPPDELEGATE windowState] == fullWindow ||
+             [DCAPPDELEGATE windowState] == twoThirdWindow) {
         isOneThirdMedicationViewShown = NO;
-        [self addTwoThirdScreenMedicationListView];
+        [self showActivityIndicationOnViewRefresh:true];
+        [self addPrescriberDrugChartViewForFullAndTwoThirdWindow];
+        [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
+        }];
     }
 }
 
@@ -181,12 +225,14 @@ typedef enum : NSUInteger {
 // administration data within the calendar.
 - (void)fillPrescriberMedicationDetailsInCalendarView {
 
+    [self showActivityIndicationOnViewRefresh:true];
     if ([DCAPPDELEGATE isNetworkReachable]) {
         if (_patient.medicationListArray) {
             _patient.medicationListArray = nil;
         }
         selectedSortType = START_DATE_ORDER;
-        [self fetchMedicationListForPatient];
+        [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
+        }];
     }
 }
 
@@ -204,7 +250,7 @@ typedef enum : NSUInteger {
     }
 }
 
-- (void)displayMedicationListArray {
+- (void)setDisplayMedicationListArray {
     
     if (displayMedicationListArray.count > 0) {
         displayMedicationListArray = nil;
@@ -273,6 +319,7 @@ typedef enum : NSUInteger {
         NSDate *startDate = [currentWeekDatesArray objectAtIndex:0];
         NSString *startDateString = [DCDateUtility dateStringFromDate:startDate inFormat:SHORT_DATE_FORMAT];
         NSDate *endDate = [currentWeekDatesArray lastObject];
+        NSLog(@"start and end date for API call: %@ %@", startDate, endDate);
         NSString *endDateString = [DCDateUtility dateStringFromDate:endDate inFormat:SHORT_DATE_FORMAT];
         [medicationSchedulesWebService getMedicationSchedulesForPatientId:patientId fromStartDate:startDateString toEndDate:endDateString withCallBackHandler:^(NSArray *medicationsList, NSError *error) {
             NSMutableArray *medicationArray = [NSMutableArray arrayWithArray:medicationsList];
@@ -310,9 +357,11 @@ typedef enum : NSUInteger {
     //
 }
 
-- (void)fetchMedicationListForPatient {
+//- (void)fetchMedicationListForPatient {
+
+- (void)fetchMedicationListForPatientWithCompletionHandler:(void(^)(BOOL success))completion {
     
-    [self showActivityIndicationOnViewRefresh:true];
+    //[self showActivityIndicationOnViewRefresh:true];
     [noMedicationsAvailableLabel setHidden:YES];
     [self fetchMedicationListForPatientId:self.patient.patientId
                     withCompletionHandler:^(NSArray *result, NSError *error) {
@@ -320,7 +369,7 @@ typedef enum : NSUInteger {
                             _patient.medicationListArray = result;
                             [self configureAlertsAndAllergiesArrayForDisplay];
                             [self addAlertsAndAllergyBarButtonToNavigationBar];
-                            [self displayMedicationListArray];
+                            [self setDisplayMedicationListArray];
                             if ([displayMedicationListArray count] > 0) {
                                 if (prescriberMedicationListViewController) {
                                     [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
@@ -337,6 +386,7 @@ typedef enum : NSUInteger {
                                 [calendarTopHolderView setHidden:NO];
                             }
                             else {
+                                NSLog(@"the error is : %@", error);
                                 if ([_patient.medicationListArray count] == 0) {
                                     noMedicationsAvailableLabel.text = @"No medications available";
                                 }
@@ -361,6 +411,7 @@ typedef enum : NSUInteger {
                             }
                             [self showActivityIndicationOnViewRefresh:false];
                         }
+                        completion(true);
                     }];
 }
 
@@ -438,10 +489,10 @@ typedef enum : NSUInteger {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         if (discontinuedMedicationShown) {
             discontinuedMedicationShown = NO;
-            [self displayMedicationListArray];
+            [self setDisplayMedicationListArray];
         } else {
             discontinuedMedicationShown = YES;
-            [self displayMedicationListArray];
+            [self setDisplayMedicationListArray];
         }
         [self sortPrescriberMedicationList];
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -461,13 +512,21 @@ typedef enum : NSUInteger {
 
 // A custom view is loaded as the title for the prescriber screen.
 - (void)addCustomTitleViewToNavigationBar {
-    
-    DCCalendarNavigationTitleView *titleView = [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([DCCalendarNavigationTitleView class]) owner:self options:nil] objectAtIndex:0];
-    [titleView populateViewWithPatientName:self.patient.patientName nhsNumber:self.patient.nhs dateOfBirth:_patient.dob age:_patient.age
-     ];
-    self.navigationItem.titleView = titleView;
-}
+    CGFloat windowWidth= [DCUtility mainWindowSize].width;
+    CGFloat screenWidth= [UIScreen mainScreen].bounds.size.width;
+    if (windowWidth <= screenWidth/2) {
+        
+        DCOneThirdCalendarNavigationTitleView *titleView = [[[NSBundle mainBundle] loadNibNamed:@"DCOneThirdCalendarNavigationTitleView" owner:self options:nil] objectAtIndex:0];
+        [titleView populateViewWithPatientName:self.patient.patientName nhsNumber:self.patient.nhs dateOfBirth:self.patient.dob age:self.patient.age];
+        self.navigationItem.titleView = titleView;
+    } else  {
+        DCCalendarNavigationTitleView *titleView = [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([DCCalendarNavigationTitleView class]) owner:self options:nil] objectAtIndex:0];
+        [titleView populateViewWithPatientName:self.patient.patientName nhsNumber:self.patient.nhs dateOfBirth:_patient.dob age:_patient.age
+         ];
+        self.navigationItem.titleView = titleView;
 
+    }
+}
 //Add medication popover presentedon tapping the + bar button.
 - (IBAction)addMedicationButtonPressed:(id)sender {
     
@@ -597,18 +656,24 @@ typedef enum : NSUInteger {
 
 - (void)modifyStartDayAndWeekDates:(BOOL)isNextWeek {
     
+    NSInteger adderValue, daysCount;
+    BOOL isTwoThirdWindow = ([DCAPPDELEGATE windowState] == twoThirdWindow);
     if (isNextWeek) {
-        firstDisplayDate = [DCDateUtility initialDateForCalendarDisplay:firstDisplayDate withAdderValue:5];
-        currentWeekDatesArray = [DCDateUtility nextAndPreviousSevenDaysWithReferenceToDate:firstDisplayDate];
+        adderValue = isTwoThirdWindow? 3 : 5;
     }
     else {
-        firstDisplayDate = [DCDateUtility initialDateForCalendarDisplay:firstDisplayDate withAdderValue:-5];
-        currentWeekDatesArray = [DCDateUtility nextAndPreviousSevenDaysWithReferenceToDate:firstDisplayDate];
+        adderValue = isTwoThirdWindow? -3 : -5;
     }
+    daysCount = [DCAPPDELEGATE windowState] == twoThirdWindow? 9 : 15;
+    firstDisplayDate = [DCDateUtility initialDateForCalendarDisplay:firstDisplayDate withAdderValue:adderValue];
+    currentWeekDatesArray = [DCDateUtility nextAndPreviousDays:daysCount
+                                           withReferenceToDate:firstDisplayDate];
+    centerDisplayDate = isTwoThirdWindow ? [currentWeekDatesArray objectAtIndex:4] :
+                                           [currentWeekDatesArray objectAtIndex:7];
 }
 - (void)loadCurrentWeekDate {
     
-    [self setCurrentWeekDatesArrayFromToday];
+    [self currentWeekDatesArrayFromDate:[DCDateUtility dateInCurrentTimeZone:[NSDate date]]];
 }
 
 - (void)modifyWeekDatesInCalendarTopPortion {
@@ -626,24 +691,24 @@ typedef enum : NSUInteger {
 }
 
 - (void)loadCurrentDayDisplayForOneThird {
+    CGFloat windowWidth= [DCUtility mainWindowSize].width;
     if (!dateView) {
-        dateView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 600, 50)];
-        UIView *seperatorView = [[UIView alloc] initWithFrame:CGRectMake(0, 49.5, 600, 0.5)];
-        [seperatorView setBackgroundColor:[UIColor colorForHexString:@"#E1E7EA"]];
-        [dateView addSubview:seperatorView];
-        [dateView setBackgroundColor:[UIColor whiteColor]];
-        UILabel *dateLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 0, 600, 49)];
-        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-        [dateFormat setDateFormat:@"EE, d LLLL, yyyy"];
-        if (currentWeekDatesArray.count > 0) {
-            NSString *dateString = [dateFormat stringFromDate:[currentWeekDatesArray objectAtIndex:7]];
-            dateLabel.text = dateString;
-        }
-        dateLabel.backgroundColor = [UIColor whiteColor];
-        dateLabel.font = [UIFont systemFontOfSize:20];
-        dateLabel.numberOfLines = 1;
-        [dateView addSubview:dateLabel];
+        dateView = [[UIView alloc] init];
     }
+    dateView.frame = CGRectMake(0, 0, windowWidth, 50);
+    [dateView setBackgroundColor:[UIColor whiteColor]];
+    UILabel *dateLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, windowWidth, 50)];
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"LLLL yyyy"];
+    if (currentWeekDatesArray.count > 0) {
+        NSString *dateString = [dateFormat stringFromDate:[currentWeekDatesArray objectAtIndex:7]];
+        dateLabel.text = dateString;
+    }
+    dateLabel.backgroundColor = [UIColor whiteColor];
+    dateLabel.textAlignment = NSTextAlignmentCenter;
+    dateLabel.font = [UIFont systemFontOfSize:20];
+    dateLabel.numberOfLines = 1;
+    [dateView addSubview:dateLabel];
     [calendarTopHolderView addSubview:dateView];
     [calendarTopHolderView setHidden:NO];
 }
@@ -682,7 +747,12 @@ typedef enum : NSUInteger {
     });
 }
 
-- (void)addOneThirdScreenMedicationListView {
+- (void)resetMedicationListCellsToOriginalPosition {
+    
+    [prescriberMedicationListViewController resetMedicationListCellsToOriginalPositionAfterCalendarSwipe];
+}
+
+- (void)addPrescriberDrugChartViewForOneThirdWindow {
     
     [prescriberMedicationListViewController.view removeFromSuperview];
     if (!prescriberMedicationOneThirdSizeViewController) {
@@ -693,16 +763,22 @@ typedef enum : NSUInteger {
     prescriberMedicationOneThirdSizeViewController.view.frame = medicationListHolderView.frame;
     [self.view addSubview:prescriberMedicationOneThirdSizeViewController.view];
     [prescriberMedicationOneThirdSizeViewController didMoveToParentViewController:self];
+    if (currentWeekDatesArray.count == 0) {
+        [self currentWeekDatesArrayFromDate:[DCDateUtility dateInCurrentTimeZone:[NSDate date]]];
+    }
+    prescriberMedicationOneThirdSizeViewController.currentWeekDatesArray = currentWeekDatesArray;
     [prescriberMedicationOneThirdSizeViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
     [self.view bringSubviewToFront:activityIndicatorView];
 }
 
-- (void)addTwoThirdScreenMedicationListView {
+- (void)addPrescriberDrugChartViewForFullAndTwoThirdWindow {
     
     if (!calendarDateDisplayViewController) {
         [self addTopDatePortionInCalendar];
     }
     [dateView removeFromSuperview];
+    [self currentWeekDatesArrayFromDate:centerDisplayDate];
+    [self modifyWeekDatesInCalendarTopPortion];
     [self reloadCalendarTopPortion];
     [self showCalendarTopPortion];
     [prescriberMedicationOneThirdSizeViewController.view removeFromSuperview];
@@ -711,6 +787,7 @@ typedef enum : NSUInteger {
         prescriberMedicationListViewController = [prescriberStoryBoard instantiateViewControllerWithIdentifier:PRESCRIBER_LIST_SBID];
         [self addChildViewController:prescriberMedicationListViewController];
     }
+    prescriberMedicationListViewController.currentWeekDatesArray = currentWeekDatesArray;
     prescriberMedicationListViewController.view.frame = medicationListHolderView.frame;
     prescriberMedicationListViewController.delegate = self;
     [self.view addSubview:prescriberMedicationListViewController.view];
@@ -723,16 +800,25 @@ typedef enum : NSUInteger {
 
 // after adding a medication the latest drug schedules are fetched and displayed to the user.
 - (void)addedNewMedicationForPatient {
-    [self fetchMedicationListForPatient];
+   // [self fetchMedicationListForPatient];
+    [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
+        
+    }];
 }
 
 // This method refresh the medication list when an mediation gets deleted.
 - (void) refreshMedicationList {
-    [self fetchMedicationListForPatient];
+   // [self fetchMedicationListForPatient];
+    [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
+        
+    }];
 }
 
 - (void)reloadPrescriberMedicationList {
-    [self fetchMedicationListForPatient];
+    //[self fetchMedicationListForPatient];
+    [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
+        
+    }];
 }
 
 @end

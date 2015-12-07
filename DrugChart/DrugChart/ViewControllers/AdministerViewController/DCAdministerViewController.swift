@@ -128,7 +128,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     func configureMedicationDetails () {
         
-        //fill medication details in view
         medicineNameLabel.text = medicationDetails?.name
         if (medicationDetails?.route != nil) {
             populateRouteAndInstructionLabels()
@@ -370,7 +369,9 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             namesViewController?.title = CHECKED_BY
             let checkedByList : NSMutableArray = []
             checkedByList.addObjectsFromArray(userListArray! as [AnyObject])
-            checkedByList.removeObject(self.selfAdministratedUser!)
+            if (self.selfAdministratedUser != nil) {
+                checkedByList.removeObject(self.selfAdministratedUser!)
+            }
             namesViewController?.namesArray = checkedByList
            namesViewController!.previousSelectedValue = medicationSlot?.medicationAdministration?.checkingUser?.displayName
         }

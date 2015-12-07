@@ -17,7 +17,6 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     func refreshMedicationList()
 }
 
-
 @objc class DCPrescriberMedicationListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate, DCMedicationAdministrationStatusProtocol, EditAndDeleteActionDelegate, DCAddMedicationViewControllerDelegate {
 
     enum PanDirection {
@@ -34,6 +33,8 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     var panGestureDirection : PanDirection = PanDirection.atCenter
     let existingStatusViews : NSMutableArray = []
     
+    let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
@@ -48,10 +49,16 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         medicationTableView!.delaysContentTouches = false;
         addPanGestureToPrescriberTableView()
     }
-
+    
+    override func viewWillAppear(animated: Bool) {
+        let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
+        parentViewController.reloadCalendarTopPortion()
+        super.viewWillAppear(animated)
+    }
+    
     override func didReceiveMemoryWarning() {
+
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     // MARK: - UITableView DataSource Methods
@@ -95,8 +102,9 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     // MARK: - Public methods
     
     func reloadMedicationListWithDisplayArray (displayArray: NSMutableArray) {
-        
-        displayMedicationListArray =  displayArray as NSMutableArray
+
+        //let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
+        displayMedicationListArray = NSMutableArray.init(array: displayArray)
         medicationTableView?.reloadData()
     }
     
@@ -106,21 +114,25 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         prescriberCell!.swipeMedicationDetailViewToRight()
     }
 
-    //TODO: temporary logic for today button action.
     
     func todayButtonClicked () {
         
-        let weekdate = currentWeekDatesArray.objectAtIndex(7) // extracting the middle date - todays date
-        let calendar : NSCalendar = NSCalendar.init(calendarIdentifier: NSCalendarIdentifierGregorian)!
-        let todaysDate : NSDate = calendar.startOfDayForDate(NSDate())
-        let order = NSCalendar.currentCalendar().compareDate(weekdate as! NSDate, toDate:todaysDate,
-            toUnitGranularity: .Day)
-        if order == NSComparisonResult.OrderedSame {
-            // Do Nothing
-        } else if order == NSComparisonResult.OrderedAscending {
-            self.animateAdministratorDetailsView(false)
-        } else if order == NSComparisonResult.OrderedDescending {
-            self.animateAdministratorDetailsView(true)
+        // currently today works only in full screen and 2/3rd screen.w
+        if (appDelegate.windowState == DCWindowState.fullWindow ||
+            appDelegate.windowState == DCWindowState.twoThirdWindow) {
+                let index = (appDelegate.windowState == DCWindowState.fullWindow) ? 7 : 4
+                let weekdate = currentWeekDatesArray.objectAtIndex(index) // extracting the middle date - todays date
+                let calendar : NSCalendar = NSCalendar.init(calendarIdentifier: NSCalendarIdentifierGregorian)!
+                let todaysDate : NSDate = calendar.startOfDayForDate(NSDate())
+                let order = NSCalendar.currentCalendar().compareDate(weekdate as! NSDate, toDate:todaysDate,
+                    toUnitGranularity: .Day)
+                if order == NSComparisonResult.OrderedSame {
+                    // Do Nothing
+                } else if order == NSComparisonResult.OrderedAscending {
+                    self.animateAdministratorDetailsView(false)
+                } else if order == NSComparisonResult.OrderedDescending {
+                    self.animateAdministratorDetailsView(true)
+                }
         }
     }
 
@@ -192,6 +204,8 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             let panGesture = gestureRecognizer as? UIPanGestureRecognizer
             let translation : CGPoint = panGesture!.translationInView(panGesture?.view);
             if (fabs(translation.x) > fabs(translation.y)) {
+                let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
+                parentViewController.cancelPreviousMedicationListFetchRequest()
                 return true;
             }
         }
@@ -237,10 +251,34 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                             parentViewController.modifyStartDayAndWeekDates(false)
                             self.modifyParentViewOnSwipeEnd(parentViewController)
                         })
+                    } else {
+                        medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
+                        medicationCell.layoutIfNeeded()
                     }
                 }
-                medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
-                medicationCell.layoutIfNeeded()
+//                medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
+//                medicationCell.layoutIfNeeded()
+               // self.performSelector(Selector("resetCellToOriginalConstraints:"), withObject: medicationCell, afterDelay: 0.08)
+        }
+    }
+    
+    func resetCellToOriginalConstraints(medicationCell : PrescriberMedicationTableViewCell) {
+        
+        print("***** Rest to Original constraints ****")
+        medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
+        medicationCell.layoutIfNeeded()
+    }
+    
+    func resetMedicationListCellsToOriginalPositionAfterCalendarSwipe() {
+        
+        if (displayMedicationListArray.count > 0) {
+            let indexPathArray : [AnyObject] = medicationTableView!.indexPathsForVisibleRows!
+            for var count = 0; count < indexPathArray.count; count++ {
+                let indexPath = indexPathArray[count]
+                let medicationCell = medicationTableView?.cellForRowAtIndexPath(indexPath as! NSIndexPath) as? PrescriberMedicationTableViewCell
+                medicationCell!.leadingSpaceMasterToContainerView.constant = 0.0
+                medicationCell!.layoutIfNeeded()
+            }
         }
     }
     
@@ -268,22 +306,32 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                     if (medicationCell.leadingSpaceMasterToContainerView.constant == -calendarWidth) {
                         autoreleasepool({ () -> () in
                             parentViewController.modifyStartDayAndWeekDates(true)
+                           // self.modifyParentViewOnSwipeEnd(parentViewController)
                             self.modifyParentViewOnSwipeEnd(parentViewController)
                         })
+                    } else {
+                        medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
+                        medicationCell.layoutIfNeeded()
                     }
                 }
-                medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
-                medicationCell.layoutIfNeeded()
+//                medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
+//                medicationCell.layoutIfNeeded()
+              //  self.performSelector(Selector("resetCellToOriginalConstraints:"), withObject: medicationCell, afterDelay: 0.08)
         }
     }
     
+
     func modifyParentViewOnSwipeEnd (parentViewController : DCPrescriberMedicationViewController) {
         
-        parentViewController.updatePrescriberMedicationListDetails()
+        //parentViewController.updatePrescriberMedicationListDetails()
         parentViewController.modifyWeekDatesInCalendarTopPortion()
         parentViewController.reloadCalendarTopPortion()
-        parentViewController.cancelPreviousMedicationListFetchRequest()
-        parentViewController.fetchMedicationListForPatient()
+        //parentViewController.cancelPreviousMedicationListFetchRequest()
+        parentViewController.fetchMedicationListForPatientWithCompletionHandler { (Bool) -> Void in
+//            medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
+//            medicationCell.layoutIfNeeded()
+            self.resetMedicationListCellsToOriginalPositionAfterCalendarSwipe()
+        }
     }
     
     // MARK: - Data display methods in table view
@@ -309,28 +357,30 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         rowDisplayMedicationSlotsArray:NSMutableArray,
         atIndexPath indexPath:NSIndexPath,
         andSlotIndex index:NSInteger) {
-            if (index < 5) {
+            let calendarStripDaysCount = (appDelegate.windowState == DCWindowState.fullWindow) ? 5:3
+            if (index < calendarStripDaysCount) {
                 let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell, toContainerSubview: medicationCell.leftMedicationAdministerDetailsView, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary, atIndexPath: indexPath, atSlotIndex: index);
                 let weekdate = currentWeekDatesArray.objectAtIndex(index) as? NSDate
                 medicationCell.leftMedicationAdministerDetailsView.addSubview(statusView)
                 statusView.configureStatusViewForWeekDate(weekdate!)
             }
-            else if (index >= 5 && index < 10) {
+            else if (index >= calendarStripDaysCount && index < 2 * calendarStripDaysCount) {
                 let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell, toContainerSubview: medicationCell.masterMedicationAdministerDetailsView, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
                     atIndexPath: indexPath,
-                    atSlotIndex: index - 5)
+                    atSlotIndex: index - calendarStripDaysCount)
                 let weekdate = currentWeekDatesArray.objectAtIndex(index) as? NSDate
                 medicationCell.masterMedicationAdministerDetailsView.addSubview(statusView)
                 statusView.configureStatusViewForWeekDate(weekdate!)
             }
-            else if (index >= 10 && index < 15) {
+            else if (index >= 2 * calendarStripDaysCount  && index < 3 * calendarStripDaysCount) {
                 let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell, toContainerSubview: medicationCell.rightMedicationAdministerDetailsView, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
                     atIndexPath: indexPath,
-                    atSlotIndex: index - 10)
+                    atSlotIndex: index - 2 * calendarStripDaysCount)
                 let weekdate = currentWeekDatesArray.objectAtIndex(index) as? NSDate
                 medicationCell.rightMedicationAdministerDetailsView.addSubview(statusView)
                 statusView.configureStatusViewForWeekDate(weekdate!)
             }
+
             for subView in existingStatusViews {
                 subView.removeFromSuperview()
             }
@@ -346,7 +396,10 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                 }
             }
             let slotWidth = DCUtility.mainWindowSize().width
-            let viewWidth = (slotWidth - 300)/5
+            var viewWidth = (slotWidth - 300)/3
+            if (appDelegate.windowState == DCWindowState.fullWindow) {
+                viewWidth = (slotWidth - 300)/5
+            }
             let xValue : CGFloat = CGFloat(tag) * viewWidth + CGFloat(tag) + 1;
             let viewFrame = CGRectMake(xValue, 0, viewWidth, 78.0)
             let statusView : DCMedicationAdministrationStatusView = DCMedicationAdministrationStatusView(frame: viewFrame)
@@ -363,10 +416,13 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     
     func prepareMedicationSlotsForDisplayInCellFromScheduleDetails (medicationScheduleDetails: DCMedicationScheduleDetails) -> NSMutableArray {
     
-        //TODO: commented out for Oct 12 release. Logic to be corrected.
         var count = 0, weekDays = 15
+        if (appDelegate.windowState == DCWindowState.twoThirdWindow) {
+            weekDays = 9
+        }
         let medicationSlotsArray: NSMutableArray = []
         while (count < weekDays) {
+            
             let slotsDictionary = NSMutableDictionary()
             if count < self.currentWeekDatesArray.count {
                 let date = self.currentWeekDatesArray.objectAtIndex(count)
@@ -499,9 +555,12 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                 if isLastCell {
                         if ( medicationCell!.leadingSpaceMasterToContainerView.constant == calendarWidthConstraint) {
                             autoreleasepool({ () -> () in
-                                parentViewController.updatePrescriberMedicationListDetails()
-                                parentViewController.cancelPreviousMedicationListFetchRequest()
-                                parentViewController.fetchMedicationListForPatient()
+                                //parentViewController.updatePrescriberMedicationListDetails()
+//                                parentViewController.cancelPreviousMedicationListFetchRequest()
+//                                parentViewController.fetchMedicationListForPatientWithCompletionHandler({ (Bool) -> Void in
+//                                    
+//                                })
+                                self.modifyParentViewOnSwipeEnd(parentViewController)
                             })
                         }
                     }
