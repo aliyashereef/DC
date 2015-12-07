@@ -206,10 +206,10 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             let panGesture = gestureRecognizer as? UIPanGestureRecognizer
             let translation : CGPoint = panGesture!.translationInView(panGesture?.view);
             if (fabs(translation.x) > fabs(translation.y)) {
-                let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
+//                let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
 //                webRequestCancelled = true
 //                self.resetMedicationSlotCellsOnQuickSwipe()
-                parentViewController.cancelPreviousMedicationListFetchRequest()
+//                parentViewController.cancelPreviousMedicationListFetchRequest()
                 return true;
             }
         }
@@ -253,9 +253,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                     if ( medicationCell.leadingSpaceMasterToContainerView.constant == calendarWidth) {
                         autoreleasepool({ () -> () in
                             parentViewController.modifyStartDayAndWeekDates(false)
-                            self.webRequestCancelled = true
-                            self.resetMedicationSlotCellsOnQuickSwipe()
-                            self.modifyParentViewOnSwipeEnd(parentViewController)
+                            self.displayNextSetOfAdministrationDetails()
                         })
                     } else {
                         medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
@@ -289,9 +287,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                     if (medicationCell.leadingSpaceMasterToContainerView.constant == -calendarWidth) {
                         autoreleasepool({ () -> () in
                             parentViewController.modifyStartDayAndWeekDates(true)
-                            self.webRequestCancelled = true
-                            self.resetMedicationSlotCellsOnQuickSwipe()
-                            self.modifyParentViewOnSwipeEnd(parentViewController)
+                            self.displayNextSetOfAdministrationDetails()
                         })
                     } else {
                         medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
@@ -299,6 +295,28 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                     }
                 }
         }
+    }
+    
+    func displayNextSetOfAdministrationDetails () {
+        
+        let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
+        let dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC)))
+        if (DCHTTPRequestOperationManager.sharedOperationManager().operationQueue.operations.count > 0) {
+            // checks if any operations are in the queue.
+            webRequestCancelled = true
+            self.resetMedicationSlotCellsOnQuickSwipe()
+            parentViewController.cancelPreviousMedicationListFetchRequest()
+            dispatch_after(dispatchTime, dispatch_get_main_queue(), {
+                parentViewController.showActivityIndicationOnViewRefresh(true)
+            })
+        }
+        else {
+            dispatch_after(dispatchTime, dispatch_get_main_queue(), {
+                parentViewController.showActivityIndicationOnViewRefresh(false)
+            })
+        }
+        self.modifyParentViewOnSwipeEnd(parentViewController)
+        
     }
     
     func resetCellToOriginalConstraints(medicationCell : PrescriberMedicationTableViewCell) {

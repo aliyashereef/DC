@@ -8,6 +8,12 @@
 
 import Foundation
 
+enum Direction  {
+    case ScrollDirectionNone
+    case ScrollDirectionRight
+    case ScrollDirectionLeft
+}
+
 class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource, UITableViewDelegate, DCMedicationAdministrationStatusProtocol , UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
@@ -20,6 +26,8 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     var currentWeekDatesArray : NSMutableArray = []
     var selectedCellArray : NSMutableArray?
     let collectionViewReuseIdentifier = "CalendarStripCellIdentifier"
+    var lastContentOffset : CGFloat = 0.0
+    var scrollDirection : Direction = .ScrollDirectionNone
     
     required init?(coder aDecoder: NSCoder) {
         
@@ -222,7 +230,18 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        scrollDirection = .ScrollDirectionNone
+        if lastContentOffset > scrollView.contentOffset.x {
+            scrollDirection = .ScrollDirectionRight
+        } else if self.lastContentOffset < scrollView.contentOffset.x {
+            scrollDirection = .ScrollDirectionLeft
+        }
+        self.lastContentOffset = scrollView.contentOffset.x
+    }
+
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        
         if scrollView == calendarStripCollectionView {
             let firstDate : NSDate = currentWeekDatesArray.objectAtIndex(0) as! NSDate
             let lastDate : NSDate = currentWeekDatesArray.lastObject as! NSDate
@@ -230,11 +249,11 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
             if visibleCells.count > 0 {
                 for obj : AnyObject in visibleCells  {
                         if let cell = obj as? DCOneThirdCalendarStripCollectionCell{
-                        if cell.displayDate?.compare(firstDate) == NSComparisonResult.OrderedSame {
+                        if cell.displayDate?.compare(firstDate) == NSComparisonResult.OrderedSame  && scrollDirection == .ScrollDirectionLeft {
                             calendarStripCollectionView.reloadData()
                             self.modifyStartDateAndWeekDatesArray(false, adderValue:5)
                             self.fetchPatientListAndReloadMedicationList()
-                        } else if cell.displayDate?.compare(lastDate) == NSComparisonResult.OrderedSame {
+                        } else if cell.displayDate?.compare(lastDate) == NSComparisonResult.OrderedSame && scrollDirection == .ScrollDirectionRight {
                             calendarStripCollectionView.reloadData()
                             self.modifyStartDateAndWeekDatesArray(true, adderValue:5)
                             self.fetchPatientListAndReloadMedicationList()
@@ -399,6 +418,9 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         }
         if !isCurrentWeekArray {
             generateCurrentWeekDatesArray()
+            let parentView : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
+            parentView.currentWeeksDateArrayFromCenterDate(centerDate)
+            self.fetchPatientListAndReloadMedicationList()
             let centerDisplayDate = self.currentWeekDatesArray.count == 15 ? 7 : 4
             let indexPath : NSIndexPath = NSIndexPath(forRow:centerDisplayDate, inSection: 0)
             calendarStripCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: true)

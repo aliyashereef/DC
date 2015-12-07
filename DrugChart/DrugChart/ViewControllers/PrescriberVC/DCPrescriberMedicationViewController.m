@@ -813,6 +813,9 @@ typedef enum : NSUInteger {
     [dateView removeFromSuperview];
     [self currentWeekDatesArrayFromDate:centerDisplayDate];
     [self modifyWeekDatesInCalendarTopPortion];
+    if (calendarDateDisplayViewController) {
+        [calendarDateDisplayViewController adjustHolderFrameAndDisplayDates];
+    }
     [self reloadCalendarTopPortion];
     [self showCalendarTopPortion];
     [prescriberMedicationOneThirdSizeViewController.view removeFromSuperview];
