@@ -10,6 +10,9 @@
 
 #define SHARED_APPDELEGATE (DCAppDelegate *)[[UIApplication sharedApplication] delegate]
 
+#define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+#define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+
 //TODO: We can change the base url by changing the toggle button in the settings bundle of the app.
 
 #define kDCBaseUrl @"http://interfacetest.cloudapp.net/api"
@@ -120,6 +123,7 @@
 #define PATIENT_MENU_VIEW_CONTROLLER_SB_ID @"PatientMenuViewController"
 #define VITAL_SIGNS_VIEW_CONTROLLER_VIEW_CONTROLLER_SB_ID @"VitalSignViewController"
 #define SCHEDULING_DETAIL_STORYBOARD_ID @"SchedulingDetailView"
+#define SCHEDULING_INITIAL_STORYBOARD_ID @"SchedulingInitialView"
 
 #define PRESCRIBER_MEDICATION_SBID @"PrescriberMedicationViewControllerSBID"
 
@@ -178,6 +182,9 @@
 #define ADMINISTER_PICKER_CELL_ID @"AdministerPickerCellId"
 #define SCHEDULING_CELL_ID @"SchedulingCellId"
 #define SCHEDULING_PICKER_CELL_ID @"SchedulingPickerCellId"
+#define SCHEDULING_INITIAL_CELL_ID @"SchedulingInitialCellId"
+#define SCHEDULING_DESCRIPTION_CELL_ID @"SchedulingDescriptionCell"
+
 
 // title for views
 #define INPATIENT_TITLE @"In Patients"
@@ -211,6 +218,8 @@
 
 //date
 
+#define WEEK_DAY_FORMAT                 @"EEE"
+#define DAY_DATE_FORMAT                 @"dd"
 #define DEFAULT_DATE_FORMAT             @"yyyy-MM-dd hh:mm:ss z"
 #define SHORT_DATE_FORMAT               @"yyyy-MM-dd"
 #define DATE_FORMAT_RANGE               @"yyyy-MM-dd HH:mm"
@@ -371,6 +380,8 @@
 #define WEEKS @"weeks"
 #define MONTH @"month"
 #define MONTHS @"months"
+#define YEAR @"year"
+#define YEARS @"years"
 
 //Roles
 

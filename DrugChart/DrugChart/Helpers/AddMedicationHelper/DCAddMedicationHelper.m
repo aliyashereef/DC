@@ -79,7 +79,7 @@
     NSMutableArray *timeArray = [[NSMutableArray alloc] init];
     for (NSString *time in scheduleArray) {
         NSString *dateString = [DCUtility convertTimeToHourMinuteFormat:time];
-        NSDictionary *dict = @{@"time" : dateString, @"selected" : @1};
+        NSDictionary *dict = @{TIME : dateString, SELECTED : @1};
         [timeArray addObject:dict];
     }
     return timeArray;
@@ -109,56 +109,52 @@
             if (showWarnings) {
                 return eDetailWarning;
             } else {
-                if (indexPath.row == DOSAGE_INDEX) {
-                    return eDetailDosage;
-                } else if (indexPath.row == ROUTE_INDEX) {
+                if (indexPath.row == ROUTE_INDEX) {
                     return eDetailRoute;
                 } else {
                     return eDetailType;
                 }
             }
         }
-            break;
         case eSecondSection: {
             if (showWarnings) {
-                if (indexPath.row == DOSAGE_INDEX) {
-                    return eDetailDosage;
-                } else if (indexPath.row == ROUTE_INDEX) {
+                if (indexPath.row == ROUTE_INDEX) {
                     return eDetailRoute;
                 } else {
                     return eDetailType;
                 }
             }
         }
-            break;
         case eFourthSection: {
-            if (!showWarnings) {
-                //return eDetailAdministrationTime;
-                return eDetailSchedulingType;
-            }
-            break;
+//            if (showWarnings) {
+//                return eDetailSchedulingType;
+//            } else {
+                return eDetailDosage;
+          //  }
         }
         case eFifthSection:
             if (showWarnings) {
-                return eDetailSchedulingType;
-            } else {
-                if (indexPath.row == 0) {
-                    return eDetailAdministrationTime;
-                } else if (indexPath.row == 1) {
-                    return eDetailRepeatType;
-                }
-            }
-            break;
-        case eSixthSection:
-            if (indexPath.row == 0) {
-                return eDetailAdministrationTime;
-            } else if (indexPath.row == 1) {
-                return eDetailRepeatType;
+                return eDetailDosage;
             }
         default:
-            break;
+             return 0;
     }
-    return 0;
+}
+
++ (NSInteger)numberOfSectionsInMedicationTableViewForSelectedMedication:(DCMedicationScheduleDetails *)selectedmedication
+                                                           showWarnings:(BOOL)showWarnings {
+    
+    //If medicine name is not selected, the number of sections in tableview will be 1 , On medicine name selection, the section count vary based on warnings presence
+    if ([selectedmedication.name isEqualToString:EMPTY_STRING] || selectedmedication.name == nil) {
+        return INITIAL_SECTION_COUNT;
+    } else {
+        if ([selectedmedication.medicineCategory isEqualToString:REGULAR_MEDICATION]) {
+            return (showWarnings ? REGULAR_MEDICATION_SECTION_COUNT : REGULAR_MEDICATION_SECTION_COUNT - 1);
+        } else {
+            return (showWarnings ? ONCE_WHEN_REQUIRED_SECTION_COUNT : ONCE_WHEN_REQUIRED_SECTION_COUNT - 1);
+        }
+    }
+    return INITIAL_SECTION_COUNT;
 }
 
 

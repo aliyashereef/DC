@@ -24,6 +24,7 @@ import UIKit
     
     let currentDate : NSDate = NSDate()
     let dateViewFormat : NSString = "EEE d"
+    var windowSizeChanged = false
     //MARK: View Management Methods
     
     override func viewDidLoad() {
@@ -32,6 +33,19 @@ import UIKit
         calendarViewWidthConstraint.constant = (DCUtility.mainWindowSize().width - MEDICATION_VIEW_WIDTH);
         self.displayDatesInView()
     }
+    
+//    override func viewDidLayoutSubviews() {
+//        super.viewDidLayoutSubviews()
+//        if windowSizeChanged {
+//            self.displayDatesInView()
+//            windowSizeChanged = false
+//        }
+//    }
+//    
+//    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+//        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+//        windowSizeChanged = true
+//    }
     
     //MARK: View translation Methods
     
@@ -87,8 +101,7 @@ import UIKit
                 self.calendarViewLeadingConstraint.constant = 0.0
         }
     }
-
-
+    
     func displayWeekDatesArray() -> NSMutableArray {
         
         var index : NSInteger = 0

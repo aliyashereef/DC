@@ -68,8 +68,6 @@ let SECOND_INDEX = 1
     func configureViewElements () {
         
         //configure view parameters
-        warningsTableView!.layoutMargins = UIEdgeInsetsZero
-        warningsTableView!.separatorInset = UIEdgeInsetsZero
         warningsTableView!.estimatedRowHeight = ROW_HEIGHT
         warningsTableView!.rowHeight = UITableViewAutomaticDimension
         configureNavigationBar();
@@ -131,7 +129,6 @@ let SECOND_INDEX = 1
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell : DCWarningsCell = (tableView.dequeueReusableCellWithIdentifier(WARNINGS_CELL_ID) as? DCWarningsCell)!
-        cell.layoutMargins = UIEdgeInsetsZero
         if indexPath.section == INITIAL_INDEX {
             if severeArray?.count > 0 {
             if let warning = severeArray?[indexPath.row]! as? DCWarning {

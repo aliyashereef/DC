@@ -12,21 +12,26 @@ let TABLE_VIEW_ROW_HEIGHT : CGFloat = 44.0
 let PICKER_CELL_HEIGHT : CGFloat = 216.0
 let WEEK_DAYS_COUNT : NSInteger = 7
 let HEADER_VIEW_MIN_HEIGHT : CGFloat = 40
-let HEADER_VIEW_LABEL_MAX_WIDTH : CGFloat = 270
+let HEADER_VIEW_LABEL_MAX_WIDTH : CGFloat = 265
 
 
-typealias RepeatCompletion = DCRepeat? -> Void
+typealias SchedulingCompletion = DCScheduling? -> Void
+typealias SelectedFrequencyValue = NSString? -> Void
 
-class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UITableViewDelegate, UITableViewDataSource {
+class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var detailTableView: UITableView!
     
     var displayArray : NSMutableArray = []
     var weekDaysArray = NSMutableArray()
     var inlinePickerIndexPath : NSIndexPath?
-    var repeatValue : DCRepeat?
-    var repeatCompletion: RepeatCompletion = { value in }
+    var scheduling : DCScheduling?
+   // var repeatValue : DCRepeat?
+    var schedulingCompletion: SchedulingCompletion = { value in }
+    var frequencyValue : SelectedFrequencyValue = {value in }
     var headerHeight : CGFloat = 0.0
+    var detailType : SchedulingDetailType?
+    var previousFilledValue : NSString = EMPTY_STRING
     
     override func viewDidLoad() {
         
@@ -36,22 +41,40 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
         populateWeekDaysArray()
     }
     
-    func configureNavigationTitleView() {
-
-        self.title = DCSchedulingHelper.screenTitleForScreenType(self.detailType)
+    override func viewWillAppear(animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        detailTableView.reloadData()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        
+        self.schedulingCompletion(self.scheduling)
+        super.viewWillDisappear(animated)
+    }
+    
+    func configureNavigationView() {
+        
+        self.navigationController!.navigationBar.topItem!.title = "";
+        if (detailType != nil) {
+            self.title = DCSchedulingHelper.screenTitleForScreenType(detailType!)
+        }
     }
     
     func prepareViewElements() {
         
         //set view properties and values
-        detailTableView.layoutMargins = UIEdgeInsetsZero;
-        detailTableView.separatorInset = UIEdgeInsetsZero;
+        //calculate header view height
+        headerHeight = DCUtility.textViewSizeWithText(self.scheduling?.schedulingDescription, maxWidth: HEADER_VIEW_LABEL_MAX_WIDTH, font: UIFont.systemFontOfSize(13.0)).height + 10
+        configureNavigationView()
     }
     
     func populateDisplayArray() {
         
         //populate display array
-        displayArray = DCSchedulingHelper.scheduleDisplayArrayForScreenType(self.detailType)
+        if (self.detailType != nil) {
+            displayArray = DCSchedulingHelper.scheduleDisplayArrayForScreenType(self.detailType!)
+        }
     }
     
     func populateWeekDaysArray() {
@@ -74,48 +97,59 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
         
         //display inline picker
         let pickerCell : DCSchedulingPickerCell? = detailTableView.dequeueReusableCellWithIdentifier(SCHEDULING_PICKER_CELL_ID) as? DCSchedulingPickerCell
-        pickerCell?.layoutMargins = UIEdgeInsetsZero
         pickerCell?.weekDaysArray = weekDaysArray
-        pickerCell?.repeatValue = repeatValue
+       // pickerCell?.repeatValue = repeatValue
+        pickerCell?.repeatValue = scheduling?.repeatObject
         pickerCell?.configurePickerCellForPickerType(pickerType)
         pickerCell?.pickerCompletion = { value in
             
             if (pickerType == eSchedulingFrequency) {
-                self.repeatValue?.repeatType = value as! String
+                self.scheduling?.repeatObject?.repeatType = value as! String
                 if (value == DAILY) {
                     self.displayArray = [FREQUENCY, EVERY]
-                    self.repeatValue?.frequency = DAY
+                    self.scheduling?.repeatObject?.frequency = DAY
                 } else if (value == WEEKLY) {
-                    self.repeatValue?.frequency = WEEK
+                    self.scheduling?.repeatObject.frequency = WEEK
                     self.displayArray = [FREQUENCY, EVERY]
                 } else if (value == MONTHLY) {
-                    self.repeatValue?.frequency = MONTH
-                    self.repeatValue?.isEachValue = true
-                    self.repeatValue?.onTheValue = ""
+                    self.scheduling?.repeatObject?.frequency = MONTH
+                    self.scheduling?.repeatObject?.isEachValue = true
+                    self.scheduling?.repeatObject?.onTheValue = ""
                     self.displayArray = [FREQUENCY, EVERY, EACH, ON_THE]
                 } else if (value == YEARLY) {
-                    self.repeatValue?.frequency = "year"
+                    self.scheduling?.repeatObject?.frequency = "year"
                     self.displayArray = [FREQUENCY, EVERY, EACH, ON_THE]
+                    self.scheduling?.repeatObject?.isEachValue = true
+                    self.scheduling?.repeatObject?.onTheValue = ""
                 }
             } else {
                 if (pickerType == eDailyCount) {
                     let days = (value == "1") ? DAY : DAYS
-                    self.repeatValue?.frequency = NSString(format: "%@ %@", value!, days) as String
+                    self.scheduling?.repeatObject?.frequency = NSString(format: "%@ %@", value!, days) as String
                 } else if (pickerType == eWeeklyCount) {
                     let week = (value == "1") ? WEEK : WEEKS
-                    self.repeatValue?.frequency = NSString(format: "%@ %@", value!, week) as String
+                    self.scheduling?.repeatObject?.frequency = NSString(format: "%@ %@", value!, week) as String
                 } else if (pickerType == eMonthlyCount) {
-                    let week = (value == "1") ? MONTH : MONTHS
-                    self.repeatValue?.frequency = NSString(format: "%@ %@", value!, week) as String
+                    let month = (value == "1") ? MONTH : MONTHS
+                    self.scheduling?.repeatObject?.frequency = NSString(format: "%@ %@", value!, month) as String
+                } else if (pickerType == eYearlyCount) {
+                    let year = (value == "1") ? YEAR : YEARS
+                    self.scheduling?.repeatObject?.frequency = NSString(format: "%@ %@", value!, year) as String
                 } else if (pickerType == eMonthEachCount) {
-                    self.repeatValue?.isEachValue = true
-                    self.repeatValue?.eachValue = value! as String
+                    self.scheduling?.repeatObject?.isEachValue = true
+                    self.scheduling?.repeatObject?.eachValue = value! as String
                 } else if (pickerType == eMonthOnTheCount) {
-                    self.repeatValue?.isEachValue = false
-                    self.repeatValue?.onTheValue = value! as String
+                    self.scheduling?.repeatObject?.isEachValue = false
+                    self.scheduling?.repeatObject?.onTheValue = value! as String
+                } else if (pickerType == eYearEachCount) {
+                    self.scheduling?.repeatObject?.isEachValue = true
+                    self.scheduling?.repeatObject?.yearEachValue = String(value!)
+                } else if (pickerType == eYearOnTheCount) {
+                    self.scheduling?.repeatObject?.isEachValue = false
+                    self.scheduling?.repeatObject?.yearOnTheValue = value! as String
                 }
             }
-            self.repeatCompletion(self.repeatValue)
+            self.schedulingCompletion(self.scheduling)
             self.detailTableView.reloadData()
         }
         return pickerCell!
@@ -124,21 +158,20 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
     func schedulingTypeCellAtIndexPath(indexPath : NSIndexPath) -> DCSchedulingCell {
         
         let schedulingCell : DCSchedulingCell? = detailTableView.dequeueReusableCellWithIdentifier(SCHEDULING_CELL_ID) as? DCSchedulingCell
-        schedulingCell?.layoutMargins = UIEdgeInsetsZero
         var displayString = EMPTY_STRING
-        if (indexPath.section == 1 && self.repeatValue?.repeatType == WEEKLY) {
+        if (indexPath.section == 1 && self.scheduling?.repeatObject?.repeatType == WEEKLY) {
             displayString = weekDaysArray.objectAtIndex(indexPath.item) as! String
-            if (repeatValue?.weekDays == nil) {
+            if (self.scheduling?.repeatObject?.weekDays == nil) {
                 let currentDayIndex : NSInteger = DCDateUtility.currentWeekDayIndex()
                 if (currentDayIndex-1 == indexPath.row) { // There was a mismatch in the week days displayed. have to correct that one
-                    repeatValue?.weekDays = NSMutableArray()
-                    repeatValue?.weekDays.addObject(displayString)
+                    self.scheduling?.repeatObject?.weekDays = NSMutableArray()
+                    self.scheduling?.repeatObject?.weekDays.addObject(displayString)
                     schedulingCell?.accessoryType = UITableViewCellAccessoryType.Checkmark
                 } else {
                     schedulingCell?.accessoryType = UITableViewCellAccessoryType.None
                 }
             } else {
-                let valueExists : Bool = (repeatValue?.weekDays.containsObject(displayString))!
+                let valueExists : Bool = (self.scheduling?.repeatObject?.weekDays.containsObject(displayString))!
                 if (valueExists && weekDaysArray.indexOfObject(displayString) == indexPath.row) {
                     schedulingCell?.accessoryType = UITableViewCellAccessoryType.Checkmark
                 } else {
@@ -160,7 +193,6 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
     func repeatCellAtIndexPath(indexPath : NSIndexPath) -> DCSchedulingCell {
         
         let repeatCell : DCSchedulingCell? = detailTableView.dequeueReusableCellWithIdentifier(SCHEDULING_CELL_ID) as? DCSchedulingCell
-        repeatCell!.layoutMargins = UIEdgeInsetsZero
         repeatCell!.accessoryType = UITableViewCellAccessoryType.None
         repeatCell!.descriptionLabel.hidden = false
         return repeatCell!
@@ -208,7 +240,7 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        return (self.detailType == eDetailSchedulingType) ? 1 : 2
+        return (self.detailType! == eDetailSchedulingType) ? 1 : 2
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -221,9 +253,9 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
             return rowCount
         } else {
             var rowCount : NSInteger = 0
-            if (repeatValue?.repeatType == WEEKLY) {
+            if (self.scheduling?.repeatObject?.repeatType == WEEKLY) {
                 rowCount = WEEK_DAYS_COUNT
-            } else if (repeatValue?.repeatType == MONTHLY || repeatValue?.repeatType == YEARLY) {
+            } else if (self.scheduling?.repeatObject?.repeatType == MONTHLY || self.scheduling?.repeatObject?.repeatType == YEARLY) {
                 rowCount = 2
             }
             if (tableViewHasInlinePickerForSection(section)) {
@@ -236,14 +268,21 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         if (indexPath.section == 0) {
-            if (self.detailType == eDetailSchedulingType) {
+            if (self.detailType! == eDetailSchedulingType) {
                 let schedulingCell : DCSchedulingCell = schedulingTypeCellAtIndexPath(indexPath)
                 return schedulingCell
             } else {
                 if (indexPath.row == 0) {
                     let repeatCell : DCSchedulingCell = repeatCellAtIndexPath(indexPath)
                     repeatCell.titleLabel.text = FREQUENCY
-                    repeatCell.descriptionLabel.text = repeatValue?.repeatType
+                    if let type = self.scheduling?.repeatObject?.repeatType {
+                        repeatCell.descriptionLabel.text = type
+                    } else {
+                        self.scheduling?.repeatObject = DCRepeat.init()
+                        self.scheduling?.repeatObject?.repeatType = DAILY
+                        self.scheduling?.repeatObject?.frequency = "1 day"
+                        repeatCell.descriptionLabel.text = DAILY
+                    }
                     return repeatCell
                 } else if (indexPath.row == 1) {
                     if (tableViewHasInlinePickerForSection(indexPath.section) && self.inlinePickerIndexPath?.row == 1) {
@@ -252,40 +291,43 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
                     } else {
                         let repeatCell : DCSchedulingCell =  repeatCellAtIndexPath(indexPath)
                         repeatCell.titleLabel.text = EVERY
-                        if (repeatValue?.frequency == "1 day") {
+                        if (self.scheduling?.repeatObject?.frequency == "1 day") {
                             repeatCell.descriptionLabel.text = DAY
-                        } else if (repeatValue?.frequency == "1 week") {
+                        } else if (self.scheduling?.repeatObject?.frequency == "1 week") {
                             repeatCell.descriptionLabel.text = WEEK
-                        } else if (repeatValue?.frequency == "1 month") {
+                        } else if (self.scheduling?.repeatObject?.frequency == "1 month") {
                             repeatCell.descriptionLabel.text = MONTH
                         } else {
-                            repeatCell.descriptionLabel.text = repeatValue?.frequency
+                            repeatCell.descriptionLabel.text = self.scheduling?.repeatObject?.frequency
                         }
                         return repeatCell
                     }
                 } else {
                     if (tableViewHasInlinePickerForSection(indexPath.section) && self.inlinePickerIndexPath == indexPath) {
-                        if (repeatValue?.repeatType == DAILY) {
+                        if (self.scheduling?.repeatObject?.repeatType == DAILY) {
                             let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: eDailyCount)
                             return pickerCell
-                        } else if (repeatValue?.repeatType == WEEKLY) {
+                        } else if (self.scheduling?.repeatObject?.repeatType == WEEKLY) {
                             let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: eWeeklyCount)
                             return pickerCell
-                        } else /*if (repeatValue?.repeatType == MONTHLY)*/ {
+                        } else if (self.scheduling?.repeatObject?.repeatType == MONTHLY) {
                             let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: eMonthlyCount)
+                            return pickerCell
+                        } else {
+                            let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: eYearlyCount)
                             return pickerCell
                         }
                     } else {
                         let repeatCell : DCSchedulingCell =  repeatCellAtIndexPath(indexPath)
                         repeatCell.titleLabel.text = EVERY
-                        repeatCell.descriptionLabel.text = repeatValue?.frequency
+                        repeatCell.descriptionLabel.text = self.scheduling?.repeatObject?.frequency
                         return repeatCell
                     }
                 }
             }
         } else {
             //weekly cell
-            if (repeatValue?.repeatType == WEEKLY) {
+            if (self.scheduling?.repeatObject?.repeatType == WEEKLY) {
                 let weekDaysCell : DCSchedulingCell = schedulingTypeCellAtIndexPath(indexPath)
                 return weekDaysCell
             } else {
@@ -293,24 +335,26 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
                 if (indexPath.row == 0) {
                     repeatCell.titleLabel.text = EACH
                     repeatCell.descriptionLabel.hidden = true
-                    repeatCell.accessoryType = (repeatValue?.isEachValue == true) ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
+                    repeatCell.accessoryType = (self.scheduling?.repeatObject?.isEachValue == true) ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
                 } else if (indexPath.row == 1) {
                     if (tableViewHasInlinePickerForSection(indexPath.section) && self.inlinePickerIndexPath == indexPath) {
-                        let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: eMonthEachCount)
+                        let pickerType : PickerType = (self.scheduling?.repeatObject?.repeatType == MONTHLY) ? eMonthEachCount : eYearEachCount
+                        let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: pickerType)
                         return pickerCell
                     } else {
                         repeatCell.titleLabel.text = ON_THE
                         repeatCell.descriptionLabel.hidden = true
-                        repeatCell.accessoryType = (repeatValue?.isEachValue == false) ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
+                        repeatCell.accessoryType = (self.scheduling?.repeatObject?.isEachValue == false) ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
                     }
                 } else /*if (indexPath.row == 2)*/ {
                     if (tableViewHasInlinePickerForSection(indexPath.section) && self.inlinePickerIndexPath == indexPath) {
-                        let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: eMonthOnTheCount)
+                        let pickerType : PickerType = (self.scheduling?.repeatObject?.repeatType == MONTHLY) ? eMonthOnTheCount : eYearOnTheCount
+                        let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: pickerType)
                         return pickerCell
                     } else {
                         repeatCell.titleLabel.text = ON_THE
                         repeatCell.descriptionLabel.hidden = true
-                        repeatCell.accessoryType = (repeatValue?.isEachValue == false) ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
+                        repeatCell.accessoryType = (self.scheduling?.repeatObject?.isEachValue == false) ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
                     }
                 }
                 return repeatCell
@@ -321,36 +365,39 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         if (indexPath.section == 0) {
-            if (self.detailType == eDetailSchedulingType) {
+            if (self.detailType! == eDetailSchedulingType) {
                 if (indexPath.row == 0) {
-                    self.selectedEntry(displayArray.objectAtIndex(indexPath.item) as! String)
+                    previousFilledValue = displayArray.objectAtIndex(indexPath.item) as! String
+                    self.frequencyValue(previousFilledValue)
+                    tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: .Fade)
                 }
-                self.navigationController?.popToRootViewControllerAnimated(true)
-            } else if (self.detailType == eDetailRepeatType) {
+                self.navigationController?.popViewControllerAnimated(true)
+            } else if (self.detailType! == eDetailRepeatType) {
                 // display picker here
                 displayInlinePickerForRowAtIndexPath(indexPath)
             }
         } else {
             //weekly schedule
-            if (repeatValue?.repeatType == WEEKLY) {
+            if (self.scheduling?.repeatObject?.repeatType == WEEKLY) {
                 let weekDay = weekDaysArray.objectAtIndex(indexPath.item)
-                let index : NSInteger = (self.repeatValue?.weekDays.indexOfObject(weekDay))!
-                let valueExists : Bool = (repeatValue?.weekDays.containsObject(weekDay))!
+                let index : NSInteger = (self.scheduling?.repeatObject?.weekDays.indexOfObject(weekDay))!
+                let valueExists : Bool = (self.scheduling?.repeatObject?.weekDays.containsObject(weekDay))!
                 if (valueExists == false) {
-                    self.repeatValue?.weekDays.addObject(weekDay)
+                    self.scheduling?.repeatObject?.weekDays.addObject(weekDay)
                 } else {
                     //remove the already existing object from array
-                    self.repeatValue?.weekDays.removeObjectAtIndex(index)
+                    self.scheduling?.repeatObject?.weekDays.removeObjectAtIndex(index)
                  }
-                self.repeatCompletion(self.repeatValue)
+                self.schedulingCompletion(self.scheduling)
                 tableView.beginUpdates()
                 self.detailTableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.Fade)
                 tableView.endUpdates()
             } else {
+                
                 if (indexPath.row == 0) {
-                    repeatValue?.isEachValue = true
+                    self.scheduling?.repeatObject?.isEachValue = true
                 } else if (indexPath.row == 1 || indexPath.row == 2) {
-                    repeatValue?.isEachValue = false
+                    self.scheduling?.repeatObject?.isEachValue = false
                 }
                 self.detailTableView.beginUpdates()
                 self.detailTableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.Automatic)
@@ -359,7 +406,6 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
                 dispatch_after(dispatchTime, dispatch_get_main_queue(), {
                     // your function here
                     self.displayInlinePickerForRowAtIndexPath(indexPath)
-
                 })
             }
         }
@@ -367,7 +413,7 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
-        if (self.detailType != eDetailSchedulingType) {
+        if (self.detailType! != eDetailSchedulingType) {
             if (section == 1) {
                 return (headerHeight > HEADER_VIEW_MIN_HEIGHT) ? headerHeight : HEADER_VIEW_MIN_HEIGHT
             }
@@ -377,10 +423,13 @@ class DCSchedulingDetailViewController: DCAddMedicationDetailViewController, UIT
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        if (self.detailType != eDetailSchedulingType) {
+        if (self.detailType! != eDetailSchedulingType) {
             if (section == 1) {
                 let headerView = NSBundle.mainBundle().loadNibNamed(SCHEDULING_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCSchedulingHeaderView
-                headerView?.populateMessageLabelWithRepeatValue(repeatValue!)
+                if let repeatObject = self.scheduling?.repeatObject {
+                    headerView?.populateMessageLabelWithRepeatValue(repeatObject)
+                    scheduling?.schedulingDescription = headerView?.messageLabel.text;
+                }
                 headerHeight = DCUtility.textViewSizeWithText(headerView?.messageLabel.text, maxWidth: HEADER_VIEW_LABEL_MAX_WIDTH, font: UIFont.systemFontOfSize(13.0)).height + 10
                 return headerView!
             }

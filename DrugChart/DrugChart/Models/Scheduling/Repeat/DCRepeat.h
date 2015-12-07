@@ -17,5 +17,8 @@
 @property (nonatomic) BOOL isEachValue;
 @property (nonatomic, strong) NSString *eachValue;
 @property (nonatomic, strong) NSString *onTheValue;
+@property (nonatomic, strong) NSString *yearEachValue;
+@property (nonatomic, strong) NSString *yearOnTheValue;
+
 
 @end

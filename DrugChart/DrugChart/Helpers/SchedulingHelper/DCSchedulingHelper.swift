@@ -10,19 +10,19 @@ import UIKit
 
 class DCSchedulingHelper: NSObject {
     
-    static func screenTitleForScreenType(screenType : AddMedicationDetailType) -> String {
+    static func screenTitleForScreenType(screenType : SchedulingDetailType) -> String {
         
         //screen title for detail type
         var title = EMPTY_STRING
         if (screenType == eDetailSchedulingType) {
-            title = NSLocalizedString("SCHEDULING", comment:"")
+            title = NSLocalizedString("BASE_FREQUENCY", comment:"")
         } else if (screenType == eDetailRepeatType) {
             title = NSLocalizedString("REPEAT", comment: "")
         }
         return title
     }
     
-    static func scheduleDisplayArrayForScreenType(screenType : AddMedicationDetailType) -> NSMutableArray {
+    static func scheduleDisplayArrayForScreenType(screenType : SchedulingDetailType) -> NSMutableArray {
         
         var scheduleArray = NSMutableArray()
         if (screenType == eDetailSchedulingType) {
@@ -31,6 +31,18 @@ class DCSchedulingHelper: NSObject {
             scheduleArray = [FREQUENCY, EVERY]
         }
         return scheduleArray
+    }
+    
+    static func schedulingDetailTypeAtIndexPath(indexPath : NSIndexPath) -> SchedulingDetailType? {
+        
+        if indexPath.section == 0 {
+            return eDetailSchedulingType
+        } else {
+            if indexPath.row == 1 {
+                return eDetailRepeatType
+            }
+        }
+        return nil
     }
     
     static func scheduleDescriptionForReapeatValue(repeatValue : DCRepeat) -> NSMutableString {
@@ -64,7 +76,6 @@ class DCSchedulingHelper: NSObject {
                 if (repeatValue.eachValue == nil) {
                    // repeatValue.eachValue = "1"
                     let currentDay = DCDateUtility.currentDay()
-                    NSLog("currentDay is %d", currentDay)
                     repeatValue.eachValue = String(currentDay)
                 }
                 if let number = Int(repeatValue.eachValue) {
@@ -88,13 +99,45 @@ class DCSchedulingHelper: NSObject {
                     descriptionText = NSMutableString(format: "%@ %@ on the %@.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), repeatValue.frequency, repeatValue.onTheValue )
                 }
             }
+        } else if (repeatValue.repeatType == YEARLY) {
+            if (repeatValue.isEachValue == true) {
+                var eachValue : String = EMPTY_STRING
+                if (repeatValue.yearEachValue == nil) {
+                    // repeatValue.eachValue = "1"
+                    let currentDay = DCDateUtility.currentDay()
+                    let currentMonth = DCDateUtility.currentMonth()
+                    let monthString = DCDateUtility.monthNames()[currentMonth - 1]
+                    repeatValue.yearEachValue = String("\(currentDay) \(monthString)")
+                }
+                let (day, month) = splitComponentsSeparatedBySpace(repeatValue.yearEachValue)
+                if let number = Int(day as String) {
+                    let convertedNumber = NSNumber(integer:number)
+                    print(convertedNumber)
+                    let ordinal = NSString.ordinalNumberFormat(convertedNumber)
+                    eachValue = ordinal
+                }
+                if (repeatValue.frequency == "1 year") {
+                    descriptionText = NSMutableString(format: "%@ year on the %@ of %@.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), eachValue, month)
+                } else {
+                    descriptionText = NSMutableString(format: "%@ %@ on the %@ of %@.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), repeatValue.frequency, eachValue, month)
+                }
+            } else {
+                if (repeatValue.yearOnTheValue == nil) {
+                    repeatValue.yearOnTheValue = "First Sunday January"
+                }
+                if (repeatValue.frequency == "1 year") {
+                    descriptionText = NSMutableString(format: "%@ year on the %@.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), repeatValue.yearOnTheValue )
+                } else {
+                    descriptionText = NSMutableString(format: "%@ %@ on the %@.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), repeatValue.frequency, repeatValue.yearOnTheValue )
+                }
+            }
         } else {
             descriptionText = NSMutableString(format: "%@ %@", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), repeatValue.frequency)
         }
         return descriptionText
     }
     
-    static func splitMonthOnTheValues(ontheValue : String) -> (firstString : NSString, weekDay : String) {
+    static func splitComponentsSeparatedBySpace(ontheValue : String) -> (firstString : NSString, weekDay : String) {
         
         let contentArray = ontheValue.characters.split{$0 == " "}.map(String.init)
         return (contentArray[0], contentArray[1])
