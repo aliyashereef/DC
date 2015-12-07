@@ -338,9 +338,9 @@ class DCMedicationAdministrationStatusView: UIView {
     func disableAdministerButton() {
         
         if(isOneThirdScreen) {
-            administerButton?.enabled = false
+            administerButton?.userInteractionEnabled = false
         } else {
-            administerButton?.enabled = true
+            administerButton?.userInteractionEnabled = true
         }
     }
     

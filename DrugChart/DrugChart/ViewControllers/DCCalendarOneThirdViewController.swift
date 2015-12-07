@@ -70,6 +70,10 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     override func viewDidLayoutSubviews() {
         
         super.viewDidLayoutSubviews()
+        let parentView : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
+        parentView.centerDisplayDate = centerDate
+        parentView.currentWeeksDateArrayFromCenterDate(centerDate)
+        self.fetchPatientListAndReloadMedicationList()
         if let _ = centerDate {
             
         } else {
@@ -299,10 +303,9 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         self.view.bringSubviewToFront(activityIndicatorView)
         self.activityIndicatorView.startAnimating()
         parentView.fetchMedicationListForPatientWithCompletionHandler { (success :Bool) -> Void in
+            self.activityIndicatorView.stopAnimating()
             if success {
-                self.activityIndicatorView.stopAnimating()
                 self.medicationTableView?.reloadData()
-                
             }
         }
     }

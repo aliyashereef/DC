@@ -38,6 +38,7 @@ class DCOneThirdCalendarStripCollectionCell: UICollectionViewCell {
     
     func addTodayIndicatorForCellWithSelection() {
         
+        indicatorLabel.removeFromSuperview()
         let today : NSDate = NSDate()
         let dateFormatter = NSDateFormatter()
         dateLabel.textColor = UIColor.blackColor()
@@ -71,6 +72,7 @@ class DCOneThirdCalendarStripCollectionCell: UICollectionViewCell {
     func showSelectionCurrentlySelectedDate () {
         
         let dateFormatter = NSDateFormatter()
+        indicatorLabel.removeFromSuperview()
         dateFormatter.dateFormat = DAY_DATE_FORMAT as String
         let dateString = dateFormatter.stringFromDate(displayDate!)
         dateLabel.textColor = UIColor.blackColor()
