@@ -207,8 +207,8 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             let translation : CGPoint = panGesture!.translationInView(panGesture?.view);
             if (fabs(translation.x) > fabs(translation.y)) {
                 let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
-                webRequestCancelled = true
-                self.resetMedicationSlotCellsOnQuickSwipe()
+//                webRequestCancelled = true
+//                self.resetMedicationSlotCellsOnQuickSwipe()
                 parentViewController.cancelPreviousMedicationListFetchRequest()
                 return true;
             }
@@ -253,6 +253,8 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                     if ( medicationCell.leadingSpaceMasterToContainerView.constant == calendarWidth) {
                         autoreleasepool({ () -> () in
                             parentViewController.modifyStartDayAndWeekDates(false)
+                            self.webRequestCancelled = true
+                            self.resetMedicationSlotCellsOnQuickSwipe()
                             self.modifyParentViewOnSwipeEnd(parentViewController)
                         })
                     } else {
@@ -260,29 +262,6 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                         medicationCell.layoutIfNeeded()
                     }
                 }
-//                medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
-//                medicationCell.layoutIfNeeded()
-               // self.performSelector(Selector("resetCellToOriginalConstraints:"), withObject: medicationCell, afterDelay: 0.08)
-        }
-    }
-    
-    func resetCellToOriginalConstraints(medicationCell : PrescriberMedicationTableViewCell) {
-        
-        print("***** Rest to Original constraints ****")
-        medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
-        medicationCell.layoutIfNeeded()
-    }
-    
-    func resetMedicationListCellsToOriginalPositionAfterCalendarSwipe() {
-        
-        if (displayMedicationListArray.count > 0) {
-            let indexPathArray : [AnyObject] = medicationTableView!.indexPathsForVisibleRows!
-            for var count = 0; count < indexPathArray.count; count++ {
-                let indexPath = indexPathArray[count]
-                let medicationCell = medicationTableView?.cellForRowAtIndexPath(indexPath as! NSIndexPath) as? PrescriberMedicationTableViewCell
-                medicationCell!.leadingSpaceMasterToContainerView.constant = 0.0
-                medicationCell!.layoutIfNeeded()
-            }
         }
     }
     
@@ -310,6 +289,8 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                     if (medicationCell.leadingSpaceMasterToContainerView.constant == -calendarWidth) {
                         autoreleasepool({ () -> () in
                             parentViewController.modifyStartDayAndWeekDates(true)
+                            self.webRequestCancelled = true
+                            self.resetMedicationSlotCellsOnQuickSwipe()
                             self.modifyParentViewOnSwipeEnd(parentViewController)
                         })
                     } else {
@@ -317,12 +298,28 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                         medicationCell.layoutIfNeeded()
                     }
                 }
-//                medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
-//                medicationCell.layoutIfNeeded()
-              //  self.performSelector(Selector("resetCellToOriginalConstraints:"), withObject: medicationCell, afterDelay: 0.08)
         }
     }
     
+    func resetCellToOriginalConstraints(medicationCell : PrescriberMedicationTableViewCell) {
+        
+        print("***** Rest to Original constraints ****")
+        medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
+        medicationCell.layoutIfNeeded()
+    }
+    
+    func resetMedicationListCellsToOriginalPositionAfterCalendarSwipe() {
+        
+        if (displayMedicationListArray.count > 0) {
+            let indexPathArray : [AnyObject] = medicationTableView!.indexPathsForVisibleRows!
+            for var count = 0; count < indexPathArray.count; count++ {
+                let indexPath = indexPathArray[count]
+                let medicationCell = medicationTableView?.cellForRowAtIndexPath(indexPath as! NSIndexPath) as? PrescriberMedicationTableViewCell
+                medicationCell!.leadingSpaceMasterToContainerView.constant = 0.0
+                medicationCell!.layoutIfNeeded()
+            }
+        }
+    }
 
     func modifyParentViewOnSwipeEnd (parentViewController : DCPrescriberMedicationViewController) {
         
