@@ -100,7 +100,6 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         let schedulingCell : DCSchedulingCell? = schedulingTableView.dequeueReusableCellWithIdentifier(SCHEDULING_INITIAL_CELL_ID) as? DCSchedulingCell
         if (indexPath.section == 0) {
             //highlight field in red if scheduling type is nil when save button is pressed in add medication screen
-            //schedulingCell!.titleLabel.textColor = (validate && scheduling?.type == nil) ? UIColor.redColor() : UIColor.blackColor()
             if (indexPath.row == 0) {
                 schedulingCell!.titleLabel?.text = SPECIFIC_TIMES
                 if (scheduling?.type == SPECIFIC_TIMES) {
@@ -122,6 +121,10 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
                 //highlight field in red if time array is empty when save button is pressed in add medication screen
                 schedulingCell!.titleLabel.textColor = (validate &&  (timeArray == nil || timeArray?.count == 0)) ? UIColor.redColor() : UIColor.blackColor()
                 schedulingCell!.titleLabel?.text = NSLocalizedString("ADMINISTRATION_TIMES", comment: "")
+                if (timeArray?.count > 0) {
+                    let timeString = DCSchedulingHelper.administratingTimesStringFromTimeArray(timeArray!)
+                    schedulingCell!.descriptionLabel.text = timeString as String
+                }
             } else if (indexPath.row == 1) {
                 schedulingCell!.titleLabel?.text = NSLocalizedString("REPEAT", comment: "")
                 schedulingCell!.descriptionLabel.text = scheduling?.repeatObject?.repeatType
@@ -182,7 +185,6 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
                 return schedulingCell!
             }
         }
-        
      }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

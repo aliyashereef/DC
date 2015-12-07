@@ -189,7 +189,7 @@
                                         <color key="textColor" red="0.4039215686" green="0.4039215686" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="02 Sept 1964(49 yrs)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="141" translatesAutoresizingMaskIntoConstraints="NO" id="DPL-u5-0VI">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="02 Sept 1964(49 yrs)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="141" translatesAutoresizingMaskIntoConstraints="NO" id="DPL-u5-0VI">
                                         <rect key="frame" x="63" y="27" width="138" height="18"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="18" placeholder="YES" id="jWD-UT-DMW"/>
@@ -201,7 +201,7 @@
                                             <rect key="frame" x="63" y="27" width="139" height="18"/>
                                         </variation>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="NHS:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zN3-ku-cnZ">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NHS:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zN3-ku-cnZ">
                                         <rect key="frame" x="285" y="27" width="41" height="18"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="18" id="6bg-zM-3lJ"/>
@@ -223,7 +223,7 @@
                                             </mask>
                                         </variation>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" misplaced="YES" text="1234 567 2345" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="euL-bD-DeS">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="1234 567 2345" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="euL-bD-DeS">
                                         <rect key="frame" x="326" y="27" width="283" height="18"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="18" id="nsR-GX-goc"/>
@@ -618,7 +618,7 @@
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="05v-V9-zD4"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
@@ -732,9 +732,9 @@
                                                     </variation>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AHX-lz-mFf" userLabel="Description Label">
-                                                    <rect key="frame" x="156" y="11" width="116" height="21"/>
+                                                    <rect key="frame" x="165" y="11" width="109" height="21"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="116" id="A4u-BA-LV2"/>
+                                                        <constraint firstAttribute="width" constant="112" id="A4u-BA-LV2"/>
                                                         <constraint firstAttribute="height" constant="21" id="Knf-rQ-SNI"/>
                                                         <constraint firstAttribute="width" constant="116" id="rYJ-Nj-Yo5"/>
                                                     </constraints>
@@ -743,6 +743,7 @@
                                                     <nil key="highlightedColor"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
+                                                            <exclude reference="A4u-BA-LV2"/>
                                                             <exclude reference="rYJ-Nj-Yo5"/>
                                                         </mask>
                                                     </variation>
@@ -751,7 +752,8 @@
                                             <constraints>
                                                 <constraint firstItem="Kgk-dE-QfF" firstAttribute="centerY" secondItem="vCO-3N-NLd" secondAttribute="centerY" id="CST-WJ-C35"/>
                                                 <constraint firstItem="AHX-lz-mFf" firstAttribute="top" secondItem="vCO-3N-NLd" secondAttribute="topMargin" constant="5" id="Krk-xQ-xYv"/>
-                                                <constraint firstAttribute="trailing" secondItem="AHX-lz-mFf" secondAttribute="trailing" constant="5" id="aL6-aU-A10"/>
+                                                <constraint firstAttribute="trailing" secondItem="AHX-lz-mFf" secondAttribute="trailing" constant="3" id="aL6-aU-A10"/>
+                                                <constraint firstItem="AHX-lz-mFf" firstAttribute="leading" secondItem="Kgk-dE-QfF" secondAttribute="trailing" constant="5" id="hIo-4y-xFf"/>
                                                 <constraint firstItem="AHX-lz-mFf" firstAttribute="centerY" secondItem="vCO-3N-NLd" secondAttribute="centerY" id="lZk-Pf-NlL"/>
                                                 <constraint firstItem="AHX-lz-mFf" firstAttribute="top" secondItem="Kgk-dE-QfF" secondAttribute="top" id="n13-7F-EPG"/>
                                                 <constraint firstItem="Kgk-dE-QfF" firstAttribute="leading" secondItem="vCO-3N-NLd" secondAttribute="leading" constant="15" id="zIG-bj-8TY"/>
@@ -835,7 +837,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="htx-Zi-x4Y" userLabel="Scheduling Table View">
-                                <rect key="frame" x="0.0" y="-34" width="310" height="724"/>
+                                <rect key="frame" x="0.0" y="-33" width="310" height="723"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SchedulingCellId" id="1qR-gW-Kpb" customClass="DCSchedulingCell" customModule="DrugChart" customModuleProvider="target">
@@ -924,7 +926,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="lTt-ia-XfJ" firstAttribute="top" secondItem="htx-Zi-x4Y" secondAttribute="bottom" id="0UX-Bk-VlW"/>
-                            <constraint firstItem="htx-Zi-x4Y" firstAttribute="top" secondItem="QUI-xi-5KU" secondAttribute="top" constant="-34" id="gHs-1P-oid"/>
+                            <constraint firstItem="htx-Zi-x4Y" firstAttribute="top" secondItem="QUI-xi-5KU" secondAttribute="top" constant="-33" id="gHs-1P-oid"/>
                             <constraint firstAttribute="trailing" secondItem="htx-Zi-x4Y" secondAttribute="trailing" id="nRG-re-xID"/>
                             <constraint firstItem="htx-Zi-x4Y" firstAttribute="leading" secondItem="QUI-xi-5KU" secondAttribute="leading" id="on3-Vs-qpD"/>
                         </constraints>
@@ -1302,7 +1304,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="1" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="qp2-G7-i1U">
-                                <rect key="frame" x="0.0" y="-35" width="310" height="635"/>
+                                <rect key="frame" x="0.0" y="-34" width="310" height="634"/>
                                 <color key="backgroundColor" red="0.96470588239999999" green="0.97647058819999999" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" reuseIdentifier="DetailCell" rowHeight="44" id="42b-eL-OEU">
@@ -1370,7 +1372,7 @@
                         <color key="backgroundColor" red="0.96470588239999999" green="0.97647058819999999" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="qp2-G7-i1U" secondAttribute="trailing" id="2t0-9K-of6"/>
-                            <constraint firstItem="qp2-G7-i1U" firstAttribute="top" secondItem="H2c-bY-wsc" secondAttribute="bottom" constant="-35" id="DQd-Lp-DdO"/>
+                            <constraint firstItem="qp2-G7-i1U" firstAttribute="top" secondItem="H2c-bY-wsc" secondAttribute="bottom" constant="-34" id="DQd-Lp-DdO"/>
                             <constraint firstItem="PfQ-R2-toz" firstAttribute="top" secondItem="qp2-G7-i1U" secondAttribute="bottom" id="UGk-bP-YgT"/>
                             <constraint firstItem="4Ic-oZ-R4c" firstAttribute="leading" secondItem="Zvr-TS-HfF" secondAttribute="leading" id="YDc-RH-p3B"/>
                             <constraint firstItem="qp2-G7-i1U" firstAttribute="leading" secondItem="Zvr-TS-HfF" secondAttribute="leading" id="hCF-nm-1Iw"/>
