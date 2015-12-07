@@ -73,7 +73,6 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         let parentView : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
         parentView.centerDisplayDate = centerDate
         parentView.currentWeeksDateArrayFromCenterDate(centerDate)
-        self.fetchPatientListAndReloadMedicationList()
         if let _ = centerDate {
             
         } else {
