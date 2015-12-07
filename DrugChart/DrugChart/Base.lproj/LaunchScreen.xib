@@ -14,7 +14,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FYM-Fq-Ius">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="emis_logo" translatesAutoresizingMaskIntoConstraints="NO" id="8cw-HQ-lxC">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="emis_logo" translatesAutoresizingMaskIntoConstraints="NO" id="8cw-HQ-lxC">
                             <rect key="frame" x="171" y="251" width="259" height="98"/>
                         </imageView>
                     </subviews>

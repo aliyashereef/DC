@@ -57,6 +57,7 @@ class DCPatientMenuViewController: DCBaseViewController, UITableViewDataSource, 
             // Go to the vital signs view.
         case 1:
             let vitalSignViewController : VitalsignDashboard? = UIStoryboard(name: PATIENT_MENU_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(VITAL_SIGNS_VIEW_CONTROLLER_VIEW_CONTROLLER_SB_ID) as? VitalsignDashboard
+            vitalSignViewController?.patient = self.patient
             self.navigationController!.showViewController(vitalSignViewController!, sender: self)
             break
         default:

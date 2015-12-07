@@ -31,6 +31,7 @@
 #import "DCBaseViewController.h"
 #import "UIButton+ButtonHighlight.h"
 #import "DCAddMedicationInitialViewController.h"
+#import "DCCalendarNavigationTitleView.h"
 #import "DCAddMedicationDetailViewController.h"
 #import "DCPlistManager.h"
 #import "NSString+Additions.h"

@@ -12,21 +12,36 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="YZ0-zl-k80">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="624"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <collectionViewLayout key="collectionViewLayout" id="dB8-gY-bNH" customClass="CustomCollectionViewLayout" customModule="DrugChart" customModuleProvider="target"/>
                 </collectionView>
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xDJ-9m-hQE">
+                    <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                    <items>
+                        <barButtonItem title="Sort" id="IDJ-GD-fZK">
+                            <connections>
+                                <action selector="showCalendar" destination="iN0-l3-epB" id="JuO-yx-PJ5"/>
+                            </connections>
+                        </barButtonItem>
+                    </items>
+                </toolbar>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="xDJ-9m-hQE" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="O3K-Ea-zpZ"/>
                 <constraint firstItem="YZ0-zl-k80" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="OGh-aU-Cki"/>
-                <constraint firstAttribute="bottom" secondItem="YZ0-zl-k80" secondAttribute="bottom" id="bYo-tA-4p5"/>
+                <constraint firstAttribute="trailing" secondItem="xDJ-9m-hQE" secondAttribute="trailing" id="Ta4-dM-d6i"/>
+                <constraint firstItem="xDJ-9m-hQE" firstAttribute="top" secondItem="YZ0-zl-k80" secondAttribute="bottom" constant="-1" id="WaT-mT-1CE"/>
+                <constraint firstAttribute="bottom" secondItem="YZ0-zl-k80" secondAttribute="bottom" constant="43" id="bYo-tA-4p5"/>
                 <constraint firstItem="YZ0-zl-k80" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="d0G-ka-Vzd"/>
                 <constraint firstAttribute="trailing" secondItem="YZ0-zl-k80" secondAttribute="trailing" id="dIR-ps-OOi"/>
+                <constraint firstAttribute="bottom" secondItem="xDJ-9m-hQE" secondAttribute="bottom" id="gzu-ka-32T"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
             <connections>
                 <outlet property="collectionView" destination="YZ0-zl-k80" id="Pjc-z6-jdR"/>
+                <outlet property="sortMenuItem" destination="IDJ-GD-fZK" id="6PX-yB-IBg"/>
             </connections>
         </view>
     </objects>
