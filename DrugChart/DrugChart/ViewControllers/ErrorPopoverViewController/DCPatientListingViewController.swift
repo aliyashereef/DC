@@ -453,7 +453,7 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
                     self.navigationItem.rightBarButtonItem?.enabled = false
                     self.messageLabel.hidden = false
                 } else {
-                        self.displayAlertWithTitle("ERROR", message:"")
+                        self.displayAlertWithTitle(NSLocalizedString("ERROR", comment: ""), message:NSLocalizedString("FETCH_FAILED", comment: ""))
                 }
                 self.activityIndicator.stopAnimating()
             }

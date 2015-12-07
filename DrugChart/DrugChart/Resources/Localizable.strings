@@ -27,6 +27,8 @@
 "ADD_MEDICATION_FAILED"     = "Failed to add a new medication";
 "MEDICATION_SCHEDULE_ERROR" = "Failed to fetch medication schedules for patient";
 "REQUEST_TIME_OUT"          = "Request session timeout";
+"FETCH_FAILED"              = "Failed to fetch response.";
+
 //strings
 "USERNAME"                  = "Username";
 "PASSWORD"                  = "Password";
