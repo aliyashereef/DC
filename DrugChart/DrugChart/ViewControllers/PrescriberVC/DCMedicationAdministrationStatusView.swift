@@ -77,11 +77,6 @@ class DCMedicationAdministrationStatusView: UIView {
             self.disableAdministerButton()
         }
     }
-    
-    func hideViewElementsOnCancellingWebCall() {
-        
-    }
- 
 
     func updateAdministrationStatusViewWithMedicationSlotDictionary(slotDictionary : NSDictionary) {
         
@@ -135,7 +130,13 @@ class DCMedicationAdministrationStatusView: UIView {
             statusIcon!.center = CGPointMake(self.bounds.size.width/5, self.bounds.size.height/2);
             statusLabel?.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
         } else {
-            statusIcon!.center = CGPointMake(self.bounds.size.width/5, self.bounds.size.height/2);
+            let appDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
+            if appDelegate.windowState == DCWindowState.twoThirdWindow {
+                statusIcon!.center = CGPointMake(self.bounds.size.width/5 - 3, self.bounds.size.height/2);
+            }
+            else {
+                statusIcon!.center = CGPointMake(self.bounds.size.width/5, self.bounds.size.height/2);
+            }
             statusLabel?.center = CGPointMake(self.bounds.size.width/1.7, self.bounds.size.height/2);
         }
         self.disableAdministerButton()
