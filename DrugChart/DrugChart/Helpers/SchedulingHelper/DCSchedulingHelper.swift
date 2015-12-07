@@ -171,6 +171,22 @@ class DCSchedulingHelper: NSObject {
         }
         return descriptionText
     }
+    
+    static func administratingTimesStringFromTimeArray(timeArray : NSMutableArray) -> NSString {
+        
+        let predicate = NSPredicate(format: "selected == 1")
+        let filteredArray = timeArray.filteredArrayUsingPredicate(predicate)
+        if (filteredArray.count != 0) {
+            var selectedTimesArray =  [String]()
+            for timeDictionary in filteredArray {
+                let time = timeDictionary["time"]
+                selectedTimesArray.append((time as? String)!)
+            }
+            let timeString = selectedTimesArray.joinWithSeparator(", ")
+            return timeString
+      }
+       return EMPTY_STRING
+    }
 
     
 }

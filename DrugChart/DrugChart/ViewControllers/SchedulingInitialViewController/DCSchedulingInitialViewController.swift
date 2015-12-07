@@ -121,26 +121,10 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
                 //highlight field in red if time array is empty when save button is pressed in add medication screen
                 schedulingCell!.titleLabel.textColor = (validate &&  (timeArray == nil || timeArray?.count == 0)) ? UIColor.redColor() : UIColor.blackColor()
                 schedulingCell!.titleLabel?.text = NSLocalizedString("ADMINISTRATION_TIMES", comment: "")
-                let predicate = NSPredicate(format: "selected == 1")
-                print("timearray is %@", timeArray)
-                if let filteredArray = timeArray?.filteredArrayUsingPredicate(predicate) {
-                    // do something with array
-                    print("***** filteredArray is %@", filteredArray)
-                   // let arr = filteredArray(valueForKey("time))
-                    var arr =  [String]()
-                    for timeDictionary in filteredArray {
-//                        if let time : String = timeDictionary!["time"] {
-//                            arr.append(time)
-//                        }
-                        let time = timeDictionary["time"]
-                        arr.append((time as? String)!)
-                    }
-                    print("time Arr is %@", arr);
-                    let timeString = arr.joinWithSeparator(", ")
-                    print("***** timeString is %@", timeString)
-                    schedulingCell!.descriptionLabel.text = timeString
+                if (timeArray?.count > 0) {
+                    let timeString = DCSchedulingHelper.administratingTimesStringFromTimeArray(timeArray!)
+                    schedulingCell!.descriptionLabel.text = timeString as String
                 }
-                
             } else if (indexPath.row == 1) {
                 schedulingCell!.titleLabel?.text = NSLocalizedString("REPEAT", comment: "")
                 schedulingCell!.descriptionLabel.text = scheduling?.repeatObject?.repeatType

@@ -173,7 +173,7 @@
             cell.titleLabel.textColor = [UIColor blackColor];
         }
     }
-    cell.titleLabel.text = NSLocalizedString(@"DOSE", @"Dosage cell title");
+    cell.titleLabel.text = NSLocalizedString(@"DOSAGE", @"Dosage cell title");
     cell.descriptionLabel.numberOfLines = 0;
     cell.descriptionLabel.text = self.selectedMedication.dosage;
     return cell;
@@ -918,7 +918,7 @@
             cell.titleLabel.textColor = [UIColor blackColor];
         }
     }
-    cell.titleLabel.text = NSLocalizedString(@"DOSE", @"Dose cell title");
+    cell.titleLabel.text = NSLocalizedString(@"DOSAGE", @"Dose cell title");
     [cell configureContentCellWithContent:self.selectedMedication.dosage];
     return cell;
 }
