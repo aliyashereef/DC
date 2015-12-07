@@ -737,9 +737,14 @@ typedef enum : NSUInteger {
     dateLabel.textAlignment = NSTextAlignmentCenter;
     dateLabel.font = [UIFont systemFontOfSize:20];
     dateLabel.numberOfLines = 1;
-    [dateView addSubview:dateLabel];
-    [calendarTopHolderView addSubview:dateView];
-    [calendarTopHolderView setHidden:NO];
+    if(isOneThirdMedicationViewShown) {
+        [dateView addSubview:dateLabel];
+        [calendarTopHolderView addSubview:dateView];
+        [calendarTopHolderView setHidden:NO];
+    } else {
+        [dateView removeFromSuperview];
+    }
+    
 }
 
 - (void)updatePrescriberMedicationListDetails {

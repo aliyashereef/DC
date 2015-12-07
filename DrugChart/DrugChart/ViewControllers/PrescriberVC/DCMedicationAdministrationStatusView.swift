@@ -51,7 +51,8 @@ class DCMedicationAdministrationStatusView: UIView {
     override init(frame: CGRect) {
         
         super.init(frame: frame)
-        addViewElements()
+         addViewElements()
+        administerButton?.enabled = false
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -73,7 +74,7 @@ class DCMedicationAdministrationStatusView: UIView {
         self.addSubview(administerButton!)
         self.sendSubviewToBack(administerButton!)
         administerButton?.addTarget(self, action: Selector("administerButtonClicked:"), forControlEvents: .TouchUpInside)
-        if (medicationCategory == WHEN_REQUIRED) {
+        if (medicationCategory == WHEN_REQUIRED || medicationCategory == ONCE_MEDICATION) {
             self.disableAdministerButton()
         }
     }
