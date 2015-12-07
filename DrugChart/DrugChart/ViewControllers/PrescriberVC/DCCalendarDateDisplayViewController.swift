@@ -30,13 +30,14 @@ import UIKit
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        calendarViewWidthConstraint.constant = (DCUtility.mainWindowSize().width - MEDICATION_VIEW_WIDTH);
+        self.adjustHolderFrameAndDisplayDates()
         self.displayDatesInView()
     }
     
 //    override func viewDidLayoutSubviews() {
 //        super.viewDidLayoutSubviews()
 //        if windowSizeChanged {
+//            calendarViewWidthConstraint.constant = (DCUtility.mainWindowSize().width - MEDICATION_VIEW_WIDTH);
 //            self.displayDatesInView()
 //            windowSizeChanged = false
 //        }
@@ -126,6 +127,11 @@ import UIKit
     func dateContainerViewWidth () -> (CGFloat) {
         
         return DCUtility.mainWindowSize().width
+    }
+    
+    func adjustHolderFrameAndDisplayDates () {
+        
+        calendarViewWidthConstraint.constant = (DCUtility.mainWindowSize().width - MEDICATION_VIEW_WIDTH);
     }
 
     // Populate the dates for the previous and next date views
