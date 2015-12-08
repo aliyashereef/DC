@@ -14,6 +14,7 @@ import QuartzCore
     
     var dateLabel: UILabel = UILabel()
     var indicatorLabel: UILabel = UILabel()
+    var indicatorImageView : UIImageView = UIImageView()
     let dateViewFormat : NSString = "EEE d"
     let dayViewFormat : NSString = "d"
     let weekDayViewFormat : NSString = "EEE   '...'"
@@ -62,14 +63,17 @@ import QuartzCore
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = dayViewFormat as String
         let dateString = dateFormatter.stringFromDate(today)
-        indicatorLabel.frame = CGRectMake(81, 12.0, 25, 25)
+        indicatorImageView.frame = CGRectMake(81, 12.0, 28, 28)
+        indicatorImageView.image = UIImage(named: "CurrentDateBlueRound")
+        self.addSubview(indicatorImageView)
+        indicatorLabel.frame = CGRectMake(81, 12.0, 28, 28)
         indicatorLabel.font = UIFont.systemFontOfSize(17)
         indicatorLabel.textAlignment = .Center
         indicatorLabel.textColor = UIColor.whiteColor()
         indicatorLabel.text = dateString
-        indicatorLabel.backgroundColor = UIColor(forHexString: "#007aff")
-        indicatorLabel.layer.cornerRadius = 12.5
-        indicatorLabel.layer.masksToBounds = true
+//        indicatorLabel.backgroundColor = UIColor(forHexString: "#007aff")
+//        indicatorLabel.layer.cornerRadius = 12.5
+//        indicatorLabel.layer.masksToBounds = true
         self.addSubview(indicatorLabel)
     }
 }

@@ -207,7 +207,18 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
                 self.scheduling?.repeatObject.frequency = "1 day"
                 self.scheduling?.schedulingDescription = String(format: "%@ day.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
             }
-            tableView.reloadData()
+            tableView.beginUpdates()
+            let sectionCount = tableView.numberOfSections
+            tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Fade)
+            if (sectionCount == INITIAL_SECTION_COUNT) {
+                //if section count is zero insert new section with animation
+                tableView.insertSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
+            } else {
+                //other wise reload the same section
+                tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
+            }
+            tableView.endUpdates()
+
         } else if (indexPath.section == 1) {
             if (indexPath.row == 0) {
                 presentAdministrationTimeView()
