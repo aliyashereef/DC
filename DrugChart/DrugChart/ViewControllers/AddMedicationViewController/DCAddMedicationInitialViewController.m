@@ -154,7 +154,7 @@
         cell = [self updatedAdministrationTimeTableCell:cell];
     } else if (type == eRepeatCell) {
         cell.titleLabel.text = NSLocalizedString(@"REPEAT", @"");
-        [cell configureContentCellWithContent:self.selectedMedication.scheduling.repeatObject.repeatType];
+        [cell configureContentCellWithContent:self.selectedMedication.scheduling.specificTimes.repeatObject.repeatType];
     }
     return cell;
 }

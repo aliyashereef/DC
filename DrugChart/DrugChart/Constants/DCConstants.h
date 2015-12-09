@@ -184,6 +184,7 @@
 #define SCHEDULING_PICKER_CELL_ID @"SchedulingPickerCellId"
 #define SCHEDULING_INITIAL_CELL_ID @"SchedulingInitialCellId"
 #define SCHEDULING_DESCRIPTION_CELL_ID @"SchedulingDescriptionCell"
+#define SCHEDULING_TIME_CELL_ID @"SchedulingTimeCell"
 
 
 // title for views

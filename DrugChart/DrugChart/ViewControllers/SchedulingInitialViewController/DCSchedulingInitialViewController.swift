@@ -13,6 +13,10 @@ let TOTAL_SECTION_COUNT : NSInteger = 2
 let TABLE_SECTION_HEIGHT : CGFloat = 10.0
 let DESCRIPTION_CELL_INDEX : NSInteger = 2
 let INSTRUCTIONS_ROW_HEIGHT : CGFloat = 78
+let FREQUENCY_TYPES_COUNT : NSInteger = 2
+let SPECIFIC_TIMES_ROW_COUNT : NSInteger = 3
+let INTERVAL_ROW_COUNT : NSInteger = 5
+
 
 typealias SelectedScheduling = DCScheduling? -> Void
 typealias UpdatedTimeArray = NSMutableArray? -> Void
@@ -70,10 +74,10 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
             //inside our closure
             print("Frequency value is %@", value)
             self.scheduling?.type = String(value!)
-            if (self.scheduling?.repeatObject?.repeatType == nil) {
-                self.scheduling?.repeatObject = DCRepeat.init()
-                self.scheduling?.repeatObject.repeatType = DAILY
-                self.scheduling?.repeatObject.frequency = "1 day"
+            if (self.scheduling?.specificTimes?.repeatObject?.repeatType == nil) {
+                self.scheduling?.specificTimes?.repeatObject = DCRepeat.init()
+                self.scheduling?.specificTimes?.repeatObject.repeatType = DAILY
+                self.scheduling?.specificTimes?.repeatObject.frequency = "1 day"
                 self.scheduling?.schedulingDescription = String(format: "%@ day.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
             }
             self.schedulingTableView.reloadData()
@@ -98,41 +102,52 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         
         //configure scheduling table cell
         let schedulingCell : DCSchedulingCell? = schedulingTableView.dequeueReusableCellWithIdentifier(SCHEDULING_INITIAL_CELL_ID) as? DCSchedulingCell
-        if (indexPath.section == 0) {
-            //highlight field in red if scheduling type is nil when save button is pressed in add medication screen
-            if (indexPath.row == 0) {
-                schedulingCell!.titleLabel?.text = SPECIFIC_TIMES
-                if (scheduling?.type == SPECIFIC_TIMES) {
-                    schedulingCell?.accessoryType = UITableViewCellAccessoryType.Checkmark
-                } else {
-                    schedulingCell?.accessoryType = UITableViewCellAccessoryType.None
-                }
-            } else {
-                schedulingCell!.titleLabel?.text = INTERVAL
-                if (scheduling?.type == INTERVAL) {
-                    schedulingCell?.accessoryType = UITableViewCellAccessoryType.Checkmark
-                } else {
-                    schedulingCell?.accessoryType = UITableViewCellAccessoryType.None
-                }
-            }
-        } else {
+        if (indexPath.section == 1) {
             schedulingCell?.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
-            if (indexPath.row == 0) {
-                //highlight field in red if time array is empty when save button is pressed in add medication screen
-                schedulingCell!.titleLabel.textColor = (validate &&  (timeArray == nil || timeArray?.count == 0)) ? UIColor.redColor() : UIColor.blackColor()
-                schedulingCell!.titleLabel?.text = NSLocalizedString("ADMINISTRATION_TIMES", comment: "")
-                if (timeArray?.count > 0) {
-                    let timeString = DCSchedulingHelper.administratingTimesStringFromTimeArray(timeArray!)
-                    schedulingCell!.descriptionLabel.text = timeString as String
+            if (scheduling?.type == SPECIFIC_TIMES) {
+                if (indexPath.row == 0) {
+                    //highlight field in red if time array is empty when save button is pressed in add medication screen
+                    schedulingCell!.titleLabel.textColor = (validate &&  (timeArray == nil || timeArray?.count == 0)) ? UIColor.redColor() : UIColor.blackColor()
+                    schedulingCell!.titleLabel?.text = NSLocalizedString("ADMINISTRATION_TIMES", comment: "")
+                    if (timeArray?.count > 0) {
+                        let timeString = DCSchedulingHelper.administratingTimesStringFromTimeArray(timeArray!)
+                        schedulingCell!.descriptionLabel.text = timeString as String
+                    }
+                } else if (indexPath.row == 1) {
+                    schedulingCell!.titleLabel?.text = NSLocalizedString("REPEAT", comment: "")
+                    schedulingCell!.descriptionLabel.text = scheduling?.specificTimes?.repeatObject?.repeatType
+                } else {
+                    schedulingCell!.titleLabel?.text = NSLocalizedString("DESCRIPTION", comment: "")
                 }
-            } else if (indexPath.row == 1) {
-                schedulingCell!.titleLabel?.text = NSLocalizedString("REPEAT", comment: "")
-                schedulingCell!.descriptionLabel.text = scheduling?.repeatObject?.repeatType
             } else {
-                schedulingCell!.titleLabel?.text = NSLocalizedString("DESCRIPTION", comment: "")
+                //configure section 1 for scheduling type interval
+                switch indexPath.row {
+                case 0 :
+                    schedulingCell!.titleLabel?.text = NSLocalizedString("REPEAT_FREQUENCY", comment: "")
+                    schedulingCell!.descriptionLabel.text = scheduling?.interval?.repeatFrequency
+                    break
+                default :
+                    break
+                }
             }
         }
         return schedulingCell!
+    }
+    
+    func timeCellAtIndexPath(indexPath : NSIndexPath) -> DCSchedulingTimeCell {
+        
+        // scheduling time cell
+        let timeCell = schedulingTableView.dequeueReusableCellWithIdentifier(SCHEDULING_TIME_CELL_ID) as? DCSchedulingTimeCell
+        if (indexPath.row == 1) {
+            timeCell?.configureSetStartAndEndTimeCell()
+        } else if (indexPath.row == 2) {
+            let startTime = self.scheduling?.interval?.startTime == nil ? EMPTY_STRING : self.scheduling?.interval?.startTime
+            timeCell?.configureTimeCellForTimeType(NSLocalizedString("START_TIME", comment: "start time title"), withSelectedValue:startTime!)
+        } else if (indexPath.row == 3) {
+            let endTime = self.scheduling?.interval?.endTime == nil ? EMPTY_STRING : self.scheduling?.interval?.endTime
+            timeCell?.configureTimeCellForTimeType(NSLocalizedString("END_TIME", comment: "end time title"), withSelectedValue: endTime!)
+        }
+        return timeCell!
     }
     
     func descriptionCellAtIndexPath(indexPath : NSIndexPath) -> DCSchedulingDescriptionTableCell {
@@ -150,6 +165,33 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         return descriptionCell!
     }
     
+    func specificTimescellAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
+        
+        if (indexPath.row == DESCRIPTION_CELL_INDEX) {
+            // display description field for specific times scheduling
+            let descriptionCell : DCSchedulingDescriptionTableCell? = descriptionCellAtIndexPath(indexPath)
+            return descriptionCell!
+        } else {
+            let schedulingCell : DCSchedulingCell? = frequencyCellAtIndexPath(indexPath)
+            return schedulingCell!
+        }
+    }
+    
+    func intervalCellAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
+        
+        if (indexPath.row == 0) {
+            //repeat frequency cell
+            let repeatFrequencyCell : DCSchedulingCell? = frequencyCellAtIndexPath(indexPath)
+            return repeatFrequencyCell!
+        } else if (indexPath.row == 1 || indexPath.row == 2 || indexPath.row == 3) {
+            let timeCell = timeCellAtIndexPath(indexPath)
+            return timeCell
+        } else {
+            let descriptionCell : DCSchedulingDescriptionTableCell? = descriptionCellAtIndexPath(indexPath)
+            return descriptionCell!
+        }
+    }
+    
     // MARK: TableView Methods
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -164,47 +206,58 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if section == 0 {
-            return 2
+            return FREQUENCY_TYPES_COUNT
         } else {
-            return 3
+            if (self.scheduling?.type == SPECIFIC_TIMES) {
+                return SPECIFIC_TIMES_ROW_COUNT
+            } else {
+                return 5
+            }
         }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        if (self.scheduling?.type == nil) {
+        if (indexPath.section == 0) {
+            //highlight field in red if scheduling type is nil when save button is pressed in add medication screen
             let schedulingCell : DCSchedulingCell? = frequencyCellAtIndexPath(indexPath)
+            if (indexPath.row == 0) {
+                schedulingCell!.titleLabel?.text = SPECIFIC_TIMES
+                schedulingCell?.accessoryType = scheduling?.type == SPECIFIC_TIMES ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
+            } else {
+                schedulingCell!.titleLabel?.text = INTERVAL
+                schedulingCell?.accessoryType = scheduling?.type == INTERVAL ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
+            }
             return schedulingCell!
         } else {
-            if (indexPath.row == DESCRIPTION_CELL_INDEX) {
-                // display description field for specific times scheduling
-                let descriptionCell : DCSchedulingDescriptionTableCell? = descriptionCellAtIndexPath(indexPath)
-                return descriptionCell!
+            if (self.scheduling?.type == SPECIFIC_TIMES) {
+                let specificTimesCell = specificTimescellAtIndexPath(indexPath)
+                return specificTimesCell
             } else {
-                let schedulingCell : DCSchedulingCell? = frequencyCellAtIndexPath(indexPath)
-                return schedulingCell!
+                let intervalCell = intervalCellAtIndexPath(indexPath)
+                return intervalCell
             }
         }
      }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
-        if (indexPath.row == DESCRIPTION_CELL_INDEX) {
-            return INSTRUCTIONS_ROW_HEIGHT
+        if (self.scheduling?.type == SPECIFIC_TIMES) {
+            return indexPath.row == DESCRIPTION_CELL_INDEX ? INSTRUCTIONS_ROW_HEIGHT : TABLE_VIEW_ROW_HEIGHT
         } else {
-            return TABLE_VIEW_ROW_HEIGHT
+            return indexPath.row == 4 ? INSTRUCTIONS_ROW_HEIGHT : TABLE_VIEW_ROW_HEIGHT
         }
     }
 
-    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        if (indexPath.section == 0 && indexPath.row == 0) {
+        if (indexPath.section == 0) {
             self.scheduling?.type = (indexPath.row == 0) ? SPECIFIC_TIMES : INTERVAL
-            if (self.scheduling?.repeatObject?.repeatType == nil) {
-                self.scheduling?.repeatObject = DCRepeat.init()
-                self.scheduling?.repeatObject.repeatType = DAILY
-                self.scheduling?.repeatObject.frequency = "1 day"
+            if (self.scheduling?.specificTimes == nil) {
+                self.scheduling?.specificTimes = DCSpecificTimes.init()
+                self.scheduling?.specificTimes?.repeatObject = DCRepeat.init()
+                self.scheduling?.specificTimes?.repeatObject.repeatType = DAILY
+                self.scheduling?.specificTimes?.repeatObject.frequency = "1 day"
                 self.scheduling?.schedulingDescription = String(format: "%@ day.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
             }
             tableView.beginUpdates()
