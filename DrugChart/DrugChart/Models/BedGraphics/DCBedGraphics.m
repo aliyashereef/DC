@@ -35,7 +35,7 @@
             self.bedColor = [UIColor colorForHexString:colorHexString];
         }
         @catch (NSException *exception) {
-            NSLog(@"Excpetion found in setting bed graphics model: %@",exception.description);
+            DDLogError(@"Excpetion found in setting bed graphics model: %@",exception.description);
         }
         
     }

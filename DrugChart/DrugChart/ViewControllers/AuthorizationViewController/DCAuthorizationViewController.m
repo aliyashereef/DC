@@ -169,7 +169,7 @@ didFailLoadWithError:(NSError *)error {
         DCAppDelegate *appDelegate = DCAPPDELEGATE;
         NSURL* baseURL = [NSURL URLWithString:appDelegate.baseURL];
         if ([challenge.protectionSpace.host isEqualToString:baseURL.host]) {
-            NSLog(@"trusting connection to host %@", challenge.protectionSpace.host);
+            DDLogInfo(@"trusting connection to host %@", challenge.protectionSpace.host);
             [challenge.sender useCredential:[NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust] forAuthenticationChallenge:challenge];
         } 
     }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CocoaLumberjack
 
 let CELL_IDENTIFIER = "prescriberIdentifier"
 
@@ -321,7 +322,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     
     func resetCellToOriginalConstraints(medicationCell : PrescriberMedicationTableViewCell) {
         
-        print("***** Rest to Original constraints ****")
+        DDLogInfo("***** Rest to Original constraints ****")
         medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
         medicationCell.layoutIfNeeded()
     }

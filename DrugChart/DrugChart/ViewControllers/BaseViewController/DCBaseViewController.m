@@ -108,7 +108,7 @@
             }
         }
     }
-    NSLog(@"The window state is : %ld", (unsigned long int)appDelegate.windowState);
+    DDLogInfo(@"The window state is : %ld", (unsigned long int)appDelegate.windowState);
     
 }
 

@@ -116,7 +116,7 @@
                     //time out error here
                     [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"") message:@"Webservice call has timed out."];
                 } else {
-                    DCDebugLog(@"error response info %@", errorResponse);
+                    DDLogError(@"error response info %ld", (long)errorCode);
                 }
             }
         }
