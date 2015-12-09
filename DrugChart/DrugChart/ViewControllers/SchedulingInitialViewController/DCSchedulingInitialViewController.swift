@@ -64,7 +64,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         let storyBoard = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil)
         let schedulingDetailViewController = storyBoard.instantiateViewControllerWithIdentifier(SCHEDULING_DETAIL_STORYBOARD_ID) as? DCSchedulingDetailViewController
         schedulingDetailViewController!.scheduling = self.scheduling;
-        schedulingDetailViewController?.detailType = DCSchedulingHelper.schedulingDetailTypeAtIndexPath(indexPath)
+        schedulingDetailViewController?.detailType = DCSchedulingHelper.schedulingDetailTypeAtIndexPath(indexPath, forFrequencyType: (self.scheduling?.type)!)
         if indexPath.section == 0 {
             if (self.scheduling?.type != nil) {
                 schedulingDetailViewController?.previousFilledValue = (self.scheduling?.type)!
@@ -84,6 +84,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         }
         self.navigationController?.pushViewController(schedulingDetailViewController!, animated: true)
     }
+    
         
     func presentAdministrationTimeView() {
         
@@ -192,6 +193,33 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         }
     }
     
+    func configureFrequencyTableForFrequencyTypeSelectionAtindexPath(indexPath : NSIndexPath) {
+        
+        //check which frequenct type is selected and animate table sections based on that
+        self.scheduling?.type = (indexPath.row == 0) ? SPECIFIC_TIMES : INTERVAL
+        if (self.scheduling?.specificTimes == nil) {
+            self.scheduling?.specificTimes = DCSpecificTimes.init()
+            self.scheduling?.specificTimes?.repeatObject = DCRepeat.init()
+            self.scheduling?.specificTimes?.repeatObject.repeatType = DAILY
+            self.scheduling?.specificTimes?.repeatObject.frequency = "1 day"
+            self.scheduling?.schedulingDescription = String(format: "%@ day.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
+        } else if (self.scheduling?.interval == nil) {
+            //initialise interval
+            self.scheduling?.interval = DCInterval.init()
+        }
+        schedulingTableView.beginUpdates()
+        let sectionCount = schedulingTableView.numberOfSections
+        schedulingTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Fade)
+        if (sectionCount == INITIAL_SECTION_COUNT) {
+            //if section count is zero insert new section with animation
+            schedulingTableView.insertSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
+        } else {
+            //other wise reload the same section
+            schedulingTableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
+        }
+        schedulingTableView.endUpdates()
+    }
+    
     // MARK: TableView Methods
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -228,6 +256,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
                 schedulingCell!.titleLabel?.text = INTERVAL
                 schedulingCell?.accessoryType = scheduling?.type == INTERVAL ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
             }
+            schedulingCell?.descriptionLabel.hidden = true
             return schedulingCell!
         } else {
             if (self.scheduling?.type == SPECIFIC_TIMES) {
@@ -252,31 +281,20 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         if (indexPath.section == 0) {
-            self.scheduling?.type = (indexPath.row == 0) ? SPECIFIC_TIMES : INTERVAL
-            if (self.scheduling?.specificTimes == nil) {
-                self.scheduling?.specificTimes = DCSpecificTimes.init()
-                self.scheduling?.specificTimes?.repeatObject = DCRepeat.init()
-                self.scheduling?.specificTimes?.repeatObject.repeatType = DAILY
-                self.scheduling?.specificTimes?.repeatObject.frequency = "1 day"
-                self.scheduling?.schedulingDescription = String(format: "%@ day.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
-            }
-            tableView.beginUpdates()
-            let sectionCount = tableView.numberOfSections
-            tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Fade)
-            if (sectionCount == INITIAL_SECTION_COUNT) {
-                //if section count is zero insert new section with animation
-                tableView.insertSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
+            configureFrequencyTableForFrequencyTypeSelectionAtindexPath(indexPath)
+        } else {
+            if (self.scheduling?.type == SPECIFIC_TIMES) {
+                if (indexPath.row == 0) {
+                    presentAdministrationTimeView()
+                } else if (indexPath.row == 1) {
+                    displaySchedulingDetailViewControllerForSelectedIndexPath(indexPath)
+                }
             } else {
-                //other wise reload the same section
-                tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
-            }
-            tableView.endUpdates()
-
-        } else if (indexPath.section == 1) {
-            if (indexPath.row == 0) {
-                presentAdministrationTimeView()
-            } else if (indexPath.row == 1) {
-                displaySchedulingDetailViewControllerForSelectedIndexPath(indexPath)
+                //cell selection for interval table cells
+                if (indexPath.row == 0) {
+                    displaySchedulingDetailViewControllerForSelectedIndexPath(indexPath)
+                }
+                
             }
         }
         tableView.deselectRowAtIndexPath(indexPath, animated: true)

@@ -14,10 +14,10 @@ class DCSchedulingHelper: NSObject {
         
         //screen title for detail type
         var title = EMPTY_STRING
-        if (screenType == eDetailSchedulingType) {
-            title = NSLocalizedString("BASE_FREQUENCY", comment:"")
-        } else if (screenType == eDetailRepeatType) {
+        if (screenType == eDetailSpecificTimesRepeatType) {
             title = NSLocalizedString("REPEAT", comment: "")
+        } else if (screenType == eDetailIntervalRepeatFrequency) {
+            title = NSLocalizedString("REPEAT_FREQUENCY", comment: "")
         }
         return title
     }
@@ -27,22 +27,59 @@ class DCSchedulingHelper: NSObject {
         var scheduleArray = NSMutableArray()
         if (screenType == eDetailSchedulingType) {
             scheduleArray = [SPECIFIC_TIMES, INTERVAL]
-        } else if (screenType == eDetailRepeatType) {
+        } else if (screenType == eDetailSpecificTimesRepeatType) {
             scheduleArray = [FREQUENCY, EVERY]
         }
         return scheduleArray
     }
     
-    static func schedulingDetailTypeAtIndexPath(indexPath : NSIndexPath) -> SchedulingDetailType? {
+    static func schedulingDetailTypeAtIndexPath(indexPath : NSIndexPath, forFrequencyType type : NSString) -> SchedulingDetailType? {
         
         if indexPath.section == 0 {
             return eDetailSchedulingType
         } else {
-            if indexPath.row == 1 {
-                return eDetailRepeatType
+            if type == SPECIFIC_TIMES {
+                if indexPath.row == 1 {
+                    return eDetailSpecificTimesRepeatType
+                }
+            } else {
+                //interval frequency
+                if indexPath.row == 0 {
+                    return eDetailIntervalRepeatFrequency
+                }
             }
         }
         return nil
+    }
+    
+    static func specificTimesDescriptionValueForRepeatFrequency(repeatFrequency : NSString) -> NSString {
+        
+        switch repeatFrequency {
+        case SINGLE_DAY :
+            return DAY
+        case SINGLE_WEEK :
+            return WEEK
+        case SINGLE_MONTH :
+            return MONTH
+        default:
+            return repeatFrequency
+        }
+    }
+    
+    static func specificTimesPickerTypeForRepeatType(repeatType : NSString) -> PickerType {
+        
+        switch repeatType {
+        case DAILY :
+            return eDailyCount
+        case WEEKLY :
+            return eWeeklyCount
+        case MONTHLY :
+            return eMonthlyCount
+        case YEARLY :
+            return eYearlyCount
+        default :
+            return eDailyCount
+        }
     }
     
     static func scheduleDescriptionForReapeatValue(repeatValue : DCRepeat) -> NSMutableString {
@@ -187,6 +224,14 @@ class DCSchedulingHelper: NSObject {
       }
        return EMPTY_STRING
     }
-
+    
+    static func numbersArrayWithMaximumCount(maxCount : NSInteger) -> NSMutableArray {
+        
+        let numbersArray = NSMutableArray()
+        for number : NSInteger in 1...7 {
+            [numbersArray.addObject(number)]
+        }
+        return numbersArray;
+    }
     
 }

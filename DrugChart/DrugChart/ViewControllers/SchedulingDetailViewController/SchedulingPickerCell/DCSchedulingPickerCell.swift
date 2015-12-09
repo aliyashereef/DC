@@ -37,41 +37,35 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
             contentArray = [DAILY, WEEKLY, MONTHLY, YEARLY]
         } else if (pickerType! == eDailyCount) {
             //daily count
-            for number : NSInteger in 1...7 {
-                [contentArray?.addObject(number)]
-            }
+            contentArray = DCSchedulingHelper.numbersArrayWithMaximumCount(7)
         } else if (pickerType! == eWeeklyCount) {
             // weekly count
-            for number : NSInteger in 1...5 {
-                [contentArray?.addObject(number)]
-            }
+            contentArray = DCSchedulingHelper.numbersArrayWithMaximumCount(5)
         } else if (pickerType! == eMonthlyCount) {
             //monthly count
-            for number : NSInteger in 1...12 {
-                [contentArray?.addObject(number)]
-            }
+            contentArray = DCSchedulingHelper.numbersArrayWithMaximumCount(12)
         } else if (pickerType! == eMonthEachCount) {
-            for number : NSInteger in 1...31 {
-                [contentArray?.addObject(number)]
-            }
+            contentArray = DCSchedulingHelper.numbersArrayWithMaximumCount(31)
         } else if (pickerType! == eMonthOnTheCount) {
             //yearly count
             contentArray = [FIRST, SECOND, THIRD, FOURTH, FIFTH, LAST]
         } else if (pickerType! == eYearlyCount) {
             //yearly count
-            for number : NSInteger in 1...25 {
-                [contentArray?.addObject(number)]
-            }
-        } else if (pickerType! == eYearEachCount) {
+            contentArray = DCSchedulingHelper.numbersArrayWithMaximumCount(25)
+        } else if (pickerType! == eYearEachCount || pickerType! == eDayCount) {
             //yearly each picker view
-            for number : NSInteger in 1...31 {
-                [contentArray?.addObject(number)]
-            }
+            contentArray = DCSchedulingHelper.numbersArrayWithMaximumCount(31)
              monthArray = DCDateUtility.monthNames()
         } else if (pickerType! == eYearOnTheCount) {
             //yearly on the picker view
             contentArray = [FIRST, SECOND, THIRD, FOURTH, FIFTH, LAST]
             monthArray = DCDateUtility.monthNames()
+        } else if (pickerType! == eHoursCount) {
+            //hours count
+            contentArray = DCSchedulingHelper.numbersArrayWithMaximumCount(24)
+        } else if (pickerType! == eMinutesCount) {
+            //minutes count
+            contentArray = DCSchedulingHelper.numbersArrayWithMaximumCount(60)
         }
     }
     
@@ -224,7 +218,7 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
     
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
         
-        if (pickerType! == eSchedulingFrequency || pickerType! == eMonthEachCount) {
+        if (pickerType! == eSchedulingFrequency || pickerType! == eMonthEachCount || pickerType! == eDayCount) {
             return 1
         } else if (pickerType! == eYearOnTheCount) {
             return 3

@@ -10,6 +10,7 @@
 
 @interface DCInterval : NSObject
 
+@property (nonatomic, strong) NSString *repeatFrequencyType;
 @property (nonatomic, strong) NSString *repeatFrequency;
 @property (nonatomic) BOOL hasStartAndEndDate;
 @property (nonatomic, strong) NSString *startTime;
