@@ -15,6 +15,8 @@ let dosageMenuItems = ["Fixed","Variable","Reducing / Increasing","Split Daily"]
 class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     var detailType : DosageDetailType = eDosageMenu
+    var isRowAlreadySelected : Bool = false
+    var previousIndexPath = NSIndexPath(forRow: 5, inSection: 0)
     @IBOutlet weak var dosageTableView: UITableView!
     
     override func viewDidLoad() {
@@ -44,7 +46,7 @@ class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, 
             return 1
         } else if (detailType == eSplitDaily) {
             
-            return 4
+            return 2
         } else {
             
             return 2
@@ -60,8 +62,10 @@ class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, 
             
             switch(detailType.rawValue) {
                 
-            case eFixedDosage.rawValue, eSplitDaily.rawValue:
+            case eFixedDosage.rawValue:
                 return 2
+            case eSplitDaily.rawValue:
+                return 2 
             case eVariableDosage.rawValue:
                 return 3
             case eReducingIncreasing.rawValue:
@@ -72,9 +76,6 @@ class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, 
         } else if (section == 2) {
             
             return 4
-        } else {
-            
-            return 1
         }
         return 1
     }
@@ -84,45 +85,88 @@ class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, 
         let dosageSelectionMenuCell : DCDosageSelectionTableViewCell? = dosageTableView.dequeueReusableCellWithIdentifier(dosageCellID as String) as? DCDosageSelectionTableViewCell
         // Configure the cell...
         dosageSelectionMenuCell!.dosageMenuLabel.text = dosageMenuItems[indexPath.row]
+        
+        if (indexPath.row == previousIndexPath.row && indexPath.section == 0) {
+            
+            dosageSelectionMenuCell?.accessoryType = .Checkmark
+        } else {
+            
+            dosageSelectionMenuCell?.accessoryType = .None
+        }
+
         return dosageSelectionMenuCell!
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         if (indexPath.section == 0) {
+        previousIndexPath = indexPath
+        }
+        tableView.reloadData()
+        if (indexPath.section == 0) {
             
             switch (indexPath.row) {
                 
             case 0:
-                detailType = eFixedDosage
+                if (detailType == eFixedDosage){
+                    
+                    tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .None
+                    isRowAlreadySelected = true
+                }else {
+                    
+                    detailType = eFixedDosage
+                }
             case 1:
-                detailType = eVariableDosage
+                if (detailType == eVariableDosage){
+                    
+                    tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .None
+                    isRowAlreadySelected = true
+                }else {
+                    
+                    detailType = eVariableDosage
+                }
             case 2:
-                detailType = eReducingIncreasing
+                if (detailType == eReducingIncreasing){
+                    
+                    tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .None
+                    isRowAlreadySelected = true
+                }else {
+                    
+                    detailType = eReducingIncreasing
+                }
             case 3:
-                detailType = eSplitDaily
+                if (detailType == eSplitDaily){
+                    
+                    tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .None
+                    isRowAlreadySelected = true
+                }else {
+                    
+                    detailType = eSplitDaily
+                }
             default:
                 break
             }
         }
+        if (isRowAlreadySelected == true){
+            
+            detailType = eDosageMenu
+            isRowAlreadySelected = false
+            tableView.deleteSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+        } else {
+            
             tableView.beginUpdates()
             let sectionCount = tableView.numberOfSections
-            tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Fade)
-            if (sectionCount == INITIAL_SECTION_COUNT && detailType != eSplitDaily) {
+            //tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Fade)
+            if (sectionCount == INITIAL_SECTION_COUNT) {
                 //if section count is zero insert new section with animation
-                tableView.insertSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
+                tableView.insertSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
             } else {
                 //other wise reload the same section
-                tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
+                tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
             }
             tableView.endUpdates()
-            
+        }
+        
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
-
-    
-    /*
-    // MARK: - Navigation
-    */
-
 }
