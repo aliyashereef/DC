@@ -21,7 +21,7 @@ let INTERVAL_ROW_COUNT : NSInteger = 5
 typealias SelectedScheduling = DCScheduling? -> Void
 typealias UpdatedTimeArray = NSMutableArray? -> Void
 
-class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, InstructionCellDelegate, AddMedicationDetailDelegate {
+class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, InstructionCellDelegate, AddMedicationDetailDelegate, SchedulingTimeCellDelegate {
 
     @IBOutlet weak var schedulingTableView: UITableView!
     
@@ -139,6 +139,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         
         // scheduling time cell
         let timeCell = schedulingTableView.dequeueReusableCellWithIdentifier(SCHEDULING_TIME_CELL_ID) as? DCSchedulingTimeCell
+        timeCell!.schedulingCellDelegate = self
         if (indexPath.row == 1) {
             timeCell?.configureSetStartAndEndTimeCell()
         } else if (indexPath.row == 2) {
@@ -206,6 +207,8 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         } else if (self.scheduling?.interval == nil) {
             //initialise interval
             self.scheduling?.interval = DCInterval.init()
+            //initial SetStartAndEndDate switch should be true
+            self.scheduling?.interval?.hasStartAndEndDate = true
         }
         schedulingTableView.beginUpdates()
         let sectionCount = schedulingTableView.numberOfSections
@@ -239,7 +242,11 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
             if (self.scheduling?.type == SPECIFIC_TIMES) {
                 return SPECIFIC_TIMES_ROW_COUNT
             } else {
-                return 5
+                if (self.scheduling?.interval?.hasStartAndEndDate == true) {
+                    return 5
+                } else {
+                    return 3
+                }
             }
         }
     }
@@ -274,7 +281,11 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         if (self.scheduling?.type == SPECIFIC_TIMES) {
             return indexPath.row == DESCRIPTION_CELL_INDEX ? INSTRUCTIONS_ROW_HEIGHT : TABLE_VIEW_ROW_HEIGHT
         } else {
-            return indexPath.row == 4 ? INSTRUCTIONS_ROW_HEIGHT : TABLE_VIEW_ROW_HEIGHT
+            if (self.scheduling?.interval?.hasStartAndEndDate == true) {
+                return indexPath.row == 4 ? INSTRUCTIONS_ROW_HEIGHT : TABLE_VIEW_ROW_HEIGHT
+            } else {
+                return indexPath.row == 2 ? INSTRUCTIONS_ROW_HEIGHT : TABLE_VIEW_ROW_HEIGHT
+            }
         }
     }
 
@@ -313,7 +324,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
     
     func scrollTableViewToTextViewCellIfInstructionField(isInstruction: Bool) {
         
-        schedulingTableView.setContentOffset(CGPointMake(0, 80), animated: true)
+        schedulingTableView.setContentOffset(CGPointMake(0, 90), animated: true)
     }
     
     func updateTextViewText(instructions: String!, isInstruction: Bool) {
@@ -328,5 +339,25 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         //new administration time added
         self.timeArray = NSMutableArray(array: timeArray)
         self.updatedTimeArray(self.timeArray)
+    }
+    
+    //MARK: SchedulingTimeCell Delegate Methods
+    
+    func setStartEndTimeSwitchValueChanged(state : Bool) {
+        
+        //configure table based on the switch state
+        print("switch state is %d", state)
+        if (state == false) {
+            //delete start time, end time table cells
+            self.scheduling?.interval.hasStartAndEndDate = false
+            schedulingTableView.beginUpdates()
+            schedulingTableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: 2, inSection: 1), NSIndexPath(forRow: 3, inSection: 1)], withRowAnimation: .Fade)
+            schedulingTableView.endUpdates()
+        } else {
+            self.scheduling?.interval.hasStartAndEndDate = true
+            schedulingTableView.beginUpdates()
+            schedulingTableView.insertRowsAtIndexPaths([NSIndexPath(forRow: 2, inSection: 1), NSIndexPath(forRow: 3, inSection: 1)], withRowAnimation: .Fade)
+            schedulingTableView.endUpdates()
+        }
     }
 }

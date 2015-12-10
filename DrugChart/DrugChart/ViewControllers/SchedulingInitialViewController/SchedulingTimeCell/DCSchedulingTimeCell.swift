@@ -8,11 +8,17 @@
 
 import UIKit
 
+protocol SchedulingTimeCellDelegate {
+    
+    func setStartEndTimeSwitchValueChanged(state : Bool)
+}
+
 class DCSchedulingTimeCell: UITableViewCell {
     
     @IBOutlet weak var timeTypeLabel: UILabel! //title
     @IBOutlet weak var timeValueLabel: UILabel! // selected value
     @IBOutlet weak var timeSwitch: UISwitch! // switch to set/unset start&endtime
+    var schedulingCellDelegate : SchedulingTimeCellDelegate?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -47,7 +53,9 @@ class DCSchedulingTimeCell: UITableViewCell {
     //MARK: Action Methods
     @IBAction func timeSwitchValueChanged(sender: AnyObject) {
         
-        print("**** Set Start & End Time *** %d", timeSwitch.on)
+        if let delegate = schedulingCellDelegate {
+            delegate.setStartEndTimeSwitchValueChanged(timeSwitch.on)
+        }
     }
 
 }
