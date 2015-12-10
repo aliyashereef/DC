@@ -1,15 +1,17 @@
 //
-//  ExcelTabularView.swift
+//  TabularViewController.swift
 //  DrugChart
 //
-//  Created by Noureen on 19/11/2015.
+//  Created by Noureen on 10/12/2015.
 //
 //
 
 import UIKit
 
-class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDelegate , ObservationDelegate {
-    
+class TabularViewController: UIViewController , UICollectionViewDataSource, UICollectionViewDelegate , ObservationDelegate {
+
+  //  @IBOutlet weak var childView: UIView!
+    //var tabularDashBoardView:ExcelTabularView!
     @IBOutlet weak var sortMenuItem: UIBarButtonItem!
     
     let headerCellIdentifier = "headerCellIdentifier"
@@ -22,22 +24,27 @@ class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDel
     var delegate:ObservationDelegate?
     private var viewByDate:NSDate = NSDate()
     
-    func configureView(observationList:[VitalSignObservation])
-    {
-        self.observationList = observationList
-        filterList()
+    override func viewDidLoad() {
+        super.viewDidLoad()
+//        tabularDashBoardView = ExcelTabularView.instanceFromNib() as! ExcelTabularView
+//        tabularDashBoardView.delegate = self
+//        tabularDashBoardView.configureView(observationList)
+//        Helper.displayInChildView(tabularDashBoardView, parentView: childView)
+//        // Do any additional setup after loading the view.
+        
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
         self.collectionView .registerNib(UINib(nibName: "HeaderCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: headerCellIdentifier)
         self.collectionView .registerNib(UINib(nibName: "ContentCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: contentCellIdentifier)
-        
         self.collectionView .registerNib(UINib(nibName: "RowHeaderCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: rowHeaderCellIdentifier)
-        
         setDateDisplay()
         reloadView(observationList)
     }
     
-    func setDateDisplay()
+    
+    
+    
+    private func setDateDisplay()
     {
         let calendar = NSCalendar.currentCalendar()
         let chosenDateComponents = calendar.components([.Month , .Year], fromDate: viewByDate)
@@ -45,7 +52,7 @@ class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDel
         sortMenuItem.title = displayText
         
     }
-    func reloadView(observationList:[VitalSignObservation])
+    private func reloadView(observationList:[VitalSignObservation])
     {
         self.observationList = observationList // order matters here
         filterList()
@@ -55,9 +62,6 @@ class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDel
     }
     
     
-    class func instanceFromNib() -> UIView {
-        return UINib(nibName: "ExcelTabularView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
-    }
     
     // MARK - UICollectionViewDataSource
     
@@ -162,7 +166,7 @@ class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDel
         calendarViewController.preferredContentSize = CGSizeMake(320,250)
         calendarViewController.popoverPresentationController?.barButtonItem = sortMenuItem
         calendarViewController.delegate = self
-        delegate?.EditObservationViewController(calendarViewController)
+        self.presentViewController(calendarViewController, animated: false, completion: nil)
     }
     // Mark: Delegate implementation
     func DateSelected(value:NSDate)
@@ -185,4 +189,33 @@ class ExcelTabularView: UIView , UICollectionViewDataSource, UICollectionViewDel
             return components.month == chosenDateComponents.month && components.year == chosenDateComponents.year
         }
     }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+
+//    /*
+//    // MARK: - Navigation
+//
+//    // In a storyboard-based application, you will often want to do a little preparation before navigation
+//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+//        // Get the new view controller using segue.destinationViewController.
+//        // Pass the selected object to the new view controller.
+//    }
+//    */
+//    
+//    //Mark: Delegate Implementation
+//    func EditObservation(navigationController:UINavigationController)
+//    {
+//        self.presentViewController(navigationController, animated: false, completion: nil)
+//    }
+//    
+//    func EditObservationViewController(viewController:UIViewController)
+//    {
+//        self.presentViewController(viewController, animated: false, completion: nil)
+//    }
+    
+
 }

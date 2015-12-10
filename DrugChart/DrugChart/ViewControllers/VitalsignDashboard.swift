@@ -100,6 +100,11 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
             //controller.preferredContentSize = CGSizeMake(50, 100)
             controller.delegate = self
         }
+        
+        else if let tabularViewController:TabularViewController = segue.destinationViewController as? TabularViewController
+        {
+             tabularViewController.observationList = observationList
+        }
     }
     
     func adaptivePresentationStyleForPresentationController(
