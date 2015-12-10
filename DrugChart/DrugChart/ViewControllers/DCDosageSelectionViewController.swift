@@ -10,6 +10,7 @@ import UIKit
 
 let dosageTitle : NSString = "Dose"
 let dosageCellID : NSString = "dosagetypecell"
+let dosageDetailCellID : NSString = "dosageDetailCell"
 let dosageMenuItems = ["Fixed","Variable","Reducing / Increasing","Split Daily"]
 
 class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -82,25 +83,35 @@ class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, 
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let dosageSelectionMenuCell : DCDosageSelectionTableViewCell? = dosageTableView.dequeueReusableCellWithIdentifier(dosageCellID as String) as? DCDosageSelectionTableViewCell
-        // Configure the cell...
-        dosageSelectionMenuCell!.dosageMenuLabel.text = dosageMenuItems[indexPath.row]
-        
-        if (indexPath.row == previousIndexPath.row && indexPath.section == 0) {
+        if ( indexPath .section == 0) {
+            let dosageSelectionMenuCell : DCDosageSelectionTableViewCell? = dosageTableView.dequeueReusableCellWithIdentifier(dosageCellID as String) as? DCDosageSelectionTableViewCell
+            // Configure the cell...
+            dosageSelectionMenuCell!.dosageMenuLabel.text = dosageMenuItems[indexPath.row]
             
-            dosageSelectionMenuCell?.accessoryType = .Checkmark
+            if (indexPath.row == previousIndexPath.row && indexPath.section == 0) {
+                
+                dosageSelectionMenuCell?.accessoryType = .Checkmark
+            } else {
+                
+                dosageSelectionMenuCell?.accessoryType = .None
+            }
+            return dosageSelectionMenuCell!
         } else {
             
-            dosageSelectionMenuCell?.accessoryType = .None
+            let dosageSelectionDetailCell : DCDosageSelectionTableViewCell? = dosageTableView.dequeueReusableCellWithIdentifier(dosageDetailCellID as String) as? DCDosageSelectionTableViewCell
+            // Configure the cell...
+            dosageSelectionDetailCell!.dosageDetailLabel.text = "Dosage Unit"
+            dosageSelectionDetailCell!.dosageDetailValueLabel.text = "mg"
+            
+            return dosageSelectionDetailCell!
         }
-
-        return dosageSelectionMenuCell!
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         if (indexPath.section == 0) {
-        previousIndexPath = indexPath
+            
+            previousIndexPath = indexPath
         }
         tableView.reloadData()
         if (indexPath.section == 0) {

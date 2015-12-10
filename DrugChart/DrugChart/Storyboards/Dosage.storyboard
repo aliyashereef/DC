@@ -47,6 +47,42 @@
                                             <outlet property="dosageMenuLabel" destination="njW-lI-8e5" id="Lb0-Sb-evL"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="dosageSelectionDetailCell" selectionStyle="default" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationWidth="10" reuseIdentifier="dosageDetailCell" id="bhm-hS-RRu" customClass="DCDosageSelectionTableViewCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="94" width="310" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bhm-hS-RRu" id="lfu-Vu-OmY">
+                                            <rect key="frame" x="0.0" y="0.0" width="277" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Reducing / Increasing " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="59o-cL-az3">
+                                                    <rect key="frame" x="16" y="8" width="152" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="21" id="VXZ-gE-WUY"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Reduce 50mg every day..." textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tfx-I7-hn3">
+                                                    <rect key="frame" x="173" y="12" width="99" height="16"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="tfx-I7-hn3" secondAttribute="trailing" constant="5" id="5zQ-cy-WKL"/>
+                                                <constraint firstItem="59o-cL-az3" firstAttribute="top" secondItem="lfu-Vu-OmY" secondAttribute="top" constant="8" id="Wut-Ba-MeX"/>
+                                                <constraint firstItem="tfx-I7-hn3" firstAttribute="leading" secondItem="59o-cL-az3" secondAttribute="trailing" constant="5" id="gHx-XB-hFS"/>
+                                                <constraint firstItem="59o-cL-az3" firstAttribute="leading" secondItem="lfu-Vu-OmY" secondAttribute="leading" constant="16" id="hQT-gE-hdx"/>
+                                                <constraint firstItem="tfx-I7-hn3" firstAttribute="top" secondItem="lfu-Vu-OmY" secondAttribute="top" constant="12" id="rpG-lP-ElG"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="dosageDetailLabel" destination="59o-cL-az3" id="dq0-cy-tAK"/>
+                                            <outlet property="dosageDetailValueLabel" destination="tfx-I7-hn3" id="g3L-3Y-0XL"/>
+                                            <outlet property="dosageMenuLabel" destination="59o-cL-az3" id="2og-PZ-Nwl"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="iOv-eb-Yx3" id="hOi-Nf-RzU"/>

@@ -11,6 +11,8 @@ import UIKit
 class DCDosageSelectionTableViewCell: UITableViewCell {
 
     @IBOutlet weak var dosageMenuLabel: UILabel!
+    @IBOutlet weak var dosageDetailLabel: UILabel!
+    @IBOutlet weak var dosageDetailValueLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
