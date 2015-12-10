@@ -45,7 +45,7 @@ class DCOneThirdCalendarStripCollectionCell: UICollectionViewCell {
         dateLabel.textColor = UIColor.blackColor()
         dateFormatter.dateFormat = DAY_DATE_FORMAT as String
         let dateString = dateFormatter.stringFromDate(today)
-        indicatorLabel.frame = CGRectMake(0,0, 28, 28)
+        indicatorLabel.frame = CGRectMake(0, 0, 28, 28)
         indicatorLabel.center =  dateLabel.center
         indicatorLabel.font = UIFont.systemFontOfSize(16)
         indicatorLabel.textAlignment = .Center
@@ -56,6 +56,7 @@ class DCOneThirdCalendarStripCollectionCell: UICollectionViewCell {
         indicatorLabel.layer.masksToBounds = true
         self.addSubview(indicatorLabel)
         self.bringSubviewToFront(indicatorLabel)
+        self.layoutSubviews()
     }
     
     func showSelection () {
@@ -88,6 +89,7 @@ class DCOneThirdCalendarStripCollectionCell: UICollectionViewCell {
         indicatorLabel.layer.masksToBounds = true
         self.addSubview(indicatorLabel)
         self.bringSubviewToFront(indicatorLabel)
+        self.layoutSubviews()
     }
 
 }

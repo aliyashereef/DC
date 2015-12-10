@@ -35,6 +35,8 @@ typedef enum : NSUInteger {
     
     NSMutableArray *currentWeekDatesArray;
     IBOutlet UIView *calendarDaysDisplayView;
+    IBOutlet NSLayoutConstraint *calendarDateHolderViewTopSpace;
+    IBOutlet NSLayoutConstraint *medicationListHolderVIewTopConstraint;
     IBOutlet UIView *todayString;
     IBOutlet UIActivityIndicatorView *activityIndicatorView;
     IBOutlet UILabel *noMedicationsAvailableLabel;
@@ -102,19 +104,18 @@ typedef enum : NSUInteger {
 
 - (void)viewDidLayoutSubviews {
     
-    [super viewDidLayoutSubviews];
     if (windowSizeChanged) {
         [self prescriberCalendarChildViewControllerBasedOnWindowState];
         [self addCustomTitleViewToNavigationBar];
         windowSizeChanged = NO;
     }
-}
+    [self dateViewForOrientationChanges];
+   }
 
 
 - (void)viewWillTransitionToSize:(CGSize)size
        withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
-    
-    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    [self dateViewForOrientationChanges];
     windowSizeChanged = YES;
 }
 
@@ -132,6 +133,20 @@ typedef enum : NSUInteger {
     [calendarDateDisplayViewController translateCalendarContainerViewsForTranslationParameters:xPoint
                                                                                  withXVelocity:xVelocity
                                                                                  panEndedValue:panEnded];
+}
+
+- (void) dateViewForOrientationChanges {
+    
+    UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
+    if (UIDeviceOrientationIsLandscape(orientation) && (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)){
+        calendarDateHolderViewTopSpace.constant = 30.0;
+        medicationListHolderVIewTopConstraint.constant = 80;
+    } else {
+        calendarDateHolderViewTopSpace.constant = 64.0;
+        medicationListHolderVIewTopConstraint.constant = 115.0;
+    }
+    [super viewDidLayoutSubviews];
+
 }
 
 - (void)todayActionForCalendarTop {
@@ -522,9 +537,13 @@ typedef enum : NSUInteger {
     
     if ([DCAPPDELEGATE windowState] == halfWindow ||
         [DCAPPDELEGATE windowState] == oneThirdWindow) {
-        
         DCOneThirdCalendarNavigationTitleView *titleView = [[[NSBundle mainBundle] loadNibNamed:@"DCOneThirdCalendarNavigationTitleView" owner:self options:nil] objectAtIndex:0];
-        [titleView populateViewWithPatientName:self.patient.patientName nhsNumber:self.patient.nhs dateOfBirth:self.patient.dob age:self.patient.age];
+        UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
+        if (UIDeviceOrientationIsLandscape(orientation) && (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)){
+            [titleView populatViewForOneThirdLandscapeWithPatientName:self.patient.patientName nhsNumber:self.patient.nhs dateOfBirth:self.patient.dob age:self.patient.age];
+        } else {
+            [titleView populateViewWithPatientName:self.patient.patientName nhsNumber:self.patient.nhs dateOfBirth:self.patient.dob age:self.patient.age];
+        }
         self.navigationItem.titleView = titleView;
     } else  {
         DCCalendarNavigationTitleView *titleView = [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([DCCalendarNavigationTitleView class]) owner:self options:nil] objectAtIndex:0];
@@ -600,8 +619,6 @@ typedef enum : NSUInteger {
                                                      withAdderValue:adderValue];
     currentWeekDatesArray = [DCDateUtility nextAndPreviousDays:daysCount
                                            withReferenceToDate:firstDisplayDate];
-    NSLog(@"current week dates array in currentWeeksDateArrayFromCenterDate %@",currentWeekDatesArray);
-
     _centerDisplayDate = (appDelegate.windowState == twoThirdWindow) ? [currentWeekDatesArray objectAtIndex:4]:[currentWeekDatesArray objectAtIndex:7];
     [self modifyWeekDatesInCalendarTopPortion];
     [self reloadCalendarTopPortion];
@@ -699,7 +716,6 @@ typedef enum : NSUInteger {
                                            withReferenceToDate:firstDisplayDate];
     _centerDisplayDate = isTwoThirdWindow ? [currentWeekDatesArray objectAtIndex:4] :
                                            [currentWeekDatesArray objectAtIndex:7];
-    NSLog(@"current week dates array in modifyStartDayAndWeekDates %@",currentWeekDatesArray);
 }
 - (void)loadCurrentWeekDate {
     
