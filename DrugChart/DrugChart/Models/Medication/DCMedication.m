@@ -36,7 +36,7 @@
                 }
             }
             @catch (NSException *exception) {
-                DCDebugLog(@"exception : %@", exception.description);
+                DDLogError(@"exception : %@", exception.description);
             }
         }
     }

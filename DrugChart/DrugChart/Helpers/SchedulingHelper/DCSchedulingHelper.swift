@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CocoaLumberjack
 
 class DCSchedulingHelper: NSObject {
     
@@ -153,7 +154,7 @@ class DCSchedulingHelper: NSObject {
             let (day, month) = splitComponentsSeparatedBySpace(repeatValue.yearEachValue)
             if let number = Int(day as String) {
                 let convertedNumber = NSNumber(integer:number)
-                print(convertedNumber)
+                DDLogDebug("\(convertedNumber)")
                 let ordinal = NSString.ordinalNumberFormat(convertedNumber)
                 eachValue = ordinal
             }
@@ -187,7 +188,7 @@ class DCSchedulingHelper: NSObject {
             }
             if let number = Int(repeatValue.eachValue) {
                 let convertedNumber = NSNumber(integer:number)
-                print(convertedNumber)
+                DDLogDebug("\(convertedNumber)")
                 let ordinal = NSString.ordinalNumberFormat(convertedNumber)
                 eachValue = ordinal
             }

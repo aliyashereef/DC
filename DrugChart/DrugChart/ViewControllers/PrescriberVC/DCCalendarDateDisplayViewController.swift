@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import CocoaLumberjack
 
 @objc class DCCalendarDateDisplayViewController: DCBaseViewController {
     
@@ -155,7 +156,7 @@ import UIKit
                 rightDatesArray.addObject(displayDatesArray.objectAtIndex(index))
             }
         }
-        print(centerCalendarView.backgroundColor)
+        DDLogDebug("\(centerCalendarView.backgroundColor)")
         leftCalendarView .populateViewForDateArray(leftDatesArray)
         centerCalendarView.populateViewForDateArray(centerDatesArray)
         rightCalendarView.populateViewForDateArray(rightDatesArray)

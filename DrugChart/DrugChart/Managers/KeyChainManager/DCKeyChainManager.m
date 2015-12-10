@@ -38,7 +38,7 @@
     UICKeyChainStore *keychain = [self getKeyChainStoreService];
     [keychain setString:token forKey:key error:&error];
     if (error) {
-        DCDebugLog(@"Error on saving token : %@", error.localizedDescription);
+        DDLogError(@"Error on saving token : %@", error.localizedDescription);
     }
 }
 
@@ -47,7 +47,7 @@
     NSError *error;
     NSString *token = [[self getKeyChainStoreService] stringForKey:key error:&error];
     if (error) {
-        DCDebugLog(@"Error on retrieving token : %@", error.localizedDescription);
+        DDLogError(@"Error on retrieving token : %@", error.localizedDescription);
     }
     return token;
 }
@@ -59,7 +59,7 @@
     NSError *error;
     [keychain removeAllItemsWithError:&error];
     if (error) {
-        DCDebugLog(@"error is %@", error.localizedDescription);
+        DDLogError(@"error is %@", error.localizedDescription);
     }
 }
 

@@ -68,7 +68,7 @@
             [self setPatientsAllergies];
         }
         @catch (NSException *exception) {
-            DCDebugLog(@"Exception in patient model class: %@", exception.description);
+            DDLogError(@"Exception in patient model class: %@", exception.description);
         }
     }
     return self;
@@ -192,7 +192,7 @@
     
     DCAlertsWebService *webService = [[DCAlertsWebService alloc] init];
     [webService patientAlertsForId:self.patientId withCallBackHandler:^(NSArray *alertsArray, NSError *error) {
-        DCDebugLog(@"the patients alerts Array: %@", alertsArray);
+        DDLogDebug(@"the patients alerts Array: %@", alertsArray);
         NSMutableArray *patientAlertsArray = [[NSMutableArray alloc] init];        
         if ([alertsArray count] > 0) {
             for (NSMutableDictionary *alertsDictionary in alertsArray) {
@@ -209,7 +209,7 @@
     
     DCPatientAllergyWebService *webService = [[DCPatientAllergyWebService alloc] init];
     [webService getPatientAllergiesForId:self.patientId withCallBackHandler:^(NSArray *alergiesArray, NSError *error) {
-        DCDebugLog(@"the patients alerts Array: %@", alergiesArray);
+        DDLogDebug(@"the patients alerts Array: %@", alergiesArray);
         NSMutableArray *patientAlergiesArray = [[NSMutableArray alloc] init];
         if ([alergiesArray count] > 0) {
             for (NSMutableDictionary *alertsDictionary in alergiesArray) {
