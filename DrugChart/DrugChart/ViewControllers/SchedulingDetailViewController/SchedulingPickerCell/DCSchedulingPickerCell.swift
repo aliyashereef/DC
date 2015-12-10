@@ -8,6 +8,23 @@
 
 import UIKit
 
+//public enum PickerType : Int {
+//    
+//    case eSchedulingFrequency = 0
+//    case eDailyCount
+//    case eWeeklyCount
+//    case eWeekDays
+//    case eMonthlyCount
+//    case eYearlyCount
+//    case eMonthEachCount
+//    case eMonthOnTheCount
+//    case eYearEachCount
+//    case eYearOnTheCount
+//    case eDayCount
+//    case eHoursCount
+//    case eMinutesCount
+//};
+
 typealias SelectedPickerContent = NSString? -> Void
 
 class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource {
@@ -32,6 +49,57 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
     func populateContentArrays() {
         
         contentArray = NSMutableArray()
+//        switch pickerType {
+//            
+//        case PickerType.eSchedulingFrequency.rawValue :
+//            //scheduling frequency type
+//            contentArray = [DAILY, WEEKLY, MONTHLY, YEARLY]
+//            break
+//        case PickerType.eDailyCount.rawValue :
+//            //daily count
+//            contentArray = DCSchedulingHelper.numbersArrayWithMaximumCount(7)
+//            break
+//        case PickerType.eWeeklyCount.rawValue :
+//            // weekly count
+//            contentArray = DCSchedulingHelper.numbersArrayWithMaximumCount(5)
+//            break
+//        case PickerType.eMonthlyCount.rawValue :
+//            //monthly count
+//            contentArray = DCSchedulingHelper.numbersArrayWithMaximumCount(12)
+//            break
+//        case PickerType.eMonthEachCount.rawValue :
+//            contentArray = DCSchedulingHelper.numbersArrayWithMaximumCount(31)
+//            break
+//        case PickerType.eMonthOnTheCount.rawValue :
+//            contentArray = [FIRST, SECOND, THIRD, FOURTH, FIFTH, LAST]
+//            break
+//        case PickerType.eYearlyCount.rawValue :
+//            //yearly count
+//            contentArray = DCSchedulingHelper.numbersArrayWithMaximumCount(25)
+//            break
+//        case PickerType.eYearEachCount.rawValue,
+//             PickerType.eDayCount.rawValue  :
+//            //yearly each picker view
+//            contentArray = DCSchedulingHelper.numbersArrayWithMaximumCount(31)
+//            monthArray = DCDateUtility.monthNames()
+//            break
+//        case PickerType.eYearOnTheCount.rawValue :
+//            //yearly on the picker view
+//            contentArray = [FIRST, SECOND, THIRD, FOURTH, FIFTH, LAST]
+//            monthArray = DCDateUtility.monthNames()
+//            break
+//        case PickerType.eHoursCount.rawValue :
+//            //hours count
+//            contentArray = DCSchedulingHelper.numbersArrayWithMaximumCount(24)
+//            break
+//        case PickerType.eMinutesCount.rawValue :
+//            //minutes count
+//            contentArray = DCSchedulingHelper.numbersArrayWithMaximumCount(60)
+//            break
+//        default :
+//            break
+//        }
+        
         if (pickerType! == eSchedulingFrequency) {
             //scheduling frequency type
             contentArray = [DAILY, WEEKLY, MONTHLY, YEARLY]
@@ -55,7 +123,7 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
         } else if (pickerType! == eYearEachCount || pickerType! == eDayCount) {
             //yearly each picker view
             contentArray = DCSchedulingHelper.numbersArrayWithMaximumCount(31)
-             monthArray = DCDateUtility.monthNames()
+            monthArray = DCDateUtility.monthNames()
         } else if (pickerType! == eYearOnTheCount) {
             //yearly on the picker view
             contentArray = [FIRST, SECOND, THIRD, FOURTH, FIFTH, LAST]
@@ -67,6 +135,7 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
             //minutes count
             contentArray = DCSchedulingHelper.numbersArrayWithMaximumCount(60)
         }
+
     }
     
     func configurePickerViewForSchedulingFrequency() {

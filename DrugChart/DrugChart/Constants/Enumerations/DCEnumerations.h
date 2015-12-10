@@ -104,7 +104,7 @@ typedef enum : NSUInteger {
     eReason
 } NotesType;
 
-typedef enum : NSUInteger {
+typedef enum : NSInteger {
     
     eSchedulingFrequency,
     eDailyCount,

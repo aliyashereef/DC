@@ -428,11 +428,11 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
                 displayInlinePickerForRowAtIndexPath(indexPath)
             } else if (self.detailType! == eDetailIntervalRepeatFrequency) {
                 if (indexPath.row == 0) {
-                    self.scheduling?.interval.repeatFrequencyType = DAY
+                    self.scheduling?.interval?.repeatFrequencyType = DAY
                 } else if (indexPath.row == 1) {
-                    self.scheduling?.interval.repeatFrequencyType = HOURS_TITLE
+                    self.scheduling?.interval?.repeatFrequencyType = HOURS_TITLE
                 } else {
-                    self.scheduling?.interval.repeatFrequencyType = MINUTES_TITLE
+                    self.scheduling?.interval?.repeatFrequencyType = MINUTES_TITLE
                 }
                 displayInlinePickerForRowAtIndexPath(indexPath)
             }

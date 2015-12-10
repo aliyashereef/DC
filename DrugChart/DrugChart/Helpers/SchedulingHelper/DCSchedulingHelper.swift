@@ -229,7 +229,7 @@ class DCSchedulingHelper: NSObject {
     static func numbersArrayWithMaximumCount(maxCount : NSInteger) -> NSMutableArray {
         
         let numbersArray = NSMutableArray()
-        for number : NSInteger in 1...7 {
+        for number : NSInteger in 1...maxCount {
             [numbersArray.addObject(number)]
         }
         return numbersArray;

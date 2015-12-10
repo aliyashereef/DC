@@ -142,6 +142,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         let timeCell = schedulingTableView.dequeueReusableCellWithIdentifier(SCHEDULING_TIME_CELL_ID) as? DCSchedulingTimeCell
         timeCell!.schedulingCellDelegate = self
         if (indexPath.row == 1) {
+            timeCell?.selectionStyle = .None
             timeCell?.configureSetStartAndEndTimeCell()
         } else if (indexPath.row == 2) {
             let startTime = self.scheduling?.interval?.startTime == nil ? EMPTY_STRING : self.scheduling?.interval?.startTime
@@ -199,17 +200,21 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         
         //check which frequenct type is selected and animate table sections based on that
         self.scheduling?.type = (indexPath.row == 0) ? SPECIFIC_TIMES : INTERVAL
-        if (self.scheduling?.specificTimes == nil) {
-            self.scheduling?.specificTimes = DCSpecificTimes.init()
-            self.scheduling?.specificTimes?.repeatObject = DCRepeat.init()
-            self.scheduling?.specificTimes?.repeatObject.repeatType = DAILY
-            self.scheduling?.specificTimes?.repeatObject.frequency = "1 day"
-            self.scheduling?.schedulingDescription = String(format: "%@ day.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
-        } else if (self.scheduling?.interval == nil) {
-            //initialise interval
-            self.scheduling?.interval = DCInterval.init()
-            //initial SetStartAndEndDate switch should be true
-            self.scheduling?.interval?.hasStartAndEndDate = true
+        if (self.scheduling?.type == SPECIFIC_TIMES) {
+            if (self.scheduling?.specificTimes == nil) {
+                self.scheduling?.specificTimes = DCSpecificTimes.init()
+                self.scheduling?.specificTimes?.repeatObject = DCRepeat.init()
+                self.scheduling?.specificTimes?.repeatObject.repeatType = DAILY
+                self.scheduling?.specificTimes?.repeatObject.frequency = "1 day"
+                self.scheduling?.schedulingDescription = String(format: "%@ day.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
+            }
+        } else {
+            if (self.scheduling?.interval == nil) {
+                //initialise interval
+                self.scheduling?.interval = DCInterval.init()
+                //initial SetStartAndEndDate switch should be true
+                self.scheduling?.interval?.hasStartAndEndDate = true
+            }
         }
         schedulingTableView.beginUpdates()
         let sectionCount = schedulingTableView.numberOfSections
@@ -347,18 +352,21 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
     func setStartEndTimeSwitchValueChanged(state : Bool) {
         
         //configure table based on the switch state
-        print("switch state is %d", state)
+        let timeCell = schedulingTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 1)) as? DCSchedulingTimeCell
+        timeCell?.timeSwitch.userInteractionEnabled = false
+        self.scheduling?.interval?.hasStartAndEndDate = state
+         schedulingTableView.beginUpdates()
+        let indexPathsArray = [NSIndexPath(forRow: 2, inSection: 1), NSIndexPath(forRow: 3, inSection: 1)]
         if (state == false) {
             //delete start time, end time table cells
-            self.scheduling?.interval.hasStartAndEndDate = false
-            schedulingTableView.beginUpdates()
-            schedulingTableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: 2, inSection: 1), NSIndexPath(forRow: 3, inSection: 1)], withRowAnimation: .Fade)
-            schedulingTableView.endUpdates()
+            schedulingTableView.deleteRowsAtIndexPaths(indexPathsArray, withRowAnimation: .Fade)
         } else {
-            self.scheduling?.interval.hasStartAndEndDate = true
-            schedulingTableView.beginUpdates()
-            schedulingTableView.insertRowsAtIndexPaths([NSIndexPath(forRow: 2, inSection: 1), NSIndexPath(forRow: 3, inSection: 1)], withRowAnimation: .Fade)
-            schedulingTableView.endUpdates()
+            schedulingTableView.insertRowsAtIndexPaths(indexPathsArray, withRowAnimation: .Fade)
+        }
+        schedulingTableView.endUpdates()
+        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.7 * Double(NSEC_PER_SEC)))
+        dispatch_after(delayTime, dispatch_get_main_queue()) {
+            timeCell?.timeSwitch.userInteractionEnabled = true
         }
     }
 }
