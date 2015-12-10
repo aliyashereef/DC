@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+    </dependencies>
+    <scenes>
+        <!--Dosage Selection View Controller-->
+        <scene sceneID="Lha-xe-n8w">
+            <objects>
+                <viewController storyboardIdentifier="DosageSelection" useStoryboardIdentifierAsRestorationIdentifier="YES" id="iOv-eb-Yx3" customClass="DCDosageSelectionViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="f8i-H4-TXI"/>
+                        <viewControllerLayoutGuide type="bottom" id="6KN-Qi-Gwu"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="hbG-Xg-hjM">
+                        <rect key="frame" x="0.0" y="0.0" width="310" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="h4i-aX-KGH">
+                                <rect key="frame" x="0.0" y="0.0" width="310" height="600"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="dosageSelectionMenuCell" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationWidth="10" reuseIdentifier="dosagetypecell" id="r6X-qu-waN" customClass="DCDosageSelectionTableViewCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="310" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="r6X-qu-waN" id="UI8-od-9pG">
+                                            <rect key="frame" x="0.0" y="0.0" width="310" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="njW-lI-8e5">
+                                                    <rect key="frame" x="16" y="8" width="294" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="21" id="Uml-R6-fKq"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="njW-lI-8e5" firstAttribute="leading" secondItem="UI8-od-9pG" secondAttribute="leading" constant="16" id="199-RD-dxQ"/>
+                                                <constraint firstItem="njW-lI-8e5" firstAttribute="top" secondItem="UI8-od-9pG" secondAttribute="top" constant="8" id="BNt-w7-8XC"/>
+                                                <constraint firstAttribute="trailing" secondItem="njW-lI-8e5" secondAttribute="trailing" id="Gc5-DW-pUa"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="dosageMenuLabel" destination="njW-lI-8e5" id="Lb0-Sb-evL"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="iOv-eb-Yx3" id="hOi-Nf-RzU"/>
+                                    <outlet property="delegate" destination="iOv-eb-Yx3" id="UFD-Og-t6w"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="h4i-aX-KGH" firstAttribute="centerY" secondItem="hbG-Xg-hjM" secondAttribute="centerY" id="5TZ-Ro-fbM"/>
+                            <constraint firstItem="h4i-aX-KGH" firstAttribute="leading" secondItem="hbG-Xg-hjM" secondAttribute="leading" id="JiQ-f4-FIp"/>
+                            <constraint firstAttribute="trailing" secondItem="h4i-aX-KGH" secondAttribute="trailing" id="QWE-6d-Tuf"/>
+                            <constraint firstItem="h4i-aX-KGH" firstAttribute="top" secondItem="hbG-Xg-hjM" secondAttribute="top" id="TXL-j6-wnw"/>
+                            <constraint firstItem="h4i-aX-KGH" firstAttribute="centerX" secondItem="hbG-Xg-hjM" secondAttribute="centerX" id="bHI-JX-Nk3"/>
+                            <constraint firstItem="6KN-Qi-Gwu" firstAttribute="top" secondItem="h4i-aX-KGH" secondAttribute="bottom" id="fhB-ud-n7J"/>
+                        </constraints>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="310" height="600"/>
+                    <connections>
+                        <outlet property="dosageTableView" destination="h4i-aX-KGH" id="2m3-SW-4AT"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="A9x-qR-ivb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2737" y="572"/>
+        </scene>
+    </scenes>
+</document>

@@ -309,6 +309,9 @@
 		7DE60BCF1B2866CD00BCA745 /* DCPatientGraphicalRepresentationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE60BCC1B2866CD00BCA745 /* DCPatientGraphicalRepresentationView.m */; };
 		7DE60BD01B2866CD00BCA745 /* DCPortraitTopPatientView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DE60BCD1B2866CD00BCA745 /* DCPortraitTopPatientView.xib */; };
 		7DE60BD11B2866CD00BCA745 /* DCPortraitBottomUpPatientView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DE60BCE1B2866CD00BCA745 /* DCPortraitBottomUpPatientView.xib */; };
+		FD618F2D1C19777C005EC416 /* Dosage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD618F2C1C19777C005EC416 /* Dosage.storyboard */; settings = {ASSET_TAGS = (); }; };
+		FD618F301C1979E7005EC416 /* DCDosageSelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD618F2E1C1979E7005EC416 /* DCDosageSelectionTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+		FD618F311C1979E7005EC416 /* DCDosageSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD618F2F1C1979E7005EC416 /* DCDosageSelectionViewController.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -738,6 +741,9 @@
 		95B692258EF6A48813AE6977 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACBB4D71DBF05CC37E7D5083 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		D36536B45B0821C42B3BBBE5 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		FD618F2C1C19777C005EC416 /* Dosage.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Dosage.storyboard; sourceTree = "<group>"; };
+		FD618F2E1C1979E7005EC416 /* DCDosageSelectionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageSelectionTableViewCell.swift; sourceTree = "<group>"; };
+		FD618F2F1C1979E7005EC416 /* DCDosageSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageSelectionViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1493,6 +1499,7 @@
 				0BBC8F9F1AA469280085ABAB /* LoginViewController */,
 				0B14CD881BB13BD80085E40C /* AdministerViewController */,
 				0BC0C4621ADF777D002707DC /* AddMedicationViewController */,
+				FD618F321C197A1A005EC416 /* DosageImplementation */,
 				0BA449E01B9850E5009F84E5 /* AddMedicationDetailViewController */,
 				0BC3ACB11C0DB6D60028AF03 /* SchedulingInitialViewController */,
 				0BA5A38E1BF348C200251F94 /* SchedulingDetailViewController */,
@@ -1739,6 +1746,7 @@
 				0BB3977E1B42944B0037C8E1 /* OrderSet.storyboard */,
 				4D7627871BE8E22D0070BAF2 /* PatientMenu.storyboard */,
 				4D54C0751BFB245A00A61273 /* OneThirdScreenSizeCalendar.storyboard */,
+				FD618F2C1C19777C005EC416 /* Dosage.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -2462,6 +2470,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		FD618F321C197A1A005EC416 /* DosageImplementation */ = {
+			isa = PBXGroup;
+			children = (
+				FD618F2E1C1979E7005EC416 /* DCDosageSelectionTableViewCell.swift */,
+				FD618F2F1C1979E7005EC416 /* DCDosageSelectionViewController.swift */,
+			);
+			name = DosageImplementation;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2624,6 +2641,7 @@
 				1FD4FCF41BF4B8F400B77B94 /* PickerCell.xib in Resources */,
 				0BBDEDE01AA581630016E6FF /* Lato-Heavy.ttf in Resources */,
 				0BD699181BB272D9008797A2 /* DCAdministerTableHeaderView.xib in Resources */,
+				FD618F2D1C19777C005EC416 /* Dosage.storyboard in Resources */,
 				4D7627881BE8E22D0070BAF2 /* PatientMenu.storyboard in Resources */,
 				0BBD58401AD3B0010027F8FE /* UserList.plist in Resources */,
 				0BBDEDE31AA581630016E6FF /* Lato-Light.ttf in Resources */,
@@ -2741,6 +2759,7 @@
 				0BADF3E21BF6172400A78175 /* DCSchedulingHelper.swift in Sources */,
 				4D48915E1BC90176002AC8CA /* DCPatientListingCell.swift in Sources */,
 				0BBD58441AD3B0C20027F8FE /* DCUsersListWebService.m in Sources */,
+				FD618F311C1979E7005EC416 /* DCDosageSelectionViewController.swift in Sources */,
 				1FD4FD021BF4BAAD00B77B94 /* BPCollectionViewCell.swift in Sources */,
 				4D4891591BC900DB002AC8CA /* DCPatientDetailsHelper.m in Sources */,
 				1FD4FD041BF4BAAD00B77B94 /* ObservationsDetailsCell.swift in Sources */,
@@ -2759,6 +2778,7 @@
 				0BA357311B746EAB00A5C3BC /* DCOrderSetOperationQueue.m in Sources */,
 				0BBC8FA61AA469AF0085ABAB /* DCBaseViewController.m in Sources */,
 				1FD4FCEA1BF4B8F400B77B94 /* TimePickerCell.swift in Sources */,
+				FD618F301C1979E7005EC416 /* DCDosageSelectionTableViewCell.swift in Sources */,
 				1FD4FCE81BF4B8F400B77B94 /* LineChartCollectionViewCell.swift in Sources */,
 				4D4891601BC90176002AC8CA /* DCWardCell.swift in Sources */,
 				7D70F3801B20258200E4BA89 /* DCWardsGraphicalDisplayViewController.m in Sources */,
