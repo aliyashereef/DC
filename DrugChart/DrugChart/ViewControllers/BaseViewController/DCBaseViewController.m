@@ -107,18 +107,19 @@
                 appDelegate.windowState = isLandScapeMode? twoThirdWindow : halfWindow;
             }
         }
-    }
-    DDLogInfo(@"The window state is : %ld", (unsigned long int)appDelegate.windowState);
-    
+    }    
 }
 
 - (void)configureCurrentOrientation {
     
+    DCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     CGSize screenSize = [UIScreen mainScreen].bounds.size;
     @synchronized(self) {
         isLandScapeMode = NO;
+        appDelegate.screenOrientation = portrait;
         if (screenSize.width > screenSize.height) {
             isLandScapeMode = YES;
+            appDelegate.screenOrientation = landscape;
         }
     }
 }

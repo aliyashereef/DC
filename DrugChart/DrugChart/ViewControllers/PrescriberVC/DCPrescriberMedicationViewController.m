@@ -60,6 +60,9 @@ typedef enum : NSUInteger {
     DCPrescriberMedicationListViewController *prescriberMedicationListViewController;
     DCCalendarOneThirdViewController *prescriberMedicationOneThirdSizeViewController;
     DCCalendarDateDisplayViewController *calendarDateDisplayViewController;
+    
+    DCAppDelegate *appDelegate;
+    DCScreenOrientation screenOrientation;
 }
 
 @end
@@ -73,6 +76,7 @@ typedef enum : NSUInteger {
     currentWeekDatesArray = [[NSMutableArray alloc] init];
     rowMedicationSlotsArray = [[NSMutableArray alloc] init];
     centerDisplayDate = [[NSDate alloc] init];
+    appDelegate = [[UIApplication sharedApplication] delegate];
     return self;
 }
 
@@ -85,12 +89,12 @@ typedef enum : NSUInteger {
     [self hideCalendarTopPortion];
     [self fillPrescriberMedicationDetailsInCalendarView];
     [self obtainReferencesToChildViewControllersAddedFromStoryBoard];
-    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
+    [self setCurrentScreenOrientation];
     [self prescriberCalendarChildViewControllerBasedOnWindowState];
     [self addCustomTitleViewToNavigationBar];
 }
@@ -106,6 +110,7 @@ typedef enum : NSUInteger {
     [super viewDidLayoutSubviews];
     if (windowSizeChanged) {
         [self prescriberCalendarChildViewControllerBasedOnWindowState];
+        [self setCurrentScreenOrientation];
         [self addCustomTitleViewToNavigationBar];
         windowSizeChanged = NO;
     }
@@ -117,6 +122,16 @@ typedef enum : NSUInteger {
     
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     windowSizeChanged = YES;
+    if (screenOrientation == landscape && appDelegate.screenOrientation == portrait) {
+        if (appDelegate.windowState == twoThirdWindow) {
+            appDelegate.windowState = halfWindow;
+            [self prescriberCalendarChildViewControllerBasedOnWindowState];
+            [self setCurrentScreenOrientation];
+            [self addCustomTitleViewToNavigationBar];
+            windowSizeChanged = NO;
+        }
+        DDLogDebug(@"view rotated from landscape to portrait");
+    }
 }
 
 
@@ -138,6 +153,11 @@ typedef enum : NSUInteger {
 - (void)todayActionForCalendarTop {
     
     [calendarDateDisplayViewController todayActionForCalendarTop];
+}
+
+- (void)setCurrentScreenOrientation {
+    
+    screenOrientation = appDelegate.screenOrientation;
 }
 
 #pragma mark - Sub views addition
@@ -171,7 +191,6 @@ typedef enum : NSUInteger {
 - (void)currentWeekDatesArrayFromDate:(NSDate *)date {
     
     NSInteger adderValue, daysCount;
-    DCAppDelegate *appDelegate = DCAPPDELEGATE;
     adderValue = (appDelegate.windowState == twoThirdWindow) ? -4 : -7;
     daysCount = (appDelegate.windowState == twoThirdWindow) ? 9 : 15;
     firstDisplayDate = [DCDateUtility initialDateForCalendarDisplay:date
@@ -594,7 +613,6 @@ typedef enum : NSUInteger {
 
 - (void)currentWeeksDateArrayFromCenterDate: (NSDate *)centerDate {
     NSInteger adderValue, daysCount;
-    DCAppDelegate *appDelegate = DCAPPDELEGATE;
     adderValue = (appDelegate.windowState == twoThirdWindow) ? -4 : -7;
     daysCount = (appDelegate.windowState == twoThirdWindow) ? 9 : 15;
     firstDisplayDate = [DCDateUtility initialDateForCalendarDisplay:centerDate
