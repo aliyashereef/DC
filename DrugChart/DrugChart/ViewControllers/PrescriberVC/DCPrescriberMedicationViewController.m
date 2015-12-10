@@ -756,6 +756,7 @@ typedef enum : NSUInteger {
         NSDate *date = [DCDateUtility initialDateForCalendarDisplay:centerDisplayDate withAdderValue:-7];
         NSMutableArray *oneThirdweekDatesArray = [DCDateUtility nextAndPreviousDays:15 withReferenceToDate:date];
         prescriberMedicationOneThirdSizeViewController.currentWeekDatesArray = oneThirdweekDatesArray;
+        prescriberMedicationOneThirdSizeViewController.centerDate = centerDisplayDate;
         [prescriberMedicationOneThirdSizeViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
     }
 }
