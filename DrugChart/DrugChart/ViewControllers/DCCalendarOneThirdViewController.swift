@@ -381,15 +381,20 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
        
     func todayButtonClicked() {
 
-        generateCurrentWeekDatesArray()
-        self.setParentViewWithCurrentWeekDateArray()
-        self.fetchPatientListAndReloadMedicationList()
-        scrollIndex = 2 // The scroll index is set to sustain the selection of the cell at that particular index even when the user scrolls the cells to the next page of collection view.
-        let centerDisplayDate = self.currentWeekDatesArray.count == 15 ? 7 : 4
-        let indexPath : NSIndexPath = NSIndexPath(forRow:centerDisplayDate, inSection: 0)
-        calendarStripCollectionView.reloadData()
-        calendarStripCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: true)
-        medicationTableView?.reloadData()
+        let today : NSDate = NSDate()
+        let order = NSCalendar.currentCalendar().compareDate(centerDate , toDate:today,
+            toUnitGranularity: .Day)
+        if order != NSComparisonResult.OrderedSame {
+            generateCurrentWeekDatesArray()
+            self.setParentViewWithCurrentWeekDateArray()
+            self.fetchPatientListAndReloadMedicationList()
+            scrollIndex = 2 // The scroll index is set to sustain the selection of the cell at that particular index even when the user scrolls the cells to the next page of collection view.
+            let centerDisplayDate = self.currentWeekDatesArray.count == 15 ? 7 : 4
+            let indexPath : NSIndexPath = NSIndexPath(forRow:centerDisplayDate, inSection: 0)
+            calendarStripCollectionView.reloadData()
+            calendarStripCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: true)
+            medicationTableView?.reloadData()
+        }
     }
     
     func generateCurrentWeekDatesArray () {

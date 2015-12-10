@@ -108,16 +108,12 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     
     func adjustSegmentedControlWidth () {
         
-        let windowWidth : CGFloat = DCUtility.mainWindowSize().width
-        let screenWidth : CGFloat = UIScreen.mainScreen().bounds.size.width
-        if (windowWidth < screenWidth/3) {
+        let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
+        if (appDelegate.windowState == DCWindowState.halfWindow || appDelegate.windowState == DCWindowState.oneThirdWindow ) {
             segmentedControlWidth?.constant = SEGMENTED_CONTROL_ONE_THIRD_WIDTH
-//            let attr = NSDictionary(object: UIFont(name: "HelveticaNeue", size: 9.5)!, forKey: NSFontAttributeName)
-//            segmentedControl.setTitleTextAttributes(attr as [NSObject : AnyObject], forState: .Normal)
-        } else {
-            segmentedControlWidth?.constant = SEGMENTED_CONTROL_FULL_WIDTH
-//            //let attr = NSDictionary(object: UIFont(name: "HelveticaNeue", size: 14)!, forKey: NSFontAttributeName)
-//            segmentedControl.setTitleTextAttributes(attr as [NSObject : AnyObject], forState: .Normal)
+
+        } else if (appDelegate.windowState == DCWindowState.fullWindow || appDelegate.windowState == DCWindowState.twoThirdWindow) {
+        segmentedControlWidth?.constant = SEGMENTED_CONTROL_FULL_WIDTH
         }
         self.view.layoutIfNeeded()
     }
@@ -409,7 +405,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
             }
         }
     }
-    
+            
     func displayAlertWithTitle(title : NSString, message : NSString ) {
     //display alert view for view controllers
         let alertController : UIAlertController = UIAlertController(title: title as String, message: message as String, preferredStyle: UIAlertControllerStyle.Alert)

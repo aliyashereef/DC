@@ -66,6 +66,7 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
         //set view properties and values
         //calculate header view height
         headerHeight = DCUtility.textViewSizeWithText(self.scheduling?.schedulingDescription, maxWidth: HEADER_VIEW_LABEL_MAX_WIDTH, font: UIFont.systemFontOfSize(13.0)).height + 10
+        detailTableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
         configureNavigationView()
     }
     

@@ -44,7 +44,6 @@ typedef enum : NSUInteger {
     UIView *dateView;
 
     NSDate *firstDisplayDate;
-    NSDate *centerDisplayDate;
     UIBarButtonItem *addButton;
     NSMutableArray *alertsArray;
     NSMutableArray *allergiesArray;
@@ -72,7 +71,7 @@ typedef enum : NSUInteger {
     displayMedicationListArray = [[NSMutableArray alloc] init];
     currentWeekDatesArray = [[NSMutableArray alloc] init];
     rowMedicationSlotsArray = [[NSMutableArray alloc] init];
-    centerDisplayDate = [[NSDate alloc] init];
+    _centerDisplayDate = [[NSDate alloc] init];
     return self;
 }
 
@@ -178,7 +177,7 @@ typedef enum : NSUInteger {
                                                      withAdderValue:adderValue];
     currentWeekDatesArray = [DCDateUtility nextAndPreviousDays:daysCount
                                            withReferenceToDate:firstDisplayDate];
-    centerDisplayDate = (appDelegate.windowState == twoThirdWindow) ? [currentWeekDatesArray objectAtIndex:4] :
+    _centerDisplayDate = (appDelegate.windowState == twoThirdWindow) ? [currentWeekDatesArray objectAtIndex:4] :
     [currentWeekDatesArray objectAtIndex:7];
     
 }
@@ -204,7 +203,7 @@ typedef enum : NSUInteger {
         isOneThirdMedicationViewShown = YES;
         [self hideCalendarTopPortion];
         if (currentWeekDatesArray.count > 0) {
-            [self loadCurrentDayDisplayForOneThirdWithDate:centerDisplayDate];
+            [self loadCurrentDayDisplayForOneThirdWithDate:_centerDisplayDate];
         }
         [self addPrescriberDrugChartViewForOneThirdWindow];
     }
@@ -317,7 +316,7 @@ typedef enum : NSUInteger {
         NSDate *startDate;
         NSDate *endDate;
         if (prescriberMedicationOneThirdSizeViewController && isOneThirdMedicationViewShown) {
-            NSDate *date = [DCDateUtility initialDateForCalendarDisplay:centerDisplayDate withAdderValue:-7];
+            NSDate *date = [DCDateUtility initialDateForCalendarDisplay:_centerDisplayDate withAdderValue:-7];
             NSMutableArray *oneThirdweekDatesArray = [DCDateUtility nextAndPreviousDays:15 withReferenceToDate:date];
             startDate = [oneThirdweekDatesArray objectAtIndex:0];
             endDate = [oneThirdweekDatesArray lastObject];
@@ -603,7 +602,7 @@ typedef enum : NSUInteger {
                                            withReferenceToDate:firstDisplayDate];
     NSLog(@"current week dates array in currentWeeksDateArrayFromCenterDate %@",currentWeekDatesArray);
 
-    centerDisplayDate = (appDelegate.windowState == twoThirdWindow) ? [currentWeekDatesArray objectAtIndex:4]:[currentWeekDatesArray objectAtIndex:7];
+    _centerDisplayDate = (appDelegate.windowState == twoThirdWindow) ? [currentWeekDatesArray objectAtIndex:4]:[currentWeekDatesArray objectAtIndex:7];
     [self modifyWeekDatesInCalendarTopPortion];
     [self reloadCalendarTopPortion];
 }
@@ -698,7 +697,7 @@ typedef enum : NSUInteger {
     firstDisplayDate = [DCDateUtility initialDateForCalendarDisplay:firstDisplayDate withAdderValue:adderValue];
     currentWeekDatesArray = [DCDateUtility nextAndPreviousDays:daysCount
                                            withReferenceToDate:firstDisplayDate];
-    centerDisplayDate = isTwoThirdWindow ? [currentWeekDatesArray objectAtIndex:4] :
+    _centerDisplayDate = isTwoThirdWindow ? [currentWeekDatesArray objectAtIndex:4] :
                                            [currentWeekDatesArray objectAtIndex:7];
     NSLog(@"current week dates array in modifyStartDayAndWeekDates %@",currentWeekDatesArray);
 }
@@ -753,10 +752,10 @@ typedef enum : NSUInteger {
         [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
     }
     if (prescriberMedicationOneThirdSizeViewController && isOneThirdMedicationViewShown) {
-        NSDate *date = [DCDateUtility initialDateForCalendarDisplay:centerDisplayDate withAdderValue:-7];
+        NSDate *date = [DCDateUtility initialDateForCalendarDisplay:_centerDisplayDate withAdderValue:-7];
         NSMutableArray *oneThirdweekDatesArray = [DCDateUtility nextAndPreviousDays:15 withReferenceToDate:date];
         prescriberMedicationOneThirdSizeViewController.currentWeekDatesArray = oneThirdweekDatesArray;
-        prescriberMedicationOneThirdSizeViewController.centerDate = centerDisplayDate;
+        prescriberMedicationOneThirdSizeViewController.centerDate = _centerDisplayDate;
         [prescriberMedicationOneThirdSizeViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
     }
 }
@@ -803,8 +802,8 @@ typedef enum : NSUInteger {
     if (currentWeekDatesArray.count == 0) {
         [self currentWeekDatesArrayFromDate:[DCDateUtility dateInCurrentTimeZone:[NSDate date]]];
     }
-    prescriberMedicationOneThirdSizeViewController.centerDate = centerDisplayDate;
-    NSDate *date = [DCDateUtility initialDateForCalendarDisplay:centerDisplayDate withAdderValue:-7];
+    prescriberMedicationOneThirdSizeViewController.centerDate = _centerDisplayDate;
+    NSDate *date = [DCDateUtility initialDateForCalendarDisplay:_centerDisplayDate withAdderValue:-7];
     NSMutableArray *oneThirdweekDatesArray = [DCDateUtility nextAndPreviousDays:15 withReferenceToDate:date];
     prescriberMedicationOneThirdSizeViewController.currentWeekDatesArray = oneThirdweekDatesArray;
     [prescriberMedicationOneThirdSizeViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
@@ -817,7 +816,7 @@ typedef enum : NSUInteger {
         [self addTopDatePortionInCalendar];
     }
     [dateView removeFromSuperview];
-    [self currentWeekDatesArrayFromDate:centerDisplayDate];
+    [self currentWeekDatesArrayFromDate:_centerDisplayDate];
     [self modifyWeekDatesInCalendarTopPortion];
     if (calendarDateDisplayViewController) {
         [calendarDateDisplayViewController adjustHolderFrameAndDisplayDates];

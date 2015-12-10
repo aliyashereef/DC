@@ -99,6 +99,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func configureViewElements () {
         
         initialiseMedicationSlotObject()
+        administerTableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
         //check if early administration
         if (medicationDetails?.medicineCategory == WHEN_REQUIRED) {
             checkIfFrequentAdministrationForWhenRequiredMedication()
