@@ -27,6 +27,8 @@
     NSArray *warningsArray;
     BOOL doneClicked;// for validation purpose
     BOOL showWarnings;//to check if warnings section is displayed
+    
+    DCDosageSelectionViewController *dosageSelectionViewController;
 }
 
 @property (nonatomic, strong) NSIndexPath *datePickerIndexPath;
@@ -594,28 +596,38 @@
 - (void)displayAddMedicationDetailViewForTableRowAtIndexPath:(NSIndexPath *)indexPath {
     
     //display add medication detail view
-    UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
-    DCAddMedicationDetailViewController *medicationDetailViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:ADD_MEDICATION_DETAIL_STORYBOARD_ID];
-    medicationDetailViewController.delegate = self;
-    __weak DCAddMedicationDetailViewController *weakDetailVc = medicationDetailViewController;
-    medicationDetailViewController.selectedEntry = ^ (NSString *value) {
-        [self updateMedicationDetailsTableViewWithSelectedValue:value withDetailType:weakDetailVc.detailType];
-    };
-    medicationDetailViewController.detailType = [DCAddMedicationHelper medicationDetailTypeForIndexPath:indexPath hasWarnings:showWarnings];
-    DCAddMedicationContentCell *selectedCell = [self selectedCellAtIndexPath:indexPath];
-    if (indexPath.section != 3) {
-        medicationDetailViewController.previousFilledValue = selectedCell.descriptionLabel.text;
-    }
-    if (medicationDetailViewController.detailType == eDetailDosage) {
-        if (self.isEditMedication) {
-            medicationDetailViewController.contentArray = [NSMutableArray arrayWithObject:selectedCell.descriptionLabel.text];
-        } else {
-        medicationDetailViewController.contentArray = dosageArray;
+    if ([DCAddMedicationHelper medicationDetailTypeForIndexPath:indexPath hasWarnings:showWarnings] == 1) {
+        
+        UIStoryboard *dosageStoryboard = [UIStoryboard storyboardWithName:DOSAGE_STORYBORD bundle:nil];
+        dosageSelectionViewController = [dosageStoryboard instantiateViewControllerWithIdentifier:DOSAGE_SELECTION_SBID];
+        dosageSelectionViewController.detailType = eDosageMenu;
+        [self.navigationController pushViewController:dosageSelectionViewController animated:YES];
+        
+    } else {
+        
+        UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
+        DCAddMedicationDetailViewController *medicationDetailViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:ADD_MEDICATION_DETAIL_STORYBOARD_ID];
+        medicationDetailViewController.delegate = self;
+        __weak DCAddMedicationDetailViewController *weakDetailVc = medicationDetailViewController;
+        medicationDetailViewController.selectedEntry = ^ (NSString *value) {
+            [self updateMedicationDetailsTableViewWithSelectedValue:value withDetailType:weakDetailVc.detailType];
+        };
+        medicationDetailViewController.detailType = [DCAddMedicationHelper medicationDetailTypeForIndexPath:indexPath hasWarnings:showWarnings];
+        DCAddMedicationContentCell *selectedCell = [self selectedCellAtIndexPath:indexPath];
+        if (indexPath.section != 3) {
+            medicationDetailViewController.previousFilledValue = selectedCell.descriptionLabel.text;
         }
-    } else if (medicationDetailViewController.detailType == eDetailAdministrationTime) {
-        medicationDetailViewController.contentArray = self.selectedMedication.timeArray;
+        if (medicationDetailViewController.detailType == eDetailDosage) {
+            if (self.isEditMedication) {
+                medicationDetailViewController.contentArray = [NSMutableArray arrayWithObject:selectedCell.descriptionLabel.text];
+            } else {
+                medicationDetailViewController.contentArray = dosageArray;
+            }
+        } else if (medicationDetailViewController.detailType == eDetailAdministrationTime) {
+            medicationDetailViewController.contentArray = self.selectedMedication.timeArray;
+        }
+        [self.navigationController pushViewController:medicationDetailViewController animated:YES];
     }
-    [self.navigationController pushViewController:medicationDetailViewController animated:YES];
 }
 
 - (void)displaySchedulingDetailViewForTableViewAtIndexPath:(NSIndexPath *)indexPath {

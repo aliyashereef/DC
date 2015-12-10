@@ -107,6 +107,15 @@ typedef enum : NSUInteger {
 
 typedef enum : NSUInteger {
     
+    eDosageMenu,
+    eFixedDosage,
+    eVariableDosage,
+    eReducingIncreasing,
+    eSplitDaily
+}DosageDetailType;
+
+typedef enum : NSUInteger {
+    
     eSchedulingFrequency,
     eDailyCount,
     eWeeklyCount,

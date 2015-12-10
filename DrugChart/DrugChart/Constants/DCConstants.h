@@ -83,6 +83,7 @@
 #define ONE_THIRD_SCREEN_SB @"OneThirdScreenSizeCalendar"
 #define ORDERSET_STORYBOARD @"OrderSet"
 #define PATIENT_LIST_STORYBOARD @"PatientList"
+#define DOSAGE_STORYBORD @"Dosage"
 
 // Storyboard Ids
 #define PATIENT_LIST_VIEW_CONTROLLER @"patientsListViewController"
@@ -126,6 +127,7 @@
 #define SCHEDULING_INITIAL_STORYBOARD_ID @"SchedulingInitialView"
 
 #define PRESCRIBER_MEDICATION_SBID @"PrescriberMedicationViewControllerSBID"
+#define DOSAGE_SELECTION_SBID @"DosageSelection"
 
 //Nib files
 #define WARNINGS_HEADER_VIEW_NIB @"DCWarningsHeaderView"

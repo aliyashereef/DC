@@ -1,0 +1,128 @@
+//
+//  DCDosageSelectionViewController.swift
+//  DrugChart
+//
+//  Created by Felix Joseph on 09/12/15.
+//
+//
+
+import UIKit
+
+let dosageTitle : NSString = "Dose"
+let dosageCellID : NSString = "dosagetypecell"
+let dosageMenuItems = ["Fixed","Variable","Reducing / Increasing","Split Daily"]
+
+class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+
+    var detailType : DosageDetailType = eDosageMenu
+    @IBOutlet weak var dosageTableView: UITableView!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.configureNavigationBarItems()
+        // Do any additional setup after loading the view.
+    }
+
+    func configureNavigationBarItems() {
+        
+        UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetMake(0, -60), forBarMetrics: .Default)
+        self.navigationItem.title = dosageTitle as String
+        self.title = dosageTitle as String
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+
+    // MARK: - TableView Methods
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        
+        if (detailType == eDosageMenu) {
+            
+            return 1
+        } else if (detailType == eSplitDaily) {
+            
+            return 4
+        } else {
+            
+            return 2
+        }
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if (section == 0) {
+            
+            return 4
+        } else if (section == 1) {
+            
+            switch(detailType.rawValue) {
+                
+            case eFixedDosage.rawValue, eSplitDaily.rawValue:
+                return 2
+            case eVariableDosage.rawValue:
+                return 3
+            case eReducingIncreasing.rawValue:
+                return 4
+            default:
+                break
+            }
+        } else if (section == 2) {
+            
+            return 4
+        } else {
+            
+            return 1
+        }
+        return 1
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        let dosageSelectionMenuCell : DCDosageSelectionTableViewCell? = dosageTableView.dequeueReusableCellWithIdentifier(dosageCellID as String) as? DCDosageSelectionTableViewCell
+        // Configure the cell...
+        dosageSelectionMenuCell!.dosageMenuLabel.text = dosageMenuItems[indexPath.row]
+        return dosageSelectionMenuCell!
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        if (indexPath.section == 0) {
+            
+            switch (indexPath.row) {
+                
+            case 0:
+                detailType = eFixedDosage
+            case 1:
+                detailType = eVariableDosage
+            case 2:
+                detailType = eReducingIncreasing
+            case 3:
+                detailType = eSplitDaily
+            default:
+                break
+            }
+        }
+            tableView.beginUpdates()
+            let sectionCount = tableView.numberOfSections
+            tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Fade)
+            if (sectionCount == INITIAL_SECTION_COUNT && detailType != eSplitDaily) {
+                //if section count is zero insert new section with animation
+                tableView.insertSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
+            } else {
+                //other wise reload the same section
+                tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
+            }
+            tableView.endUpdates()
+            
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
+
+    
+    /*
+    // MARK: - Navigation
+    */
+
+}
