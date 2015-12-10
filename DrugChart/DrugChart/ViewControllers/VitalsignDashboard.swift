@@ -9,7 +9,7 @@
 import UIKit
 
 
-class VitalsignDashboard: PatientViewController , ObservationDelegate {
+class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverPresentationControllerDelegate {
 
 //    @IBOutlet weak var collectionView: UICollectionView!
     
@@ -95,8 +95,16 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let controller:ObservationSelectionViewController = segue.destinationViewController as?ObservationSelectionViewController
         {
+            let popOverController:UIPopoverPresentationController = controller.popoverPresentationController!
+            popOverController.delegate = self
+            //controller.preferredContentSize = CGSizeMake(50, 100)
             controller.delegate = self
         }
+    }
+    
+    func adaptivePresentationStyleForPresentationController(
+        controller: UIPresentationController) -> UIModalPresentationStyle {
+            return .None
     }
     
 }
