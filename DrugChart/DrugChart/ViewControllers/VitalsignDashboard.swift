@@ -17,7 +17,6 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
     @IBOutlet weak var parentView: UIView!
     var observationList = [VitalSignObservation]()
     var graphicalDashBoardView:GraphicalDashBoardView!
-    var tabularDashBoardView:ExcelTabularView!
     override func viewDidLoad() {
         super.viewDidLoad()
         observationList.appendContentsOf(Helper.VitalSignObservationList)
@@ -25,9 +24,6 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         graphicalDashBoardView.commonInit()
         graphicalDashBoardView.reloadView(observationList)
         Helper.displayInChildView(graphicalDashBoardView, parentView: parentView)
-        tabularDashBoardView = ExcelTabularView.instanceFromNib() as! ExcelTabularView
-        tabularDashBoardView.delegate = self
-        tabularDashBoardView.configureView(observationList)
         self.displayTitle()
     }
 
@@ -51,10 +47,7 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         case 0:
             Helper.displayInChildView(graphicalDashBoardView,parentView:parentView)
             graphicalDashBoardView.reloadView(observationList)
-        case 1:
-            tabularDashBoardView.reloadView(observationList)
-            Helper.displayInChildView(tabularDashBoardView,parentView:parentView)
-        default:
+         default:
             print("no default value is present", terminator: "")
         }
     }
@@ -75,7 +68,6 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
 
         observationList.sortInPlace({ $0.date.compare($1.date) == NSComparisonResult.OrderedAscending })
         graphicalDashBoardView.reloadView(observationList)
-        tabularDashBoardView.reloadView(observationList)
     }
     
     //Mark: Delegate Implementation

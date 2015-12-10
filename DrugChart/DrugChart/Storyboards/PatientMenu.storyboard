@@ -340,12 +340,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="hV8-Kr-KP1">
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="hV8-Kr-KP1">
                                 <rect key="frame" x="122" y="72" width="145" height="29"/>
                                 <animations/>
                                 <segments>
-                                    <segment title="Graphical"/>
-                                    <segment title="Tabular"/>
+                                    <segment title="Day"/>
+                                    <segment title="Week"/>
+                                    <segment title="Month"/>
                                 </segments>
                                 <connections>
                                     <action selector="indexChange:" destination="0Ui-sx-cxg" eventType="valueChanged" id="vfB-tT-rAi"/>
@@ -453,25 +454,8 @@
             </objects>
             <point key="canvasLocation" x="1989" y="-62"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="VV5-6X-eeX">
-            <objects>
-                <viewController id="vNy-Iu-g36" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Tx4-FE-Z6V"/>
-                        <viewControllerLayoutGuide type="bottom" id="kJo-V4-3jY"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="0Bf-Xi-1lh">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="oMK-ge-TyY" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-        </scene>
     </scenes>
     <resources>
-        <image name="TabularView" width="24" height="24"/>
+        <image name="TabularView" width="32" height="32"/>
     </resources>
 </document>
