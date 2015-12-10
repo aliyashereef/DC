@@ -103,7 +103,7 @@ typedef enum : NSUInteger {
 }
 
 - (void)viewDidLayoutSubviews {
-    
+    [super viewDidLayoutSubviews];
     if (windowSizeChanged) {
         [self prescriberCalendarChildViewControllerBasedOnWindowState];
         [self addCustomTitleViewToNavigationBar];
@@ -115,6 +115,7 @@ typedef enum : NSUInteger {
 
 - (void)viewWillTransitionToSize:(CGSize)size
        withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     [self dateViewForOrientationChanges];
     windowSizeChanged = YES;
 }
@@ -145,8 +146,6 @@ typedef enum : NSUInteger {
         calendarDateHolderViewTopSpace.constant = 64.0;
         medicationListHolderVIewTopConstraint.constant = 115.0;
     }
-    [super viewDidLayoutSubviews];
-
 }
 
 - (void)todayActionForCalendarTop {

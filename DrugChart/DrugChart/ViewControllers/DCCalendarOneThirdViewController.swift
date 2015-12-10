@@ -67,10 +67,6 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         self.view.layoutIfNeeded()
     }
     
-    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
-        self.calendarStripCollectionView.reloadData()
-    }
     //MARK: - Collection View Delegate Methods
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
