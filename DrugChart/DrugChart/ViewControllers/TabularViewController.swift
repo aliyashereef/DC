@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TabularViewController: UIViewController , UICollectionViewDataSource, UICollectionViewDelegate , ObservationDelegate {
+class TabularViewController: UIViewController , UICollectionViewDataSource, UICollectionViewDelegate , ObservationDelegate ,UIPopoverPresentationControllerDelegate{
 
   //  @IBOutlet weak var childView: UIView!
     //var tabularDashBoardView:ExcelTabularView!
@@ -34,6 +34,7 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
         
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
+        self.title = "Vital Signs"
         self.collectionView .registerNib(UINib(nibName: "HeaderCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: headerCellIdentifier)
         self.collectionView .registerNib(UINib(nibName: "ContentCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: contentCellIdentifier)
         self.collectionView .registerNib(UINib(nibName: "RowHeaderCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: rowHeaderCellIdentifier)
@@ -166,6 +167,10 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
         calendarViewController.preferredContentSize = CGSizeMake(320,250)
         calendarViewController.popoverPresentationController?.barButtonItem = sortMenuItem
         calendarViewController.delegate = self
+        
+        let popOverController:UIPopoverPresentationController = calendarViewController.popoverPresentationController!
+        popOverController.delegate = self
+        
         self.presentViewController(calendarViewController, animated: false, completion: nil)
     }
     // Mark: Delegate implementation
@@ -195,6 +200,10 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
         // Dispose of any resources that can be recreated.
     }
     
+    func adaptivePresentationStyleForPresentationController(
+        controller: UIPresentationController) -> UIModalPresentationStyle {
+            return .None
+    }
 
 //    /*
 //    // MARK: - Navigation

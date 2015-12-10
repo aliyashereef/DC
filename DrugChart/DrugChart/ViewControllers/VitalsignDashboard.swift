@@ -29,11 +29,20 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
 
     func displayTitle()
     {
-        var titleView:DCCalendarNavigationTitleView?
-        titleView = NSBundle.mainBundle().loadNibNamed("DCCalendarNavigationTitleView", owner: self, options: nil)[0] as? DCCalendarNavigationTitleView
-        
-       titleView!.populateViewWithPatientName(patient.patientName, nhsNumber:patient.nhs, dateOfBirth: patient.dob, age: patient.age)
-       self.navigationItem.titleView = titleView
+        if UIDevice.currentDevice().userInterfaceIdiom == .Phone
+        {
+            var titleView:DCOneThirdCalendarNavigationTitleView?
+            titleView = NSBundle.mainBundle().loadNibNamed("DCOneThirdCalendarNavigationTitleView", owner: self, options: nil)[0] as? DCOneThirdCalendarNavigationTitleView
+            titleView!.populateViewWithPatientName(patient.patientName, nhsNumber:patient.nhs, dateOfBirth: patient.dob, age: patient.age)
+            self.navigationItem.titleView = titleView;
+        }
+        else
+        {
+            var titleView:DCCalendarNavigationTitleView?
+            titleView = NSBundle.mainBundle().loadNibNamed("DCCalendarNavigationTitleView", owner: self, options: nil)[0] as? DCCalendarNavigationTitleView
+            titleView!.populateViewWithPatientName(patient.patientName, nhsNumber:patient.nhs, dateOfBirth: patient.dob, age: patient.age)
+            self.navigationItem.titleView = titleView
+        }
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
