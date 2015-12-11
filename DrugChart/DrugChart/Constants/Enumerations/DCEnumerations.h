@@ -122,8 +122,9 @@ typedef enum : NSInteger {
 }PickerType;
 
 
+
 //typedef enum : NSUInteger {
-//    
+//
 //    oneThirdWindow,
 //    halfWindow,
 //    twoThirdWindow,

@@ -126,7 +126,25 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
                 switch indexPath.row {
                 case 0 :
                     schedulingCell!.titleLabel?.text = NSLocalizedString("REPEAT_FREQUENCY", comment: "")
-                    schedulingCell!.descriptionLabel.text = scheduling?.interval?.repeatFrequency
+                    var repeatFrequency : NSString = EMPTY_STRING
+                    var unit : NSString = EMPTY_STRING
+                    if (scheduling?.interval?.repeatFrequencyType == DAYS_TITLE) {
+                        if (scheduling?.interval?.daysCount != nil) {
+                            unit = ((scheduling?.interval?.daysCount)! == "1") ? DAY : DAYS
+                            repeatFrequency = NSString(format: "%@ %@", (scheduling?.interval?.daysCount)!, unit)
+                        }
+                    } else if (scheduling?.interval?.repeatFrequencyType == HOURS_TITLE) {
+                        if (scheduling?.interval?.hoursCount != nil) {
+                            unit = ((scheduling?.interval?.hoursCount)! == "1") ? HOUR : HOURS
+                            repeatFrequency = NSString(format: "%@ %@", (scheduling?.interval?.hoursCount)!, unit)
+                        }
+                    } else if (scheduling?.interval?.repeatFrequencyType == MINUTES_TITLE) {
+                        if (scheduling?.interval?.minutesCount != nil) {
+                            unit = ((scheduling?.interval?.minutesCount)! == "1") ? MINUTE : MINUTES
+                            repeatFrequency = NSString(format: "%@ %@", (scheduling?.interval?.minutesCount)!, unit)
+                        }
+                    }
+                    schedulingCell!.descriptionLabel.text = repeatFrequency as String
                     break
                 default :
                     break

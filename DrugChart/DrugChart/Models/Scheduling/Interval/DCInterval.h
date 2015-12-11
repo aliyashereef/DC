@@ -11,7 +11,9 @@
 @interface DCInterval : NSObject
 
 @property (nonatomic, strong) NSString *repeatFrequencyType;
-@property (nonatomic, strong) NSString *repeatFrequency;
+@property (nonatomic, strong) NSString *daysCount;
+@property (nonatomic, strong) NSString *hoursCount;
+@property (nonatomic, strong) NSString *minutesCount;
 @property (nonatomic) BOOL hasStartAndEndDate;
 @property (nonatomic, strong) NSString *startTime;
 @property (nonatomic, strong) NSString *endTime;
