@@ -99,10 +99,63 @@ class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, 
         } else {
             
             let dosageSelectionDetailCell : DCDosageSelectionTableViewCell? = dosageTableView.dequeueReusableCellWithIdentifier(dosageDetailCellID as String) as? DCDosageSelectionTableViewCell
-            // Configure the cell...
-            dosageSelectionDetailCell!.dosageDetailLabel.text = "Dosage Unit"
-            dosageSelectionDetailCell!.dosageDetailValueLabel.text = "mg"
-            
+            switch (detailType.rawValue) {
+                
+            case eFixedDosage.rawValue:
+                // Configure the cell...
+                if(indexPath.row == 0){
+                    dosageSelectionDetailCell!.dosageDetailLabel.text = "Dose Unit"
+                    dosageSelectionDetailCell!.dosageDetailValueLabel.text = "mg"
+                }else {
+                    
+                    dosageSelectionDetailCell!.dosageDetailLabel.text = "Dose"
+                    dosageSelectionDetailCell!.dosageDetailValueLabel.text = "500"
+                }
+            case eVariableDosage.rawValue:
+                // Configure the cell...
+                if(indexPath.row == 0) {
+                    dosageSelectionDetailCell!.dosageDetailLabel.text = "Dose Unit"
+                    dosageSelectionDetailCell!.dosageDetailValueLabel.text = "mg"
+                }else if (indexPath.row == 1) {
+                    
+                    dosageSelectionDetailCell!.dosageDetailLabel.text = "From"
+                    dosageSelectionDetailCell!.dosageDetailValueLabel.text = "500"
+                } else {
+                    
+                    dosageSelectionDetailCell!.dosageDetailLabel.text = "To"
+                    dosageSelectionDetailCell!.dosageDetailValueLabel.text = "250"
+                }
+            case eReducingIncreasing.rawValue:
+                // Configure the cell...
+                if(indexPath.row == 0) {
+                    dosageSelectionDetailCell!.dosageDetailLabel.text = "Dose Unit"
+                    dosageSelectionDetailCell!.dosageDetailValueLabel.text = "mg"
+                }else if (indexPath.row == 1) {
+                    
+                    dosageSelectionDetailCell!.dosageDetailLabel.text = "Starting Dose"
+                    dosageSelectionDetailCell!.dosageDetailValueLabel.text = "500"
+                } else if(indexPath.row == 2){
+                    
+                    dosageSelectionDetailCell!.dosageDetailLabel.text = "Change over"
+                    dosageSelectionDetailCell!.dosageDetailValueLabel.text = "days"
+                } else {
+                    
+                    dosageSelectionDetailCell!.dosageDetailLabel.text = "Conditions"
+                    dosageSelectionDetailCell!.dosageDetailValueLabel.text = "Reduce 50 mg every day"
+                }
+            case eSplitDaily.rawValue:
+                // Configure the cell...
+                if(indexPath.row == 0){
+                    dosageSelectionDetailCell!.dosageDetailLabel.text = "Dose Unit"
+                    dosageSelectionDetailCell!.dosageDetailValueLabel.text = "mg"
+                }else {
+                    
+                    dosageSelectionDetailCell!.dosageDetailLabel.text = "Dose"
+                    dosageSelectionDetailCell!.dosageDetailValueLabel.text = "500"
+                }
+            default:
+                break
+            }
             return dosageSelectionDetailCell!
         }
     }
@@ -121,7 +174,6 @@ class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, 
             case 0:
                 if (detailType == eFixedDosage){
                     
-                    tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .None
                     isRowAlreadySelected = true
                 }else {
                     
@@ -130,7 +182,6 @@ class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, 
             case 1:
                 if (detailType == eVariableDosage){
                     
-                    tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .None
                     isRowAlreadySelected = true
                 }else {
                     
@@ -139,7 +190,6 @@ class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, 
             case 2:
                 if (detailType == eReducingIncreasing){
                     
-                    tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .None
                     isRowAlreadySelected = true
                 }else {
                     
@@ -148,7 +198,6 @@ class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, 
             case 3:
                 if (detailType == eSplitDaily){
                     
-                    tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .None
                     isRowAlreadySelected = true
                 }else {
                     
@@ -162,6 +211,7 @@ class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, 
             
             detailType = eDosageMenu
             isRowAlreadySelected = false
+            tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .None
             tableView.deleteSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
         } else {
             
