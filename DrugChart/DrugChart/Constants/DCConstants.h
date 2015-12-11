@@ -128,6 +128,7 @@
 
 #define PRESCRIBER_MEDICATION_SBID @"PrescriberMedicationViewControllerSBID"
 #define DOSAGE_SELECTION_SBID @"DosageSelection"
+#define DOSAGE_DETAIL_SBID @"DosageDetail"
 
 //Nib files
 #define WARNINGS_HEADER_VIEW_NIB @"DCWarningsHeaderView"

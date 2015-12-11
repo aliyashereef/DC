@@ -112,7 +112,16 @@ typedef enum : NSUInteger {
     eVariableDosage,
     eReducingIncreasing,
     eSplitDaily
+}DosageSelectionType;
+
+typedef enum : NSUInteger {
+    
+    eDoseUnit,
+    eDoseValue,
+    eDoseFrom,
+    eDoseTo
 }DosageDetailType;
+
 
 typedef enum : NSUInteger {
     

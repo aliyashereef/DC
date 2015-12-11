@@ -12,20 +12,33 @@ let dosageTitle : NSString = "Dose"
 let dosageCellID : NSString = "dosagetypecell"
 let dosageDetailCellID : NSString = "dosageDetailCell"
 let dosageMenuItems = ["Fixed","Variable","Reducing / Increasing","Split Daily"]
+let doseUnitLabelText : NSString = "Dose Unit"
+let doseValueLabelText : NSString = "Dose"
+let doseFromLabelText : NSString = "From"
+let doseToLabelText : NSString = "To"
 
-class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DataEnteredDelegate {
 
-    var detailType : DosageDetailType = eDosageMenu
+    var menuType : DosageSelectionType = eDosageMenu
     var isRowAlreadySelected : Bool = false
+    var valueForDoseUnit : NSString = "mg"
+    var valueForDoseValue : NSString = ""
     var previousIndexPath = NSIndexPath(forRow: 5, inSection: 0)
+    var dosageArray = [String]()
     @IBOutlet weak var dosageTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        valueForDoseValue = dosageArray[0] as String
         self.configureNavigationBarItems()
         // Do any additional setup after loading the view.
     }
 
+    override func viewDidAppear(animated: Bool) {
+        
+        dosageTableView.reloadData()
+    }
+    
     func configureNavigationBarItems() {
         
         UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetMake(0, -60), forBarMetrics: .Default)
@@ -42,10 +55,10 @@ class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, 
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        if (detailType == eDosageMenu) {
+        if (menuType == eDosageMenu) {
             
             return 1
-        } else if (detailType == eSplitDaily) {
+        } else if (menuType == eSplitDaily) {
             
             return 2
         } else {
@@ -61,29 +74,30 @@ class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, 
             return 4
         } else if (section == 1) {
             
-            switch(detailType.rawValue) {
+            switch(menuType.rawValue) {
                 
             case eFixedDosage.rawValue:
                 return 2
-            case eSplitDaily.rawValue:
-                return 2 
+//            case eSplitDaily.rawValue:
+//                return 2 
             case eVariableDosage.rawValue:
                 return 3
-            case eReducingIncreasing.rawValue:
-                return 4
+//            case eReducingIncreasing.rawValue:
+//                return 4
             default:
                 break
             }
-        } else if (section == 2) {
-            
-            return 4
+//        } else if (section == 2) {
+//            
+//            return 4
+//        }
         }
         return 1
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        if ( indexPath .section == 0) {
+        if ( indexPath.section == 0) {
             let dosageSelectionMenuCell : DCDosageSelectionTableViewCell? = dosageTableView.dequeueReusableCellWithIdentifier(dosageCellID as String) as? DCDosageSelectionTableViewCell
             // Configure the cell...
             dosageSelectionMenuCell!.dosageMenuLabel.text = dosageMenuItems[indexPath.row]
@@ -99,37 +113,38 @@ class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, 
         } else {
             
             let dosageSelectionDetailCell : DCDosageSelectionTableViewCell? = dosageTableView.dequeueReusableCellWithIdentifier(dosageDetailCellID as String) as? DCDosageSelectionTableViewCell
-            switch (detailType.rawValue) {
+            switch (menuType.rawValue) {
                 
             case eFixedDosage.rawValue:
                 // Configure the cell...
                 if(indexPath.row == 0){
-                    dosageSelectionDetailCell!.dosageDetailLabel.text = "Dose Unit"
-                    dosageSelectionDetailCell!.dosageDetailValueLabel.text = "mg"
+                    
+                    dosageSelectionDetailCell!.dosageDetailLabel.text = doseUnitLabelText as String
+                    dosageSelectionDetailCell!.dosageDetailValueLabel.text = valueForDoseUnit as String
                 }else {
                     
-                    dosageSelectionDetailCell!.dosageDetailLabel.text = "Dose"
-                    dosageSelectionDetailCell!.dosageDetailValueLabel.text = "500"
+                    dosageSelectionDetailCell!.dosageDetailLabel.text = doseValueLabelText as String
+                    dosageSelectionDetailCell!.dosageDetailValueLabel.text = valueForDoseValue as String
                 }
             case eVariableDosage.rawValue:
                 // Configure the cell...
                 if(indexPath.row == 0) {
-                    dosageSelectionDetailCell!.dosageDetailLabel.text = "Dose Unit"
-                    dosageSelectionDetailCell!.dosageDetailValueLabel.text = "mg"
+                    dosageSelectionDetailCell!.dosageDetailLabel.text = doseUnitLabelText as String
+                    dosageSelectionDetailCell!.dosageDetailValueLabel.text = valueForDoseUnit as String
                 }else if (indexPath.row == 1) {
                     
-                    dosageSelectionDetailCell!.dosageDetailLabel.text = "From"
-                    dosageSelectionDetailCell!.dosageDetailValueLabel.text = "500"
+                    dosageSelectionDetailCell!.dosageDetailLabel.text = doseFromLabelText as String
+                    dosageSelectionDetailCell!.dosageDetailValueLabel.text = valueForDoseValue as String
                 } else {
                     
-                    dosageSelectionDetailCell!.dosageDetailLabel.text = "To"
-                    dosageSelectionDetailCell!.dosageDetailValueLabel.text = "250"
+                    dosageSelectionDetailCell!.dosageDetailLabel.text = doseToLabelText as String
+                    dosageSelectionDetailCell!.dosageDetailValueLabel.text = valueForDoseValue as String
                 }
             case eReducingIncreasing.rawValue:
                 // Configure the cell...
                 if(indexPath.row == 0) {
-                    dosageSelectionDetailCell!.dosageDetailLabel.text = "Dose Unit"
-                    dosageSelectionDetailCell!.dosageDetailValueLabel.text = "mg"
+                    dosageSelectionDetailCell!.dosageDetailLabel.text = doseUnitLabelText as String
+                    dosageSelectionDetailCell!.dosageDetailValueLabel.text = valueForDoseUnit as String
                 }else if (indexPath.row == 1) {
                     
                     dosageSelectionDetailCell!.dosageDetailLabel.text = "Starting Dose"
@@ -165,69 +180,119 @@ class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, 
         if (indexPath.section == 0) {
             
             previousIndexPath = indexPath
-        }
-        tableView.reloadData()
-        if (indexPath.section == 0) {
-            
+            tableView.reloadData()
             switch (indexPath.row) {
                 
             case 0:
-                if (detailType == eFixedDosage){
+                if (menuType == eFixedDosage){
                     
                     isRowAlreadySelected = true
                 }else {
                     
-                    detailType = eFixedDosage
+                    menuType = eFixedDosage
                 }
             case 1:
-                if (detailType == eVariableDosage){
+                if (menuType == eVariableDosage){
                     
                     isRowAlreadySelected = true
                 }else {
                     
-                    detailType = eVariableDosage
+                    menuType = eVariableDosage
                 }
             case 2:
-                if (detailType == eReducingIncreasing){
+                if (menuType == eReducingIncreasing){
                     
                     isRowAlreadySelected = true
                 }else {
-                    
-                    detailType = eReducingIncreasing
+                    //eReducingIncreasing in next release
+                    menuType = eDosageMenu
                 }
             case 3:
-                if (detailType == eSplitDaily){
+                if (menuType == eSplitDaily){
                     
                     isRowAlreadySelected = true
                 }else {
                     
-                    detailType = eSplitDaily
+                    //eSplitDaily in next release
+                    menuType = eDosageMenu
                 }
             default:
                 break
             }
-        }
-        if (isRowAlreadySelected == true){
-            
-            detailType = eDosageMenu
-            isRowAlreadySelected = false
-            tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .None
-            tableView.deleteSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+            if (isRowAlreadySelected == true){
+                
+                menuType = eDosageMenu
+                isRowAlreadySelected = false
+                tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .None
+                tableView.deleteSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+            } else if (indexPath.row != 2 && indexPath.row != 3){
+                
+                tableView.beginUpdates()
+                let sectionCount = tableView.numberOfSections
+                //tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Fade)
+                if (sectionCount == INITIAL_SECTION_COUNT) {
+                    //if section count is zero insert new section with animation
+                    tableView.insertSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+                } else {
+                    //other wise reload the same section
+                    tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+                }
+                tableView.endUpdates()
+            }
+            let sectionCount = tableView.numberOfSections
+            if ( (indexPath.row == 2 || indexPath.row == 3) && sectionCount > 1) {
+                
+                tableView.deleteSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+            }
         } else {
             
-            tableView.beginUpdates()
-            let sectionCount = tableView.numberOfSections
-            //tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Fade)
-            if (sectionCount == INITIAL_SECTION_COUNT) {
-                //if section count is zero insert new section with animation
-                tableView.insertSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
-            } else {
-                //other wise reload the same section
-                tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+            let dosageDetailViewController : DCDosageDetailViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_DETAIL_SBID) as? DCDosageDetailViewController
+            dosageDetailViewController?.delegate = self
+            dosageDetailViewController?.dosageDetailsArray = dosageArray
+            switch (menuType.rawValue) {
+                
+            case eFixedDosage.rawValue:
+                if (indexPath.row == 0){
+                    
+                    dosageDetailViewController?.previousSelectedValue = valueForDoseUnit
+                    dosageDetailViewController?.detailType = eDoseUnit
+                } else {
+                    
+                    dosageDetailViewController?.previousSelectedValue = valueForDoseValue
+                    dosageDetailViewController?.detailType = eDoseValue
+                }
+            case eVariableDosage.rawValue:
+                if (indexPath.row == 0) {
+                    
+                    dosageDetailViewController?.previousSelectedValue = valueForDoseUnit
+                    dosageDetailViewController?.detailType = eDoseUnit
+                } else if (indexPath.row == 1) {
+                    
+                    dosageDetailViewController?.previousSelectedValue = valueForDoseValue
+                    dosageDetailViewController?.detailType = eDoseFrom
+                } else {
+                    
+                    dosageDetailViewController?.previousSelectedValue = valueForDoseValue
+                    dosageDetailViewController?.detailType = eDoseTo
+                }
+            default:
+                break
             }
-            tableView.endUpdates()
+            self.navigationController?.pushViewController(dosageDetailViewController!, animated: true)
         }
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
+    
+    func userDidSelectDosageUnit(value: String) {
+        
+        valueForDoseUnit = value
+        dosageTableView.reloadData()
+    }
+    
+    func userDidSelectDosageValue(value: String) {
+        
+        valueForDoseValue = value
+        dosageTableView.reloadData()
     }
 }

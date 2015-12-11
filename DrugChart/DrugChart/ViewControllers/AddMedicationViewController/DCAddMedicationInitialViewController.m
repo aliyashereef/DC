@@ -600,7 +600,8 @@
         
         UIStoryboard *dosageStoryboard = [UIStoryboard storyboardWithName:DOSAGE_STORYBORD bundle:nil];
         dosageSelectionViewController = [dosageStoryboard instantiateViewControllerWithIdentifier:DOSAGE_SELECTION_SBID];
-        dosageSelectionViewController.detailType = eDosageMenu;
+        dosageSelectionViewController.dosageArray = dosageArray;
+        dosageSelectionViewController.menuType = eDosageMenu;
         [self.navigationController pushViewController:dosageSelectionViewController animated:YES];
         
     } else {
