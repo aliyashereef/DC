@@ -98,7 +98,7 @@
              [self showNavigationBar:YES];
         }
     } else {
-        if (windowWidth < screenWidth) {
+        if (windowWidth <= screenWidth) {
             [self showNavigationBar:YES];
         } else {
             [self showNavigationBar:NO];

@@ -87,6 +87,7 @@
     
     medicationListTableView.layoutMargins = UIEdgeInsetsZero;
     medicationListTableView.separatorInset = UIEdgeInsetsZero;
+    medicationListTableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     medicationWebService = [[DCMedicationSearchWebService alloc] init];
     medicationListArray = [NSMutableArray arrayWithArray:@[NSLocalizedString(@"SEARCH_MEDICATION_MIN_LIMIT", @"")]];
 }

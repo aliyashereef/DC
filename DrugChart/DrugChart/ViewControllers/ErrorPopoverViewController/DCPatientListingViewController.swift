@@ -70,6 +70,7 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
     func configureSearchBarViewProperties() {
         if isSearching {
             patientListTableView.setContentOffset(CGPointZero, animated: false)
+            patientListTableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
         } else {
             searchBar.text = EMPTY_STRING
             self.performSelector("hideSearchBar", withObject:nil , afterDelay:0.0)
