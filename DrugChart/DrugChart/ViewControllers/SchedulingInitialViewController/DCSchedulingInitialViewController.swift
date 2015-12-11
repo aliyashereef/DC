@@ -17,7 +17,13 @@ let INSTRUCTIONS_ROW_HEIGHT : CGFloat = 78
 let FREQUENCY_TYPES_COUNT : NSInteger = 2
 let SPECIFIC_TIMES_ROW_COUNT : NSInteger = 3
 let INTERVAL_ROW_COUNT : NSInteger = 5
-
+let TIME_PICKER_CELL_HEIGHT : CGFloat = 216.0
+let DESCRIPTION_ROW_INDEX_WITH_START_END_TIME : NSInteger = 4
+let DESCRIPTION_ROW_INDEX_WITHOUT_START_END_TIME : NSInteger = 2
+let INLINE_PICKER_ROW_START_TIME : NSInteger = 3
+let DESCRIPTION_ROW_INLINE_PICKER_AT_START_TIME : NSInteger = 5
+let DESCRIPTION_ROW_INLINE_PICKER_AT_END_TIME : NSInteger = 4
+let START_TIME_ROW_INDEX : NSInteger = 2
 
 typealias SelectedScheduling = DCScheduling? -> Void
 typealias UpdatedTimeArray = NSMutableArray? -> Void
@@ -32,10 +38,17 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
     var validate : Bool = false
     var selectedSchedulingValue : SelectedScheduling = {value in }
     var updatedTimeArray : UpdatedTimeArray = {times in }
+    var inlinePickerIndexPath : NSIndexPath?
+   // var lastIndexPath : NSIndexPath?
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
+//        if (self.scheduling?.type == SPECIFIC_TIMES) {
+//            lastIndexPath = NSIndexPath(forRow: 2, inSection: 1)
+//        } else {
+//            lastIndexPath = NSIndexPath(forRow: 4, inSection: 1)
+//        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -165,7 +178,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         } else if (indexPath.row == 2) {
             let startTime = self.scheduling?.interval?.startTime == nil ? EMPTY_STRING : self.scheduling?.interval?.startTime
             timeCell?.configureTimeCellForTimeType(NSLocalizedString("START_TIME", comment: "start time title"), withSelectedValue:startTime!)
-        } else if (indexPath.row == 3) {
+        } else if (indexPath.row == 3 || indexPath.row == 4) {
             let endTime = self.scheduling?.interval?.endTime == nil ? EMPTY_STRING : self.scheduling?.interval?.endTime
             timeCell?.configureTimeCellForTimeType(NSLocalizedString("END_TIME", comment: "end time title"), withSelectedValue: endTime!)
         }
@@ -205,13 +218,73 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
             //repeat frequency cell
             let repeatFrequencyCell : DCSchedulingCell? = frequencyCellAtIndexPath(indexPath)
             return repeatFrequencyCell!
-        } else if (indexPath.row == 1 || indexPath.row == 2 || indexPath.row == 3) {
-            let timeCell = timeCellAtIndexPath(indexPath)
-            return timeCell
-        } else {
-            let descriptionCell : DCSchedulingDescriptionTableCell? = descriptionCellAtIndexPath(indexPath)
-            return descriptionCell!
         }
+        
+        if (self.scheduling?.interval.hasStartAndEndDate == false) {
+            if (indexPath.row == DESCRIPTION_ROW_INDEX_WITHOUT_START_END_TIME) {
+                //description row index
+                let descriptionCell : DCSchedulingDescriptionTableCell? = descriptionCellAtIndexPath(indexPath)
+                return descriptionCell!
+            } else {
+                let timeCell = timeCellAtIndexPath(indexPath)
+                return timeCell
+            }
+        } else {
+            if (self.inlinePickerIndexPath == nil) {
+                if (indexPath.row == DESCRIPTION_ROW_INDEX_WITH_START_END_TIME) { //description row index
+                    let descriptionCell : DCSchedulingDescriptionTableCell? = descriptionCellAtIndexPath(indexPath)
+                    return descriptionCell!
+                } else {
+                    let timeCell = timeCellAtIndexPath(indexPath)
+                    return timeCell
+                }
+            } else if (self.inlinePickerIndexPath?.row == INLINE_PICKER_ROW_START_TIME) {
+                //inline picker for start time field
+                if (indexPath.row == self.inlinePickerIndexPath?.row) {
+                    let pickerCell = intervalTimePickerCell(indexPath)
+                    return pickerCell
+                } else if (indexPath.row == DESCRIPTION_ROW_INLINE_PICKER_AT_START_TIME) {
+                    //description row
+                    let descriptionCell : DCSchedulingDescriptionTableCell? = descriptionCellAtIndexPath(indexPath)
+                    return descriptionCell!
+                } else {
+                    let timeCell = timeCellAtIndexPath(indexPath)
+                    return timeCell
+                }
+            } else {
+                //inline picker for end field
+                if (indexPath.row == self.inlinePickerIndexPath?.row) {
+                    let pickerCell = intervalTimePickerCell(indexPath)
+                    return pickerCell
+                } else if (indexPath.row == DESCRIPTION_ROW_INLINE_PICKER_AT_END_TIME) {
+                    //description row
+                    let descriptionCell : DCSchedulingDescriptionTableCell? = descriptionCellAtIndexPath(indexPath)
+                    return descriptionCell!
+                } else {
+                    let timeCell = timeCellAtIndexPath(indexPath)
+                    return timeCell
+                }
+                
+            }
+        }
+     }
+    
+    func intervalTimePickerCell(indexPath : NSIndexPath) -> DCSChedulingTimePickerCell {
+        
+        //configure scheduling table cell
+        let timePickerCell : DCSChedulingTimePickerCell? = schedulingTableView.dequeueReusableCellWithIdentifier(SCHEDULING_DATE_PICKER_CELL_ID) as? DCSChedulingTimePickerCell
+        timePickerCell!.isStartTimePicker = (indexPath.row == START_TIME_ROW_INDEX) ? true : false
+        timePickerCell!.timePickerCompletion = { time in
+            if (timePickerCell!.isStartTimePicker == true) {
+                self.scheduling?.interval?.startTime = time as? String
+            } else {
+                self.scheduling?.interval?.endTime = time as? String
+            }
+            self.schedulingTableView.beginUpdates()
+            self.schedulingTableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            self.schedulingTableView.endUpdates()
+        }
+        return timePickerCell!
     }
     
     func configureFrequencyTableForFrequencyTypeSelectionAtindexPath(indexPath : NSIndexPath) {
@@ -234,17 +307,67 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
                 self.scheduling?.interval?.hasStartAndEndDate = true
             }
         }
+        dispatch_async(dispatch_get_main_queue(), {
+            self.schedulingTableView.beginUpdates()
+            let sectionCount = self.schedulingTableView.numberOfSections
+            self.schedulingTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Fade)
+            if (sectionCount == INITIAL_SECTION_COUNT) {
+                //if section count is zero insert new section with animation
+                self.schedulingTableView.insertSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
+            } else {
+                //other wise reload the same section
+                self.schedulingTableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
+            }
+            self.schedulingTableView.endUpdates()
+        })
+    }
+    
+    func tableViewHasInlinePickerForSection (section : NSInteger) -> Bool {
+        
+        return (self.inlinePickerIndexPath != nil && section == self.inlinePickerIndexPath?.section)
+    }
+    
+    func indexPathHasPicker(indexPath : NSIndexPath) -> Bool {
+        
+        return (tableViewHasInlinePickerForSection(indexPath.section) && self.inlinePickerIndexPath!.row == indexPath.row);
+    }
+    
+    func displayInlinePickerForRowAtIndexPath(indexPath : NSIndexPath) {
+        
         schedulingTableView.beginUpdates()
-        let sectionCount = schedulingTableView.numberOfSections
-        schedulingTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Fade)
-        if (sectionCount == INITIAL_SECTION_COUNT) {
-            //if section count is zero insert new section with animation
-            schedulingTableView.insertSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
-        } else {
-            //other wise reload the same section
-            schedulingTableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
+        var pickerBeforeSelectedIndexPath = false
+        var sameCellClicked = false
+        if (self.inlinePickerIndexPath != nil) {
+            pickerBeforeSelectedIndexPath = self.inlinePickerIndexPath!.row < indexPath.row
+            if (tableViewHasInlinePickerForSection(indexPath.section)) {
+                sameCellClicked = (self.inlinePickerIndexPath!.row - 1 == indexPath.row);
+            }
+            let pickerIndexPath : NSIndexPath = self.inlinePickerIndexPath!
+            self.inlinePickerIndexPath = nil
+            schedulingTableView.deleteRowsAtIndexPaths([pickerIndexPath], withRowAnimation: UITableViewRowAnimation.Fade)
         }
+        // remove any picker cell if it exists
+        if (!sameCellClicked) {
+            // hide the date picker and display the new one
+            let rowToReveal : NSInteger = (pickerBeforeSelectedIndexPath ? indexPath.row - 1 : indexPath.row);
+            let indexPathToReveal : NSIndexPath = NSIndexPath(forItem: rowToReveal, inSection: indexPath.section)
+            togglePickerForSelectedIndexPath(indexPathToReveal)
+            self.inlinePickerIndexPath = NSIndexPath(forItem: indexPathToReveal.row + 1, inSection: indexPath.section)
+        }
+        schedulingTableView.deselectRowAtIndexPath(indexPath, animated: true)
         schedulingTableView.endUpdates()
+    }
+    
+    func togglePickerForSelectedIndexPath(indexPath : NSIndexPath) {
+        
+        // detailTableView.beginUpdates()
+        let indexPaths = [NSIndexPath(forItem: indexPath.row + 1, inSection: indexPath.section)]
+        if (tableViewHasInlinePickerForSection(indexPath.section)) {
+            schedulingTableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.Fade)
+        } else {
+            // didn't find a picker below it, so we should insert it
+            schedulingTableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.Fade)
+        }
     }
     
     // MARK: TableView Methods
@@ -266,11 +389,14 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
             if (self.scheduling?.type == SPECIFIC_TIMES) {
                 return SPECIFIC_TIMES_ROW_COUNT
             } else {
+                var rowCount : NSInteger = 3
                 if (self.scheduling?.interval?.hasStartAndEndDate == true) {
-                    return 5
-                } else {
-                    return 3
+                    rowCount = 5
                 }
+                if (tableViewHasInlinePickerForSection(section)) {
+                    rowCount++
+                }
+                return rowCount
             }
         }
     }
@@ -306,7 +432,19 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
             return indexPath.row == DESCRIPTION_CELL_INDEX ? INSTRUCTIONS_ROW_HEIGHT : TABLE_VIEW_ROW_HEIGHT
         } else {
             if (self.scheduling?.interval?.hasStartAndEndDate == true) {
-                return indexPath.row == 4 ? INSTRUCTIONS_ROW_HEIGHT : TABLE_VIEW_ROW_HEIGHT
+                if (indexPathHasPicker(indexPath)) {
+                    return TIME_PICKER_CELL_HEIGHT
+                } else {
+                    if (self.inlinePickerIndexPath?.row == 3) {
+                        //picker at start date index
+                        return (indexPath.row == 5) ? INSTRUCTIONS_ROW_HEIGHT : TABLE_VIEW_ROW_HEIGHT
+                    } else if (self.inlinePickerIndexPath?.row == 4) {
+                        return (indexPath.row == 5) ? INSTRUCTIONS_ROW_HEIGHT : TABLE_VIEW_ROW_HEIGHT
+                    } else {
+                        return indexPath.row == 4 ? INSTRUCTIONS_ROW_HEIGHT : TABLE_VIEW_ROW_HEIGHT
+                    }
+//                    return (indexPath.row == lastIndexPath?.row) ? INSTRUCTIONS_ROW_HEIGHT : TABLE_VIEW_ROW_HEIGHT
+                }
             } else {
                 return indexPath.row == 2 ? INSTRUCTIONS_ROW_HEIGHT : TABLE_VIEW_ROW_HEIGHT
             }
@@ -328,8 +466,13 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
                 //cell selection for interval table cells
                 if (indexPath.row == 0) {
                     displaySchedulingDetailViewControllerForSelectedIndexPath(indexPath)
+                } else {
+                    if (self.scheduling?.interval?.hasStartAndEndDate == true) {
+                        if (indexPath.row == 2 || indexPath.row == 3 || indexPath.row == 4) {
+                            displayInlinePickerForRowAtIndexPath (indexPath)
+                        }
+                    }
                 }
-                
             }
         }
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
@@ -348,7 +491,11 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
     
     func scrollTableViewToTextViewCellIfInstructionField(isInstruction: Bool) {
         
-        schedulingTableView.setContentOffset(CGPointMake(0, 90), animated: true)
+        var scrollOffset = CGPointMake(0, 90)
+        if (tableViewHasInlinePickerForSection(1)) {
+            scrollOffset = CGPointMake(0, TIME_PICKER_CELL_HEIGHT + 90)
+        }
+        schedulingTableView.setContentOffset(scrollOffset, animated: true)
     }
     
     func updateTextViewText(instructions: String!, isInstruction: Bool) {

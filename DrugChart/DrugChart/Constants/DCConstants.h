@@ -185,6 +185,7 @@
 #define SCHEDULING_INITIAL_CELL_ID @"SchedulingInitialCellId"
 #define SCHEDULING_DESCRIPTION_CELL_ID @"SchedulingDescriptionCell"
 #define SCHEDULING_TIME_CELL_ID @"SchedulingTimeCell"
+#define SCHEDULING_DATE_PICKER_CELL_ID @"SchedulingDatePickerCellId"
 
 
 // title for views
@@ -337,6 +338,10 @@
 #define KEYBOARD_ANIMATION_DURATION 0.1
 
 #define RADIANS(degrees) ((degrees * M_PI) / 180.0)
+
+//Netherland locale
+
+#define NETHERLANDS_LOCALE       @"NL"
 
 
 //webservice error codes
