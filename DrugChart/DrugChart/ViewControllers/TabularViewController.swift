@@ -10,8 +10,6 @@ import UIKit
 
 class TabularViewController: UIViewController , UICollectionViewDataSource, UICollectionViewDelegate , ObservationDelegate ,UIPopoverPresentationControllerDelegate{
 
-  //  @IBOutlet weak var childView: UIView!
-    //var tabularDashBoardView:ExcelTabularView!
     @IBOutlet weak var sortMenuItem: UIBarButtonItem!
     
     let headerCellIdentifier = "headerCellIdentifier"
@@ -26,11 +24,6 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        tabularDashBoardView = ExcelTabularView.instanceFromNib() as! ExcelTabularView
-//        tabularDashBoardView.delegate = self
-//        tabularDashBoardView.configureView(observationList)
-//        Helper.displayInChildView(tabularDashBoardView, parentView: childView)
-//        // Do any additional setup after loading the view.
         
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
