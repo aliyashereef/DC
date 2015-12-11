@@ -16,7 +16,7 @@ static NSString *const kWardURL = @"bedmanagement/wards/%@/beds";
         withCallBackHandler:(void (^)(NSArray *bedArray, NSError *error))callBackHandler {
     
     NSString *bedsUrl = [NSString stringWithFormat:kWardURL, wardId];
-    DCDebugLog(@"The bed url is: %@", bedsUrl);
+    DDLogInfo(@"The bed url is: %@", bedsUrl);
     [[DCHTTPRequestOperationManager sharedOperationManager] GET:bedsUrl
                                                      parameters:nil
                                                         success:^(AFHTTPRequestOperation *operation, id responseObject) {

@@ -61,6 +61,9 @@ typedef enum : NSUInteger {
     DCPrescriberMedicationListViewController *prescriberMedicationListViewController;
     DCCalendarOneThirdViewController *prescriberMedicationOneThirdSizeViewController;
     DCCalendarDateDisplayViewController *calendarDateDisplayViewController;
+    
+    DCAppDelegate *appDelegate;
+    DCScreenOrientation screenOrientation;
 }
 
 @end
@@ -74,6 +77,7 @@ typedef enum : NSUInteger {
     currentWeekDatesArray = [[NSMutableArray alloc] init];
     rowMedicationSlotsArray = [[NSMutableArray alloc] init];
     _centerDisplayDate = [[NSDate alloc] init];
+    appDelegate = [[UIApplication sharedApplication] delegate];
     return self;
 }
 
@@ -86,12 +90,12 @@ typedef enum : NSUInteger {
     [self hideCalendarTopPortion];
     [self fillPrescriberMedicationDetailsInCalendarView];
     [self obtainReferencesToChildViewControllersAddedFromStoryBoard];
-    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
+    [self setCurrentScreenOrientation];
     [self prescriberCalendarChildViewControllerBasedOnWindowState];
     [self addCustomTitleViewToNavigationBar];
 }
@@ -106,6 +110,7 @@ typedef enum : NSUInteger {
     [super viewDidLayoutSubviews];
     if (windowSizeChanged) {
         [self prescriberCalendarChildViewControllerBasedOnWindowState];
+        [self setCurrentScreenOrientation];
         [self addCustomTitleViewToNavigationBar];
         windowSizeChanged = NO;
     }
@@ -118,6 +123,16 @@ typedef enum : NSUInteger {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     [self dateViewForOrientationChanges];
     windowSizeChanged = YES;
+    if (screenOrientation == landscape && appDelegate.screenOrientation == portrait) {
+        if (appDelegate.windowState == twoThirdWindow) {
+            appDelegate.windowState = halfWindow;
+            [self prescriberCalendarChildViewControllerBasedOnWindowState];
+            [self setCurrentScreenOrientation];
+            [self addCustomTitleViewToNavigationBar];
+            windowSizeChanged = NO;
+        }
+        DDLogDebug(@"view rotated from landscape to portrait");
+    }
 }
 
 
@@ -153,6 +168,11 @@ typedef enum : NSUInteger {
     [calendarDateDisplayViewController todayActionForCalendarTop];
 }
 
+- (void)setCurrentScreenOrientation {
+    
+    screenOrientation = appDelegate.screenOrientation;
+}
+
 #pragma mark - Sub views addition
 
 //TODO: we need to move this from the administer SB to PrescriberDetails SB.
@@ -184,7 +204,6 @@ typedef enum : NSUInteger {
 - (void)currentWeekDatesArrayFromDate:(NSDate *)date {
     
     NSInteger adderValue, daysCount;
-    DCAppDelegate *appDelegate = DCAPPDELEGATE;
     adderValue = (appDelegate.windowState == twoThirdWindow) ? -4 : -7;
     daysCount = (appDelegate.windowState == twoThirdWindow) ? 9 : 15;
     firstDisplayDate = [DCDateUtility initialDateForCalendarDisplay:date
@@ -339,7 +358,7 @@ typedef enum : NSUInteger {
             endDate = [currentWeekDatesArray lastObject];
         }
         NSString *startDateString = [DCDateUtility dateStringFromDate:startDate inFormat:SHORT_DATE_FORMAT];
-        NSLog(@"start and end date for API call: %@ %@", startDate, endDate);
+        DDLogDebug(@"start and end date for API call: %@ %@", startDate, endDate);
         NSString *endDateString = [DCDateUtility dateStringFromDate:endDate inFormat:SHORT_DATE_FORMAT];
         [medicationSchedulesWebService getMedicationSchedulesForPatientId:patientId fromStartDate:startDateString toEndDate:endDateString withCallBackHandler:^(NSArray *medicationsList, NSError *error) {
             NSMutableArray *medicationArray = [NSMutableArray arrayWithArray:medicationsList];
@@ -386,7 +405,7 @@ typedef enum : NSUInteger {
     [self fetchMedicationListForPatientId:self.patient.patientId
                     withCompletionHandler:^(NSArray *result, NSError *error) {
                         
-                        NSLog(@"the response is recieved ************");
+                        DDLogInfo(@"the response is recieved ************");
                         [self showActivityIndicationOnViewRefresh:false];
                         if (!error) {
                             _patient.medicationListArray = result;
@@ -408,7 +427,7 @@ typedef enum : NSUInteger {
                                 [calendarTopHolderView setHidden:NO];
                             }
                             else {
-                                NSLog(@"the error is : %@", error);
+                                DDLogError(@"the error is : %@", error);
                                 if ([_patient.medicationListArray count] == 0) {
                                     noMedicationsAvailableLabel.text = @"No medications available";
                                 }
@@ -611,7 +630,6 @@ typedef enum : NSUInteger {
 
 - (void)currentWeeksDateArrayFromCenterDate: (NSDate *)centerDate {
     NSInteger adderValue, daysCount;
-    DCAppDelegate *appDelegate = DCAPPDELEGATE;
     adderValue = (appDelegate.windowState == twoThirdWindow) ? -4 : -7;
     daysCount = (appDelegate.windowState == twoThirdWindow) ? 9 : 15;
     firstDisplayDate = [DCDateUtility initialDateForCalendarDisplay:centerDate
@@ -715,7 +733,9 @@ typedef enum : NSUInteger {
                                            withReferenceToDate:firstDisplayDate];
     _centerDisplayDate = isTwoThirdWindow ? [currentWeekDatesArray objectAtIndex:4] :
                                            [currentWeekDatesArray objectAtIndex:7];
+    DDLogDebug(@"current week dates array in modifyStartDayAndWeekDates %@",currentWeekDatesArray);
 }
+
 - (void)loadCurrentWeekDate {
     
     [self currentWeekDatesArrayFromDate:[DCDateUtility dateInCurrentTimeZone:[NSDate date]]];

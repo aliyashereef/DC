@@ -551,7 +551,7 @@ static NSString *_defaultService;
         }
         
         if (unexpectedError) {
-            NSLog(@"error: [%@] %@", @(unexpectedError.code), NSLocalizedString(@"Unexpected error has occurred.", nil));
+            DDLogError(@"error: [%@] %@", @(unexpectedError.code), NSLocalizedString(@"Unexpected error has occurred.", nil));
             if (error) {
                 *error = unexpectedError;
             }
@@ -588,7 +588,7 @@ static NSString *_defaultService;
         }
         
         if (unexpectedError) {
-            NSLog(@"error: [%@] %@", @(unexpectedError.code), NSLocalizedString(@"Unexpected error has occurred.", nil));
+            DDLogError(@"error: [%@] %@", @(unexpectedError.code), NSLocalizedString(@"Unexpected error has occurred.", nil));
             if (error) {
                 *error = unexpectedError;
             }
@@ -930,7 +930,7 @@ static NSString *_defaultService;
 {
     _synchronizable = synchronizable;
     if (_authenticationPolicy) {
-        NSLog(@"%@", @"Cannot specify both an authenticationPolicy and a synchronizable");
+        DDLogWarn(@"%@", @"Cannot specify both an authenticationPolicy and a synchronizable");
     }
 }
 
@@ -939,7 +939,7 @@ static NSString *_defaultService;
     _accessibility = accessibility;
     _authenticationPolicy = authenticationPolicy;
     if (_synchronizable) {
-        NSLog(@"%@", @"Cannot specify both an authenticationPolicy and a synchronizable");
+        DDLogWarn(@"%@", @"Cannot specify both an authenticationPolicy and a synchronizable");
     }
 }
 
@@ -1030,7 +1030,7 @@ static NSString *_defaultService;
         if (error) {
             NSError *e = (__bridge NSError *)error;
             if (e.code != errSecItemNotFound) {
-                NSLog(@"error: [%@] %@", @(e.code), e.localizedDescription);
+                DDLogError(@"error: [%@] %@", @(e.code), e.localizedDescription);
             }
         }
         
@@ -1140,7 +1140,7 @@ static NSString *_defaultService;
         if (floor(NSFoundationVersionNumber) > floor(1047.25)) { // iOS 8+ (NSFoundationVersionNumber_iOS_7_1)
             query[(__bridge __strong id)kSecUseOperationPrompt] = _authenticationPrompt;
         } else {
-            NSLog(@"%@", @"Unavailable 'authenticationPrompt' attribute on iOS versions prior to 8.0.");
+            DDLogWarn(@"%@", @"Unavailable 'authenticationPrompt' attribute on iOS versions prior to 8.0.");
         }
     }
 #endif
@@ -1173,7 +1173,7 @@ static NSString *_defaultService;
             SecAccessControlRef accessControl = SecAccessControlCreateWithFlags(kCFAllocatorDefault, accessibilityObject, (SecAccessControlCreateFlags)_authenticationPolicy, &securityError);
             if (securityError) {
                 NSError *e = (__bridge NSError *)securityError;
-                NSLog(@"error: [%@] %@", @(e.code), e.localizedDescription);
+                DDLogError(@"error: [%@] %@", @(e.code), e.localizedDescription);
                 if (error) {
                     *error = e;
                     return nil;
@@ -1190,17 +1190,17 @@ static NSString *_defaultService;
             attributes[(__bridge __strong id)kSecAttrAccessControl] = (__bridge id)accessControl;
         } else {
 #if TARGET_OS_IPHONE
-            NSLog(@"%@", @"Unavailable 'Touch ID integration' on iOS versions prior to 8.0.");
+            DDLogWarn(@"%@", @"Unavailable 'Touch ID integration' on iOS versions prior to 8.0.");
 #else
-            NSLog(@"%@", @"Unavailable 'Touch ID integration' on OS X versions prior to 10.10.");
+            DDLogWarn(@"%@", @"Unavailable 'Touch ID integration' on OS X versions prior to 10.10.");
 #endif
         }
     } else {
         if (floor(NSFoundationVersionNumber) <= floor(iOS_7_1_or_10_9_2) && _accessibility == UICKeyChainStoreAccessibilityWhenPasscodeSetThisDeviceOnly) {
 #if TARGET_OS_IPHONE
-            NSLog(@"%@", @"Unavailable 'UICKeyChainStoreAccessibilityWhenPasscodeSetThisDeviceOnly' attribute on iOS versions prior to 8.0.");
+            DDLogWarn(@"%@", @"Unavailable 'UICKeyChainStoreAccessibilityWhenPasscodeSetThisDeviceOnly' attribute on iOS versions prior to 8.0.");
 #else
-            NSLog(@"%@", @"Unavailable 'UICKeyChainStoreAccessibilityWhenPasscodeSetThisDeviceOnly' attribute on OS X versions prior to 10.10.");
+            DDLogWarn(@"%@", @"Unavailable 'UICKeyChainStoreAccessibilityWhenPasscodeSetThisDeviceOnly' attribute on OS X versions prior to 10.10.");
 #endif
         } else {
             if (accessibilityObject) {
@@ -1345,14 +1345,14 @@ static NSString *_defaultService;
 + (NSError *)argumentError:(NSString *)message
 {
     NSError *error = [NSError errorWithDomain:UICKeyChainStoreErrorDomain code:UICKeyChainStoreErrorInvalidArguments userInfo:@{NSLocalizedDescriptionKey: message}];
-    NSLog(@"error: [%@] %@", @(error.code), error.localizedDescription);
+    DDLogError(@"error: [%@] %@", @(error.code), error.localizedDescription);
     return error;
 }
 
 + (NSError *)conversionError:(NSString *)message
 {
     NSError *error = [NSError errorWithDomain:UICKeyChainStoreErrorDomain code:-67594 userInfo:@{NSLocalizedDescriptionKey: message}];
-    NSLog(@"error: [%@] %@", @(error.code), error.localizedDescription);
+    DDLogError(@"error: [%@] %@", @(error.code), error.localizedDescription);
     return error;
 }
 
@@ -1366,14 +1366,14 @@ static NSString *_defaultService;
     }
 #endif
     NSError *error = [NSError errorWithDomain:UICKeyChainStoreErrorDomain code:status userInfo:@{NSLocalizedDescriptionKey: message}];
-    NSLog(@"OSStatus error: [%@] %@", @(error.code), error.localizedDescription);
+    DDLogError(@"OSStatus error: [%@] %@", @(error.code), error.localizedDescription);
     return error;
 }
 
 + (NSError *)unexpectedError:(NSString *)message
 {
     NSError *error = [NSError errorWithDomain:UICKeyChainStoreErrorDomain code:-99999 userInfo:@{NSLocalizedDescriptionKey: message}];
-    NSLog(@"error: [%@] %@", @(error.code), error.localizedDescription);
+    DDLogError(@"error: [%@] %@", @(error.code), error.localizedDescription);
     return error;
 }
 

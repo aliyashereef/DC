@@ -32,7 +32,7 @@
                                                             }
                                                             @catch (NSException *exception) {
                                                                 
-                                                                DCDebugLog(@"exception raised is %@", exception.description);
+                                                                DDLogError(@"exception raised is %@", exception.description);
                                                             }
                                                         }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                                             

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CocoaLumberjack
 
 enum Direction  {
     case ScrollDirectionNone
@@ -381,6 +382,9 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
             firstDate = DCDateUtility.initialDateForCalendarDisplay(firstDate, withAdderValue: -adderValue)
         }
         currentWeekDatesArray = DCDateUtility.nextAndPreviousDays(daysCount, withReferenceToDate: firstDate)
+        DDLogDebug("current week dates array in modifyStartDateAndWeekDatesArray \(currentWeekDatesArray)")
+        let parentView : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
+        parentView.currentWeeksDateArrayFromCenterDate(centerDate)
         setParentViewWithCurrentWeekDateArray()
     }
        

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CocoaLumberjack
 
 let INITIAL_SECTION_COUNT : NSInteger = 1
 let TOTAL_SECTION_COUNT : NSInteger = 2
@@ -69,7 +70,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         }
         schedulingDetailViewController?.frequencyValue = { value in
             //inside our closure
-            print("Frequency value is %@", value)
+            DDLogDebug("Frequency value is \(value)")
             self.scheduling?.type = String(value!)
             if (self.scheduling?.repeatObject?.repeatType == nil) {
                 self.scheduling?.repeatObject = DCRepeat.init()
@@ -88,7 +89,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         let medicationDetailViewController = storyBoard.instantiateViewControllerWithIdentifier(ADD_MEDICATION_DETAIL_STORYBOARD_ID) as? DCAddMedicationDetailViewController
         medicationDetailViewController!.delegate = self
         medicationDetailViewController?.selectedEntry = { value in
-            print("Value is %@", value)
+            DDLogDebug("Value is \(value)")
         }
         medicationDetailViewController!.detailType = eDetailAdministrationTime
         medicationDetailViewController!.contentArray = timeArray
