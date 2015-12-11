@@ -49,17 +49,17 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
     func populateContentArrays() {
         
         contentArray = NSMutableArray()
-//        switch pickerType {
+//        switch (pickerType!.rawValue) {
 //            
-//        case PickerType.eSchedulingFrequency.rawValue :
+//        case eSchedulingFrequency.rawValue :
 //            //scheduling frequency type
 //            contentArray = [DAILY, WEEKLY, MONTHLY, YEARLY]
 //            break
-//        case PickerType.eDailyCount.rawValue :
+//        case eDailyCount.rawValue :
 //            //daily count
 //            contentArray = DCSchedulingHelper.numbersArrayWithMaximumCount(7)
 //            break
-//        case PickerType.eWeeklyCount.rawValue :
+//        case eWeeklyCount.rawValue :
 //            // weekly count
 //            contentArray = DCSchedulingHelper.numbersArrayWithMaximumCount(5)
 //            break
@@ -120,7 +120,7 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
         } else if (pickerType! == eYearlyCount) {
             //yearly count
             contentArray = DCSchedulingHelper.numbersArrayWithMaximumCount(25)
-        } else if (pickerType! == eYearEachCount || pickerType! == eDayCount) {
+        } else if (pickerType! == eYearEachCount) {
             //yearly each picker view
             contentArray = DCSchedulingHelper.numbersArrayWithMaximumCount(31)
             monthArray = DCDateUtility.monthNames()
@@ -134,8 +134,9 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
         } else if (pickerType! == eMinutesCount) {
             //minutes count
             contentArray = DCSchedulingHelper.numbersArrayWithMaximumCount(60)
+        } else if (pickerType! == eDayCount) {
+            contentArray = DCSchedulingHelper.numbersArrayWithMaximumCount(31)
         }
-
     }
     
     func configurePickerViewForSchedulingFrequency() {
@@ -287,7 +288,7 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
     
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
         
-        if (pickerType! == eSchedulingFrequency || pickerType! == eMonthEachCount || pickerType! == eDayCount) {
+        if (pickerType! == eSchedulingFrequency || pickerType! == eMonthEachCount /*|| pickerType! == eDayCount*/) {
             return 1
         } else if (pickerType! == eYearOnTheCount) {
             return 3
@@ -324,7 +325,7 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
                 displayString = String(valueToDisplay)
             } else if (component == 1) {
                 let firstComponentValue = contentArray?.objectAtIndex(pickerView.selectedRowInComponent(0))
-                if (pickerType! == eDailyCount) {
+                if (pickerType! == eDailyCount || pickerType! == eDayCount) {
                     displayString = (firstComponentValue === 1) ? DAY : DAYS
                 } else if (pickerType! == eWeeklyCount) {
                     displayString = (firstComponentValue === 1) ? WEEK : WEEKS
@@ -336,6 +337,10 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
                     displayString = weekDaysArray!.objectAtIndex(row) as! String
                 } else if (pickerType! == eYearEachCount) {
                     displayString = monthArray!.objectAtIndex(row) as! String
+                } else if (pickerType! == eHoursCount) {
+                    displayString = (firstComponentValue === 1) ? HOUR : HOURS
+                } else if (pickerType! == eMinutesCount) {
+                    displayString = (firstComponentValue === 1) ? MINUTE : MINUTES
                 }
             } else {
                 displayString = monthArray!.objectAtIndex(row) as! String
