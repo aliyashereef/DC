@@ -111,8 +111,10 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
         if (appDelegate.windowState == DCWindowState.halfWindow || appDelegate.windowState == DCWindowState.oneThirdWindow ) {
             let orientation : UIDeviceOrientation = UIDevice.currentDevice().orientation
-            if UIDeviceOrientationIsLandscape(orientation) && (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.Phone) {
-                segmentedControlWidth?.constant = SEGMENTED_CONTROL_FULL_WIDTH
+            if UIDeviceOrientationIsLandscape(orientation) {
+                if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
+                    segmentedControlWidth?.constant = SEGMENTED_CONTROL_FULL_WIDTH
+                }
             } else {
                 segmentedControlWidth?.constant = SEGMENTED_CONTROL_ONE_THIRD_WIDTH
             }
