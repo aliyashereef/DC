@@ -62,9 +62,9 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     override func viewDidLayoutSubviews() {
         
         super.viewDidLayoutSubviews()
-        setParentViewWithCurrentWeekDateArray()
+//        setParentViewWithCurrentWeekDateArray()
         calendarStripCollectionView.reloadData()
-        self.adjustContentOffsetToShowCenterDayInCollectionView()
+//        self.adjustContentOffsetToShowCenterDayInCollectionView()
         self.view.layoutIfNeeded()
     }
     

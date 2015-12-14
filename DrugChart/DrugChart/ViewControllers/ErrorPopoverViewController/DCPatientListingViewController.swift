@@ -56,6 +56,7 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
         self.patientListTableView.reloadData()
         self.messageLabel.hidden = true
         patientListTableView.tableFooterView = UIView(frame: CGRectZero)
+        patientListTableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
     }
     
     override func viewWillDisappear(animated: Bool) {
