@@ -94,6 +94,8 @@
         }
         if (self.selectedMedication.endDate == nil) {
             self.selectedMedication.hasEndDate = NO;
+        } else {
+            self.selectedMedication.hasEndDate = YES;
         }
         self.selectedMedication.timeArray = [DCAddMedicationHelper timesArrayFromScheduleArray:self.selectedMedication.scheduleTimesArray];
     }
@@ -334,12 +336,9 @@
     tableCell.noEndDateStatus = ^ (BOOL state) {
         if (_datePickerIndexPath != nil) {
             [self collapseOpenedPickerCell];
-            self.selectedMedication.hasEndDate = state;
-            [self performSelector:@selector(configureNoEndDateTableCellDisplayBasedOnSwitchState) withObject:nil afterDelay:0.1];
-        } else {
-            self.selectedMedication.hasEndDate = state;
-            [self configureNoEndDateTableCellDisplayBasedOnSwitchState];
         }
+        self.selectedMedication.hasEndDate = state;
+        [self performSelector:@selector(configureNoEndDateTableCellDisplayBasedOnSwitchState) withObject:nil afterDelay:0.1];
     };
     return tableCell;
 }
@@ -347,13 +346,14 @@
 - (void)configureNoEndDateTableCellDisplayBasedOnSwitchState {
 
     //hide/show no date table cell
+    NSInteger dateSection = showWarnings? 3 : 2;
     if (!self.selectedMedication.hasEndDate) {
         //hide tablecell
         NSIndexPath *endDateIndexPath;
         if (_datePickerIndexPath.row == DATE_PICKER_INDEX_START_DATE) {
-            endDateIndexPath = [NSIndexPath indexPathForRow:3 inSection:3];
+            endDateIndexPath = [NSIndexPath indexPathForRow:3 inSection:dateSection];
         } else {
-            endDateIndexPath = [NSIndexPath indexPathForRow:2 inSection:3];
+            endDateIndexPath = [NSIndexPath indexPathForRow:2 inSection:dateSection];
         }
         NSMutableArray *indexpaths = [NSMutableArray arrayWithArray:@[endDateIndexPath]];
         if (_datePickerIndexPath.row == (endDateIndexPath.row + 1)) {
@@ -366,11 +366,11 @@
     } else {
         NSIndexPath *endDateIndexPath;
         if (_datePickerIndexPath.row == DATE_PICKER_INDEX_START_DATE) {
-            endDateIndexPath = [NSIndexPath indexPathForRow:3 inSection:3];
+            endDateIndexPath = [NSIndexPath indexPathForRow:3 inSection:dateSection];
         } else {
-            endDateIndexPath = [NSIndexPath indexPathForRow:2 inSection:3];
+            endDateIndexPath = [NSIndexPath indexPathForRow:2 inSection:dateSection];
         }
-        DCDateTableViewCell *tableCell = (DCDateTableViewCell *)[medicationDetailsTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:endDateIndexPath.row - 1 inSection:endDateIndexPath.section]];
+        DCDateTableViewCell *tableCell = (DCDateTableViewCell *)[medicationDetailsTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:endDateIndexPath.row - 1 inSection:3]];
         [tableCell.noEndDateSwitch setUserInteractionEnabled:NO];
         [self insertEndDateCellAfterDelay:tableCell withEndDateIndexPath:endDateIndexPath];
     }
@@ -379,8 +379,10 @@
 - (void)insertEndDateCellAfterDelay:(DCDateTableViewCell *)tableCell withEndDateIndexPath:(NSIndexPath *)endDateIndexPath {
     
     //insert end date cell after delay
+    [medicationDetailsTableView beginUpdates];
     [medicationDetailsTableView insertRowsAtIndexPaths:@[endDateIndexPath]
                                       withRowAnimation:UITableViewRowAnimationRight];
+    [medicationDetailsTableView endUpdates];
     
     double delayInSeconds = 0.2;
     dispatch_time_t insertTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
