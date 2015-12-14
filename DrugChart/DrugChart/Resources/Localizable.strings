@@ -155,3 +155,7 @@
 "SCHEDULING_GENERAL_DESCRIPTION"    =   "";
 "BASE_FREQUENCY"       =       "Base Frequency on";
 "ADMINISTRATION_TIMES" =       "Administration Times";
+"REPEAT_FREQUENCY"     =       "Repeat Frequency";
+"SET_START_END_TIME"   =       "Set Start and End Time";
+"START_TIME"           =       "Start Time";
+"END_TIME"             =       "End Time";

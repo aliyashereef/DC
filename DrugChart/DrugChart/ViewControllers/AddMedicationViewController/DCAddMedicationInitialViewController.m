@@ -27,6 +27,8 @@
     NSArray *warningsArray;
     BOOL doneClicked;// for validation purpose
     BOOL showWarnings;//to check if warnings section is displayed
+    
+    DCDosageSelectionViewController *dosageSelectionViewController;
 }
 
 @property (nonatomic, strong) NSIndexPath *datePickerIndexPath;
@@ -147,6 +149,11 @@
     } else if (type == eSchedulingCell) {
         cell.titleLabel.text = NSLocalizedString(@"FREQUENCY", @"");
         if (doneClicked) {
+            //TODO: currently hard coding time values for interval
+            if ([self.selectedMedication.scheduling.type isEqualToString:INTERVAL]) {
+                NSArray *intervalTimes = @[@{@"time" : @"10:00", @"selected" : @1}];
+                self.selectedMedication.timeArray = [NSMutableArray arrayWithArray:intervalTimes];
+            }
             cell.titleLabel.textColor = (self.selectedMedication.scheduling.type == nil || self.selectedMedication.timeArray.count == 0)? [UIColor redColor] : [UIColor blackColor];
         }
         cell.descriptionLabel.text = self.selectedMedication.scheduling.type;
@@ -156,7 +163,7 @@
         cell = [self updatedAdministrationTimeTableCell:cell];
     } else if (type == eRepeatCell) {
         cell.titleLabel.text = NSLocalizedString(@"REPEAT", @"");
-        [cell configureContentCellWithContent:self.selectedMedication.scheduling.repeatObject.repeatType];
+        [cell configureContentCellWithContent:self.selectedMedication.scheduling.specificTimes.repeatObject.repeatType];
     }
     return cell;
 }
@@ -596,28 +603,39 @@
 - (void)displayAddMedicationDetailViewForTableRowAtIndexPath:(NSIndexPath *)indexPath {
     
     //display add medication detail view
-    UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
-    DCAddMedicationDetailViewController *medicationDetailViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:ADD_MEDICATION_DETAIL_STORYBOARD_ID];
-    medicationDetailViewController.delegate = self;
-    __weak DCAddMedicationDetailViewController *weakDetailVc = medicationDetailViewController;
-    medicationDetailViewController.selectedEntry = ^ (NSString *value) {
-        [self updateMedicationDetailsTableViewWithSelectedValue:value withDetailType:weakDetailVc.detailType];
-    };
-    medicationDetailViewController.detailType = [DCAddMedicationHelper medicationDetailTypeForIndexPath:indexPath hasWarnings:showWarnings];
-    DCAddMedicationContentCell *selectedCell = [self selectedCellAtIndexPath:indexPath];
-    if (indexPath.section != 3) {
-        medicationDetailViewController.previousFilledValue = selectedCell.descriptionLabel.text;
-    }
-    if (medicationDetailViewController.detailType == eDetailDosage) {
-        if (self.isEditMedication) {
-            medicationDetailViewController.contentArray = [NSMutableArray arrayWithObject:selectedCell.descriptionLabel.text];
-        } else {
-        medicationDetailViewController.contentArray = dosageArray;
+    if ([DCAddMedicationHelper medicationDetailTypeForIndexPath:indexPath hasWarnings:showWarnings] == 1) {
+        
+        UIStoryboard *dosageStoryboard = [UIStoryboard storyboardWithName:DOSAGE_STORYBORD bundle:nil];
+        dosageSelectionViewController = [dosageStoryboard instantiateViewControllerWithIdentifier:DOSAGE_SELECTION_SBID];
+        dosageSelectionViewController.dosageArray = dosageArray;
+        dosageSelectionViewController.menuType = eDosageMenu;
+        [self.navigationController pushViewController:dosageSelectionViewController animated:YES];
+        
+    } else {
+        
+        UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
+        DCAddMedicationDetailViewController *medicationDetailViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:ADD_MEDICATION_DETAIL_STORYBOARD_ID];
+        medicationDetailViewController.delegate = self;
+        __weak DCAddMedicationDetailViewController *weakDetailVc = medicationDetailViewController;
+        medicationDetailViewController.selectedEntry = ^ (NSString *value) {
+            [self updateMedicationDetailsTableViewWithSelectedValue:value withDetailType:weakDetailVc.detailType];
+        };
+        medicationDetailViewController.detailType = [DCAddMedicationHelper medicationDetailTypeForIndexPath:indexPath hasWarnings:showWarnings];
+        DCAddMedicationContentCell *selectedCell = [self selectedCellAtIndexPath:indexPath];
+        if (indexPath.section != 3) {
+            medicationDetailViewController.previousFilledValue = selectedCell.descriptionLabel.text;
         }
-    } else if (medicationDetailViewController.detailType == eDetailAdministrationTime) {
-        medicationDetailViewController.contentArray = self.selectedMedication.timeArray;
+        if (medicationDetailViewController.detailType == eDetailDosage) {
+            if (self.isEditMedication) {
+                medicationDetailViewController.contentArray = [NSMutableArray arrayWithObject:selectedCell.descriptionLabel.text];
+            } else {
+                medicationDetailViewController.contentArray = dosageArray;
+            }
+        } else if (medicationDetailViewController.detailType == eDetailAdministrationTime) {
+            medicationDetailViewController.contentArray = self.selectedMedication.timeArray;
+        }
+        [self.navigationController pushViewController:medicationDetailViewController animated:YES];
     }
-    [self.navigationController pushViewController:medicationDetailViewController animated:YES];
 }
 
 - (void)displaySchedulingDetailViewForTableViewAtIndexPath:(NSIndexPath *)indexPath {

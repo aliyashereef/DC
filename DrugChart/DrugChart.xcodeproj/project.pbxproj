@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B0371EE1C16F9E600F2E0D1 /* DCSpecificTimes.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B0371ED1C16F9E600F2E0D1 /* DCSpecificTimes.m */; };
+		0B0371F21C1700C700F2E0D1 /* DCInterval.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B0371F11C1700C700F2E0D1 /* DCInterval.m */; };
 		0B0F1B611AB664B100DD2D69 /* Administer.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0B0F1B601AB664B100DD2D69 /* Administer.storyboard */; };
 		0B14CD8A1BB13BEB0085E40C /* DCAdministerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B14CD891BB13BEB0085E40C /* DCAdministerViewController.swift */; };
 		0B14CD8D1BB151EA0085E40C /* DCAdministerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B14CD8C1BB151EA0085E40C /* DCAdministerCell.swift */; };
@@ -19,6 +21,7 @@
 		0B2442F01B96E36500E8F0EB /* DCAddMedicationContentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2442EF1B96E36500E8F0EB /* DCAddMedicationContentCell.m */; };
 		0B2442F41B96F71D00E8F0EB /* DCMedicationListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2442F31B96F71D00E8F0EB /* DCMedicationListViewController.m */; };
 		0B294B441B9D667900F8D574 /* DCAddDosageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B294B431B9D667800F8D574 /* DCAddDosageCell.m */; };
+		0B353F8A1C1AD43500E9EB36 /* DCSChedulingTimePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B353F891C1AD43500E9EB36 /* DCSChedulingTimePickerCell.swift */; };
 		0B38AC081BF4592E0027B8E6 /* DCSchedulingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B38AC071BF4592E0027B8E6 /* DCSchedulingCell.swift */; };
 		0B38AC0C1BF4899A0027B8E6 /* DCRepeat.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B38AC0B1BF4899A0027B8E6 /* DCRepeat.m */; };
 		0B47963E1C0EE80300A8E78A /* DCSchedulingDescriptionTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B47963D1C0EE80300A8E78A /* DCSchedulingDescriptionTableCell.swift */; };
@@ -68,6 +71,7 @@
 		0BAAEDBC1B28620B00DF0DF6 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BAAEDBB1B28620B00DF0DF6 /* SystemConfiguration.framework */; };
 		0BAAEDBE1B28621F00DF0DF6 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BAAEDBD1B28621F00DF0DF6 /* libc++.dylib */; };
 		0BAAEDC01B28623500DF0DF6 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BAAEDBF1B28623500DF0DF6 /* libz.dylib */; };
+		0BACFB501C17DFFD00D8FFA3 /* DCSchedulingTimeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BACFB4F1C17DFFD00D8FFA3 /* DCSchedulingTimeCell.swift */; };
 		0BADF3E21BF6172400A78175 /* DCSchedulingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BADF3E11BF6172400A78175 /* DCSchedulingHelper.swift */; };
 		0BAE36941B450A6C007CD64C /* DCAutoSearchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BAE36931B450A6C007CD64C /* DCAutoSearchCell.m */; };
 		0BAE36961B450AB0007CD64C /* DCAutoSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BAE36951B450AB0007CD64C /* DCAutoSearchCell.xib */; };
@@ -310,6 +314,11 @@
 		7DE60BCF1B2866CD00BCA745 /* DCPatientGraphicalRepresentationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE60BCC1B2866CD00BCA745 /* DCPatientGraphicalRepresentationView.m */; };
 		7DE60BD01B2866CD00BCA745 /* DCPortraitTopPatientView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DE60BCD1B2866CD00BCA745 /* DCPortraitTopPatientView.xib */; };
 		7DE60BD11B2866CD00BCA745 /* DCPortraitBottomUpPatientView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DE60BCE1B2866CD00BCA745 /* DCPortraitBottomUpPatientView.xib */; };
+		FD618F2D1C19777C005EC416 /* Dosage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD618F2C1C19777C005EC416 /* Dosage.storyboard */; settings = {ASSET_TAGS = (); }; };
+		FD618F301C1979E7005EC416 /* DCDosageSelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD618F2E1C1979E7005EC416 /* DCDosageSelectionTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+		FD618F311C1979E7005EC416 /* DCDosageSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD618F2F1C1979E7005EC416 /* DCDosageSelectionViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		FDC7EA571C1AA8990081D5C4 /* DCDosageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC7EA561C1AA8990081D5C4 /* DCDosageDetailViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		FDC7EA5A1C1AA9510081D5C4 /* DCDosageDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC7EA591C1AA9510081D5C4 /* DCDosageDetailTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -323,6 +332,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0B0371EC1C16F9E600F2E0D1 /* DCSpecificTimes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCSpecificTimes.h; sourceTree = "<group>"; };
+		0B0371ED1C16F9E600F2E0D1 /* DCSpecificTimes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCSpecificTimes.m; sourceTree = "<group>"; };
+		0B0371F01C1700C700F2E0D1 /* DCInterval.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCInterval.h; sourceTree = "<group>"; };
+		0B0371F11C1700C700F2E0D1 /* DCInterval.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCInterval.m; sourceTree = "<group>"; };
 		0B0F1B601AB664B100DD2D69 /* Administer.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Administer.storyboard; path = ../Administer.storyboard; sourceTree = "<group>"; };
 		0B14CD891BB13BEB0085E40C /* DCAdministerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministerViewController.swift; sourceTree = "<group>"; };
 		0B14CD8C1BB151EA0085E40C /* DCAdministerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministerCell.swift; sourceTree = "<group>"; };
@@ -343,6 +356,7 @@
 		0B2442F31B96F71D00E8F0EB /* DCMedicationListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCMedicationListViewController.m; sourceTree = "<group>"; };
 		0B294B421B9D667800F8D574 /* DCAddDosageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCAddDosageCell.h; sourceTree = "<group>"; };
 		0B294B431B9D667800F8D574 /* DCAddDosageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCAddDosageCell.m; sourceTree = "<group>"; };
+		0B353F891C1AD43500E9EB36 /* DCSChedulingTimePickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCSChedulingTimePickerCell.swift; sourceTree = "<group>"; };
 		0B38AC071BF4592E0027B8E6 /* DCSchedulingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCSchedulingCell.swift; sourceTree = "<group>"; };
 		0B38AC0A1BF4899A0027B8E6 /* DCRepeat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCRepeat.h; sourceTree = "<group>"; };
 		0B38AC0B1BF4899A0027B8E6 /* DCRepeat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCRepeat.m; sourceTree = "<group>"; };
@@ -418,6 +432,7 @@
 		0BAAEDBB1B28620B00DF0DF6 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		0BAAEDBD1B28621F00DF0DF6 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		0BAAEDBF1B28623500DF0DF6 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		0BACFB4F1C17DFFD00D8FFA3 /* DCSchedulingTimeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCSchedulingTimeCell.swift; sourceTree = "<group>"; };
 		0BADF3E11BF6172400A78175 /* DCSchedulingHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCSchedulingHelper.swift; sourceTree = "<group>"; };
 		0BAE36921B450A6C007CD64C /* DCAutoSearchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCAutoSearchCell.h; sourceTree = "<group>"; };
 		0BAE36931B450A6C007CD64C /* DCAutoSearchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DCAutoSearchCell.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -740,6 +755,11 @@
 		95B692258EF6A48813AE6977 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACBB4D71DBF05CC37E7D5083 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		D36536B45B0821C42B3BBBE5 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		FD618F2C1C19777C005EC416 /* Dosage.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Dosage.storyboard; sourceTree = "<group>"; };
+		FD618F2E1C1979E7005EC416 /* DCDosageSelectionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageSelectionTableViewCell.swift; sourceTree = "<group>"; };
+		FD618F2F1C1979E7005EC416 /* DCDosageSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageSelectionViewController.swift; sourceTree = "<group>"; };
+		FDC7EA561C1AA8990081D5C4 /* DCDosageDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageDetailViewController.swift; sourceTree = "<group>"; };
+		FDC7EA591C1AA9510081D5C4 /* DCDosageDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageDetailTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -771,6 +791,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0B0371E71C16F77D00F2E0D1 /* SpecificTimes */ = {
+			isa = PBXGroup;
+			children = (
+				0B0371EC1C16F9E600F2E0D1 /* DCSpecificTimes.h */,
+				0B0371ED1C16F9E600F2E0D1 /* DCSpecificTimes.m */,
+			);
+			path = SpecificTimes;
+			sourceTree = "<group>";
+		};
+		0B0371EF1C1700B500F2E0D1 /* Interval */ = {
+			isa = PBXGroup;
+			children = (
+				0B0371F01C1700C700F2E0D1 /* DCInterval.h */,
+				0B0371F11C1700C700F2E0D1 /* DCInterval.m */,
+			);
+			path = Interval;
+			sourceTree = "<group>";
+		};
 		0B14CD881BB13BD80085E40C /* AdministerViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -892,6 +930,14 @@
 				0B294B431B9D667800F8D574 /* DCAddDosageCell.m */,
 			);
 			path = AddDosageCell;
+			sourceTree = "<group>";
+		};
+		0B353F881C1AD41300E9EB36 /* SchedulingTimePickerCell */ = {
+			isa = PBXGroup;
+			children = (
+				0B353F891C1AD43500E9EB36 /* DCSChedulingTimePickerCell.swift */,
+			);
+			path = SchedulingTimePickerCell;
 			sourceTree = "<group>";
 		};
 		0B38AC061BF458E90027B8E6 /* ShedulingCell */ = {
@@ -1208,6 +1254,8 @@
 			children = (
 				0BA5A38B1BF341DC00251F94 /* DCScheduling.h */,
 				0BA5A38C1BF341DC00251F94 /* DCScheduling.m */,
+				0B0371E71C16F77D00F2E0D1 /* SpecificTimes */,
+				0B0371EF1C1700B500F2E0D1 /* Interval */,
 				0B38AC091BF489730027B8E6 /* Repeat */,
 			);
 			path = Scheduling;
@@ -1256,6 +1304,14 @@
 				0BAA87371AF8B48600FCA686 /* DCSecurityPinWebService.m */,
 			);
 			path = SecurityPinWebService;
+			sourceTree = "<group>";
+		};
+		0BACFB4C1C17DFCA00D8FFA3 /* SchedulingTimeCell */ = {
+			isa = PBXGroup;
+			children = (
+				0BACFB4F1C17DFFD00D8FFA3 /* DCSchedulingTimeCell.swift */,
+			);
+			path = SchedulingTimeCell;
 			sourceTree = "<group>";
 		};
 		0BADF3E01BF616D400A78175 /* SchedulingHelper */ = {
@@ -1495,6 +1551,8 @@
 				0BBC8F9F1AA469280085ABAB /* LoginViewController */,
 				0B14CD881BB13BD80085E40C /* AdministerViewController */,
 				0BC0C4621ADF777D002707DC /* AddMedicationViewController */,
+				FD618F321C197A1A005EC416 /* DosageSelection */,
+				FDC7EA581C1AA8B30081D5C4 /* DosageDetail */,
 				0BA449E01B9850E5009F84E5 /* AddMedicationDetailViewController */,
 				0BC3ACB11C0DB6D60028AF03 /* SchedulingInitialViewController */,
 				0BA5A38E1BF348C200251F94 /* SchedulingDetailViewController */,
@@ -1741,6 +1799,7 @@
 				0BB3977E1B42944B0037C8E1 /* OrderSet.storyboard */,
 				4D7627871BE8E22D0070BAF2 /* PatientMenu.storyboard */,
 				4D54C0751BFB245A00A61273 /* OneThirdScreenSizeCalendar.storyboard */,
+				FD618F2C1C19777C005EC416 /* Dosage.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -1749,6 +1808,8 @@
 			isa = PBXGroup;
 			children = (
 				0BC3ACB21C0DB70B0028AF03 /* DCSchedulingInitialViewController.swift */,
+				0B353F881C1AD41300E9EB36 /* SchedulingTimePickerCell */,
+				0BACFB4C1C17DFCA00D8FFA3 /* SchedulingTimeCell */,
 				0B47963C1C0EE7DB00A8E78A /* SchedulingDescriptionTableCell */,
 			);
 			path = SchedulingInitialViewController;
@@ -2473,6 +2534,24 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		FD618F321C197A1A005EC416 /* DosageSelection */ = {
+			isa = PBXGroup;
+			children = (
+				FD618F2F1C1979E7005EC416 /* DCDosageSelectionViewController.swift */,
+				FD618F2E1C1979E7005EC416 /* DCDosageSelectionTableViewCell.swift */,
+			);
+			name = DosageSelection;
+			sourceTree = "<group>";
+		};
+		FDC7EA581C1AA8B30081D5C4 /* DosageDetail */ = {
+			isa = PBXGroup;
+			children = (
+				FDC7EA561C1AA8990081D5C4 /* DCDosageDetailViewController.swift */,
+				FDC7EA591C1AA9510081D5C4 /* DCDosageDetailTableViewCell.swift */,
+			);
+			name = DosageDetail;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2635,6 +2714,7 @@
 				1FD4FCF41BF4B8F400B77B94 /* PickerCell.xib in Resources */,
 				0BBDEDE01AA581630016E6FF /* Lato-Heavy.ttf in Resources */,
 				0BD699181BB272D9008797A2 /* DCAdministerTableHeaderView.xib in Resources */,
+				FD618F2D1C19777C005EC416 /* Dosage.storyboard in Resources */,
 				4D7627881BE8E22D0070BAF2 /* PatientMenu.storyboard in Resources */,
 				0BBD58401AD3B0010027F8FE /* UserList.plist in Resources */,
 				0BBDEDE31AA581630016E6FF /* Lato-Light.ttf in Resources */,
@@ -2743,6 +2823,7 @@
 				0B95FAF01B5E6634002939DF /* DCWarningsHeaderView.m in Sources */,
 				0BBC8F8D1AA457E10085ABAB /* DCUser.m in Sources */,
 				0B38AC0C1BF4899A0027B8E6 /* DCRepeat.m in Sources */,
+				0B353F8A1C1AD43500E9EB36 /* DCSChedulingTimePickerCell.swift in Sources */,
 				0B8886AF1B0C7814006FF1BF /* DCDatePickerViewController.m in Sources */,
 				1F3007061BF5552E00DDF3F3 /* VitalSignObservation.swift in Sources */,
 				0BC5FAFE1B442B6B0019BF36 /* DCOrderSet.m in Sources */,
@@ -2752,7 +2833,9 @@
 				4DC440181B67990D000EC7AB /* DCOrderSetWebService.m in Sources */,
 				0BADF3E21BF6172400A78175 /* DCSchedulingHelper.swift in Sources */,
 				4D48915E1BC90176002AC8CA /* DCPatientListingCell.swift in Sources */,
+				0B0371EE1C16F9E600F2E0D1 /* DCSpecificTimes.m in Sources */,
 				0BBD58441AD3B0C20027F8FE /* DCUsersListWebService.m in Sources */,
+				FD618F311C1979E7005EC416 /* DCDosageSelectionViewController.swift in Sources */,
 				1FD4FD021BF4BAAD00B77B94 /* BPCollectionViewCell.swift in Sources */,
 				4D4891591BC900DB002AC8CA /* DCPatientDetailsHelper.m in Sources */,
 				1FD4FD041BF4BAAD00B77B94 /* ObservationsDetailsCell.swift in Sources */,
@@ -2766,16 +2849,19 @@
 				1FD4FCE91BF4B8F400B77B94 /* TimePickerCell_Inline.swift in Sources */,
 				0B941CA51AC161B300B54207 /* DCPrescriberCalendarView.m in Sources */,
 				1FD4FCB51BF4B6B700B77B94 /* BloodPressure.swift in Sources */,
+				0B0371F21C1700C700F2E0D1 /* DCInterval.m in Sources */,
 				0BD659561BD6685A00D3097B /* DCAdministerButton.swift in Sources */,
 				0B9173A41B02101300BC9337 /* DCPrescriberDetailsTimeView.m in Sources */,
 				0BA357311B746EAB00A5C3BC /* DCOrderSetOperationQueue.m in Sources */,
 				0BBC8FA61AA469AF0085ABAB /* DCBaseViewController.m in Sources */,
 				1FD4FCEA1BF4B8F400B77B94 /* TimePickerCell.swift in Sources */,
+				FD618F301C1979E7005EC416 /* DCDosageSelectionTableViewCell.swift in Sources */,
 				1FD4FCE81BF4B8F400B77B94 /* LineChartCollectionViewCell.swift in Sources */,
 				4D4891601BC90176002AC8CA /* DCWardCell.swift in Sources */,
 				7D70F3801B20258200E4BA89 /* DCWardsGraphicalDisplayViewController.m in Sources */,
 				1FD4FCBA1BF4B6B700B77B94 /* Respiratory.swift in Sources */,
 				0BB3B79A1B99842A0011DFDF /* DCDatePickerCell.m in Sources */,
+				FDC7EA5A1C1AA9510081D5C4 /* DCDosageDetailTableViewCell.swift in Sources */,
 				0B85D6811BF9CBCB009CF795 /* DCSchedulingHeaderView.swift in Sources */,
 				4DECF3031B79CB370085E75B /* DCOrderSetWarningCountWebService.m in Sources */,
 				1FD4FCB91BF4B6B700B77B94 /* Pulse.swift in Sources */,
@@ -2826,6 +2912,7 @@
 				7D6D845F1AF940A600917A8C /* DCInitialViewController.m in Sources */,
 				0BBC8F9E1AA468E80085ABAB /* DCAppDelegate.m in Sources */,
 				4D011C5B1BB15D6B005C79A2 /* DCAdminsteredMedicationCell.swift in Sources */,
+				FDC7EA571C1AA8990081D5C4 /* DCDosageDetailViewController.swift in Sources */,
 				7D3234BC1AF132250020CC8F /* DCPopOverContentSizeUtility.m in Sources */,
 				4DECF30C1B79D2000085E75B /* DCOrderSetWarningCount.m in Sources */,
 				1FD4FD061BF4BAAD00B77B94 /* SelectionCell.swift in Sources */,
@@ -2892,6 +2979,7 @@
 				0BB27D061AEF51230007EB88 /* DCPopOverBaseBackgroundView.m in Sources */,
 				4D54C07B1BFB351200A61273 /* DCOneThirdCalendarScreenMedicationCell.swift in Sources */,
 				0BF2DA501ACA982E00B3ED97 /* DCErrorPopOverViewController.m in Sources */,
+				0BACFB501C17DFFD00D8FFA3 /* DCSchedulingTimeCell.swift in Sources */,
 				0BA5A38D1BF341DC00251F94 /* DCScheduling.m in Sources */,
 				0BB33DDC1B79F5B500B05E4D /* DCMedicationScheduleDetails.m in Sources */,
 				7D5319C21BF21EF7003C3F92 /* DCAlertsAllergyTableViewCell.m in Sources */,
