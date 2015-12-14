@@ -23,7 +23,7 @@ let DESCRIPTION_ROW_INDEX_WITHOUT_START_END_TIME : NSInteger = 2
 let INLINE_PICKER_ROW_START_TIME : NSInteger = 3
 let DESCRIPTION_ROW_INLINE_PICKER_AT_START_TIME : NSInteger = 5
 let DESCRIPTION_ROW_INLINE_PICKER_AT_END_TIME : NSInteger = 4
-let START_TIME_ROW_INDEX : NSInteger = 2
+let START_TIME_PICKER_ROW_INDEX : NSInteger = 3
 
 typealias SelectedScheduling = DCScheduling? -> Void
 typealias UpdatedTimeArray = NSMutableArray? -> Void
@@ -39,16 +39,10 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
     var selectedSchedulingValue : SelectedScheduling = {value in }
     var updatedTimeArray : UpdatedTimeArray = {times in }
     var inlinePickerIndexPath : NSIndexPath?
-   // var lastIndexPath : NSIndexPath?
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
-//        if (self.scheduling?.type == SPECIFIC_TIMES) {
-//            lastIndexPath = NSIndexPath(forRow: 2, inSection: 1)
-//        } else {
-//            lastIndexPath = NSIndexPath(forRow: 4, inSection: 1)
-//        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -273,7 +267,21 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         
         //configure scheduling table cell
         let timePickerCell : DCSChedulingTimePickerCell? = schedulingTableView.dequeueReusableCellWithIdentifier(SCHEDULING_DATE_PICKER_CELL_ID) as? DCSChedulingTimePickerCell
-        timePickerCell!.isStartTimePicker = (indexPath.row == START_TIME_ROW_INDEX) ? true : false
+        if (indexPath.row == START_TIME_PICKER_ROW_INDEX) {
+            timePickerCell!.isStartTimePicker = true
+            timePickerCell?.previousSelectedTime = DCDateUtility.dateFromSourceString(self.scheduling?.interval?.startTime)
+            //print("*** Previous Start Date is %@", timePickerCell?.previousSelectedTime)
+        } else {
+            timePickerCell!.isStartTimePicker = false
+            timePickerCell?.previousSelectedTime = DCDateUtility.dateFromSourceString(self.scheduling?.interval?.endTime)
+            if (self.scheduling?.interval?.startTime == nil) {
+                timePickerCell!.schedulingTimePickerView?.minimumDate = NSDate()
+            } else {
+                timePickerCell!.schedulingTimePickerView?.minimumDate = DCDateUtility.dateFromSourceString(self.scheduling?.interval?.startTime)
+            }
+            //timePickerCell!.schedulingTimePickerView?.minimumDate = (self.scheduling?.interval?.startTime == nil)? NSDate() : timePickerCell?.previousSelectedTime
+           // print("*** Previous End Date is %@", timePickerCell?.previousSelectedTime)
+        }
         timePickerCell!.timePickerCompletion = { time in
             if (timePickerCell!.isStartTimePicker == true) {
                 self.scheduling?.interval?.startTime = time as? String
@@ -281,9 +289,10 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
                 self.scheduling?.interval?.endTime = time as? String
             }
             self.schedulingTableView.beginUpdates()
-            self.schedulingTableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            self.schedulingTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexPath.row - 1, inSection: indexPath.section)], withRowAnimation: .Fade)
             self.schedulingTableView.endUpdates()
         }
+        timePickerCell?.populatePickerWithPreviousSelectedTime()
         return timePickerCell!
     }
     

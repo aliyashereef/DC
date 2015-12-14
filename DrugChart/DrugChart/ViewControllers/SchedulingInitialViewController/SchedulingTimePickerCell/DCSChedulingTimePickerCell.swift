@@ -15,6 +15,7 @@ class DCSChedulingTimePickerCell: UITableViewCell {
     @IBOutlet weak var schedulingTimePickerView: UIDatePicker!
     var timePickerCompletion: SelectedTimePickerContent = { value in }
     var isStartTimePicker : Bool?
+    var previousSelectedTime : NSDate?
     
     override func awakeFromNib() {
         
@@ -35,11 +36,27 @@ class DCSChedulingTimePickerCell: UITableViewCell {
         schedulingTimePickerView.locale = locale
     }
     
+    func populatePickerWithPreviousSelectedTime() {
+        
+        if let time = previousSelectedTime {
+            print("***** Selecetd time is %@", time);
+        } else {
+            // previous time is nil
+            self.performSelector(Selector("sendUpdatedPickerTimeToSuperView"), withObject: nil, afterDelay: 0.2)
+            sendUpdatedPickerTimeToSuperView()
+        }
+    }
+    
+    func sendUpdatedPickerTimeToSuperView() {
+        
+        let timeInCurrentZone  = DCDateUtility.dateInCurrentTimeZone(schedulingTimePickerView.date)
+        let selectedTime = DCDateUtility.timeStringInTwentyFourHourFormat(timeInCurrentZone)
+        timePickerCompletion(selectedTime)
+    }
+    
     @IBAction func timePickerValueChanged(sender: AnyObject) {
         
         //time picker value selection
-        print("** time selected is %@", schedulingTimePickerView.date)
-        let selectedTime = DCDateUtility.timeStringInTwentyFourHourFormat(schedulingTimePickerView.date)
-        timePickerCompletion(selectedTime)
+       sendUpdatedPickerTimeToSuperView()
     }
 }
