@@ -187,6 +187,8 @@
 #define SCHEDULING_PICKER_CELL_ID @"SchedulingPickerCellId"
 #define SCHEDULING_INITIAL_CELL_ID @"SchedulingInitialCellId"
 #define SCHEDULING_DESCRIPTION_CELL_ID @"SchedulingDescriptionCell"
+#define SCHEDULING_TIME_CELL_ID @"SchedulingTimeCell"
+#define SCHEDULING_DATE_PICKER_CELL_ID @"SchedulingDatePickerCellId"
 
 
 // title for views
@@ -340,6 +342,10 @@
 
 #define RADIANS(degrees) ((degrees * M_PI) / 180.0)
 
+//Netherland locale
+
+#define NETHERLANDS_LOCALE       @"NL"
+
 
 //webservice error codes
 
@@ -385,6 +391,16 @@
 #define MONTHS @"months"
 #define YEAR @"year"
 #define YEARS @"years"
+#define HOUR @"hour"
+#define HOURS @"hours"
+#define MINUTE @"minute"
+#define MINUTES @"minutes"
+#define DAYS_TITLE @"Days"
+#define HOURS_TITLE @"Hours"
+#define MINUTES_TITLE @"Minutes"
+#define SINGLE_DAY @"1 day"
+#define SINGLE_WEEK @"1 week"
+#define SINGLE_MONTH @"1 month"
 
 //Roles
 

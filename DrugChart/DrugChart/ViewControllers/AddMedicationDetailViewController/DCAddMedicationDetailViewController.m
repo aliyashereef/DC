@@ -21,7 +21,6 @@
 #define INITIAL_SECTION_HEIGHT                  0.0f
 #define SECTION_HEIGHT                          10.0f
 
-#define NETHERLANDS_LOCALE       @"NL"
 #define TIME_KEY                 @"time"
 #define SELECTED_KEY             @"selected"
 
