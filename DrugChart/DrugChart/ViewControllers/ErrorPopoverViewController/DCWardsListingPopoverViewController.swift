@@ -84,7 +84,7 @@ class DCWardsListingPopoverViewController : DCBaseViewController , UITableViewDe
                 showNavigationBar(true)
             }
         } else {
-            if windowWidth < screenWidth {
+            if windowWidth <= screenWidth {
                 showNavigationBar(true)
             } else {
                 showNavigationBar(false)

@@ -45,6 +45,8 @@
     [self configureNavigationBar];
     [self configureViewForEditMedicationState];
     [self configureViewElements];
+    medicationDetailsTableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
+
 }
 
 #pragma mark - Memory Management methods

@@ -38,6 +38,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         
         super.viewWillAppear(animated)
         configureNavigationBarItems()
+        schedulingTableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
         schedulingTableView.reloadData()
     }
 
