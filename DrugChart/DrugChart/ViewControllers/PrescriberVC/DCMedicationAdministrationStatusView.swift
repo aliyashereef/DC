@@ -229,7 +229,13 @@ class DCMedicationAdministrationStatusView: UIView {
                         statusLabel?.hidden = true
                         statusIcon?.hidden = false
                         statusIcon!.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
-                        statusIcon?.image = (administeredCount == timeArray.count) ? ADMINISTRATION_SUCCESS_IMAGE : ADMINISTRATION_FAILURE_IMAGE
+                        if (isOneThirdScreen) {
+                            statusIcon?.image = (administeredCount == timeArray.count) ?  ADMINISTRATION_SUCCESS_IMAGE_ONETHIRD: ADMINISTRATION_OMITTED_IMAGE_ONETHIRD
+
+                        } else {
+                            statusIcon?.image = (administeredCount == timeArray.count) ? ADMINISTRATION_SUCCESS_IMAGE : ADMINISTRATION_FAILURE_IMAGE
+
+                        }
                     }
                 }
             }
