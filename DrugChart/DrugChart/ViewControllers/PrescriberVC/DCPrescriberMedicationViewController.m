@@ -406,7 +406,6 @@ typedef enum : NSUInteger {
                     withCompletionHandler:^(NSArray *result, NSError *error) {
                         
                         DDLogInfo(@"the response is recieved ************");
-                        [self showActivityIndicationOnViewRefresh:false];
                         if (!error) {
                             _patient.medicationListArray = result;
                             [self configureAlertsAndAllergiesArrayForDisplay];
@@ -425,6 +424,7 @@ typedef enum : NSUInteger {
                                 [medicationListHolderView setHidden:NO];
                                 [calendarDaysDisplayView setHidden:NO];
                                 [calendarTopHolderView setHidden:NO];
+                                [self showActivityIndicationOnViewRefresh:false];
                             }
                             else {
                                 DDLogError(@"the error is : %@", error);
@@ -438,6 +438,7 @@ typedef enum : NSUInteger {
                                 }
                                 [noMedicationsAvailableLabel setHidden:NO];
                             }
+                            [self showActivityIndicationOnViewRefresh:false];
                         }
                         else {
                             if (error.code == NETWORK_NOT_REACHABLE) {

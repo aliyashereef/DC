@@ -302,11 +302,9 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     func fetchPatientListAndReloadMedicationList () {
         
         let parentView : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
-        parentView.showActivityIndicationOnViewRefresh(true)
         parentView.cancelPreviousMedicationListFetchRequest()
         parentView.fetchMedicationListForPatientWithCompletionHandler { (success :Bool) -> Void in
-            parentView.showActivityIndicationOnViewRefresh(false)
-            if success {
+             if success {
                 self.medicationTableView?.reloadData()
             }
         }
