@@ -2,7 +2,7 @@
 //  DCDosageSelectionTableViewCell.swift
 //  DrugChart
 //
-//  Created by Felix Joseph on 10/12/15.
+//  Created by Shaheer on 10/12/15.
 //
 //
 
