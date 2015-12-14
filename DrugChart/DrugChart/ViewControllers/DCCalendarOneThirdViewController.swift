@@ -84,6 +84,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         cell.displayDate = date
         cell.dateLabel.textColor = UIColor.blackColor()
         cell.dateLabel.text = DCDateUtility.dateStringFromDate(date, inFormat:DAY_DATE_FORMAT)
+        cell.dateLabel.backgroundColor = UIColor.clearColor()
         cell.weekdayLabel.text = DCDateUtility.dateStringFromDate(date, inFormat:WEEK_DAY_FORMAT).uppercaseString
         displayDateFromScrollIndexForIndexPath(cell, indexPath: indexPath)
         let today : NSDate = NSDate()
