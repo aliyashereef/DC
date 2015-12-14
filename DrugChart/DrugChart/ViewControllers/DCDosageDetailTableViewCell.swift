@@ -1,18 +1,17 @@
 //
-//  DCDosageSelectionTableViewCell.swift
+//  DCDosageDetailTableViewCell.swift
 //  DrugChart
 //
-//  Created by Felix Joseph on 10/12/15.
+//  Created by Felix Joseph on 11/12/15.
 //
 //
 
 import UIKit
 
-class DCDosageSelectionTableViewCell: UITableViewCell {
+class DCDosageDetailTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var dosageMenuLabel: UILabel!
-    @IBOutlet weak var dosageDetailLabel: UILabel!
-    @IBOutlet weak var dosageDetailValueLabel: UILabel!
+    @IBOutlet weak var dosageDetailDisplayCell: UILabel!
+    @IBOutlet weak var dosageDetailCellLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
