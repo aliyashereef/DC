@@ -24,6 +24,9 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
         let nibLineChart = UINib(nibName: "LineGraphCell", bundle: nil)
         collectionView.registerNib(nibLineChart, forCellWithReuseIdentifier:lineChartIdentifier )
         
+        let nibLineChart1 = UINib(nibName: "LineGraphCell", bundle: nil)
+        collectionView.registerNib(nibLineChart1, forCellWithReuseIdentifier:"Blood Pressure" )
+        
         let nibBarChart = UINib(nibName: "BPCollectionViewCell", bundle: nil)
         collectionView.registerNib(nibBarChart, forCellWithReuseIdentifier: "ObservationBarChartCell")
         
@@ -57,61 +60,61 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
                 
             }
             
-//        case DashBoardRow.Temperature.rawValue:
-//            chartType = ChartType.LineChart
-//            cellTitle = "Temperature"
-//            
-//            for observation in observationList
-//            {
-//                if observation.temperature == nil
-//                {
-//                    continue
-//                }
-//                    yAxisValue.append((observation.temperature?.value)!)
-//                    xAxisValue.append(observation.getFormattedDate())
-//                
-//            }
-//        case DashBoardRow.Pulse.rawValue:
-//            chartType = ChartType.LineChart
-//            cellTitle = "Pulse"
-//            
-//            for observation in observationList
-//            {
-//                if observation.pulse == nil
-//                {
-//                    continue
-//                }
-//                    yAxisValue.append((observation.pulse?.pulseRate)!)
-//                    xAxisValue.append(observation.getFormattedDate())
-//                
-//            }
-//        case DashBoardRow.SpO2.rawValue:
-//            chartType = ChartType.LineChart
-//            cellTitle = "SPO2"
-//            
-//            for observation in observationList
-//            {
-//                if observation.spo2 == nil{
-//                    continue
-//                }
-//                    yAxisValue.append((observation.spo2?.spO2Percentage)!)
-//                    xAxisValue.append(observation.getFormattedDate())
-//                
-//            }
-//        case DashBoardRow.BM.rawValue:
-//                chartType = ChartType.LineChart
-//                cellTitle = "BM"
-//                
-//                for observation in observationList
-//                {
-//                    if observation.bm == nil
-//                    {
-//                        continue
-//                    }
-//                        yAxisValue.append((observation.bm?.value)!)
-//                        xAxisValue.append(observation.getFormattedDate())
-//                    
-//                 }
+        case DashBoardRow.Temperature.rawValue:
+            chartType = ChartType.LineChart
+            cellTitle = "Temperature"
+            
+            for observation in observationList
+            {
+                if observation.temperature == nil
+                {
+                    continue
+                }
+                    yAxisValue.append((observation.temperature?.value)!)
+                    xAxisValue.append(observation.date)
+                
+            }
+        case DashBoardRow.Pulse.rawValue:
+            chartType = ChartType.LineChart
+            cellTitle = "Pulse"
+            
+            for observation in observationList
+            {
+                if observation.pulse == nil
+                {
+                    continue
+                }
+                    yAxisValue.append((observation.pulse?.pulseRate)!)
+                    xAxisValue.append(observation.date)
+                
+            }
+        case DashBoardRow.SpO2.rawValue:
+            chartType = ChartType.LineChart
+            cellTitle = "SPO2"
+            
+            for observation in observationList
+            {
+                if observation.spo2 == nil{
+                    continue
+                }
+                    yAxisValue.append((observation.spo2?.spO2Percentage)!)
+                    xAxisValue.append(observation.date)
+                
+            }
+        case DashBoardRow.BM.rawValue:
+                chartType = ChartType.LineChart
+                cellTitle = "BM"
+                
+                for observation in observationList
+                {
+                    if observation.bm == nil
+                    {
+                        continue
+                    }
+                        yAxisValue.append((observation.bm?.value)!)
+                        xAxisValue.append(observation.date)
+                    
+                 }
 //        case DashBoardRow.BloodPressure.rawValue:
 //            chartType = ChartType.BarChart
 //            cellTitle = "Blood Pressure"
@@ -135,14 +138,8 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
         {
         case ChartType.LineChart:
             let cell=collectionView.dequeueReusableCellWithReuseIdentifier(lineChartIdentifier, forIndexPath: indexPath) as! LineGraphCell
-            cell.configureCell()
-            cell.drawGraph(xAxisValue, yAxisValue: yAxisValue , displayView: GraphDisplayView.Day)
+            cell.drawGraph(xAxisValue, yAxisValue: yAxisValue , displayView: GraphDisplayView.Day ,graphTitle: cellTitle)
             return cell
-            //            cell.configureCell(cellTitle)
-//            if yAxisValue.count>0
-//            {
-//            cell.drawChart(xAxisValue, values: yAxisValue)
-//            }
 //        case ChartType.BarChart:
 //            let cell=collectionView.dequeueReusableCellWithReuseIdentifier("ObservationBarChartCell", forIndexPath: indexPath) as! BPCollectionViewCell
 //           
@@ -154,7 +151,8 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
 //            }
 //            return cell
         default:
-            let cell=collectionView.dequeueReusableCellWithReuseIdentifier(lineChartIdentifier, forIndexPath: indexPath)
+            let cell=collectionView.dequeueReusableCellWithReuseIdentifier(lineChartIdentifier, forIndexPath: indexPath) as! LineGraphCell
+            cell.drawGraph(xAxisValue, yAxisValue: yAxisValue, displayView: .Day ,graphTitle: cellTitle)
             return cell
         }
         

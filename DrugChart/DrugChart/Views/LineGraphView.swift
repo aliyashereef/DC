@@ -19,29 +19,68 @@ import UIKit
     var maxXAxis:Int = 1440 // by default assume that it is day only graph
     var drawGraph:Bool = false
     var displayView:GraphDisplayView!
-
+    var graphTitle:String!
+    var displayNoData:Bool  = false
         override func drawRect(rect: CGRect) {
-           // CGContextClearRect(UIGraphicsGetCurrentContext(), rect)
+            
+            for subUIView in self.subviews {
+                subUIView.removeFromSuperview()
+            }
             if (self.drawGraph)
             {
-        let path = UIBezierPath(roundedRect: self.frame, byRoundingCorners: .AllCorners, cornerRadii: CGSize(width: 8.0, height: 8.0))
-    
-            path.addClip()
-    
-            let context = UIGraphicsGetCurrentContext()
-            CGContextSetShouldAntialias(context, true)
-            let colors = [startColor.CGColor , endColor.CGColor ]
-            let colorSpace = CGColorSpaceCreateDeviceRGB()
-    
-            let coreLocations:[CGFloat] = [0.0, 1.0]
-            let gradient  = CGGradientCreateWithColors(colorSpace,colors, coreLocations)
-            var startPoint = CGPoint.zero
-            var endPoint = CGPoint(x:0,y:self.bounds.height )
-            CGContextDrawLinearGradient(context, gradient,startPoint,endPoint,CGGradientDrawingOptions(rawValue: 0))
-    
+                let width = self.frame.width
+                let height = self.frame.height
+                
+                // Draw the graph background
+                let path = UIBezierPath(roundedRect: self.frame, byRoundingCorners: .AllCorners, cornerRadii: CGSize(width: 8.0, height: 8.0))
+                
+                path.addClip()
+                
+                let context = UIGraphicsGetCurrentContext()
+                CGContextSetShouldAntialias(context, true)
+                let colors = [startColor.CGColor , endColor.CGColor ]
+                let colorSpace = CGColorSpaceCreateDeviceRGB()
+                
+                let coreLocations:[CGFloat] = [0.0, 1.0]
+                let gradient  = CGGradientCreateWithColors(colorSpace,colors, coreLocations)
+                var startPoint = CGPoint.zero
+                var endPoint = CGPoint(x:0,y:self.bounds.height )
+                CGContextDrawLinearGradient(context, gradient,startPoint,endPoint,CGGradientDrawingOptions(rawValue: 0))
+                
+                /// now draw the line
+                
+                UIColor.whiteColor().setFill()
+                UIColor.whiteColor().setStroke()
+                
+                
+                //Draw the graph Title
+                let label = UILabel(frame: CGRectMake(0,0,200,21))
+                label.center = CGPointMake(50,20)
+                label.textAlignment = NSTextAlignment.Center
+                label.textColor = UIColor.whiteColor()
+                label.text = graphTitle
+                self.addSubview(label)
+                
+                
+                
+                if(xAxisValue.count == 0 || yAxisValue.count == 0)
+            {
+                
+                //let point = 10
+                let label = UILabel(frame: CGRectMake(0,0,200,21))
+                label.center = CGPointMake(height/2,width/2)
+                label.textAlignment = NSTextAlignment.Center
+                label.textColor = UIColor.whiteColor()
+                label.text = "No Data"
+                self.addSubview(label)
+                // set the bit false again to be used next time
+                self.drawGraph = false
+                
+                return
+            }
+                
+       
             // calculate x point
-            let width = self.frame.width
-            let height = self.frame.height
             let margin:CGFloat = 20.0
     
     
@@ -70,10 +109,6 @@ import UIKit
                 return y
             }
     
-            /// now draw the line
-    
-            UIColor.whiteColor().setFill()
-            UIColor.whiteColor().setStroke()
     
             // setup the point line
             let graphPath = UIBezierPath()
@@ -177,26 +212,17 @@ import UIKit
                 self.addSubview(label)
             }
             
-            //let point = 10
-            let label = UILabel(frame: CGRectMake(0,0,200,21))
-            label.center = CGPointMake(50,20)
-            label.textAlignment = NSTextAlignment.Center
-            label.textColor = UIColor.whiteColor()
-            label.text = "Respiratory"
-            self.addSubview(label)
-        
+           
              // set the bit false again to be used next time
                 self.drawGraph = false
             }
         }
 
-    override func plot(xAxisValue:[NSDate],yAxisValue:[Double], displayView:GraphDisplayView) {
-        if(xAxisValue.count == 0 || yAxisValue.count == 0)
-        {
-            return
-        }
+    override func plot(xAxisValue:[NSDate],yAxisValue:[Double], displayView:GraphDisplayView, graphTitle:String) {
+        
         self.xAxisValue = xAxisValue
         self.yAxisValue = yAxisValue
+        self.graphTitle = graphTitle
         self.drawGraph = true
         self.displayView = displayView
         self.setNeedsDisplay()
