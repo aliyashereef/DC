@@ -12,7 +12,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="3at-c2-T13">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="626"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="u3r-3r-2O3">
                         <size key="itemSize" width="50" height="50"/>
@@ -26,8 +26,8 @@
             <constraints>
                 <constraint firstItem="3at-c2-T13" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="5M7-AU-tzR"/>
                 <constraint firstItem="3at-c2-T13" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="6TI-pp-7nj"/>
-                <constraint firstAttribute="bottom" secondItem="3at-c2-T13" secondAttribute="bottom" id="9ak-rp-lIi"/>
                 <constraint firstAttribute="trailing" secondItem="3at-c2-T13" secondAttribute="trailing" id="LcI-OR-mcZ"/>
+                <constraint firstAttribute="bottom" secondItem="3at-c2-T13" secondAttribute="bottom" constant="41" id="pbF-qe-kU2"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
             <connections>

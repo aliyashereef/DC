@@ -19,7 +19,7 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="h4i-aX-KGH">
                                 <rect key="frame" x="0.0" y="0.0" width="310" height="600"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="dosageSelectionMenuCell" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationWidth="10" reuseIdentifier="dosagetypecell" id="r6X-qu-waN" customClass="DCDosageSelectionTableViewCell" customModule="DrugChart" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="50" width="310" height="44"/>
@@ -127,7 +127,7 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="jTL-cs-hDN">
                                 <rect key="frame" x="0.0" y="0.0" width="310" height="600"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="dosageSelectionMenuCell" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationWidth="10" reuseIdentifier="dosageDetailCell" id="mfo-0N-uJU" customClass="DCDosageDetailTableViewCell" customModule="DrugChart" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="50" width="310" height="44"/>
@@ -190,6 +190,31 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="dosageDetailCellLabel" destination="AcY-KE-BoO" id="w5h-8L-JRG"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="newDosageCell" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationWidth="10" reuseIdentifier="newDosageCell" id="wr1-cx-x8E" customClass="DCDosageDetailTableViewCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="138" width="310" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wr1-cx-x8E" id="62p-8Y-Ix0">
+                                            <rect key="frame" x="0.0" y="0.0" width="310" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="New Dosage" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Tn1-GK-7ye">
+                                                    <rect key="frame" x="0.0" y="0.0" width="310" height="43"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="Tn1-GK-7ye" secondAttribute="bottom" id="KBL-VV-HdR"/>
+                                                <constraint firstAttribute="trailing" secondItem="Tn1-GK-7ye" secondAttribute="trailing" id="cwZ-qO-S0H"/>
+                                                <constraint firstItem="Tn1-GK-7ye" firstAttribute="leading" secondItem="62p-8Y-Ix0" secondAttribute="leading" id="fZT-Sg-Art"/>
+                                                <constraint firstItem="Tn1-GK-7ye" firstAttribute="top" secondItem="62p-8Y-Ix0" secondAttribute="top" id="w0z-hQ-W51"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="addNewDosageTextField" destination="Tn1-GK-7ye" id="dMO-Va-Hh0"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

@@ -165,6 +165,14 @@
 		1F3C31701C0DB8F8007C6AE7 /* Patient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3C316F1C0DB8F8007C6AE7 /* Patient.swift */; };
 		1F3C31781C0DE0CF007C6AE7 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3C31771C0DE0CF007C6AE7 /* CalendarViewController.swift */; };
 		1F3C317A1C0DF755007C6AE7 /* MonthYearPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3C31791C0DF755007C6AE7 /* MonthYearPickerView.swift */; };
+		1F5374FB1C19C57000D4A64F /* TabularViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5374FA1C19C57000D4A64F /* TabularViewController.swift */; };
+		1F5374FD1C1AE9FE00D4A64F /* LineGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5374FC1C1AE9FE00D4A64F /* LineGraphView.swift */; };
+		1F5375001C1AEC2C00D4A64F /* LineGraphCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5374FE1C1AEC2C00D4A64F /* LineGraphCell.swift */; };
+		1F5375011C1AEC2C00D4A64F /* LineGraphCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F5374FF1C1AEC2C00D4A64F /* LineGraphCell.xib */; };
+		1F5375031C1AED9700D4A64F /* GraphCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5375021C1AED9700D4A64F /* GraphCollectionViewCell.swift */; };
+		1F5375051C1AEF9F00D4A64F /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5375041C1AEF9F00D4A64F /* GraphView.swift */; };
+		1F5375081C1AF9CA00D4A64F /* GraphManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5375071C1AF9CA00D4A64F /* GraphManager.swift */; };
+		1F53750A1C1B13D800D4A64F /* NSDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5375091C1B13D800D4A64F /* NSDate.swift */; };
 		1FB412681BFB522900D91487 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB412671BFB522900D91487 /* String.swift */; };
 		1FB5D07B1C0751D700F9A2F7 /* ObservationSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB5D07A1C0751D700F9A2F7 /* ObservationSelectionViewController.swift */; };
 		1FB5D07D1C08681F00F9A2F7 /* CommaScoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB5D07C1C08681F00F9A2F7 /* CommaScoreViewController.swift */; };
@@ -185,7 +193,6 @@
 		1FD4FCD11BF4B7E000B77B94 /* SelectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD4FCC71BF4B7E000B77B94 /* SelectionView.xib */; };
 		1FD4FCE51BF4B8F400B77B94 /* DatePickerCell_Inline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCD31BF4B8F400B77B94 /* DatePickerCell_Inline.swift */; };
 		1FD4FCE61BF4B8F400B77B94 /* DatePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCD41BF4B8F400B77B94 /* DatePickerCell.swift */; };
-		1FD4FCE71BF4B8F400B77B94 /* LineChartCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCD51BF4B8F400B77B94 /* LineChartCell.swift */; };
 		1FD4FCE81BF4B8F400B77B94 /* LineChartCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCD61BF4B8F400B77B94 /* LineChartCollectionViewCell.swift */; };
 		1FD4FCE91BF4B8F400B77B94 /* TimePickerCell_Inline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCD71BF4B8F400B77B94 /* TimePickerCell_Inline.swift */; };
 		1FD4FCEA1BF4B8F400B77B94 /* TimePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCD81BF4B8F400B77B94 /* TimePickerCell.swift */; };
@@ -563,6 +570,14 @@
 		1F3C316F1C0DB8F8007C6AE7 /* Patient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Patient.swift; sourceTree = "<group>"; };
 		1F3C31771C0DE0CF007C6AE7 /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		1F3C31791C0DF755007C6AE7 /* MonthYearPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonthYearPickerView.swift; sourceTree = "<group>"; };
+		1F5374FA1C19C57000D4A64F /* TabularViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabularViewController.swift; sourceTree = "<group>"; };
+		1F5374FC1C1AE9FE00D4A64F /* LineGraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineGraphView.swift; sourceTree = "<group>"; };
+		1F5374FE1C1AEC2C00D4A64F /* LineGraphCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineGraphCell.swift; sourceTree = "<group>"; };
+		1F5374FF1C1AEC2C00D4A64F /* LineGraphCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LineGraphCell.xib; sourceTree = "<group>"; };
+		1F5375021C1AED9700D4A64F /* GraphCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphCollectionViewCell.swift; sourceTree = "<group>"; };
+		1F5375041C1AEF9F00D4A64F /* GraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
+		1F5375071C1AF9CA00D4A64F /* GraphManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphManager.swift; sourceTree = "<group>"; };
+		1F5375091C1B13D800D4A64F /* NSDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDate.swift; sourceTree = "<group>"; };
 		1FB412671BFB522900D91487 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		1FB5D07A1C0751D700F9A2F7 /* ObservationSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservationSelectionViewController.swift; sourceTree = "<group>"; };
 		1FB5D07C1C08681F00F9A2F7 /* CommaScoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommaScoreViewController.swift; sourceTree = "<group>"; };
@@ -583,7 +598,6 @@
 		1FD4FCC71BF4B7E000B77B94 /* SelectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectionView.xib; sourceTree = "<group>"; };
 		1FD4FCD31BF4B8F400B77B94 /* DatePickerCell_Inline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerCell_Inline.swift; sourceTree = "<group>"; };
 		1FD4FCD41BF4B8F400B77B94 /* DatePickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerCell.swift; sourceTree = "<group>"; };
-		1FD4FCD51BF4B8F400B77B94 /* LineChartCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartCell.swift; sourceTree = "<group>"; };
 		1FD4FCD61BF4B8F400B77B94 /* LineChartCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartCollectionViewCell.swift; sourceTree = "<group>"; };
 		1FD4FCD71BF4B8F400B77B94 /* TimePickerCell_Inline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimePickerCell_Inline.swift; sourceTree = "<group>"; };
 		1FD4FCD81BF4B8F400B77B94 /* TimePickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimePickerCell.swift; sourceTree = "<group>"; };
@@ -1860,6 +1874,7 @@
 		0BCF5EA31AE0D8C2002467BF /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				1F5375061C1AF9BA00D4A64F /* VitalSign */,
 				0BB33DCD1B79D47600B05E4D /* AuthorizationManager */,
 				0B8D6E771B3136A500F0B972 /* KeyChainManager */,
 				0BCF5EA41AE0D8D5002467BF /* PlistManager */,
@@ -1994,6 +2009,7 @@
 			children = (
 				1FB412671BFB522900D91487 /* String.swift */,
 				1F1977231C05DB1400106023 /* UITextField.swift */,
+				1F5375091C1B13D800D4A64F /* NSDate.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -2013,6 +2029,14 @@
 				1F3C316D1C0DB3CB007C6AE7 /* PatientViewController.swift */,
 			);
 			name = BaseClass;
+			sourceTree = "<group>";
+		};
+		1F5375061C1AF9BA00D4A64F /* VitalSign */ = {
+			isa = PBXGroup;
+			children = (
+				1F5375071C1AF9CA00D4A64F /* GraphManager.swift */,
+			);
+			name = VitalSign;
 			sourceTree = "<group>";
 		};
 		1FD4FCAD1BF4B60E00B77B94 /* VitalSign */ = {
@@ -2043,6 +2067,7 @@
 		1FD4FCBD1BF4B72D00B77B94 /* CustomView */ = {
 			isa = PBXGroup;
 			children = (
+				1F5374FC1C1AE9FE00D4A64F /* LineGraphView.swift */,
 				1F3C31791C0DF755007C6AE7 /* MonthYearPickerView.swift */,
 				1FD4FCC01BF4B7E000B77B94 /* GeneralObservationView.swift */,
 				1FD4FCC11BF4B7E000B77B94 /* GraphicalDashBoardView.swift */,
@@ -2073,7 +2098,6 @@
 				1FD4FCFE1BF4BAAD00B77B94 /* SelectionCell.swift */,
 				1FD4FCD31BF4B8F400B77B94 /* DatePickerCell_Inline.swift */,
 				1FD4FCD41BF4B8F400B77B94 /* DatePickerCell.swift */,
-				1FD4FCD51BF4B8F400B77B94 /* LineChartCell.swift */,
 				1FD4FCD61BF4B8F400B77B94 /* LineChartCollectionViewCell.swift */,
 				1FD4FCD71BF4B8F400B77B94 /* TimePickerCell_Inline.swift */,
 				1FD4FCD81BF4B8F400B77B94 /* TimePickerCell.swift */,
@@ -2091,6 +2115,8 @@
 				1FD4FCE41BF4B8F400B77B94 /* TimePickerCell.xib */,
 				1F19771E1C0485C500106023 /* RowHeaderCollectionViewCell.swift */,
 				1F19771F1C0485C500106023 /* RowHeaderCollectionViewCell.xib */,
+				1F5374FE1C1AEC2C00D4A64F /* LineGraphCell.swift */,
+				1F5374FF1C1AEC2C00D4A64F /* LineGraphCell.xib */,
 			);
 			name = CustomCell;
 			sourceTree = "<group>";
@@ -2110,6 +2136,8 @@
 			children = (
 				1FD4FD0D1BF4BB9B00B77B94 /* VitalSign */,
 				1F3C316F1C0DB8F8007C6AE7 /* Patient.swift */,
+				1F5375021C1AED9700D4A64F /* GraphCollectionViewCell.swift */,
+				1F5375041C1AEF9F00D4A64F /* GraphView.swift */,
 			);
 			name = Delegate;
 			sourceTree = "<group>";
@@ -2221,6 +2249,7 @@
 				1FB5D07A1C0751D700F9A2F7 /* ObservationSelectionViewController.swift */,
 				1FB5D07C1C08681F00F9A2F7 /* CommaScoreViewController.swift */,
 				1F3C31771C0DE0CF007C6AE7 /* CalendarViewController.swift */,
+				1F5374FA1C19C57000D4A64F /* TabularViewController.swift */,
 			);
 			name = VitalSignViewController;
 			sourceTree = "<group>";
@@ -2683,6 +2712,7 @@
 				0B9173A01B01F3BA00BC9337 /* PrescriberDetails.storyboard in Resources */,
 				7D9EA9F21B29C14C00337E6A /* DCLandScapeRightPatientView.xib in Resources */,
 				1FD4FCF51BF4B8F400B77B94 /* SelectionCell.xib in Resources */,
+				1F5375011C1AEC2C00D4A64F /* LineGraphCell.xib in Resources */,
 				4D011C521BB14374005C79A2 /* MedicationHistory.storyboard in Resources */,
 				1FD4FCEF1BF4B8F400B77B94 /* DatePickerCell.xib in Resources */,
 				0BBDEDE11AA581630016E6FF /* Lato-HeavyItalic.ttf in Resources */,
@@ -2817,6 +2847,7 @@
 				0B6B497A1B2ED50700288117 /* DCScrollView.m in Sources */,
 				0BC5FAF61B43FF930019BF36 /* DCAutoSearchView.m in Sources */,
 				4DDEED511B4D0E3F00D8E0FF /* DCPatientAllergyWebService.m in Sources */,
+				1F5375081C1AF9CA00D4A64F /* GraphManager.swift in Sources */,
 				7DE60BCF1B2866CD00BCA745 /* DCPatientGraphicalRepresentationView.m in Sources */,
 				1F1977201C0485C500106023 /* RowHeaderCollectionViewCell.swift in Sources */,
 				7D4DBE9E1AA57E1700A5E39B /* UIColor+ColorFromHex.m in Sources */,
@@ -2827,6 +2858,7 @@
 				0B8886AF1B0C7814006FF1BF /* DCDatePickerViewController.m in Sources */,
 				1F3007061BF5552E00DDF3F3 /* VitalSignObservation.swift in Sources */,
 				0BC5FAFE1B442B6B0019BF36 /* DCOrderSet.m in Sources */,
+				1F53750A1C1B13D800D4A64F /* NSDate.swift in Sources */,
 				1F1977091BFDE5E700106023 /* ExcelTabularView.swift in Sources */,
 				4D9649921BA296CC008630B4 /* DCBedsAndPatientsWebService.m in Sources */,
 				7DC7C6491C1953F00026608A /* DCWindowScreenState.swift in Sources */,
@@ -2851,6 +2883,7 @@
 				1FD4FCB51BF4B6B700B77B94 /* BloodPressure.swift in Sources */,
 				0B0371F21C1700C700F2E0D1 /* DCInterval.m in Sources */,
 				0BD659561BD6685A00D3097B /* DCAdministerButton.swift in Sources */,
+				1F5375051C1AEF9F00D4A64F /* GraphView.swift in Sources */,
 				0B9173A41B02101300BC9337 /* DCPrescriberDetailsTimeView.m in Sources */,
 				0BA357311B746EAB00A5C3BC /* DCOrderSetOperationQueue.m in Sources */,
 				0BBC8FA61AA469AF0085ABAB /* DCBaseViewController.m in Sources */,
@@ -2861,6 +2894,7 @@
 				7D70F3801B20258200E4BA89 /* DCWardsGraphicalDisplayViewController.m in Sources */,
 				1FD4FCBA1BF4B6B700B77B94 /* Respiratory.swift in Sources */,
 				0BB3B79A1B99842A0011DFDF /* DCDatePickerCell.m in Sources */,
+				1F5374FB1C19C57000D4A64F /* TabularViewController.swift in Sources */,
 				FDC7EA5A1C1AA9510081D5C4 /* DCDosageDetailTableViewCell.swift in Sources */,
 				0B85D6811BF9CBCB009CF795 /* DCSchedulingHeaderView.swift in Sources */,
 				4DECF3031B79CB370085E75B /* DCOrderSetWarningCountWebService.m in Sources */,
@@ -2929,6 +2963,7 @@
 				0B38AC081BF4592E0027B8E6 /* DCSchedulingCell.swift in Sources */,
 				0BF2DA561ACAB12700B3ED97 /* DCErrorPopOverBackgroundView.m in Sources */,
 				0BAE369A1B455DDF007CD64C /* DCOrderSetMedicineView.m in Sources */,
+				1F5375031C1AED9700D4A64F /* GraphCollectionViewCell.swift in Sources */,
 				1FD4FD011BF4BAAD00B77B94 /* BloodPressureCell.swift in Sources */,
 				4D766C0D1BBCFE6400413E08 /* DCCalendarDateView.swift in Sources */,
 				4D16FAE21B5E56160034406A /* DCContraIndicationWebService.m in Sources */,
@@ -2936,7 +2971,6 @@
 				0BAE36941B450A6C007CD64C /* DCAutoSearchCell.m in Sources */,
 				1FD4FCAA1BF4B5CC00B77B94 /* VitalsignDashboard.swift in Sources */,
 				0B14CD8D1BB151EA0085E40C /* DCAdministerCell.swift in Sources */,
-				1FD4FCE71BF4B8F400B77B94 /* LineChartCell.swift in Sources */,
 				0B7F74FC1B84394B00E3B0A0 /* DCSortTableViewController.m in Sources */,
 				4D54C0791BFB2DF800A61273 /* DCCalendarOneThirdViewController.swift in Sources */,
 				4D766C0F1BBD004800413E08 /* DCDateView.swift in Sources */,
@@ -2963,6 +2997,7 @@
 				4DC527F11BE1EE2F00E2EF09 /* DCDosageMultiLineCell.swift in Sources */,
 				0BC3ACB31C0DB70B0028AF03 /* DCSchedulingInitialViewController.swift in Sources */,
 				1FD4FCCA1BF4B7E000B77B94 /* GeneralObservationView.swift in Sources */,
+				1F5374FD1C1AE9FE00D4A64F /* LineGraphView.swift in Sources */,
 				1FD4FD101BF4BBCB00B77B94 /* ObservationDelegate.swift in Sources */,
 				0BBE3B601AA42DC5004CA6E9 /* main.m in Sources */,
 				0BB535861BBA472D0043BC61 /* DCAdministerPickerCell.swift in Sources */,
@@ -2991,6 +3026,7 @@
 				4DE525A31B8C92740057C5F5 /* DCAddMedicationInitialViewController.m in Sources */,
 				0BD6991B1BB2BAC1008797A2 /* DCBatchNumberCell.swift in Sources */,
 				1FD4FCB61BF4B6B700B77B94 /* BodyTemperature.swift in Sources */,
+				1F5375001C1AEC2C00D4A64F /* LineGraphCell.swift in Sources */,
 				1FD4FD0B1BF4BAE000B77B94 /* Helper.swift in Sources */,
 				1FB412681BFB522900D91487 /* String.swift in Sources */,
 				7D3234A81AF108990020CC8F /* DCSettingsViewController.m in Sources */,

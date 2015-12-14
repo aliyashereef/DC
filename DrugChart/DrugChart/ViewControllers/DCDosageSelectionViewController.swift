@@ -2,7 +2,7 @@
 //  DCDosageSelectionViewController.swift
 //  DrugChart
 //
-//  Created by Felix Joseph on 09/12/15.
+//  Created by Shaheer on 09/12/15.
 //
 //
 
@@ -17,19 +17,31 @@ let doseValueLabelText : NSString = "Dose"
 let doseFromLabelText : NSString = "From"
 let doseToLabelText : NSString = "To"
 
-class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DataEnteredDelegate {
+// protocol used for sending data back
+@objc public protocol NewDosageValueEntered: class {
+
+    func newDosageAdded(dosage : String)
+}
+
+
+@objc class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DataEnteredDelegate {
 
     var menuType : DosageSelectionType = eDosageMenu
+    var selectedDetailType : DosageDetailType = eDoseValue
     var isRowAlreadySelected : Bool = false
     var valueForDoseUnit : NSString = "mg"
     var valueForDoseValue : NSString = ""
+    var valueForDoseFromValue : NSString = ""
+    var valueForDoseToValue : NSString = ""
     var previousIndexPath = NSIndexPath(forRow: 5, inSection: 0)
     var dosageArray = [String]()
     @IBOutlet weak var dosageTableView: UITableView!
+    weak var newDosageAddedDelegate: NewDosageValueEntered? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        valueForDoseValue = dosageArray[0] as String
+        
+        self.configureInitialValues()
         self.configureNavigationBarItems()
         // Do any additional setup after loading the view.
     }
@@ -39,6 +51,26 @@ class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, 
         dosageTableView.reloadData()
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    // MARK: - View Configuration and Value Initializations
+    
+    func configureInitialValues (){
+     
+        if (dosageArray.count != 0) {
+            
+            valueForDoseValue = dosageArray[0] as String
+            valueForDoseFromValue = dosageArray[0] as String
+            valueForDoseToValue = dosageArray[0] as String
+        } else {
+            
+            valueForDoseValue = ""
+        }
+    }
+    
     func configureNavigationBarItems() {
         
         UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetMake(0, -60), forBarMetrics: .Default)
@@ -46,11 +78,6 @@ class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, 
         self.title = dosageTitle as String
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     // MARK: - TableView Methods
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -134,11 +161,11 @@ class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, 
                 }else if (indexPath.row == 1) {
                     
                     dosageSelectionDetailCell!.dosageDetailLabel.text = doseFromLabelText as String
-                    dosageSelectionDetailCell!.dosageDetailValueLabel.text = valueForDoseValue as String
+                    dosageSelectionDetailCell!.dosageDetailValueLabel.text = valueForDoseFromValue as String
                 } else {
                     
                     dosageSelectionDetailCell!.dosageDetailLabel.text = doseToLabelText as String
-                    dosageSelectionDetailCell!.dosageDetailValueLabel.text = valueForDoseValue as String
+                    dosageSelectionDetailCell!.dosageDetailValueLabel.text = valueForDoseToValue as String
                 }
             case eReducingIncreasing.rawValue:
                 // Configure the cell...
@@ -246,43 +273,57 @@ class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, 
             }
         } else {
             
-            let dosageDetailViewController : DCDosageDetailViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_DETAIL_SBID) as? DCDosageDetailViewController
-            dosageDetailViewController?.delegate = self
-            dosageDetailViewController?.dosageDetailsArray = dosageArray
-            switch (menuType.rawValue) {
-                
-            case eFixedDosage.rawValue:
-                if (indexPath.row == 0){
-                    
-                    dosageDetailViewController?.previousSelectedValue = valueForDoseUnit
-                    dosageDetailViewController?.detailType = eDoseUnit
-                } else {
-                    
-                    dosageDetailViewController?.previousSelectedValue = valueForDoseValue
-                    dosageDetailViewController?.detailType = eDoseValue
-                }
-            case eVariableDosage.rawValue:
-                if (indexPath.row == 0) {
-                    
-                    dosageDetailViewController?.previousSelectedValue = valueForDoseUnit
-                    dosageDetailViewController?.detailType = eDoseUnit
-                } else if (indexPath.row == 1) {
-                    
-                    dosageDetailViewController?.previousSelectedValue = valueForDoseValue
-                    dosageDetailViewController?.detailType = eDoseFrom
-                } else {
-                    
-                    dosageDetailViewController?.previousSelectedValue = valueForDoseValue
-                    dosageDetailViewController?.detailType = eDoseTo
-                }
-            default:
-                break
-            }
-            self.navigationController?.pushViewController(dosageDetailViewController!, animated: true)
+            self.displayDosageDetailViewControllerWithSelectedDetailType(indexPath)
         }
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
+    
+    // MARK: - Private Methods
+    
+    func displayDosageDetailViewControllerWithSelectedDetailType(indexPath : NSIndexPath ) {
+        
+        //Function to configure the detail VC and to transit to the DCDosageDetailViewController
+        let dosageDetailViewController : DCDosageDetailViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_DETAIL_SBID) as? DCDosageDetailViewController
+        dosageDetailViewController?.delegate = self
+        dosageDetailViewController?.dosageDetailsArray = dosageArray
+        switch (menuType.rawValue) {
+            
+        case eFixedDosage.rawValue:
+            if (indexPath.row == 0){
+                
+                dosageDetailViewController?.previousSelectedValue = valueForDoseUnit
+                dosageDetailViewController?.detailType = eDoseUnit
+            } else {
+                
+                selectedDetailType = eDoseValue
+                dosageDetailViewController?.previousSelectedValue = valueForDoseValue
+                dosageDetailViewController?.detailType = eDoseValue
+            }
+        case eVariableDosage.rawValue:
+            if (indexPath.row == 0) {
+                
+                dosageDetailViewController?.previousSelectedValue = valueForDoseUnit
+                dosageDetailViewController?.detailType = eDoseUnit
+            } else if (indexPath.row == 1) {
+                
+                selectedDetailType = eDoseFrom
+                dosageDetailViewController?.previousSelectedValue = valueForDoseFromValue
+                dosageDetailViewController?.detailType = eDoseFrom
+            } else {
+                
+                selectedDetailType = eDoseTo
+                dosageDetailViewController?.previousSelectedValue = valueForDoseToValue
+                dosageDetailViewController?.detailType = eDoseTo
+            }
+        default:
+            break
+        }
+
+        self.navigationController?.pushViewController(dosageDetailViewController!, animated: true)
+    }
+    
+    // MARK: - Delegate Methods
     
     func userDidSelectDosageUnit(value: String) {
         
@@ -295,4 +336,25 @@ class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, 
         valueForDoseValue = value
         dosageTableView.reloadData()
     }
+    
+    func newDosageAdded(value : String){
+        
+        if (selectedDetailType == eDoseValue) {
+            
+        valueForDoseValue = value
+        newDosageAddedDelegate?.newDosageAdded(value)
+        } else if (selectedDetailType == eDoseFrom) {
+            
+            valueForDoseFromValue = value
+        } else if (selectedDetailType == eDoseTo) {
+            
+            valueForDoseToValue = value
+        }
+        if (selectedDetailType != eDoseValue) {
+            
+            newDosageAddedDelegate?.newDosageAdded("\(valueForDoseFromValue),\(valueForDoseToValue)")
+        }
+        dosageTableView.reloadData()
+    }
+
 }
