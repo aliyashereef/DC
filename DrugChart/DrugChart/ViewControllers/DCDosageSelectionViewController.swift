@@ -27,9 +27,12 @@ let doseToLabelText : NSString = "To"
 @objc class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DataEnteredDelegate {
 
     var menuType : DosageSelectionType = eDosageMenu
+    var selectedDetailType : DosageDetailType = eDoseValue
     var isRowAlreadySelected : Bool = false
     var valueForDoseUnit : NSString = "mg"
     var valueForDoseValue : NSString = ""
+    var valueForDoseFromValue : NSString = ""
+    var valueForDoseToValue : NSString = ""
     var previousIndexPath = NSIndexPath(forRow: 5, inSection: 0)
     var dosageArray = [String]()
     @IBOutlet weak var dosageTableView: UITableView!
@@ -41,6 +44,8 @@ let doseToLabelText : NSString = "To"
         if (dosageArray.count != 0) {
         
             valueForDoseValue = dosageArray[0] as String
+            valueForDoseFromValue = dosageArray[0] as String
+            valueForDoseToValue = dosageArray[0] as String
         } else {
             
             valueForDoseValue = ""
@@ -150,11 +155,11 @@ let doseToLabelText : NSString = "To"
                 }else if (indexPath.row == 1) {
                     
                     dosageSelectionDetailCell!.dosageDetailLabel.text = doseFromLabelText as String
-                    dosageSelectionDetailCell!.dosageDetailValueLabel.text = valueForDoseValue as String
+                    dosageSelectionDetailCell!.dosageDetailValueLabel.text = valueForDoseFromValue as String
                 } else {
                     
                     dosageSelectionDetailCell!.dosageDetailLabel.text = doseToLabelText as String
-                    dosageSelectionDetailCell!.dosageDetailValueLabel.text = valueForDoseValue as String
+                    dosageSelectionDetailCell!.dosageDetailValueLabel.text = valueForDoseToValue as String
                 }
             case eReducingIncreasing.rawValue:
                 // Configure the cell...
@@ -274,6 +279,7 @@ let doseToLabelText : NSString = "To"
                     dosageDetailViewController?.detailType = eDoseUnit
                 } else {
                     
+                    selectedDetailType = eDoseValue
                     dosageDetailViewController?.previousSelectedValue = valueForDoseValue
                     dosageDetailViewController?.detailType = eDoseValue
                 }
@@ -284,11 +290,13 @@ let doseToLabelText : NSString = "To"
                     dosageDetailViewController?.detailType = eDoseUnit
                 } else if (indexPath.row == 1) {
                     
-                    dosageDetailViewController?.previousSelectedValue = valueForDoseValue
+                    selectedDetailType = eDoseFrom
+                    dosageDetailViewController?.previousSelectedValue = valueForDoseFromValue
                     dosageDetailViewController?.detailType = eDoseFrom
                 } else {
                     
-                    dosageDetailViewController?.previousSelectedValue = valueForDoseValue
+                    selectedDetailType = eDoseTo
+                    dosageDetailViewController?.previousSelectedValue = valueForDoseToValue
                     dosageDetailViewController?.detailType = eDoseTo
                 }
             default:
@@ -314,8 +322,21 @@ let doseToLabelText : NSString = "To"
     
     func newDosageAdded(value : String){
         
+        if (selectedDetailType == eDoseValue) {
+            
         valueForDoseValue = value
         newDosageAddedDelegate?.newDosageAdded(value)
+        } else if (selectedDetailType == eDoseFrom) {
+            
+            valueForDoseFromValue = value
+        } else if (selectedDetailType == eDoseTo) {
+            
+            valueForDoseToValue = value
+        }
+        if (selectedDetailType != eDoseValue) {
+            
+            newDosageAddedDelegate?.newDosageAdded("\(valueForDoseFromValue),\(valueForDoseToValue)")
+        }
         dosageTableView.reloadData()
         print("Success")
     }
