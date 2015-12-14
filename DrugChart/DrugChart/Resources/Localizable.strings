@@ -27,6 +27,8 @@
 "ADD_MEDICATION_FAILED"     = "Failed to add a new medication";
 "MEDICATION_SCHEDULE_ERROR" = "Failed to fetch medication schedules for patient";
 "REQUEST_TIME_OUT"          = "Request session timeout";
+"FETCH_FAILED"              = "Failed to fetch response.";
+
 //strings
 "USERNAME"                  = "Username";
 "PASSWORD"                  = "Password";
@@ -149,7 +151,11 @@
 
 // Scheduling
 
-"DAILY_DESCRIPTION"    =       "Medication will be administred every";
+"DAILY_DESCRIPTION"    =       "Medication will be administered every";
 "SCHEDULING_GENERAL_DESCRIPTION"    =   "";
 "BASE_FREQUENCY"       =       "Base Frequency on";
 "ADMINISTRATION_TIMES" =       "Administration Times";
+"REPEAT_FREQUENCY"     =       "Repeat Frequency";
+"SET_START_END_TIME"   =       "Set Start and End Time";
+"START_TIME"           =       "Start Time";
+"END_TIME"             =       "End Time";

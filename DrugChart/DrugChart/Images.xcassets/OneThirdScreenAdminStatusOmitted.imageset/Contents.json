@@ -2,12 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "icon3.png",
+      "filename" : "cross.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "icon3-1.png",
+      "filename" : "cross@2x.png",
       "scale" : "2x"
     },
     {

@@ -51,7 +51,10 @@ class DCMedicationAdministrationStatusView: UIView {
     override init(frame: CGRect) {
         
         super.init(frame: frame)
-        addViewElements()
+         addViewElements()
+        if isOneThirdScreen {
+            administerButton?.enabled = false
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -73,7 +76,7 @@ class DCMedicationAdministrationStatusView: UIView {
         self.addSubview(administerButton!)
         self.sendSubviewToBack(administerButton!)
         administerButton?.addTarget(self, action: Selector("administerButtonClicked:"), forControlEvents: .TouchUpInside)
-        if (medicationCategory == WHEN_REQUIRED) {
+        if (medicationCategory == WHEN_REQUIRED || medicationCategory == ONCE_MEDICATION) {
             self.disableAdministerButton()
         }
     }
@@ -193,7 +196,7 @@ class DCMedicationAdministrationStatusView: UIView {
             self.disableAdministerButton()
             statusIcon!.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
             if isOneThirdScreen {
-                statusIcon?.image = (administeredCount == timeArray.count) ? ADMINISTRATION_SUCCESS_IMAGE_ONETHIRD : ADMINISTRATION_FAILURE_IMAGE_ONETHIRD
+                statusIcon?.image = (administeredCount == timeArray.count) ? ADMINISTRATION_SUCCESS_IMAGE_ONETHIRD : ADMINISTRATION_OMITTED_IMAGE_ONETHIRD
             } else {
                 statusIcon?.image = (administeredCount == timeArray.count) ? ADMINISTRATION_SUCCESS_IMAGE : ADMINISTRATION_FAILURE_IMAGE
             }
@@ -226,7 +229,13 @@ class DCMedicationAdministrationStatusView: UIView {
                         statusLabel?.hidden = true
                         statusIcon?.hidden = false
                         statusIcon!.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
-                        statusIcon?.image = (administeredCount == timeArray.count) ? ADMINISTRATION_SUCCESS_IMAGE : ADMINISTRATION_FAILURE_IMAGE
+                        if (isOneThirdScreen) {
+                            statusIcon?.image = (administeredCount == timeArray.count) ?  ADMINISTRATION_SUCCESS_IMAGE_ONETHIRD: ADMINISTRATION_OMITTED_IMAGE_ONETHIRD
+
+                        } else {
+                            statusIcon?.image = (administeredCount == timeArray.count) ? ADMINISTRATION_SUCCESS_IMAGE : ADMINISTRATION_FAILURE_IMAGE
+
+                        }
                     }
                 }
             }
@@ -308,7 +317,7 @@ class DCMedicationAdministrationStatusView: UIView {
                 statusIcon?.image = ADMINISTRATION_FAILURE_IMAGE
             } else {
                 administerButton?.enabled = false
-                statusIcon?.image = ADMINISTRATION_FAILURE_IMAGE_ONETHIRD
+                statusIcon?.image = ADMINISTRATION_OMITTED_IMAGE_ONETHIRD
             }
         }
     }
@@ -335,9 +344,9 @@ class DCMedicationAdministrationStatusView: UIView {
     func disableAdministerButton() {
         
         if(isOneThirdScreen) {
-            administerButton?.enabled = false
+            administerButton?.userInteractionEnabled = false
         } else {
-            administerButton?.enabled = true
+            administerButton?.userInteractionEnabled = true
         }
     }
     

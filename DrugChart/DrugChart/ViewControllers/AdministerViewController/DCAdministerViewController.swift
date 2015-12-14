@@ -99,6 +99,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func configureViewElements () {
         
         initialiseMedicationSlotObject()
+        administerTableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
         //check if early administration
         if (medicationDetails?.medicineCategory == WHEN_REQUIRED) {
             checkIfFrequentAdministrationForWhenRequiredMedication()
@@ -732,7 +733,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
      func batchNumberFieldSelectedAtIndexPath(indexPath: NSIndexPath) {
         
-        //self.administerTableView.setContentOffset(CGPointMake(0, 130), animated: true)
+        self.administerTableView.setContentOffset(CGPointMake(0, 130), animated: true)
         editingIndexPath = indexPath
     }
     
@@ -746,6 +747,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func notesSelected(editing : Bool, withIndexPath indexPath : NSIndexPath) {
         
         editingIndexPath = indexPath
+        self.administerTableView.setContentOffset(CGPointMake(0, 130), animated: true)
         if (editing == true && keyboardHeight != nil) {
             animateAdministerTableViewUpWhenKeyboardShows()
         }

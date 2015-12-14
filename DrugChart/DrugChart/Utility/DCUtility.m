@@ -91,7 +91,7 @@
     
     BOOL isError = NO;
     if ([view layer].borderColor == [UIColor redColor].CGColor) {
-        DCDebugLog(@"error field detected");
+        DDLogError(@"error field detected");
         isError = YES;
     }
     return isError;
@@ -316,7 +316,7 @@
         }
     }
     @catch (NSException *exception) {
-        DCDebugLog(@"Error description: %@", exception.description);
+        DDLogError(@"Error description: %@", exception.description);
     }
     return formattedTime;
 }

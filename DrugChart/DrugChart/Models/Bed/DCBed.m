@@ -64,7 +64,7 @@
             }
         }
         @catch (NSException *exception) {
-            DCDebugLog(@"An exception occured in setting the bed model. Description: %@", exception.description);
+            DDLogError(@"An exception occured in setting the bed model. Description: %@", exception.description);
         }
     }
     return self;

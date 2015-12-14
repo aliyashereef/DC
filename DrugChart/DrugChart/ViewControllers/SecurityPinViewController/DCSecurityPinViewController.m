@@ -169,7 +169,7 @@
         CGRect frame = CGRectMake(self.view.frame.origin.x,
                                   keyboardSize.height/2,
                                   self.view.frame.size.width, self.view.frame.size.height);
-        NSLog(@"%f %f",frame.size.height,frame.size.width);
+        DDLogInfo(@"%f %f",frame.size.height,frame.size.width);
         self.view.frame = frame;
         [self.view layoutSubviews];
     }];

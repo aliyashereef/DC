@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import CocoaLumberjack
 
 @objc class DCCalendarDateDisplayViewController: DCBaseViewController {
     
@@ -30,13 +31,14 @@ import UIKit
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        calendarViewWidthConstraint.constant = (DCUtility.mainWindowSize().width - MEDICATION_VIEW_WIDTH);
+        self.adjustHolderFrameAndDisplayDates()
         self.displayDatesInView()
     }
     
 //    override func viewDidLayoutSubviews() {
 //        super.viewDidLayoutSubviews()
 //        if windowSizeChanged {
+//            calendarViewWidthConstraint.constant = (DCUtility.mainWindowSize().width - MEDICATION_VIEW_WIDTH);
 //            self.displayDatesInView()
 //            windowSizeChanged = false
 //        }
@@ -127,6 +129,11 @@ import UIKit
         
         return DCUtility.mainWindowSize().width
     }
+    
+    func adjustHolderFrameAndDisplayDates () {
+        
+        calendarViewWidthConstraint.constant = (DCUtility.mainWindowSize().width - MEDICATION_VIEW_WIDTH);
+    }
 
     // Populate the dates for the previous and next date views
     func displayDatesInView () {
@@ -149,7 +156,7 @@ import UIKit
                 rightDatesArray.addObject(displayDatesArray.objectAtIndex(index))
             }
         }
-        print(centerCalendarView.backgroundColor)
+        DDLogDebug("\(centerCalendarView.backgroundColor)")
         leftCalendarView .populateViewForDateArray(leftDatesArray)
         centerCalendarView.populateViewForDateArray(centerDatesArray)
         rightCalendarView.populateViewForDateArray(rightDatesArray)

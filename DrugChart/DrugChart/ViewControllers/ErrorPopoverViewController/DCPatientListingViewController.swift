@@ -56,6 +56,7 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
         self.patientListTableView.reloadData()
         self.messageLabel.hidden = true
         patientListTableView.tableFooterView = UIView(frame: CGRectZero)
+        patientListTableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -70,6 +71,7 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
     func configureSearchBarViewProperties() {
         if isSearching {
             patientListTableView.setContentOffset(CGPointZero, animated: false)
+            patientListTableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
         } else {
             searchBar.text = EMPTY_STRING
             self.performSelector("hideSearchBar", withObject:nil , afterDelay:0.0)
@@ -453,7 +455,7 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
                     self.navigationItem.rightBarButtonItem?.enabled = false
                     self.messageLabel.hidden = false
                 } else {
-                        self.displayAlertWithTitle("ERROR", message:"")
+                        self.displayAlertWithTitle(NSLocalizedString("ERROR", comment: ""), message:NSLocalizedString("FETCH_FAILED", comment: ""))
                 }
                 self.activityIndicator.stopAnimating()
             }

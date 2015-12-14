@@ -84,7 +84,7 @@
         [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"") message:NSLocalizedString(@"INTERNET_CONNECTION_ERROR", @"")];
     } else if (error.code == WEBSERVICE_UNAVAILABLE) {
         [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"") message:NSLocalizedString(@"WEBSERVICE_UNAVAILABLE", @"")];
-    }
+    } 
 }
 
 - (void)setBedsArrayToWard:(DCWard *)ward GraphicalViewControllerwithCallBackHandler:(void (^)(NSError *error, NSMutableArray *array, NSMutableArray *bedsArray))callBackHandler  {

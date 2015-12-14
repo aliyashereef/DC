@@ -10,6 +10,8 @@
 #import <AFNetworking/AFNetworkReachabilityManager.h>
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
+#import <CocoaLumberjack/CocoaLumberjack.h>
+
 
 #define CRASHLYTICS_KEY @"4a2b5d073fadf25858561722b765f22b48ff0895"
 
@@ -24,6 +26,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    //CocoaLumberjack initialized.
+    [self initializeCocoaLumberjackLogger];
+    
     [Fabric with:@[CrashlyticsKit]];
     [Crashlytics startWithAPIKey:CRASHLYTICS_KEY];
     [self configureAppearanceSettings];
@@ -35,6 +40,17 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
     return YES;
+}
+
+-(void)initializeCocoaLumberjackLogger {
+    
+    [DDLog addLogger:[DDTTYLogger sharedInstance]]; // TTY = Xcode console
+    [DDLog addLogger:[DDASLLogger sharedInstance]]; // ASL = Apple System Logs
+    
+    DDFileLogger *fileLogger = [[DDFileLogger alloc] init]; // File Logger
+    fileLogger.rollingFrequency = 60 * 60 * 24; // 24 hour rolling
+    fileLogger.logFileManager.maximumNumberOfLogFiles = 7;
+    [DDLog addLogger:fileLogger];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -67,7 +83,7 @@
     [[AFNetworkReachabilityManager sharedManager] startMonitoring];
     [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
         
-        DCDebugLog(@"Reachability status is %ld", (long)status);
+        DDLogInfo(@"Reachability status is %ld", (long)status);
         if (status != AFNetworkReachabilityStatusNotReachable) {
             [[NSNotificationCenter defaultCenter] postNotificationName:kNetworkAvailable object:nil];
         }

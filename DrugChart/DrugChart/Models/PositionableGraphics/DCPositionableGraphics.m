@@ -40,7 +40,7 @@
             }
         }
         @catch (NSException *exception) {
-             NSLog(@"Excpetion found in setting POSITION graphics model: %@",exception.description);
+             DDLogError(@"Excpetion found in setting POSITION graphics model: %@",exception.description);
         }
     }
     return self;
