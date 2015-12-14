@@ -170,7 +170,11 @@ class DCSchedulingHelper: NSObject {
             if (repeatValue.frequency == "1 year") {
                 descriptionText = NSMutableString(format: "%@ year on the %@.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), repeatValue.yearOnTheValue )
             } else {
-                descriptionText = NSMutableString(format: "%@ %@ on the %@.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), repeatValue.frequency, repeatValue.yearOnTheValue )
+                let yearArray = repeatValue.yearOnTheValue.characters.split{$0 == " "}.map(String.init)
+                let indexValue = yearArray[0]
+                let day = yearArray[1]
+                let month = yearArray[2]
+                descriptionText = NSMutableString(format: "%@ %@ on the %@ %@ of %@.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), repeatValue.frequency, indexValue, day, month)
             }
         }
         return descriptionText
