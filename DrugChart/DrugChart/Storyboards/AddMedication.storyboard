@@ -707,7 +707,7 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="XKj-eu-iaa" userLabel="Scheduling Initial Table View">
                                 <rect key="frame" x="0.0" y="-15" width="310" height="705"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SchedulingInitialCellId" id="ntd-Wg-kAe" customClass="DCSchedulingCell" customModule="DrugChart" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="50" width="310" height="44"/>
@@ -792,6 +792,98 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="descriptionTextView" destination="BoF-gt-g7U" id="kFx-kl-D7i"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SchedulingTimeCell" id="9so-jU-Oan" customClass="DCSchedulingTimeCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="172" width="310" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9so-jU-Oan" id="bcl-tI-STE">
+                                            <rect key="frame" x="0.0" y="0.0" width="310" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9aC-yR-Y5l" userLabel="Time Type Label">
+                                                    <rect key="frame" x="16" y="9" width="170" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="90" id="IAS-Gj-hIB"/>
+                                                        <constraint firstAttribute="width" constant="170" id="qLL-fj-qYy"/>
+                                                        <constraint firstAttribute="height" constant="21" id="y6M-9X-DDb"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="IAS-Gj-hIB"/>
+                                                        </mask>
+                                                    </variation>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X5T-Ht-GR6" userLabel="Time Value Label">
+                                                    <rect key="frame" x="196" y="10" width="109" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="21" id="MOM-PE-Ya4"/>
+                                                        <constraint firstAttribute="width" priority="900" constant="179" id="cRp-de-Q8P"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" red="0.49019607840000001" green="0.52549019610000003" blue="0.54901960780000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="cRp-de-Q8P"/>
+                                                        </mask>
+                                                    </variation>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="LVh-NA-nwa">
+                                                    <rect key="frame" x="243" y="6" width="51" height="31"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="49" id="cGg-h9-m69"/>
+                                                        <constraint firstAttribute="height" constant="31" id="iby-cB-3Lw"/>
+                                                    </constraints>
+                                                    <connections>
+                                                        <action selector="timeSwitchValueChanged:" destination="9so-jU-Oan" eventType="valueChanged" id="ENv-jN-McF"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="9aC-yR-Y5l" firstAttribute="top" secondItem="bcl-tI-STE" secondAttribute="topMargin" constant="1" id="CIY-Ci-cuC"/>
+                                                <constraint firstItem="LVh-NA-nwa" firstAttribute="centerY" secondItem="bcl-tI-STE" secondAttribute="centerY" id="Dgp-SJ-nBb"/>
+                                                <constraint firstItem="X5T-Ht-GR6" firstAttribute="top" secondItem="bcl-tI-STE" secondAttribute="top" constant="10" id="JnQ-hl-GHa"/>
+                                                <constraint firstItem="9aC-yR-Y5l" firstAttribute="leading" secondItem="bcl-tI-STE" secondAttribute="leading" constant="16" id="TwF-WT-31O"/>
+                                                <constraint firstItem="X5T-Ht-GR6" firstAttribute="leading" secondItem="9aC-yR-Y5l" secondAttribute="trailing" constant="10" id="UWQ-Xh-g2h"/>
+                                                <constraint firstAttribute="trailing" secondItem="LVh-NA-nwa" secondAttribute="trailing" constant="18" id="Vll-0l-gCe"/>
+                                                <constraint firstAttribute="trailing" secondItem="X5T-Ht-GR6" secondAttribute="trailing" constant="5" id="bh1-RV-qRb"/>
+                                                <constraint firstItem="9aC-yR-Y5l" firstAttribute="top" secondItem="bcl-tI-STE" secondAttribute="top" constant="9" id="cc9-Jy-1u2"/>
+                                            </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="cc9-Jy-1u2"/>
+                                                </mask>
+                                            </variation>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="timeSwitch" destination="LVh-NA-nwa" id="tIN-Lw-cvE"/>
+                                            <outlet property="timeTypeLabel" destination="9aC-yR-Y5l" id="GOb-ck-TEJ"/>
+                                            <outlet property="timeValueLabel" destination="X5T-Ht-GR6" id="uAH-Yt-jqf"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SchedulingDatePickerCellId" rowHeight="216" id="Doc-xq-Ohx" customClass="DCSChedulingTimePickerCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="216" width="310" height="216"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Doc-xq-Ohx" id="7Yt-J8-PRs">
+                                            <rect key="frame" x="0.0" y="0.0" width="310" height="215"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="G0z-Ku-zVb">
+                                                    <rect key="frame" x="-5" y="0.0" width="320" height="216"/>
+                                                    <date key="date" timeIntervalSinceReferenceDate="471520033.015104">
+                                                        <!--2015-12-11 09:47:13 +0000-->
+                                                    </date>
+                                                    <connections>
+                                                        <action selector="timePickerValueChanged:" destination="Doc-xq-Ohx" eventType="valueChanged" id="hdh-fv-9aw"/>
+                                                    </connections>
+                                                </datePicker>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="schedulingTimePickerView" destination="G0z-Ku-zVb" id="WOi-09-Qdp"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

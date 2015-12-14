@@ -149,6 +149,11 @@
     } else if (type == eSchedulingCell) {
         cell.titleLabel.text = NSLocalizedString(@"FREQUENCY", @"");
         if (doneClicked) {
+            //TODO: currently hard coding time values for interval
+            if ([self.selectedMedication.scheduling.type isEqualToString:INTERVAL]) {
+                NSArray *intervalTimes = @[@{@"time" : @"10:00", @"selected" : @1}];
+                self.selectedMedication.timeArray = [NSMutableArray arrayWithArray:intervalTimes];
+            }
             cell.titleLabel.textColor = (self.selectedMedication.scheduling.type == nil || self.selectedMedication.timeArray.count == 0)? [UIColor redColor] : [UIColor blackColor];
         }
         cell.descriptionLabel.text = self.selectedMedication.scheduling.type;
@@ -158,7 +163,7 @@
         cell = [self updatedAdministrationTimeTableCell:cell];
     } else if (type == eRepeatCell) {
         cell.titleLabel.text = NSLocalizedString(@"REPEAT", @"");
-        [cell configureContentCellWithContent:self.selectedMedication.scheduling.repeatObject.repeatType];
+        [cell configureContentCellWithContent:self.selectedMedication.scheduling.specificTimes.repeatObject.repeatType];
     }
     return cell;
 }
