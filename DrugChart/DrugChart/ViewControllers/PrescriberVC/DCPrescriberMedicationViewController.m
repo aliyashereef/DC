@@ -400,7 +400,7 @@ typedef enum : NSUInteger {
 
 - (void)fetchMedicationListForPatientWithCompletionHandler:(void(^)(BOOL success))completion {
     
-    //[self showActivityIndicationOnViewRefresh:true];
+    [self showActivityIndicationOnViewRefresh:true];
     [noMedicationsAvailableLabel setHidden:YES];
     [self fetchMedicationListForPatientId:self.patient.patientId
                     withCompletionHandler:^(NSArray *result, NSError *error) {
