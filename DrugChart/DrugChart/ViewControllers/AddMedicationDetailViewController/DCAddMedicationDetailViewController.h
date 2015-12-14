@@ -31,5 +31,6 @@ typedef void(^NewAdministrationTime)(NSDate *date);
 @property (nonatomic, strong) NSString *previousFilledValue;
 @property (nonatomic, strong) NSMutableArray *contentArray;
 @property (nonatomic, weak) id <AddMedicationDetailDelegate> delegate;
+- (void)presentAddNewDosageView;
 
 @end

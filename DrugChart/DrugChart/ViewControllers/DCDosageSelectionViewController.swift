@@ -2,7 +2,7 @@
 //  DCDosageSelectionViewController.swift
 //  DrugChart
 //
-//  Created by Felix Joseph on 09/12/15.
+//  Created by Shaheer on 09/12/15.
 //
 //
 
@@ -17,7 +17,14 @@ let doseValueLabelText : NSString = "Dose"
 let doseFromLabelText : NSString = "From"
 let doseToLabelText : NSString = "To"
 
-class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DataEnteredDelegate {
+// protocol used for sending data back
+@objc public protocol NewDosageValueEntered: class {
+
+    func newDosageAdded(dosage : String)
+}
+
+
+@objc class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DataEnteredDelegate {
 
     var menuType : DosageSelectionType = eDosageMenu
     var isRowAlreadySelected : Bool = false
@@ -26,10 +33,19 @@ class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, 
     var previousIndexPath = NSIndexPath(forRow: 5, inSection: 0)
     var dosageArray = [String]()
     @IBOutlet weak var dosageTableView: UITableView!
+    weak var newDosageAddedDelegate: NewDosageValueEntered? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        valueForDoseValue = dosageArray[0] as String
+        
+        if (dosageArray.count != 0) {
+        
+            valueForDoseValue = dosageArray[0] as String
+        } else {
+            
+            valueForDoseValue = ""
+        }
+        
         self.configureNavigationBarItems()
         // Do any additional setup after loading the view.
     }
@@ -295,4 +311,13 @@ class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, 
         valueForDoseValue = value
         dosageTableView.reloadData()
     }
+    
+    func newDosageAdded(value : String){
+        
+        valueForDoseValue = value
+        newDosageAddedDelegate?.newDosageAdded(value)
+        dosageTableView.reloadData()
+        print("Success")
+    }
+
 }
