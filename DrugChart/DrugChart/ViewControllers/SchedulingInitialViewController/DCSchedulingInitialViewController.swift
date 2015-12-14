@@ -187,6 +187,9 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         let descriptionCell = schedulingTableView.dequeueReusableCellWithIdentifier(SCHEDULING_DESCRIPTION_CELL_ID) as? DCSchedulingDescriptionTableCell
         descriptionCell!.delegate = self;
         descriptionCell?.populatePlaceholderForFieldIsInstruction(false)
+        if (self.scheduling?.type == INTERVAL) {
+            scheduling?.schedulingDescription = nil
+        }
         if let description = scheduling?.schedulingDescription {
             descriptionCell?.descriptionTextView?.text = description
         } else {
