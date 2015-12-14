@@ -67,6 +67,7 @@ let doseToLabelText : NSString = "To"
             valueForDoseToValue = dosageArray[0] as String
         } else {
             
+            valueForDoseUnit = ""
             valueForDoseValue = ""
         }
     }
@@ -292,6 +293,7 @@ let doseToLabelText : NSString = "To"
         case eFixedDosage.rawValue:
             if (indexPath.row == 0){
                 
+                selectedDetailType = eDoseUnit
                 dosageDetailViewController?.previousSelectedValue = valueForDoseUnit
                 dosageDetailViewController?.detailType = eDoseUnit
             } else {
@@ -303,6 +305,7 @@ let doseToLabelText : NSString = "To"
         case eVariableDosage.rawValue:
             if (indexPath.row == 0) {
                 
+                selectedDetailType = eDoseUnit
                 dosageDetailViewController?.previousSelectedValue = valueForDoseUnit
                 dosageDetailViewController?.detailType = eDoseUnit
             } else if (indexPath.row == 1) {
@@ -342,17 +345,20 @@ let doseToLabelText : NSString = "To"
         if (selectedDetailType == eDoseValue) {
             
         valueForDoseValue = value
-        newDosageAddedDelegate?.newDosageAdded(value)
+        newDosageAddedDelegate?.newDosageAdded("\(value)\(valueForDoseUnit)")
         } else if (selectedDetailType == eDoseFrom) {
             
             valueForDoseFromValue = value
         } else if (selectedDetailType == eDoseTo) {
             
             valueForDoseToValue = value
+        } else if (selectedDetailType == eDoseUnit) {
+            
+            valueForDoseUnit = value
         }
         if (selectedDetailType != eDoseValue) {
             
-            newDosageAddedDelegate?.newDosageAdded("\(valueForDoseFromValue),\(valueForDoseToValue)")
+            newDosageAddedDelegate?.newDosageAdded("\(valueForDoseFromValue)\(valueForDoseUnit),\(valueForDoseToValue)\(valueForDoseUnit)")
         }
         dosageTableView.reloadData()
     }
