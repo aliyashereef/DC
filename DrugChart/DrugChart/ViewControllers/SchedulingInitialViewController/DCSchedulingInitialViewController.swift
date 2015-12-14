@@ -169,6 +169,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         timeCell!.schedulingCellDelegate = self
         if (indexPath.row == 1) {
             timeCell?.selectionStyle = .None
+            timeCell?.previousPickerState = self.scheduling?.interval?.hasStartAndEndDate;
             timeCell?.configureSetStartAndEndTimeCell()
         } else if (indexPath.row == 2) {
             let startTime = self.scheduling?.interval?.startTime == nil ? EMPTY_STRING : self.scheduling?.interval?.startTime
@@ -274,7 +275,6 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         if (indexPath.row == START_TIME_PICKER_ROW_INDEX) {
             timePickerCell!.isStartTimePicker = true
             timePickerCell?.previousSelectedTime = DCDateUtility.dateFromSourceString(self.scheduling?.interval?.startTime)
-            //print("*** Previous Start Date is %@", timePickerCell?.previousSelectedTime)
         } else {
             timePickerCell!.isStartTimePicker = false
             timePickerCell?.previousSelectedTime = DCDateUtility.dateFromSourceString(self.scheduling?.interval?.endTime)
@@ -283,8 +283,6 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
             } else {
                 timePickerCell!.schedulingTimePickerView?.minimumDate = DCDateUtility.dateFromSourceString(self.scheduling?.interval?.startTime)
             }
-            //timePickerCell!.schedulingTimePickerView?.minimumDate = (self.scheduling?.interval?.startTime == nil)? NSDate() : timePickerCell?.previousSelectedTime
-           // print("*** Previous End Date is %@", timePickerCell?.previousSelectedTime)
         }
         timePickerCell!.timePickerCompletion = { time in
             if (timePickerCell!.isStartTimePicker == true) {
@@ -409,6 +407,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
                 if (tableViewHasInlinePickerForSection(section)) {
                     rowCount++
                 }
+                print("***** RowCount is %i", rowCount)
                 return rowCount
             }
         }
@@ -532,8 +531,9 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         //configure table based on the switch state
         let timeCell = schedulingTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 1)) as? DCSchedulingTimeCell
         timeCell?.timeSwitch.userInteractionEnabled = false
+        print("**** Scheduling state is %@", state);
         self.scheduling?.interval?.hasStartAndEndDate = state
-         schedulingTableView.beginUpdates()
+        schedulingTableView.beginUpdates()
         let indexPathsArray = [NSIndexPath(forRow: 2, inSection: 1), NSIndexPath(forRow: 3, inSection: 1)]
         if (state == false) {
             //delete start time, end time table cells
