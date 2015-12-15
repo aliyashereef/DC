@@ -346,6 +346,7 @@
 - (void)configureNoEndDateTableCellDisplayBasedOnSwitchState {
 
     //hide/show no date table cell
+    [self collapseOpenedPickerCell];
     NSInteger dateSection = showWarnings? 3 : 2;
     if (!self.selectedMedication.hasEndDate) {
         //hide tablecell
