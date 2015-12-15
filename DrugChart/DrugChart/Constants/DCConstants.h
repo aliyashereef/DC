@@ -187,7 +187,11 @@
 #define SCHEDULING_PICKER_CELL_ID @"SchedulingPickerCellId"
 #define SCHEDULING_INITIAL_CELL_ID @"SchedulingInitialCellId"
 #define SCHEDULING_DESCRIPTION_CELL_ID @"SchedulingDescriptionCell"
-
+#define DOSE_MENU_CELL_ID @"dosagetypecell"
+#define DOSE_DROP_DOWN_CELL_ID @"dosageDetailCell"
+#define DOSE_DETAIL_CELL_ID @"dosageDetailCell"
+#define DOSE_DETAIL_DISPLAY_CELL_ID @"dosageDetailDisplay"
+#define ADD_NEW_VALUE_CELL_ID @"newDosageCell"
 
 // title for views
 #define INPATIENT_TITLE @"In Patients"
@@ -456,5 +460,16 @@
 #define ADMINISTRATING_NOTES @"Notes"
 #define IS_SELF_ADMINISTERED @"IsSelfAdministered"
 #define EXPIRY_DATE @"ExpiryDate"
+
+//Dosage
+#define DOSE_UNIT_LABEL_TEXT @"Dose Unit"
+#define DOSE_UNIT_TITLE @"Unit"
+#define DOSE_VALUE_TITLE @"Dose"
+#define DOSE_FROM_TITLE @"From"
+#define DOSE_TO_TITLE @"To"
+#define STARTING_DOSE_TITLE @"Starting Dose"
+#define CHANGE_OVER_TITLE @"Change Over"
+#define CONDITIONS_TITLE @"Conditions"
+#define ADD_NEW_TITLE @"Add New"
 
 #endif

@@ -8,17 +8,6 @@
 
 import UIKit
 
-let dosageUnitTitle : NSString = "Unit"
-let dosageValueTitle : NSString = "Dose"
-let dosageFromTitle : NSString = "From"
-let dosageToTitle : NSString = "To"
-let newDosageTitle : NSString = "Add Dosage"
-let dosageDetailDisplayCell : NSString = "dosageDetailCell"
-let doseDetailDisplayCellID : NSString = "dosageDetailDisplay"
-let newDosageCellID : NSString = "newDosageCell"
-let addNewLabel : NSString = "Add new"
-let dosageUnitItems = ["mg","ml","%"]
-
 // protocol used for sending data back to Dosage Selection
 protocol DataEnteredDelegate: class {
     
@@ -37,6 +26,7 @@ protocol newDosageEntered: class {
 class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, newDosageEntered {
     
     @IBOutlet weak var dosageDetailTableView: UITableView!
+    let dosageUnitItems = ["mg","ml","%"]
     var detailType : DosageDetailType = eDoseUnit
     var viewTitleForDisplay : NSString = ""
     var previousSelectedValue : NSString = ""
@@ -67,8 +57,8 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
             let doneButton: UIBarButtonItem = UIBarButtonItem(title: DONE_BUTTON_TITLE, style: .Plain, target: self, action: "doneButtonPressed")
             self.navigationItem.rightBarButtonItem = doneButton
             
-            self.navigationItem.title = newDosageTitle as String
-            self.title = newDosageTitle as String
+            self.navigationItem.title = ADD_NEW_TITLE
+            self.title = ADD_NEW_TITLE
         } else {
             
             // Configure navigation title.
@@ -77,13 +67,19 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
             switch (detailType.rawValue) {
                 
             case eDoseUnit.rawValue:
-                viewTitleForDisplay = dosageUnitTitle
+                viewTitleForDisplay = DOSE_UNIT_TITLE
             case eDoseValue.rawValue:
-                viewTitleForDisplay = dosageValueTitle
+                viewTitleForDisplay = DOSE_VALUE_TITLE
             case eDoseFrom.rawValue:
-                viewTitleForDisplay = dosageFromTitle
+                viewTitleForDisplay = DOSE_FROM_TITLE
             case eDoseTo.rawValue:
-                viewTitleForDisplay = dosageToTitle
+                viewTitleForDisplay = DOSE_TO_TITLE
+            case eStartingDose.rawValue:
+                viewTitleForDisplay = STARTING_DOSE_TITLE
+            case eChangeOver.rawValue:
+                viewTitleForDisplay = CHANGE_OVER_TITLE
+            case eConditions.rawValue:
+                viewTitleForDisplay = CONDITIONS_TITLE
             default:
                 break
             }
@@ -123,12 +119,12 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
         
         if (detailType == eAddNewDosage) {
             
-            let dosageDetailCell : DCDosageDetailTableViewCell? = dosageDetailTableView.dequeueReusableCellWithIdentifier(newDosageCellID as String) as? DCDosageDetailTableViewCell
+            let dosageDetailCell : DCDosageDetailTableViewCell? = dosageDetailTableView.dequeueReusableCellWithIdentifier(ADD_NEW_VALUE_CELL_ID) as? DCDosageDetailTableViewCell
             return dosageDetailCell!
         } else {
             if (indexPath.section == 0 && dosageDetailsArray.count != 0 ) {
                 
-                let dosageDetailCell : DCDosageDetailTableViewCell? = dosageDetailTableView.dequeueReusableCellWithIdentifier(dosageDetailDisplayCell as String) as? DCDosageDetailTableViewCell
+                let dosageDetailCell : DCDosageDetailTableViewCell? = dosageDetailTableView.dequeueReusableCellWithIdentifier(DOSE_DETAIL_CELL_ID) as? DCDosageDetailTableViewCell
                 // Configure the cell...
                 switch (detailType.rawValue) {
                     
@@ -151,8 +147,8 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
                 return dosageDetailCell!
             } else {
                 
-                let dosageDetailCell : DCDosageDetailTableViewCell? = dosageDetailTableView.dequeueReusableCellWithIdentifier(doseDetailDisplayCellID as String) as? DCDosageDetailTableViewCell
-                dosageDetailCell?.dosageDetailCellLabel.text = addNewLabel as String
+                let dosageDetailCell : DCDosageDetailTableViewCell? = dosageDetailTableView.dequeueReusableCellWithIdentifier(DOSE_DETAIL_DISPLAY_CELL_ID) as? DCDosageDetailTableViewCell
+                dosageDetailCell?.dosageDetailCellLabel.text = ADD_NEW_TITLE
                 return dosageDetailCell!
             }
         }

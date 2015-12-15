@@ -8,18 +8,6 @@
 
 import UIKit
 
-let dosageTitle : NSString = "Dose"
-let dosageCellID : NSString = "dosagetypecell"
-let dosageDetailCellID : NSString = "dosageDetailCell"
-let dosageMenuItems = ["Fixed","Variable","Reducing / Increasing","Split Daily"]
-let doseUnitLabelText : NSString = "Dose Unit"
-let startingDoseText : NSString = "Starting Dose"
-let changeOverText : NSString = "Change over"
-let conditionsTitleText : NSString = "Conditions"
-let doseValueLabelText : NSString = "Dose"
-let doseFromLabelText : NSString = "From"
-let doseToLabelText : NSString = "To"
-
 // protocol used for sending data back
 @objc public protocol NewDosageValueEntered: class {
 
@@ -28,7 +16,8 @@ let doseToLabelText : NSString = "To"
 
 
 @objc class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DataEnteredDelegate {
-
+    
+    let dosageMenuItems = ["Fixed","Variable","Reducing / Increasing","Split Daily"]
     var menuType : DosageSelectionType = eDosageMenu
     var selectedDetailType : DosageDetailType = eDoseValue
     var isRowAlreadySelected : Bool = false
@@ -36,6 +25,7 @@ let doseToLabelText : NSString = "To"
     var valueForDoseValue : NSString = ""
     var valueForDoseFromValue : NSString = ""
     var valueForDoseToValue : NSString = ""
+    var valueForStartingDoseValue : NSString = ""
     var valueForChangeOver : NSString = ""
     var valueForCondition : NSString = ""
     var previousIndexPath = NSIndexPath(forRow: 5, inSection: 0)
@@ -82,8 +72,8 @@ let doseToLabelText : NSString = "To"
     func configureNavigationBarItems() {
         
         UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetMake(0, -60), forBarMetrics: .Default)
-        self.navigationItem.title = dosageTitle as String
-        self.title = dosageTitle as String
+        self.navigationItem.title = DOSE_VALUE_TITLE
+        self.title = DOSE_VALUE_TITLE
     }
     
     // MARK: - TableView Methods
@@ -136,7 +126,7 @@ let doseToLabelText : NSString = "To"
         
         if ( indexPath.section == 0) {
             
-            let dosageSelectionMenuCell : DCDosageSelectionTableViewCell? = dosageTableView.dequeueReusableCellWithIdentifier(dosageCellID as String) as? DCDosageSelectionTableViewCell
+            let dosageSelectionMenuCell : DCDosageSelectionTableViewCell? = dosageTableView.dequeueReusableCellWithIdentifier(DOSE_MENU_CELL_ID) as? DCDosageSelectionTableViewCell
             // Configure the cell...
             dosageSelectionMenuCell!.dosageMenuLabel.text = dosageMenuItems[indexPath.row]
             
@@ -160,8 +150,7 @@ let doseToLabelText : NSString = "To"
         if (indexPath.section == 0) {
             
             previousIndexPath = indexPath
-//            tableView.reloadData()
-            tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+            tableView.reloadData()
             switch (indexPath.row) {
                 
             case 0:
@@ -240,97 +229,110 @@ let doseToLabelText : NSString = "To"
         let dosageDetailViewController : DCDosageDetailViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_DETAIL_SBID) as? DCDosageDetailViewController
         dosageDetailViewController?.delegate = self
         dosageDetailViewController?.dosageDetailsArray = dosageArray
-        switch (menuType.rawValue) {
+        switch (indexPath.row) {
             
-        case eFixedDosage.rawValue:
-            if (indexPath.row == 0){
-                
+        case 0:
                 selectedDetailType = eDoseUnit
                 dosageDetailViewController?.previousSelectedValue = valueForDoseUnit
                 dosageDetailViewController?.detailType = eDoseUnit
-            } else {
+        case 1:
+            if (menuType == eFixedDosage) {
                 
                 selectedDetailType = eDoseValue
                 dosageDetailViewController?.previousSelectedValue = valueForDoseValue
                 dosageDetailViewController?.detailType = eDoseValue
-            }
-        case eVariableDosage.rawValue:
-            if (indexPath.row == 0) {
-                
-                selectedDetailType = eDoseUnit
-                dosageDetailViewController?.previousSelectedValue = valueForDoseUnit
-                dosageDetailViewController?.detailType = eDoseUnit
-            } else if (indexPath.row == 1) {
+            } else if (menuType == eVariableDosage) {
                 
                 selectedDetailType = eDoseFrom
                 dosageDetailViewController?.previousSelectedValue = valueForDoseFromValue
                 dosageDetailViewController?.detailType = eDoseFrom
+            } else if (menuType == eReducingIncreasing) {
+                
+                selectedDetailType = eStartingDose
+                dosageDetailViewController?.previousSelectedValue = valueForStartingDoseValue
+                dosageDetailViewController?.detailType = eStartingDose
             } else {
+                
+                //Todo : for Split daily.
+            }
+        case 2:
+            if (menuType == eVariableDosage) {
                 
                 selectedDetailType = eDoseTo
                 dosageDetailViewController?.previousSelectedValue = valueForDoseToValue
                 dosageDetailViewController?.detailType = eDoseTo
+            } else if (menuType == eReducingIncreasing) {
+                
+                selectedDetailType = eChangeOver
+                dosageDetailViewController?.previousSelectedValue = valueForChangeOver
+                dosageDetailViewController?.detailType = eChangeOver
+            }
+        case 3:
+            if (menuType == eReducingIncreasing) {
+                
+                selectedDetailType = eConditions
+                dosageDetailViewController?.previousSelectedValue = valueForCondition
+                dosageDetailViewController?.detailType = eConditions
             }
             //Todo : Cases for Reducing/Increasing, Split daily.
         default:
             break
         }
-
         self.navigationController?.pushViewController(dosageDetailViewController!, animated: true)
     }
     
     func configureTableCellForDisplay (indexPath : NSIndexPath) -> DCDosageSelectionTableViewCell {
         
-        let dosageSelectionDetailCell : DCDosageSelectionTableViewCell? = dosageTableView.dequeueReusableCellWithIdentifier(dosageDetailCellID as String) as? DCDosageSelectionTableViewCell
+        let dosageSelectionDetailCell : DCDosageSelectionTableViewCell? = dosageTableView.dequeueReusableCellWithIdentifier(DOSE_DROP_DOWN_CELL_ID) as? DCDosageSelectionTableViewCell
         switch (menuType.rawValue) {
             
         case eFixedDosage.rawValue:
             // Configure the cell...
             if(indexPath.row == 0){
                 
-                dosageSelectionDetailCell?.configureCell(doseUnitLabelText as String, selectedValue: valueForDoseUnit as String)
+                dosageSelectionDetailCell?.configureCell(DOSE_UNIT_LABEL_TEXT, selectedValue: valueForDoseUnit as String)
             }else {
                 
-                dosageSelectionDetailCell?.configureCell(doseValueLabelText as String, selectedValue: valueForDoseValue as String)
+                dosageSelectionDetailCell?.configureCell(DOSE_VALUE_TITLE, selectedValue: valueForDoseValue as String)
             }
         case eVariableDosage.rawValue:
             // Configure the cell...
             if(indexPath.row == 0) {
                 
-                dosageSelectionDetailCell?.configureCell(doseUnitLabelText as String, selectedValue: valueForDoseUnit as String)
+                dosageSelectionDetailCell?.configureCell(DOSE_UNIT_LABEL_TEXT, selectedValue: valueForDoseUnit as String)
             }else if (indexPath.row == 1) {
                 
-                dosageSelectionDetailCell?.configureCell(doseFromLabelText as String, selectedValue: valueForDoseFromValue as String)
+                dosageSelectionDetailCell?.configureCell(DOSE_FROM_TITLE, selectedValue: valueForDoseFromValue as String)
                 
             } else {
                 
-                dosageSelectionDetailCell?.configureCell(doseToLabelText as String, selectedValue: valueForDoseToValue as String)
+                dosageSelectionDetailCell?.configureCell(DOSE_TO_TITLE, selectedValue: valueForDoseToValue as String)
             }
         case eReducingIncreasing.rawValue:
             // Configure the cell...
             if(indexPath.row == 0) {
                 
-                dosageSelectionDetailCell?.configureCell(doseUnitLabelText as String, selectedValue: valueForDoseUnit as String)
+                dosageSelectionDetailCell?.configureCell(DOSE_UNIT_LABEL_TEXT, selectedValue: valueForDoseUnit as String)
                 
             }else if (indexPath.row == 1) {
                 
-                dosageSelectionDetailCell?.configureCell(startingDoseText as String, selectedValue: valueForDoseValue as String)
+                dosageSelectionDetailCell?.configureCell(STARTING_DOSE_TITLE, selectedValue: valueForStartingDoseValue as String)
                 
             } else if(indexPath.row == 2){
                 
-                dosageSelectionDetailCell?.configureCell(changeOverText as String, selectedValue: valueForChangeOver as String)
+                dosageSelectionDetailCell?.configureCell(CHANGE_OVER_TITLE, selectedValue: valueForChangeOver as String)
             } else {
                 
-                dosageSelectionDetailCell?.configureCell(conditionsTitleText as String, selectedValue: valueForCondition as String)
+                dosageSelectionDetailCell?.configureCell(CONDITIONS_TITLE, selectedValue: valueForCondition as String)
             }
         case eSplitDaily.rawValue:
             // Configure the cell...
             if(indexPath.row == 0){
                 
-                dosageSelectionDetailCell?.configureCell(doseUnitLabelText as String, selectedValue: valueForDoseUnit as String)
+                dosageSelectionDetailCell?.configureCell(DOSE_UNIT_LABEL_TEXT, selectedValue: valueForDoseUnit as String)
             }else {
                 
-                dosageSelectionDetailCell?.configureCell(doseValueLabelText as String, selectedValue: valueForDoseValue as String)
+                dosageSelectionDetailCell?.configureCell(DOSE_VALUE_TITLE, selectedValue: valueForDoseValue as String)
             }
         default:
             break
