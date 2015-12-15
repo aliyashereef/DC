@@ -19,7 +19,7 @@ let newDosageCellID : NSString = "newDosageCell"
 let addNewLabel : NSString = "Add new"
 let dosageUnitItems = ["mg","ml","%"]
 
-// protocol used for sending data back
+// protocol used for sending data back to Dosage Selection
 protocol DataEnteredDelegate: class {
     
     func userDidSelectDosageUnit(value: String)
@@ -27,7 +27,7 @@ protocol DataEnteredDelegate: class {
     func newDosageAdded(value : String)
 }
 
-// protocol used for sending data back
+// protocol used for sending data back to Dosage Detail
 protocol newDosageEntered: class {
     
     func prepareForTransitionBackToSelection(value: String)
@@ -35,7 +35,7 @@ protocol newDosageEntered: class {
 
 
 class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, newDosageEntered {
-
+    
     @IBOutlet weak var dosageDetailTableView: UITableView!
     var detailType : DosageDetailType = eDoseUnit
     var viewTitleForDisplay : NSString = ""
@@ -43,14 +43,16 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
     var dosageDetailsArray = [String]()
     weak var delegate: DataEnteredDelegate? = nil
     weak var newDosageDelegate: newDosageEntered? = nil
-
+    
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         dosageDetailTableView.reloadData()
         self.configureNavigationBarItems()
     }
     
     override func didReceiveMemoryWarning() {
+        
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
@@ -59,14 +61,17 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
         
         if (detailType == eAddNewDosage) {
             
+            // Configure bar buttons for Add new.
             let cancelButton: UIBarButtonItem = UIBarButtonItem(title: CANCEL_BUTTON_TITLE, style: .Plain, target: self, action: "cancelButtonPressed")
             self.navigationItem.leftBarButtonItem = cancelButton
             let doneButton: UIBarButtonItem = UIBarButtonItem(title: DONE_BUTTON_TITLE, style: .Plain, target: self, action: "doneButtonPressed")
             self.navigationItem.rightBarButtonItem = doneButton
-
+            
             self.navigationItem.title = newDosageTitle as String
             self.title = newDosageTitle as String
         } else {
+            
+            // Configure navigation title.
             UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetMake(0, -60), forBarMetrics: .Default)
             
             switch (detailType.rawValue) {
@@ -86,11 +91,11 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
             self.title = viewTitleForDisplay as String
         }
     }
-
+    
     // MARK: - TableView Methods
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-
+        
         if (detailType == eDoseUnit || detailType == eAddNewDosage || dosageDetailsArray.count == 0) {
             
             return 1
@@ -110,12 +115,12 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
             return dosageDetailsArray.count
         } else {
             
-            return 1 
+            return 1
         }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-       
+        
         if (detailType == eAddNewDosage) {
             
             let dosageDetailCell : DCDosageDetailTableViewCell? = dosageDetailTableView.dequeueReusableCellWithIdentifier(newDosageCellID as String) as? DCDosageDetailTableViewCell
@@ -139,7 +144,7 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
                 case eDoseTo.rawValue:
                     dosageDetailCell?.accessoryType = (previousSelectedValue == dosageDetailsArray[indexPath.row]) ? .Checkmark : .None
                     dosageDetailCell!.dosageDetailDisplayCell.text = dosageDetailsArray[indexPath.row]
-                    
+                    //Todo : Cases for Reducing/Increasing, Split Daily.
                 default:
                     break
                 }
@@ -152,9 +157,8 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
             }
         }
     }
- 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) { 
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         if (indexPath.section == 0 && dosageDetailsArray.count != 0) {
             
@@ -166,7 +170,7 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
             case eDoseValue.rawValue,eDoseFrom.rawValue,eDoseTo.rawValue:
                 delegate?.userDidSelectDosageValue(dosageDetailsArray[indexPath.row])
                 self.navigationController?.popViewControllerAnimated(true)
-                
+                //Todo : cases for reducing/increasing, split daily.
             default:
                 break
             }
@@ -176,12 +180,13 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
             dosageDetailViewController?.newDosageDelegate = self
             dosageDetailViewController?.detailType = eAddNewDosage
             let navigationController: UINavigationController = UINavigationController(rootViewController: dosageDetailViewController!)
-            navigationController.modalPresentationStyle = UIModalPresentationStyle.CurrentContext 
+            navigationController.modalPresentationStyle = UIModalPresentationStyle.CurrentContext
             self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
-
         }
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
+    
+    // MARK: - Action Methods
     
     func cancelButtonPressed() {
         
@@ -197,20 +202,11 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
         }
     }
     
+    // MARK: - Delegate Methods
+    
     func prepareForTransitionBackToSelection (value: String) {
         
         delegate?.newDosageAdded(value)
         self.navigationController?.popViewControllerAnimated(true)
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
