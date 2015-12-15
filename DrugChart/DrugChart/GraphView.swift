@@ -10,7 +10,7 @@ import Foundation
 
 class GraphView:UIView
 {
-    func plot(xAxisValue:[NSDate],yAxisValue:[Double],displayView:GraphDisplayView, graphTitle:String)
+    func plot(xAxisValue:[NSDate],yAxisValue:[Double],displayView:GraphDisplayView, graphTitle:String,graphDate:NSDate)
     {
         
     }

@@ -10,17 +10,28 @@ import Foundation
 import UIKit
 
 extension NSDate {
-    func getDatePart(displayView:GraphDisplayView) ->Int
+    func getDatePart(displayView:GraphDisplayView,startDate:NSDate) ->Int
 {
+    
     let calendar = NSCalendar.currentCalendar()
     let chosenDateComponents = calendar.components([.Hour , .Minute,.Day, .Month , .Year], fromDate: self)
-    return chosenDateComponents.hour * 60 + chosenDateComponents.minute ;
-    
-    //    switch(displayView)
-//    {
-//        case GraphDisplayView.Day:
-//            return chosenDateComponents.hour * 60 + chosenDateComponents.minute ;
-//    }
+    switch(displayView)
+    {
+    case .Week:
+        let calendar1 = NSCalendar.currentCalendar()
+        let noOfDays = calendar1.components([.Day], fromDate: startDate, toDate: self, options: [])
+        return noOfDays.day * 24 * 60 + chosenDateComponents.hour * 60 + chosenDateComponents.minute ;
+    case .Day:
+        return chosenDateComponents.hour * 60 + chosenDateComponents.minute ;
+    default:
+        return 1;
+    }
 }
+    func getFormattedDate() -> String
+    {
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy"
+        return formatter.stringFromDate(self)
+    }
     
 }

@@ -14,19 +14,49 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
 //    @IBOutlet weak var collectionView: UICollectionView!
     
     
+    @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var parentView: UIView!
     var observationList = [VitalSignObservation]()
     var graphicalDashBoardView:GraphicalDashBoardView!
+    var graphDisplayView: GraphDisplayView = GraphDisplayView.Day
+    var graphDate:NSDate = NSDate()
     override func viewDidLoad() {
         super.viewDidLoad()
         observationList.appendContentsOf(Helper.VitalSignObservationList)
         graphicalDashBoardView = GraphicalDashBoardView.instanceFromNib() as! GraphicalDashBoardView
         graphicalDashBoardView.commonInit()
-        graphicalDashBoardView.reloadView(observationList)
+        graphicalDashBoardView.reloadView(observationList,graphDisplayView: graphDisplayView , graphDate: graphDate)
         Helper.displayInChildView(graphicalDashBoardView, parentView: parentView)
         self.displayTitle()
+        
+        //detecting the swipe gesture
+        //------------right  swipe gestures in view--------------//
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: Selector("rightSwiped"))
+        swipeRight.direction = UISwipeGestureRecognizerDirection.Right
+        self.view.addGestureRecognizer(swipeRight)
+        
+        //-----------left swipe gestures in view--------------//
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: Selector("leftSwiped"))
+        swipeLeft.direction = UISwipeGestureRecognizerDirection.Left
+        self.view.addGestureRecognizer(swipeLeft)
+        
+        //-----------down swipe gestures in view--------------//
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: Selector("downSwiped"))
+        swipeDown.direction = UISwipeGestureRecognizerDirection.Down
+        self.view.addGestureRecognizer(swipeDown)
+        
+        //-----------up swipe gestures in view--------------//
+        let swipeUp = UISwipeGestureRecognizer(target: self, action: Selector("upSwiped"))
+        swipeUp.direction = UISwipeGestureRecognizerDirection.Up
+        self.view.addGestureRecognizer(swipeUp)
+        showGraphDate()
     }
 
+    func showGraphDate()
+    {
+        dateLabel.text = graphDate.getFormattedDate()
+    }
+    
     func displayTitle()
     {
         if UIDevice.currentDevice().userInterfaceIdiom == .Phone
@@ -54,9 +84,15 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         switch(sender.selectedSegmentIndex)
         {
         case 0:
-            Helper.displayInChildView(graphicalDashBoardView,parentView:parentView)
-            graphicalDashBoardView.reloadView(observationList)
-         default:
+            graphDisplayView = GraphDisplayView.Day
+            graphicalDashBoardView.reloadView(observationList,graphDisplayView: graphDisplayView , graphDate: graphDate)
+        case 1:
+            graphDisplayView = GraphDisplayView.Week
+            graphicalDashBoardView.reloadView(observationList,graphDisplayView: graphDisplayView , graphDate: graphDate)
+        case 2:
+            graphDisplayView = GraphDisplayView.Month
+            graphicalDashBoardView.reloadView(observationList,graphDisplayView: graphDisplayView , graphDate: graphDate)
+        default:
             print("no default value is present", terminator: "")
         }
     }
@@ -76,7 +112,7 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         }
 
         observationList.sortInPlace({ $0.date.compare($1.date) == NSComparisonResult.OrderedAscending })
-        graphicalDashBoardView.reloadView(observationList)
+        graphicalDashBoardView.reloadView(observationList,graphDisplayView: graphDisplayView , graphDate: graphDate)
     }
     
     //Mark: Delegate Implementation
@@ -113,4 +149,25 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
             return .None
     }
     
+    //MARK: swipe gestures
+    func rightSwiped()
+    {
+        print("right swiped ")
+    }
+    
+    func leftSwiped()
+    {
+        print("left swiped ")
+    }
+    
+    func downSwiped()
+    {
+        print("down swiped ")
+    }
+    
+    func upSwiped()
+    {
+        print("Up swiped ")
+    }
+
 }

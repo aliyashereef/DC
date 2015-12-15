@@ -13,6 +13,8 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
     @IBOutlet weak var collectionView: UICollectionView!
     var observationList = [VitalSignObservation]()
     let lineChartIdentifier = "ObservationCell"
+    var graphDisplayView:GraphDisplayView!
+    var graphDate:NSDate!
     class func instanceFromNib() -> UIView {
         return UINib(nibName: "GraphicalDashBoardView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
     }
@@ -138,7 +140,7 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
         {
         case ChartType.LineChart:
             let cell=collectionView.dequeueReusableCellWithReuseIdentifier(lineChartIdentifier, forIndexPath: indexPath) as! LineGraphCell
-            cell.drawGraph(xAxisValue, yAxisValue: yAxisValue , displayView: GraphDisplayView.Day ,graphTitle: cellTitle)
+            cell.drawGraph(xAxisValue, yAxisValue: yAxisValue , displayView: graphDisplayView ,graphTitle: cellTitle,graphDate:graphDate)
             return cell
 //        case ChartType.BarChart:
 //            let cell=collectionView.dequeueReusableCellWithReuseIdentifier("ObservationBarChartCell", forIndexPath: indexPath) as! BPCollectionViewCell
@@ -152,7 +154,7 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
 //            return cell
         default:
             let cell=collectionView.dequeueReusableCellWithReuseIdentifier(lineChartIdentifier, forIndexPath: indexPath) as! LineGraphCell
-            cell.drawGraph(xAxisValue, yAxisValue: yAxisValue, displayView: .Day ,graphTitle: cellTitle)
+            cell.drawGraph(xAxisValue, yAxisValue: yAxisValue, displayView:graphDisplayView,graphTitle: cellTitle,graphDate: graphDate)
             return cell
         }
         
@@ -163,9 +165,11 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
         return GraphManager.graphSize()
     }
     
-    func reloadView(observationList :[VitalSignObservation])
+    func reloadView(observationList :[VitalSignObservation],graphDisplayView:GraphDisplayView,graphDate:NSDate)
     {
         self.observationList = observationList
+        self.graphDate = graphDate
+        self.graphDisplayView = graphDisplayView
         collectionView.reloadData()
     }
     

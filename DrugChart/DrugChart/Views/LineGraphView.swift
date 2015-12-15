@@ -16,11 +16,14 @@ import UIKit
     //var xAxisPoints:[Int] = [60,180,300,420,480,600,690]
     private var xAxisValue:[NSDate]!
     private var yAxisValue:[Double]!
-    var maxXAxis:Int = 1440 // by default assume that it is day only graph
+    var maxXAxis:Int! // by default assume that it is day only graph
     var drawGraph:Bool = false
     var displayView:GraphDisplayView!
+    var graphDate:NSDate = NSDate()
+    var startDate:NSDate!
     var graphTitle:String!
     var displayNoData:Bool  = false
+    
         override func drawRect(rect: CGRect) {
             
             for subUIView in self.subviews {
@@ -58,6 +61,8 @@ import UIKit
                 label.center = CGPointMake(50,20)
                 label.textAlignment = NSTextAlignment.Center
                 label.textColor = UIColor.whiteColor()
+                //label.font =UIFont(name: label.font.fontName, size: 17)
+                label.font = UIFont.boldSystemFontOfSize(16.0)
                 label.text = graphTitle
                 self.addSubview(label)
                 
@@ -114,11 +119,11 @@ import UIKit
             let graphPath = UIBezierPath()
             graphPath.lineWidth = 0.5
             //go to the start of line
-            graphPath.moveToPoint(CGPoint(x:columnXPoint(xAxisValue[0].getDatePart(self.displayView)),y:columnYPoint(yAxisValue[0])))
+                graphPath.moveToPoint(CGPoint(x:columnXPoint(xAxisValue[0].getDatePart(self.displayView,startDate:startDate)),y:columnYPoint(yAxisValue[0])))
     
             //add points for each item in the graphPoints array
             for i in 1..<yAxisValue.count {
-                let nextPoint = CGPoint(x:columnXPoint(xAxisValue[i].getDatePart(self.displayView)) , y:columnYPoint(yAxisValue[i]))
+                let nextPoint = CGPoint(x:columnXPoint(xAxisValue[i].getDatePart(self.displayView,startDate:startDate)) , y:columnYPoint(yAxisValue[i]))
                 graphPath.addLineToPoint(nextPoint)
             }
             // graphPath.stroke() // just for testing purpose.
@@ -134,7 +139,7 @@ import UIKit
     
             //3)Add lines to the copied Path to complete the clip area.
             clippingPath.addLineToPoint(CGPoint(x:columnXPoint( maxXAxis) , y:height))
-            clippingPath.addLineToPoint(CGPoint(x:columnXPoint(xAxisValue[0].getDatePart(self.displayView)),y:height))
+            clippingPath.addLineToPoint(CGPoint(x:columnXPoint(xAxisValue[0].getDatePart(self.displayView,startDate:startDate)),y:height))
             clippingPath.closePath()
     
             //4) add clipping path to the context
@@ -159,7 +164,7 @@ import UIKit
             // draw the circle dots on the graph
             for i in 0..<yAxisValue.count
             {
-                var point = CGPoint(x:columnXPoint(xAxisValue[i].getDatePart(displayView)) , y:columnYPoint(yAxisValue[i]))
+                var point = CGPoint(x:columnXPoint(xAxisValue[i].getDatePart(displayView,startDate:startDate)) , y:columnYPoint(yAxisValue[i]))
                 point.x -= 5.0/2
                 point.y -= 5.0/2
                 let circle = UIBezierPath(ovalInRect: CGRect(origin: point, size: CGSize(width: 5.0,height: 5.0)))
@@ -181,50 +186,110 @@ import UIKit
             linePath.lineWidth = 1.0
             linePath.stroke()
     
+            
             // now add the label on the UI
-            for i in 0..<7
+            switch(displayView!)
             {
-                let point = columnXLabelPoint (i,7)
-                let label = UILabel(frame: CGRectMake(0,0,200,21))
-                label.center = CGPointMake(point, height - (bottomBorder/2))
-                label.textAlignment = NSTextAlignment.Center
-                label.textColor = UIColor.whiteColor()
-                switch(i)
+            case .Day:
+                for i in 0..<5
                 {
-                case 0:
-                    label.text = "12 am"
-                case 1:
-                    label.text = "4 am"
-                case 2:
-                    label.text = "8 am"
-                case 3:
-                    label.text = "12 pm"
-                case 4:
-                    label.text = "4 pm"
-                case 5:
-                    label.text = "8 pm"
-                case 6:
-                    label.text = "11:59pm"
-                default:
-                    label.text = ""
+                    let point = columnXLabelPoint (i,5)
+                    let label = UILabel(frame: CGRectMake(0,0,200,21))
+                    label.center = CGPointMake(point, height - (bottomBorder/2))
+                    label.textAlignment = NSTextAlignment.Center
+                    label.textColor = UIColor.whiteColor()
+                    label.font = UIFont(name: label.font.fontName, size: 13)
+                    switch(i)
+                    {
+                    case 0:
+                        label.text = "12 am"
+                    case 1:
+                        label.text = "6 am"
+                    case 2:
+                        label.text = "12 pm"
+                    case 3:
+                        label.text = "6 pm"
+                    default:
+                        label.text = ""
+                    }
+                    //label.transform = CGAffineTransformMakeRotation(CGFloat(-M_PI_2))
+                    self.addSubview(label)
                 }
-                //label.transform = CGAffineTransformMakeRotation(CGFloat(-M_PI_2))
-                self.addSubview(label)
+            case .Week:
+                
+                var weekDate:NSDate = startDate!
+                for i in 0..<8  // 7 days a week
+                {
+                    let point = columnXLabelPoint (i,7)
+                    let label = UILabel(frame: CGRectMake(0,0,200,21))
+                    label.center = CGPointMake(point, height - (bottomBorder/2))
+                    label.textAlignment = NSTextAlignment.Center
+                    label.textColor = UIColor.whiteColor()
+                    label.font = UIFont(name: label.font.fontName, size: 13)
+                    let calendar = NSCalendar.currentCalendar()
+                    let chosenDateComponents = calendar.components([.Day,.Month], fromDate: weekDate)
+                    
+                    label.text = String(format: "%d/%d",chosenDateComponents.day,chosenDateComponents.month)
+                    weekDate =  NSCalendar.currentCalendar().dateByAddingUnit(.Day,
+                    value: 1,
+                    toDate:weekDate ,
+                    options: NSCalendarOptions(rawValue: 0))!
+                    self.addSubview(label)
+                }
+            case .Month:
+                return
+            default:
+                print("no label")
             }
+          
             
            
              // set the bit false again to be used next time
                 self.drawGraph = false
             }
         }
-
-    override func plot(xAxisValue:[NSDate],yAxisValue:[Double], displayView:GraphDisplayView, graphTitle:String) {
-        
+  
+    func calculateMaxXAxis()
+    {
+        switch(displayView!)
+        {
+            case .Day:
+                maxXAxis = 24/*Hour*/ * 60 /*Minutes*/
+            case .Week:
+                maxXAxis = 7/*Days*/ *  24/*Hour*/ * 60 /*Minutes*/
+        case .Month:
+                maxXAxis = 7/*Days*/ *  24/*Hour*/ * 60 /*Minutes*/
+            default:
+             maxXAxis = 24/*Hour*/ * 60 /*Minutes*/
+            
+        }
+    }
+    
+    func setGraphStartDate()
+    {
+        switch(displayView!)
+        {
+            case .Day:
+                startDate = NSDate()
+            case .Week:
+                startDate =  NSCalendar.currentCalendar().dateByAddingUnit(.Day,
+                value: -6,
+                toDate:graphDate ,
+                options: NSCalendarOptions(rawValue: 0))
+            default:
+                startDate = NSDate()
+        }
+    }
+    
+    override func plot(xAxisValue:[NSDate],yAxisValue:[Double], displayView:GraphDisplayView, graphTitle:String,graphDate:NSDate) {
+        self.graphDate = graphDate
         self.xAxisValue = xAxisValue
         self.yAxisValue = yAxisValue
         self.graphTitle = graphTitle
         self.drawGraph = true
         self.displayView = displayView
+        setGraphStartDate()
+        calculateMaxXAxis()
         self.setNeedsDisplay()
     }
 }
