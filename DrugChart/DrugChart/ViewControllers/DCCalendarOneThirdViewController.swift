@@ -27,8 +27,8 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     var currentWeekDatesArray : NSMutableArray = []
     var scrolledProgramatically : Bool = false
     let collectionViewReuseIdentifier = "CalendarStripCellIdentifier"
-    var lastContentOffset : CGFloat = 0.0
     var scrollDirection : Direction = .ScrollDirectionNone
+    var scrollingLocked : Bool = false
     
     required init?(coder aDecoder: NSCoder) {
         
@@ -97,7 +97,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
             cell.addTodayIndicationForCellWithoutSelection()
         }
         if date.compare(centerDate) == NSComparisonResult.OrderedSame {
-            cell.showSelection()
+            cell.showCurrentCalendarSelection()
         }
         self.displayDateInParentView()
         cell.layoutIfNeeded()
@@ -192,6 +192,8 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
+    //MARK: Scroll View methods
+    
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
         let scrollVelocity : CGPoint = calendarStripCollectionView.panGestureRecognizer.velocityInView(calendarStripCollectionView.superview)
@@ -199,7 +201,6 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
             scrollDirection = .ScrollDirectionLeft
         } else if scrollVelocity.x < 0.0 {
             scrollDirection = .ScrollDirectionRight
-            
         }
         if (scrolledProgramatically) {
             scrolledProgramatically = false
@@ -230,6 +231,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         }
     }
     
+
     func fetchAdministrationDetailsAndScrollToCenterDatePosition () {
         calendarStripCollectionView.reloadData()
         self.fetchPatientListAndReloadMedicationList()
@@ -238,31 +240,6 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         scrolledProgramatically = true
     }
     
-    //MARK: -
-    
-    func displayDateFromScrollIndexForIndexPath ( cell:DCOneThirdCalendarStripCollectionCell , indexPath : NSIndexPath){
-        if scrollIndex == 0 {
-            if [0,5,10].contains(indexPath.row) {
-                assignCenterDisplayDateWithCellIndexAndReloadTableView(cell.displayDate!)
-            }
-        } else if scrollIndex == 1 {
-            if [1,6,11].contains(indexPath.row) {
-                assignCenterDisplayDateWithCellIndexAndReloadTableView(cell.displayDate!)
-            }
-        } else if scrollIndex == 2 {
-            if [2,7,12].contains(indexPath.row) {
-                assignCenterDisplayDateWithCellIndexAndReloadTableView(cell.displayDate!)
-            }
-        } else if scrollIndex == 3 {
-            if [3,8,13].contains(indexPath.row) {
-                assignCenterDisplayDateWithCellIndexAndReloadTableView(cell.displayDate!)
-            }
-        }  else if scrollIndex == 4 {
-            if [4,9,14].contains(indexPath.row) {
-                assignCenterDisplayDateWithCellIndexAndReloadTableView(cell.displayDate!)
-            }
-        }
-    }
     
     func assignCenterDisplayDateWithCellIndexAndReloadTableView ( date:NSDate ) {
         centerDate = date
@@ -396,7 +373,6 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
             firstDate = DCDateUtility.initialDateForCalendarDisplay(firstDate, withAdderValue: -adderValue)
         }
         currentWeekDatesArray = DCDateUtility.nextAndPreviousDays(daysCount, withReferenceToDate: firstDate)
-        DDLogDebug("current week dates array in modifyStartDateAndWeekDatesArray \(currentWeekDatesArray)")
         setParentViewWithCurrentWeekDateArray()
     }
        
@@ -439,6 +415,32 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         
         let parentView : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
         parentView.loadCurrentDayDisplayForOneThirdWithDate(centerDate)
+    }
+    
+    //MARK: - Scroll index for maintaining selection helper methods
+    
+    func displayDateFromScrollIndexForIndexPath ( cell:DCOneThirdCalendarStripCollectionCell , indexPath : NSIndexPath){
+        if scrollIndex == 0 {
+            if [0,5,10].contains(indexPath.row) {
+                assignCenterDisplayDateWithCellIndexAndReloadTableView(cell.displayDate!)
+            }
+        } else if scrollIndex == 1 {
+            if [1,6,11].contains(indexPath.row) {
+                assignCenterDisplayDateWithCellIndexAndReloadTableView(cell.displayDate!)
+            }
+        } else if scrollIndex == 2 {
+            if [2,7,12].contains(indexPath.row) {
+                assignCenterDisplayDateWithCellIndexAndReloadTableView(cell.displayDate!)
+            }
+        } else if scrollIndex == 3 {
+            if [3,8,13].contains(indexPath.row) {
+                assignCenterDisplayDateWithCellIndexAndReloadTableView(cell.displayDate!)
+            }
+        }  else if scrollIndex == 4 {
+            if [4,9,14].contains(indexPath.row) {
+                assignCenterDisplayDateWithCellIndexAndReloadTableView(cell.displayDate!)
+            }
+        }
     }
     
     func scrollIndexFromIndexPath (indexPath : NSIndexPath) -> NSInteger {
