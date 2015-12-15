@@ -424,7 +424,6 @@ typedef enum : NSUInteger {
                                 [medicationListHolderView setHidden:NO];
                                 [calendarDaysDisplayView setHidden:NO];
                                 [calendarTopHolderView setHidden:NO];
-                                [self showActivityIndicationOnViewRefresh:false];
                             }
                             else {
                                 DDLogError(@"the error is : %@", error);
@@ -438,7 +437,6 @@ typedef enum : NSUInteger {
                                 }
                                 [noMedicationsAvailableLabel setHidden:NO];
                             }
-                            [self showActivityIndicationOnViewRefresh:false];
                         }
                         else {
                             if (error.code == NETWORK_NOT_REACHABLE) {
@@ -450,9 +448,9 @@ typedef enum : NSUInteger {
                             else {
                                 [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"") message:NSLocalizedString(@"MEDICATION_SCHEDULE_ERROR", @"")];
                             }
-                            [self showActivityIndicationOnViewRefresh:false];
                         }
                         completion(true);
+                        [self showActivityIndicationOnViewRefresh:false];
                     }];
 }
 

@@ -68,7 +68,16 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         }
         calendarStripCollectionView.reloadData()
         self.adjustContentOffsetToShowCenterDayInCollectionView()
+        medicationTableView?.reloadData()
         self.view.layoutIfNeeded()
+    }
+    
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+        let orientation = UIDevice.currentDevice().orientation
+        if  orientation == UIDeviceOrientation.LandscapeLeft ||  orientation == UIDeviceOrientation.LandscapeRight {
+            scrollingLocked = true
+        }
     }
     
     //MARK: - Collection View Delegate Methods
@@ -202,10 +211,12 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         } else if scrollVelocity.x < 0.0 {
             scrollDirection = .ScrollDirectionRight
         }
+        if scrollingLocked {
+            return
+        }
         if (scrolledProgramatically) {
             scrolledProgramatically = false
         } else {
-            
             if scrollView == calendarStripCollectionView {
                 let firstDate : NSDate = currentWeekDatesArray.objectAtIndex(0) as! NSDate
                 let lastDate : NSDate = currentWeekDatesArray.lastObject as! NSDate
@@ -231,7 +242,14 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         }
     }
     
-
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        if scrollingLocked {
+            scrollingLocked = false
+        }
+    }
+    
+    //MARK: Private functions
+    
     func fetchAdministrationDetailsAndScrollToCenterDatePosition () {
         calendarStripCollectionView.reloadData()
         self.fetchPatientListAndReloadMedicationList()
