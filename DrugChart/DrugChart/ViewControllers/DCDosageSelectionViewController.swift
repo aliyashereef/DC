@@ -60,6 +60,7 @@ import UIKit
             valueForDoseValue = dosageArray[0] as String
             valueForDoseFromValue = dosageArray[0] as String
             valueForDoseToValue = dosageArray[0] as String
+            valueForStartingDoseValue = dosageArray[0] as String
         } else {
             
             valueForDoseUnit = ""
@@ -341,38 +342,51 @@ import UIKit
     }
     
     // MARK: - Delegate Methods
-    
-    func userDidSelectDosageUnit(value: String) {
-        
-        valueForDoseUnit = value
-        dosageTableView.reloadData()
-    }
-    
-    func userDidSelectDosageValue(value: String) {
-        
-        valueForDoseValue = value
-        dosageTableView.reloadData()
-    }
-    
+
     func newDosageAdded(value : String){
         
         if (selectedDetailType == eDoseValue) {
             
         valueForDoseValue = value
         newDosageAddedDelegate?.newDosageAdded("\(value)\(valueForDoseUnit)")
-        } else if (selectedDetailType == eDoseFrom) {
+        } else if (selectedDetailType == eDoseFrom || selectedDetailType == eDoseTo) {
             
-            valueForDoseFromValue = value
-        } else if (selectedDetailType == eDoseTo) {
-            
-            valueForDoseToValue = value
+            if (selectedDetailType == eDoseFrom) {
+                
+                valueForDoseFromValue = value
+            } else {
+                
+                valueForDoseToValue = value
+            }
+            newDosageAddedDelegate?.newDosageAdded("\(valueForDoseFromValue)\(valueForDoseUnit),\(valueForDoseToValue)\(valueForDoseUnit)")
         } else if (selectedDetailType == eDoseUnit) {
             
             valueForDoseUnit = value
-        }
-        if (selectedDetailType != eDoseValue) {
+        } else if (selectedDetailType == eStartingDose) {
             
-            newDosageAddedDelegate?.newDosageAdded("\(valueForDoseFromValue)\(valueForDoseUnit),\(valueForDoseToValue)\(valueForDoseUnit)")
+            valueForStartingDoseValue = value
+        }
+        dosageTableView.reloadData()
+    }
+    
+    func userDidSelectValue(value: String) {
+        
+        switch (selectedDetailType.rawValue) {
+            
+        case eDoseUnit.rawValue:
+            valueForDoseUnit = value
+        case eDoseValue.rawValue:
+            valueForDoseValue = value
+        case eDoseFrom.rawValue:
+            valueForDoseFromValue = value
+        case eDoseTo.rawValue:
+            valueForDoseToValue = value
+        case eStartingDose.rawValue:
+            valueForStartingDoseValue = value
+        case eChangeOver.rawValue:
+            valueForChangeOver = value
+        default:
+            break
         }
         dosageTableView.reloadData()
     }

@@ -11,8 +11,7 @@ import UIKit
 // protocol used for sending data back to Dosage Selection
 protocol DataEnteredDelegate: class {
     
-    func userDidSelectDosageUnit(value: String)
-    func userDidSelectDosageValue(value: String)
+    func userDidSelectValue(value: String)
     func newDosageAdded(value : String)
 }
 
@@ -27,6 +26,7 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
     
     @IBOutlet weak var dosageDetailTableView: UITableView!
     let dosageUnitItems = ["mg","ml","%"]
+    let changeOverItemsArray = ["Days","Doses"]
     var detailType : DosageDetailType = eDoseUnit
     var viewTitleForDisplay : NSString = ""
     var previousSelectedValue : NSString = ""
@@ -103,12 +103,24 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if (detailType == eDoseUnit && dosageDetailsArray.count != 0 ) {
+        if (section == 0) {
             
-            return 3
-        } else if (section == 0 && detailType != eAddNewDosage && dosageDetailsArray.count != 0) {
-            
-            return dosageDetailsArray.count
+            if (detailType == eDoseUnit && dosageDetailsArray.count != 0 ) {
+                
+                return dosageUnitItems.count
+            } else if ((detailType == eDoseValue || detailType == eDoseFrom || detailType == eDoseTo || detailType == eStartingDose) && dosageDetailsArray.count != 0) {
+                
+                return dosageDetailsArray.count
+            } else if (detailType == eChangeOver) {
+                
+                return changeOverItemsArray.count
+            } else if (detailType == eAddNewDosage) {
+                
+                return 1
+            } else {
+                
+                return 2
+            }
         } else {
             
             return 1
@@ -140,7 +152,13 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
                 case eDoseTo.rawValue:
                     dosageDetailCell?.accessoryType = (previousSelectedValue == dosageDetailsArray[indexPath.row]) ? .Checkmark : .None
                     dosageDetailCell!.dosageDetailDisplayCell.text = dosageDetailsArray[indexPath.row]
-                    //Todo : Cases for Reducing/Increasing, Split Daily.
+                case eStartingDose.rawValue:
+                    dosageDetailCell?.accessoryType = (previousSelectedValue == dosageDetailsArray[indexPath.row]) ? .Checkmark : .None
+                    dosageDetailCell!.dosageDetailDisplayCell.text = dosageDetailsArray[indexPath.row]
+                case eChangeOver.rawValue:
+                    dosageDetailCell?.accessoryType = (previousSelectedValue == changeOverItemsArray[indexPath.row]) ? .Checkmark : .None
+                    dosageDetailCell!.dosageDetailDisplayCell.text = changeOverItemsArray[indexPath.row]
+
                 default:
                     break
                 }
@@ -161,15 +179,16 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
             switch (detailType.rawValue) {
                 
             case eDoseUnit.rawValue:
-                delegate?.userDidSelectDosageUnit(dosageUnitItems[indexPath.row])
-                self.navigationController?.popViewControllerAnimated(true)
-            case eDoseValue.rawValue,eDoseFrom.rawValue,eDoseTo.rawValue:
-                delegate?.userDidSelectDosageValue(dosageDetailsArray[indexPath.row])
-                self.navigationController?.popViewControllerAnimated(true)
+                delegate?.userDidSelectValue(dosageUnitItems[indexPath.row])
+            case eDoseValue.rawValue,eDoseFrom.rawValue,eDoseTo.rawValue,eStartingDose.rawValue:
+                delegate?.userDidSelectValue(dosageDetailsArray[indexPath.row])
+            case eChangeOver.rawValue:
+                delegate?.userDidSelectValue(changeOverItemsArray[indexPath.row])
                 //Todo : cases for reducing/increasing, split daily.
             default:
                 break
             }
+            self.navigationController?.popViewControllerAnimated(true)
         } else {
             
             let dosageDetailViewController : DCDosageDetailViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_DETAIL_SBID) as? DCDosageDetailViewController
