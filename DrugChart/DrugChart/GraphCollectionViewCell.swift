@@ -12,8 +12,8 @@ import Foundation
 class GraphCollectionnViewCell : UICollectionViewCell
 {
     var graphView:GraphView!
-    func drawGraph(xAxisValue:[NSDate],yAxisValue:[Double],displayView:GraphDisplayView , graphTitle:String , graphDate:NSDate)
+    func drawGraph(xAxisValue:[NSDate],yAxisValue:[Double],displayView:GraphDisplayView , graphTitle:String , graphStartDate:NSDate , graphEndDate:NSDate)
     {
-        graphView.plot(xAxisValue, yAxisValue: yAxisValue ,displayView:displayView, graphTitle:graphTitle ,graphDate:graphDate)
+        graphView.plot(xAxisValue, yAxisValue: yAxisValue ,displayView:displayView, graphTitle:graphTitle ,graphStartDate:graphStartDate , graphEndDate: graphEndDate)
     }
 }

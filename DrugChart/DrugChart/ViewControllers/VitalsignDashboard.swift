@@ -17,18 +17,25 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var parentView: UIView!
     var observationList = [VitalSignObservation]()
+    var filterObservations = [VitalSignObservation]()
     var graphicalDashBoardView:GraphicalDashBoardView!
     var graphDisplayView: GraphDisplayView = GraphDisplayView.Day
-    var graphDate:NSDate = NSDate()
+    
+    var graphEndDate:NSDate = NSDate()
+    var graphStartDate:NSDate = NSDate()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        observationList.appendContentsOf(Helper.VitalSignObservationList)
-        graphicalDashBoardView = GraphicalDashBoardView.instanceFromNib() as! GraphicalDashBoardView
-        graphicalDashBoardView.commonInit()
-        graphicalDashBoardView.reloadView(observationList,graphDisplayView: graphDisplayView , graphDate: graphDate)
-        Helper.displayInChildView(graphicalDashBoardView, parentView: parentView)
-        self.displayTitle()
         
+        observationList.appendContentsOf(Helper.VitalSignObservationList)
+        
+        // display the titles
+        displayTitle()
+        
+        // initialize the graphical view
+        graphicalDashBoardView = GraphicalDashBoardView.instanceFromNib() as! GraphicalDashBoardView
+        Helper.displayInChildView(graphicalDashBoardView, parentView: parentView)
+        showData()
         //detecting the swipe gesture
         //------------right  swipe gestures in view--------------//
         let swipeRight = UISwipeGestureRecognizer(target: self, action: Selector("rightSwiped"))
@@ -39,23 +46,15 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: Selector("leftSwiped"))
         swipeLeft.direction = UISwipeGestureRecognizerDirection.Left
         self.view.addGestureRecognizer(swipeLeft)
-        
-        //-----------down swipe gestures in view--------------//
-        let swipeDown = UISwipeGestureRecognizer(target: self, action: Selector("downSwiped"))
-        swipeDown.direction = UISwipeGestureRecognizerDirection.Down
-        self.view.addGestureRecognizer(swipeDown)
-        
-        //-----------up swipe gestures in view--------------//
-        let swipeUp = UISwipeGestureRecognizer(target: self, action: Selector("upSwiped"))
-        swipeUp.direction = UISwipeGestureRecognizerDirection.Up
-        self.view.addGestureRecognizer(swipeUp)
-        showGraphDate()
     }
-
-    func showGraphDate()
+    
+    func showData()
     {
-        dateLabel.text = graphDate.getFormattedDate()
+        dateLabel.text = graphStartDate.getFormattedDate()
+        filterObservations = observationList.filter( { return $0.date >= graphStartDate && $0.date < graphEndDate} )
+        graphicalDashBoardView.displayData(filterObservations,graphDisplayView: graphDisplayView , graphStartDate: graphStartDate , graphEndDate: graphEndDate)
     }
+    
     
     func displayTitle()
     {
@@ -85,13 +84,13 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         {
         case 0:
             graphDisplayView = GraphDisplayView.Day
-            graphicalDashBoardView.reloadView(observationList,graphDisplayView: graphDisplayView , graphDate: graphDate)
+            showData()
         case 1:
             graphDisplayView = GraphDisplayView.Week
-            graphicalDashBoardView.reloadView(observationList,graphDisplayView: graphDisplayView , graphDate: graphDate)
+            showData()
         case 2:
             graphDisplayView = GraphDisplayView.Month
-            graphicalDashBoardView.reloadView(observationList,graphDisplayView: graphDisplayView , graphDate: graphDate)
+            showData()
         default:
             print("no default value is present", terminator: "")
         }
@@ -112,7 +111,7 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         }
 
         observationList.sortInPlace({ $0.date.compare($1.date) == NSComparisonResult.OrderedAscending })
-        graphicalDashBoardView.reloadView(observationList,graphDisplayView: graphDisplayView , graphDate: graphDate)
+        showData()
     }
     
     //Mark: Delegate Implementation
@@ -134,7 +133,6 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         {
             let popOverController:UIPopoverPresentationController = controller.popoverPresentationController!
             popOverController.delegate = self
-            //controller.preferredContentSize = CGSizeMake(50, 100)
             controller.delegate = self
         }
         
@@ -152,22 +150,45 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
     //MARK: swipe gestures
     func rightSwiped()
     {
-        print("right swiped ")
+         swipeGraphDate(false)
     }
     
     func leftSwiped()
     {
-        print("left swiped ")
+        swipeGraphDate(true)
     }
     
-    func downSwiped()
+    
+    func swipeGraphDate(goForward:Bool)
     {
-        print("down swiped ")
+        
+        switch(graphDisplayView)
+        {
+            case .Day:
+                graphEndDate = graphStartDate
+                graphStartDate =  NSCalendar.currentCalendar().dateByAddingUnit(.Day,
+                    value: goForward == true ? 1:-1,
+                    toDate:graphStartDate ,
+                    options: NSCalendarOptions(rawValue: 0))!
+            
+            case .Week:
+                graphEndDate = graphStartDate
+                graphStartDate =  NSCalendar.currentCalendar().dateByAddingUnit(NSCalendarUnit.Day,
+                    value: goForward == true ? 6:-6,
+                    toDate:graphStartDate ,
+                    options: NSCalendarOptions(rawValue: 0))!
+            
+            case .Month:
+                graphEndDate = graphStartDate
+                graphStartDate =  NSCalendar.currentCalendar().dateByAddingUnit(.Month,
+                    value: goForward == true ? 1:-1,
+                    toDate:graphStartDate ,
+                    options: NSCalendarOptions(rawValue: 0))!
+            
+            default:
+            print("DO NOTHING")
+        }
+        showData()
     }
     
-    func upSwiped()
-    {
-        print("Up swiped ")
-    }
-
 }

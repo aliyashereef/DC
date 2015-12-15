@@ -19,8 +19,8 @@ import UIKit
     var maxXAxis:Int! // by default assume that it is day only graph
     var drawGraph:Bool = false
     var displayView:GraphDisplayView!
-    var graphDate:NSDate = NSDate()
-    var startDate:NSDate!
+    var graphEndDate:NSDate = NSDate()
+    var graphStartDate:NSDate!
     var graphTitle:String!
     var displayNoData:Bool  = false
     
@@ -119,11 +119,11 @@ import UIKit
             let graphPath = UIBezierPath()
             graphPath.lineWidth = 0.5
             //go to the start of line
-                graphPath.moveToPoint(CGPoint(x:columnXPoint(xAxisValue[0].getDatePart(self.displayView,startDate:startDate)),y:columnYPoint(yAxisValue[0])))
+                graphPath.moveToPoint(CGPoint(x:columnXPoint(xAxisValue[0].getDatePart(self.displayView,startDate:graphStartDate)),y:columnYPoint(yAxisValue[0])))
     
             //add points for each item in the graphPoints array
             for i in 1..<yAxisValue.count {
-                let nextPoint = CGPoint(x:columnXPoint(xAxisValue[i].getDatePart(self.displayView,startDate:startDate)) , y:columnYPoint(yAxisValue[i]))
+                let nextPoint = CGPoint(x:columnXPoint(xAxisValue[i].getDatePart(self.displayView,startDate:graphStartDate)) , y:columnYPoint(yAxisValue[i]))
                 graphPath.addLineToPoint(nextPoint)
             }
             // graphPath.stroke() // just for testing purpose.
@@ -139,7 +139,7 @@ import UIKit
     
             //3)Add lines to the copied Path to complete the clip area.
             clippingPath.addLineToPoint(CGPoint(x:columnXPoint( maxXAxis) , y:height))
-            clippingPath.addLineToPoint(CGPoint(x:columnXPoint(xAxisValue[0].getDatePart(self.displayView,startDate:startDate)),y:height))
+            clippingPath.addLineToPoint(CGPoint(x:columnXPoint(xAxisValue[0].getDatePart(self.displayView,startDate:graphStartDate)),y:height))
             clippingPath.closePath()
     
             //4) add clipping path to the context
@@ -164,7 +164,7 @@ import UIKit
             // draw the circle dots on the graph
             for i in 0..<yAxisValue.count
             {
-                var point = CGPoint(x:columnXPoint(xAxisValue[i].getDatePart(displayView,startDate:startDate)) , y:columnYPoint(yAxisValue[i]))
+                var point = CGPoint(x:columnXPoint(xAxisValue[i].getDatePart(displayView,startDate:graphStartDate)) , y:columnYPoint(yAxisValue[i]))
                 point.x -= 5.0/2
                 point.y -= 5.0/2
                 let circle = UIBezierPath(ovalInRect: CGRect(origin: point, size: CGSize(width: 5.0,height: 5.0)))
@@ -217,7 +217,7 @@ import UIKit
                 }
             case .Week:
                 
-                var weekDate:NSDate = startDate!
+                var weekDate:NSDate = graphStartDate!
                 for i in 0..<8  // 7 days a week
                 {
                     let point = columnXLabelPoint (i,7)
@@ -265,30 +265,14 @@ import UIKit
         }
     }
     
-    func setGraphStartDate()
-    {
-        switch(displayView!)
-        {
-            case .Day:
-                startDate = NSDate()
-            case .Week:
-                startDate =  NSCalendar.currentCalendar().dateByAddingUnit(.Day,
-                value: -6,
-                toDate:graphDate ,
-                options: NSCalendarOptions(rawValue: 0))
-            default:
-                startDate = NSDate()
-        }
-    }
-    
-    override func plot(xAxisValue:[NSDate],yAxisValue:[Double], displayView:GraphDisplayView, graphTitle:String,graphDate:NSDate) {
-        self.graphDate = graphDate
+    override func plot(xAxisValue:[NSDate],yAxisValue:[Double], displayView:GraphDisplayView, graphTitle:String,graphStartDate:NSDate , graphEndDate:NSDate) {
+        self.graphStartDate = graphStartDate
+        self.graphEndDate = graphEndDate
         self.xAxisValue = xAxisValue
         self.yAxisValue = yAxisValue
         self.graphTitle = graphTitle
         self.drawGraph = true
         self.displayView = displayView
-        setGraphStartDate()
         calculateMaxXAxis()
         self.setNeedsDisplay()
     }

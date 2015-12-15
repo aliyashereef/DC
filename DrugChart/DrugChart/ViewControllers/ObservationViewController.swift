@@ -35,8 +35,6 @@ import UIKit
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 
-    
-        
         func TakeObservationInput(viewController:UIAlertController)
         {
             self.presentViewController(viewController, animated: true)

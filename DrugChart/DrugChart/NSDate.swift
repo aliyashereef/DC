@@ -9,7 +9,15 @@
 import Foundation
 import UIKit
 
-extension NSDate {
+public func <(a: NSDate, b: NSDate) -> Bool {
+    return a.compare(b) == NSComparisonResult.OrderedAscending
+}
+
+public func ==(a: NSDate, b: NSDate) -> Bool {
+    return a.compare(b) == NSComparisonResult.OrderedSame
+}
+extension NSDate:Comparable{
+    
     func getDatePart(displayView:GraphDisplayView,startDate:NSDate) ->Int
 {
     

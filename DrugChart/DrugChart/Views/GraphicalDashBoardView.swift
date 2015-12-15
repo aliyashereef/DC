@@ -14,13 +14,13 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
     var observationList = [VitalSignObservation]()
     let lineChartIdentifier = "ObservationCell"
     var graphDisplayView:GraphDisplayView!
-    var graphDate:NSDate!
+    var graphStartDate:NSDate!
+    var graphEndDate:NSDate!
     class func instanceFromNib() -> UIView {
         return UINib(nibName: "GraphicalDashBoardView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
     }
 
-    func commonInit()
-    {
+    override func awakeFromNib() {
         collectionView.dataSource=self
         collectionView.delegate=self
         let nibLineChart = UINib(nibName: "LineGraphCell", bundle: nil)
@@ -31,9 +31,7 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
         
         let nibBarChart = UINib(nibName: "BPCollectionViewCell", bundle: nil)
         collectionView.registerNib(nibBarChart, forCellWithReuseIdentifier: "ObservationBarChartCell")
-        
     }
-    
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return DashBoardRow.count
     }
@@ -140,7 +138,7 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
         {
         case ChartType.LineChart:
             let cell=collectionView.dequeueReusableCellWithReuseIdentifier(lineChartIdentifier, forIndexPath: indexPath) as! LineGraphCell
-            cell.drawGraph(xAxisValue, yAxisValue: yAxisValue , displayView: graphDisplayView ,graphTitle: cellTitle,graphDate:graphDate)
+            cell.drawGraph(xAxisValue, yAxisValue: yAxisValue , displayView: graphDisplayView ,graphTitle: cellTitle,graphStartDate:graphStartDate , graphEndDate:graphEndDate)
             return cell
 //        case ChartType.BarChart:
 //            let cell=collectionView.dequeueReusableCellWithReuseIdentifier("ObservationBarChartCell", forIndexPath: indexPath) as! BPCollectionViewCell
@@ -154,7 +152,7 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
 //            return cell
         default:
             let cell=collectionView.dequeueReusableCellWithReuseIdentifier(lineChartIdentifier, forIndexPath: indexPath) as! LineGraphCell
-            cell.drawGraph(xAxisValue, yAxisValue: yAxisValue, displayView:graphDisplayView,graphTitle: cellTitle,graphDate: graphDate)
+            cell.drawGraph(xAxisValue, yAxisValue: yAxisValue, displayView:graphDisplayView,graphTitle: cellTitle,graphStartDate: graphStartDate , graphEndDate:graphEndDate)
             return cell
         }
         
@@ -165,10 +163,11 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
         return GraphManager.graphSize()
     }
     
-    func reloadView(observationList :[VitalSignObservation],graphDisplayView:GraphDisplayView,graphDate:NSDate)
+    func displayData(observationList :[VitalSignObservation],graphDisplayView:GraphDisplayView,graphStartDate:NSDate , graphEndDate:NSDate)
     {
         self.observationList = observationList
-        self.graphDate = graphDate
+        self.graphStartDate = graphStartDate
+        self.graphEndDate = graphEndDate
         self.graphDisplayView = graphDisplayView
         collectionView.reloadData()
     }
