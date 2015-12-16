@@ -368,6 +368,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Snd-C0-1n6" firstAttribute="leading" secondItem="fjF-RZ-qef" secondAttribute="trailing" constant="2" id="NgK-PA-4ET"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="fjF-RZ-qef" secondAttribute="leading" id="RcV-PS-QYl"/>
                             <constraint firstItem="wdm-9N-oQq" firstAttribute="top" secondItem="BEa-Zn-RuB" secondAttribute="bottom" constant="8" id="XcT-Au-z8V"/>
                             <constraint firstItem="BEa-Zn-RuB" firstAttribute="leading" secondItem="ZpH-Ij-a9C" secondAttribute="leadingMargin" constant="-15" id="Z2N-NB-eiz"/>
                             <constraint firstAttribute="trailingMargin" secondItem="BEa-Zn-RuB" secondAttribute="trailing" constant="-14" id="hWB-AO-WlK"/>

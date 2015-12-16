@@ -33,9 +33,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
         return UINib(nibName: "GeneralObservationView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
     }
     
-    func commonInit(observation:VitalSignObservation)
-    {
-        self.observation = observation
+    override func awakeFromNib() {
         tableView.delegate=self
         tableView.dataSource=self
         self.tableView.rowHeight = UITableViewAutomaticDimension
@@ -47,10 +45,10 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
         let nibTimePicker = UINib(nibName: "TimePickerCell", bundle: nil)
         self.tableView.registerNib(nibTimePicker, forCellReuseIdentifier: "TimePickerCell")
         
-        
         let nibBloodPressure = UINib(nibName: "BloodPressureCell", bundle: nil)
         self.tableView.registerNib(nibBloodPressure, forCellReuseIdentifier: "BloodPressureCell")
         datePickerCell = DatePickerCellInline(style: UITableViewCellStyle.Default, reuseIdentifier: nil)
+        
     }
     func configureView(observation:VitalSignObservation)
     {

@@ -18,8 +18,8 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstAttribute="bottom" secondItem="LrC-xl-ySc" secondAttribute="bottom" id="78L-Kt-3s9"/>
                 <constraint firstItem="LrC-xl-ySc" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="B1p-xN-JLI"/>
-                <constraint firstAttribute="bottom" secondItem="LrC-xl-ySc" secondAttribute="bottom" id="H5O-uI-97D"/>
                 <constraint firstAttribute="trailing" secondItem="LrC-xl-ySc" secondAttribute="trailing" id="kLE-Ju-qLS"/>
                 <constraint firstItem="LrC-xl-ySc" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="uOW-rF-Fpj"/>
             </constraints>
