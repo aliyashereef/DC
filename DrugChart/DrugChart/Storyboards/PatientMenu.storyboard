@@ -340,20 +340,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BEa-Zn-RuB">
-                                <rect key="frame" x="5" y="106" width="364" height="504"/>
-                                <animations/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fjF-RZ-qef">
-                                <rect key="frame" x="20" y="77" width="114" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                                <color key="shadowColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                            </label>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Snd-C0-1n6">
-                                <rect key="frame" x="136" y="72" width="161" height="29"/>
+                                <rect key="frame" x="118" y="72" width="161" height="29"/>
                                 <segments>
                                     <segment title="Day"/>
                                     <segment title="Week"/>
@@ -363,17 +351,29 @@
                                     <action selector="indexChange:" destination="0Ui-sx-cxg" eventType="valueChanged" id="f1C-iR-GkM"/>
                                 </connections>
                             </segmentedControl>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fjF-RZ-qef">
+                                <rect key="frame" x="118" y="103" width="161" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                            </label>
+                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BEa-Zn-RuB">
+                                <rect key="frame" x="5" y="132" width="364" height="478"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Snd-C0-1n6" firstAttribute="leading" secondItem="fjF-RZ-qef" secondAttribute="trailing" constant="2" id="NgK-PA-4ET"/>
-                            <constraint firstAttribute="leadingMargin" secondItem="fjF-RZ-qef" secondAttribute="leading" id="RcV-PS-QYl"/>
-                            <constraint firstItem="wdm-9N-oQq" firstAttribute="top" secondItem="BEa-Zn-RuB" secondAttribute="bottom" constant="8" id="XcT-Au-z8V"/>
-                            <constraint firstItem="BEa-Zn-RuB" firstAttribute="leading" secondItem="ZpH-Ij-a9C" secondAttribute="leadingMargin" constant="-15" id="Z2N-NB-eiz"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="BEa-Zn-RuB" secondAttribute="trailing" constant="-14" id="hWB-AO-WlK"/>
-                            <constraint firstItem="Snd-C0-1n6" firstAttribute="centerX" secondItem="ZpH-Ij-a9C" secondAttribute="centerX" id="nAs-lA-agY"/>
-                            <constraint firstItem="BEa-Zn-RuB" firstAttribute="top" secondItem="t7l-FI-hhI" secondAttribute="bottom" constant="34" id="nSC-Yb-GVh"/>
+                            <constraint firstItem="Snd-C0-1n6" firstAttribute="centerX" secondItem="ZpH-Ij-a9C" secondAttribute="centerX" id="L4E-IA-klQ"/>
+                            <constraint firstItem="BEa-Zn-RuB" firstAttribute="leading" secondItem="ZpH-Ij-a9C" secondAttribute="leadingMargin" constant="-15" id="LsG-Xa-I14"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="BEa-Zn-RuB" secondAttribute="trailing" constant="-14" id="bwO-JZ-HzY"/>
+                            <constraint firstItem="fjF-RZ-qef" firstAttribute="centerX" secondItem="ZpH-Ij-a9C" secondAttribute="centerX" id="cDf-1E-Gna"/>
+                            <constraint firstItem="fjF-RZ-qef" firstAttribute="top" secondItem="Snd-C0-1n6" secondAttribute="bottom" constant="3" id="jFa-v6-yDY"/>
+                            <constraint firstItem="wdm-9N-oQq" firstAttribute="top" secondItem="BEa-Zn-RuB" secondAttribute="bottom" constant="8" id="pCf-7B-Vsm"/>
+                            <constraint firstItem="BEa-Zn-RuB" firstAttribute="top" secondItem="fjF-RZ-qef" secondAttribute="bottom" constant="8" id="zfI-DO-qzv"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Observation Chart" id="gql-ip-e6Y">
