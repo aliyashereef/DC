@@ -321,11 +321,11 @@
 		7DE60BCF1B2866CD00BCA745 /* DCPatientGraphicalRepresentationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE60BCC1B2866CD00BCA745 /* DCPatientGraphicalRepresentationView.m */; };
 		7DE60BD01B2866CD00BCA745 /* DCPortraitTopPatientView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DE60BCD1B2866CD00BCA745 /* DCPortraitTopPatientView.xib */; };
 		7DE60BD11B2866CD00BCA745 /* DCPortraitBottomUpPatientView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DE60BCE1B2866CD00BCA745 /* DCPortraitBottomUpPatientView.xib */; };
-		FD618F2D1C19777C005EC416 /* Dosage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD618F2C1C19777C005EC416 /* Dosage.storyboard */; settings = {ASSET_TAGS = (); }; };
-		FD618F301C1979E7005EC416 /* DCDosageSelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD618F2E1C1979E7005EC416 /* DCDosageSelectionTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-		FD618F311C1979E7005EC416 /* DCDosageSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD618F2F1C1979E7005EC416 /* DCDosageSelectionViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		FDC7EA571C1AA8990081D5C4 /* DCDosageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC7EA561C1AA8990081D5C4 /* DCDosageDetailViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		FDC7EA5A1C1AA9510081D5C4 /* DCDosageDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC7EA591C1AA9510081D5C4 /* DCDosageDetailTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+		FD618F2D1C19777C005EC416 /* Dosage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD618F2C1C19777C005EC416 /* Dosage.storyboard */; };
+		FD618F301C1979E7005EC416 /* DCDosageSelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD618F2E1C1979E7005EC416 /* DCDosageSelectionTableViewCell.swift */; };
+		FD618F311C1979E7005EC416 /* DCDosageSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD618F2F1C1979E7005EC416 /* DCDosageSelectionViewController.swift */; };
+		FDC7EA571C1AA8990081D5C4 /* DCDosageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC7EA561C1AA8990081D5C4 /* DCDosageDetailViewController.swift */; };
+		FDC7EA5A1C1AA9510081D5C4 /* DCDosageDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC7EA591C1AA9510081D5C4 /* DCDosageDetailTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -3114,6 +3114,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Egton Medical Information Systems Limited (XL5JU6TJKH)";
 				COPY_PHASE_STRIP = NO;
 				DEFINES_MODULE = YES;
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -3160,6 +3161,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Egton Medical Information Systems Limited (XL5JU6TJKH)";
 				COPY_PHASE_STRIP = YES;
 				DEFINES_MODULE = YES;
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = NO;

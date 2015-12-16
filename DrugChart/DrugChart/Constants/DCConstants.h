@@ -401,6 +401,8 @@
 #define SINGLE_DAY @"1 day"
 #define SINGLE_WEEK @"1 week"
 #define SINGLE_MONTH @"1 month"
+#define SINGLE_YEAR @"1 year"
+#define PREVIEW @"PREVIEW"
 
 //Roles
 

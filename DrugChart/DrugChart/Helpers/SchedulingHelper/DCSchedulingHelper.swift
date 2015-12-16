@@ -88,7 +88,7 @@ class DCSchedulingHelper: NSObject {
         var descriptionText : NSMutableString = NSMutableString()
         switch repeatValue.repeatType {
         case DAILY :
-            if (repeatValue.frequency == "1 day") {
+            if (repeatValue.frequency == SINGLE_DAY) {
                 descriptionText = NSMutableString(format: "%@ day.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
             } else {
                 descriptionText = NSMutableString(format: "%@ %@", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), repeatValue.frequency)
@@ -124,13 +124,13 @@ class DCSchedulingHelper: NSObject {
         let weekDays = repeatValue.weekDays as NSArray as? [String]
         let weeksString = weekDays!.joinWithSeparator(", ")
         if (repeatValue.weekDays.count > 0) {
-            if (repeatValue.frequency == "1 week") {
+            if (repeatValue.frequency == SINGLE_WEEK) {
                 descriptionText = NSMutableString(format: "%@ week on %@.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), weeksString)
             } else {
                 descriptionText = NSMutableString(format: "%@ %@ on %@.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), repeatValue.frequency, weeksString)
             }
         } else {
-            if (repeatValue.frequency == "1 week") {
+            if (repeatValue.frequency == SINGLE_WEEK) {
                 descriptionText = NSMutableString(format: "%@ week.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
             } else {
                 descriptionText = NSMutableString(format: "%@ %@.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), repeatValue.frequency)
@@ -158,7 +158,7 @@ class DCSchedulingHelper: NSObject {
                 let ordinal = NSString.ordinalNumberFormat(convertedNumber)
                 eachValue = ordinal
             }
-            if (repeatValue.frequency == "1 year") {
+            if (repeatValue.frequency == SINGLE_YEAR) {
                 descriptionText = NSMutableString(format: "%@ year on the %@ of %@.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), eachValue, month)
             } else {
                 descriptionText = NSMutableString(format: "%@ %@ on the %@ of %@.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), repeatValue.frequency, eachValue, month)
@@ -167,7 +167,7 @@ class DCSchedulingHelper: NSObject {
             if (repeatValue.yearOnTheValue == nil) {
                 repeatValue.yearOnTheValue = "First Sunday January"
             }
-            if (repeatValue.frequency == "1 year") {
+            if (repeatValue.frequency == SINGLE_YEAR) {
                 descriptionText = NSMutableString(format: "%@ year on the %@.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), repeatValue.yearOnTheValue )
             } else {
                 let yearArray = repeatValue.yearOnTheValue.characters.split{$0 == " "}.map(String.init)
@@ -239,4 +239,21 @@ class DCSchedulingHelper: NSObject {
         return numbersArray;
     }
     
+    static func administrationTimesForIntervalSchedulingWithRepeatFrequencyType(type : PickerType, timeGap difference : Int ,WithStartDateString startDateString : String, WithendDateString endDateString : String) -> NSMutableArray {
+        
+        //administration times for interval scheduling with start date and end date in 24 hr format. Calculate administration times between start date and end date from the repeat frequency
+        let startDate = DCDateUtility.dateFromSourceString(startDateString)
+        let endDate = DCDateUtility.dateFromSourceString(endDateString)
+        let calendar = NSCalendar.currentCalendar()
+        let calendarUnit : NSCalendarUnit = (type == eHoursCount) ? .Hour : .Minute
+        let timeArray : NSMutableArray = []
+        var newDate = startDate
+        timeArray.addObject(startDateString)
+        while ((newDate?.compare(endDate) == .OrderedAscending) || (newDate?.compare(endDate) == .OrderedSame)) {
+            newDate = calendar.dateByAddingUnit(calendarUnit, value: difference, toDate: newDate!, options: NSCalendarOptions.MatchNextTime)
+            let newDateString = DCDateUtility.timeStringInTwentyFourHourFormat(newDate)
+            timeArray.addObject(newDateString)
+        }
+        return timeArray
+    }
 }
