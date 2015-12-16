@@ -237,7 +237,25 @@ import UIKit
                     self.addSubview(label)
                 }
             case .Month:
-                return
+                var weekDate:NSDate = graphStartDate!
+                for i in 0..<5  // 7 days a week
+                {
+                    let point = columnXLabelPoint (i,4)
+                    let label = UILabel(frame: CGRectMake(0,0,200,21))
+                    label.center = CGPointMake(point, height - (bottomBorder/2))
+                    label.textAlignment = NSTextAlignment.Center
+                    label.textColor = UIColor.whiteColor()
+                    label.font = UIFont(name: label.font.fontName, size: 13)
+                    let calendar = NSCalendar.currentCalendar()
+                    let chosenDateComponents = calendar.components([.Day,.Month], fromDate: weekDate)
+                    
+                    label.text = String(format: "%d/%d",chosenDateComponents.day,chosenDateComponents.month)
+                    weekDate =  NSCalendar.currentCalendar().dateByAddingUnit(.Day,
+                        value: 7,
+                        toDate:weekDate ,
+                        options: NSCalendarOptions(rawValue: 0))!
+                    self.addSubview(label)
+                }
             default:
                 print("no label")
             }
@@ -258,7 +276,9 @@ import UIKit
             case .Week:
                 maxXAxis = 7/*Days*/ *  24/*Hour*/ * 60 /*Minutes*/
         case .Month:
-                maxXAxis = 7/*Days*/ *  24/*Hour*/ * 60 /*Minutes*/
+            let calendar = NSCalendar.currentCalendar()
+            let noOfDays = calendar.components([.Day], fromDate: graphStartDate, toDate: graphEndDate, options: [])
+                maxXAxis = noOfDays.day /*Days*/ *  24/*Hour*/ * 60 /*Minutes*/
             default:
              maxXAxis = 24/*Hour*/ * 60 /*Minutes*/
             

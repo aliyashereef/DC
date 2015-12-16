@@ -42,4 +42,23 @@ extension NSDate:Comparable{
         return formatter.stringFromDate(self)
     }
     
+    func minTime() -> NSDate
+    {
+        let calendar = NSCalendar.currentCalendar()
+        let chosenDateComponents = calendar.components([.Hour , .Minute,.Day, .Month , .Year , .Second], fromDate: self)
+        chosenDateComponents.hour = 0
+        chosenDateComponents.minute = 0
+        chosenDateComponents.second = 0
+        return  calendar.dateFromComponents(chosenDateComponents)!
+    }
+    
+    func maxTime() -> NSDate
+    {
+        let calendar = NSCalendar.currentCalendar()
+        let chosenDateComponents = calendar.components([.Hour , .Minute,.Day, .Month , .Year , .Second], fromDate: self)
+        chosenDateComponents.hour = 23
+        chosenDateComponents.minute = 59
+        chosenDateComponents.second = 59
+        return  calendar.dateFromComponents(chosenDateComponents)!
+    }
 }

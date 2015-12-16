@@ -28,14 +28,12 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         super.viewDidLoad()
         
         observationList.appendContentsOf(Helper.VitalSignObservationList)
-        
+        graphicalDashBoardView = GraphicalDashBoardView.instanceFromNib() as! GraphicalDashBoardView
+        Helper.displayInChildView(graphicalDashBoardView, parentView: parentView)
+        swipeGraphDate(false,flipDateMode: true)
         // display the titles
         displayTitle()
         
-        // initialize the graphical view
-        graphicalDashBoardView = GraphicalDashBoardView.instanceFromNib() as! GraphicalDashBoardView
-        Helper.displayInChildView(graphicalDashBoardView, parentView: parentView)
-        showData()
         //detecting the swipe gesture
         //------------right  swipe gestures in view--------------//
         let swipeRight = UISwipeGestureRecognizer(target: self, action: Selector("rightSwiped"))
@@ -50,7 +48,13 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
     
     func showData()
     {
-        dateLabel.text = graphStartDate.getFormattedDate()
+        switch(graphDisplayView)
+        {
+            case .Day:
+                dateLabel.text = graphStartDate.getFormattedDate()
+            default:
+                dateLabel.text = String(format:"%@ - %@", graphStartDate.getFormattedDate() , graphEndDate.getFormattedDate())
+        }
         filterObservations = observationList.filter( { return $0.date >= graphStartDate && $0.date < graphEndDate} )
         graphicalDashBoardView.displayData(filterObservations,graphDisplayView: graphDisplayView , graphStartDate: graphStartDate , graphEndDate: graphEndDate)
     }
@@ -84,13 +88,13 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         {
         case 0:
             graphDisplayView = GraphDisplayView.Day
-            showData()
+            swipeGraphDate(false, flipDateMode: true)
         case 1:
             graphDisplayView = GraphDisplayView.Week
-            showData()
+            swipeGraphDate(false, flipDateMode: true)
         case 2:
             graphDisplayView = GraphDisplayView.Month
-            showData()
+            swipeGraphDate(false, flipDateMode: true)
         default:
             print("no default value is present", terminator: "")
         }
@@ -150,44 +154,70 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
     //MARK: swipe gestures
     func rightSwiped()
     {
-         swipeGraphDate(false)
+        swipeGraphDate(false,flipDateMode:false)
     }
     
     func leftSwiped()
     {
-        swipeGraphDate(true)
+        swipeGraphDate(true,flipDateMode:false)
     }
     
-    
-    func swipeGraphDate(goForward:Bool)
+
+    func swipeGraphDate(goForward:Bool , flipDateMode : Bool)
     {
-        
         switch(graphDisplayView)
         {
             case .Day:
-                graphEndDate = graphStartDate
+                if(flipDateMode)
+                {
+                    graphStartDate = graphEndDate
+                }
+                else{
                 graphStartDate =  NSCalendar.currentCalendar().dateByAddingUnit(.Day,
                     value: goForward == true ? 1:-1,
                     toDate:graphStartDate ,
                     options: NSCalendarOptions(rawValue: 0))!
-            
-            case .Week:
                 graphEndDate = graphStartDate
-                graphStartDate =  NSCalendar.currentCalendar().dateByAddingUnit(NSCalendarUnit.Day,
-                    value: goForward == true ? 6:-6,
-                    toDate:graphStartDate ,
-                    options: NSCalendarOptions(rawValue: 0))!
-            
+            }
+            case .Week:
+                if(flipDateMode)
+                {
+                    graphStartDate =  NSCalendar.currentCalendar().dateByAddingUnit(NSCalendarUnit.Day,
+                        value: goForward == true ? 6:-6,
+                        toDate: graphEndDate ,
+                        options: NSCalendarOptions(rawValue: 0))!
+                }
+                else
+                {
+                    graphEndDate = graphStartDate
+                    graphStartDate =  NSCalendar.currentCalendar().dateByAddingUnit(NSCalendarUnit.Day,
+                        value: goForward == true ? 6:-6,
+                        toDate:  graphStartDate ,
+                        options: NSCalendarOptions(rawValue: 0))!
+                }
             case .Month:
+                if(flipDateMode)
+                {
+                    graphStartDate =  NSCalendar.currentCalendar().dateByAddingUnit(.Month,
+                        value: goForward == true ? 1:-1,
+                        toDate:graphEndDate ,
+                        options: NSCalendarOptions(rawValue: 0))!
+                }
+                else
+                {
                 graphEndDate = graphStartDate
                 graphStartDate =  NSCalendar.currentCalendar().dateByAddingUnit(.Month,
                     value: goForward == true ? 1:-1,
                     toDate:graphStartDate ,
                     options: NSCalendarOptions(rawValue: 0))!
-            
+            }
             default:
             print("DO NOTHING")
         }
+        
+        graphStartDate = graphStartDate.minTime()
+        graphEndDate = graphEndDate.maxTime()
+        
         showData()
     }
     
