@@ -218,11 +218,22 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
                 }
                 else
                 {
+                    if(goForward)
+                    {
+                        graphStartDate = graphEndDate
+                        graphEndDate =  NSCalendar.currentCalendar().dateByAddingUnit(NSCalendarUnit.Day,
+                            value:  6,
+                            toDate:  graphStartDate ,
+                            options: NSCalendarOptions(rawValue: 0))!
+                    }
+                    else
+                    {
                     graphEndDate = graphStartDate
                     graphStartDate =  NSCalendar.currentCalendar().dateByAddingUnit(NSCalendarUnit.Day,
                         value: goForward == true ? 6:-6,
                         toDate:  graphStartDate ,
                         options: NSCalendarOptions(rawValue: 0))!
+                    }
                 }
             case .Month:
                 if(flipDateMode)
