@@ -5,12 +5,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <mutableArray key="Lato-Regular.ttf">
-            <string>Lato-Regular</string>
-            <string>Lato-Regular</string>
-        </mutableArray>
-    </customFonts>
     <scenes>
         <!--Prescriber Medication View Controller-->
         <scene sceneID="cvD-na-bNb">
@@ -243,7 +237,7 @@
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="60" id="24a-Id-dNK"/>
                                                             </constraints>
-                                                            <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <state key="normal" title="Edit">
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
@@ -258,7 +252,7 @@
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="60" id="DPD-3l-UY8"/>
                                                             </constraints>
-                                                            <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="14"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <state key="normal" title="Stop">
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>

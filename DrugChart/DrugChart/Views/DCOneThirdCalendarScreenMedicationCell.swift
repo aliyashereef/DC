@@ -8,6 +8,14 @@
 
 import Foundation
 
+protocol EditDeleteActionDelegate {
+    
+    func stopMedicationForSelectedIndexPath(indexPath : NSIndexPath)
+    func editMedicationForSelectedIndexPath (indexPath : NSIndexPath)
+    func setIndexPathSelected(indexPath : NSIndexPath)
+    
+}
+
 class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
     
     @IBOutlet weak var medicineDetailHolderView: UIView!
@@ -17,12 +25,15 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
     @IBOutlet weak var stopButton: UIButton!
     var isMedicationActive : Bool = true
     var inEditMode : Bool = false
-
+    
+    var indexPath : NSIndexPath!
     @IBOutlet weak var adminstrationStatusView: UIView!
     @IBOutlet weak var medicationViewLeadingConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var stopButtonWidth: NSLayoutConstraint!
     @IBOutlet weak var editButtonWidth: NSLayoutConstraint!
+    var editAndDeleteDelegate : EditDeleteActionDelegate?
+
     override func awakeFromNib() {
         
         super.awakeFromNib()
@@ -48,6 +59,10 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
         
         //swipe medication view
         if isMedicationActive {
+            if let delegate = editAndDeleteDelegate {
+                delegate.setIndexPathSelected(indexPath)
+            }
+
             let translate : CGPoint = panGesture.translationInView(self.contentView)
             let gestureVelocity : CGPoint = panGesture.velocityInView(self)
             if (gestureVelocity.x > 300.0 || gestureVelocity.x < -300.0) {
@@ -160,6 +175,24 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
                 self.setMedicationViewFrame()
         })
     }
+    
+    //MARK :EditDeleteActionDelegate Methods
+    
+    @IBAction func editMedicationButtonPressed(sender: AnyObject) {
+        if let delegate = editAndDeleteDelegate {
+            delegate.editMedicationForSelectedIndexPath(indexPath)
+        }
+    }
+    
+    @IBAction func stopMedicationButtonPressed(sender: AnyObject) {
+        
+        swipeMedicationDetailViewToRight()
+        if let delegate = editAndDeleteDelegate {
+            delegate.stopMedicationForSelectedIndexPath(indexPath)
+        }
+    }
+
+
 
 
 }
