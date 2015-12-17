@@ -165,24 +165,7 @@ import UIKit
 //                }
                 
             // add last entered label
-            var label = UILabel(frame: CGRectMake(0,0,150,20))
-            label.center = CGPointMake(width-75,20)
-            label.textAlignment = NSTextAlignment.Right
-            label.textColor = UIColor.whiteColor()
-            label.font = UIFont.boldSystemFontOfSize(14.0)
-                label.text = latestReadingText == nil ? "" : latestReadingText!
-            self.addSubview(label)
-                
-          
-            // and now the time label
-            label = UILabel(frame: CGRectMake(0,0,150,20))
-            label.center = CGPointMake(width-75,40)
-            label.textAlignment = NSTextAlignment.Right
-            label.textColor = UIColor.whiteColor()
-            label.font = UIFont(name: label.font.fontName, size: 12)
-            label.text = latestReadingDate == nil ? "":latestReadingDate.getFormattedDateTime()
-            self.addSubview(label)
-            
+            drawLatestReadiongLabels()
             // now add the label on the UI
             drawYAxisLabels()
             drawXAxisLabels()

@@ -123,6 +123,7 @@ class BarGraphView: GraphView {
                 linePath.stroke()
                 
                 // now add the label on the UI
+                drawLatestReadiongLabels()
                 drawYAxisLabels()
                 drawXAxisLabels()
                 self.drawGraph = false
@@ -137,7 +138,7 @@ class BarGraphView: GraphView {
         }
     }
     
-    override func plotBarGraph(xAxisValue:[NSDate],yAxisMinValue:[Double],yAxisMaxValue:[Double],displayView:GraphDisplayView, graphTitle:String,graphStartDate:NSDate , graphEndDate:NSDate)
+    override func plotBarGraph(xAxisValue:[NSDate],yAxisMinValue:[Double],yAxisMaxValue:[Double],displayView:GraphDisplayView, graphTitle:String,graphStartDate:NSDate , graphEndDate:NSDate, latestReadingText:String! , latestReadingDate:NSDate!)
     {
             self.graphStartDate = graphStartDate
             self.graphEndDate = graphEndDate
@@ -145,6 +146,8 @@ class BarGraphView: GraphView {
             self.yAxisMinValue = yAxisMinValue
             self.yAxisMaxValue = yAxisMaxValue
             self.graphTitle = graphTitle
+            self.latestReadingText = latestReadingText
+            self.latestReadingDate = latestReadingDate
             self.drawGraph = true
             self.displayView = displayView
             calculateMaxXandYAxis()

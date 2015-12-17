@@ -97,7 +97,7 @@ class GraphView:UIView
         
     }
     
-    func plotBarGraph(xAxisValue:[NSDate],yAxisMinValue:[Double],yAxisMaxValue:[Double],displayView:GraphDisplayView, graphTitle:String,graphStartDate:NSDate , graphEndDate:NSDate)
+    func plotBarGraph(xAxisValue:[NSDate],yAxisMinValue:[Double],yAxisMaxValue:[Double],displayView:GraphDisplayView, graphTitle:String,graphStartDate:NSDate , graphEndDate:NSDate, latestReadingText:String! , latestReadingDate:NSDate!)
     {
         
     }
@@ -123,7 +123,27 @@ class GraphView:UIView
         self.addSubview(label)
         
     }
-    
+    func drawLatestReadiongLabels()
+    {
+        var label = UILabel(frame: CGRectMake(0,0,150,20))
+        label.center = CGPointMake(width-75,20)
+        label.textAlignment = NSTextAlignment.Right
+        label.textColor = UIColor.whiteColor()
+        label.font = UIFont.boldSystemFontOfSize(14.0)
+        label.text = latestReadingText == nil ? "" : latestReadingText!
+        self.addSubview(label)
+        
+        
+        // and now the time label
+        label = UILabel(frame: CGRectMake(0,0,150,20))
+        label.center = CGPointMake(width-75,40)
+        label.textAlignment = NSTextAlignment.Right
+        label.textColor = UIColor.whiteColor()
+        label.font = UIFont(name: label.font.fontName, size: 12)
+        label.text = latestReadingDate == nil ? "":latestReadingDate.getFormattedDateTime()
+        self.addSubview(label)
+        
+    }
     func drawXAxisLabels()
     {
         switch(displayView!)

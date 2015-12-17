@@ -178,7 +178,7 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
         case ChartType.BarChart:
             let cell=collectionView.dequeueReusableCellWithReuseIdentifier(barChartIdentifier, forIndexPath: indexPath) as! BarGraphCell
             
-            cell.drawBarGraph(xAxisValue, yAxisMinValue: yAxisValue2 ,yAxisMaxValue: yAxisValue, displayView: graphDisplayView ,graphTitle: cellTitle,graphStartDate:graphStartDate , graphEndDate:graphEndDate)
+            cell.drawBarGraph(xAxisValue, yAxisMinValue: yAxisValue2 ,yAxisMaxValue: yAxisValue, displayView: graphDisplayView ,graphTitle: cellTitle,graphStartDate:graphStartDate , graphEndDate:graphEndDate,latestReadingText:latestObservationText , latestReadingDate:latestObservationDate)
             
             return cell
         default:
