@@ -232,6 +232,9 @@
 		4D2DD3CC1B9889F0008CDEA0 /* DCDateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D2DD3CB1B9889F0008CDEA0 /* DCDateTableViewCell.m */; };
 		4D4126C51B4AA1E700255D5E /* DCAddMedicationWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D4126C41B4AA1E700255D5E /* DCAddMedicationWebService.m */; };
 		4D415ED01B4FD99200E796F2 /* DCPatientAllergyWebServiceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D415ECF1B4FD99200E796F2 /* DCPatientAllergyWebServiceTests.m */; };
+		4D4175801C2286BF00F924C1 /* DCAdministrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D41757F1C2286BF00F924C1 /* DCAdministrationViewController.swift */; };
+		4D4175821C228C0000F924C1 /* DCMedicationDetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4175811C228C0000F924C1 /* DCMedicationDetailsTableViewCell.swift */; };
+		4D4175841C228C3E00F924C1 /* DCAdministrationStatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4175831C228C3E00F924C1 /* DCAdministrationStatusCell.swift */; };
 		4D4891561BC90053002AC8CA /* DCSwiftObjCNavigationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D4891551BC90053002AC8CA /* DCSwiftObjCNavigationHelper.m */; };
 		4D4891591BC900DB002AC8CA /* DCPatientDetailsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D4891581BC900DB002AC8CA /* DCPatientDetailsHelper.m */; };
 		4D48915E1BC90176002AC8CA /* DCPatientListingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D48915A1BC90176002AC8CA /* DCPatientListingCell.swift */; };
@@ -640,6 +643,9 @@
 		4D4126C31B4AA1E700255D5E /* DCAddMedicationWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCAddMedicationWebService.h; sourceTree = "<group>"; };
 		4D4126C41B4AA1E700255D5E /* DCAddMedicationWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCAddMedicationWebService.m; sourceTree = "<group>"; };
 		4D415ECF1B4FD99200E796F2 /* DCPatientAllergyWebServiceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCPatientAllergyWebServiceTests.m; sourceTree = "<group>"; };
+		4D41757F1C2286BF00F924C1 /* DCAdministrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministrationViewController.swift; sourceTree = "<group>"; };
+		4D4175811C228C0000F924C1 /* DCMedicationDetailsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCMedicationDetailsTableViewCell.swift; sourceTree = "<group>"; };
+		4D4175831C228C3E00F924C1 /* DCAdministrationStatusCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministrationStatusCell.swift; sourceTree = "<group>"; };
 		4D4891541BC90053002AC8CA /* DCSwiftObjCNavigationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCSwiftObjCNavigationHelper.h; sourceTree = "<group>"; };
 		4D4891551BC90053002AC8CA /* DCSwiftObjCNavigationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCSwiftObjCNavigationHelper.m; sourceTree = "<group>"; };
 		4D4891571BC900DB002AC8CA /* DCPatientDetailsHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DCPatientDetailsHelper.h; path = ../ViewControllers/InitialViewController/DCPatientDetailsHelper.h; sourceTree = "<group>"; };
@@ -1544,6 +1550,7 @@
 		0BBC8F9A1AA468920085ABAB /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				4D41757E1C22869100F924C1 /* AdministrationViewController */,
 				4D54C0771BFB2BD700A61273 /* CalendarOneThirdViewController */,
 				7D5319BB1BF21EDB003C3F92 /* AlertsAllergyPopOverViewController */,
 				4D7627841BE8E1770070BAF2 /* VitalSignViewController */,
@@ -2206,6 +2213,14 @@
 			name = DCContraIndicationAndAllergyIndicationWebservice;
 			sourceTree = "<group>";
 		};
+		4D41757E1C22869100F924C1 /* AdministrationViewController */ = {
+			isa = PBXGroup;
+			children = (
+				4D41757F1C2286BF00F924C1 /* DCAdministrationViewController.swift */,
+			);
+			name = AdministrationViewController;
+			sourceTree = "<group>";
+		};
 		4D4891531BC90053002AC8CA /* NavigationHelper */ = {
 			isa = PBXGroup;
 			children = (
@@ -2402,6 +2417,8 @@
 				0BD699141BB2729A008797A2 /* AdministerTableHeaderView */,
 				4D54C07A1BFB351200A61273 /* DCOneThirdCalendarScreenMedicationCell.swift */,
 				4DD829261C0853AD006B2E71 /* DCOneThirdCalendarStripCollectionCell.swift */,
+				4D4175811C228C0000F924C1 /* DCMedicationDetailsTableViewCell.swift */,
+				4D4175831C228C3E00F924C1 /* DCAdministrationStatusCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2910,6 +2927,7 @@
 				0BD3D4DF1AB2CA89002B8711 /* DCMedicationSlot.m in Sources */,
 				0BD699161BB272BB008797A2 /* DCAdministerTableHeaderView.swift in Sources */,
 				0BAA87381AF8B48600FCA686 /* DCSecurityPinWebService.m in Sources */,
+				4D4175801C2286BF00F924C1 /* DCAdministrationViewController.swift in Sources */,
 				0BC542D41AB8556A004DDFCC /* DCAdministerMedication.m in Sources */,
 				0B47963E1C0EE80300A8E78A /* DCSchedulingDescriptionTableCell.swift in Sources */,
 				7D63355A1AE66AB700463E12 /* DCWard.m in Sources */,
@@ -2949,6 +2967,7 @@
 				FDC7EA571C1AA8990081D5C4 /* DCDosageDetailViewController.swift in Sources */,
 				7D3234BC1AF132250020CC8F /* DCPopOverContentSizeUtility.m in Sources */,
 				4DECF30C1B79D2000085E75B /* DCOrderSetWarningCount.m in Sources */,
+				4D4175821C228C0000F924C1 /* DCMedicationDetailsTableViewCell.swift in Sources */,
 				1FD4FD061BF4BAAD00B77B94 /* SelectionCell.swift in Sources */,
 				4D4891561BC90053002AC8CA /* DCSwiftObjCNavigationHelper.m in Sources */,
 				1FD4FD0A1BF4BAE000B77B94 /* Enumerations.swift in Sources */,
@@ -3025,6 +3044,7 @@
 				1FD4FCE51BF4B8F400B77B94 /* DatePickerCell_Inline.swift in Sources */,
 				4DE525A31B8C92740057C5F5 /* DCAddMedicationInitialViewController.m in Sources */,
 				0BD6991B1BB2BAC1008797A2 /* DCBatchNumberCell.swift in Sources */,
+				4D4175841C228C3E00F924C1 /* DCAdministrationStatusCell.swift in Sources */,
 				1FD4FCB61BF4B6B700B77B94 /* BodyTemperature.swift in Sources */,
 				1F5375001C1AEC2C00D4A64F /* LineGraphCell.swift in Sources */,
 				1FD4FD0B1BF4BAE000B77B94 /* Helper.swift in Sources */,
