@@ -95,6 +95,9 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
             }
             self.schedulingTableView.reloadData()
         }
+        schedulingDetailViewController?.schedulingCompletion = { schedule in
+            self.scheduling = schedule
+        }
         self.navigationController?.pushViewController(schedulingDetailViewController!, animated: true)
     }
     

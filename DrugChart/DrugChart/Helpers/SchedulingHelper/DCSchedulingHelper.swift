@@ -239,6 +239,12 @@ class DCSchedulingHelper: NSObject {
         return numbersArray;
     }
     
+    static func dateIsLessThanOrEqualToEndDate(date : NSDate, endDate : NSDate) -> Bool {
+        
+        //check if date is less than or equal to end date
+        return (date.compare(endDate) == .OrderedAscending) || (date.compare(endDate) == .OrderedSame)
+    }
+    
     static func administrationTimesForIntervalSchedulingWithRepeatFrequencyType(type : PickerType, timeGap difference : Int ,WithStartDateString startDateString : String, WithendDateString endDateString : String) -> NSMutableArray {
         
         //administration times for interval scheduling with start date and end date in 24 hr format. Calculate administration times between start date and end date from the repeat frequency
@@ -249,10 +255,12 @@ class DCSchedulingHelper: NSObject {
         let timeArray : NSMutableArray = []
         var newDate = startDate
         timeArray.addObject(startDateString)
-        while ((newDate?.compare(endDate) == .OrderedAscending) || (newDate?.compare(endDate) == .OrderedSame)) {
+        while (dateIsLessThanOrEqualToEndDate(newDate, endDate: endDate)) {
             newDate = calendar.dateByAddingUnit(calendarUnit, value: difference, toDate: newDate!, options: NSCalendarOptions.MatchNextTime)
-            let newDateString = DCDateUtility.timeStringInTwentyFourHourFormat(newDate)
-            timeArray.addObject(newDateString)
+            if(dateIsLessThanOrEqualToEndDate(newDate, endDate: endDate)) {
+                let newDateString = DCDateUtility.timeStringInTwentyFourHourFormat(newDate)
+                timeArray.addObject(newDateString)
+            }
         }
         return timeArray
     }
