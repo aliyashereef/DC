@@ -15,7 +15,7 @@ enum Direction  {
     case ScrollDirectionLeft
 }
 
-class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource, UITableViewDelegate, DCMedicationAdministrationStatusProtocol , UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource, UITableViewDelegate, DCMedicationAdministrationStatusProtocol , UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, EditDeleteActionDelegate {
     
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     @IBOutlet var calendarStripCollectionView: UICollectionView!
@@ -29,7 +29,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     let collectionViewReuseIdentifier = "CalendarStripCellIdentifier"
     var scrollDirection : Direction = .ScrollDirectionNone
     var scrollingLocked : Bool = false
-    
+    var selectedIndexPath : NSIndexPath!
     required init?(coder aDecoder: NSCoder) {
         
         super.init(coder: aDecoder)
@@ -167,8 +167,9 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
                 "MedicationCell")
         }
         let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
+        cell!.indexPath = indexPath
+        cell!.editAndDeleteDelegate = self
         cell!.isMedicationActive = medicationScheduleDetails.isActive
-
         let rowDisplayMedicationSlotsArray = self.prepareMedicationSlotsForDisplayInCellFromScheduleDetailsForDate(medicationScheduleDetails,date:centerDate)
         
         var index : NSInteger = 0
@@ -485,10 +486,64 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         return scrollIndex
     }
     
+    func swipeBackMedicationCellsInTableView() {
+        
+        for (index,_) in displayMedicationListArray.enumerate(){
+            let indexPath = NSIndexPath(forRow: index, inSection: 0)
+            if indexPath == selectedIndexPath {
+                continue
+            }
+            let medicationCell = medicationTableView?.cellForRowAtIndexPath(indexPath)
+                as? DCOneThirdCalendarScreenMedicationCell
+            medicationCell?.swipeMedicationDetailViewToRight()
+        }
+    }
+
+    
     //MARK - DCMedicationAdministrationStatusProtocol delegate implementation
     
     func administerMedicationWithMedicationSlots (medicationSLotDictionary: NSDictionary, atIndexPath indexPath: NSIndexPath ,withWeekDate date : NSDate) {
         let parentView : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
         parentView.displayAdministrationViewForMedicationSlot(medicationSLotDictionary as [NSObject : AnyObject], atIndexPath: indexPath, withWeekDate: date)
+    }
+    //MARK - EditDeleteActionDelegate methods
+    
+    func stopMedicationForSelectedIndexPath(indexPath: NSIndexPath) {
+        deleteMedicationAtIndexPath(indexPath)
+    }
+    
+    func setIndexPathSelected(indexPath : NSIndexPath) {
+        selectedIndexPath = indexPath
+        swipeBackMedicationCellsInTableView()
+    }
+    
+    func editMedicationForSelectedIndexPath(indexPath: NSIndexPath) {
+
+    }
+    
+    func deleteMedicationAtIndexPath(indexPath : NSIndexPath) {
+        
+        let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
+        let parentView : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
+        let webService : DCStopMedicationWebService = DCStopMedicationWebService.init()
+        webService.stopMedicationForPatientWithId(parentView.patient.patientId as String, drugWithScheduleId: medicationScheduleDetails.scheduleId) { (array, error) -> Void in
+            if error == nil {
+                self.medicationTableView!.beginUpdates()
+                if let medicationArray = self.displayMedicationListArray.mutableCopy() as? NSMutableArray {
+                    medicationArray.removeObjectAtIndex(indexPath.row)
+                    self.displayMedicationListArray = medicationArray
+                }
+                self.medicationTableView!.deleteRowsAtIndexPaths([indexPath as NSIndexPath], withRowAnimation: .Fade)
+                self.medicationTableView!.endUpdates()
+                self.medicationTableView?.reloadData()
+                // If we want to reload the medication list, uncomment the lines
+                //                if let delegate = self.delegate {
+                //                    delegate.refreshMedicationList()
+                //
+                //                }
+            } else {
+                // TO DO: handle the case for already deleted medication.
+            }
+        }
     }
 }

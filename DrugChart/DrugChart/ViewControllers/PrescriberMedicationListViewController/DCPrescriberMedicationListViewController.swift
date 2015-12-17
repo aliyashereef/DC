@@ -33,10 +33,10 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     var patientId : NSString = EMPTY_STRING
     var panGestureDirection : PanDirection = PanDirection.atCenter
     let existingStatusViews : NSMutableArray = []
-    
+    var isEditMode : Bool = false
     var webRequestCancelled = false
     var calendarCellIsMoving = true
-    
+    var selectedIndexPath : NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
     let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
     
     required init?(coder aDecoder: NSCoder) {
@@ -484,6 +484,19 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         return medicationSlotsArray
     }
     
+    func swipeBackMedicationCellsInTableView() {
+        
+        for (index,_) in displayMedicationListArray.enumerate(){
+            let indexPath = NSIndexPath(forRow: index, inSection: 0)
+            if indexPath == selectedIndexPath {
+                continue
+            }
+            let medicationCell = medicationTableView?.cellForRowAtIndexPath(indexPath)
+                as? PrescriberMedicationTableViewCell
+            medicationCell?.swipeMedicationDetailViewToRight()
+        }
+    }
+    
     //MARK - DCMedicationAdministrationStatusProtocol delegate implementation
     
     func administerMedicationWithMedicationSlots (medicationSLotDictionary: NSDictionary, atIndexPath indexPath: NSIndexPath ,withWeekDate date : NSDate) {
@@ -495,6 +508,11 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     
     func stopMedicationForSelectedIndexPath(indexPath: NSIndexPath) {
         deleteMedicationAtIndexPath(indexPath)
+    }
+    
+    func setIndexPathSelected(indexPath : NSIndexPath) {
+        selectedIndexPath = indexPath
+        swipeBackMedicationCellsInTableView()
     }
     
     func editMedicationForSelectedIndexPath(indexPath: NSIndexPath) {
