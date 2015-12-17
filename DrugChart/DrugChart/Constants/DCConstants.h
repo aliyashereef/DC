@@ -471,5 +471,6 @@
 #define CHANGE_OVER_TITLE @"Change Over"
 #define CONDITIONS_TITLE @"Conditions"
 #define ADD_NEW_TITLE @"Add New"
+#define ADD_CONDITION_TITLE @"Add Condition"
 
 #endif

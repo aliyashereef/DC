@@ -27,6 +27,7 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
     @IBOutlet weak var dosageDetailTableView: UITableView!
     let dosageUnitItems = ["mg","ml","%"]
     let changeOverItemsArray = ["Days","Doses"]
+    var conditionsItemsArray = ["Reduce 50 mg every day"]
     var detailType : DosageDetailType = eDoseUnit
     var viewTitleForDisplay : NSString = ""
     var previousSelectedValue : NSString = ""
@@ -92,11 +93,17 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        if (detailType == eDoseUnit || detailType == eAddNewDosage || dosageDetailsArray.count == 0) {
+        if (detailType == eDoseUnit || detailType == eAddNewDosage || detailType == eChangeOver) {
+            
+            return 1
+        } else if (detailType == eConditions) {
+            
+            return 2
+        } else if (dosageDetailsArray.count == 0){
             
             return 1
         } else {
-            
+        
             return 2
         }
     }
@@ -105,10 +112,13 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
         
         if (section == 0) {
             
-            if (detailType == eDoseUnit && dosageDetailsArray.count != 0 ) {
+            if( dosageDetailsArray.count == 0 && detailType != eChangeOver) {
+                
+                return 1
+            } else if (detailType == eDoseUnit) {
                 
                 return dosageUnitItems.count
-            } else if ((detailType == eDoseValue || detailType == eDoseFrom || detailType == eDoseTo || detailType == eStartingDose) && dosageDetailsArray.count != 0) {
+            } else if (detailType == eDoseValue || detailType == eDoseFrom || detailType == eDoseTo || detailType == eStartingDose) {
                 
                 return dosageDetailsArray.count
             } else if (detailType == eChangeOver) {
@@ -117,6 +127,9 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
             } else if (detailType == eAddNewDosage) {
                 
                 return 1
+            } else if (detailType == eConditions ) {
+                
+                return conditionsItemsArray.count
             } else {
                 
                 return 2
@@ -134,63 +147,108 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
             let dosageDetailCell : DCDosageDetailTableViewCell? = dosageDetailTableView.dequeueReusableCellWithIdentifier(ADD_NEW_VALUE_CELL_ID) as? DCDosageDetailTableViewCell
             return dosageDetailCell!
         } else {
-            if (indexPath.section == 0 && dosageDetailsArray.count != 0 ) {
+            if (indexPath.section == 0) {
                 
                 let dosageDetailCell : DCDosageDetailTableViewCell? = dosageDetailTableView.dequeueReusableCellWithIdentifier(DOSE_DETAIL_CELL_ID) as? DCDosageDetailTableViewCell
                 // Configure the cell...
-                switch (detailType.rawValue) {
+                if (detailType == eChangeOver) {
                     
-                case eDoseUnit.rawValue:
-                    dosageDetailCell?.accessoryType = (previousSelectedValue == dosageUnitItems[indexPath.row]) ? .Checkmark : .None
-                    dosageDetailCell!.dosageDetailDisplayCell.text = dosageUnitItems[indexPath.row]
-                case eDoseValue.rawValue:
-                    dosageDetailCell?.accessoryType = (previousSelectedValue == dosageDetailsArray[indexPath.row]) ? .Checkmark : .None
-                    dosageDetailCell!.dosageDetailDisplayCell.text = dosageDetailsArray[indexPath.row]
-                case eDoseFrom.rawValue:
-                    dosageDetailCell?.accessoryType = (previousSelectedValue == dosageDetailsArray[indexPath.row]) ? .Checkmark : .None
-                    dosageDetailCell!.dosageDetailDisplayCell.text = dosageDetailsArray[indexPath.row]
-                case eDoseTo.rawValue:
-                    dosageDetailCell?.accessoryType = (previousSelectedValue == dosageDetailsArray[indexPath.row]) ? .Checkmark : .None
-                    dosageDetailCell!.dosageDetailDisplayCell.text = dosageDetailsArray[indexPath.row]
-                case eStartingDose.rawValue:
-                    dosageDetailCell?.accessoryType = (previousSelectedValue == dosageDetailsArray[indexPath.row]) ? .Checkmark : .None
-                    dosageDetailCell!.dosageDetailDisplayCell.text = dosageDetailsArray[indexPath.row]
-                case eChangeOver.rawValue:
                     dosageDetailCell?.accessoryType = (previousSelectedValue == changeOverItemsArray[indexPath.row]) ? .Checkmark : .None
                     dosageDetailCell!.dosageDetailDisplayCell.text = changeOverItemsArray[indexPath.row]
-
-                default:
-                    break
+                    return dosageDetailCell!
+                } else if (detailType == eConditions) {
+                    
+                    dosageDetailCell?.accessoryType = (previousSelectedValue == changeOverItemsArray[indexPath.row]) ? .Checkmark : .None
+                    dosageDetailCell!.dosageDetailDisplayCell.text = conditionsItemsArray[indexPath.row]
+                    return dosageDetailCell!
+                }
+                if (dosageDetailsArray.count != 0) {
+                    
+                    switch (detailType.rawValue) {
+                        
+                    case eDoseUnit.rawValue:
+                        dosageDetailCell?.accessoryType = (previousSelectedValue == dosageUnitItems[indexPath.row]) ? .Checkmark : .None
+                        dosageDetailCell!.dosageDetailDisplayCell.text = dosageUnitItems[indexPath.row]
+                    case eDoseValue.rawValue:
+                        dosageDetailCell?.accessoryType = (previousSelectedValue == dosageDetailsArray[indexPath.row]) ? .Checkmark : .None
+                        dosageDetailCell!.dosageDetailDisplayCell.text = dosageDetailsArray[indexPath.row]
+                    case eDoseFrom.rawValue:
+                        dosageDetailCell?.accessoryType = (previousSelectedValue == dosageDetailsArray[indexPath.row]) ? .Checkmark : .None
+                        dosageDetailCell!.dosageDetailDisplayCell.text = dosageDetailsArray[indexPath.row]
+                    case eDoseTo.rawValue:
+                        dosageDetailCell?.accessoryType = (previousSelectedValue == dosageDetailsArray[indexPath.row]) ? .Checkmark : .None
+                        dosageDetailCell!.dosageDetailDisplayCell.text = dosageDetailsArray[indexPath.row]
+                    case eStartingDose.rawValue:
+                        dosageDetailCell?.accessoryType = (previousSelectedValue == dosageDetailsArray[indexPath.row]) ? .Checkmark : .None
+                        dosageDetailCell!.dosageDetailDisplayCell.text = dosageDetailsArray[indexPath.row]
+                    default:
+                        break
+                    }
+                } else {
+                    let cellForDisplay : DCDosageDetailTableViewCell = self.configureCellForAddNew()
+                    return cellForDisplay
                 }
                 return dosageDetailCell!
             } else {
                 
-                let dosageDetailCell : DCDosageDetailTableViewCell? = dosageDetailTableView.dequeueReusableCellWithIdentifier(DOSE_DETAIL_DISPLAY_CELL_ID) as? DCDosageDetailTableViewCell
-                dosageDetailCell?.dosageDetailCellLabel.text = ADD_NEW_TITLE
-                return dosageDetailCell!
+                let cellForDisplay : DCDosageDetailTableViewCell = self.configureCellForAddNew()
+                return cellForDisplay
             }
         }
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        if (indexPath.section == 0 && dosageDetailsArray.count != 0) {
+        if (indexPath.section == 0 ) {
             
-            switch (detailType.rawValue) {
+            if (dosageDetailsArray.count != 0 || detailType == eChangeOver || detailType == eConditions) {
                 
-            case eDoseUnit.rawValue:
-                delegate?.userDidSelectValue(dosageUnitItems[indexPath.row])
-            case eDoseValue.rawValue,eDoseFrom.rawValue,eDoseTo.rawValue,eStartingDose.rawValue:
-                delegate?.userDidSelectValue(dosageDetailsArray[indexPath.row])
-            case eChangeOver.rawValue:
-                delegate?.userDidSelectValue(changeOverItemsArray[indexPath.row])
-                //Todo : cases for reducing/increasing, split daily.
-            default:
-                break
+                switch (detailType.rawValue) {
+                    
+                case eDoseUnit.rawValue:
+                    delegate?.userDidSelectValue(dosageUnitItems[indexPath.row])
+                case eDoseValue.rawValue,eDoseFrom.rawValue,eDoseTo.rawValue,eStartingDose.rawValue:
+                    delegate?.userDidSelectValue(dosageDetailsArray[indexPath.row])
+                case eChangeOver.rawValue:
+                    delegate?.userDidSelectValue(changeOverItemsArray[indexPath.row])
+                case eConditions.rawValue:
+                    delegate?.userDidSelectValue(conditionsItemsArray[indexPath.row])
+                    //Todo : cases for split daily.
+                default:
+                    break
+                }
+            }else {
+                
+                self.transitToAddNewScreen()
             }
             self.navigationController?.popViewControllerAnimated(true)
         } else {
             
+            self.transitToAddNewScreen()
+        }
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
+    
+    // MARK: - Private Methods
+    
+    func configureCellForAddNew() -> DCDosageDetailTableViewCell{
+        
+        let dosageDetailCell : DCDosageDetailTableViewCell? = dosageDetailTableView.dequeueReusableCellWithIdentifier(DOSE_DETAIL_DISPLAY_CELL_ID) as? DCDosageDetailTableViewCell
+        if (detailType == eConditions) {
+            
+            dosageDetailCell?.dosageDetailCellLabel.text = ADD_CONDITION_TITLE
+            dosageDetailCell?.dosageDetailCellLabel.textColor = dosageDetailTableView.tintColor
+            dosageDetailCell?.accessoryType = .None
+        } else {
+            
+            dosageDetailCell?.dosageDetailCellLabel.text = ADD_NEW_TITLE
+        }
+        return dosageDetailCell!
+    }
+    
+    func transitToAddNewScreen (){
+        
+        if (detailType != eConditions) {
             let dosageDetailViewController : DCDosageDetailViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_DETAIL_SBID) as? DCDosageDetailViewController
             dosageDetailViewController?.newDosageDelegate = self
             dosageDetailViewController?.detailType = eAddNewDosage
@@ -198,9 +256,7 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
             navigationController.modalPresentationStyle = UIModalPresentationStyle.CurrentContext
             self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
         }
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
-    
     // MARK: - Action Methods
     
     func cancelButtonPressed() {

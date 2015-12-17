@@ -385,10 +385,11 @@ import UIKit
             valueForStartingDoseValue = value
         case eChangeOver.rawValue:
             valueForChangeOver = value
+        case eChangeOver.rawValue:
+            valueForCondition = value
         default:
             break
         }
         dosageTableView.reloadData()
     }
-
 }
