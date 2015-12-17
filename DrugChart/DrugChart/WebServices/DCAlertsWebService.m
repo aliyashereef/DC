@@ -17,7 +17,7 @@ static NSString *const kAlertsUrl = @"patients/%@/warnings";
           withCallBackHandler:(void (^)(NSArray *alertsArray, NSError *error))callBackHandler {
     
     NSString *alertsUrl = [NSString stringWithFormat:kAlertsUrl, patientId];
-    DCDebugLog(@"The alerts url is: %@", alertsUrl);
+    DDLogInfo(@"The alerts url is: %@", alertsUrl);
     [[DCHTTPRequestOperationManager sharedOperationManager] GET:alertsUrl
                                                      parameters:nil
                                                         success:^(AFHTTPRequestOperation *operation, id responseObject) {

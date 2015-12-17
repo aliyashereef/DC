@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CocoaLumberjack
 
 class DCSchedulingHelper: NSObject {
     
@@ -14,10 +15,10 @@ class DCSchedulingHelper: NSObject {
         
         //screen title for detail type
         var title = EMPTY_STRING
-        if (screenType == eDetailSchedulingType) {
-            title = NSLocalizedString("BASE_FREQUENCY", comment:"")
-        } else if (screenType == eDetailRepeatType) {
+        if (screenType == eDetailSpecificTimesRepeatType) {
             title = NSLocalizedString("REPEAT", comment: "")
+        } else if (screenType == eDetailIntervalRepeatFrequency) {
+            title = NSLocalizedString("REPEAT_FREQUENCY", comment: "")
         }
         return title
     }
@@ -27,22 +28,59 @@ class DCSchedulingHelper: NSObject {
         var scheduleArray = NSMutableArray()
         if (screenType == eDetailSchedulingType) {
             scheduleArray = [SPECIFIC_TIMES, INTERVAL]
-        } else if (screenType == eDetailRepeatType) {
+        } else if (screenType == eDetailSpecificTimesRepeatType) {
             scheduleArray = [FREQUENCY, EVERY]
         }
         return scheduleArray
     }
     
-    static func schedulingDetailTypeAtIndexPath(indexPath : NSIndexPath) -> SchedulingDetailType? {
+    static func schedulingDetailTypeAtIndexPath(indexPath : NSIndexPath, forFrequencyType type : NSString) -> SchedulingDetailType? {
         
         if indexPath.section == 0 {
             return eDetailSchedulingType
         } else {
-            if indexPath.row == 1 {
-                return eDetailRepeatType
+            if type == SPECIFIC_TIMES {
+                if indexPath.row == 1 {
+                    return eDetailSpecificTimesRepeatType
+                }
+            } else {
+                //interval frequency
+                if indexPath.row == 0 {
+                    return eDetailIntervalRepeatFrequency
+                }
             }
         }
         return nil
+    }
+    
+    static func specificTimesDescriptionValueForRepeatFrequency(repeatFrequency : NSString) -> NSString {
+        
+        switch repeatFrequency {
+        case SINGLE_DAY :
+            return DAY
+        case SINGLE_WEEK :
+            return WEEK
+        case SINGLE_MONTH :
+            return MONTH
+        default:
+            return repeatFrequency
+        }
+    }
+    
+    static func specificTimesPickerTypeForRepeatType(repeatType : NSString) -> PickerType {
+        
+        switch repeatType {
+        case DAILY :
+            return eDailyCount
+        case WEEKLY :
+            return eWeeklyCount
+        case MONTHLY :
+            return eMonthlyCount
+        case YEARLY :
+            return eYearlyCount
+        default :
+            return eDailyCount
+        }
     }
     
     static func scheduleDescriptionForReapeatValue(repeatValue : DCRepeat) -> NSMutableString {
@@ -116,7 +154,7 @@ class DCSchedulingHelper: NSObject {
             let (day, month) = splitComponentsSeparatedBySpace(repeatValue.yearEachValue)
             if let number = Int(day as String) {
                 let convertedNumber = NSNumber(integer:number)
-                print(convertedNumber)
+                DDLogDebug("\(convertedNumber)")
                 let ordinal = NSString.ordinalNumberFormat(convertedNumber)
                 eachValue = ordinal
             }
@@ -132,7 +170,11 @@ class DCSchedulingHelper: NSObject {
             if (repeatValue.frequency == "1 year") {
                 descriptionText = NSMutableString(format: "%@ year on the %@.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), repeatValue.yearOnTheValue )
             } else {
-                descriptionText = NSMutableString(format: "%@ %@ on the %@.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), repeatValue.frequency, repeatValue.yearOnTheValue )
+                let yearArray = repeatValue.yearOnTheValue.characters.split{$0 == " "}.map(String.init)
+                let indexValue = yearArray[0]
+                let day = yearArray[1]
+                let month = yearArray[2]
+                descriptionText = NSMutableString(format: "%@ %@ on the %@ %@ of %@.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), repeatValue.frequency, indexValue, day, month)
             }
         }
         return descriptionText
@@ -150,7 +192,7 @@ class DCSchedulingHelper: NSObject {
             }
             if let number = Int(repeatValue.eachValue) {
                 let convertedNumber = NSNumber(integer:number)
-                print(convertedNumber)
+                DDLogDebug("\(convertedNumber)")
                 let ordinal = NSString.ordinalNumberFormat(convertedNumber)
                 eachValue = ordinal
             }
@@ -187,6 +229,14 @@ class DCSchedulingHelper: NSObject {
       }
        return EMPTY_STRING
     }
-
+    
+    static func numbersArrayWithMaximumCount(maxCount : NSInteger) -> NSMutableArray {
+        
+        let numbersArray = NSMutableArray()
+        for number : NSInteger in 1...maxCount {
+            [numbersArray.addObject(number)]
+        }
+        return numbersArray;
+    }
     
 }

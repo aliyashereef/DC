@@ -86,3 +86,15 @@ enum ObservationTabularViewRow:Int
     }
 }
 
+enum GraphDisplayView:Int
+{
+    case Day = 1 , Week , Month
+    
+    static var count: Int {  // I called this "maximumRawValue" in the post
+        var max: Int = 0
+        while let _ = self.init(rawValue: ++max) {}
+        return max
+    }
+}
+
+

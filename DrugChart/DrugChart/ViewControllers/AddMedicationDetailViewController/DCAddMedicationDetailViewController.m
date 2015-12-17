@@ -21,7 +21,6 @@
 #define INITIAL_SECTION_HEIGHT                  0.0f
 #define SECTION_HEIGHT                          10.0f
 
-#define NETHERLANDS_LOCALE       @"NL"
 #define TIME_KEY                 @"time"
 #define SELECTED_KEY             @"selected"
 
@@ -347,7 +346,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return (_detailType == eOverrideReason ? ROW_HEIGHT_OVERRIDE : ROW_HEIGHT_DEFAULT);
+    return (_detailType == eOverrideReason ? self.view.frame.size.height : ROW_HEIGHT_DEFAULT);
 }
 
 #pragma mark - Action Methods

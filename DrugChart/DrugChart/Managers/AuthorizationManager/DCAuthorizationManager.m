@@ -39,7 +39,7 @@
     NSError *error = nil;
     HTMLParser *parser = [[HTMLParser alloc] initWithString:htmlString error:&error];
     if (error) {
-        DCDebugLog(@"Error: %@", error);
+        DDLogError(@"Error: %@", error);
         return;
     }
     HTMLNode *bodyNode = [parser body];
@@ -48,12 +48,12 @@
         NSString *inputNodeName = [inputNode getAttributeNamed:NAME_KEY];
         if ([inputNodeName isEqualToString:ACCESS_TOKEN]) {
             NSString *accessToken = [inputNode getAttributeNamed:VALUE_KEY];
-            NSLog(@"ACCESS TOKEN %@",accessToken);
+            DDLogVerbose(@"ACCESS TOKEN %@",accessToken);
             [[DCKeyChainManager sharedKeyChainManager] saveToken:accessToken forKey:kUserAccessToken];
         }
         if ([inputNodeName isEqualToString:ID_TOKEN]) {
             NSString *idToken = [inputNode getAttributeNamed:VALUE_KEY];
-            NSLog(@"COOKIE %@",idToken);
+            DDLogVerbose(@"COOKIE %@",idToken);
             [[DCKeyChainManager sharedKeyChainManager] saveToken:idToken forKey:kUserIdToken];
             [self saveRoleProfileFromIdentityToken];
         }

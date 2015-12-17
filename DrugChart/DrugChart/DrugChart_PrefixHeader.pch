@@ -25,6 +25,8 @@
 #import "DCFontUtility.h"
 #import "DCDateUtility.h"
 #import "DCEnumerations.h"
+#import <CocoaLumberjack/CocoaLumberjack.h>
+#import "DDLog.h"
 
 #define DCAPPDELEGATE (DCAppDelegate *)[[UIApplication sharedApplication] delegate]
 
@@ -36,6 +38,12 @@
 #define DCReleaseLog(x, ...)
 #endif
 
+#endif
+
+#ifdef DEBUG
+static const int ddLogLevel = DDLogLevelVerbose;
+#else
+static const int ddLogLevel = DDLogLevelError;
 #endif
 
 #endif

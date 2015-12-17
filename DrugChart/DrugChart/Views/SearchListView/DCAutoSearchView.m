@@ -107,7 +107,7 @@
         [_autoFillTableView reloadData];
     }
     @catch (NSException *exception) {
-        DCDebugLog(@"Exception raised %@", exception.description);
+        DDLogError(@"Exception raised %@", exception.description);
         [_activityIndicator stopAnimating];
     }
 }

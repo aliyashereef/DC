@@ -73,7 +73,7 @@
             
         }
         @catch (NSException *exception) {
-            DCDebugLog(@"Issue in setting wards model: Error: %@", exception.description);
+            DDLogError(@"Issue in setting wards model: Error: %@", exception.description);
         }
     }
     return self;

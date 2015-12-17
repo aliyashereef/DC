@@ -16,6 +16,11 @@ typedef NS_ENUM(NSUInteger, DCWindowState) {
     fullWindow,
 };
 
+typedef NS_ENUM(NSUInteger, DCScreenOrientation) {
+    portrait,
+    landscape,
+};
+
 @interface DCAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
@@ -29,6 +34,8 @@ typedef NS_ENUM(NSUInteger, DCWindowState) {
 @property (strong, nonatomic) NSString *authorizeURL;
 
 @property DCWindowState windowState;
+
+@property DCScreenOrientation screenOrientation;
 
 - (BOOL)isNetworkReachable;
 

@@ -192,6 +192,8 @@
 #define DOSE_DETAIL_CELL_ID @"dosageDetailCell"
 #define DOSE_DETAIL_DISPLAY_CELL_ID @"dosageDetailDisplay"
 #define ADD_NEW_VALUE_CELL_ID @"newDosageCell"
+#define SCHEDULING_TIME_CELL_ID @"SchedulingTimeCell"
+#define SCHEDULING_DATE_PICKER_CELL_ID @"SchedulingDatePickerCellId"
 
 // title for views
 #define INPATIENT_TITLE @"In Patients"
@@ -344,6 +346,10 @@
 
 #define RADIANS(degrees) ((degrees * M_PI) / 180.0)
 
+//Netherland locale
+
+#define NETHERLANDS_LOCALE       @"NL"
+
 
 //webservice error codes
 
@@ -389,6 +395,16 @@
 #define MONTHS @"months"
 #define YEAR @"year"
 #define YEARS @"years"
+#define HOUR @"hour"
+#define HOURS @"hours"
+#define MINUTE @"minute"
+#define MINUTES @"minutes"
+#define DAYS_TITLE @"Days"
+#define HOURS_TITLE @"Hours"
+#define MINUTES_TITLE @"Minutes"
+#define SINGLE_DAY @"1 day"
+#define SINGLE_WEEK @"1 week"
+#define SINGLE_MONTH @"1 month"
 
 //Roles
 

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
         <!--Patient Menu View Controller-->
@@ -27,7 +28,7 @@
                                         <rect key="frame" x="0.0" y="1" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Fib-11-BqO" id="FhU-xs-OrZ">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="59"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <animations/>
                                         </tableViewCellContentView>
@@ -127,11 +128,11 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6Sg-nn-bOF" id="ToA-vp-Jlg">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Vital Signs" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="EOb-Zg-F2o">
-                                                    <rect key="frame" x="15" y="0.0" width="325" height="43"/>
+                                                    <rect key="frame" x="15" y="0.0" width="325" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -150,11 +151,11 @@
                                         <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Huv-4y-uq4" id="r7D-mg-tfE">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Comma Score" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Jyk-wj-XYG">
-                                                    <rect key="frame" x="15" y="0.0" width="325" height="43"/>
+                                                    <rect key="frame" x="15" y="0.0" width="325" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -182,6 +183,55 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aTh-Ip-v49" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1402.5" y="-27.5"/>
+        </scene>
+        <!--Tabular View Controller-->
+        <scene sceneID="J69-ua-pe3">
+            <objects>
+                <viewController id="4TR-Tx-lBR" customClass="TabularViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="oN5-BZ-3x3"/>
+                        <viewControllerLayoutGuide type="bottom" id="hc7-vR-Q9t"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="eb5-e0-AW2">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hfR-Pv-o9e">
+                                <rect key="frame" x="0.0" y="574" width="375" height="44"/>
+                                <items>
+                                    <barButtonItem title="Sort" id="nXN-bU-gVT">
+                                        <connections>
+                                            <action selector="showCalendar" destination="4TR-Tx-lBR" id="D0n-fx-eme"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Wf1-jR-zYx">
+                                <rect key="frame" x="0.0" y="64" width="375" height="514"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewLayout key="collectionViewLayout" id="nTm-uH-yDJ" customClass="CustomCollectionViewLayout" customModule="DrugChart" customModuleProvider="target"/>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="Wf1-jR-zYx" secondAttribute="trailing" constant="-20" id="8tb-e4-YQd"/>
+                            <constraint firstItem="Wf1-jR-zYx" firstAttribute="leading" secondItem="eb5-e0-AW2" secondAttribute="leadingMargin" constant="-20" id="9Mn-Lq-Mzs"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="hfR-Pv-o9e" secondAttribute="trailing" constant="-20" id="G7e-JA-wUI"/>
+                            <constraint firstItem="hfR-Pv-o9e" firstAttribute="top" secondItem="Wf1-jR-zYx" secondAttribute="bottom" constant="-4" id="HPM-9m-kZU"/>
+                            <constraint firstItem="Wf1-jR-zYx" firstAttribute="top" secondItem="oN5-BZ-3x3" secondAttribute="bottom" id="RmF-fC-d1A"/>
+                            <constraint firstItem="hc7-vR-Q9t" firstAttribute="top" secondItem="Wf1-jR-zYx" secondAttribute="bottom" constant="40" id="YmM-4E-mAt"/>
+                            <constraint firstItem="hfR-Pv-o9e" firstAttribute="leading" secondItem="eb5-e0-AW2" secondAttribute="leadingMargin" constant="-20" id="axX-93-pLf"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="collectionView" destination="Wf1-jR-zYx" id="bY9-6V-uPC"/>
+                        <outlet property="sortMenuItem" destination="nXN-bU-gVT" id="IMe-fK-LDf"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="k2J-ka-Xjr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1402.5" y="711.5"/>
         </scene>
         <!--Calendar View Controller-->
         <scene sceneID="efF-Ev-SBK">
@@ -227,7 +277,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jze-Mu-8IP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1431.5" y="696.5"/>
+            <point key="canvasLocation" x="1803.5" y="1141.5"/>
         </scene>
         <!--Comma Score-->
         <scene sceneID="n9p-SU-M52">
@@ -290,12 +340,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="hV8-Kr-KP1">
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="hV8-Kr-KP1">
                                 <rect key="frame" x="122" y="72" width="145" height="29"/>
                                 <animations/>
                                 <segments>
-                                    <segment title="Graphical"/>
-                                    <segment title="Tabular"/>
+                                    <segment title="Day"/>
+                                    <segment title="Week"/>
+                                    <segment title="Month"/>
                                 </segments>
                                 <connections>
                                     <action selector="indexChange:" destination="0Ui-sx-cxg" eventType="valueChanged" id="vfB-tT-rAi"/>
@@ -319,13 +370,20 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Observation Chart" id="gql-ip-e6Y">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="mhF-6M-N48">
-                            <connections>
-                                <segue destination="B3U-co-ycx" kind="popoverPresentation" popoverAnchorBarButtonItem="mhF-6M-N48" id="iyF-wM-JH9">
-                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                </segue>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="add" id="mhF-6M-N48">
+                                <connections>
+                                    <segue destination="B3U-co-ycx" kind="popoverPresentation" popoverAnchorBarButtonItem="mhF-6M-N48" id="iyF-wM-JH9">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem image="TabularView" id="YWm-AX-dKn">
+                                <connections>
+                                    <segue destination="4TR-Tx-lBR" kind="show" id="Wl8-kJ-5SZ"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
@@ -397,4 +455,7 @@
             <point key="canvasLocation" x="1989" y="-62"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="TabularView" width="32" height="32"/>
+    </resources>
 </document>

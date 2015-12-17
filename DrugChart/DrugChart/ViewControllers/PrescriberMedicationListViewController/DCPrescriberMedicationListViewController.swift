@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CocoaLumberjack
 
 let CELL_IDENTIFIER = "prescriberIdentifier"
 
@@ -32,9 +33,10 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     var patientId : NSString = EMPTY_STRING
     var panGestureDirection : PanDirection = PanDirection.atCenter
     let existingStatusViews : NSMutableArray = []
-    
+    var isEditMode : Bool = false
     var webRequestCancelled = false
-    
+    var calendarCellIsMoving = true
+    var selectedIndexPath : NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
     let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
     
     required init?(coder aDecoder: NSCoder) {
@@ -105,7 +107,6 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     
     func reloadMedicationListWithDisplayArray (displayArray: NSMutableArray) {
 
-        //let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
         displayMedicationListArray = NSMutableArray.init(array: displayArray)
         medicationTableView?.reloadData()
     }
@@ -119,7 +120,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     
     func todayButtonClicked () {
         
-        // currently today works only in full screen and 2/3rd screen.w
+        self.resetMedicationSlotCellsOnQuickSwipe()
         if (appDelegate.windowState == DCWindowState.fullWindow ||
             appDelegate.windowState == DCWindowState.twoThirdWindow) {
                 let index = (appDelegate.windowState == DCWindowState.fullWindow) ? 7 : 4
@@ -149,30 +150,30 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     func manageActionForPanGesture (panGestureRecognizer : UIPanGestureRecognizer) {
         
         // translate table view
-       // let parentView : PrescriberMedicationViewController = self.parentViewController as! PrescriberMedicationViewController
-        //if (parentView.isLoading == false) {
-            let translation : CGPoint = panGestureRecognizer.translationInView(self.view.superview)
-            let velocity : CGPoint = panGestureRecognizer.velocityInView(self.view)
-            let indexPathArray : [NSIndexPath] = medicationTableView!.indexPathsForVisibleRows!
-            var panEnded = false
-            if (panGestureRecognizer.state == UIGestureRecognizerState.Ended) {
-                panEnded = true
+        let translation : CGPoint = panGestureRecognizer.translationInView(self.view.superview)
+        let velocity : CGPoint = panGestureRecognizer.velocityInView(self.view)
+        let indexPathArray : [NSIndexPath] = medicationTableView!.indexPathsForVisibleRows!
+        var panEnded = false
+        if (panGestureRecognizer.state == UIGestureRecognizerState.Ended) {
+            panEnded = true
+        }
+        // translate week view
+        for var count = 0; count < indexPathArray.count; count++ {
+            let indexPath = indexPathArray[count]
+            let medicationCell = medicationTableView?.cellForRowAtIndexPath(indexPath) as? PrescriberMedicationTableViewCell
+            var isLastCell : Bool = false
+            if (count == indexPathArray.count - 1) {
+                isLastCell = true
             }
-            // translate week view
-            if let parentDelegate = self.delegate {
+            self.movePrescriberCell(medicationCell!, xTranslation: translation.x, xVelocity: velocity.x, panEnded: panEnded, isLastCell:isLastCell)
+        }
+        if let parentDelegate = self.delegate {
+            if (calendarCellIsMoving) {
                 parentDelegate.prescriberTableViewPannedWithTranslationParameters(translation.x, xVelocity : velocity.x, panEnded: panEnded)
             }
-            for var count = 0; count < indexPathArray.count; count++ {
-                let indexPath = indexPathArray[count]
-                let medicationCell = medicationTableView?.cellForRowAtIndexPath(indexPath) as? PrescriberMedicationTableViewCell
-                var isLastCell : Bool = false
-                if (count == indexPathArray.count - 1) {
-                    isLastCell = true
-                }
-                self.movePrescriberCell(medicationCell!, xTranslation: translation.x, xVelocity: velocity.x, panEnded: panEnded, isLastCell:isLastCell)
-            }
-            panGestureRecognizer.setTranslation(CGPointMake(0, 0), inView: panGestureRecognizer.view)
-      //  }
+        }
+        
+        panGestureRecognizer.setTranslation(CGPointMake(0, 0), inView: panGestureRecognizer.view)
     }
     
     func movePrescriberCell(medicationCell : PrescriberMedicationTableViewCell,
@@ -186,6 +187,10 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         let valueToTranslate = medicationCell.leadingSpaceMasterToContainerView.constant + xTranslation;
         if (valueToTranslate >= -calendarWidth && valueToTranslate <= calendarWidth) {
             medicationCell.leadingSpaceMasterToContainerView.constant = medicationCell.leadingSpaceMasterToContainerView.constant + xTranslation;
+            calendarCellIsMoving = true
+        }
+        else {
+            calendarCellIsMoving = false
         }
         if (panEnded == true) {
             if (xVelocity > 0) {
@@ -206,10 +211,6 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             let panGesture = gestureRecognizer as? UIPanGestureRecognizer
             let translation : CGPoint = panGesture!.translationInView(panGesture?.view);
             if (fabs(translation.x) > fabs(translation.y)) {
-//                let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
-//                webRequestCancelled = true
-//                self.resetMedicationSlotCellsOnQuickSwipe()
-//                parentViewController.cancelPreviousMedicationListFetchRequest()
                 return true;
             }
         }
@@ -248,12 +249,11 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             }
             medicationCell.layoutIfNeeded()
             }) { (Bool) -> Void in
-                
                 if isLastCell {
                     if ( medicationCell.leadingSpaceMasterToContainerView.constant == calendarWidth) {
                         autoreleasepool({ () -> () in
                             parentViewController.modifyStartDayAndWeekDates(false)
-                            self.displayNextSetOfAdministrationDetails()
+                            self.displayNextSetOfAdministrationDetails(false)
                         })
                     } else {
                         medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
@@ -287,7 +287,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                     if (medicationCell.leadingSpaceMasterToContainerView.constant == -calendarWidth) {
                         autoreleasepool({ () -> () in
                             parentViewController.modifyStartDayAndWeekDates(true)
-                            self.displayNextSetOfAdministrationDetails()
+                            self.displayNextSetOfAdministrationDetails(true)
                         })
                     } else {
                         medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
@@ -297,7 +297,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         }
     }
     
-    func displayNextSetOfAdministrationDetails () {
+    func displayNextSetOfAdministrationDetails (isNextSet: Bool) {
         
         let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
         let dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC)))
@@ -319,13 +319,6 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         
     }
     
-    func resetCellToOriginalConstraints(medicationCell : PrescriberMedicationTableViewCell) {
-        
-        print("***** Rest to Original constraints ****")
-        medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
-        medicationCell.layoutIfNeeded()
-    }
-    
     func resetMedicationListCellsToOriginalPositionAfterCalendarSwipe() {
         
         if (displayMedicationListArray.count > 0) {
@@ -341,13 +334,9 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
 
     func modifyParentViewOnSwipeEnd (parentViewController : DCPrescriberMedicationViewController) {
         
-        //parentViewController.updatePrescriberMedicationListDetails()
         parentViewController.modifyWeekDatesInCalendarTopPortion()
         parentViewController.reloadCalendarTopPortion()
-        //parentViewController.cancelPreviousMedicationListFetchRequest()
         parentViewController.fetchMedicationListForPatientWithCompletionHandler { (Bool) -> Void in
-//            medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
-//            medicationCell.layoutIfNeeded()
             self.webRequestCancelled = false
             self.resetMedicationListCellsToOriginalPositionAfterCalendarSwipe()
         }
@@ -495,6 +484,19 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         return medicationSlotsArray
     }
     
+    func swipeBackMedicationCellsInTableView() {
+        
+        for (index,_) in displayMedicationListArray.enumerate(){
+            let indexPath = NSIndexPath(forRow: index, inSection: 0)
+            if indexPath == selectedIndexPath {
+                continue
+            }
+            let medicationCell = medicationTableView?.cellForRowAtIndexPath(indexPath)
+                as? PrescriberMedicationTableViewCell
+            medicationCell?.swipeMedicationDetailViewToRight()
+        }
+    }
+    
     //MARK - DCMedicationAdministrationStatusProtocol delegate implementation
     
     func administerMedicationWithMedicationSlots (medicationSLotDictionary: NSDictionary, atIndexPath indexPath: NSIndexPath ,withWeekDate date : NSDate) {
@@ -506,6 +508,11 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     
     func stopMedicationForSelectedIndexPath(indexPath: NSIndexPath) {
         deleteMedicationAtIndexPath(indexPath)
+    }
+    
+    func setIndexPathSelected(indexPath : NSIndexPath) {
+        selectedIndexPath = indexPath
+        swipeBackMedicationCellsInTableView()
     }
     
     func editMedicationForSelectedIndexPath(indexPath: NSIndexPath) {

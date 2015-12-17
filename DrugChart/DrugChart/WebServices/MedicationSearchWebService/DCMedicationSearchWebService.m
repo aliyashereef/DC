@@ -36,7 +36,7 @@ static NSString *const kDCMedicationBaseUrl = @"/medication?name";
             callBackHandler (searchListArray, nil);
         }
         @catch (NSException *exception) {
-            NSLog(@"Exception in parsing medication search list: %@", exception);
+            DDLogError(@"Exception in parsing medication search list: %@", exception);
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
