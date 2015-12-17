@@ -1271,9 +1271,10 @@
     
     if (isInstruction) {
         self.selectedMedication.instruction = instructions;
-    } else {
-        self.selectedMedication.scheduling.schedulingDescription = instructions;
     }
+//    else {
+//        self.selectedMedication.scheduling.schedulingDescription = instructions;
+//    }
 }
 
 - (void)configureInstructionForMedication {

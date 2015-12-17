@@ -83,30 +83,63 @@ class DCSchedulingHelper: NSObject {
         }
     }
     
+    static func includeStartAndEndTimeInIntervalDescriptionForInterval(interval : DCInterval) -> Bool {
+        
+        //check to determine if start and end time is to be included in description
+        return (interval.hasStartAndEndDate == true && interval.startTime != nil && interval.endTime != nil)
+    }
+    
+    static func scheduleDescriptionForIntervalValue(interval : DCInterval) -> NSString {
+        
+        let descriptionText = NSMutableString(string: NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
+        switch interval.repeatFrequencyType {
+        case DAYS_TITLE :
+            if (interval.daysCount == "1") {
+                descriptionText.appendFormat(" %@", DAY)
+            } else {
+                descriptionText.appendFormat(" %@ %@", interval.daysCount, DAYS)
+            }
+        case HOURS_TITLE :
+            if (interval.hoursCount == "1") {
+                descriptionText.appendFormat(" %@", HOUR)
+            } else {
+                descriptionText.appendFormat(" %@ %@", interval.hoursCount, HOURS)
+            }
+        case MINUTES_TITLE :
+            if (interval.minutesCount == "1") {
+                descriptionText.appendFormat(" %@", MINUTE)
+            } else {
+                descriptionText.appendFormat(" %@ %@", interval.minutesCount, MINUTES)
+            }
+        default :
+            break
+        }
+        if (includeStartAndEndTimeInIntervalDescriptionForInterval(interval) == true) {
+            descriptionText.appendFormat(" between %@ and %@", interval.startTime, interval.endTime)
+        }
+        descriptionText.appendString(DOT)
+        return descriptionText
+    }
+    
     static func scheduleDescriptionForReapeatValue(repeatValue : DCRepeat) -> NSMutableString {
         
         var descriptionText : NSMutableString = NSMutableString()
         switch repeatValue.repeatType {
-        case DAILY :
-            if (repeatValue.frequency == SINGLE_DAY) {
-                descriptionText = NSMutableString(format: "%@ day.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
-            } else {
+            case DAILY :
+                if (repeatValue.frequency == SINGLE_DAY) {
+                    descriptionText = NSMutableString(format: "%@ day.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
+                } else {
+                    descriptionText = NSMutableString(format: "%@ %@", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), repeatValue.frequency)
+                }
+            case WEEKLY :
+                descriptionText = descriptionTextForWeeklySpecificTimesSchedulingForRepeatValue(repeatValue)
+            case MONTHLY:
+                descriptionText = descriptionTextForMonthlySpecificTimesSchedulingForRepeatValue(repeatValue)
+            case YEARLY:
+                descriptionText = descriptionTextForYearlySpecificTimesSchedulingForRepeatValue(repeatValue)
+            default:
                 descriptionText = NSMutableString(format: "%@ %@", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), repeatValue.frequency)
-            }
-            break
-        case WEEKLY :
-            descriptionText = descriptionTextForWeeklySpecificTimesSchedulingForRepeatValue(repeatValue)
-            break
-        case MONTHLY:
-            descriptionText = descriptionTextForMonthlySpecificTimesSchedulingForRepeatValue(repeatValue)
-            break
-        case YEARLY:
-            descriptionText = descriptionTextForYearlySpecificTimesSchedulingForRepeatValue(repeatValue)
-            break
-        default:
-            descriptionText = NSMutableString(format: "%@ %@", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), repeatValue.frequency)
-            break
-            }
+        }
         return descriptionText
     }
     

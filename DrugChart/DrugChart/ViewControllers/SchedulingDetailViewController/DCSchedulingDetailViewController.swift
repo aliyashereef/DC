@@ -71,7 +71,8 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
         
         //set view properties and values
         //calculate header view height
-        headerHeight = DCUtility.textViewSizeWithText(self.scheduling?.schedulingDescription, maxWidth: HEADER_VIEW_LABEL_MAX_WIDTH, font: UIFont.systemFontOfSize(13.0)).height + 10
+        let schedulingDescription = (self.scheduling?.type == SPECIFIC_TIMES) ? self.scheduling?.specificTimes?.specificTimesDescription : self.scheduling?.interval?.intervalDescription
+        headerHeight = DCUtility.textViewSizeWithText(schedulingDescription, maxWidth: HEADER_VIEW_LABEL_MAX_WIDTH, font: UIFont.systemFontOfSize(13.0)).height + 10
         detailTableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
         configureNavigationView()
     }
@@ -128,11 +129,11 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
                     self.scheduling?.specificTimes?.repeatObject?.isEachValue = true
                     self.scheduling?.specificTimes?.repeatObject?.onTheValue = EMPTY_STRING
                 }
+                self.schedulingCompletion(self.scheduling)
+                self.detailTableView.reloadData()
             } else {
                 self.updateSchedulingDetailsForSelectedPickerType(pickerType, selectedValue: value!)
             }
-            self.schedulingCompletion(self.scheduling)
-            self.detailTableView.reloadData()
         }
         return pickerCell!
     }
@@ -181,12 +182,14 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
             default :
                 break
         }
+        self.schedulingCompletion(self.scheduling)
+        self.detailTableView.reloadData()
     }
     
     func updateAdministrationTimesArrayForSelectedPickerType(pickerType : PickerType) {
         
         //calculate adminstration times in bg
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+        //dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
             if (pickerType == eDayCount) {
                 if (self.scheduling?.interval?.startTime != nil) {
                     self.previewArray?.addObject((self.scheduling?.interval?.startTime)!)
@@ -206,7 +209,7 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
                     delegate.updatedIntervalPreviewArray(timesArray)
                 }
             }
-        }
+       // }
     }
     
     func schedulingTypeCellAtIndexPath(indexPath : NSIndexPath) -> DCSchedulingCell {
@@ -437,11 +440,11 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        if (self.detailType! == eDetailSpecificTimesRepeatType) {
+        //if (self.detailType! == eDetailSpecificTimesRepeatType) {
             return 2
-        } else {
-            return 1
-        }
+//        } else {
+//            return 1
+//        }
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -457,18 +460,20 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
             return rowCount
         } else {
             var rowCount : NSInteger = 0
-            if (self.scheduling?.type == SPECIFIC_TIMES) {
-                if (self.scheduling?.specificTimes?.repeatObject?.repeatType == WEEKLY) {
-                    rowCount = WEEK_DAYS_COUNT
-                } else if (self.scheduling?.specificTimes?.repeatObject?.repeatType == MONTHLY || self.scheduling?.specificTimes?.repeatObject?.repeatType == YEARLY) {
-                    rowCount = 2
+            if (self.detailType! == eDetailSpecificTimesRepeatType) {
+                if (self.scheduling?.type == SPECIFIC_TIMES) {
+                    if (self.scheduling?.specificTimes?.repeatObject?.repeatType == WEEKLY) {
+                        rowCount = WEEK_DAYS_COUNT
+                    } else if (self.scheduling?.specificTimes?.repeatObject?.repeatType == MONTHLY || self.scheduling?.specificTimes?.repeatObject?.repeatType == YEARLY) {
+                        rowCount = 2
+                    }
+                    if (tableViewHasInlinePickerForSection(section)) {
+                        rowCount++
+                    }
+                } else {
+                    //interval type
+                    rowCount = 3
                 }
-                if (tableViewHasInlinePickerForSection(section)) {
-                    rowCount++
-                }
-            } else {
-                //interval type
-                rowCount = 3
             }
              return rowCount
         }
@@ -547,9 +552,10 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
                         }
                     }
                  }
-                self.detailTableView.beginUpdates()
-                self.detailTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
-                self.detailTableView.endUpdates()
+//                self.detailTableView.beginUpdates()
+//                self.detailTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
+//                self.detailTableView.endUpdates()
+                self.detailTableView.reloadData()
                 let dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(0.14 * Double(NSEC_PER_SEC)))
                 dispatch_after(dispatchTime, dispatch_get_main_queue(), {
                     // your function here
@@ -594,27 +600,35 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
-        if (self.detailType! != eDetailSchedulingType) {
+       // if (self.detailType! != eDetailSchedulingType) {
             if (section == 1) {
                 return (headerHeight > HEADER_VIEW_MIN_HEIGHT) ? headerHeight : HEADER_VIEW_MIN_HEIGHT
             }
-        }
+       // }
         return 0
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        if (self.detailType! != eDetailSchedulingType) {
+       // if (self.detailType! != eDetailSchedulingType) {
             if (section == 1) {
                 let headerView = NSBundle.mainBundle().loadNibNamed(SCHEDULING_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCSchedulingHeaderView
-                if let repeatObject = self.scheduling?.specificTimes?.repeatObject {
-                    headerView?.populateMessageLabelWithRepeatValue(repeatObject)
-                    scheduling?.schedulingDescription = headerView?.messageLabel.text;
+                if (self.detailType! == eDetailIntervalRepeatFrequency) {
+                    if let intervalObject = self.scheduling?.interval {
+                        headerView?.populateMessageLabelForIntervalValue(intervalObject)
+                        self.scheduling?.interval?.intervalDescription = headerView?.messageLabel.text;
+                    }
+                } else {
+                    if let repeatObject = self.scheduling?.specificTimes?.repeatObject {
+                        headerView?.populateMessageLabelWithRepeatValue(repeatObject)
+                        self.scheduling?.specificTimes?.specificTimesDescription = headerView?.messageLabel.text;
+                    }
                 }
+                self.schedulingCompletion(self.scheduling)
                 headerHeight = DCUtility.textViewSizeWithText(headerView?.messageLabel.text, maxWidth: HEADER_VIEW_LABEL_MAX_WIDTH, font: UIFont.systemFontOfSize(13.0)).height + 10
                 return headerView!
             }
-        }
+      //  }
         return nil
     }
     
