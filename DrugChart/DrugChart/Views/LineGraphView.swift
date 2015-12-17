@@ -10,19 +10,8 @@ import UIKit
 
 @IBDesignable class LineGraphView: GraphView {
 
-    @IBInspectable var startColor:UIColor  = UIColor.redColor()
-    @IBInspectable var endColor:UIColor = UIColor.greenColor()
-    //var graphPoints:[Int] = [4,6,4,5,8,3,10]   // they are actually y axis values
-    //var xAxisPoints:[Int] = [60,180,300,420,480,600,690]
     private var xAxisValue:[NSDate]!
     private var yAxisValue:[Double]!
-    var maxXAxis:Int! // by default assume that it is day only graph
-    var drawGraph:Bool = false
-    var displayView:GraphDisplayView!
-    var graphEndDate:NSDate = NSDate()
-    var graphStartDate:NSDate!
-    var graphTitle:String!
-    var displayNoData:Bool  = false
     
         override func drawRect(rect: CGRect) {
             
@@ -31,7 +20,7 @@ import UIKit
             }
             if (self.drawGraph)
             {
-                let width = self.frame.width
+                width = self.frame.width
                 let height = self.frame.height
                 
                 // Draw the graph background
@@ -85,34 +74,10 @@ import UIKit
             }
                 
        
-            // calculate x point
-            let margin:CGFloat = 20.0
-    
-    
-            let columnXPoint = {(column:Int) -> CGFloat in
-                let spacer = (width - margin*2 - 4) / CGFloat(self.maxXAxis - 1)
-                var x:CGFloat = CGFloat(column) * spacer
-                x += margin + 2
-                return x
-            }
-    
-            let columnXLabelPoint = {(column:Int , noOfPoints:Int) -> CGFloat in
-                let spacer = (width - margin*2 - 4) / CGFloat(noOfPoints - 1)
-                var x:CGFloat = CGFloat(column) * spacer
-                x += margin + 2
-                return x
-            }
-    
+           
             // calculate the y points
-            let topBorder:CGFloat = 60
             let bottomBorder:CGFloat = 50
-            let graphHeight = height - topBorder - bottomBorder
-            let maxValue = yAxisValue.maxElement()!
-            let columnYPoint = { (graphPoint:Double) -> CGFloat in
-                var y:CGFloat = CGFloat(graphPoint) / CGFloat(maxValue) * graphHeight
-                y = graphHeight + topBorder - y // locate the point actually on the graph
-                return y
-            }
+            graphHeight = height - topBorder - bottomBorder
     
     
             // setup the point line
@@ -146,12 +111,8 @@ import UIKit
     
             clippingPath.addClip()
     
-            //5) check clipping path temporary code
-            //        UIColor.greenColor().setFill()
-            //        let rectPath = UIBezierPath(rect: self.bounds)
-            //        rectPath.fill()
-    
-            let highestYPoint = columnYPoint(maxValue)
+           
+            let highestYPoint = columnYPoint(maxYAxis)
             startPoint = CGPoint(x:margin , y:highestYPoint)
             endPoint = CGPoint(x:margin , y: self.bounds.height)
     
@@ -193,7 +154,7 @@ import UIKit
             case .Day:
                 for i in 0..<5
                 {
-                    let point = columnXLabelPoint (i,5)
+                    let point = columnXLabelPoint (i,noOfPoints: 5)
                     let label = UILabel(frame: CGRectMake(0,0,200,21))
                     label.center = CGPointMake(point, height - (bottomBorder/2))
                     label.textAlignment = NSTextAlignment.Center
@@ -220,7 +181,7 @@ import UIKit
                 var weekDate:NSDate = graphStartDate!
                 for i in 0..<8  // 7 days a week
                 {
-                    let point = columnXLabelPoint (i,7)
+                    let point = columnXLabelPoint (i,noOfPoints: 7)
                     let label = UILabel(frame: CGRectMake(0,0,200,21))
                     label.center = CGPointMake(point, height - (bottomBorder/2))
                     label.textAlignment = NSTextAlignment.Center
@@ -240,7 +201,7 @@ import UIKit
                 var weekDate:NSDate = graphStartDate!
                 for i in 0..<5  // 7 days a week
                 {
-                    let point = columnXLabelPoint (i,4)
+                    let point = columnXLabelPoint (i,noOfPoints: 4)
                     let label = UILabel(frame: CGRectMake(0,0,200,21))
                     label.center = CGPointMake(point, height - (bottomBorder/2))
                     label.textAlignment = NSTextAlignment.Center
@@ -259,33 +220,20 @@ import UIKit
             default:
                 print("no label")
             }
-          
-            
-           
              // set the bit false again to be used next time
                 self.drawGraph = false
             }
         }
   
-    func calculateMaxXAxis()
-    {
-        switch(displayView!)
+    
+    override func setMaxYAxis() {
+        if(self.yAxisValue != nil && self.yAxisValue.count>0)
         {
-            case .Day:
-                maxXAxis = 24/*Hour*/ * 60 /*Minutes*/
-            case .Week:
-                maxXAxis = 7/*Days*/ *  24/*Hour*/ * 60 /*Minutes*/
-        case .Month:
-            let calendar = NSCalendar.currentCalendar()
-            let noOfDays = calendar.components([.Day], fromDate: graphStartDate, toDate: graphEndDate, options: [])
-                maxXAxis = noOfDays.day /*Days*/ *  24/*Hour*/ * 60 /*Minutes*/
-            default:
-             maxXAxis = 24/*Hour*/ * 60 /*Minutes*/
-            
+            self.maxYAxis = yAxisValue.maxElement()
         }
     }
     
-    override func plot(xAxisValue:[NSDate],yAxisValue:[Double], displayView:GraphDisplayView, graphTitle:String,graphStartDate:NSDate , graphEndDate:NSDate) {
+    override func plotLineGraph(xAxisValue:[NSDate],yAxisValue:[Double], displayView:GraphDisplayView, graphTitle:String,graphStartDate:NSDate , graphEndDate:NSDate) {
         self.graphStartDate = graphStartDate
         self.graphEndDate = graphEndDate
         self.xAxisValue = xAxisValue
@@ -293,7 +241,7 @@ import UIKit
         self.graphTitle = graphTitle
         self.drawGraph = true
         self.displayView = displayView
-        calculateMaxXAxis()
+        calculateMaxXandYAxis()
         self.setNeedsDisplay()
     }
 }

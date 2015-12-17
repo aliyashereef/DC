@@ -13,6 +13,8 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
     @IBOutlet weak var collectionView: UICollectionView!
     var observationList = [VitalSignObservation]()
     let lineChartIdentifier = "ObservationCell"
+    let barChartIdentifier = "BloodPressureCell"
+    
     var graphDisplayView:GraphDisplayView!
     var graphStartDate:NSDate!
     var graphEndDate:NSDate!
@@ -26,11 +28,8 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
         let nibLineChart = UINib(nibName: "LineGraphCell", bundle: nil)
         collectionView.registerNib(nibLineChart, forCellWithReuseIdentifier:lineChartIdentifier )
         
-        let nibLineChart1 = UINib(nibName: "LineGraphCell", bundle: nil)
-        collectionView.registerNib(nibLineChart1, forCellWithReuseIdentifier:"Blood Pressure" )
-        
-        let nibBarChart = UINib(nibName: "BPCollectionViewCell", bundle: nil)
-        collectionView.registerNib(nibBarChart, forCellWithReuseIdentifier: "ObservationBarChartCell")
+        let nibBarChart = UINib(nibName: "BarGraphCell", bundle: nil)
+        collectionView.registerNib(nibBarChart, forCellWithReuseIdentifier: barChartIdentifier)
     }
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return DashBoardRow.count
@@ -115,20 +114,20 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
                         xAxisValue.append(observation.date)
                     
                  }
-//        case DashBoardRow.BloodPressure.rawValue:
-//            chartType = ChartType.BarChart
-//            cellTitle = "Blood Pressure"
-//            
-//            for observation in observationList
-//            {
-//                if observation.bloodPressure == nil{
-//                    continue
-//                }
-//                    yAxisValue.append((observation.bloodPressure?.systolic)!)
-//                    yAxisValue2.append((observation.bloodPressure?.diastolic)!)
-//                    xAxisValue.append(observation.getFormattedDate())
-//             
-//            }
+        case DashBoardRow.BloodPressure.rawValue:
+            chartType = ChartType.BarChart
+            cellTitle = "Blood Pressure"
+            
+            for observation in observationList
+            {
+                if observation.bloodPressure == nil{
+                    continue
+                }
+                    yAxisValue.append((observation.bloodPressure?.systolic)!)
+                    yAxisValue2.append((observation.bloodPressure?.diastolic)!)
+                    xAxisValue.append(observation.date)
+             
+            }
         default:
             chartType = ChartType.None
         }
@@ -138,21 +137,17 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
         {
         case ChartType.LineChart:
             let cell=collectionView.dequeueReusableCellWithReuseIdentifier(lineChartIdentifier, forIndexPath: indexPath) as! LineGraphCell
-            cell.drawGraph(xAxisValue, yAxisValue: yAxisValue , displayView: graphDisplayView ,graphTitle: cellTitle,graphStartDate:graphStartDate , graphEndDate:graphEndDate)
+            cell.drawLineGraph(xAxisValue, yAxisValue: yAxisValue , displayView: graphDisplayView ,graphTitle: cellTitle,graphStartDate:graphStartDate , graphEndDate:graphEndDate)
             return cell
-//        case ChartType.BarChart:
-//            let cell=collectionView.dequeueReusableCellWithReuseIdentifier("ObservationBarChartCell", forIndexPath: indexPath) as! BPCollectionViewCell
-//           
-//            cell.configureCell(cellTitle)
-//            
-//            if yAxisValue.count>0
-//            {
-//                cell.drawChart(xAxisValue,value1: yAxisValue,value2: yAxisValue2)
-//            }
-//            return cell
+        case ChartType.BarChart:
+            let cell=collectionView.dequeueReusableCellWithReuseIdentifier(barChartIdentifier, forIndexPath: indexPath) as! BarGraphCell
+            
+            cell.drawBarGraph(xAxisValue, yAxisMinValue: yAxisValue2 ,yAxisMaxValue: yAxisValue, displayView: graphDisplayView ,graphTitle: cellTitle,graphStartDate:graphStartDate , graphEndDate:graphEndDate)
+            
+            return cell
         default:
             let cell=collectionView.dequeueReusableCellWithReuseIdentifier(lineChartIdentifier, forIndexPath: indexPath) as! LineGraphCell
-            cell.drawGraph(xAxisValue, yAxisValue: yAxisValue, displayView:graphDisplayView,graphTitle: cellTitle,graphStartDate: graphStartDate , graphEndDate:graphEndDate)
+            cell.drawLineGraph(xAxisValue, yAxisValue: yAxisValue, displayView:graphDisplayView,graphTitle: cellTitle,graphStartDate: graphStartDate , graphEndDate:graphEndDate)
             return cell
         }
         
