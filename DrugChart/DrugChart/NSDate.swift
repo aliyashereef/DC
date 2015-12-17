@@ -42,6 +42,13 @@ extension NSDate:Comparable{
         return formatter.stringFromDate(self)
     }
     
+    func getFormattedDateTime() -> String
+    {
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy h:mm a"
+        return formatter.stringFromDate(self)
+    }
+    
     func minTime() -> NSDate
     {
         let calendar = NSCalendar.currentCalendar()

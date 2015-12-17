@@ -21,7 +21,7 @@ import UIKit
             if (self.drawGraph)
             {
                 width = self.frame.width
-                let height = self.frame.height
+                height = self.frame.height
                 
                 // Draw the graph background
                 let path = UIBezierPath(roundedRect: self.frame, byRoundingCorners: .AllCorners, cornerRadii: CGSize(width: 8.0, height: 8.0))
@@ -46,37 +46,26 @@ import UIKit
                 
                 
                 //Draw the graph Title
-                let label = UILabel(frame: CGRectMake(0,0,200,21))
-                label.center = CGPointMake(50,20)
-                label.textAlignment = NSTextAlignment.Center
-                label.textColor = UIColor.whiteColor()
-                //label.font =UIFont(name: label.font.fontName, size: 17)
-                label.font = UIFont.boldSystemFontOfSize(16.0)
-                label.text = graphTitle
-                self.addSubview(label)
-                
-                
+                drawGraphTitle()
+                //Draw the normal range
+                drawNormalRangeLabel()
                 
                 if(xAxisValue.count == 0 || yAxisValue.count == 0)
-            {
-                
-                //let point = 10
-                let label = UILabel(frame: CGRectMake(0,0,200,21))
-                label.center = CGPointMake(height/2,width/2)
-                label.textAlignment = NSTextAlignment.Center
-                label.textColor = UIColor.whiteColor()
-                label.text = "No Data"
-                self.addSubview(label)
-                // set the bit false again to be used next time
-                self.drawGraph = false
-                
-                return
-            }
+                {
+                    let label = UILabel(frame: CGRectMake(0,0,200,21))
+                    label.center = CGPointMake(width/2,height/2)
+                    label.textAlignment = NSTextAlignment.Center
+                    label.textColor = UIColor.whiteColor()
+                    label.text = "No Data"
+                    self.addSubview(label)
+                    // set the bit false again to be used next time
+                    self.drawGraph = false
+                    return
+                }
                 
        
            
             // calculate the y points
-            let bottomBorder:CGFloat = 50
             graphHeight = height - topBorder - bottomBorder
     
     
@@ -91,11 +80,13 @@ import UIKit
                 let nextPoint = CGPoint(x:columnXPoint(xAxisValue[i].getDatePart(self.displayView,startDate:graphStartDate)) , y:columnYPoint(yAxisValue[i]))
                 graphPath.addLineToPoint(nextPoint)
             }
-            // graphPath.stroke() // just for testing purpose.
+             graphPath.stroke() // just for testing purpose.
                 
             // add gradient to the graph
-    
-            // create the clipping path for the graph gradient
+            if(yAxisValue.count > 1)// draw the gradient if there is more than one items.
+            {
+            
+                // create the clipping path for the graph gradient
             //1) save the state of current context
             CGContextSaveGState(context)
     
@@ -112,6 +103,7 @@ import UIKit
             clippingPath.addClip()
     
            
+            
             let highestYPoint = columnYPoint(maxYAxis)
             startPoint = CGPoint(x:margin , y:highestYPoint)
             endPoint = CGPoint(x:margin , y: self.bounds.height)
@@ -121,7 +113,10 @@ import UIKit
     
             graphPath.lineWidth = 2.0
             graphPath.stroke()
-    
+                }
+                
+            
+                
             // draw the circle dots on the graph
             for i in 0..<yAxisValue.count
             {
@@ -146,99 +141,71 @@ import UIKit
             color.setStroke()
             linePath.lineWidth = 1.0
             linePath.stroke()
-    
+                
+//                func drawNormalRangeLabel()
+//                {
+//                    let label = UILabel(frame: CGRectMake(0,0,200,21))
+//                    label.center = CGPointMake(110,41)
+//                    label.textAlignment = NSTextAlignment.Left
+//                    label.textColor = UIColor.whiteColor()
+//                    label.font = UIFont(name: label.font.fontName, size: 13)
+//                    label.text = "Normal Range: __"
+//                    self.addSubview(label)
+//                    
+//                }
+//                func drawGraphTitle()
+//                {
+//                    let label = UILabel(frame: CGRectMake(0,0,200,21))
+//                    label.center = CGPointMake(110,20)
+//                    label.textAlignment = NSTextAlignment.Left
+//                    label.textColor = UIColor.whiteColor()
+//                    label.font = UIFont.boldSystemFontOfSize(16.0)
+//                    label.text = graphTitle
+//                    self.addSubview(label)
+//                }
+                
+            // add last entered label
+            var label = UILabel(frame: CGRectMake(0,0,150,20))
+            label.center = CGPointMake(width-75,20)
+            label.textAlignment = NSTextAlignment.Right
+            label.textColor = UIColor.whiteColor()
+            label.font = UIFont.boldSystemFontOfSize(14.0)
+                label.text = latestReadingText == nil ? "" : latestReadingText!
+            self.addSubview(label)
+                
+          
+            // and now the time label
+            label = UILabel(frame: CGRectMake(0,0,150,20))
+            label.center = CGPointMake(width-75,40)
+            label.textAlignment = NSTextAlignment.Right
+            label.textColor = UIColor.whiteColor()
+            label.font = UIFont(name: label.font.fontName, size: 12)
+            label.text = latestReadingDate == nil ? "":latestReadingDate.getFormattedDateTime()
+            self.addSubview(label)
             
             // now add the label on the UI
-            switch(displayView!)
-            {
-            case .Day:
-                for i in 0..<5
-                {
-                    let point = columnXLabelPoint (i,noOfPoints: 5)
-                    let label = UILabel(frame: CGRectMake(0,0,200,21))
-                    label.center = CGPointMake(point, height - (bottomBorder/2))
-                    label.textAlignment = NSTextAlignment.Center
-                    label.textColor = UIColor.whiteColor()
-                    label.font = UIFont(name: label.font.fontName, size: 13)
-                    switch(i)
-                    {
-                    case 0:
-                        label.text = "12 am"
-                    case 1:
-                        label.text = "6 am"
-                    case 2:
-                        label.text = "12 pm"
-                    case 3:
-                        label.text = "6 pm"
-                    default:
-                        label.text = ""
-                    }
-                    //label.transform = CGAffineTransformMakeRotation(CGFloat(-M_PI_2))
-                    self.addSubview(label)
-                }
-            case .Week:
-                
-                var weekDate:NSDate = graphStartDate!
-                for i in 0..<8  // 7 days a week
-                {
-                    let point = columnXLabelPoint (i,noOfPoints: 7)
-                    let label = UILabel(frame: CGRectMake(0,0,200,21))
-                    label.center = CGPointMake(point, height - (bottomBorder/2))
-                    label.textAlignment = NSTextAlignment.Center
-                    label.textColor = UIColor.whiteColor()
-                    label.font = UIFont(name: label.font.fontName, size: 13)
-                    let calendar = NSCalendar.currentCalendar()
-                    let chosenDateComponents = calendar.components([.Day,.Month], fromDate: weekDate)
-                    
-                    label.text = String(format: "%d/%d",chosenDateComponents.day,chosenDateComponents.month)
-                    weekDate =  NSCalendar.currentCalendar().dateByAddingUnit(.Day,
-                    value: 1,
-                    toDate:weekDate ,
-                    options: NSCalendarOptions(rawValue: 0))!
-                    self.addSubview(label)
-                }
-            case .Month:
-                var weekDate:NSDate = graphStartDate!
-                for i in 0..<5  // 7 days a week
-                {
-                    let point = columnXLabelPoint (i,noOfPoints: 4)
-                    let label = UILabel(frame: CGRectMake(0,0,200,21))
-                    label.center = CGPointMake(point, height - (bottomBorder/2))
-                    label.textAlignment = NSTextAlignment.Center
-                    label.textColor = UIColor.whiteColor()
-                    label.font = UIFont(name: label.font.fontName, size: 13)
-                    let calendar = NSCalendar.currentCalendar()
-                    let chosenDateComponents = calendar.components([.Day,.Month], fromDate: weekDate)
-                    
-                    label.text = String(format: "%d/%d",chosenDateComponents.day,chosenDateComponents.month)
-                    weekDate =  NSCalendar.currentCalendar().dateByAddingUnit(.Day,
-                        value: 7,
-                        toDate:weekDate ,
-                        options: NSCalendarOptions(rawValue: 0))!
-                    self.addSubview(label)
-                }
-            default:
-                print("no label")
-            }
+            drawYAxisLabels()
+            drawXAxisLabels()
+           
              // set the bit false again to be used next time
                 self.drawGraph = false
             }
         }
-  
-    
-    override func setMaxYAxis() {
+   override func setMaxYAxis() {
         if(self.yAxisValue != nil && self.yAxisValue.count>0)
         {
             self.maxYAxis = yAxisValue.maxElement()
         }
     }
     
-    override func plotLineGraph(xAxisValue:[NSDate],yAxisValue:[Double], displayView:GraphDisplayView, graphTitle:String,graphStartDate:NSDate , graphEndDate:NSDate) {
+    override func plotLineGraph(xAxisValue:[NSDate],yAxisValue:[Double], displayView:GraphDisplayView, graphTitle:String,graphStartDate:NSDate , graphEndDate:NSDate , latestReadingText:String! , latestReadingDate:NSDate!) {
         self.graphStartDate = graphStartDate
         self.graphEndDate = graphEndDate
         self.xAxisValue = xAxisValue
         self.yAxisValue = yAxisValue
         self.graphTitle = graphTitle
+        self.latestReadingText = latestReadingText
+        self.latestReadingDate = latestReadingDate
         self.drawGraph = true
         self.displayView = displayView
         calculateMaxXandYAxis()

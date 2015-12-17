@@ -18,6 +18,7 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
     var graphDisplayView:GraphDisplayView!
     var graphStartDate:NSDate!
     var graphEndDate:NSDate!
+    var delegate: ObservationDelegate?
     class func instanceFromNib() -> UIView {
         return UINib(nibName: "GraphicalDashBoardView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
     }
@@ -42,6 +43,8 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
         var yAxisValue2 = [Double]()
         var xAxisValue = [NSDate]()
         var cellTitle:String = ""
+        var latestObservationText:String! = nil
+        var latestObservationDate:NSDate! = nil
         
         switch(indexPath.row)
         {
@@ -56,7 +59,12 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
                 }
                     yAxisValue.append((observation.respiratory?.repiratoryRate)!)
                     xAxisValue.append(observation.date)
-                
+            }
+            let latestObservation = delegate?.GetLatestObservation(DashBoardRow.Respiratory)
+            if(latestObservation != nil)
+            {
+                latestObservationText = latestObservation!.respiratory!.repiratoryRate.cleanValue + " breaths/min"
+                latestObservationDate = latestObservation?.date
             }
             
         case DashBoardRow.Temperature.rawValue:
@@ -73,6 +81,12 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
                     xAxisValue.append(observation.date)
                 
             }
+            let latestObservation = delegate?.GetLatestObservation(DashBoardRow.Temperature)
+            if(latestObservation != nil)
+            {
+                latestObservationText = String(latestObservation!.temperature!.value) + " °C"
+                latestObservationDate = latestObservation?.date
+            }
         case DashBoardRow.Pulse.rawValue:
             chartType = ChartType.LineChart
             cellTitle = "Pulse"
@@ -87,6 +101,12 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
                     xAxisValue.append(observation.date)
                 
             }
+            let latestObservation = delegate?.GetLatestObservation(DashBoardRow.Pulse)
+            if(latestObservation != nil)
+            {
+                latestObservationText = latestObservation!.pulse!.pulseRate.cleanValue + " bpm"
+                latestObservationDate = latestObservation?.date
+            }
         case DashBoardRow.SpO2.rawValue:
             chartType = ChartType.LineChart
             cellTitle = "SPO2"
@@ -98,7 +118,12 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
                 }
                     yAxisValue.append((observation.spo2?.spO2Percentage)!)
                     xAxisValue.append(observation.date)
-                
+            }
+            let latestObservation = delegate?.GetLatestObservation(DashBoardRow.SpO2)
+            if(latestObservation != nil)
+            {
+                latestObservationText = String(latestObservation!.spo2!.spO2Percentage) + " %"
+                latestObservationDate = latestObservation?.date
             }
         case DashBoardRow.BM.rawValue:
                 chartType = ChartType.LineChart
@@ -112,8 +137,13 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
                     }
                         yAxisValue.append((observation.bm?.value)!)
                         xAxisValue.append(observation.date)
-                    
                  }
+                let latestObservation = delegate?.GetLatestObservation(DashBoardRow.BM)
+                if(latestObservation != nil)
+                {
+                    latestObservationText = String(latestObservation!.bm!.value)
+                    latestObservationDate = latestObservation?.date
+                }
         case DashBoardRow.BloodPressure.rawValue:
             chartType = ChartType.BarChart
             cellTitle = "Blood Pressure"
@@ -126,7 +156,13 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
                     yAxisValue.append((observation.bloodPressure?.systolic)!)
                     yAxisValue2.append((observation.bloodPressure?.diastolic)!)
                     xAxisValue.append(observation.date)
-             
+            }
+            let latestObservation = delegate?.GetLatestObservation(DashBoardRow.BloodPressure)
+            if(latestObservation != nil)
+            {
+                latestObservationText = String(format:"%@ / %@", latestObservation!.bloodPressure!.systolic.cleanValue, latestObservation!.bloodPressure!.diastolic.cleanValue)
+                
+                latestObservationDate = latestObservation?.date
             }
         default:
             chartType = ChartType.None
@@ -137,7 +173,7 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
         {
         case ChartType.LineChart:
             let cell=collectionView.dequeueReusableCellWithReuseIdentifier(lineChartIdentifier, forIndexPath: indexPath) as! LineGraphCell
-            cell.drawLineGraph(xAxisValue, yAxisValue: yAxisValue , displayView: graphDisplayView ,graphTitle: cellTitle,graphStartDate:graphStartDate , graphEndDate:graphEndDate)
+            cell.drawLineGraph(xAxisValue, yAxisValue: yAxisValue , displayView: graphDisplayView ,graphTitle: cellTitle,graphStartDate:graphStartDate , graphEndDate:graphEndDate ,latestReadingText:latestObservationText , latestReadingDate:latestObservationDate)
             return cell
         case ChartType.BarChart:
             let cell=collectionView.dequeueReusableCellWithReuseIdentifier(barChartIdentifier, forIndexPath: indexPath) as! BarGraphCell
@@ -147,7 +183,7 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
             return cell
         default:
             let cell=collectionView.dequeueReusableCellWithReuseIdentifier(lineChartIdentifier, forIndexPath: indexPath) as! LineGraphCell
-            cell.drawLineGraph(xAxisValue, yAxisValue: yAxisValue, displayView:graphDisplayView,graphTitle: cellTitle,graphStartDate: graphStartDate , graphEndDate:graphEndDate)
+            cell.drawLineGraph(xAxisValue, yAxisValue: yAxisValue, displayView:graphDisplayView,graphTitle: cellTitle,graphStartDate: graphStartDate , graphEndDate:graphEndDate, latestReadingText:"" , latestReadingDate:NSDate())
             return cell
         }
         

@@ -9,9 +9,7 @@
 import UIKit
 
 class BarGraphView: GraphView {
-//        var graphPoints:[Int] = [8,9,10,12,14]  // yAxisMaxValue  // they are actually y axis values
-//        var graphYPoint:[Int] = [2,3,4,6,5]    // yAxisMinValue
-//    
+    
     private var xAxisValue:[NSDate]!
     private var yAxisMinValue:[Double]!
     private var yAxisMaxValue:[Double]!
@@ -24,7 +22,7 @@ class BarGraphView: GraphView {
             if (self.drawGraph)
             {
                 width = self.frame.width
-                let height = self.frame.height
+                height = self.frame.height
                 
                 // Draw the graph background
                 let path = UIBezierPath(roundedRect: self.frame, byRoundingCorners: .AllCorners, cornerRadii: CGSize(width: 8.0, height: 8.0))
@@ -49,23 +47,14 @@ class BarGraphView: GraphView {
                 
                 
                 //Draw the graph Title
-                let label = UILabel(frame: CGRectMake(0,0,200,21))
-                label.center = CGPointMake(70,20)
-                label.textAlignment = NSTextAlignment.Center
-                label.textColor = UIColor.whiteColor()
-                //label.font =UIFont(name: label.font.fontName, size: 17)
-                label.font = UIFont.boldSystemFontOfSize(16.0)
-                label.text = graphTitle
-                self.addSubview(label)
+                drawGraphTitle()
                 
-                
+                //Draw Normal Range Label
                 
                 if(xAxisValue.count == 0 || yAxisMaxValue.count == 0)
                 {
-                    
-                    //let point = 10
                     let label = UILabel(frame: CGRectMake(0,0,200,21))
-                    label.center = CGPointMake(height/2,width/2)
+                    label.center = CGPointMake(width/2,height/2)
                     label.textAlignment = NSTextAlignment.Center
                     label.textColor = UIColor.whiteColor()
                     label.text = "No Data"
@@ -77,8 +66,6 @@ class BarGraphView: GraphView {
                 }
       
             // calculate the y points
-            let topBorder:CGFloat = 60
-            let bottomBorder:CGFloat = 50
             graphHeight = height - topBorder - bottomBorder
             
             /// now draw the line
@@ -90,9 +77,10 @@ class BarGraphView: GraphView {
             let graphPath = UIBezierPath()
             for i in 0..<yAxisMaxValue.count
             {
-                var nextPoint = CGPoint(x:columnXPoint(i),y:columnYPoint(yAxisMaxValue[i]))
+                let xAxis = columnXPoint(xAxisValue[i].getDatePart(self.displayView,startDate:graphStartDate))
+                var nextPoint = CGPoint(x:xAxis,y:columnYPoint(yAxisMaxValue[i]))
                 graphPath.moveToPoint(nextPoint)
-                nextPoint = CGPoint(x:columnXPoint(i) , y:columnYPoint(yAxisMinValue[i]))
+                nextPoint = CGPoint(x:xAxis , y:columnYPoint(yAxisMinValue[i]))
                 graphPath.addLineToPoint(nextPoint)
             }
     
@@ -101,7 +89,7 @@ class BarGraphView: GraphView {
             // draw the circle dots on the graph
             for i in 0..<yAxisMaxValue.count
             {
-                var point = CGPoint(x:columnXPoint(i) , y:columnYPoint(yAxisMaxValue[i]))
+                var point = CGPoint(x:columnXPoint(xAxisValue[i].getDatePart(self.displayView,startDate:graphStartDate)) , y:columnYPoint(yAxisMaxValue[i]))
                 point.x -= 5.0/2
                 point.y -= 5.0/2
                 let circle = UIBezierPath(ovalInRect: CGRect(origin: point, size: CGSize(width: 5.0,height: 5.0)))
@@ -112,12 +100,33 @@ class BarGraphView: GraphView {
             
             for i in 0..<yAxisMinValue.count
             {
-                var point = CGPoint(x:columnXPoint(i) , y:columnYPoint(yAxisMinValue[i]))
+                var point = CGPoint(x:columnXPoint(xAxisValue[i].getDatePart(self.displayView,startDate:graphStartDate)) , y:columnYPoint(yAxisMinValue[i]))
                 point.x -= 5.0/2
                 point.y -= 5.0/2
                 let circle = UIBezierPath(ovalInRect: CGRect(origin: point, size: CGSize(width: 5.0,height: 5.0)))
                 circle.fill()
             }
+                // draw the horizontal lines
+                let linePath = UIBezierPath()
+                // top line
+                linePath.moveToPoint(CGPoint(x:margin,y:topBorder))
+                linePath.addLineToPoint(CGPoint(x:width-margin , y:topBorder))
+                // center line
+                linePath.moveToPoint(CGPoint(x:margin, y:graphHeight/2 + topBorder))
+                linePath.addLineToPoint(CGPoint(x:width-margin , y:graphHeight/2 + topBorder))
+                // bottom line
+                linePath.moveToPoint(CGPoint(x:margin, y:height - bottomBorder))
+                linePath.addLineToPoint(CGPoint(x:width - margin,y:height - bottomBorder))
+                let color = UIColor (white: 1.0 , alpha: 0.3)
+                color.setStroke()
+                linePath.lineWidth = 1.0
+                linePath.stroke()
+                
+                // now add the label on the UI
+                drawYAxisLabels()
+                drawXAxisLabels()
+                self.drawGraph = false
+                
         }
     }
     
@@ -139,9 +148,7 @@ class BarGraphView: GraphView {
             self.drawGraph = true
             self.displayView = displayView
             calculateMaxXandYAxis()
-        
             self.setNeedsDisplay()
-        
     }
     
 }

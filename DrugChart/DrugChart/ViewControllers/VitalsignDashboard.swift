@@ -30,6 +30,7 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         observationList.appendContentsOf(Helper.VitalSignObservationList)
         graphicalDashBoardView = GraphicalDashBoardView.instanceFromNib() as! GraphicalDashBoardView
         Helper.displayInChildView(graphicalDashBoardView, parentView: parentView)
+        graphicalDashBoardView.delegate = self
         swipeGraphDate(false,flipDateMode: true)
         // display the titles
         displayTitle()
@@ -129,6 +130,34 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         self.presentViewController(viewController, animated: false, completion: nil)
     }
     
+    func GetLatestObservation(dataType:DashBoardRow)->VitalSignObservation!
+    {
+        switch(dataType)
+        {
+        case .Respiratory:
+            let filterObject = observationList.filter( { return $0.respiratory != nil } ).last
+            return filterObject
+        case .Temperature:
+            let filterObject = observationList.filter( { return $0.temperature != nil } ).last
+            return filterObject
+        case .Pulse:
+            let filterObject = observationList.filter( { return $0.pulse != nil } ).last
+            return filterObject
+        case .SpO2:
+            let filterObject = observationList.filter( { return $0.spo2 != nil } ).last
+            return filterObject
+        case .BM:
+            let filterObject = observationList.filter( { return $0.bm != nil } ).last
+            return filterObject
+        case .BloodPressure:
+            let filterObject = observationList.filter( { return $0.bloodPressure != nil } ).last
+            return filterObject
+        default:
+            return nil
+        }
+     
+    }
+
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation

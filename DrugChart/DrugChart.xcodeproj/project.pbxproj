@@ -172,6 +172,7 @@
 		1F7EB71A1C21CAC400F6F22F /* BarGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7EB7191C21CAC400F6F22F /* BarGraphView.swift */; };
 		1F7EB71D1C21CB5400F6F22F /* BarGraphCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7EB71B1C21CB5400F6F22F /* BarGraphCell.swift */; };
 		1F7EB71E1C21CB5400F6F22F /* BarGraphCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F7EB71C1C21CB5400F6F22F /* BarGraphCell.xib */; };
+		1F7EB7201C2303A400F6F22F /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7EB71F1C2303A400F6F22F /* Double.swift */; };
 		1FB412681BFB522900D91487 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB412671BFB522900D91487 /* String.swift */; };
 		1FB5D07B1C0751D700F9A2F7 /* ObservationSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB5D07A1C0751D700F9A2F7 /* ObservationSelectionViewController.swift */; };
 		1FB5D07D1C08681F00F9A2F7 /* CommaScoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB5D07C1C08681F00F9A2F7 /* CommaScoreViewController.swift */; };
@@ -568,6 +569,7 @@
 		1F7EB7191C21CAC400F6F22F /* BarGraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarGraphView.swift; sourceTree = "<group>"; };
 		1F7EB71B1C21CB5400F6F22F /* BarGraphCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarGraphCell.swift; sourceTree = "<group>"; };
 		1F7EB71C1C21CB5400F6F22F /* BarGraphCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BarGraphCell.xib; sourceTree = "<group>"; };
+		1F7EB71F1C2303A400F6F22F /* Double.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
 		1FB412671BFB522900D91487 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		1FB5D07A1C0751D700F9A2F7 /* ObservationSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservationSelectionViewController.swift; sourceTree = "<group>"; };
 		1FB5D07C1C08681F00F9A2F7 /* CommaScoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommaScoreViewController.swift; sourceTree = "<group>"; };
@@ -1953,6 +1955,7 @@
 				1FB412671BFB522900D91487 /* String.swift */,
 				1F1977231C05DB1400106023 /* UITextField.swift */,
 				1F5375091C1B13D800D4A64F /* NSDate.swift */,
+				1F7EB71F1C2303A400F6F22F /* Double.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -2911,6 +2914,7 @@
 				0BC3ACB31C0DB70B0028AF03 /* DCSchedulingInitialViewController.swift in Sources */,
 				1FD4FCCA1BF4B7E000B77B94 /* GeneralObservationView.swift in Sources */,
 				1F5374FD1C1AE9FE00D4A64F /* LineGraphView.swift in Sources */,
+				1F7EB7201C2303A400F6F22F /* Double.swift in Sources */,
 				1FD4FD101BF4BBCB00B77B94 /* ObservationDelegate.swift in Sources */,
 				0BBE3B601AA42DC5004CA6E9 /* main.m in Sources */,
 				0BB535861BBA472D0043BC61 /* DCAdministerPickerCell.swift in Sources */,

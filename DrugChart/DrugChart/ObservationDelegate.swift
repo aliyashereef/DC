@@ -15,6 +15,7 @@ protocol ObservationDelegate
     func TakeObservationInput(viewController:UIAlertController)
     func EditObservationViewController(viewController:UIViewController)
     func DateSelected(value:NSDate)
+    func GetLatestObservation(dataType:DashBoardRow)->VitalSignObservation!
 
 }
 
@@ -24,4 +25,5 @@ extension ObservationDelegate
     func TakeObservationInput(viewController:UIAlertController){}
     func EditObservationViewController(viewController:UIViewController){}
     func DateSelected(value:NSDate){}
+    func GetLatestObservation(dataType:DashBoardRow)->VitalSignObservation! { return nil}
 }

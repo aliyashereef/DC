@@ -20,10 +20,14 @@ class GraphView:UIView
     var graphTitle:String!
     var displayNoData:Bool  = false
     var width:CGFloat!
+    var height:CGFloat!
     var margin:CGFloat = 20.0
     var maxYAxis:Double!
     var graphHeight:CGFloat!
     var topBorder:CGFloat = 60
+    var bottomBorder:CGFloat = 50
+    var latestReadingText:String!
+    var latestReadingDate:NSDate!
     
     func calculateMaxXandYAxis()
     {
@@ -66,9 +70,29 @@ class GraphView:UIView
         y = graphHeight + topBorder - y // locate the point actually on the graph
         return y
     }
+    func drawNormalRangeLabel()
+    {
+        let label = UILabel(frame: CGRectMake(0,0,200,21))
+        label.center = CGPointMake(110,41)
+        label.textAlignment = NSTextAlignment.Left
+        label.textColor = UIColor.whiteColor()
+        label.font = UIFont(name: label.font.fontName, size: 13)
+        label.text = "Normal Range: __"
+        self.addSubview(label)
+        
+    }
+    func drawGraphTitle()
+    {
+        let label = UILabel(frame: CGRectMake(0,0,200,21))
+        label.center = CGPointMake(110,20)
+        label.textAlignment = NSTextAlignment.Left
+        label.textColor = UIColor.whiteColor()
+        label.font = UIFont.boldSystemFontOfSize(16.0)
+        label.text = graphTitle
+        self.addSubview(label)
+    }
     
-    
-    func plotLineGraph(xAxisValue:[NSDate],yAxisValue:[Double],displayView:GraphDisplayView, graphTitle:String,graphStartDate:NSDate , graphEndDate:NSDate)
+    func plotLineGraph(xAxisValue:[NSDate],yAxisValue:[Double],displayView:GraphDisplayView, graphTitle:String,graphStartDate:NSDate , graphEndDate:NSDate, latestReadingText:String! , latestReadingDate:NSDate!)
     {
         
     }
@@ -76,5 +100,102 @@ class GraphView:UIView
     func plotBarGraph(xAxisValue:[NSDate],yAxisMinValue:[Double],yAxisMaxValue:[Double],displayView:GraphDisplayView, graphTitle:String,graphStartDate:NSDate , graphEndDate:NSDate)
     {
         
+    }
+    func drawYAxisLabels()
+    {
+        // add y axis line
+        var label = UILabel(frame: CGRectMake(0,0,50,21))
+        label.center = CGPointMake(width,topBorder)
+        label.textAlignment = NSTextAlignment.Left
+        label.textColor = UIColor.whiteColor()
+        label.opaque = true
+        label.font = UIFont(name: label.font.fontName, size: 13)
+        label.text = String(maxYAxis)
+        self.addSubview(label)
+        
+        label = UILabel(frame: CGRectMake(0,0,50,21))
+        label.center = CGPointMake(width,height - bottomBorder)
+        label.textAlignment = NSTextAlignment.Left
+        label.textColor = UIColor.whiteColor()
+        label.opaque = true
+        label.font = UIFont(name: label.font.fontName, size: 13)
+        label.text = "0"
+        self.addSubview(label)
+        
+    }
+    
+    func drawXAxisLabels()
+    {
+        switch(displayView!)
+        {
+        case .Day:
+            for i in 0..<5
+            {
+                let point = columnXLabelPoint (i,noOfPoints: 5)
+                let label = UILabel(frame: CGRectMake(0,0,200,21))
+                label.center = CGPointMake(point, height - (bottomBorder/2))
+                label.textAlignment = NSTextAlignment.Center
+                label.textColor = UIColor.whiteColor()
+                label.font = UIFont(name: label.font.fontName, size: 13)
+                switch(i)
+                {
+                case 0:
+                    label.text = "12 am"
+                case 1:
+                    label.text = "6 am"
+                case 2:
+                    label.text = "12 pm"
+                case 3:
+                    label.text = "6 pm"
+                default:
+                    label.text = ""
+                }
+                //label.transform = CGAffineTransformMakeRotation(CGFloat(-M_PI_2))
+                self.addSubview(label)
+            }
+        case .Week:
+            
+            var weekDate:NSDate = graphStartDate!
+            for i in 0..<8  // 7 days a week
+            {
+                let point = columnXLabelPoint (i,noOfPoints: 7)
+                let label = UILabel(frame: CGRectMake(0,0,200,21))
+                label.center = CGPointMake(point, height - (bottomBorder/2))
+                label.textAlignment = NSTextAlignment.Center
+                label.textColor = UIColor.whiteColor()
+                label.font = UIFont(name: label.font.fontName, size: 13)
+                let calendar = NSCalendar.currentCalendar()
+                let chosenDateComponents = calendar.components([.Day,.Month], fromDate: weekDate)
+                
+                label.text = String(format: "%d/%d",chosenDateComponents.day,chosenDateComponents.month)
+                weekDate =  NSCalendar.currentCalendar().dateByAddingUnit(.Day,
+                    value: 1,
+                    toDate:weekDate ,
+                    options: NSCalendarOptions(rawValue: 0))!
+                self.addSubview(label)
+            }
+        case .Month:
+            var weekDate:NSDate = graphStartDate!
+            for i in 0..<5  // 7 days a week
+            {
+                let point = columnXLabelPoint (i,noOfPoints: 4)
+                let label = UILabel(frame: CGRectMake(0,0,200,21))
+                label.center = CGPointMake(point, height - (bottomBorder/2))
+                label.textAlignment = NSTextAlignment.Center
+                label.textColor = UIColor.whiteColor()
+                label.font = UIFont(name: label.font.fontName, size: 13)
+                let calendar = NSCalendar.currentCalendar()
+                let chosenDateComponents = calendar.components([.Day,.Month], fromDate: weekDate)
+                
+                label.text = String(format: "%d/%d",chosenDateComponents.day,chosenDateComponents.month)
+                weekDate =  NSCalendar.currentCalendar().dateByAddingUnit(.Day,
+                    value: 7,
+                    toDate:weekDate ,
+                    options: NSCalendarOptions(rawValue: 0))!
+                self.addSubview(label)
+            }
+        default:
+            print("no label")
+        }
     }
 }
