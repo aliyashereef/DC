@@ -345,6 +345,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
                     self.scheduling?.interval?.startTime = startTime
                     self.scheduling?.interval?.endTime = "23:00"
                     self.previewArray?.addObject((self.scheduling?.interval?.startTime)!)
+                    self.updatedTimeArray(self.previewArray)
                 }
             }
         }
@@ -628,6 +629,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         dispatch_after(delayTime, dispatch_get_main_queue()) {
             timeCell?.timeSwitch.userInteractionEnabled = true
         }
+        
     }
     
     //MARK: SCheduling Detail Delegate Methods
