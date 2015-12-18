@@ -286,17 +286,16 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         
         //configure scheduling table cell
         let timePickerCell : DCSChedulingTimePickerCell? = schedulingTableView.dequeueReusableCellWithIdentifier(SCHEDULING_DATE_PICKER_CELL_ID) as? DCSChedulingTimePickerCell
+        let currentDateString = DCDateUtility.dateStringFromDate(NSDate(), inFormat: SHORT_DATE_FORMAT)
+        let startTimeString = String(format: "%@ %@", currentDateString, (self.scheduling?.interval?.startTime)!)
         if (indexPath.row == START_TIME_PICKER_ROW_INDEX) {
             timePickerCell!.isStartTimePicker = true
-            timePickerCell?.previousSelectedTime = DCDateUtility.dateFromSourceString(self.scheduling?.interval?.startTime)
+            timePickerCell?.previousSelectedTime = DCDateUtility.dateFromSourceString(startTimeString)
         } else {
             timePickerCell!.isStartTimePicker = false
-            timePickerCell?.previousSelectedTime = DCDateUtility.dateFromSourceString(self.scheduling?.interval?.endTime)
-            if (self.scheduling?.interval?.startTime == nil) {
-                timePickerCell!.schedulingTimePickerView?.minimumDate = NSDate()
-            } else {
-                timePickerCell!.schedulingTimePickerView?.minimumDate = DCDateUtility.dateFromSourceString(self.scheduling?.interval?.startTime)
-            }
+            let endTimeString = String(format: "%@ %@", currentDateString, (self.scheduling?.interval?.endTime)!)
+            timePickerCell!.schedulingTimePickerView?.minimumDate = DCDateUtility.dateFromSourceString(startTimeString)
+            timePickerCell?.previousSelectedTime = DCDateUtility.dateFromSourceString(endTimeString)
         }
         timePickerCell!.timePickerCompletion = { time in
             if (timePickerCell!.isStartTimePicker == true) {
@@ -308,7 +307,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
                 self.scheduling?.interval?.intervalDescription = DCSchedulingHelper.scheduleDescriptionForIntervalValue((self.scheduling?.interval)!) as String
             }
             let descriptionRowIndex = self.schedulingTableView.numberOfRowsInSection(1) - 1
-            // Now just construct the index path
+            // for description index path
             let descriptionIndexPath = NSIndexPath(forRow: descriptionRowIndex, inSection: 1)
             self.schedulingTableView.beginUpdates()
             self.schedulingTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexPath.row - 1, inSection: indexPath.section), descriptionIndexPath], withRowAnimation: .Fade)
