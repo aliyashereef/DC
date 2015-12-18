@@ -33,6 +33,19 @@ extension NSDate:Comparable{
         return startDate.getNoofDays(self) * 24 * 60 + chosenDateComponents.hour * 60 + chosenDateComponents.minute 
     }
 }
+    
+    func getFormattedDay() -> String
+    {
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "dd"
+        return formatter.stringFromDate(self)
+    }
+    func getFormatedDayandMonth() ->String
+    {
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "dd MMM"
+        return formatter.stringFromDate(self)
+    }
     func getNoofDays(endDate:NSDate) ->Int
     {
         let calendar = NSCalendar.currentCalendar()
@@ -42,14 +55,14 @@ extension NSDate:Comparable{
     func getFormattedDate() -> String
     {
         let formatter = NSDateFormatter()
-        formatter.dateFormat = "dd/MM/yyyy"
+        formatter.dateFormat = "dd MMM yyyy"
         return formatter.stringFromDate(self)
     }
     
     func getFormattedDateTime() -> String
     {
         let formatter = NSDateFormatter()
-        formatter.dateFormat = "dd/MM/yyyy h:mm a"
+        formatter.dateFormat = "dd MMM yyyy h:mm a"
         return formatter.stringFromDate(self)
     }
     
