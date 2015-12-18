@@ -172,6 +172,8 @@ class GraphView:UIView
         case .Week:
             
             var weekDate:NSDate = graphStartDate!
+            var count:Int = 0
+            
             for i in 0..<8  // 7 days a week
             {
                 let point = columnXLabelPoint (i,noOfPoints: 7)
@@ -180,14 +182,12 @@ class GraphView:UIView
                 label.textAlignment = NSTextAlignment.Center
                 label.textColor = UIColor.whiteColor()
                 label.font = UIFont(name: label.font.fontName, size: 13)
-                let calendar = NSCalendar.currentCalendar()
-                let chosenDateComponents = calendar.components([.Day,.Month], fromDate: weekDate)
-                
-                label.text = String(format: "%d/%d",chosenDateComponents.day,chosenDateComponents.month)
+                label.text = (count % 6 == 0) ? weekDate.getFormatedDayandMonth() : weekDate.getFormattedDay()
                 weekDate =  NSCalendar.currentCalendar().dateByAddingUnit(.Day,
                     value: 1,
                     toDate:weekDate ,
                     options: NSCalendarOptions(rawValue: 0))!
+                count++;
                 self.addSubview(label)
             }
         case .Month:
@@ -206,8 +206,8 @@ class GraphView:UIView
                     label.font = UIFont(name: label.font.fontName, size: 13)
                     let calendar = NSCalendar.currentCalendar()
                     let chosenDateComponents = calendar.components([.Day,.Month], fromDate: weekDate)
-                    
                     label.text = String(format: "%d/%d",chosenDateComponents.day,chosenDateComponents.month)
+                    label.text = weekDate.getFormatedDayandMonth()
                     self.addSubview(label)
                 }
                 count++
