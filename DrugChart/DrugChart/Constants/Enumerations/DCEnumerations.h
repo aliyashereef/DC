@@ -122,7 +122,8 @@ typedef enum : NSUInteger {
     eStartingDose,
     eChangeOver,
     eConditions,
-    eAddNewDosage
+    eAddNewDosage,
+    eAddCondition
 }DosageDetailType;
 
 

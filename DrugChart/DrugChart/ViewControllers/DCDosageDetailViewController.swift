@@ -28,13 +28,15 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
     let dosageUnitItems = ["mg","ml","%"]
     let changeOverItemsArray = ["Days","Doses"]
     var conditionsItemsArray = ["Reduce 50 mg every day"]
+    var addConditionMenuItems = ["Change","Dose","Every","Until"]
     var detailType : DosageDetailType = eDoseUnit
     var viewTitleForDisplay : NSString = ""
     var previousSelectedValue : NSString = ""
     var dosageDetailsArray = [String]()
     weak var delegate: DataEnteredDelegate? = nil
     weak var newDosageDelegate: newDosageEntered? = nil
-    
+    var inlinePickerForChangeActive : Bool = false
+    var inlinePickerForEveryActive : Bool = false
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -50,16 +52,22 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
     
     func configureNavigationBarItems() {
         
-        if (detailType == eAddNewDosage) {
+        if (detailType == eAddNewDosage || detailType == eAddCondition) {
             
             // Configure bar buttons for Add new.
             let cancelButton: UIBarButtonItem = UIBarButtonItem(title: CANCEL_BUTTON_TITLE, style: .Plain, target: self, action: "cancelButtonPressed")
             self.navigationItem.leftBarButtonItem = cancelButton
             let doneButton: UIBarButtonItem = UIBarButtonItem(title: DONE_BUTTON_TITLE, style: .Plain, target: self, action: "doneButtonPressed")
             self.navigationItem.rightBarButtonItem = doneButton
-            
-            self.navigationItem.title = ADD_NEW_TITLE
-            self.title = ADD_NEW_TITLE
+            if (detailType == eAddNewDosage) {
+                
+                self.navigationItem.title = ADD_NEW_TITLE
+                self.title = ADD_NEW_TITLE
+            } else {
+                
+                self.navigationItem.title = ADD_CONDITION_TITLE
+                self.title = ADD_CONDITION_TITLE
+            }
         } else {
             
             // Configure navigation title.
@@ -93,7 +101,7 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        if (detailType == eDoseUnit || detailType == eAddNewDosage || detailType == eChangeOver) {
+        if (detailType == eDoseUnit || detailType == eAddNewDosage || detailType == eChangeOver || detailType == eAddCondition ) {
             
             return 1
         } else if (detailType == eConditions) {
@@ -103,7 +111,7 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
             
             return 1
         } else {
-        
+            
             return 2
         }
     }
@@ -112,7 +120,7 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
         
         if (section == 0) {
             
-            if( dosageDetailsArray.count == 0 && detailType != eChangeOver) {
+            if( dosageDetailsArray.count == 0 && (detailType != eChangeOver && detailType != eAddCondition)) {
                 
                 return 1
             } else if (detailType == eDoseUnit) {
@@ -130,7 +138,10 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
             } else if (detailType == eConditions ) {
                 
                 return conditionsItemsArray.count
-            } else {
+            } else if (detailType == eAddCondition) {
+                
+                return 6
+            }else {
                 
                 return 2
             }
@@ -146,49 +157,22 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
             
             let dosageDetailCell : DCDosageDetailTableViewCell? = dosageDetailTableView.dequeueReusableCellWithIdentifier(ADD_NEW_VALUE_CELL_ID) as? DCDosageDetailTableViewCell
             return dosageDetailCell!
-        } else {
+        } else if (detailType == eAddCondition) {
+            if (indexPath.row != 1 && indexPath.row != 4) {
+                
+                let dosageDetailCell : DCDosageDetailTableViewCell = self.configureCellForAddCondition(indexPath)
+                return dosageDetailCell
+                
+            } else {
+                
+                let dosageDetailCell : DCDosageDetailPickerCell = self.configureInlinePicker(indexPath)
+                return dosageDetailCell
+            }
+        }else {
             if (indexPath.section == 0) {
                 
-                let dosageDetailCell : DCDosageDetailTableViewCell? = dosageDetailTableView.dequeueReusableCellWithIdentifier(DOSE_DETAIL_CELL_ID) as? DCDosageDetailTableViewCell
-                // Configure the cell...
-                if (detailType == eChangeOver) {
-                    
-                    dosageDetailCell?.accessoryType = (previousSelectedValue == changeOverItemsArray[indexPath.row]) ? .Checkmark : .None
-                    dosageDetailCell!.dosageDetailDisplayCell.text = changeOverItemsArray[indexPath.row]
-                    return dosageDetailCell!
-                } else if (detailType == eConditions) {
-                    
-                    dosageDetailCell?.accessoryType = (previousSelectedValue == changeOverItemsArray[indexPath.row]) ? .Checkmark : .None
-                    dosageDetailCell!.dosageDetailDisplayCell.text = conditionsItemsArray[indexPath.row]
-                    return dosageDetailCell!
-                }
-                if (dosageDetailsArray.count != 0) {
-                    
-                    switch (detailType.rawValue) {
-                        
-                    case eDoseUnit.rawValue:
-                        dosageDetailCell?.accessoryType = (previousSelectedValue == dosageUnitItems[indexPath.row]) ? .Checkmark : .None
-                        dosageDetailCell!.dosageDetailDisplayCell.text = dosageUnitItems[indexPath.row]
-                    case eDoseValue.rawValue:
-                        dosageDetailCell?.accessoryType = (previousSelectedValue == dosageDetailsArray[indexPath.row]) ? .Checkmark : .None
-                        dosageDetailCell!.dosageDetailDisplayCell.text = dosageDetailsArray[indexPath.row]
-                    case eDoseFrom.rawValue:
-                        dosageDetailCell?.accessoryType = (previousSelectedValue == dosageDetailsArray[indexPath.row]) ? .Checkmark : .None
-                        dosageDetailCell!.dosageDetailDisplayCell.text = dosageDetailsArray[indexPath.row]
-                    case eDoseTo.rawValue:
-                        dosageDetailCell?.accessoryType = (previousSelectedValue == dosageDetailsArray[indexPath.row]) ? .Checkmark : .None
-                        dosageDetailCell!.dosageDetailDisplayCell.text = dosageDetailsArray[indexPath.row]
-                    case eStartingDose.rawValue:
-                        dosageDetailCell?.accessoryType = (previousSelectedValue == dosageDetailsArray[indexPath.row]) ? .Checkmark : .None
-                        dosageDetailCell!.dosageDetailDisplayCell.text = dosageDetailsArray[indexPath.row]
-                    default:
-                        break
-                    }
-                } else {
-                    let cellForDisplay : DCDosageDetailTableViewCell = self.configureCellForAddNew()
-                    return cellForDisplay
-                }
-                return dosageDetailCell!
+                let cellForDisplay : DCDosageDetailTableViewCell = self.configureCellForDisplay(indexPath)
+                return cellForDisplay
             } else {
                 
                 let cellForDisplay : DCDosageDetailTableViewCell = self.configureCellForAddNew()
@@ -219,7 +203,13 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
                 }
             }else {
                 
-                self.transitToAddNewScreen()
+                if (detailType == eAddCondition) {
+                    
+                    self.updateTableViewForAddCondition(indexPath)
+                } else {
+                    
+                    self.transitToAddNewScreen()
+                }
             }
             self.navigationController?.popViewControllerAnimated(true)
         } else {
@@ -227,6 +217,29 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
             self.transitToAddNewScreen()
         }
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if (detailType == eAddCondition) {
+            
+            if (indexPath.row == 1){
+                if (!inlinePickerForChangeActive) {
+                    return 0
+                }else {
+                    
+                    return 216
+                }
+            } else if (indexPath.row == 4) {
+                
+                if (!inlinePickerForEveryActive) {
+                    return 0
+                }else {
+                    
+                    return 216
+                }
+            }
+        }
+        return 44 //Choose your custom row height
     }
     
     // MARK: - Private Methods
@@ -246,16 +259,136 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
         return dosageDetailCell!
     }
     
+    func configureCellForDisplay(indexPath: NSIndexPath) -> DCDosageDetailTableViewCell {
+        
+        let dosageDetailCell : DCDosageDetailTableViewCell? = dosageDetailTableView.dequeueReusableCellWithIdentifier(DOSE_DETAIL_CELL_ID) as? DCDosageDetailTableViewCell
+        // Configure the cell...
+        if (detailType == eChangeOver) {
+            
+            dosageDetailCell?.accessoryType = (previousSelectedValue == changeOverItemsArray[indexPath.row]) ? .Checkmark : .None
+            dosageDetailCell!.dosageDetailDisplayCell.text = changeOverItemsArray[indexPath.row]
+            return dosageDetailCell!
+        } else if (detailType == eConditions) {
+            
+            dosageDetailCell?.accessoryType = (previousSelectedValue == conditionsItemsArray[indexPath.row]) ? .Checkmark : .None
+            dosageDetailCell!.dosageDetailDisplayCell.text = conditionsItemsArray[indexPath.row]
+            return dosageDetailCell!
+        }
+        if (dosageDetailsArray.count != 0) {
+            
+            switch (detailType.rawValue) {
+                
+            case eDoseUnit.rawValue:
+                dosageDetailCell?.accessoryType = (previousSelectedValue == dosageUnitItems[indexPath.row]) ? .Checkmark : .None
+                dosageDetailCell!.dosageDetailDisplayCell.text = dosageUnitItems[indexPath.row]
+            case eDoseValue.rawValue:
+                dosageDetailCell?.accessoryType = (previousSelectedValue == dosageDetailsArray[indexPath.row]) ? .Checkmark : .None
+                dosageDetailCell!.dosageDetailDisplayCell.text = dosageDetailsArray[indexPath.row]
+            case eDoseFrom.rawValue:
+                dosageDetailCell?.accessoryType = (previousSelectedValue == dosageDetailsArray[indexPath.row]) ? .Checkmark : .None
+                dosageDetailCell!.dosageDetailDisplayCell.text = dosageDetailsArray[indexPath.row]
+            case eDoseTo.rawValue:
+                dosageDetailCell?.accessoryType = (previousSelectedValue == dosageDetailsArray[indexPath.row]) ? .Checkmark : .None
+                dosageDetailCell!.dosageDetailDisplayCell.text = dosageDetailsArray[indexPath.row]
+            case eStartingDose.rawValue:
+                dosageDetailCell?.accessoryType = (previousSelectedValue == dosageDetailsArray[indexPath.row]) ? .Checkmark : .None
+                dosageDetailCell!.dosageDetailDisplayCell.text = dosageDetailsArray[indexPath.row]
+            default:
+                break
+            }
+            return dosageDetailCell!
+        } else {
+            let cellForDisplay : DCDosageDetailTableViewCell = self.configureCellForAddNew()
+            return cellForDisplay
+        }
+    }
+    
+    func configureCellForAddCondition(indexPath: NSIndexPath) -> DCDosageDetailTableViewCell{
+        
+        
+        let dosageDetailCell : DCDosageDetailTableViewCell? = dosageDetailTableView.dequeueReusableCellWithIdentifier(DOSE_DETAIL_DISPLAY_CELL_ID) as? DCDosageDetailTableViewCell
+        switch (indexPath.row) {
+            
+        case 0:
+            dosageDetailCell?.dosageDetailCellLabel.text = addConditionMenuItems[0]
+        case 2:
+            dosageDetailCell?.dosageDetailCellLabel.text = addConditionMenuItems[1]
+        case 3:
+            dosageDetailCell?.dosageDetailCellLabel.text = addConditionMenuItems[2]
+        case 5:
+            dosageDetailCell?.dosageDetailCellLabel.text = addConditionMenuItems[3]
+        default:
+            break
+        }
+        return dosageDetailCell!
+        
+    }
+    
+    func updateTableViewForAddCondition(indexPath: NSIndexPath) {
+        
+        if (indexPath.row == 0) {
+            
+            if (inlinePickerForChangeActive) {
+                
+                //Same Clicked
+                inlinePickerForChangeActive = false
+                let indexPaths = [NSIndexPath(forItem: indexPath.row + 1, inSection: indexPath.section)]
+                dosageDetailTableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Middle)
+            } else {
+                inlinePickerForChangeActive = true
+                let indexPaths = [NSIndexPath(forItem: indexPath.row + 1, inSection: indexPath.section)]
+                dosageDetailTableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Middle)
+            }
+        } else if (indexPath.row == 3) {
+            
+            if (inlinePickerForEveryActive) {
+                
+                //Same Clicked
+                inlinePickerForEveryActive = false
+                let indexPaths = [NSIndexPath(forItem: indexPath.row + 1, inSection: indexPath.section)]
+                dosageDetailTableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Middle)
+            } else {
+                inlinePickerForEveryActive = true
+                let indexPaths = [NSIndexPath(forItem: indexPath.row + 1, inSection: indexPath.section)]
+                dosageDetailTableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Middle)
+            }
+        }
+    }
+    
+    func configureInlinePicker(indexPath: NSIndexPath) -> DCDosageDetailPickerCell {
+        
+        if (indexPath.row == 1) {
+            let dosageDetailCell : DCDosageDetailPickerCell? = dosageDetailTableView.dequeueReusableCellWithIdentifier(DOSE_PICKER_DISPLAY_CELL_ID) as? DCDosageDetailPickerCell
+            
+            return dosageDetailCell!
+        } else {
+            let dosageDetailCell : DCDosageDetailPickerCell? = dosageDetailTableView.dequeueReusableCellWithIdentifier(DOSE_PICKER_DISPLAY_CELL_ID) as? DCDosageDetailPickerCell
+            
+            return dosageDetailCell!
+        }
+    }
+    
+    func displayInlinePicker(indexPath: NSIndexPath) {
+        
+        
+    }
+    
     func transitToAddNewScreen (){
         
+        
+        let dosageDetailViewController : DCDosageDetailViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_DETAIL_SBID) as? DCDosageDetailViewController
+        dosageDetailViewController?.newDosageDelegate = self
         if (detailType != eConditions) {
-            let dosageDetailViewController : DCDosageDetailViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_DETAIL_SBID) as? DCDosageDetailViewController
-            dosageDetailViewController?.newDosageDelegate = self
+            
             dosageDetailViewController?.detailType = eAddNewDosage
-            let navigationController: UINavigationController = UINavigationController(rootViewController: dosageDetailViewController!)
-            navigationController.modalPresentationStyle = UIModalPresentationStyle.CurrentContext
-            self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
+        }else {
+            
+            dosageDetailViewController?.detailType = eAddCondition
         }
+        let navigationController: UINavigationController = UINavigationController(rootViewController: dosageDetailViewController!)
+        navigationController.modalPresentationStyle = UIModalPresentationStyle.CurrentContext
+        self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
+        
     }
     // MARK: - Action Methods
     

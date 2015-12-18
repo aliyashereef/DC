@@ -190,6 +190,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="dosageDetailCellLabel" destination="AcY-KE-BoO" id="w5h-8L-JRG"/>
+                                            <outlet property="dosageDetailValueLabel" destination="uoa-YR-9fx" id="sqe-e8-9vW"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="newDosageCell" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationWidth="10" reuseIdentifier="newDosageCell" id="wr1-cx-x8E" customClass="DCDosageDetailTableViewCell" customModule="DrugChart" customModuleProvider="target">
@@ -215,6 +216,32 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="addNewDosageTextField" destination="Tn1-GK-7ye" id="dMO-Va-Hh0"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="pickerViewCellID" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationWidth="10" reuseIdentifier="pickerViewCell" rowHeight="216" id="3CM-SO-Uob" customClass="DCDosageDetailPickerCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="182" width="310" height="216"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3CM-SO-Uob" id="2sO-tq-NnD">
+                                            <rect key="frame" x="0.0" y="0.0" width="310" height="215"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r1f-se-abM">
+                                                    <rect key="frame" x="0.0" y="0.0" width="310" height="215"/>
+                                                    <connections>
+                                                        <outlet property="dataSource" destination="3CM-SO-Uob" id="dFb-W7-PIJ"/>
+                                                        <outlet property="delegate" destination="3CM-SO-Uob" id="NxF-sc-u1P"/>
+                                                    </connections>
+                                                </pickerView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="r1f-se-abM" firstAttribute="leading" secondItem="2sO-tq-NnD" secondAttribute="leading" id="GLS-2x-MsI"/>
+                                                <constraint firstAttribute="trailing" secondItem="r1f-se-abM" secondAttribute="trailing" id="UCl-oy-zkO"/>
+                                                <constraint firstAttribute="bottom" secondItem="r1f-se-abM" secondAttribute="bottom" id="Xab-8D-z1o"/>
+                                                <constraint firstItem="r1f-se-abM" firstAttribute="top" secondItem="2sO-tq-NnD" secondAttribute="top" id="zns-t6-6yC"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="pickerView" destination="r1f-se-abM" id="DHG-R4-ke9"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

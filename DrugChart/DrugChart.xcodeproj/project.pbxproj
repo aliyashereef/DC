@@ -326,6 +326,7 @@
 		FD618F311C1979E7005EC416 /* DCDosageSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD618F2F1C1979E7005EC416 /* DCDosageSelectionViewController.swift */; };
 		FDC7EA571C1AA8990081D5C4 /* DCDosageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC7EA561C1AA8990081D5C4 /* DCDosageDetailViewController.swift */; };
 		FDC7EA5A1C1AA9510081D5C4 /* DCDosageDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC7EA591C1AA9510081D5C4 /* DCDosageDetailTableViewCell.swift */; };
+		FDDBBB031C24197800726DDA /* DCDosageDetailPickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDBBB021C24197800726DDA /* DCDosageDetailPickerCell.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -774,6 +775,7 @@
 		FD618F2F1C1979E7005EC416 /* DCDosageSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageSelectionViewController.swift; sourceTree = "<group>"; };
 		FDC7EA561C1AA8990081D5C4 /* DCDosageDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageDetailViewController.swift; sourceTree = "<group>"; };
 		FDC7EA591C1AA9510081D5C4 /* DCDosageDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageDetailTableViewCell.swift; sourceTree = "<group>"; };
+		FDDBBB021C24197800726DDA /* DCDosageDetailPickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageDetailPickerCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2577,6 +2579,7 @@
 			children = (
 				FDC7EA561C1AA8990081D5C4 /* DCDosageDetailViewController.swift */,
 				FDC7EA591C1AA9510081D5C4 /* DCDosageDetailTableViewCell.swift */,
+				FDDBBB021C24197800726DDA /* DCDosageDetailPickerCell.swift */,
 			);
 			name = DosageDetail;
 			sourceTree = "<group>";
@@ -2951,6 +2954,7 @@
 				4DECF30C1B79D2000085E75B /* DCOrderSetWarningCount.m in Sources */,
 				1FD4FD061BF4BAAD00B77B94 /* SelectionCell.swift in Sources */,
 				4D4891561BC90053002AC8CA /* DCSwiftObjCNavigationHelper.m in Sources */,
+				FDDBBB031C24197800726DDA /* DCDosageDetailPickerCell.swift in Sources */,
 				1FD4FD0A1BF4BAE000B77B94 /* Enumerations.swift in Sources */,
 				1FB5D07D1C08681F00F9A2F7 /* CommaScoreViewController.swift in Sources */,
 				4DDE0ADE1BBBBEDE0044295B /* DCAdministratedByPinVerificationViewController.swift in Sources */,

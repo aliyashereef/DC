@@ -194,6 +194,7 @@
 #define ADD_NEW_VALUE_CELL_ID @"newDosageCell"
 #define SCHEDULING_TIME_CELL_ID @"SchedulingTimeCell"
 #define SCHEDULING_DATE_PICKER_CELL_ID @"SchedulingDatePickerCellId"
+#define DOSE_PICKER_DISPLAY_CELL_ID @"pickerViewCell"
 
 // title for views
 #define INPATIENT_TITLE @"In Patients"
