@@ -25,16 +25,22 @@ extension NSDate:Comparable{
     let chosenDateComponents = calendar.components([.Hour , .Minute,.Day, .Month , .Year], fromDate: self)
     switch(displayView)
     {
-    case .Week:
-        let calendar1 = NSCalendar.currentCalendar()
-        let noOfDays = calendar1.components([.Day], fromDate: startDate, toDate: self, options: [])
-        return noOfDays.day * 24 * 60 + chosenDateComponents.hour * 60 + chosenDateComponents.minute ;
     case .Day:
         return chosenDateComponents.hour * 60 + chosenDateComponents.minute ;
+    case .Week:
+        return startDate.getNoofDays(self) * 24 * 60 + chosenDateComponents.hour * 60 + chosenDateComponents.minute ;
+    case .Month:
+        return startDate.getNoofDays(self) * 24 * 60 + chosenDateComponents.hour * 60 + chosenDateComponents.minute ;
     default:
         return 1;
     }
 }
+    func getNoofDays(endDate:NSDate) ->Int
+    {
+        let calendar = NSCalendar.currentCalendar()
+        let noOfDays = calendar.components([.Day], fromDate: self, toDate: endDate, options: [])
+        return noOfDays.day
+    }
     func getFormattedDate() -> String
     {
         let formatter = NSDateFormatter()

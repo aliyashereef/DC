@@ -230,7 +230,7 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
                     {
                     graphEndDate = graphStartDate
                     graphStartDate =  NSCalendar.currentCalendar().dateByAddingUnit(NSCalendarUnit.Day,
-                        value: goForward == true ? 6:-6,
+                        value: -6,
                         toDate:  graphStartDate ,
                         options: NSCalendarOptions(rawValue: 0))!
                     }
@@ -245,11 +245,22 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
                 }
                 else
                 {
-                graphEndDate = graphStartDate
-                graphStartDate =  NSCalendar.currentCalendar().dateByAddingUnit(.Month,
-                    value: goForward == true ? 1:-1,
-                    toDate:graphStartDate ,
-                    options: NSCalendarOptions(rawValue: 0))!
+                    if(goForward)
+                    {
+                       graphStartDate = graphEndDate
+                        graphEndDate =  NSCalendar.currentCalendar().dateByAddingUnit(.Month,
+                            value:  1,
+                            toDate:graphStartDate ,
+                            options: NSCalendarOptions(rawValue: 0))!
+                    }
+                    else
+                    {
+                        graphEndDate = graphStartDate
+                        graphStartDate =  NSCalendar.currentCalendar().dateByAddingUnit(.Month,
+                            value: -1,
+                            toDate:graphStartDate ,
+                            options: NSCalendarOptions(rawValue: 0))!
+                    }
             }
             default:
             print("DO NOTHING")

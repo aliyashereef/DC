@@ -141,29 +141,7 @@ import UIKit
             color.setStroke()
             linePath.lineWidth = 1.0
             linePath.stroke()
-                
-//                func drawNormalRangeLabel()
-//                {
-//                    let label = UILabel(frame: CGRectMake(0,0,200,21))
-//                    label.center = CGPointMake(110,41)
-//                    label.textAlignment = NSTextAlignment.Left
-//                    label.textColor = UIColor.whiteColor()
-//                    label.font = UIFont(name: label.font.fontName, size: 13)
-//                    label.text = "Normal Range: __"
-//                    self.addSubview(label)
-//                    
-//                }
-//                func drawGraphTitle()
-//                {
-//                    let label = UILabel(frame: CGRectMake(0,0,200,21))
-//                    label.center = CGPointMake(110,20)
-//                    label.textAlignment = NSTextAlignment.Left
-//                    label.textColor = UIColor.whiteColor()
-//                    label.font = UIFont.boldSystemFontOfSize(16.0)
-//                    label.text = graphTitle
-//                    self.addSubview(label)
-//                }
-                
+
             // add last entered label
             drawLatestReadiongLabels()
             // now add the label on the UI
@@ -174,6 +152,7 @@ import UIKit
                 self.drawGraph = false
             }
         }
+    
    override func setMaxYAxis() {
         if(self.yAxisValue != nil && self.yAxisValue.count>0)
         {

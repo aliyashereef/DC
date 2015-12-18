@@ -38,9 +38,7 @@ class GraphView:UIView
         case .Week:
             maxXAxis = 7/*Days*/ *  24/*Hour*/ * 60 /*Minutes*/
         case .Month:
-            let calendar = NSCalendar.currentCalendar()
-            let noOfDays = calendar.components([.Day], fromDate: graphStartDate, toDate: graphEndDate, options: [])
-            maxXAxis = noOfDays.day /*Days*/ *  24/*Hour*/ * 60 /*Minutes*/
+            maxXAxis = graphStartDate.getNoofDays(graphEndDate) /*Days*/ *  24/*Hour*/ * 60 /*Minutes*/
         default:
             maxXAxis = 24/*Hour*/ * 60 /*Minutes*/
         }
@@ -196,23 +194,29 @@ class GraphView:UIView
             }
         case .Month:
             var weekDate:NSDate = graphStartDate!
-            for i in 0..<5  // 7 days a week
+            let noOfDays:Int = graphStartDate.getNoofDays(graphEndDate)
+            var count:Int = 0
+            for i in 0..<noOfDays+1  // 7 days a week
             {
-                let point = columnXLabelPoint (i,noOfPoints: 4)
-                let label = UILabel(frame: CGRectMake(0,0,200,21))
-                label.center = CGPointMake(point, height - (bottomBorder/2))
-                label.textAlignment = NSTextAlignment.Center
-                label.textColor = UIColor.whiteColor()
-                label.font = UIFont(name: label.font.fontName, size: 13)
-                let calendar = NSCalendar.currentCalendar()
-                let chosenDateComponents = calendar.components([.Day,.Month], fromDate: weekDate)
-                
-                label.text = String(format: "%d/%d",chosenDateComponents.day,chosenDateComponents.month)
+                if (count % 7 == 0)
+                {
+                    let point = columnXLabelPoint (i,noOfPoints: noOfDays)
+                    let label = UILabel(frame: CGRectMake(0,0,200,21))
+                    label.center = CGPointMake(point, height - (bottomBorder/2))
+                    label.textAlignment = NSTextAlignment.Center
+                    label.textColor = UIColor.whiteColor()
+                    label.font = UIFont(name: label.font.fontName, size: 13)
+                    let calendar = NSCalendar.currentCalendar()
+                    let chosenDateComponents = calendar.components([.Day,.Month], fromDate: weekDate)
+                    
+                    label.text = String(format: "%d/%d",chosenDateComponents.day,chosenDateComponents.month)
+                    self.addSubview(label)
+                }
+                count++
                 weekDate =  NSCalendar.currentCalendar().dateByAddingUnit(.Day,
-                    value: 7,
+                    value: 1,
                     toDate:weekDate ,
                     options: NSCalendarOptions(rawValue: 0))!
-                self.addSubview(label)
             }
         default:
             print("no label")
