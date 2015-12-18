@@ -30,9 +30,7 @@ extension NSDate:Comparable{
     case .Week:
         return startDate.getNoofDays(self) * 24 * 60 + chosenDateComponents.hour * 60 + chosenDateComponents.minute ;
     case .Month:
-        return startDate.getNoofDays(self) * 24 * 60 + chosenDateComponents.hour * 60 + chosenDateComponents.minute ;
-    default:
-        return 1;
+        return startDate.getNoofDays(self) * 24 * 60 + chosenDateComponents.hour * 60 + chosenDateComponents.minute 
     }
 }
     func getNoofDays(endDate:NSDate) ->Int

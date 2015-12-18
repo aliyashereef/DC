@@ -39,8 +39,6 @@ class GraphView:UIView
             maxXAxis = 7/*Days*/ *  24/*Hour*/ * 60 /*Minutes*/
         case .Month:
             maxXAxis = graphStartDate.getNoofDays(graphEndDate) /*Days*/ *  24/*Hour*/ * 60 /*Minutes*/
-        default:
-            maxXAxis = 24/*Hour*/ * 60 /*Minutes*/
         }
         setMaxYAxis()
     }
@@ -218,8 +216,6 @@ class GraphView:UIView
                     toDate:weekDate ,
                     options: NSCalendarOptions(rawValue: 0))!
             }
-        default:
-            print("no label")
         }
     }
 }

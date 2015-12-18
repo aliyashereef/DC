@@ -152,8 +152,7 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         case .BloodPressure:
             let filterObject = observationList.filter( { return $0.bloodPressure != nil } ).last
             return filterObject
-        default:
-            return nil
+    
         }
      
     }
@@ -262,8 +261,6 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
                             options: NSCalendarOptions(rawValue: 0))!
                     }
             }
-            default:
-            print("DO NOTHING")
         }
         
         graphStartDate = graphStartDate.minTime()
