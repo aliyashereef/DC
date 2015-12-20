@@ -13,10 +13,10 @@ class DCBNFViewController: UIViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        self.navigationItem.title = "BNF"
     }
 
     override func didReceiveMemoryWarning() {
-        
         super.didReceiveMemoryWarning()
     }
     

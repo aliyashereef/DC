@@ -8,9 +8,8 @@
 
 import Foundation
 
-class DCAdministrationViewController : UIViewController {
+class DCAdministrationViewController : UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    @IBOutlet var administrationTableView: UITableView!
     var medicationSlotsArray : [DCMedicationSlot] = []
     var medicationDetails : DCMedicationScheduleDetails?
     var contentArray :[AnyObject] = []
@@ -26,6 +25,44 @@ class DCAdministrationViewController : UIViewController {
         super.viewDidLoad()
         self.administerTableView.rowHeight = UITableViewAutomaticDimension
         self.administerTableView.estimatedRowHeight = 44.0
+        self.administerTableView.tableFooterView = UIView(frame: CGRectZero)
+        let doneButton : UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Done, target: self, action: "doneButtonPressed")
+        self.navigationItem.leftBarButtonItem = doneButton
+        initialiseMedicationSlotToAdministerObject()
+        
+        let dateString : String
+        if let date = slotToAdminister?.time {
+            dateString = DCDateUtility.dateStringFromDate(date, inFormat: DATE_MONTHNAME_YEAR_FORMAT)
+        } else {
+            dateString = DCDateUtility.dateStringFromDate(weekDate, inFormat: DATE_MONTHNAME_YEAR_FORMAT)
+        }
+        self.title = dateString
+    }
+    
+    func configureMedicationStatusInCell (medication : DCMedicationSlot) -> NSString {
+        let currentSystemDate : NSDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
+        let currentDateString : NSString? = DCDateUtility.dateStringFromDate(currentSystemDate, inFormat: SHORT_DATE_FORMAT)
+        
+        if (medication.time.compare(currentSystemDate) == NSComparisonResult.OrderedDescending){
+            let slotDateString : NSString? = DCDateUtility.dateStringFromDate(slotToAdminister?.time, inFormat: SHORT_DATE_FORMAT)
+            if (currentDateString != slotDateString) {
+                return "Pending"
+            }
+        }
+        if let slotToAdministerDate = slotToAdminister?.time {
+            if (medication.time.compare(slotToAdministerDate) == NSComparisonResult.OrderedSame) {
+                return "Administer Medication"
+            }
+        }
+        if (medication.medicationAdministration?.status != nil && medication.medicationAdministration.actualAdministrationTime != nil){
+            return medication.status
+        }
+        if (medication.time.compare(currentSystemDate) == NSComparisonResult.OrderedAscending) {
+            if (slotToAdminister?.medicationAdministration?.actualAdministrationTime == nil){
+                   return "Pending"
+            }
+        }
+        return "Pending"
     }
     
     func initialiseMedicationSlotToAdministerObject () {
@@ -41,18 +78,17 @@ class DCAdministrationViewController : UIViewController {
             }
         }
     }
+    
     //MARK: TableView Delegate Methods
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2
     }
     
-    //The number of rows is determined by the medication slot status, if is administrated, the section will require 6 rows, if ommitted it may require 2 rows and 3 for the refused state.
-    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
-        case 1 : return 1
-        case 2 : return medicationSlotsArray.count
+        case 0 : return 1
+        case 1 : return medicationSlotsArray.count
         default : break
         }
         return 0
@@ -60,29 +96,65 @@ class DCAdministrationViewController : UIViewController {
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        var cell = tableView.dequeueReusableCellWithIdentifier(ADMINSTER_MEDICATION_HISTORY_CELL) as? DCAdminsteredMedicationCell
-        if cell == nil {
-            cell = DCAdminsteredMedicationCell(style: UITableViewCellStyle.Value1, reuseIdentifier: ADMINSTER_MEDICATION_HISTORY_CELL)
+        switch indexPath.section{
+        case 0 :
+            return configureMedicationDetailsCellAtIndexPath(indexPath)
+        default:
+            return configureAdministrationStatusCellAtIndexPath(indexPath)
         }
-        
-        
-        return cell!
     }
-    
+
     // MARK: Header View Methods
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         switch section {
-        case 1: return 0.0
-        case 2: return 44.0
+        case 0: return 0.0
+        case 1: return 40.0
         default : break
         }
         return 0
     }
     
-    // returns the header view
-//    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//    }
+    func configureAdministrationStatusCellAtIndexPath (indexPath :NSIndexPath) -> DCAdministrationStatusCell{
+        let cell = administerTableView.dequeueReusableCellWithIdentifier("AdministrationStatusCell") as? DCAdministrationStatusCell
+        let medicationSlot : DCMedicationSlot = medicationSlotsArray[indexPath.row]
+        cell!.administrationStatusLabel.text = configureMedicationStatusInCell(medicationSlot) as String
+        if cell!.administrationStatusLabel.text == "Administer Medication" {
+            cell!.administrationStatusLabel.textColor = UIColor(forHexString: "#4A90E2")
+        }
+        cell?.administrationTimeLabel.text =  DCDateUtility.dateStringFromDate(medicationSlot.time, inFormat: TWENTYFOUR_HOUR_FORMAT)
+        return cell!
+    }
     
+    func configureMedicationDetailsCellAtIndexPath (indexPath :NSIndexPath) -> DCMedicationDetailsTableViewCell {
+        let cell = administerTableView.dequeueReusableCellWithIdentifier("MedicationDetailsTableViewCell") as? DCMedicationDetailsTableViewCell
+        cell!.configureMedicationDetails(medicationDetails!)
+        return cell!
+    }
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        if (indexPath.section == 0) {
+            addBNFView()
+        }
+    }
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+
+        case 1 : return "ADMINISTRATION DETAILS"
+        default : return ""
+        }
+    }
+    func doneButtonPressed(){
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func addBNFView () {
+        
+        let administerStoryboard : UIStoryboard? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil)
+        
+        let bnfViewController : DCBNFViewController? = administerStoryboard!.instantiateViewControllerWithIdentifier(BNF_STORYBOARD_ID) as? DCBNFViewController
+        self.navigationController?.pushViewController(bnfViewController!, animated: true)
+
+    }
 }
