@@ -8,6 +8,8 @@
 
 import Foundation
 
+let headerString : NSString = "ADMINISTRATION DETAILS"
+
 class DCAdministrationViewController : UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var medicationSlotsArray : [DCMedicationSlot] = []
@@ -46,12 +48,12 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         if (medication.time.compare(currentSystemDate) == NSComparisonResult.OrderedDescending){
             let slotDateString : NSString? = DCDateUtility.dateStringFromDate(slotToAdminister?.time, inFormat: SHORT_DATE_FORMAT)
             if (currentDateString != slotDateString) {
-                return "Pending"
+                return PENDING
             }
         }
         if let slotToAdministerDate = slotToAdminister?.time {
             if (medication.time.compare(slotToAdministerDate) == NSComparisonResult.OrderedSame) {
-                return "Administer Medication"
+                return ADMINISTER_MEDICATION
             }
         }
         if (medication.medicationAdministration?.status != nil && medication.medicationAdministration.actualAdministrationTime != nil){
@@ -59,10 +61,10 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         }
         if (medication.time.compare(currentSystemDate) == NSComparisonResult.OrderedAscending) {
             if (slotToAdminister?.medicationAdministration?.actualAdministrationTime == nil){
-                   return "Pending"
+                   return PENDING
             }
         }
-        return "Pending"
+        return PENDING
     }
     
     func initialiseMedicationSlotToAdministerObject () {
@@ -105,8 +107,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
     }
 
     // MARK: Header View Methods
-    
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         switch section {
         case 0: return 0.0
         case 1: return 40.0
@@ -115,12 +116,23 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         return 0
     }
     
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+        case 1 : return headerString as String
+        default : return EMPTY_STRING
+        }
+    }
+    
     func configureAdministrationStatusCellAtIndexPath (indexPath :NSIndexPath) -> DCAdministrationStatusCell{
         let cell = administerTableView.dequeueReusableCellWithIdentifier("AdministrationStatusCell") as? DCAdministrationStatusCell
         let medicationSlot : DCMedicationSlot = medicationSlotsArray[indexPath.row]
+        if (medicationSlot.medicationAdministration?.status != nil && medicationSlot.medicationAdministration.actualAdministrationTime != nil) {
+            cell!.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+        }
+
         cell!.administrationStatusLabel.text = configureMedicationStatusInCell(medicationSlot) as String
-        if cell!.administrationStatusLabel.text == "Administer Medication" {
-            cell!.administrationStatusLabel.textColor = UIColor(forHexString: "#4A90E2")
+        if cell!.administrationStatusLabel.text == ADMINISTER_MEDICATION {
+            cell!.administrationStatusLabel.textColor = UIColor(forHexString:"#4A90E2")
         }
         cell?.administrationTimeLabel.text =  DCDateUtility.dateStringFromDate(medicationSlot.time, inFormat: TWENTYFOUR_HOUR_FORMAT)
         return cell!
@@ -131,30 +143,21 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         cell!.configureMedicationDetails(medicationDetails!)
         return cell!
     }
-    
+
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         if (indexPath.section == 0) {
             addBNFView()
         }
     }
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-
-        case 1 : return "ADMINISTRATION DETAILS"
-        default : return ""
-        }
-    }
+    
     func doneButtonPressed(){
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func addBNFView () {
-        
         let administerStoryboard : UIStoryboard? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil)
-        
         let bnfViewController : DCBNFViewController? = administerStoryboard!.instantiateViewControllerWithIdentifier(BNF_STORYBOARD_ID) as? DCBNFViewController
         self.navigationController?.pushViewController(bnfViewController!, animated: true)
-
     }
 }

@@ -243,6 +243,9 @@
 #define WHEN_REQUIRED_VALUE @"When Required"
 #define WHEN_REQUIRED @"WhenRequired"
 
+// Administration status
+#define PENDING @"Pending"
+#define ADMINISTER_MEDICATION @"Administer Medication"
 
 #define DATE_COMPONENTS (NSCalendarUnitYear| NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitWeekOfYear |  NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond | NSCalendarUnitWeekday | NSCalendarUnitWeekdayOrdinal)
 
