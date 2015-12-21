@@ -33,9 +33,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
         return UINib(nibName: "GeneralObservationView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
     }
     
-    func commonInit(observation:VitalSignObservation)
-    {
-        self.observation = observation
+    override func awakeFromNib() {
         tableView.delegate=self
         tableView.dataSource=self
         self.tableView.rowHeight = UITableViewAutomaticDimension
@@ -47,10 +45,10 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
         let nibTimePicker = UINib(nibName: "TimePickerCell", bundle: nil)
         self.tableView.registerNib(nibTimePicker, forCellReuseIdentifier: "TimePickerCell")
         
-        
         let nibBloodPressure = UINib(nibName: "BloodPressureCell", bundle: nil)
         self.tableView.registerNib(nibBloodPressure, forCellReuseIdentifier: "BloodPressureCell")
         datePickerCell = DatePickerCellInline(style: UITableViewCellStyle.Default, reuseIdentifier: nil)
+        
     }
     func configureView(observation:VitalSignObservation)
     {
@@ -179,92 +177,21 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-//        // Deselect automatically if the cell is a DatePickerCell.
-//        let cell = self.tableView(tableView, cellForRowAtIndexPath: indexPath)
-//        if (cell.isKindOfClass(DatePickerCellInline)) {
-//            let datePickerTableViewCell = cell as! DatePickerCellInline
-//            datePickerTableViewCell.selectedInTableView(tableView)
-//            self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
-//        }
-//        else
-//        {
-//            if datePickerCell.expanded
-//            {
-//                datePickerCell.selectedInTableView(tableView)
-//            }
-//        }
-        let rowNumber = getRowNumber(indexPath)
-        
-        switch (rowNumber)
-        {
-        case ObservationType.Date.rawValue:
-            let cell = self.tableView(tableView, cellForRowAtIndexPath: indexPath)
+        // Deselect automatically if the cell is a DatePickerCell.
+        let cell = self.tableView(tableView, cellForRowAtIndexPath: indexPath)
+        if (cell.isKindOfClass(DatePickerCellInline)) {
             let datePickerTableViewCell = cell as! DatePickerCellInline
             datePickerTableViewCell.selectedInTableView(tableView)
             self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        case ObservationType.Respiratory.rawValue:
-            if datePickerCell.expanded
-            {
-                datePickerCell.selectedInTableView(tableView)
-            }
-         
-            
-            let alertControlller = UIAlertController(title: NSLocalizedString(Constant.RESPIRATORY, comment: Constant.RESPIRATORY), message: nil, preferredStyle: .Alert)
-            
-            var localObserver: NSObjectProtocol?
-            
-            alertControlller.addTextFieldWithConfigurationHandler { (textField) in
-                //textField.layer.borderWidth = 0
-                //textField.borderStyle = UITextBorderStyle.None
-                textField.superview?.backgroundColor = UIColor.clearColor()
-                textField.superview?.superview?.backgroundColor = UIColor.clearColor()
-                textField.backgroundColor = UIColor.clearColor()
-                textField.opaque = true
-                textField.tag = 10
-                textField.configureForNumericInput()
-                textField.accessibilityIdentifier = "myText"
-                textField.placeholder = NSLocalizedString("Enter a numeric value", comment: "Enter a numeric value")
-                
-                textField.text = self.observation.getRespiratoryReading()
-                
-                localObserver = NSNotificationCenter.defaultCenter().addObserverForName(UITextFieldTextDidChangeNotification, object: textField, queue: NSOperationQueue.mainQueue()) { (notification) in
-                    
-                    if let confirmedText = textField.text?.clean().trimToLength(3),
-                    let confirmedValue = (confirmedText as NSString?)?.doubleValue {
-                            textField.text = confirmedText
-                            self.observation.setRespiratoryReading(confirmedValue)
-                    } else {
-                        textField.text = nil
-                        self.observation.respiratory = nil
-                    }
-                    
-                }
-                
-            }
-            
-            alertControlller.addAction(UIAlertAction(title: NSLocalizedString("Done", comment: "Done"), style: .Default, handler: {(alert: UIAlertAction) in
-                
-                if let confirmedLocalObserver = localObserver {
-                    NSNotificationCenter.defaultCenter().removeObserver(confirmedLocalObserver)
-                }
-                self.tableView.reloadData()
-                
-            }))
-            
-            alertControlller.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel"), style: .Cancel, handler: {(alert: UIAlertAction) in
-                
-                if let confirmedLocalObserver = localObserver {
-                    NSNotificationCenter.defaultCenter().removeObserver(confirmedLocalObserver)
-                }
-                
-            }))
-            self.delegate!.TakeObservationInput(alertControlller)
-        default:
+        }
+        else
+        {
             if datePickerCell.expanded
             {
                 datePickerCell.selectedInTableView(tableView)
             }
         }
+     
     }
     
     func prepareObjects()
