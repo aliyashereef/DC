@@ -27,6 +27,7 @@
     NSArray *warningsArray;
     BOOL doneClicked;// for validation purpose
     BOOL showWarnings;//to check if warnings section is displayed
+    NSInteger dateAmdTimeSection;
     
     DCDosageSelectionViewController *dosageSelectionViewController;
 }
@@ -513,9 +514,8 @@
             return (showWarnings ? rowCount : 1);
         }
         default:
-            return 1;
+            return MEDICATION_NAME_ROW_COUNT;
     }
-    return MEDICATION_NAME_ROW_COUNT;
 }
 
 - (NSInteger)numberOfRowsInDateAndTimeSectionForSelectedMedicationType {
@@ -557,8 +557,10 @@
     NSArray *mildArray = [[warningsArray objectAtIndex:1] valueForKey:MILD_WARNING];
     if ([severeArray count] > 0 || [mildArray count] > 0) {
         showWarnings = YES;
+        dateAmdTimeSection = 3;
     } else {
         showWarnings = NO;
+        dateAmdTimeSection = 2;
     }
     self.selectedMedication = [[DCMedicationScheduleDetails alloc] init];
     self.selectedMedication.name = medication.name;
@@ -569,10 +571,6 @@
     self.selectedMedication.mildWarningCount = mildArray.count;
     self.selectedMedication.medicineCategory = REGULAR_MEDICATION;
     self.selectedMedication.scheduling = [[DCScheduling alloc] init];
-//    self.selectedMedication.scheduling.type = SPECIFIC_TIMES;
-//    self.selectedMedication.scheduling.repeat = [[DCRepeat alloc] init];
-//    self.selectedMedication.scheduling.repeat.repeatType = DAILY;
-//    self.selectedMedication.scheduling.repeat.frequency = @"1 day";
     dosageArray = [NSMutableArray arrayWithObjects:medication.dosage, nil];
     [medicationDetailsTableView reloadData];
 }
@@ -1184,7 +1182,7 @@
     BOOL sameCellClicked = (self.datePickerIndexPath.row - 1 == indexPath.row);
     // remove any date picker cell if it exists
     if ([self hasInlineDatePicker]) {
-        [medicationDetailsTableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.datePickerIndexPath.row inSection:3]]
+        [medicationDetailsTableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.datePickerIndexPath.row inSection:dateAmdTimeSection]]
                                   withRowAnimation:UITableViewRowAnimationFade];
         self.datePickerIndexPath = nil;
     }
