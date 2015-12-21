@@ -440,11 +440,7 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        //if (self.detailType! == eDetailSpecificTimesRepeatType) {
-            return 2
-//        } else {
-//            return 1
-//        }
+        return 2
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -552,9 +548,6 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
                         }
                     }
                  }
-//                self.detailTableView.beginUpdates()
-//                self.detailTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
-//                self.detailTableView.endUpdates()
                 self.detailTableView.reloadData()
                 let dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(0.14 * Double(NSEC_PER_SEC)))
                 dispatch_after(dispatchTime, dispatch_get_main_queue(), {
@@ -600,35 +593,32 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
-       // if (self.detailType! != eDetailSchedulingType) {
-            if (section == 1) {
-                return (headerHeight > HEADER_VIEW_MIN_HEIGHT) ? headerHeight : HEADER_VIEW_MIN_HEIGHT
-            }
-       // }
+        if (section == 1) {
+            return (headerHeight > HEADER_VIEW_MIN_HEIGHT) ? headerHeight : HEADER_VIEW_MIN_HEIGHT
+        }
         return 0
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-       // if (self.detailType! != eDetailSchedulingType) {
-            if (section == 1) {
-                let headerView = NSBundle.mainBundle().loadNibNamed(SCHEDULING_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCSchedulingHeaderView
-                if (self.detailType! == eDetailIntervalRepeatFrequency) {
-                    if let intervalObject = self.scheduling?.interval {
-                        headerView?.populateMessageLabelForIntervalValue(intervalObject)
-                        self.scheduling?.interval?.intervalDescription = headerView?.messageLabel.text;
-                    }
-                } else {
-                    if let repeatObject = self.scheduling?.specificTimes?.repeatObject {
-                        headerView?.populateMessageLabelWithRepeatValue(repeatObject)
-                        self.scheduling?.specificTimes?.specificTimesDescription = headerView?.messageLabel.text;
-                    }
+        if (section == 1) {
+            let headerView = NSBundle.mainBundle().loadNibNamed(SCHEDULING_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCSchedulingHeaderView
+            if (self.detailType! == eDetailIntervalRepeatFrequency) {
+                if let intervalObject = self.scheduling?.interval {
+                    headerView?.populateMessageLabelForIntervalValue(intervalObject)
+                    self.scheduling?.interval?.intervalDescription = headerView?.messageLabel.text;
                 }
-                self.schedulingCompletion(self.scheduling)
-                headerHeight = DCUtility.textViewSizeWithText(headerView?.messageLabel.text, maxWidth: HEADER_VIEW_LABEL_MAX_WIDTH, font: UIFont.systemFontOfSize(13.0)).height + 10
-                return headerView!
+            } else {
+                if let repeatObject = self.scheduling?.specificTimes?.repeatObject {
+                    headerView?.populateMessageLabelWithRepeatValue(repeatObject)
+                    self.scheduling?.specificTimes?.specificTimesDescription = headerView?.messageLabel.text;
+                }
             }
-      //  }
+            self.schedulingCompletion(self.scheduling)
+            headerHeight = DCUtility.textViewSizeWithText(headerView?.messageLabel.text, maxWidth: HEADER_VIEW_LABEL_MAX_WIDTH, font: UIFont.systemFontOfSize(13.0)).height + 10
+            return headerView!
+        }
+
         return nil
     }
     

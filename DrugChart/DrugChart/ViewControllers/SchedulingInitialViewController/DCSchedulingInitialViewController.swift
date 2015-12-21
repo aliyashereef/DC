@@ -312,10 +312,37 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
             let descriptionIndexPath = NSIndexPath(forRow: descriptionRowIndex, inSection: 1)
             self.schedulingTableView.beginUpdates()
             self.schedulingTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexPath.row - 1, inSection: indexPath.section), descriptionIndexPath], withRowAnimation: .Fade)
+            self.populatePreviewArrayAndReloadTableSection()
             self.schedulingTableView.endUpdates()
         }
         timePickerCell?.populatePickerWithPreviousSelectedTime()
         return timePickerCell!
+    }
+    
+    func populatePreviewArrayAndReloadTableSection() {
+        
+        //populate preview array & reload the corresponding section
+        
+         self.previewArray?.removeAllObjects()
+        if (self.scheduling?.interval?.repeatFrequencyType == DAYS_TITLE) {
+            if (self.scheduling?.interval?.startTime != nil) {
+                self.previewArray?.addObject((self.scheduling?.interval?.startTime)!)
+            }
+        } else if (self.scheduling?.interval?.repeatFrequencyType == HOURS_TITLE || self.scheduling?.interval?.repeatFrequencyType == MINUTES_TITLE) {
+            
+            let pickerType = self.scheduling?.interval?.repeatFrequencyType == HOURS_TITLE ? eHoursCount : eMinutesCount
+            var timeGap : Int = 0
+            if (self.scheduling?.interval?.repeatFrequencyType == HOURS_TITLE) {
+                timeGap = Int((self.scheduling?.interval?.hoursCount)!)!
+            } else {
+                timeGap = Int((self.scheduling?.interval?.minutesCount)!)!
+            }
+            self.previewArray = DCSchedulingHelper.administrationTimesForIntervalSchedulingWithRepeatFrequencyType(pickerType, timeGap: timeGap, WithStartDateString: (self.scheduling?.interval?.startTime)!, WithendDateString: (self.scheduling?.interval?.endTime)!)
+            if (self.scheduling?.interval?.hasStartAndEndDate == true && self.previewArray?.count > 0) {
+                self.schedulingTableView.reloadSections(NSIndexSet(index: 2), withRowAnimation: .Middle)
+            }
+        }
+        self.updatedTimeArray(self.previewArray)
     }
     
     func configureFrequencyTableForFrequencyTypeSelectionAtindexPath(indexPath : NSIndexPath) {
@@ -344,8 +371,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
                     let startTime = DCDateUtility.timeStringInTwentyFourHourFormat(startTimeInCurrentZone)
                     self.scheduling?.interval?.startTime = startTime
                     self.scheduling?.interval?.endTime = "23:00"
-                    self.previewArray?.addObject((self.scheduling?.interval?.startTime)!)
-                    self.updatedTimeArray(self.previewArray)
+                    populatePreviewArrayAndReloadTableSection()
                 }
             }
         }
@@ -508,24 +534,28 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
-        if (self.scheduling?.type == SPECIFIC_TIMES) {
-            return indexPath.row == DESCRIPTION_CELL_INDEX ? INSTRUCTIONS_ROW_HEIGHT : TABLE_VIEW_ROW_HEIGHT
+        if (indexPath.section == 2) {
+            return TABLE_VIEW_ROW_HEIGHT
         } else {
-            if (self.scheduling?.interval?.hasStartAndEndDate == true) {
-                if (indexPathHasPicker(indexPath)) {
-                    return TIME_PICKER_CELL_HEIGHT
-                } else {
-                    if (self.inlinePickerIndexPath?.row == 3) {
-                        //picker at start date index
-                        return (indexPath.row == 5) ? INSTRUCTIONS_ROW_HEIGHT : TABLE_VIEW_ROW_HEIGHT
-                    } else if (self.inlinePickerIndexPath?.row == 4) {
-                        return (indexPath.row == 5) ? INSTRUCTIONS_ROW_HEIGHT : TABLE_VIEW_ROW_HEIGHT
-                    } else {
-                        return indexPath.row == 4 ? INSTRUCTIONS_ROW_HEIGHT : TABLE_VIEW_ROW_HEIGHT
-                    }
-                }
+            if (self.scheduling?.type == SPECIFIC_TIMES) {
+                return indexPath.row == DESCRIPTION_CELL_INDEX ? INSTRUCTIONS_ROW_HEIGHT : TABLE_VIEW_ROW_HEIGHT
             } else {
-                return indexPath.row == 2 ? INSTRUCTIONS_ROW_HEIGHT : TABLE_VIEW_ROW_HEIGHT
+                if (self.scheduling?.interval?.hasStartAndEndDate == true) {
+                    if (indexPathHasPicker(indexPath)) {
+                        return TIME_PICKER_CELL_HEIGHT
+                    } else {
+                        if (self.inlinePickerIndexPath?.row == 3) {
+                            //picker at start date index
+                            return (indexPath.row == 5) ? INSTRUCTIONS_ROW_HEIGHT : TABLE_VIEW_ROW_HEIGHT
+                        } else if (self.inlinePickerIndexPath?.row == 4) {
+                            return (indexPath.row == 5) ? INSTRUCTIONS_ROW_HEIGHT : TABLE_VIEW_ROW_HEIGHT
+                        } else {
+                            return indexPath.row == 4 ? INSTRUCTIONS_ROW_HEIGHT : TABLE_VIEW_ROW_HEIGHT
+                        }
+                    }
+                } else {
+                    return (indexPath.row == 2 && indexPath.section == 1) ? INSTRUCTIONS_ROW_HEIGHT : TABLE_VIEW_ROW_HEIGHT
+                }
             }
         }
     }
@@ -629,7 +659,6 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         dispatch_after(delayTime, dispatch_get_main_queue()) {
             timeCell?.timeSwitch.userInteractionEnabled = true
         }
-        
     }
     
     //MARK: SCheduling Detail Delegate Methods
