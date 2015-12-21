@@ -187,9 +187,13 @@
 #define SCHEDULING_PICKER_CELL_ID @"SchedulingPickerCellId"
 #define SCHEDULING_INITIAL_CELL_ID @"SchedulingInitialCellId"
 #define SCHEDULING_DESCRIPTION_CELL_ID @"SchedulingDescriptionCell"
+#define DOSE_MENU_CELL_ID @"dosagetypecell"
+#define DOSE_DROP_DOWN_CELL_ID @"dosageDetailCell"
+#define DOSE_DETAIL_CELL_ID @"dosageDetailCell"
+#define DOSE_DETAIL_DISPLAY_CELL_ID @"dosageDetailDisplay"
+#define ADD_NEW_VALUE_CELL_ID @"newDosageCell"
 #define SCHEDULING_TIME_CELL_ID @"SchedulingTimeCell"
 #define SCHEDULING_DATE_PICKER_CELL_ID @"SchedulingDatePickerCellId"
-
 
 // title for views
 #define INPATIENT_TITLE @"In Patients"
@@ -243,6 +247,9 @@
 #define WHEN_REQUIRED_VALUE @"When Required"
 #define WHEN_REQUIRED @"WhenRequired"
 
+// Administration status
+#define PENDING @"Pending"
+#define ADMINISTER_MEDICATION @"Administer Medication"
 
 #define DATE_COMPONENTS (NSCalendarUnitYear| NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitWeekOfYear |  NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond | NSCalendarUnitWeekday | NSCalendarUnitWeekdayOrdinal)
 
@@ -401,6 +408,8 @@
 #define SINGLE_DAY @"1 day"
 #define SINGLE_WEEK @"1 week"
 #define SINGLE_MONTH @"1 month"
+#define SINGLE_YEAR @"1 year"
+#define PREVIEW @"PREVIEW"
 
 //Roles
 
@@ -472,5 +481,17 @@
 #define ADMINISTRATING_NOTES @"Notes"
 #define IS_SELF_ADMINISTERED @"IsSelfAdministered"
 #define EXPIRY_DATE @"ExpiryDate"
+
+//Dosage
+#define DOSE_UNIT_LABEL_TEXT @"Dose Unit"
+#define DOSE_UNIT_TITLE @"Unit"
+#define DOSE_VALUE_TITLE @"Dose"
+#define DOSE_FROM_TITLE @"From"
+#define DOSE_TO_TITLE @"To"
+#define STARTING_DOSE_TITLE @"Starting Dose"
+#define CHANGE_OVER_TITLE @"Change Over"
+#define CONDITIONS_TITLE @"Conditions"
+#define ADD_NEW_TITLE @"Add New"
+#define ADD_CONDITION_TITLE @"Add Condition"
 
 #endif

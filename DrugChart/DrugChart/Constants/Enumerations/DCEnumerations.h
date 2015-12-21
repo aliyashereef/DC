@@ -119,6 +119,9 @@ typedef enum : NSUInteger {
     eDoseValue,
     eDoseFrom,
     eDoseTo,
+    eStartingDose,
+    eChangeOver,
+    eConditions,
     eAddNewDosage
 }DosageDetailType;
 

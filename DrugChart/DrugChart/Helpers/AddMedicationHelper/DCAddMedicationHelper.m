@@ -60,9 +60,12 @@
         }
     }
     if ([selectedMedication.medicineCategory isEqualToString:REGULAR_MEDICATION]) {
-        if (selectedMedication.timeArray.count == 0) {
+        if (![self frequencyIsValidForSelectedMedication:selectedMedication]) {
             return !isValid;
         }
+//        if (selectedMedication.timeArray.count == 0) {
+//            return !isValid;
+//        }
     }
     return isValid;
 }
@@ -155,6 +158,16 @@
         }
     }
     return INITIAL_SECTION_COUNT;
+}
+
++ (BOOL)frequencyIsValidForSelectedMedication:(DCMedicationDetails *)selectedMedication {
+    
+    //scheduling field is valid for selected medication
+    BOOL isValid = true;
+    if (selectedMedication.scheduling.type == nil || ([selectedMedication.scheduling.type isEqualToString:SPECIFIC_TIMES] && selectedMedication.timeArray.count == 0) || ([selectedMedication.scheduling.type isEqualToString:INTERVAL] && selectedMedication.scheduling.interval.hasStartAndEndDate && selectedMedication.timeArray.count == 0)) {
+        isValid = false;
+    }
+    return isValid;
 }
 
 

@@ -21,10 +21,31 @@ import UIKit
         self.automaticallyAdjustsScrollViewInsets = false
         observation = VitalSignObservation()
         generalObservationView = (GeneralObservationView.instanceFromNib() as! GeneralObservationView)
-        generalObservationView.commonInit(observation)
+        generalObservationView.observation = observation
         generalObservationView.delegate = self
         Helper.displayInChildView(generalObservationView, parentView: childView)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWasShown:"), name:UIKeyboardDidShowNotification, object: nil);
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: nil);
+        
     }
+        
+    func keyboardWasShown(sender: NSNotification) {
+        let info:NSDictionary = sender.userInfo!
+        let kbSize:CGSize = (info.objectForKey(UIKeyboardFrameBeginUserInfoKey)?.CGRectValue.size)!
+        let contentInsets:UIEdgeInsets = UIEdgeInsetsMake(0.0,0.0,kbSize.height,0.0)
+        generalObservationView.tableView.contentInset = contentInsets
+        generalObservationView.tableView.scrollIndicatorInsets = contentInsets
+        
+    }
+    
+    func keyboardWillHide(sender: NSNotification) {
+        
+        let contentInsets:UIEdgeInsets  = UIEdgeInsetsZero;
+        generalObservationView.tableView.contentInset = contentInsets;
+        generalObservationView.tableView.scrollIndicatorInsets = contentInsets;
+    }
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -35,8 +56,6 @@ import UIKit
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 
-    
-        
         func TakeObservationInput(viewController:UIAlertController)
         {
             self.presentViewController(viewController, animated: true)

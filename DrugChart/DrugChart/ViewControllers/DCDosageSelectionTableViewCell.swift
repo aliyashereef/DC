@@ -23,5 +23,12 @@ class DCDosageSelectionTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    func configureCell(cellTitle:String,selectedValue:String) {
+        
+        dosageDetailLabel.text = cellTitle
+        dosageDetailValueLabel.text = selectedValue
+    }
+
 
 }
