@@ -13,13 +13,13 @@
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="LrC-xl-ySc">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                    <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                 </tableView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstAttribute="bottom" secondItem="LrC-xl-ySc" secondAttribute="bottom" id="78L-Kt-3s9"/>
                 <constraint firstItem="LrC-xl-ySc" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="B1p-xN-JLI"/>
-                <constraint firstAttribute="bottom" secondItem="LrC-xl-ySc" secondAttribute="bottom" id="H5O-uI-97D"/>
                 <constraint firstAttribute="trailing" secondItem="LrC-xl-ySc" secondAttribute="trailing" id="kLE-Ju-qLS"/>
                 <constraint firstItem="LrC-xl-ySc" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="uOW-rF-Fpj"/>
             </constraints>

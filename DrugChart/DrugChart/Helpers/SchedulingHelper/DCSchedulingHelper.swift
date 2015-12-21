@@ -83,30 +83,63 @@ class DCSchedulingHelper: NSObject {
         }
     }
     
+    static func includeStartAndEndTimeInIntervalDescriptionForInterval(interval : DCInterval) -> Bool {
+        
+        //check to determine if start and end time is to be included in description
+        return (interval.hasStartAndEndDate == true && interval.startTime != nil && interval.endTime != nil)
+    }
+    
+    static func scheduleDescriptionForIntervalValue(interval : DCInterval) -> NSString {
+        
+        let descriptionText = NSMutableString(string: NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
+        switch interval.repeatFrequencyType {
+        case DAYS_TITLE :
+            if (interval.daysCount == "1") {
+                descriptionText.appendFormat(" %@", DAY)
+            } else {
+                descriptionText.appendFormat(" %@ %@", interval.daysCount, DAYS)
+            }
+        case HOURS_TITLE :
+            if (interval.hoursCount == "1") {
+                descriptionText.appendFormat(" %@", HOUR)
+            } else {
+                descriptionText.appendFormat(" %@ %@", interval.hoursCount, HOURS)
+            }
+        case MINUTES_TITLE :
+            if (interval.minutesCount == "1") {
+                descriptionText.appendFormat(" %@", MINUTE)
+            } else {
+                descriptionText.appendFormat(" %@ %@", interval.minutesCount, MINUTES)
+            }
+        default :
+            break
+        }
+        if (includeStartAndEndTimeInIntervalDescriptionForInterval(interval) == true) {
+            descriptionText.appendFormat(" between %@ and %@", interval.startTime, interval.endTime)
+        }
+        descriptionText.appendString(DOT)
+        return descriptionText
+    }
+    
     static func scheduleDescriptionForReapeatValue(repeatValue : DCRepeat) -> NSMutableString {
         
         var descriptionText : NSMutableString = NSMutableString()
         switch repeatValue.repeatType {
-        case DAILY :
-            if (repeatValue.frequency == "1 day") {
-                descriptionText = NSMutableString(format: "%@ day.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
-            } else {
+            case DAILY :
+                if (repeatValue.frequency == SINGLE_DAY) {
+                    descriptionText = NSMutableString(format: "%@ day.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
+                } else {
+                    descriptionText = NSMutableString(format: "%@ %@", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), repeatValue.frequency)
+                }
+            case WEEKLY :
+                descriptionText = descriptionTextForWeeklySpecificTimesSchedulingForRepeatValue(repeatValue)
+            case MONTHLY:
+                descriptionText = descriptionTextForMonthlySpecificTimesSchedulingForRepeatValue(repeatValue)
+            case YEARLY:
+                descriptionText = descriptionTextForYearlySpecificTimesSchedulingForRepeatValue(repeatValue)
+            default:
                 descriptionText = NSMutableString(format: "%@ %@", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), repeatValue.frequency)
-            }
-            break
-        case WEEKLY :
-            descriptionText = descriptionTextForWeeklySpecificTimesSchedulingForRepeatValue(repeatValue)
-            break
-        case MONTHLY:
-            descriptionText = descriptionTextForMonthlySpecificTimesSchedulingForRepeatValue(repeatValue)
-            break
-        case YEARLY:
-            descriptionText = descriptionTextForYearlySpecificTimesSchedulingForRepeatValue(repeatValue)
-            break
-        default:
-            descriptionText = NSMutableString(format: "%@ %@", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), repeatValue.frequency)
-            break
-            }
+        }
         return descriptionText
     }
     
@@ -124,13 +157,13 @@ class DCSchedulingHelper: NSObject {
         let weekDays = repeatValue.weekDays as NSArray as? [String]
         let weeksString = weekDays!.joinWithSeparator(", ")
         if (repeatValue.weekDays.count > 0) {
-            if (repeatValue.frequency == "1 week") {
+            if (repeatValue.frequency == SINGLE_WEEK) {
                 descriptionText = NSMutableString(format: "%@ week on %@.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), weeksString)
             } else {
                 descriptionText = NSMutableString(format: "%@ %@ on %@.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), repeatValue.frequency, weeksString)
             }
         } else {
-            if (repeatValue.frequency == "1 week") {
+            if (repeatValue.frequency == SINGLE_WEEK) {
                 descriptionText = NSMutableString(format: "%@ week.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
             } else {
                 descriptionText = NSMutableString(format: "%@ %@.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), repeatValue.frequency)
@@ -158,7 +191,7 @@ class DCSchedulingHelper: NSObject {
                 let ordinal = NSString.ordinalNumberFormat(convertedNumber)
                 eachValue = ordinal
             }
-            if (repeatValue.frequency == "1 year") {
+            if (repeatValue.frequency == SINGLE_YEAR) {
                 descriptionText = NSMutableString(format: "%@ year on the %@ of %@.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), eachValue, month)
             } else {
                 descriptionText = NSMutableString(format: "%@ %@ on the %@ of %@.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), repeatValue.frequency, eachValue, month)
@@ -167,7 +200,7 @@ class DCSchedulingHelper: NSObject {
             if (repeatValue.yearOnTheValue == nil) {
                 repeatValue.yearOnTheValue = "First Sunday January"
             }
-            if (repeatValue.frequency == "1 year") {
+            if (repeatValue.frequency == SINGLE_YEAR) {
                 descriptionText = NSMutableString(format: "%@ year on the %@.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""), repeatValue.yearOnTheValue )
             } else {
                 let yearArray = repeatValue.yearOnTheValue.characters.split{$0 == " "}.map(String.init)
@@ -239,4 +272,29 @@ class DCSchedulingHelper: NSObject {
         return numbersArray;
     }
     
+    static func dateIsLessThanOrEqualToEndDate(date : NSDate, endDate : NSDate) -> Bool {
+        
+        //check if date is less than or equal to end date
+        return (date.compare(endDate) == .OrderedAscending) || (date.compare(endDate) == .OrderedSame)
+    }
+    
+    static func administrationTimesForIntervalSchedulingWithRepeatFrequencyType(type : PickerType, timeGap difference : Int ,WithStartDateString startDateString : String, WithendDateString endDateString : String) -> NSMutableArray {
+        
+        //administration times for interval scheduling with start date and end date in 24 hr format. Calculate administration times between start date and end date from the repeat frequency
+        let startDate = DCDateUtility.dateFromSourceString(startDateString)
+        let endDate = DCDateUtility.dateFromSourceString(endDateString)
+        let calendar = NSCalendar.currentCalendar()
+        let calendarUnit : NSCalendarUnit = (type == eHoursCount) ? .Hour : .Minute
+        let timeArray : NSMutableArray = []
+        var newDate = startDate
+        timeArray.addObject(startDateString)
+        while (dateIsLessThanOrEqualToEndDate(newDate, endDate: endDate)) {
+            newDate = calendar.dateByAddingUnit(calendarUnit, value: difference, toDate: newDate!, options: NSCalendarOptions.MatchNextTime)
+            if(dateIsLessThanOrEqualToEndDate(newDate, endDate: endDate)) {
+                let newDateString = DCDateUtility.timeStringInTwentyFourHourFormat(newDate)
+                timeArray.addObject(newDateString)
+            }
+        }
+        return timeArray
+    }
 }
