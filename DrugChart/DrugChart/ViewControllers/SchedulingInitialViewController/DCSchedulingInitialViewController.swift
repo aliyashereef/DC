@@ -207,6 +207,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         descriptionCell!.delegate = self;
         descriptionCell?.populatePlaceholderForFieldIsInstruction(false)
         let schedulingDescription = (scheduling?.type == SPECIFIC_TIMES) ? scheduling?.specificTimes?.specificTimesDescription : scheduling?.interval?.intervalDescription
+        descriptionCell?.descriptionTextView.font = UIFont.systemFontOfSize(15.0)
         if schedulingDescription != nil {
             descriptionCell?.descriptionTextView?.text = schedulingDescription
         }

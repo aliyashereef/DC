@@ -524,6 +524,10 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         if (medicationScheduleDetails.scheduling == nil) {
             medicationScheduleDetails.scheduling = DCScheduling.init();
             medicationScheduleDetails.scheduling.type = SPECIFIC_TIMES;
+            medicationScheduleDetails.scheduling.specificTimes = DCSpecificTimes.init()
+            medicationScheduleDetails.scheduling.specificTimes.repeatObject = DCRepeat.init()
+            medicationScheduleDetails.scheduling.specificTimes.repeatObject.repeatType = DAILY
+            medicationScheduleDetails.scheduling.specificTimes.repeatObject.frequency = "1 day"
         }
         addMedicationViewController?.selectedMedication = medicationScheduleDetails
         addMedicationViewController?.isEditMedication = true

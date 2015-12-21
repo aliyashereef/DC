@@ -152,17 +152,11 @@
     } else if (type == eSchedulingCell) {
         cell.titleLabel.text = NSLocalizedString(@"FREQUENCY", @"");
         if (doneClicked) {
-            //TODO: currently hard coding time values for interval
-//            if ([self.selectedMedication.scheduling.type isEqualToString:INTERVAL]) {
-//                NSArray *intervalTimes = @[@{@"time" : @"10:00", @"selected" : @1}];
-//                self.selectedMedication.timeArray = [NSMutableArray arrayWithArray:intervalTimes];
-//            }
             if ([DCAddMedicationHelper frequencyIsValidForSelectedMedication:self.selectedMedication]) {
                 cell.titleLabel.textColor = [UIColor blackColor];
             } else {
                 cell.titleLabel.textColor = [UIColor redColor];
             }
-//            cell.titleLabel.textColor = (self.selectedMedication.scheduling.type == nil || self.selectedMedication.timeArray.count == 0)? [UIColor redColor] : [UIColor blackColor];
         }
         cell.descriptionLabel.text = self.selectedMedication.scheduling.type;
     } else if (type == eAdministratingTimeCell) {
