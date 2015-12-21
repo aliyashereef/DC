@@ -358,12 +358,14 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
     func configureInlinePicker(indexPath: NSIndexPath) -> DCDosageDetailPickerCell {
         
         if (indexPath.row == 1) {
-            let dosageDetailCell : DCDosageDetailPickerCell? = dosageDetailTableView.dequeueReusableCellWithIdentifier(DOSE_PICKER_DISPLAY_CELL_ID) as? DCDosageDetailPickerCell
             
+            let dosageDetailCell : DCDosageDetailPickerCell? = dosageDetailTableView.dequeueReusableCellWithIdentifier(DOSE_PICKER_DISPLAY_CELL_ID) as? DCDosageDetailPickerCell
+            dosageDetailCell?.configurePickerCellForPickerType(eReducingIncreasingType)
             return dosageDetailCell!
         } else {
-            let dosageDetailCell : DCDosageDetailPickerCell? = dosageDetailTableView.dequeueReusableCellWithIdentifier(DOSE_PICKER_DISPLAY_CELL_ID) as? DCDosageDetailPickerCell
             
+            let dosageDetailCell : DCDosageDetailPickerCell? = dosageDetailTableView.dequeueReusableCellWithIdentifier(DOSE_PICKER_DISPLAY_CELL_ID) as? DCDosageDetailPickerCell
+            dosageDetailCell?.configurePickerCellForPickerType(eDailyCount)
             return dosageDetailCell!
         }
     }

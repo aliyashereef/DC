@@ -20,6 +20,7 @@ import UIKit
     let dosageMenuItems = ["Fixed","Variable","Reducing / Increasing","Split Daily"]
     var menuType : DosageSelectionType = eDosageMenu
     var selectedDetailType : DosageDetailType = eDoseValue
+    var timeArray : NSMutableArray? = []
     var isRowAlreadySelected : Bool = false
     var valueForDoseUnit : NSString = "mg"
     var valueForDoseValue : NSString = ""
@@ -28,6 +29,7 @@ import UIKit
     var valueForStartingDoseValue : NSString = ""
     var valueForChangeOver : NSString = ""
     var valueForCondition : NSString = ""
+    var countOfTimeArray : Int = 0
     var previousIndexPath = NSIndexPath(forRow: 5, inSection: 0)
     var dosageArray = [String]()
     @IBOutlet weak var dosageTableView: UITableView!
@@ -68,6 +70,16 @@ import UIKit
         }
         valueForChangeOver = "Days"
         valueForCondition = "Reduce 50 mg every day"
+        
+        if (timeArray != nil) {
+            for contentDict in timeArray! {
+                
+                if ((contentDict.valueForKey("selected") as! Int) == 1) {
+                    
+                    countOfTimeArray++
+                }
+            }
+        }
     }
     
     func configureNavigationBarItems() {
@@ -86,7 +98,7 @@ import UIKit
             return 1
         } else if (menuType == eSplitDaily) {
             
-            return 2
+            return 4
         } else {
             
             return 2
@@ -104,9 +116,8 @@ import UIKit
                 
             case eFixedDosage.rawValue:
                 return 2
-                // Todo : For next release
-//            case eSplitDaily.rawValue:
-//                return 2 
+            case eSplitDaily.rawValue:
+                return 2
             case eVariableDosage.rawValue:
                 return 3
             case eReducingIncreasing.rawValue:
@@ -114,11 +125,9 @@ import UIKit
             default:
                 break
             }
-            // For next release.
-//        } else if (section == 2) {
-//            
-//            return 4
-//        }
+        } else if (section == 2) {
+            
+            return countOfTimeArray
         }
         return 1
     }
@@ -328,12 +337,20 @@ import UIKit
             }
         case eSplitDaily.rawValue:
             // Configure the cell...
-            if(indexPath.row == 0){
+            if (indexPath.section == 1) {
+                if(indexPath.row == 0){
+                    
+                    dosageSelectionDetailCell?.configureCell(DOSE_UNIT_LABEL_TEXT, selectedValue: valueForDoseUnit as String)
+                }else {
+                    
+                    dosageSelectionDetailCell?.configureCell(DOSE_VALUE_TITLE, selectedValue: valueForDoseValue as String)
+                }
+            } else if (indexPath.section == 2) {
                 
-                dosageSelectionDetailCell?.configureCell(DOSE_UNIT_LABEL_TEXT, selectedValue: valueForDoseUnit as String)
-            }else {
                 
-                dosageSelectionDetailCell?.configureCell(DOSE_VALUE_TITLE, selectedValue: valueForDoseValue as String)
+            } else {
+                
+                
             }
         default:
             break

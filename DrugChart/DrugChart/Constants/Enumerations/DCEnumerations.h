@@ -141,7 +141,8 @@ typedef enum : NSUInteger {
     eYearOnTheCount,
     eDayCount,
     eHoursCount,
-    eMinutesCount
+    eMinutesCount,
+    eReducingIncreasingType
 }PickerType;
 
 
