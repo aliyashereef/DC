@@ -333,11 +333,11 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
             if (self.scheduling?.interval == nil) {
                 //initialise interval
                 self.scheduling?.interval = DCInterval.init()
-                //initial SetStartAndEndDate switch should be true
+                //initial SetStartAndEndDate switch should be false
                 self.scheduling?.interval?.hasStartAndEndDate = false
-                self.scheduling?.interval?.repeatFrequencyType = DAYS_TITLE
-                self.scheduling?.interval.daysCount = "1"
-                self.scheduling?.interval?.intervalDescription = String(format: "%@ day.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
+                self.scheduling?.interval?.repeatFrequencyType = HOURS_TITLE
+                self.scheduling?.interval.hoursCount = "1"
+                self.scheduling?.interval?.intervalDescription = String(format: "%@ hour.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
                 if (self.scheduling?.interval?.startTime == nil) {
                     let startTimeInCurrentZone  = DCDateUtility.dateInCurrentTimeZone(NSDate())
                     let startTime = DCDateUtility.timeStringInTwentyFourHourFormat(startTimeInCurrentZone)
