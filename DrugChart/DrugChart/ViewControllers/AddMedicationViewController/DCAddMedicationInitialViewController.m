@@ -152,11 +152,16 @@
         cell.titleLabel.text = NSLocalizedString(@"FREQUENCY", @"");
         if (doneClicked) {
             //TODO: currently hard coding time values for interval
-            if ([self.selectedMedication.scheduling.type isEqualToString:INTERVAL]) {
-                NSArray *intervalTimes = @[@{@"time" : @"10:00", @"selected" : @1}];
-                self.selectedMedication.timeArray = [NSMutableArray arrayWithArray:intervalTimes];
+//            if ([self.selectedMedication.scheduling.type isEqualToString:INTERVAL]) {
+//                NSArray *intervalTimes = @[@{@"time" : @"10:00", @"selected" : @1}];
+//                self.selectedMedication.timeArray = [NSMutableArray arrayWithArray:intervalTimes];
+//            }
+            if ([DCAddMedicationHelper frequencyIsValidForSelectedMedication:self.selectedMedication]) {
+                cell.titleLabel.textColor = [UIColor blackColor];
+            } else {
+                cell.titleLabel.textColor = [UIColor redColor];
             }
-            cell.titleLabel.textColor = (self.selectedMedication.scheduling.type == nil || self.selectedMedication.timeArray.count == 0)? [UIColor redColor] : [UIColor blackColor];
+//            cell.titleLabel.textColor = (self.selectedMedication.scheduling.type == nil || self.selectedMedication.timeArray.count == 0)? [UIColor redColor] : [UIColor blackColor];
         }
         cell.descriptionLabel.text = self.selectedMedication.scheduling.type;
     } else if (type == eAdministratingTimeCell) {
@@ -646,36 +651,11 @@
     
     UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
     DCSchedulingInitialViewController *schedulingViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:SCHEDULING_INITIAL_STORYBOARD_ID];
-   // AddMedicationDetailType detailType = [DCAddMedicationHelper medicationDetailTypeForIndexPath:indexPath hasWarnings:showWarnings];
-//    schedulingDetailViewController.detailType = detailType;
-    //TODO: temporarrly added... remove this on actual scheduling data from api
-//    if (self.isEditMedication) {
-//        if (self.selectedMedication.scheduling == nil) {
-//            self.selectedMedication.scheduling = [[DCScheduling alloc] init];
-//            self.selectedMedication.scheduling.type = SPECIFIC_TIMES;
-//        }
-//        if (self.selectedMedication.scheduling.repeat == nil) {
-//            self.selectedMedication.scheduling.repeat = [[DCRepeat alloc] init];
-//            self.selectedMedication.scheduling.repeat.repeatType = DAILY;
-//            self.selectedMedication.scheduling.repeat.frequency = @"1 day";
-//        }
-//    }
-//    schedulingDetailViewController.repeatValue = self.selectedMedication.scheduling.repeat;
-//    schedulingDetailViewController.selectedEntry = ^ (NSString *selectedValue){
-//        if (detailType == eDetailSchedulingType) {
-//            self.selectedMedication.scheduling.type = selectedValue;
-//        }
-//    };
-//    schedulingDetailViewController.repeatCompletion = ^ (DCRepeat *repeat) {
-//        self.selectedMedication.scheduling.repeat = repeat;
-//    };
-//    DCAddMedicationContentCell *selectedCell = [self selectedCellAtIndexPath:indexPath];
-//    schedulingDetailViewController.previousFilledValue = selectedCell.descriptionLabel.text;
     schedulingViewController.selectedSchedulingValue = ^ (DCScheduling *scheduling) {
         
     };
     schedulingViewController.updatedTimeArray = ^ (NSMutableArray *timeArray) {
-        self.selectedMedication.timeArray = timeArray;
+        self.selectedMedication.timeArray = [DCAddMedicationHelper timesArrayFromScheduleArray:timeArray];
     };
     if (self.isEditMedication) {
         if (self.selectedMedication.scheduling == nil) {
@@ -1271,9 +1251,10 @@
     
     if (isInstruction) {
         self.selectedMedication.instruction = instructions;
-    } else {
-        self.selectedMedication.scheduling.schedulingDescription = instructions;
     }
+//    else {
+//        self.selectedMedication.scheduling.schedulingDescription = instructions;
+//    }
 }
 
 - (void)configureInstructionForMedication {

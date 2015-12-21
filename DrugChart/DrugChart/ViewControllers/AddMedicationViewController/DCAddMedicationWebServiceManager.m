@@ -66,7 +66,9 @@
     if ([medication.medicineCategory isEqualToString:REGULAR_MEDICATION]) {
         
         [medicationDictionary setValue:startDateString forKey:START_DATE_TIME];
-        [medicationDictionary setValue:scheduleArray forKey:SCHEDULE_TIMES];
+       // if (scheduleArray.count > 0) {
+            [medicationDictionary setValue:scheduleArray forKey:SCHEDULE_TIMES];
+      //  }
         if (medication.hasEndDate) {
             [medicationDictionary setValue:endDateString forKey:END_DATE_TIME];
         }

@@ -17,4 +17,10 @@ class DCSchedulingHeaderView: UIView {
         messageLabel.text = DCSchedulingHelper.scheduleDescriptionForReapeatValue(repeatValue) as String
         messageLabel.sizeToFit()
     }
+    
+    func populateMessageLabelForIntervalValue(intervalValue : DCInterval) {
+        
+        messageLabel.text = DCSchedulingHelper.scheduleDescriptionForIntervalValue(intervalValue) as String
+        messageLabel.sizeToFit()
+    }
 }
