@@ -71,9 +71,6 @@ import QuartzCore
         indicatorLabel.textAlignment = .Center
         indicatorLabel.textColor = UIColor.whiteColor()
         indicatorLabel.text = dateString
-//        indicatorLabel.backgroundColor = UIColor(forHexString: "#007aff")
-//        indicatorLabel.layer.cornerRadius = 12.5
-//        indicatorLabel.layer.masksToBounds = true
         self.addSubview(indicatorLabel)
     }
 }

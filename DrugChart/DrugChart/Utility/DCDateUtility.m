@@ -15,7 +15,6 @@
     
     //make current date as the middle date and get initial day of the week
     NSCalendar *currentCalendar = [NSCalendar currentCalendar];
-    [currentCalendar setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
     NSDateComponents *components = [currentCalendar components:DATE_COMPONENTS fromDate:date];
     [components setDay:components.day];
     [components setHour:0];
@@ -48,7 +47,7 @@
     NSArray *monthSymbols = [self monthNames];
     NSMutableArray *displayArray = [[NSMutableArray alloc] init];
     for (NSDate *date in datesArray) {
-        NSDateComponents *dateComponents = [[NSCalendar currentCalendar] components:DATE_COMPONENTS fromDate:date];
+        NSDateComponents *dateComponents = [[NSCalendar currentCalendar] components:DATE_COMPONENTS fromDate:[DCDateUtility dateInCurrentTimeZone:date]];
        NSMutableString *dateString = [NSMutableString stringWithFormat:@"%@ %ld", [monthSymbols objectAtIndex:[dateComponents month] - 1], (long)[dateComponents year]];
         [displayArray addObject:dateString];
     }
