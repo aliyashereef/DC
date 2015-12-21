@@ -45,6 +45,9 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         let currentSystemDate : NSDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
         let currentDateString : NSString? = DCDateUtility.dateStringFromDate(currentSystemDate, inFormat: SHORT_DATE_FORMAT)
         
+        if (medication.medicationAdministration?.status != nil && medication.medicationAdministration.actualAdministrationTime != nil){
+            return medication.status
+        }
         if (medication.time.compare(currentSystemDate) == NSComparisonResult.OrderedDescending){
             let slotDateString : NSString? = DCDateUtility.dateStringFromDate(slotToAdminister?.time, inFormat: SHORT_DATE_FORMAT)
             if (currentDateString != slotDateString) {
@@ -55,9 +58,6 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
             if (medication.time.compare(slotToAdministerDate) == NSComparisonResult.OrderedSame) {
                 return ADMINISTER_MEDICATION
             }
-        }
-        if (medication.medicationAdministration?.status != nil && medication.medicationAdministration.actualAdministrationTime != nil){
-            return medication.status
         }
         if (medication.time.compare(currentSystemDate) == NSComparisonResult.OrderedAscending) {
             if (slotToAdminister?.medicationAdministration?.actualAdministrationTime == nil){
@@ -128,6 +128,9 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         let medicationSlot : DCMedicationSlot = medicationSlotsArray[indexPath.row]
         if (medicationSlot.medicationAdministration?.status != nil && medicationSlot.medicationAdministration.actualAdministrationTime != nil) {
             cell!.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+            cell!.statusLabelTrailingSpace.constant = 5.0
+        } else {
+            cell!.statusLabelTrailingSpace.constant = 15.0
         }
 
         cell!.administrationStatusLabel.text = configureMedicationStatusInCell(medicationSlot) as String

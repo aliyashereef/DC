@@ -91,6 +91,7 @@
                                         <connections>
                                             <outlet property="administrationStatusLabel" destination="yoa-54-ICr" id="c8z-ig-2Rj"/>
                                             <outlet property="administrationTimeLabel" destination="BsP-fe-Twk" id="KAS-b1-uY1"/>
+                                            <outlet property="statusLabelTrailingSpace" destination="N5k-DV-98K" id="sUX-G9-fF4"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
