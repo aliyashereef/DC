@@ -297,4 +297,15 @@ class DCSchedulingHelper: NSObject {
         }
         return timeArray
     }
+    
+    static func intervalPreviewArrayFromAdministrationTimeDetails(timeArray : NSArray) -> NSMutableArray {
+        
+        // get administration times from preview array
+        let previewArray : NSMutableArray = []
+        for timesDictionary in timeArray {
+            let time = timesDictionary["time"]
+            previewArray.addObject(time as! String)
+        }
+        return previewArray
+    }
 }

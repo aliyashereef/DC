@@ -46,6 +46,9 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        if timeArray?.count > 0 {
+            previewArray = DCSchedulingHelper.intervalPreviewArrayFromAdministrationTimeDetails(timeArray!)
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -161,12 +164,12 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
                         }
                     }
                     schedulingCell!.descriptionLabel.text = repeatFrequency as String
-                    break
                 default :
                     break
                 }
             }
         }
+        schedulingCell?.selectionStyle = .Default
         return schedulingCell!
     }
     
@@ -177,6 +180,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         previewCell?.descriptionLabel.hidden = true
         previewCell?.accessoryType = .None
         previewCell?.titleLabel.text = previewArray![indexPath.item] as? String
+        previewCell?.selectionStyle = .None
         return previewCell!
     }
     
@@ -196,6 +200,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
             let endTime = self.scheduling?.interval?.endTime == nil ? EMPTY_STRING : self.scheduling?.interval?.endTime
             timeCell?.configureTimeCellForTimeType(NSLocalizedString("END_TIME", comment: "end time title"), withSelectedValue: endTime!)
         }
+        timeCell?.selectionStyle = .Default
         return timeCell!
     }
     
@@ -564,7 +569,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         
         if (indexPath.section == 0) {
             configureFrequencyTableForFrequencyTypeSelectionAtindexPath(indexPath)
-        } else {
+        } else if (indexPath.section != 2) {
             if (self.scheduling?.type == SPECIFIC_TIMES) {
                 if (indexPath.row == 0) {
                     presentAdministrationTimeView()
