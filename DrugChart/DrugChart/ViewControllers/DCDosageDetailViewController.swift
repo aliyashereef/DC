@@ -29,6 +29,7 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
     let changeOverItemsArray = ["Days","Doses"]
     var conditionsItemsArray = ["Reduce 50 mg every day"]
     var addConditionMenuItems = ["Change","Dose","Every","Until"]
+    var doseForTimeArray = ["250","100","50","30","20","10"]
     var detailType : DosageDetailType = eDoseUnit
     var viewTitleForDisplay : NSString = ""
     var previousSelectedValue : NSString = ""
@@ -52,7 +53,7 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
     
     func configureNavigationBarItems() {
         
-        if (detailType == eAddNewDosage || detailType == eAddCondition) {
+        if (detailType == eAddNewDosage || detailType == eAddCondition || detailType == eAddNewTime) {
             
             // Configure bar buttons for Add new.
             let cancelButton: UIBarButtonItem = UIBarButtonItem(title: CANCEL_BUTTON_TITLE, style: .Plain, target: self, action: "cancelButtonPressed")
@@ -63,10 +64,14 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
                 
                 self.navigationItem.title = ADD_NEW_TITLE
                 self.title = ADD_NEW_TITLE
-            } else {
+            } else if (detailType == eAddCondition){
                 
                 self.navigationItem.title = ADD_CONDITION_TITLE
                 self.title = ADD_CONDITION_TITLE
+            } else {
+                
+                self.navigationItem.title = ADD_NEW_TIME
+                self.title = ADD_NEW_TIME
             }
         } else {
             
@@ -101,10 +106,10 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        if (detailType == eDoseUnit || detailType == eAddNewDosage || detailType == eChangeOver || detailType == eAddCondition ) {
+        if (detailType == eDoseUnit || detailType == eAddNewDosage || detailType == eChangeOver || detailType == eAddCondition || detailType == eAddNewTime) {
             
             return 1
-        } else if (detailType == eConditions) {
+        } else if (detailType == eConditions || detailType == eAddDoseForTime) {
             
             return 2
         } else if (dosageDetailsArray.count == 0){
@@ -120,19 +125,23 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
         
         if (section == 0) {
             
-            if( dosageDetailsArray.count == 0 && (detailType != eChangeOver && detailType != eAddCondition)) {
-                
-                return 1
-            } else if (detailType == eDoseUnit) {
+            
+            if (detailType == eDoseUnit) {
                 
                 return dosageUnitItems.count
             } else if (detailType == eDoseValue || detailType == eDoseFrom || detailType == eDoseTo || detailType == eStartingDose) {
                 
-                return dosageDetailsArray.count
+                if (dosageDetailsArray.count != 0) {
+                    
+                    return dosageDetailsArray.count
+                } else {
+                    
+                    return 1
+                }
             } else if (detailType == eChangeOver) {
                 
                 return changeOverItemsArray.count
-            } else if (detailType == eAddNewDosage) {
+            } else if (detailType == eAddNewDosage || detailType == eAddNewTime) {
                 
                 return 1
             } else if (detailType == eConditions ) {
@@ -141,7 +150,10 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
             } else if (detailType == eAddCondition) {
                 
                 return 6
-            }else {
+            } else if(detailType == eAddDoseForTime){
+                
+                return doseForTimeArray.count
+            } else {
                 
                 return 2
             }
@@ -168,7 +180,11 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
                 let dosageDetailCell : DCDosageDetailPickerCell = self.configureInlinePicker(indexPath)
                 return dosageDetailCell
             }
-        }else {
+        }else if (detailType == eAddNewTime) {
+            
+            let dosageDetailCell : DCDosageDetailTableViewCell? = dosageDetailTableView.dequeueReusableCellWithIdentifier(ADD_NEW_TIME_CELL_ID) as? DCDosageDetailTableViewCell
+            return dosageDetailCell!
+        } else {
             if (indexPath.section == 0) {
                 
                 let cellForDisplay : DCDosageDetailTableViewCell = self.configureCellForDisplay(indexPath)
@@ -185,7 +201,7 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
         
         if (indexPath.section == 0 ) {
             
-            if (dosageDetailsArray.count != 0 || detailType == eChangeOver || detailType == eConditions) {
+            if (dosageDetailsArray.count != 0 || detailType == eChangeOver || detailType == eConditions || detailType == eDoseUnit || detailType == eAddDoseForTime) {
                 
                 switch (detailType.rawValue) {
                     
@@ -197,7 +213,8 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
                     delegate?.userDidSelectValue(changeOverItemsArray[indexPath.row])
                 case eConditions.rawValue:
                     delegate?.userDidSelectValue(conditionsItemsArray[indexPath.row])
-                    //Todo : cases for split daily.
+                case eAddDoseForTime.rawValue:
+                    delegate?.userDidSelectValue(doseForTimeArray[indexPath.row])
                 default:
                     break
                 }
@@ -238,10 +255,15 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
                     return 216
                 }
             }
+        } else if (detailType == eAddNewTime) {
+            
+            return 216
         }
         return 44 //Choose your custom row height
     }
     
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    }
     // MARK: - Private Methods
     
     func configureCellForAddNew() -> DCDosageDetailTableViewCell{
@@ -273,14 +295,21 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
             dosageDetailCell?.accessoryType = (previousSelectedValue == conditionsItemsArray[indexPath.row]) ? .Checkmark : .None
             dosageDetailCell!.dosageDetailDisplayCell.text = conditionsItemsArray[indexPath.row]
             return dosageDetailCell!
+        } else if (detailType == eAddDoseForTime) {
+            
+            dosageDetailCell?.accessoryType = (previousSelectedValue == doseForTimeArray[indexPath.row]) ? .Checkmark : .None
+            dosageDetailCell!.dosageDetailDisplayCell.text = doseForTimeArray[indexPath.row]
+            return dosageDetailCell!
+        } else if (detailType == eDoseUnit) {
+            
+            dosageDetailCell?.accessoryType = (previousSelectedValue == dosageUnitItems[indexPath.row]) ? .Checkmark : .None
+            dosageDetailCell!.dosageDetailDisplayCell.text = dosageUnitItems[indexPath.row]
+            return dosageDetailCell!
         }
         if (dosageDetailsArray.count != 0) {
             
             switch (detailType.rawValue) {
                 
-            case eDoseUnit.rawValue:
-                dosageDetailCell?.accessoryType = (previousSelectedValue == dosageUnitItems[indexPath.row]) ? .Checkmark : .None
-                dosageDetailCell!.dosageDetailDisplayCell.text = dosageUnitItems[indexPath.row]
             case eDoseValue.rawValue:
                 dosageDetailCell?.accessoryType = (previousSelectedValue == dosageDetailsArray[indexPath.row]) ? .Checkmark : .None
                 dosageDetailCell!.dosageDetailDisplayCell.text = dosageDetailsArray[indexPath.row]
@@ -377,7 +406,6 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
     
     func transitToAddNewScreen (){
         
-        
         let dosageDetailViewController : DCDosageDetailViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_DETAIL_SBID) as? DCDosageDetailViewController
         dosageDetailViewController?.newDosageDelegate = self
         if (detailType != eConditions) {
@@ -392,6 +420,13 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
         self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
         
     }
+    
+    func validateNewDosageValue (value: String) -> Bool {
+        
+        let scanner: NSScanner = NSScanner(string:value)
+        let isNumeric = scanner.scanDecimal(nil) && scanner.atEnd
+        return isNumeric
+    }
     // MARK: - Action Methods
     
     func cancelButtonPressed() {
@@ -401,9 +436,16 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
     
     func doneButtonPressed() {
         
-        let dosageCell: DCDosageDetailTableViewCell = dosageDetailTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! DCDosageDetailTableViewCell
-        if (dosageCell.addNewDosageTextField.text! != "") {
-            newDosageDelegate?.prepareForTransitionBackToSelection(dosageCell.addNewDosageTextField.text!)
+        if (detailType == eAddNewDosage) {
+            let dosageCell: DCDosageDetailTableViewCell = dosageDetailTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! DCDosageDetailTableViewCell
+            if (dosageCell.addNewDosageTextField.text! != "" && validateNewDosageValue(dosageCell.addNewDosageTextField.text!)) {
+                newDosageDelegate?.prepareForTransitionBackToSelection(dosageCell.addNewDosageTextField.text!)
+                self.navigationController!.dismissViewControllerAnimated(true, completion:nil)
+            }
+        } else if (detailType == eAddNewTime) {
+            let dosageCell: DCDosageDetailTableViewCell = dosageDetailTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! DCDosageDetailTableViewCell
+            let newTime = DCDateUtility.dateInCurrentTimeZone(dosageCell.timePickerView.date)
+            delegate?.userDidSelectValue(DCDateUtility.timeStringInTwentyFourHourFormat(newTime))
             self.navigationController!.dismissViewControllerAnimated(true, completion:nil)
         }
     }

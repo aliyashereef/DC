@@ -86,6 +86,30 @@
                                             <outlet property="dosageMenuLabel" destination="59o-cL-az3" id="2og-PZ-Nwl"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="requiredDailyDoseCell" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationWidth="10" reuseIdentifier="requiredDailyDoseCell" id="erb-tV-nGq" customClass="DCDosageSelectionTableViewCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="138" width="310" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="erb-tV-nGq" id="HgG-EI-glO">
+                                            <rect key="frame" x="0.0" y="0.0" width="310" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Required daily dose" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GnW-tM-8oY">
+                                                    <rect key="frame" x="16" y="0.0" width="294" height="43"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="GnW-tM-8oY" secondAttribute="bottom" id="Ssd-K5-pyf"/>
+                                                <constraint firstAttribute="trailing" secondItem="GnW-tM-8oY" secondAttribute="trailing" id="XXa-K8-vRa"/>
+                                                <constraint firstItem="GnW-tM-8oY" firstAttribute="leading" secondItem="HgG-EI-glO" secondAttribute="leading" constant="16" id="uex-lu-y1B"/>
+                                                <constraint firstItem="GnW-tM-8oY" firstAttribute="top" secondItem="HgG-EI-glO" secondAttribute="top" id="url-9O-wgc"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="requiredDailyDoseTextField" destination="GnW-tM-8oY" id="Elo-xs-CXq"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="iOv-eb-Yx3" id="hOi-Nf-RzU"/>
@@ -242,6 +266,35 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="pickerView" destination="r1f-se-abM" id="DHG-R4-ke9"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="timePickerViewCellID" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationWidth="10" reuseIdentifier="timePickerViewCell" rowHeight="216" id="Yfd-mI-V2Q" customClass="DCDosageDetailTableViewCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="398" width="310" height="216"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Yfd-mI-V2Q" id="G9U-qO-PeE">
+                                            <rect key="frame" x="0.0" y="0.0" width="310" height="215"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="Flz-Km-DIo">
+                                                    <rect key="frame" x="0.0" y="0.0" width="310" height="215"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="215" id="BWd-j7-2dh"/>
+                                                    </constraints>
+                                                    <date key="date" timeIntervalSinceReferenceDate="472544046.316535">
+                                                        <!--2015-12-23 06:14:06 +0000-->
+                                                    </date>
+                                                    <locale key="locale" localeIdentifier="it_CH"/>
+                                                </datePicker>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Flz-Km-DIo" firstAttribute="top" secondItem="G9U-qO-PeE" secondAttribute="top" id="1Xd-6a-743"/>
+                                                <constraint firstItem="Flz-Km-DIo" firstAttribute="leading" secondItem="G9U-qO-PeE" secondAttribute="leading" id="SQd-On-Xh2"/>
+                                                <constraint firstAttribute="bottom" secondItem="Flz-Km-DIo" secondAttribute="bottom" id="nDB-sC-IJl"/>
+                                                <constraint firstAttribute="trailing" secondItem="Flz-Km-DIo" secondAttribute="trailing" id="nWv-z9-pC6"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="timePickerView" destination="Flz-Km-DIo" id="W2E-kM-FtL"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

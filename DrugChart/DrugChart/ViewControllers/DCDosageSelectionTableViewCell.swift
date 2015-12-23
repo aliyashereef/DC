@@ -13,6 +13,7 @@ class DCDosageSelectionTableViewCell: UITableViewCell {
     @IBOutlet weak var dosageMenuLabel: UILabel!
     @IBOutlet weak var dosageDetailLabel: UILabel!
     @IBOutlet weak var dosageDetailValueLabel: UILabel!
+    @IBOutlet weak var requiredDailyDoseTextField: UITextField!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

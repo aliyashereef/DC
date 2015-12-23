@@ -195,6 +195,8 @@
 #define SCHEDULING_TIME_CELL_ID @"SchedulingTimeCell"
 #define SCHEDULING_DATE_PICKER_CELL_ID @"SchedulingDatePickerCellId"
 #define DOSE_PICKER_DISPLAY_CELL_ID @"pickerViewCell"
+#define REQUIRED_DAILY_DOSE_CELL_ID @"requiredDailyDoseCell"
+#define ADD_NEW_TIME_CELL_ID @"timePickerViewCell"
 
 // title for views
 #define INPATIENT_TITLE @"In Patients"
@@ -491,5 +493,7 @@
 #define ADD_CONDITION_TITLE @"Add Condition"
 #define REDUCING @"Reducing"
 #define INCREASING @"Increasing"
+#define ADD_ADMINISTRATION_TIME @"Add Administration Time"
+#define ADD_NEW_TIME @"Add New Time"
 
 #endif
