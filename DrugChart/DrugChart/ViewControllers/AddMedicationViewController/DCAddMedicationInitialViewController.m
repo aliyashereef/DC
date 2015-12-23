@@ -654,7 +654,7 @@
     UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
     DCSchedulingInitialViewController *schedulingViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:SCHEDULING_INITIAL_STORYBOARD_ID];
     schedulingViewController.selectedSchedulingValue = ^ (DCScheduling *scheduling) {
-        
+        self.selectedMedication.scheduling = scheduling;
     };
     schedulingViewController.updatedTimeArray = ^ (NSMutableArray *timeArray) {
         //self.selectedMedication.timeArray = [DCAddMedicationHelper timesArrayFromScheduleArray:timeArray];

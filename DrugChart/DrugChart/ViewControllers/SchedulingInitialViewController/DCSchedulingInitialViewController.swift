@@ -58,6 +58,12 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         schedulingTableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
         schedulingTableView.reloadData()
     }
+    
+    override func viewWillDisappear(animated: Bool) {
+        
+        self.selectedSchedulingValue(scheduling)
+        super.viewWillDisappear(animated)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -212,13 +218,13 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         let descriptionCell = schedulingTableView.dequeueReusableCellWithIdentifier(SCHEDULING_DESCRIPTION_CELL_ID) as? DCSchedulingDescriptionTableCell
         descriptionCell!.delegate = self;
         descriptionCell?.populatePlaceholderForFieldIsInstruction(false)
-        //let schedulingDescription = (scheduling?.type == SPECIFIC_TIMES) ? scheduling?.specificTimes?.specificTimesDescription : scheduling?.interval?.intervalDescription
         var schedulingDescription : NSString = EMPTY_STRING
         if (scheduling?.type == INTERVAL) {
             schedulingDescription = (scheduling?.interval?.intervalDescription)!
         } else {
             if (scheduling?.specificTimes?.repeatObject != nil && timeArray?.count > 0) {
                 schedulingDescription = DCSchedulingHelper.scheduleDescriptionForSpecificTimesRepeatValue((scheduling?.specificTimes?.repeatObject)!, administratingTimes: timeArray!)
+                scheduling?.specificTimes?.specificTimesDescription = schedulingDescription as String
             } else {
                 schedulingDescription = (scheduling?.specificTimes?.specificTimesDescription)!
             }
