@@ -133,7 +133,7 @@ class DCSchedulingHelper: NSObject {
             case 3 :
                 timesString = THRICE
             default :
-                timesString = String(timesCount)
+                timesString = String(format: "%i times", timesCount)
         }
         return timesString
     }
@@ -147,7 +147,7 @@ class DCSchedulingHelper: NSObject {
             case DAILY :
                 if (activeAdministratingTimes.count > 0) {
                     descriptionText.appendFormat("Medication will be administered")
-                    descriptionText.appendFormat(" %@ at %@ on every", timesCountString, administratingTimesStringFromTimeArray(NSMutableArray(array: activeAdministratingTimes)))
+                    descriptionText.appendFormat(" %@ every", timesCountString)
                 } else {
                     descriptionText = NSMutableString(string: NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
                 }
@@ -155,6 +155,9 @@ class DCSchedulingHelper: NSObject {
                     descriptionText.appendFormat(" %@", DAY)
                 } else {
                     descriptionText.appendFormat(" %@", repeatValue.frequency)
+                }
+                if (activeAdministratingTimes.count > 0) {
+                    descriptionText.appendFormat(" at %@", administratingTimesStringFromTimeArray(NSMutableArray(array: activeAdministratingTimes)))
                 }
             case WEEKLY :
                 descriptionText.appendFormat(" %@", descriptionTextForWeeklySpecificTimesSchedulingForRepeatValue(repeatValue, selectedAdministratingTimes: activeAdministratingTimes, timesCountDisplayString: timesCountString))
