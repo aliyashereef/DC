@@ -12,12 +12,12 @@ class DoubleCell: UITableViewCell ,UITextFieldDelegate {
 
     @IBOutlet weak var titleText: UILabel!
     @IBOutlet weak var value: UITextField!
+    var delegate:CellDelegate?
     override func awakeFromNib() {
         super.awakeFromNib()
         value.delegate=self
         // Initialization code
         value.textAlignment = NSTextAlignment.Right
-//        addDoneButtonToKeyboard()
     }
 
     
@@ -27,16 +27,53 @@ class DoubleCell: UITableViewCell ,UITextFieldDelegate {
         // Configure the view for the selected state
     }
     
+    //Mark: Done button on keyboard
+    func addDoneButtonOnKeyboard()
+    {
+        let toolbar = UIToolbar()
+        toolbar.barStyle = .Default
+        toolbar.translucent = true
+        toolbar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(title: "Done", style: .Plain, target: self, action: "doneButtonAction")
+        let flexibleSpaceButton = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
+        let fixedSpaceButton = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+        fixedSpaceButton.width = 20
+        
+        let previousButton  = UIBarButtonItem(image :UIImage(named:"previous"), style: .Plain, target: self, action: "previousButtonAction")
+        let nextButton  = UIBarButtonItem(image :UIImage(named:"next"), style: .Plain, target: self, action: "nextButtonAction")
+        
+        if(self.tag == Constant.MINIMUM_OBSERVATION_ROW)
+        {
+            previousButton.enabled = false
+        }
+        else if(self.tag == Constant.MAXIMUM_OBSERVATION_ROW)
+        {
+            nextButton.enabled = false
+        }
+        toolbar.setItems([previousButton, fixedSpaceButton, nextButton, flexibleSpaceButton, doneButton], animated: false)
+        toolbar.userInteractionEnabled = true
+        self.value.inputAccessoryView = toolbar
+    }
     
+    func doneButtonAction()
+    {
+        self.value.resignFirstResponder()
+    }
+    func nextButtonAction()
+    {
+        delegate?.moveNext(self.tag)
+    }
+    func previousButtonAction()
+    {
+        delegate?.movePrevious(self.tag)
+    }
     
-//    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-//        if let touch = touches.first as UITouch! {
-//            value.resignFirstResponder()
-//        }
-//        super.touchesBegan(touches , withEvent:event)
-//    }
-//    
-    
+    func getFocus()
+    {
+        self.value.becomeFirstResponder()
+    }
+
     func  getValue() ->Double
     {
         return (value.text as NSString!).doubleValue
@@ -62,6 +99,7 @@ class DoubleCell: UITableViewCell ,UITextFieldDelegate {
         {
             value.text = String(selectedValue)
         }
+        addDoneButtonOnKeyboard()
     }
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         
