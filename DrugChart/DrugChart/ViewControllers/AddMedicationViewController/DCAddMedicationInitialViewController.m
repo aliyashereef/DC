@@ -158,7 +158,17 @@
                 cell.titleLabel.textColor = [UIColor redColor];
             }
         }
-        cell.descriptionLabel.text = self.selectedMedication.scheduling.type;
+        NSMutableString *schedulingDescription = [[NSMutableString alloc] initWithString:EMPTY_STRING];
+        if ([self.selectedMedication.scheduling.type isEqualToString: SPECIFIC_TIMES]) {
+            schedulingDescription = [NSMutableString stringWithString:self.selectedMedication.scheduling.specificTimes.specificTimesDescription];
+        } else if ([self.selectedMedication.scheduling.type isEqualToString: INTERVAL]) {
+            schedulingDescription = [NSMutableString stringWithString:self.selectedMedication.scheduling.interval.intervalDescription];
+        }
+        if (![schedulingDescription isEqualToString:EMPTY_STRING]) {
+            NSString *substring = @"Medication will be administered";
+            schedulingDescription = [NSMutableString stringWithString:[DCUtility removeSubstring:substring FromOriginalString:schedulingDescription]] ;
+        }
+        cell.descriptionLabel.text = schedulingDescription;
     } else if (type == eAdministratingTimeCell) {
         cell.titleLabel.text = NSLocalizedString(@"ADMINISTRATING_TIME", @"");
         [cell configureMedicationAdministratingTimeCell];

@@ -1100,9 +1100,9 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ww1-5o-rcO" userLabel="DescriptionLabel">
-                                                    <rect key="frame" x="144" y="10" width="130" height="21"/>
+                                                    <rect key="frame" x="124" y="10" width="150" height="21"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="130" id="k6O-ta-zSH"/>
+                                                        <constraint firstAttribute="width" constant="150" id="k6O-ta-zSH"/>
                                                         <constraint firstAttribute="height" constant="21" id="tf6-f2-vZw"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>

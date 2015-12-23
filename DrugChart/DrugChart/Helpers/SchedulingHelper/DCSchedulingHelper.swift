@@ -135,7 +135,6 @@ class DCSchedulingHelper: NSObject {
             default :
                 timesString = String(timesCount)
         }
-        print("***** timesString is %@", timesString)
         return timesString
     }
     
@@ -143,7 +142,6 @@ class DCSchedulingHelper: NSObject {
         
         var descriptionText : NSMutableString = NSMutableString()
         let activeAdministratingTimes = self.alreadySelectedAdministratingTimesFromTimeArray(times)
-        print("**** activeAdministratingTimes is %@", activeAdministratingTimes)
         let timesCountString = self.specificTimesAdministratingTimesCountString(activeAdministratingTimes.count)
         switch repeatValue.repeatType {
             case DAILY :
@@ -306,7 +304,6 @@ class DCSchedulingHelper: NSObject {
     
     static func administratingTimesStringFromTimeArray(timeArray : NSMutableArray) -> NSString {
         
-        print("timeArray is %@", timeArray)
         let filteredArray = alreadySelectedAdministratingTimesFromTimeArray(timeArray)
         if (filteredArray.count > 0) {
             var selectedTimesArray =  [String]()
@@ -368,7 +365,7 @@ class DCSchedulingHelper: NSObject {
         let previewArray : NSMutableArray = []
         for timesDictionary in timeArray {
             let time = timesDictionary["time"]
-            previewArray.addObject(time as! String)
+            previewArray.addObject((time as? String)!)
         }
         return previewArray
     }
