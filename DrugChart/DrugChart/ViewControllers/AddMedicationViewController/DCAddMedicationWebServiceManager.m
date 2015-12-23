@@ -58,11 +58,15 @@
     NSString *routeCodeId = [self routeCodeIdForRoute:medication.route];
     [medicationDictionary setValue:routeCodeId forKey:ROUTE_CODE_ID];
     NSMutableArray *scheduleArray = [[NSMutableArray alloc] init];
-    for (NSDictionary *timeSchedule in medication.timeArray) {
-        if ([[timeSchedule valueForKey:SELECTED_ADMINISTRATING_TIME]  isEqual: @1]) {
-            [scheduleArray addObject:[NSString stringWithFormat:@"%@:00.000",[timeSchedule valueForKey:TIME]]];
+    for (id content in medication.timeArray) {
+        if ([content isKindOfClass:[NSDictionary class]]) {
+            if ([[content valueForKey:SELECTED_ADMINISTRATING_TIME]  isEqual: @1]) {
+                [scheduleArray addObject:[NSString stringWithFormat:@"%@:00.000",[content valueForKey:TIME]]];
+            }
+        } else {
+            [scheduleArray addObject:content];
         }
-    }
+    } 
     if ([medication.medicineCategory isEqualToString:REGULAR_MEDICATION]) {
         
         [medicationDictionary setValue:startDateString forKey:START_DATE_TIME];
