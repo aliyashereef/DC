@@ -204,6 +204,9 @@ class DCSchedulingHelper: NSObject {
     //description text for yearly specific times scheduling for each and on the cases
         let descriptionText : NSMutableString = NSMutableString()
         descriptionText.appendFormat("Medication will be administered")
+        if (times.count > 0) {
+            descriptionText.appendFormat(" %@ a day", timesString)
+        }
         if (repeatValue.isEachValue == true) {
             var eachValue : String = EMPTY_STRING
             if (repeatValue.yearEachValue == nil) {
@@ -219,9 +222,6 @@ class DCSchedulingHelper: NSObject {
                 let ordinal = NSString.ordinalNumberFormat(convertedNumber)
                 eachValue = ordinal
             }
-            if (times.count > 0) {
-                descriptionText.appendFormat(" %@ a day", timesString)
-            }
             if (repeatValue.frequency == SINGLE_YEAR) {
                 descriptionText.appendFormat(" on the %@ of %@ every year", eachValue, month)
             } else {
@@ -231,14 +231,14 @@ class DCSchedulingHelper: NSObject {
             if (repeatValue.yearOnTheValue == nil) {
                 repeatValue.yearOnTheValue = "First Sunday January"
             }
+            let yearArray = repeatValue.yearOnTheValue.characters.split{$0 == " "}.map(String.init)
+            let indexValue = yearArray[0]
+            let day = yearArray[1]
+            let month = yearArray[2]
             if (repeatValue.frequency == SINGLE_YEAR) {
-                descriptionText.appendFormat(" year on the %@", repeatValue.yearOnTheValue)
+                descriptionText.appendFormat(" on the %@ %@ of %@ every year", indexValue, day, month)
             } else {
-                let yearArray = repeatValue.yearOnTheValue.characters.split{$0 == " "}.map(String.init)
-                let indexValue = yearArray[0]
-                let day = yearArray[1]
-                let month = yearArray[2]
-                descriptionText.appendFormat(" %@ on the %@ %@ of %@", repeatValue.frequency, indexValue, day, month)
+                descriptionText.appendFormat(" on the %@ %@ of %@ every %@", indexValue, day, month, repeatValue.frequency)
             }
         }
        if (times.count > 0) {
