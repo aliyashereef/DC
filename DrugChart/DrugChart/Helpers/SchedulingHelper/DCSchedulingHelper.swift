@@ -182,8 +182,16 @@ class DCSchedulingHelper: NSObject {
         //description for weekly Specific Times
         let descriptionText : NSMutableString = NSMutableString()
         descriptionText.appendFormat("Medication will be administered")
-        let weekDays = repeatValue.weekDays as NSArray as? [String]
-        let weeksString = weekDays!.joinWithSeparator(", ")
+        var weekDays = repeatValue.weekDays as NSArray as? [String]
+        var weeksString : String = ""
+        if (weekDays?.count > 1) {
+            let lastElement = weekDays!.removeLast()
+            weeksString = weekDays!.joinWithSeparator(", ")
+            weeksString = weeksString + " and \(lastElement)"
+        } else {
+            weeksString = weekDays!.joinWithSeparator("")
+        }
+        
         if (times.count > 0) {
             descriptionText.appendFormat(" %@ a day", timesString)
         }
@@ -304,13 +312,16 @@ class DCSchedulingHelper: NSObject {
             var selectedTimesArray =  [String]()
             for timeDictionary in filteredArray {
                 let time = timeDictionary["time"]
-//                let dictionaryIndex = filteredArray.indexOfObject(timeDictionary)
-//                if (dictionaryIndex == filteredArray.count - 1) {
-//                    selectedTimesArray.append(" and")
-//                }
                 selectedTimesArray.append((time as? String)!)
             }
-            let timeString = selectedTimesArray.joinWithSeparator(", ")
+            var timeString : String = ""
+            if (selectedTimesArray.count > 1) {
+                let lastElement = selectedTimesArray.removeLast()
+                timeString = selectedTimesArray.joinWithSeparator(", ")
+                timeString = timeString + " and \(lastElement)"
+            } else {
+                timeString = selectedTimesArray.joinWithSeparator("")
+            }
             return timeString
       }
        return EMPTY_STRING
