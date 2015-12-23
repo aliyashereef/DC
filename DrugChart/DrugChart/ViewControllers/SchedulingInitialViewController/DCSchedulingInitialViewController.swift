@@ -78,7 +78,8 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         
         let storyBoard = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil)
         let schedulingDetailViewController = storyBoard.instantiateViewControllerWithIdentifier(SCHEDULING_DETAIL_STORYBOARD_ID) as? DCSchedulingDetailViewController
-        schedulingDetailViewController!.scheduling = self.scheduling;
+        schedulingDetailViewController?.scheduling = self.scheduling
+        schedulingDetailViewController?.administratingTimes = timeArray
         schedulingDetailViewController?.detailDelegate = self
         schedulingDetailViewController?.detailType = DCSchedulingHelper.schedulingDetailTypeAtIndexPath(indexPath, forFrequencyType: (self.scheduling?.type)!)
         if indexPath.section == 0 {
@@ -149,17 +150,17 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
                     var unit : NSString = EMPTY_STRING
                     if (scheduling?.interval?.repeatFrequencyType == DAYS_TITLE) {
                         if (scheduling?.interval?.daysCount != nil) {
-                            unit = ((scheduling?.interval?.daysCount)! == "1") ? DAY : DAYS
+                            unit = ((scheduling?.interval?.daysCount)! == ONE) ? DAY : DAYS
                             repeatFrequency = NSString(format: "%@ %@", (scheduling?.interval?.daysCount)!, unit)
                         }
                     } else if (scheduling?.interval?.repeatFrequencyType == HOURS_TITLE) {
                         if (scheduling?.interval?.hoursCount != nil) {
-                            unit = ((scheduling?.interval?.hoursCount)! == "1") ? HOUR : HOURS
+                            unit = ((scheduling?.interval?.hoursCount)! == ONE) ? HOUR : HOURS
                             repeatFrequency = NSString(format: "%@ %@", (scheduling?.interval?.hoursCount)!, unit)
                         }
                     } else if (scheduling?.interval?.repeatFrequencyType == MINUTES_TITLE) {
                         if (scheduling?.interval?.minutesCount != nil) {
-                            unit = ((scheduling?.interval?.minutesCount)! == "1") ? MINUTE : MINUTES
+                            unit = ((scheduling?.interval?.minutesCount)! == ONE) ? MINUTE : MINUTES
                             repeatFrequency = NSString(format: "%@ %@", (scheduling?.interval?.minutesCount)!, unit)
                         }
                     }
@@ -211,10 +212,19 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         let descriptionCell = schedulingTableView.dequeueReusableCellWithIdentifier(SCHEDULING_DESCRIPTION_CELL_ID) as? DCSchedulingDescriptionTableCell
         descriptionCell!.delegate = self;
         descriptionCell?.populatePlaceholderForFieldIsInstruction(false)
-        let schedulingDescription = (scheduling?.type == SPECIFIC_TIMES) ? scheduling?.specificTimes?.specificTimesDescription : scheduling?.interval?.intervalDescription
-        descriptionCell?.descriptionTextView.font = UIFont.systemFontOfSize(15.0)
-        if schedulingDescription != nil {
-            descriptionCell?.descriptionTextView?.text = schedulingDescription
+        //let schedulingDescription = (scheduling?.type == SPECIFIC_TIMES) ? scheduling?.specificTimes?.specificTimesDescription : scheduling?.interval?.intervalDescription
+        var schedulingDescription : NSString = EMPTY_STRING
+        if (scheduling?.type == INTERVAL) {
+            schedulingDescription = (scheduling?.interval?.intervalDescription)!
+        } else {
+            if (scheduling?.specificTimes?.repeatObject != nil && timeArray?.count > 0) {
+                schedulingDescription = DCSchedulingHelper.scheduleDescriptionForSpecificTimesRepeatValue((scheduling?.specificTimes?.repeatObject)!, administratingTimes: timeArray!)
+            } else {
+                schedulingDescription = (scheduling?.specificTimes?.specificTimesDescription)!
+            }
+        }
+        if schedulingDescription != EMPTY_STRING {
+            descriptionCell?.descriptionTextView?.text = schedulingDescription as String
         }
         return descriptionCell!
     }
@@ -369,7 +379,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
                 //initial SetStartAndEndDate switch should be false
                 self.scheduling?.interval?.hasStartAndEndDate = false
                 self.scheduling?.interval?.repeatFrequencyType = HOURS_TITLE
-                self.scheduling?.interval.hoursCount = "1"
+                self.scheduling?.interval.hoursCount = ONE
                 self.scheduling?.interval?.intervalDescription = String(format: "%@ hour.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
                 if (self.scheduling?.interval?.startTime == nil) {
                     let startTimeInCurrentZone  = DCDateUtility.dateInCurrentTimeZone(NSDate())

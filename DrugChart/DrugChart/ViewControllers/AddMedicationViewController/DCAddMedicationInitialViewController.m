@@ -647,7 +647,8 @@
         
     };
     schedulingViewController.updatedTimeArray = ^ (NSMutableArray *timeArray) {
-        self.selectedMedication.timeArray = [DCAddMedicationHelper timesArrayFromScheduleArray:timeArray];
+        //self.selectedMedication.timeArray = [DCAddMedicationHelper timesArrayFromScheduleArray:timeArray];
+        self.selectedMedication.timeArray = timeArray;
     };
     if (self.isEditMedication) {
         if (self.selectedMedication.scheduling == nil) {
@@ -1244,9 +1245,6 @@
     if (isInstruction) {
         self.selectedMedication.instruction = instructions;
     }
-//    else {
-//        self.selectedMedication.scheduling.schedulingDescription = instructions;
-//    }
 }
 
 - (void)configureInstructionForMedication {
