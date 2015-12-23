@@ -313,6 +313,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         if (indexPath.row == START_TIME_PICKER_ROW_INDEX) {
             timePickerCell!.isStartTimePicker = true
             timePickerCell?.previousSelectedTime = DCDateUtility.dateFromSourceString(startTimeString)
+            timePickerCell!.schedulingTimePickerView?.minimumDate = .None
         } else {
             timePickerCell!.isStartTimePicker = false
             let endTimeString = String(format: "%@ %@", currentDateString, (self.scheduling?.interval?.endTime)!)
