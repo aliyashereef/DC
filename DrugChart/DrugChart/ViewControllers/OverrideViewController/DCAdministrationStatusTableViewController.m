@@ -23,8 +23,6 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear: animated];
-    self.navigationController.navigationBarHidden = YES;
-
 }
 
 #pragma mark - Memory Management Methods
@@ -59,7 +57,7 @@
     if (self.medicationStatusDelegate && [self.medicationStatusDelegate respondsToSelector:@selector(selectedMedicationStatusEntry:)]) {
         [self.medicationStatusDelegate selectedMedicationStatusEntry:status];
     }
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

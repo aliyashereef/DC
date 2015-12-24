@@ -24,14 +24,21 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
     var helper : DCSwiftObjCNavigationHelper = DCSwiftObjCNavigationHelper.init()
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
+        self.configureTableViewProperties()
+        self.configureNavigationBar()
+        initialiseMedicationSlotToAdministerObject()
+    }
+    
+    func configureTableViewProperties (){
         self.administerTableView.rowHeight = UITableViewAutomaticDimension
         self.administerTableView.estimatedRowHeight = 44.0
         self.administerTableView.tableFooterView = UIView(frame: CGRectZero)
-        let doneButton : UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Done, target: self, action: "doneButtonPressed")
-        self.navigationItem.leftBarButtonItem = doneButton
-        initialiseMedicationSlotToAdministerObject()
-        
+    }
+    
+    func configureNavigationBar() {
+        //Navigation bar title string
         let dateString : String
         if let date = slotToAdminister?.time {
             dateString = DCDateUtility.dateStringFromDate(date, inFormat: DATE_MONTHNAME_YEAR_FORMAT)
@@ -39,12 +46,14 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
             dateString = DCDateUtility.dateStringFromDate(weekDate, inFormat: DATE_MONTHNAME_YEAR_FORMAT)
         }
         self.title = dateString
+        // Navigation bar done button
+        let doneButton : UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Done, target: self, action: "doneButtonPressed")
+        self.navigationItem.leftBarButtonItem = doneButton
     }
     
     func configureMedicationStatusInCell (medication : DCMedicationSlot) -> NSString {
         let currentSystemDate : NSDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
         let currentDateString : NSString? = DCDateUtility.dateStringFromDate(currentSystemDate, inFormat: SHORT_DATE_FORMAT)
-        
         if (medication.medicationAdministration?.status != nil && medication.medicationAdministration.actualAdministrationTime != nil){
             return medication.status
         }
@@ -68,7 +77,6 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
     }
     
     func initialiseMedicationSlotToAdministerObject () {
-        
         //initialise medication slot to administer object
         slotToAdminister = DCMedicationSlot.init()
         if (medicationSlotsArray.count > 0) {
@@ -138,6 +146,10 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
             cell!.administrationStatusLabel.textColor = UIColor(forHexString:"#4A90E2")
         }
         cell?.administrationTimeLabel.text =  DCDateUtility.dateStringFromDate(medicationSlot.time, inFormat: TWENTYFOUR_HOUR_FORMAT)
+        if indexPath.row == medicationSlotsArray.count {
+            cell?.separatorInset = UIEdgeInsetsZero
+            cell?.layoutMargins = UIEdgeInsetsZero
+        }
         return cell!
     }
     
@@ -151,6 +163,15 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         if (indexPath.section == 0) {
             addBNFView()
+        } else {
+            let cell = administerTableView.cellForRowAtIndexPath(indexPath) as? DCAdministrationStatusCell
+            if cell?.administrationStatusLabel.text == ADMINISTER_MEDICATION {
+                addAdministerView()
+            } else if cell?.administrationStatusLabel.text == PENDING {
+                
+            } else {
+                addMedicationHistoryViewAtIndex(indexPath.row)
+            }
         }
     }
     
@@ -162,5 +183,44 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         let administerStoryboard : UIStoryboard? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil)
         let bnfViewController : DCBNFViewController? = administerStoryboard!.instantiateViewControllerWithIdentifier(BNF_STORYBOARD_ID) as? DCBNFViewController
         self.navigationController?.pushViewController(bnfViewController!, animated: true)
+    }
+    
+    func addAdministerView () {
+        
+        //add administer view controller
+        let administerStoryboard : UIStoryboard? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil)
+        let administerViewController : DCAdministerViewController? = administerStoryboard!.instantiateViewControllerWithIdentifier(ADMINISTER_STORYBOARD_ID) as? DCAdministerViewController
+        administerViewController?.medicationSlot = slotToAdminister
+        administerViewController?.weekDate = weekDate
+        if (medicationSlotsArray.count > 0) {
+            administerViewController?.medicationSlot = slotToAdminister
+            var medicationArray : [DCMedicationSlot] = [DCMedicationSlot]()
+            if let toAdministerArray : [DCMedicationSlot] = medicationSlotsArray {
+                var slotCount = 0
+                    for slot : DCMedicationSlot in toAdministerArray {
+                        if (slot.medicationAdministration?.actualAdministrationTime == nil) {
+                            medicationArray.insert(slot, atIndex: slotCount)
+                            slotCount++
+                        }
+                    }
+                }
+                administerViewController?.medicationSlotsArray = (medicationDetails?.medicineCategory == WHEN_REQUIRED) ? medicationSlotsArray : medicationArray
+            }
+            administerViewController?.medicationDetails = medicationDetails
+            administerViewController?.alertMessage = errorMessage
+        let navigationController : UINavigationController = UINavigationController(rootViewController: administerViewController!)
+        navigationController.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
+        self.presentViewController(navigationController, animated: true, completion:nil)
+    }
+    
+    func addMedicationHistoryViewAtIndex(index : NSInteger) {
+        
+        //add medication History view controller
+        let MedicationHistoryStoryboard : UIStoryboard? = UIStoryboard(name:MEDICATION_HISTORY, bundle: nil)
+        let medicationHistoryViewController = MedicationHistoryStoryboard!.instantiateViewControllerWithIdentifier(MEDICATION_STORYBOARD_ID) as? DCMedicationHistoryViewController
+            medicationHistoryViewController?.weekDate = weekDate
+            medicationHistoryViewController?.medicationDetails = medicationDetails
+        medicationHistoryViewController?.medicationSlotArray = [medicationSlotsArray[index]]
+        self.navigationController?.pushViewController(medicationHistoryViewController!, animated: true)
     }
 }

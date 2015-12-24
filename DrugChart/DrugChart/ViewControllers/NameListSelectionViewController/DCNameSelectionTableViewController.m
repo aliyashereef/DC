@@ -28,7 +28,6 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    self.navigationController.navigationBarHidden = YES;
     [super viewWillDisappear: animated];
 }
 
@@ -71,7 +70,7 @@
     if (self.namesDelegate && [self.namesDelegate respondsToSelector:@selector(selectedUserEntry:)]) {
         [self.namesDelegate selectedUserEntry:selectedUser];
     }
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

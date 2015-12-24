@@ -217,7 +217,6 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         showTopBarDoneButton(false)
         if medicationHistoryViewController == nil {
             medicationHistoryViewController = MedicationHistoryStoryboard!.instantiateViewControllerWithIdentifier(MEDICATION_STORYBOARD_ID) as? DCMedicationHistoryViewController
-            medicationHistoryViewController?.medicationSlot = slotToAdminister
             medicationHistoryViewController?.weekDate = weekDate
             medicationHistoryViewController?.medicationDetails = medicationDetails
             var medicationArray : [DCMedicationSlot] = [DCMedicationSlot]()
