@@ -8,16 +8,16 @@
 
 import UIKit
 
-class DoubleCell: UITableViewCell ,UITextFieldDelegate {
+class DoubleCell: UITableViewCell ,ButtonAction{
 
     @IBOutlet weak var titleText: UILabel!
-    @IBOutlet weak var value: UITextField!
+    @IBOutlet weak var value: NumericTextField!
     var delegate:CellDelegate?
     override func awakeFromNib() {
         super.awakeFromNib()
-        value.delegate=self
         // Initialization code
         value.textAlignment = NSTextAlignment.Right
+        value.buttonActionDelegate = self
     }
 
     
@@ -27,39 +27,6 @@ class DoubleCell: UITableViewCell ,UITextFieldDelegate {
         // Configure the view for the selected state
     }
     
-    //Mark: Done button on keyboard
-    func addDoneButtonOnKeyboard()
-    {
-        let toolbar = UIToolbar()
-        toolbar.barStyle = .Default
-        toolbar.translucent = true
-        toolbar.sizeToFit()
-        
-        let doneButton = UIBarButtonItem(title: "Done", style: .Plain, target: self, action: "doneButtonAction")
-        let flexibleSpaceButton = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
-        let fixedSpaceButton = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
-        fixedSpaceButton.width = 20
-        
-        let previousButton  = UIBarButtonItem(image :UIImage(named:"previous"), style: .Plain, target: self, action: "previousButtonAction")
-        let nextButton  = UIBarButtonItem(image :UIImage(named:"next"), style: .Plain, target: self, action: "nextButtonAction")
-        
-        if(self.tag == Constant.MINIMUM_OBSERVATION_ROW)
-        {
-            previousButton.enabled = false
-        }
-        else if(self.tag == Constant.MAXIMUM_OBSERVATION_ROW)
-        {
-            nextButton.enabled = false
-        }
-        toolbar.setItems([previousButton, fixedSpaceButton, nextButton, flexibleSpaceButton, doneButton], animated: false)
-        toolbar.userInteractionEnabled = true
-        self.value.inputAccessoryView = toolbar
-    }
-    
-    func doneButtonAction()
-    {
-        self.value.resignFirstResponder()
-    }
     func nextButtonAction()
     {
         delegate?.moveNext(self.tag)
@@ -81,14 +48,7 @@ class DoubleCell: UITableViewCell ,UITextFieldDelegate {
     
     func isValueEntered() -> Bool
     {
-        if (value.text == nil || value.text!.isEmpty == true)
-        {
-            return false
-        }
-        else
-        {
-            return true
-        }
+        return value.isValueEntered()
     }
     
     func configureCell(title:String , valuePlaceHolderText:String , selectedValue:Double! )
@@ -99,39 +59,7 @@ class DoubleCell: UITableViewCell ,UITextFieldDelegate {
         {
             value.text = String(selectedValue)
         }
-        addDoneButtonOnKeyboard()
+        self.value.tag = self.tag
+        self.value.initialize()
     }
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        
-        value.resignFirstResponder()
-        return true
-    }
-    
-    func textField(textField: UITextField,
-        shouldChangeCharactersInRange range: NSRange,
-        replacementString string: String)
-        -> Bool
-    {
-        // We ignore any change that doesn't add characters to the text field.
-        // These changes are things like character deletions and cuts, as well
-        // as moving the insertion point.
-        //
-        // We still return true to allow the change to take place.
-        if string.characters.count == 0 {
-            return true
-        }
-        
-        // Check to see if the text field's contents still fit the constraints
-        // with the new content added to it.
-        // If the contents still fit the constraints, allow the change
-        // by returning true; otherwise disallow the change by returning false.
-        let currentText = textField.text ?? ""
-        let prospectiveText = (currentText as NSString).stringByReplacingCharactersInRange(range, withString: string)
-        
-        return prospectiveText.containsOnlyCharactersIn("0123456789.") &&
-            prospectiveText.characters.count <= 5
-    }
-    
-    
-
 }

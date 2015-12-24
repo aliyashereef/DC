@@ -146,6 +146,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             let cell = tableView.dequeueReusableCellWithIdentifier("BloodPressureCell", forIndexPath: indexPath) as! BloodPressureCell
             cell.tag = rowTag
             cells[rowNumber] = cell
+            cell.configureCell()
             cell.delegate = self
             return cell
         case CellType.Double:

@@ -8,18 +8,15 @@
 
 import UIKit
 
-class BloodPressureCell: UITableViewCell ,UITextFieldDelegate{
+class BloodPressureCell: UITableViewCell ,ButtonAction{
 
-    @IBOutlet weak var systolicValue: UITextField!
-    @IBOutlet weak var diastolicValue: UITextField!
+    @IBOutlet weak var systolicValue: NumericTextField!
+    @IBOutlet weak var diastolicValue: NumericTextField!
     var delegate:CellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        systolicValue.delegate = self
-        diastolicValue.delegate = self
-        addDoneButtonOnKeyboard()
     }
    
     override func setSelected(selected: Bool, animated: Bool) {
@@ -30,25 +27,8 @@ class BloodPressureCell: UITableViewCell ,UITextFieldDelegate{
     
     func isValueEntered() -> Bool
     {
-        if (systolicValue.text == nil || systolicValue.text!.isEmpty == true)
-            
-        {
-            return false
-        }
-        else
-        {
-            return true
-        }
+        return systolicValue.isValueEntered()
     }
-    
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        
-        systolicValue.resignFirstResponder()
-        diastolicValue.resignFirstResponder()
-        return true
-    }
-    
-    
     func  getSystolicValue() ->Double
     {
         return (systolicValue.text as NSString!).doubleValue
@@ -57,33 +37,6 @@ class BloodPressureCell: UITableViewCell ,UITextFieldDelegate{
     func  getDiastolicValue() ->Double
     {
         return (diastolicValue.text as NSString!).doubleValue
-    }
-    //Mark: Done button on keyboard
-    func addDoneButtonOnKeyboard()
-    {
-        let toolbar = UIToolbar()
-        toolbar.barStyle = .Default
-        toolbar.translucent = true
-        toolbar.sizeToFit()
-        
-        let doneButton = UIBarButtonItem(title: "Done", style: .Plain, target: self, action: "doneButtonAction")
-        let flexibleSpaceButton = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
-        let fixedSpaceButton = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
-        fixedSpaceButton.width = 20
-        
-        let previousButton  = UIBarButtonItem(image :UIImage(named:"previous"), style: .Plain, target: self, action: "previousButtonAction")
-        
-        let nextButton  = UIBarButtonItem(image :UIImage(named:"next"), style: .Plain, target: self, action: "nextButtonAction")
-        
-        toolbar.setItems([previousButton, fixedSpaceButton, nextButton, flexibleSpaceButton, doneButton], animated: false)
-        toolbar.userInteractionEnabled = true
-        self.systolicValue.inputAccessoryView = toolbar
-        self.diastolicValue.inputAccessoryView = toolbar
-    }
-    func doneButtonAction()
-    {
-        self.systolicValue.resignFirstResponder()
-        self.diastolicValue.resignFirstResponder()
     }
     
     func nextButtonAction()
@@ -97,6 +50,7 @@ class BloodPressureCell: UITableViewCell ,UITextFieldDelegate{
             delegate?.moveNext(self.tag)
         }
     }
+    
     func previousButtonAction()
     {
         delegate?.movePrevious(self.tag)
@@ -106,5 +60,12 @@ class BloodPressureCell: UITableViewCell ,UITextFieldDelegate{
     {
         self.systolicValue.becomeFirstResponder()
     }
-
+    
+    func configureCell()
+    {
+        systolicValue.buttonActionDelegate = self
+        diastolicValue.buttonActionDelegate = self
+        systolicValue.initialize()
+        diastolicValue.initialize()
+    }
 }

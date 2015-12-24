@@ -15,7 +15,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Diastolic" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="98P-fO-tSx">
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Diastolic" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="98P-fO-tSx" customClass="NumericTextField" customModule="DrugChart" customModuleProvider="target">
                         <rect key="frame" x="239" y="9" width="66" height="22"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <textInputTraits key="textInputTraits" spellCheckingType="no" keyboardType="decimalPad"/>
@@ -26,7 +26,7 @@
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Systolic" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QV5-j3-d9X">
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Systolic" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QV5-j3-d9X" customClass="NumericTextField" customModule="DrugChart" customModuleProvider="target">
                         <rect key="frame" x="170" y="8" width="45" height="22"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <textInputTraits key="textInputTraits" spellCheckingType="no" keyboardType="decimalPad"/>
@@ -48,8 +48,8 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="diastolicValue" destination="98P-fO-tSx" id="Edv-33-hD9"/>
-                <outlet property="systolicValue" destination="QV5-j3-d9X" id="CbM-8a-Vww"/>
+                <outlet property="diastolicValue" destination="98P-fO-tSx" id="W76-zG-dNY"/>
+                <outlet property="systolicValue" destination="QV5-j3-d9X" id="3DJ-jg-dJ5"/>
             </connections>
         </tableViewCell>
     </objects>

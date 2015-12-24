@@ -12,3 +12,8 @@ protocol CellDelegate
     func moveNext(rowNumber:Int)
     func movePrevious(rowNumber:Int)
 }
+protocol ButtonAction
+{
+    func nextButtonAction()
+    func previousButtonAction()
+}
