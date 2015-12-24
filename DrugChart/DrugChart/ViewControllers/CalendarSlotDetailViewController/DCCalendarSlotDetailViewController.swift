@@ -311,7 +311,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     @IBAction func doneButtonPressed(sender: AnyObject) {
         
         //perform administer medication api call here
-        administerViewController?.doneClicked = true
+        administerViewController?.saveClicked = true
         if(entriesAreValid()) {
             administerViewController?.activityIndicator.startAnimating()
             administerViewController?.isValid = true

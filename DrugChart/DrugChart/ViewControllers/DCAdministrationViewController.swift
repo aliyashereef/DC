@@ -22,6 +22,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
     var scheduleId : NSString = EMPTY_STRING
     var errorMessage : String = EMPTY_STRING
     var helper : DCSwiftObjCNavigationHelper = DCSwiftObjCNavigationHelper.init()
+
     
     override func viewDidLoad() {
         
@@ -47,7 +48,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         }
         self.title = dateString
         // Navigation bar done button
-        let doneButton : UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Done, target: self, action: "doneButtonPressed")
+        let doneButton : UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: "doneButtonPressed")
         self.navigationItem.leftBarButtonItem = doneButton
     }
     
@@ -192,6 +193,8 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         let administerViewController : DCAdministerViewController? = administerStoryboard!.instantiateViewControllerWithIdentifier(ADMINISTER_STORYBOARD_ID) as? DCAdministerViewController
         administerViewController?.medicationSlot = slotToAdminister
         administerViewController?.weekDate = weekDate
+        administerViewController?.patientId = patientId
+        administerViewController?.helper = helper
         if (medicationSlotsArray.count > 0) {
             administerViewController?.medicationSlot = slotToAdminister
             var medicationArray : [DCMedicationSlot] = [DCMedicationSlot]()

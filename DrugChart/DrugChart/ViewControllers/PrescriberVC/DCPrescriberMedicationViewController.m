@@ -424,6 +424,7 @@ typedef enum : NSUInteger {
                                 [medicationListHolderView setHidden:NO];
                                 [calendarDaysDisplayView setHidden:NO];
                                 [calendarTopHolderView setHidden:NO];
+                                [self showActivityIndicationOnViewRefresh:false];
                             }
                             else {
                                 DDLogError(@"the error is : %@", error);
@@ -439,6 +440,7 @@ typedef enum : NSUInteger {
                             }
                         }
                         else {
+                            [self showActivityIndicationOnViewRefresh:false];
                             if (error.code == NETWORK_NOT_REACHABLE) {
                                 [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"")
                                                     message:NSLocalizedString(@"INTERNET_CONNECTION_ERROR", @"")];
@@ -450,7 +452,6 @@ typedef enum : NSUInteger {
                             }
                         }
                         completion(true);
-                        [self showActivityIndicationOnViewRefresh:false];
                     }];
 }
 
