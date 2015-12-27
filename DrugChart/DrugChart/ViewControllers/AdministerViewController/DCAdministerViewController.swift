@@ -135,7 +135,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         } else {
             dateString = DCDateUtility.dateStringFromDate(weekDate, inFormat: DATE_MONTHNAME_YEAR_FORMAT)
         }
-        self.title = dateString
+        let slotDate = DCDateUtility.dateStringFromDate(medicationSlot!.time, inFormat: TWENTYFOUR_HOUR_FORMAT)
+        self.title = "\(dateString), \(slotDate)"
         // Navigation bar done button
         saveButton = UIBarButtonItem(title: "Save", style: UIBarButtonItemStyle.Plain, target: self, action: "saveButtonPressed")
         cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: "cancelButtonPressed")
@@ -285,6 +286,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             //present inline picker here
             cell.titleLabel.text = NSLocalizedString("CHECKED_BY", comment: "Checked by title")
             cell.detailLabel.text = (medicationSlot?.medicationAdministration?.checkingUser?.displayName != nil) ? (medicationSlot?.medicationAdministration?.checkingUser?.displayName) : EMPTY_STRING
+            cell.separatorInset = UIEdgeInsetsZero
+            cell.layoutMargins = UIEdgeInsetsZero
             break;
         default:
             break
@@ -313,6 +316,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         let expiryCell : DCBatchNumberCell = (administerTableView.dequeueReusableCellWithIdentifier(BATCH_NUMBER_CELL_ID) as? DCBatchNumberCell)!
         expiryCell.batchDelegate = self
         expiryCell.selectedIndexPath = indexPath
+        expiryCell.separatorInset = UIEdgeInsetsZero
+        expiryCell.layoutMargins = UIEdgeInsetsZero
         return expiryCell;
     }
     
@@ -325,12 +330,16 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             if (medicationSlot?.medicationAdministration?.status != nil) {
                 cell.titleLabel.textColor = UIColor(forHexString: "#676767")
                 cell.detailLabel.text = medicationSlot?.medicationAdministration?.status
+                cell.separatorInset = UIEdgeInsetsMake(0, 15, 0, 0)
+                cell.layoutMargins = UIEdgeInsetsZero
             } else {
                 if(saveClicked == true) {
                     cell.titleLabel.textColor = UIColor.redColor()
                 } else {
                     cell.titleLabel.textColor = UIColor(forHexString: "#676767")
                 }
+                cell.separatorInset = UIEdgeInsetsZero
+                cell.layoutMargins = UIEdgeInsetsZero
             }
             return cell
         default:
@@ -344,6 +353,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         let notesCell : DCNotesTableCell = (administerTableView.dequeueReusableCellWithIdentifier(NOTES_CELL_ID) as? DCNotesTableCell)!
         notesCell.selectedIndexPath = indexPath
         notesCell.delegate = self
+        notesCell.separatorInset = UIEdgeInsetsZero
+        notesCell.layoutMargins = UIEdgeInsetsZero
         return notesCell
     }
         
@@ -618,7 +629,9 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         switch indexPath.section {
         case 0 :
             let cell = administerTableView.dequeueReusableCellWithIdentifier("MedicationDetailsTableViewCell") as? DCMedicationDetailsTableViewCell
-            cell!.configureMedicationDetails(medicationDetails!)
+            if let _ = medicationDetails {
+                cell!.configureMedicationDetails(medicationDetails!)
+            }
             return cell!
         default:
                 if (medicationSlot?.medicationAdministration.status == ADMINISTERED) {
@@ -638,6 +651,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 } else {
                     let administerCell : DCAdministerCell = (administerTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
                     administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+                    administerCell.separatorInset = UIEdgeInsetsZero
+                    administerCell.layoutMargins = UIEdgeInsetsZero
                     administerCell.titleLabel.text = NSLocalizedString("STATUS", comment: "status title text")
                     administerCell.detailLabel.text = EMPTY_STRING
                     if(saveClicked == true && medicationSlot?.medicationAdministration.status == nil) {

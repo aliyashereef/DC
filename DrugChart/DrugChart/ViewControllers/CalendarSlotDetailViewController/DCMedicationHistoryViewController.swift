@@ -160,6 +160,8 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         if indexPath != selectedRowIndex && count > 47{
             noteCell!.moreButtonWidthConstaint.constant = 46.0
         }
+        noteCell!.separatorInset = UIEdgeInsetsZero
+        noteCell!.layoutMargins = UIEdgeInsetsZero
         return noteCell!
     }
     

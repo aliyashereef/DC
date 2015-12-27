@@ -25,6 +25,7 @@
     
     [super viewDidLoad];
     self.navigationController.navigationBarHidden = NO;
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

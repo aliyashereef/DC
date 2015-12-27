@@ -695,27 +695,27 @@ typedef enum : NSUInteger {
         DCMedicationScheduleDetails *medicationList =  [displayMedicationListArray objectAtIndex:indexPath.item];
         detailViewController.scheduleId = medicationList.scheduleId;
         detailViewController.medicationDetails = medicationList;
-    }
-    DCSwiftObjCNavigationHelper *helper = [[DCSwiftObjCNavigationHelper alloc] init];
-    helper.delegate = self;
-    detailViewController.helper = helper;
-    if ([[medicationSLotsDictionary allKeys] containsObject:@"timeSlots"]) {
-        NSMutableArray *slotsArray = [[NSMutableArray alloc] initWithArray:[medicationSLotsDictionary valueForKey:@"timeSlots"]];
-        if ([slotsArray count] > 0) {
-            detailViewController.medicationSlotsArray = slotsArray;
+        DCSwiftObjCNavigationHelper *helper = [[DCSwiftObjCNavigationHelper alloc] init];
+        helper.delegate = self;
+        detailViewController.helper = helper;
+        if ([[medicationSLotsDictionary allKeys] containsObject:@"timeSlots"]) {
+            NSMutableArray *slotsArray = [[NSMutableArray alloc] initWithArray:[medicationSLotsDictionary valueForKey:@"timeSlots"]];
+            if ([slotsArray count] > 0) {
+                detailViewController.medicationSlotsArray = slotsArray;
+            }
         }
+        detailViewController.weekDate = date;
+        detailViewController.patientId = self.patient.patientId;
+        UINavigationController *navigationController =
+        [[UINavigationController alloc] initWithRootViewController:detailViewController];
+        UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:EMPTY_STRING style:UIBarButtonItemStylePlain target:nil action:nil];
+        [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)
+                                                             forBarMetrics:UIBarMetricsDefault];
+        navigationController.navigationItem.backBarButtonItem = backButton;
+        navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+        
+        [self presentViewController:navigationController animated:YES completion:nil];
     }
-    detailViewController.weekDate = date;
-    detailViewController.patientId = self.patient.patientId;
-    UINavigationController *navigationController =
-    [[UINavigationController alloc] initWithRootViewController:detailViewController];
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:EMPTY_STRING style:UIBarButtonItemStylePlain target:nil action:nil];
-    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)
-                                                         forBarMetrics:UIBarMetricsDefault];
-    navigationController.navigationItem.backBarButtonItem = backButton;
-    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
-
-    [self presentViewController:navigationController animated:YES completion:nil];
 }
 
 - (void)modifyStartDayAndWeekDates:(BOOL)isNextWeek {

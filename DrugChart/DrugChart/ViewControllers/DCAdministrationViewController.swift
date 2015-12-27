@@ -147,7 +147,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
             cell!.administrationStatusLabel.textColor = UIColor(forHexString:"#4A90E2")
         }
         cell?.administrationTimeLabel.text =  DCDateUtility.dateStringFromDate(medicationSlot.time, inFormat: TWENTYFOUR_HOUR_FORMAT)
-        if indexPath.row == medicationSlotsArray.count {
+        if indexPath.row == medicationSlotsArray.count - 1 {
             cell?.separatorInset = UIEdgeInsetsZero
             cell?.layoutMargins = UIEdgeInsetsZero
         }
@@ -156,7 +156,9 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
     
     func configureMedicationDetailsCellAtIndexPath (indexPath :NSIndexPath) -> DCMedicationDetailsTableViewCell {
         let cell = administerTableView.dequeueReusableCellWithIdentifier("MedicationDetailsTableViewCell") as? DCMedicationDetailsTableViewCell
-        cell!.configureMedicationDetails(medicationDetails!)
+        if let _ = medicationDetails {
+            cell!.configureMedicationDetails(medicationDetails!)
+        }
         return cell!
     }
 
