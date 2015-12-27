@@ -12,9 +12,9 @@ class DCSchedulingHeaderView: UIView {
     
     @IBOutlet weak var messageLabel: UILabel!
     
-    func populateMessageLabelWithRepeatValue(repeatValue : DCRepeat) {
+    func populateMessageLabelWithSpecificTimesRepeatValue(repeatValue : DCRepeat, administratingTimes times : NSArray) {
         
-        messageLabel.text = DCSchedulingHelper.scheduleDescriptionForReapeatValue(repeatValue) as String
+        messageLabel.text = DCSchedulingHelper.scheduleDescriptionForSpecificTimesRepeatValue(repeatValue, administratingTimes: times) as String
         messageLabel.sizeToFit()
     }
     

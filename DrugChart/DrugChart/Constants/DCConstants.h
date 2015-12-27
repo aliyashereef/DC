@@ -410,6 +410,10 @@
 #define SINGLE_MONTH @"1 month"
 #define SINGLE_YEAR @"1 year"
 #define PREVIEW @"PREVIEW"
+#define ONE @"1"
+#define ONCE @"once"
+#define TWICE @"twice"
+#define THRICE @"thrice"
 
 //Roles
 

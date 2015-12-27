@@ -38,6 +38,7 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
     var previousFilledValue : NSString = EMPTY_STRING
     var previewArray : NSMutableArray? = []
     var detailDelegate : SchedulingDetailDelegate?
+    var administratingTimes : NSArray?
     
     override func viewDidLoad() {
         
@@ -85,6 +86,7 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
         }
     }
     
+    
     func populateWeekDaysArray() {
         
         // week days array
@@ -124,7 +126,7 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
                     self.scheduling?.specificTimes?.repeatObject?.onTheValue = EMPTY_STRING
                     self.displayArray = [FREQUENCY, EVERY, EACH, ON_THE]
                 } else if (value == YEARLY) {
-                    self.scheduling?.specificTimes?.repeatObject?.frequency = "year"
+                    self.scheduling?.specificTimes?.repeatObject?.frequency = YEAR
                     self.displayArray = [FREQUENCY, EVERY, EACH, ON_THE]
                     self.scheduling?.specificTimes?.repeatObject?.isEachValue = true
                     self.scheduling?.specificTimes?.repeatObject?.onTheValue = EMPTY_STRING
@@ -143,16 +145,16 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
         //update scheduling details with selected picker values
         switch pickerType.rawValue {
             case eDailyCount.rawValue :
-                let days = (value == "1") ? DAY : DAYS
+                let days = (value == ONE) ? DAY : DAYS
                 self.scheduling?.specificTimes?.repeatObject?.frequency = NSString(format: "%@ %@", value, days) as String
             case eWeeklyCount.rawValue :
-                let week = (value == "1") ? WEEK : WEEKS
+                let week = (value == ONE) ? WEEK : WEEKS
                 self.scheduling?.specificTimes?.repeatObject?.frequency = NSString(format: "%@ %@", value, week) as String
             case eMonthlyCount.rawValue :
-                let month = (value == "1") ? MONTH : MONTHS
+                let month = (value == ONE) ? MONTH : MONTHS
                 self.scheduling?.specificTimes?.repeatObject?.frequency = NSString(format: "%@ %@", value, month) as String
             case eYearlyCount.rawValue :
-                let year = (value == "1") ? YEAR : YEARS
+                let year = (value == ONE) ? YEAR : YEARS
                 self.scheduling?.specificTimes?.repeatObject?.frequency = NSString(format: "%@ %@", value, year) as String
             case eMonthEachCount.rawValue :
                 self.scheduling?.specificTimes?.repeatObject?.isEachValue = true
@@ -399,6 +401,59 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
         }
     }
     
+    func updateSchedulingDetailsForSelectedIntervalRepeatFrequencyAtIndexPath(indexPath : NSIndexPath) {
+        
+        // update scheduling details on selecting repeat frequency
+        var pickerType : PickerType?
+        if (indexPath.row == 0) {
+            self.scheduling?.interval?.repeatFrequencyType = DAYS_TITLE
+            if (self.scheduling?.interval?.daysCount == nil) {
+                self.scheduling?.interval?.daysCount = ONE
+            }
+            pickerType = eDayCount
+        } else if (indexPath.row == 1) {
+            self.scheduling?.interval?.repeatFrequencyType = HOURS_TITLE
+            if (self.scheduling?.interval?.hoursCount == nil) {
+                self.scheduling?.interval?.hoursCount = ONE
+            }
+            pickerType = eHoursCount
+        } else {
+            if (self.inlinePickerIndexPath == nil) {
+                self.scheduling?.interval?.repeatFrequencyType = MINUTES_TITLE
+                if (self.scheduling?.interval?.minutesCount == nil) {
+                    self.scheduling?.interval?.minutesCount = ONE
+                }
+                pickerType = eMinutesCount
+            } else {
+                if (self.inlinePickerIndexPath?.row < indexPath.row) {
+                    if  (indexPath.row == 2) {
+                        self.scheduling?.interval?.repeatFrequencyType = HOURS_TITLE
+                        if (self.scheduling?.interval?.hoursCount == nil) {
+                            self.scheduling?.interval?.hoursCount = ONE
+                        }
+                        pickerType = eHoursCount
+                    } else {
+                        self.scheduling?.interval?.repeatFrequencyType = MINUTES_TITLE
+                        if (self.scheduling?.interval?.minutesCount == nil) {
+                            self.scheduling?.interval?.minutesCount = ONE
+                        }
+                        pickerType = eMinutesCount
+                    }
+                } else {
+                    self.scheduling?.interval?.repeatFrequencyType = MINUTES_TITLE
+                    if (self.scheduling?.interval?.minutesCount == nil) {
+                        self.scheduling?.interval?.minutesCount = ONE
+                    }
+                    pickerType = eMinutesCount
+                }
+            }
+        }
+        if (pickerType != nil) {
+            self.updateAdministrationTimesArrayForSelectedPickerType(pickerType!)
+        }
+        self.schedulingCompletion(self.scheduling)
+    }
+    
     func specificTimesWeeklyOrYearlyDetailCellAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
         
         //sepcific times weekly or yearly display in 1st section
@@ -440,11 +495,7 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        //if (self.detailType! == eDetailSpecificTimesRepeatType) {
-            return 2
-//        } else {
-//            return 1
-//        }
+        return 2
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -515,46 +566,7 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
                 // display picker here
                 displayInlinePickerForRowAtIndexPath(indexPath)
             } else if (self.detailType! == eDetailIntervalRepeatFrequency) {
-                if (indexPath.row == 0) {
-                    self.scheduling?.interval?.repeatFrequencyType = DAYS_TITLE
-                    if (self.scheduling?.interval?.daysCount == nil) {
-                        self.scheduling?.interval?.daysCount = "1"
-                    }
-                } else if (indexPath.row == 1) {
-                    self.scheduling?.interval?.repeatFrequencyType = HOURS_TITLE
-                    if (self.scheduling?.interval?.hoursCount == nil) {
-                        self.scheduling?.interval?.hoursCount = "1"
-                    }
-                } else {
-                    if (self.inlinePickerIndexPath == nil) {
-                        self.scheduling?.interval?.repeatFrequencyType = MINUTES_TITLE
-                        if (self.scheduling?.interval?.minutesCount == nil) {
-                            self.scheduling?.interval?.minutesCount = "1"
-                        }
-                    } else {
-                        if (self.inlinePickerIndexPath?.row < indexPath.row) {
-                            if  (indexPath.row == 2) {
-                                self.scheduling?.interval?.repeatFrequencyType = HOURS_TITLE
-                                if (self.scheduling?.interval?.hoursCount == nil) {
-                                    self.scheduling?.interval?.hoursCount = "1"
-                                }
-                            } else {
-                                self.scheduling?.interval?.repeatFrequencyType = MINUTES_TITLE
-                                if (self.scheduling?.interval?.minutesCount == nil) {
-                                    self.scheduling?.interval?.minutesCount = "1"
-                                }
-                            }
-                        } else {
-                            self.scheduling?.interval?.repeatFrequencyType = MINUTES_TITLE
-                            if (self.scheduling?.interval?.minutesCount == nil) {
-                                self.scheduling?.interval?.minutesCount = "1"
-                            }
-                        }
-                    }
-                 }
-//                self.detailTableView.beginUpdates()
-//                self.detailTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
-//                self.detailTableView.endUpdates()
+                updateSchedulingDetailsForSelectedIntervalRepeatFrequencyAtIndexPath(indexPath)
                 self.detailTableView.reloadData()
                 let dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(0.14 * Double(NSEC_PER_SEC)))
                 dispatch_after(dispatchTime, dispatch_get_main_queue(), {
@@ -600,35 +612,35 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
-       // if (self.detailType! != eDetailSchedulingType) {
-            if (section == 1) {
-                return (headerHeight > HEADER_VIEW_MIN_HEIGHT) ? headerHeight : HEADER_VIEW_MIN_HEIGHT
-            }
-       // }
+        if (section == 1) {
+            return (headerHeight > HEADER_VIEW_MIN_HEIGHT) ? headerHeight : HEADER_VIEW_MIN_HEIGHT
+        }
         return 0
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-       // if (self.detailType! != eDetailSchedulingType) {
-            if (section == 1) {
-                let headerView = NSBundle.mainBundle().loadNibNamed(SCHEDULING_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCSchedulingHeaderView
-                if (self.detailType! == eDetailIntervalRepeatFrequency) {
-                    if let intervalObject = self.scheduling?.interval {
-                        headerView?.populateMessageLabelForIntervalValue(intervalObject)
-                        self.scheduling?.interval?.intervalDescription = headerView?.messageLabel.text;
-                    }
-                } else {
-                    if let repeatObject = self.scheduling?.specificTimes?.repeatObject {
-                        headerView?.populateMessageLabelWithRepeatValue(repeatObject)
-                        self.scheduling?.specificTimes?.specificTimesDescription = headerView?.messageLabel.text;
-                    }
+        if (section == 1) {
+            let headerView = NSBundle.mainBundle().loadNibNamed(SCHEDULING_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCSchedulingHeaderView
+            if (self.detailType! == eDetailIntervalRepeatFrequency) {
+                if let intervalObject = self.scheduling?.interval {
+                    headerView?.populateMessageLabelForIntervalValue(intervalObject)
+                    self.scheduling?.interval?.intervalDescription = headerView?.messageLabel.text;
                 }
-                self.schedulingCompletion(self.scheduling)
-                headerHeight = DCUtility.textViewSizeWithText(headerView?.messageLabel.text, maxWidth: HEADER_VIEW_LABEL_MAX_WIDTH, font: UIFont.systemFontOfSize(13.0)).height + 10
-                return headerView!
+            } else {
+                if let repeatObject = self.scheduling?.specificTimes?.repeatObject {
+                    if administratingTimes == nil {
+                        administratingTimes = []
+                    }
+                    headerView?.populateMessageLabelWithSpecificTimesRepeatValue(repeatObject, administratingTimes: administratingTimes!)
+                    self.scheduling?.specificTimes?.specificTimesDescription = headerView?.messageLabel.text;
+                }
             }
-      //  }
+            self.schedulingCompletion(self.scheduling)
+            headerHeight = DCUtility.textViewSizeWithText(headerView?.messageLabel.text, maxWidth: HEADER_VIEW_LABEL_MAX_WIDTH, font: UIFont.systemFontOfSize(13.0)).height + 10
+            return headerView!
+        }
+
         return nil
     }
     

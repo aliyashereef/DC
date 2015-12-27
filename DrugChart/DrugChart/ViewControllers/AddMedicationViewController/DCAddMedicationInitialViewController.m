@@ -27,6 +27,7 @@
     NSArray *warningsArray;
     BOOL doneClicked;// for validation purpose
     BOOL showWarnings;//to check if warnings section is displayed
+    NSInteger dateAmdTimeSection;
     
     DCDosageSelectionViewController *dosageSelectionViewController;
 }
@@ -151,19 +152,26 @@
     } else if (type == eSchedulingCell) {
         cell.titleLabel.text = NSLocalizedString(@"FREQUENCY", @"");
         if (doneClicked) {
-            //TODO: currently hard coding time values for interval
-//            if ([self.selectedMedication.scheduling.type isEqualToString:INTERVAL]) {
-//                NSArray *intervalTimes = @[@{@"time" : @"10:00", @"selected" : @1}];
-//                self.selectedMedication.timeArray = [NSMutableArray arrayWithArray:intervalTimes];
-//            }
             if ([DCAddMedicationHelper frequencyIsValidForSelectedMedication:self.selectedMedication]) {
                 cell.titleLabel.textColor = [UIColor blackColor];
             } else {
                 cell.titleLabel.textColor = [UIColor redColor];
             }
-//            cell.titleLabel.textColor = (self.selectedMedication.scheduling.type == nil || self.selectedMedication.timeArray.count == 0)? [UIColor redColor] : [UIColor blackColor];
         }
-        cell.descriptionLabel.text = self.selectedMedication.scheduling.type;
+        //if (!self.isEditMedication) {
+            NSMutableString *schedulingDescription = [[NSMutableString alloc] initWithString:EMPTY_STRING];
+            if ([self.selectedMedication.scheduling.type isEqualToString: SPECIFIC_TIMES] && self.selectedMedication.scheduling.specificTimes.specificTimesDescription != nil) {
+                schedulingDescription = [NSMutableString stringWithString:self.selectedMedication.scheduling.specificTimes.specificTimesDescription];
+            } else if ([self.selectedMedication.scheduling.type isEqualToString: INTERVAL] && self.selectedMedication.scheduling.interval.intervalDescription != nil) {
+                schedulingDescription = [NSMutableString stringWithString:self.selectedMedication.scheduling.interval.intervalDescription];
+            }
+            if (![schedulingDescription isEqualToString:EMPTY_STRING] && schedulingDescription != nil) {
+                NSString *substring = @"Medication will be administered";
+                schedulingDescription = [NSMutableString stringWithString:[DCUtility removeSubstring:substring FromOriginalString:schedulingDescription]] ;
+            }
+            cell.descriptionLabel.text = schedulingDescription;
+       // }
+
     } else if (type == eAdministratingTimeCell) {
         cell.titleLabel.text = NSLocalizedString(@"ADMINISTRATING_TIME", @"");
         [cell configureMedicationAdministratingTimeCell];
@@ -513,9 +521,8 @@
             return (showWarnings ? rowCount : 1);
         }
         default:
-            return 1;
+            return MEDICATION_NAME_ROW_COUNT;
     }
-    return MEDICATION_NAME_ROW_COUNT;
 }
 
 - (NSInteger)numberOfRowsInDateAndTimeSectionForSelectedMedicationType {
@@ -557,8 +564,10 @@
     NSArray *mildArray = [[warningsArray objectAtIndex:1] valueForKey:MILD_WARNING];
     if ([severeArray count] > 0 || [mildArray count] > 0) {
         showWarnings = YES;
+        dateAmdTimeSection = 3;
     } else {
         showWarnings = NO;
+        dateAmdTimeSection = 2;
     }
     self.selectedMedication = [[DCMedicationScheduleDetails alloc] init];
     self.selectedMedication.name = medication.name;
@@ -569,10 +578,6 @@
     self.selectedMedication.mildWarningCount = mildArray.count;
     self.selectedMedication.medicineCategory = REGULAR_MEDICATION;
     self.selectedMedication.scheduling = [[DCScheduling alloc] init];
-//    self.selectedMedication.scheduling.type = SPECIFIC_TIMES;
-//    self.selectedMedication.scheduling.repeat = [[DCRepeat alloc] init];
-//    self.selectedMedication.scheduling.repeat.repeatType = DAILY;
-//    self.selectedMedication.scheduling.repeat.frequency = @"1 day";
     dosageArray = [NSMutableArray arrayWithObjects:medication.dosage, nil];
     [medicationDetailsTableView reloadData];
 }
@@ -652,10 +657,11 @@
     UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
     DCSchedulingInitialViewController *schedulingViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:SCHEDULING_INITIAL_STORYBOARD_ID];
     schedulingViewController.selectedSchedulingValue = ^ (DCScheduling *scheduling) {
-        
+        self.selectedMedication.scheduling = scheduling;
     };
     schedulingViewController.updatedTimeArray = ^ (NSMutableArray *timeArray) {
-        self.selectedMedication.timeArray = [DCAddMedicationHelper timesArrayFromScheduleArray:timeArray];
+        //self.selectedMedication.timeArray = [DCAddMedicationHelper timesArrayFromScheduleArray:timeArray];
+        self.selectedMedication.timeArray = timeArray;
     };
     if (self.isEditMedication) {
         if (self.selectedMedication.scheduling == nil) {
@@ -1184,7 +1190,7 @@
     BOOL sameCellClicked = (self.datePickerIndexPath.row - 1 == indexPath.row);
     // remove any date picker cell if it exists
     if ([self hasInlineDatePicker]) {
-        [medicationDetailsTableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.datePickerIndexPath.row inSection:3]]
+        [medicationDetailsTableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.datePickerIndexPath.row inSection:dateAmdTimeSection]]
                                   withRowAnimation:UITableViewRowAnimationFade];
         self.datePickerIndexPath = nil;
     }
@@ -1252,9 +1258,6 @@
     if (isInstruction) {
         self.selectedMedication.instruction = instructions;
     }
-//    else {
-//        self.selectedMedication.scheduling.schedulingDescription = instructions;
-//    }
 }
 
 - (void)configureInstructionForMedication {
