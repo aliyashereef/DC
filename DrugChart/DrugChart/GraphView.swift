@@ -6,7 +6,7 @@
 //
 //
 
-import Foundation
+
 
 class GraphView:UIView
 {
@@ -22,7 +22,8 @@ class GraphView:UIView
     var width:CGFloat!
     var height:CGFloat!
     var margin:CGFloat = 20.0
-    var maxYAxis:Double!
+    var maxYAxis:Int = 4
+    var noOfLinesonxAxis = 4
     var graphHeight:CGFloat!
     var topBorder:CGFloat = 60
     var bottomBorder:CGFloat = 50
@@ -97,27 +98,35 @@ class GraphView:UIView
     {
         
     }
-    func drawYAxisLabels()
+    func  drawHorizontalLines()
     {
-        // add y axis line
-        var label = UILabel(frame: CGRectMake(0,0,50,21))
-        label.center = CGPointMake(width,topBorder)
-        label.textAlignment = NSTextAlignment.Left
-        label.textColor = UIColor.whiteColor()
-        label.opaque = true
-        label.font = UIFont(name: label.font.fontName, size: 13)
-        label.text = String(maxYAxis)
-        self.addSubview(label)
+        // Draw lines
+        let yAxisDivision = maxYAxis / noOfLinesonxAxis
+        var yAxisPoint:CGFloat;
         
-        label = UILabel(frame: CGRectMake(0,0,50,21))
-        label.center = CGPointMake(width,height - bottomBorder)
-        label.textAlignment = NSTextAlignment.Left
-        label.textColor = UIColor.whiteColor()
-        label.opaque = true
-        label.font = UIFont(name: label.font.fontName, size: 13)
-        label.text = "0"
-        self.addSubview(label)
-        
+        let linePath = UIBezierPath()
+                // first line
+        for i in 0..<(noOfLinesonxAxis + 1)
+        {
+            // Draw a line
+            yAxisPoint = columnYPoint(Double(i*yAxisDivision))
+            linePath.moveToPoint(CGPoint(x:margin, y:yAxisPoint))
+            linePath.addLineToPoint(CGPoint(x:width - margin,y:yAxisPoint))
+            // now add the label on y Axis
+            let label = UILabel(frame: CGRectMake(0,0,50,21))
+            label.center = CGPointMake(width,yAxisPoint)
+            label.textAlignment = NSTextAlignment.Left
+            label.textColor = UIColor.whiteColor()
+            label.opaque = true
+            label.font = UIFont(name: label.font.fontName, size: 13)
+            label.text = String(i * yAxisDivision)
+            self.addSubview(label)
+            
+        }
+        let color = UIColor (white: 1.0 , alpha: 0.3)
+        color.setStroke()
+        linePath.lineWidth = 1.0
+        linePath.stroke()
     }
     func drawLatestReadiongLabels()
     {

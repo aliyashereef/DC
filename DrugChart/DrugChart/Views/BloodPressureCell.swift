@@ -8,16 +8,15 @@
 
 import UIKit
 
-class BloodPressureCell: UITableViewCell ,UITextFieldDelegate{
+class BloodPressureCell: UITableViewCell ,ButtonAction{
 
-    @IBOutlet weak var systolicValue: UITextField!
-    @IBOutlet weak var diastolicValue: UITextField!
-
+    @IBOutlet weak var systolicValue: NumericTextField!
+    @IBOutlet weak var diastolicValue: NumericTextField!
+    var delegate:CellDelegate?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        systolicValue.delegate = self
-        diastolicValue.delegate = self
     }
    
     override func setSelected(selected: Bool, animated: Bool) {
@@ -28,26 +27,8 @@ class BloodPressureCell: UITableViewCell ,UITextFieldDelegate{
     
     func isValueEntered() -> Bool
     {
-       // if  (systolicValue.text != nil && systolicValue.text?.isEmpty==false)
-        if (systolicValue.text == nil || systolicValue.text!.isEmpty == true)
-            
-        {
-            return false
-        }
-        else
-        {
-            return true
-        }
+        return systolicValue.isValueEntered()
     }
-    
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        
-        systolicValue.resignFirstResponder()
-        diastolicValue.resignFirstResponder()
-        return true
-    }
-    
-    
     func  getSystolicValue() ->Double
     {
         return (systolicValue.text as NSString!).doubleValue
@@ -56,5 +37,35 @@ class BloodPressureCell: UITableViewCell ,UITextFieldDelegate{
     func  getDiastolicValue() ->Double
     {
         return (diastolicValue.text as NSString!).doubleValue
+    }
+    
+    func nextButtonAction()
+    {
+        if(self.systolicValue.isFirstResponder())
+        {
+            self.diastolicValue.becomeFirstResponder()
+        }
+        else if(self.diastolicValue.isFirstResponder())
+        {
+            delegate?.moveNext(self.tag)
+        }
+    }
+    
+    func previousButtonAction()
+    {
+        delegate?.movePrevious(self.tag)
+    }
+    
+    func getFocus()
+    {
+        self.systolicValue.becomeFirstResponder()
+    }
+    
+    func configureCell()
+    {
+        systolicValue.buttonActionDelegate = self
+        diastolicValue.buttonActionDelegate = self
+        systolicValue.initialize()
+        diastolicValue.initialize()
     }
 }
