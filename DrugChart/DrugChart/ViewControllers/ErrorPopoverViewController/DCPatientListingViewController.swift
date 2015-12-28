@@ -13,6 +13,9 @@ let overDueTitle : NSString = "MEDICATION - OVERDUE"
 let immediateTitle : NSString = "MEDICATION - IMMEDIATE"
 let notImmediateTitle : NSString = "MEDICATION - UPCOMING"
 let searchBarHeight : NSInteger = 44
+let fullWindowRowHeight : CGFloat = 115
+let oneThirdWindowRowHeight : CGFloat = 147
+let sectionHeaderHeight : CGFloat = 60
 let searchText : NSString = "Search"
 
 enum SectionValue : NSInteger {
@@ -35,6 +38,7 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
     var sortedSearchListArray : NSMutableArray = []
     var wardsListArray : NSMutableArray = []
     var bedsArray : NSMutableArray = []
+    let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
 
     @IBOutlet var messageLabel: UILabel!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
@@ -64,7 +68,11 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
         super.viewWillDisappear(animated)
     }
     
-    
+    override func viewDidLayoutSubviews() {
+        
+        super.viewDidLayoutSubviews()
+        patientListTableView.reloadData()
+    }
     //MARK: View methods
     //Configuring view properties
     
@@ -150,7 +158,17 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 60.0
+        return sectionHeaderHeight
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+
+        if (appDelegate.windowState == DCWindowState.oneThirdWindow || appDelegate.windowState == DCWindowState.halfWindow) {
+            
+            return oneThirdWindowRowHeight
+        } else {
+            return fullWindowRowHeight
+        }
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

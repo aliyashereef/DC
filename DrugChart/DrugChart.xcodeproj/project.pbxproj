@@ -1590,6 +1590,7 @@
 				0B8886AC1B0C77FB006FF1BF /* DatePickerViewController */,
 				0BA8036F1BA7ED2200DBB45D /* WarningsListViewController */,
 				4DDD99AA1BD63E6F002879CD /* PatientListingViewController */,
+				FD7E9E3E1C2BF8F000CDCC77 /* PatientListingOneThirdViewController */,
 				4DDE0ADC1BBBB70C0044295B /* PinChangeViewController */,
 				4DDD99AB1BD63E96002879CD /* WardListingViewController */,
 				0BF2DA4D1ACA97F700B3ED97 /* ErrorPopoverViewController */,
@@ -2599,6 +2600,13 @@
 				FD618F2E1C1979E7005EC416 /* DCDosageSelectionTableViewCell.swift */,
 			);
 			name = DosageSelection;
+			sourceTree = "<group>";
+		};
+		FD7E9E3E1C2BF8F000CDCC77 /* PatientListingOneThirdViewController */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = PatientListingOneThirdViewController;
 			sourceTree = "<group>";
 		};
 		FDC7EA581C1AA8B30081D5C4 /* DosageDetail */ = {
