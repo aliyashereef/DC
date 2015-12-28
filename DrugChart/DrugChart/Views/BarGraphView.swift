@@ -85,7 +85,6 @@ class BarGraphView: GraphView {
             }
     
             graphPath.stroke()
-    //
             // draw the circle dots on the graph
             for i in 0..<yAxisMaxValue.count
             {
@@ -107,24 +106,9 @@ class BarGraphView: GraphView {
                 circle.fill()
             }
                 // draw the horizontal lines
-                let linePath = UIBezierPath()
-                // top line
-                linePath.moveToPoint(CGPoint(x:margin,y:topBorder))
-                linePath.addLineToPoint(CGPoint(x:width-margin , y:topBorder))
-                // center line
-                linePath.moveToPoint(CGPoint(x:margin, y:graphHeight/2 + topBorder))
-                linePath.addLineToPoint(CGPoint(x:width-margin , y:graphHeight/2 + topBorder))
-                // bottom line
-                linePath.moveToPoint(CGPoint(x:margin, y:height - bottomBorder))
-                linePath.addLineToPoint(CGPoint(x:width - margin,y:height - bottomBorder))
-                let color = UIColor (white: 1.0 , alpha: 0.3)
-                color.setStroke()
-                linePath.lineWidth = 1.0
-                linePath.stroke()
-                
+                drawHorizontalLines()
                 // now add the label on the UI
                 drawLatestReadiongLabels()
-                drawYAxisLabels()
                 drawXAxisLabels()
                 self.drawGraph = false
                 
@@ -134,7 +118,7 @@ class BarGraphView: GraphView {
     override func setMaxYAxis() {
         if(self.yAxisMaxValue != nil && self.yAxisMaxValue.count>0)
         {
-            self.maxYAxis = yAxisMaxValue.maxElement()
+            self.maxYAxis = Int(yAxisMaxValue.maxElement()!)
         }
     }
     

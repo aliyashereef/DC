@@ -229,6 +229,11 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+        return 44.0
+    }
+    
     // MARK: - Private Methods
     
     func configureCellForAddNew() -> DCDosageDetailTableViewCell{

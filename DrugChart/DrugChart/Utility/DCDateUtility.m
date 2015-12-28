@@ -32,6 +32,16 @@
     
 }
 
++ (NSDate *)shortDateFromDate:(NSDate *)originalDate {
+    
+    NSDateComponents *components = [[NSCalendar currentCalendar]
+                                    components:NSCalendarUnitYear |NSCalendarUnitMonth |NSCalendarUnitDay
+                                    fromDate:originalDate];
+    NSDate *shortDate = [[NSCalendar currentCalendar]
+                         dateFromComponents:components];
+    return shortDate;
+}
+
 + (NSArray *)monthNames {
     
     //get month names

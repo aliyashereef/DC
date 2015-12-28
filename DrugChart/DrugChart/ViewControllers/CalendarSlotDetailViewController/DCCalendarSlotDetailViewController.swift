@@ -217,7 +217,6 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         showTopBarDoneButton(false)
         if medicationHistoryViewController == nil {
             medicationHistoryViewController = MedicationHistoryStoryboard!.instantiateViewControllerWithIdentifier(MEDICATION_STORYBOARD_ID) as? DCMedicationHistoryViewController
-            medicationHistoryViewController?.medicationSlot = slotToAdminister
             medicationHistoryViewController?.weekDate = weekDate
             medicationHistoryViewController?.medicationDetails = medicationDetails
             var medicationArray : [DCMedicationSlot] = [DCMedicationSlot]()
@@ -312,7 +311,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     @IBAction func doneButtonPressed(sender: AnyObject) {
         
         //perform administer medication api call here
-        administerViewController?.doneClicked = true
+        administerViewController?.saveClicked = true
         if(entriesAreValid()) {
             administerViewController?.activityIndicator.startAnimating()
             administerViewController?.isValid = true

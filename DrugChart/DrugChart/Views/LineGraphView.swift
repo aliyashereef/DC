@@ -104,7 +104,7 @@ import UIKit
     
            
             
-            let highestYPoint = columnYPoint(maxYAxis)
+            let highestYPoint = columnYPoint(yAxisValue.maxElement()!)
             startPoint = CGPoint(x:margin , y:highestYPoint)
             endPoint = CGPoint(x:margin , y: self.bounds.height)
     
@@ -115,8 +115,6 @@ import UIKit
             graphPath.stroke()
                 }
                 
-            
-                
             // draw the circle dots on the graph
             for i in 0..<yAxisValue.count
             {
@@ -126,26 +124,11 @@ import UIKit
                 let circle = UIBezierPath(ovalInRect: CGRect(origin: point, size: CGSize(width: 5.0,height: 5.0)))
                 circle.fill()
             }
-            // draw the horizontal lines
-            let linePath = UIBezierPath()
-            // top line
-            linePath.moveToPoint(CGPoint(x:margin,y:topBorder))
-            linePath.addLineToPoint(CGPoint(x:width-margin , y:topBorder))
-            // center line
-            linePath.moveToPoint(CGPoint(x:margin, y:graphHeight/2 + topBorder))
-            linePath.addLineToPoint(CGPoint(x:width-margin , y:graphHeight/2 + topBorder))
-            // bottom line
-            linePath.moveToPoint(CGPoint(x:margin, y:height - bottomBorder))
-            linePath.addLineToPoint(CGPoint(x:width - margin,y:height - bottomBorder))
-            let color = UIColor (white: 1.0 , alpha: 0.3)
-            color.setStroke()
-            linePath.lineWidth = 1.0
-            linePath.stroke()
-
+            
+            drawHorizontalLines()
             // add last entered label
             drawLatestReadiongLabels()
             // now add the label on the UI
-            drawYAxisLabels()
             drawXAxisLabels()
            
              // set the bit false again to be used next time
@@ -156,7 +139,11 @@ import UIKit
    override func setMaxYAxis() {
         if(self.yAxisValue != nil && self.yAxisValue.count>0)
         {
-            self.maxYAxis = yAxisValue.maxElement()
+            self.maxYAxis = Int(ceil (yAxisValue.maxElement()!))
+            while( self.maxYAxis%self.noOfLinesonxAxis != 0)
+            {
+                self.maxYAxis++
+            }
         }
     }
     

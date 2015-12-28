@@ -177,6 +177,8 @@
 		1F7EB71D1C21CB5400F6F22F /* BarGraphCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7EB71B1C21CB5400F6F22F /* BarGraphCell.swift */; };
 		1F7EB71E1C21CB5400F6F22F /* BarGraphCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F7EB71C1C21CB5400F6F22F /* BarGraphCell.xib */; };
 		1F7EB7201C2303A400F6F22F /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7EB71F1C2303A400F6F22F /* Double.swift */; };
+		1F7EB7221C29993000F6F22F /* CellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7EB7211C29993000F6F22F /* CellDelegate.swift */; };
+		1F7EB7261C2C111600F6F22F /* NumericTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7EB7251C2C111600F6F22F /* NumericTextField.swift */; };
 		1FB412681BFB522900D91487 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB412671BFB522900D91487 /* String.swift */; };
 		1FB5D07B1C0751D700F9A2F7 /* ObservationSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB5D07A1C0751D700F9A2F7 /* ObservationSelectionViewController.swift */; };
 		1FB5D07D1C08681F00F9A2F7 /* CommaScoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB5D07C1C08681F00F9A2F7 /* CommaScoreViewController.swift */; };
@@ -589,6 +591,8 @@
 		1F7EB71B1C21CB5400F6F22F /* BarGraphCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarGraphCell.swift; sourceTree = "<group>"; };
 		1F7EB71C1C21CB5400F6F22F /* BarGraphCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BarGraphCell.xib; sourceTree = "<group>"; };
 		1F7EB71F1C2303A400F6F22F /* Double.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
+		1F7EB7211C29993000F6F22F /* CellDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellDelegate.swift; sourceTree = "<group>"; };
+		1F7EB7251C2C111600F6F22F /* NumericTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumericTextField.swift; sourceTree = "<group>"; };
 		1FB412671BFB522900D91487 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		1FB5D07A1C0751D700F9A2F7 /* ObservationSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservationSelectionViewController.swift; sourceTree = "<group>"; };
 		1FB5D07C1C08681F00F9A2F7 /* CommaScoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommaScoreViewController.swift; sourceTree = "<group>"; };
@@ -2095,6 +2099,7 @@
 				1FD4FCC71BF4B7E000B77B94 /* SelectionView.xib */,
 				1F1977081BFDE5E700106023 /* ExcelTabularView.swift */,
 				1F19770A1BFDE60E00106023 /* ExcelTabularView.xib */,
+				1F7EB7251C2C111600F6F22F /* NumericTextField.swift */,
 			);
 			name = CustomView;
 			sourceTree = "<group>";
@@ -2167,6 +2172,7 @@
 			children = (
 				1FD4FD0E1BF4BBCB00B77B94 /* ObservationDelegate.swift */,
 				1FD4FD0F1BF4BBCB00B77B94 /* RowSeletedDelegate.swift */,
+				1F7EB7211C29993000F6F22F /* CellDelegate.swift */,
 			);
 			name = VitalSign;
 			sourceTree = "<group>";
@@ -2942,6 +2948,7 @@
 				0B7F75001B8439DA00E3B0A0 /* DCSortTableCell.m in Sources */,
 				1F7EB71D1C21CB5400F6F22F /* BarGraphCell.swift in Sources */,
 				7D9EA9E81B295DDE00337E6A /* DCBedGraphics.m in Sources */,
+				1F7EB7261C2C111600F6F22F /* NumericTextField.swift in Sources */,
 				1F1977191BFF5C1A00106023 /* Constant.swift in Sources */,
 				1FD4FD111BF4BBCB00B77B94 /* RowSeletedDelegate.swift in Sources */,
 				4D9C7DC41BA1578C00C69094 /* DCAddMedicationWebServiceManager.m in Sources */,
@@ -2995,6 +3002,7 @@
 				4D4891561BC90053002AC8CA /* DCSwiftObjCNavigationHelper.m in Sources */,
 				1FD4FD0A1BF4BAE000B77B94 /* Enumerations.swift in Sources */,
 				1FB5D07D1C08681F00F9A2F7 /* CommaScoreViewController.swift in Sources */,
+				1F7EB7221C29993000F6F22F /* CellDelegate.swift in Sources */,
 				4DDE0ADE1BBBBEDE0044295B /* DCAdministratedByPinVerificationViewController.swift in Sources */,
 				0BD659541BD6660D00D3097B /* UIButton+ButtonHighlight.m in Sources */,
 				0BBEFFD01B5F72EF00E70CCC /* DCWarning.m in Sources */,

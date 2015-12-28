@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
+class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,CellDelegate{
 
     @IBOutlet var tableView: UITableView!
     private var obsBodyTemperature:BodyTemperature?
@@ -28,6 +28,8 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
     */
     
     var datePickerCell:DatePickerCellInline!
+    var cells:Dictionary<Int,UITableViewCell> = Dictionary<Int,UITableViewCell>()
+    //[(cellNumber:Int,cell:UICollectionViewCell)] = [(cellNumber:Int,cell:UICollectionViewCell)]()
     
     class func instanceFromNib() -> UIView {
         return UINib(nibName: "GeneralObservationView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
@@ -143,11 +145,16 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
         case CellType.BloodPressure:
             let cell = tableView.dequeueReusableCellWithIdentifier("BloodPressureCell", forIndexPath: indexPath) as! BloodPressureCell
             cell.tag = rowTag
+            cells[rowNumber] = cell
+            cell.configureCell()
+            cell.delegate = self
             return cell
-        default:
+        case CellType.Double:
             let cell = tableView.dequeueReusableCellWithIdentifier("DoubleCell", forIndexPath: indexPath) as! DoubleCell
-            cell.configureCell(cellTitle, valuePlaceHolderText: placeHolderText,selectedValue: getSelectedValue(indexPath))
             cell.tag = rowTag
+            cell.configureCell(cellTitle, valuePlaceHolderText: placeHolderText,selectedValue: nil)
+            cells[rowNumber] = cell
+            cell.delegate = self
             return cell
         }
         
@@ -280,6 +287,39 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource{
             observation.pulse = obsPulse
     }
     }
-    
+    // Mark : Cell delegate
+    func moveNext(rowNumber:Int)
+    {
+     //if(ObservationType.count)
+        let cellNumber = rowNumber + 1
+        if(cellNumber < ObservationType.count)
+        {
+            if let doubleCell = cells[cellNumber] as? DoubleCell
+            {
+                doubleCell.getFocus()
+            }
+            else if let bloodPressureCell = cells[cellNumber] as? BloodPressureCell
+            {
+                bloodPressureCell.getFocus()
+            }
+            
+        }
+        
+    }
+    func movePrevious(rowNumber:Int)
+    {
+        let cellNumber = rowNumber - 1
+        if(cellNumber > 0)
+        {
+            if let doubleCell = cells[cellNumber] as? DoubleCell
+            {
+                doubleCell.getFocus()
+            }
+            else if let bloodPressureCell = cells[cellNumber] as? BloodPressureCell
+            {
+                bloodPressureCell.getFocus()
+            }
+        }
+    }
 
 }
