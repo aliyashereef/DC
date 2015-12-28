@@ -18,5 +18,7 @@ class Constant
     static let BM :String = "BM"
     static let NEWS :String = "News"
     static let COMMA_SCORE :String = "Comma Score"
+    static let MINIMUM_OBSERVATION_ROW: Int = 1
+    static let MAXIMUM_OBSERVATION_ROW: Int = 6
 
 }

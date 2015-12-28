@@ -18,10 +18,10 @@
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Value" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z4T-K7-v0t">
                         <rect key="frame" x="8" y="11" width="91" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter a value" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zRd-af-an9">
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter a value" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zRd-af-an9" customClass="NumericTextField" customModule="DrugChart" customModuleProvider="target">
                         <rect key="frame" x="99" y="7" width="212.5" height="22"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <textInputTraits key="textInputTraits" spellCheckingType="no" keyboardType="decimalPad"/>
@@ -41,7 +41,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="titleText" destination="z4T-K7-v0t" id="DvF-0Z-NzV"/>
-                <outlet property="value" destination="zRd-af-an9" id="qbf-jc-COd"/>
+                <outlet property="value" destination="zRd-af-an9" id="1AQ-YR-wC0"/>
             </connections>
         </tableViewCell>
     </objects>
