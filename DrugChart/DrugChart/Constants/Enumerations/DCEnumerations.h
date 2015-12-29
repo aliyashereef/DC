@@ -125,7 +125,9 @@ typedef enum : NSUInteger {
     eAddNewDosage,
     eAddCondition,
     eAddDoseForTime,
-    eAddNewTime
+    eAddNewTime,
+    eDose,
+    eUntil
 }DosageDetailType;
 
 

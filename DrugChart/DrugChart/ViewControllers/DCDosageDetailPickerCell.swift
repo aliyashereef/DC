@@ -8,6 +8,8 @@
 
 import UIKit
 
+typealias SelectedPickerValue = NSString? -> Void
+
 class DCDosageDetailPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource {
 
     @IBOutlet weak var pickerView: UIPickerView!
@@ -15,7 +17,8 @@ class DCDosageDetailPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerV
     var reducingIncreasingArray = ["Reducing","Increasing"]
     var daysCount = ["1","2","3","4","5","6","7"]
     var contentArray = [String]()
-
+    var pickerCompletion: SelectedPickerValue = { value in }
+    var selectedContent : String = ""
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -93,6 +96,15 @@ class DCDosageDetailPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerV
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
+        if (pickerType! == eReducingIncreasingType) {
+            
+            selectedContent = reducingIncreasingArray[pickerView.selectedRowInComponent(0)]
+            pickerCompletion(selectedContent)
+        } else {
+            
+            selectedContent = daysCount[pickerView.selectedRowInComponent(0)]
+            pickerCompletion(selectedContent)
+        }
         print(pickerView.selectedRowInComponent(0))
     }
 }

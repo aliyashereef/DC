@@ -495,5 +495,7 @@
 #define INCREASING @"Increasing"
 #define ADD_ADMINISTRATION_TIME @"Add Administration Time"
 #define ADD_NEW_TIME @"Add New Time"
+#define TIME_KEY @"time"
+#define UNTIL_TITLE @"Until"
 
 #endif
