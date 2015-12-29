@@ -366,9 +366,9 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
                     atIndexPath: indexPath,
                     atSlotIndex:0)
                 statusView.isOneThirdScreen = true
-                let weekdate = currentWeekDatesArray.objectAtIndex(index) as? NSDate
+                let weekdate = centerDate
                 medicationCell.adminstrationStatusView.addSubview(statusView)
-                statusView.configureStatusViewForWeekDate(weekdate!)
+                statusView.configureStatusViewForWeekDate(weekdate)
             }
             for subView in existingStatusViews {
                 subView.removeFromSuperview()

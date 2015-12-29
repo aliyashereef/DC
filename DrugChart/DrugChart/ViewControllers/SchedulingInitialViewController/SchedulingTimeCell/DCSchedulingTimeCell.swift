@@ -40,6 +40,7 @@ class DCSchedulingTimeCell: UITableViewCell {
         timeSwitch.hidden = true
         timeTypeLabel.text = type
         timeValueLabel.text = value
+        timeValueLabel.hidden = false
         self.accessoryType = .DisclosureIndicator
     }
     
@@ -48,7 +49,9 @@ class DCSchedulingTimeCell: UITableViewCell {
         //configure cell with switch element in it
         timeSwitch.hidden = false
         timeSwitch.on = previousPickerState!
+        timeValueLabel.hidden = true
         timeTypeLabel.text = NSLocalizedString("SET_START_END_TIME", comment: "")
+        self.accessoryType = .None
     }
         
     //MARK: Action Methods

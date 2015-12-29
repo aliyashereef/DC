@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F1504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
@@ -340,20 +340,26 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="hV8-Kr-KP1">
-                                <rect key="frame" x="122" y="72" width="145" height="29"/>
-                                <animations/>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Snd-C0-1n6">
+                                <rect key="frame" x="118" y="72" width="161" height="29"/>
                                 <segments>
                                     <segment title="Day"/>
                                     <segment title="Week"/>
                                     <segment title="Month"/>
                                 </segments>
                                 <connections>
-                                    <action selector="indexChange:" destination="0Ui-sx-cxg" eventType="valueChanged" id="vfB-tT-rAi"/>
+                                    <action selector="indexChange:" destination="0Ui-sx-cxg" eventType="valueChanged" id="f1C-iR-GkM"/>
                                 </connections>
                             </segmentedControl>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BEa-Zn-RuB">
-                                <rect key="frame" x="0.0" y="108" width="375" height="510"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fjF-RZ-qef">
+                                <rect key="frame" x="118" y="103" width="161" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                            </label>
+                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BEa-Zn-RuB">
+                                <rect key="frame" x="5" y="132" width="364" height="478"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -361,12 +367,13 @@
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="centerX" secondItem="hV8-Kr-KP1" secondAttribute="centerX" constant="-7" id="CCL-Nt-zkr"/>
-                            <constraint firstItem="wdm-9N-oQq" firstAttribute="top" secondItem="BEa-Zn-RuB" secondAttribute="bottom" id="nrQ-Zx-heW"/>
-                            <constraint firstItem="hV8-Kr-KP1" firstAttribute="top" secondItem="t7l-FI-hhI" secondAttribute="bottom" constant="8" id="pc2-Pe-B6P"/>
-                            <constraint firstItem="BEa-Zn-RuB" firstAttribute="leading" secondItem="ZpH-Ij-a9C" secondAttribute="leadingMargin" constant="-16" id="tfh-tY-3qr"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="BEa-Zn-RuB" secondAttribute="trailing" constant="-16" id="v1E-7M-pB7"/>
-                            <constraint firstItem="BEa-Zn-RuB" firstAttribute="top" secondItem="hV8-Kr-KP1" secondAttribute="bottom" constant="8" id="xG9-6Q-J0t"/>
+                            <constraint firstItem="Snd-C0-1n6" firstAttribute="centerX" secondItem="ZpH-Ij-a9C" secondAttribute="centerX" id="L4E-IA-klQ"/>
+                            <constraint firstItem="BEa-Zn-RuB" firstAttribute="leading" secondItem="ZpH-Ij-a9C" secondAttribute="leadingMargin" constant="-15" id="LsG-Xa-I14"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="BEa-Zn-RuB" secondAttribute="trailing" constant="-14" id="bwO-JZ-HzY"/>
+                            <constraint firstItem="fjF-RZ-qef" firstAttribute="centerX" secondItem="ZpH-Ij-a9C" secondAttribute="centerX" id="cDf-1E-Gna"/>
+                            <constraint firstItem="fjF-RZ-qef" firstAttribute="top" secondItem="Snd-C0-1n6" secondAttribute="bottom" constant="3" id="jFa-v6-yDY"/>
+                            <constraint firstItem="wdm-9N-oQq" firstAttribute="top" secondItem="BEa-Zn-RuB" secondAttribute="bottom" constant="8" id="pCf-7B-Vsm"/>
+                            <constraint firstItem="BEa-Zn-RuB" firstAttribute="top" secondItem="fjF-RZ-qef" secondAttribute="bottom" constant="8" id="zfI-DO-qzv"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Observation Chart" id="gql-ip-e6Y">
@@ -388,6 +395,7 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="dateLabel" destination="fjF-RZ-qef" id="36n-d2-8Gt"/>
                         <outlet property="parentView" destination="BEa-Zn-RuB" id="rKg-d8-zL7"/>
                     </connections>
                 </viewController>

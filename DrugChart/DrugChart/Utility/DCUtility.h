@@ -92,5 +92,7 @@ typedef enum : NSUInteger {
 
 + (NSString *)mostOccurredStringFromArray:(NSArray *)contentArray;
 
++ (NSString *)removeSubstring:(NSString *)substring FromOriginalString:(NSMutableString *)originalString;
+
 
 @end

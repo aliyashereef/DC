@@ -14,11 +14,7 @@ class LineGraphCell: GraphCollectionnViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-    }
-    
-    
-    func configureCell()
-    {
         super.graphView = lineGraph
     }
+    
 }

@@ -346,7 +346,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return (_detailType == eOverrideReason ? self.view.frame.size.height : ROW_HEIGHT_DEFAULT);
+    return _detailType == eOverrideReason ? (self.view.frame.size.height-100) : ROW_HEIGHT_DEFAULT;
 }
 
 #pragma mark - Action Methods

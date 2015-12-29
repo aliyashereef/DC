@@ -86,4 +86,6 @@ typedef enum : NSUInteger {
 + (NSInteger)numberOfSectionsInMedicationTableViewForSelectedMedication:(DCMedicationScheduleDetails *)selectedmedication
                                                            showWarnings:(BOOL)showWarnings;
 
++ (BOOL)frequencyIsValidForSelectedMedication:(DCMedicationDetails *)selectedmedication;
+
 @end

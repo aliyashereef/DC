@@ -367,4 +367,12 @@
     return mostCommonString;
 }
 
++ (NSString *)removeSubstring:(NSString *)substring FromOriginalString:(NSMutableString *)originalString {
+    
+    NSRange range = [originalString rangeOfString:substring];
+    /** Delete the substring from the original string **/
+    [originalString deleteCharactersInRange:range];
+    return originalString;
+}
+
 @end

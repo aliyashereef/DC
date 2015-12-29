@@ -778,7 +778,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="310" height="77"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Description" translatesAutoresizingMaskIntoConstraints="NO" id="BoF-gt-g7U">
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Description" translatesAutoresizingMaskIntoConstraints="NO" id="BoF-gt-g7U">
                                                     <rect key="frame" x="12" y="5" width="289" height="65"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="textColor" red="0.56078431370000004" green="0.56078431370000004" blue="0.58431372550000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1100,9 +1100,9 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ww1-5o-rcO" userLabel="DescriptionLabel">
-                                                    <rect key="frame" x="144" y="10" width="130" height="21"/>
+                                                    <rect key="frame" x="124" y="10" width="150" height="21"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="130" id="k6O-ta-zSH"/>
+                                                        <constraint firstAttribute="width" constant="150" id="k6O-ta-zSH"/>
                                                         <constraint firstAttribute="height" constant="21" id="tf6-f2-vZw"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>

@@ -250,6 +250,9 @@
 #define WHEN_REQUIRED_VALUE @"When Required"
 #define WHEN_REQUIRED @"WhenRequired"
 
+// Administration status
+#define PENDING @"Pending"
+#define ADMINISTER_MEDICATION @"Administer Medication"
 
 #define DATE_COMPONENTS (NSCalendarUnitYear| NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitWeekOfYear |  NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond | NSCalendarUnitWeekday | NSCalendarUnitWeekdayOrdinal)
 
@@ -408,6 +411,12 @@
 #define SINGLE_DAY @"1 day"
 #define SINGLE_WEEK @"1 week"
 #define SINGLE_MONTH @"1 month"
+#define SINGLE_YEAR @"1 year"
+#define PREVIEW @"PREVIEW"
+#define ONE @"1"
+#define ONCE @"once"
+#define TWICE @"twice"
+#define THRICE @"thrice"
 
 //Roles
 

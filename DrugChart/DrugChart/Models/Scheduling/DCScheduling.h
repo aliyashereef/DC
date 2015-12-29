@@ -13,7 +13,6 @@
 @interface DCScheduling : NSObject
 
 @property (nonatomic, strong) NSString *type;
-@property (nonatomic, strong) NSString *schedulingDescription;
 @property (nonatomic, strong) DCSpecificTimes *specificTimes;
 @property (nonatomic, strong) DCInterval *interval;
 

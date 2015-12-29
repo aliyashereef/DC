@@ -11,6 +11,8 @@
 
 #define PATIENT_LIST_SECTION_COUNT 1
 #define CALENDAR_SECTION_COUNT 2
+#define SECTION_HEIGHT_INITIAL_SECTION 34.0f
+#define SECTION_HEIGHT_NORMAL 10.0f
 
 #define NAME @"Name"
 #define DATE @"Date"
@@ -64,8 +66,7 @@
 
 - (void)configureViewElements {
     
-    self.tableView.separatorInset = UIEdgeInsetsZero;
-    self.tableView.layoutMargins = UIEdgeInsetsZero;
+   // self.tableView.layoutMargins = UIEdgeInsetsMake(-1, 0.0, 0.0, 0.0);
     [self populateContentArray];
     [self configureNavigationBarProperties];
     [self.tableView reloadData];
@@ -148,6 +149,15 @@
 
     DCSortTableCell *sortCell = [self configureTableViewCellAtIndexPath:indexPath];
     return sortCell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    
+    if (section == 0) {
+        return SECTION_HEIGHT_INITIAL_SECTION;
+    } else {
+        return SECTION_HEIGHT_NORMAL;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

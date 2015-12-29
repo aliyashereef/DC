@@ -14,66 +14,41 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
     
     @IBOutlet var noMedicationHistoryMessageLabel: UILabel!
     @IBOutlet var medicationHistoryTableView: UITableView!
-    @IBOutlet var medicationDateLabel: UILabel!
-    @IBOutlet var medicationTypeLabel: UILabel!
-    @IBOutlet var medicationNameLabel: UILabel!
+
     var medicationSlotArray: [DCMedicationSlot] = []
-    var medicationSlot : DCMedicationSlot!
     var medicationDetails : DCMedicationScheduleDetails!
     var weekDate : NSDate?
-    var selectedRowIndex : NSIndexPath = NSIndexPath(forRow: -1, inSection: 0)
+    var medication : DCMedicationSlot!
+    var selectedRowIndex : NSIndexPath = NSIndexPath(forRow: -1, inSection: 1)
 
     //MARK: Memory Management Methods
     
     override func viewDidLoad() {
+        medication = medicationSlotArray[0]
         medicationHistoryTableView.tableFooterView = UIView(frame: CGRectZero)
+        self.medicationHistoryTableView.rowHeight = UITableViewAutomaticDimension
+        self.medicationHistoryTableView.estimatedRowHeight = 44.0
         if medicationSlotArray.count == 0 {
             noMedicationHistoryMessageLabel.hidden = false
         } else {
             noMedicationHistoryMessageLabel.hidden = true
         }
-        configureMedicationDetails()
+        configureNavigationBar()
         super.viewDidLoad()
     }
-
-    //MARK : Private Methods
     
-    //Configuring the basic view with the medication details, route and time
-    
-    func configureMedicationDetails () {
-
-        medicationNameLabel.text = medicationDetails?.name
-        if (medicationDetails?.route != nil) {
-            populateRouteAndInstructionLabels()
-        }
+    func configureNavigationBar() {
+        //Navigation bar title string
         let dateString : String
-        if let date = medicationSlot?.time {
+        if let date = medication.time {
             dateString = DCDateUtility.dateStringFromDate(date, inFormat: DATE_MONTHNAME_YEAR_FORMAT)
         } else {
             dateString = DCDateUtility.dateStringFromDate(weekDate, inFormat: DATE_MONTHNAME_YEAR_FORMAT)
         }
-        medicationDateLabel.text = dateString
+        let slotDate = DCDateUtility.dateStringFromDate(medication.time, inFormat: TWENTYFOUR_HOUR_FORMAT)
+
+        self.title = "\(dateString), \(slotDate)"
     }
-    
-    //Populating the route and instruction label.
-    
-    func populateRouteAndInstructionLabels() {
-        let route : String = medicationDetails!.route.stringByReplacingOccurrencesOfString(" ", withString: EMPTY_STRING)
-        let attributedRouteString : NSMutableAttributedString = NSMutableAttributedString(string:route, attributes: [NSFontAttributeName : UIFont.systemFontOfSize(16.0)])
-        let attributedInstructionsString : NSMutableAttributedString
-        let instructionString : String
-        if (medicationDetails?.instruction != EMPTY_STRING && medicationDetails?.instruction != nil) {
-            instructionString = String(format: " (%@)", (medicationDetails?.instruction)!)
-        } else {
-            instructionString = ""
-        }
-        attributedInstructionsString  = NSMutableAttributedString(string: instructionString, attributes: [NSFontAttributeName:UIFont.systemFontOfSize(12.0)])
-        attributedRouteString.appendAttributedString(attributedInstructionsString)
-        self.medicationTypeLabel.attributedText = attributedRouteString;
-    }
-    
-    //MARK: Table Cell Configuration Methods
-    // configuring the administered medication status display for the patient.
     
     func configureAdministeredCellAtIndexPathWithMedicationSlot (indexPath : NSIndexPath ,medication : DCMedicationSlot) -> AnyObject {
         
@@ -156,7 +131,8 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         noteCell!.moreButton.addTarget(self, action: "moreButtonPressed:", forControlEvents: .TouchUpInside)
         // Assigning value for the cell labels
         noteCell!.cellContentTypeLabel!.text = type as String
-        noteCell!.reasonTextLabel.text = text as String
+        noteCell!.reasonTextLabel.text = text.stringByReplacingOccurrencesOfString("\n", withString: EMPTY_STRING) as String
+        noteCell!.reasonTextLabel.textAlignment = .Right
         // Calculating the count of text characters and checking whether the more button have to be visible.
         let count : NSInteger = text.length
         if text == NONE_TEXT || count < 47{
@@ -184,6 +160,8 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         if indexPath != selectedRowIndex && count > 47{
             noteCell!.moreButtonWidthConstaint.constant = 46.0
         }
+        noteCell!.separatorInset = UIEdgeInsetsZero
+        noteCell!.layoutMargins = UIEdgeInsetsZero
         return noteCell!
     }
     
@@ -254,25 +232,32 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        if let historyArray : [DCMedicationSlot] = medicationSlotArray {
-            return historyArray.count
+        if let _ : [DCMedicationSlot] = medicationSlotArray {
+            return 2
         } else {
-            return 0
+            return 1
         }
     }
     
     //The number of rows is determined by the medication slot status, if is administrated, the section will require 6 rows, if ommitted it may require 2 rows and 3 for the refused state.
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return numberOfRowsFromMedicationSlotArray(medicationSlotArray[section])
+        switch section {
+        case 0 :
+            return 1
+        default:
+            return numberOfRowsFromMedicationSlotArray(medication)
+        }
     }
     
     //The height of the table view row is the default for every rows other than the notes cell.
     //Upon expansion we adjust the size of the row according size of the text.
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if indexPath.section == 0 {
+            return UITableViewAutomaticDimension
+        }
        if(indexPath == selectedRowIndex ) {
-        let medication : DCMedicationSlot = medicationSlotArray[indexPath.section]
         var notesString = EMPTY_STRING
         if medication.status == ADMINISTERED || medication.status == SELF_ADMINISTERED {
             notesString = medication.medicationAdministration.administeredNotes
@@ -290,12 +275,16 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
     
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        var cell = tableView.dequeueReusableCellWithIdentifier(ADMINSTER_MEDICATION_HISTORY_CELL) as? DCAdminsteredMedicationCell
-        if cell == nil {
-            cell = DCAdminsteredMedicationCell(style: UITableViewCellStyle.Value1, reuseIdentifier: ADMINSTER_MEDICATION_HISTORY_CELL)
-        }
-        let medication : DCMedicationSlot = medicationSlotArray[indexPath.section]
+        switch indexPath.section {
+        case 0 :
+            let cell = medicationHistoryTableView.dequeueReusableCellWithIdentifier("MedicationDetailsTableViewCell") as? DCMedicationDetailsTableViewCell
+            cell!.configureMedicationDetails(medicationDetails!)
+            return cell!
+        default:
+            var cell = tableView.dequeueReusableCellWithIdentifier(ADMINSTER_MEDICATION_HISTORY_CELL) as? DCAdminsteredMedicationCell
+            if cell == nil {
+                cell = DCAdminsteredMedicationCell(style: UITableViewCellStyle.Value1, reuseIdentifier: ADMINSTER_MEDICATION_HISTORY_CELL)
+            }
             if (medication.medicationAdministration?.status == SELF_ADMINISTERED || medication.medicationAdministration?.status == IS_GIVEN ){
                 return configureAdministeredCellAtIndexPathWithMedicationSlot(indexPath, medication: medication) as! UITableViewCell
             } else if medication.medicationAdministration?.status == REFUSED {
@@ -303,35 +292,51 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
             } else if medication.medicationAdministration?.status == OMITTED {
                 return configureOmittedCellAtIndexPathForMedicationDetails(indexPath, medication: medication) as! UITableViewCell
             }
-        return cell!
+            return cell!
+        }
     }
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        switch indexPath.section {
+        case 0 :
+            addBNFView()
+            break
+        default:
+            break
+        }
+    }
     // MARK: Header View Methods
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40.0
+        switch section {
+        case 0 :
+            return 0
+        default:
+            return 40.0
+        }
     }
     
     // returns the header view
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = self.instanceFromNib()
-        let medication : DCMedicationSlot = medicationSlotArray[section]
-        if medication.medicationAdministration?.status == IS_GIVEN || medication.medicationAdministration?.status == SELF_ADMINISTERED {
-        headerView.medicationStatusImageView.image = UIImage(named :ADMINISTRATION_HISTORY_TICK_IMAGE)
-        } else if medication.medicationAdministration?.status == OMITTED {
-            headerView.medicationStatusImageView.image = UIImage(named :ADMINISTRATION_HISTORY_CAUTION_IMAGE)
-        } else if medication.medicationAdministration?.status == REFUSED {
-            headerView.medicationStatusImageView.image = UIImage(named :ADMINISTRATION_HISTORY_CLOSE_IMAGE)
-        }
-        if medication.medicationAdministration?.status != nil {
-            if let time : NSDate = medication.time {
-                let header = UIView(frame: CGRectMake(0, 0, 100,40))
-                headerView.backgroundColor = UIColor(red: 239.0/255.0, green: 239.0/255.0, blue: 244.0/255.0, alpha: 1.0)
-                header.addSubview(headerView)
-                headerView.administratingTime.text = DCDateUtility.dateStringFromDate(time, inFormat: TWENTYFOUR_HOUR_FORMAT)
-                return header
-            }
-        }
+//        let headerView = self.instanceFromNib()
+//        let medication : DCMedicationSlot = medicationSlotArray[0]
+//        if medication.medicationAdministration?.status == IS_GIVEN || medication.medicationAdministration?.status == SELF_ADMINISTERED {
+//        headerView.medicationStatusImageView.image = UIImage(named :ADMINISTRATION_HISTORY_TICK_IMAGE)
+//        } else if medication.medicationAdministration?.status == OMITTED {
+//            headerView.medicationStatusImageView.image = UIImage(named :ADMINISTRATION_HISTORY_CAUTION_IMAGE)
+//        } else if medication.medicationAdministration?.status == REFUSED {
+//            headerView.medicationStatusImageView.image = UIImage(named :ADMINISTRATION_HISTORY_CLOSE_IMAGE)
+//        }
+//        if medication.medicationAdministration?.status != nil {
+//            if let time : NSDate = medication.time {
+//                let header = UIView(frame: CGRectMake(0, 0, 100,40))
+//                headerView.backgroundColor = UIColor(red: 239.0/255.0, green: 239.0/255.0, blue: 244.0/255.0, alpha: 1.0)
+//                header.addSubview(headerView)
+//                headerView.administratingTime.text = DCDateUtility.dateStringFromDate(time, inFormat: TWENTYFOUR_HOUR_FORMAT)
+//                return header
+//            }
+//        }
         return nil
     }
     
@@ -344,9 +349,9 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
     
     // calculating the number of rows from medication slot array
     
-    func numberOfRowsFromMedicationSlotArray( medication : DCMedicationSlot) -> Int {
+    func numberOfRowsFromMedicationSlotArray( medicationSlot : DCMedicationSlot) -> Int {
         var rowCount : Int
-        if let medicationValue : DCMedicationSlot = medication {
+        if let medicationValue : DCMedicationSlot = medicationSlot {
             if (medicationValue.medicationAdministration?.status == IS_GIVEN || medicationValue.medicationAdministration?.status == SELF_ADMINISTERED){
                 rowCount = 6
             } else if medicationValue.medicationAdministration?.status == OMITTED {
@@ -376,5 +381,11 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         let indexPath = medicationHistoryTableView.indexPathForCell(cell)
         selectedRowIndex = indexPath!
         medicationHistoryTableView.reloadData()
-        }
+    }
+    
+    func addBNFView () {
+        let administerStoryboard : UIStoryboard? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil)
+        let bnfViewController : DCBNFViewController? = administerStoryboard!.instantiateViewControllerWithIdentifier(BNF_STORYBOARD_ID) as? DCBNFViewController
+        self.navigationController?.pushViewController(bnfViewController!, animated: true)
+    }
 }
