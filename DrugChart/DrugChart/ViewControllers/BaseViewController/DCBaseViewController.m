@@ -14,6 +14,7 @@
 
     BOOL isLandScapeMode;
     BOOL sizeChanged;
+    BOOL firstTimeLoadingTheView;
 }
 
 @end
@@ -23,6 +24,7 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+    firstTimeLoadingTheView = true;
     [self configureCurrentOrientation];
     [self configureCurrentWindowState];
 }
@@ -113,7 +115,7 @@
 - (void)configureCurrentOrientation {
     
     DCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    CGSize screenSize = [UIScreen mainScreen].bounds.size;
+    CGSize screenSize = [self screenSizeForCurrentWindow];
     @synchronized(self) {
         isLandScapeMode = NO;
         appDelegate.screenOrientation = portrait;
@@ -122,6 +124,15 @@
             appDelegate.screenOrientation = landscape;
         }
     }
+}
+
+- (CGSize)screenSizeForCurrentWindow {
+    CGSize screenSize = [UIScreen mainScreen].bounds.size;
+    if ((NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_8_3) && !firstTimeLoadingTheView) {
+        return CGSizeMake(screenSize.height, screenSize.width);
+    }
+    firstTimeLoadingTheView = false;
+    return screenSize;
 }
 
 #pragma mark - Public Methods
