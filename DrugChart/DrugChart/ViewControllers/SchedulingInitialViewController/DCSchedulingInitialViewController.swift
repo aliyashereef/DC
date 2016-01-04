@@ -151,7 +151,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
                 //configure section 1 for scheduling type interval
                 switch indexPath.row {
                 case 0 :
-                    schedulingCell!.titleLabel?.text = NSLocalizedString("REPEAT_FREQUENCY", comment: "")
+                    schedulingCell!.titleLabel?.text = NSLocalizedString("REPEAT", comment: "")
                     var repeatFrequency : NSString = EMPTY_STRING
                     var unit : NSString = EMPTY_STRING
                     if (scheduling?.interval?.repeatFrequencyType == DAYS_TITLE) {
