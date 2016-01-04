@@ -622,6 +622,7 @@
         dosageSelectionViewController = [dosageStoryboard instantiateViewControllerWithIdentifier:DOSAGE_SELECTION_SBID];
         dosageSelectionViewController.newDosageAddedDelegate = self;
         dosageSelectionViewController.dosageArray = dosageArray;
+        dosageSelectionViewController.timeArray = self.selectedMedication.timeArray;
         dosageSelectionViewController.menuType = eDosageMenu;
         [self.navigationController pushViewController:dosageSelectionViewController animated:YES];
         
@@ -670,6 +671,7 @@
     }
     schedulingViewController.scheduling = self.selectedMedication.scheduling;
     schedulingViewController.timeArray = self.selectedMedication.timeArray;
+    NSLog(@"%@",self.selectedMedication.timeArray);
     schedulingViewController.validate = doneClicked;
     
     [self.navigationController pushViewController:schedulingViewController animated:YES];
