@@ -378,7 +378,6 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
             timesDictionary["time"] = time
             timesDictionary["selected"] = 1
             administrationTimeArray!.addObject(timesDictionary)
-            print("**** administrationTimeArray is %@", administrationTimeArray)
         }
         return administrationTimeArray!
     }
@@ -393,7 +392,6 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
                 self.scheduling?.specificTimes?.repeatObject = DCRepeat.init()
                 self.scheduling?.specificTimes?.repeatObject.repeatType = DAILY
                 self.scheduling?.specificTimes?.repeatObject.frequency = "1 day"
-//                self.scheduling?.specificTimes?.specificTimesDescription = String(format: "%@ day.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
                 if (timeArray == nil) {
                     timeArray = []
                 }

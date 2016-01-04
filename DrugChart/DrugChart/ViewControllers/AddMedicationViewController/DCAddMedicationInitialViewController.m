@@ -27,7 +27,7 @@
     NSArray *warningsArray;
     BOOL doneClicked;// for validation purpose
     BOOL showWarnings;//to check if warnings section is displayed
-    NSInteger dateAmdTimeSection;
+    NSInteger dateAndTimeSection;
     
     DCDosageSelectionViewController *dosageSelectionViewController;
 }
@@ -563,10 +563,10 @@
     NSArray *mildArray = [[warningsArray objectAtIndex:1] valueForKey:MILD_WARNING];
     if ([severeArray count] > 0 || [mildArray count] > 0) {
         showWarnings = YES;
-        dateAmdTimeSection = 3;
+        dateAndTimeSection = 3;
     } else {
         showWarnings = NO;
-        dateAmdTimeSection = 2;
+        dateAndTimeSection = 2;
     }
     self.selectedMedication = [[DCMedicationScheduleDetails alloc] init];
     self.selectedMedication.name = medication.name;
@@ -1080,7 +1080,7 @@
         //date and time section, check for the administarting time row and collapse any
         //picker if opened for Regular medication
         if (([self.selectedMedication.medicineCategory isEqualToString:REGULAR_MEDICATION]  || [self.selectedMedication.medicineCategory isEqualToString:WHEN_REQUIRED_VALUE]) &&
-            indexPath.row == [self numberOfRowsInMedicationTableViewSection:3] - 1) {
+            indexPath.row == [self numberOfRowsInMedicationTableViewSection:dateAndTimeSection] - 1) {
             [self collapseOpenedPickerCell];
         }
     }
@@ -1191,7 +1191,7 @@
     BOOL sameCellClicked = (self.datePickerIndexPath.row - 1 == indexPath.row);
     // remove any date picker cell if it exists
     if ([self hasInlineDatePicker]) {
-        [medicationDetailsTableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.datePickerIndexPath.row inSection:dateAmdTimeSection]]
+        [medicationDetailsTableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.datePickerIndexPath.row inSection:dateAndTimeSection]]
                                   withRowAnimation:UITableViewRowAnimationFade];
         self.datePickerIndexPath = nil;
     }
