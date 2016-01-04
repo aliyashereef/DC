@@ -463,7 +463,7 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
                     self.wardsInformationViewController!.patientListArray = array as NSMutableArray
                     self.wardsInformationViewController!.bedsArray = bedsArray as NSMutableArray
                     self.wardsInformationViewController!.sortedPatientListArray = self.sortedArray(self.patientListArray)
-                    self.wardsInformationViewController!.fillNavigationBarTitle()
+//                    self.wardsInformationViewController!.fillNavigationBarTitle()
                 }
             }
             self.activityIndicator.stopAnimating()
