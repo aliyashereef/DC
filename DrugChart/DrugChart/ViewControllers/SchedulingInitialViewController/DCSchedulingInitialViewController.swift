@@ -151,7 +151,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
                 //configure section 1 for scheduling type interval
                 switch indexPath.row {
                 case 0 :
-                    schedulingCell!.titleLabel?.text = NSLocalizedString("REPEAT_FREQUENCY", comment: "")
+                    schedulingCell!.titleLabel?.text = NSLocalizedString("REPEAT", comment: "")
                     var repeatFrequency : NSString = EMPTY_STRING
                     var unit : NSString = EMPTY_STRING
                     if (scheduling?.interval?.repeatFrequencyType == DAYS_TITLE) {
@@ -378,7 +378,6 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
             timesDictionary["time"] = time
             timesDictionary["selected"] = 1
             administrationTimeArray!.addObject(timesDictionary)
-            print("**** administrationTimeArray is %@", administrationTimeArray)
         }
         return administrationTimeArray!
     }
@@ -393,7 +392,6 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
                 self.scheduling?.specificTimes?.repeatObject = DCRepeat.init()
                 self.scheduling?.specificTimes?.repeatObject.repeatType = DAILY
                 self.scheduling?.specificTimes?.repeatObject.frequency = "1 day"
-//                self.scheduling?.specificTimes?.specificTimesDescription = String(format: "%@ day.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
                 if (timeArray == nil) {
                     timeArray = []
                 }
@@ -708,12 +706,18 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
     func updatedIntervalPreviewArray(timesArray : NSMutableArray) {
         
         self.previewArray = NSMutableArray(array: timesArray)
-        if (self.previewArray?.count > 0) {
-            let administrationTimeArray = createAdministrationTimesArrayFromPreview()
-            self.updatedTimeArray(administrationTimeArray)
-        }
-        if (self.scheduling?.interval.hasStartAndEndDate == true) {
-            schedulingTableView.reloadData()
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            // get administartion times
+            if (self.previewArray?.count > 0) {
+                let administrationTimeArray = self.createAdministrationTimesArrayFromPreview()
+                self.updatedTimeArray(administrationTimeArray)
+            }
+            dispatch_async(dispatch_get_main_queue()) {
+                // reload table
+                if (self.scheduling?.interval.hasStartAndEndDate == true) {
+                    self.schedulingTableView.reloadData()
+                }
+            }
         }
     }
 }
