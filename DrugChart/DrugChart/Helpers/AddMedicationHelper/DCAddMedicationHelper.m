@@ -170,5 +170,15 @@
     return isValid;
 }
 
++ (NSString *)considatedFrequencyDescriptionFromString:(NSString *)description {
+    
+    NSString *substring = @"Medication will be administered";
+    description = [DCUtility removeSubstring:substring FromOriginalString:[NSMutableString stringWithString:description]];
+    //capitalise first character
+    description = [DCUtility capitaliseFirstCharacterOfString:description];
+    description = [NSMutableString stringWithString:[DCUtility removeLastCharacterFromString:description]];
+    return description;
+}
+
 
 @end
