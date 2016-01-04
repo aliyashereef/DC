@@ -86,7 +86,7 @@
 #define DOSAGE_STORYBORD @"Dosage"
 
 // Storyboard Ids
-#define PATIENT_LIST_VIEW_CONTROLLER @"patientsListViewController"
+#define PATIENT_LIST_VIEW_CONTROLLER @"patientListingViewController"
 #define ERROR_CONTENT_VIEW_CONTROLLER_STORYBOARD_ID @"ErrorPopOverController"
 #define PRESCRIBER_FILTER_TABLE_VIEW_CONTROLLER @"PrescriberFilterTableViewController"
 #define EARLY_ADMINISTERED_VIEW_CONTROLLER @"EarlyAdministeredViewController"
@@ -129,6 +129,8 @@
 #define PRESCRIBER_MEDICATION_SBID @"PrescriberMedicationViewControllerSBID"
 #define DOSAGE_SELECTION_SBID @"DosageSelection"
 #define DOSAGE_DETAIL_SBID @"DosageDetail"
+#define WARDS_INFORMATION_SBID @"wardsInformationViewController"
+
 
 //Nib files
 #define WARNINGS_HEADER_VIEW_NIB @"DCWarningsHeaderView"

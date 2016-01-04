@@ -308,6 +308,7 @@
 		7D5567DD1B4FEE2100BA6733 /* OnceMedicationSample.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7D5567DB1B4FEE2100BA6733 /* OnceMedicationSample.plist */; };
 		7D5567DE1B4FEE2100BA6733 /* RegularMedicationSample.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7D5567DC1B4FEE2100BA6733 /* RegularMedicationSample.plist */; };
 		7D6010761B4BE1AA00135DBD /* DCMedicationSchedulesWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D6010751B4BE1AA00135DBD /* DCMedicationSchedulesWebService.m */; };
+		7D632D821C3A0BC00029BAF5 /* DCWardsInformationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D632D811C3A0BC00029BAF5 /* DCWardsInformationsViewController.swift */; };
 		7D6335571AE66A9F00463E12 /* DCBed.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D6335561AE66A9F00463E12 /* DCBed.m */; };
 		7D63355A1AE66AB700463E12 /* DCWard.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D6335591AE66AB700463E12 /* DCWard.m */; };
 		7D6D84591AF88A8700917A8C /* DCAuthorizationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D6D84581AF88A8700917A8C /* DCAuthorizationViewController.m */; };
@@ -751,6 +752,7 @@
 		7D5567DC1B4FEE2100BA6733 /* RegularMedicationSample.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = RegularMedicationSample.plist; sourceTree = "<group>"; };
 		7D6010741B4BE1AA00135DBD /* DCMedicationSchedulesWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCMedicationSchedulesWebService.h; sourceTree = "<group>"; };
 		7D6010751B4BE1AA00135DBD /* DCMedicationSchedulesWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCMedicationSchedulesWebService.m; sourceTree = "<group>"; };
+		7D632D811C3A0BC00029BAF5 /* DCWardsInformationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCWardsInformationsViewController.swift; sourceTree = "<group>"; };
 		7D6335551AE66A9F00463E12 /* DCBed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCBed.h; sourceTree = "<group>"; };
 		7D6335561AE66A9F00463E12 /* DCBed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCBed.m; sourceTree = "<group>"; };
 		7D6335581AE66AB700463E12 /* DCWard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCWard.h; sourceTree = "<group>"; };
@@ -1562,6 +1564,7 @@
 		0BBC8F9A1AA468920085ABAB /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				7D632D801C3A0B960029BAF5 /* WardsInformationsViewController */,
 				4D41757E1C22869100F924C1 /* AdministrationViewController */,
 				4D54C0771BFB2BD700A61273 /* CalendarOneThirdViewController */,
 				7D5319BB1BF21EDB003C3F92 /* AlertsAllergyPopOverViewController */,
@@ -2479,6 +2482,14 @@
 			path = SettingsTableViewController;
 			sourceTree = "<group>";
 		};
+		7D632D801C3A0B960029BAF5 /* WardsInformationsViewController */ = {
+			isa = PBXGroup;
+			children = (
+				7D632D811C3A0BC00029BAF5 /* DCWardsInformationsViewController.swift */,
+			);
+			path = WardsInformationsViewController;
+			sourceTree = "<group>";
+		};
 		7D6335531AE66A4700463E12 /* Bed */ = {
 			isa = PBXGroup;
 			children = (
@@ -3089,6 +3100,7 @@
 				0BB33DD81B79F56900B05E4D /* DCMedicationDetails.m in Sources */,
 				1F3C31701C0DB8F8007C6AE7 /* Patient.swift in Sources */,
 				0BA449DB1B983265009F84E5 /* DCInstructionsTableCell.m in Sources */,
+				7D632D821C3A0BC00029BAF5 /* DCWardsInformationsViewController.swift in Sources */,
 				7D06524B1B564C0B0068CA83 /* DCMedicationAdministration.m in Sources */,
 				0BA3F80C1BAA828A00DC1C2A /* DCReasonCell.swift in Sources */,
 				0B14CD901BB183F40085E40C /* DCAdministerMedicationDetailsCell.swift in Sources */,

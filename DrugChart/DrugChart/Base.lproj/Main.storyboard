@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F1504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="KYs-eG-kb5">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="KYs-eG-kb5">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
@@ -64,7 +64,7 @@
                     <navigationItem key="navigationItem" id="7Xi-er-B86"/>
                     <connections>
                         <outlet property="activityIndicator" destination="M36-Ml-PQN" id="fvL-gh-1VT"/>
-                        <segue destination="cmc-7R-saO" kind="show" identifier="WardsSegue" id="kCe-Ok-Inh"/>
+                        <segue destination="iZr-1y-RXm" kind="show" identifier="WardsSegue" id="mvD-xI-uLN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fur-nO-5Fd" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -126,7 +126,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n9j-cf-k8r" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="404" y="213"/>
+            <point key="canvasLocation" x="-42" y="477"/>
         </scene>
         <!--Sort Table View Controller-->
         <scene sceneID="qo4-Mn-vE4">
@@ -139,10 +139,10 @@
                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SortTableCell" rowHeight="44" id="Ahc-qU-TaU" customClass="DCSortTableCell">
-                                <rect key="frame" x="0.0" y="49.5" width="180" height="44"/>
+                                <rect key="frame" x="0.0" y="50" width="180" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ahc-qU-TaU" id="ka5-Tp-tDw">
-                                    <rect key="frame" x="0.0" y="0.0" width="180" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="180" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <animations/>
                                 </tableViewCellContentView>
@@ -332,7 +332,7 @@
                                                 <rect key="frame" x="0.0" y="22" width="305" height="34"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="uoJ-CI-msp" id="I2m-vU-nOZ">
-                                                    <rect key="frame" x="0.0" y="0.0" width="305" height="33.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="305" height="33"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KzW-Aw-guh">
@@ -420,7 +420,7 @@
         <!--Patient Listing View Controller-->
         <scene sceneID="eC0-5D-RWc">
             <objects>
-                <viewController id="cmc-7R-saO" customClass="DCPatientListingViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="patientListingViewController" id="cmc-7R-saO" customClass="DCPatientListingViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="IIi-uq-UPu"/>
                         <viewControllerLayoutGuide type="bottom" id="3dY-Pa-UBX"/>
@@ -437,17 +437,17 @@
                                     <constraint firstAttribute="height" constant="600" id="rFd-xM-6Xa"/>
                                 </constraints>
                                 <searchBar key="tableHeaderView" contentMode="redraw" id="oFw-Xl-yvJ">
-                                    <rect key="frame" x="0.0" y="64" width="600" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     <animations/>
                                     <textInputTraits key="textInputTraits"/>
                                 </searchBar>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="PatientCell" rowHeight="115" id="8DG-F6-9mU" customClass="DCPatientListingCell" customModule="DrugChart" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="136" width="600" height="115"/>
+                                        <rect key="frame" x="0.0" y="72" width="600" height="115"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8DG-F6-9mU" id="47N-If-eeL">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="114.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="114"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="252" text="FRANCIS, Richard (Mr) - 5010" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eqO-r2-Z6O">
@@ -653,7 +653,26 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="edI-7b-zf3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-853" y="1429"/>
+            <point key="canvasLocation" x="-1039" y="1371"/>
+        </scene>
+        <!--Wards Informations View Controller-->
+        <scene sceneID="XeU-2d-7vP">
+            <objects>
+                <viewController id="iZr-1y-RXm" customClass="DCWardsInformationsViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Mjz-QW-HX9"/>
+                        <viewControllerLayoutGuide type="bottom" id="dnI-QS-VDP"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Dzt-m5-qIr">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jC1-yr-FkA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-276" y="1190"/>
         </scene>
         <!--Wards Listing Popover View Controller-->
         <scene sceneID="RLR-gZ-IK8">
@@ -678,7 +697,7 @@
                                         <rect key="frame" x="0.0" y="1" width="300" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="61h-t5-Aaz" id="NP0-pn-EMl">
-                                            <rect key="frame" x="0.0" y="0.0" width="300" height="44.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="300" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UIG-V2-fPQ">

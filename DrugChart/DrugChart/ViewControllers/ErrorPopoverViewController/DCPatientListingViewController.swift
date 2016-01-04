@@ -39,7 +39,9 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
     var wardsListArray : NSMutableArray = []
     var bedsArray : NSMutableArray = []
     let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
-
+    
+    var wardsInformationViewController : DCWardsInformationsViewController?
+    
     @IBOutlet var messageLabel: UILabel!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     @IBOutlet var searchBar: UISearchBar!
@@ -47,9 +49,10 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
     override func viewDidLoad() {
         super.viewDidLoad()
         getCompletePatientDetails()
-        configureNavigationBar()
         addSearchBar()
         addRefreshControl()
+        accessParentViewController()
+        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -87,20 +90,25 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
         self.viewDidLayoutSubviews()
     }
     
-    func configureNavigationBar() {
-        setNavigationBarTitle()
-        let wardsButton : UIBarButtonItem = UIBarButtonItem(title:"Wards", style: UIBarButtonItemStyle.Plain, target: self, action: "presentWardsListView:")
-        let graphicViewButton : UIBarButtonItem = UIBarButtonItem(image:  UIImage(named: "graphicDisplayImage"), style: UIBarButtonItemStyle.Plain, target: self, action: "presentGraphicalWardsView")
-        self.navigationItem.leftBarButtonItem = wardsButton
-        self.navigationItem.rightBarButtonItem = graphicViewButton
-    }
+//    func configureNavigationBar() {
+//        setNavigationBarTitle()
+//        let wardsButton : UIBarButtonItem = UIBarButtonItem(title:"Wards", style: UIBarButtonItemStyle.Plain, target: self, action: "presentWardsListView:")
+//        let graphicViewButton : UIBarButtonItem = UIBarButtonItem(image:  UIImage(named: "graphicDisplayImage"), style: UIBarButtonItemStyle.Plain, target: self, action: "presentGraphicalWardsView")
+//        self.navigationItem.leftBarButtonItem = wardsButton
+//        self.navigationItem.rightBarButtonItem = graphicViewButton
+//    }
+//    
+//    func setNavigationBarTitle () {
+//        
+//        let label : UILabel = UILabel()
+//        label.font = UIFont.boldSystemFontOfSize(18)
+//        label.text = viewTitle! as String
+//        self.navigationItem.title = label.text
+//    }
     
-    func setNavigationBarTitle () {
+    func accessParentViewController () {
         
-        let label : UILabel = UILabel()
-        label.font = UIFont.boldSystemFontOfSize(18)
-        label.text = viewTitle! as String
-        self.navigationItem.title = label.text
+        wardsInformationViewController = self.parentViewController as? DCWardsInformationsViewController
     }
     
     //MARK: Search Bar configuration
@@ -449,7 +457,14 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
                 self.sortedPatientListArray = self.sortedArray(self.patientListArray)
                 self.patientListTableView.reloadData()
                 self.patientListTableView.hidden = false
-            } else {
+                
+                // to be changed to a new function
+                if (self.wardsInformationViewController != nil) {
+                    self.wardsInformationViewController!.patientListArray = array as NSMutableArray
+                    self.wardsInformationViewController!.bedsArray = bedsArray as NSMutableArray
+                    self.wardsInformationViewController!.sortedPatientListArray = self.sortedArray(self.patientListArray)
+                    self.wardsInformationViewController!.fillNavigationBarTitle()
+                }
             }
             self.activityIndicator.stopAnimating()
         }
@@ -462,14 +477,14 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
             self.viewTitle =  self.wardsListArray.objectAtIndex(self.selectedIndexPath.row).wardName as NSString
             if error == nil {
                 self.patientListArray = array as NSMutableArray
-                self.configureNavigationBar()
+                //self.configureNavigationBar()
                 self.getCompletePatientDetails()
                 self.messageLabel.hidden = true
             } else {
                 // we created a error with code 100 for the patient list empty senario
                 if error.code == 100 {
                     self.patientListTableView.hidden = true
-                    self.setNavigationBarTitle()
+                    //self.setNavigationBarTitle()
                     self.navigationItem.rightBarButtonItem?.enabled = false
                     self.messageLabel.hidden = false
                 } else {
