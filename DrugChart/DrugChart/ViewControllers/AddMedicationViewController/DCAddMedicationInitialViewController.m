@@ -166,8 +166,7 @@
                 schedulingDescription = [NSMutableString stringWithString:self.selectedMedication.scheduling.interval.intervalDescription];
             }
             if (![schedulingDescription isEqualToString:EMPTY_STRING] && schedulingDescription != nil) {
-                NSString *substring = @"Medication will be administered";
-                schedulingDescription = [NSMutableString stringWithString:[DCUtility removeSubstring:substring FromOriginalString:schedulingDescription]] ;
+                schedulingDescription = [NSMutableString stringWithString:[DCAddMedicationHelper considatedFrequencyDescriptionFromString:schedulingDescription]];
             }
             cell.descriptionLabel.text = schedulingDescription;
        // }

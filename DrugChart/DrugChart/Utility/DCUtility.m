@@ -375,4 +375,21 @@
     return originalString;
 }
 
++ (NSString *)capitaliseFirstCharacterOfString:(NSString *)originalString {
+    
+    //capitalise first character
+    originalString = [NSString stringWithFormat:@"%@%@",[[originalString substringToIndex:2] uppercaseString],[originalString substringFromIndex:2] ];
+    return originalString;
+}
+
++ (NSString *)removeLastCharacterFromString:(NSString *)originalString {
+    
+    //remove last character from original string
+    if ([originalString length] > 0) {
+        originalString = [originalString substringToIndex:[originalString length] - 1];
+    }
+    return originalString;
+}
+
+
 @end

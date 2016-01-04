@@ -88,4 +88,6 @@ typedef enum : NSUInteger {
 
 + (BOOL)frequencyIsValidForSelectedMedication:(DCMedicationDetails *)selectedmedication;
 
++ (NSString *)considatedFrequencyDescriptionFromString:(NSString *)description;
+
 @end
