@@ -17,7 +17,7 @@ let OMITTED_OR_REFUSED_SECTION_ROW_COUNT : NSInteger = 1
 let NOTES_SECTION_ROW_COUNT : NSInteger = 1
 let INITIAL_SECTION_HEIGHT : CGFloat = 0.0
 let TABLEVIEW_DEFAULT_SECTION_HEIGHT : CGFloat = 20.0
-let MEDICATION_DETAILS_SECTION_HEIGHT : CGFloat = 40.0
+let MEDICATION_DETAILS_SECTION_HEIGHT : CGFloat = 0.0
 let MEDICATION_DETAILS_CELL_INDEX : NSInteger = 0
 let DATE_PICKER_VIEW_CELL_HEIGHT : CGFloat = 200.0
 let NOTES_CELL_HEIGHT : CGFloat = 125.0
@@ -140,8 +140,10 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         // Navigation bar done button
         saveButton = UIBarButtonItem(title: "Save", style: UIBarButtonItemStyle.Plain, target: self, action: "saveButtonPressed")
         cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: "cancelButtonPressed")
-        self.navigationItem.leftBarButtonItem = cancelButton
-        self.navigationItem.rightBarButtonItem = saveButton
+        let negativeSpace:UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FixedSpace, target: nil, action: nil)
+        negativeSpace.width = -7.0
+        self.navigationItem.leftBarButtonItems = [negativeSpace,cancelButton!]
+        self.navigationItem.rightBarButtonItems = [negativeSpace,saveButton!]
     }
 
     
@@ -286,8 +288,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             //present inline picker here
             cell.titleLabel.text = NSLocalizedString("CHECKED_BY", comment: "Checked by title")
             cell.detailLabel.text = (medicationSlot?.medicationAdministration?.checkingUser?.displayName != nil) ? (medicationSlot?.medicationAdministration?.checkingUser?.displayName) : EMPTY_STRING
-            cell.separatorInset = UIEdgeInsetsZero
-            cell.layoutMargins = UIEdgeInsetsZero
             break;
         default:
             break
@@ -316,8 +316,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         let expiryCell : DCBatchNumberCell = (administerTableView.dequeueReusableCellWithIdentifier(BATCH_NUMBER_CELL_ID) as? DCBatchNumberCell)!
         expiryCell.batchDelegate = self
         expiryCell.selectedIndexPath = indexPath
-        expiryCell.separatorInset = UIEdgeInsetsZero
-        expiryCell.layoutMargins = UIEdgeInsetsZero
         return expiryCell;
     }
     
@@ -330,16 +328,12 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             if (medicationSlot?.medicationAdministration?.status != nil) {
                 cell.titleLabel.textColor = UIColor(forHexString: "#676767")
                 cell.detailLabel.text = medicationSlot?.medicationAdministration?.status
-                cell.separatorInset = UIEdgeInsetsMake(0, 15, 0, 0)
-                cell.layoutMargins = UIEdgeInsetsZero
             } else {
                 if(saveClicked == true) {
                     cell.titleLabel.textColor = UIColor.redColor()
                 } else {
                     cell.titleLabel.textColor = UIColor(forHexString: "#676767")
                 }
-                cell.separatorInset = UIEdgeInsetsZero
-                cell.layoutMargins = UIEdgeInsetsZero
             }
             return cell
         default:
@@ -353,8 +347,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         let notesCell : DCNotesTableCell = (administerTableView.dequeueReusableCellWithIdentifier(NOTES_CELL_ID) as? DCNotesTableCell)!
         notesCell.selectedIndexPath = indexPath
         notesCell.delegate = self
-        notesCell.separatorInset = UIEdgeInsetsZero
-        notesCell.layoutMargins = UIEdgeInsetsZero
         return notesCell
     }
         
@@ -651,8 +643,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 } else {
                     let administerCell : DCAdministerCell = (administerTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
                     administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
-                    administerCell.separatorInset = UIEdgeInsetsZero
-                    administerCell.layoutMargins = UIEdgeInsetsZero
                     administerCell.titleLabel.text = NSLocalizedString("STATUS", comment: "status title text")
                     administerCell.detailLabel.text = EMPTY_STRING
                     if(saveClicked == true && medicationSlot?.medicationAdministration.status == nil) {
@@ -669,13 +659,13 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         let sectionIndex : NSInteger = numberOfSectionsInTableView(tableView)
         if (section == SectionCount.eZerothSection.rawValue) {
-            return 0
+            return 0.01
         } else if (section == sectionIndex - 1 && sectionIndex != 2) {
             return (medicationSlot?.medicationAdministration?.isEarlyAdministration == true) ? MEDICATION_DETAILS_SECTION_HEIGHT : TABLEVIEW_DEFAULT_SECTION_HEIGHT
         } else if (section == SectionCount.eFirstSection.rawValue) {
             return MEDICATION_DETAILS_SECTION_HEIGHT
         } else if (section == SectionCount.eSecondSection.rawValue) {
-            return 0
+            return 0.01
         } else if (section == SectionCount.eThirdSection.rawValue) {
             return TABLEVIEW_DEFAULT_SECTION_HEIGHT
         } else {
@@ -717,17 +707,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         let sectionCount : NSInteger = numberOfSectionsInTableView(tableView)
         let administerHeaderView = NSBundle.mainBundle().loadNibNamed(ADMINISTER_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCAdministerTableHeaderView
         administerHeaderView!.timeLabel.hidden = true
-        if (section == SectionCount.eFirstSection.rawValue || (section == sectionCount - 1 && sectionCount != 2)) {
-                        if (section == SectionCount.eFirstSection.rawValue) {
-                if (medicationSlot?.time != nil) {
-//                    administerHeaderView?.populateScheduledTimeValue((medicationSlot?.time)!)
-                } else {
-                    if (medicationDetails?.medicineCategory == WHEN_REQUIRED) {
-//                       let currentDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
-//                        administerHeaderView?.populateScheduledTimeValue(currentDate)
-                    }
-                }
-            } else {
+        if (section == sectionCount - 1 && sectionCount != 2) {
                 if (medicationSlot?.medicationAdministration?.isEarlyAdministration == true) {
                     if (medicationSlot?.medicationAdministration?.isWhenRequiredEarlyAdministration == true) {
                         let errorMessage = NSString(format: "%@ %@", NSLocalizedString("ADMIN_FREQUENCY", comment: "when required new medication is given 2 hrs before previous one"), NSLocalizedString("EARLY_ADMIN_INLINE", comment: ""))
@@ -735,17 +715,21 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                     } else {
                         administerHeaderView?.populateHeaderViewWithErrorMessage(NSLocalizedString("EARLY_ADMIN_INLINE", comment: "early administration when medication is attempted 1 hr before scheduled time"))
                     }
-                } else {
-                    return nil
+                    return administerHeaderView
                 }
-            }
-            return administerHeaderView
         }
-        return nil;
+        return nil
     }
+
+//    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+////        if section == 2{
+//            return CGFloat.min
+////        }
+////        return 10
+//    }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
+        administerTableView.resignFirstResponder()
         administerTableView.deselectRowAtIndexPath(indexPath, animated: true)
         if (indexPath.section == SectionCount.eZerothSection.rawValue) {
             addBNFView()
@@ -906,7 +890,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 }
             }
             UIView.animateWithDuration(0.1, animations: { () -> Void in
-//                self.administerTableViewTopConstraint.constant = topConstraint
+                print(topConstraint)
+//              self.administerTableViewTopConstraint.constant = topConstraint
             })
         }
     }
@@ -930,7 +915,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func keyboardDidHide(notification : NSNotification) {
         
         editingIndexPath = nil
-//        administerTableViewTopConstraint.constant = 0.0
     }
     
     func saveButtonPressed() {

@@ -49,7 +49,9 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         self.title = dateString
         // Navigation bar done button
         let doneButton : UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: "doneButtonPressed")
-        self.navigationItem.leftBarButtonItem = doneButton
+        let negativeSpace:UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FixedSpace, target: nil, action: nil)
+        negativeSpace.width = -7.0
+        self.navigationItem.leftBarButtonItems = [negativeSpace, doneButton]
     }
     
     func configureMedicationStatusInCell (medication : DCMedicationSlot) -> NSString {
@@ -118,8 +120,8 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
     // MARK: Header View Methods
         func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         switch section {
-        case 0: return 0.0
-        case 1: return 40.0
+        case 0: return 0.01
+        case 1: return 20.0
         default : break
         }
         return 0
@@ -147,10 +149,10 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
             cell!.administrationStatusLabel.textColor = UIColor(forHexString:"#4A90E2")
         }
         cell?.administrationTimeLabel.text =  DCDateUtility.dateStringFromDate(medicationSlot.time, inFormat: TWENTYFOUR_HOUR_FORMAT)
-        if indexPath.row == medicationSlotsArray.count - 1 {
-            cell?.separatorInset = UIEdgeInsetsZero
-            cell?.layoutMargins = UIEdgeInsetsZero
-        }
+//        if indexPath.row == medicationSlotsArray.count - 1 {
+//            cell?.separatorInset = UIEdgeInsetsZero
+//            cell?.layoutMargins = UIEdgeInsetsZero
+//        }
         return cell!
     }
     
