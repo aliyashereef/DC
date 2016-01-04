@@ -598,13 +598,18 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             return (statusCellSelected ? 3 : STATUS_ROW_COUNT)
         case SectionCount.eSecondSection.rawValue:
             var rowCount = 0
-            if (medicationSlot?.medicationAdministration?.status  == OMITTED || medicationSlot?.medicationAdministration?.status == REFUSED) {
+            if (medicationSlot?.medicationAdministration?.status == REFUSED) {
+                rowCount = 1
+                if (hasInlineDatePicker()) {
+                    rowCount++
+                }
+            } else if (medicationSlot?.medicationAdministration?.status == OMITTED ){
                 rowCount = 1
             } else {
                 rowCount = ADMINISTERED_SECTION_ROW_COUNT
-            }
-            if (hasInlineDatePicker()) {
-                rowCount++
+                if (hasInlineDatePicker()) {
+                    rowCount++
+                }
             }
             return rowCount
         case SectionCount.eThirdSection.rawValue:
