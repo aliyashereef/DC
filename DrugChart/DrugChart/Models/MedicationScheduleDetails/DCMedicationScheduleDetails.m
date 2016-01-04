@@ -220,11 +220,9 @@
                 NSDate *medicationDateTime = [calendar dateFromComponents:components];
                 DCMedicationSlot *medicationSlot = [[DCMedicationSlot alloc] init];
                 medicationSlot.time = medicationDateTime;
-                //TODO:set for demo purpose since there is no value for medication slot status
                 medicationSlot.status = IS_GIVEN;
                 NSPredicate *datePredicate = [NSPredicate predicateWithFormat:@"scheduledDateTime == %@",medicationDateTime];
                 NSArray *resultsArray = [self.administrationDetailsArray filteredArrayUsingPredicate:datePredicate];
-                //TODO: this is not actual medication status value
                 if ([resultsArray count] > 0) {
                     DCMedicationAdministration *medicationAdministration = (DCMedicationAdministration *)[resultsArray objectAtIndex:0];
                     medicationSlot.status = medicationAdministration.status;

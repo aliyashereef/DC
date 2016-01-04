@@ -131,7 +131,6 @@ typedef enum : NSUInteger {
             [self addCustomTitleViewToNavigationBar];
             windowSizeChanged = NO;
         }
-        DDLogDebug(@"view rotated from landscape to portrait");
     }
 }
 
@@ -738,6 +737,7 @@ typedef enum : NSUInteger {
 }
 
 - (void)loadCurrentWeekDate {
+    
     
     [self currentWeekDatesArrayFromDate:[DCDateUtility dateInCurrentTimeZone:[NSDate date]]];
 }
