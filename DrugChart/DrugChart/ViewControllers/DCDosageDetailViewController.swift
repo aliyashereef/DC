@@ -36,12 +36,14 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
     var doseArrayForAddCondition = ["500 mg","250 mg","100 mg","50 mg","10 mg","5 mg"]
     var doseUntilArrayForAddCondition = [String]()
     var detailType : DosageDetailType = eDoseUnit
+    var previousDetailType : DosageDetailType = eDoseUnit
     var viewTitleForDisplay : NSString = ""
     var previousSelectedValue : NSString = ""
     var valueForChange : NSString = ""
     var valueForDose : NSString = ""
     var valueForEvery : NSString = ""
     var valueForUntil : NSString = ""
+    var selectedIndexPath = NSIndexPath(forRow: 0, inSection: 0)
     var dosageDetailsArray = [String]()
     weak var delegate: DataEnteredDelegate? = nil
     weak var newDosageDelegate: newDosageEntered? = nil
@@ -478,7 +480,13 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
         let dosageDetailViewController : DCDosageDetailViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_DETAIL_SBID) as? DCDosageDetailViewController
         dosageDetailViewController?.newDosageDelegate = self
         if (detailType != eConditions) {
-            
+            if detailType == eDose {
+                dosageDetailViewController?.previousDetailType = eDose
+            } else if detailType == eUntil{
+                dosageDetailViewController?.previousDetailType = eUntil
+            }else {
+                dosageDetailViewController?.previousDetailType = eDoseUnit
+            }
             dosageDetailViewController?.detailType = eAddNewDosage
         }else {
             dosageDetailViewController?.detailType = eAddCondition
@@ -537,8 +545,17 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
     
     func prepareForTransitionBackToSelection (value: String) {
         
+        if (detailType == eDose) {
+            newDosageDelegate?.valueEnteredForDose("\(value) mg")
+            self.navigationController?.popViewControllerAnimated(true)
+        } else if detailType == eUntil {
+            newDosageDelegate?.valueEnteredForUntil("\(value) mg")
+            self.navigationController?.popViewControllerAnimated(true)
+        } else {
             delegate?.newDosageAdded(value)
             self.navigationController?.popViewControllerAnimated(true)
+        }
+
     }
     
     func valueEnteredForDose(value: String) {
