@@ -337,6 +337,8 @@
 		FDC7EA571C1AA8990081D5C4 /* DCDosageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC7EA561C1AA8990081D5C4 /* DCDosageDetailViewController.swift */; };
 		FDC7EA5A1C1AA9510081D5C4 /* DCDosageDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC7EA591C1AA9510081D5C4 /* DCDosageDetailTableViewCell.swift */; };
 		FDDBBB031C24197800726DDA /* DCDosageDetailPickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDBBB021C24197800726DDA /* DCDosageDetailPickerCell.swift */; settings = {ASSET_TAGS = (); }; };
+		FDE2C9B41C3A69CB00FBDFCA /* DCDosageConditionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE2C9B31C3A69CB00FBDFCA /* DCDosageConditionsViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		FDE2C9B71C3A6A8A00FBDFCA /* DCDosageConditionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE2C9B61C3A6A8A00FBDFCA /* DCDosageConditionsTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -796,6 +798,8 @@
 		FDC7EA561C1AA8990081D5C4 /* DCDosageDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageDetailViewController.swift; sourceTree = "<group>"; };
 		FDC7EA591C1AA9510081D5C4 /* DCDosageDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageDetailTableViewCell.swift; sourceTree = "<group>"; };
 		FDDBBB021C24197800726DDA /* DCDosageDetailPickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageDetailPickerCell.swift; sourceTree = "<group>"; };
+		FDE2C9B31C3A69CB00FBDFCA /* DCDosageConditionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageConditionsViewController.swift; sourceTree = "<group>"; };
+		FDE2C9B61C3A6A8A00FBDFCA /* DCDosageConditionsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageConditionsTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1591,6 +1595,7 @@
 				0BC0C4621ADF777D002707DC /* AddMedicationViewController */,
 				FD618F321C197A1A005EC416 /* DosageSelection */,
 				FDC7EA581C1AA8B30081D5C4 /* DosageDetail */,
+				FDE2C9B51C3A69DD00FBDFCA /* DosageConditions */,
 				0BA449E01B9850E5009F84E5 /* AddMedicationDetailViewController */,
 				0BC3ACB11C0DB6D60028AF03 /* SchedulingInitialViewController */,
 				0BA5A38E1BF348C200251F94 /* SchedulingDetailViewController */,
@@ -2638,6 +2643,15 @@
 			name = DosageDetail;
 			sourceTree = "<group>";
 		};
+		FDE2C9B51C3A69DD00FBDFCA /* DosageConditions */ = {
+			isa = PBXGroup;
+			children = (
+				FDE2C9B31C3A69CB00FBDFCA /* DCDosageConditionsViewController.swift */,
+				FDE2C9B61C3A6A8A00FBDFCA /* DCDosageConditionsTableViewCell.swift */,
+			);
+			name = DosageConditions;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2920,6 +2934,7 @@
 				1F1977091BFDE5E700106023 /* ExcelTabularView.swift in Sources */,
 				4D9649921BA296CC008630B4 /* DCBedsAndPatientsWebService.m in Sources */,
 				7DC7C6491C1953F00026608A /* DCWindowScreenState.swift in Sources */,
+				FDE2C9B71C3A6A8A00FBDFCA /* DCDosageConditionsTableViewCell.swift in Sources */,
 				4DC440181B67990D000EC7AB /* DCOrderSetWebService.m in Sources */,
 				0BADF3E21BF6172400A78175 /* DCSchedulingHelper.swift in Sources */,
 				4D48915E1BC90176002AC8CA /* DCPatientListingCell.swift in Sources */,
@@ -3021,6 +3036,7 @@
 				4DDE0ADE1BBBBEDE0044295B /* DCAdministratedByPinVerificationViewController.swift in Sources */,
 				0BD659541BD6660D00D3097B /* UIButton+ButtonHighlight.m in Sources */,
 				0BBEFFD01B5F72EF00E70CCC /* DCWarning.m in Sources */,
+				FDE2C9B41C3A69CB00FBDFCA /* DCDosageConditionsViewController.swift in Sources */,
 				0B21570C1AB7D1D400BC4611 /* DCNameSelectionTableViewController.m in Sources */,
 				7D104E5A1AEA4A5B00B03C0C /* DCBedWebService.m in Sources */,
 				4D52D5841BCD02FB002ABA8D /* DCAdministerMedicationWebService.m in Sources */,

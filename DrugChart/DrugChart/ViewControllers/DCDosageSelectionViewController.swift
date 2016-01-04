@@ -335,9 +335,12 @@ import UIKit
                 }
             case 3:
                 if (menuType == eReducingIncreasing) {
-                    selectedDetailType = eConditions
-                    dosageDetailViewController?.previousSelectedValue = valueForCondition
-                    dosageDetailViewController?.detailType = eConditions
+                    let dosageDetailViewController : DCDosageConditionsViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_CONDITIONS_SBID) as? DCDosageConditionsViewController
+                    self.navigationController?.pushViewController(dosageDetailViewController!, animated: true)
+                    return ()
+//                    selectedDetailType = eConditions
+//                    dosageDetailViewController?.previousSelectedValue = valueForCondition
+//                    dosageDetailViewController?.detailType = eConditions
                 }
             default:
                 break
