@@ -708,12 +708,18 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
     func updatedIntervalPreviewArray(timesArray : NSMutableArray) {
         
         self.previewArray = NSMutableArray(array: timesArray)
-        if (self.previewArray?.count > 0) {
-            let administrationTimeArray = createAdministrationTimesArrayFromPreview()
-            self.updatedTimeArray(administrationTimeArray)
-        }
-        if (self.scheduling?.interval.hasStartAndEndDate == true) {
-            schedulingTableView.reloadData()
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            // get administartion times
+            if (self.previewArray?.count > 0) {
+                let administrationTimeArray = self.createAdministrationTimesArrayFromPreview()
+                self.updatedTimeArray(administrationTimeArray)
+            }
+            dispatch_async(dispatch_get_main_queue()) {
+                // reload table
+                if (self.scheduling?.interval.hasStartAndEndDate == true) {
+                    self.schedulingTableView.reloadData()
+                }
+            }
         }
     }
 }
