@@ -192,7 +192,7 @@
     
     static NSString *cellIdentifier = MEDICATION_LIST_CELL_IDENTIFIER;
     DCMedicationListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    cell.layoutMargins = UIEdgeInsetsZero;
+//    cell.layoutMargins = UIEdgeInsetsZero;
     if (cell == nil) {
         cell = [[DCMedicationListTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }

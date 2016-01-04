@@ -160,8 +160,8 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         if indexPath != selectedRowIndex && count > 47{
             noteCell!.moreButtonWidthConstaint.constant = 46.0
         }
-        noteCell!.separatorInset = UIEdgeInsetsZero
-        noteCell!.layoutMargins = UIEdgeInsetsZero
+//        noteCell!.separatorInset = UIEdgeInsetsZero
+//        noteCell!.layoutMargins = UIEdgeInsetsZero
         return noteCell!
     }
     
@@ -311,35 +311,12 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         switch section {
         case 0 :
-            return 0
+            return 0.01
         default:
-            return 40.0
+            return 20.0
         }
     }
-    
-    // returns the header view
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let headerView = self.instanceFromNib()
-//        let medication : DCMedicationSlot = medicationSlotArray[0]
-//        if medication.medicationAdministration?.status == IS_GIVEN || medication.medicationAdministration?.status == SELF_ADMINISTERED {
-//        headerView.medicationStatusImageView.image = UIImage(named :ADMINISTRATION_HISTORY_TICK_IMAGE)
-//        } else if medication.medicationAdministration?.status == OMITTED {
-//            headerView.medicationStatusImageView.image = UIImage(named :ADMINISTRATION_HISTORY_CAUTION_IMAGE)
-//        } else if medication.medicationAdministration?.status == REFUSED {
-//            headerView.medicationStatusImageView.image = UIImage(named :ADMINISTRATION_HISTORY_CLOSE_IMAGE)
-//        }
-//        if medication.medicationAdministration?.status != nil {
-//            if let time : NSDate = medication.time {
-//                let header = UIView(frame: CGRectMake(0, 0, 100,40))
-//                headerView.backgroundColor = UIColor(red: 239.0/255.0, green: 239.0/255.0, blue: 244.0/255.0, alpha: 1.0)
-//                header.addSubview(headerView)
-//                headerView.administratingTime.text = DCDateUtility.dateStringFromDate(time, inFormat: TWENTYFOUR_HOUR_FORMAT)
-//                return header
-//            }
-//        }
-        return nil
-    }
-    
+        
     //MARK: Private Methods
     // Loading the header view from the xib
     
