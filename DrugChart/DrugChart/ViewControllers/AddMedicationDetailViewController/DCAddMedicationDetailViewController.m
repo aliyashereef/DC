@@ -17,9 +17,6 @@
 #define ADMINISTRATION_TIME_SECTION_COUNT       2
 #define ROW_HEIGHT_OVERRIDE                     78.0f
 #define ROW_HEIGHT_DEFAULT                      44.0f
-#define SECTION_HEIGHT_OVERRIDE                 55.0f
-#define INITIAL_SECTION_HEIGHT                  0.0f
-#define SECTION_HEIGHT                          10.0f
 
 #define TIME_KEY                 @"time"
 #define SELECTED_KEY             @"selected"
@@ -295,15 +292,6 @@
             }
          }
         return cell;
-    }
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    
-    if (section == 0) {
-        return (_detailType == eOverrideReason ? SECTION_HEIGHT_OVERRIDE : INITIAL_SECTION_HEIGHT);
-    } else {
-        return SECTION_HEIGHT;
     }
 }
 

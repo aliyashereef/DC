@@ -941,8 +941,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="310" height="690"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="htx-Zi-x4Y" userLabel="Scheduling Table View">
-                                <rect key="frame" x="0.0" y="-35" width="310" height="725"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="htx-Zi-x4Y" userLabel="Scheduling Table View">
+                                <rect key="frame" x="0.0" y="0.0" width="310" height="690"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SchedulingCellId" id="1qR-gW-Kpb" customClass="DCSchedulingCell" customModule="DrugChart" customModuleProvider="target">
@@ -1031,7 +1031,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="lTt-ia-XfJ" firstAttribute="top" secondItem="htx-Zi-x4Y" secondAttribute="bottom" id="0UX-Bk-VlW"/>
-                            <constraint firstItem="htx-Zi-x4Y" firstAttribute="top" secondItem="QUI-xi-5KU" secondAttribute="top" constant="-35" id="gHs-1P-oid"/>
+                            <constraint firstItem="htx-Zi-x4Y" firstAttribute="top" secondItem="QUI-xi-5KU" secondAttribute="top" id="gHs-1P-oid"/>
                             <constraint firstAttribute="trailing" secondItem="htx-Zi-x4Y" secondAttribute="trailing" id="nRG-re-xID"/>
                             <constraint firstItem="htx-Zi-x4Y" firstAttribute="leading" secondItem="QUI-xi-5KU" secondAttribute="leading" id="on3-Vs-qpD"/>
                         </constraints>
@@ -1408,8 +1408,8 @@
                                     <constraint firstAttribute="bottom" secondItem="9DF-zJ-gnb" secondAttribute="bottom" id="y5W-GO-noQ"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="1" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="qp2-G7-i1U">
-                                <rect key="frame" x="0.0" y="-34" width="310" height="634"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="qp2-G7-i1U">
+                                <rect key="frame" x="0.0" y="0.0" width="310" height="600"/>
                                 <color key="backgroundColor" red="0.96470588239999999" green="0.97647058819999999" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" reuseIdentifier="DetailCell" rowHeight="44" id="42b-eL-OEU">
@@ -1477,7 +1477,7 @@
                         <color key="backgroundColor" red="0.96470588239999999" green="0.97647058819999999" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="qp2-G7-i1U" secondAttribute="trailing" id="2t0-9K-of6"/>
-                            <constraint firstItem="qp2-G7-i1U" firstAttribute="top" secondItem="H2c-bY-wsc" secondAttribute="bottom" constant="-34" id="DQd-Lp-DdO"/>
+                            <constraint firstItem="qp2-G7-i1U" firstAttribute="top" secondItem="H2c-bY-wsc" secondAttribute="bottom" id="DQd-Lp-DdO"/>
                             <constraint firstItem="PfQ-R2-toz" firstAttribute="top" secondItem="qp2-G7-i1U" secondAttribute="bottom" id="UGk-bP-YgT"/>
                             <constraint firstItem="4Ic-oZ-R4c" firstAttribute="leading" secondItem="Zvr-TS-HfF" secondAttribute="leading" id="YDc-RH-p3B"/>
                             <constraint firstItem="qp2-G7-i1U" firstAttribute="leading" secondItem="Zvr-TS-HfF" secondAttribute="leading" id="hCF-nm-1Iw"/>
