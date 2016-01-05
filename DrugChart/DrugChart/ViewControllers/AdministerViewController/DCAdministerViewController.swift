@@ -663,18 +663,14 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         let sectionIndex : NSInteger = numberOfSectionsInTableView(tableView)
-        if (section == SectionCount.eZerothSection.rawValue) {
-            return 0.01
-        } else if (section == sectionIndex - 1 && sectionIndex != 2) {
+        if (section == sectionIndex - 1 && sectionIndex != 2) {
             return (medicationSlot?.medicationAdministration?.isEarlyAdministration == true) ? MEDICATION_DETAILS_SECTION_HEIGHT : TABLEVIEW_DEFAULT_SECTION_HEIGHT
         } else if (section == SectionCount.eFirstSection.rawValue) {
             return MEDICATION_DETAILS_SECTION_HEIGHT
-        } else if (section == SectionCount.eSecondSection.rawValue) {
-            return 0.01
         } else if (section == SectionCount.eThirdSection.rawValue) {
             return TABLEVIEW_DEFAULT_SECTION_HEIGHT
         } else {
-            return TABLEVIEW_DEFAULT_SECTION_HEIGHT
+            return 0
         }
     }
     

@@ -306,17 +306,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
             break
         }
     }
-    // MARK: Header View Methods
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        switch section {
-        case 0 :
-            return 0.01
-        default:
-            return 20.0
-        }
-    }
-        
     //MARK: Private Methods
     // Loading the header view from the xib
     

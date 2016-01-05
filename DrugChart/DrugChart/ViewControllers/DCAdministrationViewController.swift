@@ -82,6 +82,12 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
     func initialiseMedicationSlotToAdministerObject () {
         //initialise medication slot to administer object
         slotToAdminister = DCMedicationSlot.init()
+
+        if (medicationDetails?.medicineCategory == WHEN_REQUIRED) {
+            slotToAdminister?.time = DCDateUtility.dateInCurrentTimeZone(NSDate())
+            medicationSlotsArray.append(slotToAdminister!)
+        }
+
         if (medicationSlotsArray.count > 0) {
             for slot : DCMedicationSlot in medicationSlotsArray {
                 if (slot.medicationAdministration?.actualAdministrationTime == nil) {
@@ -118,14 +124,13 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
     }
 
     // MARK: Header View Methods
-        func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        switch section {
-        case 0: return 0.01
-        case 1: return 20.0
-        default : break
-        }
-        return 0
-    }
+//        func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        switch section {
+//        case 1: return 20.0
+//        default : break
+//        }
+//        return 0
+//    }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
@@ -149,10 +154,6 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
             cell!.administrationStatusLabel.textColor = UIColor(forHexString:"#4A90E2")
         }
         cell?.administrationTimeLabel.text =  DCDateUtility.dateStringFromDate(medicationSlot.time, inFormat: TWENTYFOUR_HOUR_FORMAT)
-//        if indexPath.row == medicationSlotsArray.count - 1 {
-//            cell?.separatorInset = UIEdgeInsetsZero
-//            cell?.layoutMargins = UIEdgeInsetsZero
-//        }
         return cell!
     }
     
@@ -230,4 +231,22 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         medicationHistoryViewController?.medicationSlotArray = [medicationSlotsArray[index]]
         self.navigationController?.pushViewController(medicationHistoryViewController!, animated: true)
     }
+    
+    func checkIfFrequentAdministrationForWhenRequiredMedication () {
+        
+        //check if frequent administration for when required medication
+        if (medicationSlotsArray.count > 0) {
+            let previousMedicationSlot : DCMedicationSlot? = medicationSlotsArray.last
+            let currentSystemDate : NSDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
+            let nextMedicationTimeInterval : NSTimeInterval? = currentSystemDate.timeIntervalSinceDate((previousMedicationSlot?.time)!)
+            if (nextMedicationTimeInterval <= 2*60*60) {
+                slotToAdminister?.medicationAdministration.isEarlyAdministration = true
+                slotToAdminister?.medicationAdministration.isWhenRequiredEarlyAdministration = true
+            } else {
+                slotToAdminister?.medicationAdministration.isEarlyAdministration = false
+                slotToAdminister?.medicationAdministration.isWhenRequiredEarlyAdministration = false
+            }
+        }
+    }
+
 }
