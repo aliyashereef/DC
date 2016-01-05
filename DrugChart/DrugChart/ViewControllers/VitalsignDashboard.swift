@@ -11,9 +11,6 @@ import UIKit
 
 class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverPresentationControllerDelegate {
 
-//    @IBOutlet weak var collectionView: UICollectionView!
-    
-    
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var parentView: UIView!
     var observationList = [VitalSignObservation]()

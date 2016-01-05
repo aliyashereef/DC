@@ -146,8 +146,6 @@
 		0BF3890F1AA46746006792DE /* DCPatient.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF3890E1AA46746006792DE /* DCPatient.m */; };
 		0BF389151AA468C6006792DE /* DCUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF389141AA468C6006792DE /* DCUtility.m */; };
 		1F1977071BFDE59000106023 /* CustomCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1977061BFDE59000106023 /* CustomCollectionViewLayout.swift */; };
-		1F1977091BFDE5E700106023 /* ExcelTabularView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1977081BFDE5E700106023 /* ExcelTabularView.swift */; };
-		1F19770B1BFDE60E00106023 /* ExcelTabularView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F19770A1BFDE60E00106023 /* ExcelTabularView.xib */; };
 		1F19770E1BFDE75900106023 /* HeaderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F19770C1BFDE75900106023 /* HeaderCollectionViewCell.swift */; };
 		1F19770F1BFDE75900106023 /* HeaderCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F19770D1BFDE75900106023 /* HeaderCollectionViewCell.xib */; };
 		1F1977121BFDE77500106023 /* ContentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1977101BFDE77500106023 /* ContentCollectionViewCell.swift */; };
@@ -545,8 +543,6 @@
 		0BF389131AA468C6006792DE /* DCUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DCUtility.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		0BF389141AA468C6006792DE /* DCUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DCUtility.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		1F1977061BFDE59000106023 /* CustomCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewLayout.swift; sourceTree = "<group>"; };
-		1F1977081BFDE5E700106023 /* ExcelTabularView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExcelTabularView.swift; sourceTree = "<group>"; };
-		1F19770A1BFDE60E00106023 /* ExcelTabularView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExcelTabularView.xib; sourceTree = "<group>"; };
 		1F19770C1BFDE75900106023 /* HeaderCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderCollectionViewCell.swift; sourceTree = "<group>"; };
 		1F19770D1BFDE75900106023 /* HeaderCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderCollectionViewCell.xib; sourceTree = "<group>"; };
 		1F1977101BFDE77500106023 /* ContentCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -2025,8 +2021,6 @@
 				1FD4FCC51BF4B7E000B77B94 /* GeneralObservationView.xib */,
 				1FD4FCC61BF4B7E000B77B94 /* GraphicalDashBoardView.xib */,
 				1FD4FCC71BF4B7E000B77B94 /* SelectionView.xib */,
-				1F1977081BFDE5E700106023 /* ExcelTabularView.swift */,
-				1F19770A1BFDE60E00106023 /* ExcelTabularView.xib */,
 				1F7EB7251C2C111600F6F22F /* NumericTextField.swift */,
 			);
 			name = CustomView;
@@ -2648,7 +2642,6 @@
 				1F7EB71E1C21CB5400F6F22F /* BarGraphCell.xib in Resources */,
 				0BBDEDDD1AA581630016E6FF /* Lato-BoldItalic.ttf in Resources */,
 				1F19770F1BFDE75900106023 /* HeaderCollectionViewCell.xib in Resources */,
-				1F19770B1BFDE60E00106023 /* ExcelTabularView.xib in Resources */,
 				0BBDEDDB1AA581630016E6FF /* Lato-BlackItalic.ttf in Resources */,
 				0BBDEDEC1AA581630016E6FF /* OFL.txt in Resources */,
 				0BBDEDE51AA581630016E6FF /* Lato-Medium.ttf in Resources */,
@@ -2786,7 +2779,6 @@
 				1F3007061BF5552E00DDF3F3 /* VitalSignObservation.swift in Sources */,
 				0BC5FAFE1B442B6B0019BF36 /* DCOrderSet.m in Sources */,
 				1F53750A1C1B13D800D4A64F /* NSDate.swift in Sources */,
-				1F1977091BFDE5E700106023 /* ExcelTabularView.swift in Sources */,
 				4D9649921BA296CC008630B4 /* DCBedsAndPatientsWebService.m in Sources */,
 				4DC440181B67990D000EC7AB /* DCOrderSetWebService.m in Sources */,
 				0BADF3E21BF6172400A78175 /* DCSchedulingHelper.swift in Sources */,

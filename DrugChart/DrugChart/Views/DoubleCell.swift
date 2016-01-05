@@ -51,15 +51,15 @@ class DoubleCell: UITableViewCell ,ButtonAction{
         return value.isValueEntered()
     }
     
-    func configureCell(title:String , valuePlaceHolderText:String , selectedValue:Double! )
+    func configureCell(title:String , valuePlaceHolderText:String , selectedValue:Double! , disableNavigation:Bool)
     {
-        titleText.text = title;
+        titleText.text = title
         value.placeholder = valuePlaceHolderText
         if selectedValue != nil
         {
             value.text = String(selectedValue)
         }
         self.value.tag = self.tag
-        self.value.initialize()
+        self.value.initialize(disableNavigation)
     }
 }

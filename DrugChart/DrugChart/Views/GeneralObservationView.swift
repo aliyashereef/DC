@@ -19,6 +19,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
     private var obsBP :BloodPressure?
     var observation:VitalSignObservation!
     var delegate:ObservationDelegate? =  nil
+    var showObservationType:ShowObservationType = ShowObservationType.All
     /*
     // Only override drawRect: if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
@@ -52,10 +53,11 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
         datePickerCell = DatePickerCellInline(style: UITableViewCellStyle.Default, reuseIdentifier: nil)
         
     }
-    func configureView(observation:VitalSignObservation)
+    func configureView(observation:VitalSignObservation,showobservatioType:ShowObservationType)
     {
         self.observation = observation
         self.tableView.reloadData()
+        self.showObservationType = showobservatioType
     }
     // MARK: - Table view data source
     
@@ -72,7 +74,14 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
         case ObservationType.Date.rawValue:
             return 1;
         default:
-            return 6
+            if(showObservationType == .All)
+            {
+                return 6
+            }
+            else
+            {
+                return  1
+            }
             
         }
     }
@@ -80,84 +89,128 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
     
     func getRowNumber(indexPath:NSIndexPath) -> Int
     {
-        var rowNumber = 0
-        for var section = ( indexPath.section - 1 )   ; section >= 0 ; --section
+        if(showObservationType != .All)
         {
-            rowNumber += self.tableView.numberOfRowsInSection(section)
+            if(indexPath.section == 0)
+            {
+                return 0
+            }
+            else
+            {
+            switch(showObservationType)
+                {
+                case ShowObservationType.Respiratory:
+                    return 1
+                case ShowObservationType.SpO2:
+                    return 2
+                case ShowObservationType.Temperature:
+                    return 3
+                case ShowObservationType.BloodPressure:
+                    return 4
+                case ShowObservationType.Pulse:
+                    return 5
+                case ShowObservationType.BM:
+                    return 6
+                default:
+                    return 0
+                }
+            }
         }
-        rowNumber += indexPath.row
-        return rowNumber
+        else
+        {
+            var rowNumber = 0
+            for var section = ( indexPath.section - 1 )   ; section >= 0 ; --section
+            {
+                rowNumber += self.tableView.numberOfRowsInSection(section)
+            }
+            rowNumber += indexPath.row
+            return rowNumber
+        }
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cellTitle:String = ""
         var placeHolderText = "enter value"
-        var rowTag : Int = -1
-        var cellType:CellType = CellType.Double
         let rowNumber = getRowNumber(indexPath)
-        
-        switch (rowNumber)
+        let obsType = ObservationType(rawValue: rowNumber)
+        switch (obsType!)
         {
-        case ObservationType.Date.rawValue:
-            cellType = CellType.Date
-            rowTag = ObservationType.Date.rawValue
+        case ObservationType.Date:
+            let cell = datePickerCell
+            cell.tag = ObservationType.Date.rawValue
+            if(showObservationType != .All)
+            {
+                cell.userInteractionEnabled = false
+            }
+            return cell
         
-        case ObservationType.Respiratory.rawValue:
-            
+        case ObservationType.Respiratory:
             cellTitle = "Resps (per minute)"
-            rowTag = ObservationType.Respiratory.rawValue
             
-        case ObservationType.SpO2.rawValue:
+            let cell = tableView.dequeueReusableCellWithIdentifier("DoubleCell", forIndexPath: indexPath) as! DoubleCell
+            cell.tag = ObservationType.Respiratory.rawValue
+            cell.configureCell(cellTitle, valuePlaceHolderText: placeHolderText,selectedValue: nil , disableNavigation: showObservationType != .All)
+            cells[rowNumber] = cell
+            if(showObservationType == ShowObservationType.Respiratory && observation.respiratory != nil )
+            {
+                cell.value.text = String( observation.respiratory!.repiratoryRate)
+            }
+            cell.delegate = self
+            return cell
+      
+        case ObservationType.SpO2:
             cellTitle = "Oxygen Saturation & Inspired O2"
             placeHolderText = "enter %"
-            rowTag = ObservationType.SpO2.rawValue
             
-        case ObservationType.Temperature.rawValue:
-            cellTitle = "Temperature (°C)"
-            rowTag = ObservationType.Temperature.rawValue
-            
-        case ObservationType.BloodPressure.rawValue:
-            cellTitle="Systolic / Diastolic"
-            rowTag = ObservationType.BloodPressure.rawValue
-            cellType = CellType.BloodPressure
-        case ObservationType.Pulse.rawValue:
-            cellTitle = "Pulse (beats/min)"
-            rowTag = ObservationType.Pulse.rawValue
-            
-        case ObservationType.BM.rawValue:
-            cellTitle = "BM"
-            rowTag = ObservationType.BM.rawValue
-        
-        default:
-            cellTitle = ""
-            
-        }
-        
-        switch(cellType)
-        {
-        case CellType.Date:
-            let cell = datePickerCell
-            cell.tag = rowTag
-            return cell
-        case CellType.Time:
-            let cell = tableView.dequeueReusableCellWithIdentifier("TimePickerCell", forIndexPath: indexPath) as! TimePickerCell
-            cell.tag = rowTag
-            return cell
-        case CellType.BloodPressure:
-            let cell = tableView.dequeueReusableCellWithIdentifier("BloodPressureCell", forIndexPath: indexPath) as! BloodPressureCell
-            cell.tag = rowTag
-            cells[rowNumber] = cell
-            cell.configureCell()
-            cell.delegate = self
-            return cell
-        case CellType.Double:
             let cell = tableView.dequeueReusableCellWithIdentifier("DoubleCell", forIndexPath: indexPath) as! DoubleCell
-            cell.tag = rowTag
-            cell.configureCell(cellTitle, valuePlaceHolderText: placeHolderText,selectedValue: nil)
+            cell.tag = ObservationType.SpO2.rawValue
+            cell.configureCell(cellTitle, valuePlaceHolderText: placeHolderText,selectedValue: nil , disableNavigation: showObservationType != .All)
             cells[rowNumber] = cell
             cell.delegate = self
             return cell
+            
+        case ObservationType.Temperature:
+            cellTitle = "Temperature (°C)"
+            //rowTag =
+            
+            let cell = tableView.dequeueReusableCellWithIdentifier("DoubleCell", forIndexPath: indexPath) as! DoubleCell
+            cell.tag = ObservationType.Temperature.rawValue
+            cell.configureCell(cellTitle, valuePlaceHolderText: placeHolderText,selectedValue: nil , disableNavigation: showObservationType != .All)
+            cells[rowNumber] = cell
+            cell.delegate = self
+            return cell
+            
+        case ObservationType.BloodPressure:
+            cellTitle="Systolic / Diastolic"
+            
+            let cell = tableView.dequeueReusableCellWithIdentifier("BloodPressureCell", forIndexPath: indexPath) as! BloodPressureCell
+            cell.tag = ObservationType.BloodPressure.rawValue
+            cells[rowNumber] = cell
+            cell.configureCell(showObservationType != .All)
+            cell.delegate = self
+            return cell
+            
+        case ObservationType.Pulse:
+            cellTitle = "Pulse (beats/min)"
+            
+            let cell = tableView.dequeueReusableCellWithIdentifier("DoubleCell", forIndexPath: indexPath) as! DoubleCell
+            cell.tag = ObservationType.Pulse.rawValue
+            cell.configureCell(cellTitle, valuePlaceHolderText: placeHolderText,selectedValue: nil , disableNavigation: showObservationType != .All)
+            cells[rowNumber] = cell
+            cell.delegate = self
+            return cell
+            
+        case ObservationType.BM:
+            cellTitle = "BM"
+            
+            let cell = tableView.dequeueReusableCellWithIdentifier("DoubleCell", forIndexPath: indexPath) as! DoubleCell
+            cell.tag = ObservationType.BM.rawValue
+            cell.configureCell(cellTitle, valuePlaceHolderText: placeHolderText,selectedValue: nil , disableNavigation: showObservationType != .All)
+            cells[rowNumber] = cell
+            cell.delegate = self
+            return cell
+            
         }
-        
+
     }
     
     func getSelectedValue(indexPath:NSIndexPath) ->Double!
@@ -173,7 +226,6 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
         }
     }
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-
         switch(indexPath.section)
         {
             case ObservationType.Date.rawValue:
