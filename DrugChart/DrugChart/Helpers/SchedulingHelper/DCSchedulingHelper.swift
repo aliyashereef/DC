@@ -160,13 +160,13 @@ class DCSchedulingHelper: NSObject {
                     descriptionText.appendFormat(" at %@", administratingTimesStringFromTimeArray(NSMutableArray(array: activeAdministratingTimes)))
                 }
             case WEEKLY :
-                descriptionText.appendFormat(" %@", descriptionTextForWeeklySpecificTimesSchedulingForRepeatValue(repeatValue, selectedAdministratingTimes: activeAdministratingTimes, timesCountDisplayString: timesCountString))
+                descriptionText.appendFormat("%@", descriptionTextForWeeklySpecificTimesSchedulingForRepeatValue(repeatValue, selectedAdministratingTimes: activeAdministratingTimes, timesCountDisplayString: timesCountString))
             case MONTHLY:
-                descriptionText.appendFormat(" %@", descriptionTextForMonthlySpecificTimesSchedulingForRepeatValue(repeatValue, activeAdministratingTimes: activeAdministratingTimes, timesCountDisplayString : timesCountString))
+                descriptionText.appendFormat("%@", descriptionTextForMonthlySpecificTimesSchedulingForRepeatValue(repeatValue, activeAdministratingTimes: activeAdministratingTimes, timesCountDisplayString : timesCountString))
             case YEARLY:
-                descriptionText.appendFormat(" %@", descriptionTextForYearlySpecificTimesSchedulingForRepeatValue(repeatValue, activeAdministratingTimes: activeAdministratingTimes, timesCountDisplayString: timesCountString))
+                descriptionText.appendFormat("%@", descriptionTextForYearlySpecificTimesSchedulingForRepeatValue(repeatValue, activeAdministratingTimes: activeAdministratingTimes, timesCountDisplayString: timesCountString))
             default:
-                descriptionText.appendFormat(" %@", repeatValue.frequency)
+                descriptionText.appendFormat("%@", repeatValue.frequency)
         }
         descriptionText.appendString(DOT)
         return descriptionText

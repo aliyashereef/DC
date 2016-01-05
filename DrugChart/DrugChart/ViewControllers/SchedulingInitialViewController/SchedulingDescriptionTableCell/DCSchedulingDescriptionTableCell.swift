@@ -17,7 +17,6 @@ class DCSchedulingDescriptionTableCell: DCInstructionsTableCell {
         
         super.awakeFromNib()
         // Initialization code
-      //  descriptionTextView.font = UIFont.systemFontOfSize(15.0)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
