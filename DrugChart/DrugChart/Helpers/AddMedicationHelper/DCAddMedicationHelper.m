@@ -172,7 +172,7 @@
 
 + (NSString *)considatedFrequencyDescriptionFromString:(NSString *)description {
     
-    NSString *substring = @"Medication will be administered";
+    NSString *substring = NSLocalizedString(@"SCHEDULING_GENERAL_DESCRIPTION", "");
     description = [DCUtility removeSubstring:substring FromOriginalString:[NSMutableString stringWithString:description]];
     //capitalise first character
     description = [DCUtility capitaliseFirstCharacterOfString:description];

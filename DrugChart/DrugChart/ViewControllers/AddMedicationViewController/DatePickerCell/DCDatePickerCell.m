@@ -8,13 +8,13 @@
 
 #import "DCDatePickerCell.h"
 
-@interface DCDatePickerCell () {
-    
-    __weak IBOutlet UIDatePicker *datePicker;
-    
-}
-
-@end
+//@interface DCDatePickerCell () {
+//    
+//    __weak IBOutlet UIDatePicker *datePicker;
+//    
+//}
+//
+//@end
 
 @implementation DCDatePickerCell
 
@@ -30,7 +30,7 @@
 
 - (IBAction)datePickerValueChanged:(id)sender {
     
-    self.selectedDate (datePicker.date);
+    self.selectedDate (_datePicker.date);
 }
 
 

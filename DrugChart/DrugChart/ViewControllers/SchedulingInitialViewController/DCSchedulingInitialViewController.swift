@@ -383,39 +383,53 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         return administrationTimeArray!
     }
     
+    func initialiseSpecificTimesObjectInFrequency() {
+        
+        // initialise specific times object
+        self.scheduling?.specificTimes = DCSpecificTimes.init()
+        self.scheduling?.specificTimes?.repeatObject = DCRepeat.init()
+        self.scheduling?.specificTimes?.repeatObject.repeatType = DAILY
+        self.scheduling?.specificTimes?.repeatObject.frequency = "1 day"
+        if (timeArray == nil) {
+            timeArray = []
+        }
+        self.scheduling?.specificTimes?.specificTimesDescription =  DCSchedulingHelper.scheduleDescriptionForSpecificTimesRepeatValue((self.scheduling?.specificTimes?.repeatObject)!, administratingTimes: timeArray!) as String
+    }
+    
+    func initialiseIntervalObjectInFrequency() {
+        
+        //initialise interval object in scheduling
+        self.scheduling?.interval = DCInterval.init()
+        //initial SetStartAndEndDate switch should be false
+        self.scheduling?.interval?.hasStartAndEndDate = false
+        self.scheduling?.interval?.repeatFrequencyType = HOURS_TITLE
+        self.scheduling?.interval.hoursCount = ONE
+        self.scheduling?.interval?.intervalDescription = String(format: "%@ hour.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
+        if (self.scheduling?.interval?.startTime == nil) {
+            let startTimeInCurrentZone  = DCDateUtility.dateInCurrentTimeZone(NSDate())
+            let startTime = DCDateUtility.timeStringInTwentyFourHourFormat(startTimeInCurrentZone)
+            self.scheduling?.interval?.startTime = startTime
+            self.scheduling?.interval?.endTime = "23:00"
+            populatePreviewArrayAndReloadTableSection()
+        }
+    }
+    
     func configureFrequencyTableForFrequencyTypeSelectionAtindexPath(indexPath : NSIndexPath) {
         
         //check which frequenct type is selected and animate table sections based on that
         self.scheduling?.type = (indexPath.row == 0) ? SPECIFIC_TIMES : INTERVAL
         if (self.scheduling?.type == SPECIFIC_TIMES) {
+            //initialise specific times object if specific times object is nil
             if (self.scheduling?.specificTimes == nil) {
-                self.scheduling?.specificTimes = DCSpecificTimes.init()
-                self.scheduling?.specificTimes?.repeatObject = DCRepeat.init()
-                self.scheduling?.specificTimes?.repeatObject.repeatType = DAILY
-                self.scheduling?.specificTimes?.repeatObject.frequency = "1 day"
-                if (timeArray == nil) {
-                    timeArray = []
-                }
-                self.scheduling?.specificTimes?.specificTimesDescription =  DCSchedulingHelper.scheduleDescriptionForSpecificTimesRepeatValue((self.scheduling?.specificTimes?.repeatObject)!, administratingTimes: timeArray!) as String
+                initialiseSpecificTimesObjectInFrequency()
              }
         } else {
             if (self.scheduling?.interval == nil) {
-                //initialise interval
-                self.scheduling?.interval = DCInterval.init()
-                //initial SetStartAndEndDate switch should be false
-                self.scheduling?.interval?.hasStartAndEndDate = false
-                self.scheduling?.interval?.repeatFrequencyType = HOURS_TITLE
-                self.scheduling?.interval.hoursCount = ONE
-                self.scheduling?.interval?.intervalDescription = String(format: "%@ hour.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
-                if (self.scheduling?.interval?.startTime == nil) {
-                    let startTimeInCurrentZone  = DCDateUtility.dateInCurrentTimeZone(NSDate())
-                    let startTime = DCDateUtility.timeStringInTwentyFourHourFormat(startTimeInCurrentZone)
-                    self.scheduling?.interval?.startTime = startTime
-                    self.scheduling?.interval?.endTime = "23:00"
-                    populatePreviewArrayAndReloadTableSection()
-                }
+                //initialise interval if interval object in scheduling is nil
+                initialiseIntervalObjectInFrequency()
             }
         }
+        
         dispatch_async(dispatch_get_main_queue(), {
             self.schedulingTableView.beginUpdates()
             let sectionCount = self.schedulingTableView.numberOfSections

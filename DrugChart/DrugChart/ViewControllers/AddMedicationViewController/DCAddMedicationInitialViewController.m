@@ -896,7 +896,16 @@
         return dateCell;
     } else if ([cellID isEqualToString:kDatePickerID]){
         DCDatePickerCell *pickerCell = [self datePickerTableCell];
-        pickerCell.isStartDate = (indexPath.row == 1) ? YES : NO;
+        //identify start/end date picker and set minimum date. end date should not be less than start date 
+        if (indexPath.row == 1) {
+            pickerCell.isStartDate = YES;
+            pickerCell.datePicker.minimumDate = nil;
+        } else {
+            pickerCell.isStartDate = NO;
+            if (self.selectedMedication.startDate != nil) {
+                 pickerCell.datePicker.minimumDate = [DCDateUtility dateFromSourceString: self.selectedMedication.startDate];
+            }
+        }
         __weak DCDatePickerCell *weakPickerCell = pickerCell;
         pickerCell.selectedDate = ^ (NSDate *date) {
             NSIndexPath *indexPathToUpdate = [NSIndexPath indexPathForRow:indexPath.row - 1 inSection:indexPath.section];
