@@ -186,6 +186,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         let previewCell : DCSchedulingCell? = schedulingTableView.dequeueReusableCellWithIdentifier(SCHEDULING_INITIAL_CELL_ID) as? DCSchedulingCell
         previewCell?.descriptionLabel.hidden = true
         previewCell?.accessoryType = .None
+        previewCell?.titleLabel.textColor = UIColor.blackColor()
         previewCell?.titleLabel.text = previewArray![indexPath.item] as? String
         previewCell?.selectionStyle = .None
         return previewCell!
