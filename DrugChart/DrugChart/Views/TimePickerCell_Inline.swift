@@ -5,6 +5,7 @@
 //  Created by Noureen on 01/09/2015.
 //  Copyright (c) 2015 emishealth. All rights reserved.
 //  Description : it will display the time in the UITable View cell.
+// obsolete : not using it
 
 
 import Foundation

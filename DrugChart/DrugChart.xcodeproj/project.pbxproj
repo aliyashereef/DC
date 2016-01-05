@@ -193,27 +193,16 @@
 		1FD4FCD11BF4B7E000B77B94 /* SelectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD4FCC71BF4B7E000B77B94 /* SelectionView.xib */; };
 		1FD4FCE51BF4B8F400B77B94 /* DatePickerCell_Inline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCD31BF4B8F400B77B94 /* DatePickerCell_Inline.swift */; };
 		1FD4FCE61BF4B8F400B77B94 /* DatePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCD41BF4B8F400B77B94 /* DatePickerCell.swift */; };
-		1FD4FCE81BF4B8F400B77B94 /* LineChartCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCD61BF4B8F400B77B94 /* LineChartCollectionViewCell.swift */; };
 		1FD4FCE91BF4B8F400B77B94 /* TimePickerCell_Inline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCD71BF4B8F400B77B94 /* TimePickerCell_Inline.swift */; };
 		1FD4FCEA1BF4B8F400B77B94 /* TimePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCD81BF4B8F400B77B94 /* TimePickerCell.swift */; };
-		1FD4FCEB1BF4B8F400B77B94 /* BarChartCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD4FCD91BF4B8F400B77B94 /* BarChartCell.xib */; };
-		1FD4FCEC1BF4B8F400B77B94 /* BarChartCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD4FCDA1BF4B8F400B77B94 /* BarChartCollectionViewCell.xib */; };
 		1FD4FCED1BF4B8F400B77B94 /* BloodPressureCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD4FCDB1BF4B8F400B77B94 /* BloodPressureCell.xib */; };
-		1FD4FCEE1BF4B8F400B77B94 /* BPCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD4FCDC1BF4B8F400B77B94 /* BPCollectionViewCell.xib */; };
 		1FD4FCEF1BF4B8F400B77B94 /* DatePickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD4FCDD1BF4B8F400B77B94 /* DatePickerCell.xib */; };
 		1FD4FCF01BF4B8F400B77B94 /* DoubleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD4FCDE1BF4B8F400B77B94 /* DoubleCell.xib */; };
-		1FD4FCF11BF4B8F400B77B94 /* LineChartCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD4FCDF1BF4B8F400B77B94 /* LineChartCell.xib */; };
-		1FD4FCF21BF4B8F400B77B94 /* LineChartCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD4FCE01BF4B8F400B77B94 /* LineChartCollectionViewCell.xib */; };
-		1FD4FCF31BF4B8F400B77B94 /* ObservationsDetailsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD4FCE11BF4B8F400B77B94 /* ObservationsDetailsCell.xib */; };
 		1FD4FCF41BF4B8F400B77B94 /* PickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD4FCE21BF4B8F400B77B94 /* PickerCell.xib */; };
 		1FD4FCF51BF4B8F400B77B94 /* SelectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD4FCE31BF4B8F400B77B94 /* SelectionCell.xib */; };
 		1FD4FCF61BF4B8F400B77B94 /* TimePickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD4FCE41BF4B8F400B77B94 /* TimePickerCell.xib */; };
-		1FD4FCFF1BF4BAAD00B77B94 /* BarChartCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCF71BF4BAAD00B77B94 /* BarChartCell.swift */; };
-		1FD4FD001BF4BAAD00B77B94 /* BarChartCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCF81BF4BAAD00B77B94 /* BarChartCollectionViewCell.swift */; };
 		1FD4FD011BF4BAAD00B77B94 /* BloodPressureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCF91BF4BAAD00B77B94 /* BloodPressureCell.swift */; };
-		1FD4FD021BF4BAAD00B77B94 /* BPCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCFA1BF4BAAD00B77B94 /* BPCollectionViewCell.swift */; };
 		1FD4FD031BF4BAAD00B77B94 /* DoubleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCFB1BF4BAAD00B77B94 /* DoubleCell.swift */; };
-		1FD4FD041BF4BAAD00B77B94 /* ObservationsDetailsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCFC1BF4BAAD00B77B94 /* ObservationsDetailsCell.swift */; };
 		1FD4FD051BF4BAAD00B77B94 /* PickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCFD1BF4BAAD00B77B94 /* PickerCell.swift */; };
 		1FD4FD061BF4BAAD00B77B94 /* SelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FCFE1BF4BAAD00B77B94 /* SelectionCell.swift */; };
 		1FD4FD0A1BF4BAE000B77B94 /* Enumerations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FD081BF4BAE000B77B94 /* Enumerations.swift */; };
@@ -590,27 +579,16 @@
 		1FD4FCC71BF4B7E000B77B94 /* SelectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectionView.xib; sourceTree = "<group>"; };
 		1FD4FCD31BF4B8F400B77B94 /* DatePickerCell_Inline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerCell_Inline.swift; sourceTree = "<group>"; };
 		1FD4FCD41BF4B8F400B77B94 /* DatePickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerCell.swift; sourceTree = "<group>"; };
-		1FD4FCD61BF4B8F400B77B94 /* LineChartCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartCollectionViewCell.swift; sourceTree = "<group>"; };
 		1FD4FCD71BF4B8F400B77B94 /* TimePickerCell_Inline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimePickerCell_Inline.swift; sourceTree = "<group>"; };
 		1FD4FCD81BF4B8F400B77B94 /* TimePickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimePickerCell.swift; sourceTree = "<group>"; };
-		1FD4FCD91BF4B8F400B77B94 /* BarChartCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BarChartCell.xib; sourceTree = "<group>"; };
-		1FD4FCDA1BF4B8F400B77B94 /* BarChartCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BarChartCollectionViewCell.xib; sourceTree = "<group>"; };
 		1FD4FCDB1BF4B8F400B77B94 /* BloodPressureCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BloodPressureCell.xib; sourceTree = "<group>"; };
-		1FD4FCDC1BF4B8F400B77B94 /* BPCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BPCollectionViewCell.xib; sourceTree = "<group>"; };
 		1FD4FCDD1BF4B8F400B77B94 /* DatePickerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DatePickerCell.xib; sourceTree = "<group>"; };
 		1FD4FCDE1BF4B8F400B77B94 /* DoubleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DoubleCell.xib; sourceTree = "<group>"; };
-		1FD4FCDF1BF4B8F400B77B94 /* LineChartCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LineChartCell.xib; sourceTree = "<group>"; };
-		1FD4FCE01BF4B8F400B77B94 /* LineChartCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LineChartCollectionViewCell.xib; sourceTree = "<group>"; };
-		1FD4FCE11BF4B8F400B77B94 /* ObservationsDetailsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ObservationsDetailsCell.xib; sourceTree = "<group>"; };
 		1FD4FCE21BF4B8F400B77B94 /* PickerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerCell.xib; sourceTree = "<group>"; };
 		1FD4FCE31BF4B8F400B77B94 /* SelectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectionCell.xib; sourceTree = "<group>"; };
 		1FD4FCE41BF4B8F400B77B94 /* TimePickerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TimePickerCell.xib; sourceTree = "<group>"; };
-		1FD4FCF71BF4BAAD00B77B94 /* BarChartCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChartCell.swift; sourceTree = "<group>"; };
-		1FD4FCF81BF4BAAD00B77B94 /* BarChartCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChartCollectionViewCell.swift; sourceTree = "<group>"; };
 		1FD4FCF91BF4BAAD00B77B94 /* BloodPressureCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BloodPressureCell.swift; sourceTree = "<group>"; };
-		1FD4FCFA1BF4BAAD00B77B94 /* BPCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BPCollectionViewCell.swift; sourceTree = "<group>"; };
 		1FD4FCFB1BF4BAAD00B77B94 /* DoubleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoubleCell.swift; sourceTree = "<group>"; };
-		1FD4FCFC1BF4BAAD00B77B94 /* ObservationsDetailsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservationsDetailsCell.swift; sourceTree = "<group>"; };
 		1FD4FCFD1BF4BAAD00B77B94 /* PickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerCell.swift; sourceTree = "<group>"; };
 		1FD4FCFE1BF4BAAD00B77B94 /* SelectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionCell.swift; sourceTree = "<group>"; };
 		1FD4FD081BF4BAE000B77B94 /* Enumerations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enumerations.swift; sourceTree = "<group>"; };
@@ -2033,28 +2011,17 @@
 				1F1977111BFDE77500106023 /* ContentCollectionViewCell.xib */,
 				1F19770C1BFDE75900106023 /* HeaderCollectionViewCell.swift */,
 				1F19770D1BFDE75900106023 /* HeaderCollectionViewCell.xib */,
-				1FD4FCF71BF4BAAD00B77B94 /* BarChartCell.swift */,
-				1FD4FCF81BF4BAAD00B77B94 /* BarChartCollectionViewCell.swift */,
 				1FD4FCF91BF4BAAD00B77B94 /* BloodPressureCell.swift */,
-				1FD4FCFA1BF4BAAD00B77B94 /* BPCollectionViewCell.swift */,
 				1FD4FCFB1BF4BAAD00B77B94 /* DoubleCell.swift */,
-				1FD4FCFC1BF4BAAD00B77B94 /* ObservationsDetailsCell.swift */,
 				1FD4FCFD1BF4BAAD00B77B94 /* PickerCell.swift */,
 				1FD4FCFE1BF4BAAD00B77B94 /* SelectionCell.swift */,
 				1FD4FCD31BF4B8F400B77B94 /* DatePickerCell_Inline.swift */,
 				1FD4FCD41BF4B8F400B77B94 /* DatePickerCell.swift */,
-				1FD4FCD61BF4B8F400B77B94 /* LineChartCollectionViewCell.swift */,
 				1FD4FCD71BF4B8F400B77B94 /* TimePickerCell_Inline.swift */,
 				1FD4FCD81BF4B8F400B77B94 /* TimePickerCell.swift */,
-				1FD4FCD91BF4B8F400B77B94 /* BarChartCell.xib */,
-				1FD4FCDA1BF4B8F400B77B94 /* BarChartCollectionViewCell.xib */,
 				1FD4FCDB1BF4B8F400B77B94 /* BloodPressureCell.xib */,
-				1FD4FCDC1BF4B8F400B77B94 /* BPCollectionViewCell.xib */,
 				1FD4FCDD1BF4B8F400B77B94 /* DatePickerCell.xib */,
 				1FD4FCDE1BF4B8F400B77B94 /* DoubleCell.xib */,
-				1FD4FCDF1BF4B8F400B77B94 /* LineChartCell.xib */,
-				1FD4FCE01BF4B8F400B77B94 /* LineChartCollectionViewCell.xib */,
-				1FD4FCE11BF4B8F400B77B94 /* ObservationsDetailsCell.xib */,
 				1FD4FCE21BF4B8F400B77B94 /* PickerCell.xib */,
 				1FD4FCE31BF4B8F400B77B94 /* SelectionCell.xib */,
 				1FD4FCE41BF4B8F400B77B94 /* TimePickerCell.xib */,
@@ -2595,7 +2562,6 @@
 				0BAE36961B450AB0007CD64C /* DCAutoSearchCell.xib in Resources */,
 				0BB3977F1B42944B0037C8E1 /* OrderSet.storyboard in Resources */,
 				0B0F1B611AB664B100DD2D69 /* Administer.storyboard in Resources */,
-				1FD4FCF31BF4B8F400B77B94 /* ObservationsDetailsCell.xib in Resources */,
 				0BBDEDE41AA581630016E6FF /* Lato-LightItalic.ttf in Resources */,
 				0BC0C4681ADF7BC3002707DC /* AddMedication.storyboard in Resources */,
 				0BBE3B691AA42DC5004CA6E9 /* Main.storyboard in Resources */,
@@ -2620,7 +2586,6 @@
 				0B941CA71AC161D500B54207 /* DCPrescriberCalendarView.xib in Resources */,
 				0BBDEDEB1AA581630016E6FF /* Lato-ThinItalic.ttf in Resources */,
 				1FD4FCCF1BF4B7E000B77B94 /* GeneralObservationView.xib in Resources */,
-				1FD4FCEC1BF4B8F400B77B94 /* BarChartCollectionViewCell.xib in Resources */,
 				0B989E991B8C22CD0012AFE8 /* DCCalendarNavigationTitleView.xib in Resources */,
 				0BBDEDE61AA581630016E6FF /* Lato-MediumItalic.ttf in Resources */,
 				0BCF5EA21AE0D803002467BF /* Routes.plist in Resources */,
@@ -2628,7 +2593,6 @@
 				7D5567DD1B4FEE2100BA6733 /* OnceMedicationSample.plist in Resources */,
 				7D9EA9EC1B29846C00337E6A /* PositionableGraphics.plist in Resources */,
 				1F1977131BFDE77500106023 /* ContentCollectionViewCell.xib in Resources */,
-				1FD4FCF11BF4B8F400B77B94 /* LineChartCell.xib in Resources */,
 				7D44BF7B1AAFE4B4006B3C9A /* IPRJ2623520.plist in Resources */,
 				0BC5FAFA1B4411DE0019BF36 /* DCAutoSearchView.xib in Resources */,
 				0B9173A01B01F3BA00BC9337 /* PrescriberDetails.storyboard in Resources */,
@@ -2647,19 +2611,16 @@
 				0BBDEDE51AA581630016E6FF /* Lato-Medium.ttf in Resources */,
 				0BCC03931ABBDFB000CACAE3 /* IPRJ2623584.plist in Resources */,
 				1FD4FCF61BF4B8F400B77B94 /* TimePickerCell.xib in Resources */,
-				1FD4FCEB1BF4B8F400B77B94 /* BarChartCell.xib in Resources */,
 				0BA40BBF1B29A5CE005B80AD /* HTMLParser_README.txt in Resources */,
 				1FD4FCD11BF4B7E000B77B94 /* SelectionView.xib in Resources */,
 				0BBDEDDE1AA581630016E6FF /* Lato-Hairline.ttf in Resources */,
 				4D66A06F1B737BEE0075677E /* DCOrderSetAutoSearchHeaderView.xib in Resources */,
 				0BBE3B6E1AA42DC5004CA6E9 /* LaunchScreen.xib in Resources */,
 				0B95FAF21B5E6663002939DF /* DCWarningsHeaderView.xib in Resources */,
-				1FD4FCF21BF4B8F400B77B94 /* LineChartCollectionViewCell.xib in Resources */,
 				0BBDEDE71AA581630016E6FF /* Lato-Regular.ttf in Resources */,
 				7DE60BD01B2866CD00BCA745 /* DCPortraitTopPatientView.xib in Resources */,
 				0BBDEDDA1AA581630016E6FF /* Lato-Black.ttf in Resources */,
 				0BAE369C1B455E05007CD64C /* DCOrderSetMedicineView.xib in Resources */,
-				1FD4FCEE1BF4B8F400B77B94 /* BPCollectionViewCell.xib in Resources */,
 				0BB535871BBA472D0043BC61 /* DCAdministerPickerCell.xib in Resources */,
 				0BBDEDEA1AA581630016E6FF /* Lato-Thin.ttf in Resources */,
 				0BBE3B6B1AA42DC5004CA6E9 /* Images.xcassets in Resources */,
@@ -2784,9 +2745,7 @@
 				0BADF3E21BF6172400A78175 /* DCSchedulingHelper.swift in Sources */,
 				4D48915E1BC90176002AC8CA /* DCPatientListingCell.swift in Sources */,
 				0BBD58441AD3B0C20027F8FE /* DCUsersListWebService.m in Sources */,
-				1FD4FD021BF4BAAD00B77B94 /* BPCollectionViewCell.swift in Sources */,
 				4D4891591BC900DB002AC8CA /* DCPatientDetailsHelper.m in Sources */,
-				1FD4FD041BF4BAAD00B77B94 /* ObservationsDetailsCell.swift in Sources */,
 				0BA5ECBB1BFEF0F700F80C12 /* NSString+Additions.m in Sources */,
 				0B8D6E7A1B3136C200F0B972 /* DCKeyChainManager.m in Sources */,
 				7D6335571AE66A9F00463E12 /* DCBed.m in Sources */,
@@ -2803,7 +2762,6 @@
 				0BA357311B746EAB00A5C3BC /* DCOrderSetOperationQueue.m in Sources */,
 				0BBC8FA61AA469AF0085ABAB /* DCBaseViewController.m in Sources */,
 				1FD4FCEA1BF4B8F400B77B94 /* TimePickerCell.swift in Sources */,
-				1FD4FCE81BF4B8F400B77B94 /* LineChartCollectionViewCell.swift in Sources */,
 				4D4891601BC90176002AC8CA /* DCWardCell.swift in Sources */,
 				7D70F3801B20258200E4BA89 /* DCWardsGraphicalDisplayViewController.m in Sources */,
 				1FD4FCBA1BF4B6B700B77B94 /* Respiratory.swift in Sources */,
@@ -2828,7 +2786,6 @@
 				0BC542D41AB8556A004DDFCC /* DCAdministerMedication.m in Sources */,
 				0B47963E1C0EE80300A8E78A /* DCSchedulingDescriptionTableCell.swift in Sources */,
 				7D63355A1AE66AB700463E12 /* DCWard.m in Sources */,
-				1FD4FCFF1BF4BAAD00B77B94 /* BarChartCell.swift in Sources */,
 				4D16FADD1B5E34210034406A /* DCStopMedicationWebService.m in Sources */,
 				7D6010761B4BE1AA00135DBD /* DCMedicationSchedulesWebService.m in Sources */,
 				1F7EB71A1C21CAC400F6F22F /* BarGraphView.swift in Sources */,
@@ -2924,7 +2881,6 @@
 				0BA449E31B985100009F84E5 /* DCAddMedicationDetailViewController.m in Sources */,
 				4D83869A1BB258AD0012EF7D /* DCMedicationDetailsCell.swift in Sources */,
 				7D2FF0551BB85C2100B92B85 /* DCPrescriberMedicationViewController.m in Sources */,
-				1FD4FD001BF4BAAD00B77B94 /* BarChartCollectionViewCell.swift in Sources */,
 				4D766C0B1BBCF79900413E08 /* DCCalendarDateDisplayViewController.swift in Sources */,
 				1FD4FCCB1BF4B7E000B77B94 /* GraphicalDashBoardView.swift in Sources */,
 				0BBDEDF51AA5B3100016E6FF /* DCFontUtility.m in Sources */,
