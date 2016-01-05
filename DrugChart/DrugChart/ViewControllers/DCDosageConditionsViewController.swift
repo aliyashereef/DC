@@ -11,23 +11,12 @@ import UIKit
 class DCDosageConditionsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate{
 
     var conditionsItemsArray = ["Reduce 50 mg every day"]
-    var addConditionMenuItems = ["Change","Dose","Every","Until"]
-    var doseForTimeArray = ["250","100","50","30","20","10"]
-    var doseArrayForAddCondition = ["500 mg","250 mg","100 mg","50 mg","10 mg","5 mg"]
-    var doseUntilArrayForAddCondition = [String]()
     var previewDetailsTable = [String]()
-    var viewTitleForDisplay : NSString = ""
     var previousSelectedValue : NSString = ""
-    var valueForChange : NSString = ""
-    var valueForDose : NSString = ""
-    var valueForEvery : NSString = ""
-    var valueForUntil : NSString = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureNavigationBarItems()
-        doseUntilArrayForAddCondition.appendContentsOf(doseArrayForAddCondition)
-        doseUntilArrayForAddCondition.append("0 mg")
         // Do any additional setup after loading the view.
     }
 
@@ -38,9 +27,8 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
     
     func configureNavigationBarItems() {
         
-            viewTitleForDisplay = CONDITIONS_TITLE
-            self.navigationItem.title = viewTitleForDisplay as String
-            self.title = viewTitleForDisplay as String
+            self.navigationItem.title = CONDITIONS_TITLE
+            self.title = CONDITIONS_TITLE
     }
 
     // MARK: - Table View Methods
@@ -50,6 +38,7 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         if (section == 0) {
             return conditionsItemsArray.count
         } else if section == 1 {
@@ -61,12 +50,14 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-            let dosageConditionCell : DCDosageConditionsTableViewCell? = tableView.dequeueReusableCellWithIdentifier(DOSE_CONDITION_CELL_ID) as? DCDosageConditionsTableViewCell
+        let dosageConditionCell : DCDosageConditionsTableViewCell? = tableView.dequeueReusableCellWithIdentifier(DOSE_CONDITION_CELL_ID) as? DCDosageConditionsTableViewCell
+        dosageConditionCell?.conditionsMainLabel.textColor = UIColor.blackColor()
         switch indexPath.section {
         case 0:
             dosageConditionCell!.conditionsMainLabel.text = conditionsItemsArray[indexPath.row]
         case 1:
-            dosageConditionCell?.conditionsMainLabel.text = "Add Condition"
+            dosageConditionCell?.conditionsMainLabel.text = ADD_CONDITION_TITLE
+            dosageConditionCell?.conditionsMainLabel.textColor = tableView.tintColor
         default:
             break
         }
@@ -75,22 +66,24 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
+        switch indexPath.section {
+        case 1:
+            let addConditionViewController : DCAddConditionViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(ADD_CONDITION_SBID) as? DCAddConditionViewController
+            addConditionViewController?.newConditionEntered = { value in
+                self.conditionsItemsArray.append(value as! String)
+                tableView.reloadData()
+            }
+            let navigationController: UINavigationController = UINavigationController(rootViewController: addConditionViewController!)
+            navigationController.modalPresentationStyle = UIModalPresentationStyle.CurrentContext
+            self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
+        default:
+            break
+        }
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 44
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

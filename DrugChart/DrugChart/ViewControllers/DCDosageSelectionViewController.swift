@@ -221,8 +221,7 @@ import UIKit
                 if (menuType == eSplitDaily){
                     isRowAlreadySelected = true
                 }else {
-                    //Todo : For Split daily.
-                    menuType = eDosageMenu
+                    menuType = eSplitDaily
                 }
             default:
                 break
@@ -237,27 +236,27 @@ import UIKit
                 isRowAlreadySelected = false
                 tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .None
                 let sectionCount = tableView.numberOfSections
-                //Todo : Comment this for Split Daily.
-                if sectionCount == 2 {
-                tableView.deleteSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
-                }
-                //Todo : Uncomment this for Split daily.
-//                if (sectionCount == 2) {
-//                    tableView.deleteSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
-//                } else {
-//                    tableView.deleteSections(sections, withRowAnimation: .Fade)
+//                //Todo : Comment this for Split Daily.
+//                if sectionCount == 2 {
+//                tableView.deleteSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
 //                }
+//                Todo : Uncomment this for Split daily.
+                if (sectionCount == 2) {
+                    tableView.deleteSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+                } else {
+                    tableView.deleteSections(sections, withRowAnimation: .Fade)
+                }
             } else {
                 let sectionCount = tableView.numberOfSections
                 //Todo: for Split Daily.
-//                if (indexPath.row != 3) {
+                if (indexPath.row != 3) {
                     tableView.beginUpdates()
                     if (sectionCount == INITIAL_SECTION_COUNT) {
                         //if section count is zero insert new section with animation
                         // Todo : Comment this for split daily.
-                        if (indexPath.row != 3) {
+//                        if (indexPath.row != 3) {
                         tableView.insertSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
-                        }
+//                        }
                     } else if (sectionCount >= 3) {
                         //Insert sections of split daily.
                         tableView.deleteSections(sections, withRowAnimation: .Fade)
@@ -265,26 +264,26 @@ import UIKit
                     } else {
                         //reload sections
                         // For Split Daily, Uncomment this
-//                        tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
-                        // For Split Daily, Comment this
-                        if (menuType != eDosageMenu) {
                         tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
-                        } else {
-                            tableView.deleteSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
-                        }
+                        // For Split Daily, Comment this
+//                        if (menuType != eDosageMenu) {
+//                        tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+//                        } else {
+//                            tableView.deleteSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+//                        }
                     }
                     tableView.endUpdates()
                 //Todo : Uncomment for Split Daily.
-//                } else {
-//                    if (sectionCount == INITIAL_SECTION_COUNT) {
-//                        tableView.insertSections(sections, withRowAnimation: .Fade)
-//                    } else {
-//                        tableView.beginUpdates()
-//                        tableView.deleteSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
-//                        tableView.insertSections(sections, withRowAnimation: .Fade)
-//                        tableView.endUpdates()
-//                    }
-//                }
+                } else {
+                    if (sectionCount == INITIAL_SECTION_COUNT) {
+                        tableView.insertSections(sections, withRowAnimation: .Fade)
+                    } else {
+                        tableView.beginUpdates()
+                        tableView.deleteSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+                        tableView.insertSections(sections, withRowAnimation: .Fade)
+                        tableView.endUpdates()
+                    }
+                }
             }
         } else {
             self.displayDosageDetailViewControllerWithSelectedDetailType(indexPath)
@@ -338,9 +337,6 @@ import UIKit
                     let dosageDetailViewController : DCDosageConditionsViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_CONDITIONS_SBID) as? DCDosageConditionsViewController
                     self.navigationController?.pushViewController(dosageDetailViewController!, animated: true)
                     return ()
-//                    selectedDetailType = eConditions
-//                    dosageDetailViewController?.previousSelectedValue = valueForCondition
-//                    dosageDetailViewController?.detailType = eConditions
                 }
             default:
                 break
