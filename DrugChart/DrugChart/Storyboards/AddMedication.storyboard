@@ -877,8 +877,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="310" height="215"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="G0z-Ku-zVb">
-                                                    <rect key="frame" x="-5" y="0.0" width="320" height="216"/>
+                                                <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="G0z-Ku-zVb">
+                                                    <rect key="frame" x="5" y="0.0" width="300" height="215"/>
                                                     <date key="date" timeIntervalSinceReferenceDate="471520033.015104">
                                                         <!--2015-12-11 09:47:13 +0000-->
                                                     </date>
@@ -887,6 +887,12 @@
                                                     </connections>
                                                 </datePicker>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="G0z-Ku-zVb" firstAttribute="leading" secondItem="7Yt-J8-PRs" secondAttribute="leading" constant="5" id="KKX-wz-Bcv"/>
+                                                <constraint firstItem="G0z-Ku-zVb" firstAttribute="top" secondItem="7Yt-J8-PRs" secondAttribute="top" id="LSl-rh-Uzk"/>
+                                                <constraint firstAttribute="bottom" secondItem="G0z-Ku-zVb" secondAttribute="bottom" id="wwG-e0-z75"/>
+                                                <constraint firstAttribute="trailing" secondItem="G0z-Ku-zVb" secondAttribute="trailing" constant="5" id="xnx-2I-bR6"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="schedulingTimePickerView" destination="G0z-Ku-zVb" id="WOi-09-Qdp"/>
