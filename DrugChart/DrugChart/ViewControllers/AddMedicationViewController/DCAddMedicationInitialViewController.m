@@ -502,6 +502,7 @@
     if (pickerCell == nil) {
         pickerCell = [[DCDatePickerCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:pickerCellId];
     }
+    [pickerCell configureDatePickerProperties];
     return pickerCell;
 }
 
@@ -900,18 +901,23 @@
         if (indexPath.row == 1) {
             pickerCell.isStartDate = YES;
             pickerCell.datePicker.minimumDate = nil;
+            if (self.selectedMedication.startDate != nil) {
+                pickerCell.datePicker.date = [DCDateUtility dateFromSourceString: self.selectedMedication.startDate];
+            }
         } else {
             pickerCell.isStartDate = NO;
             if (self.selectedMedication.startDate != nil) {
                  pickerCell.datePicker.minimumDate = [DCDateUtility dateFromSourceString: self.selectedMedication.startDate];
+            }
+            if (self.selectedMedication.endDate != nil) {
+                pickerCell.datePicker.date = [DCDateUtility dateFromSourceString: self.selectedMedication.endDate];
             }
         }
         __weak DCDatePickerCell *weakPickerCell = pickerCell;
         pickerCell.selectedDate = ^ (NSDate *date) {
             NSIndexPath *indexPathToUpdate = [NSIndexPath indexPathForRow:indexPath.row - 1 inSection:indexPath.section];
             DCDateTableViewCell *dateCell = [self updatedDateAndTimeCellatIndexPath:indexPathToUpdate];
-            NSDate *dateInCurrentZone = [DCDateUtility dateInCurrentTimeZone:date];
-            NSString *dateString = [DCDateUtility dateStringFromDate:dateInCurrentZone inFormat:START_DATE_FORMAT];
+            NSString *dateString = [DCDateUtility dateStringFromDate:date inFormat:START_DATE_FORMAT];
             [dateCell configureContentCellWithContent:dateString];
             if (weakPickerCell.isStartDate) {
                 self.selectedMedication.startDate = dateString;

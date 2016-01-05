@@ -8,14 +8,6 @@
 
 #import "DCDatePickerCell.h"
 
-//@interface DCDatePickerCell () {
-//    
-//    __weak IBOutlet UIDatePicker *datePicker;
-//    
-//}
-//
-//@end
-
 @implementation DCDatePickerCell
 
 - (void)awakeFromNib {
@@ -26,6 +18,13 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+- (void)configureDatePickerProperties {
+    
+    //configure picker properties
+    //_datePicker.locale = [NSLocale systemLocale];
+    _datePicker.timeZone = [NSTimeZone timeZoneWithAbbreviation:GMT];
 }
 
 - (IBAction)datePickerValueChanged:(id)sender {
