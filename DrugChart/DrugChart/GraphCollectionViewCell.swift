@@ -21,4 +21,17 @@ class GraphCollectionnViewCell : UICollectionViewCell
     {
         graphView.plotBarGraph(xAxisValue, yAxisMinValue: yAxisMinValue ,yAxisMaxValue: yAxisMaxValue ,displayView:displayView, graphTitle:graphTitle ,graphStartDate:graphStartDate , graphEndDate: graphEndDate, latestReadingText:latestReadingText , latestReadingDate:latestReadingDate)
     }
+    
+    //Mark : tap functionality
+    func registerSingleTap()
+    {
+        // add the single tap gesture
+        let tap = UITapGestureRecognizer(target: self, action: "showIndividualGraph")
+        tap.numberOfTapsRequired = 1
+        self.addGestureRecognizer(tap)
+    }
+    
+    func showIndividualGraph()
+    {}
+    
 }

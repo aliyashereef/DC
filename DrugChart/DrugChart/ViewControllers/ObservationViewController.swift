@@ -10,7 +10,7 @@ import UIKit
 
 
 
-    class ObservationViewController: UIViewController , ObservationDelegate {
+    class ObservationViewController: UIViewController  {
         @IBOutlet weak var observationSegmentedView: UISegmentedControl!
 
         @IBOutlet weak var childView: UIView!
@@ -25,7 +25,7 @@ import UIKit
             generalObservationView = (GeneralObservationView.instanceFromNib() as! GeneralObservationView)
             generalObservationView.observation = observation
         }
-        generalObservationView.delegate = self
+        //generalObservationView.delegate = self
         Helper.displayInChildView(generalObservationView, parentView: childView)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWasShown:"), name:UIKeyboardDidShowNotification, object: nil);

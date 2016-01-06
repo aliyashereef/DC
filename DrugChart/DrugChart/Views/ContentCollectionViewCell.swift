@@ -37,7 +37,7 @@ class ContentCollectionViewCell: UICollectionViewCell {
             observationDetails.configureView(observation, showobservatioType: showObservationType)
             let navigationController : UINavigationController? = UINavigationController(rootViewController: observationDetails)
             navigationController?.modalPresentationStyle = UIModalPresentationStyle.FormSheet
-            delegate?.EditObservation(navigationController!)
+            delegate?.ShowModalNavigationController(navigationController!)
         }
     }
 }

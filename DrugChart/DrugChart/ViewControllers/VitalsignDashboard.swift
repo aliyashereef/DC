@@ -117,15 +117,21 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
     }
     
     //Mark: Delegate Implementation
-    func EditObservation(navigationController:UINavigationController)
+    func ShowModalNavigationController(navigationController:UINavigationController)
     {
         self.presentViewController(navigationController, animated: false, completion: nil)
     }
     
-    func EditObservationViewController(viewController:UIViewController)
+    func ShowModalViewController(viewController:UIViewController)
     {
         self.presentViewController(viewController, animated: false, completion: nil)
     }
+
+    func PushViewController(navigationController:UIViewController)
+    {
+        self.navigationController?.pushViewController(navigationController, animated: false)
+    }
+
     
     func GetLatestObservation(dataType:DashBoardRow)->VitalSignObservation!
     {

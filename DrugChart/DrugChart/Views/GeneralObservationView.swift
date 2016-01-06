@@ -18,7 +18,6 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
     private var obsBM : BowelMovement?
     private var obsBP :BloodPressure?
     var observation:VitalSignObservation!
-    var delegate:ObservationDelegate? =  nil
     var showObservationType:ShowObservationType = ShowObservationType.All
     /*
     // Only override drawRect: if you perform custom drawing.

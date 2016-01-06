@@ -263,20 +263,23 @@
             </objects>
             <point key="canvasLocation" x="1803.5" y="1141.5"/>
         </scene>
-        <!--View Controller-->
+        <!--Single Line Graph Controller-->
         <scene sceneID="jHc-j7-nvd">
             <objects>
-                <viewController id="dLv-tL-MRS" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SingleLineGraphController" id="dLv-tL-MRS" customClass="SingleLineGraphController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="BHG-yr-mYb"/>
                         <viewControllerLayoutGuide type="bottom" id="bTH-i8-khh"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="y1w-7G-Od2">
+                    <view key="view" contentMode="scaleToFill" id="y1w-7G-Od2" customClass="LineGraphView" customModule="DrugChart" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="lineGraph" destination="y1w-7G-Od2" id="o75-B7-NQc"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h2n-rg-3Lt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

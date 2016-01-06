@@ -209,6 +209,7 @@
 		1FD4FD0B1BF4BAE000B77B94 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FD091BF4BAE000B77B94 /* Helper.swift */; };
 		1FD4FD101BF4BBCB00B77B94 /* ObservationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FD0E1BF4BBCB00B77B94 /* ObservationDelegate.swift */; };
 		1FD4FD111BF4BBCB00B77B94 /* RowSeletedDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD4FD0F1BF4BBCB00B77B94 /* RowSeletedDelegate.swift */; };
+		1FF1F8801C3D1E1E007F3B9C /* SingleLineGraphController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF1F87F1C3D1E1E007F3B9C /* SingleLineGraphController.swift */; };
 		263AE8A048794A9FC5DDF137 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95B692258EF6A48813AE6977 /* Pods.framework */; };
 		4D011C521BB14374005C79A2 /* MedicationHistory.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4D011C511BB14374005C79A2 /* MedicationHistory.storyboard */; };
 		4D011C581BB147D7005C79A2 /* DCMedicationHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D011C571BB147D7005C79A2 /* DCMedicationHistoryViewController.swift */; };
@@ -595,6 +596,7 @@
 		1FD4FD091BF4BAE000B77B94 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		1FD4FD0E1BF4BBCB00B77B94 /* ObservationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservationDelegate.swift; sourceTree = "<group>"; };
 		1FD4FD0F1BF4BBCB00B77B94 /* RowSeletedDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RowSeletedDelegate.swift; sourceTree = "<group>"; };
+		1FF1F87F1C3D1E1E007F3B9C /* SingleLineGraphController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleLineGraphController.swift; sourceTree = "<group>"; };
 		4D011C511BB14374005C79A2 /* MedicationHistory.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = MedicationHistory.storyboard; path = ../MedicationHistory.storyboard; sourceTree = "<group>"; };
 		4D011C571BB147D7005C79A2 /* DCMedicationHistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCMedicationHistoryViewController.swift; sourceTree = "<group>"; };
 		4D011C5A1BB15D6B005C79A2 /* DCAdminsteredMedicationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdminsteredMedicationCell.swift; sourceTree = "<group>"; };
@@ -2165,6 +2167,7 @@
 				1FB5D07C1C08681F00F9A2F7 /* CommaScoreViewController.swift */,
 				1F3C31771C0DE0CF007C6AE7 /* CalendarViewController.swift */,
 				1F5374FA1C19C57000D4A64F /* TabularViewController.swift */,
+				1FF1F87F1C3D1E1E007F3B9C /* SingleLineGraphController.swift */,
 			);
 			name = VitalSignViewController;
 			sourceTree = "<group>";
@@ -2859,6 +2862,7 @@
 				0B6DDB891BF5CFD700A61D14 /* DCSchedulingPickerCell.swift in Sources */,
 				4D011C581BB147D7005C79A2 /* DCMedicationHistoryViewController.swift in Sources */,
 				0B1589EB1AD52D3B005F3811 /* DCHTTPRequestOperationManager.m in Sources */,
+				1FF1F8801C3D1E1E007F3B9C /* SingleLineGraphController.swift in Sources */,
 				0BA40BB91B299D67005B80AD /* HTMLNode.m in Sources */,
 				1F19770E1BFDE75900106023 /* HeaderCollectionViewCell.swift in Sources */,
 				1F1977121BFDE77500106023 /* ContentCollectionViewCell.swift in Sources */,

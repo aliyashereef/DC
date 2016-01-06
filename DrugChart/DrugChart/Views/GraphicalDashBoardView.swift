@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionViewDelegate {
+class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionViewDelegate,ObservationDelegate {
 
     @IBOutlet weak var collectionView: UICollectionView!
     var observationList = [VitalSignObservation]()
@@ -174,6 +174,7 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
         case ChartType.LineChart:
             let cell=collectionView.dequeueReusableCellWithReuseIdentifier(lineChartIdentifier, forIndexPath: indexPath) as! LineGraphCell
             cell.drawLineGraph(xAxisValue, yAxisValue: yAxisValue , displayView: graphDisplayView ,graphTitle: cellTitle,graphStartDate:graphStartDate , graphEndDate:graphEndDate ,latestReadingText:latestObservationText , latestReadingDate:latestObservationDate)
+            cell.delegate = self
             return cell
         case ChartType.BarChart:
             let cell=collectionView.dequeueReusableCellWithReuseIdentifier(barChartIdentifier, forIndexPath: indexPath) as! BarGraphCell
@@ -203,5 +204,11 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
         collectionView.reloadData()
     }
     
+    
+    //Mark: Delegate Implementation
+    func PushViewController(navigationController:UIViewController)
+    {
+        delegate?.PushViewController(navigationController)
+    }
 
 }

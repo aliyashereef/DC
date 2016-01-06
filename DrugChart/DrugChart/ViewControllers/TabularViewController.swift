@@ -177,7 +177,7 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
         reloadView(observationList)
     }
     
-    func EditObservation(navigationController:UINavigationController)
+    func ShowModalNavigationController(navigationController:UINavigationController)
     {
         self.presentViewController(navigationController, animated: false, completion: nil)
     }
