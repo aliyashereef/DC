@@ -602,11 +602,6 @@
         case eDetailRoute:
             self.selectedMedication.route =  selectedValue;
             break;
-        case eDetailDosage:
-            if (![selectedValue isEqualToString:NSLocalizedString(@"ADD_NEW", @"")]) {
-                self.selectedMedication.dosage = selectedValue;
-            }
-            break;
         default:
             break;
     }

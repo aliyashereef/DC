@@ -13,7 +13,6 @@
 #import "DrugChart-Swift.h"
 
 #define DEFAULT_SECTION_COUNT                   1
-#define DOSAGE_SECTION_COUNT                    2
 #define ADMINISTRATION_TIME_SECTION_COUNT       2
 #define ROW_HEIGHT_OVERRIDE                     78.0f
 #define ROW_HEIGHT_DEFAULT                      44.0f
@@ -94,9 +93,6 @@
             break;
         case eDetailRoute:
             self.title = NSLocalizedString(@"ROUTES", @"");
-            break;
-        case eDetailDosage:
-            self.title = NSLocalizedString(@"DOSAGE", @"");
             break;
         case eDetailAdministrationTime:
             self.title = NSLocalizedString(@"ADMINISTRATING_TIME", @"");
@@ -218,9 +214,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
-    if (_detailType == eDetailDosage) {
-        return DOSAGE_SECTION_COUNT;
-    } else if (_detailType == eDetailAdministrationTime) {
+    if (_detailType == eDetailAdministrationTime) {
         return ADMINISTRATION_TIME_SECTION_COUNT;
     } else {
         return DEFAULT_SECTION_COUNT;
@@ -323,9 +317,7 @@
             }
         }
     } else {
-        if (_detailType == eDetailDosage) {
-            [self presentAddNewDosageView];
-        } else if (_detailType == eDetailAdministrationTime) {
+        if (_detailType == eDetailAdministrationTime) {
             [self displayAdministrationTimePickerView];
         }
     }
@@ -342,35 +334,23 @@
 - (IBAction)doneButtonPressed:(id)sender {
     
     doneClicked = YES;
-    if (_detailType == eDetailDosage || _detailType == eNewDosage) {
-        DCAddDosageCell *dosageCell = (DCAddDosageCell *)[detailTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-        if (![dosageCell.dosageTextField.text isEqualToString:EMPTY_STRING]) {
-            [_contentArray addObject:dosageCell.dosageTextField.text];
+    if (_detailType == eNewAdministrationTime) {
+        [self dismissViewControllerAnimated:YES completion:^{
+            self.newTime([DCDateUtility dateInCurrentTimeZone:timePickerView.date]);
+        }];
+    } else if (_detailType == eOverrideReason) {
+        DCReasonCell *reasonCell = (DCReasonCell *)[detailTableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
+        if (![reasonCell.reasonTextView.text isEqualToString:EMPTY_STRING] && ![reasonCell.reasonTextView.text isEqualToString:REASON]) {
             [self.navigationController dismissViewControllerAnimated:YES completion:^{
-                self.newDosage(dosageCell.dosageTextField.text);
+                if (self.delegate && [self.delegate respondsToSelector:@selector(overrideReasonSubmitted:)]) {
+                    [self.delegate overrideReasonSubmitted:reasonCell.reasonTextView.text];
+                }
             }];
         } else {
             [detailTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
         }
     } else {
-        if (_detailType == eNewAdministrationTime) {
-            [self dismissViewControllerAnimated:YES completion:^{
-                self.newTime([DCDateUtility dateInCurrentTimeZone:timePickerView.date]);
-            }];
-        } else if (_detailType == eOverrideReason) {
-            DCReasonCell *reasonCell = (DCReasonCell *)[detailTableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
-            if (![reasonCell.reasonTextView.text isEqualToString:EMPTY_STRING] && ![reasonCell.reasonTextView.text isEqualToString:REASON]) {
-                [self.navigationController dismissViewControllerAnimated:YES completion:^{
-                    if (self.delegate && [self.delegate respondsToSelector:@selector(overrideReasonSubmitted:)]) {
-                        [self.delegate overrideReasonSubmitted:reasonCell.reasonTextView.text];
-                    }
-                }];
-            } else {
-                [detailTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-            }
-        } else {
-            [self dismissViewControllerAnimated:YES completion:nil];
-        }
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
 
