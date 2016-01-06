@@ -196,7 +196,7 @@
             cell.titleLabel.textColor = [UIColor blackColor];
         }
     }
-    cell.titleLabel.text = NSLocalizedString(@"DOSAGE", @"Dosage cell title");
+    cell.titleLabel.text = NSLocalizedString(@"DOSE", @"Dosage cell title");
     cell.descriptionLabel.numberOfLines = 0;
     cell.descriptionLabel.text = self.selectedMedication.dosage;
     return cell;
@@ -659,10 +659,11 @@
     DCSchedulingInitialViewController *schedulingViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:SCHEDULING_INITIAL_STORYBOARD_ID];
     schedulingViewController.selectedSchedulingValue = ^ (DCScheduling *scheduling) {
         self.selectedMedication.scheduling = scheduling;
-    };
-    schedulingViewController.updatedTimeArray = ^ (NSMutableArray *timeArray) {
-        //self.selectedMedication.timeArray = [DCAddMedicationHelper timesArrayFromScheduleArray:timeArray];
-        self.selectedMedication.timeArray = timeArray;
+        if ([self.selectedMedication.scheduling.type isEqualToString:SPECIFIC_TIMES]) {
+            self.selectedMedication.timeArray = self.selectedMedication.scheduling.specificTimes.administratingTimesArray;
+        } else if ([self.selectedMedication.scheduling.type isEqualToString:INTERVAL]) {
+            self.selectedMedication.timeArray = self.selectedMedication.scheduling.interval.administratingTimes;
+        }
     };
     if (self.isEditMedication) {
         if (self.selectedMedication.scheduling == nil) {
@@ -670,10 +671,7 @@
         }
     }
     schedulingViewController.scheduling = self.selectedMedication.scheduling;
-    schedulingViewController.timeArray = self.selectedMedication.timeArray;
-    NSLog(@"%@",self.selectedMedication.timeArray);
     schedulingViewController.validate = doneClicked;
-    
     [self.navigationController pushViewController:schedulingViewController animated:YES];
 }
 
@@ -944,7 +942,7 @@
             cell.titleLabel.textColor = [UIColor blackColor];
         }
     }
-    cell.titleLabel.text = NSLocalizedString(@"DOSAGE", @"Dose cell title");
+    cell.titleLabel.text = NSLocalizedString(@"DOSE", @"Dose cell title");
     [cell configureContentCellWithContent:self.selectedMedication.dosage];
     return cell;
 }

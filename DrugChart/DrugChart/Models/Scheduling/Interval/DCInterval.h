@@ -18,5 +18,6 @@
 @property (nonatomic, strong) NSString *startTime;
 @property (nonatomic, strong) NSString *endTime;
 @property (nonatomic, strong) NSString *intervalDescription;
+@property (nonatomic, strong) NSMutableArray *administratingTimes;
 
 @end
