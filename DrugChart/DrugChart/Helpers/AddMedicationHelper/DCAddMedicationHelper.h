@@ -90,7 +90,10 @@ typedef enum : NSUInteger {
 
 + (NSString *)considatedFrequencyDescriptionFromString:(NSString *)description;
 
-+ (CGFloat)tableViewScrollHeightForTableViewContentHeight:(CGFloat)contentHeight
-                                           keyboardHeight:(CGFloat)height;
++ (CGFloat)textContentHeightForDosage:(NSString *)dosage;
+
++ (void)configureAddMedicationCellLabel:(UILabel *)label
+                   forContentText:(NSString *)content;
+
 
 @end

@@ -180,10 +180,21 @@
     return description;
 }
 
-//+ (CGFloat)tableViewScrollHeightForTableViewContentHeight:(CGFloat)contentHeight
-//                                           keyboardHeight:(CGFloat)height {
-//    
-//    
-//}
++ (CGFloat)textContentHeightForDosage:(NSString *)dosage {
+    
+    CGSize textSize = [DCUtility textViewSizeWithText:dosage maxWidth:258 font:[UIFont systemFontOfSize:15]];
+    return textSize.height + 40; // padding size of 40
+}
+
++ (void)configureAddMedicationCellLabel:(UILabel *)label
+                         forContentText:(NSString *)content {
+    
+    //configure medication cell label text
+    if ([content isEqualToString:EMPTY_STRING] || content == nil) {
+        label.textColor = [UIColor redColor];
+    } else {
+        label.textColor = [UIColor blackColor];
+    }
+}
 
 @end

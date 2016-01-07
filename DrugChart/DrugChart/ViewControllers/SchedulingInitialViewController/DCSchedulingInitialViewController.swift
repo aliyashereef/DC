@@ -229,7 +229,9 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
                 schedulingDescription = DCSchedulingHelper.scheduleDescriptionForSpecificTimesRepeatValue((scheduling?.specificTimes?.repeatObject)!, administratingTimes: (scheduling?.specificTimes?.administratingTimesArray!)!)
                 scheduling?.specificTimes?.specificTimesDescription = schedulingDescription as String
             } else {
-                schedulingDescription = (scheduling?.specificTimes?.specificTimesDescription)!
+                if let description = scheduling?.specificTimes?.specificTimesDescription {
+                    schedulingDescription = description
+                }
             }
         }
         if schedulingDescription != EMPTY_STRING {
