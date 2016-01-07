@@ -284,7 +284,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             }
             cell.detailLabel.text = dateString
             break
-        case RowCount.eThirdRow.rawValue:
+        case RowCount.eThirdRow.rawValue,RowCount.eFourthRow.rawValue:
+
             //present inline picker here
             cell.titleLabel.text = NSLocalizedString("CHECKED_BY", comment: "Checked by title")
             cell.detailLabel.text = (medicationSlot?.medicationAdministration?.checkingUser?.displayName != nil) ? (medicationSlot?.medicationAdministration?.checkingUser?.displayName) : EMPTY_STRING
@@ -751,8 +752,12 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     // MARK: BatchNumberCellDelegate Methods
     
      func batchNumberFieldSelectedAtIndexPath(indexPath: NSIndexPath) {
-        
-        self.administerTableView.setContentOffset(CGPointMake(0, 110), animated: true)
+//        let pickerIndexPath :NSIndexPath = NSIndexPath(forRow: 3, inSection: 1)
+        if hasInlineDatePicker() {
+            self.administerTableView.setContentOffset(CGPointMake(0, 180), animated: true)
+        } else {
+            self.administerTableView.setContentOffset(CGPointMake(0, 110), animated: true)
+        }
         editingIndexPath = indexPath
     }
     
@@ -767,9 +772,17 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         
         editingIndexPath = indexPath
         if(medicationSlot?.medicationAdministration?.status == ADMINISTERED) {
-            self.administerTableView.setContentOffset(CGPointMake(0, 180), animated: true)
+            if hasInlineDatePicker(){
+                self.administerTableView.setContentOffset(CGPointMake(0, 320), animated: true)
+            } else {
+                self.administerTableView.setContentOffset(CGPointMake(0, 180), animated: true)
+            }
         } else {
-            self.administerTableView.setContentOffset(CGPointMake(0, 80), animated: true)
+            if hasInlineDatePicker(){
+                self.administerTableView.setContentOffset(CGPointMake(0, 180), animated: true)
+            } else {
+                self.administerTableView.setContentOffset(CGPointMake(0, 80), animated: true)
+            }
         }
         if (editing == true && keyboardHeight != nil) {
             //animateAdministerTableViewUpWhenKeyboardShows()
@@ -805,7 +818,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     // MARK: NamesList Delegate Methods
     
     func selectedUserEntry(user : DCUser!) {
-            if (popOverIndexPath?.row == RowCount.eZerothRow.rawValue) {
+            if (popOverIndexPath?.row == RowCount.eFirstRow.rawValue) {
                 //administered by
                 medicationSlot?.medicationAdministration?.administratingUser = user
                 if user.displayName != SELF_ADMINISTERED {
@@ -851,7 +864,13 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func securityPinMatchedForUser(user: DCUser) {
         
         medicationSlot?.medicationAdministration?.checkingUser = user
-        administerTableView.reloadRowsAtIndexPaths([popOverIndexPath!], withRowAnimation: UITableViewRowAnimation.None)
+        print(popOverIndexPath?.row)
+        if hasInlineDatePicker() {
+            let pickerIndexPath :NSIndexPath = NSIndexPath(forRow: 4, inSection: 1)
+            administerTableView.reloadRowsAtIndexPaths([pickerIndexPath], withRowAnimation: UITableViewRowAnimation.None)
+        } else {
+            administerTableView.reloadRowsAtIndexPaths([popOverIndexPath!], withRowAnimation: UITableViewRowAnimation.None)
+        }
     }
     
     //MARK : Keyboard Delegate Methods
