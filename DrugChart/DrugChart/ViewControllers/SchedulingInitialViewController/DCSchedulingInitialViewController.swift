@@ -29,7 +29,7 @@ let PREVIEW_SECTION_INDEX : NSInteger = 2
 
 typealias SelectedScheduling = DCScheduling? -> Void
 
-class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, InstructionCellDelegate, AddMedicationDetailDelegate, SchedulingTimeCellDelegate, SchedulingDetailDelegate {
+class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, AddMedicationDetailDelegate, SchedulingTimeCellDelegate, SchedulingDetailDelegate {
 
     @IBOutlet weak var schedulingTableView: UITableView!
     
@@ -220,7 +220,6 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         // description cell
         
         let descriptionCell = schedulingTableView.dequeueReusableCellWithIdentifier(SCHEDULING_DESCRIPTION_CELL_ID) as? DCSchedulingDescriptionTableCell
-        descriptionCell!.delegate = self;
         descriptionCell?.populatePlaceholderForFieldIsInstruction(false)
         var schedulingDescription : NSString = EMPTY_STRING
         if (scheduling?.type == INTERVAL) {
@@ -658,31 +657,6 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
             }
         }
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-    }
-    
-    //MARK: Description Delegate Methods
-    
-    func closeInlineDatePickers () {
-        
-    }
-    
-    func scrollTableViewToTextViewCellIfInstructionField(isInstruction: Bool) {
-        
-        var scrollOffset = CGPointMake(0, 90)
-        if (tableViewHasInlinePickerForSection(1)) {
-            scrollOffset = CGPointMake(0, TIME_PICKER_CELL_HEIGHT + 90)
-        }
-        schedulingTableView.setContentOffset(scrollOffset, animated: true)
-    }
-    
-    func updateTextViewText(instructions: String!, isInstruction: Bool) {
-        
-        //self.scheduling?.schedulingDescription = instructions
-        if (scheduling?.type == SPECIFIC_TIMES) {
-            self.scheduling?.specificTimes?.specificTimesDescription = instructions
-        } else {
-            self.scheduling?.interval?.intervalDescription = instructions
-        }
     }
     
     //MARK: Add Medication Detail Delegate Methods

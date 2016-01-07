@@ -180,5 +180,10 @@
     return description;
 }
 
+//+ (CGFloat)tableViewScrollHeightForTableViewContentHeight:(CGFloat)contentHeight
+//                                           keyboardHeight:(CGFloat)height {
+//    
+//    
+//}
 
 @end
