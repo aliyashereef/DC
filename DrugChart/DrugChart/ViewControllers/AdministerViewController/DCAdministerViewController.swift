@@ -811,7 +811,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 if user.displayName != SELF_ADMINISTERED {
                     medicationSlot?.medicationAdministration?.isSelfAdministered = false
                 }
-            } else if (popOverIndexPath?.row == RowCount.eSecondRow.rawValue) {
+            } else {
                 //checked by
                 if (user == DEFAULT_NURSE_NAME) {
                     medicationSlot?.medicationAdministration?.checkingUser = user
