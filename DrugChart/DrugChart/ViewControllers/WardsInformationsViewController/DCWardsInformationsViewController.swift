@@ -122,8 +122,6 @@ class DCWardsInformationsViewController: DCBaseViewController, WardSelectionDele
         patientListViewController!.cancelSearching()
         selectedIndexPath = NSIndexPath.init(forRow: row, inSection: 0)
         patientListViewController!.selectedIndexPath = NSIndexPath.init(forRow: row, inSection: 0)
-        viewTitle = self.wardsListArray.objectAtIndex(self.selectedIndexPath.row).wardName as NSString
-        self.navigationItem.title = viewTitle as String
         patientListViewController!.fetchPatientDetails()
     }
 

@@ -52,8 +52,10 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-
-    }
+        let indexPath : NSIndexPath = NSIndexPath.init(forItem: 5, inSection: 0)
+        calendarStripCollectionView .scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: false)
+        scrolledProgramatically = true
+}
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillAppear(animated)

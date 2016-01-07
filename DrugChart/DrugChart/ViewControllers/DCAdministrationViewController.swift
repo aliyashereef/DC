@@ -49,9 +49,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         self.title = dateString
         // Navigation bar done button
         let doneButton : UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: "doneButtonPressed")
-        let negativeSpace:UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FixedSpace, target: nil, action: nil)
-        negativeSpace.width = -7.0
-        self.navigationItem.leftBarButtonItems = [negativeSpace, doneButton]
+        self.navigationItem.leftBarButtonItems = [doneButton]
     }
     
     func configureMedicationStatusInCell (medication : DCMedicationSlot) -> NSString {

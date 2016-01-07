@@ -142,10 +142,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         // Navigation bar done button
         saveButton = UIBarButtonItem(title: "Save", style: UIBarButtonItemStyle.Plain, target: self, action: "saveButtonPressed")
         cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: "cancelButtonPressed")
-        let negativeSpace:UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FixedSpace, target: nil, action: nil)
-        negativeSpace.width = -7.0
-        self.navigationItem.leftBarButtonItems = [negativeSpace,cancelButton!]
-        self.navigationItem.rightBarButtonItems = [negativeSpace,saveButton!]
+        self.navigationItem.leftBarButtonItems = [cancelButton!]
+        self.navigationItem.rightBarButtonItems = [saveButton!]
     }
 
     func addNotifications() {
