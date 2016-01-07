@@ -34,9 +34,6 @@
         textView.textColor = [UIColor blackColor];
         textView.text = EMPTY_STRING;
     }
-    if (self.delegate && [self.delegate respondsToSelector:@selector(scrollTableViewToTextViewCellIfInstructionField:)]) {
-        [self.delegate scrollTableViewToTextViewCellIfInstructionField:_isInstruction];
-    }
 }
 
 - (void)textViewDidChange:(UITextView *)textView {

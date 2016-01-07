@@ -146,7 +146,7 @@ class DCSchedulingHelper: NSObject {
         switch repeatValue.repeatType {
             case DAILY :
                 if (activeAdministratingTimes.count > 0) {
-                    descriptionText.appendFormat("Medication will be administered")
+                    descriptionText.appendFormat(NSLocalizedString("SCHEDULING_GENERAL_DESCRIPTION", comment: ""))
                     descriptionText.appendFormat(" %@ every", timesCountString)
                 } else {
                     descriptionText = NSMutableString(string: NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
@@ -182,7 +182,7 @@ class DCSchedulingHelper: NSObject {
         
         //description for weekly Specific Times
         let descriptionText : NSMutableString = NSMutableString()
-        descriptionText.appendFormat("Medication will be administered")
+        descriptionText.appendFormat(NSLocalizedString("SCHEDULING_GENERAL_DESCRIPTION", comment: ""))
         var weekDays = repeatValue.weekDays as NSArray as? [String]
         var weeksString : String = ""
         if (weekDays?.count > 1) {
@@ -212,7 +212,7 @@ class DCSchedulingHelper: NSObject {
     
     //description text for yearly specific times scheduling for each and on the cases
         let descriptionText : NSMutableString = NSMutableString()
-        descriptionText.appendFormat("Medication will be administered")
+        descriptionText.appendFormat(NSLocalizedString("SCHEDULING_GENERAL_DESCRIPTION", comment: ""))
         if (times.count > 0) {
             descriptionText.appendFormat(" %@ a day", timesString)
         }
@@ -260,7 +260,7 @@ class DCSchedulingHelper: NSObject {
         
         //decription for monthly Specific times for each & on the cases
         let descriptionText : NSMutableString = NSMutableString()
-        descriptionText.appendFormat("Medication will be administered")
+        descriptionText.appendFormat(NSLocalizedString("SCHEDULING_GENERAL_DESCRIPTION", comment: ""))
         if (times.count > 0) {
             descriptionText.appendFormat(" %@ a day", timesString)
         }

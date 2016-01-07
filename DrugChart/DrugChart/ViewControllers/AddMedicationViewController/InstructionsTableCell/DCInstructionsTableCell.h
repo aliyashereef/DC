@@ -11,7 +11,6 @@
 @protocol InstructionCellDelegate <NSObject>
 
 - (void)closeInlineDatePickers;
-- (void)scrollTableViewToTextViewCellIfInstructionField:(BOOL)isInstruction;
 - (void)updateTextViewText:(NSString *)instructions isInstruction:(BOOL)isInstruction;
 
 @end
