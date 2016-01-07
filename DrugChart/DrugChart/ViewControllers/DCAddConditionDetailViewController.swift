@@ -8,7 +8,7 @@
 
 import UIKit
 
-typealias ValueForDoseSelected = NSString? -> Void
+typealias ValueForDoseSelected = String? -> Void
 
 class DCAddConditionDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
@@ -94,6 +94,8 @@ class DCAddConditionDetailViewController: UIViewController, UITableViewDataSourc
                 self.valueForDoseSelected(doseArrayForUntil[indexPath.row])
             }
             self.navigationController?.popViewControllerAnimated(true)
+        case 1:
+            self.transitToAddNewDoseScreen()
         default:
             break
         }
@@ -104,14 +106,19 @@ class DCAddConditionDetailViewController: UIViewController, UITableViewDataSourc
         return 44
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // MARK: - Private Methods
+    
+    func transitToAddNewDoseScreen() {
+        
+        let addNewDosageViewController : DCAddNewDoseAndTimeViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(ADD_NEW_DOSE_TIME_SBID) as? DCAddNewDoseAndTimeViewController
+        addNewDosageViewController?.detailType = eAddNewDose
+        addNewDosageViewController!.newDosageEntered = { value in
+            self.valueForDoseSelected("\(value!) mg")
+            self.navigationController?.popViewControllerAnimated(true)
+        }
+        let navigationController: UINavigationController = UINavigationController(rootViewController: addNewDosageViewController!)
+        navigationController.modalPresentationStyle = UIModalPresentationStyle.CurrentContext
+        self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
     }
-    */
-
+    
 }

@@ -133,6 +133,7 @@
 #define ADD_CONDITION_SBID @"AddConditions"
 #define ADD_CONDITION_DETAIL_SBID @"AddConditionDetail"
 #define ADD_NEW_DOSE_TIME_SBID @"AddNewViewController"
+#define DOSAGE_UNIT_SELECTION_SBID @"DosageUnitSelection"
 #define WARDS_INFORMATION_SBID @"wardsInformationViewController"
 
 

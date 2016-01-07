@@ -70,7 +70,7 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
         case 1:
             let addConditionViewController : DCAddConditionViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(ADD_CONDITION_SBID) as? DCAddConditionViewController
             addConditionViewController?.newConditionEntered = { value in
-                self.conditionsItemsArray.append(value as! String)
+                self.conditionsItemsArray.append(value!)
                 tableView.reloadData()
             }
             let navigationController: UINavigationController = UINavigationController(rootViewController: addConditionViewController!)

@@ -97,6 +97,9 @@
                                                     <rect key="frame" x="16" y="0.0" width="294" height="43"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <textInputTraits key="textInputTraits"/>
+                                                    <connections>
+                                                        <action selector="textFieldStringDidChange:" destination="erb-tV-nGq" eventType="editingChanged" id="DhO-05-Rhb"/>
+                                                    </connections>
                                                 </textField>
                                             </subviews>
                                             <constraints>
@@ -109,6 +112,15 @@
                                         <connections>
                                             <outlet property="requiredDailyDoseTextField" destination="GnW-tM-8oY" id="Elo-xs-CXq"/>
                                         </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="headerCell" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationWidth="10" reuseIdentifier="headerCell" id="05k-dI-ar0" customClass="DCDosageSelectionTableViewCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="182" width="310" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="05k-dI-ar0" id="Z0T-VO-MXi">
+                                            <rect key="frame" x="0.0" y="0.0" width="310" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -836,7 +848,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="310" height="600"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="dosageConditionCell" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationWidth="10" reuseIdentifier="conditionMenuCell" id="S6z-CU-WxK" customClass="DCDosageUnitSelectionTableViewCell" customModule="DrugChart" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="dosageConditionCell" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationWidth="10" reuseIdentifier="dosageDetailCell" id="S6z-CU-WxK" customClass="DCDosageUnitSelectionTableViewCell" customModule="DrugChart" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="50" width="310" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="S6z-CU-WxK" id="KhT-cq-yuf">
@@ -863,6 +875,10 @@
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="9gh-iC-r8H" id="3Jg-Vy-A2w"/>
+                                    <outlet property="delegate" destination="9gh-iC-r8H" id="lxT-cQ-7uC"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
