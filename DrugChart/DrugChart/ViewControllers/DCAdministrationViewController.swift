@@ -122,15 +122,6 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
             return configureAdministrationStatusCellAtIndexPath(indexPath)
         }
     }
-
-    // MARK: Header View Methods
-//        func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        switch section {
-//        case 1: return 20.0
-//        default : break
-//        }
-//        return 0
-//    }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
@@ -231,22 +222,4 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         medicationHistoryViewController?.medicationSlotArray = [medicationSlotsArray[index]]
         self.navigationController?.pushViewController(medicationHistoryViewController!, animated: true)
     }
-    
-    func checkIfFrequentAdministrationForWhenRequiredMedication () {
-        
-        //check if frequent administration for when required medication
-        if (medicationSlotsArray.count > 0) {
-            let previousMedicationSlot : DCMedicationSlot? = medicationSlotsArray.last
-            let currentSystemDate : NSDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
-            let nextMedicationTimeInterval : NSTimeInterval? = currentSystemDate.timeIntervalSinceDate((previousMedicationSlot?.time)!)
-            if (nextMedicationTimeInterval <= 2*60*60) {
-                slotToAdminister?.medicationAdministration.isEarlyAdministration = true
-                slotToAdminister?.medicationAdministration.isWhenRequiredEarlyAdministration = true
-            } else {
-                slotToAdminister?.medicationAdministration.isEarlyAdministration = false
-                slotToAdminister?.medicationAdministration.isWhenRequiredEarlyAdministration = false
-            }
-        }
-    }
-
 }
