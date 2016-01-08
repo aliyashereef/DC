@@ -275,6 +275,13 @@ import UIKit
         }
     }
     
+    func tableView(tableView: UITableView,
+        editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+        let delete = UITableViewRowAction(style: .Default, title: "Delete") { action, index in
+            }
+            return [delete]
+    }
+    
     // MARK: - Private Methods
     
     func checkWhetherRowAlreadySelected (indexPath : NSIndexPath) {
