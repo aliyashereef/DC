@@ -49,7 +49,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         self.title = dateString
         // Navigation bar done button
         let doneButton : UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: "doneButtonPressed")
-        self.navigationItem.leftBarButtonItem = doneButton
+        self.navigationItem.leftBarButtonItems = [doneButton]
     }
     
     func configureMedicationStatusInCell (medication : DCMedicationSlot) -> NSString {
@@ -80,6 +80,12 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
     func initialiseMedicationSlotToAdministerObject () {
         //initialise medication slot to administer object
         slotToAdminister = DCMedicationSlot.init()
+
+        if (medicationDetails?.medicineCategory == WHEN_REQUIRED) {
+            slotToAdminister?.time = DCDateUtility.dateInCurrentTimeZone(NSDate())
+            medicationSlotsArray.append(slotToAdminister!)
+        }
+
         if (medicationSlotsArray.count > 0) {
             for slot : DCMedicationSlot in medicationSlotsArray {
                 if (slot.medicationAdministration?.actualAdministrationTime == nil) {
@@ -114,16 +120,6 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
             return configureAdministrationStatusCellAtIndexPath(indexPath)
         }
     }
-
-    // MARK: Header View Methods
-        func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        switch section {
-        case 0: return 0.0
-        case 1: return 40.0
-        default : break
-        }
-        return 0
-    }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
@@ -147,10 +143,6 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
             cell!.administrationStatusLabel.textColor = UIColor(forHexString:"#4A90E2")
         }
         cell?.administrationTimeLabel.text =  DCDateUtility.dateStringFromDate(medicationSlot.time, inFormat: TWENTYFOUR_HOUR_FORMAT)
-        if indexPath.row == medicationSlotsArray.count - 1 {
-            cell?.separatorInset = UIEdgeInsetsZero
-            cell?.layoutMargins = UIEdgeInsetsZero
-        }
         return cell!
     }
     
@@ -163,6 +155,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         if (indexPath.section == 0) {
             addBNFView()

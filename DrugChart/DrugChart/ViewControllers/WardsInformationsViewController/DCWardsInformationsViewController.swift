@@ -8,13 +8,6 @@
 
 import UIKit
 
-//#define WARDS_INFORMATION_SBID @"wardsInformationViewController"
-
-//protocol DCWardsInformationDelegate {
-//    
-//    func wardSelectionChanged (changedWardName : NSString)
-//}
-
 class DCWardsInformationsViewController: DCBaseViewController, WardSelectionDelegate  {
     
     var viewTitle : NSString!
@@ -105,9 +98,13 @@ class DCWardsInformationsViewController: DCBaseViewController, WardSelectionDele
         
         if (graphicalDisplayShown) {
             self.view.bringSubviewToFront(patientListViewController!.view)
+//            let wardsListImage: UIImage = UIImage(named: "WardsListing")!
+//            self.navigationItem.rightBarButtonItem?.setBackgroundImage(wardsListImage, forState: .Normal, barMetrics: .Default)
             graphicalDisplayShown = false
         }
         else {
+//            let wardsGraphicalImage: UIImage = UIImage(named: "graphicDisplayImage")!
+//            self.navigationItem.rightBarButtonItem?.setBackgroundImage(wardsGraphicalImage, forState: .Normal, barMetrics: .Default)
             if ((wardsGraphicalDisplayViewController) != nil) {
                 self.view.bringSubviewToFront(wardsGraphicalDisplayViewController!.view)
             }
@@ -121,6 +118,7 @@ class DCWardsInformationsViewController: DCBaseViewController, WardSelectionDele
     //MARK: ward selection delegate
     
     func newWardSelected(row: NSInteger) {
+        
         patientListViewController!.cancelSearching()
         selectedIndexPath = NSIndexPath.init(forRow: row, inSection: 0)
         patientListViewController!.selectedIndexPath = NSIndexPath.init(forRow: row, inSection: 0)

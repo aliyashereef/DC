@@ -8,18 +8,13 @@
 
 #import "DCAddMedicationDetailViewController.h"
 #import "DCPlistManager.h"
-#import "DCAddDosageCell.h"
 #import "DCAddMedicationInitialViewController.h"
 #import "DrugChart-Swift.h"
 
 #define DEFAULT_SECTION_COUNT                   1
-#define DOSAGE_SECTION_COUNT                    2
 #define ADMINISTRATION_TIME_SECTION_COUNT       2
 #define ROW_HEIGHT_OVERRIDE                     78.0f
 #define ROW_HEIGHT_DEFAULT                      44.0f
-#define SECTION_HEIGHT_OVERRIDE                 55.0f
-#define INITIAL_SECTION_HEIGHT                  0.0f
-#define SECTION_HEIGHT                          10.0f
 
 #define TIME_KEY                 @"time"
 #define SELECTED_KEY             @"selected"
@@ -40,7 +35,6 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    self.navigationController.navigationBar.topItem.title = @"";
     [self configureViewElements];
 }
 
@@ -98,14 +92,8 @@
         case eDetailRoute:
             self.title = NSLocalizedString(@"ROUTES", @"");
             break;
-        case eDetailDosage:
-            self.title = NSLocalizedString(@"DOSAGE", @"");
-            break;
         case eDetailAdministrationTime:
             self.title = NSLocalizedString(@"ADMINISTRATING_TIME", @"");
-            break;
-        case eNewDosage:
-            self.title = NSLocalizedString(@"ADD_DOSAGE", @"");
             break;
         case eOverrideReason:
             self.title = NSLocalizedString(@"REASON", @"");
@@ -121,7 +109,7 @@
 - (void)addNavigationBarButtonItems {
     
     //navigation bar button items
-    if (_detailType == eNewDosage || _detailType == eNewAdministrationTime || _detailType == eOverrideReason) {
+    if (_detailType == eNewAdministrationTime || _detailType == eOverrideReason) {
         UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:CANCEL_BUTTON_TITLE  style:UIBarButtonItemStylePlain target:self action:@selector(cancelButtonPressed:)];
         self.navigationItem.leftBarButtonItem = cancelButton;
         UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]
@@ -150,25 +138,6 @@
         default:
             break;
     }
-}
-
-- (void)presentAddNewDosageView {
-    
-    UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
-    DCAddMedicationDetailViewController *detailViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:ADD_MEDICATION_DETAIL_STORYBOARD_ID];
-    detailViewController.detailType = eNewDosage;
-    detailViewController.newDosage = ^ (NSString *dosage){
-        _previousFilledValue = dosage;
-        [_contentArray addObject:dosage];
-        [detailTableView reloadData];
-        if (self.delegate && [self.delegate respondsToSelector:@selector(newDosageAdded:)]) {
-            [self.delegate newDosageAdded:dosage];
-        }
-    };
-    UINavigationController *navigationController =
-    [[UINavigationController alloc] initWithRootViewController:detailViewController];
-    navigationController.modalPresentationStyle = UIModalPresentationCurrentContext;
-    [self.navigationController presentViewController:navigationController animated:YES completion:nil];
 }
 
 - (void)displayAdministrationTimePickerView {
@@ -221,9 +190,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
-    if (_detailType == eDetailDosage) {
-        return DOSAGE_SECTION_COUNT;
-    } else if (_detailType == eDetailAdministrationTime) {
+    if (_detailType == eDetailAdministrationTime) {
         return ADMINISTRATION_TIME_SECTION_COUNT;
     } else {
         return DEFAULT_SECTION_COUNT;
@@ -233,7 +200,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     if (section == 0) {
-        if (_detailType == eNewDosage || _detailType == eOverrideReason) {
+        if (_detailType == eOverrideReason) {
             return 1;
         } else {
             return [_contentArray count];
@@ -245,15 +212,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (_detailType == eNewDosage) {
-        static NSString *cellIdentifier =  ADD_DOSAGE_CELL_IDENTIFIER;
-        DCAddDosageCell *cell = [detailTableView dequeueReusableCellWithIdentifier:cellIdentifier];
-        if (cell == nil) {
-            cell = [[DCAddDosageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-        }
-        cell.dosageTextField.attributedPlaceholder = [DCUtility dosagePlaceHolderForValidState:doneClicked];
-        return cell;
-    } else if (_detailType == eOverrideReason) {
+    if (_detailType == eOverrideReason) {
         static NSString *cellIdentifier = OVERRIDE_REASON_CELL_ID;
         DCReasonCell *reasonCell = [detailTableView dequeueReusableCellWithIdentifier:cellIdentifier];
         if (reasonCell == nil) {
@@ -279,7 +238,7 @@
                 cell.textLabel.text = content;
                 NSRange range = [content rangeOfString:@" "];
                 NSString *croppedString = [content substringToIndex:range.location];
-                cell.accessoryType = [croppedString isEqualToString:_previousFilledValue] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+                cell.accessoryType = [_previousFilledValue containsString:croppedString] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
             } else {
                 NSString *content = [_contentArray objectAtIndex:indexPath.row];
                 cell.textLabel.text = content;
@@ -289,21 +248,9 @@
             if (_detailType == eDetailAdministrationTime) {
                 cell.textLabel.text = NSLocalizedString(@"ADD_TIME", @"");
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            } else {
-                cell.textLabel.text = NSLocalizedString(@"ADD_DOSAGE", @"");
-                cell.accessoryType = UITableViewCellAccessoryNone;
             }
          }
         return cell;
-    }
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    
-    if (section == 0) {
-        return (_detailType == eOverrideReason ? SECTION_HEIGHT_OVERRIDE : INITIAL_SECTION_HEIGHT);
-    } else {
-        return SECTION_HEIGHT;
     }
 }
 
@@ -335,9 +282,7 @@
             }
         }
     } else {
-        if (_detailType == eDetailDosage) {
-            [self presentAddNewDosageView];
-        } else if (_detailType == eDetailAdministrationTime) {
+        if (_detailType == eDetailAdministrationTime) {
             [self displayAdministrationTimePickerView];
         }
     }
@@ -354,35 +299,23 @@
 - (IBAction)doneButtonPressed:(id)sender {
     
     doneClicked = YES;
-    if (_detailType == eDetailDosage || _detailType == eNewDosage) {
-        DCAddDosageCell *dosageCell = (DCAddDosageCell *)[detailTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-        if (![dosageCell.dosageTextField.text isEqualToString:EMPTY_STRING]) {
-            [_contentArray addObject:dosageCell.dosageTextField.text];
+    if (_detailType == eNewAdministrationTime) {
+        [self dismissViewControllerAnimated:YES completion:^{
+            self.newTime([DCDateUtility dateInCurrentTimeZone:timePickerView.date]);
+        }];
+    } else if (_detailType == eOverrideReason) {
+        DCReasonCell *reasonCell = (DCReasonCell *)[detailTableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
+        if (![reasonCell.reasonTextView.text isEqualToString:EMPTY_STRING] && ![reasonCell.reasonTextView.text isEqualToString:REASON]) {
             [self.navigationController dismissViewControllerAnimated:YES completion:^{
-                self.newDosage(dosageCell.dosageTextField.text);
+                if (self.delegate && [self.delegate respondsToSelector:@selector(overrideReasonSubmitted:)]) {
+                    [self.delegate overrideReasonSubmitted:reasonCell.reasonTextView.text];
+                }
             }];
         } else {
             [detailTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
         }
     } else {
-        if (_detailType == eNewAdministrationTime) {
-            [self dismissViewControllerAnimated:YES completion:^{
-                self.newTime([DCDateUtility dateInCurrentTimeZone:timePickerView.date]);
-            }];
-        } else if (_detailType == eOverrideReason) {
-            DCReasonCell *reasonCell = (DCReasonCell *)[detailTableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
-            if (![reasonCell.reasonTextView.text isEqualToString:EMPTY_STRING] && ![reasonCell.reasonTextView.text isEqualToString:REASON]) {
-                [self.navigationController dismissViewControllerAnimated:YES completion:^{
-                    if (self.delegate && [self.delegate respondsToSelector:@selector(overrideReasonSubmitted:)]) {
-                        [self.delegate overrideReasonSubmitted:reasonCell.reasonTextView.text];
-                    }
-                }];
-            } else {
-                [detailTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-            }
-        } else {
-            [self dismissViewControllerAnimated:YES completion:nil];
-        }
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
 

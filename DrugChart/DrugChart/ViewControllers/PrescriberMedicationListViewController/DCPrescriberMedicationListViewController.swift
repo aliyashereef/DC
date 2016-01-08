@@ -546,7 +546,6 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         popover?.permittedArrowDirections = .Left
 
         let cell = medicationTableView!.cellForRowAtIndexPath(indexPath) as! PrescriberMedicationTableViewCell?
-
         popover?.sourceRect = CGRectMake(cell!.editButton.bounds.origin.x - (205 + cell!.editButton.bounds.size.width),cell!.editButton.bounds.origin.y - 300,310,690);
         
         popover!.sourceView = cell?.editButton

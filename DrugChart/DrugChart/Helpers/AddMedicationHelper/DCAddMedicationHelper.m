@@ -170,5 +170,36 @@
     return isValid;
 }
 
++ (NSString *)considatedFrequencyDescriptionFromString:(NSString *)description {
+    
+    NSString *substring = NSLocalizedString(@"SCHEDULING_GENERAL_DESCRIPTION", "");
+    description = [DCUtility removeSubstring:substring FromOriginalString:[NSMutableString stringWithString:description]];
+    //capitalise first character
+    description = [DCUtility capitaliseFirstCharacterOfString:description];
+    description = [NSMutableString stringWithString:[DCUtility removeLastCharacterFromString:description]];
+    return description;
+}
+
++ (CGFloat)textContentHeightForDosage:(NSString *)dosage {
+    
+    CGSize textSize = [DCUtility textViewSizeWithText:dosage maxWidth:258 font:[UIFont systemFontOfSize:15]];
+    return textSize.height + 40; // padding size of 40
+}
+
++ (void)configureAddMedicationCellLabel:(UILabel *)label
+                         forContentText:(NSString *)content
+                    forSaveButtonAction:(BOOL)clicked {
+    
+    //configure medication cell label text
+    if (clicked) {
+        if ([content isEqualToString:EMPTY_STRING] || content == nil) {
+            label.textColor = [UIColor redColor];
+        } else {
+            label.textColor = [UIColor blackColor];
+        }
+    } else {
+        label.textColor = [UIColor blackColor];
+    }
+}
 
 @end

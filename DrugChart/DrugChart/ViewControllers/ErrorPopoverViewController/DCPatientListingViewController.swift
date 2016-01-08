@@ -463,7 +463,7 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
                     self.wardsInformationViewController!.patientListArray = array as NSMutableArray
                     self.wardsInformationViewController!.bedsArray = bedsArray as NSMutableArray
                     self.wardsInformationViewController!.sortedPatientListArray = self.sortedArray(self.patientListArray)
-                    self.wardsInformationViewController!.fillNavigationBarTitle()
+//                    self.wardsInformationViewController!.fillNavigationBarTitle()
                 }
             }
             self.activityIndicator.stopAnimating()
@@ -474,21 +474,20 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
         let helper : DCPatientDetailsHelper = DCPatientDetailsHelper()
         self.activityIndicator.startAnimating()
         helper.fetchPatientsInWard(wardsListArray.objectAtIndex(selectedIndexPath.row) as! DCWard) { (error, array) -> Void in
-            self.viewTitle =  self.wardsListArray.objectAtIndex(self.selectedIndexPath.row).wardName as NSString
             if error == nil {
                 self.patientListArray = array as NSMutableArray
-                //self.configureNavigationBar()
+                self.wardsInformationViewController!.navigationItem.title = self.wardsListArray.objectAtIndex(self.selectedIndexPath.row).wardName as String
                 self.getCompletePatientDetails()
                 self.messageLabel.hidden = true
             } else {
                 // we created a error with code 100 for the patient list empty senario
                 if error.code == 100 {
                     self.patientListTableView.hidden = true
-                    //self.setNavigationBarTitle()
+                    self.wardsInformationViewController!.navigationItem.title = self.wardsListArray.objectAtIndex(self.selectedIndexPath.row).wardName as String
                     self.navigationItem.rightBarButtonItem?.enabled = false
                     self.messageLabel.hidden = false
                 } else {
-                        self.displayAlertWithTitle(NSLocalizedString("ERROR", comment: ""), message:NSLocalizedString("FETCH_FAILED", comment: ""))
+                        self.displayAlertWithTitle(NSLocalizedString("ERROR", comment: ""), message:NSLocalizedString("INTERNET_CONNECTION_ERROR", comment: ""))
                 }
                 self.activityIndicator.stopAnimating()
             }

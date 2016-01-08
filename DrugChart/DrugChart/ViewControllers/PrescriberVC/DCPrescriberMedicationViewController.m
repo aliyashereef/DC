@@ -131,7 +131,6 @@ typedef enum : NSUInteger {
             [self addCustomTitleViewToNavigationBar];
             windowSizeChanged = NO;
         }
-        DDLogDebug(@"view rotated from landscape to portrait");
     }
 }
 
@@ -695,26 +694,34 @@ typedef enum : NSUInteger {
         DCMedicationScheduleDetails *medicationList =  [displayMedicationListArray objectAtIndex:indexPath.item];
         detailViewController.scheduleId = medicationList.scheduleId;
         detailViewController.medicationDetails = medicationList;
-        DCSwiftObjCNavigationHelper *helper = [[DCSwiftObjCNavigationHelper alloc] init];
-        helper.delegate = self;
-        detailViewController.helper = helper;
-        if ([[medicationSLotsDictionary allKeys] containsObject:@"timeSlots"]) {
-            NSMutableArray *slotsArray = [[NSMutableArray alloc] initWithArray:[medicationSLotsDictionary valueForKey:@"timeSlots"]];
-            if ([slotsArray count] > 0) {
-                detailViewController.medicationSlotsArray = slotsArray;
+        NSString *dateString = [DCDateUtility dateStringFromDate:date inFormat:SHORT_DATE_FORMAT];
+        NSRange range = [medicationList.startDate rangeOfString:@" "];
+        NSString *startDate = [medicationList.startDate substringToIndex:range.location];
+
+        if (([startDate compare:dateString] == NSOrderedAscending ||
+             [startDate compare:dateString] == NSOrderedSame) &&
+            ([medicationList.endDate compare:dateString] == NSOrderedDescending ||
+             [medicationList.endDate compare:dateString] == NSOrderedSame)) {
+                DCSwiftObjCNavigationHelper *helper = [[DCSwiftObjCNavigationHelper alloc] init];
+                helper.delegate = self;
+                detailViewController.helper = helper;
+                if ([[medicationSLotsDictionary allKeys] containsObject:@"timeSlots"]) {
+                    NSMutableArray *slotsArray = [[NSMutableArray alloc] initWithArray:[medicationSLotsDictionary valueForKey:@"timeSlots"]];
+                    if ([slotsArray count] > 0) {
+                        detailViewController.medicationSlotsArray = slotsArray;
+                    }
+                }
+                detailViewController.weekDate = date;
+                detailViewController.patientId = self.patient.patientId;
+                UINavigationController *navigationController =
+                [[UINavigationController alloc] initWithRootViewController:detailViewController];
+//                UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:EMPTY_STRING style:UIBarButtonItemStylePlain target:nil action:nil];
+//                [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)
+//                                                                     forBarMetrics:UIBarMetricsDefault];
+//                navigationController.navigationItem.backBarButtonItem = backButton;
+                navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+                [self presentViewController:navigationController animated:YES completion:nil];
             }
-        }
-        detailViewController.weekDate = date;
-        detailViewController.patientId = self.patient.patientId;
-        UINavigationController *navigationController =
-        [[UINavigationController alloc] initWithRootViewController:detailViewController];
-        UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:EMPTY_STRING style:UIBarButtonItemStylePlain target:nil action:nil];
-        [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)
-                                                             forBarMetrics:UIBarMetricsDefault];
-        navigationController.navigationItem.backBarButtonItem = backButton;
-        navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
-        
-        [self presentViewController:navigationController animated:YES completion:nil];
     }
 }
 
@@ -732,9 +739,8 @@ typedef enum : NSUInteger {
     firstDisplayDate = [DCDateUtility initialDateForCalendarDisplay:firstDisplayDate withAdderValue:adderValue];
     currentWeekDatesArray = [DCDateUtility nextAndPreviousDays:daysCount
                                            withReferenceToDate:firstDisplayDate];
-    _centerDisplayDate = isTwoThirdWindow ? [currentWeekDatesArray objectAtIndex:4] :
+    _centerDisplayDate = isTwoThirdWindow ? [currentWeekDatesArray objectAtIndex:4]:
                                            [currentWeekDatesArray objectAtIndex:7];
-    DDLogDebug(@"current week dates array in modifyStartDayAndWeekDates %@",currentWeekDatesArray);
 }
 
 - (void)loadCurrentWeekDate {
@@ -750,6 +756,7 @@ typedef enum : NSUInteger {
 }
 
 - (void)reloadCalendarTopPortion {
+    
     if (calendarDateDisplayViewController) {
         [calendarDateDisplayViewController displayDatesInView];
     }
@@ -757,6 +764,7 @@ typedef enum : NSUInteger {
 }
 
 - (void)loadCurrentDayDisplayForOneThirdWithDate : (NSDate *)date {
+    
     CGFloat windowWidth= [DCUtility mainWindowSize].width;
     if (!dateView) {
         dateView = [[UIView alloc] init];
@@ -779,10 +787,10 @@ typedef enum : NSUInteger {
     } else {
         [dateView removeFromSuperview];
     }
-    
 }
 
 - (void)updatePrescriberMedicationListDetails {
+    
     if (prescriberMedicationListViewController) {
         prescriberMedicationListViewController.currentWeekDatesArray = currentWeekDatesArray;
         [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];

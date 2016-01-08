@@ -52,8 +52,10 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-
-    }
+        let indexPath : NSIndexPath = NSIndexPath.init(forItem: 5, inSection: 0)
+        calendarStripCollectionView .scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: false)
+        scrolledProgramatically = true
+}
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -518,7 +520,26 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     }
     
     func editMedicationForSelectedIndexPath(indexPath: NSIndexPath) {
-
+        let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
+        let addMedicationViewController : DCAddMedicationInitialViewController? = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(ADD_MEDICATION_POPOVER_SB_ID) as? DCAddMedicationInitialViewController
+        let parentView : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
+        addMedicationViewController?.patientId = parentView.patient.patientId as String
+        
+        //TODO: Remove shedule details when scheduling is available from api
+        if (medicationScheduleDetails.scheduling == nil) {
+            medicationScheduleDetails.scheduling = DCScheduling.init();
+            medicationScheduleDetails.scheduling.type = SPECIFIC_TIMES;
+            medicationScheduleDetails.scheduling.specificTimes = DCSpecificTimes.init()
+            medicationScheduleDetails.scheduling.specificTimes.repeatObject = DCRepeat.init()
+            medicationScheduleDetails.scheduling.specificTimes.repeatObject.repeatType = DAILY
+            medicationScheduleDetails.scheduling.specificTimes.repeatObject.frequency = "1 day"
+        }
+        addMedicationViewController?.selectedMedication = medicationScheduleDetails
+        addMedicationViewController?.isEditMedication = true
+        addMedicationViewController?.medicationEditIndexPath = indexPath
+        let navigationController : UINavigationController? = UINavigationController(rootViewController: addMedicationViewController!)
+        navigationController?.modalPresentationStyle = UIModalPresentationStyle.Popover
+        self.presentViewController(navigationController!, animated: true, completion: nil)
     }
     
     func deleteMedicationAtIndexPath(indexPath : NSIndexPath) {
@@ -536,11 +557,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
                 self.medicationTableView!.deleteRowsAtIndexPaths([indexPath as NSIndexPath], withRowAnimation: .Fade)
                 self.medicationTableView!.endUpdates()
                 self.medicationTableView?.reloadData()
-                // If we want to reload the medication list, uncomment the lines
-                //                if let delegate = self.delegate {
-                //                    delegate.refreshMedicationList()
-                //
-                //                }
+
             } else {
                 // TO DO: handle the case for already deleted medication.
             }

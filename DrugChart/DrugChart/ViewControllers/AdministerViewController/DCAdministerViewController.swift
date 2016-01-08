@@ -10,14 +10,16 @@ import UIKit
 
 let ADMINISTERED_SECTION_COUNT : NSInteger = 4
 let OMITTED_SECTION_COUNT : NSInteger = 3
+let REFUSED_SECTION_COUNT : NSInteger = 3
+
 let INITIAL_SECTION_ROW_COUNT : NSInteger = 2
 let STATUS_ROW_COUNT : NSInteger = 1
-let ADMINISTERED_SECTION_ROW_COUNT : NSInteger = 3
+let ADMINISTERED_SECTION_ROW_COUNT : NSInteger = 4
 let OMITTED_OR_REFUSED_SECTION_ROW_COUNT : NSInteger = 1
 let NOTES_SECTION_ROW_COUNT : NSInteger = 1
 let INITIAL_SECTION_HEIGHT : CGFloat = 0.0
 let TABLEVIEW_DEFAULT_SECTION_HEIGHT : CGFloat = 20.0
-let MEDICATION_DETAILS_SECTION_HEIGHT : CGFloat = 40.0
+let MEDICATION_DETAILS_SECTION_HEIGHT : CGFloat = 0.0
 let MEDICATION_DETAILS_CELL_INDEX : NSInteger = 0
 let DATE_PICKER_VIEW_CELL_HEIGHT : CGFloat = 200.0
 let NOTES_CELL_HEIGHT : CGFloat = 125.0
@@ -53,8 +55,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var administerTableView: UITableView!
     @IBOutlet weak var alertMessageLabel: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    
-//    @IBOutlet weak var administerTableViewTopConstraint: NSLayoutConstraint!
     
     var medicationSlot : DCMedicationSlot?
     var medicationDetails : DCMedicationScheduleDetails?
@@ -108,6 +108,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         self.administerTableView.tableFooterView = UIView(frame: CGRectZero)
         administerTableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
     }
+    
     func configureViewElements () {
         
         configureTableViewProperties()
@@ -127,6 +128,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             alertMessageLabel.hidden = true
         }
     }
+    
     func configureNavigationBar() {
         //Navigation bar title string
         let dateString : String
@@ -140,11 +142,10 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         // Navigation bar done button
         saveButton = UIBarButtonItem(title: "Save", style: UIBarButtonItemStyle.Plain, target: self, action: "saveButtonPressed")
         cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: "cancelButtonPressed")
-        self.navigationItem.leftBarButtonItem = cancelButton
-        self.navigationItem.rightBarButtonItem = saveButton
+        self.navigationItem.leftBarButtonItems = [cancelButton!]
+        self.navigationItem.rightBarButtonItems = [saveButton!]
     }
 
-    
     func addNotifications() {
         
         //keyboard show/hide observer
@@ -247,14 +248,15 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         switch indexPath.section {
             
         case SectionCount.eFirstSection.rawValue:
-            administerCell = populatedMedicationStatusTableCellAtIndexPath(administerCell, indexPath: indexPath);
-            break;
-        case SectionCount.eSecondSection.rawValue:
-            if (medicationSlot?.medicationAdministration?.status == ADMINISTERED) {
-                administerCell = populatedMedicationDetailsCellForAdministeredStatus(administerCell, indexPath: indexPath)
-            }
-            else if (medicationSlot?.medicationAdministration?.status == REFUSED) {
-                administerCell = medicationDetailsCellForRefusedStatus(administerCell, indexPath: indexPath)
+            if indexPath.row == RowCount.eZerothRow.rawValue {
+                administerCell = populatedMedicationStatusTableCellAtIndexPath(administerCell, indexPath: indexPath);
+            } else {
+                if (medicationSlot?.medicationAdministration?.status == ADMINISTERED) {
+                    administerCell = populatedMedicationDetailsCellForAdministeredStatus(administerCell, indexPath: indexPath)
+                }
+                else if (medicationSlot?.medicationAdministration?.status == REFUSED) {
+                    administerCell = medicationDetailsCellForRefusedStatus(administerCell, indexPath: indexPath)
+                }
             }
             break
         default:
@@ -266,12 +268,12 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func populatedMedicationDetailsCellForAdministeredStatus(cell : DCAdministerCell, indexPath: NSIndexPath) -> (DCAdministerCell) {
         
         switch indexPath.row {
-        case RowCount.eZerothRow.rawValue:
+        case RowCount.eFirstRow.rawValue:
             //administered by cell
             cell.titleLabel.text = NSLocalizedString("ADMINISTERED_BY", comment: "administered by title")
             cell.detailLabel.text = (medicationSlot?.medicationAdministration?.administratingUser?.displayName != nil) ? (medicationSlot?.medicationAdministration?.administratingUser?.displayName) : DEFAULT_DOCTOR_NAME
             break
-        case RowCount.eFirstRow.rawValue:
+        case RowCount.eSecondRow.rawValue:
             cell.titleLabel.text = NSLocalizedString("DATE_TIME", comment: "date and time")
             let dateString : String
             if let date = medicationSlot?.medicationAdministration.actualAdministrationTime {
@@ -282,12 +284,11 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             }
             cell.detailLabel.text = dateString
             break
-        case RowCount.eSecondRow.rawValue:
+        case RowCount.eThirdRow.rawValue,RowCount.eFourthRow.rawValue:
+
             //present inline picker here
             cell.titleLabel.text = NSLocalizedString("CHECKED_BY", comment: "Checked by title")
             cell.detailLabel.text = (medicationSlot?.medicationAdministration?.checkingUser?.displayName != nil) ? (medicationSlot?.medicationAdministration?.checkingUser?.displayName) : EMPTY_STRING
-            cell.separatorInset = UIEdgeInsetsZero
-            cell.layoutMargins = UIEdgeInsetsZero
             break;
         default:
             break
@@ -316,8 +317,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         let expiryCell : DCBatchNumberCell = (administerTableView.dequeueReusableCellWithIdentifier(BATCH_NUMBER_CELL_ID) as? DCBatchNumberCell)!
         expiryCell.batchDelegate = self
         expiryCell.selectedIndexPath = indexPath
-        expiryCell.separatorInset = UIEdgeInsetsZero
-        expiryCell.layoutMargins = UIEdgeInsetsZero
         return expiryCell;
     }
     
@@ -330,16 +329,12 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             if (medicationSlot?.medicationAdministration?.status != nil) {
                 cell.titleLabel.textColor = UIColor(forHexString: "#676767")
                 cell.detailLabel.text = medicationSlot?.medicationAdministration?.status
-                cell.separatorInset = UIEdgeInsetsMake(0, 15, 0, 0)
-                cell.layoutMargins = UIEdgeInsetsZero
             } else {
                 if(saveClicked == true) {
                     cell.titleLabel.textColor = UIColor.redColor()
                 } else {
                     cell.titleLabel.textColor = UIColor(forHexString: "#676767")
                 }
-                cell.separatorInset = UIEdgeInsetsZero
-                cell.layoutMargins = UIEdgeInsetsZero
             }
             return cell
         default:
@@ -353,8 +348,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         let notesCell : DCNotesTableCell = (administerTableView.dequeueReusableCellWithIdentifier(NOTES_CELL_ID) as? DCNotesTableCell)!
         notesCell.selectedIndexPath = indexPath
         notesCell.delegate = self
-        notesCell.separatorInset = UIEdgeInsetsZero
-        notesCell.layoutMargins = UIEdgeInsetsZero
         return notesCell
     }
         
@@ -363,11 +356,11 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         popOverIndexPath = indexPath
         let namesViewController : DCNameSelectionTableViewController? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(NAMES_LIST_VIEW_STORYBOARD_ID) as? DCNameSelectionTableViewController
         namesViewController?.namesDelegate = self
-        if (indexPath.row == RowCount.eZerothRow.rawValue) {
+        if (indexPath.row == RowCount.eFirstRow.rawValue) {
             namesViewController?.title = ADMINISTRATED_BY
             namesViewController?.namesArray = userListArray
             namesViewController!.previousSelectedValue = medicationSlot?.medicationAdministration?.administratingUser?.displayName
-        } else if (indexPath.row == RowCount.eSecondRow.rawValue) {
+        } else {
             namesViewController?.title = CHECKED_BY
             let checkedByList : NSMutableArray = []
             checkedByList.addObjectsFromArray(userListArray! as [AnyObject])
@@ -404,10 +397,10 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     func populatedAdministeredTableViewCellAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
         
-        if (indexPath.section == SectionCount.eThirdSection.rawValue && indexPath.row == RowCount.eZerothRow.rawValue) {
+        if (indexPath.section == SectionCount.eSecondSection.rawValue && indexPath.row == RowCount.eZerothRow.rawValue) {
             let batchNumberCell : DCBatchNumberCell = batchNumberOrExpiryDateTableCellAtIndexPath(indexPath)
             return batchNumberCell
-        } else if (indexPath.section == SectionCount.eFourthSection.rawValue) {
+        } else if (indexPath.section == SectionCount.eThirdSection.rawValue) {
             let notesCell : DCNotesTableCell = notesTableCellAtIndexPath(indexPath)
             notesCell.notesType = eNotes
             notesCell.notesTextView.textColor = (!isValid && medicationSlot?.medicationAdministration?.isEarlyAdministration == true) ? UIColor.redColor() : UIColor(forHexString: "#8f8f95")
@@ -419,7 +412,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             }
             return notesCell
         } else {
-            if (indexPath.section == SectionCount.eSecondSection.rawValue && datePickerIndexPath != nil && indexPath.row == 2) {
+            if (indexPath.section == SectionCount.eFirstSection.rawValue && datePickerIndexPath != nil && indexPath.row == 3) {
                 //display picker
                 let pickerCell : DCAdministerPickerCell = datePickerCellAtIndexPath(indexPath)
                 return pickerCell
@@ -451,7 +444,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     func populatedRefusedTableCellAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
         
-        if (indexPath.section == SectionCount.eThirdSection.rawValue) {
+        if (indexPath.section == SectionCount.eSecondSection.rawValue) {
             let notesCell : DCNotesTableCell = notesTableCellAtIndexPath(indexPath)
             notesCell.notesType = eReason
             notesCell.notesTextView.textColor = (!isValid && medicationSlot?.medicationAdministration?.isEarlyAdministration == true) ? UIColor.redColor() : UIColor(forHexString: "#8f8f95")
@@ -462,7 +455,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             }
             return notesCell
         } else {
-            if (indexPath.section == SectionCount.eSecondSection.rawValue && datePickerIndexPath != nil && indexPath.row == 1) {
+            if (indexPath.section == SectionCount.eFirstSection.rawValue && datePickerIndexPath != nil && indexPath.row == RowCount.eSecondRow.rawValue) {
                 //display picker
                 let pickerCell : DCAdministerPickerCell = datePickerCellAtIndexPath(indexPath)
                 return pickerCell
@@ -562,13 +555,13 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         var sameCellClicked = false
         if (hasInlineDatePicker()) {
             sameCellClicked = ((datePickerIndexPath?.row)! - 1 == indexPath.row)
-            administerTableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: indexPath.row + 1, inSection: 2)], withRowAnimation: UITableViewRowAnimation.Fade)
+            administerTableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: indexPath.row + 1, inSection: 1)], withRowAnimation: UITableViewRowAnimation.Fade)
             datePickerIndexPath = nil
         }
         if (sameCellClicked == false) {
             // hide the old date picker and display the new one
             let rowToReveal : NSInteger = (before ? indexPath.row - 1 : indexPath.row)
-            let indexPathToReveal : NSIndexPath = NSIndexPath(forRow: rowToReveal, inSection: 2)
+            let indexPathToReveal : NSIndexPath = NSIndexPath(forRow: rowToReveal, inSection: 1)
             toggleDatePickerForSelectedIndexPath(indexPath)
             datePickerIndexPath = NSIndexPath(forRow: indexPathToReveal.row + 1, inSection: indexPathToReveal.section)
         }
@@ -588,9 +581,9 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             if (medicationSlot?.medicationAdministration?.status == OMITTED) {
                 return OMITTED_SECTION_COUNT;
             } else if (medicationSlot?.medicationAdministration?.status == ADMINISTERED) {
-                return 5;
-            } else if (medicationSlot?.medicationAdministration?.status == REFUSED){
                 return ADMINISTERED_SECTION_COUNT;
+            } else if (medicationSlot?.medicationAdministration?.status == REFUSED){
+                return REFUSED_SECTION_COUNT;
             }else {
                 return 2
             }
@@ -603,21 +596,22 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         case SectionCount.eZerothSection.rawValue:
             return 1
         case SectionCount.eFirstSection.rawValue:
-            return (statusCellSelected ? 3 : STATUS_ROW_COUNT)
-        case SectionCount.eSecondSection.rawValue:
-            var rowCount = 0
-            if (medicationSlot?.medicationAdministration?.status  == OMITTED || medicationSlot?.medicationAdministration?.status == REFUSED) {
-                rowCount = 1
-            } else {
+            var rowCount = 1
+            if (medicationSlot?.medicationAdministration?.status == REFUSED) {
+                rowCount = 2
+                if (hasInlineDatePicker()) {
+                    rowCount++
+                }
+            }else if (medicationSlot?.medicationAdministration?.status == ADMINISTERED){
                 rowCount = ADMINISTERED_SECTION_ROW_COUNT
-            }
-            if (hasInlineDatePicker()) {
-                rowCount++
+                if (hasInlineDatePicker()) {
+                    rowCount++
+                }
             }
             return rowCount
-        case SectionCount.eThirdSection.rawValue:
+        case SectionCount.eSecondSection.rawValue:
             return 1
-        case SectionCount.eFourthSection.rawValue:
+        case SectionCount.eThirdSection.rawValue:
             return NOTES_SECTION_ROW_COUNT
         default:
             break;
@@ -651,8 +645,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 } else {
                     let administerCell : DCAdministerCell = (administerTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
                     administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
-                    administerCell.separatorInset = UIEdgeInsetsZero
-                    administerCell.layoutMargins = UIEdgeInsetsZero
                     administerCell.titleLabel.text = NSLocalizedString("STATUS", comment: "status title text")
                     administerCell.detailLabel.text = EMPTY_STRING
                     if(saveClicked == true && medicationSlot?.medicationAdministration.status == nil) {
@@ -668,18 +660,14 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         let sectionIndex : NSInteger = numberOfSectionsInTableView(tableView)
-        if (section == SectionCount.eZerothSection.rawValue) {
-            return 0
-        } else if (section == sectionIndex - 1 && sectionIndex != 2) {
+        if (section == sectionIndex - 1 && sectionIndex != 2) {
             return (medicationSlot?.medicationAdministration?.isEarlyAdministration == true) ? MEDICATION_DETAILS_SECTION_HEIGHT : TABLEVIEW_DEFAULT_SECTION_HEIGHT
         } else if (section == SectionCount.eFirstSection.rawValue) {
             return MEDICATION_DETAILS_SECTION_HEIGHT
-        } else if (section == SectionCount.eSecondSection.rawValue) {
-            return 0
         } else if (section == SectionCount.eThirdSection.rawValue) {
             return TABLEVIEW_DEFAULT_SECTION_HEIGHT
         } else {
-            return TABLEVIEW_DEFAULT_SECTION_HEIGHT
+            return 0
         }
     }
     
@@ -689,23 +677,27 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         case SectionCount.eZerothSection.rawValue:
             return UITableViewAutomaticDimension
         case SectionCount.eFirstSection.rawValue :
-            return TABLE_CELL_DEFAULT_HEIGHT
-        case SectionCount.eSecondSection.rawValue:
-            if (medicationSlot?.medicationAdministration.status == OMITTED) {
-                return NOTES_CELL_HEIGHT
-            } else if (medicationSlot?.medicationAdministration.status == ADMINISTERED) {
-                return (indexPath.row == RowCount.eSecondRow.rawValue && hasInlineDatePicker()) ? DATE_PICKER_VIEW_CELL_HEIGHT : TABLE_CELL_DEFAULT_HEIGHT
+            if indexPath.row == RowCount.eZerothRow.rawValue {
+                return TABLE_CELL_DEFAULT_HEIGHT
             } else {
-                //refused status
-                return (indexPath.row == RowCount.eFirstRow.rawValue && hasInlineDatePicker()) ? DATE_PICKER_VIEW_CELL_HEIGHT : TABLE_CELL_DEFAULT_HEIGHT
+                if (medicationSlot?.medicationAdministration.status == OMITTED) {
+                    return NOTES_CELL_HEIGHT
+                } else if (medicationSlot?.medicationAdministration.status == ADMINISTERED) {
+                    return (indexPath.row == RowCount.eThirdRow.rawValue && hasInlineDatePicker()) ? DATE_PICKER_VIEW_CELL_HEIGHT : TABLE_CELL_DEFAULT_HEIGHT
+                } else {
+                    //refused status
+                    return (indexPath.row == RowCount.eSecondRow.rawValue && hasInlineDatePicker()) ? DATE_PICKER_VIEW_CELL_HEIGHT : TABLE_CELL_DEFAULT_HEIGHT
+                }
             }
-        case SectionCount.eThirdSection.rawValue:
+        case SectionCount.eSecondSection.rawValue:
             if (medicationSlot?.medicationAdministration.status == REFUSED) {
                 return NOTES_CELL_HEIGHT
-            } else {
+            }else if (medicationSlot?.medicationAdministration.status == OMITTED) {
+                return NOTES_CELL_HEIGHT
+            }  else {
                 return TABLE_CELL_DEFAULT_HEIGHT
             }
-        case SectionCount.eFourthSection.rawValue:
+        case SectionCount.eThirdSection.rawValue:
             return NOTES_CELL_HEIGHT
         default:
             return TABLE_CELL_DEFAULT_HEIGHT
@@ -717,17 +709,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         let sectionCount : NSInteger = numberOfSectionsInTableView(tableView)
         let administerHeaderView = NSBundle.mainBundle().loadNibNamed(ADMINISTER_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCAdministerTableHeaderView
         administerHeaderView!.timeLabel.hidden = true
-        if (section == SectionCount.eFirstSection.rawValue || (section == sectionCount - 1 && sectionCount != 2)) {
-                        if (section == SectionCount.eFirstSection.rawValue) {
-                if (medicationSlot?.time != nil) {
-//                    administerHeaderView?.populateScheduledTimeValue((medicationSlot?.time)!)
-                } else {
-                    if (medicationDetails?.medicineCategory == WHEN_REQUIRED) {
-//                       let currentDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
-//                        administerHeaderView?.populateScheduledTimeValue(currentDate)
-                    }
-                }
-            } else {
+        if (section == sectionCount - 1 && sectionCount != 2) {
                 if (medicationSlot?.medicationAdministration?.isEarlyAdministration == true) {
                     if (medicationSlot?.medicationAdministration?.isWhenRequiredEarlyAdministration == true) {
                         let errorMessage = NSString(format: "%@ %@", NSLocalizedString("ADMIN_FREQUENCY", comment: "when required new medication is given 2 hrs before previous one"), NSLocalizedString("EARLY_ADMIN_INLINE", comment: ""))
@@ -735,33 +717,32 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                     } else {
                         administerHeaderView?.populateHeaderViewWithErrorMessage(NSLocalizedString("EARLY_ADMIN_INLINE", comment: "early administration when medication is attempted 1 hr before scheduled time"))
                     }
-                } else {
-                    return nil
+                    return administerHeaderView
                 }
-            }
-            return administerHeaderView
         }
-        return nil;
+        return nil
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
+
         administerTableView.deselectRowAtIndexPath(indexPath, animated: true)
         if (indexPath.section == SectionCount.eZerothSection.rawValue) {
             addBNFView()
         }
         if (indexPath.section == SectionCount.eFirstSection.rawValue) {
-            presentAdministratedStatusPopOverAtIndexPath(indexPath)
-        } else if (indexPath.section == SectionCount.eSecondSection.rawValue) {
-            if (medicationSlot?.medicationAdministration.status == ADMINISTERED) {
-                if (indexPath.row == RowCount.eZerothRow.rawValue || indexPath.row == RowCount.eSecondRow.rawValue) {
-                    displayPrescribersAndAdministersViewAtIndexPath(indexPath)
-                } else if (indexPath.row == RowCount.eFirstRow.rawValue) {
-                    displayInlineDatePickerForRowAtIndexPath(indexPath)
-                }
-            } else if (medicationSlot?.medicationAdministration.status == REFUSED) {
-                if (indexPath.row == RowCount.eZerothRow.rawValue) {
-                    displayInlineDatePickerForRowAtIndexPath(indexPath)
+            if indexPath.row == RowCount.eZerothRow.rawValue {
+                presentAdministratedStatusPopOverAtIndexPath(indexPath)
+            } else {
+                if (medicationSlot?.medicationAdministration.status == ADMINISTERED) {
+                    if (indexPath.row == RowCount.eSecondRow.rawValue) {
+                        displayInlineDatePickerForRowAtIndexPath(indexPath)
+                    } else {
+                        displayPrescribersAndAdministersViewAtIndexPath(indexPath)
+                    }
+                } else if (medicationSlot?.medicationAdministration.status == REFUSED) {
+                    if (indexPath.row == RowCount.eFirstRow.rawValue) {
+                        displayInlineDatePickerForRowAtIndexPath(indexPath)
+                    }
                 }
             }
         }
@@ -771,8 +752,12 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     // MARK: BatchNumberCellDelegate Methods
     
      func batchNumberFieldSelectedAtIndexPath(indexPath: NSIndexPath) {
-        
-        self.administerTableView.setContentOffset(CGPointMake(0, 110), animated: true)
+//        let pickerIndexPath :NSIndexPath = NSIndexPath(forRow: 3, inSection: 1)
+        if hasInlineDatePicker() {
+            self.administerTableView.setContentOffset(CGPointMake(0, 180), animated: true)
+        } else {
+            self.administerTableView.setContentOffset(CGPointMake(0, 110), animated: true)
+        }
         editingIndexPath = indexPath
     }
     
@@ -787,9 +772,17 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         
         editingIndexPath = indexPath
         if(medicationSlot?.medicationAdministration?.status == ADMINISTERED) {
-            self.administerTableView.setContentOffset(CGPointMake(0, 180), animated: true)
+            if hasInlineDatePicker(){
+                self.administerTableView.setContentOffset(CGPointMake(0, 320), animated: true)
+            } else {
+                self.administerTableView.setContentOffset(CGPointMake(0, 180), animated: true)
+            }
         } else {
-            self.administerTableView.setContentOffset(CGPointMake(0, 80), animated: true)
+            if hasInlineDatePicker(){
+                self.administerTableView.setContentOffset(CGPointMake(0, 180), animated: true)
+            } else {
+                self.administerTableView.setContentOffset(CGPointMake(0, 80), animated: true)
+            }
         }
         if (editing == true && keyboardHeight != nil) {
             //animateAdministerTableViewUpWhenKeyboardShows()
@@ -808,6 +801,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     // mark :StatusList Delegate Methods 
+    
     func selectedMedicationStatusEntry(status: String!) {
         saveClicked = false
         isValid = true
@@ -824,13 +818,13 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     // MARK: NamesList Delegate Methods
     
     func selectedUserEntry(user : DCUser!) {
-            if (popOverIndexPath?.row == RowCount.eZerothRow.rawValue) {
+            if (popOverIndexPath?.row == RowCount.eFirstRow.rawValue) {
                 //administered by
                 medicationSlot?.medicationAdministration?.administratingUser = user
                 if user.displayName != SELF_ADMINISTERED {
                     medicationSlot?.medicationAdministration?.isSelfAdministered = false
                 }
-            } else if (popOverIndexPath?.row == RowCount.eSecondRow.rawValue) {
+            } else {
                 //checked by
                 if (user == DEFAULT_NURSE_NAME) {
                     medicationSlot?.medicationAdministration?.checkingUser = user
@@ -870,7 +864,13 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func securityPinMatchedForUser(user: DCUser) {
         
         medicationSlot?.medicationAdministration?.checkingUser = user
-        administerTableView.reloadRowsAtIndexPaths([popOverIndexPath!], withRowAnimation: UITableViewRowAnimation.None)
+        print(popOverIndexPath?.row)
+        if hasInlineDatePicker() {
+            let pickerIndexPath :NSIndexPath = NSIndexPath(forRow: 4, inSection: 1)
+            administerTableView.reloadRowsAtIndexPaths([pickerIndexPath], withRowAnimation: UITableViewRowAnimation.None)
+        } else {
+            administerTableView.reloadRowsAtIndexPaths([popOverIndexPath!], withRowAnimation: UITableViewRowAnimation.None)
+        }
     }
     
     //MARK : Keyboard Delegate Methods
@@ -906,7 +906,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 }
             }
             UIView.animateWithDuration(0.1, animations: { () -> Void in
-//                self.administerTableViewTopConstraint.constant = topConstraint
+                print(topConstraint)
+//              self.administerTableViewTopConstraint.constant = topConstraint
             })
         }
     }
@@ -930,7 +931,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func keyboardDidHide(notification : NSNotification) {
         
         editingIndexPath = nil
-//        administerTableViewTopConstraint.constant = 0.0
     }
     
     func saveButtonPressed() {

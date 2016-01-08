@@ -12,8 +12,10 @@ typedef void(^SelectedDate)(NSDate *date);
 
 @interface DCDatePickerCell : UITableViewCell
 
+@property (weak)  IBOutlet UIDatePicker *datePicker;
 @property BOOL isStartDate;
 @property (nonatomic, strong) SelectedDate selectedDate;
 
+- (void)configureDatePickerProperties;
 
 @end

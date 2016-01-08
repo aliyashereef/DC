@@ -28,26 +28,24 @@ let START_TIME_PICKER_ROW_INDEX : NSInteger = 3
 let PREVIEW_SECTION_INDEX : NSInteger = 2
 
 typealias SelectedScheduling = DCScheduling? -> Void
-typealias UpdatedTimeArray = NSMutableArray? -> Void
 
-class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, InstructionCellDelegate, AddMedicationDetailDelegate, SchedulingTimeCellDelegate, SchedulingDetailDelegate {
+class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, AddMedicationDetailDelegate, SchedulingTimeCellDelegate, SchedulingDetailDelegate {
 
     @IBOutlet weak var schedulingTableView: UITableView!
     
     var scheduling : DCScheduling?
-    var timeArray : NSMutableArray? = []
     var previewArray : NSMutableArray? = []
     var isEditMedication : Bool?
     var validate : Bool = false
     var selectedSchedulingValue : SelectedScheduling = {value in }
-    var updatedTimeArray : UpdatedTimeArray = {times in }
     var inlinePickerIndexPath : NSIndexPath?
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        if timeArray?.count > 0 {
-            previewArray = DCSchedulingHelper.intervalPreviewArrayFromAdministrationTimeDetails(timeArray!)
+        if (scheduling?.type == INTERVAL && scheduling?.interval?.administratingTimes.count > 0) {
+            //if scheduling type is interval, form preview array
+            previewArray = DCSchedulingHelper.intervalPreviewArrayFromAdministrationTimeDetails((scheduling?.interval?.administratingTimes!)!)
         }
     }
     
@@ -75,7 +73,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
     
     func configureNavigationBarItems() {
         
-        UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetMake(0, -60), forBarMetrics: .Default)
+        //UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetMake(0, -60), forBarMetrics: .Default)
         self.navigationItem.title = NSLocalizedString("FREQUENCY", comment: "")
         self.title = NSLocalizedString("FREQUENCY", comment: "")
     }
@@ -85,7 +83,11 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         let storyBoard = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil)
         let schedulingDetailViewController = storyBoard.instantiateViewControllerWithIdentifier(SCHEDULING_DETAIL_STORYBOARD_ID) as? DCSchedulingDetailViewController
         schedulingDetailViewController?.scheduling = self.scheduling
-        schedulingDetailViewController?.administratingTimes = timeArray
+        if (self.scheduling?.type == SPECIFIC_TIMES) {
+            schedulingDetailViewController?.administratingTimes = self.scheduling?.specificTimes?.administratingTimesArray
+        } else if (self.scheduling?.type == INTERVAL) {
+            schedulingDetailViewController?.administratingTimes = self.scheduling?.interval?.administratingTimes
+        }
         schedulingDetailViewController?.detailDelegate = self
         schedulingDetailViewController?.detailType = DCSchedulingHelper.schedulingDetailTypeAtIndexPath(indexPath, forFrequencyType: (self.scheduling?.type)!)
         if indexPath.section == 0 {
@@ -121,7 +123,8 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
             DDLogDebug("Value is \(value)")
         }
         medicationDetailViewController!.detailType = eDetailAdministrationTime
-        medicationDetailViewController!.contentArray = timeArray
+       // medicationDetailViewController!.contentArray = timeArray
+        medicationDetailViewController!.contentArray = (self.scheduling?.type == SPECIFIC_TIMES) ? self.scheduling?.specificTimes?.administratingTimesArray : self.scheduling?.interval.administratingTimes
         self.navigationController?.pushViewController(medicationDetailViewController!, animated: true)
     }
     
@@ -135,10 +138,10 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
             if (scheduling?.type == SPECIFIC_TIMES) {
                 if (indexPath.row == 0) {
                     //highlight field in red if time array is empty when save button is pressed in add medication screen
-                    schedulingCell!.titleLabel.textColor = (validate &&  (timeArray == nil || timeArray?.count == 0)) ? UIColor.redColor() : UIColor.blackColor()
+                    schedulingCell!.titleLabel.textColor = (validate &&  (scheduling?.specificTimes?.administratingTimesArray == nil || scheduling?.specificTimes?.administratingTimesArray.count == 0)) ? UIColor.redColor() : UIColor.blackColor()
                     schedulingCell!.titleLabel?.text = NSLocalizedString("ADMINISTRATION_TIMES", comment: "")
-                    if (timeArray?.count > 0) {
-                        let timeString = DCSchedulingHelper.administratingTimesStringFromTimeArray(timeArray!)
+                    if (scheduling?.specificTimes?.administratingTimesArray?.count > 0) {
+                        let timeString = DCSchedulingHelper.administratingTimesStringFromTimeArray((scheduling?.specificTimes?.administratingTimesArray!)!)
                         schedulingCell!.descriptionLabel.text = timeString as String
                     }
                 } else if (indexPath.row == 1) {
@@ -151,7 +154,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
                 //configure section 1 for scheduling type interval
                 switch indexPath.row {
                 case 0 :
-                    schedulingCell!.titleLabel?.text = NSLocalizedString("REPEAT_FREQUENCY", comment: "")
+                    schedulingCell!.titleLabel?.text = NSLocalizedString("REPEAT", comment: "")
                     var repeatFrequency : NSString = EMPTY_STRING
                     var unit : NSString = EMPTY_STRING
                     if (scheduling?.interval?.repeatFrequencyType == DAYS_TITLE) {
@@ -186,6 +189,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         let previewCell : DCSchedulingCell? = schedulingTableView.dequeueReusableCellWithIdentifier(SCHEDULING_INITIAL_CELL_ID) as? DCSchedulingCell
         previewCell?.descriptionLabel.hidden = true
         previewCell?.accessoryType = .None
+        previewCell?.titleLabel.textColor = UIColor.blackColor()
         previewCell?.titleLabel.text = previewArray![indexPath.item] as? String
         previewCell?.selectionStyle = .None
         return previewCell!
@@ -216,17 +220,18 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         // description cell
         
         let descriptionCell = schedulingTableView.dequeueReusableCellWithIdentifier(SCHEDULING_DESCRIPTION_CELL_ID) as? DCSchedulingDescriptionTableCell
-        descriptionCell!.delegate = self;
         descriptionCell?.populatePlaceholderForFieldIsInstruction(false)
         var schedulingDescription : NSString = EMPTY_STRING
         if (scheduling?.type == INTERVAL) {
             schedulingDescription = (scheduling?.interval?.intervalDescription)!
         } else {
-            if (scheduling?.specificTimes?.repeatObject != nil && timeArray?.count > 0) {
-                schedulingDescription = DCSchedulingHelper.scheduleDescriptionForSpecificTimesRepeatValue((scheduling?.specificTimes?.repeatObject)!, administratingTimes: timeArray!)
+            if (scheduling?.specificTimes?.repeatObject != nil && scheduling?.specificTimes?.administratingTimesArray?.count > 0) {
+                schedulingDescription = DCSchedulingHelper.scheduleDescriptionForSpecificTimesRepeatValue((scheduling?.specificTimes?.repeatObject)!, administratingTimes: (scheduling?.specificTimes?.administratingTimesArray!)!)
                 scheduling?.specificTimes?.specificTimesDescription = schedulingDescription as String
             } else {
-                schedulingDescription = (scheduling?.specificTimes?.specificTimesDescription)!
+                if let description = scheduling?.specificTimes?.specificTimesDescription {
+                    schedulingDescription = description
+                }
             }
         }
         if schedulingDescription != EMPTY_STRING {
@@ -334,14 +339,15 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
             let descriptionIndexPath = NSIndexPath(forRow: descriptionRowIndex, inSection: 1)
             self.schedulingTableView.beginUpdates()
             self.schedulingTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexPath.row - 1, inSection: indexPath.section), descriptionIndexPath], withRowAnimation: .Fade)
-            self.populatePreviewArrayAndReloadTableSection()
+            self.populatePreviewArray()
+            self.reloadIntervalPreviewSection()
             self.schedulingTableView.endUpdates()
         }
         timePickerCell?.populatePickerWithPreviousSelectedTime()
         return timePickerCell!
     }
     
-    func populatePreviewArrayAndReloadTableSection() {
+    func populatePreviewArray() {
         
         //populate preview array & reload the corresponding section
         
@@ -349,6 +355,8 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         if (self.scheduling?.interval?.repeatFrequencyType == DAYS_TITLE) {
             if (self.scheduling?.interval?.startTime != nil) {
                 self.previewArray?.addObject((self.scheduling?.interval?.startTime)!)
+                let administrationTimeArray = createAdministrationTimesArrayFromPreview()
+                self.scheduling?.interval?.administratingTimes = administrationTimeArray
             }
         } else if (self.scheduling?.interval?.repeatFrequencyType == HOURS_TITLE || self.scheduling?.interval?.repeatFrequencyType == MINUTES_TITLE) {
             
@@ -360,13 +368,23 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
                 timeGap = Int((self.scheduling?.interval?.minutesCount)!)!
             }
             self.previewArray = DCSchedulingHelper.administrationTimesForIntervalSchedulingWithRepeatFrequencyType(pickerType, timeGap: timeGap, WithStartDateString: (self.scheduling?.interval?.startTime)!, WithendDateString: (self.scheduling?.interval?.endTime)!)
-            if (self.scheduling?.interval?.hasStartAndEndDate == true && self.previewArray?.count > 0) {
-                self.schedulingTableView.reloadSections(NSIndexSet(index: 2), withRowAnimation: .Middle)
-            }
-        }
-        if (self.previewArray?.count > 0) {
             let administrationTimeArray = createAdministrationTimesArrayFromPreview()
-            self.updatedTimeArray(administrationTimeArray)
+            self.scheduling?.interval?.administratingTimes = administrationTimeArray
+//            if (self.scheduling?.interval?.hasStartAndEndDate == true && self.previewArray?.count > 0) {
+//                self.schedulingTableView.reloadSections(NSIndexSet(index: 2), withRowAnimation: .Middle)
+//            }
+        }
+//        if (self.previewArray?.count > 0) {
+//            let administrationTimeArray = createAdministrationTimesArrayFromPreview()
+//            self.scheduling?.interval?.administratingTimes = administrationTimeArray
+//            //self.updatedTimeArray(administrationTimeArray)
+//        }
+    }
+    
+    func reloadIntervalPreviewSection() {
+        
+        if (self.scheduling?.interval?.hasStartAndEndDate == true && self.previewArray?.count > 0) {
+            self.schedulingTableView.reloadSections(NSIndexSet(index: 2), withRowAnimation: .Middle)
         }
     }
     
@@ -378,9 +396,41 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
             timesDictionary["time"] = time
             timesDictionary["selected"] = 1
             administrationTimeArray!.addObject(timesDictionary)
-            print("**** administrationTimeArray is %@", administrationTimeArray)
         }
         return administrationTimeArray!
+    }
+    
+    func initialiseSpecificTimesObjectInFrequency() {
+        
+        // initialise specific times object
+        self.scheduling?.specificTimes = DCSpecificTimes.init()
+        self.scheduling?.specificTimes?.repeatObject = DCRepeat.init()
+        self.scheduling?.specificTimes?.repeatObject.repeatType = DAILY
+        self.scheduling?.specificTimes?.repeatObject.frequency = "1 day"
+        if (scheduling?.specificTimes?.administratingTimesArray == nil) {
+            scheduling?.specificTimes?.administratingTimesArray = []
+        }
+        self.scheduling?.specificTimes?.specificTimesDescription =  DCSchedulingHelper.scheduleDescriptionForSpecificTimesRepeatValue((self.scheduling?.specificTimes?.repeatObject)!, administratingTimes: (scheduling?.specificTimes?.administratingTimesArray!)!) as String
+        self.scheduling?.specificTimes?.administratingTimesArray = []
+    }
+    
+    func initialiseIntervalObjectInFrequency() {
+        
+        //initialise interval object in scheduling
+        self.scheduling?.interval = DCInterval.init()
+        //initial SetStartAndEndDate switch should be false
+        self.scheduling?.interval?.hasStartAndEndDate = false
+        self.scheduling?.interval?.repeatFrequencyType = HOURS_TITLE
+        self.scheduling?.interval.hoursCount = ONE
+        self.scheduling?.interval?.intervalDescription = String(format: "%@ hour.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
+        if (self.scheduling?.interval?.startTime == nil) {
+            let startTimeInCurrentZone  = DCDateUtility.dateInCurrentTimeZone(NSDate())
+            let startTime = DCDateUtility.timeStringInTwentyFourHourFormat(startTimeInCurrentZone)
+            self.scheduling?.interval?.startTime = startTime
+            self.scheduling?.interval?.endTime = "23:00"
+            populatePreviewArray()
+            reloadIntervalPreviewSection()
+        }
     }
     
     func configureFrequencyTableForFrequencyTypeSelectionAtindexPath(indexPath : NSIndexPath) {
@@ -388,35 +438,17 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         //check which frequenct type is selected and animate table sections based on that
         self.scheduling?.type = (indexPath.row == 0) ? SPECIFIC_TIMES : INTERVAL
         if (self.scheduling?.type == SPECIFIC_TIMES) {
+            //initialise specific times object if specific times object is nil
             if (self.scheduling?.specificTimes == nil) {
-                self.scheduling?.specificTimes = DCSpecificTimes.init()
-                self.scheduling?.specificTimes?.repeatObject = DCRepeat.init()
-                self.scheduling?.specificTimes?.repeatObject.repeatType = DAILY
-                self.scheduling?.specificTimes?.repeatObject.frequency = "1 day"
-//                self.scheduling?.specificTimes?.specificTimesDescription = String(format: "%@ day.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
-                if (timeArray == nil) {
-                    timeArray = []
-                }
-                self.scheduling?.specificTimes?.specificTimesDescription =  DCSchedulingHelper.scheduleDescriptionForSpecificTimesRepeatValue((self.scheduling?.specificTimes?.repeatObject)!, administratingTimes: timeArray!) as String
+                initialiseSpecificTimesObjectInFrequency()
              }
         } else {
             if (self.scheduling?.interval == nil) {
-                //initialise interval
-                self.scheduling?.interval = DCInterval.init()
-                //initial SetStartAndEndDate switch should be false
-                self.scheduling?.interval?.hasStartAndEndDate = false
-                self.scheduling?.interval?.repeatFrequencyType = HOURS_TITLE
-                self.scheduling?.interval.hoursCount = ONE
-                self.scheduling?.interval?.intervalDescription = String(format: "%@ hour.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
-                if (self.scheduling?.interval?.startTime == nil) {
-                    let startTimeInCurrentZone  = DCDateUtility.dateInCurrentTimeZone(NSDate())
-                    let startTime = DCDateUtility.timeStringInTwentyFourHourFormat(startTimeInCurrentZone)
-                    self.scheduling?.interval?.startTime = startTime
-                    self.scheduling?.interval?.endTime = "23:00"
-                    populatePreviewArrayAndReloadTableSection()
-                }
+                //initialise interval if interval object in scheduling is nil
+                initialiseIntervalObjectInFrequency()
             }
         }
+        
         dispatch_async(dispatch_get_main_queue(), {
             self.schedulingTableView.beginUpdates()
             let sectionCount = self.schedulingTableView.numberOfSections
@@ -436,7 +468,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
                     }
                 } else {
                     self.schedulingTableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
-                    if (sectionCount == INTERVAL_SECTION_INITIAL_COUNT && self.scheduling?.interval?.hasStartAndEndDate == true && self.previewArray?.count > 0) {
+                    if (sectionCount == INTERVAL_SECTION_INITIAL_COUNT && self.scheduling?.interval?.hasStartAndEndDate == true /*&& self.previewArray?.count > 0*/) {
                         self.schedulingTableView.insertSections(NSIndexSet(index: 2), withRowAnimation: .Middle)
                     } else {
                         if (self.scheduling?.interval?.hasStartAndEndDate == true && self.previewArray?.count > 0) {
@@ -629,38 +661,18 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
-    //MARK: Description Delegate Methods
-    
-    func closeInlineDatePickers () {
-        
-    }
-    
-    func scrollTableViewToTextViewCellIfInstructionField(isInstruction: Bool) {
-        
-        var scrollOffset = CGPointMake(0, 90)
-        if (tableViewHasInlinePickerForSection(1)) {
-            scrollOffset = CGPointMake(0, TIME_PICKER_CELL_HEIGHT + 90)
-        }
-        schedulingTableView.setContentOffset(scrollOffset, animated: true)
-    }
-    
-    func updateTextViewText(instructions: String!, isInstruction: Bool) {
-        
-        //self.scheduling?.schedulingDescription = instructions
-        if (scheduling?.type == SPECIFIC_TIMES) {
-            self.scheduling?.specificTimes?.specificTimesDescription = instructions
-        } else {
-            self.scheduling?.interval?.intervalDescription = instructions
-        }
-    }
-    
     //MARK: Add Medication Detail Delegate Methods
     
     func updatedAdministrationTimeArray(timeArray: [AnyObject]!) {
         
         //new administration time added
-        self.timeArray = NSMutableArray(array: timeArray)
-        self.updatedTimeArray(self.timeArray)
+        let newTimeArray = NSMutableArray(array: timeArray)
+        if (self.scheduling?.type == SPECIFIC_TIMES) {
+            self.scheduling?.specificTimes?.administratingTimesArray = newTimeArray
+        } else {
+            self.scheduling?.interval?.administratingTimes = newTimeArray
+        }
+       // self.updatedTimeArray(newTimeArray)
     }
     
     //MARK: SchedulingTimeCell Delegate Methods
@@ -668,6 +680,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
     func setStartEndTimeSwitchValueChanged(state : Bool) {
         
         //configure table based on the switch state
+        populatePreviewArray()
         let timeCell = schedulingTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 1)) as? DCSchedulingTimeCell
         timeCell?.timeSwitch.userInteractionEnabled = false
         self.scheduling?.interval?.hasStartAndEndDate = state
@@ -708,12 +721,19 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
     func updatedIntervalPreviewArray(timesArray : NSMutableArray) {
         
         self.previewArray = NSMutableArray(array: timesArray)
-        if (self.previewArray?.count > 0) {
-            let administrationTimeArray = createAdministrationTimesArrayFromPreview()
-            self.updatedTimeArray(administrationTimeArray)
-        }
-        if (self.scheduling?.interval.hasStartAndEndDate == true) {
-            schedulingTableView.reloadData()
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            // get administartion times
+            if (self.previewArray?.count > 0) {
+                let administrationTimeArray = self.createAdministrationTimesArrayFromPreview()
+               // self.updatedTimeArray(administrationTimeArray)
+                self.scheduling?.interval?.administratingTimes = administrationTimeArray
+            }
+            dispatch_async(dispatch_get_main_queue()) {
+                // reload table
+                if (self.scheduling?.interval.hasStartAndEndDate == true) {
+                    self.schedulingTableView.reloadData()
+                }
+            }
         }
     }
 }

@@ -112,7 +112,6 @@
 "ADMINISTRATING_TIME"   =       "Administration time";
 "MEDICATION_TYPE"       =       "Medication Type";
 "ROUTES"                =       "Routes";
-"DOSAGE"                =       "Dosage";
 "DATE"                  =       "Date";
 "ADD_DOSAGE"            =       "Add Dosage";
 "ADD_TIME"              =       "Add New Time";
@@ -152,7 +151,7 @@
 // Scheduling
 
 "DAILY_DESCRIPTION"    =       "Medication will be administered every";
-"SCHEDULING_GENERAL_DESCRIPTION"    =   "";
+"SCHEDULING_GENERAL_DESCRIPTION"    =   "Medication will be administered";
 "BASE_FREQUENCY"       =       "Base Frequency on";
 "ADMINISTRATION_TIMES" =       "Administration Times";
 "REPEAT_FREQUENCY"     =       "Repeat Frequency";

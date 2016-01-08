@@ -39,9 +39,10 @@ let SECOND_INDEX = 1
         loadOverideView = showOverrideView
         if loadOverideView == true {
             self.navigationItem.hidesBackButton = true
-        } else {
-            UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetMake(0, -60), forBarMetrics: .Default)
         }
+//        else {
+//            UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetMake(0, -60), forBarMetrics: .Default)
+//        }
         warningsTableView? .reloadData();
     }
     

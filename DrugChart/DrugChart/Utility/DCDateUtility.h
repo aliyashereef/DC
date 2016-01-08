@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#define TWENTYFOUR_HOUR_FORMAT @"HH.mm"
+#define TWENTYFOUR_HOUR_FORMAT @"HH:mm"
 #define TWELVE_HOUR_FORMAT @"hh:mm a"
 #define DISPLAY_DATE_FORMAT @"HH:mm, dd MMMM"
 
