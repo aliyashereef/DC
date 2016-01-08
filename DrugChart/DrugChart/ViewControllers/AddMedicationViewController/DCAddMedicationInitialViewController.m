@@ -95,6 +95,7 @@
         }
         self.selectedMedication.hasEndDate = (self.selectedMedication.endDate == nil) ? NO : YES;
         self.selectedMedication.timeArray = [DCAddMedicationHelper timesArrayFromScheduleArray:self.selectedMedication.scheduleTimesArray];
+        dateAndTimeSection = 2; //TODO: temporarily added as warnings are not displayed for the time being
     }
 }
 
