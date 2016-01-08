@@ -187,11 +187,16 @@
 }
 
 + (void)configureAddMedicationCellLabel:(UILabel *)label
-                         forContentText:(NSString *)content {
+                         forContentText:(NSString *)content
+                    forSaveButtonAction:(BOOL)clicked {
     
     //configure medication cell label text
-    if ([content isEqualToString:EMPTY_STRING] || content == nil) {
-        label.textColor = [UIColor redColor];
+    if (clicked) {
+        if ([content isEqualToString:EMPTY_STRING] || content == nil) {
+            label.textColor = [UIColor redColor];
+        } else {
+            label.textColor = [UIColor blackColor];
+        }
     } else {
         label.textColor = [UIColor blackColor];
     }

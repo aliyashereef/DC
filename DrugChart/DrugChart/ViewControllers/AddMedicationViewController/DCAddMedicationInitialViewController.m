@@ -154,6 +154,8 @@
             } else {
                 cell.titleLabel.textColor = [UIColor redColor];
             }
+        } else {
+            cell.titleLabel.textColor = [UIColor blackColor];
         }
         NSMutableString *schedulingDescription = [[NSMutableString alloc] initWithString:EMPTY_STRING];
         if ([self.selectedMedication.scheduling.type isEqualToString: SPECIFIC_TIMES] && self.selectedMedication.scheduling.specificTimes.specificTimesDescription != nil) {
@@ -183,9 +185,8 @@
         cell = [[DCDosageMultiLineCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kDosageMultiLineCellID];
     }
     //check if dosage is valid, if not valid highlight field in red
-    if (doneClicked) {
-        [DCAddMedicationHelper configureAddMedicationCellLabel:cell.titleLabel forContentText:self.selectedMedication.dosage];
-    }
+    [DCAddMedicationHelper configureAddMedicationCellLabel:cell.titleLabel
+                                                forContentText:self.selectedMedication.dosage forSaveButtonAction:doneClicked];
     cell.titleLabel.text = NSLocalizedString(@"DOSE", @"Dosage cell title");
     cell.descriptionLabel.numberOfLines = 0;
     cell.descriptionLabel.text = self.selectedMedication.dosage;
@@ -198,15 +199,11 @@
     //doneClicked bool checks if validation is to be done
     if (indexPath.row == ROUTE_INDEX) {
         //if route is not valid, highlight the field in red
-        if (doneClicked) {
-            [DCAddMedicationHelper configureAddMedicationCellLabel:cell.titleLabel forContentText:self.selectedMedication.route];
-        }
+        [DCAddMedicationHelper configureAddMedicationCellLabel:cell.titleLabel forContentText:self.selectedMedication.route forSaveButtonAction:doneClicked];
         cell.titleLabel.text = NSLocalizedString(@"ROUTE", @"Route cell title");
         [cell configureContentCellWithContent:self.selectedMedication.route];
     } else {
-        if (doneClicked) {
-            [DCAddMedicationHelper configureAddMedicationCellLabel:cell.titleLabel forContentText:self.selectedMedication.medicineCategory];
-        }
+        [DCAddMedicationHelper configureAddMedicationCellLabel:cell.titleLabel forContentText:self.selectedMedication.medicineCategory forSaveButtonAction:doneClicked];
         cell.titleLabel.text = NSLocalizedString(@"TYPE", @"Type cell title");
         [cell configureContentCellWithContent:self.selectedMedication.medicineCategory];
     }
@@ -526,6 +523,7 @@
     medicationListViewController.patientId = self.patientId;
     medicationListViewController.selectedMedication = ^(DCMedication *medication, NSArray *warnings) {
         isNewMedication = true;
+        doneClicked = false;
         [self refreshViewWithSelectedMedication:medication withWarnings:warnings];
     };
     UINavigationController *navigationController =
@@ -892,9 +890,7 @@
     
     static NSString *cellIdentifier = ADD_MEDICATION_CONTENT_CELL;
     DCAddMedicationContentCell *cell = [medicationDetailsTableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    if (doneClicked) {
-        [DCAddMedicationHelper configureAddMedicationCellLabel:cell.titleLabel forContentText:self.selectedMedication.dosage];
-    }
+    [DCAddMedicationHelper configureAddMedicationCellLabel:cell.titleLabel forContentText:self.selectedMedication.dosage forSaveButtonAction:doneClicked];
     cell.titleLabel.text = NSLocalizedString(@"DOSE", @"Dose cell title");
     [cell configureContentCellWithContent:self.selectedMedication.dosage];
     return cell;

@@ -93,7 +93,8 @@ typedef enum : NSUInteger {
 + (CGFloat)textContentHeightForDosage:(NSString *)dosage;
 
 + (void)configureAddMedicationCellLabel:(UILabel *)label
-                   forContentText:(NSString *)content;
+                         forContentText:(NSString *)content
+                    forSaveButtonAction:(BOOL)clicked;
 
 
 @end
