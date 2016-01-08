@@ -156,29 +156,29 @@ import UIKit
         return 1
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
-        if (section == 2 && timeArray != nil && alertMessageForMismatch != "") {
-            return alertMessageForMismatch as String
-        } else {
-            return nil
-        }
-    }
-    
-    func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        
-        if let view = view as? UITableViewHeaderFooterView {
-            view.textLabel!.textColor = UIColor.redColor()
-        }
-    }
-    
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if (section == 2 && timeArray != nil && alertMessageForMismatch != "") {
-            return 61.0
-        } else {
-            return 0.0
-        }
-    }
+//    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        
+//        if (section == 2 && timeArray != nil && alertMessageForMismatch != "") {
+//            return alertMessageForMismatch as String
+//        } else {
+//            return nil
+//        }
+//    }
+//    
+//    func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+//        
+//        if let view = view as? UITableViewHeaderFooterView {
+//            view.textLabel!.textColor = UIColor.redColor()
+//        }
+//    }
+//    
+//    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        if (section == 2 && timeArray != nil && alertMessageForMismatch != "") {
+//            return 61.0
+//        } else {
+//            return 0.0
+//        }
+//    }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
@@ -266,6 +266,7 @@ import UIKit
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             //add code here for when you hit delete
+            dosageTableView.cellForRowAtIndexPath(indexPath)?.textLabel?.font = UIFont.systemFontOfSize(5.0)
             self.deleteElementFromTimeArrayAtSelectedIndexPath(indexPath.row)
             self.configureTimeArray()
             self.updateAlertMessageForMismatch()
@@ -277,8 +278,9 @@ import UIKit
     
     func tableView(tableView: UITableView,
         editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
-        let delete = UITableViewRowAction(style: .Default, title: "Delete") { action, index in
+        let delete = UITableViewRowAction(style: .Destructive, title: "Delete") { action, index in
             }
+            dosageTableView.cellForRowAtIndexPath(indexPath)?.textLabel?.font = UIFont.systemFontOfSize(5.0)
             return [delete]
     }
     
