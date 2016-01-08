@@ -255,7 +255,7 @@ import UIKit
     
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         // Return YES if you want the specified item to be editable.
-        if indexPath.section == 2 && timeArray != nil {
+        if indexPath.section == 2 && timeArray != nil && selectedTimeArrayItems.count != 0 {
             return true
         } else {
             return false
@@ -266,7 +266,12 @@ import UIKit
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             //add code here for when you hit delete
-            print("Delete button clicked...")
+            self.deleteElementFromTimeArrayAtSelectedIndexPath(indexPath.row)
+            self.configureTimeArray()
+            self.updateAlertMessageForMismatch()
+            self.dosageTableView.reloadData()
+            dosageTableView.beginUpdates()
+            dosageTableView.endUpdates()
         }
     }
     
@@ -384,7 +389,10 @@ import UIKit
             self.valueForDoseForTime.append("")
             self.insertNewTimeToTimeArray(value!)
             self.configureTimeArray()
+            self.updateAlertMessageForMismatch()
             self.dosageTableView.reloadData()
+            self.dosageTableView.beginUpdates()
+            self.dosageTableView.endUpdates()
         }
         let navigationController: UINavigationController = UINavigationController(rootViewController: addNewDosageViewController!)
         navigationController.modalPresentationStyle = UIModalPresentationStyle.CurrentContext
@@ -469,7 +477,7 @@ import UIKit
         let dosageCell: DCDosageSelectionTableViewCell = dosageTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 1)) as! DCDosageSelectionTableViewCell
         valueStringForRequiredDailyDose = dosageCell.requiredDailyDoseTextField.text!
         valueForRequiredDailyDose = NSString(string: valueStringForRequiredDailyDose).floatValue
-        if (valueStringForRequiredDailyDose != "" && valueForRequiredDailyDose != 0) {
+        if (valueStringForRequiredDailyDose != "" && valueForRequiredDailyDose != 0 && selectedTimeArrayItems.count != 0) {
             
             totalValueForDose = 0
             var valueOfDoseAtIndex : Float = 0
@@ -505,6 +513,24 @@ import UIKit
             }
         }
     }
+    
+    func deleteElementFromTimeArrayAtSelectedIndexPath (index: Int) {
+        
+        print("Before :")
+        print(timeArray)
+        if (timeArray != nil) {
+            for timeDictionary in timeArray! {
+                let time = timeDictionary["time"] as! String
+                if (time == selectedTimeArrayItems[index]) {
+                    let populatedDict = ["time": time, "selected": 0, "dose":valueForDoseForTime[index]]
+                    timeArray?.replaceObjectAtIndex((timeArray?.indexOfObject(timeDictionary))!, withObject: populatedDict)
+                }
+            }
+        }
+        print("After :")
+        print(timeArray)
+    }
+
     
     func insertNewTimeToTimeArray(time: String) {
         
