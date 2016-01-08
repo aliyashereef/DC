@@ -35,7 +35,6 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-   // self.navigationController.navigationBar.topItem.title = @"";
     [self configureViewElements];
 }
 

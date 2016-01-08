@@ -22,6 +22,7 @@
     
     __weak IBOutlet UITableView *medicationDetailsTableView;
     __weak IBOutlet UILabel *orderSetLabel;
+    UILabel *titleLabel;
     UIBarButtonItem *addButton;
     NSMutableArray *dosageArray;
     NSArray *warningsArray;
@@ -74,7 +75,7 @@
     self.navigationItem.rightBarButtonItem = addButton;
     self.navigationItem.leftBarButtonItem = cancelButton;
     UIView *titleView = [[UIView alloc]initWithFrame:TITLE_VIEW_RECT];
-    UILabel *titleLabel = [[UILabel alloc]initWithFrame:TITLE_VIEW_RECT];
+    titleLabel = [[UILabel alloc]initWithFrame:TITLE_VIEW_RECT];
     titleLabel.textAlignment = NSTextAlignmentCenter;
     if (self.isEditMedication) {
         [titleLabel setText:EDIT_MEDICATION];
@@ -617,8 +618,17 @@
         } else if (medicationDetailViewController.detailType == eDetailAdministrationTime) {
             medicationDetailViewController.contentArray = self.selectedMedication.timeArray;
         }
+        [self configureNavigationBackButtonTitle];
         [self.navigationController pushViewController:medicationDetailViewController animated:YES];
     }
+}
+
+- (void)configureNavigationBackButtonTitle {
+    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:titleLabel.text
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:nil
+                                                                            action:nil];
 }
 
 - (void)displaySchedulingDetailViewForTableViewAtIndexPath:(NSIndexPath *)indexPath {
