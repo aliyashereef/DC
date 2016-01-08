@@ -271,19 +271,123 @@
                         <viewControllerLayoutGuide type="top" id="BHG-yr-mYb"/>
                         <viewControllerLayoutGuide type="bottom" id="bTH-i8-khh"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="y1w-7G-Od2" customClass="LineGraphView" customModule="DrugChart" customModuleProvider="target">
+                    <view key="view" contentMode="scaleToFill" id="y1w-7G-Od2">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1CE-7S-kKY">
+                                <rect key="frame" x="5" y="46" width="365" height="613"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vBW-vJ-tYu" customClass="LineGraphView" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="365" height="613"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="startColor">
+                                                <color key="value" red="0.59607843140000005" green="0.86167763159999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="endColor">
+                                                <color key="value" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="vBW-vJ-tYu" secondAttribute="bottom" id="Arf-A9-tOx"/>
+                                    <constraint firstItem="vBW-vJ-tYu" firstAttribute="leading" secondItem="1CE-7S-kKY" secondAttribute="leading" id="B32-f8-pIS"/>
+                                    <constraint firstItem="vBW-vJ-tYu" firstAttribute="top" secondItem="1CE-7S-kKY" secondAttribute="top" id="Tzd-7c-2FB"/>
+                                    <constraint firstAttribute="trailing" secondItem="vBW-vJ-tYu" secondAttribute="trailing" id="dCH-VY-ATA"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8M6-Sh-xuk">
+                                <rect key="frame" x="112" y="17" width="136" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="1CE-7S-kKY" firstAttribute="leading" secondItem="y1w-7G-Od2" secondAttribute="leadingMargin" constant="-15" id="Ge1-9C-TNW"/>
+                            <constraint firstItem="1CE-7S-kKY" firstAttribute="top" secondItem="BHG-yr-mYb" secondAttribute="bottom" constant="26" id="Uhu-AO-s18"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="1CE-7S-kKY" secondAttribute="trailing" constant="-15" id="ZAI-H7-r7w"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="8M6-Sh-xuk" secondAttribute="trailing" constant="107" id="bTz-vk-6hz"/>
+                            <constraint firstItem="8M6-Sh-xuk" firstAttribute="top" secondItem="BHG-yr-mYb" secondAttribute="bottom" constant="-3" id="eCX-Vw-zmt"/>
+                            <constraint firstItem="bTH-i8-khh" firstAttribute="top" secondItem="1CE-7S-kKY" secondAttribute="bottom" constant="8" id="ghB-TK-hmJ"/>
+                            <constraint firstItem="8M6-Sh-xuk" firstAttribute="leading" secondItem="y1w-7G-Od2" secondAttribute="leadingMargin" constant="92" id="gnh-2j-ldp"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="startColor">
+                                <color key="value" red="0.59607843140000005" green="0.86167763159999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="endColor">
+                                <color key="value" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="lineGraph" destination="y1w-7G-Od2" id="o75-B7-NQc"/>
+                        <outlet property="dateLabel" destination="8M6-Sh-xuk" id="iMc-fG-dJI"/>
+                        <outlet property="lineGraph" destination="vBW-vJ-tYu" id="UHk-vX-46R"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h2n-rg-3Lt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2328" y="911"/>
+            <point key="canvasLocation" x="2321.5" y="934.5"/>
+        </scene>
+        <!--Single Bar Graph Controller-->
+        <scene sceneID="iGD-7F-o3G">
+            <objects>
+                <viewController storyboardIdentifier="SingleBarGraphController" id="xkH-lJ-en0" customClass="SingleBarGraphController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="SUu-oi-vLP"/>
+                        <viewControllerLayoutGuide type="bottom" id="Snm-Ml-ehH"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Obg-K1-GKX">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xHL-Ez-1vp">
+                                <rect key="frame" x="8" y="30" width="355" height="630"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bCK-yS-Ulj" customClass="BarGraphView" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="355" height="630"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="startColor">
+                                                <color key="value" red="0.59607843140000005" green="0.86167763159999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="endColor">
+                                                <color key="value" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="bCK-yS-Ulj" secondAttribute="bottom" id="3vZ-nl-Tbg"/>
+                                    <constraint firstItem="bCK-yS-Ulj" firstAttribute="leading" secondItem="xHL-Ez-1vp" secondAttribute="leading" id="DPB-ha-uzR"/>
+                                    <constraint firstAttribute="trailing" secondItem="bCK-yS-Ulj" secondAttribute="trailing" id="QaR-cZ-F01"/>
+                                    <constraint firstItem="bCK-yS-Ulj" firstAttribute="top" secondItem="xHL-Ez-1vp" secondAttribute="top" id="hLB-8x-kC5"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="xHL-Ez-1vp" secondAttribute="trailing" constant="-8" id="3rF-pn-5f8"/>
+                            <constraint firstItem="xHL-Ez-1vp" firstAttribute="leading" secondItem="Obg-K1-GKX" secondAttribute="leadingMargin" constant="-12" id="QfG-7J-WKI"/>
+                            <constraint firstItem="Snm-Ml-ehH" firstAttribute="top" secondItem="xHL-Ez-1vp" secondAttribute="bottom" constant="7" id="f1x-9x-Aqf"/>
+                            <constraint firstItem="xHL-Ez-1vp" firstAttribute="top" secondItem="SUu-oi-vLP" secondAttribute="bottom" constant="10" id="xMJ-BN-Uep"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="barGraph" destination="bCK-yS-Ulj" id="JJu-LP-oOW"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="POt-NL-d2z" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2783.5" y="648.5"/>
         </scene>
         <!--Comma Score-->
         <scene sceneID="n9p-SU-M52">

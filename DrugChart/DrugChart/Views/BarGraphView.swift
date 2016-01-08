@@ -23,6 +23,8 @@ class BarGraphView: GraphView {
             {
                 width = self.frame.width
                 height = self.frame.height
+                topBorderY = self.frame.origin.y
+                topBorder = 60 + topBorderY
                 
                 // Draw the graph background
                 let path = UIBezierPath(roundedRect: self.frame, byRoundingCorners: .AllCorners, cornerRadii: CGSize(width: 8.0, height: 8.0))
@@ -122,8 +124,10 @@ class BarGraphView: GraphView {
         }
     }
     
-    override func plotBarGraph(xAxisValue:[NSDate],yAxisMinValue:[Double],yAxisMaxValue:[Double],displayView:GraphDisplayView, graphTitle:String,graphStartDate:NSDate , graphEndDate:NSDate, latestReadingText:String! , latestReadingDate:NSDate!)
+    override func plotBarGraph(xAxisValue:[NSDate],yAxisMinValue:[Double],yAxisMaxValue:[Double],displayView:GraphDisplayView, graphTitle:String,graphStartDate:NSDate , graphEndDate:NSDate, latestReadingText:String! , latestReadingDate:NSDate!, noOfHorizontalLines:Int)
     {
+            self.maxXAxis = noOfHorizontalLines
+            self.noOfLinesonxAxis = noOfHorizontalLines
             self.graphStartDate = graphStartDate
             self.graphEndDate = graphEndDate
             self.xAxisValue = xAxisValue

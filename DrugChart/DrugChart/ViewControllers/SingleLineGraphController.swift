@@ -10,11 +10,15 @@ import UIKit
 
 class SingleLineGraphController: UIViewController {
 
+    @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet var lineGraph: LineGraphView!
+    var graphData:LineGraphModel!
+    var observationType:DashBoardRow!
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
+        lineGraph.plotLineGraph(graphData.xAxisValue, yAxisValue: graphData.yAxisValue, displayView: graphData.graphDisplayView, graphTitle: graphData.cellTitle, graphStartDate: graphData.graphStartDate, graphEndDate: graphData.graphEndDate, latestReadingText: graphData.latestObservationText, latestReadingDate: graphData.latestObservationDate ,noOfHorizontalLines: Constant.FULL_SCREEN_GRAPH_HORIZONTAL_LINES
+           )
     }
 
     override func didReceiveMemoryWarning() {
@@ -22,6 +26,10 @@ class SingleLineGraphController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
+   
+    lineGraph.plotLineGraph(graphData.xAxisValue, yAxisValue: graphData.yAxisValue, displayView: graphData.graphDisplayView, graphTitle: graphData.cellTitle, graphStartDate: graphData.graphStartDate, graphEndDate: graphData.graphEndDate, latestReadingText: graphData.latestObservationText, latestReadingDate: graphData.latestObservationDate,noOfHorizontalLines: Constant.FULL_SCREEN_GRAPH_HORIZONTAL_LINES)
+}
 
     /*
     // MARK: - Navigation

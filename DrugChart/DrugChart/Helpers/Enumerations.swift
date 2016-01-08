@@ -78,7 +78,7 @@ enum CommaScoreTableRow:Int
 }
 enum ChartType:Int
 {
-    case None,LineChart,BarChart
+    case LineChart,BarChart
     
     static var count: Int {  // I called this "maximumRawValue" in the post
         var max: Int = 0

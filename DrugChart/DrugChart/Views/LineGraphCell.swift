@@ -12,7 +12,7 @@ class LineGraphCell: GraphCollectionnViewCell {
 
     @IBOutlet weak var lineGraph: LineGraphView!
     var delegate:ObservationDelegate? = nil
-    
+    var cellObservationType:DashBoardRow!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -23,16 +23,10 @@ class LineGraphCell: GraphCollectionnViewCell {
     
     override func showIndividualGraph()
     {
-//        let alert = UIAlertView()
-//        alert.title = "my title"
-//        alert.message = "things are working slowly"
-//        alert.addButtonWithTitle("Ok")
-//        alert.delegate = self
-//        alert.show()
-        
         
         let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
         let singleLineGraphController : SingleLineGraphController = mainStoryboard.instantiateViewControllerWithIdentifier("SingleLineGraphController") as! SingleLineGraphController
+        singleLineGraphController.observationType = cellObservationType
         delegate?.PushViewController(singleLineGraphController)
     }
 
