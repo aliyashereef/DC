@@ -253,6 +253,23 @@ import UIKit
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        // Return YES if you want the specified item to be editable.
+        if indexPath.section == 2 && timeArray != nil {
+            return true
+        } else {
+            return false
+        }
+    }
+    // Override to support editing the table view.
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            //add code here for when you hit delete
+            print("Delete button clicked...")
+        }
+    }
+    
     // MARK: - Private Methods
     
     func checkWhetherRowAlreadySelected (indexPath : NSIndexPath) {
