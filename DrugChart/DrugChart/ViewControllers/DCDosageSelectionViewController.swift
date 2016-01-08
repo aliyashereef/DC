@@ -107,7 +107,7 @@ import UIKit
     
     func configureNavigationBarItems() {
         
-        UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetMake(0, -60), forBarMetrics: .Default)
+       // UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetMake(0, -60), forBarMetrics: .Default)
         self.navigationItem.title = DOSE_VALUE_TITLE
         self.title = DOSE_VALUE_TITLE
     }

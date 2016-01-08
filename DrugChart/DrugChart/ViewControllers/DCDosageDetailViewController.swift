@@ -89,7 +89,7 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
         } else {
             
             // Configure navigation title.
-            UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetMake(0, -60), forBarMetrics: .Default)
+           // UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetMake(0, -60), forBarMetrics: .Default)
             
             switch (detailType.rawValue) {
                 

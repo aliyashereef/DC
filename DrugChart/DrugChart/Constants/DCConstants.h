@@ -48,7 +48,6 @@
 
 //Button Titles
 #define OK_BUTTON_TITLE     @"OK"
-#define BACK_BUTTON_TITLE   @"Back"
 #define CANCEL_BUTTON_TITLE @"Cancel"
 #define REMOVE_BUTTON_TITLE @"Remove"
 #define ORDER_BUTTON_TITLE  @"Order"

@@ -73,7 +73,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
     
     func configureNavigationBarItems() {
         
-        UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetMake(0, -60), forBarMetrics: .Default)
+        //UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetMake(0, -60), forBarMetrics: .Default)
         self.navigationItem.title = NSLocalizedString("FREQUENCY", comment: "")
         self.title = NSLocalizedString("FREQUENCY", comment: "")
     }

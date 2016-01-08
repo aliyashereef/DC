@@ -715,10 +715,10 @@ typedef enum : NSUInteger {
                 detailViewController.patientId = self.patient.patientId;
                 UINavigationController *navigationController =
                 [[UINavigationController alloc] initWithRootViewController:detailViewController];
-                UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:EMPTY_STRING style:UIBarButtonItemStylePlain target:nil action:nil];
-                [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)
-                                                                     forBarMetrics:UIBarMetricsDefault];
-                navigationController.navigationItem.backBarButtonItem = backButton;
+//                UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:EMPTY_STRING style:UIBarButtonItemStylePlain target:nil action:nil];
+//                [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)
+//                                                                     forBarMetrics:UIBarMetricsDefault];
+//                navigationController.navigationItem.backBarButtonItem = backButton;
                 navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
                 [self presentViewController:navigationController animated:YES completion:nil];
             }
