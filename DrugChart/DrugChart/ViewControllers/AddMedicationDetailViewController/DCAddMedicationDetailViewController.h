@@ -27,6 +27,8 @@ typedef void(^NewAdministrationTime)(NSDate *date);
 @property (nonatomic, strong) NewAdministrationTime newTime;
 @property (nonatomic, strong) NSString *previousFilledValue;
 @property (nonatomic, strong) NSMutableArray *contentArray;
+//@property (nonatomic, strong) NSString *backButtonText;
+//@property (nonatomic) BOOL isEditMedication;
 @property (nonatomic, weak) id <AddMedicationDetailDelegate> delegate;
 
 @end

@@ -38,6 +38,17 @@
     [self configureViewElements];
 }
 
+//- (void)viewWillAppear:(BOOL)animated {
+//    
+//    [super viewWillAppear:animated];
+//   // NSLog(@"self.navigationItem.backBarButtonItem.title is %@", self.navigationItem.backBarButtonItem.title);
+//
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        NSString *backButtonText = _isEditMedication? @"Edit Medication" : @"Add medication";
+//        [DCUtility backButtonItemForViewController:self inNavigationController:self.navigationController withTitle:backButtonText];
+//    });
+//}
+
 - (void)viewWillDisappear:(BOOL)animated {
     
     [super viewWillDisappear:animated];

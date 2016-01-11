@@ -565,6 +565,8 @@
     UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
     DCWarningsListViewController *warningsListViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:WARNINGS_LIST_STORYBOARD_ID];
     [warningsListViewController populateWarningsListWithWarnings:warningsArray showOverrideView:NO];
+    //warningsListViewController.backButtonText = titleLabel.text;
+    [self configureNavigationBackButtonTitle];
     [self.navigationController pushViewController:warningsListViewController animated:YES];
 }
 
@@ -596,10 +598,13 @@
         dosageSelectionViewController.timeArray = self.selectedMedication.timeArray;
         dosageSelectionViewController.menuType = eDosageMenu;
         [self configureNavigationBackButtonTitle];
+        //dosageSelectionViewController.backButtonText = titleLabel.text;
         [self.navigationController pushViewController:dosageSelectionViewController animated:YES];
     } else {
         UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
         DCAddMedicationDetailViewController *medicationDetailViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:ADD_MEDICATION_DETAIL_STORYBOARD_ID];
+       // medicationDetailViewController.backButtonText = titleLabel.text;
+        //medicationDetailViewController.isEditMedication = NO;
         medicationDetailViewController.delegate = self;
         __weak DCAddMedicationDetailViewController *weakDetailVc = medicationDetailViewController;
         medicationDetailViewController.selectedEntry = ^ (NSString *value) {
@@ -619,6 +624,7 @@
         } else if (medicationDetailViewController.detailType == eDetailAdministrationTime) {
             medicationDetailViewController.contentArray = self.selectedMedication.timeArray;
         }
+        
         [self configureNavigationBackButtonTitle];
         [self.navigationController pushViewController:medicationDetailViewController animated:YES];
     }
@@ -626,10 +632,11 @@
 
 - (void)configureNavigationBackButtonTitle {
     
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:titleLabel.text
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:titleLabel.text
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:nil
                                                                             action:nil];
+    self.navigationItem.backBarButtonItem = backButton;
 }
 
 - (void)displaySchedulingDetailViewForTableViewAtIndexPath:(NSIndexPath *)indexPath {
@@ -651,6 +658,7 @@
     }
     schedulingViewController.scheduling = self.selectedMedication.scheduling;
     schedulingViewController.validate = doneClicked;
+    //schedulingViewController.backButtonText = titleLabel.text;
     [self configureNavigationBackButtonTitle];
     [self.navigationController pushViewController:schedulingViewController animated:YES];
 }

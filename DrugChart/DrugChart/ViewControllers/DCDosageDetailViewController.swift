@@ -45,7 +45,6 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
     func configureNavigationBarItems() {
         
             // Configure navigation title.
-            UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetMake(0, -60), forBarMetrics: .Default)
             switch (detailType.rawValue) {
                 
             case eDoseValue.rawValue:

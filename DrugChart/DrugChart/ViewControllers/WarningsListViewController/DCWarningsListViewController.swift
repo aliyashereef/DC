@@ -27,6 +27,7 @@ let SECOND_INDEX = 1
     var severeArray : AnyObject?
     var mildArray : AnyObject?
     var loadOverideView : Bool? = false
+   // var backButtonText : NSString = EMPTY_STRING
     var delegate: WarningsDelegate?
     
     //MARK: Public Methods
@@ -40,9 +41,6 @@ let SECOND_INDEX = 1
         if loadOverideView == true {
             self.navigationItem.hidesBackButton = true
         }
-//        else {
-//            UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetMake(0, -60), forBarMetrics: .Default)
-//        }
         warningsTableView? .reloadData();
     }
     
@@ -58,6 +56,12 @@ let SECOND_INDEX = 1
         super.viewDidAppear(true)
         warningsTableView!.reloadData()
     }
+    
+//    override func viewWillAppear(animated: Bool) {
+//        
+//        super.viewWillAppear(animated)
+//        DCUtility.backButtonItemForViewController(self, inNavigationController: self.navigationController, withTitle: backButtonText as String)
+//    }
     
     override func didReceiveMemoryWarning() {
         
