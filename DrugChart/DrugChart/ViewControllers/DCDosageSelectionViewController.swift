@@ -38,6 +38,7 @@ import UIKit
     var valueForRequiredDailyDose : Float = 0
     var totalValueForDose : Float = 0
     var alertMessageForMismatch :NSString = ""
+    //var backButtonText : NSString = EMPTY_STRING
     @IBOutlet weak var dosageTableView: UITableView!
     weak var newDosageAddedDelegate: NewDosageValueEntered? = nil
     
@@ -55,6 +56,12 @@ import UIKit
         
         dosageTableView.reloadData()
     }
+    
+//    override func viewWillAppear(animated: Bool) {
+//        
+//        super.viewWillAppear(animated)
+//        DCUtility.backButtonItemForViewController(self, inNavigationController: self.navigationController, withTitle: backButtonText as String)
+//    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -106,9 +113,13 @@ import UIKit
     
     func configureNavigationBarItems() {
         
-       // UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetMake(0, -60), forBarMetrics: .Default)
         self.navigationItem.title = DOSE_VALUE_TITLE
         self.title = DOSE_VALUE_TITLE
+    }
+    
+    func configureNavigationBackButtonTitle () {
+        
+        self.navigationItem.backBarButtonItem = UIBarButtonItem.init(title: self.title, style: .Plain, target: nil, action: nil)
     }
     
     // MARK: - TableView Methods
@@ -336,6 +347,7 @@ import UIKit
                     self.valueForDoseUnit = value!
                     self.dosageTableView.reloadData()
                 }
+                self.configureNavigationBackButtonTitle();
                 self.navigationController?.pushViewController(doseUnitSelectionViewController!, animated: true)
                 return
             case 1:
@@ -367,6 +379,7 @@ import UIKit
             case 3:
                 if (menuType == eReducingIncreasing) {
                     let dosageDetailViewController : DCDosageConditionsViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_CONDITIONS_SBID) as? DCDosageConditionsViewController
+                    self.configureNavigationBackButtonTitle()
                     self.navigationController?.pushViewController(dosageDetailViewController!, animated: true)
                     return
                 }
@@ -386,6 +399,7 @@ import UIKit
         } else {
             self.transitToAddNewTimeScreen()
         }
+        self.configureNavigationBackButtonTitle();
         self.navigationController?.pushViewController(dosageDetailViewController!, animated: true)
     }
     
