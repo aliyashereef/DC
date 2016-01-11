@@ -20,6 +20,10 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
     var observationList:[VitalSignObservation]!
     var filteredObservations:[VitalSignObservation]!
     private var viewByDate:NSDate = NSDate()
+    let BORDER_WIDTH : CGFloat  = 0.10
+    let CORNER_RADIUS :CGFloat = 2
+    let CELL_BORDER_COLOR :CGColor = UIColor.lightGrayColor().CGColor
+    let SELECTION_CELL_BACKGROUND_COLOR:UIColor = UIColor(forHexString: "#fafafa")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +34,9 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
         self.collectionView .registerNib(UINib(nibName: "HeaderCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: headerCellIdentifier)
         self.collectionView .registerNib(UINib(nibName: "ContentCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: contentCellIdentifier)
         self.collectionView .registerNib(UINib(nibName: "RowHeaderCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: rowHeaderCellIdentifier)
-   
+        collectionView.layer.borderWidth = 0.5
+        collectionView.layer.borderColor = UIColor.lightGrayColor().CGColor
+        
         setDateDisplay()
         reloadView(observationList)
     }
@@ -69,18 +75,30 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
         
         if indexPath.section == 0 {
             let headerCell : HeaderCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(headerCellIdentifier, forIndexPath: indexPath) as! HeaderCollectionViewCell
-            headerCell.configureCell()
+            	//headerCell.configureCell()
             
             if indexPath.row == 0 {
                 headerCell.dateLabel.text = "Date"
                 headerCell.timeLabel.text = "Time"
-                headerCell.backgroundColor = UIColor(red: 31/255, green: 146/255, blue: 190/255, alpha: 1.0)
+               // headerCell.backgroundColor = UIColor(red: 31/255, green: 146/255, blue: 190/255, alpha: 1.0)
+                headerCell.layoutMargins = UIEdgeInsetsZero
+                headerCell.layer.borderWidth = BORDER_WIDTH
+                headerCell.layer.borderColor = CELL_BORDER_COLOR
+                headerCell.layer.cornerRadius = CORNER_RADIUS
+                headerCell.backgroundColor = UIColor.whiteColor()
                 return headerCell
             } else {
                 let observation = filteredObservations[indexPath.row - 1]
-                headerCell.dateLabel.text = observation.getFormattedDate()
-                headerCell.timeLabel.text = observation.getFormattedTime()
-                headerCell.backgroundColor = UIColor(red: 31/255, green: 146/255, blue: 190/255, alpha: 1.0)
+                headerCell.configureCell(observation.date)
+                headerCell.layer.borderWidth = BORDER_WIDTH
+                headerCell.layer.borderColor = CELL_BORDER_COLOR
+                headerCell.layer.cornerRadius = CORNER_RADIUS
+                if observation.date.isToday()
+                {
+                    headerCell.backgroundColor = SELECTION_CELL_BACKGROUND_COLOR
+                    headerCell.dateLabel.backgroundColor = SELECTION_CELL_BACKGROUND_COLOR
+                    headerCell.timeLabel.backgroundColor = SELECTION_CELL_BACKGROUND_COLOR
+                }
                 return headerCell
             }
         } else {
@@ -114,11 +132,13 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
                 headerCell.backgroundColor = UIColor.whiteColor()
                 
                 headerCell.label.text = headerText
+                headerCell.layer.borderWidth = BORDER_WIDTH
+                headerCell.layer.borderColor = CELL_BORDER_COLOR
+                headerCell.layer.cornerRadius = CORNER_RADIUS
                 return headerCell
             } else {
                 let contentCell : ContentCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(contentCellIdentifier, forIndexPath: indexPath) as! ContentCollectionViewCell
                 let observation = filteredObservations[indexPath.row - 1]
-               // contentCell.configureCell(observation)
                 contentCell.delegate = self
                 switch(indexPath.section)
                 {
@@ -149,11 +169,24 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
                 default:
                     print("come in default section")
                 }
-                contentCell.backgroundColor = UIColor.whiteColor()
+                if observation.date.isToday()
+                {
+                    contentCell.backgroundColor = SELECTION_CELL_BACKGROUND_COLOR
+                }
+                else
+                {
+                    contentCell.backgroundColor = UIColor.whiteColor()
+                }
+                contentCell.layer.borderWidth = BORDER_WIDTH
+                contentCell.layer.borderColor = CELL_BORDER_COLOR
+                contentCell.layer.cornerRadius = CORNER_RADIUS
+                
                 return contentCell
             }
         }
     }
+    
+    
     // Mark: Sorting option implementation
     @IBAction func showCalendar()
     {
@@ -182,6 +215,9 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
         self.presentViewController(navigationController, animated: false, completion: nil)
     }
     
+    
+    
+  
     func filterList()
     {
         let calendar = NSCalendar.currentCalendar()

@@ -11,16 +11,31 @@ import UIKit
 class HeaderCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
-
+    var indicatorLabel: UILabel = UILabel()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
-    func configureCell()
+    func configureCell(date:NSDate)
     {
-        self.layer.borderWidth = 1.0
-        self.layer.borderColor = UIColor.lightGrayColor().CGColor
-        dateLabel.textColor = UIColor.whiteColor()
-        timeLabel.textColor = UIColor.whiteColor()
+        dateLabel.layer.borderWidth = 0
+        timeLabel.layer.borderWidth = 0
+        dateLabel.text = date.getFormattedDayoftheWeek()
+        timeLabel.text = date.getFormattedTime()
+        indicatorLabel.frame = CGRectMake(100, 7, 25, 25)
+        indicatorLabel.font = UIFont.systemFontOfSize(17)
+        indicatorLabel.textAlignment = .Center
+        indicatorLabel.text = date.getFormattedDay()
+        
+        if(date.isToday())
+        {
+        indicatorLabel.textColor = UIColor.whiteColor()
+        indicatorLabel.backgroundColor = UIColor(forHexString: "#007aff")
+        indicatorLabel.layer.cornerRadius = 12.5
+        indicatorLabel.layer.masksToBounds = true
+        }
+        self.addSubview(indicatorLabel)
+        
     }
 }

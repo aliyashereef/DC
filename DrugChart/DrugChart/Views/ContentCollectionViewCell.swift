@@ -21,8 +21,6 @@ class ContentCollectionViewCell: UICollectionViewCell {
     func configureCell(observation:VitalSignObservation ,showobservationType:ShowObservationType )
     {
         self.observation = observation
-        self.layer.borderWidth = 1
-        self.layer.borderColor = UIColor.lightGrayColor().CGColor
         self.showObservationType = showobservationType
         let tap = UITapGestureRecognizer(target: self, action: "doubleTapped")
         tap.numberOfTapsRequired = 2
