@@ -21,9 +21,9 @@ class HeaderCollectionViewCell: UICollectionViewCell {
     {
         dateLabel.layer.borderWidth = 0
         timeLabel.layer.borderWidth = 0
-        dateLabel.text = date.getFormattedDayoftheWeek()
+        dateLabel.text = date.getFormattedDayoftheWeek() + " " + date.getFormattedDay()
         timeLabel.text = date.getFormattedTime()
-        indicatorLabel.frame = CGRectMake(100, 7, 25, 25)
+        indicatorLabel.frame = CGRectMake(96, 4, 25, 25)
         indicatorLabel.font = UIFont.systemFontOfSize(17)
         indicatorLabel.textAlignment = .Center
         indicatorLabel.text = date.getFormattedDay()
@@ -34,6 +34,10 @@ class HeaderCollectionViewCell: UICollectionViewCell {
         indicatorLabel.backgroundColor = UIColor(forHexString: "#007aff")
         indicatorLabel.layer.cornerRadius = 12.5
         indicatorLabel.layer.masksToBounds = true
+        }
+        else
+        {
+            indicatorLabel.backgroundColor = UIColor.whiteColor()
         }
         self.addSubview(indicatorLabel)
         
