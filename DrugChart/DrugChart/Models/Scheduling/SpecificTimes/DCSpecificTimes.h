@@ -13,5 +13,6 @@
 
 @property (nonatomic, strong) DCRepeat *repeatObject;
 @property (nonatomic, strong) NSString *specificTimesDescription;
+@property (nonatomic, strong) NSMutableArray *administratingTimesArray;
 
 @end

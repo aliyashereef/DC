@@ -85,8 +85,8 @@
 
 - (void)configureFetchListTableView {
     
-    medicationListTableView.layoutMargins = UIEdgeInsetsZero;
-    medicationListTableView.separatorInset = UIEdgeInsetsZero;
+//    medicationListTableView.layoutMargins = UIEdgeInsetsZero;
+//    medicationListTableView.separatorInset = UIEdgeInsetsZero;
     medicationListTableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     medicationWebService = [[DCMedicationSearchWebService alloc] init];
     medicationListArray = [NSMutableArray arrayWithArray:@[NSLocalizedString(@"SEARCH_MEDICATION_MIN_LIMIT", @"")]];
@@ -192,7 +192,7 @@
     
     static NSString *cellIdentifier = MEDICATION_LIST_CELL_IDENTIFIER;
     DCMedicationListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    cell.layoutMargins = UIEdgeInsetsZero;
+//    cell.layoutMargins = UIEdgeInsetsZero;
     if (cell == nil) {
         cell = [[DCMedicationListTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }

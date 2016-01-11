@@ -16,7 +16,6 @@ var REASON : String = "Reason"
     
     override func awakeFromNib() {
         
-        reasonTextView.contentInset = UIEdgeInsetsMake(5, 5, 5, 5)
     }
     
     // MARK: TextView Delegate Methods

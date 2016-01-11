@@ -33,10 +33,10 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     var patientId : NSString = EMPTY_STRING
     var panGestureDirection : PanDirection = PanDirection.atCenter
     let existingStatusViews : NSMutableArray = []
-    
+    var isEditMode : Bool = false
     var webRequestCancelled = false
     var calendarCellIsMoving = true
-    
+    var selectedIndexPath : NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
     let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
     
     required init?(coder aDecoder: NSCoder) {
@@ -120,22 +120,26 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     
     func todayButtonClicked () {
         
-        self.resetMedicationSlotCellsOnQuickSwipe()
-        if (appDelegate.windowState == DCWindowState.fullWindow ||
-            appDelegate.windowState == DCWindowState.twoThirdWindow) {
-                let index = (appDelegate.windowState == DCWindowState.fullWindow) ? 7 : 4
-                let weekdate = currentWeekDatesArray.objectAtIndex(index) // extracting the middle date - todays date
-                let calendar : NSCalendar = NSCalendar.init(calendarIdentifier: NSCalendarIdentifierGregorian)!
-                let todaysDate : NSDate = calendar.startOfDayForDate(NSDate())
-                let order = NSCalendar.currentCalendar().compareDate(weekdate as! NSDate, toDate:todaysDate,
-                    toUnitGranularity: .Day)
-                if order == NSComparisonResult.OrderedSame {
-                    // Do Nothing
-                } else if order == NSComparisonResult.OrderedAscending {
-                    self.animateAdministratorDetailsView(false)
-                } else if order == NSComparisonResult.OrderedDescending {
-                    self.animateAdministratorDetailsView(true)
-                }
+        let index = (appDelegate.windowState == DCWindowState.fullWindow) ? 7 : 4
+        let weekDate = currentWeekDatesArray.objectAtIndex(index) // extracting the middle date - todays date
+        let centerDate = DCDateUtility.shortDateFromDate(weekDate as! NSDate)
+        let todayDate = DCDateUtility.shortDateFromDate(DCDateUtility.dateInCurrentTimeZone(NSDate())) as NSDate
+        if centerDate != todayDate {
+            self.resetMedicationSlotCellsOnQuickSwipe()
+            if (appDelegate.windowState == DCWindowState.fullWindow ||
+                appDelegate.windowState == DCWindowState.twoThirdWindow) {
+                    let calendar : NSCalendar = NSCalendar.init(calendarIdentifier: NSCalendarIdentifierGregorian)!
+                    let todaysDate : NSDate = calendar.startOfDayForDate(NSDate())
+                    let order = NSCalendar.currentCalendar().compareDate(weekDate as! NSDate, toDate:todaysDate,
+                        toUnitGranularity: .Day)
+                    if order == NSComparisonResult.OrderedSame {
+                        // Do Nothing
+                    } else if order == NSComparisonResult.OrderedAscending {
+                        self.animateAdministratorDetailsView(false)
+                    } else if order == NSComparisonResult.OrderedDescending {
+                        self.animateAdministratorDetailsView(true)
+                    }
+            }
         }
     }
 
@@ -398,25 +402,25 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             let calendarStripDaysCount = (appDelegate.windowState == DCWindowState.fullWindow) ? 5:3
             if (index < calendarStripDaysCount) {
                 let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell, toContainerSubview: medicationCell.leftMedicationAdministerDetailsView, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary, atIndexPath: indexPath, atSlotIndex: index);
-                let weekdate = currentWeekDatesArray.objectAtIndex(index) as? NSDate
+                let weekDate = currentWeekDatesArray.objectAtIndex(index) as? NSDate
                 medicationCell.leftMedicationAdministerDetailsView.addSubview(statusView)
-                statusView.configureStatusViewForWeekDate(weekdate!)
+                statusView.configureStatusViewForWeekDate(weekDate!)
             }
             else if (index >= calendarStripDaysCount && index < 2 * calendarStripDaysCount) {
                 let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell, toContainerSubview: medicationCell.masterMedicationAdministerDetailsView, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
                     atIndexPath: indexPath,
                     atSlotIndex: index - calendarStripDaysCount)
-                let weekdate = currentWeekDatesArray.objectAtIndex(index) as? NSDate
+                let weekDate = currentWeekDatesArray.objectAtIndex(index) as? NSDate
                 medicationCell.masterMedicationAdministerDetailsView.addSubview(statusView)
-                statusView.configureStatusViewForWeekDate(weekdate!)
+                statusView.configureStatusViewForWeekDate(weekDate!)
             }
             else if (index >= 2 * calendarStripDaysCount  && index < 3 * calendarStripDaysCount) {
                 let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell, toContainerSubview: medicationCell.rightMedicationAdministerDetailsView, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary,
                     atIndexPath: indexPath,
                     atSlotIndex: index - 2 * calendarStripDaysCount)
-                let weekdate = currentWeekDatesArray.objectAtIndex(index) as? NSDate
+                let weekDate = currentWeekDatesArray.objectAtIndex(index) as? NSDate
                 medicationCell.rightMedicationAdministerDetailsView.addSubview(statusView)
-                statusView.configureStatusViewForWeekDate(weekdate!)
+                statusView.configureStatusViewForWeekDate(weekDate!)
             }
 
             for subView in existingStatusViews {
@@ -484,6 +488,19 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         return medicationSlotsArray
     }
     
+    func swipeBackMedicationCellsInTableView() {
+        
+        for (index,_) in displayMedicationListArray.enumerate(){
+            let indexPath = NSIndexPath(forRow: index, inSection: 0)
+            if indexPath == selectedIndexPath {
+                continue
+            }
+            let medicationCell = medicationTableView?.cellForRowAtIndexPath(indexPath)
+                as? PrescriberMedicationTableViewCell
+            medicationCell?.swipeMedicationDetailViewToRight()
+        }
+    }
+    
     //MARK - DCMedicationAdministrationStatusProtocol delegate implementation
     
     func administerMedicationWithMedicationSlots (medicationSLotDictionary: NSDictionary, atIndexPath indexPath: NSIndexPath ,withWeekDate date : NSDate) {
@@ -497,6 +514,11 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         deleteMedicationAtIndexPath(indexPath)
     }
     
+    func setIndexPathSelected(indexPath : NSIndexPath) {
+        selectedIndexPath = indexPath
+        swipeBackMedicationCellsInTableView()
+    }
+    
     func editMedicationForSelectedIndexPath(indexPath: NSIndexPath) {
         let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
         let addMedicationViewController : DCAddMedicationInitialViewController? = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(ADD_MEDICATION_POPOVER_SB_ID) as? DCAddMedicationInitialViewController
@@ -506,6 +528,10 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         if (medicationScheduleDetails.scheduling == nil) {
             medicationScheduleDetails.scheduling = DCScheduling.init();
             medicationScheduleDetails.scheduling.type = SPECIFIC_TIMES;
+            medicationScheduleDetails.scheduling.specificTimes = DCSpecificTimes.init()
+            medicationScheduleDetails.scheduling.specificTimes.repeatObject = DCRepeat.init()
+            medicationScheduleDetails.scheduling.specificTimes.repeatObject.repeatType = DAILY
+            medicationScheduleDetails.scheduling.specificTimes.repeatObject.frequency = "1 day"
         }
         addMedicationViewController?.selectedMedication = medicationScheduleDetails
         addMedicationViewController?.isEditMedication = true
@@ -520,7 +546,6 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         popover?.permittedArrowDirections = .Left
 
         let cell = medicationTableView!.cellForRowAtIndexPath(indexPath) as! PrescriberMedicationTableViewCell?
-
         popover?.sourceRect = CGRectMake(cell!.editButton.bounds.origin.x - (205 + cell!.editButton.bounds.size.width),cell!.editButton.bounds.origin.y - 300,310,690);
         
         popover!.sourceView = cell?.editButton

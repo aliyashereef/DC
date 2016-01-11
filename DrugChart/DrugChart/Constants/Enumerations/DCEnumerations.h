@@ -119,7 +119,15 @@ typedef enum : NSUInteger {
     eDoseValue,
     eDoseFrom,
     eDoseTo,
-    eAddNewDosage
+    eStartingDose,
+    eChangeOver,
+    eConditions,
+    eAddNewDosage,
+    eAddCondition,
+    eAddDoseForTime,
+    eAddNewTime,
+    eDose,
+    eUntil
 }DosageDetailType;
 
 
@@ -137,7 +145,8 @@ typedef enum : NSUInteger {
     eYearOnTheCount,
     eDayCount,
     eHoursCount,
-    eMinutesCount
+    eMinutesCount,
+    eReducingIncreasingType
 }PickerType;
 
 

@@ -14,6 +14,7 @@ class DCSchedulingDescriptionTableCell: DCInstructionsTableCell {
      @IBOutlet weak var descriptionTextView: UITextView!
 
     override func awakeFromNib() {
+        
         super.awakeFromNib()
         // Initialization code
     }

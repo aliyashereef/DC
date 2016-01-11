@@ -52,9 +52,6 @@ class DCMedicationAdministrationStatusView: UIView {
         
         super.init(frame: frame)
          addViewElements()
-        if isOneThirdScreen {
-            administerButton?.enabled = false
-        }
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -76,9 +73,6 @@ class DCMedicationAdministrationStatusView: UIView {
         self.addSubview(administerButton!)
         self.sendSubviewToBack(administerButton!)
         administerButton?.addTarget(self, action: Selector("administerButtonClicked:"), forControlEvents: .TouchUpInside)
-        if (medicationCategory == WHEN_REQUIRED || medicationCategory == ONCE_MEDICATION) {
-            self.disableAdministerButton()
-        }
     }
 
     func updateAdministrationStatusViewWithMedicationSlotDictionary(slotDictionary : NSDictionary) {
@@ -142,7 +136,6 @@ class DCMedicationAdministrationStatusView: UIView {
             }
             statusLabel?.center = CGPointMake(self.bounds.size.width/1.7, self.bounds.size.height/2);
         }
-        self.disableAdministerButton()
     }
     
     func configureStatusViewForToday() {
@@ -183,9 +176,7 @@ class DCMedicationAdministrationStatusView: UIView {
         } else {
             updateCurrentDayStatusViewWithAdministrationCount(administrationCount:administeredCount, omittedRefusalCount: omissionRefusalCount)
         }
-        self.disableAdministerButton()
     }
-    
     
     func updateCurrentDayStatusViewWithAdministrationCount(administrationCount administeredCount: NSInteger, omittedRefusalCount : NSInteger) {
         
@@ -193,7 +184,6 @@ class DCMedicationAdministrationStatusView: UIView {
             // all administered, so indicate area with tick mark
             statusLabel?.hidden = true
             statusIcon?.hidden = false
-            self.disableAdministerButton()
             statusIcon!.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
             if isOneThirdScreen {
                 statusIcon?.image = (administeredCount == timeArray.count) ? ADMINISTRATION_SUCCESS_IMAGE_ONETHIRD : ADMINISTRATION_OMITTED_IMAGE_ONETHIRD
@@ -285,7 +275,6 @@ class DCMedicationAdministrationStatusView: UIView {
     
     func updatePastDayStatusViewForAdministeredCount(administeredCount : NSInteger, overDueCountValue overDueCount: NSInteger, omissionRefusalCountValue ommittedRefusalCount : NSInteger) {
         //populate status view for past day
-        self.disableAdministerButton()
         if (administeredCount == timeArray.count) {
             //display tick mark
             statusIcon?.hidden = false
@@ -313,10 +302,8 @@ class DCMedicationAdministrationStatusView: UIView {
             statusLabel?.hidden = true
             statusIcon?.hidden = false
             if(!isOneThirdScreen) {
-                administerButton?.enabled = true
                 statusIcon?.image = ADMINISTRATION_FAILURE_IMAGE
             } else {
-                administerButton?.enabled = false
                 statusIcon?.image = ADMINISTRATION_OMITTED_IMAGE_ONETHIRD
             }
         }
@@ -332,21 +319,10 @@ class DCMedicationAdministrationStatusView: UIView {
             statusLabel?.textColor = PENDING_FONT_COLOR
             statusLabel?.text = String(format: "%i %@", pendingCount, NSLocalizedString("PENDING", comment: ""))
             if isOneThirdScreen {
-                administerButton?.enabled = false
                 statusLabel?.textAlignment = NSTextAlignment.Right
             } else {
-                administerButton?.enabled = true
                 statusLabel?.textAlignment = NSTextAlignment.Center
             }
-        }
-    }
-    
-    func disableAdministerButton() {
-        
-        if(isOneThirdScreen) {
-            administerButton?.userInteractionEnabled = false
-        } else {
-            administerButton?.userInteractionEnabled = true
         }
     }
     

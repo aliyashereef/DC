@@ -18,6 +18,7 @@ protocol EditAndDeleteActionDelegate {
     
     func stopMedicationForSelectedIndexPath(indexPath : NSIndexPath)
     func editMedicationForSelectedIndexPath (indexPath : NSIndexPath)
+    func setIndexPathSelected(indexPath : NSIndexPath)
 
 }
 
@@ -168,6 +169,9 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
                         self.stopButton.setTitle(STOP_TEXT, forState: UIControlState.Normal)
                         self.layoutIfNeeded()
                     })
+                    if let delegate = editAndDeleteDelegate {
+                        delegate.setIndexPathSelected   (indexPath)
+                    }
                 } else if ((translate.x > 0) && (self.medicationViewLeadingConstraint.constant == -MEDICATION_VIEW_LEFT_OFFSET)){ //right pan  when edit view is fully visible
                     UIView.animateWithDuration(ANIMATION_DURATION, animations: {
                         self.medicationViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET
@@ -175,6 +179,9 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
                         self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
                         self.layoutIfNeeded()
                     })
+                    if let delegate = editAndDeleteDelegate {
+                        delegate.setIndexPathSelected   (indexPath)
+                    }
                 } else{
                     if (((translate.x < 0) && (self.medicationViewLeadingConstraint.constant > -MEDICATION_VIEW_LEFT_OFFSET)) || ((translate.x > 0) && (self.medicationViewLeadingConstraint.constant < MEDICATION_VIEW_INITIAL_LEFT_OFFSET))) {
                         //in process of tramslation
@@ -185,7 +192,14 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
                             self.setEditViewButtonNames()
                             self.setMedicationViewFrame()
                         })
+                        if let delegate = editAndDeleteDelegate {
+                            delegate.setIndexPathSelected   (indexPath)
+                        }
                     }
+                }
+            } else {
+                if let delegate = editAndDeleteDelegate {
+                    delegate.setIndexPathSelected   (indexPath)
                 }
             }
             

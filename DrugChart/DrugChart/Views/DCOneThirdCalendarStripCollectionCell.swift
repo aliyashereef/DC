@@ -46,7 +46,7 @@ class DCOneThirdCalendarStripCollectionCell: UICollectionViewCell {
         self.layoutSubviews()
     }
     
-    func showSelection () {
+    func showCurrentCalendarSelection() {
         
         let today : NSDate = NSDate()
         let order = NSCalendar.currentCalendar().compareDate(displayDate! , toDate:today,

@@ -9,14 +9,12 @@
 #import <UIKit/UIKit.h>
 
 typedef void(^EntrySelected)(NSString *value);
-typedef void(^NewDosage)(NSString *dosage);
 typedef void(^NewAdministrationTime)(NSDate *date);
 
 @protocol AddMedicationDetailDelegate <NSObject>
 
 @optional
 
-- (void)newDosageAdded:(NSString *)dosage;
 - (void)updatedAdministrationTimeArray:(NSArray *)timeArray;
 - (void)overrideReasonSubmitted:(NSString *)reason;
 
@@ -26,11 +24,9 @@ typedef void(^NewAdministrationTime)(NSDate *date);
 
 @property (nonatomic) AddMedicationDetailType detailType;
 @property (nonatomic, strong) EntrySelected selectedEntry;
-@property (nonatomic, strong) NewDosage newDosage;
 @property (nonatomic, strong) NewAdministrationTime newTime;
 @property (nonatomic, strong) NSString *previousFilledValue;
 @property (nonatomic, strong) NSMutableArray *contentArray;
 @property (nonatomic, weak) id <AddMedicationDetailDelegate> delegate;
-- (void)presentAddNewDosageView;
 
 @end

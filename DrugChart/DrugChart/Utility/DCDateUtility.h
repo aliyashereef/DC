@@ -26,6 +26,8 @@
 
 + (NSDate *)dateInCurrentTimeZone:(NSDate *)date;
 
++ (NSDate *)shortDateFromDate:(NSDate *)originalDate;
+
 + (NSString *)displayDateInTwentyFourHourFormat:(NSDate *)date;
 
 + (NSDate *)dateFromSourceString:(NSString *)sourceString;

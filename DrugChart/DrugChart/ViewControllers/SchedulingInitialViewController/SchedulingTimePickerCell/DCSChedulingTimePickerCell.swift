@@ -34,12 +34,13 @@ class DCSChedulingTimePickerCell: UITableViewCell {
         //time picker properties
         let locale = NSLocale.init(localeIdentifier: NETHERLANDS_LOCALE)
         schedulingTimePickerView.locale = locale
+        schedulingTimePickerView.timeZone = NSTimeZone(abbreviation: GMT)
     }
     
     func populatePickerWithPreviousSelectedTime() {
         
         if let time = previousSelectedTime {
-            print("***** Selecetd time is %@", time);
+            schedulingTimePickerView.setDate(time, animated: true)
         } else {
             // previous time is nil
             self.performSelector(Selector("sendUpdatedPickerTimeToSuperView"), withObject: nil, afterDelay: 0.2)
@@ -49,8 +50,7 @@ class DCSChedulingTimePickerCell: UITableViewCell {
     
     func sendUpdatedPickerTimeToSuperView() {
         
-        let timeInCurrentZone  = DCDateUtility.dateInCurrentTimeZone(schedulingTimePickerView.date)
-        let selectedTime = DCDateUtility.timeStringInTwentyFourHourFormat(timeInCurrentZone)
+        let selectedTime = DCDateUtility.timeStringInTwentyFourHourFormat(schedulingTimePickerView.date)
         timePickerCompletion(selectedTime)
     }
     

@@ -60,15 +60,30 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
     UIViewController *destinationViewController = [segue destinationViewController];
-    if ([destinationViewController isKindOfClass:[DCPatientListingViewController class]]) {
+    if ([destinationViewController isKindOfClass:[DCWardsInformationsViewController class]]) {
         
-        DCPatientListingViewController *listViewController = (DCPatientListingViewController *)destinationViewController;
-        listViewController.sortedPatientListArray = sortedPatientsListArray;
-        listViewController.patientListArray = patientsListArray;
-        listViewController.wardsListArray = wardsArray;
+        // add all these properties to WardsInformationVC.
+        DCWardsInformationsViewController *wardsInformationViewController = (DCWardsInformationsViewController *)destinationViewController;
+        wardsInformationViewController.sortedPatientListArray = sortedPatientsListArray;
+        wardsInformationViewController.patientListArray = patientsListArray;
+        wardsInformationViewController.wardsListArray = wardsArray;
         DCWard *initialWard = [wardsArray objectAtIndex:0];
-        listViewController.viewTitle = initialWard.wardName;
+        wardsInformationViewController.viewTitle = initialWard.wardName;
     }
+    
+    
+//    UIViewController *destinationViewController = [segue destinationViewController];
+//    if ([destinationViewController isKindOfClass:[DCPatientListingViewController class]]) {
+//        // add all these properties to WardsInformationVC.
+//        
+//        
+//        DCPatientListingViewController *listViewController = (DCPatientListingViewController *)destinationViewController;
+//        listViewController.sortedPatientListArray = sortedPatientsListArray;
+//        listViewController.patientListArray = patientsListArray;
+//        listViewController.wardsListArray = wardsArray;
+//        DCWard *initialWard = [wardsArray objectAtIndex:0];
+//        listViewController.viewTitle = initialWard.wardName;
+//    }
 }
 
 #pragma mark - Private Methods

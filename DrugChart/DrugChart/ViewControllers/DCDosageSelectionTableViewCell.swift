@@ -13,6 +13,7 @@ class DCDosageSelectionTableViewCell: UITableViewCell {
     @IBOutlet weak var dosageMenuLabel: UILabel!
     @IBOutlet weak var dosageDetailLabel: UILabel!
     @IBOutlet weak var dosageDetailValueLabel: UILabel!
+    @IBOutlet weak var requiredDailyDoseTextField: UITextField!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -23,5 +24,12 @@ class DCDosageSelectionTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    func configureCell(cellTitle:String,selectedValue:String) {
+        
+        dosageDetailLabel.text = cellTitle
+        dosageDetailValueLabel.text = selectedValue
+    }
+
 
 }

@@ -15,7 +15,7 @@
 #define SPECIFIC_TIMES_SCHEDULING_ROW_COUNT     3
 #define PICKER_ROW_COUNT                        1
 #define REGULAR_MEDICATION_SECTION_COUNT        7
-#define ONCE_WHEN_REQUIRED_SECTION_COUNT        7
+#define ONCE_WHEN_REQUIRED_SECTION_COUNT        6
 #define WARNINGS_ROW_COUNT                      1
 #define MEDICATION_DETAILS_ROW_COUNT            2
 #define INSTRUCTIONS_ROW_COUNT                  1
@@ -85,5 +85,16 @@ typedef enum : NSUInteger {
 
 + (NSInteger)numberOfSectionsInMedicationTableViewForSelectedMedication:(DCMedicationScheduleDetails *)selectedmedication
                                                            showWarnings:(BOOL)showWarnings;
+
++ (BOOL)frequencyIsValidForSelectedMedication:(DCMedicationDetails *)selectedmedication;
+
++ (NSString *)considatedFrequencyDescriptionFromString:(NSString *)description;
+
++ (CGFloat)textContentHeightForDosage:(NSString *)dosage;
+
++ (void)configureAddMedicationCellLabel:(UILabel *)label
+                         forContentText:(NSString *)content
+                    forSaveButtonAction:(BOOL)clicked;
+
 
 @end

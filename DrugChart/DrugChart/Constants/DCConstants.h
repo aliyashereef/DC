@@ -48,7 +48,6 @@
 
 //Button Titles
 #define OK_BUTTON_TITLE     @"OK"
-#define BACK_BUTTON_TITLE   @"Back"
 #define CANCEL_BUTTON_TITLE @"Cancel"
 #define REMOVE_BUTTON_TITLE @"Remove"
 #define ORDER_BUTTON_TITLE  @"Order"
@@ -86,7 +85,7 @@
 #define DOSAGE_STORYBORD @"Dosage"
 
 // Storyboard Ids
-#define PATIENT_LIST_VIEW_CONTROLLER @"patientsListViewController"
+#define PATIENT_LIST_VIEW_CONTROLLER @"patientListingViewController"
 #define ERROR_CONTENT_VIEW_CONTROLLER_STORYBOARD_ID @"ErrorPopOverController"
 #define PRESCRIBER_FILTER_TABLE_VIEW_CONTROLLER @"PrescriberFilterTableViewController"
 #define EARLY_ADMINISTERED_VIEW_CONTROLLER @"EarlyAdministeredViewController"
@@ -129,6 +128,8 @@
 #define PRESCRIBER_MEDICATION_SBID @"PrescriberMedicationViewControllerSBID"
 #define DOSAGE_SELECTION_SBID @"DosageSelection"
 #define DOSAGE_DETAIL_SBID @"DosageDetail"
+#define WARDS_INFORMATION_SBID @"wardsInformationViewController"
+
 
 //Nib files
 #define WARNINGS_HEADER_VIEW_NIB @"DCWarningsHeaderView"
@@ -187,9 +188,16 @@
 #define SCHEDULING_PICKER_CELL_ID @"SchedulingPickerCellId"
 #define SCHEDULING_INITIAL_CELL_ID @"SchedulingInitialCellId"
 #define SCHEDULING_DESCRIPTION_CELL_ID @"SchedulingDescriptionCell"
+#define DOSE_MENU_CELL_ID @"dosagetypecell"
+#define DOSE_DROP_DOWN_CELL_ID @"dosageDetailCell"
+#define DOSE_DETAIL_CELL_ID @"dosageDetailCell"
+#define DOSE_DETAIL_DISPLAY_CELL_ID @"dosageDetailDisplay"
+#define ADD_NEW_VALUE_CELL_ID @"newDosageCell"
 #define SCHEDULING_TIME_CELL_ID @"SchedulingTimeCell"
 #define SCHEDULING_DATE_PICKER_CELL_ID @"SchedulingDatePickerCellId"
-
+#define DOSE_PICKER_DISPLAY_CELL_ID @"pickerViewCell"
+#define REQUIRED_DAILY_DOSE_CELL_ID @"requiredDailyDoseCell"
+#define ADD_NEW_TIME_CELL_ID @"timePickerViewCell"
 
 // title for views
 #define INPATIENT_TITLE @"In Patients"
@@ -243,6 +251,9 @@
 #define WHEN_REQUIRED_VALUE @"When Required"
 #define WHEN_REQUIRED @"WhenRequired"
 
+// Administration status
+#define PENDING @"Pending"
+#define ADMINISTER_MEDICATION @"Administer Medication"
 
 #define DATE_COMPONENTS (NSCalendarUnitYear| NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitWeekOfYear |  NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond | NSCalendarUnitWeekday | NSCalendarUnitWeekdayOrdinal)
 
@@ -401,6 +412,12 @@
 #define SINGLE_DAY @"1 day"
 #define SINGLE_WEEK @"1 week"
 #define SINGLE_MONTH @"1 month"
+#define SINGLE_YEAR @"1 year"
+#define PREVIEW @"PREVIEW"
+#define ONE @"1"
+#define ONCE @"once"
+#define TWICE @"twice"
+#define THRICE @"thrice"
 
 //Roles
 
@@ -472,5 +489,23 @@
 #define ADMINISTRATING_NOTES @"Notes"
 #define IS_SELF_ADMINISTERED @"IsSelfAdministered"
 #define EXPIRY_DATE @"ExpiryDate"
+
+//Dosage
+#define DOSE_UNIT_LABEL_TEXT @"Dose Unit"
+#define DOSE_UNIT_TITLE @"Unit"
+#define DOSE_VALUE_TITLE @"Dose"
+#define DOSE_FROM_TITLE @"From"
+#define DOSE_TO_TITLE @"To"
+#define STARTING_DOSE_TITLE @"Starting Dose"
+#define CHANGE_OVER_TITLE @"Change Over"
+#define CONDITIONS_TITLE @"Conditions"
+#define ADD_NEW_TITLE @"Add New"
+#define ADD_CONDITION_TITLE @"Add Condition"
+#define REDUCING @"Reducing"
+#define INCREASING @"Increasing"
+#define ADD_ADMINISTRATION_TIME @"Add Administration Time"
+#define ADD_NEW_TIME @"Add New Time"
+#define TIME_KEY @"time"
+#define UNTIL_TITLE @"Until"
 
 #endif

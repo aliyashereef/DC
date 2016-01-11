@@ -35,19 +35,6 @@ import CocoaLumberjack
         self.displayDatesInView()
     }
     
-//    override func viewDidLayoutSubviews() {
-//        super.viewDidLayoutSubviews()
-//        if windowSizeChanged {
-//            calendarViewWidthConstraint.constant = (DCUtility.mainWindowSize().width - MEDICATION_VIEW_WIDTH);
-//            self.displayDatesInView()
-//            windowSizeChanged = false
-//        }
-//    }
-//    
-//    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-//        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
-//        windowSizeChanged = true
-//    }
     
     //MARK: View translation Methods
     
@@ -110,17 +97,10 @@ import CocoaLumberjack
         let displayDatesArray = NSMutableArray()
         for ( index = 0; index < currentWeekDateArray!.count; index++) {
             let date = currentWeekDateArray?.objectAtIndex(index) as! NSDate
-            let displayDate = convertDateToString(date)
+            let displayDate = DCDateUtility.dateStringFromDate(date, inFormat:dateViewFormat as String)
             displayDatesArray .addObject(displayDate)
         }
         return displayDatesArray
-    }
-    
-    func convertDateToString (date:NSDate) -> NSString {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = dateViewFormat as String
-        let dateString = dateFormatter.stringFromDate(date)
-        return dateString
     }
     
     // Returns the date container width

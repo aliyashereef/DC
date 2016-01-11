@@ -37,7 +37,7 @@
 
 //constants
 #define URL_HEADER_PATH @"http://localhost:8080/api/patients/"
-#define YEARS @"y"
+#define YEARS_SHORTHAND @"y"
 #define TIME_DOB @"T00:00:00"
 
 @implementation DCPatient
@@ -230,7 +230,7 @@
             NSDictionary *patientDetail = (NSDictionary *)responseObject;
             self.dob = [self patientDateOfBirth:[patientDetail valueForKey:DOB]];
             NSString *age = [patientDetail valueForKey:AGE];
-            self.age = [age stringByReplacingOccurrencesOfString:YEARS withString:EMPTY_STRING];
+            self.age = [age stringByReplacingOccurrencesOfString:YEARS_SHORTHAND withString:EMPTY_STRING];
             self.nhs = [[patientDetail objectForKey:IDENTIFIER] valueForKey:VALUE];
             // To Do : Hard coding a value, have to be changed when a API starts to return sex.
             self.sex = @"Male";
