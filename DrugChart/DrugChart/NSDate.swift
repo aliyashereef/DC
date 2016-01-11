@@ -79,6 +79,18 @@ extension NSDate:Comparable{
         formatter.dateFormat = "EEE"
         return formatter.stringFromDate(self)
     }
+    func getFormattedMonthName() ->String
+    {
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "MMMM"
+        return formatter.stringFromDate(self)
+    }
+    func getFormattedYear() ->String
+    {
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "yyyy"
+        return formatter.stringFromDate(self)
+    }
     
     func isToday() ->Bool
     {

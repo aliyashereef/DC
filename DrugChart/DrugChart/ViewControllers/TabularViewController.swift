@@ -75,12 +75,12 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
         
         if indexPath.section == 0 {
             let headerCell : HeaderCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(headerCellIdentifier, forIndexPath: indexPath) as! HeaderCollectionViewCell
-            	//headerCell.configureCell()
             
             if indexPath.row == 0 {
-                headerCell.dateLabel.text = "Date"
-                headerCell.timeLabel.text = "Time"
-               // headerCell.backgroundColor = UIColor(red: 31/255, green: 146/255, blue: 190/255, alpha: 1.0)
+                headerCell.dateLabel.text = viewByDate.getFormattedMonthName() + " " + viewByDate.getFormattedYear()
+                
+               // headerCell.dateLabel.font
+                headerCell.removeTimeLabel()
                 headerCell.layoutMargins = UIEdgeInsetsZero
                 headerCell.layer.borderWidth = BORDER_WIDTH
                 headerCell.layer.borderColor = CELL_BORDER_COLOR

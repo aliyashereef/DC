@@ -11,7 +11,6 @@ import UIKit
 class HeaderCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
-    var indicatorLabel: UILabel = UILabel()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -23,7 +22,8 @@ class HeaderCollectionViewCell: UICollectionViewCell {
         timeLabel.layer.borderWidth = 0
         dateLabel.text = date.getFormattedDayoftheWeek() + " " + date.getFormattedDay()
         timeLabel.text = date.getFormattedTime()
-        indicatorLabel.frame = CGRectMake(96, 4, 25, 25)
+        let indicatorLabel: UILabel = UILabel()
+        indicatorLabel.frame = CGRectMake(91, 4, 25, 25)
         indicatorLabel.font = UIFont.systemFontOfSize(17)
         indicatorLabel.textAlignment = .Center
         indicatorLabel.text = date.getFormattedDay()
@@ -40,6 +40,16 @@ class HeaderCollectionViewCell: UICollectionViewCell {
             indicatorLabel.backgroundColor = UIColor.whiteColor()
         }
         self.addSubview(indicatorLabel)
+    }
+    func removeTimeLabel()
+    {
+        if(timeLabel != nil)
+        {
+            timeLabel.removeFromSuperview()
+        }
+        dateLabel.backgroundColor = UIColor.whiteColor()
+        dateLabel.font = UIFont.boldSystemFontOfSize(17)
+        //dateLabel.frame = CGRectMake(0, 30, dateLabel.frame.width, dateLabel.frame.height)
         
     }
 }
