@@ -23,9 +23,11 @@
     [navigationController pushViewController:prescriberMedicationViewController animated:YES];
 }
 
-- (void)reloadPrescriberMedicationHomeViewController {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(reloadPrescriberMedicationList)]) {
-        [self.delegate reloadPrescriberMedicationList];
+- (void)reloadPrescriberMedicationHomeViewControllerWithCompletionHandler:(void(^)(BOOL success))completion {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(reloadPrescriberMedicationListWithCompletionHandler:)]) {
+        [self.delegate reloadPrescriberMedicationListWithCompletionHandler:^(BOOL success) {
+            completion(success);
+        }];
     }
 }
 

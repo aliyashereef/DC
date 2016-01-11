@@ -398,7 +398,9 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
             self.administerViewController?.activityIndicator.stopAnimating()
             if error == nil {
                 self.dismissViewControllerAnimated(true, completion: nil)
-                self.helper.reloadPrescriberMedicationHomeViewController()
+                self.helper.reloadPrescriberMedicationHomeViewControllerWithCompletionHandler({ (success) -> Void in
+                    
+                })
             } else {
                 if Int(error.code) == Int(NETWORK_NOT_REACHABLE) {
                     self.displayAlertWithTitle("ERROR", message: NSLocalizedString("INTERNET_CONNECTION_ERROR", comment:""))

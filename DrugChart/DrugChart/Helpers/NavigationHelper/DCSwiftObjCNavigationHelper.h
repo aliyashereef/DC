@@ -11,7 +11,7 @@
 
 @protocol AdministrationDelegate<NSObject>
 
-- (void)reloadPrescriberMedicationList;
+- (void)reloadPrescriberMedicationListWithCompletionHandler:(void(^)(BOOL success))completion;
 
 @end
 
@@ -21,6 +21,6 @@
 
 + (void)goToPrescriberMedicationViewControllerForPatient:(DCPatient *)patient fromNavigationController:(UINavigationController *)navigationController;
 
-- (void)reloadPrescriberMedicationHomeViewController;
+- (void)reloadPrescriberMedicationHomeViewControllerWithCompletionHandler:(void(^)(BOOL success))completion;
 
 @end

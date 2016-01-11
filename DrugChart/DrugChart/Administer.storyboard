@@ -73,7 +73,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Administer Medication" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yoa-54-ICr">
-                                                    <rect key="frame" x="440.5" y="11" width="144.5" height="21"/>
+                                                    <rect key="frame" x="440" y="11" width="144.5" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.40392156862745099" green="0.40392156862745099" blue="0.40392156862745099" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -100,12 +100,18 @@
                                     <outlet property="delegate" destination="JOc-x9-eb6" id="Vso-6D-pzX"/>
                                 </connections>
                             </tableView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="wb6-yP-RKB">
+                                <rect key="frame" x="281.5" y="282" width="37" height="37"/>
+                                <color key="color" red="0.4039215686" green="0.4039215686" blue="0.4039215686" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="MG8-TQ-2sE" firstAttribute="top" secondItem="xhC-ND-kbQ" secondAttribute="bottom" id="Bqv-7a-lD4"/>
+                            <constraint firstItem="wb6-yP-RKB" firstAttribute="centerX" secondItem="Lat-JV-GAi" secondAttribute="centerX" id="Odt-QH-KwN"/>
                             <constraint firstItem="xhC-ND-kbQ" firstAttribute="top" secondItem="Lat-JV-GAi" secondAttribute="top" id="bSc-As-cvJ"/>
                             <constraint firstItem="xhC-ND-kbQ" firstAttribute="leading" secondItem="Lat-JV-GAi" secondAttribute="leading" id="mmF-rY-wks"/>
+                            <constraint firstItem="wb6-yP-RKB" firstAttribute="centerY" secondItem="Lat-JV-GAi" secondAttribute="centerY" id="pj7-TL-P51"/>
                             <constraint firstAttribute="trailing" secondItem="xhC-ND-kbQ" secondAttribute="trailing" id="xvI-zm-qb6"/>
                         </constraints>
                     </view>
@@ -114,6 +120,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="600"/>
                     <connections>
+                        <outlet property="activityIndicatorView" destination="wb6-yP-RKB" id="c3d-Cw-x55"/>
                         <outlet property="administerTableView" destination="xhC-ND-kbQ" id="Gaz-em-Txi"/>
                     </connections>
                 </viewController>
