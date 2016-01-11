@@ -110,10 +110,15 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         schedulingDetailViewController?.schedulingCompletion = { schedule in
             self.scheduling = schedule
         }
+        self.configureNavigationBackButtonTitle()
         self.navigationController?.pushViewController(schedulingDetailViewController!, animated: true)
     }
     
+    func configureNavigationBackButtonTitle () {
         
+        self.navigationItem.backBarButtonItem = UIBarButtonItem.init(title: self.title, style: .Plain, target: nil, action: nil)
+    }
+
     func presentAdministrationTimeView() {
         
         let storyBoard = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil)
@@ -125,6 +130,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         medicationDetailViewController!.detailType = eDetailAdministrationTime
        // medicationDetailViewController!.contentArray = timeArray
         medicationDetailViewController!.contentArray = (self.scheduling?.type == SPECIFIC_TIMES) ? self.scheduling?.specificTimes?.administratingTimesArray : self.scheduling?.interval.administratingTimes
+        self.configureNavigationBackButtonTitle()
         self.navigationController?.pushViewController(medicationDetailViewController!, animated: true)
     }
     
