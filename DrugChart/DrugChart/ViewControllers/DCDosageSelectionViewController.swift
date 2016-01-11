@@ -156,6 +156,12 @@ import UIKit
         return 1
     }
     
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+            return 44
+    }
+
+    
 //    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 //        
 //        if (section == 2 && timeArray != nil && alertMessageForMismatch != "") {
@@ -266,7 +272,6 @@ import UIKit
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             //add code here for when you hit delete
-            dosageTableView.cellForRowAtIndexPath(indexPath)?.textLabel?.font = UIFont.systemFontOfSize(5.0)
             self.deleteElementFromTimeArrayAtSelectedIndexPath(indexPath.row)
             self.configureTimeArray()
             self.updateAlertMessageForMismatch()
@@ -280,7 +285,6 @@ import UIKit
         editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
         let delete = UITableViewRowAction(style: .Destructive, title: "Delete") { action, index in
             }
-            dosageTableView.cellForRowAtIndexPath(indexPath)?.textLabel?.font = UIFont.systemFontOfSize(5.0)
             return [delete]
     }
     

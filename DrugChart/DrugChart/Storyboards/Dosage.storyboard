@@ -754,6 +754,9 @@
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
+                                                    <connections>
+                                                        <action selector="textFieldStringDidChange:" destination="Qi5-Fo-Glg" eventType="editingChanged" id="lpU-wE-ooN"/>
+                                                    </connections>
                                                 </textField>
                                             </subviews>
                                             <constraints>

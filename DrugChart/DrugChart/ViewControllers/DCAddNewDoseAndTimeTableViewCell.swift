@@ -23,5 +23,23 @@ class DCAddNewDoseAndTimeTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    @IBAction func textFieldStringDidChange(sender: AnyObject) {
+        
+        newDosageTextField.textColor = UIColor.blackColor()
+        if self.validateRequireDailyDoseValue(newDosageTextField.text!) {
+            newDosageTextField.textColor = UIColor.blackColor()
+        } else {
+            newDosageTextField.textColor = UIColor.redColor()
+        }
+    }
+    
+    func validateRequireDailyDoseValue (value: String) -> Bool {
+        
+        let scanner: NSScanner = NSScanner(string:value)
+        let isNumeric = scanner.scanDecimal(nil) && scanner.atEnd
+        return isNumeric
+    }
+
 
 }
