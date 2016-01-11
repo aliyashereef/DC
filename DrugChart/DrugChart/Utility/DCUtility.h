@@ -98,4 +98,7 @@ typedef enum : NSUInteger {
 
 + (NSString *)removeLastCharacterFromString:(NSString *)originalString;
 
++ (void)backButtonItemForViewController:(UIViewController *)viewController
+                 inNavigationController:(UINavigationController *)navigationController withTitle:(NSString *)title;
+
 @end

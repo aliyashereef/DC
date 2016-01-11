@@ -121,14 +121,23 @@ typedef enum : NSUInteger {
     eDoseTo,
     eStartingDose,
     eChangeOver,
-    eConditions,
     eAddNewDosage,
-    eAddCondition,
     eAddDoseForTime,
     eAddNewTime,
-    eDose,
-    eUntil
 }DosageDetailType;
+
+typedef enum : NSUInteger {
+    
+    eAddNewDose,
+    eAddNewTimes
+}AddNewType;
+
+
+typedef enum : NSUInteger {
+    
+    eDoseChange,
+    eUntilDose
+}AddConditionDetailType;
 
 
 typedef enum : NSUInteger {

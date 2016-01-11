@@ -37,6 +37,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
     var previewArray : NSMutableArray? = []
     var isEditMedication : Bool?
     var validate : Bool = false
+    //var backButtonText : NSString = EMPTY_STRING
     var selectedSchedulingValue : SelectedScheduling = {value in }
     var inlinePickerIndexPath : NSIndexPath?
     
@@ -73,9 +74,9 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
     
     func configureNavigationBarItems() {
         
-        //UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetMake(0, -60), forBarMetrics: .Default)
         self.navigationItem.title = NSLocalizedString("FREQUENCY", comment: "")
         self.title = NSLocalizedString("FREQUENCY", comment: "")
+       // DCUtility.backButtonItemForViewController(self, inNavigationController: self.navigationController, withTitle: backButtonText as String)
     }
 
     func displaySchedulingDetailViewControllerForSelectedIndexPath(indexPath : NSIndexPath) {
@@ -110,10 +111,15 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         schedulingDetailViewController?.schedulingCompletion = { schedule in
             self.scheduling = schedule
         }
+        self.configureNavigationBackButtonTitle()
         self.navigationController?.pushViewController(schedulingDetailViewController!, animated: true)
     }
     
+    func configureNavigationBackButtonTitle () {
         
+        self.navigationItem.backBarButtonItem = UIBarButtonItem.init(title: self.title, style: .Plain, target: nil, action: nil)
+    }
+
     func presentAdministrationTimeView() {
         
         let storyBoard = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil)
@@ -125,6 +131,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         medicationDetailViewController!.detailType = eDetailAdministrationTime
        // medicationDetailViewController!.contentArray = timeArray
         medicationDetailViewController!.contentArray = (self.scheduling?.type == SPECIFIC_TIMES) ? self.scheduling?.specificTimes?.administratingTimesArray : self.scheduling?.interval.administratingTimes
+        self.configureNavigationBackButtonTitle()
         self.navigationController?.pushViewController(medicationDetailViewController!, animated: true)
     }
     

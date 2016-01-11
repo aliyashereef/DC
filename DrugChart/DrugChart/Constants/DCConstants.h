@@ -128,6 +128,11 @@
 #define PRESCRIBER_MEDICATION_SBID @"PrescriberMedicationViewControllerSBID"
 #define DOSAGE_SELECTION_SBID @"DosageSelection"
 #define DOSAGE_DETAIL_SBID @"DosageDetail"
+#define DOSAGE_CONDITIONS_SBID @"DosageConditions"
+#define ADD_CONDITION_SBID @"AddConditions"
+#define ADD_CONDITION_DETAIL_SBID @"AddConditionDetail"
+#define ADD_NEW_DOSE_TIME_SBID @"AddNewViewController"
+#define DOSAGE_UNIT_SELECTION_SBID @"DosageUnitSelection"
 #define WARDS_INFORMATION_SBID @"wardsInformationViewController"
 
 
@@ -198,6 +203,10 @@
 #define DOSE_PICKER_DISPLAY_CELL_ID @"pickerViewCell"
 #define REQUIRED_DAILY_DOSE_CELL_ID @"requiredDailyDoseCell"
 #define ADD_NEW_TIME_CELL_ID @"timePickerViewCell"
+#define DOSE_CONDITION_CELL_ID @"conditionMenuCell"
+#define DOSE_VALUE_CELL_ID @"doseValueCell"
+#define ADD_NEW_DOSE_CELL_ID @"addNewDoseCell"
+#define ADD_CONDITION_MENU_CELL_ID @"addConditionMenuCell"
 
 // title for views
 #define INPATIENT_TITLE @"In Patients"

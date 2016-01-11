@@ -41,6 +41,7 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
     let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
     
     var wardsInformationViewController : DCWardsInformationsViewController?
+   // var wardsGraphicalDisplayViewController : DCWardsGraphicalDisplayViewController?
     
     @IBOutlet var messageLabel: UILabel!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
@@ -399,7 +400,7 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
     func presentGraphicalWardsView () {
         
         var wardsGraphicalDisplayViewController : DCWardsGraphicalDisplayViewController
-        wardsGraphicalDisplayViewController = self.storyboard!.instantiateViewControllerWithIdentifier(WARDS_GRAPHICAL_DISPLAY_VC_SB_ID) as! DCWardsGraphicalDisplayViewController
+        wardsGraphicalDisplayViewController = (self.storyboard!.instantiateViewControllerWithIdentifier(WARDS_GRAPHICAL_DISPLAY_VC_SB_ID) as? DCWardsGraphicalDisplayViewController)!
         wardsGraphicalDisplayViewController.bedsArray = self.bedsArray
         wardsGraphicalDisplayViewController.wardDisplayed = self.wardsListArray.objectAtIndex(selectedIndexPath.row) as! DCWard
         
@@ -463,7 +464,7 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
                     self.wardsInformationViewController!.patientListArray = array as NSMutableArray
                     self.wardsInformationViewController!.bedsArray = bedsArray as NSMutableArray
                     self.wardsInformationViewController!.sortedPatientListArray = self.sortedArray(self.patientListArray)
-//                    self.wardsInformationViewController!.fillNavigationBarTitle()
+                    self.wardsInformationViewController!.reloadGraphicalView()
                 }
             }
             self.activityIndicator.stopAnimating()
@@ -471,6 +472,7 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
     }
     
     func fetchPatientDetails () {
+        
         let helper : DCPatientDetailsHelper = DCPatientDetailsHelper()
         self.activityIndicator.startAnimating()
         helper.fetchPatientsInWard(wardsListArray.objectAtIndex(selectedIndexPath.row) as! DCWard) { (error, array) -> Void in

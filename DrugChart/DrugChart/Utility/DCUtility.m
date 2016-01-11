@@ -391,5 +391,22 @@
     return originalString;
 }
 
++ (void)backButtonItemForViewController:(UIViewController *)viewController
+                 inNavigationController:(UINavigationController *)navigationController withTitle:(NSString *)title {
+    
+    NSArray *viewControllerArray = [navigationController viewControllers];
+    // get index of the previous ViewContoller
+    long previousViewControllerIndex = [viewControllerArray indexOfObject:viewController] - 1;
+    UIViewController *previous;
+    if (previousViewControllerIndex >= 0) {
+        previous = [viewControllerArray objectAtIndex:previousViewControllerIndex];
+        previous.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]
+                                                     initWithTitle:title
+                                                     style:UIBarButtonItemStylePlain
+                                                     target:nil
+                                                     action:nil];
+    }
+}
+
 
 @end

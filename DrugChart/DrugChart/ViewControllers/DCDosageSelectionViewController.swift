@@ -15,7 +15,7 @@ import UIKit
 }
 
 
-@objc class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DataEnteredDelegate {
+@objc class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, DataEnteredDelegate {
     
     let dosageMenuItems = ["Fixed","Variable","Reducing / Increasing","Split Daily"]
     var menuType : DosageSelectionType = eDosageMenu
@@ -37,7 +37,8 @@ import UIKit
     var valueStringForRequiredDailyDose : NSString = ""
     var valueForRequiredDailyDose : Float = 0
     var totalValueForDose : Float = 0
-    var alertMessageForMismatch :NSString = "Required Daily Dose Mismatch"
+    var alertMessageForMismatch :NSString = ""
+    //var backButtonText : NSString = EMPTY_STRING
     @IBOutlet weak var dosageTableView: UITableView!
     weak var newDosageAddedDelegate: NewDosageValueEntered? = nil
     
@@ -55,6 +56,12 @@ import UIKit
         
         dosageTableView.reloadData()
     }
+    
+//    override func viewWillAppear(animated: Bool) {
+//        
+//        super.viewWillAppear(animated)
+//        DCUtility.backButtonItemForViewController(self, inNavigationController: self.navigationController, withTitle: backButtonText as String)
+//    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -76,7 +83,6 @@ import UIKit
         }
         valueForChangeOver = "Days"
         valueForCondition = "Reduce 50 mg every day"
-        
     }
     
     func configureTimeArray () {
@@ -107,9 +113,13 @@ import UIKit
     
     func configureNavigationBarItems() {
         
-       // UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetMake(0, -60), forBarMetrics: .Default)
         self.navigationItem.title = DOSE_VALUE_TITLE
         self.title = DOSE_VALUE_TITLE
+    }
+    
+    func configureNavigationBackButtonTitle () {
+        
+        self.navigationItem.backBarButtonItem = UIBarButtonItem.init(title: self.title, style: .Plain, target: nil, action: nil)
     }
     
     // MARK: - TableView Methods
@@ -157,22 +167,29 @@ import UIKit
         return 1
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
-        if (section == 2 && timeArray != nil && valueStringForRequiredDailyDose != "") {
-            return alertMessageForMismatch as String
-        } else {
-            return nil
-        }
-    }
-    
-    func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        
-        if let view = view as? UITableViewHeaderFooterView {
-            view.textLabel!.textColor = UIColor.blackColor()
-        }
-        
-    }
+//    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        
+//        if (section == 2 && timeArray != nil && alertMessageForMismatch != "") {
+//            return alertMessageForMismatch as String
+//        } else {
+//            return nil
+//        }
+//    }
+//    
+//    func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+//        
+//        if let view = view as? UITableViewHeaderFooterView {
+//            view.textLabel!.textColor = UIColor.redColor()
+//        }
+//    }
+//    
+//    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        if (section == 2 && timeArray != nil && alertMessageForMismatch != "") {
+//            return 61.0
+//        } else {
+//            return 0.0
+//        }
+//    }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
@@ -197,36 +214,7 @@ import UIKit
         if (indexPath.section == 0) {
             previousIndexPath = indexPath
             tableView.reloadData()
-            switch (indexPath.row) {
-                
-            case 0:
-                if (menuType == eFixedDosage){
-                    isRowAlreadySelected = true
-                }else {
-                    menuType = eFixedDosage
-                }
-            case 1:
-                if (menuType == eVariableDosage){
-                    isRowAlreadySelected = true
-                }else {
-                    menuType = eVariableDosage
-                }
-            case 2:
-                if (menuType == eReducingIncreasing){
-                    isRowAlreadySelected = true
-                }else {
-                    menuType = eReducingIncreasing
-                }
-            case 3:
-                if (menuType == eSplitDaily){
-                    isRowAlreadySelected = true
-                }else {
-                    //Todo : For Split daily.
-                    menuType = eDosageMenu
-                }
-            default:
-                break
-            }
+            self.checkWhetherRowAlreadySelected(indexPath)
             var range = NSMakeRange(1, 3)
             if (selectedTimeArrayItems.count == 0) {
                 range = NSMakeRange(1, 2)
@@ -237,54 +225,38 @@ import UIKit
                 isRowAlreadySelected = false
                 tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .None
                 let sectionCount = tableView.numberOfSections
-                //Todo : Comment this for Split Daily.
-                if sectionCount == 2 {
-                tableView.deleteSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+                if (sectionCount == 2) {
+                    tableView.deleteSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+                } else {
+                    tableView.deleteSections(sections, withRowAnimation: .Fade)
                 }
-                //Todo : Uncomment this for Split daily.
-//                if (sectionCount == 2) {
-//                    tableView.deleteSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
-//                } else {
-//                    tableView.deleteSections(sections, withRowAnimation: .Fade)
-//                }
             } else {
                 let sectionCount = tableView.numberOfSections
                 //Todo: for Split Daily.
-//                if (indexPath.row != 3) {
+                if (indexPath.row != 3) {
                     tableView.beginUpdates()
                     if (sectionCount == INITIAL_SECTION_COUNT) {
                         //if section count is zero insert new section with animation
-                        // Todo : Comment this for split daily.
-                        if (indexPath.row != 3) {
                         tableView.insertSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
-                        }
                     } else if (sectionCount >= 3) {
                         //Insert sections of split daily.
                         tableView.deleteSections(sections, withRowAnimation: .Fade)
                         tableView.insertSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
                     } else {
                         //reload sections
-                        // For Split Daily, Uncomment this
-//                        tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
-                        // For Split Daily, Comment this
-                        if (menuType != eDosageMenu) {
                         tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
-                        } else {
-                            tableView.deleteSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
-                        }
                     }
                     tableView.endUpdates()
-                //Todo : Uncomment for Split Daily.
-//                } else {
-//                    if (sectionCount == INITIAL_SECTION_COUNT) {
-//                        tableView.insertSections(sections, withRowAnimation: .Fade)
-//                    } else {
-//                        tableView.beginUpdates()
-//                        tableView.deleteSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
-//                        tableView.insertSections(sections, withRowAnimation: .Fade)
-//                        tableView.endUpdates()
-//                    }
-//                }
+                } else {
+                    if (sectionCount == INITIAL_SECTION_COUNT) {
+                        tableView.insertSections(sections, withRowAnimation: .Fade)
+                    } else {
+                        tableView.beginUpdates()
+                        tableView.deleteSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+                        tableView.insertSections(sections, withRowAnimation: .Fade)
+                        tableView.endUpdates()
+                    }
+                }
             }
         } else {
             self.displayDosageDetailViewControllerWithSelectedDetailType(indexPath)
@@ -292,7 +264,72 @@ import UIKit
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        // Return YES if you want the specified item to be editable.
+        if indexPath.section == 2 && timeArray != nil && selectedTimeArrayItems.count != 0 {
+            return true
+        } else {
+            return false
+        }
+    }
+    // Override to support editing the table view.
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            //add code here for when you hit delete
+            dosageTableView.cellForRowAtIndexPath(indexPath)?.textLabel?.font = UIFont.systemFontOfSize(5.0)
+            self.deleteElementFromTimeArrayAtSelectedIndexPath(indexPath.row)
+            self.configureTimeArray()
+            self.updateAlertMessageForMismatch()
+            self.dosageTableView.reloadData()
+            dosageTableView.beginUpdates()
+            dosageTableView.endUpdates()
+        }
+    }
+    
+    func tableView(tableView: UITableView,
+        editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+        let delete = UITableViewRowAction(style: .Destructive, title: "Delete") { action, index in
+            }
+            dosageTableView.cellForRowAtIndexPath(indexPath)?.textLabel?.font = UIFont.systemFontOfSize(5.0)
+            return [delete]
+    }
+    
     // MARK: - Private Methods
+    
+    func checkWhetherRowAlreadySelected (indexPath : NSIndexPath) {
+        
+        switch (indexPath.row) {
+            
+        case 0:
+            if (menuType == eFixedDosage){
+                isRowAlreadySelected = true
+            }else {
+                menuType = eFixedDosage
+            }
+        case 1:
+            if (menuType == eVariableDosage){
+                isRowAlreadySelected = true
+            }else {
+                menuType = eVariableDosage
+            }
+        case 2:
+            if (menuType == eReducingIncreasing){
+                isRowAlreadySelected = true
+            }else {
+                menuType = eReducingIncreasing
+            }
+        case 3:
+            if (menuType == eSplitDaily){
+                isRowAlreadySelected = true
+            }else {
+                menuType = eSplitDaily
+            }
+        default:
+            break
+        }
+
+    }
     
     func displayDosageDetailViewControllerWithSelectedDetailType(indexPath : NSIndexPath ) {
         
@@ -304,9 +341,15 @@ import UIKit
             switch (indexPath.row) {
                 
             case 0:
-                selectedDetailType = eDoseUnit
-                dosageDetailViewController?.previousSelectedValue = valueForDoseUnit
-                dosageDetailViewController?.detailType = eDoseUnit
+                 let doseUnitSelectionViewController : DCDosageUnitSelectionViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_UNIT_SELECTION_SBID) as? DCDosageUnitSelectionViewController
+                doseUnitSelectionViewController?.previousSelectedValue = valueForDoseUnit
+                doseUnitSelectionViewController!.valueForUnitSelected = { value in
+                    self.valueForDoseUnit = value!
+                    self.dosageTableView.reloadData()
+                }
+                self.configureNavigationBackButtonTitle();
+                self.navigationController?.pushViewController(doseUnitSelectionViewController!, animated: true)
+                return
             case 1:
                 if (menuType == eFixedDosage) {
                     selectedDetailType = eDoseValue
@@ -335,9 +378,10 @@ import UIKit
                 }
             case 3:
                 if (menuType == eReducingIncreasing) {
-                    selectedDetailType = eConditions
-                    dosageDetailViewController?.previousSelectedValue = valueForCondition
-                    dosageDetailViewController?.detailType = eConditions
+                    let dosageDetailViewController : DCDosageConditionsViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_CONDITIONS_SBID) as? DCDosageConditionsViewController
+                    self.configureNavigationBackButtonTitle()
+                    self.navigationController?.pushViewController(dosageDetailViewController!, animated: true)
+                    return
                 }
             default:
                 break
@@ -350,20 +394,32 @@ import UIKit
                 dosageDetailViewController?.viewTitleForDisplay = selectedTimeArrayItems[indexPath.row]
                 dosageDetailViewController?.detailType = eAddDoseForTime
             } else {
-                selectedDetailType = eAddNewTime
-                dosageDetailViewController?.detailType = eAddNewTime
+                self.transitToAddNewTimeScreen()
             }
         } else {
-            selectedDetailType = eAddNewTime
-            dosageDetailViewController?.detailType = eAddNewTime
+            self.transitToAddNewTimeScreen()
         }
-        if (selectedDetailType != eAddNewTime) {
-            self.navigationController?.pushViewController(dosageDetailViewController!, animated: true)
-        } else {
-            let navigationController: UINavigationController = UINavigationController(rootViewController: dosageDetailViewController!)
-            navigationController.modalPresentationStyle = UIModalPresentationStyle.CurrentContext
-            self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
+        self.configureNavigationBackButtonTitle();
+        self.navigationController?.pushViewController(dosageDetailViewController!, animated: true)
+    }
+    
+    func transitToAddNewTimeScreen() {
+        
+        let addNewDosageViewController : DCAddNewDoseAndTimeViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(ADD_NEW_DOSE_TIME_SBID) as? DCAddNewDoseAndTimeViewController
+        addNewDosageViewController?.detailType = eAddNewTimes
+        addNewDosageViewController!.newDosageEntered = { value in
+            self.selectedTimeArrayItems.append(value!)
+            self.valueForDoseForTime.append("")
+            self.insertNewTimeToTimeArray(value!)
+            self.configureTimeArray()
+            self.updateAlertMessageForMismatch()
+            self.dosageTableView.reloadData()
+            self.dosageTableView.beginUpdates()
+            self.dosageTableView.endUpdates()
         }
+        let navigationController: UINavigationController = UINavigationController(rootViewController: addNewDosageViewController!)
+        navigationController.modalPresentationStyle = UIModalPresentationStyle.CurrentContext
+        self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
     }
     
     func configureTableCellForDisplay (indexPath : NSIndexPath) -> DCDosageSelectionTableViewCell {
@@ -377,6 +433,7 @@ import UIKit
                     dosageSelectionDetailCell = (dosageTableView.dequeueReusableCellWithIdentifier(DOSE_DROP_DOWN_CELL_ID) as? DCDosageSelectionTableViewCell)!
                 } else {
                     dosageSelectionDetailCell = (dosageTableView.dequeueReusableCellWithIdentifier(REQUIRED_DAILY_DOSE_CELL_ID) as? DCDosageSelectionTableViewCell)!
+                    dosageSelectionDetailCell.requiredDailyDoseTextField.delegate = self
                 }
             } else if (indexPath.section == 2) {
                 if (selectedTimeArrayItems.count != 0) {
@@ -443,7 +500,7 @@ import UIKit
         let dosageCell: DCDosageSelectionTableViewCell = dosageTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 1)) as! DCDosageSelectionTableViewCell
         valueStringForRequiredDailyDose = dosageCell.requiredDailyDoseTextField.text!
         valueForRequiredDailyDose = NSString(string: valueStringForRequiredDailyDose).floatValue
-        if (valueStringForRequiredDailyDose != "" && valueForRequiredDailyDose != 0) {
+        if (valueStringForRequiredDailyDose != "" && valueForRequiredDailyDose != 0 && selectedTimeArrayItems.count != 0) {
             
             totalValueForDose = 0
             var valueOfDoseAtIndex : Float = 0
@@ -455,15 +512,16 @@ import UIKit
                 }
             }
             if (totalValueForDose == valueForRequiredDailyDose) {
-                alertMessageForMismatch = "No Mismatch"
+                alertMessageForMismatch = ""
             } else if (totalValueForDose < valueForRequiredDailyDose) {
-                alertMessageForMismatch = "Need \(valueForRequiredDailyDose - totalValueForDose) more"
+                alertMessageForMismatch = "ADD A FURTHER \(valueForRequiredDailyDose - totalValueForDose) MG TO MEET THE REQUIRED DAILY DOSE"
             } else {
-                alertMessageForMismatch = "Need \(totalValueForDose - valueForRequiredDailyDose) less"
+                alertMessageForMismatch = "REMOVE \(totalValueForDose - valueForRequiredDailyDose) MG TO MEET THE REQUIRED DAILY DOSE"
             }
         } else {
-            alertMessageForMismatch = "Enter valid required daily dose"
+            alertMessageForMismatch = ""
         }
+        dosageTableView.headerViewForSection(2)?.textLabel?.text = alertMessageForMismatch as String
     }
     
     func updateTimeArray (index: Int) {
@@ -479,6 +537,24 @@ import UIKit
         }
     }
     
+    func deleteElementFromTimeArrayAtSelectedIndexPath (index: Int) {
+        
+        print("Before :")
+        print(timeArray)
+        if (timeArray != nil) {
+            for timeDictionary in timeArray! {
+                let time = timeDictionary["time"] as! String
+                if (time == selectedTimeArrayItems[index]) {
+                    let populatedDict = ["time": time, "selected": 0, "dose":valueForDoseForTime[index]]
+                    timeArray?.replaceObjectAtIndex((timeArray?.indexOfObject(timeDictionary))!, withObject: populatedDict)
+                }
+            }
+        }
+        print("After :")
+        print(timeArray)
+    }
+
+    
     func insertNewTimeToTimeArray(time: String) {
         
         var timeAlreadyPresent : Bool = false
@@ -487,7 +563,8 @@ import UIKit
         }
         for timeDictionary in timeArray! {
             let timeInArray = timeDictionary["time"] as! String
-            if (timeInArray == time) {
+            let isTimeSelected = timeDictionary["selected"] as! Int
+            if (timeInArray == time && isTimeSelected != 0) {
                 timeAlreadyPresent = true
             }
         }
@@ -504,14 +581,14 @@ import UIKit
         
         if (selectedDetailType == eDoseValue) {
             valueForDoseValue = value
-            newDosageAddedDelegate?.newDosageAdded("\(value)\(valueForDoseUnit)")
+            newDosageAddedDelegate?.newDosageAdded("\(value) \(valueForDoseUnit)")
         } else if (selectedDetailType == eDoseFrom || selectedDetailType == eDoseTo) {
             if (selectedDetailType == eDoseFrom) {
                 valueForDoseFromValue = value
             } else {
                 valueForDoseToValue = value
             }
-            newDosageAddedDelegate?.newDosageAdded("\(valueForDoseFromValue)\(valueForDoseUnit),\(valueForDoseToValue)\(valueForDoseUnit)")
+            newDosageAddedDelegate?.newDosageAdded("\(valueForDoseFromValue) \(valueForDoseUnit) , \(valueForDoseToValue) \(valueForDoseUnit)")
         } else if (selectedDetailType == eDoseUnit) {
             valueForDoseUnit = value
         } else if (selectedDetailType == eStartingDose) {
@@ -524,8 +601,6 @@ import UIKit
         
         switch (selectedDetailType.rawValue) {
             
-        case eDoseUnit.rawValue:
-            valueForDoseUnit = value
         case eDoseValue.rawValue:
             valueForDoseValue = value
         case eDoseFrom.rawValue:
@@ -542,14 +617,26 @@ import UIKit
             valueForDoseForTime[selectedIndexPathInTimeArray] = value
             self.updateTimeArray(selectedIndexPathInTimeArray)
             self.updateAlertMessageForMismatch()
-        case eAddNewTime.rawValue:
-            selectedTimeArrayItems.append(value)
-            valueForDoseForTime.append("")
-            self.insertNewTimeToTimeArray(value)
-            self.configureTimeArray()
         default:
             break
         }
         dosageTableView.reloadData()
     }
+    
+    // MARK: - TextField Delegate Methods
+    
+    // UITextField Delegates
+    func textFieldShouldEndEditing(textField: UITextField) -> Bool {
+        self.updateAlertMessageForMismatch()
+        dosageTableView.reloadData()
+        dosageTableView.beginUpdates()
+        dosageTableView.endUpdates()
+        return true;
+    }
+
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder();
+        return true;
+    }
+
 }
