@@ -595,6 +595,7 @@
         dosageSelectionViewController.dosageArray = dosageArray;
         dosageSelectionViewController.timeArray = self.selectedMedication.timeArray;
         dosageSelectionViewController.menuType = eDosageMenu;
+        [self configureNavigationBackButtonTitle];
         [self.navigationController pushViewController:dosageSelectionViewController animated:YES];
     } else {
         UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
@@ -650,6 +651,7 @@
     }
     schedulingViewController.scheduling = self.selectedMedication.scheduling;
     schedulingViewController.validate = doneClicked;
+    [self configureNavigationBackButtonTitle];
     [self.navigationController pushViewController:schedulingViewController animated:YES];
 }
 
