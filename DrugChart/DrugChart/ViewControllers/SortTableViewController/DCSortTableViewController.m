@@ -110,7 +110,7 @@
 - (void)showNavigationBar:(BOOL)show {
     
     if (show) {
-        [self.tableView setContentInset:UIEdgeInsetsMake(30, 0, 0, 0)];
+        [self.tableView setContentInset:UIEdgeInsetsMake(60, 0, 0, 0)];
         self.navigationController.navigationBar.hidden = NO;
     } else {
         self.navigationController.navigationBar.hidden = YES;

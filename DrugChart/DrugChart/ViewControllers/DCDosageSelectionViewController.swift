@@ -167,6 +167,12 @@ import UIKit
         return 1
     }
     
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+            return 44
+    }
+
+    //Todo :- Uncomment For next release.
 //    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 //        
 //        if (section == 2 && timeArray != nil && alertMessageForMismatch != "") {
@@ -264,36 +270,35 @@ import UIKit
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
-    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return YES if you want the specified item to be editable.
-        if indexPath.section == 2 && timeArray != nil && selectedTimeArrayItems.count != 0 {
-            return true
-        } else {
-            return false
-        }
-    }
-    // Override to support editing the table view.
-    
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            //add code here for when you hit delete
-            dosageTableView.cellForRowAtIndexPath(indexPath)?.textLabel?.font = UIFont.systemFontOfSize(5.0)
-            self.deleteElementFromTimeArrayAtSelectedIndexPath(indexPath.row)
-            self.configureTimeArray()
-            self.updateAlertMessageForMismatch()
-            self.dosageTableView.reloadData()
-            dosageTableView.beginUpdates()
-            dosageTableView.endUpdates()
-        }
-    }
-    
-    func tableView(tableView: UITableView,
-        editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
-        let delete = UITableViewRowAction(style: .Destructive, title: "Delete") { action, index in
-            }
-            dosageTableView.cellForRowAtIndexPath(indexPath)?.textLabel?.font = UIFont.systemFontOfSize(5.0)
-            return [delete]
-    }
+    //Todo :- Uncomment For next release.
+//    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+//        // Return YES if you want the specified item to be editable.
+//        if indexPath.section == 2 && timeArray != nil && selectedTimeArrayItems.count != 0 {
+//            return true
+//        } else {
+//            return false
+//        }
+//    }
+//    // Override to support editing the table view.
+//    
+//    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+//        if editingStyle == .Delete {
+//            //add code here for when you hit delete
+//            self.deleteElementFromTimeArrayAtSelectedIndexPath(indexPath.row)
+//            self.configureTimeArray()
+//            self.updateAlertMessageForMismatch()
+//            self.dosageTableView.reloadData()
+//            dosageTableView.beginUpdates()
+//            dosageTableView.endUpdates()
+//        }
+//    }
+//    
+//    func tableView(tableView: UITableView,
+//        editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+//        let delete = UITableViewRowAction(style: .Destructive, title: "Delete") { action, index in
+//            }
+//            return [delete]
+//    }
     
     // MARK: - Private Methods
     
