@@ -4,7 +4,7 @@
 //
 //  Created by Noureen on 07/09/2015.
 //  Copyright (c) 2015 emishealth. All rights reserved.
-//
+//Obsolete: not using it but just kept in solution as we might need it in future
 
 import UIKit
 

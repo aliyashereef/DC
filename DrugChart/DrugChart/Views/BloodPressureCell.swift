@@ -61,11 +61,11 @@ class BloodPressureCell: UITableViewCell ,ButtonAction{
         self.systolicValue.becomeFirstResponder()
     }
     
-    func configureCell()
+    func configureCell(disableNavigation:Bool)
     {
         systolicValue.buttonActionDelegate = self
         diastolicValue.buttonActionDelegate = self
-        systolicValue.initialize()
-        diastolicValue.initialize()
+        systolicValue.initialize(disableNavigation)
+        diastolicValue.initialize(disableNavigation)
     }
 }

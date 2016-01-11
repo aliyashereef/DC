@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionViewDelegate {
+class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionViewDelegate,ObservationDelegate {
 
     @IBOutlet weak var collectionView: UICollectionView!
     var observationList = [VitalSignObservation]()
@@ -19,6 +19,8 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
     var graphStartDate:NSDate!
     var graphEndDate:NSDate!
     var delegate: ObservationDelegate?
+    let GRAPH_HORIZONTAL_LINES = 4
+    
     class func instanceFromNib() -> UIView {
         return UINib(nibName: "GraphicalDashBoardView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
     }
@@ -36,40 +38,40 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
         return DashBoardRow.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        
-        var chartType :ChartType
-        var yAxisValue = [Double]()
-        var yAxisValue2 = [Double]()
-        var xAxisValue = [NSDate]()
-        var cellTitle:String = ""
-        var latestObservationText:String! = nil
-        var latestObservationDate:NSDate! = nil
-        
-        switch(indexPath.row)
+    func getGraphData(cellObservationType:DashBoardRow, cellTitle:String)-> GraphModel!
+    {
+        switch(cellObservationType)
         {
-        case DashBoardRow.Respiratory.rawValue:
-            chartType = ChartType.LineChart
-            cellTitle = "Respiratory"
+        case DashBoardRow.Respiratory:
+            let graphData:LineGraphModel = LineGraphModel()
+            graphData.cellTitle = cellTitle
+            graphData.graphStartDate = graphStartDate
+            graphData.graphEndDate = graphEndDate
+            graphData.graphDisplayView = graphDisplayView
+      
             for observation in observationList
             {
                 if observation.respiratory == nil
                 {
                     continue
                 }
-                    yAxisValue.append((observation.respiratory?.repiratoryRate)!)
-                    xAxisValue.append(observation.date)
+                graphData.yAxisValue.append((observation.respiratory?.repiratoryRate)!)
+                graphData.xAxisValue.append(observation.date)
             }
             let latestObservation = delegate?.GetLatestObservation(DashBoardRow.Respiratory)
             if(latestObservation != nil)
             {
-                latestObservationText = latestObservation!.respiratory!.repiratoryRate.cleanValue + " breaths/min"
-                latestObservationDate = latestObservation?.date
+                graphData.latestObservationText = latestObservation!.respiratory!.repiratoryRate.cleanValue + " breaths/min"
+                graphData.latestObservationDate = latestObservation?.date
             }
+            return graphData
+        case DashBoardRow.Temperature:
+            let graphData:LineGraphModel = LineGraphModel()
+            graphData.cellTitle = cellTitle
+            graphData.graphStartDate = graphStartDate
+            graphData.graphEndDate = graphEndDate
+            graphData.graphDisplayView = graphDisplayView
             
-        case DashBoardRow.Temperature.rawValue:
-            chartType = ChartType.LineChart
-            cellTitle = "Temperature"
             
             for observation in observationList
             {
@@ -77,19 +79,24 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
                 {
                     continue
                 }
-                    yAxisValue.append((observation.temperature?.value)!)
-                    xAxisValue.append(observation.date)
+                graphData.yAxisValue.append((observation.temperature?.value)!)
+                graphData.xAxisValue.append(observation.date)
                 
             }
             let latestObservation = delegate?.GetLatestObservation(DashBoardRow.Temperature)
             if(latestObservation != nil)
             {
-                latestObservationText = String(latestObservation!.temperature!.value) + " °C"
-                latestObservationDate = latestObservation?.date
+                graphData.latestObservationText = String(latestObservation!.temperature!.value) + " °C"
+                graphData.latestObservationDate = latestObservation?.date
             }
-        case DashBoardRow.Pulse.rawValue:
-            chartType = ChartType.LineChart
-            cellTitle = "Pulse"
+            return graphData
+        case DashBoardRow.Pulse:
+            let graphData:LineGraphModel = LineGraphModel()
+            graphData.cellTitle = cellTitle
+            graphData.graphStartDate = graphStartDate
+            graphData.graphEndDate = graphEndDate
+            graphData.graphDisplayView = graphDisplayView
+            
             
             for observation in observationList
             {
@@ -97,96 +104,182 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
                 {
                     continue
                 }
-                    yAxisValue.append((observation.pulse?.pulseRate)!)
-                    xAxisValue.append(observation.date)
+                graphData.yAxisValue.append((observation.pulse?.pulseRate)!)
+                graphData.xAxisValue.append(observation.date)
                 
             }
             let latestObservation = delegate?.GetLatestObservation(DashBoardRow.Pulse)
             if(latestObservation != nil)
             {
-                latestObservationText = latestObservation!.pulse!.pulseRate.cleanValue + " bpm"
-                latestObservationDate = latestObservation?.date
+                graphData.latestObservationText = latestObservation!.pulse!.pulseRate.cleanValue + " bpm"
+                graphData.latestObservationDate = latestObservation?.date
             }
-        case DashBoardRow.SpO2.rawValue:
-            chartType = ChartType.LineChart
-            cellTitle = "SPO2"
+            return graphData
+        case DashBoardRow.SpO2:
+            let graphData:LineGraphModel = LineGraphModel()
+            graphData.cellTitle = cellTitle
+            graphData.graphStartDate = graphStartDate
+            graphData.graphEndDate = graphEndDate
+            graphData.graphDisplayView = graphDisplayView
+            
             
             for observation in observationList
             {
                 if observation.spo2 == nil{
                     continue
                 }
-                    yAxisValue.append((observation.spo2?.spO2Percentage)!)
-                    xAxisValue.append(observation.date)
+                graphData.yAxisValue.append((observation.spo2?.spO2Percentage)!)
+                graphData.xAxisValue.append(observation.date)
             }
             let latestObservation = delegate?.GetLatestObservation(DashBoardRow.SpO2)
             if(latestObservation != nil)
             {
-                latestObservationText = String(latestObservation!.spo2!.spO2Percentage) + " %"
-                latestObservationDate = latestObservation?.date
+                graphData.latestObservationText = String(latestObservation!.spo2!.spO2Percentage) + " %"
+                graphData.latestObservationDate = latestObservation?.date
             }
-        case DashBoardRow.BM.rawValue:
-                chartType = ChartType.LineChart
-                cellTitle = "BM"
-                
-                for observation in observationList
+            return graphData
+        case DashBoardRow.BM:
+            let graphData:LineGraphModel = LineGraphModel()
+            graphData.cellTitle = cellTitle
+            graphData.graphStartDate = graphStartDate
+            graphData.graphEndDate = graphEndDate
+            graphData.graphDisplayView = graphDisplayView
+            
+            
+            for observation in observationList
+            {
+                if observation.bm == nil
                 {
-                    if observation.bm == nil
-                    {
-                        continue
-                    }
-                        yAxisValue.append((observation.bm?.value)!)
-                        xAxisValue.append(observation.date)
-                 }
-                let latestObservation = delegate?.GetLatestObservation(DashBoardRow.BM)
-                if(latestObservation != nil)
-                {
-                    latestObservationText = String(latestObservation!.bm!.value)
-                    latestObservationDate = latestObservation?.date
+                    continue
                 }
-        case DashBoardRow.BloodPressure.rawValue:
-            chartType = ChartType.BarChart
-            cellTitle = "Blood Pressure"
+                graphData.yAxisValue.append((observation.bm?.value)!)
+                graphData.xAxisValue.append(observation.date)
+            }
+            let latestObservation = delegate?.GetLatestObservation(DashBoardRow.BM)
+            if(latestObservation != nil)
+            {
+                graphData.latestObservationText = String(latestObservation!.bm!.value)
+                graphData.latestObservationDate = latestObservation?.date
+            }
+            return graphData
+        case DashBoardRow.BloodPressure:
+            let graphData:BarGraphModel = BarGraphModel()
+            graphData.cellTitle = cellTitle
+            graphData.graphStartDate = graphStartDate
+            graphData.graphEndDate = graphEndDate
+            graphData.graphDisplayView = graphDisplayView
+            
             
             for observation in observationList
             {
                 if observation.bloodPressure == nil{
                     continue
                 }
-                    yAxisValue.append((observation.bloodPressure?.systolic)!)
-                    yAxisValue2.append((observation.bloodPressure?.diastolic)!)
-                    xAxisValue.append(observation.date)
+                graphData.yAxisMaxValue.append((observation.bloodPressure?.systolic)!)
+                graphData.yAxisMinValue.append((observation.bloodPressure?.diastolic)!)
+                graphData.xAxisValue.append(observation.date)
             }
             let latestObservation = delegate?.GetLatestObservation(DashBoardRow.BloodPressure)
             if(latestObservation != nil)
             {
-                latestObservationText = String(format:"%@ / %@", latestObservation!.bloodPressure!.systolic.cleanValue, latestObservation!.bloodPressure!.diastolic.cleanValue)
+                graphData.latestObservationText = String(format:"%@ / %@", latestObservation!.bloodPressure!.systolic.cleanValue, latestObservation!.bloodPressure!.diastolic.cleanValue)
                 
-                latestObservationDate = latestObservation?.date
+                graphData.latestObservationDate = latestObservation?.date
             }
-        default:
-            chartType = ChartType.None
+            return graphData
+       
+        }
+    }
+    
+    func getGraphTitle(cellObservationType:DashBoardRow) ->String
+    {
+        switch(cellObservationType)
+        {
+        case DashBoardRow.Respiratory:
+            return "Respiratory"
+        case DashBoardRow.Temperature:
+            return "Temperature"
+             case DashBoardRow.Pulse:
+            return "Pulse"
+        case DashBoardRow.SpO2:
+            return "SPO2"
+        case DashBoardRow.BM:
+            return "BM"
+        case DashBoardRow.BloodPressure:
+            return "Blood Pressure"
+        }
+    }
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        
+        var chartType :ChartType
+        var cellTitle:String = ""
+        var cellObservationType:DashBoardRow!
+        
+        var graphData:GraphModel!
+        let dashBoardRowIdentifier = DashBoardRow(rawValue: indexPath.row)
+        switch(dashBoardRowIdentifier!)
+        {
+        case DashBoardRow.Respiratory:
+            chartType = ChartType.LineChart
+            cellObservationType = DashBoardRow.Respiratory
+            cellTitle = getGraphTitle(cellObservationType)
+            graphData = getGraphData(cellObservationType,cellTitle: cellTitle)
+            
+        case DashBoardRow.Temperature:
+            chartType = ChartType.LineChart
+            cellObservationType = DashBoardRow.Temperature
+            cellTitle = getGraphTitle(cellObservationType)
+            graphData = getGraphData(cellObservationType,cellTitle: cellTitle)
+            
+        case DashBoardRow.Pulse:
+            chartType = ChartType.LineChart
+            cellObservationType = DashBoardRow.Pulse
+            cellTitle = getGraphTitle(cellObservationType)
+            graphData = getGraphData(cellObservationType,cellTitle: cellTitle)
+            
+        case DashBoardRow.SpO2:
+            chartType = ChartType.LineChart
+            cellObservationType = DashBoardRow.SpO2
+            cellTitle = getGraphTitle(cellObservationType)
+            graphData = getGraphData(cellObservationType,cellTitle: cellTitle)
+            
+        case DashBoardRow.BM:
+                chartType = ChartType.LineChart
+                cellObservationType = DashBoardRow.BM
+                cellTitle = getGraphTitle(cellObservationType)
+                graphData = getGraphData(cellObservationType,cellTitle: cellTitle)
+            
+        case DashBoardRow.BloodPressure:
+            chartType = ChartType.BarChart
+            cellObservationType = DashBoardRow.BloodPressure
+            cellTitle = getGraphTitle(cellObservationType)
+            graphData = getGraphData(cellObservationType,cellTitle: cellTitle)
         }
         
         
         switch(chartType)
         {
         case ChartType.LineChart:
-            let cell=collectionView.dequeueReusableCellWithReuseIdentifier(lineChartIdentifier, forIndexPath: indexPath) as! LineGraphCell
-            cell.drawLineGraph(xAxisValue, yAxisValue: yAxisValue , displayView: graphDisplayView ,graphTitle: cellTitle,graphStartDate:graphStartDate , graphEndDate:graphEndDate ,latestReadingText:latestObservationText , latestReadingDate:latestObservationDate)
+            let lineGraphData = graphData as! LineGraphModel
+            
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(lineChartIdentifier, forIndexPath: indexPath) as! LineGraphCell
+           
+            cell.drawLineGraph(lineGraphData.xAxisValue, yAxisValue: lineGraphData.yAxisValue , displayView: graphDisplayView ,graphTitle: cellTitle,graphStartDate:lineGraphData.graphStartDate , graphEndDate:lineGraphData.graphEndDate ,latestReadingText:lineGraphData.latestObservationText , latestReadingDate:lineGraphData.latestObservationDate,noOfHorizontalLines: GRAPH_HORIZONTAL_LINES)
+           
+            cell.cellObservationType = cellObservationType
+            cell.delegate = self
             return cell
         case ChartType.BarChart:
+            let barGraphData = graphData as! BarGraphModel
+            
             let cell=collectionView.dequeueReusableCellWithReuseIdentifier(barChartIdentifier, forIndexPath: indexPath) as! BarGraphCell
+            cell.delegate = self
+            cell.cellObservationType = cellObservationType
+            cell.drawBarGraph(barGraphData.xAxisValue, yAxisMinValue: barGraphData.yAxisMinValue ,yAxisMaxValue: barGraphData.yAxisMaxValue, displayView: graphDisplayView ,graphTitle: barGraphData.cellTitle,graphStartDate:barGraphData.graphStartDate , graphEndDate:barGraphData.graphEndDate,latestReadingText:barGraphData.latestObservationText , latestReadingDate:barGraphData.latestObservationDate,noOfHorizontalLines: GRAPH_HORIZONTAL_LINES)
             
-            cell.drawBarGraph(xAxisValue, yAxisMinValue: yAxisValue2 ,yAxisMaxValue: yAxisValue, displayView: graphDisplayView ,graphTitle: cellTitle,graphStartDate:graphStartDate , graphEndDate:graphEndDate,latestReadingText:latestObservationText , latestReadingDate:latestObservationDate)
-            
-            return cell
-        default:
-            let cell=collectionView.dequeueReusableCellWithReuseIdentifier(lineChartIdentifier, forIndexPath: indexPath) as! LineGraphCell
-            cell.drawLineGraph(xAxisValue, yAxisValue: yAxisValue, displayView:graphDisplayView,graphTitle: cellTitle,graphStartDate: graphStartDate , graphEndDate:graphEndDate, latestReadingText:"" , latestReadingDate:NSDate())
             return cell
         }
-        
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
@@ -203,5 +296,24 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
         collectionView.reloadData()
     }
     
+    
+    //Mark: Delegate Implementation
+    func PushViewController(navigationController:UIViewController)
+    {
+        let singleLineGraphController = navigationController as? SingleLineGraphController
+        if (singleLineGraphController != nil)
+        {
+            let graphData = getGraphData(singleLineGraphController!.observationType, cellTitle: getGraphTitle(singleLineGraphController!.observationType)) as! LineGraphModel
+             singleLineGraphController?.graphData = graphData
+        }
+        else
+        {
+            let singleBarGraphController = navigationController as! SingleBarGraphController
+            let graphData = getGraphData(singleBarGraphController.observationType, cellTitle: getGraphTitle(singleBarGraphController.observationType)) as! BarGraphModel
+                singleBarGraphController.graphData = graphData
+        }
+        
+        delegate?.PushViewController(navigationController)
+    }
 
 }

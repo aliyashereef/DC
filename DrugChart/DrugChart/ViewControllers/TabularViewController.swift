@@ -19,7 +19,6 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
     @IBOutlet weak var collectionView: UICollectionView!
     var observationList:[VitalSignObservation]!
     var filteredObservations:[VitalSignObservation]!
-    var delegate:ObservationDelegate?
     private var viewByDate:NSDate = NSDate()
     
     override func viewDidLoad() {
@@ -31,12 +30,10 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
         self.collectionView .registerNib(UINib(nibName: "HeaderCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: headerCellIdentifier)
         self.collectionView .registerNib(UINib(nibName: "ContentCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: contentCellIdentifier)
         self.collectionView .registerNib(UINib(nibName: "RowHeaderCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: rowHeaderCellIdentifier)
+   
         setDateDisplay()
         reloadView(observationList)
     }
-    
-    
-    
     
     private func setDateDisplay()
     {
@@ -44,8 +41,8 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
         let chosenDateComponents = calendar.components([.Month , .Year], fromDate: viewByDate)
         let displayText = String(format: "%d / %d",chosenDateComponents.month , chosenDateComponents.year)
         sortMenuItem.title = displayText
-        
     }
+    
     private func reloadView(observationList:[VitalSignObservation])
     {
         self.observationList = observationList // order matters here
@@ -54,8 +51,6 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
         collectionViewLayOut.setNoOfColumns(filteredObservations.count + 1)
         self.collectionView.reloadData()
     }
-    
-    
     
     // MARK - UICollectionViewDataSource
     
@@ -123,25 +118,33 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
             } else {
                 let contentCell : ContentCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(contentCellIdentifier, forIndexPath: indexPath) as! ContentCollectionViewCell
                 let observation = filteredObservations[indexPath.row - 1]
-                contentCell.configureCell(observation)
+               // contentCell.configureCell(observation)
                 contentCell.delegate = self
                 switch(indexPath.section)
                 {
                 case ObservationTabularViewRow.Respiratory.rawValue:
+                    contentCell.configureCell(observation,showobservationType: .Respiratory)
                     contentCell.contentLabel.text = observation.getRespiratoryReading()
                 case ObservationTabularViewRow.SPO2.rawValue:
+                    contentCell.configureCell(observation,showobservationType: ShowObservationType.SpO2)
                     contentCell.contentLabel.text = observation.getSpo2Reading()
                 case ObservationTabularViewRow.Temperature.rawValue:
+                    contentCell.configureCell(observation,showobservationType: .Temperature)
                     contentCell.contentLabel.text = observation.getTemperatureReading()
                 case ObservationTabularViewRow.BloodPressure.rawValue:
+                    contentCell.configureCell(observation,showobservationType: .BloodPressure)
                     contentCell.contentLabel.text = observation.getBloodPressureReading()
                 case ObservationTabularViewRow.Pulse.rawValue:
+                    contentCell.configureCell(observation,showobservationType: .Pulse)
                     contentCell.contentLabel.text = observation.getPulseReading()
                 case ObservationTabularViewRow.BM.rawValue:
+                    contentCell.configureCell(observation,showobservationType: .BM)
                     contentCell.contentLabel.text = observation.getBMReading()
                 case ObservationTabularViewRow.News.rawValue:
+                    contentCell.configureCell(observation,showobservationType: .None)
                     contentCell.contentLabel.text = observation.getNews()
                 case ObservationTabularViewRow.CommaScore.rawValue:
+                    contentCell.configureCell(observation,showobservationType: .None)
                     contentCell.contentLabel.text = observation.getComaScore()
                 default:
                     print("come in default section")
@@ -173,10 +176,12 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
         setDateDisplay()
         reloadView(observationList)
     }
-    func EditObservation(navigationController:UINavigationController)
+    
+    func ShowModalNavigationController(navigationController:UINavigationController)
     {
-        delegate?.EditObservation(navigationController)
+        self.presentViewController(navigationController, animated: false, completion: nil)
     }
+    
     func filterList()
     {
         let calendar = NSCalendar.currentCalendar()
@@ -197,6 +202,10 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
         controller: UIPresentationController) -> UIModalPresentationStyle {
             return .None
     }
+    
+    
+    
+    
 
 //    /*
 //    // MARK: - Navigation

@@ -33,6 +33,17 @@ enum ObservationType:Int
         return max
     }
 }
+
+enum ShowObservationType:Int
+{
+    case All, None, Respiratory  , SpO2, Temperature , BloodPressure , Pulse , BM
+    
+    static var count: Int {  // I called this "maximumRawValue" in the post
+        var max: Int = 0
+        while let _ = self.init(rawValue: ++max) {}
+        return max
+    }
+}
 enum CellType:Int
 {
     case Date,Time,Double,BloodPressure
@@ -67,7 +78,7 @@ enum CommaScoreTableRow:Int
 }
 enum ChartType:Int
 {
-    case None,LineChart,BarChart
+    case LineChart,BarChart
     
     static var count: Int {  // I called this "maximumRawValue" in the post
         var max: Int = 0

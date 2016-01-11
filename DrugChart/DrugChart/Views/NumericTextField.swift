@@ -11,10 +11,14 @@ import UIKit
 class NumericTextField: UITextField ,UITextFieldDelegate{
 
     var buttonActionDelegate:ButtonAction?
-    
-    func initialize()
+    var minimumObservationRow:Int!
+    var maximumObservationRow:Int!
+    var disableNavigation:Bool!
+
+    func initialize(disableNavigation:Bool)
     {
         self.delegate = self
+        self.disableNavigation = disableNavigation
         addDoneButtonOnKeyboard()
     }
     
@@ -45,13 +49,21 @@ class NumericTextField: UITextField ,UITextFieldDelegate{
         let previousButton  = UIBarButtonItem(image :UIImage(named:"previous"), style: .Plain, target: self, action: "previousButtonAction")
         let nextButton  = UIBarButtonItem(image :UIImage(named:"next"), style: .Plain, target: self, action: "nextButtonAction")
         
-        if(self.tag == Constant.MINIMUM_OBSERVATION_ROW)
+        if(disableNavigation == true)
         {
             previousButton.enabled = false
-        }
-        else if(self.tag == Constant.MAXIMUM_OBSERVATION_ROW)
-        {
             nextButton.enabled = false
+        }
+        else
+        {
+            if(disableNavigation == true || self.tag == Constant.MINIMUM_OBSERVATION_ROW )
+            {
+                previousButton.enabled = false
+            }
+            else if(disableNavigation == true || self.tag == Constant.MAXIMUM_OBSERVATION_ROW)
+            {
+                nextButton.enabled = false
+            }
         }
         toolbar.setItems([previousButton, fixedSpaceButton, nextButton, flexibleSpaceButton, doneButton], animated: false)
         toolbar.userInteractionEnabled = true
