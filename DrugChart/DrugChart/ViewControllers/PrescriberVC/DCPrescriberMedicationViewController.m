@@ -701,35 +701,56 @@ typedef enum : NSUInteger {
     UIStoryboard *administerStoryboard = [UIStoryboard storyboardWithName:ADMINISTER_STORYBOARD bundle:nil];
     detailViewController = [administerStoryboard instantiateViewControllerWithIdentifier:@"AdministrationViewControllerSBID"];
     if ([displayMedicationListArray count] > 0) {
+        
         DCMedicationScheduleDetails *medicationList =  [displayMedicationListArray objectAtIndex:indexPath.item];
         detailViewController.scheduleId = medicationList.scheduleId;
         detailViewController.medicationDetails = medicationList;
+        DCSwiftObjCNavigationHelper *helper = [[DCSwiftObjCNavigationHelper alloc] init];
+        helper.delegate = self;
+        detailViewController.helper = helper;
+        detailViewController.medicationSlotsArray = [self medicationSlotsArrayFromSlotsDictionary:medicationSLotsDictionary];
+        detailViewController.weekDate = date;
+        detailViewController.patientId = self.patient.patientId;
         NSString *dateString = [DCDateUtility dateStringFromDate:date inFormat:SHORT_DATE_FORMAT];
-        NSRange range = [medicationList.startDate rangeOfString:@" "];
-        NSString *startDate = [medicationList.startDate substringToIndex:range.location];
-
-        if (([startDate compare:dateString] == NSOrderedAscending ||
-             [startDate compare:dateString] == NSOrderedSame) &&
-            ([medicationList.endDate compare:dateString] == NSOrderedDescending ||
-             [medicationList.endDate compare:dateString] == NSOrderedSame)) {
-                DCSwiftObjCNavigationHelper *helper = [[DCSwiftObjCNavigationHelper alloc] init];
-                helper.delegate = self;
-                detailViewController.helper = helper;
-                if ([[medicationSLotsDictionary allKeys] containsObject:@"timeSlots"]) {
-                    NSMutableArray *slotsArray = [[NSMutableArray alloc] initWithArray:[medicationSLotsDictionary valueForKey:@"timeSlots"]];
-                    if ([slotsArray count] > 0) {
-                        medicationSlotArray = slotsArray;
-                        detailViewController.medicationSlotsArray = slotsArray;
+        NSString *startDate = [self startDateStringFromDateString:medicationList.startDate];
+        if (([startDate compare:dateString] == NSOrderedAscending || [startDate compare:dateString] == NSOrderedSame) &&
+            ([medicationList.endDate compare:dateString] == NSOrderedDescending || [medicationList.endDate compare:dateString] == NSOrderedSame)) {
+                if ([medicationList.medicineCategory isEqualToString: WHEN_REQUIRED]) {
+                    NSDate *today = [NSDate date];
+                    NSCalendar *calendar = [NSCalendar currentCalendar];
+                    NSComparisonResult order = [calendar compareDate:today toDate:date toUnitGranularity:NSCalendarUnitDay];
+                    if (order == NSOrderedSame) {
+                        [self presentAdministrationViewController];
                     }
+                } else {
+                    [self presentAdministrationViewController];
                 }
-                detailViewController.weekDate = date;
-                detailViewController.patientId = self.patient.patientId;
-                UINavigationController *navigationController =
-                [[UINavigationController alloc] initWithRootViewController:detailViewController];
-                navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
-                [self presentViewController:navigationController animated:YES completion:nil];
             }
     }
+}
+
+- (NSArray *)medicationSlotsArrayFromSlotsDictionary:(NSDictionary *)medicationSlotsDictionary {
+    if ([[medicationSlotsDictionary allKeys] containsObject:@"timeSlots"]) {
+        NSMutableArray *slotsArray = [[NSMutableArray alloc] initWithArray:[medicationSlotsDictionary valueForKey:@"timeSlots"]];
+        if ([slotsArray count] > 0) {
+            medicationSlotArray = slotsArray;
+            return slotsArray;
+        }
+    }
+    return nil;
+}
+
+- (void)presentAdministrationViewController {
+    UINavigationController *navigationController =
+    [[UINavigationController alloc] initWithRootViewController:detailViewController];
+    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self presentViewController:navigationController animated:YES completion:nil];
+}
+
+- (NSString *)startDateStringFromDateString:(NSString *)date {
+    NSRange range = [date rangeOfString:@" "];
+    NSString *startDate = [date substringToIndex:range.location];
+    return startDate;
 }
 
 - (void)modifyStartDayAndWeekDates:(BOOL)isNextWeek {
