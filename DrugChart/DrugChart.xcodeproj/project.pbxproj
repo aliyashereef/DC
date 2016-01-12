@@ -169,7 +169,6 @@
 		1F5375011C1AEC2C00D4A64F /* LineGraphCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F5374FF1C1AEC2C00D4A64F /* LineGraphCell.xib */; };
 		1F5375031C1AED9700D4A64F /* GraphCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5375021C1AED9700D4A64F /* GraphCollectionViewCell.swift */; };
 		1F5375051C1AEF9F00D4A64F /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5375041C1AEF9F00D4A64F /* GraphView.swift */; };
-		1F5375081C1AF9CA00D4A64F /* GraphManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5375071C1AF9CA00D4A64F /* GraphManager.swift */; };
 		1F53750A1C1B13D800D4A64F /* NSDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5375091C1B13D800D4A64F /* NSDate.swift */; };
 		1F7EB71A1C21CAC400F6F22F /* BarGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7EB7191C21CAC400F6F22F /* BarGraphView.swift */; };
 		1F7EB71D1C21CB5400F6F22F /* BarGraphCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7EB71B1C21CB5400F6F22F /* BarGraphCell.swift */; };
@@ -578,7 +577,6 @@
 		1F5374FF1C1AEC2C00D4A64F /* LineGraphCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LineGraphCell.xib; sourceTree = "<group>"; };
 		1F5375021C1AED9700D4A64F /* GraphCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphCollectionViewCell.swift; sourceTree = "<group>"; };
 		1F5375041C1AEF9F00D4A64F /* GraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
-		1F5375071C1AF9CA00D4A64F /* GraphManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphManager.swift; sourceTree = "<group>"; };
 		1F5375091C1B13D800D4A64F /* NSDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDate.swift; sourceTree = "<group>"; };
 		1F7EB7191C21CAC400F6F22F /* BarGraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarGraphView.swift; sourceTree = "<group>"; };
 		1F7EB71B1C21CB5400F6F22F /* BarGraphCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarGraphCell.swift; sourceTree = "<group>"; };
@@ -2046,7 +2044,6 @@
 		1F5375061C1AF9BA00D4A64F /* VitalSign */ = {
 			isa = PBXGroup;
 			children = (
-				1F5375071C1AF9CA00D4A64F /* GraphManager.swift */,
 			);
 			name = VitalSign;
 			sourceTree = "<group>";
@@ -2877,7 +2874,6 @@
 				0B6B497A1B2ED50700288117 /* DCScrollView.m in Sources */,
 				0BC5FAF61B43FF930019BF36 /* DCAutoSearchView.m in Sources */,
 				4DDEED511B4D0E3F00D8E0FF /* DCPatientAllergyWebService.m in Sources */,
-				1F5375081C1AF9CA00D4A64F /* GraphManager.swift in Sources */,
 				7DE60BCF1B2866CD00BCA745 /* DCPatientGraphicalRepresentationView.m in Sources */,
 				1F1977201C0485C500106023 /* RowHeaderCollectionViewCell.swift in Sources */,
 				7D4DBE9E1AA57E1700A5E39B /* UIColor+ColorFromHex.m in Sources */,
@@ -2897,7 +2893,6 @@
 				0B0371EE1C16F9E600F2E0D1 /* DCSpecificTimes.m in Sources */,
 				0BBD58441AD3B0C20027F8FE /* DCUsersListWebService.m in Sources */,
 				FD618F311C1979E7005EC416 /* DCDosageSelectionViewController.swift in Sources */,
-				1FD4FD021BF4BAAD00B77B94 /* BPCollectionViewCell.swift in Sources */,
 				4D4891591BC900DB002AC8CA /* DCPatientDetailsHelper.m in Sources */,
 				0BA5ECBB1BFEF0F700F80C12 /* NSString+Additions.m in Sources */,
 				0B8D6E7A1B3136C200F0B972 /* DCKeyChainManager.m in Sources */,
@@ -2917,7 +2912,6 @@
 				0BBC8FA61AA469AF0085ABAB /* DCBaseViewController.m in Sources */,
 				1FD4FCEA1BF4B8F400B77B94 /* TimePickerCell.swift in Sources */,
 				FD618F301C1979E7005EC416 /* DCDosageSelectionTableViewCell.swift in Sources */,
-				1FD4FCE81BF4B8F400B77B94 /* LineChartCollectionViewCell.swift in Sources */,
 				4D4891601BC90176002AC8CA /* DCWardCell.swift in Sources */,
 				7D70F3801B20258200E4BA89 /* DCWardsGraphicalDisplayViewController.m in Sources */,
 				1FD4FCBA1BF4B6B700B77B94 /* Respiratory.swift in Sources */,

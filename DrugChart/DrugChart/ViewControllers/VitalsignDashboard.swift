@@ -42,6 +42,13 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: Selector("leftSwiped"))
         swipeLeft.direction = UISwipeGestureRecognizerDirection.Left
         self.view.addGestureRecognizer(swipeLeft)
+        
+        
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: Selector("orientationChanged"),
+            name: UIDeviceOrientationDidChangeNotification,
+            object: nil)
     }
     
     func showData()
@@ -60,8 +67,8 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
     
     func displayTitle()
     {
-        if UIDevice.currentDevice().userInterfaceIdiom == .Phone
-        {
+        let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
+        if (appDelegate.windowState == DCWindowState.halfWindow || appDelegate.windowState == DCWindowState.oneThirdWindow) {
             var titleView:DCOneThirdCalendarNavigationTitleView?
             titleView = NSBundle.mainBundle().loadNibNamed("DCOneThirdCalendarNavigationTitleView", owner: self, options: nil)[0] as? DCOneThirdCalendarNavigationTitleView
             titleView!.populateViewWithPatientName(patient.patientName, nhsNumber:patient.nhs, dateOfBirth: patient.dob, age: patient.age)
@@ -182,7 +189,15 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
             return .None
     }
     
+    //Mark: Rotation gesture recognizer
+    
+    func orientationChanged()
+    {
+        graphicalDashBoardView.collectionView.reloadData()
+    }
+
     //MARK: swipe gestures
+    
     func rightSwiped()
     {
         swipeGraphDate(false,flipDateMode:false)

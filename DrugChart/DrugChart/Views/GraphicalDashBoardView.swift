@@ -283,10 +283,21 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        //return CGSizeMake(395,320)
-        return GraphManager.graphSize()
+        var width =  collectionView.frame.width
+        let CORNER_MARGIN:CGFloat = 20
+        let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
+        if (appDelegate.windowState == DCWindowState.halfWindow || appDelegate.windowState == DCWindowState.oneThirdWindow) {
+            width = width - CORNER_MARGIN
+            return CGSizeMake(width,264)
+        }
+        else{
+            
+            let graphWidth:CGFloat = width/2
+            width = graphWidth - CORNER_MARGIN
+            return CGSizeMake(width,320)
     }
-    
+}
+
     func displayData(observationList :[VitalSignObservation],graphDisplayView:GraphDisplayView,graphStartDate:NSDate , graphEndDate:NSDate)
     {
         self.observationList = observationList
