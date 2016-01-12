@@ -14,7 +14,7 @@
 
 #define CELL_PADDING 24
 #define CELL_MININUM_HEIGHT 44
-#define TABLEVIEW_TOP_CONSTRAINT_HALF_SCREEN -20.0f
+//#define TABLEVIEW_TOP_CONSTRAINT_HALF_SCREEN -20.0f
 
 @interface DCMedicationListViewController () <WarningsDelegate> {
     
@@ -36,6 +36,14 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+    if ([DCAPPDELEGATE windowState] == halfWindow ||
+        [DCAPPDELEGATE windowState] == oneThirdWindow) {
+        self.isLoadingForFirstTimeInHalfScreen = YES;
+        self.valueForTableTopConstraint = 0.0;
+        tableViewTopConstraint.constant = 00.0;
+    } else {
+        self.valueForTableTopConstraint = -20.0;
+    }
     [self configureViewElements];
 }
 
@@ -81,7 +89,12 @@
     
     NSInteger windowWidth = [DCUtility mainWindowSize].width;
     NSInteger screenWidth = [[UIScreen mainScreen] bounds].size.width;
-    tableViewTopConstraint.constant = (windowWidth > screenWidth/2) ? ZERO_CONSTRAINT : TABLEVIEW_TOP_CONSTRAINT_HALF_SCREEN;
+    tableViewTopConstraint.constant = (windowWidth > screenWidth/2) ? ZERO_CONSTRAINT : self.valueForTableTopConstraint;
+    if (([DCAPPDELEGATE windowState] == twoThirdWindow ||
+        [DCAPPDELEGATE windowState] == fullWindow) && self.isLoadingForFirstTimeInHalfScreen) {
+        tableViewTopConstraint.constant = 20.0;
+    }
+    
  }
 
 - (void)configureFetchListTableView {
