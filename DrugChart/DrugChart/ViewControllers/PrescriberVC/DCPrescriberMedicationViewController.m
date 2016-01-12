@@ -57,13 +57,14 @@ typedef enum : NSUInteger {
     BOOL isOneThirdMedicationViewShown;
     BOOL windowSizeChanged;
     SortType sortType;
-    
+    NSIndexPath *administrationViewPresentedIndexPath;
     DCPrescriberMedicationListViewController *prescriberMedicationListViewController;
     DCCalendarOneThirdViewController *prescriberMedicationOneThirdSizeViewController;
     DCCalendarDateDisplayViewController *calendarDateDisplayViewController;
-    
+    DCAdministrationViewController *detailViewController;
     DCAppDelegate *appDelegate;
     DCScreenOrientation screenOrientation;
+    NSArray *medicationSlotArray;
 }
 
 @end
@@ -683,13 +684,22 @@ typedef enum : NSUInteger {
 
 #pragma mark - Public methods implementation.
 
+- (void)reloadAdministrationScreenWithMedicationDetails {
+    
+    DCMedicationScheduleDetails *medicationList = [displayMedicationListArray objectAtIndex:administrationViewPresentedIndexPath.item];
+    detailViewController.medicationDetails = medicationList;
+    detailViewController.medicationSlotsArray = medicationSlotArray;
+    [detailViewController initialiseMedicationSlotToAdministerObject];
+    [detailViewController.administerTableView reloadData];
+}
+
 - (void)displayAdministrationViewForMedicationSlot:(NSDictionary *)medicationSLotsDictionary
                                        atIndexPath:(NSIndexPath *)indexPath
                                       withWeekDate:(NSDate *)date {
     
+    administrationViewPresentedIndexPath = indexPath;
     UIStoryboard *administerStoryboard = [UIStoryboard storyboardWithName:ADMINISTER_STORYBOARD bundle:nil];
-    DCAdministrationViewController *detailViewController = [administerStoryboard instantiateViewControllerWithIdentifier:@"AdministrationViewControllerSBID"];
-    //DCCalendarSlotDetailViewController *detailViewController = [administerStoryboard instantiateViewControllerWithIdentifier:CALENDAR_SLOT_DETAIL_STORYBOARD_ID];
+    detailViewController = [administerStoryboard instantiateViewControllerWithIdentifier:@"AdministrationViewControllerSBID"];
     if ([displayMedicationListArray count] > 0) {
         DCMedicationScheduleDetails *medicationList =  [displayMedicationListArray objectAtIndex:indexPath.item];
         detailViewController.scheduleId = medicationList.scheduleId;
@@ -708,6 +718,7 @@ typedef enum : NSUInteger {
                 if ([[medicationSLotsDictionary allKeys] containsObject:@"timeSlots"]) {
                     NSMutableArray *slotsArray = [[NSMutableArray alloc] initWithArray:[medicationSLotsDictionary valueForKey:@"timeSlots"]];
                     if ([slotsArray count] > 0) {
+                        medicationSlotArray = slotsArray;
                         detailViewController.medicationSlotsArray = slotsArray;
                     }
                 }
@@ -715,10 +726,6 @@ typedef enum : NSUInteger {
                 detailViewController.patientId = self.patient.patientId;
                 UINavigationController *navigationController =
                 [[UINavigationController alloc] initWithRootViewController:detailViewController];
-//                UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:EMPTY_STRING style:UIBarButtonItemStylePlain target:nil action:nil];
-//                [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)
-//                                                                     forBarMetrics:UIBarMetricsDefault];
-//                navigationController.navigationItem.backBarButtonItem = backButton;
                 navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
                 [self presentViewController:navigationController animated:YES completion:nil];
             }
@@ -900,11 +907,10 @@ typedef enum : NSUInteger {
     }];
 }
 
-- (void)reloadPrescriberMedicationList {
-    //[self fetchMedicationListForPatient];
-    [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
-        
-    }];
+- (void)reloadPrescriberMedicationListWithCompletionHandler:(void (^)(BOOL))completion{
+        [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
+            completion(success);
+        }];
 }
 
 @end

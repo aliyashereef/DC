@@ -190,8 +190,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func checkIfFrequentAdministrationForWhenRequiredMedication () {
         
         //check if frequent administration for when required medication
-        if (medicationSlotsArray.count > 0) {
-            let previousMedicationSlot : DCMedicationSlot? = medicationSlotsArray.last
+        if medicationSlotsArray.count > 1 {
+            let previousMedicationSlot : DCMedicationSlot? = medicationSlotsArray[medicationSlotsArray.count - 2]
             let currentSystemDate : NSDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
             let nextMedicationTimeInterval : NSTimeInterval? = currentSystemDate.timeIntervalSinceDate((previousMedicationSlot?.time)!)
             if (nextMedicationTimeInterval <= 2*60*60) {
@@ -201,6 +201,9 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 medicationSlot?.medicationAdministration.isEarlyAdministration = false
                 medicationSlot?.medicationAdministration.isWhenRequiredEarlyAdministration = false
             }
+        } else {
+            medicationSlot?.medicationAdministration.isEarlyAdministration = false
+            medicationSlot?.medicationAdministration.isWhenRequiredEarlyAdministration = false
         }
     }
     
@@ -851,11 +854,14 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     // MARK:AdministerPickerCellDelegate Methods
     
     func newDateValueSelected(newDate : NSDate) {
-        
         if (datePickerIndexPath != nil) {
-            if (datePickerIndexPath?.row == RowCount.eFirstRow.rawValue || datePickerIndexPath?.row == RowCount.eSecondRow.rawValue) {
+            if (datePickerIndexPath?.row == RowCount.eThirdRow.rawValue || datePickerIndexPath?.row == RowCount.eSecondRow.rawValue) {
                 medicationSlot?.medicationAdministration.actualAdministrationTime = newDate
-                administerTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow:datePickerIndexPath!.row - 1, inSection: datePickerIndexPath!.section)], withRowAnimation: UITableViewRowAnimation.None)
+                if medicationSlot?.medicationAdministration.status == ADMINISTERED {
+                    administerTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow:RowCount.eSecondRow.rawValue, inSection: datePickerIndexPath!.section)], withRowAnimation: UITableViewRowAnimation.None)
+                } else {
+                    administerTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow:RowCount.eFirstRow.rawValue, inSection: datePickerIndexPath!.section)], withRowAnimation: UITableViewRowAnimation.None)
+                }
             }
         }
     }
@@ -1002,11 +1008,17 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         administerMedicationWebService.administerMedicationForScheduleId((medicationDetails?.scheduleId)! as String, forPatientId:patientId as String , withParameters:parameterDictionary as [NSObject : AnyObject]) { (array, error) -> Void in
             self.activityIndicator.stopAnimating()
             if error == nil {
-                let presentingViewController = self.presentingViewController
+                let presentingViewController = self.presentingViewController as! UINavigationController
+                let parentView = presentingViewController.presentingViewController as! UINavigationController
+                let prescriberMedicationListViewController : DCPrescriberMedicationViewController = parentView.viewControllers.last as! DCPrescriberMedicationViewController
+                let administationViewController : DCAdministrationViewController = presentingViewController.viewControllers.last as! DCAdministrationViewController
+                administationViewController.activityIndicatorView.startAnimating()
                 self.dismissViewControllerAnimated(true, completion: {
-                    presentingViewController!.dismissViewControllerAnimated(true, completion:nil)
+                    self.helper.reloadPrescriberMedicationHomeViewControllerWithCompletionHandler({ (Bool) -> Void in
+                        prescriberMedicationListViewController.reloadAdministrationScreenWithMedicationDetails()
+                        administationViewController.activityIndicatorView.stopAnimating()
+                    })
                 })
-                self.helper.reloadPrescriberMedicationHomeViewController()
             } else {
                 if Int(error.code) == Int(NETWORK_NOT_REACHABLE) {
                     self.displayAlertWithTitle("ERROR", message: NSLocalizedString("INTERNET_CONNECTION_ERROR", comment:""))

@@ -11,6 +11,7 @@ import Foundation
 let headerString : NSString = "ADMINISTRATION DETAILS"
 
 class DCAdministrationViewController : UIViewController, UITableViewDelegate, UITableViewDataSource {
+    @IBOutlet var activityIndicatorView: UIActivityIndicatorView!
     
     var medicationSlotsArray : [DCMedicationSlot] = []
     var medicationDetails : DCMedicationScheduleDetails?
@@ -60,8 +61,10 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         }
         if (medication.time.compare(currentSystemDate) == NSComparisonResult.OrderedDescending){
             let slotDateString : NSString? = DCDateUtility.dateStringFromDate(slotToAdminister?.time, inFormat: SHORT_DATE_FORMAT)
-            if (currentDateString != slotDateString) {
+            if (currentDateString != slotDateString && medication.medicationAdministration?.status == nil) {
                 return PENDING
+            } else if (medication.medicationAdministration?.status != nil) {
+                return medication.medicationAdministration.status
             }
         }
         if let slotToAdministerDate = slotToAdminister?.time {
@@ -70,7 +73,9 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
             }
         }
         if (medication.time.compare(currentSystemDate) == NSComparisonResult.OrderedAscending) {
-            if (slotToAdminister?.medicationAdministration?.actualAdministrationTime == nil){
+            if (medication.medicationAdministration?.status != nil) {
+                return medication.medicationAdministration.status
+            } else if (slotToAdminister?.medicationAdministration?.actualAdministrationTime == nil){
                    return PENDING
             }
         }
@@ -88,7 +93,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
 
         if (medicationSlotsArray.count > 0) {
             for slot : DCMedicationSlot in medicationSlotsArray {
-                if (slot.medicationAdministration?.actualAdministrationTime == nil) {
+                if (slot.medicationAdministration?.actualAdministrationTime == nil && slot.medicationAdministration == nil) {
                     slotToAdminister = slot
                     break
                 }
@@ -131,7 +136,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
     func configureAdministrationStatusCellAtIndexPath (indexPath :NSIndexPath) -> DCAdministrationStatusCell{
         let cell = administerTableView.dequeueReusableCellWithIdentifier("AdministrationStatusCell") as? DCAdministrationStatusCell
         let medicationSlot : DCMedicationSlot = medicationSlotsArray[indexPath.row]
-        if (medicationSlot.medicationAdministration?.status != nil && medicationSlot.medicationAdministration.actualAdministrationTime != nil) {
+        if (medicationSlot.medicationAdministration?.status != nil || medicationSlot.medicationAdministration?.actualAdministrationTime != nil) {
             cell!.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
             cell!.statusLabelTrailingSpace.constant = 5.0
         } else {
@@ -141,6 +146,8 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         cell!.administrationStatusLabel.text = configureMedicationStatusInCell(medicationSlot) as String
         if cell!.administrationStatusLabel.text == ADMINISTER_MEDICATION {
             cell!.administrationStatusLabel.textColor = UIColor(forHexString:"#4A90E2")
+        } else {
+            cell!.administrationStatusLabel.textColor = UIColor(forHexString:"#676767")
         }
         cell?.administrationTimeLabel.text =  DCDateUtility.dateStringFromDate(medicationSlot.time, inFormat: TWENTYFOUR_HOUR_FORMAT)
         return cell!

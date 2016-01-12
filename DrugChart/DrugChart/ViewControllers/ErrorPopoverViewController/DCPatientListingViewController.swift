@@ -489,7 +489,7 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
                     self.navigationItem.rightBarButtonItem?.enabled = false
                     self.messageLabel.hidden = false
                 } else {
-                        self.displayAlertWithTitle(NSLocalizedString("ERROR", comment: ""), message:NSLocalizedString("INTERNET_CONNECTION_ERROR", comment: ""))
+                        self.displayAlertWithTitle(NSLocalizedString("ERROR", comment: ""), message:NSLocalizedString("FETCH_FAILED", comment: ""))
                 }
                 self.activityIndicator.stopAnimating()
             }

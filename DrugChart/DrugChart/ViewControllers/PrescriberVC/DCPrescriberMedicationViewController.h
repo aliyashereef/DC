@@ -26,6 +26,7 @@
 - (void)loadCurrentWeekDate ;
 - (void)modifyWeekDatesInCalendarTopPortion;
 - (void)reloadCalendarTopPortion;
+- (void)reloadAdministrationScreenWithMedicationDetails;
 - (void)fetchMedicationListForPatientWithCompletionHandler:(void(^)(BOOL success))completion;
 - (void)cancelPreviousMedicationListFetchRequest;
 - (void)modifyWeekDatesViewConstraint:(CGFloat)leadingConstraint;
