@@ -172,30 +172,30 @@ import UIKit
             return 44
     }
 
-    //Todo :- Uncomment For next release.
-//    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        
-//        if (section == 2 && timeArray != nil && alertMessageForMismatch != "") {
-//            return alertMessageForMismatch as String
-//        } else {
-//            return nil
-//        }
-//    }
-//    
-//    func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-//        
-//        if let view = view as? UITableViewHeaderFooterView {
-//            view.textLabel!.textColor = UIColor.redColor()
-//        }
-//    }
-//    
-//    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        if (section == 2 && timeArray != nil && alertMessageForMismatch != "") {
-//            return 61.0
-//        } else {
-//            return 0.0
-//        }
-//    }
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        if (section == 2 && timeArray != nil && alertMessageForMismatch != "") {
+            return alertMessageForMismatch as String
+        } else {
+            return nil
+        }
+    }
+    
+    func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        
+        if let view = view as? UITableViewHeaderFooterView {
+            view.textLabel?.text = alertMessageForMismatch as String
+            view.textLabel!.textColor = UIColor.redColor()
+        }
+    }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if (section == 2 && timeArray != nil && alertMessageForMismatch != "") {
+            return 44.0
+        } else {
+            return 0.0
+        }
+    }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
@@ -270,29 +270,37 @@ import UIKit
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
-    //Todo :- Uncomment For next release.
-//    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-//        // Return YES if you want the specified item to be editable.
-//        if indexPath.section == 2 && timeArray != nil && selectedTimeArrayItems.count != 0 {
-//            return true
-//        } else {
-//            return false
-//        }
-//    }
-//    // Override to support editing the table view.
-//    
-//    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-//        if editingStyle == .Delete {
-//            //add code here for when you hit delete
-//            self.deleteElementFromTimeArrayAtSelectedIndexPath(indexPath.row)
-//            self.configureTimeArray()
-//            self.updateAlertMessageForMismatch()
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        // Return YES if you want the specified item to be editable.
+        if indexPath.section == 2 && timeArray != nil && selectedTimeArrayItems.count != 0 {
+            return true
+        } else {
+            return false
+        }
+    }
+    // Override to support editing the table view.
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            //add code here for when you hit delete
+            dosageTableView.cellForRowAtIndexPath(indexPath)?.textLabel?.font = UIFont.systemFontOfSize(5.0)
+            self.deleteElementFromTimeArrayAtSelectedIndexPath(indexPath.row)
+            self.configureTimeArray()
+            self.updateAlertMessageForMismatch()
 //            self.dosageTableView.reloadData()
-//            dosageTableView.beginUpdates()
-//            dosageTableView.endUpdates()
-//        }
-//    }
-//    
+            dosageTableView.beginUpdates()
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            if (selectedTimeArrayItems.count == 0) {
+                let range = NSMakeRange(2, 2)
+                print(range)
+                let sections = NSIndexSet(index: 2)
+                print(sections)
+                tableView.deleteSections(sections, withRowAnimation: .Fade)
+            }
+            dosageTableView.endUpdates()
+        }
+    }
+    
 //    func tableView(tableView: UITableView,
 //        editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
 //        let delete = UITableViewRowAction(style: .Destructive, title: "Delete") { action, index in
@@ -519,9 +527,9 @@ import UIKit
             if (totalValueForDose == valueForRequiredDailyDose) {
                 alertMessageForMismatch = ""
             } else if (totalValueForDose < valueForRequiredDailyDose) {
-                alertMessageForMismatch = "ADD A FURTHER \(valueForRequiredDailyDose - totalValueForDose) MG TO MEET THE REQUIRED DAILY DOSE"
+                alertMessageForMismatch = "Add a further \(valueForRequiredDailyDose - totalValueForDose) mg to meet the required daily dose"
             } else {
-                alertMessageForMismatch = "REMOVE \(totalValueForDose - valueForRequiredDailyDose) MG TO MEET THE REQUIRED DAILY DOSE"
+                alertMessageForMismatch = "Remove \(totalValueForDose - valueForRequiredDailyDose) mg to meet the required daily dose"
             }
         } else {
             alertMessageForMismatch = ""
@@ -550,7 +558,7 @@ import UIKit
             for timeDictionary in timeArray! {
                 let time = timeDictionary["time"] as! String
                 if (time == selectedTimeArrayItems[index]) {
-                    let populatedDict = ["time": time, "selected": 0, "dose":valueForDoseForTime[index]]
+                    let populatedDict = ["time": time, "selected": 0]
                     timeArray?.replaceObjectAtIndex((timeArray?.indexOfObject(timeDictionary))!, withObject: populatedDict)
                 }
             }
