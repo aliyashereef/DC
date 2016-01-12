@@ -190,8 +190,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func checkIfFrequentAdministrationForWhenRequiredMedication () {
         
         //check if frequent administration for when required medication
-        if (medicationSlotsArray.count > 0) {
-            let previousMedicationSlot : DCMedicationSlot? = medicationSlotsArray.last
+        if medicationSlotsArray.count > 1 {
+            let previousMedicationSlot : DCMedicationSlot? = medicationSlotsArray[medicationSlotsArray.count - 2]
             let currentSystemDate : NSDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
             let nextMedicationTimeInterval : NSTimeInterval? = currentSystemDate.timeIntervalSinceDate((previousMedicationSlot?.time)!)
             if (nextMedicationTimeInterval <= 2*60*60) {
@@ -201,6 +201,9 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 medicationSlot?.medicationAdministration.isEarlyAdministration = false
                 medicationSlot?.medicationAdministration.isWhenRequiredEarlyAdministration = false
             }
+        } else {
+            medicationSlot?.medicationAdministration.isEarlyAdministration = false
+            medicationSlot?.medicationAdministration.isWhenRequiredEarlyAdministration = false
         }
     }
     
