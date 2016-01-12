@@ -77,6 +77,8 @@
 		0BAE36961B450AB0007CD64C /* DCAutoSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BAE36951B450AB0007CD64C /* DCAutoSearchCell.xib */; };
 		0BAE369A1B455DDF007CD64C /* DCOrderSetMedicineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BAE36991B455DDF007CD64C /* DCOrderSetMedicineView.m */; };
 		0BAE369C1B455E05007CD64C /* DCOrderSetMedicineView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BAE369B1B455E05007CD64C /* DCOrderSetMedicineView.xib */; };
+		0BB103731C44D00F00F38E98 /* DCRouteAndInfusionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB103721C44D00F00F38E98 /* DCRouteAndInfusionsViewController.swift */; };
+		0BB103781C44E3A000F38E98 /* DCRouteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB103771C44E3A000F38E98 /* DCRouteCell.swift */; };
 		0BB27D061AEF51230007EB88 /* DCPopOverBaseBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BB27D051AEF51230007EB88 /* DCPopOverBaseBackgroundView.m */; };
 		0BB33DD01B79D48E00B05E4D /* DCAuthorizationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BB33DCF1B79D48E00B05E4D /* DCAuthorizationManager.m */; };
 		0BB33DD41B79F4ED00B05E4D /* DCMedication.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BB33DD31B79F4ED00B05E4D /* DCMedication.m */; };
@@ -331,22 +333,22 @@
 		7DE60BCF1B2866CD00BCA745 /* DCPatientGraphicalRepresentationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE60BCC1B2866CD00BCA745 /* DCPatientGraphicalRepresentationView.m */; };
 		7DE60BD01B2866CD00BCA745 /* DCPortraitTopPatientView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DE60BCD1B2866CD00BCA745 /* DCPortraitTopPatientView.xib */; };
 		7DE60BD11B2866CD00BCA745 /* DCPortraitBottomUpPatientView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DE60BCE1B2866CD00BCA745 /* DCPortraitBottomUpPatientView.xib */; };
-		FD2FF8B01C3B902D00778A4E /* DCAddConditionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2FF8AF1C3B902D00778A4E /* DCAddConditionViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		FD2FF8B31C3B90DC00778A4E /* DCAddConditionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2FF8B21C3B90DC00778A4E /* DCAddConditionTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-		FD2FF8B61C3BAED100778A4E /* DCAddConditionDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2FF8B51C3BAED100778A4E /* DCAddConditionDetailTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-		FD2FF8B81C3BAEF000778A4E /* DCAddConditionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2FF8B71C3BAEF000778A4E /* DCAddConditionDetailViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		FD2FF8BB1C3BD80300778A4E /* DCAddNewDoseAndTimeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2FF8BA1C3BD80300778A4E /* DCAddNewDoseAndTimeViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		FD2FF8BD1C3BD82500778A4E /* DCAddNewDoseAndTimeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2FF8BC1C3BD82500778A4E /* DCAddNewDoseAndTimeTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-		FD2FF8BF1C3BD84C00778A4E /* DCDosageUnitSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2FF8BE1C3BD84C00778A4E /* DCDosageUnitSelectionViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		FD2FF8C21C3BD87E00778A4E /* DCDosageUnitSelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2FF8C11C3BD87E00778A4E /* DCDosageUnitSelectionTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+		FD2FF8B01C3B902D00778A4E /* DCAddConditionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2FF8AF1C3B902D00778A4E /* DCAddConditionViewController.swift */; };
+		FD2FF8B31C3B90DC00778A4E /* DCAddConditionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2FF8B21C3B90DC00778A4E /* DCAddConditionTableViewCell.swift */; };
+		FD2FF8B61C3BAED100778A4E /* DCAddConditionDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2FF8B51C3BAED100778A4E /* DCAddConditionDetailTableViewCell.swift */; };
+		FD2FF8B81C3BAEF000778A4E /* DCAddConditionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2FF8B71C3BAEF000778A4E /* DCAddConditionDetailViewController.swift */; };
+		FD2FF8BB1C3BD80300778A4E /* DCAddNewDoseAndTimeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2FF8BA1C3BD80300778A4E /* DCAddNewDoseAndTimeViewController.swift */; };
+		FD2FF8BD1C3BD82500778A4E /* DCAddNewDoseAndTimeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2FF8BC1C3BD82500778A4E /* DCAddNewDoseAndTimeTableViewCell.swift */; };
+		FD2FF8BF1C3BD84C00778A4E /* DCDosageUnitSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2FF8BE1C3BD84C00778A4E /* DCDosageUnitSelectionViewController.swift */; };
+		FD2FF8C21C3BD87E00778A4E /* DCDosageUnitSelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2FF8C11C3BD87E00778A4E /* DCDosageUnitSelectionTableViewCell.swift */; };
 		FD618F2D1C19777C005EC416 /* Dosage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD618F2C1C19777C005EC416 /* Dosage.storyboard */; };
 		FD618F301C1979E7005EC416 /* DCDosageSelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD618F2E1C1979E7005EC416 /* DCDosageSelectionTableViewCell.swift */; };
 		FD618F311C1979E7005EC416 /* DCDosageSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD618F2F1C1979E7005EC416 /* DCDosageSelectionViewController.swift */; };
 		FDC7EA571C1AA8990081D5C4 /* DCDosageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC7EA561C1AA8990081D5C4 /* DCDosageDetailViewController.swift */; };
 		FDC7EA5A1C1AA9510081D5C4 /* DCDosageDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC7EA591C1AA9510081D5C4 /* DCDosageDetailTableViewCell.swift */; };
-		FDDBBB031C24197800726DDA /* DCDosageDetailPickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDBBB021C24197800726DDA /* DCDosageDetailPickerCell.swift */; settings = {ASSET_TAGS = (); }; };
-		FDE2C9B41C3A69CB00FBDFCA /* DCDosageConditionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE2C9B31C3A69CB00FBDFCA /* DCDosageConditionsViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		FDE2C9B71C3A6A8A00FBDFCA /* DCDosageConditionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE2C9B61C3A6A8A00FBDFCA /* DCDosageConditionsTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+		FDDBBB031C24197800726DDA /* DCDosageDetailPickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDBBB021C24197800726DDA /* DCDosageDetailPickerCell.swift */; };
+		FDE2C9B41C3A69CB00FBDFCA /* DCDosageConditionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE2C9B31C3A69CB00FBDFCA /* DCDosageConditionsViewController.swift */; };
+		FDE2C9B71C3A6A8A00FBDFCA /* DCDosageConditionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE2C9B61C3A6A8A00FBDFCA /* DCDosageConditionsTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -468,6 +470,8 @@
 		0BAE36981B455DDF007CD64C /* DCOrderSetMedicineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCOrderSetMedicineView.h; sourceTree = "<group>"; };
 		0BAE36991B455DDF007CD64C /* DCOrderSetMedicineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCOrderSetMedicineView.m; sourceTree = "<group>"; };
 		0BAE369B1B455E05007CD64C /* DCOrderSetMedicineView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCOrderSetMedicineView.xib; sourceTree = "<group>"; };
+		0BB103721C44D00F00F38E98 /* DCRouteAndInfusionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCRouteAndInfusionsViewController.swift; sourceTree = "<group>"; };
+		0BB103771C44E3A000F38E98 /* DCRouteCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCRouteCell.swift; sourceTree = "<group>"; };
 		0BB27D041AEF51230007EB88 /* DCPopOverBaseBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCPopOverBaseBackgroundView.h; sourceTree = "<group>"; };
 		0BB27D051AEF51230007EB88 /* DCPopOverBaseBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCPopOverBaseBackgroundView.m; sourceTree = "<group>"; };
 		0BB33DCE1B79D48E00B05E4D /* DCAuthorizationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCAuthorizationManager.h; sourceTree = "<group>"; };
@@ -1398,6 +1402,23 @@
 			path = OrderSetMedicineView;
 			sourceTree = "<group>";
 		};
+		0BB103711C44CF4900F38E98 /* RouteAndInfusionsViewController */ = {
+			isa = PBXGroup;
+			children = (
+				0BB103721C44D00F00F38E98 /* DCRouteAndInfusionsViewController.swift */,
+				0BB103741C44E34500F38E98 /* RouteCell */,
+			);
+			path = RouteAndInfusionsViewController;
+			sourceTree = "<group>";
+		};
+		0BB103741C44E34500F38E98 /* RouteCell */ = {
+			isa = PBXGroup;
+			children = (
+				0BB103771C44E3A000F38E98 /* DCRouteCell.swift */,
+			);
+			path = RouteCell;
+			sourceTree = "<group>";
+		};
 		0BB27D031AEF50DF0007EB88 /* PopOverBaseBackgroundView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1602,6 +1623,7 @@
 				0B2157091AB7D1B700BC4611 /* NameListSelectionViewController */,
 				0B91739B1B01F33C00BC9337 /* PrescriberDetailsViewController */,
 				7D70F37D1B20258200E4BA89 /* WardsGraphicalDisplayViewController */,
+				0BB103711C44CF4900F38E98 /* RouteAndInfusionsViewController */,
 				0B7F74F91B84392500E3B0A0 /* SortTableViewController */,
 				0BBC8FA31AA4698E0085ABAB /* BaseViewController */,
 				0B7D5CD11BB90DF80044BE1B /* BNFViewController */,
@@ -2991,6 +3013,7 @@
 				1F53750A1C1B13D800D4A64F /* NSDate.swift in Sources */,
 				1F1977091BFDE5E700106023 /* ExcelTabularView.swift in Sources */,
 				4D9649921BA296CC008630B4 /* DCBedsAndPatientsWebService.m in Sources */,
+				0BB103731C44D00F00F38E98 /* DCRouteAndInfusionsViewController.swift in Sources */,
 				7DC7C6491C1953F00026608A /* DCWindowScreenState.swift in Sources */,
 				FDE2C9B71C3A6A8A00FBDFCA /* DCDosageConditionsTableViewCell.swift in Sources */,
 				4DC440181B67990D000EC7AB /* DCOrderSetWebService.m in Sources */,
@@ -3164,6 +3187,7 @@
 				0BA5A38D1BF341DC00251F94 /* DCScheduling.m in Sources */,
 				0BB33DDC1B79F5B500B05E4D /* DCMedicationScheduleDetails.m in Sources */,
 				7D5319C21BF21EF7003C3F92 /* DCAlertsAllergyTableViewCell.m in Sources */,
+				0BB103781C44E3A000F38E98 /* DCRouteCell.swift in Sources */,
 				7DA89AEE1B2D536300096A0A /* DCPositionableGraphicsView.m in Sources */,
 				0B9D6D521BA17244009E0A4E /* DCAddMedicationHelper.m in Sources */,
 				0BBEEB5E1AD4FF4F00C1D986 /* RoundRectPresentationController.m in Sources */,

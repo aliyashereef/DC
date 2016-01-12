@@ -134,6 +134,7 @@
 #define ADD_NEW_DOSE_TIME_SBID @"AddNewViewController"
 #define DOSAGE_UNIT_SELECTION_SBID @"DosageUnitSelection"
 #define WARDS_INFORMATION_SBID @"wardsInformationViewController"
+#define ROUTE_INFUSIONS_SB_ID @"RouteAndInfusionsViewController"
 
 
 //Nib files
@@ -207,6 +208,7 @@
 #define DOSE_VALUE_CELL_ID @"doseValueCell"
 #define ADD_NEW_DOSE_CELL_ID @"addNewDoseCell"
 #define ADD_CONDITION_MENU_CELL_ID @"addConditionMenuCell"
+#define ROUTE_CELL_ID @"RouteCell"
 
 // title for views
 #define INPATIENT_TITLE @"In Patients"
