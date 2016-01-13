@@ -20,7 +20,7 @@ class HeaderCollectionViewCell: UICollectionViewCell {
     {
         dateLabel.layer.borderWidth = 0
         timeLabel.layer.borderWidth = 0
-        dateLabel.text = date.getFormattedDayoftheWeek() + " .."
+        dateLabel.text = date.getFormattedDayoftheWeek() + "  .."
         timeLabel.text = date.getFormattedTime()
         let indicatorLabel: UILabel = UILabel()
         indicatorLabel.frame = CGRectMake(91, 4, 25, 25)

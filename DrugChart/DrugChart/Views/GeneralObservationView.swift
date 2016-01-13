@@ -75,7 +75,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
         default:
             if(showObservationType == .All)
             {
-                return 6
+                return 5
             }
             else
             {
@@ -108,8 +108,8 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
                     return 4
                 case ShowObservationType.Pulse:
                     return 5
-                case ShowObservationType.BM:
-                    return 6
+             /*   case ShowObservationType.BM:
+                    return 6*/
                 default:
                     return 0
                 }
@@ -198,7 +198,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             cell.delegate = self
             return cell
             
-        case ObservationType.BM:
+       /* case ObservationType.BM:
             cellTitle = "BM"
             
             let cell = tableView.dequeueReusableCellWithIdentifier("DoubleCell", forIndexPath: indexPath) as! DoubleCell
@@ -206,7 +206,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             cell.configureCell(cellTitle, valuePlaceHolderText: placeHolderText,selectedValue: nil , disableNavigation: showObservationType != .All)
             cells[rowNumber] = cell
             cell.delegate = self
-            return cell
+            return cell*/
             
         }
 
@@ -304,7 +304,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
                 {
                     obsSPO2 = nil
                 }
-            case ObservationType.BM.rawValue:
+           /* case ObservationType.BM.rawValue:
                 let doubleCell = cell as! DoubleCell
                 if(doubleCell.isValueEntered())
                 {
@@ -314,7 +314,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
                 else
                 {
                     obsBM = nil
-                }
+                }*/
             case ObservationType.BloodPressure.rawValue:
                 let bloodPressureCell = cell as! BloodPressureCell
                 if(bloodPressureCell.isValueEntered())

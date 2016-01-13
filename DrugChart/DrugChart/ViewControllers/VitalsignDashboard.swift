@@ -156,9 +156,9 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         case .SpO2:
             let filterObject = observationList.filter( { return $0.spo2 != nil } ).last
             return filterObject
-        case .BM:
+       /* case .BM:
             let filterObject = observationList.filter( { return $0.bm != nil } ).last
-            return filterObject
+            return filterObject*/
         case .BloodPressure:
             let filterObject = observationList.filter( { return $0.bloodPressure != nil } ).last
             return filterObject

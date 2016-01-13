@@ -138,7 +138,7 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
                 graphData.latestObservationDate = latestObservation?.date
             }
             return graphData
-        case DashBoardRow.BM:
+      /*  case DashBoardRow.BM:
             let graphData:LineGraphModel = LineGraphModel()
             graphData.cellTitle = cellTitle
             graphData.graphStartDate = graphStartDate
@@ -161,7 +161,7 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
                 graphData.latestObservationText = String(latestObservation!.bm!.value)
                 graphData.latestObservationDate = latestObservation?.date
             }
-            return graphData
+            return graphData*/
         case DashBoardRow.BloodPressure:
             let graphData:BarGraphModel = BarGraphModel()
             graphData.cellTitle = cellTitle
@@ -203,8 +203,8 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
             return "Pulse"
         case DashBoardRow.SpO2:
             return "SPO2"
-        case DashBoardRow.BM:
-            return "BM"
+      /*  case DashBoardRow.BM:
+            return "BM"*/
         case DashBoardRow.BloodPressure:
             return "Blood Pressure"
         }
@@ -244,12 +244,12 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
             cellTitle = getGraphTitle(cellObservationType)
             graphData = getGraphData(cellObservationType,cellTitle: cellTitle)
             
-        case DashBoardRow.BM:
+     /*   case DashBoardRow.BM:
                 chartType = ChartType.LineChart
                 cellObservationType = DashBoardRow.BM
                 cellTitle = getGraphTitle(cellObservationType)
                 graphData = getGraphData(cellObservationType,cellTitle: cellTitle)
-            
+        */    
         case DashBoardRow.BloodPressure:
             chartType = ChartType.BarChart
             cellObservationType = DashBoardRow.BloodPressure
