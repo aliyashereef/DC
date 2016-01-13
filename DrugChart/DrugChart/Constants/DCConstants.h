@@ -124,6 +124,7 @@
 #define VITAL_SIGNS_VIEW_CONTROLLER_VIEW_CONTROLLER_SB_ID @"VitalSignViewController"
 #define SCHEDULING_DETAIL_STORYBOARD_ID @"SchedulingDetailView"
 #define SCHEDULING_INITIAL_STORYBOARD_ID @"SchedulingInitialView"
+#define INFUSIONS_ADMINISTER_OPTIONS_SB_ID @"InfusionsAdministerAsViewController"
 
 #define PRESCRIBER_MEDICATION_SBID @"PrescriberMedicationViewControllerSBID"
 #define DOSAGE_SELECTION_SBID @"DosageSelection"
@@ -209,6 +210,9 @@
 #define ADD_NEW_DOSE_CELL_ID @"addNewDoseCell"
 #define ADD_CONDITION_MENU_CELL_ID @"addConditionMenuCell"
 #define ROUTE_CELL_ID @"RouteCell"
+#define INFUSIONS_ADMINISTER_AS_CELL_ID @"InfusionsAdministerAsCell"
+#define INFUSIONS_CELL_ID @"InfusionCell"
+#define SLOW_BOLUS_CELL_ID @"SlowBolusCell"
 
 // title for views
 #define INPATIENT_TITLE @"In Patients"
@@ -518,5 +522,10 @@
 #define ADD_NEW_TIME @"Add New Time"
 #define TIME_KEY @"time"
 #define UNTIL_TITLE @"Until"
+
+//Infusions
+#define BOLUS_INJECTION @"Bolus injection"
+#define DURATION_BASED_INFUSION @"Duration based infusion"
+#define RATE_BASED_INFUSION @"Rate based infusion"
 
 #endif
