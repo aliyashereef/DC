@@ -717,11 +717,17 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                     if (medicationSlot?.medicationAdministration?.isWhenRequiredEarlyAdministration == true) {
                         let errorMessage = NSString(format: "%@ %@", NSLocalizedString("ADMIN_FREQUENCY", comment: "when required new medication is given 2 hrs before previous one"), NSLocalizedString("EARLY_ADMIN_INLINE", comment: ""))
                         administerHeaderView?.populateHeaderViewWithErrorMessage(errorMessage as String)
+                        return administerHeaderView
                     } else {
                         administerHeaderView?.populateHeaderViewWithErrorMessage(NSLocalizedString("EARLY_ADMIN_INLINE", comment: "early administration when medication is attempted 1 hr before scheduled time"))
+                        return administerHeaderView
                     }
-                    return administerHeaderView
                 }
+            if (medicationSlot?.medicationAdministration.status == OMITTED){
+                let errorMessage = NSString(format: "%@", NSLocalizedString("OMMITED_REQUIRE_REASON", comment:""))
+                administerHeaderView?.populateHeaderViewWithErrorMessage(errorMessage as String)
+                return administerHeaderView
+            }
         }
         return nil
     }
