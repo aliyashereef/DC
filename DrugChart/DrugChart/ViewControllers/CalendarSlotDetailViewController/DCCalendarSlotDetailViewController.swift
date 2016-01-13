@@ -28,7 +28,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     var medicationHistoryViewController : DCMedicationHistoryViewController?
     var bnfViewController : DCBNFViewController?
     
-    var medicationSlotsArray : [DCMedicationSlot] = []
+    var medicationSlotsArray : [DCMedicationSlot] = [DCMedicationSlot]()
     var medicationDetails : DCMedicationScheduleDetails?
     var contentArray :[AnyObject] = []
     var slotToAdminister : DCMedicationSlot?
@@ -198,7 +198,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
                         }
                     }
                 }
-                administerViewController?.medicationSlotsArray = (medicationDetails?.medicineCategory == WHEN_REQUIRED) ? medicationSlotsArray : medicationArray
+                administerViewController?.medicationSlotsArray = (medicationDetails?.medicineCategory == WHEN_REQUIRED) ? medicationSlotsArray as [DCMedicationSlot] : medicationArray as [DCMedicationSlot]
             }
             administerViewController?.medicationDetails = medicationDetails
             administerViewController?.alertMessage = errorMessage

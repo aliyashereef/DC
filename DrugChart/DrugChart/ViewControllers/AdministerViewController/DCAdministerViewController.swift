@@ -58,7 +58,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     var medicationSlot : DCMedicationSlot?
     var medicationDetails : DCMedicationScheduleDetails?
-    var medicationSlotsArray : [DCMedicationSlot] = []
+    var medicationSlotsArray : [DCMedicationSlot] = [DCMedicationSlot]()
     var usersListWebService : DCUsersListWebService?
     var statusCellSelected : Bool = false
     var userListArray : NSMutableArray? = []
@@ -631,16 +631,16 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             }
             return cell!
         default:
-                if (medicationSlot?.medicationAdministration.status == ADMINISTERED) {
+                if (medicationSlot?.medicationAdministration?.status == ADMINISTERED) {
                     //configure tablecells for medication status administered
                     let administeredTableCell = populatedAdministeredTableViewCellAtIndexPath(indexPath)
                     saveButton?.enabled = true
                     return administeredTableCell
-                } else if (medicationSlot?.medicationAdministration.status == OMITTED) {
+                } else if (medicationSlot?.medicationAdministration?.status == OMITTED) {
                     let omittedTableCell = populatedOmittedTableViewCellAtIndexPath(indexPath)
                     saveButton?.enabled = true
                     return omittedTableCell
-                } else if (medicationSlot?.medicationAdministration.status == REFUSED){
+                } else if (medicationSlot?.medicationAdministration?.status == REFUSED){
                     //refused status
                     let refusedTableCell = populatedRefusedTableCellAtIndexPath(indexPath)
                     saveButton?.enabled = true
@@ -650,7 +650,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                     administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
                     administerCell.titleLabel.text = NSLocalizedString("STATUS", comment: "status title text")
                     administerCell.detailLabel.text = EMPTY_STRING
-                    if(saveClicked == true && medicationSlot?.medicationAdministration.status == nil) {
+                    if(saveClicked == true && medicationSlot?.medicationAdministration?.status == nil) {
                         administerCell.titleLabel.textColor = UIColor.redColor()
                     } else {
                         saveButton?.enabled = false
@@ -1015,6 +1015,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 administationViewController.activityIndicatorView.startAnimating()
                 self.dismissViewControllerAnimated(true, completion: {
                     self.helper.reloadPrescriberMedicationHomeViewControllerWithCompletionHandler({ (Bool) -> Void in
+                        prescriberMedicationListViewController.medicationSlotArray = self.medicationSlotsArray
                         prescriberMedicationListViewController.reloadAdministrationScreenWithMedicationDetails()
                         administationViewController.activityIndicatorView.stopAnimating()
                     })

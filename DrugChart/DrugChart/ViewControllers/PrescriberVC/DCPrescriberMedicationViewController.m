@@ -64,7 +64,6 @@ typedef enum : NSUInteger {
     DCAdministrationViewController *detailViewController;
     DCAppDelegate *appDelegate;
     DCScreenOrientation screenOrientation;
-    NSArray *medicationSlotArray;
 }
 
 @end
@@ -688,7 +687,7 @@ typedef enum : NSUInteger {
     
     DCMedicationScheduleDetails *medicationList = [displayMedicationListArray objectAtIndex:administrationViewPresentedIndexPath.item];
     detailViewController.medicationDetails = medicationList;
-    detailViewController.medicationSlotsArray = medicationSlotArray;
+    detailViewController.medicationSlotsArray = _medicationSlotArray;
     [detailViewController initialiseMedicationSlotToAdministerObject];
     [detailViewController.administerTableView reloadData];
 }
@@ -696,7 +695,7 @@ typedef enum : NSUInteger {
 - (void)displayAdministrationViewForMedicationSlot:(NSDictionary *)medicationSLotsDictionary
                                        atIndexPath:(NSIndexPath *)indexPath
                                       withWeekDate:(NSDate *)date {
-    
+    _medicationSlotArray = [[NSArray alloc] init];
     administrationViewPresentedIndexPath = indexPath;
     UIStoryboard *administerStoryboard = [UIStoryboard storyboardWithName:ADMINISTER_STORYBOARD bundle:nil];
     detailViewController = [administerStoryboard instantiateViewControllerWithIdentifier:@"AdministrationViewControllerSBID"];
@@ -715,13 +714,13 @@ typedef enum : NSUInteger {
         NSString *startDate = [self startDateStringFromDateString:medicationList.startDate];
         if (([startDate compare:dateString] == NSOrderedAscending || [startDate compare:dateString] == NSOrderedSame) &&
             ([medicationList.endDate compare:dateString] == NSOrderedDescending || [medicationList.endDate compare:dateString] == NSOrderedSame)) {
-                if ([medicationList.medicineCategory isEqualToString: WHEN_REQUIRED]) {
+                if ([medicationList.medicineCategory isEqualToString:WHEN_REQUIRED] || [medicationList.medicineCategory isEqualToString:WHEN_REQUIRED_VALUE]) {
                     NSDate *today = [NSDate date];
                     NSCalendar *calendar = [NSCalendar currentCalendar];
                     NSComparisonResult order = [calendar compareDate:today toDate:date toUnitGranularity:NSCalendarUnitDay];
-                    if (order == NSOrderedSame) {
+                    if (order == NSOrderedSame || _medicationSlotArray.count > 0) {
                         [self presentAdministrationViewController];
-                    }
+                    } 
                 } else {
                     [self presentAdministrationViewController];
                 }
@@ -730,10 +729,11 @@ typedef enum : NSUInteger {
 }
 
 - (NSArray *)medicationSlotsArrayFromSlotsDictionary:(NSDictionary *)medicationSlotsDictionary {
+    
     if ([[medicationSlotsDictionary allKeys] containsObject:@"timeSlots"]) {
         NSMutableArray *slotsArray = [[NSMutableArray alloc] initWithArray:[medicationSlotsDictionary valueForKey:@"timeSlots"]];
         if ([slotsArray count] > 0) {
-            medicationSlotArray = slotsArray;
+            _medicationSlotArray = slotsArray;
             return slotsArray;
         }
     }
@@ -741,6 +741,7 @@ typedef enum : NSUInteger {
 }
 
 - (void)presentAdministrationViewController {
+    
     UINavigationController *navigationController =
     [[UINavigationController alloc] initWithRootViewController:detailViewController];
     navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
@@ -748,6 +749,7 @@ typedef enum : NSUInteger {
 }
 
 - (NSString *)startDateStringFromDateString:(NSString *)date {
+    
     NSRange range = [date rangeOfString:@" "];
     NSString *startDate = [date substringToIndex:range.location];
     return startDate;
