@@ -500,6 +500,10 @@
 #define EXPIRY_DATE @"ExpiryDate"
 
 //Dosage
+#define DOSE_FIXED @"Fixed"
+#define DOSE_VARIABLE @"Variable"
+#define DOSE_REDUCING_INCREASING @"Reducing / Increasing"
+#define DOSE_SPLIT_DAILY @"Split daily"
 #define DOSE_UNIT_LABEL_TEXT @"Dose Unit"
 #define DOSE_UNIT_TITLE @"Unit"
 #define DOSE_VALUE_TITLE @"Dose"
