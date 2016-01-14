@@ -34,12 +34,21 @@ class HeaderCollectionViewCell: UICollectionViewCell {
         indicatorLabel.backgroundColor = UIColor(forHexString: "#007aff")
         indicatorLabel.layer.cornerRadius = 12.5
         indicatorLabel.layer.masksToBounds = true
+        self.backgroundColor = Constant.SELECTION_CELL_BACKGROUND_COLOR
+        dateLabel.backgroundColor = Constant.SELECTION_CELL_BACKGROUND_COLOR
+        timeLabel.backgroundColor = Constant.SELECTION_CELL_BACKGROUND_COLOR
         }
         else
         {
             indicatorLabel.backgroundColor = UIColor.whiteColor()
         }
         self.addSubview(indicatorLabel)
+    }
+    func changeBackgroundColor()
+    {
+        self.backgroundColor = Constant.SELECTION_CELL_BACKGROUND_COLOR
+        dateLabel.backgroundColor = Constant.SELECTION_CELL_BACKGROUND_COLOR
+        timeLabel.backgroundColor = Constant.SELECTION_CELL_BACKGROUND_COLOR
     }
     func removeTimeLabel()
     {

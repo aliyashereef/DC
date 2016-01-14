@@ -22,8 +22,10 @@ class ContentCollectionViewCell: UICollectionViewCell {
     
     func configureCell(observation:VitalSignObservation ,showobservationType:ShowObservationType )
     {
-        // add the delete button 
-        if(showObservationType != ShowObservationType.None && showObservationType != ShowObservationType.All)
+        self.observation = observation
+        self.showObservationType = showobservationType
+        // add the delete button
+        if(showObservationType != ShowObservationType.None && showObservationType != ShowObservationType.All && ObjectIsNotNull())
         {
             
         let indicatorLabel: UILabel = UILabel()
@@ -39,17 +41,19 @@ class ContentCollectionViewCell: UICollectionViewCell {
         indicatorLabel.layer.cornerRadius = 14
         indicatorLabel.layer.masksToBounds = true
         self.addSubview(indicatorLabel)
+        // add the event on label 
+        let deleteGesture = UITapGestureRecognizer(target: self, action: "deleteObservation")
+        indicatorLabel.userInteractionEnabled=true
+        indicatorLabel.addGestureRecognizer(deleteGesture)
         }
         // normal stuff
-        self.observation = observation
-        self.showObservationType = showobservationType
         let tap = UITapGestureRecognizer(target: self, action: "doubleTapped")
         tap.numberOfTapsRequired = 2
         self.addGestureRecognizer(tap)
     }
     
     func doubleTapped() {
-        if(showObservationType != ShowObservationType.None && showObservationType != ShowObservationType.All)
+        if(showObservationType != ShowObservationType.None && showObservationType != ShowObservationType.All && ObjectIsNotNull())
         {
             let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
             let observationDetails : ObservationViewController = mainStoryboard.instantiateViewControllerWithIdentifier("ObservationViewController") as! ObservationViewController
@@ -57,6 +61,37 @@ class ContentCollectionViewCell: UICollectionViewCell {
             let navigationController : UINavigationController? = UINavigationController(rootViewController: observationDetails)
             navigationController?.modalPresentationStyle = UIModalPresentationStyle.FormSheet
             delegate?.ShowModalNavigationController(navigationController!)
+        }
+    }
+    func deleteObservation()
+    {
+        let alert = UIAlertView()
+        alert.title = "my title"
+        alert.message = "things are working slowly"
+        alert.addButtonWithTitle("Ok")
+        alert.delegate = self
+        alert.show()
+    }
+    func ObjectIsNotNull()->Bool
+    {
+        switch (showObservationType!)
+        {
+        case ShowObservationType.Respiratory:
+            return  (observation != nil && observation.respiratory != nil) ? true : false
+        case ShowObservationType.SpO2:
+            return  (observation != nil && observation.spo2 != nil) ? true : false
+            
+        case ShowObservationType.Temperature:
+            return  (observation != nil && observation.temperature != nil) ? true : false
+            
+        case ShowObservationType.BloodPressure:
+            return  (observation != nil && observation.bloodPressure != nil) ? true : false
+            
+        case ShowObservationType.Pulse:
+            return  (observation != nil && observation.pulse != nil) ? true : false
+            
+        default:
+            return false
         }
     }
 }

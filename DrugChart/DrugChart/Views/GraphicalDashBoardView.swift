@@ -285,16 +285,17 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         var width =  collectionView.frame.width
         let CORNER_MARGIN:CGFloat = 20
-        let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
-        if (appDelegate.windowState == DCWindowState.halfWindow || appDelegate.windowState == DCWindowState.oneThirdWindow) {
-            width = width - CORNER_MARGIN
-            return CGSizeMake(width,264)
+//        let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
+//        if (appDelegate.windowState == DCWindowState.halfWindow || appDelegate.windowState == DCWindowState.oneThirdWindow) {
+          if(UIDevice.currentDevice().userInterfaceIdiom == .Pad)
+            {
+                let graphWidth:CGFloat = width/2
+                width = graphWidth - CORNER_MARGIN
+                return CGSizeMake(width,320)
         }
         else{
-            
-            let graphWidth:CGFloat = width/2
-            width = graphWidth - CORNER_MARGIN
-            return CGSizeMake(width,320)
+            width = width - CORNER_MARGIN
+            return CGSizeMake(width,264)
     }
 }
 

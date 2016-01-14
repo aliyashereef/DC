@@ -20,11 +20,11 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
     var observationList:[VitalSignObservation]!
     var filteredObservations:[VitalSignObservation]!
     private var viewByDate:NSDate = NSDate()
-    let BORDER_WIDTH : CGFloat  = 0.10
-    let CORNER_RADIUS :CGFloat = 2
-    let CELL_BORDER_COLOR :CGColor = UIColor.lightGrayColor().CGColor
-    let SELECTION_CELL_BACKGROUND_COLOR:UIColor = UIColor(forHexString: "#fafafa")
-    
+//    let BORDER_WIDTH : CGFloat  = 0.10
+//    let CORNER_RADIUS :CGFloat = 2
+//    let CELL_BORDER_COLOR :CGColor = UIColor.lightGrayColor().CGColor
+//    let SELECTION_CELL_BACKGROUND_COLOR:UIColor = UIColor(forHexString: "#fafafa")
+//    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -82,23 +82,17 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
                // headerCell.dateLabel.font
                 headerCell.removeTimeLabel()
                 headerCell.layoutMargins = UIEdgeInsetsZero
-                headerCell.layer.borderWidth = BORDER_WIDTH
-                headerCell.layer.borderColor = CELL_BORDER_COLOR
-                headerCell.layer.cornerRadius = CORNER_RADIUS
+                headerCell.layer.borderWidth = Constant.BORDER_WIDTH
+                headerCell.layer.borderColor = Constant.CELL_BORDER_COLOR
+                headerCell.layer.cornerRadius = Constant.CORNER_RADIUS
                 headerCell.backgroundColor = UIColor.whiteColor()
                 return headerCell
             } else {
                 let observation = filteredObservations[indexPath.row - 1]
                 headerCell.configureCell(observation.date)
-                headerCell.layer.borderWidth = BORDER_WIDTH
-                headerCell.layer.borderColor = CELL_BORDER_COLOR
-                headerCell.layer.cornerRadius = CORNER_RADIUS
-                if observation.date.isToday()
-                {
-                    headerCell.backgroundColor = SELECTION_CELL_BACKGROUND_COLOR
-                    headerCell.dateLabel.backgroundColor = SELECTION_CELL_BACKGROUND_COLOR
-                    headerCell.timeLabel.backgroundColor = SELECTION_CELL_BACKGROUND_COLOR
-                }
+                headerCell.layer.borderWidth = Constant.BORDER_WIDTH
+                headerCell.layer.borderColor = Constant.CELL_BORDER_COLOR
+                headerCell.layer.cornerRadius = Constant.CORNER_RADIUS
                 return headerCell
             }
         } else {
@@ -132,9 +126,9 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
                 headerCell.backgroundColor = UIColor.whiteColor()
                 
                 headerCell.label.text = headerText
-                headerCell.layer.borderWidth = BORDER_WIDTH
-                headerCell.layer.borderColor = CELL_BORDER_COLOR
-                headerCell.layer.cornerRadius = CORNER_RADIUS
+                headerCell.layer.borderWidth = Constant.BORDER_WIDTH
+                headerCell.layer.borderColor = Constant.CELL_BORDER_COLOR
+                headerCell.layer.cornerRadius = Constant.CORNER_RADIUS
                 return headerCell
             } else {
                 let contentCell : ContentCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(contentCellIdentifier, forIndexPath: indexPath) as! ContentCollectionViewCell
@@ -171,15 +165,15 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
                 }
                 if observation.date.isToday()
                 {
-                    contentCell.backgroundColor = SELECTION_CELL_BACKGROUND_COLOR
+                    contentCell.backgroundColor = Constant.SELECTION_CELL_BACKGROUND_COLOR
                 }
                 else
                 {
                     contentCell.backgroundColor = UIColor.whiteColor()
                 }
-                contentCell.layer.borderWidth = BORDER_WIDTH
-                contentCell.layer.borderColor = CELL_BORDER_COLOR
-                contentCell.layer.cornerRadius = CORNER_RADIUS
+                contentCell.layer.borderWidth = Constant.BORDER_WIDTH
+                contentCell.layer.borderColor = Constant.CELL_BORDER_COLOR
+                contentCell.layer.cornerRadius = Constant.CORNER_RADIUS
                 
                 return contentCell
             }
