@@ -713,20 +713,20 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         let administerHeaderView = NSBundle.mainBundle().loadNibNamed(ADMINISTER_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCAdministerTableHeaderView
         administerHeaderView!.timeLabel.hidden = true
         if (section == sectionCount - 1 && sectionCount != 2) {
-                if (medicationSlot?.medicationAdministration?.isEarlyAdministration == true) {
-                    if (medicationSlot?.medicationAdministration?.isWhenRequiredEarlyAdministration == true) {
-                        let errorMessage = NSString(format: "%@ %@", NSLocalizedString("ADMIN_FREQUENCY", comment: "when required new medication is given 2 hrs before previous one"), NSLocalizedString("EARLY_ADMIN_INLINE", comment: ""))
-                        administerHeaderView?.populateHeaderViewWithErrorMessage(errorMessage as String)
-                        return administerHeaderView
-                    } else {
-                        administerHeaderView?.populateHeaderViewWithErrorMessage(NSLocalizedString("EARLY_ADMIN_INLINE", comment: "early administration when medication is attempted 1 hr before scheduled time"))
-                        return administerHeaderView
-                    }
-                }
             if (medicationSlot?.medicationAdministration.status == OMITTED){
                 let errorMessage = NSString(format: "%@", NSLocalizedString("OMMITED_REQUIRE_REASON", comment:""))
                 administerHeaderView?.populateHeaderViewWithErrorMessage(errorMessage as String)
                 return administerHeaderView
+            }
+            if (medicationSlot?.medicationAdministration?.isEarlyAdministration == true) {
+                if (medicationSlot?.medicationAdministration?.isWhenRequiredEarlyAdministration == true) {
+                    let errorMessage = NSString(format: "%@ %@", NSLocalizedString("ADMIN_FREQUENCY", comment: "when required new medication is given 2 hrs before previous one"), NSLocalizedString("EARLY_ADMIN_INLINE", comment: ""))
+                    administerHeaderView?.populateHeaderViewWithErrorMessage(errorMessage as String)
+                    return administerHeaderView
+                } else {
+                    administerHeaderView?.populateHeaderViewWithErrorMessage(NSLocalizedString("EARLY_ADMIN_INLINE", comment: "early administration when medication is attempted 1 hr before scheduled time"))
+                    return administerHeaderView
+                }
             }
         }
         return nil
