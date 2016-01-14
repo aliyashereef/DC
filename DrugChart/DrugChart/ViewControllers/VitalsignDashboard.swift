@@ -11,9 +11,6 @@ import UIKit
 
 class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverPresentationControllerDelegate {
 
-//    @IBOutlet weak var collectionView: UICollectionView!
-    
-    
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var parentView: UIView!
     var observationList = [VitalSignObservation]()
@@ -45,6 +42,13 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: Selector("leftSwiped"))
         swipeLeft.direction = UISwipeGestureRecognizerDirection.Left
         self.view.addGestureRecognizer(swipeLeft)
+        
+        
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: Selector("orientationChanged"),
+            name: UIDeviceOrientationDidChangeNotification,
+            object: nil)
     }
     
     func showData()
@@ -63,8 +67,8 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
     
     func displayTitle()
     {
-        if UIDevice.currentDevice().userInterfaceIdiom == .Phone
-        {
+        let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
+        if (appDelegate.windowState == DCWindowState.halfWindow || appDelegate.windowState == DCWindowState.oneThirdWindow) {
             var titleView:DCOneThirdCalendarNavigationTitleView?
             titleView = NSBundle.mainBundle().loadNibNamed("DCOneThirdCalendarNavigationTitleView", owner: self, options: nil)[0] as? DCOneThirdCalendarNavigationTitleView
             titleView!.populateViewWithPatientName(patient.patientName, nhsNumber:patient.nhs, dateOfBirth: patient.dob, age: patient.age)
@@ -120,15 +124,21 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
     }
     
     //Mark: Delegate Implementation
-    func EditObservation(navigationController:UINavigationController)
+    func ShowModalNavigationController(navigationController:UINavigationController)
     {
         self.presentViewController(navigationController, animated: false, completion: nil)
     }
     
-    func EditObservationViewController(viewController:UIViewController)
+    func ShowModalViewController(viewController:UIViewController)
     {
         self.presentViewController(viewController, animated: false, completion: nil)
     }
+
+    func PushViewController(navigationController:UIViewController)
+    {
+        self.navigationController?.pushViewController(navigationController, animated: false)
+    }
+
     
     func GetLatestObservation(dataType:DashBoardRow)->VitalSignObservation!
     {
@@ -146,9 +156,9 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         case .SpO2:
             let filterObject = observationList.filter( { return $0.spo2 != nil } ).last
             return filterObject
-        case .BM:
+       /* case .BM:
             let filterObject = observationList.filter( { return $0.bm != nil } ).last
-            return filterObject
+            return filterObject*/
         case .BloodPressure:
             let filterObject = observationList.filter( { return $0.bloodPressure != nil } ).last
             return filterObject
@@ -179,7 +189,15 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
             return .None
     }
     
+    //Mark: Rotation gesture recognizer
+    
+    func orientationChanged()
+    {
+        graphicalDashBoardView.collectionView.reloadData()
+    }
+
     //MARK: swipe gestures
+    
     func rightSwiped()
     {
         swipeGraphDate(false,flipDateMode:false)

@@ -62,7 +62,7 @@ class ObservationSelectionViewController: UITableViewController {
             //observationDetails.observation = cell?.getObservation()
             let navigationController : UINavigationController? = UINavigationController(rootViewController: observationDetails)
             navigationController?.modalPresentationStyle = UIModalPresentationStyle.FormSheet
-            delegate?.EditObservation(navigationController!)
+            delegate?.ShowModalNavigationController(navigationController!)
         }
         else
         {
@@ -71,7 +71,7 @@ class ObservationSelectionViewController: UITableViewController {
             //observationDetails.observation = cell?.getObservation()
             let navigationController : UINavigationController? = UINavigationController(rootViewController: commaDetails)
             navigationController?.modalPresentationStyle = UIModalPresentationStyle.FormSheet
-            delegate?.EditObservation(navigationController!)
+            delegate?.ShowModalNavigationController(navigationController!)
         }
     }
     
