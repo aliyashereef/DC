@@ -136,6 +136,7 @@
 #define DOSAGE_UNIT_SELECTION_SBID @"DosageUnitSelection"
 #define WARDS_INFORMATION_SBID @"wardsInformationViewController"
 #define ROUTE_INFUSIONS_SB_ID @"RouteAndInfusionsViewController"
+#define INJECTION_REGION_SB_ID @"InjectionRegionView"
 
 
 //Nib files
@@ -213,6 +214,8 @@
 #define INFUSIONS_ADMINISTER_AS_CELL_ID @"InfusionsAdministerAsCell"
 #define INFUSIONS_CELL_ID @"InfusionCell"
 #define SLOW_BOLUS_CELL_ID @"SlowBolusCell"
+#define INJECTION_CELL_ID @"InjectionCellId"
+
 
 // title for views
 #define INPATIENT_TITLE @"In Patients"
@@ -527,5 +530,8 @@
 #define BOLUS_INJECTION @"Bolus injection"
 #define DURATION_BASED_INFUSION @"Duration based infusion"
 #define RATE_BASED_INFUSION @"Rate based infusion"
+#define CENTRAL_LINE @"Central line"
+#define PERIPHERAL_LINE_ONE @"Peripheral line 1"
+#define PERIPHERAL_LINE_TWO @"Peripheral line 2"
 
 #endif

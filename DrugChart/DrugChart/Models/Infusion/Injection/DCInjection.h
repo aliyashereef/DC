@@ -10,9 +10,9 @@
 
 @interface DCInjection : NSObject
 
-@property (nonatomic, strong) NSString *solvent;
-@property (nonatomic, strong) NSString *quantity;
-@property (nonatomic, strong) NSString *injectionRegion;
+@property (nonatomic, strong) NSString *solvent;//in value
+@property (nonatomic, strong) NSString *quantity;// ml value
+@property (nonatomic, strong) NSString *injectionRegion;// into value
 
 
 @end

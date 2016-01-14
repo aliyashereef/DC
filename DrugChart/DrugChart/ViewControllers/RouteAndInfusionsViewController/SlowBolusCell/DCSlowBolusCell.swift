@@ -8,9 +8,13 @@
 
 import UIKit
 
+typealias SlowBolusSwitchState = Bool? -> Void
+
 class DCSlowBolusCell: UITableViewCell {
 
     @IBOutlet weak var bolusSwitch: UISwitch!
+    
+    var switchState : SlowBolusSwitchState?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -29,6 +33,7 @@ class DCSlowBolusCell: UITableViewCell {
         print("***** Slow Bolus Switch selection *****")
        // let switchStatus = sender.isOn
         NSLog("**** switchStatus is %@", sender.isOn)
+        self.switchState!(sender.isOn)
     }
 
 }

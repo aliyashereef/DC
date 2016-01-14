@@ -588,6 +588,7 @@
     routesInfusionsViewController.delegate = self;
     routesInfusionsViewController.previousRoute = self.selectedMedication.route;
     routesInfusionsViewController.infusion = self.selectedMedication.infusion;
+    routesInfusionsViewController.patientId = self.patientId;
     [self configureNavigationBackButtonTitle];
     [self.navigationController pushViewController:routesInfusionsViewController animated:YES];
 }

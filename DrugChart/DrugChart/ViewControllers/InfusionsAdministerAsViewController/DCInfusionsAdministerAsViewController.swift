@@ -2,20 +2,27 @@
 //  DCInfusionsAdministerAsViewController.swift
 //  DrugChart
 //
-//  Created by qbuser on 1/13/16.
+//  Created by Jilu Mary Joy on 1/13/16.
 //
 //
 
 import UIKit
 
-typealias SelectedInfusionAdministerOption = NSString? -> Void
+let ADMINISTER_AS_SECTION_COUNT : NSInteger = 1
+let ADMINISTER_AS_ROW_COUNT : NSInteger = 3
+
+protocol InfusionAdministerDelegate {
+    
+    func administerAsOptionSelected(option : NSString)
+}
+
 
 class DCInfusionsAdministerAsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var administerOptionsTableView: UITableView!
     var optionsArray : [String]? = []
     var previousAdministerOption : String? = EMPTY_STRING
-    var optionSelection: SelectedInfusionAdministerOption = { value in }
+    var administerDelegate : InfusionAdministerDelegate?
     
     override func viewDidLoad() {
         
@@ -33,12 +40,12 @@ class DCInfusionsAdministerAsViewController: UIViewController, UITableViewDelega
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        return 1
+        return ADMINISTER_AS_SECTION_COUNT
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 3
+        return ADMINISTER_AS_ROW_COUNT
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -52,8 +59,9 @@ class DCInfusionsAdministerAsViewController: UIViewController, UITableViewDelega
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        NSLog("**** Selected option is %@", optionsArray![indexPath.row])
-        self.optionSelection(optionsArray![indexPath.row])
+        if let delegate = administerDelegate {
+            delegate.administerAsOptionSelected(optionsArray![indexPath.row])
+        }
         self.navigationController?.popViewControllerAnimated(true)
     }
 

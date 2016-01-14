@@ -162,3 +162,7 @@
 //Infusions
 
 "ADMINISTER_AS"        =       "Administer as";
+"IN"                   =       "In";
+"ML"                   =       "ml";
+"INTO"                 =       "Into";
+

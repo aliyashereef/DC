@@ -693,6 +693,74 @@
             </objects>
             <point key="canvasLocation" x="3343" y="-967"/>
         </scene>
+        <!--Injection Region View Controller-->
+        <scene sceneID="eYw-hK-a8Y">
+            <objects>
+                <viewController storyboardIdentifier="InjectionRegionView" id="sim-5J-32G" customClass="DCInjectionRegionViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="SK2-Mq-edC"/>
+                        <viewControllerLayoutGuide type="bottom" id="QOx-b3-i45"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="aZ5-7t-mqr">
+                        <rect key="frame" x="0.0" y="0.0" width="310" height="690"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="3Rb-CA-iLn">
+                                <rect key="frame" x="0.0" y="0.0" width="310" height="690"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="InjectionCellId" rowHeight="42" id="PfT-0r-dJe" customClass="DCInjectionTableCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="310" height="42"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PfT-0r-dJe" id="drp-2U-Wqa">
+                                            <rect key="frame" x="0.0" y="0.0" width="277" height="41"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yBH-hM-eYE" userLabel="typeLabel">
+                                                    <rect key="frame" x="15" y="10" width="137" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="137" id="QVf-hb-EUk"/>
+                                                        <constraint firstAttribute="height" constant="21" id="a2f-pp-hla"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="yBH-hM-eYE" firstAttribute="centerY" secondItem="drp-2U-Wqa" secondAttribute="centerY" id="1UT-Pg-Dz0"/>
+                                                <constraint firstItem="yBH-hM-eYE" firstAttribute="leading" secondItem="drp-2U-Wqa" secondAttribute="leading" constant="15" id="Tj1-cP-95T"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="titleLabel" destination="yBH-hM-eYE" id="tcN-Bk-kZF"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="sim-5J-32G" id="FgW-Tb-YEC"/>
+                                    <outlet property="delegate" destination="sim-5J-32G" id="Nkt-XI-obL"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="3Rb-CA-iLn" secondAttribute="trailing" id="305-nq-qkc"/>
+                            <constraint firstItem="3Rb-CA-iLn" firstAttribute="top" secondItem="aZ5-7t-mqr" secondAttribute="top" id="MSb-87-2EL"/>
+                            <constraint firstItem="QOx-b3-i45" firstAttribute="top" secondItem="3Rb-CA-iLn" secondAttribute="bottom" id="QBg-ys-oIK"/>
+                            <constraint firstItem="3Rb-CA-iLn" firstAttribute="leading" secondItem="aZ5-7t-mqr" secondAttribute="leading" id="kuy-rD-x26"/>
+                        </constraints>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="310" height="690"/>
+                    <connections>
+                        <outlet property="injectionRegionTableView" destination="3Rb-CA-iLn" id="N2h-N6-WHZ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x6F-OV-qqf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2026" y="-293"/>
+        </scene>
         <!--Route And Infusions View Controller-->
         <scene sceneID="MFK-gP-1Iw">
             <objects>
@@ -1582,26 +1650,8 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AddDosageCell" rowHeight="44" id="lPI-ry-b4i" customClass="DCAddDosageCell">
-                                        <rect key="frame" x="0.0" y="94" width="310" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lPI-ry-b4i" id="EYm-Ti-v8D">
-                                            <rect key="frame" x="0.0" y="0.0" width="310" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="New Dosage" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="d8M-sP-zgV">
-                                                    <rect key="frame" x="13" y="7" width="284" height="30"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <textInputTraits key="textInputTraits"/>
-                                                </textField>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="dosageTextField" destination="d8M-sP-zgV" id="Ik1-LS-CMT"/>
-                                        </connections>
-                                    </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="OverrideReasonCell" rowHeight="78" id="DCf-lD-HiC" customClass="DCReasonCell" customModule="DrugChart" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="138" width="310" height="78"/>
+                                        <rect key="frame" x="0.0" y="94" width="310" height="78"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DCf-lD-HiC" id="dbQ-47-zkG">
                                             <rect key="frame" x="0.0" y="0.0" width="310" height="77"/>

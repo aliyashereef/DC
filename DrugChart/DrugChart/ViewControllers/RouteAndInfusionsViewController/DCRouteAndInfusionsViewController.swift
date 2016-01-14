@@ -14,13 +14,14 @@ import UIKit
     func updatedInfusionObject(infusion : DCInfusion)
 }
 
-class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, InfusionAdministerDelegate {
 
     @IBOutlet weak var routesTableView: UITableView!
     var delegate : RoutesAndInfusionsDelegate?
     var routesArray : [String]? = []
     var previousRoute : String = EMPTY_STRING
     var infusion : DCInfusion?
+    var patientId : String?
     
     override func viewDidLoad() {
         
@@ -64,10 +65,15 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
                return routeCell
             case SectionCount.eFirstSection.rawValue :
                 let infusionCell = self.configureInfusionCellAtIndexPath(indexPath)
-                return infusionCell
+                return infusionCell!
             case SectionCount.eSecondSection.rawValue :
-                let bolusCell = self.configureSlowBolusCellIndexPath(indexPath)
-                return bolusCell
+                if (indexPath.row == RowCount.eZerothRow.rawValue) {
+                    let bolusCell = self.configureSlowBolusCellIndexPath(indexPath)
+                    return bolusCell
+                } else {
+                    let infusionCell = self.configureInfusionCellAtIndexPath(indexPath)
+                    return infusionCell!
+                }
             default :
                 let routeCell = tableView.dequeueReusableCellWithIdentifier(ROUTE_CELL_ID) as? DCRouteCell
                 return routeCell!
@@ -82,6 +88,14 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
                 break
             case SectionCount.eFirstSection.rawValue :
                 self.displayAdministerOptionsView()
+                break
+            case SectionCount.eSecondSection.rawValue :
+                //present infusion solvent view
+                if (indexPath.row == RowCount.eFirstRow.rawValue) {
+                    self.displayInfusionSolventView()
+                } else if (indexPath.row == RowCount.eThirdRow.rawValue) {
+                    self.displayInjectionRegionView()
+                }
                 break
             default :
                 break
@@ -113,20 +127,13 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
         }
     }
     
-   
     func displayAdministerOptionsView() {
         
         //display administer as options view
         let addMedicationStoryBoard : UIStoryboard = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil)
         let administerOptionsViewController  = addMedicationStoryBoard.instantiateViewControllerWithIdentifier(INFUSIONS_ADMINISTER_OPTIONS_SB_ID) as? DCInfusionsAdministerAsViewController
         administerOptionsViewController!.previousAdministerOption = infusion?.administerAsOption
-        administerOptionsViewController?.optionSelection = { option in
-            self.infusion?.administerAsOption = option! as String
-            if let infusionDelegate = self.delegate {
-                infusionDelegate.updatedInfusionObject(self.infusion!)
-            }
-            self.routesTableView.reloadData()
-        }
+        administerOptionsViewController!.administerDelegate  = self
         self.navigationController?.pushViewController(administerOptionsViewController!, animated: true)
     }
     
@@ -146,12 +153,31 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
         return routeCell!
     }
     
-    func configureInfusionCellAtIndexPath(indexPath : NSIndexPath) -> DCInfusionCell {
+    func configureInfusionCellAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell? {
         
         //configure infusions cell
         let infusionCell = routesTableView.dequeueReusableCellWithIdentifier(INFUSIONS_CELL_ID) as? DCInfusionCell
-        infusionCell?.titleLabel.text = NSLocalizedString("ADMINISTER_AS", comment: "")
-        infusionCell?.descriptionLabel.text = infusion?.administerAsOption
+        if (indexPath.section == SectionCount.eFirstSection.rawValue) {
+            infusionCell?.titleLabel.text = NSLocalizedString("ADMINISTER_AS", comment: "")
+            infusionCell?.descriptionLabel.text = infusion?.administerAsOption
+        } else {
+            switch indexPath.row {
+                case RowCount.eFirstRow.rawValue :
+                    infusionCell?.accessoryType = .None
+                    infusionCell?.titleLabel.text = NSLocalizedString("IN", comment: "")
+                    infusionCell?.descriptionLabel.text = infusion?.bolusInjection?.solvent
+                case RowCount.eSecondRow.rawValue :
+                    infusionCell?.accessoryType = .DisclosureIndicator
+                    infusionCell?.titleLabel.text = NSLocalizedString("ML", comment: "")
+                    infusionCell?.descriptionLabel.text = infusion?.bolusInjection?.quantity
+                case RowCount.eThirdRow.rawValue :
+                    infusionCell?.accessoryType = .DisclosureIndicator
+                    infusionCell?.titleLabel.text = NSLocalizedString("INTO", comment: "")
+                    infusionCell?.descriptionLabel.text = infusion?.bolusInjection?.injectionRegion
+                default :
+                    break
+            }
+        }
         return infusionCell!
     }
     
@@ -159,7 +185,67 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
         
         //configure slow bolus cell
         let bolusCell = routesTableView.dequeueReusableCellWithIdentifier(SLOW_BOLUS_CELL_ID) as? DCSlowBolusCell
+        if let switchState = self.infusion?.bolusInjection?.slowBolus {
+            bolusCell?.bolusSwitch.on = switchState
+        }
+        bolusCell?.switchState = { state in
+            let switchValue : Bool = state!
+            self.infusion?.bolusInjection?.slowBolus = switchValue
+            if let infusionDelegate = self.delegate {
+                infusionDelegate.updatedInfusionObject(self.infusion!)
+            }
+        }
         return bolusCell!
+    }
+    
+    //MARK : InfusionAdministerDelegate Methods
+    
+    func administerAsOptionSelected(option : NSString) {
+        
+        //administer as option value selected,
+        self.infusion?.administerAsOption = option as String
+        if (option == BOLUS_INJECTION) {
+            self.infusion?.bolusInjection = DCBolusInjection.init()
+        } else if (option == DURATION_BASED_INFUSION) {
+            self.infusion?.durationInfusion = DCDurationInfusion.init()
+        } else {
+            //rate based infusion
+            self.infusion?.rateInfusion = DCRateInfusion.init()
+        }
+        if let infusionDelegate = self.delegate {
+            infusionDelegate.updatedInfusionObject(self.infusion!)
+        }
+        self.routesTableView.reloadData()
+    }
+    
+    func displayInfusionSolventView() {
+        
+        //display infusion in view
+        let addMedicationStoryboard = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil)
+        let infusionSolventViewController = addMedicationStoryboard.instantiateViewControllerWithIdentifier(MEDICATION_LIST_STORYBOARD_ID) as? DCMedicationListViewController
+        infusionSolventViewController?.patientId = self.patientId
+        infusionSolventViewController?.title = NSLocalizedString("IN", comment: "")
+        infusionSolventViewController?.selectedMedication = { (medication, warnings) in
+            self.infusion?.bolusInjection?.solvent = medication.name
+            self.routesTableView.reloadData()
+        }
+        self.presentNavigationControllerWithRootViewController(infusionSolventViewController!)
+    }
+    
+    func displayInjectionRegionView() {
+        
+        //injection region view
+        let addMedicationStoryboard = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil)
+        let injectionRegionViewController = addMedicationStoryboard.instantiateViewControllerWithIdentifier(INJECTION_REGION_SB_ID) as? DCInjectionRegionViewController
+        injectionRegionViewController?.previousRegion = infusion?.bolusInjection?.injectionRegion
+        self.navigationController?.pushViewController(injectionRegionViewController!, animated: true)
+    }
+    
+    func presentNavigationControllerWithRootViewController(rootViewController : UIViewController) {
+        
+        let navigationController = UINavigationController.init(rootViewController: rootViewController)
+        navigationController.modalPresentationStyle = .CurrentContext
+        self.navigationController?.presentViewController(navigationController, animated: true, completion: nil)
     }
     
 }
