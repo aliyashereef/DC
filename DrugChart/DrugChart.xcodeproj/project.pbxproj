@@ -323,22 +323,22 @@
 		7DE60BCF1B2866CD00BCA745 /* DCPatientGraphicalRepresentationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE60BCC1B2866CD00BCA745 /* DCPatientGraphicalRepresentationView.m */; };
 		7DE60BD01B2866CD00BCA745 /* DCPortraitTopPatientView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DE60BCD1B2866CD00BCA745 /* DCPortraitTopPatientView.xib */; };
 		7DE60BD11B2866CD00BCA745 /* DCPortraitBottomUpPatientView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DE60BCE1B2866CD00BCA745 /* DCPortraitBottomUpPatientView.xib */; };
-		FD2FF8B01C3B902D00778A4E /* DCAddConditionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2FF8AF1C3B902D00778A4E /* DCAddConditionViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		FD2FF8B31C3B90DC00778A4E /* DCAddConditionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2FF8B21C3B90DC00778A4E /* DCAddConditionTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-		FD2FF8B61C3BAED100778A4E /* DCAddConditionDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2FF8B51C3BAED100778A4E /* DCAddConditionDetailTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-		FD2FF8B81C3BAEF000778A4E /* DCAddConditionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2FF8B71C3BAEF000778A4E /* DCAddConditionDetailViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		FD2FF8BB1C3BD80300778A4E /* DCAddNewDoseAndTimeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2FF8BA1C3BD80300778A4E /* DCAddNewDoseAndTimeViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		FD2FF8BD1C3BD82500778A4E /* DCAddNewDoseAndTimeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2FF8BC1C3BD82500778A4E /* DCAddNewDoseAndTimeTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-		FD2FF8BF1C3BD84C00778A4E /* DCDosageUnitSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2FF8BE1C3BD84C00778A4E /* DCDosageUnitSelectionViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		FD2FF8C21C3BD87E00778A4E /* DCDosageUnitSelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2FF8C11C3BD87E00778A4E /* DCDosageUnitSelectionTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+		FD2FF8B01C3B902D00778A4E /* DCAddConditionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2FF8AF1C3B902D00778A4E /* DCAddConditionViewController.swift */; };
+		FD2FF8B31C3B90DC00778A4E /* DCAddConditionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2FF8B21C3B90DC00778A4E /* DCAddConditionTableViewCell.swift */; };
+		FD2FF8B61C3BAED100778A4E /* DCAddConditionDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2FF8B51C3BAED100778A4E /* DCAddConditionDetailTableViewCell.swift */; };
+		FD2FF8B81C3BAEF000778A4E /* DCAddConditionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2FF8B71C3BAEF000778A4E /* DCAddConditionDetailViewController.swift */; };
+		FD2FF8BB1C3BD80300778A4E /* DCAddNewDoseAndTimeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2FF8BA1C3BD80300778A4E /* DCAddNewDoseAndTimeViewController.swift */; };
+		FD2FF8BD1C3BD82500778A4E /* DCAddNewDoseAndTimeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2FF8BC1C3BD82500778A4E /* DCAddNewDoseAndTimeTableViewCell.swift */; };
+		FD2FF8BF1C3BD84C00778A4E /* DCDosageUnitSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2FF8BE1C3BD84C00778A4E /* DCDosageUnitSelectionViewController.swift */; };
+		FD2FF8C21C3BD87E00778A4E /* DCDosageUnitSelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2FF8C11C3BD87E00778A4E /* DCDosageUnitSelectionTableViewCell.swift */; };
 		FD618F2D1C19777C005EC416 /* Dosage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD618F2C1C19777C005EC416 /* Dosage.storyboard */; };
 		FD618F301C1979E7005EC416 /* DCDosageSelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD618F2E1C1979E7005EC416 /* DCDosageSelectionTableViewCell.swift */; };
 		FD618F311C1979E7005EC416 /* DCDosageSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD618F2F1C1979E7005EC416 /* DCDosageSelectionViewController.swift */; };
 		FDC7EA571C1AA8990081D5C4 /* DCDosageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC7EA561C1AA8990081D5C4 /* DCDosageDetailViewController.swift */; };
 		FDC7EA5A1C1AA9510081D5C4 /* DCDosageDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC7EA591C1AA9510081D5C4 /* DCDosageDetailTableViewCell.swift */; };
-		FDDBBB031C24197800726DDA /* DCDosageDetailPickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDBBB021C24197800726DDA /* DCDosageDetailPickerCell.swift */; settings = {ASSET_TAGS = (); }; };
-		FDE2C9B41C3A69CB00FBDFCA /* DCDosageConditionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE2C9B31C3A69CB00FBDFCA /* DCDosageConditionsViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		FDE2C9B71C3A6A8A00FBDFCA /* DCDosageConditionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE2C9B61C3A6A8A00FBDFCA /* DCDosageConditionsTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+		FDDBBB031C24197800726DDA /* DCDosageDetailPickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDBBB021C24197800726DDA /* DCDosageDetailPickerCell.swift */; };
+		FDE2C9B41C3A69CB00FBDFCA /* DCDosageConditionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE2C9B31C3A69CB00FBDFCA /* DCDosageConditionsViewController.swift */; };
+		FDE2C9B71C3A6A8A00FBDFCA /* DCDosageConditionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE2C9B61C3A6A8A00FBDFCA /* DCDosageConditionsTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -3330,7 +3330,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.qburst.drugchart;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8c7d56fd-b345-4714-a026-473385d22e11";
+				PROVISIONING_PROFILE = "e0e1649d-f6be-408a-a401-d6fc15d82bc0";
 				SWIFT_OBJC_BRIDGING_HEADER = "DrugChart/Helpers/AddMedicationHelper/DrugChart-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -3376,7 +3376,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.qburst.drugchart;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8c7d56fd-b345-4714-a026-473385d22e11";
+				PROVISIONING_PROFILE = "e0e1649d-f6be-408a-a401-d6fc15d82bc0";
 				SWIFT_OBJC_BRIDGING_HEADER = "DrugChart/Helpers/AddMedicationHelper/DrugChart-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
