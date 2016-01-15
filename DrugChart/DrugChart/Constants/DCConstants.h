@@ -250,10 +250,10 @@
 //date
 
 #define WEEK_DAY_FORMAT                 @"EEE"
-#define DAY_DATE_FORMAT                 @"dd"
-#define DEFAULT_DATE_FORMAT             @"yyyy-MM-dd hh:mm:ss z"
-#define SHORT_DATE_FORMAT               @"yyyy-MM-dd"
-#define DATE_FORMAT_RANGE               @"yyyy-MM-dd HH:mm"
+#define DAY_DATE_FORMAT                 @"d"
+#define DEFAULT_DATE_FORMAT             @"yyyy-MM-d hh:mm:ss z"
+#define SHORT_DATE_FORMAT               @"yyyy-MM-d"
+#define DATE_FORMAT_RANGE               @"yyyy-MM-d HH:mm"
 #define DATE_FORMAT_WITH_DAY            @"EE, LLLL d, HH:mm"
 #define DATE_FORMAT_START_DATE          @"dd-MMM-yyyy HH:mm"
 #define DOB_DATE_FORMAT                 @"YYYY-mm-dd"

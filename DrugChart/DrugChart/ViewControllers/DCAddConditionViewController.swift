@@ -106,6 +106,11 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 
+        if indexPath.row != 0 {
+            inlinePickerForChangeActive = false
+        } else if indexPath.row != 3 {
+            inlinePickerForEveryActive = false
+        }
         self.updateTableViewForAddCondition(indexPath)
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
