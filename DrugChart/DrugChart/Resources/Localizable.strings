@@ -158,3 +158,11 @@
 "SET_START_END_TIME"   =       "Set Start and End Time";
 "START_TIME"           =       "Start Time";
 "END_TIME"             =       "End Time";
+
+//Infusions
+
+"ADMINISTER_AS"        =       "Administer as";
+"IN"                   =       "In";
+"ML"                   =       "ml";
+"INTO"                 =       "Into";
+

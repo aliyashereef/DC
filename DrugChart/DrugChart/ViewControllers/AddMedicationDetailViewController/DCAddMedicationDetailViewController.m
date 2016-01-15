@@ -100,9 +100,6 @@
         case eDetailType:
             self.title = NSLocalizedString(@"MEDICATION_TYPE", @"");
             break;
-        case eDetailRoute:
-            self.title = NSLocalizedString(@"ROUTES", @"");
-            break;
         case eDetailAdministrationTime:
             self.title = NSLocalizedString(@"ADMINISTRATING_TIME", @"");
             break;
@@ -135,10 +132,6 @@
         case eDetailType:
             //for medication type
             _contentArray = [NSMutableArray arrayWithArray:@[REGULAR_MEDICATION, ONCE_MEDICATION, WHEN_REQUIRED_VALUE]];
-            break;
-        case eDetailRoute:
-            //medication routes
-            _contentArray = [NSMutableArray arrayWithArray:[DCPlistManager medicationRoutesList]];
             break;
         case eDetailAdministrationTime:
             //populate default administrating times
@@ -244,13 +237,8 @@
                 cell.textLabel.text = contentDict[TIME_KEY];
                 NSInteger selectedStatus = [contentDict[SELECTED_KEY] integerValue];
                 cell.accessoryType = selectedStatus == 1 ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
-            } else if (_detailType == eDetailRoute) {
-                NSString *content = [_contentArray objectAtIndex:indexPath.row];
-                cell.textLabel.text = content;
-                NSRange range = [content rangeOfString:@" "];
-                NSString *croppedString = [content substringToIndex:range.location];
-                cell.accessoryType = [_previousFilledValue containsString:croppedString] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
-            } else {
+            }
+            else {
                 NSString *content = [_contentArray objectAtIndex:indexPath.row];
                 cell.textLabel.text = content;
                 cell.accessoryType = [content isEqualToString:_previousFilledValue] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;

@@ -693,6 +693,238 @@
             </objects>
             <point key="canvasLocation" x="3343" y="-967"/>
         </scene>
+        <!--Injection Region View Controller-->
+        <scene sceneID="eYw-hK-a8Y">
+            <objects>
+                <viewController storyboardIdentifier="InjectionRegionView" id="sim-5J-32G" customClass="DCInjectionRegionViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="SK2-Mq-edC"/>
+                        <viewControllerLayoutGuide type="bottom" id="QOx-b3-i45"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="aZ5-7t-mqr">
+                        <rect key="frame" x="0.0" y="0.0" width="310" height="690"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="3Rb-CA-iLn">
+                                <rect key="frame" x="0.0" y="0.0" width="310" height="690"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="InjectionCellId" rowHeight="42" id="PfT-0r-dJe" customClass="DCInjectionTableCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="310" height="42"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PfT-0r-dJe" id="drp-2U-Wqa">
+                                            <rect key="frame" x="0.0" y="0.0" width="277" height="41"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yBH-hM-eYE" userLabel="typeLabel">
+                                                    <rect key="frame" x="15" y="10" width="137" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="137" id="QVf-hb-EUk"/>
+                                                        <constraint firstAttribute="height" constant="21" id="a2f-pp-hla"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="yBH-hM-eYE" firstAttribute="centerY" secondItem="drp-2U-Wqa" secondAttribute="centerY" id="1UT-Pg-Dz0"/>
+                                                <constraint firstItem="yBH-hM-eYE" firstAttribute="leading" secondItem="drp-2U-Wqa" secondAttribute="leading" constant="15" id="Tj1-cP-95T"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="titleLabel" destination="yBH-hM-eYE" id="tcN-Bk-kZF"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="sim-5J-32G" id="FgW-Tb-YEC"/>
+                                    <outlet property="delegate" destination="sim-5J-32G" id="Nkt-XI-obL"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="3Rb-CA-iLn" secondAttribute="trailing" id="305-nq-qkc"/>
+                            <constraint firstItem="3Rb-CA-iLn" firstAttribute="top" secondItem="aZ5-7t-mqr" secondAttribute="top" id="MSb-87-2EL"/>
+                            <constraint firstItem="QOx-b3-i45" firstAttribute="top" secondItem="3Rb-CA-iLn" secondAttribute="bottom" id="QBg-ys-oIK"/>
+                            <constraint firstItem="3Rb-CA-iLn" firstAttribute="leading" secondItem="aZ5-7t-mqr" secondAttribute="leading" id="kuy-rD-x26"/>
+                        </constraints>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="310" height="690"/>
+                    <connections>
+                        <outlet property="injectionRegionTableView" destination="3Rb-CA-iLn" id="N2h-N6-WHZ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x6F-OV-qqf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2026" y="-293"/>
+        </scene>
+        <!--Route And Infusions View Controller-->
+        <scene sceneID="MFK-gP-1Iw">
+            <objects>
+                <viewController storyboardIdentifier="RouteAndInfusionsViewController" id="7qO-lB-p7i" customClass="DCRouteAndInfusionsViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="8fk-uQ-hi6"/>
+                        <viewControllerLayoutGuide type="bottom" id="z6s-lX-dp1"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="GXz-j7-tld">
+                        <rect key="frame" x="0.0" y="0.0" width="310" height="690"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="O5m-qA-NPI">
+                                <rect key="frame" x="0.0" y="0.0" width="310" height="690"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" reuseIdentifier="RouteCell" rowHeight="44" id="Swh-Yo-yyd" customClass="DCRouteCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="310" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Swh-Yo-yyd" id="Pkh-IT-oUJ">
+                                            <rect key="frame" x="0.0" y="0.0" width="271" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vtc-IN-emP">
+                                                    <rect key="frame" x="15" y="11" width="246" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="Vtc-IN-emP" secondAttribute="trailing" constant="10" id="4Yn-gu-8zz"/>
+                                                <constraint firstAttribute="bottom" secondItem="Vtc-IN-emP" secondAttribute="bottom" constant="11" id="G72-UX-oDr"/>
+                                                <constraint firstItem="Vtc-IN-emP" firstAttribute="leading" secondItem="Pkh-IT-oUJ" secondAttribute="leading" constant="15" id="Jqg-4g-5lg"/>
+                                                <constraint firstItem="Vtc-IN-emP" firstAttribute="top" secondItem="Pkh-IT-oUJ" secondAttribute="top" constant="11" id="TLC-lW-MtR"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="titleLabel" destination="Vtc-IN-emP" id="6D3-5G-plt"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="InfusionCell" rowHeight="42" id="yu7-D1-m6O" customClass="DCInfusionCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="94" width="310" height="42"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yu7-D1-m6O" id="hdx-Ud-wqd">
+                                            <rect key="frame" x="0.0" y="0.0" width="277" height="41"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PS7-HN-zRU" userLabel="DescriptionLabel">
+                                                    <rect key="frame" x="119" y="10" width="155" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="155" id="Eeg-zF-KKC"/>
+                                                        <constraint firstAttribute="width" constant="150" id="NNS-iL-cpx"/>
+                                                        <constraint firstAttribute="height" constant="21" id="aQ4-dL-EMy"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" red="0.56078431370000004" green="0.56078431370000004" blue="0.58431372550000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="NNS-iL-cpx"/>
+                                                        </mask>
+                                                    </variation>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fxb-y3-HbJ" userLabel="typeLabel">
+                                                    <rect key="frame" x="15" y="10" width="137" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="137" id="844-XL-agK"/>
+                                                        <constraint firstAttribute="height" constant="21" id="OkU-X9-EtM"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="PS7-HN-zRU" secondAttribute="trailing" constant="3" id="45X-JJ-ti5"/>
+                                                <constraint firstItem="fxb-y3-HbJ" firstAttribute="centerY" secondItem="hdx-Ud-wqd" secondAttribute="centerY" id="eH1-Hx-rlp"/>
+                                                <constraint firstAttribute="centerY" secondItem="PS7-HN-zRU" secondAttribute="centerY" id="fTu-YB-IaT"/>
+                                                <constraint firstItem="fxb-y3-HbJ" firstAttribute="leading" secondItem="hdx-Ud-wqd" secondAttribute="leading" constant="15" id="hkd-9T-nXd"/>
+                                                <constraint firstAttribute="trailing" secondItem="PS7-HN-zRU" secondAttribute="trailing" constant="3" id="iF5-3k-7Ed"/>
+                                            </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="iF5-3k-7Ed"/>
+                                                </mask>
+                                            </variation>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="descriptionLabel" destination="PS7-HN-zRU" id="rSp-sd-TzK"/>
+                                            <outlet property="descriptionLabelWidthConstraint" destination="Eeg-zF-KKC" id="XyG-5a-Cam"/>
+                                            <outlet property="descriptionTrailingConstraint" destination="45X-JJ-ti5" id="6JE-th-rut"/>
+                                            <outlet property="titleLabel" destination="fxb-y3-HbJ" id="4Eh-Uf-R8j"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SlowBolusCell" id="Hbn-ig-V2h" customClass="DCSlowBolusCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="136" width="310" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Hbn-ig-V2h" id="dvF-NL-cjU">
+                                            <rect key="frame" x="0.0" y="0.0" width="310" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Slow Bolus" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CwM-Ca-ndx" userLabel="SlowBolusCell">
+                                                    <rect key="frame" x="15" y="9" width="100" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="21" id="abc-hr-pz0"/>
+                                                        <constraint firstAttribute="width" constant="90" id="hHZ-1n-l9C"/>
+                                                        <constraint firstAttribute="width" constant="100" id="rSU-QR-PtQ"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="hHZ-1n-l9C"/>
+                                                        </mask>
+                                                    </variation>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="rKM-Cp-4Mf" userLabel="SlowBolusSwitch">
+                                                    <rect key="frame" x="243" y="6" width="51" height="31"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="49" id="tEi-vZ-kMY"/>
+                                                        <constraint firstAttribute="height" constant="31" id="x66-Rq-C6l"/>
+                                                    </constraints>
+                                                    <connections>
+                                                        <action selector="slowBolusSwitchValueChanged:" destination="Hbn-ig-V2h" eventType="valueChanged" id="fgt-cE-fMR"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="rKM-Cp-4Mf" secondAttribute="trailing" constant="18" id="S4d-VO-rhl"/>
+                                                <constraint firstItem="CwM-Ca-ndx" firstAttribute="top" secondItem="dvF-NL-cjU" secondAttribute="top" constant="9" id="Vhv-ZD-jtC"/>
+                                                <constraint firstItem="rKM-Cp-4Mf" firstAttribute="centerY" secondItem="dvF-NL-cjU" secondAttribute="centerY" id="VyF-L2-Emo"/>
+                                                <constraint firstItem="CwM-Ca-ndx" firstAttribute="leading" secondItem="dvF-NL-cjU" secondAttribute="leading" constant="15" id="esx-Ro-qrh"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="bolusSwitch" destination="rKM-Cp-4Mf" id="UWD-mt-K2r"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="7qO-lB-p7i" id="YSS-LM-EPk"/>
+                                    <outlet property="delegate" destination="7qO-lB-p7i" id="kTT-GI-jCl"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="z6s-lX-dp1" firstAttribute="top" secondItem="O5m-qA-NPI" secondAttribute="bottom" id="30u-uE-ql6"/>
+                            <constraint firstItem="O5m-qA-NPI" firstAttribute="leading" secondItem="GXz-j7-tld" secondAttribute="leading" id="MrA-N2-Uf1"/>
+                            <constraint firstAttribute="trailing" secondItem="O5m-qA-NPI" secondAttribute="trailing" id="pat-4R-eYL"/>
+                            <constraint firstItem="O5m-qA-NPI" firstAttribute="top" secondItem="GXz-j7-tld" secondAttribute="top" id="q1k-l3-GXn"/>
+                        </constraints>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="310" height="690"/>
+                    <connections>
+                        <outlet property="routesTableView" destination="O5m-qA-NPI" id="cjf-Qu-RVY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Z5U-RU-1G9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2491" y="-238"/>
+        </scene>
         <!--Scheduling Initial View Controller-->
         <scene sceneID="brG-65-yTm">
             <objects>
@@ -1410,7 +1642,7 @@
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="qp2-G7-i1U">
                                 <rect key="frame" x="0.0" y="0.0" width="310" height="600"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" reuseIdentifier="DetailCell" rowHeight="44" id="42b-eL-OEU">
                                         <rect key="frame" x="0.0" y="50" width="310" height="44"/>
@@ -1420,26 +1652,8 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AddDosageCell" rowHeight="44" id="lPI-ry-b4i" customClass="DCAddDosageCell">
-                                        <rect key="frame" x="0.0" y="94" width="310" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lPI-ry-b4i" id="EYm-Ti-v8D">
-                                            <rect key="frame" x="0.0" y="0.0" width="310" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="New Dosage" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="d8M-sP-zgV">
-                                                    <rect key="frame" x="13" y="7" width="284" height="30"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <textInputTraits key="textInputTraits"/>
-                                                </textField>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="dosageTextField" destination="d8M-sP-zgV" id="Ik1-LS-CMT"/>
-                                        </connections>
-                                    </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="OverrideReasonCell" rowHeight="78" id="DCf-lD-HiC" customClass="DCReasonCell" customModule="DrugChart" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="138" width="310" height="78"/>
+                                        <rect key="frame" x="0.0" y="94" width="310" height="78"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DCf-lD-HiC" id="dbQ-47-zkG">
                                             <rect key="frame" x="0.0" y="0.0" width="310" height="77"/>
@@ -1557,6 +1771,72 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Scx-ws-2ur" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2220" y="540"/>
+        </scene>
+        <!--Infusions Administer As View Controller-->
+        <scene sceneID="7ix-Sv-h0O">
+            <objects>
+                <viewController storyboardIdentifier="InfusionsAdministerAsViewController" id="zNG-ET-JM4" customClass="DCInfusionsAdministerAsViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="10j-xx-ddM"/>
+                        <viewControllerLayoutGuide type="bottom" id="pCg-hn-o6P"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="cnC-rD-Wzf">
+                        <rect key="frame" x="0.0" y="0.0" width="310" height="690"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="OVM-jI-UFo">
+                                <rect key="frame" x="0.0" y="0.0" width="310" height="690"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" reuseIdentifier="InfusionsAdministerAsCell" rowHeight="44" id="Ase-cB-IZf" customClass="DCInfusionsAdministerAsCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="310" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ase-cB-IZf" id="9if-NE-Hxw">
+                                            <rect key="frame" x="0.0" y="0.0" width="271" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wkk-14-9cV">
+                                                    <rect key="frame" x="15" y="11" width="246" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="wkk-14-9cV" secondAttribute="bottom" constant="11" id="8BP-8s-iRm"/>
+                                                <constraint firstAttribute="trailing" secondItem="wkk-14-9cV" secondAttribute="trailing" constant="10" id="GUI-q9-WC8"/>
+                                                <constraint firstItem="wkk-14-9cV" firstAttribute="leading" secondItem="9if-NE-Hxw" secondAttribute="leading" constant="15" id="cGp-hc-jCD"/>
+                                                <constraint firstItem="wkk-14-9cV" firstAttribute="top" secondItem="9if-NE-Hxw" secondAttribute="top" constant="11" id="v2M-G9-Ftt"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="titleLabel" destination="wkk-14-9cV" id="Ikw-l1-gbT"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="zNG-ET-JM4" id="W1P-a5-S3a"/>
+                                    <outlet property="delegate" destination="zNG-ET-JM4" id="Etn-SD-hXv"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="OVM-jI-UFo" secondAttribute="trailing" id="AAh-o9-WnC"/>
+                            <constraint firstItem="OVM-jI-UFo" firstAttribute="top" secondItem="cnC-rD-Wzf" secondAttribute="top" id="ZbY-NN-AX2"/>
+                            <constraint firstItem="pCg-hn-o6P" firstAttribute="top" secondItem="OVM-jI-UFo" secondAttribute="bottom" id="kXd-6d-vgu"/>
+                            <constraint firstItem="OVM-jI-UFo" firstAttribute="leading" secondItem="cnC-rD-Wzf" secondAttribute="leading" id="vDy-8Q-jb8"/>
+                        </constraints>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="310" height="690"/>
+                    <connections>
+                        <outlet property="administerOptionsTableView" destination="OVM-jI-UFo" id="1S1-Jz-79S"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Rjg-YH-uFQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2604" y="522"/>
         </scene>
     </scenes>
     <resources>
