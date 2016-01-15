@@ -82,6 +82,7 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
         
         //add pan gesture to medication detail holder view
         let panGesture = UIPanGestureRecognizer(target: self, action: Selector("swipeMedicationDetailView:"))
+        panGesture.delegate = self
         medicineDetailHolderView.addGestureRecognizer(panGesture)
     }
     
