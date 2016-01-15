@@ -11,11 +11,14 @@ import UIKit
 let TABLE_SECTION_COUNT : NSInteger = 1
 let TABLE_ROW_COUNT : NSInteger = 3
 
+typealias InjectionRegionSelected = String? -> Void
+
 class DCInjectionRegionViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var injectionRegionTableView: UITableView!
     var contentArray : [String]? = []
     var previousRegion : String?
+    var injectionRegion : InjectionRegionSelected?
     
     override func viewDidLoad() {
         
@@ -55,7 +58,8 @@ class DCInjectionRegionViewController: UIViewController, UITableViewDelegate, UI
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    
+        
+        self.injectionRegion!(contentArray![indexPath.item])
         self.navigationController?.popViewControllerAnimated(true)
     }
 

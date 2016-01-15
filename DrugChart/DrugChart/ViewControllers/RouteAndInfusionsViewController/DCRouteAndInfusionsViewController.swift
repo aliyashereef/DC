@@ -8,6 +8,11 @@
 
 import UIKit
 
+let DESCRIPTION_LABEL_TRAILING_IN : CGFloat = 18.0
+let DESCRIPTION_LABEL_TARINLING_DEFAULT : CGFloat = 3.0
+let DESCRITION_LABEL_WIDTH_DEFAULT : CGFloat = 155.0
+let DESCRIPTION_LABEL_WIDTH_IN : CGFloat = 225.0
+
 @objc public protocol RoutesAndInfusionsDelegate {
     
     func newRouteSelected(route : NSString)
@@ -166,14 +171,19 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
                     infusionCell?.accessoryType = .None
                     infusionCell?.titleLabel.text = NSLocalizedString("IN", comment: "")
                     infusionCell?.descriptionLabel.text = infusion?.bolusInjection?.solvent
+                    infusionCell?.descriptionTrailingConstraint.constant = DESCRIPTION_LABEL_TRAILING_IN
+                    infusionCell?.descriptionLabelWidthConstraint.constant = DESCRIPTION_LABEL_WIDTH_IN
                 case RowCount.eSecondRow.rawValue :
                     infusionCell?.accessoryType = .DisclosureIndicator
                     infusionCell?.titleLabel.text = NSLocalizedString("ML", comment: "")
                     infusionCell?.descriptionLabel.text = infusion?.bolusInjection?.quantity
+                    infusionCell?.descriptionTrailingConstraint.constant = DESCRIPTION_LABEL_TARINLING_DEFAULT
+                    infusionCell?.descriptionLabelWidthConstraint.constant = DESCRITION_LABEL_WIDTH_DEFAULT
                 case RowCount.eThirdRow.rawValue :
                     infusionCell?.accessoryType = .DisclosureIndicator
                     infusionCell?.titleLabel.text = NSLocalizedString("INTO", comment: "")
                     infusionCell?.descriptionLabel.text = infusion?.bolusInjection?.injectionRegion
+                    infusionCell?.descriptionTrailingConstraint.constant = DESCRIPTION_LABEL_TARINLING_DEFAULT
                 default :
                     break
             }
@@ -238,6 +248,10 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
         let addMedicationStoryboard = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil)
         let injectionRegionViewController = addMedicationStoryboard.instantiateViewControllerWithIdentifier(INJECTION_REGION_SB_ID) as? DCInjectionRegionViewController
         injectionRegionViewController?.previousRegion = infusion?.bolusInjection?.injectionRegion
+        injectionRegionViewController?.injectionRegion = { region in
+            self.infusion?.bolusInjection?.injectionRegion = region
+            self.routesTableView.reloadData()
+        }
         self.navigationController?.pushViewController(injectionRegionViewController!, animated: true)
     }
     

@@ -12,7 +12,9 @@ class DCInfusionCell: UITableViewCell {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
-
+    @IBOutlet weak var descriptionTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var descriptionLabelWidthConstraint: NSLayoutConstraint!
+    
     override func awakeFromNib() {
         
         super.awakeFromNib()

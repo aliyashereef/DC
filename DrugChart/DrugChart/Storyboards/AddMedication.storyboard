@@ -851,6 +851,8 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="descriptionLabel" destination="PS7-HN-zRU" id="rSp-sd-TzK"/>
+                                            <outlet property="descriptionLabelWidthConstraint" destination="Eeg-zF-KKC" id="XyG-5a-Cam"/>
+                                            <outlet property="descriptionTrailingConstraint" destination="45X-JJ-ti5" id="6JE-th-rut"/>
                                             <outlet property="titleLabel" destination="fxb-y3-HbJ" id="4Eh-Uf-R8j"/>
                                         </connections>
                                     </tableViewCell>
