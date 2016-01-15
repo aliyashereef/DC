@@ -215,6 +215,7 @@
 #define INFUSIONS_CELL_ID @"InfusionCell"
 #define SLOW_BOLUS_CELL_ID @"SlowBolusCell"
 #define INJECTION_CELL_ID @"InjectionCellId"
+#define INFUSION_PICKER_CELL_ID @"InfusionPickerCellId"
 
 
 // title for views
