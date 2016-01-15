@@ -20,5 +20,6 @@ class Constant
     static let COMMA_SCORE :String = "Comma Score"
     static let MINIMUM_OBSERVATION_ROW: Int = 1
     static let MAXIMUM_OBSERVATION_ROW: Int = 6
-
+    static let FULL_SCREEN_GRAPH_HORIZONTAL_LINES = 10
+     
 }

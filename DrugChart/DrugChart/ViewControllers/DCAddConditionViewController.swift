@@ -126,11 +126,16 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
                 //Same Clicked
                 inlinePickerForChangeActive = false
                 let indexPaths = [NSIndexPath(forItem: indexPath.row + 1, inSection: indexPath.section)]
-                addConditionTableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Middle)
+                addConditionTableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Fade)
             } else {
+                if inlinePickerForEveryActive {
+                    inlinePickerForEveryActive = false
+                    let indexPaths = [NSIndexPath(forItem: 4 , inSection: indexPath.section)]
+                    addConditionTableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Fade)
+                }
                 inlinePickerForChangeActive = true
                 let indexPaths = [NSIndexPath(forItem: indexPath.row + 1, inSection: indexPath.section)]
-                addConditionTableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Middle)
+                addConditionTableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Fade)
             }
         } else if (indexPath.row == 3) {
             
@@ -139,11 +144,16 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
                 //Same Clicked
                 inlinePickerForEveryActive = false
                 let indexPaths = [NSIndexPath(forItem: indexPath.row + 1, inSection: indexPath.section)]
-                addConditionTableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Middle)
+                addConditionTableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Fade)
             } else {
+                if inlinePickerForChangeActive {
+                    inlinePickerForChangeActive = false
+                    let indexPaths = [NSIndexPath(forItem: 1, inSection: indexPath.section)]
+                    addConditionTableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Fade)
+                }
                 inlinePickerForEveryActive = true
                 let indexPaths = [NSIndexPath(forItem: indexPath.row + 1, inSection: indexPath.section)]
-                addConditionTableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Middle)
+                addConditionTableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Fade)
             }
         } else if (indexPath.row == 2) {
             let addConditionDetailViewController : DCAddConditionDetailViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(ADD_CONDITION_DETAIL_SBID) as? DCAddConditionDetailViewController

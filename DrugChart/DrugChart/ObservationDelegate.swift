@@ -11,19 +11,21 @@ import UIKit
 
 protocol ObservationDelegate
 {
-    func EditObservation(navigationController:UINavigationController)
+    func ShowModalNavigationController(navigationController:UINavigationController)
     func TakeObservationInput(viewController:UIAlertController)
-    func EditObservationViewController(viewController:UIViewController)
+    func ShowModalViewController(viewController:UIViewController)
     func DateSelected(value:NSDate)
     func GetLatestObservation(dataType:DashBoardRow)->VitalSignObservation!
-
+    func PushViewController(navigationController:UIViewController)
+    
 }
 
 extension ObservationDelegate
 {
-    func EditObservation(navigationController:UINavigationController){}
+    func ShowModalNavigationController(navigationController:UINavigationController){}
     func TakeObservationInput(viewController:UIAlertController){}
-    func EditObservationViewController(viewController:UIViewController){}
+    func ShowModalViewController(viewController:UIViewController){}
     func DateSelected(value:NSDate){}
     func GetLatestObservation(dataType:DashBoardRow)->VitalSignObservation! { return nil}
+    func PushViewController(navigationController:UIViewController){}
 }

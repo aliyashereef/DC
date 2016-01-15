@@ -16,5 +16,7 @@ typedef void(^SelectedMedicationDetails)(DCMedication *medication, NSArray *warn
 
 @property (nonatomic, strong) SelectedMedicationDetails selectedMedication;
 @property (nonatomic, strong) NSString *patientId;
+@property (nonatomic)BOOL isLoadingForFirstTimeInHalfScreen;
+@property (nonatomic) CGFloat valueForTableTopConstraint;
 
 @end

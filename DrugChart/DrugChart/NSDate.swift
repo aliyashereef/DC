@@ -66,6 +66,43 @@ extension NSDate:Comparable{
         return formatter.stringFromDate(self)
     }
     
+    func getFormattedTime() ->String
+    {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "h:mm a"
+        return dateFormatter.stringFromDate(self)
+    }
+    
+    func getFormattedDayoftheWeek() -> String
+    {
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "EEE"
+        return formatter.stringFromDate(self)
+    }
+    func getFormattedMonthName() ->String
+    {
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "MMMM"
+        return formatter.stringFromDate(self)
+    }
+    func getFormattedYear() ->String
+    {
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "yyyy"
+        return formatter.stringFromDate(self)
+    }
+    
+    func isToday() ->Bool
+    {
+        let today : NSDate = NSDate()
+        let order = NSCalendar.currentCalendar().compareDate(self , toDate:today,
+            toUnitGranularity: .Day)
+        if order == NSComparisonResult.OrderedSame {
+            return true
+        } else {
+            return false
+        }
+    }
     func minTime() -> NSDate
     {
         let calendar = NSCalendar.currentCalendar()
