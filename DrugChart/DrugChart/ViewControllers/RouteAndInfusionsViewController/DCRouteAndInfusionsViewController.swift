@@ -88,7 +88,11 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
                         infusionPickerCell?.unitCompletion = { unit in
                             print("unit value is %@", unit)
                             self.infusion?.bolusInjection?.quantity = unit! as String
-                            self.performSelector(Selector("reloadCellAfterDelayAtIndexPath:"), withObject: indexPath, afterDelay: 0.04)
+                            self.performSelector(Selector("reloadCellAfterDelayAtIndexPath:"), withObject: NSIndexPath(forRow: 2, inSection: 2), afterDelay: 0.04)
+                           // self.reloadCellAfterDelayAtIndexPath(indexPath)
+//                            tableView.beginUpdates()
+//                            tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 2, inSection: 2)], withRowAnimation: .Fade)
+//                            tableView.endUpdates()
                         }
                         infusionPickerCell?.configurePickerView()
                         return infusionPickerCell!
