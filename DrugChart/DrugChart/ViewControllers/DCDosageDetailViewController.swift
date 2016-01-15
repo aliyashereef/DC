@@ -193,7 +193,7 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
         let addNewDosageViewController : DCAddNewDoseAndTimeViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(ADD_NEW_DOSE_TIME_SBID) as? DCAddNewDoseAndTimeViewController
         addNewDosageViewController?.detailType = eAddNewDose
         addNewDosageViewController!.newDosageEntered = { value in
-            self.delegate?.userDidSelectValue(value!)
+            self.delegate?.newDosageAdded(value!)
             self.navigationController?.popViewControllerAnimated(true)
         }
         let navigationController: UINavigationController = UINavigationController(rootViewController: addNewDosageViewController!)

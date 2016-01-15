@@ -14,23 +14,18 @@ import UIKit
     func newDosageAdded(dosage : String)
 }
 
+typealias SelectedDosage = DCDosage? -> Void
 
 @objc class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, DataEnteredDelegate {
     
-    let dosageMenuItems = ["Fixed","Variable","Reducing / Increasing","Split Daily"]
+    let dosageMenuItems = [DOSE_FIXED,DOSE_VARIABLE,DOSE_REDUCING_INCREASING,DOSE_SPLIT_DAILY]
     var menuType : DosageSelectionType = eDosageMenu
+    var dosage : DCDosage?
     var selectedDetailType : DosageDetailType = eDoseValue
     var timeArray : NSMutableArray? = []
     var selectedTimeArrayItems = [String]()
     var valueForDoseForTime = [String]()
     var isRowAlreadySelected : Bool = false
-    var valueForDoseUnit : NSString = "mg"
-    var valueForDoseValue : NSString = ""
-    var valueForDoseFromValue : NSString = ""
-    var valueForDoseToValue : NSString = ""
-    var valueForStartingDoseValue : NSString = ""
-    var valueForChangeOver : NSString = ""
-    var valueForCondition : NSString = ""
     var selectedIndexPathInTimeArray : Int = 0
     var previousIndexPath = NSIndexPath(forRow: 5, inSection: 0)
     var dosageArray = [String]()
@@ -38,9 +33,9 @@ import UIKit
     var valueForRequiredDailyDose : Float = 0
     var totalValueForDose : Float = 0
     var alertMessageForMismatch :NSString = ""
-    //var backButtonText : NSString = EMPTY_STRING
     @IBOutlet weak var dosageTableView: UITableView!
     weak var newDosageAddedDelegate: NewDosageValueEntered? = nil
+    var selectedDosage : SelectedDosage = {value in }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,7 +44,6 @@ import UIKit
         if (timeArray != nil) {
             self.configureTimeArray()
         }
-        // Do any additional setup after loading the view.
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -72,23 +66,52 @@ import UIKit
     
     func configureInitialValues (){
         
-        if (dosageArray.count != 0) {
-            valueForDoseValue = dosageArray[0] as String
-            valueForDoseFromValue = dosageArray[0] as String
-            valueForDoseToValue = dosageArray[0] as String
-            valueForStartingDoseValue = dosageArray[0] as String
+        if dosage?.type == nil {
+            self.dosage?.fixedDose = DCFixedDose.init()
+            self.dosage?.variableDose = DCVariableDose.init()
+            self.dosage?.reducingIncreasingDose = DCReducingIncreasingDose.init()
+            self.dosage?.reducingIncreasingDose.conditions = DCConditions.init()
+            self.dosage?.splitDailyDose = DCSplitDailyDose.init()
+            if (dosageArray.count != 0) {
+                self.dosage?.fixedDose?.doseValue = dosageArray[0]
+                self.dosage?.variableDose?.doseFromValue = dosageArray[0]
+                self.dosage?.variableDose?.doseToValue = dosageArray[0]
+                self.dosage?.reducingIncreasingDose?.startingDose = dosageArray[0]
+            } else {
+                self.dosage?.fixedDose?.doseValue = EMPTY_STRING
+                self.dosage?.variableDose?.doseFromValue = EMPTY_STRING
+                self.dosage?.variableDose?.doseToValue = EMPTY_STRING
+                self.dosage?.reducingIncreasingDose?.startingDose = EMPTY_STRING
+            }
+            self.dosage?.doseUnit = "mg"
+            self.dosage?.reducingIncreasingDose?.changeOver = "Days"
+            self.dosage?.reducingIncreasingDose?.conditions?.conditionDescription = "Reduce 50 mg every day"
         } else {
-            valueForDoseUnit = ""
-            valueForDoseValue = ""
+            switch (self.dosage?.type)! {
+            case DOSE_FIXED:
+                menuType = eFixedDosage
+                previousIndexPath = NSIndexPath(forRow: 0, inSection: 0)
+            case DOSE_VARIABLE:
+                menuType = eVariableDosage
+                previousIndexPath = NSIndexPath(forRow: 1, inSection: 0)
+            case DOSE_REDUCING_INCREASING:
+                menuType = eReducingIncreasing
+                previousIndexPath = NSIndexPath(forRow: 2, inSection: 0)
+            case DOSE_SPLIT_DAILY:
+                previousIndexPath = NSIndexPath(forRow: 3, inSection: 0)
+                menuType = eSplitDaily
+            default:
+                menuType = eDosageMenu
+            }
         }
-        valueForChangeOver = "Days"
-        valueForCondition = "Reduce 50 mg every day"
     }
     
     func configureTimeArray () {
         
+        //Clear the time array.
         selectedTimeArrayItems = []
         valueForDoseForTime = []
+        //Extract the selected times and update time array and dose array.
         let predicate = NSPredicate(format: "selected == 1")
         let filteredArray = timeArray!.filteredArrayUsingPredicate(predicate)
         if (filteredArray.count != 0) {
@@ -174,6 +197,7 @@ import UIKit
 
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
+        //Set the alert for mismatch of Required daily dose.
         if (section == 2 && timeArray != nil && alertMessageForMismatch != "") {
             return alertMessageForMismatch as String
         } else {
@@ -183,6 +207,7 @@ import UIKit
     
     func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         
+        //Change text color to red and change text from full upper case to desired sentence.
         if let view = view as? UITableViewHeaderFooterView {
             view.textLabel?.text = alertMessageForMismatch as String
             view.textLabel!.textColor = UIColor.redColor()
@@ -190,6 +215,7 @@ import UIKit
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
         if (section == 2 && timeArray != nil && alertMessageForMismatch != "") {
             return 44.0
         } else {
@@ -203,7 +229,7 @@ import UIKit
             let dosageSelectionMenuCell : DCDosageSelectionTableViewCell? = dosageTableView.dequeueReusableCellWithIdentifier(DOSE_MENU_CELL_ID) as? DCDosageSelectionTableViewCell
             // Configure the cell...
             dosageSelectionMenuCell!.dosageMenuLabel.text = dosageMenuItems[indexPath.row]
-            if (indexPath.row == previousIndexPath.row && indexPath.section == 0) {
+            if (indexPath == previousIndexPath) {
                 dosageSelectionMenuCell?.accessoryType = .Checkmark
             } else {
                 dosageSelectionMenuCell?.accessoryType = .None
@@ -227,9 +253,11 @@ import UIKit
             }
             let sections = NSIndexSet(indexesInRange: range)
             if (isRowAlreadySelected == true){
+                //if row already selected, deselect the row and delete the dropdown.
                 menuType = eDosageMenu
                 isRowAlreadySelected = false
                 tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .None
+                //if selected type is splitdaily, delete 3 sections. else delete only one section.
                 let sectionCount = tableView.numberOfSections
                 if (sectionCount == 2) {
                     tableView.deleteSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
@@ -238,14 +266,13 @@ import UIKit
                 }
             } else {
                 let sectionCount = tableView.numberOfSections
-                //Todo: for Split Daily.
                 if (indexPath.row != 3) {
                     tableView.beginUpdates()
                     if (sectionCount == INITIAL_SECTION_COUNT) {
                         //if section count is zero insert new section with animation
                         tableView.insertSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
                     } else if (sectionCount >= 3) {
-                        //Insert sections of split daily.
+                        //Delete 3 sections od splitdaily and insert the new section.
                         tableView.deleteSections(sections, withRowAnimation: .Fade)
                         tableView.insertSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
                     } else {
@@ -254,6 +281,7 @@ import UIKit
                     }
                     tableView.endUpdates()
                 } else {
+                    //Splitdaily selected. insert 3 sections if a new selection, else delete the existing one section and insert the new sections.
                     if (sectionCount == INITIAL_SECTION_COUNT) {
                         tableView.insertSections(sections, withRowAnimation: .Fade)
                     } else {
@@ -271,30 +299,28 @@ import UIKit
     }
     
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return YES if you want the specified item to be editable.
+
+        // Return YES to set the specified time list to be editable.
         if indexPath.section == 2 && timeArray != nil && selectedTimeArrayItems.count != 0 {
             return true
         } else {
             return false
         }
     }
-    // Override to support editing the table view.
     
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
-            //add code here for when you hit delete
-            dosageTableView.cellForRowAtIndexPath(indexPath)?.textLabel?.font = UIFont.systemFontOfSize(5.0)
+            //Delete element from array.
             self.deleteElementFromTimeArrayAtSelectedIndexPath(indexPath.row)
+            //Update the arrays.
             self.configureTimeArray()
+            //Update alert messages.
             self.updateAlertMessageForMismatch()
-//            self.dosageTableView.reloadData()
             dosageTableView.beginUpdates()
+            //Update the table.
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
             if (selectedTimeArrayItems.count == 0) {
-                let range = NSMakeRange(2, 2)
-                print(range)
                 let sections = NSIndexSet(index: 2)
-                print(sections)
                 tableView.deleteSections(sections, withRowAnimation: .Fade)
             }
             dosageTableView.endUpdates()
@@ -318,125 +344,38 @@ import UIKit
             if (menuType == eFixedDosage){
                 isRowAlreadySelected = true
             }else {
+                self.dosage?.type = DOSE_FIXED
                 menuType = eFixedDosage
             }
         case 1:
             if (menuType == eVariableDosage){
                 isRowAlreadySelected = true
             }else {
+                self.dosage?.type = DOSE_VARIABLE
                 menuType = eVariableDosage
             }
         case 2:
             if (menuType == eReducingIncreasing){
                 isRowAlreadySelected = true
             }else {
+                self.dosage?.type = DOSE_REDUCING_INCREASING
                 menuType = eReducingIncreasing
             }
         case 3:
             if (menuType == eSplitDaily){
                 isRowAlreadySelected = true
             }else {
+                self.dosage?.type = DOSE_SPLIT_DAILY
                 menuType = eSplitDaily
             }
         default:
             break
         }
-
-    }
-    
-    func displayDosageDetailViewControllerWithSelectedDetailType(indexPath : NSIndexPath ) {
-        
-        //Function to configure the detail VC and to transit to the DCDosageDetailViewController
-        let dosageDetailViewController : DCDosageDetailViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_DETAIL_SBID) as? DCDosageDetailViewController
-        dosageDetailViewController?.delegate = self
-        dosageDetailViewController?.dosageDetailsArray = dosageArray
-        if (indexPath.section == 1) {
-            switch (indexPath.row) {
-                
-            case 0:
-                 let doseUnitSelectionViewController : DCDosageUnitSelectionViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_UNIT_SELECTION_SBID) as? DCDosageUnitSelectionViewController
-                doseUnitSelectionViewController?.previousSelectedValue = valueForDoseUnit
-                doseUnitSelectionViewController!.valueForUnitSelected = { value in
-                    self.valueForDoseUnit = value!
-                    self.dosageTableView.reloadData()
-                }
-                self.configureNavigationBackButtonTitle();
-                self.navigationController?.pushViewController(doseUnitSelectionViewController!, animated: true)
-                return
-            case 1:
-                if (menuType == eFixedDosage) {
-                    selectedDetailType = eDoseValue
-                    dosageDetailViewController?.previousSelectedValue = valueForDoseValue
-                    dosageDetailViewController?.detailType = eDoseValue
-                } else if (menuType == eVariableDosage) {
-                    selectedDetailType = eDoseFrom
-                    dosageDetailViewController?.previousSelectedValue = valueForDoseFromValue
-                    dosageDetailViewController?.detailType = eDoseFrom
-                } else if (menuType == eReducingIncreasing) {
-                    selectedDetailType = eStartingDose
-                    dosageDetailViewController?.previousSelectedValue = valueForStartingDoseValue
-                    dosageDetailViewController?.detailType = eStartingDose
-                } else {
-                    return
-                }
-            case 2:
-                if (menuType == eVariableDosage) {
-                    selectedDetailType = eDoseTo
-                    dosageDetailViewController?.previousSelectedValue = valueForDoseToValue
-                    dosageDetailViewController?.detailType = eDoseTo
-                } else if (menuType == eReducingIncreasing) {
-                    selectedDetailType = eChangeOver
-                    dosageDetailViewController?.previousSelectedValue = valueForChangeOver
-                    dosageDetailViewController?.detailType = eChangeOver
-                }
-            case 3:
-                if (menuType == eReducingIncreasing) {
-                    let dosageDetailViewController : DCDosageConditionsViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_CONDITIONS_SBID) as? DCDosageConditionsViewController
-                    self.configureNavigationBackButtonTitle()
-                    self.navigationController?.pushViewController(dosageDetailViewController!, animated: true)
-                    return
-                }
-            default:
-                break
-            }
-        } else if (indexPath.section == 2) {
-            if (selectedTimeArrayItems.count != 0) {
-                selectedDetailType = eAddDoseForTime
-                selectedIndexPathInTimeArray = indexPath.row
-                dosageDetailViewController?.previousSelectedValue = valueForDoseForTime[indexPath.row]
-                dosageDetailViewController?.viewTitleForDisplay = selectedTimeArrayItems[indexPath.row]
-                dosageDetailViewController?.detailType = eAddDoseForTime
-            } else {
-                self.transitToAddNewTimeScreen()
-            }
-        } else {
-            self.transitToAddNewTimeScreen()
-        }
-        self.configureNavigationBackButtonTitle();
-        self.navigationController?.pushViewController(dosageDetailViewController!, animated: true)
-    }
-    
-    func transitToAddNewTimeScreen() {
-        
-        let addNewDosageViewController : DCAddNewDoseAndTimeViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(ADD_NEW_DOSE_TIME_SBID) as? DCAddNewDoseAndTimeViewController
-        addNewDosageViewController?.detailType = eAddNewTimes
-        addNewDosageViewController!.newDosageEntered = { value in
-            self.selectedTimeArrayItems.append(value!)
-            self.valueForDoseForTime.append("")
-            self.insertNewTimeToTimeArray(value!)
-            self.configureTimeArray()
-            self.updateAlertMessageForMismatch()
-            self.dosageTableView.reloadData()
-            self.dosageTableView.beginUpdates()
-            self.dosageTableView.endUpdates()
-        }
-        let navigationController: UINavigationController = UINavigationController(rootViewController: addNewDosageViewController!)
-        navigationController.modalPresentationStyle = UIModalPresentationStyle.CurrentContext
-        self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
     }
     
     func configureTableCellForDisplay (indexPath : NSIndexPath) -> DCDosageSelectionTableViewCell {
         
+        //Deque the cell to dosageSelectionDetailCell.
         let dosageSelectionDetailCell : DCDosageSelectionTableViewCell
         if (menuType != eSplitDaily) {
             dosageSelectionDetailCell = (dosageTableView.dequeueReusableCellWithIdentifier(DOSE_DROP_DOWN_CELL_ID) as? DCDosageSelectionTableViewCell)!
@@ -458,54 +397,97 @@ import UIKit
                 dosageSelectionDetailCell = (dosageTableView.dequeueReusableCellWithIdentifier(DOSE_MENU_CELL_ID) as? DCDosageSelectionTableViewCell)!
             }
         }
+        //Configure the cell.
         switch (menuType.rawValue) {
             
         case eFixedDosage.rawValue:
-            // Configure the cell...
             if(indexPath.row == 0){
-                dosageSelectionDetailCell.configureCell(DOSE_UNIT_LABEL_TEXT, selectedValue: valueForDoseUnit as String)
+                dosageSelectionDetailCell.configureCell(DOSE_UNIT_LABEL_TEXT, selectedValue: (dosage?.doseUnit)!)
             }else {
-                dosageSelectionDetailCell.configureCell(DOSE_VALUE_TITLE, selectedValue: valueForDoseValue as String)
+                dosageSelectionDetailCell.configureCell(DOSE_VALUE_TITLE, selectedValue: (self.dosage?.fixedDose.doseValue)!)
             }
         case eVariableDosage.rawValue:
-            // Configure the cell...
             if(indexPath.row == 0) {
-                dosageSelectionDetailCell.configureCell(DOSE_UNIT_LABEL_TEXT, selectedValue: valueForDoseUnit as String)
+                dosageSelectionDetailCell.configureCell(DOSE_UNIT_LABEL_TEXT, selectedValue: (dosage?.doseUnit)!)
             }else if (indexPath.row == 1) {
-                dosageSelectionDetailCell.configureCell(DOSE_FROM_TITLE, selectedValue: valueForDoseFromValue as String)
+                dosageSelectionDetailCell.configureCell(DOSE_FROM_TITLE, selectedValue: (self.dosage?.variableDose.doseFromValue)!)
             } else {
-                dosageSelectionDetailCell.configureCell(DOSE_TO_TITLE, selectedValue: valueForDoseToValue as String)
+                dosageSelectionDetailCell.configureCell(DOSE_TO_TITLE, selectedValue: (self.dosage?.variableDose.doseToValue)!)
             }
         case eReducingIncreasing.rawValue:
-            // Configure the cell...
             if(indexPath.row == 0) {
-                dosageSelectionDetailCell.configureCell(DOSE_UNIT_LABEL_TEXT, selectedValue: valueForDoseUnit as String)
+                dosageSelectionDetailCell.configureCell(DOSE_UNIT_LABEL_TEXT, selectedValue: (dosage?.doseUnit)! as String)
             }else if (indexPath.row == 1) {
-                dosageSelectionDetailCell.configureCell(STARTING_DOSE_TITLE, selectedValue: valueForStartingDoseValue as String)
+                dosageSelectionDetailCell.configureCell(STARTING_DOSE_TITLE, selectedValue: (self.dosage?.reducingIncreasingDose.startingDose)!)
             } else if(indexPath.row == 2){
-                dosageSelectionDetailCell.configureCell(CHANGE_OVER_TITLE, selectedValue: valueForChangeOver as String)
+                dosageSelectionDetailCell.configureCell(CHANGE_OVER_TITLE, selectedValue: (self.dosage?.reducingIncreasingDose.changeOver)!)
             } else {
-                dosageSelectionDetailCell.configureCell(CONDITIONS_TITLE, selectedValue: valueForCondition as String)
+                dosageSelectionDetailCell.configureCell(CONDITIONS_TITLE, selectedValue: (self.dosage?.reducingIncreasingDose.conditions.conditionDescription)!)
             }
         case eSplitDaily.rawValue:
-            // Configure the cell...
             if (indexPath.section == 1) {
                 if(indexPath.row == 0){
-                    dosageSelectionDetailCell.configureCell(DOSE_UNIT_LABEL_TEXT, selectedValue: valueForDoseUnit as String)
+                    dosageSelectionDetailCell.configureCell(DOSE_UNIT_LABEL_TEXT, selectedValue: (dosage?.doseUnit)! as String)
                 }
             } else if (indexPath.section == 2) {
                 if (selectedTimeArrayItems.count != 0) {
                     dosageSelectionDetailCell.configureCell(selectedTimeArrayItems[indexPath.row], selectedValue: valueForDoseForTime[indexPath.row])
                 } else {
                     dosageSelectionDetailCell.dosageMenuLabel.text = ADD_ADMINISTRATION_TIME
+                    dosageSelectionDetailCell.accessoryType = .None
                 }
             } else {
                 dosageSelectionDetailCell.dosageMenuLabel.text = ADD_ADMINISTRATION_TIME
+                dosageSelectionDetailCell.accessoryType = .None
             }
         default:
             break
         }
         return dosageSelectionDetailCell
+    }
+
+    func displayDosageDetailViewControllerWithSelectedDetailType(indexPath : NSIndexPath ) {
+        
+        if (indexPath.section == 1) {
+            switch (indexPath.row) {
+                
+            case 0:
+                self.transitToDosageUnitSelectionViewController()
+            case 1:
+                if (menuType == eFixedDosage) {
+                    self.transitToFixedDoseValueScreen()
+                } else if (menuType == eVariableDosage) {
+                    self.transitToVariableDoseFromValueScreen()
+                } else if (menuType == eReducingIncreasing) {
+                    self.transitToReducingIncreasingStartingDoseValueScreen()
+                } else {
+                    return
+                }
+            case 2:
+                if (menuType == eVariableDosage) {
+                    self.transitToVariableDoseToValueScreen()
+                } else if (menuType == eReducingIncreasing) {
+                    self.transitToConditionsChangeOverScreen()
+                }
+            case 3:
+                if (menuType == eReducingIncreasing) {
+                    let dosageConditionsViewController : DCDosageConditionsViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_CONDITIONS_SBID) as? DCDosageConditionsViewController
+                    self.configureNavigationBackButtonTitle()
+                    self.navigationController?.pushViewController(dosageConditionsViewController!, animated: true)
+                    return
+                }
+            default:
+                break
+            }
+        } else if (indexPath.section == 2) {
+            if (selectedTimeArrayItems.count != 0) {
+                self.transitToAddDoseForTimeScreen(indexPath)
+            } else {
+                self.transitToAddNewTimeScreen()
+            }
+        } else {
+            self.transitToAddNewTimeScreen()
+        }
     }
     
     func updateAlertMessageForMismatch () {
@@ -517,15 +499,19 @@ import UIKit
             
             totalValueForDose = 0
             var valueOfDoseAtIndex : Float = 0
+            var countOfItemsWithDoseValueSelected : Int = 0
             for index in 0..<valueForDoseForTime.count {
                 
                 if (valueForDoseForTime[index] != "") {
                     valueOfDoseAtIndex = NSString(string: valueForDoseForTime[index]).floatValue
                     totalValueForDose += valueOfDoseAtIndex
+                    countOfItemsWithDoseValueSelected++
                 }
             }
-            if (totalValueForDose == valueForRequiredDailyDose) {
+            if (totalValueForDose == valueForRequiredDailyDose && countOfItemsWithDoseValueSelected == selectedTimeArrayItems.count) {
                 alertMessageForMismatch = ""
+            } else if (totalValueForDose == valueForRequiredDailyDose && countOfItemsWithDoseValueSelected < selectedTimeArrayItems.count) {
+                alertMessageForMismatch = "Some administration times does not have dose value. Either delete it or adjust the distribution."
             } else if (totalValueForDose < valueForRequiredDailyDose) {
                 alertMessageForMismatch = "Add a further \(valueForRequiredDailyDose - totalValueForDose) mg to meet the required daily dose"
             } else {
@@ -552,8 +538,6 @@ import UIKit
     
     func deleteElementFromTimeArrayAtSelectedIndexPath (index: Int) {
         
-        print("Before :")
-        print(timeArray)
         if (timeArray != nil) {
             for timeDictionary in timeArray! {
                 let time = timeDictionary["time"] as! String
@@ -563,10 +547,8 @@ import UIKit
                 }
             }
         }
-        print("After :")
-        print(timeArray)
     }
-
+    
     
     func insertNewTimeToTimeArray(time: String) {
         
@@ -587,25 +569,135 @@ import UIKit
             timeArray = NSMutableArray(array: DCUtility.sortArray(NSMutableArray(array: timeArray!) as [AnyObject], basedOnKey: TIME_KEY, ascending: true))
         }
     }
+
+    // MARK: - Navigation Methods
+    
+    func transitToAddNewTimeScreen() {
+        
+        let addNewDosageViewController : DCAddNewDoseAndTimeViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(ADD_NEW_DOSE_TIME_SBID) as? DCAddNewDoseAndTimeViewController
+        addNewDosageViewController?.detailType = eAddNewTimes
+        addNewDosageViewController!.newDosageEntered = { value in
+            self.selectedTimeArrayItems.append(value!)
+            self.valueForDoseForTime.append("")
+            self.insertNewTimeToTimeArray(value!)
+            self.configureTimeArray()
+            self.updateAlertMessageForMismatch()
+            self.dosageTableView.reloadData()
+            self.dosageTableView.beginUpdates()
+            self.dosageTableView.endUpdates()
+        }
+        let navigationController: UINavigationController = UINavigationController(rootViewController: addNewDosageViewController!)
+        navigationController.modalPresentationStyle = UIModalPresentationStyle.CurrentContext
+        self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
+    }
+    
+    func transitToDosageUnitSelectionViewController () {
+        
+        let doseUnitSelectionViewController : DCDosageUnitSelectionViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_UNIT_SELECTION_SBID) as? DCDosageUnitSelectionViewController
+        doseUnitSelectionViewController?.previousSelectedValue = (dosage?.doseUnit)!
+        doseUnitSelectionViewController!.valueForUnitSelected = { value in
+            self.dosage?.doseUnit = value!
+            self.dosageTableView.reloadData()
+        }
+        self.configureNavigationBackButtonTitle();
+        self.navigationController?.pushViewController(doseUnitSelectionViewController!, animated: true)
+    }
+    
+    func transitToFixedDoseValueScreen () {
+    
+        let dosageDetailViewController : DCDosageDetailViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_DETAIL_SBID) as? DCDosageDetailViewController
+        dosageDetailViewController?.delegate = self
+        dosageDetailViewController?.dosageDetailsArray = dosageArray
+        selectedDetailType = eDoseValue
+        dosageDetailViewController?.previousSelectedValue = (self.dosage?.fixedDose.doseValue)!
+        dosageDetailViewController?.detailType = eDoseValue
+        self.configureNavigationBackButtonTitle();
+        self.navigationController?.pushViewController(dosageDetailViewController!, animated: true)
+    }
+    
+    func transitToVariableDoseFromValueScreen () {
+        
+        let dosageDetailViewController : DCDosageDetailViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_DETAIL_SBID) as? DCDosageDetailViewController
+        dosageDetailViewController?.delegate = self
+        dosageDetailViewController?.dosageDetailsArray = dosageArray
+        selectedDetailType = eDoseFrom
+        dosageDetailViewController?.previousSelectedValue = (self.dosage?.variableDose.doseFromValue)!
+        dosageDetailViewController?.detailType = eDoseFrom
+        self.configureNavigationBackButtonTitle();
+        self.navigationController?.pushViewController(dosageDetailViewController!, animated: true)
+    }
+    
+    func transitToVariableDoseToValueScreen () {
+    
+        let dosageDetailViewController : DCDosageDetailViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_DETAIL_SBID) as? DCDosageDetailViewController
+        dosageDetailViewController?.delegate = self
+        dosageDetailViewController?.dosageDetailsArray = dosageArray
+        selectedDetailType = eDoseTo
+        dosageDetailViewController?.previousSelectedValue = (self.dosage?.variableDose.doseToValue)!
+        dosageDetailViewController?.detailType = eDoseTo
+        self.configureNavigationBackButtonTitle();
+        self.navigationController?.pushViewController(dosageDetailViewController!, animated: true)
+    }
+    
+    func transitToReducingIncreasingStartingDoseValueScreen() {
+        
+        let dosageDetailViewController : DCDosageDetailViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_DETAIL_SBID) as? DCDosageDetailViewController
+        dosageDetailViewController?.delegate = self
+        dosageDetailViewController?.dosageDetailsArray = dosageArray
+        selectedDetailType = eStartingDose
+        dosageDetailViewController?.previousSelectedValue = (self.dosage?.reducingIncreasingDose.startingDose)!
+        dosageDetailViewController?.detailType = eStartingDose
+        self.configureNavigationBackButtonTitle();
+        self.navigationController?.pushViewController(dosageDetailViewController!, animated: true)
+    }
+    
+    func transitToConditionsChangeOverScreen () {
+
+        let dosageDetailViewController : DCDosageDetailViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_DETAIL_SBID) as? DCDosageDetailViewController
+        dosageDetailViewController?.delegate = self
+        dosageDetailViewController?.dosageDetailsArray = dosageArray
+        selectedDetailType = eChangeOver
+        dosageDetailViewController?.previousSelectedValue = (self.dosage?.reducingIncreasingDose.changeOver)!
+        dosageDetailViewController?.detailType = eChangeOver
+        self.configureNavigationBackButtonTitle();
+        self.navigationController?.pushViewController(dosageDetailViewController!, animated: true)
+    }
+    
+    func transitToAddDoseForTimeScreen (indexPath : NSIndexPath) {
+        
+        let dosageDetailViewController : DCDosageDetailViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_DETAIL_SBID) as? DCDosageDetailViewController
+        dosageDetailViewController?.delegate = self
+        dosageDetailViewController?.dosageDetailsArray = dosageArray
+        if (selectedTimeArrayItems.count != 0) {
+            selectedDetailType = eAddDoseForTime
+            selectedIndexPathInTimeArray = indexPath.row
+            dosageDetailViewController?.previousSelectedValue = valueForDoseForTime[indexPath.row]
+            dosageDetailViewController?.viewTitleForDisplay = selectedTimeArrayItems[indexPath.row]
+            dosageDetailViewController?.detailType = eAddDoseForTime
+        }
+        self.configureNavigationBackButtonTitle();
+        self.navigationController?.pushViewController(dosageDetailViewController!, animated: true)
+    }
+    
     
     // MARK: - Delegate Methods
     
     func newDosageAdded(value : String){
         
         if (selectedDetailType == eDoseValue) {
-            valueForDoseValue = value
-            newDosageAddedDelegate?.newDosageAdded("\(value) \(valueForDoseUnit)")
+            self.dosage?.fixedDose?.doseValue = value
+            newDosageAddedDelegate?.newDosageAdded("\(value) \((dosage?.doseUnit)!)")
         } else if (selectedDetailType == eDoseFrom || selectedDetailType == eDoseTo) {
             if (selectedDetailType == eDoseFrom) {
-                valueForDoseFromValue = value
+                self.dosage?.variableDose?.doseFromValue = value
             } else {
-                valueForDoseToValue = value
+                self.dosage?.variableDose.doseToValue = value
             }
-            newDosageAddedDelegate?.newDosageAdded("\(valueForDoseFromValue) \(valueForDoseUnit) , \(valueForDoseToValue) \(valueForDoseUnit)")
+            newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
         } else if (selectedDetailType == eDoseUnit) {
-            valueForDoseUnit = value
+            dosage?.doseUnit = value
         } else if (selectedDetailType == eStartingDose) {
-            valueForStartingDoseValue = value
+            self.dosage?.reducingIncreasingDose.startingDose = value
         }
         dosageTableView.reloadData()
     }
@@ -615,17 +707,15 @@ import UIKit
         switch (selectedDetailType.rawValue) {
             
         case eDoseValue.rawValue:
-            valueForDoseValue = value
+            self.dosage?.fixedDose?.doseValue = value
         case eDoseFrom.rawValue:
-            valueForDoseFromValue = value
+            self.dosage?.variableDose.doseFromValue = value
         case eDoseTo.rawValue:
-            valueForDoseToValue = value
+            self.dosage?.variableDose.doseToValue = value
         case eStartingDose.rawValue:
-            valueForStartingDoseValue = value
+            self.dosage?.reducingIncreasingDose.startingDose = value
         case eChangeOver.rawValue:
-            valueForChangeOver = value
-        case eChangeOver.rawValue:
-            valueForCondition = value
+            self.dosage?.reducingIncreasingDose.changeOver = value
         case eAddDoseForTime.rawValue:
             valueForDoseForTime[selectedIndexPathInTimeArray] = value
             self.updateTimeArray(selectedIndexPathInTimeArray)

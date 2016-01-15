@@ -572,6 +572,7 @@
     self.selectedMedication.mildWarningCount = mildArray.count;
     self.selectedMedication.medicineCategory = REGULAR_MEDICATION;
     self.selectedMedication.scheduling = [[DCScheduling alloc] init];
+    self.selectedMedication.dose = [[DCDosage alloc] init];
     dosageArray = [NSMutableArray arrayWithObjects:medication.dosage, nil];
     self.selectedMedication.infusion = [[DCInfusion alloc] init];
     [medicationDetailsTableView reloadData];
@@ -615,10 +616,20 @@
     if ([DCAddMedicationHelper medicationDetailTypeForIndexPath:indexPath hasWarnings:showWarnings] == 1) {
         UIStoryboard *dosageStoryboard = [UIStoryboard storyboardWithName:DOSAGE_STORYBORD bundle:nil];
         dosageSelectionViewController = [dosageStoryboard instantiateViewControllerWithIdentifier:DOSAGE_SELECTION_SBID];
+        //TODO: Update the dosage to the selectedMedication in this Block.
+        dosageSelectionViewController.selectedDosage = ^ (DCDosage *dosage) {
+        
+        };
         dosageSelectionViewController.newDosageAddedDelegate = self;
         dosageSelectionViewController.dosageArray = dosageArray;
         dosageSelectionViewController.timeArray = self.selectedMedication.timeArray;
         dosageSelectionViewController.menuType = eDosageMenu;
+        if (self.isEditMedication) {
+            if (self.selectedMedication.dose == nil) {
+                self.selectedMedication.dose = [[DCDosage alloc] init];
+            }
+        }
+        dosageSelectionViewController.dosage = self.selectedMedication.dose;
         [self configureNavigationBackButtonTitle];
         [self.navigationController pushViewController:dosageSelectionViewController animated:YES];
     } else {

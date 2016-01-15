@@ -352,6 +352,15 @@
 		FDDBBB031C24197800726DDA /* DCDosageDetailPickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDBBB021C24197800726DDA /* DCDosageDetailPickerCell.swift */; };
 		FDE2C9B41C3A69CB00FBDFCA /* DCDosageConditionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE2C9B31C3A69CB00FBDFCA /* DCDosageConditionsViewController.swift */; };
 		FDE2C9B71C3A6A8A00FBDFCA /* DCDosageConditionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE2C9B61C3A6A8A00FBDFCA /* DCDosageConditionsTableViewCell.swift */; };
+		FDD548661C4510B1000EB855 /* DCDosage.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD548651C4510B1000EB855 /* DCDosage.m */; settings = {ASSET_TAGS = (); }; };
+		FDD5486E1C451186000EB855 /* DCFixedDose.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD5486D1C451186000EB855 /* DCFixedDose.m */; settings = {ASSET_TAGS = (); }; };
+		FDD548711C45119E000EB855 /* DCVariableDose.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD548701C45119E000EB855 /* DCVariableDose.m */; settings = {ASSET_TAGS = (); }; };
+		FDD548741C4511B8000EB855 /* DCReducingIncreasingDose.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD548731C4511B8000EB855 /* DCReducingIncreasingDose.m */; settings = {ASSET_TAGS = (); }; };
+		FDD548771C4511CF000EB855 /* DCSplitDailyDose.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD548761C4511CF000EB855 /* DCSplitDailyDose.m */; settings = {ASSET_TAGS = (); }; };
+		FDD5487B1C4513FA000EB855 /* DCConditions.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD5487A1C4513FA000EB855 /* DCConditions.m */; settings = {ASSET_TAGS = (); }; };
+		FDDBBB031C24197800726DDA /* DCDosageDetailPickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDBBB021C24197800726DDA /* DCDosageDetailPickerCell.swift */; settings = {ASSET_TAGS = (); }; };
+		FDE2C9B41C3A69CB00FBDFCA /* DCDosageConditionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE2C9B31C3A69CB00FBDFCA /* DCDosageConditionsViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		FDE2C9B71C3A6A8A00FBDFCA /* DCDosageConditionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE2C9B61C3A6A8A00FBDFCA /* DCDosageConditionsTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -827,6 +836,18 @@
 		FD618F2F1C1979E7005EC416 /* DCDosageSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageSelectionViewController.swift; sourceTree = "<group>"; };
 		FDC7EA561C1AA8990081D5C4 /* DCDosageDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageDetailViewController.swift; sourceTree = "<group>"; };
 		FDC7EA591C1AA9510081D5C4 /* DCDosageDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageDetailTableViewCell.swift; sourceTree = "<group>"; };
+		FDD548641C4510B1000EB855 /* DCDosage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DCDosage.h; path = Scheduling/DCDosage.h; sourceTree = "<group>"; };
+		FDD548651C4510B1000EB855 /* DCDosage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DCDosage.m; path = Scheduling/DCDosage.m; sourceTree = "<group>"; };
+		FDD5486C1C451186000EB855 /* DCFixedDose.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCFixedDose.h; sourceTree = "<group>"; };
+		FDD5486D1C451186000EB855 /* DCFixedDose.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCFixedDose.m; sourceTree = "<group>"; };
+		FDD5486F1C45119E000EB855 /* DCVariableDose.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCVariableDose.h; sourceTree = "<group>"; };
+		FDD548701C45119E000EB855 /* DCVariableDose.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCVariableDose.m; sourceTree = "<group>"; };
+		FDD548721C4511B8000EB855 /* DCReducingIncreasingDose.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCReducingIncreasingDose.h; sourceTree = "<group>"; };
+		FDD548731C4511B8000EB855 /* DCReducingIncreasingDose.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCReducingIncreasingDose.m; sourceTree = "<group>"; };
+		FDD548751C4511CF000EB855 /* DCSplitDailyDose.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCSplitDailyDose.h; sourceTree = "<group>"; };
+		FDD548761C4511CF000EB855 /* DCSplitDailyDose.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCSplitDailyDose.m; sourceTree = "<group>"; };
+		FDD548791C4513FA000EB855 /* DCConditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCConditions.h; sourceTree = "<group>"; };
+		FDD5487A1C4513FA000EB855 /* DCConditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCConditions.m; sourceTree = "<group>"; };
 		FDDBBB021C24197800726DDA /* DCDosageDetailPickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageDetailPickerCell.swift; sourceTree = "<group>"; };
 		FDE2C9B31C3A69CB00FBDFCA /* DCDosageConditionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageConditionsViewController.swift; sourceTree = "<group>"; };
 		FDE2C9B61C3A6A8A00FBDFCA /* DCDosageConditionsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageConditionsTableViewCell.swift; sourceTree = "<group>"; };
@@ -1644,6 +1665,7 @@
 				0BB33DD11B79F4D100B05E4D /* Medication */,
 				0BB33DD51B79F53B00B05E4D /* MedicationDetails */,
 				0BA5A3861BF32B5600251F94 /* Scheduling */,
+				FDD548671C4510BE000EB855 /* Dosage */,
 				0BB33DD91B79F59D00B05E4D /* MedicationScheduleDetails */,
 				4DECF3061B79CF550085E75B /* OrderSetWarningCount */,
 				7DA89AE71B2D526000096A0A /* PositionableGraphics */,
@@ -2826,6 +2848,65 @@
 			name = DosageDetail;
 			sourceTree = "<group>";
 		};
+		FDD548671C4510BE000EB855 /* Dosage */ = {
+			isa = PBXGroup;
+			children = (
+				FDD548641C4510B1000EB855 /* DCDosage.h */,
+				FDD548651C4510B1000EB855 /* DCDosage.m */,
+				FDD548681C4510E5000EB855 /* Fixed */,
+				FDD548691C4510F5000EB855 /* Variable */,
+				FDD5486A1C451100000EB855 /* ReducingIncreasing */,
+				FDD5486B1C45110F000EB855 /* SplitDaily */,
+			);
+			name = Dosage;
+			sourceTree = "<group>";
+		};
+		FDD548681C4510E5000EB855 /* Fixed */ = {
+			isa = PBXGroup;
+			children = (
+				FDD5486C1C451186000EB855 /* DCFixedDose.h */,
+				FDD5486D1C451186000EB855 /* DCFixedDose.m */,
+			);
+			name = Fixed;
+			sourceTree = "<group>";
+		};
+		FDD548691C4510F5000EB855 /* Variable */ = {
+			isa = PBXGroup;
+			children = (
+				FDD5486F1C45119E000EB855 /* DCVariableDose.h */,
+				FDD548701C45119E000EB855 /* DCVariableDose.m */,
+			);
+			name = Variable;
+			sourceTree = "<group>";
+		};
+		FDD5486A1C451100000EB855 /* ReducingIncreasing */ = {
+			isa = PBXGroup;
+			children = (
+				FDD548721C4511B8000EB855 /* DCReducingIncreasingDose.h */,
+				FDD548731C4511B8000EB855 /* DCReducingIncreasingDose.m */,
+				FDD548781C4513C6000EB855 /* Conditions */,
+			);
+			name = ReducingIncreasing;
+			sourceTree = "<group>";
+		};
+		FDD5486B1C45110F000EB855 /* SplitDaily */ = {
+			isa = PBXGroup;
+			children = (
+				FDD548751C4511CF000EB855 /* DCSplitDailyDose.h */,
+				FDD548761C4511CF000EB855 /* DCSplitDailyDose.m */,
+			);
+			name = SplitDaily;
+			sourceTree = "<group>";
+		};
+		FDD548781C4513C6000EB855 /* Conditions */ = {
+			isa = PBXGroup;
+			children = (
+				FDD548791C4513FA000EB855 /* DCConditions.h */,
+				FDD5487A1C4513FA000EB855 /* DCConditions.m */,
+			);
+			name = Conditions;
+			sourceTree = "<group>";
+		};
 		FDE2C9B51C3A69DD00FBDFCA /* DosageConditions */ = {
 			isa = PBXGroup;
 			children = (
@@ -3096,7 +3177,11 @@
 				0B6B497A1B2ED50700288117 /* DCScrollView.m in Sources */,
 				0BC5FAF61B43FF930019BF36 /* DCAutoSearchView.m in Sources */,
 				4DDEED511B4D0E3F00D8E0FF /* DCPatientAllergyWebService.m in Sources */,
+				FDD548771C4511CF000EB855 /* DCSplitDailyDose.m in Sources */,
+				FDD548741C4511B8000EB855 /* DCReducingIncreasingDose.m in Sources */,
+				1F5375081C1AF9CA00D4A64F /* GraphManager.swift in Sources */,
 				7DE60BCF1B2866CD00BCA745 /* DCPatientGraphicalRepresentationView.m in Sources */,
+				FDD5487B1C4513FA000EB855 /* DCConditions.m in Sources */,
 				1F1977201C0485C500106023 /* RowHeaderCollectionViewCell.swift in Sources */,
 				7D4DBE9E1AA57E1700A5E39B /* UIColor+ColorFromHex.m in Sources */,
 				0B95FAF01B5E6634002939DF /* DCWarningsHeaderView.m in Sources */,
@@ -3190,6 +3275,7 @@
 				1FF1F8821C3D6247007F3B9C /* GraphModel.swift in Sources */,
 				1FD4FCAC1BF4B5FB00B77B94 /* ObservationViewController.swift in Sources */,
 				0B989E971B8C22960012AFE8 /* DCCalendarNavigationTitleView.m in Sources */,
+				FDD548661C4510B1000EB855 /* DCDosage.m in Sources */,
 				0B1FB56C1AFC8EBD0067FB38 /* DCLogOutWebService.m in Sources */,
 				0B8498BD1BB11B9B00C740F2 /* DCCalendarSlotDetailViewController.swift in Sources */,
 				0B720B531B1DA4FD00144665 /* DCSearchMedication.m in Sources */,
@@ -3252,6 +3338,7 @@
 				7DE017691BC2439A0094928C /* DCGraphicalViewHelper.m in Sources */,
 				1F1977071BFDE59000106023 /* CustomCollectionViewLayout.swift in Sources */,
 				4D7627821BE8E12E0070BAF2 /* DCPatientMenuViewController.swift in Sources */,
+				FDD548711C45119E000EB855 /* DCVariableDose.m in Sources */,
 				0B6DDB891BF5CFD700A61D14 /* DCSchedulingPickerCell.swift in Sources */,
 				4D011C581BB147D7005C79A2 /* DCMedicationHistoryViewController.swift in Sources */,
 				0B4BD4371C47C45400C49589 /* DCInjectionTableCell.swift in Sources */,
@@ -3274,6 +3361,7 @@
 				1F7EB7201C2303A400F6F22F /* Double.swift in Sources */,
 				1FD4FD101BF4BBCB00B77B94 /* ObservationDelegate.swift in Sources */,
 				0BBE3B601AA42DC5004CA6E9 /* main.m in Sources */,
+				FDD5486E1C451186000EB855 /* DCFixedDose.m in Sources */,
 				0BB535861BBA472D0043BC61 /* DCAdministerPickerCell.swift in Sources */,
 				0B5948BE1B218B0A0085FB26 /* DCPatientAllergy.m in Sources */,
 				4DD829271C0853AD006B2E71 /* DCOneThirdCalendarStripCollectionCell.swift in Sources */,

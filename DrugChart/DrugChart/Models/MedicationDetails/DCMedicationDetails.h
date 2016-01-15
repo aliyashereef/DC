@@ -10,6 +10,7 @@
 #import "DCMedication.h"
 #import "DCScheduling.h"
 #import "DCInfusion.h"
+#import "DCDosage.h"
 
 @interface DCMedicationDetails : DCMedication
 
@@ -29,6 +30,7 @@
 @property (nonatomic) BOOL overiddenSevereWarning;
 @property (nonatomic, strong) DCScheduling *scheduling;
 @property (nonatomic, strong) DCInfusion *infusion;
+@property (nonatomic, strong) DCDosage *dose;
 
 
 - (DCMedicationDetails *)initWithOrderSetMedicationDictionary :(NSDictionary *)medicationDictionary;
