@@ -219,7 +219,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
             administerViewController?.medicationDetails = medicationDetails
             administerViewController?.alertMessage = errorMessage
         let navigationController : UINavigationController = UINavigationController(rootViewController: administerViewController!)
-        navigationController.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
+        navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
         self.presentViewController(navigationController, animated: true, completion:nil)
     }
     
