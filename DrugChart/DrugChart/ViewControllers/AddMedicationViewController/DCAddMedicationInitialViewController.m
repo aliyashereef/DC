@@ -16,9 +16,10 @@
 #import "DCAddMedicationHelper.h"
 #import "DCAddMedicationWebService.h"
 #import "DCAddMedicationWebServiceManager.h"
+#import "DCInfusion.h"
 #import "DrugChart-Swift.h"
 
-@interface DCAddMedicationInitialViewController () <UITableViewDelegate, UITableViewDataSource, AddMedicationDetailDelegate,InstructionCellDelegate, NewDosageValueEntered> {
+@interface DCAddMedicationInitialViewController () <UITableViewDelegate, UITableViewDataSource, AddMedicationDetailDelegate,InstructionCellDelegate, NewDosageValueEntered, RoutesAndInfusionsDelegate> {
     
     __weak IBOutlet UITableView *medicationDetailsTableView;
     __weak IBOutlet UILabel *orderSetLabel;
@@ -572,6 +573,7 @@
     self.selectedMedication.medicineCategory = REGULAR_MEDICATION;
     self.selectedMedication.scheduling = [[DCScheduling alloc] init];
     dosageArray = [NSMutableArray arrayWithObjects:medication.dosage, nil];
+    self.selectedMedication.infusion = [[DCInfusion alloc] init];
     [medicationDetailsTableView reloadData];
 }
 
@@ -586,21 +588,25 @@
     [self.navigationController pushViewController:warningsListViewController animated:YES];
 }
 
-- (void)updateMedicationDetailsTableViewWithSelectedValue:(NSString *)selectedValue
-                                           withDetailType:(AddMedicationDetailType)detailType {
-    
-    switch (detailType) {
-        case eDetailType:
-            self.selectedMedication.medicineCategory = selectedValue;
-            [self resetDateAndTimeSection];
-            break;
-        case eDetailRoute:
-            self.selectedMedication.route =  selectedValue;
-            break;
-        default:
-            break;
-    }
+- (void)updateMedicationDetailsTableViewWithSelectedValue:(NSString *)selectedValue {
+
+    self.selectedMedication.medicineCategory = selectedValue;
+    [self resetDateAndTimeSection];
     [medicationDetailsTableView reloadData];
+}
+
+- (void)displayRoutesAndInfusionsView {
+    
+    //navigate to routes and infusions view
+    
+    UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
+    DCRouteAndInfusionsViewController *routesInfusionsViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:ROUTE_INFUSIONS_SB_ID];
+    routesInfusionsViewController.delegate = self;
+    routesInfusionsViewController.previousRoute = self.selectedMedication.route;
+    routesInfusionsViewController.infusion = self.selectedMedication.infusion;
+    routesInfusionsViewController.patientId = self.patientId;
+    [self configureNavigationBackButtonTitle];
+    [self.navigationController pushViewController:routesInfusionsViewController animated:YES];
 }
 
 - (void)displayAddMedicationDetailViewForTableRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -614,17 +620,13 @@
         dosageSelectionViewController.timeArray = self.selectedMedication.timeArray;
         dosageSelectionViewController.menuType = eDosageMenu;
         [self configureNavigationBackButtonTitle];
-        //dosageSelectionViewController.backButtonText = titleLabel.text;
         [self.navigationController pushViewController:dosageSelectionViewController animated:YES];
     } else {
         UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
         DCAddMedicationDetailViewController *medicationDetailViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:ADD_MEDICATION_DETAIL_STORYBOARD_ID];
-       // medicationDetailViewController.backButtonText = titleLabel.text;
-        //medicationDetailViewController.isEditMedication = NO;
         medicationDetailViewController.delegate = self;
-        __weak DCAddMedicationDetailViewController *weakDetailVc = medicationDetailViewController;
         medicationDetailViewController.selectedEntry = ^ (NSString *value) {
-            [self updateMedicationDetailsTableViewWithSelectedValue:value withDetailType:weakDetailVc.detailType];
+            [self updateMedicationDetailsTableViewWithSelectedValue:value];
         };
         medicationDetailViewController.detailType = [DCAddMedicationHelper medicationDetailTypeForIndexPath:indexPath hasWarnings:showWarnings];
         DCAddMedicationContentCell *selectedCell = [self selectedCellAtIndexPath:indexPath];
@@ -640,7 +642,6 @@
         } else if (medicationDetailViewController.detailType == eDetailAdministrationTime) {
             medicationDetailViewController.contentArray = self.selectedMedication.timeArray;
         }
-        
         [self configureNavigationBackButtonTitle];
         [self.navigationController pushViewController:medicationDetailViewController animated:YES];
     }
@@ -723,12 +724,20 @@
             if (showWarnings) { //if tableview has warnings section, 'Warnings' selection displays Warnings List, Other wise detail screen display will be that of dosage, route, type
                 [self displayWarningsListView];
             } else {
-                [self displayAddMedicationDetailViewForTableRowAtIndexPath:indexPath];
+                if (indexPath.row == 0) {
+                    [self displayRoutesAndInfusionsView];
+                } else {
+                    [self displayAddMedicationDetailViewForTableRowAtIndexPath:indexPath];
+                }
             }
             break;
         case eSecondSection:
             if (showWarnings) { //If tableview has warnings section, Second section cell selection shows detail screen for dosage/route/type, otherwise present keyboard in instructions text view
-                [self displayAddMedicationDetailViewForTableRowAtIndexPath:indexPath];
+                if (indexPath.row == 0) {
+                    [self displayRoutesAndInfusionsView];
+                } else {
+                    [self displayAddMedicationDetailViewForTableRowAtIndexPath:indexPath];
+                }
             } else {
                 [self loadDetailViewForDateAndTimeCellOnSelectionAtIndexPath:indexPath];
             }
@@ -833,9 +842,8 @@
     UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
     DCAddMedicationDetailViewController *medicationDetailViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:ADD_MEDICATION_DETAIL_STORYBOARD_ID];
     medicationDetailViewController.delegate = self;
-    __weak DCAddMedicationDetailViewController *weakDetailVc = medicationDetailViewController;
     medicationDetailViewController.selectedEntry = ^ (NSString *value) {
-        [self updateMedicationDetailsTableViewWithSelectedValue:value withDetailType:weakDetailVc.detailType];
+        [self updateMedicationDetailsTableViewWithSelectedValue:value];
     };
     medicationDetailViewController.detailType = eDetailAdministrationTime;
     medicationDetailViewController.contentArray = self.selectedMedication.timeArray;
@@ -1275,7 +1283,20 @@
     }
 }
 
-#pragma mark - UIPopOverPresentationCOntroller Delegate
+#pragma mark - RoutesAndInfusions Delegate Methods
+
+- (void)newRouteSelected:(NSString *)route {
+    
+    self.selectedMedication.route = route;
+    [medicationDetailsTableView reloadData];
+}
+
+- (void)updatedInfusionObject:(DCInfusion *)infusion {
+    
+    self.selectedMedication.infusion = infusion;
+}
+
+#pragma mark - UIPopOverPresentationController Delegate
 
 - (BOOL)popoverPresentationControllerShouldDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
     

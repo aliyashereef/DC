@@ -82,10 +82,8 @@ typedef enum : NSUInteger {
     eDetailDosage,
     eDetailRoute,
     eDetailType,
-    eDetailStartDate,
-    eDetailEndDate,
     eDetailAdministrationTime,
-    eNewDosage,
+    //eNewDosage,
     eNewAdministrationTime,
     eOverrideReason,
     
