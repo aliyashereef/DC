@@ -135,10 +135,13 @@ class DCWardsInformationsViewController: DCBaseViewController, WardSelectionDele
     
     func newWardSelected(row: NSInteger) {
         
+        let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
         patientListViewController!.cancelSearching()
         selectedIndexPath = NSIndexPath.init(forRow: row, inSection: 0)
         patientListViewController!.selectedIndexPath = NSIndexPath.init(forRow: row, inSection: 0)
-        patientListViewController!.fetchPatientDetails()
+        if appDelegate.isNetworkReachable() {
+            patientListViewController!.fetchPatientDetails()
+        }
     }
 
 

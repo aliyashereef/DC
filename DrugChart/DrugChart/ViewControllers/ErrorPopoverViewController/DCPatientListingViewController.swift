@@ -153,7 +153,9 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
     func refreshControlAction () {
         
         cancelSearching()
-        fetchPatientDetails()
+        if appDelegate.isNetworkReachable() {
+            fetchPatientDetails()
+        }
     }
     
     //MARK: Table view methods
@@ -413,7 +415,9 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
     func newWardSelected(row: NSInteger) {
         cancelSearching()
         selectedIndexPath = NSIndexPath.init(forRow: row, inSection: 0)
-        fetchPatientDetails()
+        if appDelegate.isNetworkReachable() {
+            fetchPatientDetails()
+        }
     }
     
     //MARK: Search Bar Delegate Methods 
