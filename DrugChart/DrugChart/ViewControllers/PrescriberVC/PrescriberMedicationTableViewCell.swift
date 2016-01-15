@@ -197,12 +197,7 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
                         }
                     }
                 }
-            } else {
-                if let delegate = editAndDeleteDelegate {
-                    delegate.setIndexPathSelected   (indexPath)
-                }
             }
-            
             if (panGesture.state == UIGestureRecognizerState.Ended) {
                 //All fingers are lifted.
                 adjustMedicationDetailViewOnPanGestureEndWithTranslationPoint(translate)
@@ -219,7 +214,11 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
             self.layoutIfNeeded()
         }
     }
-
+    
+    override func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+    
     @IBAction func editMedicationButtonPressed(sender: AnyObject) {
         if let delegate = editAndDeleteDelegate {
             delegate.editMedicationForSelectedIndexPath(indexPath)
