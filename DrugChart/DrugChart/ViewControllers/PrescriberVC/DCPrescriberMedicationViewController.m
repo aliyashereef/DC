@@ -439,7 +439,6 @@ typedef enum : NSUInteger {
                             }
                         }
                         else {
-                            [self showActivityIndicationOnViewRefresh:false];
                             if (error.code == NETWORK_NOT_REACHABLE) {
                                 [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"")
                                                     message:NSLocalizedString(@"INTERNET_CONNECTION_ERROR", @"")];
@@ -450,6 +449,7 @@ typedef enum : NSUInteger {
                                 [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"") message:NSLocalizedString(@"MEDICATION_SCHEDULE_ERROR", @"")];
                             }
                         }
+                        [self showActivityIndicationOnViewRefresh:false];
                         completion(true);
                     }];
 }

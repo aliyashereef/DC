@@ -119,6 +119,7 @@
             }
             [medicationListTableView reloadData];
         } else {
+            [activityIndicator stopAnimating];
             NSInteger errorCode = [[errorDict valueForKey:@"code"] integerValue];
             if (errorCode != NSURLErrorCancelled) {
                 medicationListArray = [NSMutableArray arrayWithArray:@[NSLocalizedString(@"NO_MEDICATIONS", @"")]];
