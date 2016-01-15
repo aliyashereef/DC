@@ -86,13 +86,8 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
                         let infusionPickerCell = tableView.dequeueReusableCellWithIdentifier(INFUSION_PICKER_CELL_ID) as? DCInfusionPickerCell
                         infusionPickerCell?.previousValue = self.infusion?.bolusInjection?.quantity
                         infusionPickerCell?.unitCompletion = { unit in
-                            print("unit value is %@", unit)
                             self.infusion?.bolusInjection?.quantity = unit! as String
                             self.performSelector(Selector("reloadCellAfterDelayAtIndexPath:"), withObject: NSIndexPath(forRow: 2, inSection: 2), afterDelay: 0.04)
-                           // self.reloadCellAfterDelayAtIndexPath(indexPath)
-//                            tableView.beginUpdates()
-//                            tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 2, inSection: 2)], withRowAnimation: .Fade)
-//                            tableView.endUpdates()
                         }
                         infusionPickerCell?.configurePickerView()
                         return infusionPickerCell!
@@ -147,17 +142,21 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
         if let routeDelegate = delegate {
             routeDelegate.newRouteSelected(route)
         }
-        routesTableView.beginUpdates()
-        routesTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .None)
-        if (DCInfusionsHelper.routeIsIntravenous(route)) {
+        if (DCInfusionsHelper.routeIsIntravenous(route) == false) {
+            self.infusion?.administerAsOption = nil
+            if let infusionDelegate = self.delegate {
+                infusionDelegate.updatedInfusionObject(self.infusion!)
+            }
+            self.navigationController?.popToRootViewControllerAnimated(true)
+        } else {
+            routesTableView.beginUpdates()
+            routesTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .None)
             let sectionCount = routesTableView.numberOfSections
             if sectionCount == SectionCount.eFirstSection.rawValue {
                 //if section count is zero insert new section with animation
                 routesTableView.insertSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
             }
             routesTableView.endUpdates()
-        } else {
-            self.navigationController?.popToRootViewControllerAnimated(true)
         }
     }
     
