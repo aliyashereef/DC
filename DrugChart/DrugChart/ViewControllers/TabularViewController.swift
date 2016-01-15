@@ -86,6 +86,8 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
                 headerCell.layer.borderColor = Constant.CELL_BORDER_COLOR
                 headerCell.layer.cornerRadius = Constant.CORNER_RADIUS
                 headerCell.backgroundColor = UIColor.whiteColor()
+                headerCell.dateLabel.backgroundColor = UIColor.whiteColor()
+                headerCell.timeLabel.backgroundColor = UIColor.whiteColor()
                 return headerCell
             } else {
                 let observation = filteredObservations[indexPath.row - 1]
@@ -132,6 +134,7 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
                 return headerCell
             } else {
                 let contentCell : ContentCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(contentCellIdentifier, forIndexPath: indexPath) as! ContentCollectionViewCell
+                contentCell.clearCell()
                 let observation = filteredObservations[indexPath.row - 1]
                 contentCell.delegate = self
                 switch(indexPath.section)
@@ -209,7 +212,10 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
         self.presentViewController(navigationController, animated: false, completion: nil)
     }
     
-    
+    func ShowAlertController(alertController: UIAlertController)
+    {
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
     
   
     func filterList()

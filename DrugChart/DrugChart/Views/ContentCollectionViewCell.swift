@@ -13,6 +13,7 @@ class ContentCollectionViewCell: UICollectionViewCell {
     var observation:VitalSignObservation!
     var delegate:ObservationDelegate? = nil
     var showObservationType:ShowObservationType!
+    var indicatorLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -20,6 +21,14 @@ class ContentCollectionViewCell: UICollectionViewCell {
      
     }
     
+    func clearCell()
+    {
+      if(indicatorLabel != nil)
+      {
+        indicatorLabel.removeFromSuperview()
+      }
+        
+    }
     func configureCell(observation:VitalSignObservation ,showobservationType:ShowObservationType )
     {
         self.observation = observation
@@ -28,7 +37,7 @@ class ContentCollectionViewCell: UICollectionViewCell {
         if(showObservationType != ShowObservationType.None && showObservationType != ShowObservationType.All && ObjectIsNotNull())
         {
             
-        let indicatorLabel: UILabel = UILabel()
+        indicatorLabel = UILabel()
         let originx = self.frame.width - 25
         indicatorLabel.frame = CGRectMake(originx, 4, 25, 25)
         indicatorLabel.font = UIFont.systemFontOfSize(12)
@@ -65,12 +74,53 @@ class ContentCollectionViewCell: UICollectionViewCell {
     }
     func deleteObservation()
     {
-        let alert = UIAlertView()
-        alert.title = "my title"
-        alert.message = "things are working slowly"
-        alert.addButtonWithTitle("Ok")
-        alert.delegate = self
-        alert.show()
+        let deleteAlert = UIAlertController(title: "Delete", message: "Are you sure, you want to delete?", preferredStyle: UIAlertControllerStyle.Alert)
+        
+        deleteAlert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: { (action: UIAlertAction!) in
+            switch (self.showObservationType!)
+            {
+            case ShowObservationType.Respiratory:
+                if(self.observation != nil)
+                {
+                    self.observation.respiratory = nil
+                }
+                
+            case ShowObservationType.SpO2:
+                if(self.observation != nil)
+                {
+                    self.observation.spo2 = nil
+                }
+                
+            case ShowObservationType.Temperature:
+                if(self.observation != nil)
+                {
+                    self.observation.temperature = nil
+                }
+            case ShowObservationType.BloodPressure:
+                if(self.observation != nil)
+                {
+                    self.observation.bloodPressure = nil
+                }
+            case ShowObservationType.Pulse:
+                if(self.observation != nil)
+                {
+                    self.observation.pulse = nil
+                }
+            default:
+                print("nothing to delete")
+            }
+            
+            let collectionView =  self.superview as? UICollectionView
+            collectionView?.reloadData()
+        }))
+        
+        deleteAlert.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: { (action: UIAlertAction!) in
+            print("in cancel")
+        }))
+        
+        delegate?.ShowAlertController(deleteAlert)
+        
+       
     }
     func ObjectIsNotNull()->Bool
     {
