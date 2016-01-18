@@ -29,6 +29,7 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
     var infusion : DCInfusion?
     var patientId : String?
     var inlinePickerIndexPath : NSIndexPath?
+    var previousSelectedRouteIndexPath : NSIndexPath?
     
     override func viewDidLoad() {
         
@@ -150,7 +151,10 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
             self.navigationController?.popToRootViewControllerAnimated(true)
         } else {
             routesTableView.beginUpdates()
-            routesTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .None)
+            if (previousSelectedRouteIndexPath != nil) {
+                routesTableView.reloadRowsAtIndexPaths([previousSelectedRouteIndexPath!], withRowAnimation: .Fade)
+            }
+            routesTableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
             let sectionCount = routesTableView.numberOfSections
             if sectionCount == SectionCount.eFirstSection.rawValue {
                 //if section count is zero insert new section with animation
@@ -187,6 +191,7 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
         let range = route.rangeOfString(" ")
         let croppedString = route.substringToIndex(range.location)
         if (previousRoute.containsString(croppedString) == true) {
+            previousSelectedRouteIndexPath = indexPath
             routeCell?.accessoryType = .Checkmark
         } else {
             routeCell?.accessoryType = .None
