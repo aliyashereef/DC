@@ -530,6 +530,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     }
     
     func editMedicationForSelectedIndexPath(indexPath: NSIndexPath) {
+        
         let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
         let addMedicationViewController : DCAddMedicationInitialViewController? = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(ADD_MEDICATION_POPOVER_SB_ID) as? DCAddMedicationInitialViewController
 
@@ -542,6 +543,9 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             medicationScheduleDetails.scheduling.specificTimes.repeatObject = DCRepeat.init()
             medicationScheduleDetails.scheduling.specificTimes.repeatObject.repeatType = DAILY
             medicationScheduleDetails.scheduling.specificTimes.repeatObject.frequency = "1 day"
+        }
+        if (medicationScheduleDetails.infusion == nil) {
+            medicationScheduleDetails.infusion = DCInfusion.init()
         }
         addMedicationViewController?.selectedMedication = medicationScheduleDetails
         addMedicationViewController?.isEditMedication = true
