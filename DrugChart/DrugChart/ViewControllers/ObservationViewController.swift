@@ -10,14 +10,18 @@ import UIKit
 
 
 
+
     class ObservationViewController: UIViewController  {
         @IBOutlet weak var observationSegmentedView: UISegmentedControl!
-
+        @IBOutlet weak var hiddenButton: UIButton!
+        @IBOutlet weak var hidden1: UIButton!
         @IBOutlet weak var childView: UIView!
         var generalObservationView : GeneralObservationView!
         var observation:VitalSignObservation!
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hiddenButton.hidden = true
+        self.hidden1.hidden = true
         self.automaticallyAdjustsScrollViewInsets = false
         observation = VitalSignObservation()
         if(generalObservationView == nil)
@@ -25,7 +29,6 @@ import UIKit
             generalObservationView = (GeneralObservationView.instanceFromNib() as! GeneralObservationView)
             generalObservationView.observation = observation
         }
-        //generalObservationView.delegate = self
         Helper.displayInChildView(generalObservationView, parentView: childView)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWasShown:"), name:UIKeyboardDidShowNotification, object: nil);
@@ -78,15 +81,24 @@ import UIKit
             }
         }
         
-        
+    @IBAction func doneClick(sender: AnyObject) {
+        if(generalObservationView.showObservationType != .None && generalObservationView.showObservationType != .All)
+        {
+            performSegueWithIdentifier("unwindToTabularView",sender:sender)
+        }
+        else
+        {
+            performSegueWithIdentifier("unwindToObservationList",sender:sender)
+        }
+        }
+            
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
      override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let _ = sender as? UIBarButtonItem
-        {
+      
             generalObservationView.prepareObjects()
-        }
-        self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismissViewControllerAnimated(true, completion: nil)
+        
     }
 }

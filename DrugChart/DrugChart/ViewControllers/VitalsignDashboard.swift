@@ -64,6 +64,9 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         graphicalDashBoardView.displayData(filterObservations,graphDisplayView: graphDisplayView , graphStartDate: graphStartDate , graphEndDate: graphEndDate)
     }
     
+    override func viewWillAppear(animated: Bool) {
+     refreshGrid()
+    }
     
     func displayTitle()
     {
@@ -193,6 +196,11 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
     
     func orientationChanged()
     {
+        refreshGrid()
+    }
+    
+    func refreshGrid()
+    {
         graphicalDashBoardView.collectionView.reloadData()
     }
 
@@ -288,21 +296,21 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
     }
     
     @IBAction func show(sender: AnyObject) {
-        if(UIDevice.currentDevice().userInterfaceIdiom == .Pad)
-//        let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
-//        if (appDelegate.windowState == DCWindowState.halfWindow || appDelegate.windowState == DCWindowState.oneThirdWindow) {
-        {
+ //       if(UIDevice.currentDevice().userInterfaceIdiom == .Pad)
+        let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
+        if (appDelegate.windowState == DCWindowState.halfWindow || appDelegate.windowState == DCWindowState.oneThirdWindow) {
             let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
-            let tabularView : TabularViewController = mainStoryboard.instantiateViewControllerWithIdentifier("TabularViewController") as! TabularViewController
+            let tabularView : OneThirdScreenTabularView = mainStoryboard.instantiateViewControllerWithIdentifier("OneThirdScreenTabularViewController") as! OneThirdScreenTabularView
             tabularView.observationList = observationList
             PushViewController(tabularView)
         }
         else
         {
             let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
-            let tabularView : OneThirdScreenTabularView = mainStoryboard.instantiateViewControllerWithIdentifier("OneThirdScreenTabularViewController") as! OneThirdScreenTabularView
+            let tabularView : TabularViewController = mainStoryboard.instantiateViewControllerWithIdentifier("TabularViewController") as! TabularViewController
             tabularView.observationList = observationList
             PushViewController(tabularView)
+            
         }
     }
 }

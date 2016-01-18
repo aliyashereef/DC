@@ -238,6 +238,26 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
         controller: UIPresentationController) -> UIModalPresentationStyle {
             return .None
     }
+    // Mark: Unwind element
+    
+    @IBAction func unwindToTabularView(sender:UIStoryboardSegue)
+    {
+      reloadView(observationList)
+        //        if let sourceViewController = sender.sourceViewController as? ObservationViewController
+//        {
+//            observationList.append(sourceViewController.generalObservationView.observation)
+//            Helper.VitalSignObservationList.append(sourceViewController.generalObservationView.observation)
+//        }
+//        else if let sourceViewController = sender.sourceViewController as? CommaScoreViewController
+//        {
+//            observationList.append(sourceViewController.observation)
+//            Helper.VitalSignObservationList.append(sourceViewController.observation)
+//        }
+//        
+//        observationList.sortInPlace({ $0.date.compare($1.date) == NSComparisonResult.OrderedAscending })
+//        showData()
+        
+    }
     
     
     
