@@ -2,7 +2,7 @@
 //  DCSchedulingDetailViewController.swift
 //  DrugChart
 //
-//  Created by qbuser on 11/11/15.
+//  Created by Jilu Mary Joy on 11/11/15.
 //
 //
 
