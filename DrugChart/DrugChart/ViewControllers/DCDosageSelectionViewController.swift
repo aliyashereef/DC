@@ -37,6 +37,7 @@ typealias SelectedDosage = DCDosage? -> Void
     weak var newDosageAddedDelegate: NewDosageValueEntered? = nil
     var selectedDosage : SelectedDosage = {value in }
     var isSplitDailyPresent : Bool = false
+    var isReducingIncreasingPresent : Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,7 +71,9 @@ typealias SelectedDosage = DCDosage? -> Void
         dosageMenuItems = []
         dosageMenuItems.append(DOSE_FIXED)
         dosageMenuItems.append(DOSE_VARIABLE)
-        dosageMenuItems.append(DOSE_REDUCING_INCREASING)
+        if isReducingIncreasingPresent {
+            dosageMenuItems.append(DOSE_REDUCING_INCREASING)
+        }
         if isSplitDailyPresent {
             dosageMenuItems.append(DOSE_SPLIT_DAILY)
         }
