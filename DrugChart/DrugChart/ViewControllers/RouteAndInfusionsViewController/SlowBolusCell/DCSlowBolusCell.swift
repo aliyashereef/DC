@@ -30,9 +30,6 @@ class DCSlowBolusCell: UITableViewCell {
     @IBAction func slowBolusSwitchValueChanged(sender: AnyObject) {
         
         // slow bolus switch selection
-        print("***** Slow Bolus Switch selection *****")
-       // let switchStatus = sender.isOn
-        NSLog("**** switchStatus is %@", sender.isOn)
         self.switchState!(sender.isOn)
     }
 
