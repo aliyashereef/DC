@@ -227,6 +227,7 @@
 #define FRIDAY @"Friday"
 #define SATURDAY @"Saturday"
 
+#define SELECTED_TIME_DISPLAY_CELL_ID @"selectedTimeCell"
 
 // title for views
 #define INPATIENT_TITLE @"In Patients"
