@@ -63,7 +63,6 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     var cellDelegate : DCPrescriberCellDelegate?
     var inEditMode : Bool = false
     var isMedicationActive : Bool = true
-    
     override func awakeFromNib() {
         
         super.awakeFromNib()
@@ -217,6 +216,13 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     }
     
     override func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        if (gestureRecognizer.isKindOfClass(UIPanGestureRecognizer)) {
+            let panGesture = gestureRecognizer as? UIPanGestureRecognizer
+            let translation : CGPoint = panGesture!.translationInView(panGesture?.view);
+            if (fabs(translation.x) > fabs(translation.y)) {
+                return false
+            }
+        }
         return true
     }
     
