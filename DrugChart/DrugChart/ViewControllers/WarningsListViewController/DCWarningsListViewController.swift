@@ -193,7 +193,7 @@ let SECOND_INDEX = 1
         detailViewController!.detailType = eOverrideReason
         detailViewController?.delegate = self
         let navigationController : UINavigationController? = UINavigationController(rootViewController: detailViewController!)
-        navigationController?.modalPresentationStyle = UIModalPresentationStyle.CurrentContext
+        navigationController?.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
         self.presentViewController(navigationController!, animated: true, completion: nil)
     }
     

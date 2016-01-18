@@ -55,6 +55,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         let indexPath : NSIndexPath = NSIndexPath.init(forItem: 5, inSection: 0)
         calendarStripCollectionView .scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: false)
         scrolledProgramatically = true
+        medicationTableView?.reloadData()
 }
 
     override func viewWillDisappear(animated: Bool) {
