@@ -236,8 +236,16 @@ typealias SelectedDosage = DCDosage? -> Void
             }
             return dosageSelectionMenuCell!
         } else {
+            if (indexPath.section == 2 && selectedTimeArrayItems.count != 0) {
+                let timeDisplayCell : DCSelectedTimeTableViewCell
+                timeDisplayCell = (dosageTableView.dequeueReusableCellWithIdentifier(SELECTED_TIME_DISPLAY_CELL_ID) as? DCSelectedTimeTableViewCell)!
+                timeDisplayCell.timeLabel.text = selectedTimeArrayItems[indexPath.row]
+                timeDisplayCell.doseValueLabel.text = valueForDoseForTime[indexPath.row]
+                return timeDisplayCell
+            } else {
             let cellForDisplay : DCDosageSelectionTableViewCell = self.configureTableCellForDisplay(indexPath)
             return cellForDisplay
+            }
         }
     }
     
@@ -310,29 +318,51 @@ typealias SelectedDosage = DCDosage? -> Void
     
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
+//            //Delete element from array.
+//            self.deleteElementFromTimeArrayAtSelectedIndexPath(indexPath.row)
+//            //Update the arrays.
+//            self.configureTimeArray()
+//            //Update alert messages.
+//            self.updateAlertMessageForMismatch()
+//            dosageTableView.beginUpdates()
+//            //Update the table.
+//            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+//            if (selectedTimeArrayItems.count == 0) {
+//                let sections = NSIndexSet(index: 2)
+//                tableView.deleteSections(sections, withRowAnimation: .Fade)
+//            }
+//            dosageTableView.endUpdates()
+        }
+    }
+    
+    func tableView(tableView: UITableView,
+        editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+        let delete = UITableViewRowAction(style: .Destructive, title: "Delete") { action, index in
             //Delete element from array.
             self.deleteElementFromTimeArrayAtSelectedIndexPath(indexPath.row)
             //Update the arrays.
             self.configureTimeArray()
             //Update alert messages.
             self.updateAlertMessageForMismatch()
-            dosageTableView.beginUpdates()
+            self.dosageTableView.beginUpdates()
             //Update the table.
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-            if (selectedTimeArrayItems.count == 0) {
+            if (self.selectedTimeArrayItems.count == 0) {
                 let sections = NSIndexSet(index: 2)
                 tableView.deleteSections(sections, withRowAnimation: .Fade)
             }
-            dosageTableView.endUpdates()
-        }
+            self.dosageTableView.endUpdates()
+
+            }
+            let attrs = [NSFontAttributeName : UIFont.systemFontOfSize(15.0)]
+            let gString = NSMutableAttributedString(string:"Delete", attributes:attrs)
+            if #available(iOS 9.0, *) {
+                UIButton.appearanceWhenContainedInInstancesOfClasses([DCSelectedTimeTableViewCell.classForCoder()]).setAttributedTitle(gString, forState: .Normal)
+            } else {
+                // Fallback on earlier versions
+            }
+            return [delete]
     }
-    
-//    func tableView(tableView: UITableView,
-//        editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
-//        let delete = UITableViewRowAction(style: .Destructive, title: "Delete") { action, index in
-//            }
-//            return [delete]
-//    }
     
     // MARK: - Private Methods
     

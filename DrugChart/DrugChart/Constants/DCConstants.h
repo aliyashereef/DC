@@ -207,6 +207,7 @@
 #define DOSE_VALUE_CELL_ID @"doseValueCell"
 #define ADD_NEW_DOSE_CELL_ID @"addNewDoseCell"
 #define ADD_CONDITION_MENU_CELL_ID @"addConditionMenuCell"
+#define SELECTED_TIME_DISPLAY_CELL_ID @"selectedTimeCell"
 
 // title for views
 #define INPATIENT_TITLE @"In Patients"
