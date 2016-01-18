@@ -607,6 +607,9 @@
                 self.selectedMedication.dose = [[DCDosage alloc] init];
             }
         }
+        if (self.selectedMedication.scheduling.specificTimes == nil) {
+            //TODO: Send the status to dosage.
+        }
         dosageSelectionViewController.dosage = self.selectedMedication.dose;
         [self configureNavigationBackButtonTitle];
         //dosageSelectionViewController.backButtonText = titleLabel.text;

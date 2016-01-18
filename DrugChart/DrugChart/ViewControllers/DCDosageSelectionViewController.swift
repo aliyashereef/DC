@@ -728,6 +728,10 @@ typealias SelectedDosage = DCDosage? -> Void
             dosage?.doseUnit = value
         } else if (selectedDetailType == eStartingDose) {
             self.dosage?.reducingIncreasingDose.startingDose = value
+        } else if (selectedDetailType == eAddDoseForTime) {
+            valueForDoseForTime[selectedIndexPathInTimeArray] = value
+            self.updateTimeArray(selectedIndexPathInTimeArray)
+            self.updateAlertMessageForMismatch()
         }
         dosageTableView.reloadData()
     }
