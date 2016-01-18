@@ -15,7 +15,11 @@ class DCInfusionsHelper: NSObject {
         //get section count from the route selected,
         if (self.routeIsIntravenous(route)) {
             if (infusion.administerAsOption != nil) {
-                return SectionCount.eThirdSection.rawValue
+                if (infusion.administerAsOption == BOLUS_INJECTION) {
+                    return SectionCount.eThirdSection.rawValue
+                } else {
+                    return SectionCount.eSecondSection.rawValue
+                }
             } else {
                 return SectionCount.eSecondSection.rawValue
             }

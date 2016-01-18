@@ -129,7 +129,6 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
             DDLogDebug("Value is \(value)")
         }
         medicationDetailViewController!.detailType = eDetailAdministrationTime
-       // medicationDetailViewController!.contentArray = timeArray
         medicationDetailViewController!.contentArray = (self.scheduling?.type == SPECIFIC_TIMES) ? self.scheduling?.specificTimes?.administratingTimesArray : self.scheduling?.interval.administratingTimes
         self.configureNavigationBackButtonTitle()
         self.navigationController?.pushViewController(medicationDetailViewController!, animated: true)

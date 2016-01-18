@@ -12,6 +12,7 @@ let DESCRIPTION_LABEL_TRAILING_IN : CGFloat = 18.0
 let DESCRIPTION_LABEL_TARINLING_DEFAULT : CGFloat = 3.0
 let DESCRITION_LABEL_WIDTH_DEFAULT : CGFloat = 155.0
 let DESCRIPTION_LABEL_WIDTH_IN : CGFloat = 225.0
+let TABLE_CELL_HEIGHT : CGFloat = 44.0
 
 @objc public protocol RoutesAndInfusionsDelegate {
     
@@ -27,6 +28,8 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
     var previousRoute : String = EMPTY_STRING
     var infusion : DCInfusion?
     var patientId : String?
+    var inlinePickerIndexPath : NSIndexPath?
+    var previousSelectedRouteIndexPath : NSIndexPath?
     
     override func viewDidLoad() {
         
@@ -56,7 +59,11 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
             case SectionCount.eFirstSection.rawValue :
                 return RowCount.eFirstRow.rawValue
             case SectionCount.eSecondSection.rawValue :
-                return RowCount.eFourthRow.rawValue
+                var rowCount = RowCount.eFourthRow.rawValue
+                if (tableViewHasInlinePickerForSection(section)) {
+                    rowCount++
+                }
+                return rowCount
             default :
                 return RowCount.eZerothRow.rawValue
         }
@@ -76,13 +83,29 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
                     let bolusCell = self.configureSlowBolusCellIndexPath(indexPath)
                     return bolusCell
                 } else {
-                    let infusionCell = self.configureInfusionCellAtIndexPath(indexPath)
-                    return infusionCell!
+                    if (self.inlinePickerIndexPath?.row == indexPath.row) {
+                        let infusionPickerCell = tableView.dequeueReusableCellWithIdentifier(INFUSION_PICKER_CELL_ID) as? DCInfusionPickerCell
+                        infusionPickerCell?.previousValue = self.infusion?.bolusInjection?.quantity
+                        infusionPickerCell?.unitCompletion = { unit in
+                            self.infusion?.bolusInjection?.quantity = unit! as String
+                            self.performSelector(Selector("reloadCellAfterDelayAtIndexPath:"), withObject: NSIndexPath(forRow: 2, inSection: 2), afterDelay: 0.04)
+                        }
+                        infusionPickerCell?.configurePickerView()
+                        return infusionPickerCell!
+                    } else {
+                        let infusionCell = self.configureInfusionCellAtIndexPath(indexPath)
+                        return infusionCell!
+                    }
                 }
             default :
                 let routeCell = tableView.dequeueReusableCellWithIdentifier(ROUTE_CELL_ID) as? DCRouteCell
                 return routeCell!
         }
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+        return (indexPath == self.inlinePickerIndexPath) ? PICKER_CELL_HEIGHT : TABLE_CELL_HEIGHT
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -98,6 +121,8 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
                 //present infusion solvent view
                 if (indexPath.row == RowCount.eFirstRow.rawValue) {
                     self.displayInfusionSolventView()
+                } else if (indexPath.row == RowCount.eSecondRow.rawValue) {
+                    self.displayInlinePickerForRowAtIndexPath(indexPath)
                 } else if (indexPath.row == RowCount.eThirdRow.rawValue) {
                     self.displayInjectionRegionView()
                 }
@@ -118,18 +143,33 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
         if let routeDelegate = delegate {
             routeDelegate.newRouteSelected(route)
         }
-        routesTableView.beginUpdates()
-        routesTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .None)
-        if (DCInfusionsHelper.routeIsIntravenous(route)) {
+        if (DCInfusionsHelper.routeIsIntravenous(route) == false) {
+            self.infusion?.administerAsOption = nil
+            if let infusionDelegate = self.delegate {
+                infusionDelegate.updatedInfusionObject(self.infusion!)
+            }
+            self.navigationController?.popToRootViewControllerAnimated(true)
+        } else {
+            routesTableView.beginUpdates()
+            if (previousSelectedRouteIndexPath != nil) {
+                routesTableView.reloadRowsAtIndexPaths([previousSelectedRouteIndexPath!], withRowAnimation: .Fade)
+            }
+            routesTableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
             let sectionCount = routesTableView.numberOfSections
             if sectionCount == SectionCount.eFirstSection.rawValue {
                 //if section count is zero insert new section with animation
                 routesTableView.insertSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
             }
             routesTableView.endUpdates()
-        } else {
-            self.navigationController?.popToRootViewControllerAnimated(true)
         }
+    }
+    
+    func reloadCellAfterDelayAtIndexPath(indexPath : NSIndexPath) {
+        
+        //reload cell after delay
+        self.routesTableView.beginUpdates()
+        self.routesTableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+        self.routesTableView.endUpdates()
     }
     
     func displayAdministerOptionsView() {
@@ -151,6 +191,7 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
         let range = route.rangeOfString(" ")
         let croppedString = route.substringToIndex(range.location)
         if (previousRoute.containsString(croppedString) == true) {
+            previousSelectedRouteIndexPath = indexPath
             routeCell?.accessoryType = .Checkmark
         } else {
             routeCell?.accessoryType = .None
@@ -262,4 +303,47 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
         self.navigationController?.presentViewController(navigationController, animated: true, completion: nil)
     }
     
+    func tableViewHasInlinePickerForSection (section : NSInteger) -> Bool {
+        
+        return (self.inlinePickerIndexPath != nil && section == self.inlinePickerIndexPath?.section)
+    }
+    
+    func displayInlinePickerForRowAtIndexPath(indexPath : NSIndexPath) {
+        
+        routesTableView.beginUpdates()
+        var pickerBeforeSelectedIndexPath = false
+        var sameCellClicked = false
+        if (self.inlinePickerIndexPath != nil) {
+            pickerBeforeSelectedIndexPath = self.inlinePickerIndexPath!.row < indexPath.row
+            if (tableViewHasInlinePickerForSection(indexPath.section)) {
+                sameCellClicked = (self.inlinePickerIndexPath!.row - 1 == indexPath.row);
+            }
+            let pickerIndexPath : NSIndexPath = self.inlinePickerIndexPath!
+            self.inlinePickerIndexPath = nil
+            routesTableView.deleteRowsAtIndexPaths([pickerIndexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+        }
+        // remove any picker cell if it exists
+        if (!sameCellClicked) {
+            // hide the date picker and display the new one
+            let rowToReveal : NSInteger = (pickerBeforeSelectedIndexPath ? indexPath.row - 1 : indexPath.row);
+            let indexPathToReveal : NSIndexPath = NSIndexPath(forItem: rowToReveal, inSection: indexPath.section)
+            togglePickerForSelectedIndexPath(indexPathToReveal)
+            self.inlinePickerIndexPath = NSIndexPath(forItem: indexPathToReveal.row + 1, inSection: indexPath.section)
+        }
+        routesTableView.deselectRowAtIndexPath(indexPath, animated: true)
+        routesTableView.endUpdates()
+    }
+    
+    func togglePickerForSelectedIndexPath(indexPath : NSIndexPath) {
+        
+        // detailTableView.beginUpdates()
+        let indexPaths = [NSIndexPath(forItem: indexPath.row + 1, inSection: indexPath.section)]
+        if (tableViewHasInlinePickerForSection(indexPath.section)) {
+            routesTableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.Fade)
+        } else {
+            // didn't find a picker below it, so we should insert it
+            routesTableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.Fade)
+        }
+    }
+
 }
