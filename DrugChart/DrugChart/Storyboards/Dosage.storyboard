@@ -121,7 +121,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="00:00        " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kqZ-N3-5Gm">
-                                                    <rect key="frame" x="16" y="11" width="177" height="21"/>
+                                                    <rect key="frame" x="16" y="11" width="181" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="lYn-pv-SFp"/>
                                                     </constraints>
@@ -129,7 +129,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="0000.0000" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w76-gU-WNe">
-                                                    <rect key="frame" x="198" y="11" width="77" height="21"/>
+                                                    <rect key="frame" x="202" y="11" width="77" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="11k-Ij-rNZ"/>
                                                     </constraints>
@@ -137,10 +137,10 @@
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow" translatesAutoresizingMaskIntoConstraints="NO" id="8og-ga-SRX">
-                                                    <rect key="frame" x="280" y="10" width="20" height="23"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="DisclosureIndicator" translatesAutoresizingMaskIntoConstraints="NO" id="8og-ga-SRX">
+                                                    <rect key="frame" x="284" y="13" width="16" height="17"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="20" id="rjb-f0-pek"/>
+                                                        <constraint firstAttribute="width" constant="16" id="rjb-f0-pek"/>
                                                     </constraints>
                                                 </imageView>
                                             </subviews>
@@ -151,8 +151,8 @@
                                                 <constraint firstItem="kqZ-N3-5Gm" firstAttribute="leading" secondItem="iLX-R0-ccl" secondAttribute="leading" constant="16" id="MBh-3W-9iD"/>
                                                 <constraint firstItem="8og-ga-SRX" firstAttribute="leading" secondItem="w76-gU-WNe" secondAttribute="trailing" constant="5" id="UMm-10-4vU"/>
                                                 <constraint firstItem="kqZ-N3-5Gm" firstAttribute="centerY" secondItem="iLX-R0-ccl" secondAttribute="centerY" id="UYu-eY-Myb"/>
-                                                <constraint firstItem="8og-ga-SRX" firstAttribute="top" secondItem="iLX-R0-ccl" secondAttribute="top" constant="10" id="mMc-tB-weS"/>
-                                                <constraint firstAttribute="bottom" secondItem="8og-ga-SRX" secondAttribute="bottom" constant="10" id="ndh-M5-gSz"/>
+                                                <constraint firstItem="8og-ga-SRX" firstAttribute="top" secondItem="iLX-R0-ccl" secondAttribute="top" constant="13" id="mMc-tB-weS"/>
+                                                <constraint firstAttribute="bottom" secondItem="8og-ga-SRX" secondAttribute="bottom" constant="13" id="ndh-M5-gSz"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -941,6 +941,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="arrow" width="20" height="20"/>
+        <image name="DisclosureIndicator" width="16" height="16"/>
     </resources>
 </document>
