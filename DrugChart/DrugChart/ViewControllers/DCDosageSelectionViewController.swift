@@ -96,7 +96,7 @@ typealias SelectedDosage = DCDosage? -> Void
             }
             self.dosage?.doseUnit = "mg"
             self.dosage?.reducingIncreasingDose?.changeOver = "Days"
-            self.dosage?.reducingIncreasingDose?.conditions?.conditionDescription = "Reduce 50 mg every day"
+            self.dosage?.reducingIncreasingDose?.conditions?.conditionDescription = ""
         } else {
             switch (self.dosage?.type)! {
             case DOSE_FIXED:
@@ -498,6 +498,7 @@ typealias SelectedDosage = DCDosage? -> Void
             case 3:
                 if (menuType == eReducingIncreasing) {
                     let dosageConditionsViewController : DCDosageConditionsViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_CONDITIONS_SBID) as? DCDosageConditionsViewController
+                    dosageConditionsViewController?.reducingIncreasing = self.dosage?.reducingIncreasingDose
                     self.configureNavigationBackButtonTitle()
                     self.navigationController?.pushViewController(dosageConditionsViewController!, animated: true)
                     return
