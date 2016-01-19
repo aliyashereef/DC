@@ -147,6 +147,8 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
         
         let dosageDetailCell : DCDosageDetailTableViewCell? = dosageDetailTableView.dequeueReusableCellWithIdentifier(DOSE_DETAIL_DISPLAY_CELL_ID) as? DCDosageDetailTableViewCell
             dosageDetailCell?.dosageDetailCellLabel.text = ADD_NEW_TITLE
+        dosageDetailCell?.accessoryType = .None
+        dosageDetailCell?.dosageDetailCellLabel.textColor = dosageDetailTableView.tintColor
         return dosageDetailCell!
     }
     
@@ -181,6 +183,7 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
             default:
                 break
             }
+            dosageDetailCell?.dosageDetailDisplayCell.textColor = UIColor.blackColor()
             return dosageDetailCell!
         } else {
             let cellForDisplay : DCDosageDetailTableViewCell = self.configureCellForAddNew()

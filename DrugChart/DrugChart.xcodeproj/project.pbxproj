@@ -352,6 +352,7 @@
 		FDD5487B1C4513FA000EB855 /* DCConditions.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD5487A1C4513FA000EB855 /* DCConditions.m */; settings = {ASSET_TAGS = (); }; };
 		FDDBBB031C24197800726DDA /* DCDosageDetailPickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDBBB021C24197800726DDA /* DCDosageDetailPickerCell.swift */; settings = {ASSET_TAGS = (); }; };
 		FDDEE1951C4CD13000F02F4B /* DCSelectedTimeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDEE1941C4CD13000F02F4B /* DCSelectedTimeTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+		FDDEE1AB1C4D01B200F02F4B /* UIView+UIAppearence_Swift.m in Sources */ = {isa = PBXBuildFile; fileRef = FDDEE1AA1C4D01B200F02F4B /* UIView+UIAppearence_Swift.m */; settings = {ASSET_TAGS = (); }; };
 		FDE2C9B41C3A69CB00FBDFCA /* DCDosageConditionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE2C9B31C3A69CB00FBDFCA /* DCDosageConditionsViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		FDE2C9B71C3A6A8A00FBDFCA /* DCDosageConditionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE2C9B61C3A6A8A00FBDFCA /* DCDosageConditionsTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
@@ -834,6 +835,8 @@
 		FDD5487A1C4513FA000EB855 /* DCConditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCConditions.m; sourceTree = "<group>"; };
 		FDDBBB021C24197800726DDA /* DCDosageDetailPickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageDetailPickerCell.swift; sourceTree = "<group>"; };
 		FDDEE1941C4CD13000F02F4B /* DCSelectedTimeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCSelectedTimeTableViewCell.swift; sourceTree = "<group>"; };
+		FDDEE1A91C4D01B200F02F4B /* UIView+UIAppearence_Swift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+UIAppearence_Swift.h"; sourceTree = "<group>"; };
+		FDDEE1AA1C4D01B200F02F4B /* UIView+UIAppearence_Swift.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+UIAppearence_Swift.m"; sourceTree = "<group>"; };
 		FDE2C9B31C3A69CB00FBDFCA /* DCDosageConditionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageConditionsViewController.swift; sourceTree = "<group>"; };
 		FDE2C9B61C3A6A8A00FBDFCA /* DCDosageConditionsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageConditionsTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -2039,6 +2042,8 @@
 				0BBDEDEF1AA583B10016E6FF /* Font */,
 				7D4DBE9C1AA57E1700A5E39B /* UIColor+ColorFromHex.h */,
 				7D4DBE9D1AA57E1700A5E39B /* UIColor+ColorFromHex.m */,
+				FDDEE1A91C4D01B200F02F4B /* UIView+UIAppearence_Swift.h */,
+				FDDEE1AA1C4D01B200F02F4B /* UIView+UIAppearence_Swift.m */,
 				7D930D1D1AADF82E00C0607F /* DCDateUtility.h */,
 				7D930D1E1AADF82E00C0607F /* DCDateUtility.m */,
 				7D3234BA1AF132250020CC8F /* DCPopOverContentSizeUtility.h */,
@@ -3116,6 +3121,7 @@
 				FD2FF8B61C3BAED100778A4E /* DCAddConditionDetailTableViewCell.swift in Sources */,
 				0B85D6811BF9CBCB009CF795 /* DCSchedulingHeaderView.swift in Sources */,
 				4DECF3031B79CB370085E75B /* DCOrderSetWarningCountWebService.m in Sources */,
+				FDDEE1AB1C4D01B200F02F4B /* UIView+UIAppearence_Swift.m in Sources */,
 				1FD4FCB91BF4B6B700B77B94 /* Pulse.swift in Sources */,
 				1FD4FCBB1BF4B6B700B77B94 /* SPO2.swift in Sources */,
 				0BF389151AA468C6006792DE /* DCUtility.m in Sources */,
