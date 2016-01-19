@@ -17,6 +17,8 @@ class DCInfusionsHelper: NSObject {
             if (infusion.administerAsOption != nil) {
                 if (infusion.administerAsOption == BOLUS_INJECTION) {
                     return SectionCount.eThirdSection.rawValue
+                } else if (infusion.administerAsOption == DURATION_BASED_INFUSION) {
+                    return SectionCount.eFourthSection.rawValue
                 } else {
                     return SectionCount.eSecondSection.rawValue
                 }

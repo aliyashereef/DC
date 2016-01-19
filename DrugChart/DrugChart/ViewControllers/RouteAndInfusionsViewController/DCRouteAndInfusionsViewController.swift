@@ -59,7 +59,18 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
             case SectionCount.eFirstSection.rawValue :
                 return RowCount.eFirstRow.rawValue
             case SectionCount.eSecondSection.rawValue :
-                var rowCount = RowCount.eFourthRow.rawValue
+                var rowCount = RowCount.eZerothRow.rawValue
+                if (infusion!.administerAsOption == DURATION_BASED_INFUSION) {
+                    rowCount = RowCount.eFirstRow.rawValue
+                } else {
+                    rowCount = RowCount.eFourthRow.rawValue
+                    if (tableViewHasInlinePickerForSection(section)) {
+                        rowCount++
+                    }
+                }
+             return rowCount
+            case SectionCount.eThirdSection.rawValue :
+                var rowCount = RowCount.eThirdRow.rawValue
                 if (tableViewHasInlinePickerForSection(section)) {
                     rowCount++
                 }
@@ -79,24 +90,16 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
                 let infusionCell = self.configureInfusionCellAtIndexPath(indexPath)
                 return infusionCell!
             case SectionCount.eSecondSection.rawValue :
-                if (indexPath.row == RowCount.eZerothRow.rawValue) {
-                    let bolusCell = self.configureSlowBolusCellIndexPath(indexPath)
-                    return bolusCell
+                if (self.infusion?.administerAsOption == DURATION_BASED_INFUSION) {
+                    let infusionCell = self.configureInfusionCellAtIndexPath(indexPath)
+                    return infusionCell!
                 } else {
-                    if (self.inlinePickerIndexPath?.row == indexPath.row) {
-                        let infusionPickerCell = tableView.dequeueReusableCellWithIdentifier(INFUSION_PICKER_CELL_ID) as? DCInfusionPickerCell
-                        infusionPickerCell?.previousValue = self.infusion?.bolusInjection?.quantity
-                        infusionPickerCell?.unitCompletion = { unit in
-                            self.infusion?.bolusInjection?.quantity = unit! as String
-                            self.performSelector(Selector("reloadCellAfterDelayAtIndexPath:"), withObject: NSIndexPath(forRow: 2, inSection: 2), afterDelay: 0.04)
-                        }
-                        infusionPickerCell?.configurePickerView()
-                        return infusionPickerCell!
-                    } else {
-                        let infusionCell = self.configureInfusionCellAtIndexPath(indexPath)
-                        return infusionCell!
-                    }
+                    let tableCell = self.configureSecondSectionOfTableViewForBolusInjectionAtIndexPath(indexPath)
+                    return tableCell
                 }
+            case SectionCount.eThirdSection.rawValue :
+                let tableCell = self.configureSolutionInfoCellAtIndexPath(indexPath)
+                return tableCell
             default :
                 let routeCell = tableView.dequeueReusableCellWithIdentifier(ROUTE_CELL_ID) as? DCRouteCell
                 return routeCell!
@@ -199,6 +202,34 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
         return routeCell!
     }
     
+    func configureSecondSectionOfTableViewForBolusInjectionAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
+        
+        if (indexPath.row == RowCount.eZerothRow.rawValue) {
+            let bolusCell = self.configureSlowBolusCellIndexPath(indexPath)
+            return bolusCell
+        } else {
+            let tableCell = self.configureSolutionInfoCellAtIndexPath(indexPath)
+            return tableCell
+        }
+    }
+    
+    func configureSolutionInfoCellAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
+        
+        if (self.inlinePickerIndexPath?.row == indexPath.row) {
+            let infusionPickerCell = routesTableView.dequeueReusableCellWithIdentifier(INFUSION_PICKER_CELL_ID) as? DCInfusionPickerCell
+            infusionPickerCell?.previousValue = self.infusion?.bolusInjection?.quantity
+            infusionPickerCell?.unitCompletion = { unit in
+                self.infusion?.bolusInjection?.quantity = unit! as String
+                self.performSelector(Selector("reloadCellAfterDelayAtIndexPath:"), withObject: NSIndexPath(forRow: 2, inSection: 2), afterDelay: 0.04)
+            }
+            infusionPickerCell?.configurePickerView()
+            return infusionPickerCell!
+        } else {
+            let infusionCell = self.configureInfusionCellAtIndexPath(indexPath)
+            return infusionCell!
+        }
+    }
+    
     func configureInfusionCellAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell? {
         
         //configure infusions cell
@@ -207,7 +238,12 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
             infusionCell?.titleLabel.text = NSLocalizedString("ADMINISTER_AS", comment: "")
             infusionCell?.descriptionLabel.text = infusion?.administerAsOption
         } else {
-            switch indexPath.row {
+            if (self.infusion?.administerAsOption == DURATION_BASED_INFUSION && indexPath.section == SectionCount.eSecondSection.rawValue) {
+                infusionCell?.titleLabel.text = NSLocalizedString("OVER", comment: "")
+                infusionCell?.descriptionLabel.text = "1 hr"
+                infusionCell?.accessoryType = .DisclosureIndicator
+            } else {
+                switch indexPath.row {
                 case RowCount.eFirstRow.rawValue :
                     infusionCell?.accessoryType = .None
                     infusionCell?.titleLabel.text = NSLocalizedString("IN", comment: "")
@@ -227,6 +263,7 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
                     infusionCell?.descriptionTrailingConstraint.constant = DESCRIPTION_LABEL_TARINLING_DEFAULT
                 default :
                     break
+            }
             }
         }
         return infusionCell!
