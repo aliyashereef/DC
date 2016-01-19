@@ -14,14 +14,17 @@ import UIKit
     class ObservationViewController: UIViewController  {
         @IBOutlet weak var observationSegmentedView: UISegmentedControl!
         @IBOutlet weak var hiddenButton: UIButton!
+        @IBOutlet weak var oneThirdHidden: UIButton!
         @IBOutlet weak var hidden1: UIButton!
         @IBOutlet weak var childView: UIView!
         var generalObservationView : GeneralObservationView!
         var observation:VitalSignObservation!
+        var tag:Int=0
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hiddenButton.hidden = true
         self.hidden1.hidden = true
+        self.oneThirdHidden.hidden = true
         self.automaticallyAdjustsScrollViewInsets = false
         observation = VitalSignObservation()
         if(generalObservationView == nil)
@@ -36,9 +39,10 @@ import UIKit
         
     }
     
-    func configureView(observation:VitalSignObservation,showobservatioType:ShowObservationType)
+        func configureView(observation:VitalSignObservation,showobservatioType:ShowObservationType,tag:Int)
     {
       self.observation = observation
+      self.tag = tag
       if(generalObservationView == nil)
        {
             generalObservationView = (GeneralObservationView.instanceFromNib() as! GeneralObservationView)
@@ -84,7 +88,14 @@ import UIKit
     @IBAction func doneClick(sender: AnyObject) {
         if(generalObservationView.showObservationType != .None && generalObservationView.showObservationType != .All)
         {
-            performSegueWithIdentifier("unwindToTabularView",sender:sender)
+            if(tag == 2)
+            {
+                performSegueWithIdentifier("unwindToOneThirdTabularView",sender:sender)
+            }
+            else if(tag == 1)
+            {
+                performSegueWithIdentifier("unwindToTabularView",sender:sender)
+            }
         }
         else
         {

@@ -97,16 +97,14 @@
                             </barButtonItem>
                             <barButtonItem style="plain" id="nmO-NQ-wew">
                                 <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="y0d-Sz-29Z">
-                                    <rect key="frame" x="234" y="7" width="83" height="30"/>
+                                    <rect key="frame" x="307" y="7" width="10" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <state key="normal" title="Button"/>
                                 </button>
                             </barButtonItem>
                             <barButtonItem style="plain" id="lQr-Ce-CJU">
                                 <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="vPd-aA-Cdq">
-                                    <rect key="frame" x="143" y="7" width="83" height="30"/>
+                                    <rect key="frame" x="289" y="7" width="10" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <state key="normal" title="Button"/>
                                     <connections>
                                         <segue destination="4Ps-BR-fu0" kind="unwind" identifier="unwindToTabularView" unwindAction="unwindToTabularView:" id="Ya2-oa-zXv"/>
                                     </connections>
@@ -114,6 +112,15 @@
                                 <connections>
                                     <segue destination="4Ps-BR-fu0" kind="unwind" identifier="unwindToObservationList" unwindAction="unwindToObservationList:" id="gmZ-ki-gWw"/>
                                 </connections>
+                            </barButtonItem>
+                            <barButtonItem style="plain" id="jUF-gr-FWH">
+                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="D8K-59-2Z1">
+                                    <rect key="frame" x="271" y="7" width="10" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <connections>
+                                        <segue destination="4Ps-BR-fu0" kind="unwind" identifier="unwindToOneThirdTabularView" unwindAction="unwindToOneThirdTabularView:" id="zzh-kV-oe3"/>
+                                    </connections>
+                                </button>
                             </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
@@ -123,6 +130,7 @@
                         <outlet property="childView" destination="hZl-k9-B0F" id="phP-g6-y72"/>
                         <outlet property="hidden1" destination="vPd-aA-Cdq" id="p7L-DZ-g8v"/>
                         <outlet property="hiddenButton" destination="y0d-Sz-29Z" id="hS9-nV-79I"/>
+                        <outlet property="oneThirdHidden" destination="D8K-59-2Z1" id="4q7-RQ-dOb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hEH-K6-vFT" userLabel="First Responder" sceneMemberID="firstResponder"/>

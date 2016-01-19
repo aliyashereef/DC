@@ -12,6 +12,10 @@ class OneThirdContentCell: UITableViewCell {
 
     @IBOutlet weak var content: UILabel!
     @IBOutlet weak var title: UILabel!
+    var showObservationType:ShowObservationType!
+    var observation:VitalSignObservation!
+    var delegate:ObservationDelegate? = nil
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -26,7 +30,49 @@ class OneThirdContentCell: UITableViewCell {
         title.font = UIFont.systemFontOfSize(15)
         title.backgroundColor = Constant.SELECTION_CELL_BACKGROUND_COLOR
         
+        // normal stuff
+        let tap = UITapGestureRecognizer(target: self, action: "doubleTapped")
+        tap.numberOfTapsRequired = 2
+        self.addGestureRecognizer(tap)
+
+        
     }
+    
+    func doubleTapped() {
+        if(showObservationType != ShowObservationType.None && showObservationType != ShowObservationType.All && ObjectIsNotNull())
+        {
+            let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
+            let observationDetails : ObservationViewController = mainStoryboard.instantiateViewControllerWithIdentifier("ObservationViewController") as! ObservationViewController
+            observationDetails.configureView(observation, showobservatioType: showObservationType,tag:2)
+            let navigationController : UINavigationController? = UINavigationController(rootViewController: observationDetails)
+            navigationController?.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+            delegate?.ShowModalNavigationController(navigationController!)
+        }
+    }
+    
+    func ObjectIsNotNull()->Bool
+    {
+        switch (showObservationType!)
+        {
+        case ShowObservationType.Respiratory:
+            return  (observation != nil && observation.respiratory != nil) ? true : false
+        case ShowObservationType.SpO2:
+            return  (observation != nil && observation.spo2 != nil) ? true : false
+            
+        case ShowObservationType.Temperature:
+            return  (observation != nil && observation.temperature != nil) ? true : false
+            
+        case ShowObservationType.BloodPressure:
+            return  (observation != nil && observation.bloodPressure != nil) ? true : false
+            
+        case ShowObservationType.Pulse:
+            return  (observation != nil && observation.pulse != nil) ? true : false
+            
+        default:
+            return false
+        }
+    }
+
 
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -34,7 +80,9 @@ class OneThirdContentCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func configureCell()
+    func configureCell(showObservationType:ShowObservationType ,observation:VitalSignObservation )
     {
+        self.showObservationType = showObservationType
+        self.observation = observation
     }
 }

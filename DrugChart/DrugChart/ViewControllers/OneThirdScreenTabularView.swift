@@ -8,7 +8,7 @@
 
 import UIKit
 
-class OneThirdScreenTabularView: UIViewController,UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UITableViewDelegate,UITableViewDataSource {
+class OneThirdScreenTabularView: UIViewController,UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UITableViewDelegate,UITableViewDataSource,ObservationDelegate {
    
     @IBOutlet weak var stripView: UIView!
     
@@ -53,51 +53,64 @@ class OneThirdScreenTabularView: UIViewController,UICollectionViewDataSource, UI
         
         let index = indexPath.row + 1
         let obsType = ObservationTabularViewRow(rawValue: index)
-       
+        var observationType:ShowObservationType!
+        cell.delegate = self
         switch(obsType!)
         {
         case ObservationTabularViewRow.Respiratory:
             cell.title.text = Constant.RESPIRATORY
+            observationType = ShowObservationType.Respiratory
             if(selectedObservation != nil)
             {
                 cell.content.text = selectedObservation.getRespiratoryReading()
             }
         case ObservationTabularViewRow.SPO2:
             cell.title.text = Constant.SPO2
+            observationType = ShowObservationType.SpO2
             if(selectedObservation != nil)
             {
                 cell.content.text = selectedObservation.getSpo2Reading()
             }
         case ObservationTabularViewRow.Temperature:
             cell.title.text = Constant.TEMPERATURE
+            observationType = ShowObservationType.Temperature
             if(selectedObservation != nil)
             {
                 cell.content.text = selectedObservation.getTemperatureReading()
             }
         case ObservationTabularViewRow.BloodPressure:
             cell.title.text = Constant.BLOOD_PRESSURE
+            observationType = ShowObservationType.BloodPressure
             if(selectedObservation != nil)
             {
                 cell.content.text = selectedObservation.getBloodPressureReading()
             }
         case ObservationTabularViewRow.Pulse:
             cell.title.text = Constant.PULSE
+            observationType = ShowObservationType.Pulse
+            
             if(selectedObservation != nil)
             {
                 cell.content.text = selectedObservation.getPulseReading()
             }
         case ObservationTabularViewRow.News:
             cell.title.text = Constant.NEWS
+            observationType = ShowObservationType.None
             if(selectedObservation != nil)
             {
                 cell.content.text = selectedObservation.getNews()
             }
         case ObservationTabularViewRow.CommaScore:
             cell.title.text = Constant.COMMA_SCORE
+            observationType = ShowObservationType.None
             if(selectedObservation != nil)
             {
                 cell.content.text = selectedObservation.getComaScore()
             }
+        }
+        if(selectedObservation  != nil)
+        {
+            cell.configureCell(observationType, observation: selectedObservation)
         }
         return cell
     }
@@ -140,6 +153,17 @@ class OneThirdScreenTabularView: UIViewController,UICollectionViewDataSource, UI
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
             return CGSizeMake(165,60)
         
+    }
+    // MARK: ObservatioDelegate implementation
+    func ShowModalNavigationController(navigationController:UINavigationController)
+    {
+        self.presentViewController(navigationController, animated: false, completion: nil)
+    }
+    
+    // Mark: Segue methods
+    @IBAction func unwindToOneThirdTabularView(sender:UIStoryboardSegue)
+    {
+        tableView.reloadData()
     }
     /*
     // MARK: - Navigation
