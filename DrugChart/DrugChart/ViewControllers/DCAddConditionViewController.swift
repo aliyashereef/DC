@@ -30,6 +30,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     override func viewDidLoad() {
         super.viewDidLoad()
         conditionItem = DCConditions.init()
+        print(newStartingDose)
         self.configureNavigationBarItems()
         // Do any additional setup after loading the view.
     }
@@ -189,7 +190,12 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
             addConditionDetailViewController?.valueForDoseSelected = { value in
                 self.valueForUntil = value!
                 if self.validateTheAddConditionValues() {
-                    self.updatePreviewDetailsArray()
+                    self.conditionItem?.change = self.valueForChange as String
+                    self.conditionItem?.dose = self.valueForDose as String
+                    self.conditionItem?.every = self.valueForEvery as String
+                    self.conditionItem?.until = self.valueForUntil as String
+                    self.previewDetails = DCDosageHelper.updatePreviewDetailsArray(self.conditionItem!, currentStartingDose: self.newStartingDose!)
+                    self.previewDetails.append("Stop")
                 }
                 self.addConditionTableView.reloadData()
             }

@@ -344,6 +344,7 @@
 		FD618F311C1979E7005EC416 /* DCDosageSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD618F2F1C1979E7005EC416 /* DCDosageSelectionViewController.swift */; };
 		FDC7EA571C1AA8990081D5C4 /* DCDosageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC7EA561C1AA8990081D5C4 /* DCDosageDetailViewController.swift */; };
 		FDC7EA5A1C1AA9510081D5C4 /* DCDosageDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC7EA591C1AA9510081D5C4 /* DCDosageDetailTableViewCell.swift */; };
+		FDD290E91C4E4A1700BF8796 /* DCDosageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD290E81C4E4A1700BF8796 /* DCDosageHelper.swift */; settings = {ASSET_TAGS = (); }; };
 		FDD548661C4510B1000EB855 /* DCDosage.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD548651C4510B1000EB855 /* DCDosage.m */; settings = {ASSET_TAGS = (); }; };
 		FDD5486E1C451186000EB855 /* DCFixedDose.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD5486D1C451186000EB855 /* DCFixedDose.m */; settings = {ASSET_TAGS = (); }; };
 		FDD548711C45119E000EB855 /* DCVariableDose.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD548701C45119E000EB855 /* DCVariableDose.m */; settings = {ASSET_TAGS = (); }; };
@@ -821,6 +822,7 @@
 		FD618F2F1C1979E7005EC416 /* DCDosageSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageSelectionViewController.swift; sourceTree = "<group>"; };
 		FDC7EA561C1AA8990081D5C4 /* DCDosageDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageDetailViewController.swift; sourceTree = "<group>"; };
 		FDC7EA591C1AA9510081D5C4 /* DCDosageDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageDetailTableViewCell.swift; sourceTree = "<group>"; };
+		FDD290E81C4E4A1700BF8796 /* DCDosageHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageHelper.swift; sourceTree = "<group>"; };
 		FDD548641C4510B1000EB855 /* DCDosage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DCDosage.h; path = Scheduling/DCDosage.h; sourceTree = "<group>"; };
 		FDD548651C4510B1000EB855 /* DCDosage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DCDosage.m; path = Scheduling/DCDosage.m; sourceTree = "<group>"; };
 		FDD5486C1C451186000EB855 /* DCFixedDose.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCFixedDose.h; sourceTree = "<group>"; };
@@ -1263,6 +1265,7 @@
 				7DE017671BC2439A0094928C /* DCGraphicalViewHelper.h */,
 				7DE017681BC2439A0094928C /* DCGraphicalViewHelper.m */,
 				0BADF3E01BF616D400A78175 /* SchedulingHelper */,
+				FDD290E71C4E498800BF8796 /* DosageHelper */,
 				0B9D6D4F1BA1722C009E0A4E /* AddMedicationHelper */,
 				0BA3572E1B746E9400A5C3BC /* OrderSetOperationQueue */,
 				0BA357291B74647200A5C3BC /* AddMedicationOperation */,
@@ -2726,6 +2729,15 @@
 			name = DosageDetail;
 			sourceTree = "<group>";
 		};
+		FDD290E71C4E498800BF8796 /* DosageHelper */ = {
+			isa = PBXGroup;
+			children = (
+				FDD290E81C4E4A1700BF8796 /* DCDosageHelper.swift */,
+			);
+			name = DosageHelper;
+			path = SchedulingHelper;
+			sourceTree = "<group>";
+		};
 		FDD548671C4510BE000EB855 /* Dosage */ = {
 			isa = PBXGroup;
 			children = (
@@ -3258,6 +3270,7 @@
 				0BA5A38D1BF341DC00251F94 /* DCScheduling.m in Sources */,
 				0BB33DDC1B79F5B500B05E4D /* DCMedicationScheduleDetails.m in Sources */,
 				7D5319C21BF21EF7003C3F92 /* DCAlertsAllergyTableViewCell.m in Sources */,
+				FDD290E91C4E4A1700BF8796 /* DCDosageHelper.swift in Sources */,
 				7DA89AEE1B2D536300096A0A /* DCPositionableGraphicsView.m in Sources */,
 				0B9D6D521BA17244009E0A4E /* DCAddMedicationHelper.m in Sources */,
 				0BBEEB5E1AD4FF4F00C1D986 /* RoundRectPresentationController.m in Sources */,
