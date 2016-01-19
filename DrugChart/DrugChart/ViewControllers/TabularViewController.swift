@@ -77,17 +77,15 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
             let headerCell : HeaderCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(headerCellIdentifier, forIndexPath: indexPath) as! HeaderCollectionViewCell
             
             if indexPath.row == 0 {
-                headerCell.dateLabel.text = viewByDate.getFormattedMonthName() + " " + viewByDate.getFormattedYear()
-                
-               // headerCell.dateLabel.font
+                headerCell.dayLabel.text = viewByDate.getFormattedMonthName()
+                headerCell.dateLabel.text = "  " + viewByDate.getFormattedYear()
+                headerCell.dayLabel.font = UIFont.boldSystemFontOfSize(17)
                 headerCell.removeTimeLabel()
                 headerCell.layoutMargins = UIEdgeInsetsZero
                 headerCell.layer.borderWidth = Constant.BORDER_WIDTH
                 headerCell.layer.borderColor = Constant.CELL_BORDER_COLOR
                 headerCell.layer.cornerRadius = Constant.CORNER_RADIUS
-                headerCell.backgroundColor = UIColor.whiteColor()
-                headerCell.dateLabel.backgroundColor = UIColor.whiteColor()
-                headerCell.timeLabel.backgroundColor = UIColor.whiteColor()
+                headerCell.changeBackgroundColor(UIColor.whiteColor())
                 return headerCell
             } else {
                 let observation = filteredObservations[indexPath.row - 1]

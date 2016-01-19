@@ -12,6 +12,8 @@ class HeaderCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     var indicatorLabel: UILabel!
+   
+    @IBOutlet weak var dayLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -21,10 +23,10 @@ class HeaderCollectionViewCell: UICollectionViewCell {
         removeIndicator()
         dateLabel.layer.borderWidth = 0
         timeLabel.layer.borderWidth = 0
-        dateLabel.text = date.getFormattedDayoftheWeek() + "  .."
+        dayLabel.text = date.getFormattedDayoftheWeek()
         timeLabel.text = date.getFormattedTime()
         indicatorLabel = UILabel()
-        indicatorLabel.frame = CGRectMake(91, 4, 25, 25)
+        indicatorLabel.frame = CGRectMake(5, 4, 25, 25)
         indicatorLabel.font = UIFont.systemFontOfSize(17)
         indicatorLabel.textAlignment = .Center
         indicatorLabel.text = date.getFormattedDay()
@@ -38,33 +40,31 @@ class HeaderCollectionViewCell: UICollectionViewCell {
         self.backgroundColor = Constant.SELECTION_CELL_BACKGROUND_COLOR
         dateLabel.backgroundColor = Constant.SELECTION_CELL_BACKGROUND_COLOR
         timeLabel.backgroundColor = Constant.SELECTION_CELL_BACKGROUND_COLOR
+        dayLabel.backgroundColor = Constant.SELECTION_CELL_BACKGROUND_COLOR
+        dateLabel.textColor  = UIColor.blueColor()
         }
         else
         {
             indicatorLabel.backgroundColor = UIColor.whiteColor()
             dateLabel.backgroundColor = UIColor.whiteColor()
             timeLabel.backgroundColor = UIColor.whiteColor()
+            dayLabel.backgroundColor = UIColor.whiteColor()
+            dateLabel.textColor = UIColor.blackColor()
         }
-        self.addSubview(indicatorLabel)
+        dateLabel.addSubview(indicatorLabel)
     }
-    func changeBackgroundColor()
+    
+    func changeBackgroundColor(backgroundColor:UIColor)
     {
-        self.backgroundColor = Constant.SELECTION_CELL_BACKGROUND_COLOR
-        dateLabel.backgroundColor = Constant.SELECTION_CELL_BACKGROUND_COLOR
-        timeLabel.backgroundColor = Constant.SELECTION_CELL_BACKGROUND_COLOR
+        self.backgroundColor = backgroundColor
+        dateLabel.backgroundColor = backgroundColor
+        timeLabel.backgroundColor = backgroundColor
+        dayLabel.backgroundColor = backgroundColor
     }
     func removeTimeLabel()
     {
         timeLabel.text = ""
         removeIndicator()
-//        if(timeLabel != nil)
-//        {
-//            timeLabel.removeFromSuperview()
-//        }
-//        dateLabel.backgroundColor = UIColor.whiteColor()
-//        dateLabel.font = UIFont.boldSystemFontOfSize(17)
-//        //dateLabel.frame = CGRectMake(0, 30, dateLabel.frame.width, dateLabel.frame.height)
-        
     }
     func removeIndicator()
     {

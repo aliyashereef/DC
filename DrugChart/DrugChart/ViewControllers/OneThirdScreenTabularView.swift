@@ -131,7 +131,7 @@ class OneThirdScreenTabularView: UIViewController,UICollectionViewDataSource, UI
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell=collectionView.dequeueReusableCellWithReuseIdentifier(headerCellIdentifier, forIndexPath: indexPath) as! HeaderCollectionViewCell
-        cell.changeBackgroundColor() // explicitly set the background color for all cells
+        cell.changeBackgroundColor(Constant.SELECTION_CELL_BACKGROUND_COLOR) // explicitly set the background color for all cells
         let observation = observationList[indexPath.row]
         cell.configureCell(observation.date)
         cell.layer.borderWidth = Constant.BORDER_WIDTH
