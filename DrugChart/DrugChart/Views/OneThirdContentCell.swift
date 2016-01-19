@@ -15,6 +15,7 @@ class OneThirdContentCell: UITableViewCell {
     var showObservationType:ShowObservationType!
     var observation:VitalSignObservation!
     var delegate:ObservationDelegate? = nil
+    var deleteIcon: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -80,9 +81,90 @@ class OneThirdContentCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    func clearCell()
+    {
+        if(deleteIcon != nil)
+        {
+            deleteIcon.removeFromSuperview()
+        }
+        
+    }
+    
     func configureCell(showObservationType:ShowObservationType ,observation:VitalSignObservation )
     {
         self.showObservationType = showObservationType
         self.observation = observation
+        
+        // add the delete button
+        if(showObservationType != ShowObservationType.None && showObservationType != ShowObservationType.All && ObjectIsNotNull())
+        {
+            
+            deleteIcon = UILabel()
+            let originx = self.frame.width - 25
+            deleteIcon.frame = CGRectMake(originx, 4, 25, 25)
+            deleteIcon.font = UIFont.systemFontOfSize(12)
+            deleteIcon.textAlignment = .Center
+            deleteIcon.text = "X"
+            deleteIcon.layer.borderWidth = 0.5
+            deleteIcon.layer.borderColor = UIColor.redColor().CGColor
+            deleteIcon.textColor = UIColor.redColor()
+            deleteIcon.backgroundColor = UIColor.whiteColor()
+            deleteIcon.layer.cornerRadius = 14
+            deleteIcon.layer.masksToBounds = true
+            self.addSubview(deleteIcon)
+            // add the event on label
+            let deleteGesture = UITapGestureRecognizer(target: self, action: "deleteObservation")
+            deleteIcon.userInteractionEnabled=true
+            deleteIcon.addGestureRecognizer(deleteGesture)
+        }
+    }
+    
+    func deleteObservation()
+    {
+        let deleteAlert = UIAlertController(title: "Delete", message: "Are you sure, you want to delete?", preferredStyle: UIAlertControllerStyle.Alert)
+        
+        deleteAlert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: { (action: UIAlertAction!) in
+            switch (self.showObservationType!)
+            {
+            case ShowObservationType.Respiratory:
+                if(self.observation != nil)
+                {
+                    self.observation.respiratory = nil
+                }
+                
+            case ShowObservationType.SpO2:
+                if(self.observation != nil)
+                {
+                    self.observation.spo2 = nil
+                }
+                
+            case ShowObservationType.Temperature:
+                if(self.observation != nil)
+                {
+                    self.observation.temperature = nil
+                }
+            case ShowObservationType.BloodPressure:
+                if(self.observation != nil)
+                {
+                    self.observation.bloodPressure = nil
+                }
+            case ShowObservationType.Pulse:
+                if(self.observation != nil)
+                {
+                    self.observation.pulse = nil
+                }
+            default:
+                print("nothing to delete")
+            }
+            
+            let tableView =  self.superview?.superview as? UITableView
+            tableView?.reloadData()
+        }))
+        
+        deleteAlert.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: { (action: UIAlertAction!) in
+            print("in cancel")
+        }))
+        
+        delegate?.ShowAlertController(deleteAlert)
     }
 }

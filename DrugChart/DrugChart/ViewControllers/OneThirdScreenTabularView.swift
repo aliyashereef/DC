@@ -51,10 +51,13 @@ class OneThirdScreenTabularView: UIViewController,UICollectionViewDataSource, UI
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(contentCellIdentifier, forIndexPath: indexPath) as! OneThirdContentCell
         
+        cell.clearCell()
+        
         let index = indexPath.row + 1
         let obsType = ObservationTabularViewRow(rawValue: index)
         var observationType:ShowObservationType!
         cell.delegate = self
+        
         switch(obsType!)
         {
         case ObservationTabularViewRow.Respiratory:
@@ -158,6 +161,11 @@ class OneThirdScreenTabularView: UIViewController,UICollectionViewDataSource, UI
     func ShowModalNavigationController(navigationController:UINavigationController)
     {
         self.presentViewController(navigationController, animated: false, completion: nil)
+    }
+    
+    func ShowAlertController(alertController: UIAlertController)
+    {
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
     
     // Mark: Segue methods
