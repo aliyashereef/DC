@@ -565,6 +565,7 @@
     }
     self.selectedMedication = [[DCMedicationScheduleDetails alloc] init];
     self.selectedMedication.name = medication.name;
+    self.selectedMedication.routeArray = [[NSMutableArray alloc] initWithArray:medication.routeArray];
     self.selectedMedication.medicationId = medication.medicationId;
     self.selectedMedication.dosage = medication.dosage;
     self.selectedMedication.hasEndDate = NO;
@@ -606,6 +607,7 @@
     routesInfusionsViewController.previousRoute = self.selectedMedication.route;
     routesInfusionsViewController.infusion = self.selectedMedication.infusion;
     routesInfusionsViewController.patientId = self.patientId;
+    routesInfusionsViewController.routesArray = self.selectedMedication.routeArray;
     [self configureNavigationBackButtonTitle];
     [self.navigationController pushViewController:routesInfusionsViewController animated:YES];
 }

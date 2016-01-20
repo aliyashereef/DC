@@ -24,7 +24,7 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
 
     @IBOutlet weak var routesTableView: UITableView!
     var delegate : RoutesAndInfusionsDelegate?
-    var routesArray : [String]? = []
+    var routesArray : NSMutableArray = []
     var previousRoute : String = EMPTY_STRING
     var infusion : DCInfusion?
     var patientId : String?
@@ -35,7 +35,7 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
         
         super.viewDidLoad()
         self.title = NSLocalizedString("ROUTES", comment: "screen title")
-        routesArray = (DCPlistManager.medicationRoutesList() as? [String])!
+//        routesArray = (DCPlistManager.medicationRoutesList() as? [String])!
     }
 
     override func didReceiveMemoryWarning() {
@@ -55,7 +55,7 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
         
         switch section {
             case SectionCount.eZerothSection.rawValue :
-                return (routesArray?.count)!
+                return routesArray.count
             case SectionCount.eFirstSection.rawValue :
                 return RowCount.eFirstRow.rawValue
             case SectionCount.eSecondSection.rawValue :
@@ -138,7 +138,7 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
     
     func updateViewForZerothSectionSelectionAtIndexPath(indexPath : NSIndexPath) {
         
-        let route : NSString = routesArray![indexPath.item]
+        let route : NSString = routesArray[indexPath.item] as! NSString
         previousRoute = route as String;
         if let routeDelegate = delegate {
             routeDelegate.newRouteSelected(route)
@@ -186,11 +186,11 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
         
         //zeroth section 
         let routeCell = routesTableView.dequeueReusableCellWithIdentifier(ROUTE_CELL_ID) as? DCRouteCell
-        let route : NSString = routesArray![indexPath.item]
+        let route : NSString = routesArray[indexPath.item] as! NSString
         routeCell?.titleLabel.text = route as String
-        let range = route.rangeOfString(" ")
-        let croppedString = route.substringToIndex(range.location)
-        if (previousRoute.containsString(croppedString) == true) {
+        //let range = route.rangeOfString(" ")
+        //let croppedString = route.substringToIndex(range.location)
+        if (previousRoute.containsString(route as String) == true) {
             previousSelectedRouteIndexPath = indexPath
             routeCell?.accessoryType = .Checkmark
         } else {
