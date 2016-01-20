@@ -37,6 +37,14 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
         self.title = NSLocalizedString("ROUTES", comment: "screen title")
         routesArray = (DCPlistManager.medicationRoutesList() as? [String])!
     }
+    
+    override func viewWillDisappear(animated: Bool) {
+        
+        if let infusionDelegate = self.delegate {
+            infusionDelegate.updatedInfusionObject(self.infusion!)
+        }
+        super.viewWillDisappear(animated)
+    }
 
     override func didReceiveMemoryWarning() {
         
@@ -47,7 +55,11 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        let sectionCount = DCInfusionsHelper.routesAndInfusionsSectionCountForSelectedRoute(previousRoute, infusion: self.infusion!)
+//        let sectionCount = DCInfusionsHelper.routesAndInfusionsSectionCountForSelectedRoute(previousRoute, infusion: self.infusion!)
+//        return sectionCount
+       // return 1
+        
+        let sectionCount = DCAddMedicationHelper.routesTableViewSectionCountForSelectedRoute(previousRoute)
         return sectionCount
     }
     
@@ -58,26 +70,35 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
                 return (routesArray?.count)!
             case SectionCount.eFirstSection.rawValue :
                 return RowCount.eFirstRow.rawValue
-            case SectionCount.eSecondSection.rawValue :
-                var rowCount = RowCount.eZerothRow.rawValue
-                if (infusion!.administerAsOption == DURATION_BASED_INFUSION) {
-                    rowCount = RowCount.eFirstRow.rawValue
-                } else {
-                    rowCount = RowCount.eFourthRow.rawValue
-                    if (tableViewHasInlinePickerForSection(section)) {
-                        rowCount++
-                    }
-                }
-             return rowCount
-            case SectionCount.eThirdSection.rawValue :
-                var rowCount = RowCount.eThirdRow.rawValue
-                if (tableViewHasInlinePickerForSection(section)) {
-                    rowCount++
-                }
-                return rowCount
             default :
                 return RowCount.eZerothRow.rawValue
         }
+        
+//        switch section {
+//            case SectionCount.eZerothSection.rawValue :
+//                return (routesArray?.count)!
+//            case SectionCount.eFirstSection.rawValue :
+//                return RowCount.eFirstRow.rawValue
+//            case SectionCount.eSecondSection.rawValue :
+//                var rowCount = RowCount.eZerothRow.rawValue
+//                if (infusion!.administerAsOption == DURATION_BASED_INFUSION) {
+//                    rowCount = RowCount.eFirstRow.rawValue
+//                } else {
+//                    rowCount = RowCount.eFourthRow.rawValue
+//                    if (tableViewHasInlinePickerForSection(section)) {
+//                        rowCount++
+//                    }
+//                }
+//             return rowCount
+//            case SectionCount.eThirdSection.rawValue :
+//                var rowCount = RowCount.eThirdRow.rawValue
+//                if (tableViewHasInlinePickerForSection(section)) {
+//                    rowCount++
+//                }
+//                return rowCount
+//            default :
+//                return RowCount.eZerothRow.rawValue
+//        }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -146,7 +167,7 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
         if let routeDelegate = delegate {
             routeDelegate.newRouteSelected(route)
         }
-        if (DCInfusionsHelper.routeIsIntravenous(route) == false) {
+        if (DCAddMedicationHelper.routeIsIntravenous(route as String) == false) {
             self.infusion?.administerAsOption = nil
             if let infusionDelegate = self.delegate {
                 infusionDelegate.updatedInfusionObject(self.infusion!)
@@ -181,6 +202,8 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
         let addMedicationStoryBoard : UIStoryboard = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil)
         let administerOptionsViewController  = addMedicationStoryBoard.instantiateViewControllerWithIdentifier(INFUSIONS_ADMINISTER_OPTIONS_SB_ID) as? DCInfusionsAdministerAsViewController
         administerOptionsViewController!.previousAdministerOption = infusion?.administerAsOption
+        administerOptionsViewController!.infusion = infusion
+        administerOptionsViewController!.patientId = self.patientId
         administerOptionsViewController!.administerDelegate  = self
         self.navigationController?.pushViewController(administerOptionsViewController!, animated: true)
     }
@@ -381,6 +404,12 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
             // didn't find a picker below it, so we should insert it
             routesTableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.Fade)
         }
+    }
+    
+    //MARK: Infusion Delegate Methods
+    
+    func newInfusionObject(newInfusion : DCInfusion) {
+        self.infusion = newInfusion
     }
 
 }

@@ -10,18 +10,14 @@ import UIKit
 
 class DCInfusionsHelper: NSObject {
     
-    static func routesAndInfusionsSectionCountForSelectedRoute(route : NSString, infusion : DCInfusion) -> NSInteger {
+    static func infusionsTableViewSectionCount(administerOption : NSString?) -> NSInteger {
         
         //get section count from the route selected,
-        if (self.routeIsIntravenous(route)) {
-            if (infusion.administerAsOption != nil) {
-                if (infusion.administerAsOption == BOLUS_INJECTION) {
-                    return SectionCount.eThirdSection.rawValue
-                } else if (infusion.administerAsOption == DURATION_BASED_INFUSION) {
-                    return SectionCount.eFourthSection.rawValue
-                } else {
-                    return SectionCount.eSecondSection.rawValue
-                }
+        if let option = administerOption {
+            if (option == BOLUS_INJECTION) {
+                return SectionCount.eSecondSection.rawValue
+            } else if (option == DURATION_BASED_INFUSION) {
+                return SectionCount.eThirdSection.rawValue
             } else {
                 return SectionCount.eSecondSection.rawValue
             }
@@ -29,10 +25,4 @@ class DCInfusionsHelper: NSObject {
             return SectionCount.eFirstSection.rawValue
         }
     }
-    
-    static func routeIsIntravenous(route : NSString) -> Bool {
-        
-        return route.containsString("Intravenous")
-    }
-
 }

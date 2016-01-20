@@ -408,5 +408,14 @@
     }
 }
 
++ (void)presentNavigationController:(UINavigationController *)navigationController
+             withRootViewController:(UIViewController *)rootViewController {
+    
+    //present navigation controller with root view controller
+    UINavigationController *newNavigationController = [[UINavigationController alloc] initWithRootViewController:rootViewController];
+    newNavigationController.modalPresentationStyle = UIModalPresentationCurrentContext;
+    [navigationController presentViewController:newNavigationController animated:YES completion:nil];
+}
+
 
 @end

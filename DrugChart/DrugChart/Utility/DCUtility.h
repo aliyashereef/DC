@@ -101,4 +101,7 @@ typedef enum : NSUInteger {
 + (void)backButtonItemForViewController:(UIViewController *)viewController
                  inNavigationController:(UINavigationController *)navigationController withTitle:(NSString *)title;
 
++ (void)presentNavigationController:(UINavigationController *)navigationController
+             withRootViewController:(UIViewController *)rootViewController;
+
 @end
