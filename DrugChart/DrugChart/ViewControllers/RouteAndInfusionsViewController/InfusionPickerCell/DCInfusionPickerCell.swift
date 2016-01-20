@@ -34,8 +34,6 @@ class DCInfusionPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewD
         contentArray = DCSchedulingHelper.numbersArrayWithMaximumCount(250)
         pickerView.reloadAllComponents()
         if (previousValue == nil) {
-            //previousValue = String(contentArray?.objectAtIndex(0)) as String
-           // let initialValue = (contentArray?.objectAtIndex(0)) as! String
             unitCompletion(ONE)
             pickerView.selectRow(0, inComponent: 0, animated: true)
         } else {

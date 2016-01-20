@@ -37,6 +37,14 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
         self.title = NSLocalizedString("ROUTES", comment: "screen title")
 //        routesArray = (DCPlistManager.medicationRoutesList() as? [String])!
     }
+    
+    override func viewWillDisappear(animated: Bool) {
+        
+        if let infusionDelegate = self.delegate {
+            infusionDelegate.updatedInfusionObject(self.infusion!)
+        }
+        super.viewWillDisappear(animated)
+    }
 
     override func didReceiveMemoryWarning() {
         
@@ -47,7 +55,11 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        let sectionCount = DCInfusionsHelper.routesAndInfusionsSectionCountForSelectedRoute(previousRoute, infusion: self.infusion!)
+//        let sectionCount = DCInfusionsHelper.routesAndInfusionsSectionCountForSelectedRoute(previousRoute, infusion: self.infusion!)
+//        return sectionCount
+       // return 1
+        
+        let sectionCount = DCAddMedicationHelper.routesTableViewSectionCountForSelectedRoute(previousRoute)
         return sectionCount
     }
     
@@ -58,15 +70,35 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
                 return routesArray.count
             case SectionCount.eFirstSection.rawValue :
                 return RowCount.eFirstRow.rawValue
-            case SectionCount.eSecondSection.rawValue :
-                var rowCount = RowCount.eFourthRow.rawValue
-                if (tableViewHasInlinePickerForSection(section)) {
-                    rowCount++
-                }
-                return rowCount
             default :
                 return RowCount.eZerothRow.rawValue
         }
+        
+//        switch section {
+//            case SectionCount.eZerothSection.rawValue :
+//                return (routesArray?.count)!
+//            case SectionCount.eFirstSection.rawValue :
+//                return RowCount.eFirstRow.rawValue
+//            case SectionCount.eSecondSection.rawValue :
+//                var rowCount = RowCount.eZerothRow.rawValue
+//                if (infusion!.administerAsOption == DURATION_BASED_INFUSION) {
+//                    rowCount = RowCount.eFirstRow.rawValue
+//                } else {
+//                    rowCount = RowCount.eFourthRow.rawValue
+//                    if (tableViewHasInlinePickerForSection(section)) {
+//                        rowCount++
+//                    }
+//                }
+//             return rowCount
+//            case SectionCount.eThirdSection.rawValue :
+//                var rowCount = RowCount.eThirdRow.rawValue
+//                if (tableViewHasInlinePickerForSection(section)) {
+//                    rowCount++
+//                }
+//                return rowCount
+//            default :
+//                return RowCount.eZerothRow.rawValue
+//        }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -79,24 +111,16 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
                 let infusionCell = self.configureInfusionCellAtIndexPath(indexPath)
                 return infusionCell!
             case SectionCount.eSecondSection.rawValue :
-                if (indexPath.row == RowCount.eZerothRow.rawValue) {
-                    let bolusCell = self.configureSlowBolusCellIndexPath(indexPath)
-                    return bolusCell
+                if (self.infusion?.administerAsOption == DURATION_BASED_INFUSION) {
+                    let infusionCell = self.configureInfusionCellAtIndexPath(indexPath)
+                    return infusionCell!
                 } else {
-                    if (self.inlinePickerIndexPath?.row == indexPath.row) {
-                        let infusionPickerCell = tableView.dequeueReusableCellWithIdentifier(INFUSION_PICKER_CELL_ID) as? DCInfusionPickerCell
-                        infusionPickerCell?.previousValue = self.infusion?.bolusInjection?.quantity
-                        infusionPickerCell?.unitCompletion = { unit in
-                            self.infusion?.bolusInjection?.quantity = unit! as String
-                            self.performSelector(Selector("reloadCellAfterDelayAtIndexPath:"), withObject: NSIndexPath(forRow: 2, inSection: 2), afterDelay: 0.04)
-                        }
-                        infusionPickerCell?.configurePickerView()
-                        return infusionPickerCell!
-                    } else {
-                        let infusionCell = self.configureInfusionCellAtIndexPath(indexPath)
-                        return infusionCell!
-                    }
+                    let tableCell = self.configureSecondSectionOfTableViewForBolusInjectionAtIndexPath(indexPath)
+                    return tableCell
                 }
+            case SectionCount.eThirdSection.rawValue :
+                let tableCell = self.configureSolutionInfoCellAtIndexPath(indexPath)
+                return tableCell
             default :
                 let routeCell = tableView.dequeueReusableCellWithIdentifier(ROUTE_CELL_ID) as? DCRouteCell
                 return routeCell!
@@ -143,7 +167,7 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
         if let routeDelegate = delegate {
             routeDelegate.newRouteSelected(route)
         }
-        if (DCInfusionsHelper.routeIsIntravenous(route) == false) {
+        if (DCAddMedicationHelper.routeIsIntravenous(route as String) == false) {
             self.infusion?.administerAsOption = nil
             if let infusionDelegate = self.delegate {
                 infusionDelegate.updatedInfusionObject(self.infusion!)
@@ -178,6 +202,8 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
         let addMedicationStoryBoard : UIStoryboard = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil)
         let administerOptionsViewController  = addMedicationStoryBoard.instantiateViewControllerWithIdentifier(INFUSIONS_ADMINISTER_OPTIONS_SB_ID) as? DCInfusionsAdministerAsViewController
         administerOptionsViewController!.previousAdministerOption = infusion?.administerAsOption
+        administerOptionsViewController!.infusion = infusion
+        administerOptionsViewController!.patientId = self.patientId
         administerOptionsViewController!.administerDelegate  = self
         self.navigationController?.pushViewController(administerOptionsViewController!, animated: true)
     }
@@ -199,6 +225,34 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
         return routeCell!
     }
     
+    func configureSecondSectionOfTableViewForBolusInjectionAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
+        
+        if (indexPath.row == RowCount.eZerothRow.rawValue) {
+            let bolusCell = self.configureSlowBolusCellIndexPath(indexPath)
+            return bolusCell
+        } else {
+            let tableCell = self.configureSolutionInfoCellAtIndexPath(indexPath)
+            return tableCell
+        }
+    }
+    
+    func configureSolutionInfoCellAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
+        
+        if (self.inlinePickerIndexPath?.row == indexPath.row) {
+            let infusionPickerCell = routesTableView.dequeueReusableCellWithIdentifier(INFUSION_PICKER_CELL_ID) as? DCInfusionPickerCell
+            infusionPickerCell?.previousValue = self.infusion?.bolusInjection?.quantity
+            infusionPickerCell?.unitCompletion = { unit in
+                self.infusion?.bolusInjection?.quantity = unit! as String
+                self.performSelector(Selector("reloadCellAfterDelayAtIndexPath:"), withObject: NSIndexPath(forRow: 2, inSection: 2), afterDelay: 0.04)
+            }
+            infusionPickerCell?.configurePickerView()
+            return infusionPickerCell!
+        } else {
+            let infusionCell = self.configureInfusionCellAtIndexPath(indexPath)
+            return infusionCell!
+        }
+    }
+    
     func configureInfusionCellAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell? {
         
         //configure infusions cell
@@ -207,7 +261,12 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
             infusionCell?.titleLabel.text = NSLocalizedString("ADMINISTER_AS", comment: "")
             infusionCell?.descriptionLabel.text = infusion?.administerAsOption
         } else {
-            switch indexPath.row {
+            if (self.infusion?.administerAsOption == DURATION_BASED_INFUSION && indexPath.section == SectionCount.eSecondSection.rawValue) {
+                infusionCell?.titleLabel.text = NSLocalizedString("OVER", comment: "")
+                infusionCell?.descriptionLabel.text = "1 hr"
+                infusionCell?.accessoryType = .DisclosureIndicator
+            } else {
+                switch indexPath.row {
                 case RowCount.eFirstRow.rawValue :
                     infusionCell?.accessoryType = .None
                     infusionCell?.titleLabel.text = NSLocalizedString("IN", comment: "")
@@ -227,6 +286,7 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
                     infusionCell?.descriptionTrailingConstraint.constant = DESCRIPTION_LABEL_TARINLING_DEFAULT
                 default :
                     break
+            }
             }
         }
         return infusionCell!
@@ -336,7 +396,6 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
     
     func togglePickerForSelectedIndexPath(indexPath : NSIndexPath) {
         
-        // detailTableView.beginUpdates()
         let indexPaths = [NSIndexPath(forItem: indexPath.row + 1, inSection: indexPath.section)]
         if (tableViewHasInlinePickerForSection(indexPath.section)) {
             routesTableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.Fade)
@@ -344,6 +403,14 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
             // didn't find a picker below it, so we should insert it
             routesTableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.Fade)
         }
+    }
+    
+    //MARK: Infusion Delegate Methods
+    
+    func newInfusionObject(newInfusion : DCInfusion) {
+        
+        self.infusion = newInfusion
+        routesTableView.reloadData()
     }
 
 }
