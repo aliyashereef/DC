@@ -10,15 +10,17 @@ import UIKit
 
 class DCDosageConditionsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate{
 
-    var conditionsItemsArray = ["Reduce 50 mg every day"]
     var previewDetailsArray = [String]()
     var previousSelectedValue : NSString = ""
-    var reducingIncreasing : DCReducingIncreasingDose?
+    var dosage : DCDosage?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        if self.reducingIncreasing?.conditionsArray == nil {
-            self.reducingIncreasing?.conditionsArray = []
+        if self.dosage?.reducingIncreasingDose?.conditionsArray == nil {
+            self.dosage?.reducingIncreasingDose?.conditionsArray = []
+        }
+        if self.dosage?.reducingIncreasingDose?.conditionsArray.count > 0 {
+            self.updateMainPreviewDetailsArray()
         }
         self.configureNavigationBarItems()
         // Do any additional setup after loading the view.
@@ -38,7 +40,7 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
     // MARK: - Table View Methods
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        if (self.reducingIncreasing?.conditionsArray.count != 0) {
+        if (self.dosage?.reducingIncreasingDose?.conditionsArray.count != 0) {
             return 3
         } else {
             return 1
@@ -48,8 +50,8 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if (section == 0) {
-            if self.reducingIncreasing?.conditionsArray.count != 0 {
-                return (self.reducingIncreasing?.conditionsArray.count)!
+            if self.dosage?.reducingIncreasingDose?.conditionsArray.count != 0 {
+                return (self.dosage?.reducingIncreasingDose?.conditionsArray.count)!
             } else {
                 return 1
             }
@@ -66,8 +68,8 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
         dosageConditionCell?.conditionsMainLabel.textColor = UIColor.blackColor()
         switch indexPath.section {
         case 0:
-            if self.reducingIncreasing?.conditionsArray.count != 0 {
-                dosageConditionCell!.conditionsMainLabel.text = self.reducingIncreasing?.conditionsArray[indexPath.row].conditionDescription
+            if self.dosage?.reducingIncreasingDose?.conditionsArray.count != 0 {
+                dosageConditionCell!.conditionsMainLabel.text = self.dosage?.reducingIncreasingDose?.conditionsArray[indexPath.row].conditionDescription
             } else {
                 dosageConditionCell?.conditionsMainLabel.text = ADD_CONDITION_TITLE
                 dosageConditionCell?.conditionsMainLabel.textColor = tableView.tintColor
@@ -87,15 +89,16 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
         
         switch indexPath.section {
         case 0:
-            if self.reducingIncreasing?.conditionsArray.count != 0 {
+            if self.dosage?.reducingIncreasingDose?.conditionsArray.count != 0 {
                 
             } else {
                 let addConditionViewController : DCAddConditionViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(ADD_CONDITION_SBID) as? DCAddConditionViewController
                 addConditionViewController?.newConditionEntered = { value in
-                    self.reducingIncreasing?.conditionsArray.addObject(value!)
+                    self.dosage?.reducingIncreasingDose?.conditionsArray.addObject(value!)
                     self.updateMainPreviewDetailsArray()
                     tableView.reloadData()
                 }
+                addConditionViewController!.reducingIncreasingObject = self.dosage?.reducingIncreasingDose
                 addConditionViewController!.newStartingDose = self.currentStartingDose()
                 let navigationController: UINavigationController = UINavigationController(rootViewController: addConditionViewController!)
                 navigationController.modalPresentationStyle = UIModalPresentationStyle.CurrentContext
@@ -104,10 +107,11 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
         case 1:
             let addConditionViewController : DCAddConditionViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(ADD_CONDITION_SBID) as? DCAddConditionViewController
             addConditionViewController?.newConditionEntered = { value in
-                self.reducingIncreasing?.conditionsArray.addObject(value!)
+                self.dosage?.reducingIncreasingDose?.conditionsArray.addObject(value!)
                 self.updateMainPreviewDetailsArray()
                 tableView.reloadData()
             }
+            addConditionViewController!.reducingIncreasingObject = self.dosage?.reducingIncreasingDose
             addConditionViewController?.newStartingDose = self.currentStartingDose()
             let navigationController: UINavigationController = UINavigationController(rootViewController: addConditionViewController!)
             navigationController.modalPresentationStyle = UIModalPresentationStyle.CurrentContext
@@ -125,11 +129,11 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
 // MARK: - Private Methods
 
     func currentStartingDose() -> Float {
-        if self.reducingIncreasing?.conditionsArray.count == 0 {
-            return NSString(string: (self.reducingIncreasing?.startingDose)!).floatValue
+        if self.dosage?.reducingIncreasingDose?.conditionsArray.count == 0 {
+            return NSString(string: (self.dosage?.reducingIncreasingDose?.startingDose)!).floatValue
         } else {
-            let indexOfLastObject = self.reducingIncreasing?.conditionsArray.indexOfObject((self.reducingIncreasing?.conditionsArray.lastObject)!)
-            return NSString(string: (self.reducingIncreasing?.conditionsArray[indexOfLastObject!].until)!).floatValue
+            let indexOfLastObject = self.dosage?.reducingIncreasingDose?.conditionsArray.indexOfObject((self.dosage?.reducingIncreasingDose?.conditionsArray.lastObject)!)
+            return NSString(string: (self.dosage?.reducingIncreasingDose?.conditionsArray[indexOfLastObject!].until)!).floatValue
         }
     }
     
@@ -137,13 +141,13 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
     
         var currentStartingDose : Float?
         previewDetailsArray = []
-        for ( var index = 0; index < self.reducingIncreasing?.conditionsArray.count; index++) {
+        for ( var index = 0; index < self.dosage?.reducingIncreasingDose?.conditionsArray.count; index++) {
             if index == 0 {
-                currentStartingDose = NSString(string: (self.reducingIncreasing?.startingDose)!).floatValue
+                currentStartingDose = NSString(string: (self.dosage?.reducingIncreasingDose?.startingDose)!).floatValue
             } else {
-                currentStartingDose = NSString(string: (self.reducingIncreasing?.conditionsArray[index - 1].until)!).floatValue
+                currentStartingDose = NSString(string: (self.dosage?.reducingIncreasingDose?.conditionsArray[index - 1].until)!).floatValue
             }
-            previewDetailsArray.appendContentsOf(DCDosageHelper.updatePreviewDetailsArray((self.reducingIncreasing?.conditionsArray[index])! as! DCConditions, currentStartingDose: currentStartingDose!))
+            previewDetailsArray.appendContentsOf(DCDosageHelper.updatePreviewDetailsArray((self.dosage?.reducingIncreasingDose?.conditionsArray[index])! as! DCConditions, currentStartingDose: currentStartingDose!))
         }
         previewDetailsArray.append("Stop")
     }

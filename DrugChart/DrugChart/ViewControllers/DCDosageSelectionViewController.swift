@@ -498,7 +498,7 @@ typealias SelectedDosage = DCDosage? -> Void
             case 3:
                 if (menuType == eReducingIncreasing) {
                     let dosageConditionsViewController : DCDosageConditionsViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_CONDITIONS_SBID) as? DCDosageConditionsViewController
-                    dosageConditionsViewController?.reducingIncreasing = self.dosage?.reducingIncreasingDose
+                    dosageConditionsViewController?.dosage = self.dosage
                     self.configureNavigationBackButtonTitle()
                     self.navigationController?.pushViewController(dosageConditionsViewController!, animated: true)
                     return

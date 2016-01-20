@@ -23,6 +23,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     var selectedPickerType : PickerType?
     var newConditionEntered: NewConditionEntered = { value in }
     var conditionItem : DCConditions?
+    var reducingIncreasingObject : DCReducingIncreasingDose?
     var previewDetails = [String]()
     
     @IBOutlet weak var addConditionTableView: UITableView!
@@ -30,7 +31,6 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     override func viewDidLoad() {
         super.viewDidLoad()
         conditionItem = DCConditions.init()
-        print(newStartingDose)
         self.configureNavigationBarItems()
         // Do any additional setup after loading the view.
     }
@@ -215,7 +215,6 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
                 self.valueForChange = value!
                 self.addConditionTableView.reloadData()
             }
-            
             return dosageDetailCell!
         } else {
             
@@ -224,20 +223,25 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
             dosageDetailCell?.configurePickerCellForPickerType(eDailyCount)
             dosageDetailCell?.pickerCompletion = { value in
                 
-                self.valueForEvery = "\(value!) days"
+                if Int(value as! String) == 1 {
+                    self.valueForEvery = "\(value!) \(String((self.reducingIncreasingObject?.changeOver)!.characters.dropLast()).lowercaseString)"
+                } else {
+                    self.valueForEvery = "\(value!) \(String(UTF8String: (self.reducingIncreasingObject?.changeOver)!.lowercaseString)!)"
+                }
                 self.addConditionTableView.reloadData()
             }
+            dosageDetailCell?.changeOver = (self.reducingIncreasingObject?.changeOver)!
             return dosageDetailCell!
         }
     }
     
     func validateTheAddConditionValues() -> Bool {
         if (valueForChange == REDUCING) {
-            if newStartingDose < NSString(string: valueForUntil).floatValue {
+            if newStartingDose <= NSString(string: valueForUntil).floatValue {
                 return false
             }
         } else {
-            if newStartingDose > NSString(string: valueForUntil).floatValue {
+            if newStartingDose >= NSString(string: valueForUntil).floatValue {
                 return false
             }
         }
