@@ -314,7 +314,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="HLA-ZN-fNb">
-                                <rect key="frame" x="5" y="125" width="365" height="533"/>
+                                <rect key="frame" x="5" y="125" width="365" height="443"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="oFm-r3-wLA">
@@ -360,6 +360,16 @@
                                     <constraint firstItem="Y23-25-XpS" firstAttribute="leading" secondItem="Sqg-Un-yzA" secondAttribute="leading" id="aq8-JI-o7r"/>
                                 </constraints>
                             </view>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sdA-Yt-bo5">
+                                <rect key="frame" x="0.0" y="577" width="375" height="44"/>
+                                <items>
+                                    <barButtonItem title="Item" id="UB9-22-ky0">
+                                        <connections>
+                                            <action selector="showCalendar" destination="ghd-wW-ckW" id="rke-Wd-Lcz"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -367,16 +377,23 @@
                             <constraint firstItem="HLA-ZN-fNb" firstAttribute="top" secondItem="nNw-AC-qps" secondAttribute="bottom" constant="105" id="O0h-ey-uKE"/>
                             <constraint firstItem="Sqg-Un-yzA" firstAttribute="top" secondItem="nNw-AC-qps" secondAttribute="bottom" constant="42" id="RLH-vc-AHy"/>
                             <constraint firstItem="N4b-60-fic" firstAttribute="top" secondItem="nNw-AC-qps" secondAttribute="bottom" constant="15" id="VAn-ao-Up7"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="sdA-Yt-bo5" secondAttribute="trailing" constant="-20" id="YTD-rX-r4D"/>
                             <constraint firstItem="N4b-60-fic" firstAttribute="leading" secondItem="IjX-HR-HZO" secondAttribute="leadingMargin" constant="106" id="cXn-gI-eTc"/>
+                            <constraint firstItem="sdA-Yt-bo5" firstAttribute="leading" secondItem="IjX-HR-HZO" secondAttribute="leadingMargin" constant="-20" id="co8-dQ-A7q"/>
+                            <constraint firstItem="EcQ-OG-XmU" firstAttribute="top" secondItem="sdA-Yt-bo5" secondAttribute="bottom" constant="2" id="eCS-Q6-Veu"/>
                             <constraint firstAttribute="trailingMargin" secondItem="HLA-ZN-fNb" secondAttribute="trailing" constant="-15" id="sSx-4n-pVC"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Sqg-Un-yzA" secondAttribute="trailing" constant="-15" id="tdR-2X-n37"/>
                             <constraint firstItem="HLA-ZN-fNb" firstAttribute="leading" secondItem="IjX-HR-HZO" secondAttribute="leadingMargin" constant="-15" id="xNo-ZR-c0X"/>
                         </constraints>
                     </view>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="collectionView" destination="Y23-25-XpS" id="knn-oo-730"/>
                         <outlet property="dateHeadingLabel" destination="N4b-60-fic" id="64H-nX-aXf"/>
+                        <outlet property="headingLabel" destination="N4b-60-fic" id="FW3-du-pOn"/>
+                        <outlet property="sortMenuItem" destination="UB9-22-ky0" id="rnn-lN-J92"/>
                         <outlet property="stripView" destination="Sqg-Un-yzA" id="lE5-WH-Fq5"/>
                         <outlet property="tableView" destination="HLA-ZN-fNb" id="NEQ-8G-7ei"/>
                     </connections>

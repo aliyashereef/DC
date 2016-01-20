@@ -20,11 +20,7 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
     var observationList:[VitalSignObservation]!
     var filteredObservations:[VitalSignObservation]!
     private var viewByDate:NSDate = NSDate()
-//    let BORDER_WIDTH : CGFloat  = 0.10
-//    let CORNER_RADIUS :CGFloat = 2
-//    let CELL_BORDER_COLOR :CGColor = UIColor.lightGrayColor().CGColor
-//    let SELECTION_CELL_BACKGROUND_COLOR:UIColor = UIColor(forHexString: "#fafafa")
-//    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -86,10 +82,11 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
                 headerCell.layer.borderColor = Constant.CELL_BORDER_COLOR
                 headerCell.layer.cornerRadius = Constant.CORNER_RADIUS
                 headerCell.changeBackgroundColor(UIColor.whiteColor())
+                headerCell.dateLabel.textColor = UIColor.blackColor()
                 return headerCell
             } else {
                 let observation = filteredObservations[indexPath.row - 1]
-                headerCell.configureCell(observation.date)
+                headerCell.configureFullTabularCell(observation.date)
                 headerCell.layer.borderWidth = Constant.BORDER_WIDTH
                 headerCell.layer.borderColor = Constant.CELL_BORDER_COLOR
                 headerCell.layer.cornerRadius = Constant.CORNER_RADIUS

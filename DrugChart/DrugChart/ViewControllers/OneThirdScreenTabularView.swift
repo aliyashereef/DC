@@ -8,19 +8,25 @@
 
 import UIKit
 
-class OneThirdScreenTabularView: UIViewController,UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UITableViewDelegate,UITableViewDataSource,ObservationDelegate {
+class OneThirdScreenTabularView: UIViewController,UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UITableViewDelegate,UITableViewDataSource,ObservationDelegate,UIPopoverPresentationControllerDelegate  {
    
     @IBOutlet weak var stripView: UIView!
     
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var headingLabel: UILabel!
     
+    @IBOutlet weak var sortMenuItem: UIBarButtonItem!
     @IBOutlet weak var dateHeadingLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     var observationList:[VitalSignObservation]!
     let headerCellIdentifier = "headerCellIdentifier"
     let contentCellIdentifier = "contentCell"
     var selectedObservation:VitalSignObservation! = nil
+
+    var filteredObservations:[VitalSignObservation]!
+    private var viewByDate:NSDate = NSDate()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -35,8 +41,45 @@ class OneThirdScreenTabularView: UIViewController,UICollectionViewDataSource, UI
         stripView.layer.cornerRadius = Constant.CORNER_RADIUS
         stripView.layer.backgroundColor = Constant.CELL_BORDER_COLOR
         stripView.backgroundColor = Constant.SELECTION_CELL_BACKGROUND_COLOR
+        setDateDisplay()
+        filterList()
     }
     
+    func filterList()
+    {
+        let calendar = NSCalendar.currentCalendar()
+        let chosenDateComponents = calendar.components([.Month , .Year], fromDate: viewByDate)
+        
+        filteredObservations = observationList.filter { (observationList) -> Bool in
+            let components = calendar.components([.Month, .Year], fromDate:observationList.date)
+            return components.month == chosenDateComponents.month && components.year == chosenDateComponents.year
+        }
+    }
+    
+    private func setDateDisplay()
+    {
+        let calendar = NSCalendar.currentCalendar()
+        let chosenDateComponents = calendar.components([.Month , .Year], fromDate: viewByDate)
+        let displayText = String(format: "%d / %d",chosenDateComponents.month , chosenDateComponents.year)
+        sortMenuItem.title = displayText
+        headingLabel.text = viewByDate.getFormattedMonthName() + " " + viewByDate.getFormattedYear()
+    }
+    
+    // Mark: Sorting option implementation
+    @IBAction func showCalendar()
+    {
+        let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
+        let calendarViewController : CalendarViewController = mainStoryboard.instantiateViewControllerWithIdentifier("CalendarViewController") as! CalendarViewController
+        calendarViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
+        calendarViewController.preferredContentSize = CGSizeMake(320,250)
+        calendarViewController.popoverPresentationController?.barButtonItem = sortMenuItem
+        calendarViewController.delegate = self
+        
+        let popOverController:UIPopoverPresentationController = calendarViewController.popoverPresentationController!
+        popOverController.delegate = self
+        
+        self.presentViewController(calendarViewController, animated: false, completion: nil)
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -113,27 +156,39 @@ class OneThirdScreenTabularView: UIViewController,UICollectionViewDataSource, UI
         }
         if(selectedObservation  != nil)
         {
-            cell.configureCell(observationType, observation: selectedObservation)
+            cell.configureCell(observationType, observation: selectedObservation )
         }
         return cell
     }
     // MARK: CollectionView Items
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return observationList.count
+        return filteredObservations.count
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let observation = observationList[indexPath.row]
+        let observation = filteredObservations[indexPath.row]
+        let cell = collectionView.cellForItemAtIndexPath(indexPath) as? HeaderCollectionViewCell
+        if(cell != nil)
+        {
+            cell!.setSelectionIndicators(observation.date)
+        }
         selectedObservation = observation
         tableView.reloadData()
     }
     
+    func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
+        let cell = collectionView.cellForItemAtIndexPath(indexPath) as? HeaderCollectionViewCell
+        if(cell != nil)
+        {
+            cell!.removeIndicator()
+        }
+    }
+    
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell=collectionView.dequeueReusableCellWithReuseIdentifier(headerCellIdentifier, forIndexPath: indexPath) as! HeaderCollectionViewCell
-        cell.changeBackgroundColor(Constant.SELECTION_CELL_BACKGROUND_COLOR) // explicitly set the background color for all cells
-        let observation = observationList[indexPath.row]
-        cell.configureCell(observation.date)
+        let observation = filteredObservations[indexPath.row]
+        cell.configureOneThirdTabularCell(observation.date)
         cell.layer.borderWidth = Constant.BORDER_WIDTH
         cell.layer.borderColor = Constant.CELL_BORDER_COLOR
         cell.layer.cornerRadius = Constant.CORNER_RADIUS
@@ -173,6 +228,27 @@ class OneThirdScreenTabularView: UIViewController,UICollectionViewDataSource, UI
     {
         tableView.reloadData()
     }
+    //MARK : popup presentation style implementation
+    func adaptivePresentationStyleForPresentationController(
+        controller: UIPresentationController) -> UIModalPresentationStyle {
+            return .None
+    }
+    // Mark: Delegate implementation
+    func DateSelected(value:NSDate)
+    {
+        viewByDate = value
+        setDateDisplay()
+        reloadView(observationList)
+    }
+    
+    private func reloadView(observationList:[VitalSignObservation])
+    {
+        self.observationList = observationList // order matters here
+        filterList()
+        self.collectionView.reloadData()
+        self.tableView.reloadData()
+    }
+    
     /*
     // MARK: - Navigation
 

@@ -726,7 +726,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
                         {
                             let cell = getCell(ObservationType.BloodPressure.rawValue) as! BloodPressureCell
                             observation.bloodPressure?.systolic = cell.getSystolicValue()
-                            observation.bloodPressure?.diastolic = cell.getSystolicValue()
+                            observation.bloodPressure?.diastolic = cell.getDiastolicValue()
                         }
                     case .Pulse:
                         if(observation != nil && observation.pulse != nil)
