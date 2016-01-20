@@ -396,7 +396,6 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
     
     func togglePickerForSelectedIndexPath(indexPath : NSIndexPath) {
         
-        // detailTableView.beginUpdates()
         let indexPaths = [NSIndexPath(forItem: indexPath.row + 1, inSection: indexPath.section)]
         if (tableViewHasInlinePickerForSection(indexPath.section)) {
             routesTableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.Fade)
@@ -409,7 +408,9 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
     //MARK: Infusion Delegate Methods
     
     func newInfusionObject(newInfusion : DCInfusion) {
+        
         self.infusion = newInfusion
+        routesTableView.reloadData()
     }
 
 }

@@ -197,9 +197,9 @@ class DCInfusionsAdministerAsViewController: UIViewController, UITableViewDelega
         bolusCell?.switchState = { state in
             let switchValue : Bool = state!
             self.infusion?.bolusInjection?.slowBolus = switchValue
-            if let infusionDelegate = self.administerDelegate {
-                infusionDelegate.newInfusionObject(self.infusion!)
-            }
+//            if let infusionDelegate = self.administerDelegate {
+//                infusionDelegate.newInfusionObject(self.infusion!)
+//            }
         }
         return bolusCell!
     }
@@ -278,6 +278,8 @@ class DCInfusionsAdministerAsViewController: UIViewController, UITableViewDelega
                 //if section count is zero insert new section with animation
                 administerOptionsTableView.insertSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
             }
+        } else {
+            administerOptionsTableView.reloadData()
         }
     }
     
