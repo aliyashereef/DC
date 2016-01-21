@@ -23,7 +23,7 @@ class DCInfusionsAdministerAsViewController: UIViewController, UITableViewDelega
     var administerDelegate : InfusionAdministerDelegate?
     var previousAdministerOptionIndexPath : NSIndexPath?
     var infusion : DCInfusion?
-    var inlinePickerIndexPath : NSIndexPath?
+    var inlinePickerIndexPath : NSIndexPath? = nil
     var patientId : String?
     
     override func viewDidLoad() {
@@ -65,9 +65,15 @@ class DCInfusionsAdministerAsViewController: UIViewController, UITableViewDelega
                 rowCount = RowCount.eFirstRow.rawValue
             } else {
                 rowCount = RowCount.eFourthRow.rawValue
-                if (tableViewHasInlinePickerForSection(section)) {
-                    rowCount++
-                }
+             }
+            if (tableViewHasInlinePickerForSection(section)) {
+                rowCount++
+            }
+            return rowCount
+        case SectionCount.eSecondSection.rawValue :
+            var rowCount = RowCount.eThirdRow.rawValue
+            if (tableViewHasInlinePickerForSection(section)) {
+                rowCount++
             }
             return rowCount
         default :
@@ -79,24 +85,19 @@ class DCInfusionsAdministerAsViewController: UIViewController, UITableViewDelega
         
         switch indexPath.section {
             case SectionCount.eZerothSection.rawValue :
-                let optionsCell = tableView.dequeueReusableCellWithIdentifier(INFUSIONS_ADMINISTER_AS_CELL_ID) as? DCInfusionsAdministerAsCell
-                let option = optionsArray![indexPath.item]
-                optionsCell?.titleLabel.text = option
-                if (option == previousAdministerOption) {
-                    optionsCell?.accessoryType = .Checkmark
-                    previousAdministerOptionIndexPath = indexPath
-                } else {
-                    optionsCell?.accessoryType = .None
-                }
-                return optionsCell!
+                let optionsCell = administerOptionsTableCellAtIndexPath(indexPath)
+                return optionsCell
             case SectionCount.eFirstSection.rawValue :
-                if (indexPath.row == RowCount.eZerothRow.rawValue) {
-                    let bolusCell = self.slowBolusCellIndexPath(indexPath)
-                    return bolusCell
+                if (infusion?.administerAsOption == BOLUS_INJECTION) {
+                    let bolusInjectionCell = self.tableCellForBolusInjectionAtIndexPath(indexPath)
+                    return bolusInjectionCell
                 } else {
-                    let tableCell = self.infusionSolutionInfoCellAtIndexPath(indexPath)
-                    return tableCell
+                    let durationInfusionCell = self.tableCellForDurationBasedInfusionAtIndexPath(indexPath)
+                    return durationInfusionCell
                 }
+            case SectionCount.eSecondSection.rawValue :
+                let tableCell = self.infusionSolutionInfoCellAtIndexPath(indexPath)
+                return tableCell
             default :
                 let optionsCell = tableView.dequeueReusableCellWithIdentifier(INFUSIONS_ADMINISTER_AS_CELL_ID) as? DCInfusionsAdministerAsCell
                 return optionsCell!
@@ -105,25 +106,22 @@ class DCInfusionsAdministerAsViewController: UIViewController, UITableViewDelega
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        if (indexPath.section == SectionCount.eFirstSection.rawValue && indexPath.row != RowCount.eSecondRow.rawValue) {
-            collapseOpenedPickerCell()
+        if let pickerIndexpath = self.inlinePickerIndexPath {
+            if (/*indexPath.section == SectionCount.eFirstSection.rawValue &&*/ indexPath.row != pickerIndexpath.row - 1) {
+                collapseOpenedPickerCell()
+            }
         }
         switch indexPath.section {
             case SectionCount.eZerothSection.rawValue :
                 self.updateViewOnTableViewZerothSectionSelectionAtIndexPath(indexPath)
             case SectionCount.eFirstSection.rawValue :
-                switch indexPath.row {
-                    case RowCount.eFirstRow.rawValue :
-                        self.displayInfusionSolventView()
-                    case RowCount.eSecondRow.rawValue :
-                        self.displayInlinePickerForRowAtIndexPath(indexPath)
-                    case RowCount.eThirdRow.rawValue :
-                        self.displayInjectionRegionView()
-                    case RowCount.eFourthRow.rawValue :
-                        self.displayInjectionRegionView()
-                    default :
-                        break
+                if (infusion?.administerAsOption == BOLUS_INJECTION) {
+                    self.updateViewOnTableViewFirstSectionSelectionForBolusInjectionAtIndexPath(indexPath)
+                } else {
+                    self.displayInlinePickerForRowAtIndexPath(indexPath)
                 }
+            case SectionCount.eSecondSection.rawValue :
+                self.updateViewOnTableViewSecondSectionSelectionForDurationBasedInfusionAtIndexPath(indexPath)
             default :
                 break
         }
@@ -187,6 +185,38 @@ class DCInfusionsAdministerAsViewController: UIViewController, UITableViewDelega
         }
     }
     
+    func tableCellForBolusInjectionAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
+        
+        //bolus injection first section
+        if (indexPath.row == RowCount.eZerothRow.rawValue) {
+            let bolusCell = self.slowBolusCellIndexPath(indexPath)
+            return bolusCell
+        } else {
+            let tableCell = self.infusionSolutionInfoCellAtIndexPath(indexPath)
+            return tableCell
+        }
+    }
+    
+    func tableCellForDurationBasedInfusionAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
+        
+        //duration based infusion
+        if (indexPath.row == RowCount.eZerothRow.rawValue) {
+            var infusionCell = administerOptionsTableView.dequeueReusableCellWithIdentifier(INFUSIONS_CELL_ID) as? DCInfusionCell
+            infusionCell = self.populateInfusionCell(infusionCell!, accessoryType: .DisclosureIndicator, titleValue: NSLocalizedString("OVER", comment: ""), descriptionValue: self.infusion?.durationInfusion?.flowDuration, descriptionTrailing: DESCRIPTION_LABEL_TRAILING_DEFAULT, descriptionWidth: DESCRITION_LABEL_WIDTH_DEFAULT)
+            return infusionCell!
+        } else {
+            let infusionPickerCell = administerOptionsTableView.dequeueReusableCellWithIdentifier(INFUSION_PICKER_CELL_ID) as? DCInfusionPickerCell
+            infusionPickerCell?.infusionPickerType = eFlowDuration
+            infusionPickerCell?.previousValue = self.infusion?.durationInfusion?.flowDuration
+            infusionPickerCell?.unitCompletion = { unit in
+                self.infusion?.durationInfusion?.flowDuration = unit! as String
+                self.performSelector(Selector("reloadCellAfterDelayAtIndexPath:"), withObject: NSIndexPath(forRow: indexPath.row - 1, inSection: indexPath.section), afterDelay: 0.04)
+            }
+            infusionPickerCell?.configurePickerView()
+            return infusionPickerCell!
+        }
+    }
+    
     func slowBolusCellIndexPath(indexPath : NSIndexPath) -> DCSlowBolusCell {
         
         //configure slow bolus cell
@@ -197,9 +227,6 @@ class DCInfusionsAdministerAsViewController: UIViewController, UITableViewDelega
         bolusCell?.switchState = { state in
             let switchValue : Bool = state!
             self.infusion?.bolusInjection?.slowBolus = switchValue
-//            if let infusionDelegate = self.administerDelegate {
-//                infusionDelegate.newInfusionObject(self.infusion!)
-//            }
         }
         return bolusCell!
     }
@@ -209,9 +236,14 @@ class DCInfusionsAdministerAsViewController: UIViewController, UITableViewDelega
         if (self.inlinePickerIndexPath?.row == indexPath.row) {
             let infusionPickerCell = administerOptionsTableView.dequeueReusableCellWithIdentifier(INFUSION_PICKER_CELL_ID) as? DCInfusionPickerCell
             infusionPickerCell?.previousValue = self.infusion?.bolusInjection?.quantity
+            infusionPickerCell?.infusionPickerType = eUnit
             infusionPickerCell?.unitCompletion = { unit in
-                self.infusion?.bolusInjection?.quantity = unit! as String
-                self.performSelector(Selector("reloadCellAfterDelayAtIndexPath:"), withObject: NSIndexPath(forRow: 2, inSection: indexPath.section), afterDelay: 0.04)
+                if (self.infusion?.administerAsOption == BOLUS_INJECTION) {
+                    self.infusion?.bolusInjection?.quantity = unit! as String
+                } else if (self.infusion?.administerAsOption == DURATION_BASED_INFUSION) {
+                    self.infusion?.durationInfusion?.quantity = unit! as String
+                }
+                self.performSelector(Selector("reloadCellAfterDelayAtIndexPath:"), withObject: NSIndexPath(forRow: indexPath.row - 1, inSection: indexPath.section), afterDelay: 0.04)
             }
             infusionPickerCell?.configurePickerView()
             return infusionPickerCell!
@@ -224,35 +256,58 @@ class DCInfusionsAdministerAsViewController: UIViewController, UITableViewDelega
     func configureInfusionCellAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell? {
         
         //configure infusions cell
-        let infusionCell = administerOptionsTableView.dequeueReusableCellWithIdentifier(INFUSIONS_CELL_ID) as? DCInfusionCell
-        if (self.infusion?.administerAsOption == DURATION_BASED_INFUSION && indexPath.section == SectionCount.eSecondSection.rawValue) {
-            infusionCell?.titleLabel.text = NSLocalizedString("OVER", comment: "")
-            infusionCell?.descriptionLabel.text = "1 hr"
-            infusionCell?.accessoryType = .DisclosureIndicator
+        var infusionCell = administerOptionsTableView.dequeueReusableCellWithIdentifier(INFUSIONS_CELL_ID) as? DCInfusionCell
+        if (self.infusion?.administerAsOption == DURATION_BASED_INFUSION && indexPath.section == SectionCount.eFirstSection.rawValue) {
+            infusionCell = self.populateInfusionCell(infusionCell!, accessoryType: .DisclosureIndicator, titleValue: NSLocalizedString("OVER", comment: ""), descriptionValue: "1 hr", descriptionTrailing: DESCRIPTION_LABEL_TRAILING_DEFAULT, descriptionWidth: DESCRITION_LABEL_WIDTH_DEFAULT)
         } else {
             switch indexPath.row {
+                case RowCount.eZerothRow.rawValue :
+                    if (self.infusion?.administerAsOption == DURATION_BASED_INFUSION) {
+                        infusionCell = self.populateInfusionCell(infusionCell!, accessoryType: .None, titleValue: NSLocalizedString("IN", comment: ""), descriptionValue: infusion?.durationInfusion?.solvent, descriptionTrailing: DESCRIPTION_LABEL_TRAILING_IN, descriptionWidth: DESCRIPTION_LABEL_WIDTH_IN)
+                    }
                 case RowCount.eFirstRow.rawValue :
-                    infusionCell?.accessoryType = .None
-                    infusionCell?.titleLabel.text = NSLocalizedString("IN", comment: "")
-                    infusionCell?.descriptionLabel.text = infusion?.bolusInjection?.solvent
-                    infusionCell?.descriptionTrailingConstraint.constant = DESCRIPTION_LABEL_TRAILING_IN
-                    infusionCell?.descriptionLabelWidthConstraint.constant = DESCRIPTION_LABEL_WIDTH_IN
+                    if (self.infusion?.administerAsOption == BOLUS_INJECTION) {
+                        infusionCell = self.populateInfusionCell(infusionCell!, accessoryType: .None, titleValue: NSLocalizedString("IN", comment: ""), descriptionValue: infusion?.bolusInjection?.solvent, descriptionTrailing: DESCRIPTION_LABEL_TRAILING_IN, descriptionWidth: DESCRIPTION_LABEL_WIDTH_IN)
+                    } else {
+                        infusionCell = self.populateInfusionCell(infusionCell!, accessoryType: .DisclosureIndicator, titleValue: NSLocalizedString("ML", comment: ""), descriptionValue: infusion?.durationInfusion?.quantity, descriptionTrailing: DESCRIPTION_LABEL_TRAILING_DEFAULT, descriptionWidth: DESCRITION_LABEL_WIDTH_DEFAULT)
+                    }
                 case RowCount.eSecondRow.rawValue :
-                    infusionCell?.accessoryType = .DisclosureIndicator
-                    infusionCell?.titleLabel.text = NSLocalizedString("ML", comment: "")
-                    infusionCell?.descriptionLabel.text = infusion?.bolusInjection?.quantity
-                    infusionCell?.descriptionTrailingConstraint.constant = DESCRIPTION_LABEL_TARINLING_DEFAULT
-                    infusionCell?.descriptionLabelWidthConstraint.constant = DESCRITION_LABEL_WIDTH_DEFAULT
+                    if (self.infusion?.administerAsOption == BOLUS_INJECTION) {
+                        infusionCell = self.populateInfusionCell(infusionCell!, accessoryType: .DisclosureIndicator, titleValue: NSLocalizedString("ML", comment: ""), descriptionValue: infusion?.bolusInjection?.quantity, descriptionTrailing: DESCRIPTION_LABEL_TRAILING_DEFAULT, descriptionWidth: DESCRITION_LABEL_WIDTH_DEFAULT)
+                    } else {
+                        infusionCell = self.populateInfusionCell(infusionCell!, accessoryType: .DisclosureIndicator, titleValue: NSLocalizedString("INTO", comment: ""), descriptionValue: infusion?.durationInfusion?.injectionRegion, descriptionTrailing: DESCRIPTION_LABEL_TRAILING_DEFAULT, descriptionWidth: DESCRITION_LABEL_WIDTH_DEFAULT)
+                    }
                 case RowCount.eThirdRow.rawValue :
-                    infusionCell?.accessoryType = .DisclosureIndicator
-                    infusionCell?.titleLabel.text = NSLocalizedString("INTO", comment: "")
-                    infusionCell?.descriptionLabel.text = infusion?.bolusInjection?.injectionRegion
-                    infusionCell?.descriptionTrailingConstraint.constant = DESCRIPTION_LABEL_TARINLING_DEFAULT
+                    infusionCell = self.populateInfusionCell(infusionCell!, accessoryType: .DisclosureIndicator, titleValue: NSLocalizedString("INTO", comment: ""), descriptionValue: infusion?.bolusInjection?.injectionRegion, descriptionTrailing: DESCRIPTION_LABEL_TRAILING_DEFAULT, descriptionWidth: DESCRITION_LABEL_WIDTH_DEFAULT)
                 default :
                     break
             }
         }
         return infusionCell!
+    }
+    
+    func populateInfusionCell(infusionCell : DCInfusionCell, accessoryType type : UITableViewCellAccessoryType, titleValue title : String, descriptionValue description : String?, descriptionTrailing trailing : CGFloat, descriptionWidth width : CGFloat) -> DCInfusionCell {
+        
+        infusionCell.accessoryType = type
+        infusionCell.titleLabel.text = title
+        infusionCell.descriptionLabel.text = description
+        infusionCell.descriptionTrailingConstraint.constant = trailing
+        infusionCell.descriptionLabelWidthConstraint.constant = width
+        return infusionCell
+    }
+    
+    func administerOptionsTableCellAtIndexPath(indexPath : NSIndexPath) -> DCInfusionsAdministerAsCell {
+        
+        let optionsCell = administerOptionsTableView.dequeueReusableCellWithIdentifier(INFUSIONS_ADMINISTER_AS_CELL_ID) as? DCInfusionsAdministerAsCell
+        let option = optionsArray![indexPath.item]
+        optionsCell?.titleLabel.text = option
+        if (option == previousAdministerOption) {
+            optionsCell?.accessoryType = .Checkmark
+            previousAdministerOptionIndexPath = indexPath
+        } else {
+            optionsCell?.accessoryType = .None
+        }
+        return optionsCell!
     }
     
     func updateViewOnTableViewZerothSectionSelectionAtIndexPath(indexPath : NSIndexPath) {
@@ -272,14 +327,69 @@ class DCInfusionsAdministerAsViewController: UIViewController, UITableViewDelega
             //rate based infusion
             self.infusion?.rateInfusion = DCRateInfusion.init()
         }
-        let sectionCount = administerOptionsTableView.numberOfSections
-        if (infusion?.administerAsOption == BOLUS_INJECTION) {
-            if sectionCount == SectionCount.eFirstSection.rawValue {
-                //if section count is zero insert new section with animation
-                administerOptionsTableView.insertSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
-            }
-        } else {
+        if (infusion?.administerAsOption == RATE_BASED_INFUSION) {
             administerOptionsTableView.reloadData()
+        } else {
+            administerOptionsTableView.beginUpdates()
+            let sectionCount = administerOptionsTableView.numberOfSections
+            switch sectionCount {
+            case SectionCount.eFirstSection.rawValue :
+                if (infusion?.administerAsOption == BOLUS_INJECTION) {
+                    administerOptionsTableView.insertSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
+                } else if (infusion?.administerAsOption == DURATION_BASED_INFUSION) {
+                    administerOptionsTableView.insertSections(NSIndexSet(indexesInRange: NSMakeRange(1, 2)), withRowAnimation: .Middle)
+                }
+            case SectionCount.eSecondSection.rawValue :
+                if (infusion?.administerAsOption == BOLUS_INJECTION) {
+                    administerOptionsTableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
+                    if (sectionCount == 2) {
+                        administerOptionsTableView.deleteSections(NSIndexSet(index: 2), withRowAnimation: .Fade)
+                    }
+                } else if (infusion?.administerAsOption == DURATION_BASED_INFUSION) {
+                    administerOptionsTableView.insertSections(NSIndexSet(index: 2), withRowAnimation: .Middle)
+                    administerOptionsTableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
+                }
+            case SectionCount.eThirdSection.rawValue :
+                if (sectionCount == 3) {
+                    administerOptionsTableView.deleteSections(NSIndexSet(indexesInRange: NSMakeRange(1, 2)), withRowAnimation: .Fade)
+                }
+                administerOptionsTableView.insertSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+            default :
+                break
+            }
+            administerOptionsTableView.endUpdates()
+        }
+    }
+    
+    func updateViewOnTableViewFirstSectionSelectionForBolusInjectionAtIndexPath(indexPath : NSIndexPath) {
+        
+        //bolus injection solution info cell selection
+        switch indexPath.row {
+        case RowCount.eFirstRow.rawValue :
+            self.displayInfusionSolventView()
+        case RowCount.eSecondRow.rawValue :
+            self.displayInlinePickerForRowAtIndexPath(indexPath)
+        case RowCount.eThirdRow.rawValue ,
+            RowCount.eFourthRow.rawValue :
+            self.displayInjectionRegionView()
+        default :
+            break
+        }
+    }
+    
+    func updateViewOnTableViewSecondSectionSelectionForDurationBasedInfusionAtIndexPath(indexPath : NSIndexPath) {
+        
+        //duration based infusion cell selection
+        switch indexPath.row {
+            case RowCount.eZerothRow.rawValue :
+                self.displayInfusionSolventView()
+            case RowCount.eFirstRow.rawValue :
+                self.displayInlinePickerForRowAtIndexPath(indexPath)
+            case RowCount.eSecondRow.rawValue ,
+                 RowCount.eThirdRow.rawValue :
+                self.displayInjectionRegionView()
+            default :
+                break
         }
     }
     
@@ -291,7 +401,11 @@ class DCInfusionsAdministerAsViewController: UIViewController, UITableViewDelega
         infusionSolventViewController?.patientId = self.patientId
         infusionSolventViewController?.title = NSLocalizedString("IN", comment: "")
         infusionSolventViewController?.selectedMedication = { (medication, warnings) in
-            self.infusion?.bolusInjection?.solvent = medication.name
+            if(self.infusion?.administerAsOption == BOLUS_INJECTION) {
+                self.infusion?.bolusInjection?.solvent = medication.name
+            } else if (self.infusion?.administerAsOption == DURATION_BASED_INFUSION) {
+                self.infusion?.durationInfusion?.solvent = medication.name
+            }
             self.administerOptionsTableView.reloadData()
         }
         DCUtility.presentNavigationController(self.navigationController, withRootViewController: infusionSolventViewController);
@@ -317,5 +431,6 @@ class DCInfusionsAdministerAsViewController: UIViewController, UITableViewDelega
         administerOptionsTableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         administerOptionsTableView.endUpdates()
     }
+    
 
 }

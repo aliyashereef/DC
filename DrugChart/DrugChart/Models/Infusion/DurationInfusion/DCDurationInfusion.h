@@ -11,6 +11,6 @@
 
 @interface DCDurationInfusion : DCInjection
 
-@property (nonatomic, strong) NSString *flowTime;
+@property (nonatomic, strong) NSString *flowDuration;
 
 @end
