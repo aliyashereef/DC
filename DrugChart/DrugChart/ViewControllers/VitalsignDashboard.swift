@@ -15,10 +15,12 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
     @IBOutlet weak var parentView: UIView!
     var observationList = [VitalSignObservation]()
     var filterObservations = [VitalSignObservation]()
+    @IBOutlet weak var nextPage: UIButton!
     var graphicalDashBoardView:GraphicalDashBoardView!
     var graphDisplayView: GraphDisplayView = GraphDisplayView.Day
     
     var graphEndDate:NSDate = NSDate()
+    @IBOutlet weak var previousPage: UIButton!
     var graphStartDate:NSDate = NSDate()
     
     override func viewDidLoad() {
@@ -44,7 +46,10 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         self.view.addGestureRecognizer(swipeLeft)
         
         
+       
     }
+    
+    
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         orientationChanged()
@@ -205,12 +210,12 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
 
     //MARK: swipe gestures
     
-    func rightSwiped()
+    @IBAction func rightSwiped()
     {
         swipeGraphDate(false,flipDateMode:false)
     }
     
-    func leftSwiped()
+    @IBAction func leftSwiped()
     {
         swipeGraphDate(true,flipDateMode:false)
     }

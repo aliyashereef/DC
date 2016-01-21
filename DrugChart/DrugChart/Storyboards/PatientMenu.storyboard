@@ -621,13 +621,31 @@
                                 <rect key="frame" x="5" y="132" width="364" height="478"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O5Z-dI-Ham">
+                                <rect key="frame" x="289" y="102" width="25" height="24"/>
+                                <state key="normal" image="nextPage"/>
+                                <connections>
+                                    <action selector="rightSwiped" destination="0Ui-sx-cxg" eventType="touchUpInside" id="JgP-sq-eHP"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6wg-bH-d0O">
+                                <rect key="frame" x="62" y="102" width="25" height="24"/>
+                                <state key="normal" image="previousPage"/>
+                                <connections>
+                                    <action selector="leftSwiped" destination="0Ui-sx-cxg" eventType="touchUpInside" id="fUM-wv-ONg"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="O5Z-dI-Ham" secondAttribute="trailing" constant="41" id="4R1-Vi-yyv"/>
                             <constraint firstItem="Snd-C0-1n6" firstAttribute="centerX" secondItem="ZpH-Ij-a9C" secondAttribute="centerX" id="L4E-IA-klQ"/>
                             <constraint firstItem="BEa-Zn-RuB" firstAttribute="leading" secondItem="ZpH-Ij-a9C" secondAttribute="leadingMargin" constant="-15" id="LsG-Xa-I14"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="6wg-bH-d0O" secondAttribute="trailing" constant="268" id="R9t-hR-OL5"/>
+                            <constraint firstItem="6wg-bH-d0O" firstAttribute="leading" secondItem="ZpH-Ij-a9C" secondAttribute="leadingMargin" constant="42" id="S4g-ES-aGS"/>
                             <constraint firstAttribute="trailingMargin" secondItem="BEa-Zn-RuB" secondAttribute="trailing" constant="-14" id="bwO-JZ-HzY"/>
                             <constraint firstItem="fjF-RZ-qef" firstAttribute="centerX" secondItem="ZpH-Ij-a9C" secondAttribute="centerX" id="cDf-1E-Gna"/>
+                            <constraint firstItem="O5Z-dI-Ham" firstAttribute="leading" secondItem="ZpH-Ij-a9C" secondAttribute="leadingMargin" constant="269" id="g2t-Oi-q2j"/>
                             <constraint firstItem="fjF-RZ-qef" firstAttribute="top" secondItem="Snd-C0-1n6" secondAttribute="bottom" constant="3" id="jFa-v6-yDY"/>
                             <constraint firstItem="wdm-9N-oQq" firstAttribute="top" secondItem="BEa-Zn-RuB" secondAttribute="bottom" constant="8" id="pCf-7B-Vsm"/>
                             <constraint firstItem="BEa-Zn-RuB" firstAttribute="top" secondItem="fjF-RZ-qef" secondAttribute="bottom" constant="8" id="zfI-DO-qzv"/>
@@ -653,7 +671,9 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="dateLabel" destination="fjF-RZ-qef" id="36n-d2-8Gt"/>
+                        <outlet property="nextPage" destination="O5Z-dI-Ham" id="VEm-cP-OBv"/>
                         <outlet property="parentView" destination="BEa-Zn-RuB" id="rKg-d8-zL7"/>
+                        <outlet property="previousPage" destination="6wg-bH-d0O" id="PtP-3g-XQm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ckw-TF-wwa" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -719,5 +739,7 @@
     </scenes>
     <resources>
         <image name="TabularView" width="32" height="32"/>
+        <image name="nextPage" width="24" height="24"/>
+        <image name="previousPage" width="24" height="24"/>
     </resources>
 </document>
