@@ -91,6 +91,11 @@ class OneThirdScreenTabularView: UIViewController,UICollectionViewDataSource, UI
         let popOverController:UIPopoverPresentationController = calendarViewController.popoverPresentationController!
         popOverController.delegate = self
         
+       
+        let calendar = NSCalendar.currentCalendar()
+        let chosenDateComponents = calendar.components([.Month , .Year], fromDate: viewByDate)
+        calendarViewController.setSelection(chosenDateComponents.month, year:chosenDateComponents.year)
+        
         self.presentViewController(calendarViewController, animated: false, completion: nil)
     }
     
