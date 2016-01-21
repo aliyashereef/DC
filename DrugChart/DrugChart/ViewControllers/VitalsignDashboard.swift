@@ -44,11 +44,10 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         self.view.addGestureRecognizer(swipeLeft)
         
         
-        NSNotificationCenter.defaultCenter().addObserver(
-            self,
-            selector: Selector("orientationChanged"),
-            name: UIDeviceOrientationDidChangeNotification,
-            object: nil)
+    }
+    
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        orientationChanged()
     }
     
     func showData()
