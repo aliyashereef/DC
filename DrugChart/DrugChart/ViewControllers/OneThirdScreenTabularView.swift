@@ -26,7 +26,8 @@ class OneThirdScreenTabularView: UIViewController,UICollectionViewDataSource, UI
 
     var filteredObservations:[VitalSignObservation]!
     private var viewByDate:NSDate = NSDate()
-
+    var selectedRow:Int = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -42,8 +43,19 @@ class OneThirdScreenTabularView: UIViewController,UICollectionViewDataSource, UI
         stripView.layer.backgroundColor = Constant.CELL_BORDER_COLOR
         stripView.backgroundColor = Constant.SELECTION_CELL_BACKGROUND_COLOR
         setDateDisplay()
-        //filterList()
         reloadView(observationList)
+    }
+    
+    func selectSpecificStripItem()
+    {
+        
+    let indexPath = NSIndexPath(forItem: selectedRow, inSection: 0)
+        self.collectionView.selectItemAtIndexPath(indexPath, animated: true, scrollPosition: UICollectionViewScrollPosition.Right)
+    
+    collectionView(self.collectionView, didSelectItemAtIndexPath: indexPath)
+
+    }
+    override func viewDidAppear(animated: Bool) {
     }
     
     func filterList()
@@ -169,32 +181,37 @@ class OneThirdScreenTabularView: UIViewController,UICollectionViewDataSource, UI
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let observation = filteredObservations[indexPath.row]
-        let cell = collectionView.cellForItemAtIndexPath(indexPath) as? HeaderCollectionViewCell
+        let cell =   self.collectionView.cellForItemAtIndexPath(indexPath) as? HeaderCollectionViewCell
         if(cell != nil)
         {
-            cell!.setSelectionIndicators(observation.date)
+            cell?.setSelectionIndicators(observation.date)
         }
+        selectedRow = indexPath.row
         selectedObservation = observation
         tableView.reloadData()
     }
     
     func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
         let cell = collectionView.cellForItemAtIndexPath(indexPath) as? HeaderCollectionViewCell
+        let observation = filteredObservations[indexPath.row]
         if(cell != nil)
         {
-            cell!.removeIndicator()
+            cell!.removeIndicator(observation.date)
         }
     }
-    
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+      func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell=collectionView.dequeueReusableCellWithReuseIdentifier(headerCellIdentifier, forIndexPath: indexPath) as! HeaderCollectionViewCell
         let observation = filteredObservations[indexPath.row]
         cell.configureOneThirdTabularCell(observation.date)
         cell.layer.borderWidth = Constant.BORDER_WIDTH
         cell.layer.borderColor = Constant.CELL_BORDER_COLOR
         cell.layer.cornerRadius = Constant.CORNER_RADIUS
+        if(selectedRow == indexPath.row  )
+        {
+            cell.setSelectionIndicators(observation.date)
+            selectedObservation = observation
+        }
         return cell
-        
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
@@ -255,12 +272,15 @@ class OneThirdScreenTabularView: UIViewController,UICollectionViewDataSource, UI
         }
         else
         {
+            selectedRow = 0
             self.collectionView.hidden = false
             self.tableView.hidden = false
             stripView.hidden = false
+            self.collectionView.reloadData()
+            self.tableView.reloadData()
+            selectSpecificStripItem()
         }
-        self.collectionView.reloadData()
-        self.tableView.reloadData()
+        
     }
     
     /*

@@ -20,7 +20,7 @@ class HeaderCollectionViewCell: UICollectionViewCell {
     }
     func configureFullTabularCell(date:NSDate)
     {
-        removeIndicator()
+        removeIndicator(date)
         dateLabel.layer.borderWidth = 0
         timeLabel.layer.borderWidth = 0
         dayLabel.text = date.getFormattedDayoftheWeek()
@@ -58,7 +58,7 @@ class HeaderCollectionViewCell: UICollectionViewCell {
     
     func configureOneThirdTabularCell(date:NSDate)
     {
-        removeIndicator()
+        removeIndicator(date)
         dateLabel.layer.borderWidth = 0
         timeLabel.layer.borderWidth = 0
         dayLabel.text = date.getFormattedDayoftheWeek()
@@ -107,11 +107,22 @@ class HeaderCollectionViewCell: UICollectionViewCell {
     func removeTimeLabel()
     {
         timeLabel.text = ""
-        removeIndicator()
+         dateLabel.textColor = UIColor.blackColor()
+        if(indicatorLabel != nil)
+        {
+            indicatorLabel.removeFromSuperview()
+        }
     }
-    func removeIndicator()
+    func removeIndicator(date:NSDate)
     {
-        dateLabel.textColor = UIColor.blackColor()
+        if(date.isToday())
+        {
+            dateLabel.textColor = UIColor(forHexString: "#007aff")
+        }
+        else
+        {
+            dateLabel.textColor = UIColor.blackColor()
+        }
         if(indicatorLabel != nil)
         {
             indicatorLabel.removeFromSuperview()
