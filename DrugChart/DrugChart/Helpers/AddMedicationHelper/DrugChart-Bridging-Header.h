@@ -36,5 +36,6 @@
 #import "DCPlistManager.h"
 #import "NSString+Additions.h"
 #import "DCHTTPRequestOperationManager.h"
+#import "DCMedicationListViewController.h"
 #import "DCDosage.h"
 #import "UIView+UIAppearence_Swift.h"

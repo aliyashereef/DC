@@ -13,7 +13,7 @@ let headerString : NSString = "ADMINISTRATION DETAILS"
 class DCAdministrationViewController : UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet var activityIndicatorView: UIActivityIndicatorView!
     
-    var medicationSlotsArray : [DCMedicationSlot] = []
+    var medicationSlotsArray : [DCMedicationSlot] = [DCMedicationSlot]()
     var medicationDetails : DCMedicationScheduleDetails?
     var contentArray :[AnyObject] = []
     var slotToAdminister : DCMedicationSlot?
@@ -57,7 +57,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         let currentSystemDate : NSDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
         let currentDateString : NSString? = DCDateUtility.dateStringFromDate(currentSystemDate, inFormat: SHORT_DATE_FORMAT)
         if (medication.medicationAdministration?.status != nil && medication.medicationAdministration.actualAdministrationTime != nil){
-            return medication.status
+            return (medication.medicationAdministration?.status)!
         }
         if (medication.time.compare(currentSystemDate) == NSComparisonResult.OrderedDescending){
             let slotDateString : NSString? = DCDateUtility.dateStringFromDate(slotToAdminister?.time, inFormat: SHORT_DATE_FORMAT)
@@ -87,15 +87,20 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         slotToAdminister = DCMedicationSlot.init()
 
         if (medicationDetails?.medicineCategory == WHEN_REQUIRED) {
-            slotToAdminister?.time = DCDateUtility.dateInCurrentTimeZone(NSDate())
-            medicationSlotsArray.append(slotToAdminister!)
-        }
-
-        if (medicationSlotsArray.count > 0) {
-            for slot : DCMedicationSlot in medicationSlotsArray {
-                if (slot.medicationAdministration?.actualAdministrationTime == nil && slot.medicationAdministration == nil) {
-                    slotToAdminister = slot
-                    break
+            let today : NSDate = NSDate()
+            let order = NSCalendar.currentCalendar().compareDate(weekDate! , toDate:today,
+                toUnitGranularity: .Day)
+            if order == NSComparisonResult.OrderedSame {
+                slotToAdminister?.time = DCDateUtility.dateInCurrentTimeZone(NSDate())
+                medicationSlotsArray.append(slotToAdminister!)
+            }
+        } else {
+            if (medicationSlotsArray.count > 0) {
+                for slot : DCMedicationSlot in medicationSlotsArray {
+                    if (slot.medicationAdministration?.actualAdministrationTime == nil && slot.medicationAdministration == nil) {
+                        slotToAdminister = slot
+                        break
+                    }
                 }
             }
         }
@@ -214,7 +219,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
             administerViewController?.medicationDetails = medicationDetails
             administerViewController?.alertMessage = errorMessage
         let navigationController : UINavigationController = UINavigationController(rootViewController: administerViewController!)
-        navigationController.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
+        navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
         self.presentViewController(navigationController, animated: true, completion:nil)
     }
     

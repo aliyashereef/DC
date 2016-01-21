@@ -99,8 +99,6 @@
 
 - (void)configureFetchListTableView {
     
-//    medicationListTableView.layoutMargins = UIEdgeInsetsZero;
-//    medicationListTableView.separatorInset = UIEdgeInsetsZero;
     medicationListTableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     medicationWebService = [[DCMedicationSearchWebService alloc] init];
     medicationListArray = [NSMutableArray arrayWithArray:@[NSLocalizedString(@"SEARCH_MEDICATION_MIN_LIMIT", @"")]];
@@ -121,6 +119,7 @@
             }
             [medicationListTableView reloadData];
         } else {
+            [activityIndicator stopAnimating];
             NSInteger errorCode = [[errorDict valueForKey:@"code"] integerValue];
             if (errorCode != NSURLErrorCancelled) {
                 medicationListArray = [NSMutableArray arrayWithArray:@[NSLocalizedString(@"NO_MEDICATIONS", @"")]];

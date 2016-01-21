@@ -12,38 +12,136 @@ class ContentCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var contentLabel: UILabel!
     var observation:VitalSignObservation!
     var delegate:ObservationDelegate? = nil
-    
+    var showObservationType:ShowObservationType!
+    var indicatorLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
+     
     }
     
-    func configureCell(observation:VitalSignObservation)
+    func clearCell()
+    {
+      if(indicatorLabel != nil)
+      {
+        indicatorLabel.removeFromSuperview()
+      }
+        
+    }
+    func configureCell(observation:VitalSignObservation ,showobservationType:ShowObservationType )
     {
         self.observation = observation
-        self.layer.borderWidth = 1
-        self.layer.borderColor = UIColor.lightGrayColor().CGColor
-        
+        self.showObservationType = showobservationType
+        // add the delete button
+        if(showObservationType != ShowObservationType.None && showObservationType != ShowObservationType.All && ObjectIsNotNull())
+        {
+            
+        indicatorLabel = UILabel()
+        let originx = self.frame.width - 25
+        indicatorLabel.frame = CGRectMake(originx, 4, 25, 25)
+        indicatorLabel.font = UIFont.systemFontOfSize(12)
+        indicatorLabel.textAlignment = .Center
+        indicatorLabel.text = "X"
+        indicatorLabel.layer.borderWidth = 0.5
+        indicatorLabel.layer.borderColor = UIColor.redColor().CGColor
+        indicatorLabel.textColor = UIColor.redColor()
+        indicatorLabel.backgroundColor = UIColor.whiteColor()
+        indicatorLabel.layer.cornerRadius = 14
+        indicatorLabel.layer.masksToBounds = true
+        self.addSubview(indicatorLabel)
+        // add the event on label 
+        let deleteGesture = UITapGestureRecognizer(target: self, action: "deleteObservation")
+        indicatorLabel.userInteractionEnabled=true
+        indicatorLabel.addGestureRecognizer(deleteGesture)
+        }
+        // normal stuff
         let tap = UITapGestureRecognizer(target: self, action: "doubleTapped")
         tap.numberOfTapsRequired = 2
         self.addGestureRecognizer(tap)
     }
     
     func doubleTapped() {
-        //                let alert = UIAlertView()
-        //                alert.title = "my title"
-        //                alert.message = "things are working slowly"
-        //                alert.addButtonWithTitle("Ok")
-        //                alert.delegate = self
-        //                alert.show()
-        
-        let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
-        let observationDetails : ObservationViewController = mainStoryboard.instantiateViewControllerWithIdentifier("ObservationViewController") as! ObservationViewController
-        //observationDetails.observation = cell?.getObservation()
-        let navigationController : UINavigationController? = UINavigationController(rootViewController: observationDetails)
-        navigationController?.modalPresentationStyle = UIModalPresentationStyle.FormSheet
-        delegate?.EditObservation(navigationController!)
+        if(showObservationType != ShowObservationType.None && showObservationType != ShowObservationType.All && ObjectIsNotNull())
+        {
+            let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
+            let observationDetails : ObservationViewController = mainStoryboard.instantiateViewControllerWithIdentifier("ObservationViewController") as! ObservationViewController
+            observationDetails.configureView(observation, showobservatioType: showObservationType)
+            let navigationController : UINavigationController? = UINavigationController(rootViewController: observationDetails)
+            navigationController?.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+            delegate?.ShowModalNavigationController(navigationController!)
+        }
     }
-    
-    
+    func deleteObservation()
+    {
+        let deleteAlert = UIAlertController(title: "Delete", message: "Are you sure, you want to delete?", preferredStyle: UIAlertControllerStyle.Alert)
+        
+        deleteAlert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: { (action: UIAlertAction!) in
+            switch (self.showObservationType!)
+            {
+            case ShowObservationType.Respiratory:
+                if(self.observation != nil)
+                {
+                    self.observation.respiratory = nil
+                }
+                
+            case ShowObservationType.SpO2:
+                if(self.observation != nil)
+                {
+                    self.observation.spo2 = nil
+                }
+                
+            case ShowObservationType.Temperature:
+                if(self.observation != nil)
+                {
+                    self.observation.temperature = nil
+                }
+            case ShowObservationType.BloodPressure:
+                if(self.observation != nil)
+                {
+                    self.observation.bloodPressure = nil
+                }
+            case ShowObservationType.Pulse:
+                if(self.observation != nil)
+                {
+                    self.observation.pulse = nil
+                }
+            default:
+                print("nothing to delete")
+            }
+            
+            let collectionView =  self.superview as? UICollectionView
+            collectionView?.reloadData()
+        }))
+        
+        deleteAlert.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: { (action: UIAlertAction!) in
+            print("in cancel")
+        }))
+        
+        delegate?.ShowAlertController(deleteAlert)
+        
+       
+    }
+    func ObjectIsNotNull()->Bool
+    {
+        switch (showObservationType!)
+        {
+        case ShowObservationType.Respiratory:
+            return  (observation != nil && observation.respiratory != nil) ? true : false
+        case ShowObservationType.SpO2:
+            return  (observation != nil && observation.spo2 != nil) ? true : false
+            
+        case ShowObservationType.Temperature:
+            return  (observation != nil && observation.temperature != nil) ? true : false
+            
+        case ShowObservationType.BloodPressure:
+            return  (observation != nil && observation.bloodPressure != nil) ? true : false
+            
+        case ShowObservationType.Pulse:
+            return  (observation != nil && observation.pulse != nil) ? true : false
+            
+        default:
+            return false
+        }
+    }
 }

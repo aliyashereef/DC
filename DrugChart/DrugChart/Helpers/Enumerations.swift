@@ -12,7 +12,7 @@ import Foundation
 
 enum DashBoardRow:Int
 {
-    case Respiratory, SpO2, Temperature , BloodPressure , Pulse , BM
+    case Respiratory, SpO2, Temperature , BloodPressure , Pulse /*, BM*/
     
     static var count: Int {  // I called this "maximumRawValue" in the post
         var max: Int = 0
@@ -25,7 +25,18 @@ enum DashBoardRow:Int
 enum ObservationType:Int
 {
     case Date
-    case Respiratory  , SpO2, Temperature , BloodPressure , Pulse , BM
+    case Respiratory  , SpO2, Temperature , BloodPressure , Pulse /*, BM*/
+    
+    static var count: Int {  // I called this "maximumRawValue" in the post
+        var max: Int = 0
+        while let _ = self.init(rawValue: ++max) {}
+        return max
+    }
+}
+
+enum ShowObservationType:Int
+{
+    case All, None, Respiratory  , SpO2, Temperature , BloodPressure , Pulse /*, BM*/
     
     static var count: Int {  // I called this "maximumRawValue" in the post
         var max: Int = 0
@@ -67,7 +78,7 @@ enum CommaScoreTableRow:Int
 }
 enum ChartType:Int
 {
-    case None,LineChart,BarChart
+    case LineChart,BarChart
     
     static var count: Int {  // I called this "maximumRawValue" in the post
         var max: Int = 0
@@ -77,7 +88,7 @@ enum ChartType:Int
 }
 enum ObservationTabularViewRow:Int
 {
-    case Respiratory = 1 , SPO2 , Temperature , BloodPressure , Pulse, BM , News , CommaScore
+    case Respiratory = 1 , SPO2 , Temperature , BloodPressure , Pulse,/* BM ,*/ News , CommaScore
     
     static var count: Int {  // I called this "maximumRawValue" in the post
         var max: Int = 0

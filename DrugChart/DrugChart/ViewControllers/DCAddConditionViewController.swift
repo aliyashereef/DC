@@ -23,7 +23,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     var selectedPickerType : PickerType?
     var newConditionEntered: NewConditionEntered = { value in }
     var conditionItem : DCConditions?
-    var reducingIncreasingObject : DCReducingIncreasingDose?
+    var dosage : DCDosage?
     var previewDetails = [String]()
     
     @IBOutlet weak var addConditionTableView: UITableView!
@@ -95,6 +95,35 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
         }
     }
     
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        //Set the header as PREVIEW
+        if (section == 1 && self.previewDetails.count != 0) {
+            return "preview"
+        } else {
+            return nil
+        }
+    }
+    
+    func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        
+        //Set the header as PREVIEW
+        if (section == 0 && self.previewDetails.count != 0 && self.validateTheAddConditionValues()) {
+            return DCDosageHelper.createDescriptionStringForDosageCondition(conditionItem!, dosageUnit: (self.dosage?.doseUnit)!)
+        } else {
+            return nil
+        }
+    }
+
+    func tableView(tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+        
+        //Change text color to red and change text from full upper case to desired sentence.
+        if let view = view as? UITableViewHeaderFooterView {
+            view.textLabel!.textColor = UIColor.blackColor()
+        }
+    }
+
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         if indexPath.section == 0 {
@@ -130,7 +159,14 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        self.updateTableViewForAddCondition(indexPath)
+        if (indexPath.section == 0) {
+            if indexPath.row != 0 {
+                inlinePickerForChangeActive = false
+            } else if indexPath.row != 3 {
+                inlinePickerForEveryActive = false
+            }
+            self.updateTableViewForAddCondition(indexPath)
+        }
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
@@ -194,7 +230,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
                     self.conditionItem?.dose = self.valueForDose as String
                     self.conditionItem?.every = self.valueForEvery as String
                     self.conditionItem?.until = self.valueForUntil as String
-                    self.previewDetails = DCDosageHelper.updatePreviewDetailsArray(self.conditionItem!, currentStartingDose: self.newStartingDose!)
+                    self.previewDetails = DCDosageHelper.updatePreviewDetailsArray(self.conditionItem!, currentStartingDose: self.newStartingDose!, doseUnit:(self.dosage?.doseUnit)!)
                     self.previewDetails.append("Stop")
                 }
                 self.addConditionTableView.reloadData()
@@ -224,13 +260,13 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
             dosageDetailCell?.pickerCompletion = { value in
                 
                 if Int(value as! String) == 1 {
-                    self.valueForEvery = "\(value!) \(String((self.reducingIncreasingObject?.changeOver)!.characters.dropLast()).lowercaseString)"
+                    self.valueForEvery = "\(value!) \(String((self.dosage?.reducingIncreasingDose.changeOver)!.characters.dropLast()).lowercaseString)"
                 } else {
-                    self.valueForEvery = "\(value!) \(String(UTF8String: (self.reducingIncreasingObject?.changeOver)!.lowercaseString)!)"
+                    self.valueForEvery = "\(value!) \(String(UTF8String: (self.dosage?.reducingIncreasingDose.changeOver)!.lowercaseString)!)"
                 }
                 self.addConditionTableView.reloadData()
             }
-            dosageDetailCell?.changeOver = (self.reducingIncreasingObject?.changeOver)!
+            dosageDetailCell?.changeOver = (self.dosage?.reducingIncreasingDose.changeOver)!
             return dosageDetailCell!
         }
     }
@@ -246,25 +282,6 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
             }
         }
         return true
-    }
-    
-    func updatePreviewDetailsArray () {
-        var nextDoseValue = newStartingDose
-        var stringForNextPreviewDetail : String = ""
-        if valueForChange == REDUCING {
-            while nextDoseValue > NSString(string: valueForUntil).floatValue {
-                stringForNextPreviewDetail = "\(nextDoseValue!) for \(valueForEvery)"
-                previewDetails.append(stringForNextPreviewDetail)
-                nextDoseValue = nextDoseValue! - NSString(string: valueForDose).floatValue
-            }
-        } else {
-            while nextDoseValue < NSString(string: valueForUntil).floatValue {
-                stringForNextPreviewDetail = "\(nextDoseValue!) for \(valueForEvery)"
-                previewDetails.append(stringForNextPreviewDetail)
-                nextDoseValue = nextDoseValue! + NSString(string: valueForDose).floatValue
-            }
-        }
-        previewDetails.append("Stop")
     }
     
     // MARK: - Action Methods
@@ -292,8 +309,8 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
         } else {
             displayString = ""
         }
-        if (displayString != "" && self.validateTheAddConditionValues()) {
-            self.conditionItem?.conditionDescription = displayString
+        if self.validateTheAddConditionValues() {
+            DCDosageHelper.createDescriptionStringForDosageCondition(conditionItem!, dosageUnit: (self.dosage?.doseUnit)!)
             self.newConditionEntered(self.conditionItem)
         }
         self.navigationController!.dismissViewControllerAnimated(true, completion:nil)

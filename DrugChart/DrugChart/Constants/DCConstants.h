@@ -124,6 +124,7 @@
 #define VITAL_SIGNS_VIEW_CONTROLLER_VIEW_CONTROLLER_SB_ID @"VitalSignViewController"
 #define SCHEDULING_DETAIL_STORYBOARD_ID @"SchedulingDetailView"
 #define SCHEDULING_INITIAL_STORYBOARD_ID @"SchedulingInitialView"
+#define INFUSIONS_ADMINISTER_OPTIONS_SB_ID @"InfusionsAdministerAsViewController"
 
 #define PRESCRIBER_MEDICATION_SBID @"PrescriberMedicationViewControllerSBID"
 #define DOSAGE_SELECTION_SBID @"DosageSelection"
@@ -134,6 +135,8 @@
 #define ADD_NEW_DOSE_TIME_SBID @"AddNewViewController"
 #define DOSAGE_UNIT_SELECTION_SBID @"DosageUnitSelection"
 #define WARDS_INFORMATION_SBID @"wardsInformationViewController"
+#define ROUTE_INFUSIONS_SB_ID @"RouteAndInfusionsViewController"
+#define INJECTION_REGION_SB_ID @"InjectionRegionView"
 
 
 //Nib files
@@ -207,6 +210,23 @@
 #define DOSE_VALUE_CELL_ID @"doseValueCell"
 #define ADD_NEW_DOSE_CELL_ID @"addNewDoseCell"
 #define ADD_CONDITION_MENU_CELL_ID @"addConditionMenuCell"
+#define ROUTE_CELL_ID @"RouteCell"
+#define INFUSIONS_ADMINISTER_AS_CELL_ID @"InfusionsAdministerAsCell"
+#define INFUSIONS_CELL_ID @"InfusionCell"
+#define SLOW_BOLUS_CELL_ID @"SlowBolusCell"
+#define INJECTION_CELL_ID @"InjectionCellId"
+#define INFUSION_PICKER_CELL_ID @"InfusionPickerCellId"
+
+// Week days
+
+#define SUNDAY @"Sunday"
+#define MONDAY @"Monday"
+#define TUESDAY @"Tuesday"
+#define WEDNESDAY @"Wednesday"
+#define THURSDAY @"Thursday"
+#define FRIDAY @"Friday"
+#define SATURDAY @"Saturday"
+
 #define SELECTED_TIME_DISPLAY_CELL_ID @"selectedTimeCell"
 
 // title for views
@@ -242,10 +262,10 @@
 //date
 
 #define WEEK_DAY_FORMAT                 @"EEE"
-#define DAY_DATE_FORMAT                 @"dd"
-#define DEFAULT_DATE_FORMAT             @"yyyy-MM-dd hh:mm:ss z"
-#define SHORT_DATE_FORMAT               @"yyyy-MM-dd"
-#define DATE_FORMAT_RANGE               @"yyyy-MM-dd HH:mm"
+#define DAY_DATE_FORMAT                 @"d"
+#define DEFAULT_DATE_FORMAT             @"yyyy-MM-d hh:mm:ss z"
+#define SHORT_DATE_FORMAT               @"yyyy-MM-d"
+#define DATE_FORMAT_RANGE               @"yyyy-MM-d HH:mm"
 #define DATE_FORMAT_WITH_DAY            @"EE, LLLL d, HH:mm"
 #define DATE_FORMAT_START_DATE          @"dd-MMM-yyyy HH:mm"
 #define DOB_DATE_FORMAT                 @"YYYY-mm-dd"
@@ -521,5 +541,13 @@
 #define ADD_NEW_TIME @"Add New Time"
 #define TIME_KEY @"time"
 #define UNTIL_TITLE @"Until"
+
+//Infusions
+#define BOLUS_INJECTION @"Bolus injection"
+#define DURATION_BASED_INFUSION @"Duration based infusion"
+#define RATE_BASED_INFUSION @"Rate based infusion"
+#define CENTRAL_LINE @"Central line"
+#define PERIPHERAL_LINE_ONE @"Peripheral line 1"
+#define PERIPHERAL_LINE_TWO @"Peripheral line 2"
 
 #endif

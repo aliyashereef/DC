@@ -112,28 +112,16 @@
             if (showWarnings) {
                 return eDetailWarning;
             } else {
-                if (indexPath.row == ROUTE_INDEX) {
-                    return eDetailRoute;
-                } else {
-                    return eDetailType;
-                }
+                return eDetailType;
             }
         }
         case eSecondSection: {
             if (showWarnings) {
-                if (indexPath.row == ROUTE_INDEX) {
-                    return eDetailRoute;
-                } else {
-                    return eDetailType;
-                }
+                return eDetailType;
             }
         }
         case eFourthSection: {
-//            if (showWarnings) {
-//                return eDetailSchedulingType;
-//            } else {
-                return eDetailDosage;
-          //  }
+            return eDetailDosage;
         }
         case eFifthSection:
             if (showWarnings) {

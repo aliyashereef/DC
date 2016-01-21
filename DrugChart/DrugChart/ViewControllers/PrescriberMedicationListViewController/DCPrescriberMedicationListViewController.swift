@@ -125,7 +125,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         let centerDate = DCDateUtility.shortDateFromDate(weekDate as! NSDate)
         let todayDate = DCDateUtility.shortDateFromDate(DCDateUtility.dateInCurrentTimeZone(NSDate())) as NSDate
         if centerDate != todayDate {
-            self.resetMedicationSlotCellsOnQuickSwipe()
+            self.hideAdministrationDetailsInCellsOnQuickSwipe()
             if (appDelegate.windowState == DCWindowState.fullWindow ||
                 appDelegate.windowState == DCWindowState.twoThirdWindow) {
                     let calendar : NSCalendar = NSCalendar.init(calendarIdentifier: NSCalendarIdentifierGregorian)!
@@ -240,7 +240,11 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
         var weekViewAnimated : Bool = false
         UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
-            if (medicationCell.leadingSpaceMasterToContainerView.constant >= 100) {
+            
+            // Reason for the first and second check (>= 100 & <0) is explained in the method
+            // displayNextWeekAdministrationDetailsInTableView. Read for clarification.
+            if (medicationCell.leadingSpaceMasterToContainerView.constant >= 100 ||
+                medicationCell.leadingSpaceMasterToContainerView.constant < 0) {
                 // animate to right , load previous week
                 medicationCell.leadingSpaceMasterToContainerView.constant = calendarWidth
                 parentViewController.showActivityIndicationOnViewRefresh(true)
@@ -274,7 +278,11 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         var weekViewAnimated : Bool = false
         UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
             
-            if (medicationCell.leadingSpaceMasterToContainerView.constant <= -100) {
+            // The check <= -100 is to make sure that the next set of data is shown only after the
+            // user has panned a reasonable distance. Otherwise for even a slight movement next set is loaded.
+            // The second check > 0 is added as a workaround to fix the issue when user pan to the opposite
+            // direction immediatly after panning to one direction. In that case the constant value will be positive.
+            if (medicationCell.leadingSpaceMasterToContainerView.constant <= -100 || medicationCell.leadingSpaceMasterToContainerView.constant > 0) {
                 //load next week details
                 medicationCell.leadingSpaceMasterToContainerView.constant = -calendarWidth
                 parentViewController.showActivityIndicationOnViewRefresh(true)
@@ -289,9 +297,11 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             }) { (Bool) -> Void in
                 if isLastCell {
                     if (medicationCell.leadingSpaceMasterToContainerView.constant == -calendarWidth) {
+                        
                         autoreleasepool({ () -> () in
                             parentViewController.modifyStartDayAndWeekDates(true)
                             self.displayNextSetOfAdministrationDetails(true)
+                            print("The constraint on future : %f", medicationCell.leadingSpaceMasterToContainerView.constant)
                         })
                     } else {
                         medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
@@ -308,7 +318,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         if (DCHTTPRequestOperationManager.sharedOperationManager().operationQueue.operations.count > 0) {
             // checks if any operations are in the queue.
             webRequestCancelled = true
-            self.resetMedicationSlotCellsOnQuickSwipe()
+            self.hideAdministrationDetailsInCellsOnQuickSwipe()
             parentViewController.cancelPreviousMedicationListFetchRequest()
             dispatch_after(dispatchTime, dispatch_get_main_queue(), {
                 parentViewController.showActivityIndicationOnViewRefresh(true)
@@ -346,7 +356,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         }
     }
     
-    func resetMedicationSlotCellsOnQuickSwipe () {
+    func hideAdministrationDetailsInCellsOnQuickSwipe () {
         
         let visibleCellsArray = medicationTableView?.visibleCells
         if visibleCellsArray?.count > 0 {
@@ -520,6 +530,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     }
     
     func editMedicationForSelectedIndexPath(indexPath: NSIndexPath) {
+        
         let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
         let addMedicationViewController : DCAddMedicationInitialViewController? = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(ADD_MEDICATION_POPOVER_SB_ID) as? DCAddMedicationInitialViewController
 
@@ -532,6 +543,9 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             medicationScheduleDetails.scheduling.specificTimes.repeatObject = DCRepeat.init()
             medicationScheduleDetails.scheduling.specificTimes.repeatObject.repeatType = DAILY
             medicationScheduleDetails.scheduling.specificTimes.repeatObject.frequency = "1 day"
+        }
+        if (medicationScheduleDetails.infusion == nil) {
+            medicationScheduleDetails.infusion = DCInfusion.init()
         }
         addMedicationViewController?.selectedMedication = medicationScheduleDetails
         addMedicationViewController?.isEditMedication = true

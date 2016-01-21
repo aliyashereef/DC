@@ -8,7 +8,7 @@
 
 
 
-class GraphView:UIView
+class GraphView:UIView,GraphDelegate
 {
     @IBInspectable var startColor:UIColor  = UIColor.redColor()
     @IBInspectable var endColor:UIColor = UIColor.greenColor()
@@ -22,9 +22,10 @@ class GraphView:UIView
     var width:CGFloat!
     var height:CGFloat!
     var margin:CGFloat = 20.0
-    var maxYAxis:Int = 4
-    var noOfLinesonxAxis = 4
+    var maxYAxis:Int = 5
+    var noOfLinesonxAxis = 5
     var graphHeight:CGFloat!
+    var topBorderY:CGFloat = 0
     var topBorder:CGFloat = 60
     var bottomBorder:CGFloat = 50
     var latestReadingText:String!
@@ -70,7 +71,7 @@ class GraphView:UIView
     func drawNormalRangeLabel()
     {
         let label = UILabel(frame: CGRectMake(0,0,200,21))
-        label.center = CGPointMake(110,41)
+        label.center = CGPointMake(110,41 + topBorderY)
         label.textAlignment = NSTextAlignment.Left
         label.textColor = UIColor.whiteColor()
         label.font = UIFont(name: label.font.fontName, size: 13)
@@ -81,7 +82,7 @@ class GraphView:UIView
     func drawGraphTitle()
     {
         let label = UILabel(frame: CGRectMake(0,0,200,21))
-        label.center = CGPointMake(110,20)
+        label.center = CGPointMake(110,20+topBorderY)
         label.textAlignment = NSTextAlignment.Left
         label.textColor = UIColor.whiteColor()
         label.font = UIFont.boldSystemFontOfSize(16.0)
@@ -89,12 +90,12 @@ class GraphView:UIView
         self.addSubview(label)
     }
     
-    func plotLineGraph(xAxisValue:[NSDate],yAxisValue:[Double],displayView:GraphDisplayView, graphTitle:String,graphStartDate:NSDate , graphEndDate:NSDate, latestReadingText:String! , latestReadingDate:NSDate!)
+    func plotLineGraph(xAxisValue:[NSDate],yAxisValue:[Double],displayView:GraphDisplayView, graphTitle:String,graphStartDate:NSDate , graphEndDate:NSDate, latestReadingText:String! , latestReadingDate:NSDate!, noOfHorizontalLines:Int)
     {
         
     }
     
-    func plotBarGraph(xAxisValue:[NSDate],yAxisMinValue:[Double],yAxisMaxValue:[Double],displayView:GraphDisplayView, graphTitle:String,graphStartDate:NSDate , graphEndDate:NSDate, latestReadingText:String! , latestReadingDate:NSDate!)
+    func plotBarGraph(xAxisValue:[NSDate],yAxisMinValue:[Double],yAxisMaxValue:[Double],displayView:GraphDisplayView, graphTitle:String,graphStartDate:NSDate , graphEndDate:NSDate, latestReadingText:String! , latestReadingDate:NSDate! , noOfHorizontalLines:Int)
     {
         
     }
@@ -131,7 +132,7 @@ class GraphView:UIView
     func drawLatestReadiongLabels()
     {
         var label = UILabel(frame: CGRectMake(0,0,150,20))
-        label.center = CGPointMake(width-75,20)
+        label.center = CGPointMake(width-75,20+topBorderY)
         label.textAlignment = NSTextAlignment.Right
         label.textColor = UIColor.whiteColor()
         label.font = UIFont.boldSystemFontOfSize(14.0)
@@ -141,7 +142,7 @@ class GraphView:UIView
         
         // and now the time label
         label = UILabel(frame: CGRectMake(0,0,150,20))
-        label.center = CGPointMake(width-75,40)
+        label.center = CGPointMake(width-75,40+topBorderY)
         label.textAlignment = NSTextAlignment.Right
         label.textColor = UIColor.whiteColor()
         label.font = UIFont(name: label.font.fontName, size: 12)

@@ -58,7 +58,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     var medicationSlot : DCMedicationSlot?
     var medicationDetails : DCMedicationScheduleDetails?
-    var medicationSlotsArray : [DCMedicationSlot] = []
+    var medicationSlotsArray : [DCMedicationSlot] = [DCMedicationSlot]()
     var usersListWebService : DCUsersListWebService?
     var statusCellSelected : Bool = false
     var userListArray : NSMutableArray? = []
@@ -92,6 +92,10 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     override func viewDidAppear(animated: Bool) {
         super.viewWillAppear(animated)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
     }
     
     override func didReceiveMemoryWarning() {
@@ -142,8 +146,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         // Navigation bar done button
         saveButton = UIBarButtonItem(title: "Save", style: UIBarButtonItemStyle.Plain, target: self, action: "saveButtonPressed")
         cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: "cancelButtonPressed")
-        self.navigationItem.leftBarButtonItems = [cancelButton!]
-        self.navigationItem.rightBarButtonItems = [saveButton!]
+        self.navigationItem.leftBarButtonItem = cancelButton
+        self.navigationItem.rightBarButtonItem = saveButton
     }
 
     func addNotifications() {
@@ -631,16 +635,16 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             }
             return cell!
         default:
-                if (medicationSlot?.medicationAdministration.status == ADMINISTERED) {
+                if (medicationSlot?.medicationAdministration?.status == ADMINISTERED) {
                     //configure tablecells for medication status administered
                     let administeredTableCell = populatedAdministeredTableViewCellAtIndexPath(indexPath)
                     saveButton?.enabled = true
                     return administeredTableCell
-                } else if (medicationSlot?.medicationAdministration.status == OMITTED) {
+                } else if (medicationSlot?.medicationAdministration?.status == OMITTED) {
                     let omittedTableCell = populatedOmittedTableViewCellAtIndexPath(indexPath)
                     saveButton?.enabled = true
                     return omittedTableCell
-                } else if (medicationSlot?.medicationAdministration.status == REFUSED){
+                } else if (medicationSlot?.medicationAdministration?.status == REFUSED){
                     //refused status
                     let refusedTableCell = populatedRefusedTableCellAtIndexPath(indexPath)
                     saveButton?.enabled = true
@@ -650,7 +654,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                     administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
                     administerCell.titleLabel.text = NSLocalizedString("STATUS", comment: "status title text")
                     administerCell.detailLabel.text = EMPTY_STRING
-                    if(saveClicked == true && medicationSlot?.medicationAdministration.status == nil) {
+                    if(saveClicked == true && medicationSlot?.medicationAdministration?.status == nil) {
                         administerCell.titleLabel.textColor = UIColor.redColor()
                     } else {
                         saveButton?.enabled = false
@@ -713,15 +717,21 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         let administerHeaderView = NSBundle.mainBundle().loadNibNamed(ADMINISTER_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCAdministerTableHeaderView
         administerHeaderView!.timeLabel.hidden = true
         if (section == sectionCount - 1 && sectionCount != 2) {
-                if (medicationSlot?.medicationAdministration?.isEarlyAdministration == true) {
-                    if (medicationSlot?.medicationAdministration?.isWhenRequiredEarlyAdministration == true) {
-                        let errorMessage = NSString(format: "%@ %@", NSLocalizedString("ADMIN_FREQUENCY", comment: "when required new medication is given 2 hrs before previous one"), NSLocalizedString("EARLY_ADMIN_INLINE", comment: ""))
-                        administerHeaderView?.populateHeaderViewWithErrorMessage(errorMessage as String)
-                    } else {
-                        administerHeaderView?.populateHeaderViewWithErrorMessage(NSLocalizedString("EARLY_ADMIN_INLINE", comment: "early administration when medication is attempted 1 hr before scheduled time"))
-                    }
+            if (medicationSlot?.medicationAdministration.status == OMITTED){
+                let errorMessage = NSString(format: "%@", NSLocalizedString("OMMITED_REQUIRE_REASON", comment:""))
+                administerHeaderView?.populateHeaderViewWithErrorMessage(errorMessage as String)
+                return administerHeaderView
+            }
+            if (medicationSlot?.medicationAdministration?.isEarlyAdministration == true) {
+                if (medicationSlot?.medicationAdministration?.isWhenRequiredEarlyAdministration == true) {
+                    let errorMessage = NSString(format: "%@ %@", NSLocalizedString("ADMIN_FREQUENCY", comment: "when required new medication is given 2 hrs before previous one"), NSLocalizedString("EARLY_ADMIN_INLINE", comment: ""))
+                    administerHeaderView?.populateHeaderViewWithErrorMessage(errorMessage as String)
+                    return administerHeaderView
+                } else {
+                    administerHeaderView?.populateHeaderViewWithErrorMessage(NSLocalizedString("EARLY_ADMIN_INLINE", comment: "early administration when medication is attempted 1 hr before scheduled time"))
                     return administerHeaderView
                 }
+            }
         }
         return nil
     }
@@ -1015,6 +1025,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 administationViewController.activityIndicatorView.startAnimating()
                 self.dismissViewControllerAnimated(true, completion: {
                     self.helper.reloadPrescriberMedicationHomeViewControllerWithCompletionHandler({ (Bool) -> Void in
+                        prescriberMedicationListViewController.medicationSlotArray = self.medicationSlotsArray
                         prescriberMedicationListViewController.reloadAdministrationScreenWithMedicationDetails()
                         administationViewController.activityIndicatorView.stopAnimating()
                     })
