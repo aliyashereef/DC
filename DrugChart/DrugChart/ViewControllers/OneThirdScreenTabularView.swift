@@ -42,7 +42,8 @@ class OneThirdScreenTabularView: UIViewController,UICollectionViewDataSource, UI
         stripView.layer.backgroundColor = Constant.CELL_BORDER_COLOR
         stripView.backgroundColor = Constant.SELECTION_CELL_BACKGROUND_COLOR
         setDateDisplay()
-        filterList()
+        //filterList()
+        reloadView(observationList)
     }
     
     func filterList()
@@ -245,6 +246,19 @@ class OneThirdScreenTabularView: UIViewController,UICollectionViewDataSource, UI
     {
         self.observationList = observationList // order matters here
         filterList()
+        if(filteredObservations.count == 0)
+        {
+            dateHeadingLabel.text = "No Data"
+            self.collectionView.hidden = true
+            self.tableView.hidden = true
+            stripView.hidden = true
+        }
+        else
+        {
+            self.collectionView.hidden = false
+            self.tableView.hidden = false
+            stripView.hidden = false
+        }
         self.collectionView.reloadData()
         self.tableView.reloadData()
     }
