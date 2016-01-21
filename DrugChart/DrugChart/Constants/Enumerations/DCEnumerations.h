@@ -153,17 +153,14 @@ typedef enum : NSUInteger {
     eDayCount,
     eHoursCount,
     eMinutesCount,
-    eReducingIncreasingType
+    eReducingIncreasingType,
 }PickerType;
 
+typedef enum : NSUInteger {
+    
+    eUnit,
+    eFlowDuration
+}InfusionPickerType;
 
-
-//typedef enum : NSUInteger {
-//
-//    oneThirdWindow,
-//    halfWindow,
-//    twoThirdWindow,
-//    fullWindow
-//} CurrentWindowState;
 
 #endif
