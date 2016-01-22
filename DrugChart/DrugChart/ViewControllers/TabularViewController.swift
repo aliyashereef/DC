@@ -20,11 +20,7 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
     var observationList:[VitalSignObservation]!
     var filteredObservations:[VitalSignObservation]!
     private var viewByDate:NSDate = NSDate()
-//    let BORDER_WIDTH : CGFloat  = 0.10
-//    let CORNER_RADIUS :CGFloat = 2
-//    let CELL_BORDER_COLOR :CGColor = UIColor.lightGrayColor().CGColor
-//    let SELECTION_CELL_BACKGROUND_COLOR:UIColor = UIColor(forHexString: "#fafafa")
-//    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -77,21 +73,20 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
             let headerCell : HeaderCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(headerCellIdentifier, forIndexPath: indexPath) as! HeaderCollectionViewCell
             
             if indexPath.row == 0 {
-                headerCell.dateLabel.text = viewByDate.getFormattedMonthName() + " " + viewByDate.getFormattedYear()
-                
-               // headerCell.dateLabel.font
+                headerCell.dayLabel.text = viewByDate.getFormattedMonthName()
+                headerCell.dateLabel.text = "  " + viewByDate.getFormattedYear()
+                headerCell.dayLabel.font = UIFont.boldSystemFontOfSize(17)
                 headerCell.removeTimeLabel()
                 headerCell.layoutMargins = UIEdgeInsetsZero
                 headerCell.layer.borderWidth = Constant.BORDER_WIDTH
                 headerCell.layer.borderColor = Constant.CELL_BORDER_COLOR
                 headerCell.layer.cornerRadius = Constant.CORNER_RADIUS
-                headerCell.backgroundColor = UIColor.whiteColor()
-                headerCell.dateLabel.backgroundColor = UIColor.whiteColor()
-                headerCell.timeLabel.backgroundColor = UIColor.whiteColor()
+                headerCell.changeBackgroundColor(UIColor.whiteColor())
+                headerCell.dateLabel.textColor = UIColor.blackColor()
                 return headerCell
             } else {
                 let observation = filteredObservations[indexPath.row - 1]
-                headerCell.configureCell(observation.date)
+                headerCell.configureFullTabularCell(observation.date)
                 headerCell.layer.borderWidth = Constant.BORDER_WIDTH
                 headerCell.layer.borderColor = Constant.CELL_BORDER_COLOR
                 headerCell.layer.cornerRadius = Constant.CORNER_RADIUS
@@ -196,8 +191,14 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
         
         let popOverController:UIPopoverPresentationController = calendarViewController.popoverPresentationController!
         popOverController.delegate = self
+       
+        let calendar = NSCalendar.currentCalendar()
+        let chosenDateComponents = calendar.components([.Month , .Year], fromDate: viewByDate)
+        calendarViewController.setSelection(chosenDateComponents.month, year:chosenDateComponents.year)
         
         self.presentViewController(calendarViewController, animated: false, completion: nil)
+    
+        
     }
     // Mark: Delegate implementation
     func DateSelected(value:NSDate)
@@ -237,6 +238,13 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
     func adaptivePresentationStyleForPresentationController(
         controller: UIPresentationController) -> UIModalPresentationStyle {
             return .None
+    }
+    // Mark: Unwind element
+    
+    @IBAction func unwindToTabularView(sender:UIStoryboardSegue)
+    {
+      reloadView(observationList)
+        
     }
     
     
