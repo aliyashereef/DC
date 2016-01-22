@@ -456,7 +456,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
     override func awakeFromNib() {
         tableView.delegate=self
         tableView.dataSource=self
-        self.tableView.allowsSelection = false
+        //self.tableView.allowsSelection = false
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 44
         self.tableView.allowsMultipleSelection = false
