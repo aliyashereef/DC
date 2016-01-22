@@ -606,6 +606,7 @@
     routesInfusionsViewController.delegate = self;
     routesInfusionsViewController.previousRoute = self.selectedMedication.route;
     routesInfusionsViewController.infusion = self.selectedMedication.infusion;
+    routesInfusionsViewController.dosage = self.selectedMedication.dose;
     routesInfusionsViewController.patientId = self.patientId;
     routesInfusionsViewController.routesArray = self.selectedMedication.routeArray;
     [self configureNavigationBackButtonTitle];
