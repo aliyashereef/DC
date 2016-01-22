@@ -565,6 +565,7 @@
     }
     self.selectedMedication = [[DCMedicationScheduleDetails alloc] init];
     self.selectedMedication.name = medication.name;
+    self.selectedMedication.routeArray = [[NSMutableArray alloc] initWithArray:medication.routeArray];
     self.selectedMedication.medicationId = medication.medicationId;
     self.selectedMedication.dosage = medication.dosage;
     self.selectedMedication.hasEndDate = NO;
@@ -606,6 +607,7 @@
     routesInfusionsViewController.previousRoute = self.selectedMedication.route;
     routesInfusionsViewController.infusion = self.selectedMedication.infusion;
     routesInfusionsViewController.patientId = self.patientId;
+    routesInfusionsViewController.routesArray = self.selectedMedication.routeArray;
     [self configureNavigationBackButtonTitle];
     [self.navigationController pushViewController:routesInfusionsViewController animated:YES];
 }
@@ -627,6 +629,12 @@
         if (self.isEditMedication) {
             if (self.selectedMedication.dose == nil) {
                 self.selectedMedication.dose = [[DCDosage alloc] init];
+            }
+        }
+        if ([self.selectedMedication.medicineCategory  isEqualToString: @"Regular"]) {
+            dosageSelectionViewController.isReducingIncreasingPresent = true;
+            if (self.selectedMedication.scheduling.specificTimes != nil && [self.selectedMedication.scheduling.specificTimes.repeatObject.repeatType  isEqualToString: @"Daily"]) {
+                dosageSelectionViewController.isSplitDailyPresent = true;
             }
         }
         dosageSelectionViewController.dosage = self.selectedMedication.dose;

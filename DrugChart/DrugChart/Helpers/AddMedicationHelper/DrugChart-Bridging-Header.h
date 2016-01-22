@@ -38,3 +38,4 @@
 #import "DCHTTPRequestOperationManager.h"
 #import "DCMedicationListViewController.h"
 #import "DCDosage.h"
+#import "DCAddMedicationHelper.h"

@@ -190,4 +190,18 @@
     }
 }
 
++ (NSInteger)routesTableViewSectionCountForSelectedRoute:(NSString *)route {
+    
+    if ([self routeIsIntravenous:route]) {
+        return 2;
+    } else {
+        return 1;
+    }
+}
+
++ (BOOL)routeIsIntravenous:(NSString *)route {
+    
+    return [route containsString:@"Intravenous"];
+}
+
 @end

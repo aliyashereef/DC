@@ -149,9 +149,9 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             cell.tag = ObservationType.Respiratory.rawValue
             cell.configureCell(cellTitle, valuePlaceHolderText: placeHolderText,selectedValue: nil , disableNavigation: showObservationType != .All)
             cells[rowNumber] = cell
-            if(showObservationType == ShowObservationType.Respiratory && observation.respiratory != nil )
+            if(showObservationType == ShowObservationType.Respiratory && observation != nil )
             {
-                cell.value.text = String( observation.respiratory!.repiratoryRate)
+                cell.value.text = observation.getRespiratoryReading()
             }
             cell.delegate = self
             return cell
@@ -164,6 +164,10 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             cell.tag = ObservationType.SpO2.rawValue
             cell.configureCell(cellTitle, valuePlaceHolderText: placeHolderText,selectedValue: nil , disableNavigation: showObservationType != .All)
             cells[rowNumber] = cell
+            if(showObservationType == ShowObservationType.SpO2 && observation != nil )
+            {
+                cell.value.text = observation.getSpo2Reading()
+            }
             cell.delegate = self
             return cell
             
@@ -175,6 +179,10 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             cell.tag = ObservationType.Temperature.rawValue
             cell.configureCell(cellTitle, valuePlaceHolderText: placeHolderText,selectedValue: nil , disableNavigation: showObservationType != .All)
             cells[rowNumber] = cell
+            if(showObservationType == ShowObservationType.Temperature && observation != nil )
+            {
+                cell.value.text = observation.getTemperatureReading()
+            }
             cell.delegate = self
             return cell
             
@@ -184,6 +192,11 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             let cell = tableView.dequeueReusableCellWithIdentifier("BloodPressureCell", forIndexPath: indexPath) as! BloodPressureCell
             cell.tag = ObservationType.BloodPressure.rawValue
             cells[rowNumber] = cell
+            if(showObservationType == ShowObservationType.BloodPressure && observation != nil && observation.bloodPressure != nil )
+            {
+                cell.systolicValue.text =  String( observation.bloodPressure!.systolic)
+                cell.diastolicValue.text    = String(observation.bloodPressure!.diastolic)
+            }
             cell.configureCell(showObservationType != .All)
             cell.delegate = self
             return cell
@@ -195,6 +208,10 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             cell.tag = ObservationType.Pulse.rawValue
             cell.configureCell(cellTitle, valuePlaceHolderText: placeHolderText,selectedValue: nil , disableNavigation: showObservationType != .All)
             cells[rowNumber] = cell
+            if(showObservationType == ShowObservationType.Pulse && observation != nil )
+            {
+                cell.value.text = observation.getPulseReading()
+            }
             cell.delegate = self
             return cell
             

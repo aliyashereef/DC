@@ -2,7 +2,7 @@
 //  DCSchedulingDetailViewController.swift
 //  DrugChart
 //
-//  Created by qbuser on 11/11/15.
+//  Created by Jilu Mary Joy on 11/11/15.
 //
 //
 
@@ -90,7 +90,7 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
     func populateWeekDaysArray() {
         
         // week days array
-        weekDaysArray = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+        weekDaysArray = [SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY]
     }
     
     func tableViewHasInlinePickerForSection (section : NSInteger) -> Bool {

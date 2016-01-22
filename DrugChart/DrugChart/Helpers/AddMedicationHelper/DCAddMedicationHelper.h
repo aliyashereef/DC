@@ -96,5 +96,10 @@ typedef enum : NSUInteger {
                          forContentText:(NSString *)content
                     forSaveButtonAction:(BOOL)clicked;
 
++ (BOOL)routeIsIntravenous:(NSString *)route;
+
++ (NSInteger)routesTableViewSectionCountForSelectedRoute:(NSString *)route;
+
+
 
 @end

@@ -215,7 +215,19 @@
 #define INFUSIONS_CELL_ID @"InfusionCell"
 #define SLOW_BOLUS_CELL_ID @"SlowBolusCell"
 #define INJECTION_CELL_ID @"InjectionCellId"
+#define INFUSION_PICKER_CELL_ID @"InfusionPickerCellId"
 
+// Week days
+
+#define SUNDAY @"Sunday"
+#define MONDAY @"Monday"
+#define TUESDAY @"Tuesday"
+#define WEDNESDAY @"Wednesday"
+#define THURSDAY @"Thursday"
+#define FRIDAY @"Friday"
+#define SATURDAY @"Saturday"
+
+#define SELECTED_TIME_DISPLAY_CELL_ID @"selectedTimeCell"
 
 // title for views
 #define INPATIENT_TITLE @"In Patients"

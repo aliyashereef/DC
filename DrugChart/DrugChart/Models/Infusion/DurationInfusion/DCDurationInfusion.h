@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DCInjection.h"
 
-@interface DCDurationInfusion : NSObject
+@interface DCDurationInfusion : DCInjection
 
-@property (nonatomic, strong) NSString *flowTime;
+@property (nonatomic, strong) NSString *flowDuration;
 
 @end

@@ -17,7 +17,7 @@ protocol ObservationDelegate
     func DateSelected(value:NSDate)
     func GetLatestObservation(dataType:DashBoardRow)->VitalSignObservation!
     func PushViewController(navigationController:UIViewController)
-    
+    func ShowAlertController(alertController:UIAlertController)
 }
 
 extension ObservationDelegate
@@ -28,4 +28,6 @@ extension ObservationDelegate
     func DateSelected(value:NSDate){}
     func GetLatestObservation(dataType:DashBoardRow)->VitalSignObservation! { return nil}
     func PushViewController(navigationController:UIViewController){}
+    func ShowAlertController(alertController:UIAlertController) {}
+
 }

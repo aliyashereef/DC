@@ -159,6 +159,7 @@
             updatedMedication.name = medicationDetails.name;
             updatedMedication.medicationId = medicationDetails.medicationId;
             updatedMedication.dosage = medicationDetails.dosage;
+            updatedMedication.routeArray = medicationDetails.routeArray;
             updatedMedication.severeWarningCount = severeArray.count;
             updatedMedication.mildWarningCount = mildArray.count;
             if ([severeArray count] == 0) {
