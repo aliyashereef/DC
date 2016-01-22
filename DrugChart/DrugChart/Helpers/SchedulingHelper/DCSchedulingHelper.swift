@@ -196,15 +196,16 @@ class DCSchedulingHelper: NSObject {
         if (times.count > 0) {
             descriptionText.appendFormat(" %@ a day", timesString)
         }
+        if (times.count > 0) {
+            descriptionText.appendFormat(" at %@", administratingTimesStringFromTimeArray(NSMutableArray(array: times)))
+        }
         descriptionText.appendFormat(" on %@ every", weeksString)
         if (repeatValue.frequency == SINGLE_WEEK) {
             descriptionText.appendFormat(" %@", WEEK)
         } else {
             descriptionText.appendFormat(" %@", repeatValue.frequency)
         }
-        if (times.count > 0) {
-            descriptionText.appendFormat(" at %@", administratingTimesStringFromTimeArray(NSMutableArray(array: times)))
-        }
+
         return descriptionText
     }
     
