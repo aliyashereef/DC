@@ -12,7 +12,6 @@ import UIKit
     
     func newRouteSelected(route : NSString)
     func updatedInfusionObject(infusion : DCInfusion)
-    func updatedDosageObject(dosage : DCDosage)
 }
 
 class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, InfusionAdministerDelegate {
