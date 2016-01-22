@@ -178,7 +178,7 @@
             if (![schedulingDescription isEqualToString:EMPTY_STRING] && schedulingDescription != nil) {
                 schedulingDescription = [NSMutableString stringWithString:[DCAddMedicationHelper considatedFrequencyDescriptionFromString:schedulingDescription]];
             }
-            cell.descriptionLabel.text = schedulingDescription;
+            [cell configureContentCellWithContent: schedulingDescription];
         }
             break;
         case eAdministratingTimeCell: {
