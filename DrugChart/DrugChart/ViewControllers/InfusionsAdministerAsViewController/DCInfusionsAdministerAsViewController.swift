@@ -113,7 +113,7 @@ class DCInfusionsAdministerAsViewController: UIViewController, UITableViewDelega
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         if let pickerIndexpath = self.inlinePickerIndexPath {
-            if (indexPath.row != pickerIndexpath.row - 1) {
+            if (indexPath.section != pickerIndexpath.section || indexPath.row != pickerIndexpath.row - 1) {
                 collapseOpenedPickerCell()
             }
         }
