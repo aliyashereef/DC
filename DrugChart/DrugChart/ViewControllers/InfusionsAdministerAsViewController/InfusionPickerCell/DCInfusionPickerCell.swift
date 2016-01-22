@@ -68,6 +68,7 @@ class DCInfusionPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewD
                     }
                 }
             }
+            unitCompletion(previousValue)
         }
     }
     

@@ -96,7 +96,7 @@ typealias SelectedDosage = DCDosage? -> Void
             }
             self.dosage?.doseUnit = "mg"
             self.dosage?.reducingIncreasingDose?.changeOver = "Days"
-            self.dosage?.reducingIncreasingDose?.conditions?.conditionDescription = "Reduce 50 mg every day"
+            self.dosage?.reducingIncreasingDose?.conditions?.conditionDescription = ""
         } else {
             switch (self.dosage?.type)! {
             case DOSE_FIXED:
@@ -240,6 +240,7 @@ typealias SelectedDosage = DCDosage? -> Void
             let dosageSelectionMenuCell : DCDosageSelectionTableViewCell? = dosageTableView.dequeueReusableCellWithIdentifier(DOSE_MENU_CELL_ID) as? DCDosageSelectionTableViewCell
             // Configure the cell...
             dosageSelectionMenuCell!.dosageMenuLabel.text = dosageMenuItems[indexPath.row]
+            dosageSelectionMenuCell?.dosageMenuLabel.textColor = UIColor.blackColor()
             if (indexPath == previousIndexPath) {
                 dosageSelectionMenuCell?.accessoryType = .Checkmark
             } else {
@@ -353,11 +354,7 @@ typealias SelectedDosage = DCDosage? -> Void
             }
             let attributes = [NSFontAttributeName : UIFont.systemFontOfSize(15.0)]
             let attributedString = NSMutableAttributedString(string:"Delete", attributes:attributes)
-            if #available(iOS 9.0, *) {
-                UIButton.appearanceWhenContainedInInstancesOfClasses([DCSelectedTimeTableViewCell.classForCoder()]).setAttributedTitle(attributedString, forState: .Normal)
-            } else {
-                // Fallback on earlier versions
-            }
+            UIButton.dc_appearanceWhenContainedIn(DCSelectedTimeTableViewCell.classForCoder()).setAttributedTitle(attributedString, forState: .Normal)
             return [delete]
     }
     
@@ -462,10 +459,12 @@ typealias SelectedDosage = DCDosage? -> Void
                 } else {
                     dosageSelectionDetailCell.dosageMenuLabel.text = ADD_ADMINISTRATION_TIME
                     dosageSelectionDetailCell.accessoryType = .None
+                    dosageSelectionDetailCell.dosageMenuLabel.textColor = dosageTableView.tintColor
                 }
             } else {
                 dosageSelectionDetailCell.dosageMenuLabel.text = ADD_ADMINISTRATION_TIME
                 dosageSelectionDetailCell.accessoryType = .None
+                dosageSelectionDetailCell.dosageMenuLabel.textColor = dosageTableView.tintColor
             }
         default:
             break
@@ -499,6 +498,7 @@ typealias SelectedDosage = DCDosage? -> Void
             case 3:
                 if (menuType == eReducingIncreasing) {
                     let dosageConditionsViewController : DCDosageConditionsViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_CONDITIONS_SBID) as? DCDosageConditionsViewController
+                    dosageConditionsViewController?.dosage = self.dosage
                     self.configureNavigationBackButtonTitle()
                     self.navigationController?.pushViewController(dosageConditionsViewController!, animated: true)
                     return

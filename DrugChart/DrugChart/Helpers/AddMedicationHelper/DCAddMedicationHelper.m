@@ -192,16 +192,16 @@
 
 + (NSInteger)routesTableViewSectionCountForSelectedRoute:(NSString *)route {
     
-    if ([self routeIsIntravenous:route]) {
+    if ([self routeIsIntravenousOrSubcutaneous:route]) {
         return 2;
     } else {
         return 1;
     }
 }
 
-+ (BOOL)routeIsIntravenous:(NSString *)route {
++ (BOOL)routeIsIntravenousOrSubcutaneous:(NSString *)route {
     
-    return [route containsString:@"Intravenous"];
+    return ([route containsString:@"Intravenous"]|| [route containsString:@"Subcutaneous"]);
 }
 
 @end

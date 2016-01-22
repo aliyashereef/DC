@@ -167,4 +167,5 @@
 "ML"                   =       "ml";
 "INTO"                 =       "Into";
 "OVER"                 =       "Over";
+"FLOW_RATE_FOOTER"     =       "At the flow rate of ";
 

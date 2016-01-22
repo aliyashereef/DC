@@ -606,6 +606,7 @@
     routesInfusionsViewController.delegate = self;
     routesInfusionsViewController.previousRoute = self.selectedMedication.route;
     routesInfusionsViewController.infusion = self.selectedMedication.infusion;
+    routesInfusionsViewController.dosage = self.selectedMedication.dose;
     routesInfusionsViewController.patientId = self.patientId;
     NSMutableArray *routeArray = [[NSMutableArray alloc] init];
     for (NSDictionary *routeDictionary in self.selectedMedication.routeArray) {
