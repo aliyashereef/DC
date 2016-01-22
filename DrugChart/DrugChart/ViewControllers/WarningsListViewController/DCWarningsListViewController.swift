@@ -48,6 +48,7 @@ let SECOND_INDEX = 1
     override func viewDidLoad() {
         
         configureViewElements();
+        self.edgesForExtendedLayout = UIRectEdge.None
         super.viewDidLoad()
     }
     

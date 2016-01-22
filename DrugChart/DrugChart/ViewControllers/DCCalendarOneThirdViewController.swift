@@ -53,9 +53,8 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         let indexPath : NSIndexPath = NSIndexPath.init(forItem: 5, inSection: 0)
-        calendarStripCollectionView .scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: false)
+        calendarStripCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: false)
         scrolledProgramatically = true
-        medicationTableView?.reloadData()
 }
 
     override func viewWillDisappear(animated: Bool) {
@@ -72,7 +71,6 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         calendarStripCollectionView.reloadData()
         self.adjustContentOffsetToShowCenterDayInCollectionView()
         medicationTableView?.reloadData()
-        self.view.layoutIfNeeded()
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
