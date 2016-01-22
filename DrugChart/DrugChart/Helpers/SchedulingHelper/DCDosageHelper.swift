@@ -40,7 +40,7 @@ class DCDosageHelper: NSObject {
             change = "Increase"
         }
         if (condition.dose != "" && condition.every != "" && condition.until != "") {
-            displayString = "\(change) \(condition.dose) \(unit) every \(condition.every) until \(condition.until)"
+            displayString = "\(change) \(condition.dose) every \(condition.every) until \(condition.until)"
         } else {
             displayString = ""
         }
