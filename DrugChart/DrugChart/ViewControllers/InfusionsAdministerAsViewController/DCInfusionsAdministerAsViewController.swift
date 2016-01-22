@@ -345,15 +345,8 @@ class DCInfusionsAdministerAsViewController: UIViewController, UITableViewDelega
         return optionsCell!
     }
     
-    func updateViewOnTableViewZerothSectionSelectionAtIndexPath(indexPath : NSIndexPath) {
+    func initialiseAdministerOptions() {
         
-        //zeroth section selection
-        previousAdministerOption = optionsArray![indexPath.row]
-        if (previousAdministerOptionIndexPath != nil) {
-            administerOptionsTableView.reloadRowsAtIndexPaths([previousAdministerOptionIndexPath!], withRowAnimation: .Fade)
-        }
-        administerOptionsTableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        infusion?.administerAsOption = previousAdministerOption
         if (infusion?.administerAsOption == BOLUS_INJECTION) {
             self.infusion?.bolusInjection = DCBolusInjection.init()
         } else if (infusion?.administerAsOption == DURATION_BASED_INFUSION) {
@@ -362,37 +355,51 @@ class DCInfusionsAdministerAsViewController: UIViewController, UITableViewDelega
             //rate based infusion
             self.infusion?.rateInfusion = DCRateInfusion.init()
         }
-        if (infusion?.administerAsOption == RATE_BASED_INFUSION) {
-            administerOptionsTableView.reloadData()
-        } else {
-            administerOptionsTableView.beginUpdates()
-            let sectionCount = administerOptionsTableView.numberOfSections
-            switch sectionCount {
-            case SectionCount.eFirstSection.rawValue :
-                if (infusion?.administerAsOption == BOLUS_INJECTION) {
-                    administerOptionsTableView.insertSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
-                } else if (infusion?.administerAsOption == DURATION_BASED_INFUSION) {
-                    administerOptionsTableView.insertSections(NSIndexSet(indexesInRange: NSMakeRange(1, 2)), withRowAnimation: .Middle)
-                }
-            case SectionCount.eSecondSection.rawValue :
-                if (infusion?.administerAsOption == BOLUS_INJECTION) {
-                    administerOptionsTableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
-                    if (sectionCount == 2) {
-                        administerOptionsTableView.deleteSections(NSIndexSet(index: 2), withRowAnimation: .Fade)
-                    }
-                } else if (infusion?.administerAsOption == DURATION_BASED_INFUSION) {
-                    administerOptionsTableView.insertSections(NSIndexSet(index: 2), withRowAnimation: .Middle)
-                    administerOptionsTableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
-                }
-            case SectionCount.eThirdSection.rawValue :
-                if (sectionCount == 3) {
-                    administerOptionsTableView.deleteSections(NSIndexSet(indexesInRange: NSMakeRange(1, 2)), withRowAnimation: .Fade)
-                }
-                administerOptionsTableView.insertSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
-            default :
-                break
+    }
+    
+    func updateViewOnTableViewZerothSectionSelectionAtIndexPath(indexPath : NSIndexPath) {
+        
+        //zeroth section selection
+        if (previousAdministerOption != optionsArray![indexPath.row]) {
+            previousAdministerOption = optionsArray![indexPath.row]
+            if (previousAdministerOptionIndexPath != nil) {
+                administerOptionsTableView.reloadRowsAtIndexPaths([previousAdministerOptionIndexPath!], withRowAnimation: .Fade)
             }
-            administerOptionsTableView.endUpdates()
+            administerOptionsTableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            infusion?.administerAsOption = previousAdministerOption
+            self.initialiseAdministerOptions()
+            if (infusion?.administerAsOption == RATE_BASED_INFUSION) {
+                administerOptionsTableView.reloadData()
+            } else {
+                administerOptionsTableView.beginUpdates()
+                let sectionCount = administerOptionsTableView.numberOfSections
+                switch sectionCount {
+                case SectionCount.eFirstSection.rawValue :
+                    if (infusion?.administerAsOption == BOLUS_INJECTION) {
+                        administerOptionsTableView.insertSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
+                    } else if (infusion?.administerAsOption == DURATION_BASED_INFUSION) {
+                        administerOptionsTableView.insertSections(NSIndexSet(indexesInRange: NSMakeRange(1, 2)), withRowAnimation: .Middle)
+                    }
+                case SectionCount.eSecondSection.rawValue :
+                    if (infusion?.administerAsOption == BOLUS_INJECTION) {
+                        administerOptionsTableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
+                        if (sectionCount == 2) {
+                            administerOptionsTableView.deleteSections(NSIndexSet(index: 2), withRowAnimation: .Fade)
+                        }
+                    } else if (infusion?.administerAsOption == DURATION_BASED_INFUSION) {
+                        administerOptionsTableView.insertSections(NSIndexSet(index: 2), withRowAnimation: .Middle)
+                        administerOptionsTableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
+                    }
+                case SectionCount.eThirdSection.rawValue :
+                    if (sectionCount == 3) {
+                        administerOptionsTableView.deleteSections(NSIndexSet(indexesInRange: NSMakeRange(1, 2)), withRowAnimation: .Fade)
+                    }
+                    administerOptionsTableView.insertSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+                default :
+                    break
+                }
+                administerOptionsTableView.endUpdates()
+            }
         }
     }
     
