@@ -99,8 +99,10 @@
         return INTRATHECAL_ID;
     } else if ([routeString isEqualToString:INTRAVENOUS] || [routeString isEqualToString:@"Intravenous"]) {
         return INTRAVENOUS_ID;
+    } else if ([routeString isEqualToString:SUBCUTANEOUS]) {
+        return SUBCUTANEOUS_ID;
     } else {
-        return EMPTY_STRING;
+        return ORAL_ID;
     }
 }
 

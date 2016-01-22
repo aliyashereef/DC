@@ -45,13 +45,11 @@
 		0B85D6831BF9CC02009CF795 /* DCSchedulingHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B85D6821BF9CC02009CF795 /* DCSchedulingHeaderView.xib */; };
 		0B8886AF1B0C7814006FF1BF /* DCDatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B8886AE1B0C7814006FF1BF /* DCDatePickerViewController.m */; };
 		0B8D6E7A1B3136C200F0B972 /* DCKeyChainManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B8D6E791B3136C200F0B972 /* DCKeyChainManager.m */; };
-		0B8F229B1C4E278700BB5542 /* DCInfusionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B8F229A1C4E278700BB5542 /* DCInfusionsViewController.swift */; };
 		0B90D6541B734EE0003A37E4 /* UICKeyChainStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B90D6511B734EE0003A37E4 /* UICKeyChainStore.m */; };
 		0B913B251C4603370004899B /* DCInfusionsAdministerAsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B913B241C4603370004899B /* DCInfusionsAdministerAsViewController.swift */; };
 		0B913B281C4605840004899B /* DCInfusionsAdministerAsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B913B271C4605840004899B /* DCInfusionsAdministerAsCell.swift */; };
 		0B913B2D1C4620F80004899B /* DCInfusion.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B913B2C1C4620F80004899B /* DCInfusion.m */; };
 		0B913B301C46517C0004899B /* DCInfusionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B913B2F1C46517C0004899B /* DCInfusionCell.swift */; };
-		0B913B331C465DE80004899B /* DCSlowBolusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B913B321C465DE80004899B /* DCSlowBolusCell.swift */; };
 		0B91739E1B01F36200BC9337 /* DCPrescriberDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B91739D1B01F36200BC9337 /* DCPrescriberDetailsViewController.m */; };
 		0B9173A01B01F3BA00BC9337 /* PrescriberDetails.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0B91739F1B01F3BA00BC9337 /* PrescriberDetails.storyboard */; };
 		0B9173A41B02101300BC9337 /* DCPrescriberDetailsTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B9173A31B02101300BC9337 /* DCPrescriberDetailsTimeView.m */; };
@@ -62,6 +60,8 @@
 		0B95FAF01B5E6634002939DF /* DCWarningsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B95FAEF1B5E6634002939DF /* DCWarningsHeaderView.m */; };
 		0B95FAF21B5E6663002939DF /* DCWarningsHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B95FAF11B5E6663002939DF /* DCWarningsHeaderView.xib */; };
 		0B964C791C5097E200CD509D /* DCInfusionPickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B964C781C5097E200CD509D /* DCInfusionPickerCell.swift */; };
+		0B964C7C1C50FCF500CD509D /* DCSlowBolusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B964C7B1C50FCF500CD509D /* DCSlowBolusCell.swift */; };
+		0B964C7F1C51019000CD509D /* DCInfusionsFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B964C7E1C51019000CD509D /* DCInfusionsFooterView.swift */; };
 		0B989E971B8C22960012AFE8 /* DCCalendarNavigationTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B989E961B8C22960012AFE8 /* DCCalendarNavigationTitleView.m */; };
 		0B989E991B8C22CD0012AFE8 /* DCCalendarNavigationTitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B989E981B8C22CD0012AFE8 /* DCCalendarNavigationTitleView.xib */; };
 		0B9D6D521BA17244009E0A4E /* DCAddMedicationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B9D6D511BA17244009E0A4E /* DCAddMedicationHelper.m */; };
@@ -437,7 +437,6 @@
 		0B8886AE1B0C7814006FF1BF /* DCDatePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCDatePickerViewController.m; sourceTree = "<group>"; };
 		0B8D6E781B3136C200F0B972 /* DCKeyChainManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCKeyChainManager.h; sourceTree = "<group>"; };
 		0B8D6E791B3136C200F0B972 /* DCKeyChainManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCKeyChainManager.m; sourceTree = "<group>"; };
-		0B8F229A1C4E278700BB5542 /* DCInfusionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCInfusionsViewController.swift; sourceTree = "<group>"; };
 		0B90D6501B734EE0003A37E4 /* UICKeyChainStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICKeyChainStore.h; sourceTree = "<group>"; };
 		0B90D6511B734EE0003A37E4 /* UICKeyChainStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICKeyChainStore.m; sourceTree = "<group>"; };
 		0B913B241C4603370004899B /* DCInfusionsAdministerAsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCInfusionsAdministerAsViewController.swift; sourceTree = "<group>"; };
@@ -445,7 +444,6 @@
 		0B913B2B1C4620F80004899B /* DCInfusion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCInfusion.h; sourceTree = "<group>"; };
 		0B913B2C1C4620F80004899B /* DCInfusion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCInfusion.m; sourceTree = "<group>"; };
 		0B913B2F1C46517C0004899B /* DCInfusionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCInfusionCell.swift; sourceTree = "<group>"; };
-		0B913B321C465DE80004899B /* DCSlowBolusCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCSlowBolusCell.swift; sourceTree = "<group>"; };
 		0B91739C1B01F36200BC9337 /* DCPrescriberDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCPrescriberDetailsViewController.h; sourceTree = "<group>"; };
 		0B91739D1B01F36200BC9337 /* DCPrescriberDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DCPrescriberDetailsViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0B91739F1B01F3BA00BC9337 /* PrescriberDetails.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = PrescriberDetails.storyboard; sourceTree = "<group>"; };
@@ -460,6 +458,8 @@
 		0B95FAEF1B5E6634002939DF /* DCWarningsHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCWarningsHeaderView.m; sourceTree = "<group>"; };
 		0B95FAF11B5E6663002939DF /* DCWarningsHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCWarningsHeaderView.xib; sourceTree = "<group>"; };
 		0B964C781C5097E200CD509D /* DCInfusionPickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCInfusionPickerCell.swift; sourceTree = "<group>"; };
+		0B964C7B1C50FCF500CD509D /* DCSlowBolusCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCSlowBolusCell.swift; sourceTree = "<group>"; };
+		0B964C7E1C51019000CD509D /* DCInfusionsFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCInfusionsFooterView.swift; sourceTree = "<group>"; };
 		0B989E951B8C22960012AFE8 /* DCCalendarNavigationTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCCalendarNavigationTitleView.h; sourceTree = "<group>"; };
 		0B989E961B8C22960012AFE8 /* DCCalendarNavigationTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCCalendarNavigationTitleView.m; sourceTree = "<group>"; };
 		0B989E981B8C22CD0012AFE8 /* DCCalendarNavigationTitleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCCalendarNavigationTitleView.xib; sourceTree = "<group>"; };
@@ -1233,14 +1233,6 @@
 			path = KeyChainManager;
 			sourceTree = "<group>";
 		};
-		0B8F22991C4E1F8800BB5542 /* InfusionsViewController */ = {
-			isa = PBXGroup;
-			children = (
-				0B8F229A1C4E278700BB5542 /* DCInfusionsViewController.swift */,
-			);
-			path = InfusionsViewController;
-			sourceTree = "<group>";
-		};
 		0B90D64D1B734EE0003A37E4 /* UICKeyChainStore */ = {
 			isa = PBXGroup;
 			children = (
@@ -1270,6 +1262,7 @@
 			isa = PBXGroup;
 			children = (
 				0B913B241C4603370004899B /* DCInfusionsAdministerAsViewController.swift */,
+				0B964C7A1C50FCF500CD509D /* SlowBolusCell */,
 				0B913B261C46055F0004899B /* InfusionsAdministerAsCell */,
 				0B964C771C5097E200CD509D /* InfusionPickerCell */,
 			);
@@ -1303,14 +1296,6 @@
 				0B913B2F1C46517C0004899B /* DCInfusionCell.swift */,
 			);
 			path = InfusionCell;
-			sourceTree = "<group>";
-		};
-		0B913B311C465DD50004899B /* SlowBolusCell */ = {
-			isa = PBXGroup;
-			children = (
-				0B913B321C465DE80004899B /* DCSlowBolusCell.swift */,
-			);
-			path = SlowBolusCell;
 			sourceTree = "<group>";
 		};
 		0B91739B1B01F33C00BC9337 /* PrescriberDetailsViewController */ = {
@@ -1358,6 +1343,22 @@
 				0B964C781C5097E200CD509D /* DCInfusionPickerCell.swift */,
 			);
 			path = InfusionPickerCell;
+			sourceTree = "<group>";
+		};
+		0B964C7A1C50FCF500CD509D /* SlowBolusCell */ = {
+			isa = PBXGroup;
+			children = (
+				0B964C7B1C50FCF500CD509D /* DCSlowBolusCell.swift */,
+			);
+			path = SlowBolusCell;
+			sourceTree = "<group>";
+		};
+		0B964C7D1C5100FE00CD509D /* InfusionsFooterView */ = {
+			isa = PBXGroup;
+			children = (
+				0B964C7E1C51019000CD509D /* DCInfusionsFooterView.swift */,
+			);
+			path = InfusionsFooterView;
 			sourceTree = "<group>";
 		};
 		0B989E941B8C22780012AFE8 /* CalendarNavigationTitleView */ = {
@@ -1555,7 +1556,6 @@
 				0BB103721C44D00F00F38E98 /* DCRouteAndInfusionsViewController.swift */,
 				0BB103741C44E34500F38E98 /* RouteCell */,
 				0B913B2E1C46515D0004899B /* InfusionCell */,
-				0B913B311C465DD50004899B /* SlowBolusCell */,
 			);
 			path = RouteAndInfusionsViewController;
 			sourceTree = "<group>";
@@ -1783,7 +1783,6 @@
 				0B91739B1B01F33C00BC9337 /* PrescriberDetailsViewController */,
 				7D70F37D1B20258200E4BA89 /* WardsGraphicalDisplayViewController */,
 				0BB103711C44CF4900F38E98 /* RouteAndInfusionsViewController */,
-				0B8F22991C4E1F8800BB5542 /* InfusionsViewController */,
 				0B913B231C4603230004899B /* InfusionsAdministerAsViewController */,
 				0B7F74F91B84392500E3B0A0 /* SortTableViewController */,
 				0B4BD4321C47BBDB00C49589 /* InjectionRegionViewController */,
@@ -2642,6 +2641,7 @@
 				0BC5FAF31B43FF720019BF36 /* SearchListView */,
 				0BAE36971B455DC7007CD64C /* OrderSetMedicineView */,
 				0B95FAED1B5E6618002939DF /* WarningsHeaderView */,
+				0B964C7D1C5100FE00CD509D /* InfusionsFooterView */,
 				0BD699141BB2729A008797A2 /* AdministerTableHeaderView */,
 				4D54C07A1BFB351200A61273 /* DCOneThirdCalendarScreenMedicationCell.swift */,
 				4DD829261C0853AD006B2E71 /* DCOneThirdCalendarStripCollectionCell.swift */,
@@ -3210,7 +3210,6 @@
 				0BC5FAF61B43FF930019BF36 /* DCAutoSearchView.m in Sources */,
 				4DDEED511B4D0E3F00D8E0FF /* DCPatientAllergyWebService.m in Sources */,
 				FDD548771C4511CF000EB855 /* DCSplitDailyDose.m in Sources */,
-				0B8F229B1C4E278700BB5542 /* DCInfusionsViewController.swift in Sources */,
 				FDD548741C4511B8000EB855 /* DCReducingIncreasingDose.m in Sources */,
 				7DE60BCF1B2866CD00BCA745 /* DCPatientGraphicalRepresentationView.m in Sources */,
 				FDD5487B1C4513FA000EB855 /* DCConditions.m in Sources */,
@@ -3352,7 +3351,6 @@
 				0B38AC081BF4592E0027B8E6 /* DCSchedulingCell.swift in Sources */,
 				0BF2DA561ACAB12700B3ED97 /* DCErrorPopOverBackgroundView.m in Sources */,
 				0BAE369A1B455DDF007CD64C /* DCOrderSetMedicineView.m in Sources */,
-				0B913B331C465DE80004899B /* DCSlowBolusCell.swift in Sources */,
 				1F5375031C1AED9700D4A64F /* GraphCollectionViewCell.swift in Sources */,
 				1FD4FD011BF4BAAD00B77B94 /* BloodPressureCell.swift in Sources */,
 				4D766C0D1BBCFE6400413E08 /* DCCalendarDateView.swift in Sources */,
@@ -3390,6 +3388,7 @@
 				1FD4FCCC1BF4B7E000B77B94 /* SelectionView.swift in Sources */,
 				4D48915F1BC90176002AC8CA /* DCPatientListingViewController.swift in Sources */,
 				0B91739E1B01F36200BC9337 /* DCPrescriberDetailsViewController.m in Sources */,
+				0B964C7F1C51019000CD509D /* DCInfusionsFooterView.swift in Sources */,
 				4DC527F11BE1EE2F00E2EF09 /* DCDosageMultiLineCell.swift in Sources */,
 				0BC3ACB31C0DB70B0028AF03 /* DCSchedulingInitialViewController.swift in Sources */,
 				1FD4FCCA1BF4B7E000B77B94 /* GeneralObservationView.swift in Sources */,
@@ -3407,6 +3406,7 @@
 				7D2FF0551BB85C2100B92B85 /* DCPrescriberMedicationViewController.m in Sources */,
 				4D766C0B1BBCF79900413E08 /* DCCalendarDateDisplayViewController.swift in Sources */,
 				1FD4FCCB1BF4B7E000B77B94 /* GraphicalDashBoardView.swift in Sources */,
+				0B964C7C1C50FCF500CD509D /* DCSlowBolusCell.swift in Sources */,
 				0BBDEDF51AA5B3100016E6FF /* DCFontUtility.m in Sources */,
 				0BB27D061AEF51230007EB88 /* DCPopOverBaseBackgroundView.m in Sources */,
 				4D54C07B1BFB351200A61273 /* DCOneThirdCalendarScreenMedicationCell.swift in Sources */,

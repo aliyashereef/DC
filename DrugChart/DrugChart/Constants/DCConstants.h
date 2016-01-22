@@ -483,6 +483,8 @@
 #define INTRAMASCULAR_ID @"78421000"
 #define INTRATHECAL @"Intrathecal (IT)"
 #define INTRATHECAL_ID @"72607000"
+#define SUBCUTANEOUS @"Subcutaneous"
+#define SUBCUTANEOUS_ID @"34206005"
 
 // Images
 #define ADMINISTRATION_HISTORY_TICK_IMAGE @"historyTick"

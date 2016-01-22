@@ -8,12 +8,17 @@
 
 import UIKit
 
+let DESCRIPTION_LABEL_TRAILING_IN : CGFloat = 18.0
+let DESCRIPTION_LABEL_TRAILING_DEFAULT : CGFloat = 3.0
+let DESCRITION_LABEL_WIDTH_DEFAULT : CGFloat = 155.0
+let DESCRIPTION_LABEL_WIDTH_IN : CGFloat = 225.0
+let TABLE_CELL_HEIGHT : CGFloat = 44.0
+
+
 protocol InfusionAdministerDelegate {
     
-  //  func administerAsOptionSelected(option : NSString)
     func newInfusionObject(infusion : DCInfusion)
 }
-
 
 class DCInfusionsAdministerAsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -23,6 +28,7 @@ class DCInfusionsAdministerAsViewController: UIViewController, UITableViewDelega
     var administerDelegate : InfusionAdministerDelegate?
     var previousAdministerOptionIndexPath : NSIndexPath?
     var infusion : DCInfusion?
+    var dosage : DCDosage?
     var inlinePickerIndexPath : NSIndexPath? = nil
     var patientId : String?
     
@@ -107,7 +113,7 @@ class DCInfusionsAdministerAsViewController: UIViewController, UITableViewDelega
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         if let pickerIndexpath = self.inlinePickerIndexPath {
-            if (/*indexPath.section == SectionCount.eFirstSection.rawValue &&*/ indexPath.row != pickerIndexpath.row - 1) {
+            if (indexPath.row != pickerIndexpath.row - 1) {
                 collapseOpenedPickerCell()
             }
         }
@@ -132,7 +138,27 @@ class DCInfusionsAdministerAsViewController: UIViewController, UITableViewDelega
         
         return (indexPath == self.inlinePickerIndexPath) ? PICKER_CELL_HEIGHT : TABLE_CELL_HEIGHT
     }
-
+    
+    func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        
+        //Set the header as PREVIEW
+        if (section == SectionCount.eFirstSection.rawValue && infusion?.administerAsOption == DURATION_BASED_INFUSION) {
+            var footerText = EMPTY_STRING
+            if (self.infusion?.durationInfusion?.flowDuration != nil && self.dosage != nil) {
+                footerText = DCInfusionsHelper.durationBasedInfusionFooterTextForDosage(self.dosage, flowDuration: infusion?.durationInfusion?.flowDuration) as String
+                return footerText
+            }
+        }
+        return nil
+    }
+    
+    func tableView(tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+        
+        if let footerView = view as? UITableViewHeaderFooterView {
+            footerView.textLabel!.textColor = UIColor(forHexString: "#686868")
+        }
+    }
+    
     //MARK: Private Methods
     
     func tableViewHasInlinePickerForSection (section : NSInteger) -> Bool {
@@ -211,10 +237,19 @@ class DCInfusionsAdministerAsViewController: UIViewController, UITableViewDelega
             infusionPickerCell?.unitCompletion = { unit in
                 self.infusion?.durationInfusion?.flowDuration = unit! as String
                 self.performSelector(Selector("reloadCellAfterDelayAtIndexPath:"), withObject: NSIndexPath(forRow: indexPath.row - 1, inSection: indexPath.section), afterDelay: 0.04)
+               self.administerOptionsTableView.footerViewForSection(1)?.textLabel?.text = self.tableView(self.administerOptionsTableView, titleForFooterInSection: 1)
+               self.administerOptionsTableView.footerViewForSection(1)?.textLabel?.sizeToFit()
             }
             infusionPickerCell?.configurePickerView()
             return infusionPickerCell!
         }
+    }
+    
+    func reloadTableViewSectionWithIndexSet(indexSet : NSIndexSet) {
+        
+        self.administerOptionsTableView.beginUpdates()
+        self.administerOptionsTableView.reloadSections(indexSet, withRowAnimation: .None)
+        self.administerOptionsTableView.endUpdates()
     }
     
     func slowBolusCellIndexPath(indexPath : NSIndexPath) -> DCSlowBolusCell {
