@@ -64,6 +64,16 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
         }
     }
     
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        //Set the header as PREVIEW
+        if (section == 2 && self.previewDetailsArray.count != 0) {
+            return "preview"
+        } else {
+            return nil
+        }
+    }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let dosageConditionCell : DCDosageConditionsTableViewCell? = tableView.dequeueReusableCellWithIdentifier(DOSE_CONDITION_CELL_ID) as? DCDosageConditionsTableViewCell

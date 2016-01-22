@@ -216,6 +216,18 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
             addConditionDetailViewController?.detailType = eDoseChange
             addConditionDetailViewController?.valueForDoseSelected = { value in
                 self.valueForDose = value!
+                if self.validateTheAddConditionValues() && self.valueForVariablesIsNotNull() {
+                    self.conditionItem?.change = self.valueForChange as String
+                    self.conditionItem?.dose = self.valueForDose as String
+                    self.conditionItem?.every = self.valueForEvery as String
+                    self.conditionItem?.until = self.valueForUntil as String
+                    self.previewDetails = DCDosageHelper.updatePreviewDetailsArray(self.conditionItem!, currentStartingDose: self.newStartingDose!, doseUnit:(self.dosage?.doseUnit)!)
+                    if (NSString(string: self.valueForUntil).floatValue > 0) {
+                        self.previewDetails.append("\(self.valueForUntil) thereafter.")
+                    } else {
+                        self.previewDetails.append("Stop")
+                    }
+                }
                 self.addConditionTableView.reloadData()
             }
             self.navigationController?.pushViewController(addConditionDetailViewController!, animated: true)
@@ -225,13 +237,17 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
             addConditionDetailViewController?.detailType = eUntilDose
             addConditionDetailViewController?.valueForDoseSelected = { value in
                 self.valueForUntil = value!
-                if self.validateTheAddConditionValues() {
+                if self.validateTheAddConditionValues() && self.valueForVariablesIsNotNull(){
                     self.conditionItem?.change = self.valueForChange as String
                     self.conditionItem?.dose = self.valueForDose as String
                     self.conditionItem?.every = self.valueForEvery as String
                     self.conditionItem?.until = self.valueForUntil as String
                     self.previewDetails = DCDosageHelper.updatePreviewDetailsArray(self.conditionItem!, currentStartingDose: self.newStartingDose!, doseUnit:(self.dosage?.doseUnit)!)
-                    self.previewDetails.append("Stop")
+                    if (NSString(string: self.valueForUntil).floatValue > 0) {
+                        self.previewDetails.append("\(self.valueForUntil) thereafter.")
+                    } else {
+                        self.previewDetails.append("Stop")
+                    }
                 }
                 self.addConditionTableView.reloadData()
             }
@@ -249,6 +265,18 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
             dosageDetailCell?.pickerCompletion = { value in
                 
                 self.valueForChange = value!
+                if self.validateTheAddConditionValues() && self.valueForVariablesIsNotNull() {
+                    self.conditionItem?.change = self.valueForChange as String
+                    self.conditionItem?.dose = self.valueForDose as String
+                    self.conditionItem?.every = self.valueForEvery as String
+                    self.conditionItem?.until = self.valueForUntil as String
+                    self.previewDetails = DCDosageHelper.updatePreviewDetailsArray(self.conditionItem!, currentStartingDose: self.newStartingDose!, doseUnit:(self.dosage?.doseUnit)!)
+                    if (NSString(string: self.valueForUntil).floatValue > 0) {
+                        self.previewDetails.append("\(self.valueForUntil) thereafter.")
+                    } else {
+                        self.previewDetails.append("Stop")
+                    }
+                }
                 self.addConditionTableView.reloadData()
             }
             return dosageDetailCell!
@@ -264,6 +292,18 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
                 } else {
                     self.valueForEvery = "\(value!) \(String(UTF8String: (self.dosage?.reducingIncreasingDose.changeOver)!.lowercaseString)!)"
                 }
+                if self.validateTheAddConditionValues() && self.valueForVariablesIsNotNull() {
+                    self.conditionItem?.change = self.valueForChange as String
+                    self.conditionItem?.dose = self.valueForDose as String
+                    self.conditionItem?.every = self.valueForEvery as String
+                    self.conditionItem?.until = self.valueForUntil as String
+                    self.previewDetails = DCDosageHelper.updatePreviewDetailsArray(self.conditionItem!, currentStartingDose: self.newStartingDose!, doseUnit:(self.dosage?.doseUnit)!)
+                    if (NSString(string: self.valueForUntil).floatValue > 0) {
+                        self.previewDetails.append("\(self.valueForUntil) thereafter.")
+                    } else {
+                        self.previewDetails.append("Stop")
+                    }
+                }
                 self.addConditionTableView.reloadData()
             }
             dosageDetailCell?.changeOver = (self.dosage?.reducingIncreasingDose.changeOver)!
@@ -273,15 +313,24 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     
     func validateTheAddConditionValues() -> Bool {
         if (valueForChange == REDUCING) {
-            if newStartingDose <= NSString(string: valueForUntil).floatValue {
+            if (newStartingDose <= NSString(string: valueForUntil).floatValue || NSString(string: valueForDose).floatValue <= 0) {
                 return false
             }
         } else {
-            if newStartingDose >= NSString(string: valueForUntil).floatValue {
+            if newStartingDose >= NSString(string: valueForUntil).floatValue || NSString(string: valueForDose).floatValue <= 0 || String(valueForUntil).characters.count >= 8 {
                 return false
             }
         }
         return true
+    }
+    
+    func valueForVariablesIsNotNull() -> Bool {
+    
+        if(valueForChange == "" || valueForDose == "" || valueForEvery == "" || valueForUntil == "") {
+            return false
+        } else {
+            return true
+        }
     }
     
     // MARK: - Action Methods
