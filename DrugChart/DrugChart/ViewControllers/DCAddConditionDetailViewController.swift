@@ -76,10 +76,13 @@ class DCAddConditionDetailViewController: UIViewController, UITableViewDataSourc
                 dosageValueCell?.accessoryType = (previousSelectedValue == doseArrayForUntil[indexPath.row]) ? .Checkmark : .None
                 dosageValueCell!.valueForDoseLabel.text = doseArrayForUntil[indexPath.row]
             }
+            dosageValueCell?.valueForDoseLabel.textColor = UIColor.blackColor()
             return dosageValueCell!
         } else {
             let newDosageCell : DCAddConditionDetailTableViewCell? = tableView.dequeueReusableCellWithIdentifier(ADD_NEW_DOSE_CELL_ID) as? DCAddConditionDetailTableViewCell
             newDosageCell?.newDoseLabel.text = ADD_NEW_TITLE
+            newDosageCell?.accessoryType = .None
+            newDosageCell?.newDoseLabel.textColor = tableView.tintColor
             return newDosageCell!
         }
     }

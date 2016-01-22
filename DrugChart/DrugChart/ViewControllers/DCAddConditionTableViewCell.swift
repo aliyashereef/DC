@@ -12,6 +12,7 @@ class DCAddConditionTableViewCell: UITableViewCell {
 
     @IBOutlet weak var addConditionMenuLabel: UILabel!
     @IBOutlet weak var addConditionValueLabel: UILabel!
+    @IBOutlet weak var conditionPreviewLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

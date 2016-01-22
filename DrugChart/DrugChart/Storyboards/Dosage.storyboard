@@ -527,6 +527,9 @@
                                                 <constraint firstAttribute="trailing" secondItem="qmU-ie-ida" secondAttribute="trailing" id="oEo-7G-iW8"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="conditionPreviewLabel" destination="qmU-ie-ida" id="n6d-AQ-sjH"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="addConditionMenuCell" selectionStyle="default" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationWidth="10" reuseIdentifier="addConditionMenuCell" id="SiJ-Gu-sRp" customClass="DCAddConditionTableViewCell" customModule="DrugChart" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="94" width="310" height="44"/>
