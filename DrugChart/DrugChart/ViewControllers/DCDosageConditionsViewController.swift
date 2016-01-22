@@ -102,7 +102,7 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
         switch indexPath.section {
         case 0:
             if self.dosage?.reducingIncreasingDose?.conditionsArray.count != 0 {
-                
+
             } else {
                 let addConditionViewController : DCAddConditionViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(ADD_CONDITION_SBID) as? DCAddConditionViewController
                 addConditionViewController?.newConditionEntered = { value in

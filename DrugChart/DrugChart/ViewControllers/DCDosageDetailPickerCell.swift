@@ -38,6 +38,19 @@ class DCDosageDetailPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerV
         pickerView.reloadAllComponents()
     }
     
+    func currentValueForPickerCell (type : PickerType) {
+        
+        if (pickerType! == eReducingIncreasingType) {
+            
+            selectedContent = reducingIncreasingArray[pickerView.selectedRowInComponent(0)]
+            pickerCompletion(selectedContent)
+        } else {
+            
+            selectedContent = daysCount[pickerView.selectedRowInComponent(0)]
+            pickerCompletion(selectedContent)
+        }
+    }
+    
     func populateContentArrays() {
         
         if (pickerType! == eReducingIncreasingType) {

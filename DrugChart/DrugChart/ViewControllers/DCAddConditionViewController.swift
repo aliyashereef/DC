@@ -188,6 +188,9 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
                     let indexPaths = [NSIndexPath(forItem: 4 , inSection: indexPath.section)]
                     addConditionTableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Fade)
                 }
+                let indexPathOfChange = NSIndexPath(forItem: indexPath.row + 1, inSection: 0)
+                let pickerCell : DCDosageDetailPickerCell = addConditionTableView.cellForRowAtIndexPath(indexPathOfChange) as! DCDosageDetailPickerCell
+                pickerCell.currentValueForPickerCell(eReducingIncreasingType)
                 inlinePickerForChangeActive = true
                 let indexPaths = [NSIndexPath(forItem: indexPath.row + 1, inSection: indexPath.section)]
                 addConditionTableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Fade)
@@ -206,6 +209,9 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
                     let indexPaths = [NSIndexPath(forItem: 1, inSection: indexPath.section)]
                     addConditionTableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Fade)
                 }
+                let indexPathOfChange = NSIndexPath(forItem: indexPath.row + 1, inSection: 0)
+                let pickerCell : DCDosageDetailPickerCell = addConditionTableView.cellForRowAtIndexPath(indexPathOfChange) as! DCDosageDetailPickerCell
+                pickerCell.currentValueForPickerCell(eDayCount)
                 inlinePickerForEveryActive = true
                 let indexPaths = [NSIndexPath(forItem: indexPath.row + 1, inSection: indexPath.section)]
                 addConditionTableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Fade)
