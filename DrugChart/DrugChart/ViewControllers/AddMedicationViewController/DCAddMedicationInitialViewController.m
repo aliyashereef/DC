@@ -607,7 +607,14 @@
     routesInfusionsViewController.previousRoute = self.selectedMedication.route;
     routesInfusionsViewController.infusion = self.selectedMedication.infusion;
     routesInfusionsViewController.patientId = self.patientId;
-    routesInfusionsViewController.routesArray = self.selectedMedication.routeArray;
+    NSMutableArray *routeArray = [[NSMutableArray alloc] init];
+    for (NSDictionary *routeDictionary in self.selectedMedication.routeArray) {
+        for (NSString *key in routeDictionary){
+            NSString *route = routeDictionary[key];
+            [routeArray addObject:route];
+        }
+    }
+    routesInfusionsViewController.routesArray = routeArray;
     [self configureNavigationBackButtonTitle];
     [self.navigationController pushViewController:routesInfusionsViewController animated:YES];
 }
@@ -1269,12 +1276,10 @@
 - (void)keyboardDidShow:(NSNotification *)notification {
     
     //notification methods
-    NSIndexPath *scrollIndexPath = [self indexPathForLastRow];
     double delayInSeconds = isNewMedication?  0.5 : 0.25;
     dispatch_time_t deleteTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
     dispatch_after(deleteTime, dispatch_get_main_queue(), ^(void){
-        [medicationDetailsTableView scrollToRowAtIndexPath:scrollIndexPath
-                                          atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+        [medicationDetailsTableView setContentOffset:CGPointMake(0,380) animated:YES];
     });
     isNewMedication = false;
 }

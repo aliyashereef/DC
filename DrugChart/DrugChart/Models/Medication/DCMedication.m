@@ -37,8 +37,10 @@
                         for (NSDictionary *routeValueDictionary in extensionArray) {
                             if ([routeValueDictionary valueForKey:VALUE_ROUTE]) {
                                 NSString *valueRoute = [[routeValueDictionary valueForKey:VALUE_ROUTE] valueForKey:@"text"];
+                                NSString *routeCodeId = [[[routeValueDictionary valueForKey:VALUE_ROUTE] valueForKey:@"coding"] valueForKey:@"code"];
                                 if (![valueRoute isEqualToString:EMPTY_STRING]) {
-                                    [self.routeArray addObject:[NSString stringWithFormat:@"%@",valueRoute]];
+                                    NSDictionary *route = [[NSDictionary alloc]initWithObjects:@[[NSString stringWithFormat:@"%@",valueRoute]] forKeys:@[[NSString stringWithFormat:@"%@",routeCodeId]]];
+                                    [self.routeArray addObject:route];
                                 }
                             }
                         }
