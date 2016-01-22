@@ -8,19 +8,26 @@
 
 import UIKit
 
-class OneThirdScreenTabularView: UIViewController,UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UITableViewDelegate,UITableViewDataSource {
+class OneThirdScreenTabularView: UIViewController,UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UITableViewDelegate,UITableViewDataSource,ObservationDelegate,UIPopoverPresentationControllerDelegate  {
    
     @IBOutlet weak var stripView: UIView!
     
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var headingLabel: UILabel!
     
+    @IBOutlet weak var sortMenuItem: UIBarButtonItem!
     @IBOutlet weak var dateHeadingLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     var observationList:[VitalSignObservation]!
     let headerCellIdentifier = "headerCellIdentifier"
     let contentCellIdentifier = "contentCell"
     var selectedObservation:VitalSignObservation! = nil
+
+    var filteredObservations:[VitalSignObservation]!
+    private var viewByDate:NSDate = NSDate()
+    var selectedRow:Int = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -35,8 +42,62 @@ class OneThirdScreenTabularView: UIViewController,UICollectionViewDataSource, UI
         stripView.layer.cornerRadius = Constant.CORNER_RADIUS
         stripView.layer.backgroundColor = Constant.CELL_BORDER_COLOR
         stripView.backgroundColor = Constant.SELECTION_CELL_BACKGROUND_COLOR
+        setDateDisplay()
+        reloadView(observationList)
     }
     
+    func selectSpecificStripItem()
+    {
+        
+    let indexPath = NSIndexPath(forItem: selectedRow, inSection: 0)
+        self.collectionView.selectItemAtIndexPath(indexPath, animated: true, scrollPosition: UICollectionViewScrollPosition.Right)
+    
+    collectionView(self.collectionView, didSelectItemAtIndexPath: indexPath)
+
+    }
+    override func viewDidAppear(animated: Bool) {
+    }
+    
+    func filterList()
+    {
+        let calendar = NSCalendar.currentCalendar()
+        let chosenDateComponents = calendar.components([.Month , .Year], fromDate: viewByDate)
+        
+        filteredObservations = observationList.filter { (observationList) -> Bool in
+            let components = calendar.components([.Month, .Year], fromDate:observationList.date)
+            return components.month == chosenDateComponents.month && components.year == chosenDateComponents.year
+        }
+    }
+    
+    private func setDateDisplay()
+    {
+        let calendar = NSCalendar.currentCalendar()
+        let chosenDateComponents = calendar.components([.Month , .Year], fromDate: viewByDate)
+        let displayText = String(format: "%d / %d",chosenDateComponents.month , chosenDateComponents.year)
+        sortMenuItem.title = displayText
+        headingLabel.text = viewByDate.getFormattedMonthName() + " " + viewByDate.getFormattedYear()
+    }
+    
+    // Mark: Sorting option implementation
+    @IBAction func showCalendar()
+    {
+        let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
+        let calendarViewController : CalendarViewController = mainStoryboard.instantiateViewControllerWithIdentifier("CalendarViewController") as! CalendarViewController
+        calendarViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
+        calendarViewController.preferredContentSize = CGSizeMake(320,250)
+        calendarViewController.popoverPresentationController?.barButtonItem = sortMenuItem
+        calendarViewController.delegate = self
+        
+        let popOverController:UIPopoverPresentationController = calendarViewController.popoverPresentationController!
+        popOverController.delegate = self
+        
+       
+        let calendar = NSCalendar.currentCalendar()
+        let chosenDateComponents = calendar.components([.Month , .Year], fromDate: viewByDate)
+        calendarViewController.setSelection(chosenDateComponents.month, year:chosenDateComponents.year)
+        
+        self.presentViewController(calendarViewController, animated: false, completion: nil)
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -51,78 +112,111 @@ class OneThirdScreenTabularView: UIViewController,UICollectionViewDataSource, UI
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(contentCellIdentifier, forIndexPath: indexPath) as! OneThirdContentCell
         
+        cell.clearCell()
+        
         let index = indexPath.row + 1
         let obsType = ObservationTabularViewRow(rawValue: index)
-       
+        var observationType:ShowObservationType!
+        cell.delegate = self
+        
         switch(obsType!)
         {
         case ObservationTabularViewRow.Respiratory:
             cell.title.text = Constant.RESPIRATORY
+            observationType = ShowObservationType.Respiratory
             if(selectedObservation != nil)
             {
                 cell.content.text = selectedObservation.getRespiratoryReading()
             }
         case ObservationTabularViewRow.SPO2:
             cell.title.text = Constant.SPO2
+            observationType = ShowObservationType.SpO2
             if(selectedObservation != nil)
             {
                 cell.content.text = selectedObservation.getSpo2Reading()
             }
         case ObservationTabularViewRow.Temperature:
             cell.title.text = Constant.TEMPERATURE
+            observationType = ShowObservationType.Temperature
             if(selectedObservation != nil)
             {
                 cell.content.text = selectedObservation.getTemperatureReading()
             }
         case ObservationTabularViewRow.BloodPressure:
             cell.title.text = Constant.BLOOD_PRESSURE
+            observationType = ShowObservationType.BloodPressure
             if(selectedObservation != nil)
             {
                 cell.content.text = selectedObservation.getBloodPressureReading()
             }
         case ObservationTabularViewRow.Pulse:
             cell.title.text = Constant.PULSE
+            observationType = ShowObservationType.Pulse
+            
             if(selectedObservation != nil)
             {
                 cell.content.text = selectedObservation.getPulseReading()
             }
         case ObservationTabularViewRow.News:
             cell.title.text = Constant.NEWS
+            observationType = ShowObservationType.None
             if(selectedObservation != nil)
             {
                 cell.content.text = selectedObservation.getNews()
             }
         case ObservationTabularViewRow.CommaScore:
             cell.title.text = Constant.COMMA_SCORE
+            observationType = ShowObservationType.None
             if(selectedObservation != nil)
             {
                 cell.content.text = selectedObservation.getComaScore()
             }
+        }
+        if(selectedObservation  != nil)
+        {
+            cell.configureCell(observationType, observation: selectedObservation )
         }
         return cell
     }
     // MARK: CollectionView Items
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return observationList.count
+        return filteredObservations.count
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let observation = observationList[indexPath.row]
+        let observation = filteredObservations[indexPath.row]
+        let cell =   self.collectionView.cellForItemAtIndexPath(indexPath) as? HeaderCollectionViewCell
+        if(cell != nil)
+        {
+            cell?.setSelectionIndicators(observation.date)
+        }
+        selectedRow = indexPath.row
         selectedObservation = observation
         tableView.reloadData()
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
+        let cell = collectionView.cellForItemAtIndexPath(indexPath) as? HeaderCollectionViewCell
+        let observation = filteredObservations[indexPath.row]
+        if(cell != nil)
+        {
+            cell!.removeIndicator(observation.date)
+        }
+    }
+      func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell=collectionView.dequeueReusableCellWithReuseIdentifier(headerCellIdentifier, forIndexPath: indexPath) as! HeaderCollectionViewCell
-        cell.changeBackgroundColor() // explicitly set the background color for all cells
-        let observation = observationList[indexPath.row]
-        cell.configureCell(observation.date)
+        let observation = filteredObservations[indexPath.row]
+        cell.configureOneThirdTabularCell(observation.date)
         cell.layer.borderWidth = Constant.BORDER_WIDTH
         cell.layer.borderColor = Constant.CELL_BORDER_COLOR
         cell.layer.cornerRadius = Constant.CORNER_RADIUS
+        if(selectedRow == indexPath.row  )
+        {
+            cell.setSelectionIndicators(observation.date)
+            selectedObservation = observation
+        }
         return cell
-        
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
@@ -141,6 +235,59 @@ class OneThirdScreenTabularView: UIViewController,UICollectionViewDataSource, UI
             return CGSizeMake(165,60)
         
     }
+    // MARK: ObservatioDelegate implementation
+    func ShowModalNavigationController(navigationController:UINavigationController)
+    {
+        self.presentViewController(navigationController, animated: false, completion: nil)
+    }
+    
+    func ShowAlertController(alertController: UIAlertController)
+    {
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    // Mark: Segue methods
+    @IBAction func unwindToOneThirdTabularView(sender:UIStoryboardSegue)
+    {
+        tableView.reloadData()
+    }
+    //MARK : popup presentation style implementation
+    func adaptivePresentationStyleForPresentationController(
+        controller: UIPresentationController) -> UIModalPresentationStyle {
+            return .None
+    }
+    // Mark: Delegate implementation
+    func DateSelected(value:NSDate)
+    {
+        viewByDate = value
+        setDateDisplay()
+        reloadView(observationList)
+    }
+    
+    private func reloadView(observationList:[VitalSignObservation])
+    {
+        self.observationList = observationList // order matters here
+        filterList()
+        if(filteredObservations.count == 0)
+        {
+            dateHeadingLabel.text = "No Data"
+            self.collectionView.hidden = true
+            self.tableView.hidden = true
+            stripView.hidden = true
+        }
+        else
+        {
+            selectedRow = 0
+            self.collectionView.hidden = false
+            self.tableView.hidden = false
+            stripView.hidden = false
+            self.collectionView.reloadData()
+            self.tableView.reloadData()
+            selectSpecificStripItem()
+        }
+        
+    }
+    
     /*
     // MARK: - Navigation
 

@@ -15,10 +15,12 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
     @IBOutlet weak var parentView: UIView!
     var observationList = [VitalSignObservation]()
     var filterObservations = [VitalSignObservation]()
+    @IBOutlet weak var nextPage: UIButton!
     var graphicalDashBoardView:GraphicalDashBoardView!
     var graphDisplayView: GraphDisplayView = GraphDisplayView.Day
     
     var graphEndDate:NSDate = NSDate()
+    @IBOutlet weak var previousPage: UIButton!
     var graphStartDate:NSDate = NSDate()
     
     override func viewDidLoad() {
@@ -44,11 +46,13 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         self.view.addGestureRecognizer(swipeLeft)
         
         
-        NSNotificationCenter.defaultCenter().addObserver(
-            self,
-            selector: Selector("orientationChanged"),
-            name: UIDeviceOrientationDidChangeNotification,
-            object: nil)
+       
+    }
+    
+    
+    
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        orientationChanged()
     }
     
     func showData()
@@ -64,6 +68,9 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         graphicalDashBoardView.displayData(filterObservations,graphDisplayView: graphDisplayView , graphStartDate: graphStartDate , graphEndDate: graphEndDate)
     }
     
+    override func viewWillAppear(animated: Bool) {
+     refreshGrid()
+    }
     
     func displayTitle()
     {
@@ -193,17 +200,22 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
     
     func orientationChanged()
     {
+        refreshGrid()
+    }
+    
+    func refreshGrid()
+    {
         graphicalDashBoardView.collectionView.reloadData()
     }
 
     //MARK: swipe gestures
     
-    func rightSwiped()
+    @IBAction func rightSwiped()
     {
         swipeGraphDate(false,flipDateMode:false)
     }
     
-    func leftSwiped()
+    @IBAction func leftSwiped()
     {
         swipeGraphDate(true,flipDateMode:false)
     }
@@ -288,21 +300,21 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
     }
     
     @IBAction func show(sender: AnyObject) {
-        if(UIDevice.currentDevice().userInterfaceIdiom == .Pad)
-//        let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
-//        if (appDelegate.windowState == DCWindowState.halfWindow || appDelegate.windowState == DCWindowState.oneThirdWindow) {
-        {
+ //       if(UIDevice.currentDevice().userInterfaceIdiom == .Pad)
+        let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
+        if (appDelegate.windowState == DCWindowState.halfWindow || appDelegate.windowState == DCWindowState.oneThirdWindow) {
             let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
-            let tabularView : TabularViewController = mainStoryboard.instantiateViewControllerWithIdentifier("TabularViewController") as! TabularViewController
+            let tabularView : OneThirdScreenTabularView = mainStoryboard.instantiateViewControllerWithIdentifier("OneThirdScreenTabularViewController") as! OneThirdScreenTabularView
             tabularView.observationList = observationList
             PushViewController(tabularView)
         }
         else
         {
             let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
-            let tabularView : OneThirdScreenTabularView = mainStoryboard.instantiateViewControllerWithIdentifier("OneThirdScreenTabularViewController") as! OneThirdScreenTabularView
+            let tabularView : TabularViewController = mainStoryboard.instantiateViewControllerWithIdentifier("TabularViewController") as! TabularViewController
             tabularView.observationList = observationList
             PushViewController(tabularView)
+            
         }
     }
 }

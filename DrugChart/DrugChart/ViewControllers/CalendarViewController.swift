@@ -11,9 +11,13 @@ import UIKit
 class CalendarViewController: UIViewController {
 
     @IBOutlet weak var dayYearPicker: MonthYearPickerView!
+    var monthToSet:Int!
+    var yearToSet:Int!
+    
     var delegate:ObservationDelegate?
     override func viewDidLoad() {
         super.viewDidLoad()
+        dayYearPicker.setSelection(monthToSet, year: yearToSet)
         //dayYearPicker = MonthYearPickerView()
         // Do any additional setup after loading the view.
     }
@@ -23,6 +27,12 @@ class CalendarViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    func setSelection(month:Int,year:Int)
+    {
+       monthToSet = month
+        yearToSet = year
+    }
 
     /*
     // MARK: - Navigation
