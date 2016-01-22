@@ -242,10 +242,12 @@ typedef enum : NSUInteger {
     else if ([DCAPPDELEGATE windowState] == fullWindow ||
              [DCAPPDELEGATE windowState] == twoThirdWindow) {
         isOneThirdMedicationViewShown = NO;
-        [self showActivityIndicationOnViewRefresh:true];
+//        [self showActivityIndicationOnViewRefresh:true];
         [self addPrescriberDrugChartViewForFullAndTwoThirdWindow];
-        [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
-        }];
+//        if ([DCAPPDELEGATE isNetworkReachable]) {
+//            [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
+//            }];
+//        }
     }
 }
 
@@ -360,13 +362,15 @@ typedef enum : NSUInteger {
         DDLogDebug(@"start and end date for API call: %@ %@", startDate, endDate);
         NSString *endDateString = [DCDateUtility dateStringFromDate:endDate inFormat:SHORT_DATE_FORMAT];
         [medicationSchedulesWebService getMedicationSchedulesForPatientId:patientId fromStartDate:startDateString toEndDate:endDateString withCallBackHandler:^(NSArray *medicationsList, NSError *error) {
-            NSMutableArray *medicationArray = [NSMutableArray arrayWithArray:medicationsList];
-            // if FetchTypeInitial
-            for (NSDictionary *medicationDetails in medicationArray) {
-                @autoreleasepool {
-                    DCMedicationScheduleDetails *medicationScheduleDetails = [[DCMedicationScheduleDetails alloc] initWithMedicationScheduleDictionary:medicationDetails forWeekStartDate:startDate weekEndDate:endDate];
-                    if (medicationScheduleDetails) {
-                        [medicationListArray addObject:medicationScheduleDetails];
+            if (!error) {
+                NSMutableArray *medicationArray = [NSMutableArray arrayWithArray:medicationsList];
+                // if FetchTypeInitial
+                for (NSDictionary *medicationDetails in medicationArray) {
+                    @autoreleasepool {
+                        DCMedicationScheduleDetails *medicationScheduleDetails = [[DCMedicationScheduleDetails alloc] initWithMedicationScheduleDictionary:medicationDetails forWeekStartDate:startDate weekEndDate:endDate];
+                        if (medicationScheduleDetails) {
+                            [medicationListArray addObject:medicationScheduleDetails];
+                        }
                     }
                 }
             }
@@ -917,23 +921,27 @@ typedef enum : NSUInteger {
 // after adding a medication the latest drug schedules are fetched and displayed to the user.
 - (void)addedNewMedicationForPatient {
    // [self fetchMedicationListForPatient];
-    [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
-        
-    }];
+    if ([DCAPPDELEGATE isNetworkReachable]) {
+        [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
+        }];
+    }
 }
 
 // This method refresh the medication list when an mediation gets deleted.
 - (void) refreshMedicationList {
    // [self fetchMedicationListForPatient];
-    [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
-        
-    }];
+    if ([DCAPPDELEGATE isNetworkReachable]) {
+        [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
+        }];
+    }
 }
 
 - (void)reloadPrescriberMedicationListWithCompletionHandler:(void (^)(BOOL))completion{
+    if ([DCAPPDELEGATE isNetworkReachable]) {
         [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
             completion(success);
         }];
+    }
 }
 
 @end

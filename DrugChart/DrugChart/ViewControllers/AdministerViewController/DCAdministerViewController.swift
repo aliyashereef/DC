@@ -739,6 +739,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 
         administerTableView.deselectRowAtIndexPath(indexPath, animated: true)
+        administerTableView.resignFirstResponder()
         if (indexPath.section == SectionCount.eZerothSection.rawValue) {
             addBNFView()
         }
@@ -765,13 +766,18 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     // MARK: BatchNumberCellDelegate Methods
     
      func batchNumberFieldSelectedAtIndexPath(indexPath: NSIndexPath) {
-//        let pickerIndexPath :NSIndexPath = NSIndexPath(forRow: 3, inSection: 1)
-        if hasInlineDatePicker() {
-            self.administerTableView.setContentOffset(CGPointMake(0, 180), animated: true)
-        } else {
-            self.administerTableView.setContentOffset(CGPointMake(0, 110), animated: true)
-        }
+        let pickerIndexPath :NSIndexPath = NSIndexPath(forRow: 2, inSection: 1)
         editingIndexPath = indexPath
+        if hasInlineDatePicker() {
+            UIView.animateWithDuration(0.0, animations: {
+                self.displayInlineDatePickerForRowAtIndexPath(pickerIndexPath)
+                }, completion: {
+                    (value: Bool) in
+                    self.administerTableView.setContentOffset(CGPointMake(0,180), animated: true)
+            })
+        } else {
+            self.administerTableView.setContentOffset(CGPointMake(0,180), animated: true)
+        }
     }
     
     func enteredBatchDetails(batch : String) {
@@ -784,19 +790,29 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func notesSelected(editing : Bool, withIndexPath indexPath : NSIndexPath) {
         
         editingIndexPath = indexPath
-        if(medicationSlot?.medicationAdministration?.status == ADMINISTERED) {
-            if hasInlineDatePicker(){
-                self.administerTableView.setContentOffset(CGPointMake(0, 320), animated: true)
-            } else {
-                self.administerTableView.setContentOffset(CGPointMake(0, 180), animated: true)
-            }
+        var pickerIndexPath :NSIndexPath
+        if(self.medicationSlot?.medicationAdministration?.status == ADMINISTERED) {
+            pickerIndexPath = NSIndexPath(forRow: 2, inSection: 1)
         } else {
-            if hasInlineDatePicker(){
-                self.administerTableView.setContentOffset(CGPointMake(0, 180), animated: true)
-            } else {
-                self.administerTableView.setContentOffset(CGPointMake(0, 80), animated: true)
-            }
+            pickerIndexPath = NSIndexPath(forRow: 1, inSection: 1)
         }
+        if hasInlineDatePicker() {
+            UIView.animateWithDuration(0.0, animations: {
+                self.displayInlineDatePickerForRowAtIndexPath(pickerIndexPath)
+                }, completion: {
+                    (value: Bool) in
+                    if(self.medicationSlot?.medicationAdministration?.status == ADMINISTERED) {
+                        self.administerTableView.setContentOffset(CGPointMake(0, 300), animated: true)
+                    } else {
+                        self.administerTableView.setContentOffset(CGPointMake(0, 100), animated: true)
+                    }
+            })
+        } else {
+            if(self.medicationSlot?.medicationAdministration?.status == ADMINISTERED) {
+                self.administerTableView.setContentOffset(CGPointMake(0, 300), animated: true)
+            } else {
+                self.administerTableView.setContentOffset(CGPointMake(0, 100), animated: true)
+            }        }
         if (editing == true && keyboardHeight != nil) {
             //animateAdministerTableViewUpWhenKeyboardShows()
         }
