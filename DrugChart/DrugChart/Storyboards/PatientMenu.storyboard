@@ -625,14 +625,14 @@
                                 <rect key="frame" x="289" y="102" width="25" height="24"/>
                                 <state key="normal" image="nextPage"/>
                                 <connections>
-                                    <action selector="rightSwiped" destination="0Ui-sx-cxg" eventType="touchUpInside" id="JgP-sq-eHP"/>
+                                    <action selector="leftSwiped" destination="0Ui-sx-cxg" eventType="touchUpInside" id="5Ix-x2-hlR"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6wg-bH-d0O">
                                 <rect key="frame" x="62" y="102" width="25" height="24"/>
                                 <state key="normal" image="previousPage"/>
                                 <connections>
-                                    <action selector="leftSwiped" destination="0Ui-sx-cxg" eventType="touchUpInside" id="fUM-wv-ONg"/>
+                                    <action selector="rightSwiped" destination="0Ui-sx-cxg" eventType="touchUpInside" id="c5Q-zm-aYv"/>
                                 </connections>
                             </button>
                         </subviews>

@@ -456,6 +456,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
     override func awakeFromNib() {
         tableView.delegate=self
         tableView.dataSource=self
+        //self.tableView.allowsSelection = false
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 44
         self.tableView.allowsMultipleSelection = false
@@ -558,6 +559,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             {
                 cell.userInteractionEnabled = false
             }
+            
             return cell
             
         case ObservationType.Respiratory:
@@ -683,6 +685,8 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             {
                 datePickerCell.selectedInTableView(tableView)
             }
+            
+            tableView.deselectRowAtIndexPath(indexPath, animated: false)
         }
         
     }
