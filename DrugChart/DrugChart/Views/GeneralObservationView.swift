@@ -559,6 +559,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             {
                 cell.userInteractionEnabled = false
             }
+            
             return cell
             
         case ObservationType.Respiratory:
@@ -684,6 +685,8 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             {
                 datePickerCell.selectedInTableView(tableView)
             }
+            
+            tableView.deselectRowAtIndexPath(indexPath, animated: false)
         }
         
     }
