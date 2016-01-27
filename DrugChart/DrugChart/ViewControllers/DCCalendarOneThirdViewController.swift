@@ -68,8 +68,8 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
             setParentViewWithCurrentWeekDateArray()
         }
-        calendarStripCollectionView.reloadData()
         self.adjustContentOffsetToShowCenterDayInCollectionView()
+        calendarStripCollectionView.reloadData()
         medicationTableView?.reloadData()
     }
     
@@ -380,7 +380,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         
         let indexPath : NSIndexPath = NSIndexPath(forRow:7 , inSection: 0)
         calendarStripCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: true)
-        self.view .layoutIfNeeded()
+        scrolledProgramatically = true
     }
     
     func modifyStartDateAndWeekDatesArray(isNextWeek : Bool,adderValue : NSInteger) {
@@ -507,6 +507,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         let parentView : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
         parentView.displayAdministrationViewForMedicationSlot(medicationSLotDictionary as [NSObject : AnyObject], atIndexPath: indexPath, withWeekDate: date)
     }
+    
     //MARK - EditDeleteActionDelegate methods
     
     func stopMedicationForSelectedIndexPath(indexPath: NSIndexPath) {

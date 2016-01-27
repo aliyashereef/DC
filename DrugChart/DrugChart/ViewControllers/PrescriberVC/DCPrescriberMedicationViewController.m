@@ -110,6 +110,7 @@ typedef enum : NSUInteger {
     [super viewDidLayoutSubviews];
     if (windowSizeChanged) {
         [self prescriberCalendarChildViewControllerBasedOnWindowState];
+        [self configureDateArrayForOneThirdCalendarScreen];
         [self setCurrentScreenOrientation];
         [self addCustomTitleViewToNavigationBar];
         windowSizeChanged = NO;
@@ -127,6 +128,7 @@ typedef enum : NSUInteger {
         if (appDelegate.windowState == twoThirdWindow) {
             appDelegate.windowState = halfWindow;
             [self prescriberCalendarChildViewControllerBasedOnWindowState];
+            [self configureDateArrayForOneThirdCalendarScreen];
             [self setCurrentScreenOrientation];
             [self addCustomTitleViewToNavigationBar];
             windowSizeChanged = NO;
@@ -880,12 +882,18 @@ typedef enum : NSUInteger {
     if (currentWeekDatesArray.count == 0) {
         [self currentWeekDatesArrayFromDate:[DCDateUtility dateInCurrentTimeZone:[NSDate date]]];
     }
-    prescriberMedicationOneThirdSizeViewController.centerDate = _centerDisplayDate;
-    NSDate *date = [DCDateUtility initialDateForCalendarDisplay:_centerDisplayDate withAdderValue:-7];
-    NSMutableArray *oneThirdweekDatesArray = [DCDateUtility nextAndPreviousDays:15 withReferenceToDate:date];
-    prescriberMedicationOneThirdSizeViewController.currentWeekDatesArray = oneThirdweekDatesArray;
-    [prescriberMedicationOneThirdSizeViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
     [self.view bringSubviewToFront:activityIndicatorView];
+}
+
+- (void)configureDateArrayForOneThirdCalendarScreen {
+    if ([DCAPPDELEGATE windowState] == halfWindow ||
+        [DCAPPDELEGATE windowState] == oneThirdWindow) {
+        prescriberMedicationOneThirdSizeViewController.centerDate = _centerDisplayDate;
+        NSDate *date = [DCDateUtility initialDateForCalendarDisplay:_centerDisplayDate withAdderValue:-7];
+        NSMutableArray *oneThirdweekDatesArray = [DCDateUtility nextAndPreviousDays:15 withReferenceToDate:date];
+        prescriberMedicationOneThirdSizeViewController.currentWeekDatesArray = oneThirdweekDatesArray;
+        [prescriberMedicationOneThirdSizeViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
+    }
 }
 
 - (void)addPrescriberDrugChartViewForFullAndTwoThirdWindow {
