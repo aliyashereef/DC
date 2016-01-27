@@ -42,6 +42,7 @@ class OneThirdScreenTabularView: UIViewController,UICollectionViewDataSource, UI
         stripView.layer.cornerRadius = Constant.CORNER_RADIUS
         stripView.layer.backgroundColor = Constant.CELL_BORDER_COLOR
         stripView.backgroundColor = Constant.SELECTION_CELL_BACKGROUND_COLOR
+        tableView.allowsMultipleSelectionDuringEditing = false
         setDateDisplay()
         reloadView(observationList)
     }
@@ -108,6 +109,12 @@ class OneThirdScreenTabularView: UIViewController,UICollectionViewDataSource, UI
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let count  = ObservationTabularViewRow.count - 1
         return count
+    }
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(contentCellIdentifier, forIndexPath: indexPath) as! OneThirdContentCell
