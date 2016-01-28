@@ -1244,7 +1244,7 @@
                         <viewControllerLayoutGuide type="bottom" id="sz8-EN-ctg"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="N0F-A6-rZc">
-                        <rect key="frame" x="0.0" y="0.0" width="310" height="690"/>
+                        <rect key="frame" x="0.0" y="0.0" width="310" height="800"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="BiO-dD-m7K">
@@ -1258,7 +1258,7 @@
                                 </connections>
                             </segmentedControl>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="42" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="9ht-ry-JsQ">
-                                <rect key="frame" x="0.0" y="49" width="310" height="641"/>
+                                <rect key="frame" x="0.0" y="49" width="310" height="812"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AddMedicationCell" rowHeight="42" id="5C1-eg-iHm" customClass="DCAddMedicationContentCell">
@@ -1513,6 +1513,25 @@
                                             <outlet property="titleLabel" destination="0mg-VQ-RFP" id="ubD-uc-Axc"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="216" id="m5R-hj-fJg" customClass="DCReviewDatePickerCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="539.5" width="310" height="216"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="m5R-hj-fJg" id="LHi-c2-j5M">
+                                            <rect key="frame" x="0.0" y="0.0" width="310" height="215.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n3Z-Yw-58P">
+                                                    <rect key="frame" x="0.0" y="0.0" width="310" height="216"/>
+                                                </pickerView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="n3Z-Yw-58P" secondAttribute="bottom" constant="-0.5" id="6U4-PL-YrE"/>
+                                                <constraint firstItem="n3Z-Yw-58P" firstAttribute="leading" secondItem="LHi-c2-j5M" secondAttribute="leading" id="aZI-sf-bFi"/>
+                                                <constraint firstAttribute="trailing" secondItem="n3Z-Yw-58P" secondAttribute="trailing" id="dih-hn-A7n"/>
+                                                <constraint firstItem="n3Z-Yw-58P" firstAttribute="top" secondItem="LHi-c2-j5M" secondAttribute="top" id="icn-Un-3Ds"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="JPE-ok-XQf" id="YwY-Vs-93h"/>
@@ -1520,7 +1539,7 @@
                                 </connections>
                             </tableView>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Order set Screen" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lQ1-lm-LPM">
-                                <rect key="frame" x="51" y="335" width="209" height="21"/>
+                                <rect key="frame" x="51" y="340" width="209" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="209" id="NEL-9V-bLf"/>
                                     <constraint firstAttribute="height" constant="21" id="tOh-gB-XY6"/>
@@ -1535,8 +1554,8 @@
                             <constraint firstItem="9ht-ry-JsQ" firstAttribute="leading" secondItem="N0F-A6-rZc" secondAttribute="leading" id="6a2-6a-AMj"/>
                             <constraint firstAttribute="trailing" secondItem="BiO-dD-m7K" secondAttribute="trailing" constant="22" id="D7F-NR-6ZK"/>
                             <constraint firstItem="BiO-dD-m7K" firstAttribute="leading" secondItem="N0F-A6-rZc" secondAttribute="leading" constant="22" id="E1A-TA-zfd"/>
-                            <constraint firstAttribute="centerY" secondItem="lQ1-lm-LPM" secondAttribute="centerY" id="GeQ-gZ-66w"/>
-                            <constraint firstItem="sz8-EN-ctg" firstAttribute="top" secondItem="9ht-ry-JsQ" secondAttribute="bottom" id="IL0-f5-Ewc"/>
+                            <constraint firstAttribute="centerY" secondItem="lQ1-lm-LPM" secondAttribute="centerY" constant="49.5" id="GeQ-gZ-66w"/>
+                            <constraint firstItem="sz8-EN-ctg" firstAttribute="top" secondItem="9ht-ry-JsQ" secondAttribute="bottom" constant="-61" id="IL0-f5-Ewc"/>
                             <constraint firstItem="9ht-ry-JsQ" firstAttribute="top" secondItem="BiO-dD-m7K" secondAttribute="bottom" constant="1" id="L6v-09-bHU"/>
                             <constraint firstAttribute="centerX" secondItem="lQ1-lm-LPM" secondAttribute="centerX" id="VVa-kH-ze5"/>
                             <constraint firstItem="BiO-dD-m7K" firstAttribute="top" secondItem="wzf-mH-6ew" secondAttribute="bottom" constant="20" id="e3D-9h-LCg"/>
@@ -1545,7 +1564,7 @@
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="310" height="690"/>
+                    <size key="freeformSize" width="310" height="800"/>
                     <connections>
                         <outlet property="medicationDetailsTableView" destination="9ht-ry-JsQ" id="wNT-fI-INY"/>
                         <outlet property="orderSetLabel" destination="lQ1-lm-LPM" id="2ih-Xl-5VL"/>
@@ -1685,7 +1704,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nes-mY-fpo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3365" y="567"/>
+            <point key="canvasLocation" x="3577" y="465"/>
         </scene>
         <!--Date Picker View Controller-->
         <scene sceneID="BGL-3O-RjD">

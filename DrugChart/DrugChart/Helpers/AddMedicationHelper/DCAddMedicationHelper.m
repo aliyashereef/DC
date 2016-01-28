@@ -108,22 +108,22 @@
 + (AddMedicationDetailType)medicationDetailTypeForIndexPath:(NSIndexPath *)indexPath hasWarnings:(BOOL)showWarnings {
     
     switch (indexPath.section) {
-        case eFirstSection: {
+        case eSecondSection: {
             if (showWarnings) {
                 return eDetailWarning;
             } else {
                 return eDetailType;
             }
         }
-        case eSecondSection: {
+        case eThirdSection: {
             if (showWarnings) {
                 return eDetailType;
             }
         }
-        case eFourthSection: {
+        case eFifthSection: {
             return eDetailDosage;
         }
-        case eFifthSection:
+        case eSixthSection:
             if (showWarnings) {
                 return eDetailDosage;
             }

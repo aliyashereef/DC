@@ -117,6 +117,7 @@
 "ADD_DOSAGE"            =       "Add Dosage";
 "ADD_TIME"              =       "Add New Time";
 "NO_END_DATE"           =       "End Date";
+"REVIEW_DATE"           =       "Review Date";
 "SEVERE"                =       "SEVERE";
 "MILD"                  =       "MILD";
 "REASON"                =       "Reason";

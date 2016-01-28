@@ -41,6 +41,19 @@
     [_noEndDateSwitch setOn:state];
 }
 
+- (void)configureCellWithReviewDateSwitchState:(BOOL)state {
+    
+    if (!_isEditMedication) {
+        _previousSwitchState = 0;
+        [_dateValueLabel setHidden:YES];
+    } else {
+        [_dateValueLabel setHidden:NO];
+    }
+    [_dateTypeLabel setText:NSLocalizedString(@"REVIEW_DATE", @"Review date title")];
+    [_noEndDateSwitch setHidden:NO];
+    [_noEndDateSwitch setOn:state];
+}
+
 #pragma mark - Action Methods
 
 - (IBAction)noEndDateSwitchSelected:(id)sender {
