@@ -38,7 +38,8 @@ typealias SelectedDosage = DCDosage? -> Void
     var selectedDosage : SelectedDosage = {value in }
     var isSplitDailyPresent : Bool = false
     var isReducingIncreasingPresent : Bool = false
-    
+    var doseForTimeArray = ["250","100","50","30","20","10"]
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureInitialValues()
@@ -706,7 +707,7 @@ typealias SelectedDosage = DCDosage? -> Void
         
         let dosageDetailViewController : DCDosageDetailViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_DETAIL_SBID) as? DCDosageDetailViewController
         dosageDetailViewController?.delegate = self
-        dosageDetailViewController?.dosageDetailsArray = dosageArray
+        dosageDetailViewController?.doseForTimeArray = doseForTimeArray
         if (selectedTimeArrayItems.count != 0) {
             selectedDetailType = eAddDoseForTime
             selectedIndexPathInTimeArray = indexPath.row
@@ -723,24 +724,31 @@ typealias SelectedDosage = DCDosage? -> Void
     
     func newDosageAdded(value : String){
         
-        if (selectedDetailType == eDoseValue) {
-            self.dosage?.fixedDose?.doseValue = value
-            newDosageAddedDelegate?.newDosageAdded("\(value) \((dosage?.doseUnit)!)")
-        } else if (selectedDetailType == eDoseFrom || selectedDetailType == eDoseTo) {
-            if (selectedDetailType == eDoseFrom) {
-                self.dosage?.variableDose?.doseFromValue = value
-            } else {
-                self.dosage?.variableDose.doseToValue = value
-            }
-            newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
-        } else if (selectedDetailType == eDoseUnit) {
-            dosage?.doseUnit = value
-        } else if (selectedDetailType == eStartingDose) {
-            self.dosage?.reducingIncreasingDose.startingDose = value
-        } else if (selectedDetailType == eAddDoseForTime) {
-            valueForDoseForTime[selectedIndexPathInTimeArray] = value
-            self.updateTimeArray(selectedIndexPathInTimeArray)
-            self.updateAlertMessageForMismatch()
+//        if (selectedDetailType == eDoseValue) {
+//            self.dosage?.fixedDose?.doseValue = value
+//            newDosageAddedDelegate?.newDosageAdded("\(value) \((dosage?.doseUnit)!)")
+//        } else if (selectedDetailType == eDoseFrom || selectedDetailType == eDoseTo) {
+//            if (selectedDetailType == eDoseFrom) {
+//                self.dosage?.variableDose?.doseFromValue = value
+//            } else {
+//                self.dosage?.variableDose.doseToValue = value
+//            }
+//            newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
+//        } else if (selectedDetailType == eDoseUnit) {
+//            dosage?.doseUnit = value
+//        } else if (selectedDetailType == eStartingDose) {
+//            self.dosage?.reducingIncreasingDose.startingDose = value
+//        } else if (selectedDetailType == eAddDoseForTime) {
+//            valueForDoseForTime[selectedIndexPathInTimeArray] = value
+//            self.updateTimeArray(selectedIndexPathInTimeArray)
+//            self.updateAlertMessageForMismatch()
+//        }
+        if selectedDetailType == eAddDoseForTime {
+            doseForTimeArray.append(value)
+            self.doseForTimeArray =  self.doseForTimeArray.sort { NSString(string: $0).floatValue > NSString(string: $1).floatValue }
+        } else {
+            dosageArray.append(value)
+            self.dosageArray =  self.dosageArray.sort { NSString(string: $0).floatValue > NSString(string: $1).floatValue }
         }
         dosageTableView.reloadData()
     }

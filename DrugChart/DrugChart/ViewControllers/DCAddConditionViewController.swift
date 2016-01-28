@@ -25,6 +25,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     var conditionItem : DCConditions?
     var dosage : DCDosage?
     var previewDetails = [String]()
+    var doseArrayForChange = ["500 mg","250 mg","100 mg","50 mg","10 mg","5 mg"]
     
     @IBOutlet weak var addConditionTableView: UITableView!
     
@@ -220,20 +221,14 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
             let addConditionDetailViewController : DCAddConditionDetailViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(ADD_CONDITION_DETAIL_SBID) as? DCAddConditionDetailViewController
             addConditionDetailViewController!.previousSelectedValue = valueForDose
             addConditionDetailViewController?.detailType = eDoseChange
+            addConditionDetailViewController?.doseArrayForChange = doseArrayForChange
             addConditionDetailViewController?.valueForDoseSelected = { value in
                 self.valueForDose = value!
-                if self.validateTheAddConditionValues() && self.valueForVariablesIsNotNull() {
-                    self.conditionItem?.change = self.valueForChange as String
-                    self.conditionItem?.dose = self.valueForDose as String
-                    self.conditionItem?.every = self.valueForEvery as String
-                    self.conditionItem?.until = self.valueForUntil as String
-                    self.previewDetails = DCDosageHelper.updatePreviewDetailsArray(self.conditionItem!, currentStartingDose: self.newStartingDose!, doseUnit:(self.dosage?.doseUnit)!)
-                    if (NSString(string: self.valueForUntil).floatValue > 0) {
-                        self.previewDetails.append("\(self.valueForUntil) thereafter")
-                    } else {
-                        self.previewDetails.append("Stop")
-                    }
+                if !self.doseArrayForChange.contains(value!) {
+                    self.doseArrayForChange.append(value!)
+                    self.doseArrayForChange =  self.doseArrayForChange.sort { NSString(string: $0).floatValue > NSString(string: $1).floatValue }
                 }
+                self.updatePreviewDetails()
                 self.addConditionTableView.reloadData()
             }
             self.navigationController?.pushViewController(addConditionDetailViewController!, animated: true)
@@ -241,20 +236,14 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
             let addConditionDetailViewController : DCAddConditionDetailViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(ADD_CONDITION_DETAIL_SBID) as? DCAddConditionDetailViewController
             addConditionDetailViewController!.previousSelectedValue = valueForUntil
             addConditionDetailViewController?.detailType = eUntilDose
+            addConditionDetailViewController?.doseArrayForChange = doseArrayForChange
             addConditionDetailViewController?.valueForDoseSelected = { value in
                 self.valueForUntil = value!
-                if self.validateTheAddConditionValues() && self.valueForVariablesIsNotNull(){
-                    self.conditionItem?.change = self.valueForChange as String
-                    self.conditionItem?.dose = self.valueForDose as String
-                    self.conditionItem?.every = self.valueForEvery as String
-                    self.conditionItem?.until = self.valueForUntil as String
-                    self.previewDetails = DCDosageHelper.updatePreviewDetailsArray(self.conditionItem!, currentStartingDose: self.newStartingDose!, doseUnit:(self.dosage?.doseUnit)!)
-                    if (NSString(string: self.valueForUntil).floatValue > 0) {
-                        self.previewDetails.append("\(self.valueForUntil) thereafter")
-                    } else {
-                        self.previewDetails.append("Stop")
-                    }
+                if !self.doseArrayForChange.contains(value!) {
+                    self.doseArrayForChange.append(value!)
+                    self.doseArrayForChange =  self.doseArrayForChange.sort { NSString(string: $0).floatValue > NSString(string: $1).floatValue }
                 }
+                self.updatePreviewDetails()
                 self.addConditionTableView.reloadData()
             }
             self.navigationController?.pushViewController(addConditionDetailViewController!, animated: true)
@@ -271,18 +260,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
             dosageDetailCell?.pickerCompletion = { value in
                 
                 self.valueForChange = value!
-                if self.validateTheAddConditionValues() && self.valueForVariablesIsNotNull() {
-                    self.conditionItem?.change = self.valueForChange as String
-                    self.conditionItem?.dose = self.valueForDose as String
-                    self.conditionItem?.every = self.valueForEvery as String
-                    self.conditionItem?.until = self.valueForUntil as String
-                    self.previewDetails = DCDosageHelper.updatePreviewDetailsArray(self.conditionItem!, currentStartingDose: self.newStartingDose!, doseUnit:(self.dosage?.doseUnit)!)
-                    if (NSString(string: self.valueForUntil).floatValue > 0) {
-                        self.previewDetails.append("\(self.valueForUntil) thereafter")
-                    } else {
-                        self.previewDetails.append("Stop")
-                    }
-                }
+                self.updatePreviewDetails()
                 self.addConditionTableView.reloadData()
             }
             return dosageDetailCell!
@@ -298,18 +276,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
                 } else {
                     self.valueForEvery = "\(value!) \(String(UTF8String: (self.dosage?.reducingIncreasingDose.changeOver)!.lowercaseString)!)"
                 }
-                if self.validateTheAddConditionValues() && self.valueForVariablesIsNotNull() {
-                    self.conditionItem?.change = self.valueForChange as String
-                    self.conditionItem?.dose = self.valueForDose as String
-                    self.conditionItem?.every = self.valueForEvery as String
-                    self.conditionItem?.until = self.valueForUntil as String
-                    self.previewDetails = DCDosageHelper.updatePreviewDetailsArray(self.conditionItem!, currentStartingDose: self.newStartingDose!, doseUnit:(self.dosage?.doseUnit)!)
-                    if (NSString(string: self.valueForUntil).floatValue > 0) {
-                        self.previewDetails.append("\(self.valueForUntil) thereafter")
-                    } else {
-                        self.previewDetails.append("Stop")
-                    }
-                }
+                self.updatePreviewDetails()
                 self.addConditionTableView.reloadData()
             }
             dosageDetailCell?.changeOver = (self.dosage?.reducingIncreasingDose.changeOver)!
@@ -339,6 +306,22 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
         }
     }
     
+    func updatePreviewDetails () {
+        
+        if self.validateTheAddConditionValues() && self.valueForVariablesIsNotNull(){
+            self.conditionItem?.change = self.valueForChange as String
+            self.conditionItem?.dose = self.valueForDose as String
+            self.conditionItem?.every = self.valueForEvery as String
+            self.conditionItem?.until = self.valueForUntil as String
+            self.previewDetails = DCDosageHelper.updatePreviewDetailsArray(self.conditionItem!, currentStartingDose: self.newStartingDose!, doseUnit:(self.dosage?.doseUnit)!)
+            if (NSString(string: self.valueForUntil).floatValue > 0) {
+                self.previewDetails.append("\(self.valueForUntil) thereafter")
+            } else {
+                self.previewDetails.append("Stop")
+            }
+        }
+    }
+    
     // MARK: - Action Methods
     
     func cancelButtonPressed() {
@@ -348,22 +331,6 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     
     func doneButtonPressed() {
         
-//        var displayString : String = ""
-//        var change : String = ""
-//        self.conditionItem?.change = valueForChange as String
-//        if (valueForChange == "Reducing") {
-//            change = "Reduce"
-//        } else {
-//            change = "Increase"
-//        }
-//        if (valueForDose != "" && valueForEvery != "" && valueForUntil != "") {
-//            displayString = "\(change) \(valueForDose) every \(valueForEvery) until \(valueForUntil)"
-//            self.conditionItem?.dose = valueForDose as String
-//            self.conditionItem?.every = valueForEvery as String
-//            self.conditionItem?.until = valueForUntil as String
-//        } else {
-//            displayString = ""
-//        }
         if self.validateTheAddConditionValues() {
             DCDosageHelper.createDescriptionStringForDosageCondition(conditionItem!, dosageUnit: (self.dosage?.doseUnit)!)
             self.newConditionEntered(self.conditionItem)

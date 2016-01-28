@@ -52,11 +52,11 @@ class DCInfusionPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewD
         contentArray = DCSchedulingHelper.numbersArrayWithMaximumCount(250)
         pickerView.reloadAllComponents()
         if (previousValue == nil) {
-            let initialValue = (infusionPickerType == eUnit) ? ONE : "1 hour"
+            let initialValue = (infusionPickerType! == eUnit) ? ONE : "1 hour"
             unitCompletion(initialValue)
             pickerView.selectRow(PickerRowCount.eZerothRow.rawValue, inComponent: PickerComponentsCount.eZerothComponent.rawValue, animated: true)
         } else {
-            if (infusionPickerType == eUnit) {
+            if (infusionPickerType! == eUnit) {
                 let selectedIndex = Int(previousValue!)
                 pickerView.selectRow(selectedIndex! - 1, inComponent: PickerComponentsCount.eZerothComponent.rawValue, animated: true);
             } else {
@@ -74,7 +74,7 @@ class DCInfusionPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewD
     
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
         
-        return  (infusionPickerType == eUnit) ? PickerComponentsCount.eFirstComponent.rawValue : PickerComponentsCount.eSecondComponent.rawValue
+        return  (infusionPickerType! == eUnit) ? PickerComponentsCount.eFirstComponent.rawValue : PickerComponentsCount.eSecondComponent.rawValue
     }
     
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
