@@ -63,15 +63,26 @@ class DCInfusionPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewD
             selectionCompletion(initialValue as String)
             pickerView.selectRow(PickerRowCount.eZerothRow.rawValue, inComponent: PickerComponentsCount.eZerothComponent.rawValue, animated: true)
         } else {
-            if (infusionPickerType == eUnit) {
+            if (infusionPickerType == eUnit || infusionPickerType == eRateNormal) {
                 let selectedIndex = Int(previousValue!)
                 pickerView.selectRow(selectedIndex! - 1, inComponent: PickerComponentsCount.eZerothComponent.rawValue, animated: true);
             } else {
                 if let flowValue = previousValue {
-                    if let range = flowValue.rangeOfString(" ") {
-                        let flowDuration = flowValue.substringToIndex(range.startIndex)
-                        let selectedIndex = contentArray?.indexOfObject(Int(flowDuration)!)
-                        [pickerView .selectRow(selectedIndex!, inComponent: PickerComponentsCount.eZerothComponent.rawValue, animated: true)]
+                    NSLog("previousValue is %@", flowValue)
+                    let previousArray = flowValue.componentsSeparatedByString(" ")
+                    let initialComponentValue = previousArray[0]
+                    let initialIndex = contentArray?.indexOfObject(Int(initialComponentValue)!)
+                    [pickerView .selectRow(initialIndex!, inComponent: PickerComponentsCount.eZerothComponent.rawValue, animated: true)]
+                    let finalComponentValue = previousArray[1]
+                    NSLog("finalComponentValue is %@", finalComponentValue)
+                    if (infusionPickerType == eFlowDuration || infusionPickerType == eRateStarting) {
+                        let secondComponentRowIndex : NSInteger
+                        if (infusionPickerType == eFlowDuration) {
+                            secondComponentRowIndex = (finalComponentValue == HOUR || finalComponentValue == HOURS) ? PickerRowCount.eZerothRow.rawValue : PickerRowCount.eFirstRow.rawValue
+                        } else {
+                            secondComponentRowIndex = (finalComponentValue == MG_PER_HOUR) ? PickerRowCount.eZerothRow.rawValue : PickerRowCount.eFirstRow.rawValue
+                        }
+                        [pickerView .selectRow(secondComponentRowIndex, inComponent: PickerComponentsCount.eFirstComponent.rawValue, animated: true)]
                     }
                 }
             }
@@ -119,7 +130,6 @@ class DCInfusionPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewD
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
         let content = NSMutableString()
-       // let value : String = self.pickerView(pickerView, titleForRow: row, forComponent: PickerComponentsCount.eZerothComponent.rawValue)!
         let value = contentArray!.objectAtIndex(pickerView.selectedRowInComponent(0))
         content.appendString("\(value)")
         if (pickerView.numberOfComponents > PickerComponentsCount.eFirstComponent.rawValue) {

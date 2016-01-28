@@ -69,9 +69,13 @@ class DCInfusionsHelper: NSObject {
                 hidePicker = true
             }
         } else if (option == DURATION_BASED_INFUSION || option == RATE_BASED_INFUSION) {
-            if (cellIndexPath.section != SectionCount.eFirstSection.rawValue) {
-                hidePicker = true
-            } else if (cellIndexPath.section != SectionCount.eFirstSection.rawValue && cellIndexPath.row != pickerIndexPath.row - 1) {
+//            if (cellIndexPath.section != SectionCount.eFirstSection.rawValue) {
+//                hidePicker = true
+//            } else
+//            NSLog("cellIndexPath.section is %d", cellIndexPath.section)
+//            NSLog("cellIndexPath.row is %d", cellIndexPath.row)
+//            NSLog("pickerIndexPath.row is %d", pickerIndexPath.row)
+            if (cellIndexPath.section != SectionCount.eFirstSection.rawValue && cellIndexPath.row != pickerIndexPath.row - 1) {
                 hidePicker = true
             }
         }
