@@ -229,7 +229,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
                     self.conditionItem?.until = self.valueForUntil as String
                     self.previewDetails = DCDosageHelper.updatePreviewDetailsArray(self.conditionItem!, currentStartingDose: self.newStartingDose!, doseUnit:(self.dosage?.doseUnit)!)
                     if (NSString(string: self.valueForUntil).floatValue > 0) {
-                        self.previewDetails.append("\(self.valueForUntil) thereafter.")
+                        self.previewDetails.append("\(self.valueForUntil) thereafter")
                     } else {
                         self.previewDetails.append("Stop")
                     }
@@ -250,7 +250,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
                     self.conditionItem?.until = self.valueForUntil as String
                     self.previewDetails = DCDosageHelper.updatePreviewDetailsArray(self.conditionItem!, currentStartingDose: self.newStartingDose!, doseUnit:(self.dosage?.doseUnit)!)
                     if (NSString(string: self.valueForUntil).floatValue > 0) {
-                        self.previewDetails.append("\(self.valueForUntil) thereafter.")
+                        self.previewDetails.append("\(self.valueForUntil) thereafter")
                     } else {
                         self.previewDetails.append("Stop")
                     }
@@ -278,7 +278,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
                     self.conditionItem?.until = self.valueForUntil as String
                     self.previewDetails = DCDosageHelper.updatePreviewDetailsArray(self.conditionItem!, currentStartingDose: self.newStartingDose!, doseUnit:(self.dosage?.doseUnit)!)
                     if (NSString(string: self.valueForUntil).floatValue > 0) {
-                        self.previewDetails.append("\(self.valueForUntil) thereafter.")
+                        self.previewDetails.append("\(self.valueForUntil) thereafter")
                     } else {
                         self.previewDetails.append("Stop")
                     }
@@ -305,7 +305,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
                     self.conditionItem?.until = self.valueForUntil as String
                     self.previewDetails = DCDosageHelper.updatePreviewDetailsArray(self.conditionItem!, currentStartingDose: self.newStartingDose!, doseUnit:(self.dosage?.doseUnit)!)
                     if (NSString(string: self.valueForUntil).floatValue > 0) {
-                        self.previewDetails.append("\(self.valueForUntil) thereafter.")
+                        self.previewDetails.append("\(self.valueForUntil) thereafter")
                     } else {
                         self.previewDetails.append("Stop")
                     }
@@ -348,22 +348,22 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     
     func doneButtonPressed() {
         
-        var displayString : String = ""
-        var change : String = ""
-        self.conditionItem?.change = valueForChange as String
-        if (valueForChange == "Reducing") {
-            change = "Reduce"
-        } else {
-            change = "Increase"
-        }
-        if (valueForDose != "" && valueForEvery != "" && valueForUntil != "") {
-            displayString = "\(change) \(valueForDose) every \(valueForEvery) until \(valueForUntil)"
-            self.conditionItem?.dose = valueForDose as String
-            self.conditionItem?.every = valueForEvery as String
-            self.conditionItem?.until = valueForUntil as String
-        } else {
-            displayString = ""
-        }
+//        var displayString : String = ""
+//        var change : String = ""
+//        self.conditionItem?.change = valueForChange as String
+//        if (valueForChange == "Reducing") {
+//            change = "Reduce"
+//        } else {
+//            change = "Increase"
+//        }
+//        if (valueForDose != "" && valueForEvery != "" && valueForUntil != "") {
+//            displayString = "\(change) \(valueForDose) every \(valueForEvery) until \(valueForUntil)"
+//            self.conditionItem?.dose = valueForDose as String
+//            self.conditionItem?.every = valueForEvery as String
+//            self.conditionItem?.until = valueForUntil as String
+//        } else {
+//            displayString = ""
+//        }
         if self.validateTheAddConditionValues() {
             DCDosageHelper.createDescriptionStringForDosageCondition(conditionItem!, dosageUnit: (self.dosage?.doseUnit)!)
             self.newConditionEntered(self.conditionItem)

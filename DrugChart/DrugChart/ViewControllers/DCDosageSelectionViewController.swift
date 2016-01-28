@@ -68,16 +68,8 @@ typealias SelectedDosage = DCDosage? -> Void
     
     func configureInitialValues (){
         
-        dosageMenuItems = []
-        dosageMenuItems.append(DOSE_FIXED)
-        dosageMenuItems.append(DOSE_VARIABLE)
-        if isReducingIncreasingPresent {
-            dosageMenuItems.append(DOSE_REDUCING_INCREASING)
-        }
-        if isSplitDailyPresent {
-            dosageMenuItems.append(DOSE_SPLIT_DAILY)
-        }
         if dosage?.type == nil {
+            //Initialise dosage model object.
             self.dosage?.fixedDose = DCFixedDose.init()
             self.dosage?.variableDose = DCVariableDose.init()
             self.dosage?.reducingIncreasingDose = DCReducingIncreasingDose.init()
@@ -98,6 +90,7 @@ typealias SelectedDosage = DCDosage? -> Void
             self.dosage?.reducingIncreasingDose?.changeOver = "Days"
             self.dosage?.reducingIncreasingDose?.conditions?.conditionDescription = ""
         } else {
+            //If already selected, Show the selected values.
             switch (self.dosage?.type)! {
             case DOSE_FIXED:
                 menuType = eFixedDosage
@@ -114,6 +107,19 @@ typealias SelectedDosage = DCDosage? -> Void
             default:
                 menuType = eDosageMenu
             }
+        }
+        dosageMenuItems = []
+        dosageMenuItems.append(DOSE_FIXED)
+        dosageMenuItems.append(DOSE_VARIABLE)
+        if isReducingIncreasingPresent {
+            dosageMenuItems.append(DOSE_REDUCING_INCREASING)
+        } else if (menuType == eReducingIncreasing) {
+            menuType = eDosageMenu
+        }
+        if isSplitDailyPresent {
+            dosageMenuItems.append(DOSE_SPLIT_DAILY)
+        } else if (menuType == eSplitDaily) {
+            menuType = eDosageMenu
         }
     }
     
@@ -497,10 +503,16 @@ typealias SelectedDosage = DCDosage? -> Void
                 }
             case 3:
                 if (menuType == eReducingIncreasing) {
+                    if (self.dosage?.reducingIncreasingDose.startingDose == EMPTY_STRING) {
+                        let dosageCell: DCDosageSelectionTableViewCell = dosageTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 1)) as! DCDosageSelectionTableViewCell
+                        dosageCell.dosageDetailLabel.textColor = UIColor.redColor()
+//                        dosageTableView.reloadData()
+                    } else {
                     let dosageConditionsViewController : DCDosageConditionsViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_CONDITIONS_SBID) as? DCDosageConditionsViewController
                     dosageConditionsViewController?.dosage = self.dosage
                     self.configureNavigationBackButtonTitle()
                     self.navigationController?.pushViewController(dosageConditionsViewController!, animated: true)
+                    }
                     return
                 }
             default:
