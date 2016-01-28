@@ -124,7 +124,7 @@
 #define VITAL_SIGNS_VIEW_CONTROLLER_VIEW_CONTROLLER_SB_ID @"VitalSignViewController"
 #define SCHEDULING_DETAIL_STORYBOARD_ID @"SchedulingDetailView"
 #define SCHEDULING_INITIAL_STORYBOARD_ID @"SchedulingInitialView"
-#define INFUSIONS_ADMINISTER_OPTIONS_SB_ID @"InfusionsAdministerAsViewController"
+#define INFUSIONS_STORYBOARD_ID @"InfusionViewController"
 
 #define PRESCRIBER_MEDICATION_SBID @"PrescriberMedicationViewControllerSBID"
 #define DOSAGE_SELECTION_SBID @"DosageSelection"
@@ -135,7 +135,7 @@
 #define ADD_NEW_DOSE_TIME_SBID @"AddNewViewController"
 #define DOSAGE_UNIT_SELECTION_SBID @"DosageUnitSelection"
 #define WARDS_INFORMATION_SBID @"wardsInformationViewController"
-#define ROUTE_INFUSIONS_SB_ID @"RouteAndInfusionsViewController"
+#define ROUTE_STORYBOARD_ID @"RouteViewController"
 #define INJECTION_REGION_SB_ID @"InjectionRegionView"
 
 
@@ -551,5 +551,7 @@
 #define CENTRAL_LINE @"Central line"
 #define PERIPHERAL_LINE_ONE @"Peripheral line 1"
 #define PERIPHERAL_LINE_TWO @"Peripheral line 2"
+#define MG_PER_HOUR @"mg/Hour"
+#define MG_PER_MINUTE @"mg/Minute"
 
 #endif

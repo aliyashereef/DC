@@ -19,7 +19,7 @@
 #import "DCInfusion.h"
 #import "DrugChart-Swift.h"
 
-@interface DCAddMedicationInitialViewController () <UITableViewDelegate, UITableViewDataSource, AddMedicationDetailDelegate,InstructionCellDelegate, NewDosageValueEntered, RoutesAndInfusionsDelegate> {
+@interface DCAddMedicationInitialViewController () <UITableViewDelegate, UITableViewDataSource, AddMedicationDetailDelegate,InstructionCellDelegate, NewDosageValueEntered, RoutesDelegate> {
     
     __weak IBOutlet UITableView *medicationDetailsTableView;
     __weak IBOutlet UILabel *orderSetLabel;
@@ -602,7 +602,7 @@
     //navigate to routes and infusions view
     
     UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
-    DCRouteAndInfusionsViewController *routesInfusionsViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:ROUTE_INFUSIONS_SB_ID];
+    DCRouteViewController *routesInfusionsViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:ROUTE_STORYBOARD_ID];
     routesInfusionsViewController.delegate = self;
     routesInfusionsViewController.previousRoute = self.selectedMedication.route;
     routesInfusionsViewController.infusion = self.selectedMedication.infusion;

@@ -168,4 +168,7 @@
 "INTO"                 =       "Into";
 "OVER"                 =       "Over";
 "FLOW_RATE_FOOTER"     =       "At the flow rate of ";
+"STARTING_AT"          =       "Starting at";
+"VARY_BETWEEN"         =       "Vary between";
+"AND"                  =       "And";
 
