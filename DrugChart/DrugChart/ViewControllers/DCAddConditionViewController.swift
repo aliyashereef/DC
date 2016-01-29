@@ -46,7 +46,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
         // Configure bar buttons for Add new.
         let cancelButton: UIBarButtonItem = UIBarButtonItem(title: CANCEL_BUTTON_TITLE, style: .Plain, target: self, action: "cancelButtonPressed")
         self.navigationItem.leftBarButtonItem = cancelButton
-        let doneButton: UIBarButtonItem = UIBarButtonItem(title: DONE_BUTTON_TITLE, style: .Plain, target: self, action: "doneButtonPressed")
+        let doneButton: UIBarButtonItem = UIBarButtonItem(title: SAVE_BUTTON_TITLE, style: .Plain, target: self, action: "doneButtonPressed")
         self.navigationItem.rightBarButtonItem = doneButton
         self.navigationItem.title = ADD_CONDITION_TITLE
         self.title = ADD_CONDITION_TITLE
@@ -120,10 +120,17 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
         
         //Change text color to red and change text from full upper case to desired sentence.
         if let view = view as? UITableViewHeaderFooterView {
-            view.textLabel!.textColor = UIColor.blackColor()
+            view.textLabel!.font = UIFont.systemFontOfSize(14.0)
         }
     }
-
+    
+    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        
+        if (section == 0 && self.previewDetails.count != 0 && self.validateTheAddConditionValues()) {
+            return HEADER_VIEW_MIN_HEIGHT
+        }
+        return 0
+    }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         

@@ -16,7 +16,7 @@ import UIKit
 
 typealias SelectedDosage = DCDosage? -> Void
 
-@objc class DCDosageSelectionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, DataEnteredDelegate {
+@objc class DCDosageSelectionViewController: DCBaseViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, DataEnteredDelegate {
     
     var dosageMenuItems = [String]()
     var menuType : DosageSelectionType = eDosageMenu
@@ -39,7 +39,8 @@ typealias SelectedDosage = DCDosage? -> Void
     var isSplitDailyPresent : Bool = false
     var isReducingIncreasingPresent : Bool = false
     var doseForTimeArray = ["250","100","50","30","20","10"]
-
+    let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureInitialValues()
@@ -47,6 +48,8 @@ typealias SelectedDosage = DCDosage? -> Void
         if (timeArray != nil) {
             self.configureTimeArray()
         }
+        dosageTableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
+
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -54,11 +57,11 @@ typealias SelectedDosage = DCDosage? -> Void
         dosageTableView.reloadData()
     }
     
-//    override func viewWillAppear(animated: Bool) {
-//        
-//        super.viewWillAppear(animated)
-//        DCUtility.backButtonItemForViewController(self, inNavigationController: self.navigationController, withTitle: backButtonText as String)
-//    }
+    //    override func viewWillAppear(animated: Bool) {
+    //
+    //        super.viewWillAppear(animated)
+    //        DCUtility.backButtonItemForViewController(self, inNavigationController: self.navigationController, withTitle: backButtonText as String)
+    //    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -210,9 +213,9 @@ typealias SelectedDosage = DCDosage? -> Void
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
-            return 44
+        return 44
     }
-
+    
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
         //Set the alert for mismatch of Required daily dose.
@@ -262,8 +265,8 @@ typealias SelectedDosage = DCDosage? -> Void
                 timeDisplayCell.doseValueLabel.text = valueForDoseForTime[indexPath.row]
                 return timeDisplayCell
             } else {
-            let cellForDisplay : DCDosageSelectionTableViewCell = self.configureTableCellForDisplay(indexPath)
-            return cellForDisplay
+                let cellForDisplay : DCDosageSelectionTableViewCell = self.configureTableCellForDisplay(indexPath)
+                return cellForDisplay
             }
         }
     }
@@ -326,7 +329,7 @@ typealias SelectedDosage = DCDosage? -> Void
     }
     
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-
+        
         // Return YES to set the specified time list to be editable.
         if indexPath.section == 2 && timeArray != nil && selectedTimeArrayItems.count != 0 {
             return true
@@ -342,22 +345,22 @@ typealias SelectedDosage = DCDosage? -> Void
     
     func tableView(tableView: UITableView,
         editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
-        let delete = UITableViewRowAction(style: .Destructive, title: "Delete") { action, index in
-            //Delete element from array.
-            self.deleteElementFromTimeArrayAtSelectedIndexPath(indexPath.row)
-            //Update the arrays.
-            self.configureTimeArray()
-            //Update alert messages.
-            self.updateAlertMessageForMismatch()
-            self.dosageTableView.beginUpdates()
-            //Update the table.
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-            if (self.selectedTimeArrayItems.count == 0) {
-                let sections = NSIndexSet(index: 2)
-                tableView.deleteSections(sections, withRowAnimation: .Fade)
-            }
-            self.dosageTableView.endUpdates()
-
+            let delete = UITableViewRowAction(style: .Destructive, title: "Delete") { action, index in
+                //Delete element from array.
+                self.deleteElementFromTimeArrayAtSelectedIndexPath(indexPath.row)
+                //Update the arrays.
+                self.configureTimeArray()
+                //Update alert messages.
+                self.updateAlertMessageForMismatch()
+                self.dosageTableView.beginUpdates()
+                //Update the table.
+                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+                if (self.selectedTimeArrayItems.count == 0) {
+                    let sections = NSIndexSet(index: 2)
+                    tableView.deleteSections(sections, withRowAnimation: .Fade)
+                }
+                self.dosageTableView.endUpdates()
+                
             }
             let attributes = [NSFontAttributeName : UIFont.systemFontOfSize(15.0)]
             let attributedString = NSMutableAttributedString(string:"Delete", attributes:attributes)
@@ -478,7 +481,7 @@ typealias SelectedDosage = DCDosage? -> Void
         }
         return dosageSelectionDetailCell
     }
-
+    
     func displayDosageDetailViewControllerWithSelectedDetailType(indexPath : NSIndexPath ) {
         
         if (indexPath.section == 1) {
@@ -507,12 +510,12 @@ typealias SelectedDosage = DCDosage? -> Void
                     if (self.dosage?.reducingIncreasingDose.startingDose == EMPTY_STRING) {
                         let dosageCell: DCDosageSelectionTableViewCell = dosageTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 1)) as! DCDosageSelectionTableViewCell
                         dosageCell.dosageDetailLabel.textColor = UIColor.redColor()
-//                        dosageTableView.reloadData()
+                        //                        dosageTableView.reloadData()
                     } else {
-                    let dosageConditionsViewController : DCDosageConditionsViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_CONDITIONS_SBID) as? DCDosageConditionsViewController
-                    dosageConditionsViewController?.dosage = self.dosage
-                    self.configureNavigationBackButtonTitle()
-                    self.navigationController?.pushViewController(dosageConditionsViewController!, animated: true)
+                        let dosageConditionsViewController : DCDosageConditionsViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_CONDITIONS_SBID) as? DCDosageConditionsViewController
+                        dosageConditionsViewController?.dosage = self.dosage
+                        self.configureNavigationBackButtonTitle()
+                        self.navigationController?.pushViewController(dosageConditionsViewController!, animated: true)
                     }
                     return
                 }
@@ -553,9 +556,9 @@ typealias SelectedDosage = DCDosage? -> Void
             } else if (totalValueForDose == valueForRequiredDailyDose && countOfItemsWithDoseValueSelected < selectedTimeArrayItems.count) {
                 alertMessageForMismatch = "Some administration times does not have dose value. Either delete it or adjust the distribution."
             } else if (totalValueForDose < valueForRequiredDailyDose) {
-                alertMessageForMismatch = "Add a further \(valueForRequiredDailyDose - totalValueForDose) mg to meet the required daily dose"
+                alertMessageForMismatch = "Add a further \(valueForRequiredDailyDose - totalValueForDose) \(self.dosage!.doseUnit) to meet the required daily dose"
             } else {
-                alertMessageForMismatch = "Remove \(totalValueForDose - valueForRequiredDailyDose) mg to meet the required daily dose"
+                alertMessageForMismatch = "Remove \(totalValueForDose - valueForRequiredDailyDose) \(self.dosage!.doseUnit) to meet the required daily dose"
             }
         } else {
             alertMessageForMismatch = ""
@@ -609,7 +612,7 @@ typealias SelectedDosage = DCDosage? -> Void
             timeArray = NSMutableArray(array: DCUtility.sortArray(NSMutableArray(array: timeArray!) as [AnyObject], basedOnKey: TIME_KEY, ascending: true))
         }
     }
-
+    
     // MARK: - Navigation Methods
     
     func transitToAddNewTimeScreen() {
@@ -644,7 +647,7 @@ typealias SelectedDosage = DCDosage? -> Void
     }
     
     func transitToFixedDoseValueScreen () {
-    
+        
         let dosageDetailViewController : DCDosageDetailViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_DETAIL_SBID) as? DCDosageDetailViewController
         dosageDetailViewController?.delegate = self
         dosageDetailViewController?.dosageDetailsArray = dosageArray
@@ -668,7 +671,7 @@ typealias SelectedDosage = DCDosage? -> Void
     }
     
     func transitToVariableDoseToValueScreen () {
-    
+        
         let dosageDetailViewController : DCDosageDetailViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_DETAIL_SBID) as? DCDosageDetailViewController
         dosageDetailViewController?.delegate = self
         dosageDetailViewController?.dosageDetailsArray = dosageArray
@@ -692,7 +695,7 @@ typealias SelectedDosage = DCDosage? -> Void
     }
     
     func transitToConditionsChangeOverScreen () {
-
+        
         let dosageDetailViewController : DCDosageDetailViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_DETAIL_SBID) as? DCDosageDetailViewController
         dosageDetailViewController?.delegate = self
         dosageDetailViewController?.dosageDetailsArray = dosageArray
@@ -724,25 +727,27 @@ typealias SelectedDosage = DCDosage? -> Void
     
     func newDosageAdded(value : String){
         
-//        if (selectedDetailType == eDoseValue) {
-//            self.dosage?.fixedDose?.doseValue = value
-//            newDosageAddedDelegate?.newDosageAdded("\(value) \((dosage?.doseUnit)!)")
-//        } else if (selectedDetailType == eDoseFrom || selectedDetailType == eDoseTo) {
-//            if (selectedDetailType == eDoseFrom) {
-//                self.dosage?.variableDose?.doseFromValue = value
-//            } else {
-//                self.dosage?.variableDose.doseToValue = value
-//            }
-//            newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
-//        } else if (selectedDetailType == eDoseUnit) {
-//            dosage?.doseUnit = value
-//        } else if (selectedDetailType == eStartingDose) {
-//            self.dosage?.reducingIncreasingDose.startingDose = value
-//        } else if (selectedDetailType == eAddDoseForTime) {
-//            valueForDoseForTime[selectedIndexPathInTimeArray] = value
-//            self.updateTimeArray(selectedIndexPathInTimeArray)
-//            self.updateAlertMessageForMismatch()
-//        }
+        //Enter the selected value to the particular type.
+        if (selectedDetailType == eDoseValue) {
+            self.dosage?.fixedDose?.doseValue = value
+            newDosageAddedDelegate?.newDosageAdded("\(value) \((dosage?.doseUnit)!)")
+        } else if (selectedDetailType == eDoseFrom || selectedDetailType == eDoseTo) {
+            if (selectedDetailType == eDoseFrom) {
+                self.dosage?.variableDose?.doseFromValue = value
+            } else {
+                self.dosage?.variableDose.doseToValue = value
+            }
+            newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
+        } else if (selectedDetailType == eDoseUnit) {
+            dosage?.doseUnit = value
+        } else if (selectedDetailType == eStartingDose) {
+            self.dosage?.reducingIncreasingDose.startingDose = value
+        } else if (selectedDetailType == eAddDoseForTime) {
+            valueForDoseForTime[selectedIndexPathInTimeArray] = value
+            self.updateTimeArray(selectedIndexPathInTimeArray)
+            self.updateAlertMessageForMismatch()
+        }
+        //Update the dosage array.
         if selectedDetailType == eAddDoseForTime {
             doseForTimeArray.append(value)
             self.doseForTimeArray =  self.doseForTimeArray.sort { NSString(string: $0).floatValue > NSString(string: $1).floatValue }
@@ -787,10 +792,22 @@ typealias SelectedDosage = DCDosage? -> Void
         dosageTableView.endUpdates()
         return true;
     }
-
+    
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder();
         return true;
     }
-
+    
+    // MARK: - keyboard Delegate Methods
+    
+    func keyboardDidShow(notification: NSNotification) {
+        //notification methods
+        if appDelegate.windowState == DCWindowState.halfWindow || appDelegate.windowState == DCWindowState.oneThirdWindow {
+            let delayInSeconds: Double = 0.25
+            let deleteTime : dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(delayInSeconds * Double(NSEC_PER_SEC)))
+            dispatch_after(deleteTime, dispatch_get_main_queue(), {() -> Void in
+                self.dosageTableView.setContentOffset(CGPointMake(0, 10), animated: true)
+            })
+        }
+    }
 }
