@@ -26,6 +26,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     var dosage : DCDosage?
     var previewDetails = [String]()
     var doseArrayForChange = ["500 mg","250 mg","100 mg","50 mg","10 mg","5 mg"]
+    var alertMessagForMismatch : String = ""
     
     @IBOutlet weak var addConditionTableView: UITableView!
     
@@ -109,13 +110,20 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         
         //Set the header as PREVIEW
-        if (section == 0 && self.previewDetails.count != 0 && self.validateTheAddConditionValues()) {
-            return DCDosageHelper.createDescriptionStringForDosageCondition(conditionItem!, dosageUnit: (self.dosage?.doseUnit)!)
-        } else {
+        if section == 0 {
+            if (self.previewDetails.count != 0 && self.validateTheAddConditionValues()) {
+                return DCDosageHelper.createDescriptionStringForDosageCondition(conditionItem!, dosageUnit: (self.dosage?.doseUnit)!)
+            } else if alertMessagForMismatch != "" {
+                return alertMessagForMismatch
+            }
+            else {
+                return nil
+            }
+        }else {
             return nil
         }
     }
-
+    
     func tableView(tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
         
         //Change text color to red and change text from full upper case to desired sentence.
@@ -126,8 +134,12 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     
     func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         
-        if (section == 0 && self.previewDetails.count != 0 && self.validateTheAddConditionValues()) {
-            return HEADER_VIEW_MIN_HEIGHT
+        if section == 0 {
+            if (self.previewDetails.count != 0 && self.validateTheAddConditionValues()) {
+                return HEADER_VIEW_MIN_HEIGHT
+            } else if alertMessagForMismatch != "" {
+                return 65
+            }
         }
         return 0
     }
@@ -231,7 +243,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
             addConditionDetailViewController?.doseArrayForChange = doseArrayForChange
             addConditionDetailViewController?.valueForDoseSelected = { value in
                 self.valueForDose = value!
-                if !self.doseArrayForChange.contains(value!) {
+                if !self.doseArrayForChange.contains(value!) && NSString(string: value!).floatValue != 0 {
                     self.doseArrayForChange.append(value!)
                     self.doseArrayForChange =  self.doseArrayForChange.sort { NSString(string: $0).floatValue > NSString(string: $1).floatValue }
                 }
@@ -246,7 +258,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
             addConditionDetailViewController?.doseArrayForChange = doseArrayForChange
             addConditionDetailViewController?.valueForDoseSelected = { value in
                 self.valueForUntil = value!
-                if !self.doseArrayForChange.contains(value!) {
+                if !self.doseArrayForChange.contains(value!) && NSString(string: value!).floatValue != 0 {
                     self.doseArrayForChange.append(value!)
                     self.doseArrayForChange =  self.doseArrayForChange.sort { NSString(string: $0).floatValue > NSString(string: $1).floatValue }
                 }
@@ -315,16 +327,54 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     
     func updatePreviewDetails () {
         
-        if self.validateTheAddConditionValues() && self.valueForVariablesIsNotNull(){
-            self.conditionItem?.change = self.valueForChange as String
-            self.conditionItem?.dose = self.valueForDose as String
-            self.conditionItem?.every = self.valueForEvery as String
-            self.conditionItem?.until = self.valueForUntil as String
-            self.previewDetails = DCDosageHelper.updatePreviewDetailsArray(self.conditionItem!, currentStartingDose: self.newStartingDose!, doseUnit:(self.dosage?.doseUnit)!)
-            if (NSString(string: self.valueForUntil).floatValue > 0) {
-                self.previewDetails.append("\(self.valueForUntil) thereafter")
+        if self.valueForVariablesIsNotNull() {
+            if self.validateTheAddConditionValues() {
+                self.conditionItem?.change = self.valueForChange as String
+                self.conditionItem?.dose = self.valueForDose as String
+                self.conditionItem?.every = self.valueForEvery as String
+                self.conditionItem?.until = self.valueForUntil as String
+                self.previewDetails = DCDosageHelper.updatePreviewDetailsArray(self.conditionItem!, currentStartingDose: self.newStartingDose!, doseUnit:(self.dosage?.doseUnit)!)
+                if (NSString(string: self.valueForUntil).floatValue > 0) {
+                    self.previewDetails.append("\(self.valueForUntil) thereafter")
+                } else {
+                    self.previewDetails.append("Stop")
+                }
+            }
+        }
+    }
+    
+    func highlightFieldsWithNilValue () {
+        
+        if valueForChange == "" {
+            let addConditionMenuCell : DCAddConditionTableViewCell = addConditionTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! DCAddConditionTableViewCell
+            addConditionMenuCell.addConditionMenuLabel?.textColor = UIColor.redColor()
+        }
+        if valueForDose == "" {
+            let addConditionMenuCell : DCAddConditionTableViewCell = addConditionTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 0)) as! DCAddConditionTableViewCell
+            addConditionMenuCell.addConditionMenuLabel?.textColor = UIColor.redColor()
+        }
+        if valueForEvery == "" {
+            let addConditionMenuCell : DCAddConditionTableViewCell = addConditionTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 3, inSection: 0)) as! DCAddConditionTableViewCell
+            addConditionMenuCell.addConditionMenuLabel?.textColor = UIColor.redColor()
+        }
+        if valueForUntil == "" {
+            let addConditionMenuCell : DCAddConditionTableViewCell = addConditionTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 5, inSection: 0)) as! DCAddConditionTableViewCell
+            addConditionMenuCell.addConditionMenuLabel?.textColor = UIColor.redColor()
+        }
+    }
+    
+    func updateAlertMessageForMismatch() {
+        if (valueForChange == REDUCING) {
+            if (newStartingDose <= NSString(string: valueForUntil).floatValue || NSString(string: valueForDose).floatValue <= 0) {
+                alertMessagForMismatch = "Mismatch in the condition. Please recheck the Until dose."
             } else {
-                self.previewDetails.append("Stop")
+                alertMessagForMismatch = ""
+            }
+        } else {
+            if newStartingDose >= NSString(string: valueForUntil).floatValue || NSString(string: valueForDose).floatValue <= 0 || String(valueForUntil).characters.count >= 8 {
+                alertMessagForMismatch = "Mismatch in the condition. Please recheck the Until dose."
+            } else {
+                alertMessagForMismatch = ""
             }
         }
     }
@@ -338,11 +388,18 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     
     func doneButtonPressed() {
         
-        if self.validateTheAddConditionValues() {
-            DCDosageHelper.createDescriptionStringForDosageCondition(conditionItem!, dosageUnit: (self.dosage?.doseUnit)!)
-            self.newConditionEntered(self.conditionItem)
+        if self.valueForVariablesIsNotNull() {
+            if self.validateTheAddConditionValues() {
+                DCDosageHelper.createDescriptionStringForDosageCondition(conditionItem!, dosageUnit: (self.dosage?.doseUnit)!)
+                self.newConditionEntered(self.conditionItem)
+                self.navigationController!.dismissViewControllerAnimated(true, completion:nil)
+            } else {
+                alertMessagForMismatch = ""
+                self.updateAlertMessageForMismatch()
+                addConditionTableView.reloadData()
+            }
+        } else {
+            self.highlightFieldsWithNilValue()
         }
-        self.navigationController!.dismissViewControllerAnimated(true, completion:nil)
     }
-    
 }
