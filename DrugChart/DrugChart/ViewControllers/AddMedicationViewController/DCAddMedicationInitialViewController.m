@@ -181,17 +181,6 @@
             [cell configureContentCellWithContent: schedulingDescription];
         }
             break;
-        case eAdministratingTimeCell: {
-            cell.titleLabel.text = NSLocalizedString(@"ADMINISTRATING_TIME", @"");
-            [cell configureMedicationAdministratingTimeCell];
-            cell = [self updatedAdministrationTimeTableCell:cell];
-        }
-            break;
-        case eRepeatCell: {
-            cell.titleLabel.text = NSLocalizedString(@"REPEAT", @"");
-            [cell configureContentCellWithContent:self.selectedMedication.scheduling.specificTimes.repeatObject.repeatType];
-        }
-            break;
     }
     return cell;
 }
@@ -666,8 +655,6 @@
             } else {
                 medicationDetailViewController.contentArray = dosageArray;
             }
-        } else if (medicationDetailViewController.detailType == eDetailAdministrationTime) {
-            medicationDetailViewController.contentArray = self.selectedMedication.timeArray;
         }
         [self configureNavigationBackButtonTitle];
         [self.navigationController pushViewController:medicationDetailViewController animated:YES];
@@ -862,21 +849,6 @@
             [self displayInlineDatePickerForRowAtIndexPath:indexPath];
         }
     }
-}
-
-- (void)presentAdministrationTimeView {
-    
-    UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
-    DCAddMedicationDetailViewController *medicationDetailViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:ADD_MEDICATION_DETAIL_STORYBOARD_ID];
-    medicationDetailViewController.delegate = self;
-    medicationDetailViewController.selectedEntry = ^ (NSString *value) {
-        [self updateMedicationDetailsTableViewWithSelectedValue:value];
-    };
-    medicationDetailViewController.detailType = eDetailAdministrationTime;
-    medicationDetailViewController.contentArray = self.selectedMedication.timeArray;
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:medicationDetailViewController];
-    navigationController.modalPresentationStyle = UIModalPresentationCurrentContext;
-    [self presentViewController:navigationController animated:YES completion:nil];
 }
 
 - (void)resetDateAndTimeSection {

@@ -88,23 +88,6 @@
     return timeArray;
 }
 
-+ (CellType)cellTypeForSpecificTimesSchedulingAtIndexPath:(NSIndexPath *)indexPath {
-    
-    //get the cell type corresponding to Specific times.
-    CellType cellType;
-    switch (indexPath.row) {
-        case ADMINISTRATION_CELL_INDEX:
-            cellType = eAdministratingTimeCell;
-            break;
-        case REPEAT_CELL_INDEX:
-            cellType = eRepeatCell;
-            break;
-        default:
-            break;
-    }
-    return cellType;
-}
-
 + (AddMedicationDetailType)medicationDetailTypeForIndexPath:(NSIndexPath *)indexPath hasWarnings:(BOOL)showWarnings {
     
     switch (indexPath.section) {

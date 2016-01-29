@@ -18,6 +18,7 @@
 		0B1E308F1AF20213003E49C4 /* DCSecurityPinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B1E308E1AF20213003E49C4 /* DCSecurityPinViewController.m */; };
 		0B1FB56C1AFC8EBD0067FB38 /* DCLogOutWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B1FB56B1AFC8EBD0067FB38 /* DCLogOutWebService.m */; };
 		0B21570C1AB7D1D400BC4611 /* DCNameSelectionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B21570B1AB7D1D400BC4611 /* DCNameSelectionTableViewController.m */; };
+		0B2400F81C5B26220095AEA5 /* DCAdministrationTimesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2400F71C5B26220095AEA5 /* DCAdministrationTimesViewController.swift */; };
 		0B2442F01B96E36500E8F0EB /* DCAddMedicationContentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2442EF1B96E36500E8F0EB /* DCAddMedicationContentCell.m */; };
 		0B2442F41B96F71D00E8F0EB /* DCMedicationListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2442F31B96F71D00E8F0EB /* DCMedicationListViewController.m */; };
 		0B353F8A1C1AD43500E9EB36 /* DCSChedulingTimePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B353F891C1AD43500E9EB36 /* DCSChedulingTimePickerCell.swift */; };
@@ -397,6 +398,7 @@
 		0B1FB56B1AFC8EBD0067FB38 /* DCLogOutWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCLogOutWebService.m; sourceTree = "<group>"; };
 		0B21570A1AB7D1D400BC4611 /* DCNameSelectionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DCNameSelectionTableViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		0B21570B1AB7D1D400BC4611 /* DCNameSelectionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DCNameSelectionTableViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		0B2400F71C5B26220095AEA5 /* DCAdministrationTimesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministrationTimesViewController.swift; sourceTree = "<group>"; };
 		0B2442EE1B96E36500E8F0EB /* DCAddMedicationContentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCAddMedicationContentCell.h; sourceTree = "<group>"; };
 		0B2442EF1B96E36500E8F0EB /* DCAddMedicationContentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCAddMedicationContentCell.m; sourceTree = "<group>"; };
 		0B2442F21B96F71D00E8F0EB /* DCMedicationListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCMedicationListViewController.h; sourceTree = "<group>"; };
@@ -1003,6 +1005,14 @@
 				0B21570B1AB7D1D400BC4611 /* DCNameSelectionTableViewController.m */,
 			);
 			path = NameListSelectionViewController;
+			sourceTree = "<group>";
+		};
+		0B2400F61C5B25E90095AEA5 /* AdministrationTimeViewController */ = {
+			isa = PBXGroup;
+			children = (
+				0B2400F71C5B26220095AEA5 /* DCAdministrationTimesViewController.swift */,
+			);
+			path = AdministrationTimeViewController;
 			sourceTree = "<group>";
 		};
 		0B2442ED1B96E33A00E8F0EB /* AddMedicationContentCell */ = {
@@ -1785,6 +1795,7 @@
 				7D6D84561AF88A8700917A8C /* AuthorizationViewController */,
 				7D566D411AEFBDDE00F09AFC /* SettingsViewController */,
 				4D52D5881BCE7404002ABA8D /* AdministrationStatusTableViewController */,
+				0B2400F61C5B25E90095AEA5 /* AdministrationTimeViewController */,
 				0B2157091AB7D1B700BC4611 /* NameListSelectionViewController */,
 				0B91739B1B01F33C00BC9337 /* PrescriberDetailsViewController */,
 				7D70F37D1B20258200E4BA89 /* WardsGraphicalDisplayViewController */,
@@ -3331,6 +3342,7 @@
 				0B1FB56C1AFC8EBD0067FB38 /* DCLogOutWebService.m in Sources */,
 				0B8498BD1BB11B9B00C740F2 /* DCCalendarSlotDetailViewController.swift in Sources */,
 				0B720B531B1DA4FD00144665 /* DCSearchMedication.m in Sources */,
+				0B2400F81C5B26220095AEA5 /* DCAdministrationTimesViewController.swift in Sources */,
 				7D4DBE9B1AA55D2D00A5E39B /* DCPatientListWebService.m in Sources */,
 				4D52D58B1BCE74DB002ABA8D /* DCAdministrationStatusTableViewController.m in Sources */,
 				0BB1037B1C4504A500F38E98 /* DCInfusionsHelper.swift in Sources */,
