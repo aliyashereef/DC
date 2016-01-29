@@ -638,7 +638,7 @@
                                 <rect key="frame" x="0.0" y="44" width="310" height="556"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="WarningsCell" rowHeight="80" id="dWV-mv-PfX" customClass="DCWarningsCell" customModule="DrugChart" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="WarningsCell" rowHeight="80" id="dWV-mv-PfX" customClass="DCWarningsCell" customModule="DrugChart" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="94" width="310" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dWV-mv-PfX" id="oof-uD-n9h">

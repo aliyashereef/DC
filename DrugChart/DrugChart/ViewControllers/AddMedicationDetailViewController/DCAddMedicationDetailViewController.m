@@ -55,14 +55,6 @@
     [self addNavigationBarButtonItems];
 }
 
-- (void)configureDatePickerProperties {
-    
-    //configure picker properties
-    NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:NETHERLANDS_LOCALE];
-    [timePickerView setLocale:locale];
-    timePickerView.datePickerMode = UIDatePickerModeTime;
-}
-
 - (void)configureNavigationTitleView {
     
     //populate navigation title

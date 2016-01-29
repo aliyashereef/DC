@@ -171,6 +171,7 @@
                 [self displayWarningsListView];
             }
         }
+        medicationListTableView.userInteractionEnabled = YES;
         [activityIndicator stopAnimating];
     }];
 }
@@ -222,6 +223,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    [medicationSearchBar resignFirstResponder];
     tableView.userInteractionEnabled = NO;// to disable  multiple selection
     if ([[medicationListArray objectAtIndex:indexPath.row] isKindOfClass:[DCMedication class]]) {
         DCMedication *medication = [medicationListArray objectAtIndex:indexPath.row];
