@@ -31,8 +31,13 @@
                 for (NSDictionary *valueDictionary in extensionArray) {
                     NSString *valueStrength = [valueDictionary valueForKey:VALUE_STRENGTH_KEY];
                     if (![valueStrength isEqualToString:EMPTY_STRING]) {
-                            self.dosage = valueStrength;
-                        
+                        self.dosage = valueStrength;
+                        break;
+                    }
+                }
+                for (NSDictionary *valueDictionary in extensionArray) {
+                    NSString *valueStrength = [valueDictionary valueForKey:VALUE_STRENGTH_KEY];
+                    if (![valueStrength isEqualToString:EMPTY_STRING]) {
                         NSArray *extensionArray = [valueDictionary valueForKey:EXTENSION_KEY];
                         for (NSDictionary *routeValueDictionary in extensionArray) {
                             if ([routeValueDictionary valueForKey:VALUE_ROUTE]) {

@@ -31,7 +31,7 @@
     BOOL showWarnings;//to check if warnings section is displayed
     NSInteger dateAndTimeSection;
     BOOL isNewMedication; // to decide on whether the new medication is selected from list
-    BOOL hasReviewDate;
+    BOOL reviewDatePickerExpanded;
     DCDosageSelectionViewController *dosageSelectionViewController;
 }
 
@@ -242,7 +242,16 @@
             return cell;
         }
             break;
-            
+        case 2:{
+            static NSString *cellIdentifier = @"ReviewDatePickerView";
+            DCReviewDatePickerCell *reviewDateCell = [medicationDetailsTableView dequeueReusableCellWithIdentifier:cellIdentifier];
+            [reviewDateCell configurePickerCell];
+            reviewDateCell.pickerCompletion  = ^ (NSString *value) {
+                self.selectedMedication.reviewDate = value;
+                [medicationDetailsTableView reloadData];
+            };
+            return reviewDateCell;
+        }
         default:
             break;
     }
@@ -582,9 +591,9 @@
             return MEDICATION_NAME_ROW_COUNT;
         case eFirstSection:{
             NSInteger rowCount = self.selectedMedication.hasReviewDate ? 2 : 1 ;
-//            if ([self hasPickerForIndexPath:in]) {
-//                rowCount ++;
-//            }
+            if (reviewDatePickerExpanded) {
+                rowCount ++;
+            }
             return rowCount;
         }
         case eSecondSection:
@@ -831,8 +840,17 @@
             [self displayMedicationSearchListView];
             break;
         case eFirstSection:{
-            if(self.selectedMedication.hasReviewDate) {
-                
+            if (indexPath.row == 1 && self.selectedMedication.hasReviewDate){
+                if (reviewDatePickerExpanded) {
+                    // display the date picker inline with the table content
+                    reviewDatePickerExpanded = NO;
+                    [medicationDetailsTableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:1]]
+                                                      withRowAnimation:UITableViewRowAnimationFade];
+                } else {
+                    reviewDatePickerExpanded = YES;
+                    [medicationDetailsTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:1]]
+                                                      withRowAnimation:UITableViewRowAnimationFade];
+                }
             }
             break;
         }
@@ -1163,6 +1181,10 @@
             nameHeight = (nameHeight < TABLE_CELL_DEFAULT_ROW_HEIGHT) ? TABLE_CELL_DEFAULT_ROW_HEIGHT : nameHeight;
         }
         return nameHeight;
+    }else if (indexPath.section == eFirstSection){
+        if (indexPath.row == 2) {
+            return PICKER_VIEW_CELL_HEIGHT ;
+        }
     } else if (indexPath.section == eThirdSection){
         if (!showWarnings) {
             return ([self indexPathHasPicker:indexPath] ? PICKER_VIEW_CELL_HEIGHT : medicationDetailsTableView.rowHeight);
