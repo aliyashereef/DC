@@ -29,7 +29,7 @@ let PREVIEW_SECTION_INDEX : NSInteger = 2
 
 typealias SelectedScheduling = DCScheduling? -> Void
 
-class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, AddMedicationDetailDelegate, SchedulingTimeCellDelegate, SchedulingDetailDelegate {
+class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SchedulingTimeCellDelegate, SchedulingDetailDelegate, AdministrationTimesDelegate {
 
     @IBOutlet weak var schedulingTableView: UITableView!
     
@@ -122,16 +122,28 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
 
     func presentAdministrationTimeView() {
         
+//        let storyBoard = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil)
+//        let medicationDetailViewController = storyBoard.instantiateViewControllerWithIdentifier(ADD_MEDICATION_DETAIL_STORYBOARD_ID) as? DCAddMedicationDetailViewController
+//        medicationDetailViewController!.delegate = self
+//        medicationDetailViewController?.selectedEntry = { value in
+//            DDLogDebug("Value is \(value)")
+//        }
+//        medicationDetailViewController!.detailType = eDetailAdministrationTime
+//        medicationDetailViewController!.contentArray = (self.scheduling?.type == SPECIFIC_TIMES) ? self.scheduling?.specificTimes?.administratingTimesArray : self.scheduling?.interval.administratingTimes
+//        self.configureNavigationBackButtonTitle()
+//        self.navigationController?.pushViewController(medicationDetailViewController!, animated: true)
+        
+        
         let storyBoard = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil)
-        let medicationDetailViewController = storyBoard.instantiateViewControllerWithIdentifier(ADD_MEDICATION_DETAIL_STORYBOARD_ID) as? DCAddMedicationDetailViewController
-        medicationDetailViewController!.delegate = self
-        medicationDetailViewController?.selectedEntry = { value in
-            DDLogDebug("Value is \(value)")
-        }
-        medicationDetailViewController!.detailType = eDetailAdministrationTime
-        medicationDetailViewController!.contentArray = (self.scheduling?.type == SPECIFIC_TIMES) ? self.scheduling?.specificTimes?.administratingTimesArray : self.scheduling?.interval.administratingTimes
+        let administrationTimesViewController = storyBoard.instantiateViewControllerWithIdentifier(ADMINISTRATION_TIMES_SB_ID) as? DCAdministrationTimesViewController
+        administrationTimesViewController!.delegate = self
+//        medicationDetailViewController?.selectedEntry = { value in
+//            DDLogDebug("Value is \(value)")
+//        }
+       // medicationDetailViewController!.detailType = eDetailAdministrationTime
+        administrationTimesViewController!.timeArray = ((self.scheduling?.type == SPECIFIC_TIMES) ? self.scheduling?.specificTimes?.administratingTimesArray : self.scheduling?.interval.administratingTimes)!
         self.configureNavigationBackButtonTitle()
-        self.navigationController?.pushViewController(medicationDetailViewController!, animated: true)
+        self.navigationController?.pushViewController(administrationTimesViewController!, animated: true)
     }
     
     func frequencyCellAtIndexPath(indexPath : NSIndexPath) -> DCSchedulingCell {
@@ -669,7 +681,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
     
     //MARK: Add Medication Detail Delegate Methods
     
-    func updatedAdministrationTimeArray(timeArray: [AnyObject]!) {
+    func updatedAdministrationTimeArray(timeArray : NSArray) {
         
         //new administration time added
         let newTimeArray = NSMutableArray(array: timeArray)

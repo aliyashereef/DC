@@ -137,6 +137,7 @@
 #define WARDS_INFORMATION_SBID @"wardsInformationViewController"
 #define ROUTE_STORYBOARD_ID @"RouteViewController"
 #define INJECTION_REGION_SB_ID @"InjectionRegionView"
+#define ADMINISTRATION_TIMES_SB_ID "AdministrationTimesView"
 
 
 //Nib files
@@ -216,6 +217,7 @@
 #define SLOW_BOLUS_CELL_ID @"SlowBolusCell"
 #define INJECTION_CELL_ID @"InjectionCellId"
 #define INFUSION_PICKER_CELL_ID @"InfusionPickerCellId"
+#define ADMINISTRATION_TIMES_CELLID @"AdministrationTimesCellId"
 
 // Week days
 
@@ -543,6 +545,9 @@
 #define ADD_NEW_TIME @"Add New Time"
 #define TIME_KEY @"time"
 #define UNTIL_TITLE @"Until"
+
+//Administration times
+ #define SELECTED_KEY @"selected"
 
 //Infusions
 #define BOLUS_INJECTION @"Bolus injection"

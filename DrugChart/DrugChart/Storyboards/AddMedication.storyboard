@@ -591,6 +591,37 @@
             </objects>
             <point key="canvasLocation" x="3550" y="-258"/>
         </scene>
+        <!--Administration Times View Controller-->
+        <scene sceneID="N7L-GD-CCj">
+            <objects>
+                <tableViewController storyboardIdentifier="AdministrationTimesView" id="u9G-OQ-OCh" customClass="DCAdministrationTimesViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="HBs-7l-5Ci">
+                        <rect key="frame" x="0.0" y="0.0" width="310" height="690"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AdministrationTimesCellId" id="a8r-iI-IGC">
+                                <rect key="frame" x="0.0" y="114" width="310" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="a8r-iI-IGC" id="8hU-Oc-Zfl">
+                                    <rect key="frame" x="0.0" y="0.0" width="310" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="u9G-OQ-OCh" id="LJH-hx-XGE"/>
+                            <outlet property="delegate" destination="u9G-OQ-OCh" id="DqQ-HU-CSN"/>
+                        </connections>
+                    </tableView>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="310" height="690"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ayo-eB-70e" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4037" y="-226"/>
+        </scene>
         <!--Warnings List View Controller-->
         <scene sceneID="xBT-dW-8Tm">
             <objects>
