@@ -1192,6 +1192,14 @@
     
     //shrink already opened date picker cell
     [self resignKeyboard];
+    if (indexPath.section != eFirstSection){
+        if (reviewDatePickerExpanded) {
+            // display the date picker inline with the table content
+            reviewDatePickerExpanded = NO;
+            [medicationDetailsTableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:1]]
+                                              withRowAnimation:UITableViewRowAnimationFade];
+        }
+    }
     if ((indexPath.section != _datePickerIndexPath.section)) {
          [self collapseOpenedPickerCell];
     } else {
