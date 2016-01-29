@@ -82,9 +82,6 @@ typedef enum : NSUInteger {
     eDetailDosage,
     eDetailRoute,
     eDetailType,
-    //eDetailAdministrationTime,
-    //eNewDosage,
-   // eNewAdministrationTime,
     eOverrideReason,
     
 } AddMedicationDetailType;

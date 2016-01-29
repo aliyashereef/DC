@@ -573,9 +573,9 @@
     //display Warnings list view
     UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
     DCWarningsListViewController *warningsListViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:WARNINGS_LIST_STORYBOARD_ID];
-    [warningsListViewController populateWarningsListWithWarnings:warningsArray showOverrideView:NO];
     //warningsListViewController.backButtonText = titleLabel.text;
     [self configureNavigationBackButtonTitle];
+    [warningsListViewController populateWarningsListWithWarnings:warningsArray showOverrideView:NO];
     [self.navigationController pushViewController:warningsListViewController animated:YES];
 }
 
