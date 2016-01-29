@@ -68,8 +68,6 @@ typedef enum : NSUInteger {
     eWarningsCell,
     eMedicationDetailsCell,
     eSchedulingCell,
-    eAdministratingTimeCell,
-    eRepeatCell
 } CellType;
 
 @interface DCAddMedicationHelper : NSObject
@@ -79,8 +77,6 @@ typedef enum : NSUInteger {
 + (CGFloat)heightForMedicineName:(NSString *)medicine;
 
 + (NSMutableArray *)timesArrayFromScheduleArray:(NSArray *)scheduleArray;
-
-+ (CellType)cellTypeForSpecificTimesSchedulingAtIndexPath:(NSIndexPath *)indexPath;
 
 + (AddMedicationDetailType)medicationDetailTypeForIndexPath:(NSIndexPath *)indexPath hasWarnings:(BOOL)showWarnings;
 

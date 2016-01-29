@@ -30,6 +30,27 @@ let SECOND_INDEX = 1
    // var backButtonText : NSString = EMPTY_STRING
     var delegate: WarningsDelegate?
     
+    
+    // MARK: Life Cycle Methods
+    override func viewDidLoad() {
+        
+        super.viewDidLoad()
+        configureViewElements();
+        self.edgesForExtendedLayout = UIRectEdge.None
+        
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        
+        super.viewDidAppear(true)
+        warningsTableView!.reloadData()
+    }
+        
+    override func didReceiveMemoryWarning() {
+        
+        super.didReceiveMemoryWarning()
+    }
+    
     //MARK: Public Methods
     
     func populateWarningsListWithWarnings(warnings : [Dictionary<String, AnyObject>], showOverrideView : Bool)  {
@@ -43,31 +64,7 @@ let SECOND_INDEX = 1
         }
         warningsTableView? .reloadData();
     }
-    
-    // MARK: Life Cycle Methods
-    override func viewDidLoad() {
-        
-        configureViewElements();
-        self.edgesForExtendedLayout = UIRectEdge.None
-        super.viewDidLoad()
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        
-        super.viewDidAppear(true)
-        warningsTableView!.reloadData()
-    }
-    
-//    override func viewWillAppear(animated: Bool) {
-//        
-//        super.viewWillAppear(animated)
-//        DCUtility.backButtonItemForViewController(self, inNavigationController: self.navigationController, withTitle: backButtonText as String)
-//    }
-    
-    override func didReceiveMemoryWarning() {
-        
-        super.didReceiveMemoryWarning()
-    }
+
     
     // MARK: Private Methods
     
@@ -90,13 +87,6 @@ let SECOND_INDEX = 1
         }
     }
     
-    func calculatedTableCellHeightForWarning(warning : DCWarning) -> CGFloat {
-        
-        var textHeight : CGFloat = ROW_OFFSET_VALUE
-        textHeight += DCUtility.heightValueForText(warning.title, withFont: UIFont.systemFontOfSize(15.0), maxWidth: MAX_WIDTH)
-        textHeight += DCUtility.heightValueForText(warning.detail, withFont: UIFont.systemFontOfSize(12.0), maxWidth: MAX_WIDTH)
-        return textHeight
-    }
     
     // MARK: TableView Methods
     
@@ -116,7 +106,7 @@ let SECOND_INDEX = 1
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if section == INITIAL_INDEX {
+        if section == SectionCount.eZerothSection.rawValue {
             if severeArray?.count > 0 {
                 return severeArray!.count
             } else {
@@ -135,7 +125,7 @@ let SECOND_INDEX = 1
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell : DCWarningsCell = (tableView.dequeueReusableCellWithIdentifier(WARNINGS_CELL_ID) as? DCWarningsCell)!
-        if indexPath.section == INITIAL_INDEX {
+        if indexPath.section == SectionCount.eZerothSection.rawValue {
             if severeArray?.count > 0 {
             if let warning = severeArray?[indexPath.row]! as? DCWarning {
                 cell.populateWarningsCellWithWarningsObject(warning)
@@ -160,24 +150,19 @@ let SECOND_INDEX = 1
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        var sectionIndex : NSInteger = 0
-        if section == INITIAL_INDEX {
-            if severeArray?.count > 0 {
-                sectionIndex = 0
-            } else {
-                if mildArray?.count > 0 {
-                    sectionIndex = 1
-                }
-            }
-        } else {
-            if mildArray?.count > 0 {
-                sectionIndex = 1
-            }
-        }
         let warningsHeaderView = NSBundle.mainBundle().loadNibNamed(WARNINGS_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCWarningsHeaderView
-        warningsHeaderView?.configureHeaderViewForSection(sectionIndex)
+        warningsHeaderView?.configureHeaderViewForSection(section)
         return warningsHeaderView
     }
+    
+//    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        
+//        if section == SectionCount.eZerothSection.rawValue {
+//            return NSLocalizedString("SEVERE", comment: "Severe Warnings title")
+//        } else {
+//            return NSLocalizedString("MILD", comment: "Mild Warnings title")
+//        }
+//    }
     
     // MARK: Action Methods
     
