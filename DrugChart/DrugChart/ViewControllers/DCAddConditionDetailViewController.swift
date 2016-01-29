@@ -116,15 +116,15 @@ class DCAddConditionDetailViewController: UIViewController, UITableViewDataSourc
         let addNewDosageViewController : DCAddNewDoseAndTimeViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(ADD_NEW_DOSE_TIME_SBID) as? DCAddNewDoseAndTimeViewController
         addNewDosageViewController?.detailType = eAddNewDose
         addNewDosageViewController!.newDosageEntered = { value in
+            self.previousSelectedValue = "\(value!) mg"
+            self.valueForDoseSelected("\(value!) mg")
             if self.detailType == eDoseChange {
                 if !self.doseArrayForChange.contains("\(value!) mg") {
-                    self.valueForDoseSelected("\(value!) mg")
                     self.doseArrayForChange.append("\(value!) mg")
                     self.doseArrayForChange =  self.doseArrayForChange.sort { NSString(string: $0).floatValue > NSString(string: $1).floatValue }
                 }
             } else {
                 if !self.doseArrayForUntil.contains("\(value!) mg") {
-                    self.valueForDoseSelected("\(value!) mg")
                     self.doseArrayForUntil.append("\(value!) mg")
                     self.doseArrayForUntil =  self.doseArrayForUntil.sort { NSString(string: $0).floatValue > NSString(string: $1).floatValue }
                 }
