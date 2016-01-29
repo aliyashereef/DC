@@ -551,7 +551,7 @@ class DCInfusionViewController: UIViewController, UITableViewDelegate, UITableVi
         } else if (self.infusion?.administerAsOption == DURATION_BASED_INFUSION) {
             injectionRegionViewController?.previousRegion = infusion?.durationInfusion?.injectionRegion
         } else if (self.infusion?.administerAsOption == RATE_BASED_INFUSION) {
-            self.infusion?.rateInfusion?.injectionRegion = infusion?.rateInfusion?.injectionRegion
+            injectionRegionViewController?.previousRegion = infusion?.rateInfusion?.injectionRegion
         }
         injectionRegionViewController?.injectionRegion = { region in
             if (self.infusion?.administerAsOption == BOLUS_INJECTION) {
