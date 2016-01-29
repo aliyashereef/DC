@@ -546,7 +546,13 @@ class DCInfusionViewController: UIViewController, UITableViewDelegate, UITableVi
         //injection region view
         let addMedicationStoryboard = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil)
         let injectionRegionViewController = addMedicationStoryboard.instantiateViewControllerWithIdentifier(INJECTION_REGION_SB_ID) as? DCInjectionRegionViewController
-        injectionRegionViewController?.previousRegion = infusion?.bolusInjection?.injectionRegion
+        if (self.infusion?.administerAsOption == BOLUS_INJECTION) {
+            injectionRegionViewController?.previousRegion = infusion?.bolusInjection?.injectionRegion
+        } else if (self.infusion?.administerAsOption == DURATION_BASED_INFUSION) {
+            injectionRegionViewController?.previousRegion = infusion?.durationInfusion?.injectionRegion
+        } else if (self.infusion?.administerAsOption == RATE_BASED_INFUSION) {
+            self.infusion?.rateInfusion?.injectionRegion = infusion?.rateInfusion?.injectionRegion
+        }
         injectionRegionViewController?.injectionRegion = { region in
             if (self.infusion?.administerAsOption == BOLUS_INJECTION) {
                 self.infusion?.bolusInjection?.injectionRegion = region

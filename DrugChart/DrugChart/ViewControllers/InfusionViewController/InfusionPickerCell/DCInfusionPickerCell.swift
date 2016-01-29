@@ -52,14 +52,7 @@ class DCInfusionPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewD
         contentArray = DCSchedulingHelper.numbersArrayWithMaximumCount(250)
         pickerView.reloadAllComponents()
         if (previousValue == nil) {
-            var initialValue : NSString = EMPTY_STRING
-            if (infusionPickerType == eFlowDuration) {
-                initialValue = "1 hour"
-            } else if (infusionPickerType == eRateStarting) {
-                initialValue = "1 mg/Hour"
-            } else {
-                initialValue = ONE
-            }
+            let initialValue = DCInfusionsHelper.infusionPickerInitialValueForPickerType(infusionPickerType)
             selectionCompletion(initialValue as String)
             pickerView.selectRow(PickerRowCount.eZerothRow.rawValue, inComponent: PickerComponentsCount.eZerothComponent.rawValue, animated: true)
         } else {
@@ -68,13 +61,11 @@ class DCInfusionPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewD
                 pickerView.selectRow(selectedIndex! - 1, inComponent: PickerComponentsCount.eZerothComponent.rawValue, animated: true);
             } else {
                 if let flowValue = previousValue {
-                    NSLog("previousValue is %@", flowValue)
                     let previousArray = flowValue.componentsSeparatedByString(" ")
                     let initialComponentValue = previousArray[0]
                     let initialIndex = contentArray?.indexOfObject(Int(initialComponentValue)!)
                     [pickerView .selectRow(initialIndex!, inComponent: PickerComponentsCount.eZerothComponent.rawValue, animated: true)]
                     let finalComponentValue = previousArray[1]
-                    NSLog("finalComponentValue is %@", finalComponentValue)
                     if (infusionPickerType == eFlowDuration || infusionPickerType == eRateStarting) {
                         let secondComponentRowIndex : NSInteger
                         if (infusionPickerType == eFlowDuration) {

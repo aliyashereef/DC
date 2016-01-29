@@ -69,17 +69,26 @@ class DCInfusionsHelper: NSObject {
                 hidePicker = true
             }
         } else if (option == DURATION_BASED_INFUSION || option == RATE_BASED_INFUSION) {
-//            if (cellIndexPath.section != SectionCount.eFirstSection.rawValue) {
-//                hidePicker = true
-//            } else
-//            NSLog("cellIndexPath.section is %d", cellIndexPath.section)
-//            NSLog("cellIndexPath.row is %d", cellIndexPath.row)
-//            NSLog("pickerIndexPath.row is %d", pickerIndexPath.row)
             if (cellIndexPath.section != SectionCount.eFirstSection.rawValue && cellIndexPath.row != pickerIndexPath.row - 1) {
+                hidePicker = true
+            } else if (cellIndexPath.section != pickerIndexPath.section) {
                 hidePicker = true
             }
         }
       return hidePicker
+    }
+    
+    static func infusionPickerInitialValueForPickerType(pickerType : InfusionPickerType?) -> NSString {
+        
+        var initialValue : NSString = EMPTY_STRING
+        if (pickerType == eFlowDuration) {
+            initialValue = "1 hour"
+        } else if (pickerType == eRateStarting) {
+            initialValue = "1 mg/Hour"
+        } else {
+            initialValue = ONE
+        }
+        return initialValue
     }
     
 }
