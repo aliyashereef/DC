@@ -14,15 +14,18 @@ class DCDosageHelper: NSObject {
         var nextDoseValue = newStartingDose
         var stringForNextPreviewDetail : String = ""
         var previewDetails = [String]()
+        var nextDoseValueString : String = ""
         if conditions.change == REDUCING {
             while nextDoseValue > NSString(string: conditions.until).floatValue {
-                stringForNextPreviewDetail = "\(nextDoseValue) \(unit) for \(conditions.every)"
+                nextDoseValueString = String(format: nextDoseValue == floor(nextDoseValue) ? "%.0f" : "%.1f", nextDoseValue)
+                stringForNextPreviewDetail = "\(nextDoseValueString) \(unit) for \(conditions.every)"
                 previewDetails.append(stringForNextPreviewDetail)
                 nextDoseValue = nextDoseValue - NSString(string: conditions.dose).floatValue
             }
         } else {
             while nextDoseValue < NSString(string: conditions.until).floatValue {
-                stringForNextPreviewDetail = "\(nextDoseValue) \(unit) for \(conditions.every)"
+                nextDoseValueString = String(format: nextDoseValue == floor(nextDoseValue) ? "%.0f" : "%.1f", nextDoseValue)
+                stringForNextPreviewDetail = "\(nextDoseValueString) \(unit) for \(conditions.every)"
                 previewDetails.append(stringForNextPreviewDetail)
                 nextDoseValue = nextDoseValue + NSString(string: conditions.dose).floatValue
             }

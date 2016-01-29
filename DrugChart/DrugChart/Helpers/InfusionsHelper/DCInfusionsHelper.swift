@@ -16,10 +16,8 @@ class DCInfusionsHelper: NSObject {
         if let option = administerOption {
             if (option == BOLUS_INJECTION) {
                 return SectionCount.eSecondSection.rawValue
-            } else if (option == DURATION_BASED_INFUSION) {
-                return SectionCount.eThirdSection.rawValue
             } else {
-                return SectionCount.eFirstSection.rawValue
+                return SectionCount.eThirdSection.rawValue
             }
         } else {
             return SectionCount.eFirstSection.rawValue
@@ -48,9 +46,9 @@ class DCInfusionsHelper: NSObject {
                 }
                 let doseUnit = (dosage?.doseUnit != nil) ? (dosage?.doseUnit)! : "mg"
                 if (durationUnit.containsString(HOUR)) {
-                    displayText.appendFormat("%.1f %@/hr", flowRate, doseUnit)
+                    displayText.appendFormat("%.1f %@/hour", flowRate, doseUnit)
                 } else {
-                    displayText.appendFormat("%.1f %@/min", flowRate, doseUnit)
+                    displayText.appendFormat("%.1f %@/minute", flowRate, doseUnit)
                 }
             }
         }
@@ -61,6 +59,36 @@ class DCInfusionsHelper: NSObject {
         
         let flowRate  = NSString(string: dose!).floatValue / NSString(string: duration!).floatValue
         return flowRate
+    }
+    
+    static func hideInlinePickerViewAtIndexIndexPath(pickerIndexPath : NSIndexPath, forSelectedCellAtIndexPath cellIndexPath : NSIndexPath, withAdministerOption option : NSString) -> Bool {
+        
+        var hidePicker = false
+        if (option == BOLUS_INJECTION) {
+            if(cellIndexPath.row != pickerIndexPath.row - 1) {
+                hidePicker = true
+            }
+        } else if (option == DURATION_BASED_INFUSION || option == RATE_BASED_INFUSION) {
+            if (cellIndexPath.section != SectionCount.eFirstSection.rawValue && cellIndexPath.row != pickerIndexPath.row - 1) {
+                hidePicker = true
+            } else if (cellIndexPath.section != pickerIndexPath.section) {
+                hidePicker = true
+            }
+        }
+      return hidePicker
+    }
+    
+    static func infusionPickerInitialValueForPickerType(pickerType : InfusionPickerType?) -> NSString {
+        
+        var initialValue : NSString = EMPTY_STRING
+        if (pickerType == eFlowDuration) {
+            initialValue = "1 hour"
+        } else if (pickerType == eRateStarting) {
+            initialValue = "1 mg/Hour"
+        } else {
+            initialValue = ONE
+        }
+        return initialValue
     }
     
 }

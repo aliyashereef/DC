@@ -25,14 +25,14 @@ enum PickerRowCount : NSInteger {
 }
 
 
-typealias InfusionUnitCompletion = String? -> Void
+typealias InfusionPickerCompletion = String? -> Void
 
 class DCInfusionPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource {
 
     @IBOutlet weak var pickerView: UIPickerView!
     
     var contentArray : NSMutableArray?
-    var unitCompletion : InfusionUnitCompletion = { value in }
+    var selectionCompletion : InfusionPickerCompletion = { value in }
     var previousValue : String?
     var infusionPickerType : InfusionPickerType?
     
@@ -52,29 +52,38 @@ class DCInfusionPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewD
         contentArray = DCSchedulingHelper.numbersArrayWithMaximumCount(250)
         pickerView.reloadAllComponents()
         if (previousValue == nil) {
-            let initialValue = (infusionPickerType! == eUnit) ? ONE : "1 hour"
-            unitCompletion(initialValue)
+            let initialValue = DCInfusionsHelper.infusionPickerInitialValueForPickerType(infusionPickerType)
+            selectionCompletion(initialValue as String)
             pickerView.selectRow(PickerRowCount.eZerothRow.rawValue, inComponent: PickerComponentsCount.eZerothComponent.rawValue, animated: true)
         } else {
-            if (infusionPickerType! == eUnit) {
+            if (infusionPickerType == eUnit || infusionPickerType == eRateNormal) {
                 let selectedIndex = Int(previousValue!)
                 pickerView.selectRow(selectedIndex! - 1, inComponent: PickerComponentsCount.eZerothComponent.rawValue, animated: true);
             } else {
                 if let flowValue = previousValue {
-                    if let range = flowValue.rangeOfString(" ") {
-                        let flowDuration = flowValue.substringToIndex(range.startIndex)
-                        let selectedIndex = contentArray?.indexOfObject(Int(flowDuration)!)
-                        [pickerView .selectRow(selectedIndex!, inComponent: PickerComponentsCount.eZerothComponent.rawValue, animated: true)]
+                    let previousArray = flowValue.componentsSeparatedByString(" ")
+                    let initialComponentValue = previousArray[0]
+                    let initialIndex = contentArray?.indexOfObject(Int(initialComponentValue)!)
+                    [pickerView .selectRow(initialIndex!, inComponent: PickerComponentsCount.eZerothComponent.rawValue, animated: true)]
+                    let finalComponentValue = previousArray[1]
+                    if (infusionPickerType == eFlowDuration || infusionPickerType == eRateStarting) {
+                        let secondComponentRowIndex : NSInteger
+                        if (infusionPickerType == eFlowDuration) {
+                            secondComponentRowIndex = (finalComponentValue == HOUR || finalComponentValue == HOURS) ? PickerRowCount.eZerothRow.rawValue : PickerRowCount.eFirstRow.rawValue
+                        } else {
+                            secondComponentRowIndex = (finalComponentValue == MG_PER_HOUR) ? PickerRowCount.eZerothRow.rawValue : PickerRowCount.eFirstRow.rawValue
+                        }
+                        [pickerView .selectRow(secondComponentRowIndex, inComponent: PickerComponentsCount.eFirstComponent.rawValue, animated: true)]
                     }
                 }
             }
-            unitCompletion(previousValue)
+            selectionCompletion(previousValue)
         }
     }
     
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
         
-        return  (infusionPickerType! == eUnit) ? PickerComponentsCount.eFirstComponent.rawValue : PickerComponentsCount.eSecondComponent.rawValue
+        return  (infusionPickerType == eFlowDuration || infusionPickerType == eRateStarting) ? PickerComponentsCount.eSecondComponent.rawValue : PickerComponentsCount.eFirstComponent.rawValue
     }
     
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
@@ -94,9 +103,17 @@ class DCInfusionPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewD
         } else {
             let firstComponentValue = contentArray?.objectAtIndex(pickerView.selectedRowInComponent(PickerRowCount.eZerothRow.rawValue))
             if row == PickerRowCount.eZerothRow.rawValue {
-                return (firstComponentValue === 1) ? HOUR : HOURS
+                if (infusionPickerType == eFlowDuration) {
+                    return (firstComponentValue === 1) ? HOUR : HOURS
+                } else {
+                    return MG_PER_HOUR
+                }
             } else {
-                return (firstComponentValue === 1) ? MINUTE : MINUTES
+                if (infusionPickerType == eFlowDuration) {
+                    return (firstComponentValue === 1) ? MINUTE : MINUTES
+                } else {
+                    return MG_PER_MINUTE
+                }
             }
         }
     }
@@ -104,25 +121,33 @@ class DCInfusionPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewD
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
         let content = NSMutableString()
-        let value = contentArray?.objectAtIndex(row) as! NSNumber
+        let value = contentArray!.objectAtIndex(pickerView.selectedRowInComponent(0))
         content.appendString("\(value)")
         if (pickerView.numberOfComponents > PickerComponentsCount.eFirstComponent.rawValue) {
             let selectedRow = pickerView.selectedRowInComponent(PickerComponentsCount.eFirstComponent.rawValue)
-            if (selectedRow == 0) {
-                if (content == ONE) {
-                    content.appendFormat(" %@", HOUR)
+            if (infusionPickerType == eFlowDuration) {
+                if (selectedRow == 0) {
+                    if (content == ONE) {
+                        content.appendFormat(" %@", HOUR)
+                    } else {
+                        content.appendFormat(" %@", HOURS)
+                    }
                 } else {
-                    content.appendFormat(" %@", HOURS)
+                    if (content == ONE) {
+                        content.appendFormat(" %@", MINUTE)
+                    } else {
+                        content.appendFormat(" %@", MINUTES)
+                    }
                 }
             } else {
-                if (content == ONE) {
-                    content.appendFormat(" %@", MINUTE)
+                if (selectedRow == 0) {
+                    content.appendFormat(" %@", MG_PER_HOUR)
                 } else {
-                    content.appendFormat(" %@", MINUTES)
+                    content.appendFormat(" %@", MG_PER_MINUTE)
                 }
             }
             pickerView.reloadAllComponents()
         }
-        unitCompletion(content as String)
+        selectionCompletion(content as String)
     }
 }

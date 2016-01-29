@@ -18,10 +18,9 @@ protocol DataEnteredDelegate: class {
 class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var dosageDetailTableView: UITableView!
-    let dosageUnitItems = ["mg","ml","%"]
     let changeOverItemsArray = ["Days","Doses"]
     var conditionsItemsArray = ["Reduce 50 mg every day"]
-    var doseForTimeArray = ["250","100","50","30","20","10"]
+    var doseForTimeArray = [String]()
     var detailType : DosageDetailType = eDoseUnit
     var viewTitleForDisplay : NSString = ""
     var previousSelectedValue : NSString = ""
@@ -196,8 +195,21 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
         let addNewDosageViewController : DCAddNewDoseAndTimeViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(ADD_NEW_DOSE_TIME_SBID) as? DCAddNewDoseAndTimeViewController
         addNewDosageViewController?.detailType = eAddNewDose
         addNewDosageViewController!.newDosageEntered = { value in
-            self.delegate?.newDosageAdded(value!)
-            self.navigationController?.popViewControllerAnimated(true)
+//            self.navigationController?.popViewControllerAnimated(true)
+            if self.detailType == eAddDoseForTime {
+                if !self.doseForTimeArray.contains(value!) {
+                    self.doseForTimeArray.append(value!)
+                    self.doseForTimeArray =  self.doseForTimeArray.sort { NSString(string: $0).floatValue > NSString(string: $1).floatValue }
+                    self.delegate?.newDosageAdded(value!)
+                }
+            } else {
+                if !self.dosageDetailsArray.contains(value!) {
+                    self.dosageDetailsArray.append(value!)
+                    self.dosageDetailsArray =  self.dosageDetailsArray.sort { NSString(string: $0).floatValue > NSString(string: $1).floatValue }
+                    self.delegate?.newDosageAdded(value!)
+                }
+            }
+            self.dosageDetailTableView.reloadData()
         }
         let navigationController: UINavigationController = UINavigationController(rootViewController: addNewDosageViewController!)
         navigationController.modalPresentationStyle = UIModalPresentationStyle.CurrentContext

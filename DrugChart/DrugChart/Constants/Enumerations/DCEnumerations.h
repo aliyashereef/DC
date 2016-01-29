@@ -159,7 +159,9 @@ typedef enum : NSUInteger {
 typedef enum : NSUInteger {
     
     eUnit,
-    eFlowDuration
+    eFlowDuration,
+    eRateStarting,
+    eRateNormal
 }InfusionPickerType;
 
 

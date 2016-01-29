@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DCInjection.h"
 
-@interface DCRateInfusion : NSObject
+@interface DCRateInfusion : DCInjection
 
 @property (nonatomic, strong) NSString *startingRate;
 @property (nonatomic, strong) NSString *minimumRate;

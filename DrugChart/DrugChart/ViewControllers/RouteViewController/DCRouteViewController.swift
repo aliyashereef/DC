@@ -8,16 +8,16 @@
 
 import UIKit
 
-@objc public protocol RoutesAndInfusionsDelegate {
+@objc public protocol RoutesDelegate {
     
     func newRouteSelected(route : NSString)
     func updatedInfusionObject(infusion : DCInfusion)
 }
 
-class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, InfusionAdministerDelegate {
+class DCRouteViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, InfusionDelegate {
 
     @IBOutlet weak var routesTableView: UITableView!
-    var delegate : RoutesAndInfusionsDelegate?
+    var delegate : RoutesDelegate?
     var routesArray : NSMutableArray = []
     var previousRoute : String = EMPTY_STRING
     var infusion : DCInfusion?
@@ -135,7 +135,7 @@ class DCRouteAndInfusionsViewController: UIViewController, UITableViewDelegate, 
         
         //display administer as options view
         let addMedicationStoryBoard : UIStoryboard = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil)
-        let administerOptionsViewController  = addMedicationStoryBoard.instantiateViewControllerWithIdentifier(INFUSIONS_ADMINISTER_OPTIONS_SB_ID) as? DCInfusionsAdministerAsViewController
+        let administerOptionsViewController  = addMedicationStoryBoard.instantiateViewControllerWithIdentifier(INFUSIONS_STORYBOARD_ID) as? DCInfusionViewController
         administerOptionsViewController!.previousAdministerOption = infusion?.administerAsOption
         administerOptionsViewController!.infusion = infusion
         administerOptionsViewController!.dosage = dosage
