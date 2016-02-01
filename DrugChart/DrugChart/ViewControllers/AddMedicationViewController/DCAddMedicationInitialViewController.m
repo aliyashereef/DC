@@ -226,7 +226,7 @@
         case eFirstSection:{
             static NSString *cellIdentifier = ADD_MEDICATION_CONTENT_CELL;
             DCAddMedicationContentCell *cell = [medicationDetailsTableView dequeueReusableCellWithIdentifier:cellIdentifier];
-            cell.titleLabel.text = NSLocalizedString(@"DATE", @"Date cell title");
+            cell.titleLabel.text = NSLocalizedString(@"Frequency", @"Date cell title");
             [cell configureContentCellWithContent:self.selectedMedication.reviewDate];
             return cell;
         }
@@ -260,9 +260,10 @@
             [indexpaths addObject:_datePickerIndexPath];
             _datePickerIndexPath = nil;
         }
+        _selectedMedication.hasReviewDate = NO;
         DCDateTableViewCell *tableCell = (DCDateTableViewCell *)[medicationDetailsTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:reviewDateIndexPath.section]];
         [tableCell.noEndDateSwitch setUserInteractionEnabled:NO];
-        [self deleteEndDateCellAfterDelay:tableCell withEndDateIndexPath:reviewDateIndexPath];
+        [self deleteReviewDateCellAfterDelay:tableCell withIndexPath:reviewDateIndexPath];
     } else {
         NSIndexPath *reviewDateIndexPath;
         reviewDateIndexPath = [NSIndexPath indexPathForRow:1 inSection:eFirstSection];
@@ -473,6 +474,24 @@
 - (void)deleteEndDateCellAfterDelay:(DCDateTableViewCell *)tableCell withEndDateIndexPath:(NSIndexPath *)endDateIndexPath {
     
     NSMutableArray *indexpaths = [NSMutableArray arrayWithArray:@[endDateIndexPath]];
+    [medicationDetailsTableView deleteRowsAtIndexPaths:indexpaths
+                                      withRowAnimation:UITableViewRowAnimationRight];
+    double delayInSeconds = 0.2;
+    dispatch_time_t deleteTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(deleteTime, dispatch_get_main_queue(), ^(void){
+        [self enableNoEndDateCellAfterDelay:tableCell];
+    });
+}
+
+- (void)deleteReviewDateCellAfterDelay:(DCDateTableViewCell *)tableCell withIndexPath:(NSIndexPath *)reviewDateIndexPath {
+    NSMutableArray *indexpaths;
+    if (reviewDatePickerExpanded) {
+        reviewDatePickerExpanded = NO;
+        NSIndexPath *datePickerIndexPath = [NSIndexPath indexPathForRow:2 inSection:1];
+        indexpaths = [NSMutableArray arrayWithArray:@[reviewDateIndexPath,datePickerIndexPath]];
+    } else {
+        indexpaths = [NSMutableArray arrayWithArray:@[reviewDateIndexPath]];
+    }
     [medicationDetailsTableView deleteRowsAtIndexPaths:indexpaths
                                       withRowAnimation:UITableViewRowAnimationRight];
     double delayInSeconds = 0.2;
