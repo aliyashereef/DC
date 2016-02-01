@@ -11,9 +11,18 @@ protocol CellDelegate
 {
     func moveNext(rowNumber:Int)
     func movePrevious(rowNumber:Int)
+    func selectedCell(cell:UICollectionViewCell)
 }
 protocol ButtonAction
 {
     func nextButtonAction()
     func previousButtonAction()
+}
+
+
+extension CellDelegate
+{
+    func moveNext(rowNumber:Int){}
+    func movePrevious(rowNumber:Int){}
+    func selectedCell(cell:UICollectionViewCell){}
 }

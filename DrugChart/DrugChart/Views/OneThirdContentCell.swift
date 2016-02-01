@@ -15,8 +15,7 @@ class OneThirdContentCell: UITableViewCell {
     var showObservationType:ShowObservationType!
     var observation:VitalSignObservation!
     var delegate:ObservationDelegate? = nil
-    var deleteIcon: UILabel!
-    
+    var isDeletable:Bool = false
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -80,16 +79,6 @@ class OneThirdContentCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
-    func clearCell()
-    {
-        if(deleteIcon != nil)
-        {
-            deleteIcon.removeFromSuperview()
-        }
-        
-    }
-    
     func configureCell(showObservationType:ShowObservationType ,observation:VitalSignObservation )
     {
         self.showObservationType = showObservationType
@@ -98,24 +87,11 @@ class OneThirdContentCell: UITableViewCell {
         // add the delete button
         if(showObservationType != ShowObservationType.None && showObservationType != ShowObservationType.All && ObjectIsNotNull())
         {
-            
-            deleteIcon = UILabel()
-            let originx = self.frame.width - 25
-            deleteIcon.frame = CGRectMake(originx, 4, 25, 25)
-            deleteIcon.font = UIFont.systemFontOfSize(12)
-            deleteIcon.textAlignment = .Center
-            deleteIcon.text = "X"
-            deleteIcon.layer.borderWidth = 0.5
-            deleteIcon.layer.borderColor = UIColor.redColor().CGColor
-            deleteIcon.textColor = UIColor.redColor()
-            deleteIcon.backgroundColor = UIColor.whiteColor()
-            deleteIcon.layer.cornerRadius = 14
-            deleteIcon.layer.masksToBounds = true
-            self.addSubview(deleteIcon)
-            // add the event on label
-            let deleteGesture = UITapGestureRecognizer(target: self, action: "deleteObservation")
-            deleteIcon.userInteractionEnabled=true
-            deleteIcon.addGestureRecognizer(deleteGesture)
+            isDeletable = true
+        }
+        else
+        {
+            isDeletable = false
         }
     }
     
@@ -162,7 +138,8 @@ class OneThirdContentCell: UITableViewCell {
         }))
         
         deleteAlert.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: { (action: UIAlertAction!) in
-            print("in cancel")
+            let tableView =  self.superview?.superview as? UITableView
+            tableView?.editing = false
         }))
         
         delegate?.ShowAlertController(deleteAlert)
