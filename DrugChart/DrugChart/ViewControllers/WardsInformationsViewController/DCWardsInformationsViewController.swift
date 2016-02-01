@@ -12,6 +12,7 @@ class DCWardsInformationsViewController: DCBaseViewController, WardSelectionDele
     
     var viewTitle : NSString!
     
+    @IBOutlet var activityIndicatorView: UIActivityIndicatorView!
     var patientListArray : NSMutableArray = []
     var sortedPatientListArray : NSMutableArray = []
     var sortedSearchListArray : NSMutableArray = []

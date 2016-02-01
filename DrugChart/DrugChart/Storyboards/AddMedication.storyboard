@@ -601,10 +601,10 @@
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AdministrationTimesCellId" id="a8r-iI-IGC">
-                                <rect key="frame" x="0.0" y="114" width="310" height="44"/>
+                                <rect key="frame" x="0.0" y="113.5" width="310" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="a8r-iI-IGC" id="8hU-Oc-Zfl">
-                                    <rect key="frame" x="0.0" y="0.0" width="310" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="310" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -643,7 +643,7 @@
                                 </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="WarningsCell" rowHeight="80" id="dWV-mv-PfX" customClass="DCWarningsCell" customModule="DrugChart" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="50" width="310" height="80"/>
+                                        <rect key="frame" x="0.0" y="93.5" width="310" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dWV-mv-PfX" id="oof-uD-n9h">
                                             <rect key="frame" x="0.0" y="0.0" width="310" height="79"/>
@@ -1312,7 +1312,7 @@
                                 </connections>
                             </segmentedControl>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="42" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="9ht-ry-JsQ">
-                                <rect key="frame" x="0.0" y="49" width="310" height="812"/>
+                                <rect key="frame" x="0.0" y="49" width="310" height="751"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AddMedicationCell" rowHeight="42" id="5C1-eg-iHm" customClass="DCAddMedicationContentCell">
@@ -1616,7 +1616,7 @@
                             <constraint firstAttribute="trailing" secondItem="BiO-dD-m7K" secondAttribute="trailing" constant="22" id="D7F-NR-6ZK"/>
                             <constraint firstItem="BiO-dD-m7K" firstAttribute="leading" secondItem="N0F-A6-rZc" secondAttribute="leading" constant="22" id="E1A-TA-zfd"/>
                             <constraint firstAttribute="centerY" secondItem="lQ1-lm-LPM" secondAttribute="centerY" constant="49.5" id="GeQ-gZ-66w"/>
-                            <constraint firstItem="sz8-EN-ctg" firstAttribute="top" secondItem="9ht-ry-JsQ" secondAttribute="bottom" constant="-61" id="IL0-f5-Ewc"/>
+                            <constraint firstItem="sz8-EN-ctg" firstAttribute="top" secondItem="9ht-ry-JsQ" secondAttribute="bottom" id="IL0-f5-Ewc"/>
                             <constraint firstItem="9ht-ry-JsQ" firstAttribute="top" secondItem="BiO-dD-m7K" secondAttribute="bottom" constant="1" id="L6v-09-bHU"/>
                             <constraint firstAttribute="centerX" secondItem="lQ1-lm-LPM" secondAttribute="centerX" id="VVa-kH-ze5"/>
                             <constraint firstItem="BiO-dD-m7K" firstAttribute="top" secondItem="wzf-mH-6ew" secondAttribute="bottom" constant="20" id="e3D-9h-LCg"/>

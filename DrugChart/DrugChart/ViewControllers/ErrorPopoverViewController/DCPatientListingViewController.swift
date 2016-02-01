@@ -478,6 +478,8 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
     func fetchPatientDetails () {
         
         let helper : DCPatientDetailsHelper = DCPatientDetailsHelper()
+        self.wardsInformationViewController?.view.bringSubviewToFront((self.wardsInformationViewController?.activityIndicatorView)!)
+        self.wardsInformationViewController?.activityIndicatorView.startAnimating()
         self.activityIndicator.startAnimating()
         helper.fetchPatientsInWard(wardsListArray.objectAtIndex(selectedIndexPath.row) as! DCWard) { (error, array) -> Void in
             if error == nil {
@@ -495,8 +497,9 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
                 } else {
                         self.displayAlertWithTitle(NSLocalizedString("ERROR", comment: ""), message:NSLocalizedString("FETCH_FAILED", comment: ""))
                 }
-                self.activityIndicator.stopAnimating()
             }
+            self.activityIndicator.stopAnimating()
+            self.wardsInformationViewController?.activityIndicatorView.stopAnimating()
             self.refreshControl.endRefreshing()
         }
     }
