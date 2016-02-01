@@ -718,19 +718,22 @@ typedef enum : NSUInteger {
         detailViewController.patientId = self.patient.patientId;
         NSString *dateString = [DCDateUtility dateStringFromDate:date inFormat:SHORT_DATE_FORMAT];
         NSString *startDate = [self startDateStringFromDateString:medicationList.startDate];
-        if (([startDate compare:dateString] == NSOrderedAscending || [startDate compare:dateString] == NSOrderedSame) &&
-            ([medicationList.endDate compare:dateString] == NSOrderedDescending || [medicationList.endDate compare:dateString] == NSOrderedSame)) {
+        NSString *endDate = [self startDateStringFromDateString:medicationList.endDate];
+        
+        if ([startDate compare:dateString] == NSOrderedAscending || [startDate compare:dateString] == NSOrderedSame) {
+            if  ([endDate compare:dateString] == NSOrderedAscending || [endDate compare:dateString] == NSOrderedSame) {
                 if ([medicationList.medicineCategory isEqualToString:WHEN_REQUIRED] || [medicationList.medicineCategory isEqualToString:WHEN_REQUIRED_VALUE]) {
                     NSDate *today = [NSDate date];
                     NSCalendar *calendar = [NSCalendar currentCalendar];
                     NSComparisonResult order = [calendar compareDate:today toDate:date toUnitGranularity:NSCalendarUnitDay];
                     if (order == NSOrderedSame || _medicationSlotArray.count > 0) {
                         [self presentAdministrationViewController];
-                    } 
+                    }
                 } else {
                     [self presentAdministrationViewController];
                 }
             }
+        }
     }
 }
 

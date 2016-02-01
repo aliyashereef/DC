@@ -1398,7 +1398,7 @@
     double delayInSeconds = isNewMedication?  0.5 : 0.25;
     dispatch_time_t deleteTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
     dispatch_after(deleteTime, dispatch_get_main_queue(), ^(void){
-        [medicationDetailsTableView setContentOffset:CGPointMake(0,430) animated:YES];
+        [medicationDetailsTableView setContentOffset:CGPointMake(0,500) animated:YES];
     });
     isNewMedication = false;
 }
