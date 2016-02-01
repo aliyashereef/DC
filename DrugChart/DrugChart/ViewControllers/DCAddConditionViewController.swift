@@ -386,15 +386,16 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     func updateAlertMessageForMismatch() {
+        let newStartingDoseString : String = String(format: newStartingDose! == floor(newStartingDose!) ? "%.0f" : "%.1f", newStartingDose!)
         if (valueForChange == REDUCING) {
             if (newStartingDose <= NSString(string: valueForUntil).floatValue || NSString(string: valueForDose).floatValue <= 0) {
-                alertMessagForMismatch = "Mismatch in the condition. Please recheck the Starting and Until dose."
+                alertMessagForMismatch = "Starting dose for the condition is \(newStartingDoseString) \(self.dosage!.doseUnit). Please enter a valid value for Until."
             } else {
                 alertMessagForMismatch = ""
             }
         } else {
             if newStartingDose >= NSString(string: valueForUntil).floatValue || NSString(string: valueForDose).floatValue <= 0 || String(valueForUntil).characters.count >= 8 {
-                alertMessagForMismatch = "Mismatch in the condition. Please recheck the Until dose."
+                alertMessagForMismatch = "Starting dose for the condition is \(newStartingDoseString) \(self.dosage!.doseUnit). Please enter a valid value for Until."
             } else {
                 alertMessagForMismatch = ""
             }
