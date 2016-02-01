@@ -100,11 +100,40 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
         //Set the header as PREVIEW
-        if (section == 1 && self.previewDetails.count != 0) {
+        if section == 0 && alertMessagForMismatch != "" {
+            return alertMessagForMismatch
+        } else if (section == 1 && self.previewDetails.count != 0) {
             return "preview"
         } else {
             return nil
         }
+    }
+    
+    func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        
+        //Change text color to red and change text from full upper case to desired sentence.
+        if let view = view as? UITableViewHeaderFooterView {
+            
+            if (section == 0 && self.alertMessagForMismatch != "") {
+                view.textLabel!.font = UIFont.systemFontOfSize(14.0)
+                view.textLabel?.text = alertMessagForMismatch
+                view.textLabel?.textColor = UIColor.redColor()
+            } else {
+                view.textLabel?.textColor = UIColor.grayColor()
+            }
+        }
+    }
+
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
+        if section == 0 {
+            if alertMessagForMismatch != "" {
+                return 44
+            } else {
+                return 0
+            }
+        }
+        return 44
     }
     
     func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
@@ -113,15 +142,9 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
         if section == 0 {
             if (self.previewDetails.count != 0 && self.validateTheAddConditionValues()) {
                 return DCDosageHelper.createDescriptionStringForDosageCondition(conditionItem!, dosageUnit: (self.dosage?.doseUnit)!)
-            } else if alertMessagForMismatch != "" {
-                return alertMessagForMismatch
             }
-            else {
-                return nil
-            }
-        }else {
-            return nil
         }
+        return nil
     }
     
     func tableView(tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
@@ -137,8 +160,6 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
         if section == 0 {
             if (self.previewDetails.count != 0 && self.validateTheAddConditionValues()) {
                 return HEADER_VIEW_MIN_HEIGHT
-            } else if alertMessagForMismatch != "" {
-                return 65
             }
         }
         return 0
@@ -328,6 +349,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     func updatePreviewDetails () {
         
         if self.valueForVariablesIsNotNull() {
+            self.updateAlertMessageForMismatch()
             if self.validateTheAddConditionValues() {
                 self.conditionItem?.change = self.valueForChange as String
                 self.conditionItem?.dose = self.valueForDose as String
@@ -364,19 +386,22 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     func updateAlertMessageForMismatch() {
+        let newStartingDoseString : String = String(format: newStartingDose! == floor(newStartingDose!) ? "%.0f" : "%.1f", newStartingDose!)
         if (valueForChange == REDUCING) {
             if (newStartingDose <= NSString(string: valueForUntil).floatValue || NSString(string: valueForDose).floatValue <= 0) {
-                alertMessagForMismatch = "Mismatch in the condition. Please recheck the Until dose."
+                alertMessagForMismatch = "Starting dose for the condition is \(newStartingDoseString) \(self.dosage!.doseUnit). Please enter a valid value for Until."
             } else {
                 alertMessagForMismatch = ""
             }
         } else {
             if newStartingDose >= NSString(string: valueForUntil).floatValue || NSString(string: valueForDose).floatValue <= 0 || String(valueForUntil).characters.count >= 8 {
-                alertMessagForMismatch = "Mismatch in the condition. Please recheck the Until dose."
+                alertMessagForMismatch = "Starting dose for the condition is \(newStartingDoseString) \(self.dosage!.doseUnit). Please enter a valid value for Until."
             } else {
                 alertMessagForMismatch = ""
             }
         }
+        addConditionTableView.headerViewForSection(0)?.textLabel?.text = alertMessagForMismatch
+        addConditionTableView.reloadData()
     }
     
     // MARK: - Action Methods

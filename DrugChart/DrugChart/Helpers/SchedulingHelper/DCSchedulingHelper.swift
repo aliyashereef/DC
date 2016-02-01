@@ -192,20 +192,19 @@ class DCSchedulingHelper: NSObject {
         } else {
             weeksString = weekDays!.joinWithSeparator("")
         }
-        
         if (times.count > 0) {
             descriptionText.appendFormat(" %@ a day", timesString)
         }
+        descriptionText.appendFormat(" on %@", weeksString)
         if (times.count > 0) {
             descriptionText.appendFormat(" at %@", administratingTimesStringFromTimeArray(NSMutableArray(array: times)))
         }
-        descriptionText.appendFormat(" on %@ every", weeksString)
+        descriptionText.appendString(" every")
         if (repeatValue.frequency == SINGLE_WEEK) {
             descriptionText.appendFormat(" %@", WEEK)
         } else {
             descriptionText.appendFormat(" %@", repeatValue.frequency)
         }
-
         return descriptionText
     }
     
@@ -218,9 +217,9 @@ class DCSchedulingHelper: NSObject {
             descriptionText.appendFormat(" %@ a day", timesString)
         }
         if (repeatValue.isEachValue == true) {
-            descriptionText.appendFormat(" %@", descriptionTextForYearlySpecificTimesSchedulingEachValueForRepeatValue(repeatValue, activeAdministratingTimes: times))
+            descriptionText.appendFormat("%@", descriptionTextForYearlySpecificTimesSchedulingEachValueForRepeatValue(repeatValue, activeAdministratingTimes: times))
         } else {
-            descriptionText.appendFormat(" %@", descriptionTextForYearlySpecificTimesSchedulingOnTheValueForRepeatValue(repeatValue, activeAdministratingTimes: times))
+            descriptionText.appendFormat("%@", descriptionTextForYearlySpecificTimesSchedulingOnTheValueForRepeatValue(repeatValue, activeAdministratingTimes: times))
         }
         return descriptionText
     }
@@ -243,7 +242,7 @@ class DCSchedulingHelper: NSObject {
             eachValue = ordinal
         }
         if (repeatValue.frequency == SINGLE_YEAR) {
-            descriptionText.appendFormat(" on the %@ of %@", eachValue, month)
+            descriptionText.appendFormat(" on the %@ %@", eachValue, month)
             if (times.count > 0) {
                 descriptionText.appendFormat(" at %@", administratingTimesStringFromTimeArray(NSMutableArray(array: times)))
             }
@@ -305,25 +304,29 @@ class DCSchedulingHelper: NSObject {
                 let ordinal = NSString.ordinalNumberFormat(convertedNumber)
                 eachValue = ordinal
             }
-            if (repeatValue.frequency == "1 month") {
-                descriptionText.appendFormat(" on the %@ of the month", eachValue)
+            descriptionText.appendFormat(" on the %@", eachValue)
+            if (times.count > 0) {
+                descriptionText.appendString(" of the month")
             } else {
-                descriptionText.appendFormat(" on the %@ of every %@", eachValue, repeatValue.frequency)
+                descriptionText.appendFormat(" of every %@", repeatValue.frequency)
             }
         } else {
             if (repeatValue.onTheValue == EMPTY_STRING) {
                 repeatValue.onTheValue = "First Sunday"
             }
-            if (repeatValue.frequency == "1 month") {
-                descriptionText.appendFormat(" month on the %@", repeatValue.onTheValue)
+            descriptionText.appendFormat(" on the %@", repeatValue.onTheValue)
+            if (times.count > 0) {
+                descriptionText.appendString(" of the month")
             } else {
-                descriptionText.appendFormat(" %@ on the %@", repeatValue.frequency, repeatValue.onTheValue)
+                descriptionText.appendFormat(" of every %@", repeatValue.frequency)
             }
         }
         if (times.count > 0) {
             descriptionText.appendFormat(" at %@", administratingTimesStringFromTimeArray(NSMutableArray(array: times)))
+            descriptionText.appendString(" every")
+            descriptionText.appendFormat(" %@", repeatValue.frequency)
         }
-        return descriptionText
+         return descriptionText
     }
     
     static func alreadySelectedAdministratingTimesFromTimeArray(timeArray : NSArray) -> NSArray {

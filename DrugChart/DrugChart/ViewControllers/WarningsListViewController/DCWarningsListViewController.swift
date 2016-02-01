@@ -13,6 +13,7 @@ let ROW_HEIGHT : CGFloat = 80.0
 let ROW_OFFSET_VALUE : CGFloat = 25.0
 let INITIAL_INDEX = 0
 let SECOND_INDEX = 1
+let WARNINGS_TABLE_HEIGHT : CGFloat = 556.0
 
 @objc public protocol WarningsDelegate {
     
@@ -22,6 +23,7 @@ let SECOND_INDEX = 1
 @objc class DCWarningsListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, AddMedicationDetailDelegate {
     
     @IBOutlet weak var warningsTableView: UITableView?
+    @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint?
     
     var warningsArray = [Dictionary<String, AnyObject>]()
     var severeArray : AnyObject?
@@ -36,7 +38,11 @@ let SECOND_INDEX = 1
         
         super.viewDidLoad()
         configureViewElements();
-        self.edgesForExtendedLayout = UIRectEdge.None
+        tableViewHeightConstraint?.constant = WARNINGS_TABLE_HEIGHT
+        warningsTableView!.setNeedsLayout()
+        warningsTableView!.layoutIfNeeded()
+        
+      //  self.edgesForExtendedLayout = UIRectEdge.None
         
     }
     
@@ -44,6 +50,8 @@ let SECOND_INDEX = 1
         
         super.viewDidAppear(true)
         warningsTableView!.reloadData()
+        warningsTableView!.setNeedsLayout()
+        warningsTableView!.layoutIfNeeded()
     }
         
     override func didReceiveMemoryWarning() {
@@ -62,9 +70,13 @@ let SECOND_INDEX = 1
         if loadOverideView == true {
             self.navigationItem.hidesBackButton = true
         }
-        warningsTableView? .reloadData();
+       // warningsTableView? .reloadData();
     }
-
+    
+    func reloadWarningsList() {
+        
+        warningsTableView? .reloadData()
+    }
     
     // MARK: Private Methods
     
