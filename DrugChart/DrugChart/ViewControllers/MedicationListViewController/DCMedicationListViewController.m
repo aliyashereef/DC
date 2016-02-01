@@ -27,6 +27,7 @@
     DCMedicationSearchWebService *medicationWebService;
     NSMutableArray *warningsArray;
     DCMedication *updatedMedication;
+    DCWarningsListViewController *warningsListViewController;
 }
 
 @end
@@ -48,6 +49,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    
     [super viewWillAppear:animated];
     [medicationSearchBar becomeFirstResponder];
     medicationListTableView.userInteractionEnabled = YES;
@@ -149,7 +151,9 @@
 - (void)callWarningsWebServiceForMedication:(DCMedication *)medicationDetails {
     
     DCContraIndicationWebService *webService = [[DCContraIndicationWebService alloc] init];
-    [activityIndicator startAnimating];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [activityIndicator startAnimating];
+    });
     [webService getContraIndicationsForPatientWithId:_patientId forDrugPreparationId:medicationDetails.medicationId withCallBackHandler:^(NSArray *alergiesArray, NSError *error) {
         if (!error) {
             warningsArray = [NSMutableArray arrayWithArray:[DCUtility categorizeContentArrayBasedOnSeverity:alergiesArray]];
@@ -168,7 +172,7 @@
                 [self dismissViewControllerAnimated:YES completion:nil];
             } else {
                 //display severe warning view here
-                [self displayWarningsListView];
+                [self performSelector:@selector(displayWarningsListView) withObject:nil afterDelay:0.01];
             }
         }
         medicationListTableView.userInteractionEnabled = YES;
@@ -180,10 +184,10 @@
     
     //display Warnings list view
     UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
-    DCWarningsListViewController *warningsListViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:WARNINGS_LIST_STORYBOARD_ID];
+    warningsListViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:WARNINGS_LIST_STORYBOARD_ID];
     warningsListViewController.delegate = self;
-    [warningsListViewController populateWarningsListWithWarnings:warningsArray showOverrideView:YES];
     [self.navigationController pushViewController:warningsListViewController animated:YES];
+    [warningsListViewController populateWarningsListWithWarnings:warningsArray showOverrideView:YES];
 }
 
 #pragma mark - UITableView Methods
@@ -223,11 +227,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    [medicationSearchBar resignFirstResponder];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [medicationSearchBar resignFirstResponder];
+    });
     tableView.userInteractionEnabled = NO;// to disable  multiple selection
     if ([[medicationListArray objectAtIndex:indexPath.row] isKindOfClass:[DCMedication class]]) {
         DCMedication *medication = [medicationListArray objectAtIndex:indexPath.row];
-        [self callWarningsWebServiceForMedication:medication];
+        [self performSelector:@selector(callWarningsWebServiceForMedication:) withObject:medication afterDelay:0.1];
         //[self dismissViewControllerAnimated:YES completion:nil];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
