@@ -117,17 +117,15 @@ class DCRouteViewController: UIViewController, UITableViewDelegate, UITableViewD
             }
             self.navigationController?.popToRootViewControllerAnimated(true)
         } else {
-            routesTableView.beginUpdates()
-            if (previousSelectedRouteIndexPath != nil) {
-                routesTableView.reloadRowsAtIndexPaths([previousSelectedRouteIndexPath!], withRowAnimation: .Fade)
-            }
-            routesTableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
             let sectionCount = routesTableView.numberOfSections
             if sectionCount == SectionCount.eFirstSection.rawValue {
                 //if section count is zero insert new section with animation
                 routesTableView.insertSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
             }
-            routesTableView.endUpdates()
+            if (previousSelectedRouteIndexPath != nil) {
+                routesTableView.reloadRowsAtIndexPaths([previousSelectedRouteIndexPath!], withRowAnimation: .Fade)
+            }
+            routesTableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         }
     }
     
