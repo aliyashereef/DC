@@ -822,6 +822,16 @@
     }
 }
 
+- (void)collapseReviewDatePicker {
+    
+    if (reviewDatePickerExpanded) {
+        // display the date picker inline with the table content
+        reviewDatePickerExpanded = NO;
+        [medicationDetailsTableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:1]]
+                                          withRowAnimation:UITableViewRowAnimationFade];
+    }
+}
+
 - (NSIndexPath*)indexPathForLastRow {
     
     NSInteger sectionCount = [DCAddMedicationHelper numberOfSectionsInMedicationTableViewForSelectedMedication:self.selectedMedication  showWarnings:showWarnings];
@@ -1212,12 +1222,7 @@
     //shrink already opened date picker cell
     [self resignKeyboard];
     if (indexPath.section != eFirstSection){
-        if (reviewDatePickerExpanded) {
-            // display the date picker inline with the table content
-            reviewDatePickerExpanded = NO;
-            [medicationDetailsTableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:1]]
-                                              withRowAnimation:UITableViewRowAnimationFade];
-        }
+        [self collapseReviewDatePicker];
     }
     if ((indexPath.section != _datePickerIndexPath.section)) {
          [self collapseOpenedPickerCell];
@@ -1393,7 +1398,7 @@
     double delayInSeconds = isNewMedication?  0.5 : 0.25;
     dispatch_time_t deleteTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
     dispatch_after(deleteTime, dispatch_get_main_queue(), ^(void){
-        [medicationDetailsTableView setContentOffset:CGPointMake(0,380) animated:YES];
+        [medicationDetailsTableView setContentOffset:CGPointMake(0,430) animated:YES];
     });
     isNewMedication = false;
 }
@@ -1401,7 +1406,8 @@
 #pragma mark - Instruction Delegates
 
 - (void)closeInlineDatePickers {
-    
+
+    [self collapseReviewDatePicker];
     [self collapseOpenedPickerCell];
 }
 
