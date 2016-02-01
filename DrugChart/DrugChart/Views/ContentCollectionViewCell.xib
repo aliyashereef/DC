@@ -8,32 +8,59 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="contentCellIdentifier" id="gTV-IL-0wX" customClass="ContentCollectionViewCell" customModule="DrugChart" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="256" height="30"/>
+            <rect key="frame" x="0.0" y="0.0" width="211" height="30"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="256" height="30"/>
+                <rect key="frame" x="0.0" y="0.0" width="211" height="30"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Test" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ys7-oy-BCy">
-                        <rect key="frame" x="0.0" y="0.0" width="256" height="30"/>
-                        <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="17"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
+                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HCo-ac-rNV">
+                        <rect key="frame" x="0.0" y="0.0" width="211" height="30"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Test" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ys7-oy-BCy">
+                                <rect key="frame" x="0.0" y="0.0" width="165" height="30"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OvP-4N-EyN">
+                                <rect key="frame" x="165" y="0.0" width="46" height="30"/>
+                                <color key="backgroundColor" red="1" green="0.41960784309999999" blue="0.38823529410000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Delete">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="deleteObservation" destination="gTV-IL-0wX" eventType="touchUpInside" id="d6H-53-NYh"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="OvP-4N-EyN" secondAttribute="bottom" id="8HQ-A1-ZH7"/>
+                            <constraint firstItem="ys7-oy-BCy" firstAttribute="leading" secondItem="HCo-ac-rNV" secondAttribute="leading" id="F3G-Ro-rcU"/>
+                            <constraint firstAttribute="trailing" secondItem="OvP-4N-EyN" secondAttribute="trailing" id="HQK-bz-kpB"/>
+                            <constraint firstAttribute="trailing" secondItem="ys7-oy-BCy" secondAttribute="trailing" constant="46" id="U5l-Wa-iaU"/>
+                            <constraint firstItem="ys7-oy-BCy" firstAttribute="top" secondItem="HCo-ac-rNV" secondAttribute="top" id="VFe-j8-YzZ"/>
+                            <constraint firstAttribute="bottom" secondItem="ys7-oy-BCy" secondAttribute="bottom" id="X4J-V6-Eiq"/>
+                            <constraint firstItem="OvP-4N-EyN" firstAttribute="top" secondItem="HCo-ac-rNV" secondAttribute="top" id="o0o-Rg-kHM"/>
+                            <constraint firstItem="OvP-4N-EyN" firstAttribute="leading" secondItem="HCo-ac-rNV" secondAttribute="leading" constant="165" id="ojO-Yh-d2f"/>
+                        </constraints>
+                    </scrollView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
-                <constraint firstItem="ys7-oy-BCy" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="cUe-8o-dAF"/>
-                <constraint firstItem="ys7-oy-BCy" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="dQg-7F-BkZ"/>
-                <constraint firstAttribute="bottom" secondItem="ys7-oy-BCy" secondAttribute="bottom" id="de2-H1-Kdc"/>
-                <constraint firstAttribute="centerY" secondItem="ys7-oy-BCy" secondAttribute="centerY" id="pUy-Fo-GDT"/>
-                <constraint firstAttribute="centerX" secondItem="ys7-oy-BCy" secondAttribute="centerX" id="y25-XP-Woc"/>
+                <constraint firstAttribute="bottom" secondItem="HCo-ac-rNV" secondAttribute="bottom" id="6I9-5C-21w"/>
+                <constraint firstItem="HCo-ac-rNV" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="QZp-ZI-BF8"/>
+                <constraint firstAttribute="trailing" secondItem="HCo-ac-rNV" secondAttribute="trailing" id="UU8-4s-xhC"/>
+                <constraint firstItem="HCo-ac-rNV" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="lwJ-fy-4Ai"/>
             </constraints>
-            <size key="customSize" width="256" height="30"/>
+            <size key="customSize" width="205" height="30"/>
             <connections>
                 <outlet property="contentLabel" destination="ys7-oy-BCy" id="gUa-DA-00Q"/>
+                <outlet property="deleteButton" destination="OvP-4N-EyN" id="gSE-NS-W3p"/>
+                <outlet property="scrollView" destination="HCo-ac-rNV" id="nT6-aU-GCS"/>
             </connections>
-            <point key="canvasLocation" x="244" y="267"/>
+            <point key="canvasLocation" x="211.5" y="263"/>
         </collectionViewCell>
     </objects>
 </document>

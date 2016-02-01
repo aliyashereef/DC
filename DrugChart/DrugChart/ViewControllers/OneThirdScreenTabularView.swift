@@ -42,6 +42,7 @@ class OneThirdScreenTabularView: UIViewController,UICollectionViewDataSource, UI
         stripView.layer.cornerRadius = Constant.CORNER_RADIUS
         stripView.layer.backgroundColor = Constant.CELL_BORDER_COLOR
         stripView.backgroundColor = Constant.SELECTION_CELL_BACKGROUND_COLOR
+        tableView.allowsMultipleSelectionDuringEditing = false
         setDateDisplay()
         reloadView(observationList)
     }
@@ -109,10 +110,34 @@ class OneThirdScreenTabularView: UIViewController,UICollectionViewDataSource, UI
         let count  = ObservationTabularViewRow.count - 1
         return count
     }
+    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+        return .Delete
+    }
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        let cell = tableView.cellForRowAtIndexPath(indexPath) as? OneThirdContentCell
+        if(cell == nil)
+        {
+            return false
+        }
+        if(cell!.isDeletable)
+        {
+            return true
+        }
+        else
+        {
+            return false
+        }
+        
+    }
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if(editingStyle == .Delete)
+        {
+            let cell = tableView.cellForRowAtIndexPath(indexPath) as? OneThirdContentCell
+            cell?.deleteObservation()
+        }
+    }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(contentCellIdentifier, forIndexPath: indexPath) as! OneThirdContentCell
-        
-        cell.clearCell()
         
         let index = indexPath.row + 1
         let obsType = ObservationTabularViewRow(rawValue: index)

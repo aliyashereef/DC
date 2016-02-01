@@ -8,27 +8,45 @@
 
 import UIKit
 
-class ContentCollectionViewCell: UICollectionViewCell {
+class ContentCollectionViewCell: UICollectionViewCell,UIGestureRecognizerDelegate{
     @IBOutlet weak var contentLabel: UILabel!
     var observation:VitalSignObservation!
     var delegate:ObservationDelegate? = nil
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var deleteButton: UIButton!
     var showObservationType:ShowObservationType!
-    var indicatorLabel: UILabel!
+    var selectedCellDelegate:CellDelegate!
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
-        
-     
+        contentLabel.bounds.size = CGSize (width: 165 , height: 30)
+        scrollView.contentSize.width = 400
+        let swipeGesture:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: Selector("setSelectedCell:"))
+        swipeGesture.direction = .Left
+       swipeGesture.delegate = self
+        self.addGestureRecognizer(swipeGesture)
     }
     
-    func clearCell()
-    {
-      if(indicatorLabel != nil)
-      {
-        indicatorLabel.removeFromSuperview()
-      }
-        
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
+    
+    func setSelectedCell(sender:UISwipeGestureRecognizer)
+    {
+        if(sender.state == .Ended && deleteButton.hidden == false)
+        {
+            selectedCellDelegate.selectedCell(self)
+        }
+    }
+    
+    func resetCellScroll()
+    {
+        if(deleteButton.hidden == false) // only select the cell if there is delete button available
+        {
+            self.scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+        }
+    }
+    
     func configureCell(observation:VitalSignObservation ,showobservationType:ShowObservationType )
     {
         self.observation = observation
@@ -36,24 +54,11 @@ class ContentCollectionViewCell: UICollectionViewCell {
         // add the delete button
         if(showObservationType != ShowObservationType.None && showObservationType != ShowObservationType.All && ObjectIsNotNull())
         {
-            
-        indicatorLabel = UILabel()
-        let originx = self.frame.width - 25
-        indicatorLabel.frame = CGRectMake(originx, 4, 25, 25)
-        indicatorLabel.font = UIFont.systemFontOfSize(12)
-        indicatorLabel.textAlignment = .Center
-        indicatorLabel.text = "X"
-        indicatorLabel.layer.borderWidth = 0.5
-        indicatorLabel.layer.borderColor = UIColor.redColor().CGColor
-        indicatorLabel.textColor = UIColor.redColor()
-        indicatorLabel.backgroundColor = UIColor.whiteColor()
-        indicatorLabel.layer.cornerRadius = 14
-        indicatorLabel.layer.masksToBounds = true
-        self.addSubview(indicatorLabel)
-        // add the event on label 
-        let deleteGesture = UITapGestureRecognizer(target: self, action: "deleteObservation")
-        indicatorLabel.userInteractionEnabled=true
-        indicatorLabel.addGestureRecognizer(deleteGesture)
+            deleteButton.hidden = false
+        }
+        else
+        {
+            deleteButton.hidden = true
         }
         // normal stuff
         let tap = UITapGestureRecognizer(target: self, action: "doubleTapped")
@@ -72,7 +77,8 @@ class ContentCollectionViewCell: UICollectionViewCell {
             delegate?.ShowModalNavigationController(navigationController!)
         }
     }
-    func deleteObservation()
+    
+    @IBAction func deleteObservation()
     {
         let deleteAlert = UIAlertController(title: "Delete", message: "Are you sure, you want to delete?", preferredStyle: UIAlertControllerStyle.Alert)
         
@@ -116,11 +122,11 @@ class ContentCollectionViewCell: UICollectionViewCell {
         
         deleteAlert.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: { (action: UIAlertAction!) in
             print("in cancel")
+            self.resetCellScroll()
         }))
         
         delegate?.ShowAlertController(deleteAlert)
-        
-       
+        resetCellScroll()
     }
     func ObjectIsNotNull()->Bool
     {
