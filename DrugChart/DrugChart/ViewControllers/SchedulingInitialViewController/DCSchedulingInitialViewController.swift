@@ -122,18 +122,6 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
 
     func presentAdministrationTimeView() {
         
-//        let storyBoard = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil)
-//        let medicationDetailViewController = storyBoard.instantiateViewControllerWithIdentifier(ADD_MEDICATION_DETAIL_STORYBOARD_ID) as? DCAddMedicationDetailViewController
-//        medicationDetailViewController!.delegate = self
-//        medicationDetailViewController?.selectedEntry = { value in
-//            DDLogDebug("Value is \(value)")
-//        }
-//        medicationDetailViewController!.detailType = eDetailAdministrationTime
-//        medicationDetailViewController!.contentArray = (self.scheduling?.type == SPECIFIC_TIMES) ? self.scheduling?.specificTimes?.administratingTimesArray : self.scheduling?.interval.administratingTimes
-//        self.configureNavigationBackButtonTitle()
-//        self.navigationController?.pushViewController(medicationDetailViewController!, animated: true)
-        
-        
         let storyBoard = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil)
         let administrationTimesViewController = storyBoard.instantiateViewControllerWithIdentifier(ADMINISTRATION_TIMES_SB_ID) as? DCAdministrationTimesViewController
         administrationTimesViewController!.delegate = self
@@ -141,7 +129,16 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
 //            DDLogDebug("Value is \(value)")
 //        }
        // medicationDetailViewController!.detailType = eDetailAdministrationTime
-        administrationTimesViewController!.timeArray = ((self.scheduling?.type == SPECIFIC_TIMES) ? self.scheduling?.specificTimes?.administratingTimesArray : self.scheduling?.interval.administratingTimes)!
+//        administrationTimesViewController!.timeArray = (self.scheduling?.type == SPECIFIC_TIMES) ? self.scheduling?.specificTimes?.administratingTimesArray : self.scheduling?.interval.administratingTimes
+        if (self.scheduling?.type == SPECIFIC_TIMES) {
+            if let adminArray = self.scheduling?.specificTimes?.administratingTimesArray {
+                administrationTimesViewController!.timeArray = adminArray
+            }
+        } else {
+            if let administrationTimeArray = self.scheduling?.interval.administratingTimes {
+                administrationTimesViewController!.timeArray = administrationTimeArray
+            }
+        }
         self.configureNavigationBackButtonTitle()
         self.navigationController?.pushViewController(administrationTimesViewController!, animated: true)
     }
