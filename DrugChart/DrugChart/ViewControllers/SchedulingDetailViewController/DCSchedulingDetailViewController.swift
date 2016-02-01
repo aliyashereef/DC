@@ -638,6 +638,7 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
             }
             self.schedulingCompletion(self.scheduling)
             headerHeight = DCUtility.textViewSizeWithText(headerView?.messageLabel.text, maxWidth: HEADER_VIEW_LABEL_MAX_WIDTH, font: UIFont.systemFontOfSize(13.0)).height + 10
+            tableView.layoutIfNeeded()
             return headerView!
         }
 
