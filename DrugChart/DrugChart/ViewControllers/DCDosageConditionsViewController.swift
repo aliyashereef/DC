@@ -154,6 +154,7 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
     func updateMainPreviewDetailsArray () {
     
         var currentStartingDose : Float?
+        let lastIndexOfArray : Int = (self.dosage?.reducingIncreasingDose.conditionsArray.count)! - 1
         previewDetailsArray = []
         for ( var index = 0; index < self.dosage?.reducingIncreasingDose?.conditionsArray.count; index++) {
             if index == 0 {
@@ -163,7 +164,11 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
             }
             previewDetailsArray.appendContentsOf(DCDosageHelper.updatePreviewDetailsArray((self.dosage?.reducingIncreasingDose?.conditionsArray[index])! as! DCConditions, currentStartingDose: currentStartingDose!, doseUnit: (self.dosage?.doseUnit)!))
         }
-        previewDetailsArray.append("Stop")
+        if (NSString(string: (self.dosage?.reducingIncreasingDose?.conditionsArray[lastIndexOfArray].until)!)).floatValue > 0 {
+            self.previewDetailsArray.append("\(self.dosage!.reducingIncreasingDose!.conditionsArray[lastIndexOfArray].until) thereafter")
+        } else {
+            self.previewDetailsArray.append("Stop")
+        }
     }
     
     func updateConditionDescriptionArray () {
