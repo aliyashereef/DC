@@ -716,24 +716,37 @@ typedef enum : NSUInteger {
         detailViewController.medicationSlotsArray = [self medicationSlotsArrayFromSlotsDictionary:medicationSLotsDictionary];
         detailViewController.weekDate = date;
         detailViewController.patientId = self.patient.patientId;
-        NSString *dateString = [DCDateUtility dateStringFromDate:date inFormat:SHORT_DATE_FORMAT];
-        NSString *startDate = [self startDateStringFromDateString:medicationList.startDate];
-        NSString *endDate = [self startDateStringFromDateString:medicationList.endDate];
-        
-        if ([startDate compare:dateString] == NSOrderedAscending || [startDate compare:dateString] == NSOrderedSame) {
-            if  ([endDate compare:dateString] == NSOrderedAscending || [endDate compare:dateString] == NSOrderedSame) {
-                if ([medicationList.medicineCategory isEqualToString:WHEN_REQUIRED] || [medicationList.medicineCategory isEqualToString:WHEN_REQUIRED_VALUE]) {
-                    NSDate *today = [NSDate date];
-                    NSCalendar *calendar = [NSCalendar currentCalendar];
-                    NSComparisonResult order = [calendar compareDate:today toDate:date toUnitGranularity:NSCalendarUnitDay];
-                    if (order == NSOrderedSame || _medicationSlotArray.count > 0) {
-                        [self presentAdministrationViewController];
-                    }
-                } else {
-                    [self presentAdministrationViewController];
-                }
+
+        NSDate *startDate = [DCDateUtility dateFromSourceString:medicationList.startDate];
+        NSDate *endDate = [DCDateUtility dateFromSourceString:medicationList.endDate];
+
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        NSComparisonResult startDateOrder = [calendar compareDate:startDate toDate:date toUnitGranularity:NSCalendarUnitDay];
+        NSComparisonResult endDateOrder = [calendar compareDate:endDate toDate:date toUnitGranularity:NSCalendarUnitDay];
+
+        if (medicationList.endDate != nil) {
+            if ((startDateOrder == NSOrderedAscending || startDateOrder == NSOrderedSame) &&  (endDateOrder == NSOrderedDescending || endDateOrder == NSOrderedSame)) {
+                [self presentAdministrationwithMedicationList:medicationList andDate:date];
+            }
+        } else {
+            if (startDateOrder == NSOrderedAscending || startDateOrder == NSOrderedSame) {
+                [self presentAdministrationwithMedicationList:medicationList andDate:date];
             }
         }
+    }
+}
+
+- (void)presentAdministrationwithMedicationList:(DCMedicationScheduleDetails *)medicationList andDate:(NSDate *)date {
+    
+    if ([medicationList.medicineCategory isEqualToString:WHEN_REQUIRED] || [medicationList.medicineCategory isEqualToString:WHEN_REQUIRED_VALUE]) {
+        NSDate *today = [NSDate date];
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        NSComparisonResult order = [calendar compareDate:today toDate:date toUnitGranularity:NSCalendarUnitDay];
+        if (order == NSOrderedSame || _medicationSlotArray.count > 0) {
+            [self presentAdministrationViewController];
+        }
+    } else {
+        [self presentAdministrationViewController];
     }
 }
 
