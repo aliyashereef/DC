@@ -392,7 +392,6 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         atIndexPath indexPath:NSIndexPath) {
             let medicationCell = cell
             if (displayMedicationListArray.count >= indexPath.item) {
-                
                 let medicationSchedules = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
                 medicationCell.medicineName.text = medicationSchedules.name;
                 if let instructionString = medicationSchedules.instruction {
@@ -402,6 +401,21 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                 }
                 let routeString : String = medicationSchedules.route.stringByReplacingOccurrencesOfString(" ", withString: EMPTY_STRING)
                 medicationCell.route.text = routeString;
+                if (medicationSchedules.medicineCategory == ONCE) {
+                    medicationCell.medicationTypeLabel.text = medicationSchedules.medicineCategory
+                } else if (medicationSchedules.medicineCategory == WHEN_REQUIRED) {
+                    medicationCell.medicationTypeLabel.text = WHEN_REQUIRED_VALUE
+                } else {
+                    if let timeArray = medicationSchedules.timeChart {
+                        if (timeArray.count > 0) {
+                            let initialMedication = timeArray[0] as! NSDictionary
+                            let medicationCount = initialMedication[MED_DETAILS]?.count
+                            medicationCell.medicationTypeLabel.text = String(format: "%d times a day", medicationCount!)
+                        } else {
+                            medicationCell.medicationTypeLabel.text = REGULAR_MEDICATION
+                        }
+                    }
+                }
             }
     }
     
@@ -409,6 +423,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         rowDisplayMedicationSlotsArray:NSMutableArray,
         atIndexPath indexPath:NSIndexPath,
         andSlotIndex index:NSInteger) {
+            
             let calendarStripDaysCount = (appDelegate.windowState == DCWindowState.fullWindow) ? 5:3
             if (index < calendarStripDaysCount) {
                 let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell, toContainerSubview: medicationCell.leftMedicationAdministerDetailsView, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(index) as! NSDictionary, atIndexPath: indexPath, atSlotIndex: index);

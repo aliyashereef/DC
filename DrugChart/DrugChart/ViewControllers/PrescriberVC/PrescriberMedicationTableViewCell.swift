@@ -8,12 +8,6 @@
 
 import UIKit
 
-//protocol PrescriberMedicationTableViewCellDelegate:class {
-//    
-//    func tableCellSwipedToLeftDirection()
-//    func tableCellSwipedToRightDirection()
-//}
-
 protocol EditAndDeleteActionDelegate {
     
     func stopMedicationForSelectedIndexPath(indexPath : NSIndexPath)
@@ -58,6 +52,8 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     // to the containerView holding the 3 subviews (left, right, center)
     // To move the calendar left/right only this constant value needs to be changed.
     @IBOutlet weak var leadingSpaceMasterToContainerView: NSLayoutConstraint!
+    @IBOutlet weak var medicationTypeLabel: UILabel!
+    
     var editAndDeleteDelegate : EditAndDeleteActionDelegate?
     var indexPath : NSIndexPath!
     var cellDelegate : DCPrescriberCellDelegate?
