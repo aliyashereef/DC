@@ -247,5 +247,7 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     @IBAction func typeDescriptionButtonSelected(sender: AnyObject) {
         
         //Display Summary
+        
+        print("****** Type Button pressed")
     }
 }

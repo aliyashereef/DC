@@ -192,7 +192,8 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         let tableCell: DCOneThirdCalendarScreenMedicationCell = tableView.cellForRowAtIndexPath(indexPath) as! DCOneThirdCalendarScreenMedicationCell
-        let subViewArray = tableCell.contentView.subviews[1].subviews[2].subviews
+        let subViewArray = tableCell.contentView.subviews[1].subviews[3].subviews
+        //let subViewArray = tableCell.contentView.subviews
         
         for subVeiw in subViewArray {
             if subVeiw .isKindOfClass(DCMedicationAdministrationStatusView){
@@ -352,7 +353,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
             statusView.delegate = self
             statusView.currentIndexPath = indexPath
             statusView.medicationCategory = medicationSchedules.medicineCategory
-            statusView.backgroundColor = UIColor.whiteColor()
+            statusView.backgroundColor = UIColor.clearColor()
             statusView.isOneThirdScreen = true
             statusView.updateAdministrationStatusViewWithMedicationSlotDictionary(slotDictionary)
             return statusView

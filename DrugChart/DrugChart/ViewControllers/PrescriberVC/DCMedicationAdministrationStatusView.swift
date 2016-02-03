@@ -8,14 +8,19 @@
 
 import UIKit
 
-let ADMINISTRATION_SUCCESS_IMAGE    =   UIImage(named: "AdministrationSuccess")
-let ADMINISTRATION_FAILURE_IMAGE    =   UIImage(named: "AdministrationFailure")
-let ADMINISTRATION_DUE_IMAGE        =   UIImage(named: "AdministrationDue")
+let ADMINISTRATION_SUCCESS_IMAGE    =   UIImage(named: "AllAdministered")
+let ADMINISTRATION_FAILURE_IMAGE    =   UIImage(named: "AnyFailure")
+let ADMINISTRATION_DUE_IMAGE        =   UIImage(named: "DueAt")
 
-let ADMINISTRATION_SUCCESS_IMAGE_ONETHIRD    =   UIImage(named: "OneThirdAdminStatusSuccess")
-let ADMINISTRATION_DUE_IMAGE_ONETHIRD        =   UIImage(named: "OneThirdScreenAdminStatusOverdue")
-let ADMINISTRATION_FAILURE_IMAGE_ONETHIRD    =   UIImage(named: "OneThirdScreenAdminStatusRefused")
-let ADMINISTRATION_OMITTED_IMAGE_ONETHIRD    =   UIImage(named: "OneThirdScreenAdminStatusOmitted")
+//let ADMINISTRATION_SUCCESS_IMAGE_ONETHIRD    =   UIImage(named: "OneThirdAdminStatusSuccess")
+//let ADMINISTRATION_DUE_IMAGE_ONETHIRD        =   UIImage(named: "OneThirdScreenAdminStatusOverdue")
+//let ADMINISTRATION_FAILURE_IMAGE_ONETHIRD    =   UIImage(named: "OneThirdScreenAdminStatusRefused")
+//let ADMINISTRATION_OMITTED_IMAGE_ONETHIRD    =   UIImage(named: "OneThirdScreenAdminStatusOmitted")
+
+let ADMINISTRATION_SUCCESS_IMAGE_ONETHIRD    =   UIImage(named: "AllAdministered")
+let ADMINISTRATION_DUE_IMAGE_ONETHIRD        =   UIImage(named: "DueAt")
+let ADMINISTRATION_FAILURE_IMAGE_ONETHIRD    =   UIImage(named: "AnyFailure")
+let ADMINISTRATION_OMITTED_IMAGE_ONETHIRD    =   UIImage(named: "AnyFailure")
 
 let ADMINISTRATION_DUE_NOW_IMAGE    =   UIImage(named: "AdministrationDueNow")
 let PENDING_FONT_COLOR              =   UIColor(forHexString: "#acacac")
@@ -66,7 +71,12 @@ class DCMedicationAdministrationStatusView: UIView {
         statusLabel = UILabel.init(frame: contentFrame)
         self.addSubview(statusLabel!)
         statusLabel?.font = UIFont.systemFontOfSize(13.0)
-        statusIcon = UIImageView.init(frame: CGRectMake(0, 0, 25, 25))
+ //       let appDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
+//        if (appDelegate.windowState == DCWindowState.oneThirdWindow || appDelegate.windowState == DCWindowState.halfWindow){
+//            statusIcon = UIImageView.init(frame: CGRectMake(0, 0, 20, 20))
+//        } else {
+            statusIcon = UIImageView.init(frame: CGRectMake(0, 0, 25, 25))
+       // }
         self.addSubview(statusIcon!)
         statusIcon!.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
         administerButton = DCAdministerButton.init(frame: contentFrame)

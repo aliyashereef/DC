@@ -45,6 +45,7 @@
 		0B85D6811BF9CBCB009CF795 /* DCSchedulingHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B85D6801BF9CBCB009CF795 /* DCSchedulingHeaderView.swift */; };
 		0B85D6831BF9CC02009CF795 /* DCSchedulingHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B85D6821BF9CC02009CF795 /* DCSchedulingHeaderView.xib */; };
 		0B8768BE1C61DF51001DD827 /* DCCalendarHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B8768BD1C61DF51001DD827 /* DCCalendarHelper.swift */; };
+		0B8768C11C621642001DD827 /* DCSummaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B8768C01C621642001DD827 /* DCSummaryButton.swift */; };
 		0B8886AF1B0C7814006FF1BF /* DCDatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B8886AE1B0C7814006FF1BF /* DCDatePickerViewController.m */; };
 		0B8D6E7A1B3136C200F0B972 /* DCKeyChainManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B8D6E791B3136C200F0B972 /* DCKeyChainManager.m */; };
 		0B90D6541B734EE0003A37E4 /* UICKeyChainStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B90D6511B734EE0003A37E4 /* UICKeyChainStore.m */; };
@@ -437,6 +438,7 @@
 		0B85D6801BF9CBCB009CF795 /* DCSchedulingHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCSchedulingHeaderView.swift; sourceTree = "<group>"; };
 		0B85D6821BF9CC02009CF795 /* DCSchedulingHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCSchedulingHeaderView.xib; sourceTree = "<group>"; };
 		0B8768BD1C61DF51001DD827 /* DCCalendarHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCCalendarHelper.swift; sourceTree = "<group>"; };
+		0B8768C01C621642001DD827 /* DCSummaryButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCSummaryButton.swift; sourceTree = "<group>"; };
 		0B8886AD1B0C7814006FF1BF /* DCDatePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCDatePickerViewController.h; sourceTree = "<group>"; };
 		0B8886AE1B0C7814006FF1BF /* DCDatePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCDatePickerViewController.m; sourceTree = "<group>"; };
 		0B8D6E781B3136C200F0B972 /* DCKeyChainManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCKeyChainManager.h; sourceTree = "<group>"; };
@@ -1225,6 +1227,14 @@
 				0B8768BD1C61DF51001DD827 /* DCCalendarHelper.swift */,
 			);
 			path = CalendarHelper;
+			sourceTree = "<group>";
+		};
+		0B8768BF1C62162C001DD827 /* SummaryButton */ = {
+			isa = PBXGroup;
+			children = (
+				0B8768C01C621642001DD827 /* DCSummaryButton.swift */,
+			);
+			path = SummaryButton;
 			sourceTree = "<group>";
 		};
 		0B8886AC1B0C77FB006FF1BF /* DatePickerViewController */ = {
@@ -2637,6 +2647,7 @@
 				0BBDEDC11AA57F790016E6FF /* DCTextField */,
 				0BBDEDF61AA5B4180016E6FF /* DCImage */,
 				0BD6594C1BD6568200D3097B /* AdministerButton */,
+				0B8768BF1C62162C001DD827 /* SummaryButton */,
 				0BF2DA531ACAB10800B3ED97 /* ErrorPopOverBackgroundView */,
 				0B6B49771B2ED4F200288117 /* DCScrollView */,
 				0BB27D031AEF50DF0007EB88 /* PopOverBaseBackgroundView */,
@@ -3363,6 +3374,7 @@
 				7D104E5A1AEA4A5B00B03C0C /* DCBedWebService.m in Sources */,
 				4D52D5841BCD02FB002ABA8D /* DCAdministerMedicationWebService.m in Sources */,
 				0BBDEDC41AA57F980016E6FF /* DCTextField.m in Sources */,
+				0B8768C11C621642001DD827 /* DCSummaryButton.swift in Sources */,
 				0B38AC081BF4592E0027B8E6 /* DCSchedulingCell.swift in Sources */,
 				0BF2DA561ACAB12700B3ED97 /* DCErrorPopOverBackgroundView.m in Sources */,
 				0BAE369A1B455DDF007CD64C /* DCOrderSetMedicineView.m in Sources */,
