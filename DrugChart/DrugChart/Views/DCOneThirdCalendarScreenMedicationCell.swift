@@ -194,6 +194,10 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
         }
     }
 
+    @IBAction func typeDescriptionButtonPressed(sender: AnyObject) {
+        
+       // summary popover display
+    }
 
 
 

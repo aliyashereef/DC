@@ -243,5 +243,9 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
             self.layoutIfNeeded()
         }
     }
-
+    
+    @IBAction func typeDescriptionButtonSelected(sender: AnyObject) {
+        
+        //Display Summary
+    }
 }

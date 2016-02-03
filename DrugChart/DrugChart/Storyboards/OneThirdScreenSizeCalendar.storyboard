@@ -151,6 +151,13 @@
                                                                 </mask>
                                                             </variation>
                                                         </view>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aOf-aL-ZgV" userLabel="type Button">
+                                                            <rect key="frame" x="15" y="39" width="575" height="28"/>
+                                                            <inset key="contentEdgeInsets" minX="-492" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                            <connections>
+                                                                <action selector="typeDescriptionButtonPressed:" destination="U9D-UO-QQa" eventType="touchUpInside" id="fnP-nq-P8A"/>
+                                                            </connections>
+                                                        </button>
                                                     </subviews>
                                                     <animations/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -160,8 +167,12 @@
                                                         <constraint firstAttribute="trailing" secondItem="l95-bK-TJI" secondAttribute="trailing" constant="8" id="96u-7t-ZgT"/>
                                                         <constraint firstAttribute="width" constant="600" id="9w8-OR-B8f"/>
                                                         <constraint firstItem="Tzt-gb-W1V" firstAttribute="leading" secondItem="grT-Gz-dsz" secondAttribute="leading" constant="15" id="HRb-gB-YRq"/>
+                                                        <constraint firstItem="aOf-aL-ZgV" firstAttribute="top" secondItem="l95-bK-TJI" secondAttribute="bottom" constant="9" id="J9k-8z-YP5"/>
                                                         <constraint firstItem="KME-xv-QmP" firstAttribute="top" secondItem="l95-bK-TJI" secondAttribute="bottom" constant="-3" id="Mb8-sK-vmA"/>
+                                                        <constraint firstAttribute="trailing" secondItem="aOf-aL-ZgV" secondAttribute="trailing" constant="10" id="MhK-cK-3fc"/>
+                                                        <constraint firstItem="aOf-aL-ZgV" firstAttribute="leading" secondItem="grT-Gz-dsz" secondAttribute="leading" constant="15" id="Mrb-e9-r42"/>
                                                         <constraint firstItem="Tzt-gb-W1V" firstAttribute="leading" secondItem="KME-xv-QmP" secondAttribute="leading" id="STc-QV-9kk"/>
+                                                        <constraint firstAttribute="bottom" secondItem="aOf-aL-ZgV" secondAttribute="bottom" id="X2S-Qg-aAT"/>
                                                         <constraint firstItem="8NZ-BW-zwR" firstAttribute="top" secondItem="KME-xv-QmP" secondAttribute="bottom" constant="1" id="asl-0D-e87"/>
                                                         <constraint firstAttribute="trailing" secondItem="8NZ-BW-zwR" secondAttribute="trailing" constant="8" id="d2V-99-2Oc"/>
                                                         <constraint firstItem="l95-bK-TJI" firstAttribute="leading" secondItem="Tzt-gb-W1V" secondAttribute="trailing" constant="19" id="emB-9o-PlN">
