@@ -21,6 +21,7 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
     @IBOutlet weak var medicineDetailHolderView: UIView!
     @IBOutlet weak var medicineName: UILabel!
     @IBOutlet weak var route: UILabel!
+    @IBOutlet weak var typeLabel: UILabel!
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!
     var isMedicationActive : Bool = true

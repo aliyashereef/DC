@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
@@ -96,7 +96,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="67"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Senna 15 mg Tablet" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tzt-gb-W1V">
-                                                            <rect key="frame" x="15" y="11" width="443" height="20"/>
+                                                            <rect key="frame" x="15" y="6" width="443" height="20"/>
                                                             <animations/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="20" id="tjR-Dc-GgZ"/>
@@ -106,21 +106,45 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="740" text="Oral" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KME-xv-QmP">
-                                                            <rect key="frame" x="15" y="38" width="577" height="20"/>
+                                                            <rect key="frame" x="15" y="27" width="577" height="18"/>
                                                             <animations/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                             <color key="textColor" red="0.45098039220000002" green="0.45098039220000002" blue="0.45098039220000002" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" verticalCompressionResistancePriority="751" text="3 times a day" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8NZ-BW-zwR" userLabel="type">
+                                                            <rect key="frame" x="15" y="46" width="577" height="15"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="264" id="RwJ-J3-OQv"/>
+                                                                <constraint firstAttribute="height" constant="20" id="fcP-sV-Dcq"/>
+                                                                <constraint firstAttribute="width" constant="170" id="yfp-fy-4l4"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                            <color key="textColor" red="0.32549019610000002" green="0.59607843140000005" blue="0.8862745098" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                            <variation key="default">
+                                                                <mask key="constraints">
+                                                                    <exclude reference="yfp-fy-4l4"/>
+                                                                    <exclude reference="fcP-sV-Dcq"/>
+                                                                    <exclude reference="RwJ-J3-OQv"/>
+                                                                </mask>
+                                                            </variation>
+                                                        </label>
                                                         <view clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="l95-bK-TJI">
-                                                            <rect key="frame" x="477" y="2" width="115" height="32"/>
+                                                            <rect key="frame" x="477" y="0.0" width="115" height="30"/>
                                                             <animations/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="115" id="Dyr-JF-zhu">
                                                                     <variation key="heightClass=regular-widthClass=compact" constant="115"/>
                                                                 </constraint>
+                                                                <constraint firstAttribute="height" constant="30" id="JX1-HU-uIb"/>
                                                             </constraints>
+                                                            <variation key="default">
+                                                                <mask key="constraints">
+                                                                    <exclude reference="JX1-HU-uIb"/>
+                                                                </mask>
+                                                            </variation>
                                                             <variation key="heightClass=regular-widthClass=compact">
                                                                 <mask key="constraints">
                                                                     <include reference="Dyr-JF-zhu"/>
@@ -131,19 +155,29 @@
                                                     <animations/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
-                                                        <constraint firstItem="KME-xv-QmP" firstAttribute="top" secondItem="Tzt-gb-W1V" secondAttribute="bottom" constant="7" id="4pG-YK-GN5"/>
-                                                        <constraint firstItem="Tzt-gb-W1V" firstAttribute="top" secondItem="grT-Gz-dsz" secondAttribute="top" constant="11" id="6a8-KO-wat"/>
+                                                        <constraint firstItem="KME-xv-QmP" firstAttribute="top" secondItem="Tzt-gb-W1V" secondAttribute="bottom" constant="1" id="4pG-YK-GN5"/>
+                                                        <constraint firstItem="Tzt-gb-W1V" firstAttribute="top" secondItem="grT-Gz-dsz" secondAttribute="top" constant="6" id="6a8-KO-wat"/>
                                                         <constraint firstAttribute="trailing" secondItem="l95-bK-TJI" secondAttribute="trailing" constant="8" id="96u-7t-ZgT"/>
                                                         <constraint firstAttribute="width" constant="600" id="9w8-OR-B8f"/>
                                                         <constraint firstItem="Tzt-gb-W1V" firstAttribute="leading" secondItem="grT-Gz-dsz" secondAttribute="leading" constant="15" id="HRb-gB-YRq"/>
+                                                        <constraint firstItem="KME-xv-QmP" firstAttribute="top" secondItem="l95-bK-TJI" secondAttribute="bottom" constant="-3" id="Mb8-sK-vmA"/>
                                                         <constraint firstItem="Tzt-gb-W1V" firstAttribute="leading" secondItem="KME-xv-QmP" secondAttribute="leading" id="STc-QV-9kk"/>
+                                                        <constraint firstItem="8NZ-BW-zwR" firstAttribute="top" secondItem="KME-xv-QmP" secondAttribute="bottom" constant="1" id="asl-0D-e87"/>
+                                                        <constraint firstAttribute="trailing" secondItem="8NZ-BW-zwR" secondAttribute="trailing" constant="8" id="d2V-99-2Oc"/>
                                                         <constraint firstItem="l95-bK-TJI" firstAttribute="leading" secondItem="Tzt-gb-W1V" secondAttribute="trailing" constant="19" id="emB-9o-PlN">
                                                             <variation key="heightClass=regular-widthClass=compact" constant="19"/>
                                                         </constraint>
+                                                        <constraint firstAttribute="bottom" secondItem="8NZ-BW-zwR" secondAttribute="bottom" constant="6" id="fEi-il-gfS"/>
                                                         <constraint firstItem="KME-xv-QmP" firstAttribute="top" secondItem="l95-bK-TJI" secondAttribute="bottom" constant="4" id="gyl-fL-i4C"/>
+                                                        <constraint firstItem="8NZ-BW-zwR" firstAttribute="leading" secondItem="grT-Gz-dsz" secondAttribute="leading" constant="15" id="pTi-HF-dCf"/>
                                                         <constraint firstAttribute="trailing" secondItem="KME-xv-QmP" secondAttribute="trailing" constant="8" id="xDa-FF-cPn"/>
-                                                        <constraint firstItem="l95-bK-TJI" firstAttribute="top" secondItem="grT-Gz-dsz" secondAttribute="top" constant="2" id="yMG-5p-0vh"/>
+                                                        <constraint firstItem="l95-bK-TJI" firstAttribute="top" secondItem="grT-Gz-dsz" secondAttribute="top" id="yMG-5p-0vh"/>
                                                     </constraints>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="gyl-fL-i4C"/>
+                                                        </mask>
+                                                    </variation>
                                                     <variation key="heightClass=regular-widthClass=compact">
                                                         <mask key="subviews">
                                                             <include reference="l95-bK-TJI"/>
@@ -194,6 +228,7 @@
                                             <outlet property="route" destination="KME-xv-QmP" id="Pem-UE-mab"/>
                                             <outlet property="stopButton" destination="O9M-Tr-DJu" id="g9O-P1-i5T"/>
                                             <outlet property="stopButtonWidth" destination="yfo-6T-Syb" id="pMp-bd-Qfy"/>
+                                            <outlet property="typeLabel" destination="8NZ-BW-zwR" id="U0I-VA-FH1"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

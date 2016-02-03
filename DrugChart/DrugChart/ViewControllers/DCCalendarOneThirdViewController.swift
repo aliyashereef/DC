@@ -272,7 +272,6 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         atIndexPath indexPath:NSIndexPath) {
             let medicationCell = cell
             if (displayMedicationListArray.count >= indexPath.item) {
-                
                 let medicationSchedules = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
                 medicationCell.medicineName.text = medicationSchedules.name;
                 let routeString : String = medicationSchedules.route.stringByReplacingOccurrencesOfString(" ", withString: EMPTY_STRING)
@@ -287,6 +286,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
                 attributedInstructionsString  = NSMutableAttributedString(string: instructionString, attributes: [NSFontAttributeName:UIFont.systemFontOfSize(12.0)])
                 attributedRouteString.appendAttributedString(attributedInstructionsString)
                 medicationCell.route.attributedText = attributedRouteString;
+                medicationCell.typeLabel.text = DCCalendarHelper.typeDescriptionForMedication(medicationSchedules)
             }
     }
         
