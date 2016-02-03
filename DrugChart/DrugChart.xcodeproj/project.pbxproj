@@ -48,10 +48,7 @@
 		0B8D6E7A1B3136C200F0B972 /* DCKeyChainManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B8D6E791B3136C200F0B972 /* DCKeyChainManager.m */; };
 		0B90D6541B734EE0003A37E4 /* UICKeyChainStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B90D6511B734EE0003A37E4 /* UICKeyChainStore.m */; };
 		0B913B2D1C4620F80004899B /* DCInfusion.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B913B2C1C4620F80004899B /* DCInfusion.m */; };
-		0B91739E1B01F36200BC9337 /* DCPrescriberDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B91739D1B01F36200BC9337 /* DCPrescriberDetailsViewController.m */; };
 		0B9173A01B01F3BA00BC9337 /* PrescriberDetails.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0B91739F1B01F3BA00BC9337 /* PrescriberDetails.storyboard */; };
-		0B9173A41B02101300BC9337 /* DCPrescriberDetailsTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B9173A31B02101300BC9337 /* DCPrescriberDetailsTimeView.m */; };
-		0B9173A61B02105B00BC9337 /* DCPrescriberDetailsTimeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B9173A51B02105B00BC9337 /* DCPrescriberDetailsTimeView.xib */; };
 		0B926CE51AFB83E700D8C1BA /* Inactive.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0B926CE41AFB83E700D8C1BA /* Inactive.plist */; };
 		0B941CA51AC161B300B54207 /* DCPrescriberCalendarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B941CA41AC161B300B54207 /* DCPrescriberCalendarView.m */; };
 		0B941CA71AC161D500B54207 /* DCPrescriberCalendarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B941CA61AC161D500B54207 /* DCPrescriberCalendarView.xib */; };
@@ -446,12 +443,7 @@
 		0B90D6511B734EE0003A37E4 /* UICKeyChainStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICKeyChainStore.m; sourceTree = "<group>"; };
 		0B913B2B1C4620F80004899B /* DCInfusion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCInfusion.h; sourceTree = "<group>"; };
 		0B913B2C1C4620F80004899B /* DCInfusion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCInfusion.m; sourceTree = "<group>"; };
-		0B91739C1B01F36200BC9337 /* DCPrescriberDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCPrescriberDetailsViewController.h; sourceTree = "<group>"; };
-		0B91739D1B01F36200BC9337 /* DCPrescriberDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DCPrescriberDetailsViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0B91739F1B01F3BA00BC9337 /* PrescriberDetails.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = PrescriberDetails.storyboard; sourceTree = "<group>"; };
-		0B9173A21B02101300BC9337 /* DCPrescriberDetailsTimeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCPrescriberDetailsTimeView.h; sourceTree = "<group>"; };
-		0B9173A31B02101300BC9337 /* DCPrescriberDetailsTimeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCPrescriberDetailsTimeView.m; sourceTree = "<group>"; };
-		0B9173A51B02105B00BC9337 /* DCPrescriberDetailsTimeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCPrescriberDetailsTimeView.xib; sourceTree = "<group>"; };
 		0B926CE41AFB83E700D8C1BA /* Inactive.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Inactive.plist; sourceTree = "<group>"; };
 		0B941CA31AC161B300B54207 /* DCPrescriberCalendarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCPrescriberCalendarView.h; sourceTree = "<group>"; };
 		0B941CA41AC161B300B54207 /* DCPrescriberCalendarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCPrescriberCalendarView.m; sourceTree = "<group>"; };
@@ -1288,25 +1280,6 @@
 			path = Infusion;
 			sourceTree = "<group>";
 		};
-		0B91739B1B01F33C00BC9337 /* PrescriberDetailsViewController */ = {
-			isa = PBXGroup;
-			children = (
-				0B91739C1B01F36200BC9337 /* DCPrescriberDetailsViewController.h */,
-				0B91739D1B01F36200BC9337 /* DCPrescriberDetailsViewController.m */,
-			);
-			path = PrescriberDetailsViewController;
-			sourceTree = "<group>";
-		};
-		0B9173A11B020FEB00BC9337 /* PrescriberDetailsTimeView */ = {
-			isa = PBXGroup;
-			children = (
-				0B9173A21B02101300BC9337 /* DCPrescriberDetailsTimeView.h */,
-				0B9173A31B02101300BC9337 /* DCPrescriberDetailsTimeView.m */,
-				0B9173A51B02105B00BC9337 /* DCPrescriberDetailsTimeView.xib */,
-			);
-			path = PrescriberDetailsTimeView;
-			sourceTree = "<group>";
-		};
 		0B941CA21AC1619A00B54207 /* PrescriberCalendarView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1799,7 +1772,6 @@
 				4D52D5881BCE7404002ABA8D /* AdministrationStatusTableViewController */,
 				0B2400F61C5B25E90095AEA5 /* AdministrationTimeViewController */,
 				0B2157091AB7D1B700BC4611 /* NameListSelectionViewController */,
-				0B91739B1B01F33C00BC9337 /* PrescriberDetailsViewController */,
 				7D70F37D1B20258200E4BA89 /* WardsGraphicalDisplayViewController */,
 				0BAD23661C58979E00697FFF /* RouteViewController */,
 				0BAD236F1C58991F00697FFF /* InfusionViewController */,
@@ -2655,7 +2627,6 @@
 				0BBDEDF61AA5B4180016E6FF /* DCImage */,
 				0BD6594C1BD6568200D3097B /* AdministerButton */,
 				0BF2DA531ACAB10800B3ED97 /* ErrorPopOverBackgroundView */,
-				0B9173A11B020FEB00BC9337 /* PrescriberDetailsTimeView */,
 				0B6B49771B2ED4F200288117 /* DCScrollView */,
 				0BB27D031AEF50DF0007EB88 /* PopOverBaseBackgroundView */,
 				0B941CA21AC1619A00B54207 /* PrescriberCalendarView */,
@@ -3142,7 +3113,6 @@
 				0BBDEDE31AA581630016E6FF /* Lato-Light.ttf in Resources */,
 				0BBDEDED1AA581630016E6FF /* README.txt in Resources */,
 				0BCC190B1ABAC404003552C9 /* IPRJ2623512.plist in Resources */,
-				0B9173A61B02105B00BC9337 /* DCPrescriberDetailsTimeView.xib in Resources */,
 				1F1977211C0485C500106023 /* RowHeaderCollectionViewCell.xib in Resources */,
 				7D5567DE1B4FEE2100BA6733 /* RegularMedicationSample.plist in Resources */,
 				4D83869E1BB26BC60012EF7D /* DCMedicationHistoryHeaderView.xib in Resources */,
@@ -3283,7 +3253,6 @@
 				1F5375051C1AEF9F00D4A64F /* GraphView.swift in Sources */,
 				0B4BD4311C47566E00C49589 /* DCRateInfusion.m in Sources */,
 				0B4BD4251C47524500C49589 /* DCBolusInjection.m in Sources */,
-				0B9173A41B02101300BC9337 /* DCPrescriberDetailsTimeView.m in Sources */,
 				0B4BD4291C47551E00C49589 /* DCInjection.m in Sources */,
 				0BA357311B746EAB00A5C3BC /* DCOrderSetOperationQueue.m in Sources */,
 				1F0A9C0A1C47CDE7007ACFDA /* OneThirdContentCell.swift in Sources */,
@@ -3423,7 +3392,6 @@
 				7D2FF1171BBCD1C000B92B85 /* DCMedicationAdministrationStatusView.swift in Sources */,
 				1FD4FCCC1BF4B7E000B77B94 /* SelectionView.swift in Sources */,
 				4D48915F1BC90176002AC8CA /* DCPatientListingViewController.swift in Sources */,
-				0B91739E1B01F36200BC9337 /* DCPrescriberDetailsViewController.m in Sources */,
 				0B964C7F1C51019000CD509D /* DCInfusionsFooterView.swift in Sources */,
 				4DC527F11BE1EE2F00E2EF09 /* DCDosageMultiLineCell.swift in Sources */,
 				0BC3ACB31C0DB70B0028AF03 /* DCSchedulingInitialViewController.swift in Sources */,
