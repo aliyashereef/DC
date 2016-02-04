@@ -138,6 +138,7 @@
 #define ROUTE_STORYBOARD_ID @"RouteViewController"
 #define INJECTION_REGION_SB_ID @"InjectionRegionView"
 #define ADMINISTRATION_TIMES_SB_ID "AdministrationTimesView"
+#define ADD_NEW_VALUE_SBID @"AddNewValueViewController"
 
 
 //Nib files
@@ -218,6 +219,9 @@
 #define INJECTION_CELL_ID @"InjectionCellId"
 #define INFUSION_PICKER_CELL_ID @"InfusionPickerCellId"
 #define ADMINISTRATION_TIMES_CELLID @"AdministrationTimesCellId"
+#define VALUE_TEXTFIELD_CELL @"newValueTextfieldCell"
+#define PICKER_DROP_DOWN_CELL @"pickerDropDownCell"
+#define PICKER_CELL @"pickerCell"
 
 // Week days
 

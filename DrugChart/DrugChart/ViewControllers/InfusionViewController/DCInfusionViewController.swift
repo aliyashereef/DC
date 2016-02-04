@@ -31,6 +31,9 @@ class DCInfusionViewController: UIViewController, UITableViewDelegate, UITableVi
     var dosage : DCDosage?
     var inlinePickerIndexPath : NSIndexPath? = nil
     var patientId : String?
+    var unitArrayForOver = [HOURS,MINUTES]
+    var unitArrayForStartingAt = [MG_PER_HOUR,MG_PER_MINUTE]
+//    var unitArrayFor
     
     override func viewDidLoad() {
         
@@ -140,7 +143,7 @@ class DCInfusionViewController: UIViewController, UITableViewDelegate, UITableVi
                 if (infusion?.administerAsOption == BOLUS_INJECTION) {
                     self.updateViewOnTableViewFirstSectionSelectionForBolusInjectionAtIndexPath(indexPath)
                 } else {
-                    self.displayInlinePickerForRowAtIndexPath(indexPath)
+                    self.transitToAddNewValueScreen(indexPath)
                 }
             case SectionCount.eSecondSection.rawValue :
                 self.updateViewOnSolutionInfoCellSelectionAtIndexPath(indexPath)
@@ -496,7 +499,22 @@ class DCInfusionViewController: UIViewController, UITableViewDelegate, UITableVi
             case RowCount.eFirstRow.rawValue :
                 self.displayInfusionSolventView()
             case RowCount.eSecondRow.rawValue :
-                self.displayInlinePickerForRowAtIndexPath(indexPath)
+                let addMedicationStoryboard = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil)
+                let addNewValueViewController = addMedicationStoryboard.instantiateViewControllerWithIdentifier(ADD_NEW_VALUE_SBID) as? DCAddNewValueViewController
+                addNewValueViewController?.placeHolderString = "ml"
+                addNewValueViewController?.titleString = "ml"
+                addNewValueViewController!.newValueEntered = { value in
+                    if (self.infusion?.administerAsOption == BOLUS_INJECTION) {
+                        self.infusion?.bolusInjection?.quantity = value
+                    } else if (self.infusion?.administerAsOption == DURATION_BASED_INFUSION) {
+                        self.infusion?.durationInfusion?.quantity = value
+                    } else if (self.infusion?.administerAsOption == RATE_BASED_INFUSION) {
+                        self.infusion?.rateInfusion?.quantity = value
+                    }
+                    self.administerOptionsTableView.reloadData()
+                }
+                self.navigationController?.pushViewController(addNewValueViewController!, animated: true)
+                //self.displayInlinePickerForRowAtIndexPath(indexPath)
             case RowCount.eThirdRow.rawValue ,
                 RowCount.eFourthRow.rawValue :
                 self.displayInjectionRegionView()
@@ -512,7 +530,22 @@ class DCInfusionViewController: UIViewController, UITableViewDelegate, UITableVi
             case RowCount.eZerothRow.rawValue :
                 self.displayInfusionSolventView()
             case RowCount.eFirstRow.rawValue :
-                self.displayInlinePickerForRowAtIndexPath(indexPath)
+                let addMedicationStoryboard = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil)
+                let addNewValueViewController = addMedicationStoryboard.instantiateViewControllerWithIdentifier(ADD_NEW_VALUE_SBID) as? DCAddNewValueViewController
+                addNewValueViewController?.placeHolderString = "ml"
+                addNewValueViewController?.titleString = "ml"
+                addNewValueViewController!.newValueEntered = { value in
+                    if (self.infusion?.administerAsOption == BOLUS_INJECTION) {
+                        self.infusion?.bolusInjection?.quantity = value
+                    } else if (self.infusion?.administerAsOption == DURATION_BASED_INFUSION) {
+                        self.infusion?.durationInfusion?.quantity = value
+                    } else if (self.infusion?.administerAsOption == RATE_BASED_INFUSION) {
+                        self.infusion?.rateInfusion?.quantity = value
+                    }
+                    self.administerOptionsTableView.reloadData()
+                }
+                self.navigationController?.pushViewController(addNewValueViewController!, animated: true)
+                //self.displayInlinePickerForRowAtIndexPath(indexPath)
             case RowCount.eSecondRow.rawValue ,
                  RowCount.eThirdRow.rawValue :
                 self.displayInjectionRegionView()
@@ -572,6 +605,49 @@ class DCInfusionViewController: UIViewController, UITableViewDelegate, UITableVi
         administerOptionsTableView.beginUpdates()
         administerOptionsTableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         administerOptionsTableView.endUpdates()
+    }
+    
+    func transitToAddNewValueScreen(indexPath: NSIndexPath) {
+        
+        let addMedicationStoryboard = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil)
+        let addNewValueViewController = addMedicationStoryboard.instantiateViewControllerWithIdentifier(ADD_NEW_VALUE_SBID) as? DCAddNewValueViewController
+        if infusion?.administerAsOption == DURATION_BASED_INFUSION {
+            addNewValueViewController?.detailType = eAddValueWithUnit
+            addNewValueViewController?.unitArray = unitArrayForOver
+            addNewValueViewController?.titleString = "Over"
+            addNewValueViewController?.placeHolderString = "Over"
+        } else if infusion?.administerAsOption == RATE_BASED_INFUSION {
+            if indexPath.row == 0 {
+                addNewValueViewController?.detailType = eAddValueWithUnit
+                addNewValueViewController?.unitArray = unitArrayForStartingAt
+                addNewValueViewController?.titleString = "Starting At"
+                addNewValueViewController?.placeHolderString = "Starting At"
+            } else if indexPath.row == 1{
+                addNewValueViewController?.detailType = eAddIntegerValue
+                addNewValueViewController?.titleString = "Vary Between"
+                addNewValueViewController?.placeHolderString = "Vary Between"
+            } else {
+                addNewValueViewController?.detailType = eAddIntegerValue
+                addNewValueViewController?.titleString = "And"
+                addNewValueViewController?.placeHolderString = "And"
+            }
+        }
+        addNewValueViewController?.newValueEntered = { value in
+
+            if self.infusion?.administerAsOption == DURATION_BASED_INFUSION {
+                self.infusion?.durationInfusion.flowDuration = value
+            } else if self.infusion?.administerAsOption == RATE_BASED_INFUSION {
+                if indexPath.row == 0 {
+                    self.infusion?.rateInfusion.startingRate = value
+                } else if indexPath.row == 1 {
+                    self.infusion?.rateInfusion.minimumRate = value
+                } else {
+                    self.infusion?.rateInfusion.maximumRate = value 
+                }
+            }
+            self.administerOptionsTableView.reloadData()
+        }
+        self.navigationController?.pushViewController(addNewValueViewController!, animated: true)
     }
 
 }
