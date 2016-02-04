@@ -117,7 +117,6 @@
     medicationWebService.searchString = searchString;
     [activityIndicator startAnimating];
     [medicationWebService getCompleteMedicationListWithCallBackHandler:^(id response, NSDictionary *errorDict) {
-        
         if (!errorDict) {
             medicationListArray = [NSMutableArray arrayWithArray:response];
             if ([medicationListArray count] == 0) {
@@ -125,7 +124,6 @@
             }
             [medicationListTableView reloadData];
         } else {
-            [activityIndicator stopAnimating];
             NSInteger errorCode = [[errorDict valueForKey:@"code"] integerValue];
             if (errorCode != NSURLErrorCancelled) {
                 medicationListArray = [NSMutableArray arrayWithArray:@[NSLocalizedString(@"NO_MEDICATIONS", @"")]];

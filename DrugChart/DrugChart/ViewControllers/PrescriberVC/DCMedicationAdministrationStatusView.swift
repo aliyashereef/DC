@@ -13,10 +13,10 @@ let ADMINISTRATION_FAILURE_IMAGE    =   UIImage(named: "AnyFailure")
 let ADMINISTRATION_DUE_IMAGE        =   UIImage(named: "DueAt")
 let ADMINISTRATION_DUE_NOW_IMAGE    =   UIImage(named: "DueNow")
 
-let ADMINISTRATION_SUCCESS_IMAGE_ONETHIRD    =   UIImage(named: "AllAdministered")
-let ADMINISTRATION_DUE_IMAGE_ONETHIRD        =   UIImage(named: "DueAt")
-//let ADMINISTRATION_FAILURE_IMAGE_ONETHIRD    =   UIImage(named: "AnyFailure")
-let ADMINISTRATION_OMITTED_IMAGE_ONETHIRD    =   UIImage(named: "AnyFailure")
+//let ADMINISTRATION_SUCCESS_IMAGE_ONETHIRD    =   UIImage(named: "AllAdministered")
+//let ADMINISTRATION_DUE_IMAGE_ONETHIRD        =   UIImage(named: "DueAt")
+////let ADMINISTRATION_FAILURE_IMAGE_ONETHIRD    =   UIImage(named: "AnyFailure")
+//let ADMINISTRATION_OMITTED_IMAGE_ONETHIRD    =   UIImage(named: "AnyFailure")
 
 let PENDING_FONT_COLOR              =   UIColor(forHexString: "#acacac")
 let DUE_AT_FONT_COLOR               =   UIColor(forHexString: "#404040")
@@ -163,7 +163,7 @@ class DCMedicationAdministrationStatusView: UIView {
             // due now functionality
             let secondsBetween = medication.time.timeIntervalSinceDate(currentSystemDate)
             if (secondsBetween <= 60*5 && secondsBetween > 0) {
-                print(" ****** Due in 5 mint")
+                //Due in 5 minutes
                 dueNow = true
             }
             //check the conditions of early administrations as well
@@ -177,39 +177,48 @@ class DCMedicationAdministrationStatusView: UIView {
         }
         if (overDueCount > 0) {
             //display overdue label here
-            statusLabel?.hidden = false
-            statusLabel?.textColor = OVERDUE_FONT_COLOR
-            statusLabel?.text = NSLocalizedString("OVERDUE", comment: "Some medications are overdue")
-            if isOneThirdScreen {
-                statusLabel?.textAlignment = NSTextAlignment.Right
-            } else {
-                statusLabel?.textAlignment = NSTextAlignment.Center
-            }
+            displayOverDueLabel()
         } else {
             if dueNow == true {
                 //display due now view
-                print("Due now")
-                adjustStatusLabelAndImageViewForCurrentDay()
-               // statusLabel?.hidden = false
-                statusLabel?.textAlignment = NSTextAlignment.Center
-                if (isOneThirdScreen) {
-                    let previousFrame = self.frame
-                    self.frame = CGRectMake(previousFrame.origin.x, 0.0, 123.0, 67.0)
-                    statusLabel?.center = CGPointMake(self.bounds.size.width/1.7, self.bounds.size.height/2);
-                } else {
-                    statusLabel?.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
-                }
-                statusLabel?.textColor = DUE_NOW_FONT_COLOR
-                statusLabel?.text = NSLocalizedString("DUE_NOW", comment: "due now text")
-                statusIcon?.hidden = false
-                statusIcon?.image = ADMINISTRATION_DUE_NOW_IMAGE
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.backgroundColor = DUE_NOW_BACKGROUND_COLOR
-                })
+                updateDueNowStatusInView()
             } else {
                 updateCurrentDayStatusViewWithAdministrationCount(administrationCount:administeredCount, omittedRefusalCount: omissionRefusalCount)
             }
         }
+    }
+    
+    func displayOverDueLabel() {
+        
+        //configure overdue label
+        statusLabel?.hidden = false
+        statusLabel?.textColor = OVERDUE_FONT_COLOR
+        statusLabel?.text = NSLocalizedString("OVERDUE", comment: "Some medications are overdue")
+        if isOneThirdScreen {
+            statusLabel?.textAlignment = NSTextAlignment.Right
+        } else {
+            statusLabel?.textAlignment = NSTextAlignment.Center
+        }
+    }
+    
+    func updateDueNowStatusInView() {
+        
+        //update due now status in view
+        adjustStatusLabelAndImageViewForCurrentDay()
+        // statusLabel?.hidden = false
+        statusLabel?.textAlignment = NSTextAlignment.Center
+        if (isOneThirdScreen) {
+            statusLabel?.center = CGPointMake(self.bounds.size.width/1.7, self.bounds.size.height/2);
+        } else {
+            statusLabel?.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
+        }
+        statusLabel?.textColor = DUE_NOW_FONT_COLOR
+        statusLabel?.text = NSLocalizedString("DUE_NOW", comment: "due now text")
+        statusIcon?.hidden = false
+        statusIcon?.image = ADMINISTRATION_DUE_NOW_IMAGE
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            self.backgroundColor = DUE_NOW_BACKGROUND_COLOR
+        })
     }
     
     func updateCurrentDayStatusViewWithAdministrationCount(administrationCount administeredCount: NSInteger, omittedRefusalCount : NSInteger) {
