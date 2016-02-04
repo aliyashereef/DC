@@ -66,6 +66,13 @@ extension NSDate:Comparable{
         return formatter.stringFromDate(self)
     }
     
+    func getFormattedMonthandYear() -> String
+    {
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "MMM/yyyy"
+        return formatter.stringFromDate(self)
+    }
+    
     func getFormattedTime() ->String
     {
         let dateFormatter = NSDateFormatter()
