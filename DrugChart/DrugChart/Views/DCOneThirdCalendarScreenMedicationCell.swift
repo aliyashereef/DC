@@ -30,6 +30,7 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
     var indexPath : NSIndexPath!
     @IBOutlet weak var adminstrationStatusView: UIView!
     @IBOutlet weak var medicationViewLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var statusViewTrailingConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var stopButtonWidth: NSLayoutConstraint!
     @IBOutlet weak var editButtonWidth: NSLayoutConstraint!

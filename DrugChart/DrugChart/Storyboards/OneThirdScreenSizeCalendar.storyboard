@@ -96,7 +96,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="67"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Senna 15 mg Tablet" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tzt-gb-W1V">
-                                                            <rect key="frame" x="15" y="6" width="443" height="20"/>
+                                                            <rect key="frame" x="15" y="6" width="446" height="20"/>
                                                             <animations/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="20" id="tjR-Dc-GgZ"/>
@@ -112,6 +112,15 @@
                                                             <color key="textColor" red="0.45098039220000002" green="0.45098039220000002" blue="0.45098039220000002" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zlf-lT-6L2" userLabel="type button" customClass="DCSummaryButton" customModule="DrugChart" customModuleProvider="target">
+                                                            <rect key="frame" x="8" y="45" width="118" height="22"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="118" id="0qI-Xu-zoU"/>
+                                                            </constraints>
+                                                            <connections>
+                                                                <action selector="typeDescriptionButtonPressed:" destination="U9D-UO-QQa" eventType="touchUpInside" id="Rf1-s8-HQY"/>
+                                                            </connections>
+                                                        </button>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" verticalCompressionResistancePriority="751" text="3 times a day" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8NZ-BW-zwR" userLabel="type">
                                                             <rect key="frame" x="15" y="46" width="577" height="15"/>
                                                             <constraints>
@@ -131,11 +140,11 @@
                                                             </variation>
                                                         </label>
                                                         <view clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="l95-bK-TJI">
-                                                            <rect key="frame" x="477" y="0.0" width="115" height="30"/>
+                                                            <rect key="frame" x="480" y="0.0" width="115" height="67"/>
                                                             <animations/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="115" id="Dyr-JF-zhu">
+                                                                <constraint firstAttribute="width" priority="900" constant="115" id="Dyr-JF-zhu">
                                                                     <variation key="heightClass=regular-widthClass=compact" constant="115"/>
                                                                 </constraint>
                                                                 <constraint firstAttribute="height" constant="30" id="JX1-HU-uIb"/>
@@ -155,27 +164,38 @@
                                                     <animations/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
+                                                        <constraint firstItem="Zlf-lT-6L2" firstAttribute="top" secondItem="Tzt-gb-W1V" secondAttribute="bottom" constant="13" id="4Ga-j6-VmM"/>
                                                         <constraint firstItem="KME-xv-QmP" firstAttribute="top" secondItem="Tzt-gb-W1V" secondAttribute="bottom" constant="1" id="4pG-YK-GN5"/>
                                                         <constraint firstItem="Tzt-gb-W1V" firstAttribute="top" secondItem="grT-Gz-dsz" secondAttribute="top" constant="6" id="6a8-KO-wat"/>
-                                                        <constraint firstAttribute="trailing" secondItem="l95-bK-TJI" secondAttribute="trailing" constant="8" id="96u-7t-ZgT"/>
+                                                        <constraint firstAttribute="bottom" secondItem="Zlf-lT-6L2" secondAttribute="bottom" id="7Ou-g5-tLL"/>
+                                                        <constraint firstAttribute="bottom" secondItem="l95-bK-TJI" secondAttribute="bottom" id="86K-FB-p5h"/>
+                                                        <constraint firstAttribute="trailing" secondItem="l95-bK-TJI" secondAttribute="trailing" constant="5" id="96u-7t-ZgT"/>
                                                         <constraint firstAttribute="width" constant="600" id="9w8-OR-B8f"/>
                                                         <constraint firstItem="Tzt-gb-W1V" firstAttribute="leading" secondItem="grT-Gz-dsz" secondAttribute="leading" constant="15" id="HRb-gB-YRq"/>
+                                                        <constraint firstItem="Zlf-lT-6L2" firstAttribute="top" secondItem="KME-xv-QmP" secondAttribute="bottom" id="K3u-C2-G1Q"/>
                                                         <constraint firstItem="KME-xv-QmP" firstAttribute="top" secondItem="l95-bK-TJI" secondAttribute="bottom" constant="-3" id="Mb8-sK-vmA"/>
                                                         <constraint firstItem="Tzt-gb-W1V" firstAttribute="leading" secondItem="KME-xv-QmP" secondAttribute="leading" id="STc-QV-9kk"/>
+                                                        <constraint firstItem="Zlf-lT-6L2" firstAttribute="leading" secondItem="grT-Gz-dsz" secondAttribute="leading" constant="8" id="WzR-Gl-402"/>
                                                         <constraint firstItem="8NZ-BW-zwR" firstAttribute="top" secondItem="KME-xv-QmP" secondAttribute="bottom" constant="1" id="asl-0D-e87"/>
+                                                        <constraint firstItem="KME-xv-QmP" firstAttribute="top" secondItem="l95-bK-TJI" secondAttribute="bottom" id="cho-IC-dRA"/>
                                                         <constraint firstAttribute="trailing" secondItem="8NZ-BW-zwR" secondAttribute="trailing" constant="8" id="d2V-99-2Oc"/>
                                                         <constraint firstItem="l95-bK-TJI" firstAttribute="leading" secondItem="Tzt-gb-W1V" secondAttribute="trailing" constant="19" id="emB-9o-PlN">
                                                             <variation key="heightClass=regular-widthClass=compact" constant="19"/>
                                                         </constraint>
                                                         <constraint firstAttribute="bottom" secondItem="8NZ-BW-zwR" secondAttribute="bottom" constant="6" id="fEi-il-gfS"/>
                                                         <constraint firstItem="KME-xv-QmP" firstAttribute="top" secondItem="l95-bK-TJI" secondAttribute="bottom" constant="4" id="gyl-fL-i4C"/>
+                                                        <constraint firstAttribute="bottom" secondItem="l95-bK-TJI" secondAttribute="bottom" id="pAr-W2-Hp9"/>
                                                         <constraint firstItem="8NZ-BW-zwR" firstAttribute="leading" secondItem="grT-Gz-dsz" secondAttribute="leading" constant="15" id="pTi-HF-dCf"/>
                                                         <constraint firstAttribute="trailing" secondItem="KME-xv-QmP" secondAttribute="trailing" constant="8" id="xDa-FF-cPn"/>
                                                         <constraint firstItem="l95-bK-TJI" firstAttribute="top" secondItem="grT-Gz-dsz" secondAttribute="top" id="yMG-5p-0vh"/>
                                                     </constraints>
                                                     <variation key="default">
                                                         <mask key="constraints">
+                                                            <exclude reference="Mb8-sK-vmA"/>
+                                                            <exclude reference="cho-IC-dRA"/>
                                                             <exclude reference="gyl-fL-i4C"/>
+                                                            <exclude reference="4Ga-j6-VmM"/>
+                                                            <exclude reference="86K-FB-p5h"/>
                                                         </mask>
                                                     </variation>
                                                     <variation key="heightClass=regular-widthClass=compact">
@@ -226,6 +246,7 @@
                                             <outlet property="medicineDetailHolderView" destination="grT-Gz-dsz" id="gaY-hc-BXR"/>
                                             <outlet property="medicineName" destination="Tzt-gb-W1V" id="hDR-kn-p9d"/>
                                             <outlet property="route" destination="KME-xv-QmP" id="Pem-UE-mab"/>
+                                            <outlet property="statusViewTrailingConstraint" destination="96u-7t-ZgT" id="LGH-2V-cMz"/>
                                             <outlet property="stopButton" destination="O9M-Tr-DJu" id="g9O-P1-i5T"/>
                                             <outlet property="stopButtonWidth" destination="yfo-6T-Syb" id="pMp-bd-Qfy"/>
                                             <outlet property="typeLabel" destination="8NZ-BW-zwR" id="U0I-VA-FH1"/>
