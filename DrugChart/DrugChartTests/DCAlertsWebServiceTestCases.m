@@ -31,7 +31,7 @@
     __block BOOL isDone = NO;
 
     DCAlertsWebService *webService = [[DCAlertsWebService alloc] init];
-    [webService getPatientAlertsForId:@"6a6f8a8e-0405-412f-aa57-8e01c84602a9" withCallBackHandler:^(NSArray *alertsArray, NSError *error) {
+    [webService patientAlertsForId:@"6a6f8a8e-0405-412f-aa57-8e01c84602a9" withCallBackHandler:^(NSArray *alertsArray, NSError *error) {
         if (!error) {
             XCTAssertNotNil(alertsArray, @"Should be not nil.");
             XCTAssert([alertsArray isKindOfClass:[NSArray class]], @"Should be NSArray, not a %@",[alertsArray class]);
