@@ -72,6 +72,10 @@
     [super viewDidLayoutSubviews];
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+}
+
 #pragma mark - Private Methods
 
 - (void)configureViewElements {
@@ -113,7 +117,6 @@
     medicationWebService.searchString = searchString;
     [activityIndicator startAnimating];
     [medicationWebService getCompleteMedicationListWithCallBackHandler:^(id response, NSDictionary *errorDict) {
-        
         if (!errorDict) {
             medicationListArray = [NSMutableArray arrayWithArray:response];
             if ([medicationListArray count] == 0) {
@@ -121,7 +124,6 @@
             }
             [medicationListTableView reloadData];
         } else {
-            [activityIndicator stopAnimating];
             NSInteger errorCode = [[errorDict valueForKey:@"code"] integerValue];
             if (errorCode != NSURLErrorCancelled) {
                 medicationListArray = [NSMutableArray arrayWithArray:@[NSLocalizedString(@"NO_MEDICATIONS", @"")]];
@@ -190,6 +192,20 @@
     [warningsListViewController populateWarningsListWithWarnings:warningsArray showOverrideView:YES];
 }
 
+- (void)dismissKeyboardCompletion:(void (^)(void))completion {
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        // dismiss keyboard
+        [self.view endEditing:YES];
+        [self.view layoutIfNeeded];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (completion) {
+                completion();
+            }
+        });
+    });
+}
+
 #pragma mark - UITableView Methods
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -211,7 +227,6 @@
     
     static NSString *cellIdentifier = MEDICATION_LIST_CELL_IDENTIFIER;
     DCMedicationListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-//    cell.layoutMargins = UIEdgeInsetsZero;
     if (cell == nil) {
         cell = [[DCMedicationListTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
@@ -227,15 +242,15 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [medicationSearchBar resignFirstResponder];
-    });
     tableView.userInteractionEnabled = NO;// to disable  multiple selection
-    if ([[medicationListArray objectAtIndex:indexPath.row] isKindOfClass:[DCMedication class]]) {
-        DCMedication *medication = [medicationListArray objectAtIndex:indexPath.row];
-        [self performSelector:@selector(callWarningsWebServiceForMedication:) withObject:medication afterDelay:0.1];
-        //[self dismissViewControllerAnimated:YES completion:nil];
-    }
+    [self dismissKeyboardCompletion:^{
+        DDLogDebug(@"keyboard dismissed");
+        if ([[medicationListArray objectAtIndex:indexPath.row] isKindOfClass:[DCMedication class]]) {
+            DCMedication *medication = [medicationListArray objectAtIndex:indexPath.row];
+            [self performSelector:@selector(callWarningsWebServiceForMedication:) withObject:medication afterDelay:0.1];
+        }
+    }];
+
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

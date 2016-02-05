@@ -23,13 +23,11 @@ let WARNINGS_TABLE_HEIGHT : CGFloat = 556.0
 @objc class DCWarningsListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, AddMedicationDetailDelegate {
     
     @IBOutlet weak var warningsTableView: UITableView?
-    @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint?
     
     var warningsArray = [Dictionary<String, AnyObject>]()
     var severeArray : AnyObject?
     var mildArray : AnyObject?
     var loadOverideView : Bool? = false
-   // var backButtonText : NSString = EMPTY_STRING
     var delegate: WarningsDelegate?
     
     
@@ -38,12 +36,6 @@ let WARNINGS_TABLE_HEIGHT : CGFloat = 556.0
         
         super.viewDidLoad()
         configureViewElements();
-        tableViewHeightConstraint?.constant = WARNINGS_TABLE_HEIGHT
-        warningsTableView!.setNeedsLayout()
-        warningsTableView!.layoutIfNeeded()
-        
-      //  self.edgesForExtendedLayout = UIRectEdge.None
-        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -70,7 +62,6 @@ let WARNINGS_TABLE_HEIGHT : CGFloat = 556.0
         if loadOverideView == true {
             self.navigationItem.hidesBackButton = true
         }
-       // warningsTableView? .reloadData();
     }
     
     func reloadWarningsList() {
@@ -159,22 +150,15 @@ let WARNINGS_TABLE_HEIGHT : CGFloat = 556.0
         
         return SECTION_HEIGHT
     }
-    
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        let warningsHeaderView = NSBundle.mainBundle().loadNibNamed(WARNINGS_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCWarningsHeaderView
-        warningsHeaderView?.configureHeaderViewForSection(section)
-        return warningsHeaderView
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        if section == SectionCount.eZerothSection.rawValue {
+            return NSLocalizedString("SEVERE", comment: "Severe Warnings title")
+        } else {
+            return NSLocalizedString("MILD", comment: "Mild Warnings title")
+        }
     }
-    
-//    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        
-//        if section == SectionCount.eZerothSection.rawValue {
-//            return NSLocalizedString("SEVERE", comment: "Severe Warnings title")
-//        } else {
-//            return NSLocalizedString("MILD", comment: "Mild Warnings title")
-//        }
-//    }
     
     // MARK: Action Methods
     

@@ -62,8 +62,6 @@
 //Button images
 
 #define PLUS_IMAGE @"Plus"
-#define ADMINISTRATING_TIME_UNSELECTED @"AdministratingTimeUnselected"
-#define ADMINISTRATING_TIME_SELECTED @"AdministratingTimeSelected"
 
 //images
 
@@ -364,7 +362,6 @@
 #define LOGOUT_IMAGE @"Logout"
 #define NOTIFICATION_IMAGE @"Notification"
 #define SETTINGS_IMAGE @"Settings"
-#define ALLERGY_IMAGE @"Allergy"
 #define TOP_LOGO @"EmisTopLogo"
 
 //warning types
