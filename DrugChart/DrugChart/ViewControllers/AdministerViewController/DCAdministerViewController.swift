@@ -658,6 +658,10 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                     let refusedTableCell = populatedRefusedTableCellAtIndexPath(indexPath)
                     saveButton?.enabled = true
                     return refusedTableCell
+                } else if (medicationSlot?.medicationAdministration?.status == ENDED || medicationSlot?.medicationAdministration?.status == PAUSED){
+                    var administerCell : DCAdministerCell = (administerTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
+                    administerCell = populatedMedicationStatusTableCellAtIndexPath(administerCell, indexPath: indexPath);
+                    return administerCell
                 } else {
                     let administerCell : DCAdministerCell = (administerTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
                     administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator

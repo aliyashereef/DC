@@ -181,6 +181,7 @@
 #define INSTRUCTIONS_CELL_IDENTIFIER @"InstructionsCell"
 #define ADD_MEDICATION_DETAIL_CELL_IDENTIFIER @"DetailCell"
 #define DATE_PICKER_CELL_IDENTIFIER @"pickercell"
+#define DATE_STATUS_PICKER_CELL_IDENTIFIER @"datepickercell"
 #define ADD_DOSAGE_CELL_IDENTIFIER @"AddDosageCell"
 #define WARNINGS_CELL_ID @"WarningsCell"
 #define OVERRIDE_REASON_CELL_ID @"OverrideReasonCell"

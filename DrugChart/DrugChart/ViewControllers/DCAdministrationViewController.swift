@@ -89,7 +89,12 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         //medication slot selected less than the current date
         if (medication.time.compare(currentSystemDate) == NSComparisonResult.OrderedAscending) {
             if (medication.medicationAdministration?.status != nil) {
+                if self.checkWhetherMedicationIsDurationBased() {
+                    inProgressAdministrationTime = medication.time
+                    return IN_PROGRESS
+                } else {
                 return medication.medicationAdministration.status
+                }
             } else if (slotToAdminister?.medicationAdministration?.actualAdministrationTime == nil){
                    return PENDING
             }

@@ -587,7 +587,7 @@
                                     <outlet property="notesTextView" destination="JrJ-iw-EU1" id="h26-oF-KuO"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="AdministerTableCell" id="4IB-La-blD" customClass="DCAdministerCell" customModule="DrugChart" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="AdministerTableCell" id="4IB-La-blD" customClass="DCAdministerCell" customModule="DrugChart" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="218.5" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4IB-La-blD" id="lVO-gj-AB7">
@@ -627,7 +627,7 @@
                                     <outlet property="titleLabel" destination="DLE-zS-JiR" id="rl3-eu-8jV"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BatchNumberTableCell" id="b43-ew-bh4" customClass="DCBatchNumberCell" customModule="DrugChart" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="BatchNumberTableCell" id="b43-ew-bh4" customClass="DCBatchNumberCell" customModule="DrugChart" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="262.5" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="b43-ew-bh4" id="3cH-M4-a9Q">
@@ -646,6 +646,56 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="batchNumberTextField" destination="ZRi-Ol-fls" id="0gK-wW-j8H"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="datepickercell" rowHeight="216" id="zvO-0X-hea" customClass="DCDatePickerCell">
+                                <rect key="frame" x="0.0" y="306.5" width="600" height="216"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zvO-0X-hea" id="vmW-zp-348">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="215.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <datePicker tag="99" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="fDk-RH-7cV">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="216"/>
+                                            <date key="date" timeIntervalSinceReferenceDate="462981738.40711999">
+                                                <!--2015-09-03 14:02:18 +0000-->
+                                            </date>
+                                            <connections>
+                                                <action selector="datePickerValueChanged:" destination="zvO-0X-hea" eventType="valueChanged" id="zGW-30-qYz"/>
+                                            </connections>
+                                        </datePicker>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="fDk-RH-7cV" firstAttribute="top" secondItem="vmW-zp-348" secondAttribute="top" id="0DE-Ct-78M"/>
+                                        <constraint firstAttribute="bottom" secondItem="fDk-RH-7cV" secondAttribute="bottom" id="1vO-ns-AtM"/>
+                                        <constraint firstAttribute="bottom" secondItem="fDk-RH-7cV" secondAttribute="bottom" constant="-1" id="9JL-xT-Jtf"/>
+                                        <constraint firstItem="fDk-RH-7cV" firstAttribute="top" secondItem="vmW-zp-348" secondAttribute="top" id="9jp-55-CMc"/>
+                                        <constraint firstItem="fDk-RH-7cV" firstAttribute="leading" secondItem="vmW-zp-348" secondAttribute="leading" id="BXX-yf-Cxw"/>
+                                        <constraint firstItem="fDk-RH-7cV" firstAttribute="leading" secondItem="vmW-zp-348" secondAttribute="leading" id="D3y-AB-79U"/>
+                                        <constraint firstAttribute="trailing" secondItem="fDk-RH-7cV" secondAttribute="trailing" id="JMz-SA-gKG"/>
+                                        <constraint firstAttribute="bottom" secondItem="fDk-RH-7cV" secondAttribute="bottom" id="PfX-bo-yxD"/>
+                                        <constraint firstAttribute="trailing" secondItem="fDk-RH-7cV" secondAttribute="trailing" id="T7j-7r-7GQ"/>
+                                        <constraint firstItem="fDk-RH-7cV" firstAttribute="leading" secondItem="vmW-zp-348" secondAttribute="leading" id="Uah-fO-CGl"/>
+                                        <constraint firstAttribute="bottom" secondItem="fDk-RH-7cV" secondAttribute="bottom" id="dT2-xh-NGa"/>
+                                        <constraint firstItem="fDk-RH-7cV" firstAttribute="top" secondItem="vmW-zp-348" secondAttribute="top" id="nSH-FG-4dK"/>
+                                        <constraint firstAttribute="trailing" secondItem="fDk-RH-7cV" secondAttribute="trailing" id="wel-kT-AWa"/>
+                                    </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="Uah-fO-CGl"/>
+                                            <exclude reference="BXX-yf-Cxw"/>
+                                            <exclude reference="1vO-ns-AtM"/>
+                                            <exclude reference="wel-kT-AWa"/>
+                                            <exclude reference="0DE-Ct-78M"/>
+                                            <exclude reference="9jp-55-CMc"/>
+                                            <exclude reference="PfX-bo-yxD"/>
+                                            <exclude reference="dT2-xh-NGa"/>
+                                            <exclude reference="JMz-SA-gKG"/>
+                                        </mask>
+                                    </variation>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="datePicker" destination="fDk-RH-7cV" id="xtZ-M4-QQv"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
