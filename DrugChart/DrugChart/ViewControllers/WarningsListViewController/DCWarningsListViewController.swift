@@ -144,7 +144,11 @@ let SECOND_INDEX = 1
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
         if section == SectionCount.eZerothSection.rawValue {
-            return NSLocalizedString("SEVERE", comment: "Severe Warnings title")
+            if severeArray?.count > 0 {
+                return NSLocalizedString("SEVERE", comment: "Severe Warnings title")
+            } else {
+                return NSLocalizedString("MILD", comment: "Mild Warnings title")
+            }
         } else {
             return NSLocalizedString("MILD", comment: "Mild Warnings title")
         }

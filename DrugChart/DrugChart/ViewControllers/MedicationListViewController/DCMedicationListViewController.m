@@ -168,13 +168,14 @@
             updatedMedication.routeArray = medicationDetails.routeArray;
             updatedMedication.severeWarningCount = severeArray.count;
             updatedMedication.mildWarningCount = mildArray.count;
-            if ([severeArray count] == 0) {
+            if ([warningsArray count] == 0) {
                 //if there are no allergies nor severe warning, dismiss view
                 self.selectedMedication (updatedMedication, warningsArray);
                 [self dismissViewControllerAnimated:YES completion:nil];
             } else {
                 //display severe warning view here
-                [self performSelector:@selector(displayWarningsListView) withObject:nil afterDelay:0.01];
+               // [self performSelector:@selector(displayWarningsListView) withObject:nil afterDelay:0.01];
+                [self displayWarningsListView];
             }
         }
         medicationListTableView.userInteractionEnabled = YES;
@@ -232,7 +233,7 @@
     [self.view endEditing:YES];
     if ([[medicationListArray objectAtIndex:indexPath.row] isKindOfClass:[DCMedication class]]) {
         DCMedication *medication = [medicationListArray objectAtIndex:indexPath.row];
-        [self performSelector:@selector(callWarningsWebServiceForMedication:) withObject:medication afterDelay:0.1];
+        [self callWarningsWebServiceForMedication:medication];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
