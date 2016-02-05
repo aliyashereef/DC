@@ -144,6 +144,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         let schedulingCell : DCSchedulingCell? = schedulingTableView.dequeueReusableCellWithIdentifier(SCHEDULING_INITIAL_CELL_ID) as? DCSchedulingCell
         schedulingCell?.selectionStyle = .Default
         schedulingCell?.descriptionLabel.hidden = false
+        schedulingCell!.titleLabel.textColor = UIColor.blackColor()
         if (indexPath.section == 1) {
             schedulingCell?.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
             if (scheduling?.type == SPECIFIC_TIMES) {
