@@ -558,6 +558,96 @@
                                 </tableViewCellContentView>
                                 <animations/>
                             </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NotesTableCell" rowHeight="125" id="VAS-AS-swC" customClass="DCNotesTableCell" customModule="DrugChart" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="93.5" width="600" height="125"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VAS-AS-swC" id="5mc-YM-jRa">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="124.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Notes" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="JrJ-iw-EU1">
+                                            <rect key="frame" x="9" y="0.0" width="582" height="124"/>
+                                            <color key="textColor" red="0.56078431370000004" green="0.56078431370000004" blue="0.58431372550000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            <connections>
+                                                <outlet property="delegate" destination="VAS-AS-swC" id="XgK-ZB-plB"/>
+                                            </connections>
+                                        </textView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="JrJ-iw-EU1" secondAttribute="trailing" constant="9" id="35G-IV-vCO"/>
+                                        <constraint firstItem="JrJ-iw-EU1" firstAttribute="leading" secondItem="5mc-YM-jRa" secondAttribute="leading" constant="9" id="4XX-ff-gsm"/>
+                                        <constraint firstItem="JrJ-iw-EU1" firstAttribute="top" secondItem="5mc-YM-jRa" secondAttribute="top" id="84V-Wb-B8W"/>
+                                        <constraint firstAttribute="bottom" secondItem="JrJ-iw-EU1" secondAttribute="bottom" id="xQp-2H-cm4"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <connections>
+                                    <outlet property="notesTextView" destination="JrJ-iw-EU1" id="h26-oF-KuO"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="AdministerTableCell" id="4IB-La-blD" customClass="DCAdministerCell" customModule="DrugChart" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="218.5" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4IB-La-blD" id="lVO-gj-AB7">
+                                    <rect key="frame" x="0.0" y="0.0" width="567" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DLE-zS-JiR">
+                                            <rect key="frame" x="15" y="11" width="155" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="155" id="qap-0K-UpT"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" red="0.4039215686" green="0.4039215686" blue="0.4039215686" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dMv-xI-eK2">
+                                            <rect key="frame" x="347" y="11" width="220" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="21" id="IoE-K4-nal"/>
+                                                <constraint firstAttribute="width" constant="220" id="dZL-Zr-QMb"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="DLE-zS-JiR" firstAttribute="centerY" secondItem="lVO-gj-AB7" secondAttribute="centerY" id="Dli-Dm-QfB"/>
+                                        <constraint firstItem="dMv-xI-eK2" firstAttribute="centerY" secondItem="lVO-gj-AB7" secondAttribute="centerY" id="OQS-Lc-MyN"/>
+                                        <constraint firstItem="DLE-zS-JiR" firstAttribute="leading" secondItem="lVO-gj-AB7" secondAttribute="leading" constant="15" id="RG9-jG-xJc"/>
+                                        <constraint firstItem="DLE-zS-JiR" firstAttribute="top" secondItem="lVO-gj-AB7" secondAttribute="top" constant="11" id="bLr-Ze-kVc"/>
+                                        <constraint firstAttribute="bottom" secondItem="DLE-zS-JiR" secondAttribute="bottom" constant="11" id="eF6-LA-djg"/>
+                                        <constraint firstAttribute="trailing" secondItem="dMv-xI-eK2" secondAttribute="trailing" id="xPq-Pv-ovW"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="detailLabel" destination="dMv-xI-eK2" id="weC-fe-ylo"/>
+                                    <outlet property="titleLabel" destination="DLE-zS-JiR" id="rl3-eu-8jV"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BatchNumberTableCell" id="b43-ew-bh4" customClass="DCBatchNumberCell" customModule="DrugChart" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="262.5" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="b43-ew-bh4" id="3cH-M4-a9Q">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Batch No/Expiry Date" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZRi-Ol-fls">
+                                            <rect key="frame" x="14" y="7" width="538" height="30"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                            <connections>
+                                                <outlet property="delegate" destination="b43-ew-bh4" id="sy0-oL-En8"/>
+                                            </connections>
+                                        </textField>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="batchNumberTextField" destination="ZRi-Ol-fls" id="0gK-wW-j8H"/>
+                                </connections>
+                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="lsy-YY-NrR" id="vae-0A-PVZ"/>

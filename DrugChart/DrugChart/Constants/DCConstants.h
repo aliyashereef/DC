@@ -286,6 +286,13 @@
 // Administration status
 #define PENDING @"Pending"
 #define ADMINISTER_MEDICATION @"Administer Medication"
+#define ADMINISTER_NOW @"Administer Now"
+#define IN_PROGRESS @"In progress"
+#define ENDED @"Ended"
+#define STOPED_DUE_TO_PROBLEM @"Stoped due to problem"
+#define CONTINUED_AFTER_PROBLEM @"Continued after problem"
+#define FLUID_CHANGED @"Fluid changed"
+#define PAUSED @"Paused"
 
 #define DATE_COMPONENTS (NSCalendarUnitYear| NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitWeekOfYear |  NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond | NSCalendarUnitWeekday | NSCalendarUnitWeekdayOrdinal)
 
@@ -300,6 +307,7 @@
 #define TO_GIVE @"toGive"
 #define SELF_ADMINISTERED @"selfAdministered"
 #define ADMINISTERED @"Administered"
+#define STARTED @"Started"
 
 //cell heights
 #define CALENDAR_TABLE_CELL_HEIGHT 70.0f

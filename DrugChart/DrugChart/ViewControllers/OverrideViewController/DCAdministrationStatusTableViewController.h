@@ -20,6 +20,7 @@
 
 @property (nonatomic, strong) NSArray *namesArray;
 @property (nonatomic, strong) NSString *previousSelectedValue;
+@property (nonatomic, strong) NSString *status;
 @property (nonatomic, weak) id <StatusListDelegate> medicationStatusDelegate;
 
 @end

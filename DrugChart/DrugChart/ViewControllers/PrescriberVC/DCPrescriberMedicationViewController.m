@@ -706,7 +706,6 @@ typedef enum : NSUInteger {
     UIStoryboard *administerStoryboard = [UIStoryboard storyboardWithName:ADMINISTER_STORYBOARD bundle:nil];
     detailViewController = [administerStoryboard instantiateViewControllerWithIdentifier:@"AdministrationViewControllerSBID"];
     if ([displayMedicationListArray count] > 0) {
-        
         DCMedicationScheduleDetails *medicationList =  [displayMedicationListArray objectAtIndex:indexPath.item];
         detailViewController.scheduleId = medicationList.scheduleId;
         detailViewController.medicationDetails = medicationList;
@@ -716,14 +715,11 @@ typedef enum : NSUInteger {
         detailViewController.medicationSlotsArray = [self medicationSlotsArrayFromSlotsDictionary:medicationSLotsDictionary];
         detailViewController.weekDate = date;
         detailViewController.patientId = self.patient.patientId;
-
         NSDate *startDate = [DCDateUtility dateFromSourceString:medicationList.startDate];
         NSDate *endDate = [DCDateUtility dateFromSourceString:medicationList.endDate];
-
         NSCalendar *calendar = [NSCalendar currentCalendar];
         NSComparisonResult startDateOrder = [calendar compareDate:startDate toDate:date toUnitGranularity:NSCalendarUnitDay];
         NSComparisonResult endDateOrder = [calendar compareDate:endDate toDate:date toUnitGranularity:NSCalendarUnitDay];
-
         if (medicationList.endDate != nil) {
             if ((startDateOrder == NSOrderedAscending || startDateOrder == NSOrderedSame) &&  (endDateOrder == NSOrderedDescending || endDateOrder == NSOrderedSame)) {
                 [self presentAdministrationwithMedicationList:medicationList andDate:date];
