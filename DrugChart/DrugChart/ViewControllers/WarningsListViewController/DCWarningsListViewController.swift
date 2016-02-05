@@ -8,12 +8,10 @@
 
 import UIKit
 
-let SECTION_HEIGHT : CGFloat = 38.0
 let ROW_HEIGHT : CGFloat = 80.0
 let ROW_OFFSET_VALUE : CGFloat = 25.0
 let INITIAL_INDEX = 0
 let SECOND_INDEX = 1
-let WARNINGS_TABLE_HEIGHT : CGFloat = 556.0
 
 @objc public protocol WarningsDelegate {
     
@@ -22,7 +20,8 @@ let WARNINGS_TABLE_HEIGHT : CGFloat = 556.0
 
 @objc class DCWarningsListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, AddMedicationDetailDelegate {
     
-    @IBOutlet weak var warningsTableView: UITableView?
+    @IBOutlet weak var warningsTableView: UITableView!
+    @IBOutlet weak var tableHeight: NSLayoutConstraint!
     
     var warningsArray = [Dictionary<String, AnyObject>]()
     var severeArray : AnyObject?
@@ -42,10 +41,11 @@ let WARNINGS_TABLE_HEIGHT : CGFloat = 556.0
         
         super.viewDidAppear(true)
         warningsTableView!.reloadData()
-        warningsTableView!.setNeedsLayout()
-        warningsTableView!.layoutIfNeeded()
+        // this is set to adjust the bottom constraint, view doesnot move on to its actual height initially
+        tableHeight?.constant = DCUtility.mainWindowSize().height - 64
+        warningsTableView.layoutSubviews()
     }
-        
+    
     override func didReceiveMemoryWarning() {
         
         super.didReceiveMemoryWarning()
@@ -62,11 +62,6 @@ let WARNINGS_TABLE_HEIGHT : CGFloat = 556.0
         if loadOverideView == true {
             self.navigationItem.hidesBackButton = true
         }
-    }
-    
-    func reloadWarningsList() {
-        
-        warningsTableView? .reloadData()
     }
     
     // MARK: Private Methods
@@ -122,7 +117,7 @@ let WARNINGS_TABLE_HEIGHT : CGFloat = 556.0
                 return mildArray!.count
             }
         }
-        return 0
+        return RowCount.eZerothRow.rawValue
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -146,11 +141,6 @@ let WARNINGS_TABLE_HEIGHT : CGFloat = 556.0
         return cell
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        
-        return SECTION_HEIGHT
-    }
-        
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
         if section == SectionCount.eZerothSection.rawValue {
@@ -159,7 +149,7 @@ let WARNINGS_TABLE_HEIGHT : CGFloat = 556.0
             return NSLocalizedString("MILD", comment: "Mild Warnings title")
         }
     }
-    
+        
     // MARK: Action Methods
     
     @IBAction func donotUseDrugAction(sender: AnyObject) {

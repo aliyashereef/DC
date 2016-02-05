@@ -14,7 +14,7 @@
 
 #define CELL_PADDING 24
 #define CELL_MININUM_HEIGHT 44
-//#define TABLEVIEW_TOP_CONSTRAINT_HALF_SCREEN -20.0f
+#define TABLEVIEW_TOP_CONSTRAINT -20.0f
 
 @interface DCMedicationListViewController () <WarningsDelegate> {
     
@@ -40,10 +40,10 @@
     if ([DCAPPDELEGATE windowState] == halfWindow ||
         [DCAPPDELEGATE windowState] == oneThirdWindow) {
         self.isLoadingForFirstTimeInHalfScreen = YES;
-        self.valueForTableTopConstraint = 0.0;
-        tableViewTopConstraint.constant = 00.0;
+        self.valueForTableTopConstraint = ZERO_CONSTRAINT;
+        tableViewTopConstraint.constant = ZERO_CONSTRAINT;
     } else {
-        self.valueForTableTopConstraint = -20.0;
+        self.valueForTableTopConstraint = TABLEVIEW_TOP_CONSTRAINT;
     }
     [self configureViewElements];
 }
@@ -192,20 +192,6 @@
     [warningsListViewController populateWarningsListWithWarnings:warningsArray showOverrideView:YES];
 }
 
-- (void)dismissKeyboardCompletion:(void (^)(void))completion {
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        // dismiss keyboard
-        [self.view endEditing:YES];
-        [self.view layoutIfNeeded];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (completion) {
-                completion();
-            }
-        });
-    });
-}
-
 #pragma mark - UITableView Methods
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -243,14 +229,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     tableView.userInteractionEnabled = NO;// to disable  multiple selection
-    [self dismissKeyboardCompletion:^{
-        DDLogDebug(@"keyboard dismissed");
-        if ([[medicationListArray objectAtIndex:indexPath.row] isKindOfClass:[DCMedication class]]) {
-            DCMedication *medication = [medicationListArray objectAtIndex:indexPath.row];
-            [self performSelector:@selector(callWarningsWebServiceForMedication:) withObject:medication afterDelay:0.1];
-        }
-    }];
-
+    [self.view endEditing:YES];
+    if ([[medicationListArray objectAtIndex:indexPath.row] isKindOfClass:[DCMedication class]]) {
+        DCMedication *medication = [medicationListArray objectAtIndex:indexPath.row];
+        [self performSelector:@selector(callWarningsWebServiceForMedication:) withObject:medication afterDelay:0.1];
+    }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
