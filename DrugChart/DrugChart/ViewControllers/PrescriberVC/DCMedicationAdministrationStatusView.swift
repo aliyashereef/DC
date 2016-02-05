@@ -8,21 +8,22 @@
 
 import UIKit
 
-let ADMINISTRATION_SUCCESS_IMAGE    =   UIImage(named: "AdministrationSuccess")
-let ADMINISTRATION_FAILURE_IMAGE    =   UIImage(named: "AdministrationFailure")
-let ADMINISTRATION_DUE_IMAGE        =   UIImage(named: "AdministrationDue")
+let ADMINISTRATION_SUCCESS_IMAGE    =   UIImage(named: "AllAdministered")
+let ADMINISTRATION_FAILURE_IMAGE    =   UIImage(named: "AnyFailure")
+let ADMINISTRATION_DUE_IMAGE        =   UIImage(named: "DueAt")
+let ADMINISTRATION_DUE_NOW_IMAGE    =   UIImage(named: "DueNow")
 
-let ADMINISTRATION_SUCCESS_IMAGE_ONETHIRD    =   UIImage(named: "OneThirdAdminStatusSuccess")
-let ADMINISTRATION_DUE_IMAGE_ONETHIRD        =   UIImage(named: "OneThirdScreenAdminStatusOverdue")
-let ADMINISTRATION_FAILURE_IMAGE_ONETHIRD    =   UIImage(named: "OneThirdScreenAdminStatusRefused")
-let ADMINISTRATION_OMITTED_IMAGE_ONETHIRD    =   UIImage(named: "OneThirdScreenAdminStatusOmitted")
+//let ADMINISTRATION_SUCCESS_IMAGE_ONETHIRD    =   UIImage(named: "AllAdministered")
+//let ADMINISTRATION_DUE_IMAGE_ONETHIRD        =   UIImage(named: "DueAt")
+////let ADMINISTRATION_FAILURE_IMAGE_ONETHIRD    =   UIImage(named: "AnyFailure")
+//let ADMINISTRATION_OMITTED_IMAGE_ONETHIRD    =   UIImage(named: "AnyFailure")
 
-let ADMINISTRATION_DUE_NOW_IMAGE    =   UIImage(named: "AdministrationDueNow")
 let PENDING_FONT_COLOR              =   UIColor(forHexString: "#acacac")
 let DUE_AT_FONT_COLOR               =   UIColor(forHexString: "#404040")
 let OVERDUE_FONT_COLOR              =   UIColor(forHexString: "#ff8972") // get exact color for display
 let DUE_NOW_FONT_COLOR              =   UIColor.whiteColor()
 let CURRENT_DAY_BACKGROUND_COLOR    =   UIColor(forHexString: "#fafafa")
+let DUE_NOW_BACKGROUND_COLOR        =   UIColor(forHexString: "#f99e35")
 
 typealias AdministerButtonTappedCallback = (Bool) -> Void
 
@@ -66,7 +67,12 @@ class DCMedicationAdministrationStatusView: UIView {
         statusLabel = UILabel.init(frame: contentFrame)
         self.addSubview(statusLabel!)
         statusLabel?.font = UIFont.systemFontOfSize(13.0)
-        statusIcon = UIImageView.init(frame: CGRectMake(0, 0, 25, 25))
+        let appDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
+        if (appDelegate.windowState == DCWindowState.oneThirdWindow){
+            statusIcon = UIImageView.init(frame: CGRectMake(0, 0, 16, 16))
+        } else {
+            statusIcon = UIImageView.init(frame: CGRectMake(0, 0, 25, 25))
+        }
         self.addSubview(statusIcon!)
         statusIcon!.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
         administerButton = DCAdministerButton.init(frame: contentFrame)
@@ -122,7 +128,6 @@ class DCMedicationAdministrationStatusView: UIView {
     func adjustStatusLabelAndImageViewForCurrentDay () {
         
         statusLabel?.hidden = false
-        statusLabel?.hidden = false
         if isOneThirdScreen {
             statusIcon!.center = CGPointMake(self.bounds.size.width/5, self.bounds.size.height/2);
             statusLabel?.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
@@ -144,6 +149,7 @@ class DCMedicationAdministrationStatusView: UIView {
         var overDueCount : NSInteger = 0
         var administeredCount : NSInteger = 0
         var omissionRefusalCount : NSInteger = 0
+        var dueNow = false
         let currentSystemDate : NSDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
         for slot in timeArray as [AnyObject] {
             let medication = slot as! DCMedicationSlot
@@ -153,6 +159,12 @@ class DCMedicationAdministrationStatusView: UIView {
                     overDueCount++
                     break;
                 }
+            }
+            // due now functionality
+            let secondsBetween = medication.time.timeIntervalSinceDate(currentSystemDate)
+            if (secondsBetween <= 60*5 && secondsBetween > 0) {
+                //Due in 5 minutes
+                dueNow = true
             }
             //check the conditions of early administrations as well
             if (medication.medicationAdministration?.actualAdministrationTime != nil) {
@@ -165,17 +177,48 @@ class DCMedicationAdministrationStatusView: UIView {
         }
         if (overDueCount > 0) {
             //display overdue label here
-            statusLabel?.hidden = false
-            statusLabel?.textColor = OVERDUE_FONT_COLOR
-            statusLabel?.text = NSLocalizedString("OVERDUE", comment: "Some medications are overdue")
-            if isOneThirdScreen {
-                statusLabel?.textAlignment = NSTextAlignment.Right
-            } else {
-                statusLabel?.textAlignment = NSTextAlignment.Center
-            }
+            displayOverDueLabel()
         } else {
-            updateCurrentDayStatusViewWithAdministrationCount(administrationCount:administeredCount, omittedRefusalCount: omissionRefusalCount)
+            if dueNow == true {
+                //display due now view
+                updateDueNowStatusInView()
+            } else {
+                updateCurrentDayStatusViewWithAdministrationCount(administrationCount:administeredCount, omittedRefusalCount: omissionRefusalCount)
+            }
         }
+    }
+    
+    func displayOverDueLabel() {
+        
+        //configure overdue label
+        statusLabel?.hidden = false
+        statusLabel?.textColor = OVERDUE_FONT_COLOR
+        statusLabel?.text = NSLocalizedString("OVERDUE", comment: "Some medications are overdue")
+        if isOneThirdScreen {
+            statusLabel?.textAlignment = NSTextAlignment.Right
+        } else {
+            statusLabel?.textAlignment = NSTextAlignment.Center
+        }
+    }
+    
+    func updateDueNowStatusInView() {
+        
+        //update due now status in view
+        adjustStatusLabelAndImageViewForCurrentDay()
+        // statusLabel?.hidden = false
+        statusLabel?.textAlignment = NSTextAlignment.Center
+        if (isOneThirdScreen) {
+            statusLabel?.center = CGPointMake(self.bounds.size.width/1.7, self.bounds.size.height/2);
+        } else {
+            statusLabel?.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
+        }
+        statusLabel?.textColor = DUE_NOW_FONT_COLOR
+        statusLabel?.text = NSLocalizedString("DUE_NOW", comment: "due now text")
+        statusIcon?.hidden = false
+        statusIcon?.image = ADMINISTRATION_DUE_NOW_IMAGE
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            self.backgroundColor = DUE_NOW_BACKGROUND_COLOR
+        })
     }
     
     func updateCurrentDayStatusViewWithAdministrationCount(administrationCount administeredCount: NSInteger, omittedRefusalCount : NSInteger) {
@@ -185,11 +228,11 @@ class DCMedicationAdministrationStatusView: UIView {
             statusLabel?.hidden = true
             statusIcon?.hidden = false
             statusIcon!.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
-            if isOneThirdScreen {
-                statusIcon?.image = (administeredCount == timeArray.count) ? ADMINISTRATION_SUCCESS_IMAGE_ONETHIRD : ADMINISTRATION_OMITTED_IMAGE_ONETHIRD
-            } else {
+//            if isOneThirdScreen {
+//                statusIcon?.image = (administeredCount == timeArray.count) ? ADMINISTRATION_SUCCESS_IMAGE_ONETHIRD : ADMINISTRATION_OMITTED_IMAGE_ONETHIRD
+//            } else {
                 statusIcon?.image = (administeredCount == timeArray.count) ? ADMINISTRATION_SUCCESS_IMAGE : ADMINISTRATION_FAILURE_IMAGE
-            }
+         //   }
         } else {
             let nearestSlot : DCMedicationSlot? = nearestMedicationSlotToBeAdministered()
             if (nearestSlot != nil) {
@@ -199,11 +242,11 @@ class DCMedicationAdministrationStatusView: UIView {
                         let dueTime = DCDateUtility.dateStringFromDate(nearestSlot?.time, inFormat: TWENTYFOUR_HOUR_FORMAT)
                         adjustStatusLabelAndImageViewForCurrentDay()
                         //Populate due label
-                        if !isOneThirdScreen {
+                       // if !isOneThirdScreen {
                             statusIcon?.image = ADMINISTRATION_DUE_IMAGE
-                        } else {
-                            statusIcon?.image = ADMINISTRATION_DUE_IMAGE_ONETHIRD
-                        }
+//                        } else {
+//                            statusIcon?.image = ADMINISTRATION_DUE_IMAGE_ONETHIRD
+//                        }
                         if let time = dueTime {
                             statusLabel?.text = String(format: "Due at %@", time)
                         }
@@ -219,13 +262,12 @@ class DCMedicationAdministrationStatusView: UIView {
                         statusLabel?.hidden = true
                         statusIcon?.hidden = false
                         statusIcon!.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
-                        if (isOneThirdScreen) {
-                            statusIcon?.image = (administeredCount == timeArray.count) ?  ADMINISTRATION_SUCCESS_IMAGE_ONETHIRD: ADMINISTRATION_OMITTED_IMAGE_ONETHIRD
-
-                        } else {
+//                        if (isOneThirdScreen) {
+//                            statusIcon?.image = (administeredCount == timeArray.count) ?  ADMINISTRATION_SUCCESS_IMAGE_ONETHIRD: ADMINISTRATION_OMITTED_IMAGE_ONETHIRD
+//
+//                        } else {
                             statusIcon?.image = (administeredCount == timeArray.count) ? ADMINISTRATION_SUCCESS_IMAGE : ADMINISTRATION_FAILURE_IMAGE
-
-                        }
+                    //    }
                     }
                 }
             }
@@ -279,11 +321,11 @@ class DCMedicationAdministrationStatusView: UIView {
             //display tick mark
             statusIcon?.hidden = false
             statusLabel?.hidden = true
-            if(!isOneThirdScreen) {
+            //if(!isOneThirdScreen) {
                 statusIcon?.image = ADMINISTRATION_SUCCESS_IMAGE
-            } else {
-                statusIcon?.image = ADMINISTRATION_SUCCESS_IMAGE_ONETHIRD
-            }
+//            } else {
+//                statusIcon?.image = ADMINISTRATION_SUCCESS_IMAGE_ONETHIRD
+//            }
         } else if (overDueCount > 0) {
             //display Overdue label, indicate label with text 'Overdue'
             if (medicationCategory != WHEN_REQUIRED) {
@@ -301,11 +343,11 @@ class DCMedicationAdministrationStatusView: UIView {
             //display cross symbol
             statusLabel?.hidden = true
             statusIcon?.hidden = false
-            if(!isOneThirdScreen) {
+          //  if(!isOneThirdScreen) {
                 statusIcon?.image = ADMINISTRATION_FAILURE_IMAGE
-            } else {
-                statusIcon?.image = ADMINISTRATION_OMITTED_IMAGE_ONETHIRD
-            }
+//            } else {
+//                statusIcon?.image = ADMINISTRATION_OMITTED_IMAGE_ONETHIRD
+//            }
         }
     }
     

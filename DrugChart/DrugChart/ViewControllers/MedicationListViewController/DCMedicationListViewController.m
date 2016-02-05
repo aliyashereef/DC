@@ -14,7 +14,7 @@
 
 #define CELL_PADDING 24
 #define CELL_MININUM_HEIGHT 44
-//#define TABLEVIEW_TOP_CONSTRAINT_HALF_SCREEN -20.0f
+#define TABLEVIEW_TOP_CONSTRAINT -20.0f
 
 @interface DCMedicationListViewController () <WarningsDelegate> {
     
@@ -40,10 +40,10 @@
     if ([DCAPPDELEGATE windowState] == halfWindow ||
         [DCAPPDELEGATE windowState] == oneThirdWindow) {
         self.isLoadingForFirstTimeInHalfScreen = YES;
-        self.valueForTableTopConstraint = 0.0;
-        tableViewTopConstraint.constant = 00.0;
+        self.valueForTableTopConstraint = ZERO_CONSTRAINT;
+        tableViewTopConstraint.constant = ZERO_CONSTRAINT;
     } else {
-        self.valueForTableTopConstraint = -20.0;
+        self.valueForTableTopConstraint = TABLEVIEW_TOP_CONSTRAINT;
     }
     [self configureViewElements];
 }
@@ -70,6 +70,10 @@
     
     [self ajustTableViewConstraints];
     [super viewDidLayoutSubviews];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
 }
 
 #pragma mark - Private Methods
@@ -113,7 +117,6 @@
     medicationWebService.searchString = searchString;
     [activityIndicator startAnimating];
     [medicationWebService getCompleteMedicationListWithCallBackHandler:^(id response, NSDictionary *errorDict) {
-        
         if (!errorDict) {
             medicationListArray = [NSMutableArray arrayWithArray:response];
             if ([medicationListArray count] == 0) {
@@ -121,7 +124,6 @@
             }
             [medicationListTableView reloadData];
         } else {
-            [activityIndicator stopAnimating];
             NSInteger errorCode = [[errorDict valueForKey:@"code"] integerValue];
             if (errorCode != NSURLErrorCancelled) {
                 medicationListArray = [NSMutableArray arrayWithArray:@[NSLocalizedString(@"NO_MEDICATIONS", @"")]];
@@ -166,13 +168,14 @@
             updatedMedication.routeArray = medicationDetails.routeArray;
             updatedMedication.severeWarningCount = severeArray.count;
             updatedMedication.mildWarningCount = mildArray.count;
-            if ([severeArray count] == 0) {
+            if ([warningsArray count] == 0) {
                 //if there are no allergies nor severe warning, dismiss view
                 self.selectedMedication (updatedMedication, warningsArray);
                 [self dismissViewControllerAnimated:YES completion:nil];
             } else {
                 //display severe warning view here
-                [self performSelector:@selector(displayWarningsListView) withObject:nil afterDelay:0.01];
+               // [self performSelector:@selector(displayWarningsListView) withObject:nil afterDelay:0.01];
+                [self displayWarningsListView];
             }
         }
         medicationListTableView.userInteractionEnabled = YES;
@@ -211,7 +214,6 @@
     
     static NSString *cellIdentifier = MEDICATION_LIST_CELL_IDENTIFIER;
     DCMedicationListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-//    cell.layoutMargins = UIEdgeInsetsZero;
     if (cell == nil) {
         cell = [[DCMedicationListTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
@@ -227,14 +229,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [medicationSearchBar resignFirstResponder];
-    });
     tableView.userInteractionEnabled = NO;// to disable  multiple selection
+    [self.view endEditing:YES];
     if ([[medicationListArray objectAtIndex:indexPath.row] isKindOfClass:[DCMedication class]]) {
         DCMedication *medication = [medicationListArray objectAtIndex:indexPath.row];
-        [self performSelector:@selector(callWarningsWebServiceForMedication:) withObject:medication afterDelay:0.1];
-        //[self dismissViewControllerAnimated:YES completion:nil];
+        [self callWarningsWebServiceForMedication:medication];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

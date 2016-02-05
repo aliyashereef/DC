@@ -36,7 +36,7 @@
     __block BOOL isDone = NO;
 
     DCAddMedicationWebService *webService = [[DCAddMedicationWebService alloc] init];
-    [webService addMedicationForMedicationType:REGULAR_MEDICATION forPatientId:PATIENT_ID withParameters:[self getMedicationDetailsDictionaryForType:REGULAR_MEDICATION] withCallbackHandler:^(id response, NSError *error) {
+    [webService addMedicationForMedicationType:REGULAR_MEDICATION forPatientId:PATIENT_ID withParameters:[self medicationDetailsDictionaryForType:REGULAR_MEDICATION] withCallbackHandler:^(id response, NSError *error) {
         if (!error) {
             isDone = YES;
             
@@ -52,7 +52,7 @@
     __block BOOL isDone = NO;
     
     DCAddMedicationWebService *webService = [[DCAddMedicationWebService alloc] init];
-    [webService addMedicationForMedicationType:ONCE_MEDICATION forPatientId:PATIENT_ID withParameters:[self getMedicationDetailsDictionaryForType:ONCE_MEDICATION] withCallbackHandler:^(id response, NSError *error) {
+    [webService addMedicationForMedicationType:ONCE_MEDICATION forPatientId:PATIENT_ID withParameters:[self medicationDetailsDictionaryForType:ONCE_MEDICATION] withCallbackHandler:^(id response, NSError *error) {
         if (!error) {
             isDone = YES;
         
