@@ -19,7 +19,7 @@ class DCSchedulingTimeCell: UITableViewCell {
     @IBOutlet weak var timeValueLabel: UILabel! // selected value
     @IBOutlet weak var timeSwitch: UISwitch! // switch to set/unset start&endtime
     var schedulingCellDelegate : SchedulingTimeCellDelegate?
-    var previousPickerState : Bool?
+    //var previousPickerState : Bool?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -44,11 +44,12 @@ class DCSchedulingTimeCell: UITableViewCell {
         self.accessoryType = .DisclosureIndicator
     }
     
-    func configureSetStartAndEndTimeCell() {
+    func configureSetStartAndEndTimeCellForSwitchState(state : Bool) {
         
         //configure cell with switch element in it
         timeSwitch.hidden = false
-        timeSwitch.on = previousPickerState!
+        //timeSwitch.on = previousPickerState!
+        timeSwitch.on = state
         timeValueLabel.hidden = true
         timeTypeLabel.text = NSLocalizedString("SET_START_END_TIME", comment: "")
         self.accessoryType = .None
@@ -57,13 +58,13 @@ class DCSchedulingTimeCell: UITableViewCell {
     //MARK: Action Methods
     @IBAction func timeSwitchValueChanged(sender: AnyObject) {
         
-        let switchState = timeSwitch.on;
-        if switchState != previousPickerState {
+       // let switchState = timeSwitch.on;
+        //if switchState != previousPickerState {
             if let delegate = schedulingCellDelegate {
                 delegate.setStartEndTimeSwitchValueChanged(timeSwitch.on)
             }
-            previousPickerState = switchState
-        }
+          //  previousPickerState = switchState
+       // }
     }
 
 }

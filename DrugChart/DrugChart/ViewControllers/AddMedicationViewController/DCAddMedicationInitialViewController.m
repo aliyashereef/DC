@@ -99,7 +99,7 @@
         self.selectedMedication.hasReviewDate = (self.selectedMedication.endDate == nil) ? NO : YES;
         self.selectedMedication.hasEndDate = (self.selectedMedication.endDate == nil) ? NO : YES;
         self.selectedMedication.timeArray = [DCAddMedicationHelper timesArrayFromScheduleArray:self.selectedMedication.scheduleTimesArray];
-        dateAndTimeSection = 2; //TODO: temporarily added as warnings are not displayed for the time being
+        dateAndTimeSection = 3; //TODO: temporarily added as warnings are not displayed for the time being
     }
 }
 
@@ -213,14 +213,16 @@
             cell.accessoryType = UITableViewCellAccessoryNone;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.noEndDateStatus = ^ (BOOL state) {
-                if (_datePickerIndexPath != nil) {
-                    [self collapseOpenedPickerCell];
-                }
                 
-            self.selectedMedication.hasReviewDate = state;
-            [self performSelector:@selector(configureReviewDateTableCellDisplayBasedOnSwitchState) withObject:nil afterDelay:0.1];
-            };
-            cell.previousSwitchState = self.selectedMedication.hasReviewDate;
+                if (state != self.selectedMedication.hasReviewDate) {
+                    if (_datePickerIndexPath != nil) {
+                        [self collapseOpenedPickerCell];
+                    }
+                    self.selectedMedication.hasReviewDate = state;
+                    [self performSelector:@selector(configureReviewDateTableCellDisplayBasedOnSwitchState) withObject:nil afterDelay:0.1];
+                }
+             };
+           // cell.previousSwitchState = self.selectedMedication.hasReviewDate;
             return cell;
         }
         case eFirstSection:{
@@ -295,9 +297,9 @@
     DCDateTableViewCell *cell = [medicationDetailsTableView dequeueReusableCellWithIdentifier:kDateCellID];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.isEditMedication = self.isEditMedication;
-    if(self.isEditMedication) {
-        cell.previousSwitchState = self.selectedMedication.hasEndDate;
-    }
+   // if(self.isEditMedication) {
+      //  cell.previousSwitchState = self.selectedMedication.hasEndDate;
+   // }
     if (cell == nil) {
         cell = [[DCDateTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kDateCellID];
     }
@@ -399,12 +401,16 @@
     [tableCell configureCellWithNoEndDateSwitchState:self.selectedMedication.hasEndDate];
     tableCell.accessoryType = UITableViewCellAccessoryNone;
     tableCell.selectionStyle = UITableViewCellSelectionStyleNone;
+   __weak DCDateTableViewCell *weakTableCell = tableCell;
     tableCell.noEndDateStatus = ^ (BOOL state) {
-        if (_datePickerIndexPath != nil) {
-            [self collapseOpenedPickerCell];
+        if (state != self.selectedMedication.hasEndDate) {
+            if (_datePickerIndexPath != nil) {
+                [self collapseOpenedPickerCell];
+            }
+            [weakTableCell.noEndDateSwitch setUserInteractionEnabled:NO];
+            self.selectedMedication.hasEndDate = state;
+            [self performSelector:@selector(configureNoEndDateTableCellDisplayBasedOnSwitchState) withObject:nil afterDelay:0.1];
         }
-        self.selectedMedication.hasEndDate = state;
-        [self performSelector:@selector(configureNoEndDateTableCellDisplayBasedOnSwitchState) withObject:nil afterDelay:0.1];
     };
     return tableCell;
 }
@@ -428,7 +434,7 @@
             _datePickerIndexPath = nil;
         }
          DCDateTableViewCell *tableCell = (DCDateTableViewCell *)[medicationDetailsTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:endDateIndexPath.row - 1 inSection:endDateIndexPath.section]];
-        [tableCell.noEndDateSwitch setUserInteractionEnabled:NO];
+        //[tableCell.noEndDateSwitch setUserInteractionEnabled:NO];
         [self deleteEndDateCellAfterDelay:tableCell withEndDateIndexPath:endDateIndexPath];
     } else {
         NSIndexPath *endDateIndexPath;
@@ -438,7 +444,7 @@
             endDateIndexPath = [NSIndexPath indexPathForRow:2 inSection:dateSection];
         }
         DCDateTableViewCell *tableCell = (DCDateTableViewCell *)[medicationDetailsTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:endDateIndexPath.row - 1 inSection:dateSection]];
-        [tableCell.noEndDateSwitch setUserInteractionEnabled:NO];
+       // [tableCell.noEndDateSwitch setUserInteractionEnabled:NO];
         [self insertEndDateCellAfterDelay:tableCell withEndDateIndexPath:endDateIndexPath];
     }
 }
