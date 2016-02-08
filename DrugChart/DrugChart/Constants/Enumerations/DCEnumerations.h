@@ -127,6 +127,11 @@ typedef enum : NSUInteger {
     eAddNewTimes
 }AddNewType;
 
+typedef enum : NSUInteger {
+    
+    eAddIntegerValue,
+    eAddValueWithUnit,
+}ValueType;
 
 typedef enum : NSUInteger {
     
