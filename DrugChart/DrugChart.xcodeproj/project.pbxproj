@@ -350,6 +350,8 @@
 		FD2FF8BD1C3BD82500778A4E /* DCAddNewDoseAndTimeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2FF8BC1C3BD82500778A4E /* DCAddNewDoseAndTimeTableViewCell.swift */; };
 		FD2FF8BF1C3BD84C00778A4E /* DCDosageUnitSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2FF8BE1C3BD84C00778A4E /* DCDosageUnitSelectionViewController.swift */; };
 		FD2FF8C21C3BD87E00778A4E /* DCDosageUnitSelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2FF8C11C3BD87E00778A4E /* DCDosageUnitSelectionTableViewCell.swift */; };
+		FD3214DE1C60B6260058B290 /* DCAddNewValueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3214DD1C60B6260058B290 /* DCAddNewValueViewController.swift */; };
+		FD3214E01C60B63C0058B290 /* DCAddNewValueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3214DF1C60B63C0058B290 /* DCAddNewValueTableViewCell.swift */; };
 		FD618F2D1C19777C005EC416 /* Dosage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD618F2C1C19777C005EC416 /* Dosage.storyboard */; };
 		FD618F301C1979E7005EC416 /* DCDosageSelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD618F2E1C1979E7005EC416 /* DCDosageSelectionTableViewCell.swift */; };
 		FD618F311C1979E7005EC416 /* DCDosageSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD618F2F1C1979E7005EC416 /* DCDosageSelectionViewController.swift */; };
@@ -362,6 +364,7 @@
 		FDD548741C4511B8000EB855 /* DCReducingIncreasingDose.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD548731C4511B8000EB855 /* DCReducingIncreasingDose.m */; };
 		FDD548771C4511CF000EB855 /* DCSplitDailyDose.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD548761C4511CF000EB855 /* DCSplitDailyDose.m */; };
 		FDD5487B1C4513FA000EB855 /* DCConditions.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD5487A1C4513FA000EB855 /* DCConditions.m */; };
+		FDDB10911C620094007231B6 /* DCAddNewValuePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDB10901C620094007231B6 /* DCAddNewValuePickerCell.swift */; };
 		FDDBBB031C24197800726DDA /* DCDosageDetailPickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDBBB021C24197800726DDA /* DCDosageDetailPickerCell.swift */; };
 		FDDEE1951C4CD13000F02F4B /* DCSelectedTimeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDEE1941C4CD13000F02F4B /* DCSelectedTimeTableViewCell.swift */; };
 		FDDEE1AB1C4D01B200F02F4B /* UIView+UIAppearence_Swift.m in Sources */ = {isa = PBXBuildFile; fileRef = FDDEE1AA1C4D01B200F02F4B /* UIView+UIAppearence_Swift.m */; };
@@ -841,6 +844,8 @@
 		FD2FF8BC1C3BD82500778A4E /* DCAddNewDoseAndTimeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAddNewDoseAndTimeTableViewCell.swift; sourceTree = "<group>"; };
 		FD2FF8BE1C3BD84C00778A4E /* DCDosageUnitSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageUnitSelectionViewController.swift; sourceTree = "<group>"; };
 		FD2FF8C11C3BD87E00778A4E /* DCDosageUnitSelectionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageUnitSelectionTableViewCell.swift; sourceTree = "<group>"; };
+		FD3214DD1C60B6260058B290 /* DCAddNewValueViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAddNewValueViewController.swift; sourceTree = "<group>"; };
+		FD3214DF1C60B63C0058B290 /* DCAddNewValueTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAddNewValueTableViewCell.swift; sourceTree = "<group>"; };
 		FD618F2C1C19777C005EC416 /* Dosage.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Dosage.storyboard; sourceTree = "<group>"; };
 		FD618F2E1C1979E7005EC416 /* DCDosageSelectionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageSelectionTableViewCell.swift; sourceTree = "<group>"; };
 		FD618F2F1C1979E7005EC416 /* DCDosageSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageSelectionViewController.swift; sourceTree = "<group>"; };
@@ -859,6 +864,7 @@
 		FDD548761C4511CF000EB855 /* DCSplitDailyDose.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCSplitDailyDose.m; sourceTree = "<group>"; };
 		FDD548791C4513FA000EB855 /* DCConditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCConditions.h; sourceTree = "<group>"; };
 		FDD5487A1C4513FA000EB855 /* DCConditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCConditions.m; sourceTree = "<group>"; };
+		FDDB10901C620094007231B6 /* DCAddNewValuePickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAddNewValuePickerCell.swift; sourceTree = "<group>"; };
 		FDDBBB021C24197800726DDA /* DCDosageDetailPickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageDetailPickerCell.swift; sourceTree = "<group>"; };
 		FDDEE1941C4CD13000F02F4B /* DCSelectedTimeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCSelectedTimeTableViewCell.swift; sourceTree = "<group>"; };
 		FDDEE1A91C4D01B200F02F4B /* UIView+UIAppearence_Swift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+UIAppearence_Swift.h"; sourceTree = "<group>"; };
@@ -1778,6 +1784,7 @@
 		0BBC8F9A1AA468920085ABAB /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				FD3214DC1C60B4780058B290 /* AddNewValueViewController */,
 				7D632D801C3A0B960029BAF5 /* WardsInformationsViewController */,
 				4D41757E1C22869100F924C1 /* AdministrationViewController */,
 				4D54C0771BFB2BD700A61273 /* CalendarOneThirdViewController */,
@@ -2868,6 +2875,16 @@
 			name = DosageUnitSelection;
 			sourceTree = "<group>";
 		};
+		FD3214DC1C60B4780058B290 /* AddNewValueViewController */ = {
+			isa = PBXGroup;
+			children = (
+				FD3214DD1C60B6260058B290 /* DCAddNewValueViewController.swift */,
+				FD3214DF1C60B63C0058B290 /* DCAddNewValueTableViewCell.swift */,
+				FDDB10901C620094007231B6 /* DCAddNewValuePickerCell.swift */,
+			);
+			name = AddNewValueViewController;
+			sourceTree = "<group>";
+		};
 		FD618F321C197A1A005EC416 /* DosageSelection */ = {
 			isa = PBXGroup;
 			children = (
@@ -3226,6 +3243,7 @@
 				0BD6991F1BB2C7FE008797A2 /* DCNotesTableCell.swift in Sources */,
 				1FD4FD031BF4BAAD00B77B94 /* DoubleCell.swift in Sources */,
 				0B1589E71AD51B33005F3811 /* DCWardWebService.m in Sources */,
+				FDDB10911C620094007231B6 /* DCAddNewValuePickerCell.swift in Sources */,
 				FD2FF8BB1C3BD80300778A4E /* DCAddNewDoseAndTimeViewController.swift in Sources */,
 				FD2FF8BF1C3BD84C00778A4E /* DCDosageUnitSelectionViewController.swift in Sources */,
 				0BBC8F841AA44E330085ABAB /* DCLoginWebService.m in Sources */,
@@ -3392,6 +3410,7 @@
 				4D766C0F1BBD004800413E08 /* DCDateView.swift in Sources */,
 				4D8386A21BB2887D0012EF7D /* DCNotesAndReasonCell.swift in Sources */,
 				0BA40BBA1B299D67005B80AD /* HTMLParser.m in Sources */,
+				FD3214E01C60B63C0058B290 /* DCAddNewValueTableViewCell.swift in Sources */,
 				0BB33DD41B79F4ED00B05E4D /* DCMedication.m in Sources */,
 				4D4D1D6D1B983E9C0007C153 /* DCMedicationListTableViewCell.m in Sources */,
 				0BA803741BA80DCD00DBB45D /* DCWarningsCell.swift in Sources */,
@@ -3407,6 +3426,7 @@
 				0B4BD4371C47C45400C49589 /* DCInjectionTableCell.swift in Sources */,
 				0B1589EB1AD52D3B005F3811 /* DCHTTPRequestOperationManager.m in Sources */,
 				1FF1F8801C3D1E1E007F3B9C /* SingleLineGraphController.swift in Sources */,
+				FD3214DE1C60B6260058B290 /* DCAddNewValueViewController.swift in Sources */,
 				0BA40BB91B299D67005B80AD /* HTMLNode.m in Sources */,
 				1F19770E1BFDE75900106023 /* HeaderCollectionViewCell.swift in Sources */,
 				FD2FF8BD1C3BD82500778A4E /* DCAddNewDoseAndTimeTableViewCell.swift in Sources */,
@@ -3541,8 +3561,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Md Shaheer K.A. (J69GNJ5DYQ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Md Shaheer K.A. (J69GNJ5DYQ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Vijesh Vijay (D6BPPM2Y6Z)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Vijesh Vijay (D6BPPM2Y6Z)";
 				COPY_PHASE_STRIP = NO;
 				DEFINES_MODULE = YES;
 				ENABLE_BITCODE = NO;
@@ -3565,7 +3585,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "e0e1649d-f6be-408a-a401-d6fc15d82bc0";
+				PROVISIONING_PROFILE = "58a9a015-e1dc-49b6-96bc-8ade9ec3f10d";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -3588,8 +3608,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Md Shaheer K.A. (J69GNJ5DYQ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Md Shaheer K.A. (J69GNJ5DYQ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Vijesh Vijay (D6BPPM2Y6Z)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Vijesh Vijay (D6BPPM2Y6Z)";
 				COPY_PHASE_STRIP = YES;
 				DEFINES_MODULE = YES;
 				ENABLE_BITCODE = NO;
@@ -3605,7 +3625,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "e0e1649d-f6be-408a-a401-d6fc15d82bc0";
+				PROVISIONING_PROFILE = "58a9a015-e1dc-49b6-96bc-8ade9ec3f10d";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = 2;
