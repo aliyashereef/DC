@@ -22,7 +22,6 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
     var patientId : NSString = EMPTY_STRING
     var scheduleId : NSString = EMPTY_STRING
     var errorMessage : String = EMPTY_STRING
-    var inProgressAdministrationTime : NSDate?
     var helper : DCSwiftObjCNavigationHelper = DCSwiftObjCNavigationHelper.init()
 
     
@@ -62,6 +61,9 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         if (medication.medicationAdministration?.status != nil && medication.medicationAdministration.actualAdministrationTime != nil){
             return (medication.medicationAdministration?.status)!
         }
+        if medication.medicationAdministration?.status == STARTED {
+            return IN_PROGRESS
+        }
         //medication slot selected more than the current date
         if (medication.time.compare(currentSystemDate) == NSComparisonResult.OrderedDescending){
             let slotDateString : NSString? = DCDateUtility.dateStringFromDate(slotToAdminister?.time, inFormat: SHORT_DATE_FORMAT)
@@ -69,7 +71,6 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
                 return PENDING
             } else if (medication.medicationAdministration?.status != nil) {
                 if self.checkWhetherMedicationIsDurationBased() {
-                    inProgressAdministrationTime = medication.time
                     return IN_PROGRESS
                 } else {
                     return medication.medicationAdministration.status
@@ -79,7 +80,6 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         if let slotToAdministerDate = slotToAdminister?.time {
             if (medication.time.compare(slotToAdministerDate) == NSComparisonResult.OrderedSame) {
                 if self.checkWhetherMedicationIsDurationBased() {
-                    inProgressAdministrationTime = medication.time
                     return ADMINISTER_NOW
                 } else {
                     return ADMINISTER_MEDICATION
@@ -90,7 +90,6 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         if (medication.time.compare(currentSystemDate) == NSComparisonResult.OrderedAscending) {
             if (medication.medicationAdministration?.status != nil) {
                 if self.checkWhetherMedicationIsDurationBased() {
-                    inProgressAdministrationTime = medication.time
                     return IN_PROGRESS
                 } else {
                 return medication.medicationAdministration.status

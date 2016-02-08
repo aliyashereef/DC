@@ -665,7 +665,11 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 } else {
                     let administerCell : DCAdministerCell = (administerTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
                     administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
-                    administerCell.titleLabel.text = NSLocalizedString("STATUS", comment: "status title text")
+                    if self.isMedicationDurationBasedInfusion() && status == IN_PROGRESS{
+                        administerCell.titleLabel.text = "Status Change"
+                    } else {
+                        administerCell.titleLabel.text = NSLocalizedString("STATUS", comment: "status title text")
+                    }
                     administerCell.detailLabel.text = EMPTY_STRING
                     if(saveClicked == true && medicationSlot?.medicationAdministration?.status == nil) {
                         administerCell.titleLabel.textColor = UIColor.redColor()
@@ -1019,12 +1023,15 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             administerDictionary.setValue(administeredDateString, forKey:ACTUAL_ADMINISTRATION_TIME)
         } else {
             administerDictionary.setValue(dateFormatter.stringFromDate(NSDate()), forKey:ACTUAL_ADMINISTRATION_TIME)
+            medicationSlot?.medicationAdministration?.actualAdministrationTime = DCDateUtility.dateInCurrentTimeZone(NSDate())
         }
         // To Do : for the sake of display of infusions , untill the API gets updated, this value need to be changed dynamic.
-        if (medicationSlot?.medicationAdministration?.status == STARTED) {
-            medicationSlot?.medicationAdministration?.status = ADMINISTERED
+        var adminStatus = medicationSlot?.medicationAdministration?.status
+        if (adminStatus == STARTED) {
+            medicationSlot?.medicationAdministration?.status = IN_PROGRESS
+            adminStatus = ADMINISTERED
         }
-        administerDictionary.setValue(medicationSlot?.medicationAdministration?.status, forKey: ADMINISTRATION_STATUS)
+        administerDictionary.setValue(adminStatus, forKey: ADMINISTRATION_STATUS)
         if let administratingStatus : Bool = medicationSlot?.medicationAdministration?.isSelfAdministered.boolValue {
             if administratingStatus == false {
                 administerDictionary.setValue(medicationSlot?.medicationAdministration?.administratingUser!.userIdentifier, forKey:"AdministratingUserIdentifier")
