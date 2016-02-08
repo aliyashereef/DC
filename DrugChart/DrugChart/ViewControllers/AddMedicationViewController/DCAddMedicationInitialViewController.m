@@ -150,6 +150,7 @@
     }
     switch (type) {
         case eWarningsCell: {
+            cell.titleLabel.textColor = [UIColor blackColor];
             cell.titleLabel.text = NSLocalizedString(@"WARNINGS", @"Warnings cell title");
             NSInteger warningsCount = self.selectedMedication.severeWarningCount + self.selectedMedication.mildWarningCount;
             [cell configureMedicationContentCellWithWarningsCount:warningsCount];
