@@ -693,7 +693,7 @@ typedef enum : NSUInteger {
     
     DCMedicationScheduleDetails *medicationList = [displayMedicationListArray objectAtIndex:administrationViewPresentedIndexPath.item];
     detailViewController.medicationDetails = medicationList;
-    detailViewController.medicationSlotsArray = _medicationSlotArray;
+//    detailViewController.medicationSlotsArray = _medicationSlotArray;
     [detailViewController initialiseMedicationSlotToAdministerObject];
     [detailViewController.administerTableView reloadData];
 }

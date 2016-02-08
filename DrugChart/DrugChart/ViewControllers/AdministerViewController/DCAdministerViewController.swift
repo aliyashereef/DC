@@ -1004,6 +1004,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             administerDictionary.setValue(administeredDateString, forKey:ACTUAL_ADMINISTRATION_TIME)
         } else {
             administerDictionary.setValue(dateFormatter.stringFromDate(NSDate()), forKey:ACTUAL_ADMINISTRATION_TIME)
+            medicationSlot?.medicationAdministration?.actualAdministrationTime = DCDateUtility.dateInCurrentTimeZone(NSDate())
         }
         administerDictionary.setValue(medicationSlot?.medicationAdministration?.status, forKey: ADMINISTRATION_STATUS)
         if let administratingStatus : Bool = medicationSlot?.medicationAdministration?.isSelfAdministered.boolValue {
