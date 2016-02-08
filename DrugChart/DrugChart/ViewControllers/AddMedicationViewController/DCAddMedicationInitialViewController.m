@@ -723,7 +723,7 @@
 - (void)displayAddMedicationDetailViewForTableRowAtIndexPath:(NSIndexPath *)indexPath {
     
     //display add medication detail view
-    if ([DCAddMedicationHelper medicationDetailTypeForIndexPath:indexPath hasWarnings:showWarnings] == 1) {
+    if ([DCAddMedicationHelper medicationDetailTypeForIndexPath:indexPath hasWarnings:showWarnings medicationType:self.selectedMedication.medicineCategory] == 1) {
         UIStoryboard *dosageStoryboard = [UIStoryboard storyboardWithName:DOSAGE_STORYBORD bundle:nil];
         dosageSelectionViewController = [dosageStoryboard instantiateViewControllerWithIdentifier:DOSAGE_SELECTION_SBID];
         //TODO: Update the dosage to the selectedMedication in this Block.
@@ -755,7 +755,7 @@
         medicationDetailViewController.selectedEntry = ^ (NSString *value) {
             [self updateMedicationDetailsTableViewWithSelectedValue:value];
         };
-        medicationDetailViewController.detailType = [DCAddMedicationHelper medicationDetailTypeForIndexPath:indexPath hasWarnings:showWarnings];
+        medicationDetailViewController.detailType = [DCAddMedicationHelper medicationDetailTypeForIndexPath:indexPath hasWarnings:showWarnings medicationType:self.selectedMedication.medicineCategory];
         DCAddMedicationContentCell *selectedCell = [self selectedCellAtIndexPath:indexPath];
         if (indexPath.section != eFourthSection) {
             medicationDetailViewController.previousFilledValue = selectedCell.descriptionLabel.text;
@@ -895,7 +895,11 @@
             if (showWarnings) { // If Warnings section is shown, third section present instruction text view keyboard,, otherwise load date and time detail section
                 [self loadDetailViewForDateAndTimeCellOnSelectionAtIndexPath:indexPath];
             } else {
-                [self displaySchedulingDetailViewForTableViewAtIndexPath:indexPath];
+                if ([self.selectedMedication.medicineCategory isEqualToString:REGULAR_MEDICATION]) {
+                    [self displaySchedulingDetailViewForTableViewAtIndexPath:indexPath];
+                } else {
+                    [self displayAddMedicationDetailViewForTableRowAtIndexPath:indexPath];
+                }
             }
         }
             break;
@@ -1131,9 +1135,14 @@
                 UITableViewCell *dateCell = [self dateSectionTableViewCellAtIndexPath:indexPath];
                 return dateCell;
             } else {
-                DCAddMedicationContentCell *contentCell = [self addMedicationCellAtIndexPath:indexPath
-                                                                                withCellType:eSchedulingCell];
-                return contentCell;
+                if ([self.selectedMedication.medicineCategory isEqualToString:REGULAR_MEDICATION]) {
+                    DCAddMedicationContentCell *contentCell = [self addMedicationCellAtIndexPath:indexPath
+                                                                                    withCellType:eSchedulingCell];
+                    return contentCell;
+                } else {
+                    UITableViewCell *dosageCell = [self singleOrMultilineDosageCellAtIndexPath:indexPath];
+                    return dosageCell;
+                }
             }
         }
         case eFifthSection: {
@@ -1192,6 +1201,12 @@
     } else if (indexPath.section == eFourthSection){
         if (showWarnings) {
             return ([self indexPathHasPicker:indexPath] ? PICKER_VIEW_CELL_HEIGHT : medicationDetailsTableView.rowHeight);
+        } else {
+            if (![self.selectedMedication.medicineCategory isEqualToString:REGULAR_MEDICATION]) {
+                if (self.selectedMedication.dosage.length > MAXIMUM_CHARACTERS_INCLUDED_IN_ONE_LINE) {
+                    return [DCAddMedicationHelper textContentHeightForDosage:self.selectedMedication.dosage];
+                }
+            }
         }
     } else if (indexPath.section == eFifthSection) {
         if ([self isRegularMedicationWithWarnings]) {
@@ -1213,7 +1228,7 @@
     } else if (indexPath.section == eSeventhSection) {
         return INSTRUCTIONS_ROW_HEIGHT;
     }
-    return TABLE_CELL_DEFAULT_ROW_HEIGHT;
+    return medicationDetailsTableView.rowHeight;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
