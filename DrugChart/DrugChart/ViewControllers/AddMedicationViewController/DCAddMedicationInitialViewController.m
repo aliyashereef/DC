@@ -907,7 +907,12 @@
             if ([self isRegularMedicationWithWarnings]) {
                 [self displaySchedulingDetailViewForTableViewAtIndexPath:indexPath];
             } else {
-                [self displayAddMedicationDetailViewForTableRowAtIndexPath:indexPath];
+                if ([self.selectedMedication.medicineCategory isEqualToString:REGULAR_MEDICATION]) {
+                    [self displayAddMedicationDetailViewForTableRowAtIndexPath:indexPath];
+                } else {
+                    DCInstructionsTableCell *instructionsCell = (DCInstructionsTableCell *)[medicationDetailsTableView cellForRowAtIndexPath:indexPath];
+                    [instructionsCell.instructionsTextView becomeFirstResponder];
+                }
             }
             break;
         case eSixthSection:
@@ -1094,6 +1099,7 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
     NSInteger sectionCount = [DCAddMedicationHelper numberOfSectionsInMedicationTableViewForSelectedMedication:self.selectedMedication  showWarnings:showWarnings];
+    NSLog(@"sectionCount is %ld", (long)sectionCount);
     return sectionCount;
 }
 
@@ -1151,8 +1157,13 @@
                                                                                 withCellType:eSchedulingCell];
                 return contentCell;
             } else {
-                UITableViewCell *dosageCell = [self singleOrMultilineDosageCellAtIndexPath:indexPath];
-                return dosageCell;
+                if ([self.selectedMedication.medicineCategory isEqualToString:REGULAR_MEDICATION]) {
+                    UITableViewCell *dosageCell = [self singleOrMultilineDosageCellAtIndexPath:indexPath];
+                    return dosageCell;
+                } else {
+                    DCInstructionsTableCell *instructionsCell = [self instructionsTableCell];
+                    return instructionsCell;
+                }
             }
             }
         case eSixthSection: {
@@ -1212,8 +1223,12 @@
         if ([self isRegularMedicationWithWarnings]) {
             return ([self indexPathHasPicker:indexPath] ? PICKER_VIEW_CELL_HEIGHT : medicationDetailsTableView.rowHeight);
         } else {
-            if (self.selectedMedication.dosage.length > MAXIMUM_CHARACTERS_INCLUDED_IN_ONE_LINE) {
-                return [DCAddMedicationHelper textContentHeightForDosage:self.selectedMedication.dosage];
+            if ([self.selectedMedication.medicineCategory isEqualToString:REGULAR_MEDICATION]) {
+                if (self.selectedMedication.dosage.length > MAXIMUM_CHARACTERS_INCLUDED_IN_ONE_LINE) {
+                    return [DCAddMedicationHelper textContentHeightForDosage:self.selectedMedication.dosage];
+                }
+            } else {
+                return INSTRUCTIONS_ROW_HEIGHT;
             }
         }
     } else if (indexPath.section == eSixthSection) {
@@ -1412,7 +1427,7 @@
     double delayInSeconds = isNewMedication?  0.5 : 0.25;
     dispatch_time_t deleteTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
     dispatch_after(deleteTime, dispatch_get_main_queue(), ^(void){
-        [medicationDetailsTableView setContentOffset:CGPointMake(0,500) animated:YES];
+        [medicationDetailsTableView setContentOffset:CGPointMake(0,450) animated:YES];
     });
     isNewMedication = false;
 }
