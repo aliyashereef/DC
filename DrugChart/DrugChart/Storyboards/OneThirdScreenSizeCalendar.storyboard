@@ -106,7 +106,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="740" text="Oral" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KME-xv-QmP">
-                                                            <rect key="frame" x="15" y="27" width="577" height="18"/>
+                                                            <rect key="frame" x="15" y="27" width="446" height="18"/>
                                                             <animations/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                             <color key="textColor" red="0.45098039220000002" green="0.45098039220000002" blue="0.45098039220000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -176,6 +176,7 @@
                                                         <constraint firstItem="KME-xv-QmP" firstAttribute="top" secondItem="l95-bK-TJI" secondAttribute="bottom" constant="-3" id="Mb8-sK-vmA"/>
                                                         <constraint firstItem="Tzt-gb-W1V" firstAttribute="leading" secondItem="KME-xv-QmP" secondAttribute="leading" id="STc-QV-9kk"/>
                                                         <constraint firstItem="Zlf-lT-6L2" firstAttribute="leading" secondItem="grT-Gz-dsz" secondAttribute="leading" constant="8" id="WzR-Gl-402"/>
+                                                        <constraint firstItem="KME-xv-QmP" firstAttribute="trailing" secondItem="Tzt-gb-W1V" secondAttribute="trailing" id="YO9-ow-Fig"/>
                                                         <constraint firstItem="8NZ-BW-zwR" firstAttribute="top" secondItem="KME-xv-QmP" secondAttribute="bottom" constant="1" id="asl-0D-e87"/>
                                                         <constraint firstItem="KME-xv-QmP" firstAttribute="top" secondItem="l95-bK-TJI" secondAttribute="bottom" id="cho-IC-dRA"/>
                                                         <constraint firstAttribute="trailing" secondItem="8NZ-BW-zwR" secondAttribute="trailing" constant="8" id="d2V-99-2Oc"/>
@@ -184,9 +185,10 @@
                                                         </constraint>
                                                         <constraint firstAttribute="bottom" secondItem="8NZ-BW-zwR" secondAttribute="bottom" constant="6" id="fEi-il-gfS"/>
                                                         <constraint firstItem="KME-xv-QmP" firstAttribute="top" secondItem="l95-bK-TJI" secondAttribute="bottom" constant="4" id="gyl-fL-i4C"/>
+                                                        <constraint firstItem="KME-xv-QmP" firstAttribute="trailing" secondItem="Tzt-gb-W1V" secondAttribute="trailing" id="mzg-bI-xFB"/>
                                                         <constraint firstAttribute="bottom" secondItem="l95-bK-TJI" secondAttribute="bottom" id="pAr-W2-Hp9"/>
                                                         <constraint firstItem="8NZ-BW-zwR" firstAttribute="leading" secondItem="grT-Gz-dsz" secondAttribute="leading" constant="15" id="pTi-HF-dCf"/>
-                                                        <constraint firstAttribute="trailing" secondItem="KME-xv-QmP" secondAttribute="trailing" constant="8" id="xDa-FF-cPn"/>
+                                                        <constraint firstAttribute="trailing" secondItem="KME-xv-QmP" secondAttribute="trailing" constant="140" id="xDa-FF-cPn"/>
                                                         <constraint firstItem="l95-bK-TJI" firstAttribute="top" secondItem="grT-Gz-dsz" secondAttribute="top" id="yMG-5p-0vh"/>
                                                     </constraints>
                                                     <variation key="default">
@@ -194,6 +196,8 @@
                                                             <exclude reference="Mb8-sK-vmA"/>
                                                             <exclude reference="cho-IC-dRA"/>
                                                             <exclude reference="gyl-fL-i4C"/>
+                                                            <exclude reference="mzg-bI-xFB"/>
+                                                            <exclude reference="xDa-FF-cPn"/>
                                                             <exclude reference="4Ga-j6-VmM"/>
                                                             <exclude reference="86K-FB-p5h"/>
                                                         </mask>
