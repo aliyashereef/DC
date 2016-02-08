@@ -168,7 +168,7 @@
             updatedMedication.routeArray = medicationDetails.routeArray;
             updatedMedication.severeWarningCount = severeArray.count;
             updatedMedication.mildWarningCount = mildArray.count;
-            if ([warningsArray count] == 0) {
+            if ([severeArray count] == 0 && [mildArray count] == 0) {
                 //if there are no allergies nor severe warning, dismiss view
                 self.selectedMedication (updatedMedication, warningsArray);
                 [self dismissViewControllerAnimated:YES completion:nil];
