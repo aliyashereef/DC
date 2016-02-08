@@ -163,7 +163,7 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         // Create an `NSCharacterSet` set which includes everything *but* the digits
-        let inverseSet = NSCharacterSet(charactersInString:"0123456789").invertedSet
+        let inverseSet = NSCharacterSet(charactersInString:"0123456789.").invertedSet
         
         // At every character in this "inverseSet" contained in the string,
         // split the string up into components which exclude the characters
@@ -176,6 +176,11 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
         // If the original string is equal to the filtered string, i.e. if no
         // inverse characters were present to be eliminated, the input is valid
         // and the statement returns true; else it returns false
+        let newString = (textField.text! as NSString).stringByReplacingCharactersInRange(range, withString: string) as NSString
+        let arrayOfString: [AnyObject] = newString.componentsSeparatedByString(".")
+        if arrayOfString.count > 2 {
+            return false
+        }
         return string == filtered
     }
 }
