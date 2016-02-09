@@ -52,8 +52,6 @@
 		0B913B2D1C4620F80004899B /* DCInfusion.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B913B2C1C4620F80004899B /* DCInfusion.m */; };
 		0B9173A01B01F3BA00BC9337 /* PrescriberDetails.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0B91739F1B01F3BA00BC9337 /* PrescriberDetails.storyboard */; };
 		0B926CE51AFB83E700D8C1BA /* Inactive.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0B926CE41AFB83E700D8C1BA /* Inactive.plist */; };
-		0B941CA51AC161B300B54207 /* DCPrescriberCalendarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B941CA41AC161B300B54207 /* DCPrescriberCalendarView.m */; };
-		0B941CA71AC161D500B54207 /* DCPrescriberCalendarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B941CA61AC161D500B54207 /* DCPrescriberCalendarView.xib */; };
 		0B95FAF01B5E6634002939DF /* DCWarningsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B95FAEF1B5E6634002939DF /* DCWarningsHeaderView.m */; };
 		0B95FAF21B5E6663002939DF /* DCWarningsHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B95FAF11B5E6663002939DF /* DCWarningsHeaderView.xib */; };
 		0B964C7F1C51019000CD509D /* DCInfusionsFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B964C7E1C51019000CD509D /* DCInfusionsFooterView.swift */; };
@@ -452,9 +450,6 @@
 		0B913B2C1C4620F80004899B /* DCInfusion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCInfusion.m; sourceTree = "<group>"; };
 		0B91739F1B01F3BA00BC9337 /* PrescriberDetails.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = PrescriberDetails.storyboard; sourceTree = "<group>"; };
 		0B926CE41AFB83E700D8C1BA /* Inactive.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Inactive.plist; sourceTree = "<group>"; };
-		0B941CA31AC161B300B54207 /* DCPrescriberCalendarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCPrescriberCalendarView.h; sourceTree = "<group>"; };
-		0B941CA41AC161B300B54207 /* DCPrescriberCalendarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCPrescriberCalendarView.m; sourceTree = "<group>"; };
-		0B941CA61AC161D500B54207 /* DCPrescriberCalendarView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCPrescriberCalendarView.xib; sourceTree = "<group>"; };
 		0B95FAEE1B5E6634002939DF /* DCWarningsHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCWarningsHeaderView.h; sourceTree = "<group>"; };
 		0B95FAEF1B5E6634002939DF /* DCWarningsHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCWarningsHeaderView.m; sourceTree = "<group>"; };
 		0B95FAF11B5E6663002939DF /* DCWarningsHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCWarningsHeaderView.xib; sourceTree = "<group>"; };
@@ -1304,16 +1299,6 @@
 				0B4BD42E1C47565700C49589 /* RateInfusion */,
 			);
 			path = Infusion;
-			sourceTree = "<group>";
-		};
-		0B941CA21AC1619A00B54207 /* PrescriberCalendarView */ = {
-			isa = PBXGroup;
-			children = (
-				0B941CA31AC161B300B54207 /* DCPrescriberCalendarView.h */,
-				0B941CA41AC161B300B54207 /* DCPrescriberCalendarView.m */,
-				0B941CA61AC161D500B54207 /* DCPrescriberCalendarView.xib */,
-			);
-			path = PrescriberCalendarView;
 			sourceTree = "<group>";
 		};
 		0B95FAED1B5E6618002939DF /* WarningsHeaderView */ = {
@@ -2658,7 +2643,6 @@
 				0BF2DA531ACAB10800B3ED97 /* ErrorPopOverBackgroundView */,
 				0B6B49771B2ED4F200288117 /* DCScrollView */,
 				0BB27D031AEF50DF0007EB88 /* PopOverBaseBackgroundView */,
-				0B941CA21AC1619A00B54207 /* PrescriberCalendarView */,
 				0B85D67F1BF9CBAA009CF795 /* SchedulingHeaderView */,
 				0BC5FAF31B43FF720019BF36 /* SearchListView */,
 				0BAE36971B455DC7007CD64C /* OrderSetMedicineView */,
@@ -3102,7 +3086,6 @@
 				7D6D845B1AF88A9600917A8C /* Authorization.storyboard in Resources */,
 				0BBC8F951AA467480085ABAB /* Localizable.strings in Resources */,
 				0BCF5EB01AE10C2D002467BF /* MedicineList.plist in Resources */,
-				0B941CA71AC161D500B54207 /* DCPrescriberCalendarView.xib in Resources */,
 				0BBDEDEB1AA581630016E6FF /* Lato-ThinItalic.ttf in Resources */,
 				1FD4FCCF1BF4B7E000B77B94 /* GeneralObservationView.xib in Resources */,
 				0B989E991B8C22CD0012AFE8 /* DCCalendarNavigationTitleView.xib in Resources */,
@@ -3285,7 +3268,6 @@
 				FD2FF8B31C3B90DC00778A4E /* DCAddConditionTableViewCell.swift in Sources */,
 				1F3C317A1C0DF755007C6AE7 /* MonthYearPickerView.swift in Sources */,
 				1FD4FCE91BF4B8F400B77B94 /* TimePickerCell_Inline.swift in Sources */,
-				0B941CA51AC161B300B54207 /* DCPrescriberCalendarView.m in Sources */,
 				FD2FF8B81C3BAEF000778A4E /* DCAddConditionDetailViewController.swift in Sources */,
 				1FD4FCB51BF4B6B700B77B94 /* BloodPressure.swift in Sources */,
 				0B0371F21C1700C700F2E0D1 /* DCInterval.m in Sources */,
@@ -3640,8 +3622,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Vijesh Vijay (D6BPPM2Y6Z)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Vijesh Vijay (D6BPPM2Y6Z)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Md Shaheer K.A. (J69GNJ5DYQ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Md Shaheer K.A. (J69GNJ5DYQ)";
 				DEFINES_MODULE = YES;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3665,7 +3647,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.e-mis.drugchart";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "58a9a015-e1dc-49b6-96bc-8ade9ec3f10d";
+				PROVISIONING_PROFILE = "e0e1649d-f6be-408a-a401-d6fc15d82bc0";
 				SWIFT_OBJC_BRIDGING_HEADER = "DrugChart/Helpers/AddMedicationHelper/DrugChart-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -3680,8 +3662,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Vijesh Vijay (D6BPPM2Y6Z)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Vijesh Vijay (D6BPPM2Y6Z)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Md Shaheer K.A. (J69GNJ5DYQ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Md Shaheer K.A. (J69GNJ5DYQ)";
 				DEFINES_MODULE = YES;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3711,7 +3693,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.e-mis.drugchart";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "58a9a015-e1dc-49b6-96bc-8ade9ec3f10d";
+				PROVISIONING_PROFILE = "e0e1649d-f6be-408a-a401-d6fc15d82bc0";
 				SWIFT_OBJC_BRIDGING_HEADER = "DrugChart/Helpers/AddMedicationHelper/DrugChart-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
