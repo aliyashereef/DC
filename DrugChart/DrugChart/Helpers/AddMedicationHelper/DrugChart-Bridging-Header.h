@@ -40,3 +40,4 @@
 #import "DCDosage.h"
 #import "DCAddMedicationHelper.h"
 #import "UIView+UIAppearence_Swift.h"
+#import "AFNetworking/AFNetworking.h"

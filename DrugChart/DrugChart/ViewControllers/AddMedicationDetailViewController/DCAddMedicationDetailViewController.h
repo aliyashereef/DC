@@ -24,8 +24,6 @@ typedef void(^EntrySelected)(NSString *value);
 @property (nonatomic, strong) EntrySelected selectedEntry;
 @property (nonatomic, strong) NSString *previousFilledValue;
 @property (nonatomic, strong) NSMutableArray *contentArray;
-//@property (nonatomic, strong) NSString *backButtonText;
-//@property (nonatomic) BOOL isEditMedication;
 @property (nonatomic, weak) id <AddMedicationDetailDelegate> delegate;
 
 @end

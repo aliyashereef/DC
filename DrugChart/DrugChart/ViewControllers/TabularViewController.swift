@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TabularViewController: UIViewController , UICollectionViewDataSource, UICollectionViewDelegate , ObservationDelegate ,UIPopoverPresentationControllerDelegate{
+class TabularViewController: UIViewController , UICollectionViewDataSource, UICollectionViewDelegate , ObservationDelegate ,UIPopoverPresentationControllerDelegate,CellDelegate{
 
     @IBOutlet weak var sortMenuItem: UIBarButtonItem!
     
@@ -20,7 +20,9 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
     var observationList:[VitalSignObservation]!
     var filteredObservations:[VitalSignObservation]!
     private var viewByDate:NSDate = NSDate()
-
+    
+    private var selectedContentCell:ContentCollectionViewCell!
+    private var contentCellTag:Int = 1
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -39,10 +41,7 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
     
     private func setDateDisplay()
     {
-        let calendar = NSCalendar.currentCalendar()
-        let chosenDateComponents = calendar.components([.Month , .Year], fromDate: viewByDate)
-        let displayText = String(format: "%d / %d",chosenDateComponents.month , chosenDateComponents.year)
-        sortMenuItem.title = displayText
+        sortMenuItem.title = viewByDate.getFormattedMonthandYear()
     }
     
     private func reloadView(observationList:[VitalSignObservation])
@@ -57,6 +56,7 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
     // MARK - UICollectionViewDataSource
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        contentCellTag = 1
         return ObservationTabularViewRow.count
     }
     
@@ -129,9 +129,12 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
                 return headerCell
             } else {
                 let contentCell : ContentCollectionViewCell = collectionView .dequeueReusableCellWithReuseIdentifier(contentCellIdentifier, forIndexPath: indexPath) as! ContentCollectionViewCell
-                contentCell.clearCell()
+                contentCell.resetCellScroll()
+                contentCell.tag = contentCellTag
+                contentCellTag++
                 let observation = filteredObservations[indexPath.row - 1]
                 contentCell.delegate = self
+                contentCell.selectedCellDelegate = self
                 switch(indexPath.section)
                 {
                 case ObservationTabularViewRow.Respiratory.rawValue:
@@ -178,6 +181,9 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
         }
     }
     
+    func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
+        print("deselect")
+    }
     
     // Mark: Sorting option implementation
     @IBAction func showCalendar()
@@ -247,7 +253,20 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
         
     }
     
-    
+    //Mark: store the previous selected cell
+    func selectedCell(cell:UICollectionViewCell)
+    {
+        let contentCell = cell as? ContentCollectionViewCell
+        if(selectedContentCell != nil && contentCell?.tag == selectedContentCell.tag)
+        {
+            return
+        }
+        if(selectedContentCell != nil)
+        {
+             selectedContentCell.resetCellScroll()
+        }
+        selectedContentCell = cell as? ContentCollectionViewCell
+    }
     
     
 

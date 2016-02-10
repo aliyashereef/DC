@@ -192,7 +192,8 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         let tableCell: DCOneThirdCalendarScreenMedicationCell = tableView.cellForRowAtIndexPath(indexPath) as! DCOneThirdCalendarScreenMedicationCell
-        let subViewArray = tableCell.contentView.subviews[1].subviews[2].subviews
+        let subViewArray = tableCell.contentView.subviews[1].subviews[4].subviews
+        //let subViewArray = tableCell.contentView.subviews
         
         for subVeiw in subViewArray {
             if subVeiw .isKindOfClass(DCMedicationAdministrationStatusView){
@@ -272,7 +273,6 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         atIndexPath indexPath:NSIndexPath) {
             let medicationCell = cell
             if (displayMedicationListArray.count >= indexPath.item) {
-                
                 let medicationSchedules = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
                 medicationCell.medicineName.text = medicationSchedules.name;
                 let routeString : String = medicationSchedules.route.stringByReplacingOccurrencesOfString(" ", withString: EMPTY_STRING)
@@ -287,6 +287,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
                 attributedInstructionsString  = NSMutableAttributedString(string: instructionString, attributes: [NSFontAttributeName:UIFont.systemFontOfSize(12.0)])
                 attributedRouteString.appendAttributedString(attributedInstructionsString)
                 medicationCell.route.attributedText = attributedRouteString;
+                medicationCell.typeLabel.text = DCCalendarHelper.typeDescriptionForMedication(medicationSchedules)
             }
     }
         
@@ -345,14 +346,14 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
                     existingStatusViews.addObject(subView)
                 }
             }
-            let viewFrame = CGRectMake(0, 0, 115, 35.0)
+            let viewFrame = CGRectMake(0, 0, 115, 67.0)
             let statusView : DCMedicationAdministrationStatusView = DCMedicationAdministrationStatusView(frame: viewFrame)
             let medicationSchedules = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
             statusView.tag = tag
             statusView.delegate = self
             statusView.currentIndexPath = indexPath
             statusView.medicationCategory = medicationSchedules.medicineCategory
-            statusView.backgroundColor = UIColor.whiteColor()
+            statusView.backgroundColor = UIColor.clearColor()
             statusView.isOneThirdScreen = true
             statusView.updateAdministrationStatusViewWithMedicationSlotDictionary(slotDictionary)
             return statusView

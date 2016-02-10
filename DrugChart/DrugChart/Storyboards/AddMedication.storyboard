@@ -504,8 +504,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="310" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="fCL-t6-xx3">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="778" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="fCL-t6-xx3">
                                 <rect key="frame" x="0.0" y="0.0" width="310" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <searchBar key="tableHeaderView" contentMode="redraw" id="0iV-uc-4py">
                                     <rect key="frame" x="0.0" y="44" width="310" height="44"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -631,15 +632,14 @@
                         <viewControllerLayoutGuide type="bottom" id="UiQ-BI-zly"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="OwV-vf-VyW">
-                        <rect key="frame" x="0.0" y="44" width="310" height="556"/>
+                        <rect key="frame" x="0.0" y="0.0" width="310" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="nzW-av-W44">
-                                <rect key="frame" x="0.0" y="0.0" width="310" height="556"/>
-                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="80" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="nzW-av-W44">
+                                <rect key="frame" x="0.0" y="0.0" width="310" height="600"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="556" id="Occ-3j-y3f"/>
-                                    <constraint firstAttribute="height" constant="556" id="RGZ-P2-sPe"/>
+                                    <constraint firstAttribute="height" constant="600" id="tdA-Cz-eRx"/>
                                 </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="WarningsCell" rowHeight="80" id="dWV-mv-PfX" customClass="DCWarningsCell" customModule="DrugChart" customModuleProvider="target">
@@ -703,11 +703,6 @@
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="RGZ-P2-sPe"/>
-                                    </mask>
-                                </variation>
                                 <connections>
                                     <outlet property="dataSource" destination="dlS-vq-LgG" id="JbW-br-XYa"/>
                                     <outlet property="delegate" destination="dlS-vq-LgG" id="3X6-rm-fei"/>
@@ -716,30 +711,43 @@
                         </subviews>
                         <constraints>
                             <constraint firstItem="nzW-av-W44" firstAttribute="top" secondItem="0dY-jD-ryw" secondAttribute="bottom" id="0TT-8w-oYV"/>
+                            <constraint firstItem="nzW-av-W44" firstAttribute="top" secondItem="OwV-vf-VyW" secondAttribute="top" id="4HU-Ky-2gE"/>
                             <constraint firstItem="UiQ-BI-zly" firstAttribute="top" secondItem="nzW-av-W44" secondAttribute="bottom" id="AKu-Qy-2Mq"/>
+                            <constraint firstItem="UiQ-BI-zly" firstAttribute="top" secondItem="nzW-av-W44" secondAttribute="bottom" id="EeE-Yy-1PU"/>
                             <constraint firstAttribute="trailing" secondItem="nzW-av-W44" secondAttribute="trailing" id="J0U-3G-lF0"/>
+                            <constraint firstItem="UiQ-BI-zly" firstAttribute="top" secondItem="nzW-av-W44" secondAttribute="bottom" id="WCc-hO-kUl"/>
+                            <constraint firstItem="UiQ-BI-zly" firstAttribute="top" secondItem="nzW-av-W44" secondAttribute="bottom" id="WjQ-ip-yDL"/>
+                            <constraint firstItem="nzW-av-W44" firstAttribute="top" secondItem="0dY-jD-ryw" secondAttribute="bottom" constant="-20" id="XEH-ok-YEZ"/>
                             <constraint firstItem="UiQ-BI-zly" firstAttribute="top" secondItem="nzW-av-W44" secondAttribute="bottom" id="anQ-78-bxi"/>
                             <constraint firstItem="nzW-av-W44" firstAttribute="top" secondItem="0dY-jD-ryw" secondAttribute="bottom" id="cN2-aq-GEc"/>
+                            <constraint firstAttribute="trailing" secondItem="nzW-av-W44" secondAttribute="trailing" id="eNV-Jb-zFc"/>
                             <constraint firstItem="nzW-av-W44" firstAttribute="leading" secondItem="OwV-vf-VyW" secondAttribute="leading" id="hzB-Sg-YeG"/>
                             <constraint firstAttribute="trailing" secondItem="nzW-av-W44" secondAttribute="trailing" id="qUv-kt-hWV"/>
+                            <constraint firstItem="nzW-av-W44" firstAttribute="leading" secondItem="OwV-vf-VyW" secondAttribute="leading" id="w2E-Ff-8mL"/>
                             <constraint firstItem="nzW-av-W44" firstAttribute="leading" secondItem="OwV-vf-VyW" secondAttribute="leading" id="yzU-9G-U5g"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="0TT-8w-oYV"/>
                                 <exclude reference="J0U-3G-lF0"/>
+                                <exclude reference="XEH-ok-YEZ"/>
                                 <exclude reference="cN2-aq-GEc"/>
+                                <exclude reference="hzB-Sg-YeG"/>
+                                <exclude reference="qUv-kt-hWV"/>
                                 <exclude reference="yzU-9G-U5g"/>
+                                <exclude reference="AKu-Qy-2Mq"/>
+                                <exclude reference="EeE-Yy-1PU"/>
+                                <exclude reference="WCc-hO-kUl"/>
+                                <exclude reference="WjQ-ip-yDL"/>
                                 <exclude reference="anQ-78-bxi"/>
                             </mask>
                         </variation>
                     </view>
-                    <extendedEdge key="edgesForExtendedLayout"/>
-                    <nil key="simulatedStatusBarMetrics"/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="310" height="600"/>
                     <connections>
-                        <outlet property="tableViewHeightConstraint" destination="RGZ-P2-sPe" id="XZ7-6h-hFF"/>
+                        <outlet property="tableHeight" destination="tdA-Cz-eRx" id="ZOZ-ou-mqS"/>
                         <outlet property="warningsTableView" destination="nzW-av-W44" id="mvg-BR-TmV"/>
                     </connections>
                 </viewController>

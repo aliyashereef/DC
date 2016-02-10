@@ -21,6 +21,7 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
     @IBOutlet weak var medicineDetailHolderView: UIView!
     @IBOutlet weak var medicineName: UILabel!
     @IBOutlet weak var route: UILabel!
+    @IBOutlet weak var typeLabel: UILabel!
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!
     var isMedicationActive : Bool = true
@@ -29,6 +30,7 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
     var indexPath : NSIndexPath!
     @IBOutlet weak var adminstrationStatusView: UIView!
     @IBOutlet weak var medicationViewLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var statusViewTrailingConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var stopButtonWidth: NSLayoutConstraint!
     @IBOutlet weak var editButtonWidth: NSLayoutConstraint!
@@ -193,6 +195,11 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
         }
     }
 
+    @IBAction func typeDescriptionButtonPressed(sender: AnyObject) {
+        
+       // summary popover display
+        print("***** Display Summary popover")
+    }
 
 
 

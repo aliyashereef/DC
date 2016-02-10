@@ -59,12 +59,6 @@
 #define NO_BUTTON_TITLE     @"No"
 #define YES_BUTTON_TITLE    @"Yes"
 
-//Button images
-
-#define PLUS_IMAGE @"Plus"
-#define ADMINISTRATING_TIME_UNSELECTED @"AdministratingTimeUnselected"
-#define ADMINISTRATING_TIME_SELECTED @"AdministratingTimeSelected"
-
 //images
 
 #define SEVERE_WARNING_IMAGE @"SevereWarningSympol"
@@ -368,7 +362,6 @@
 #define LOGOUT_IMAGE @"Logout"
 #define NOTIFICATION_IMAGE @"Notification"
 #define SETTINGS_IMAGE @"Settings"
-#define ALLERGY_IMAGE @"Allergy"
 #define TOP_LOGO @"EmisTopLogo"
 
 //warning types
@@ -494,7 +487,6 @@
 
 // Images
 #define ADMINISTRATION_HISTORY_TICK_IMAGE @"historyTick"
-#define ADMINISTRATION_HISTORY_CAUTION_IMAGE @"historyCaution"
 #define ADMINISTRATION_HISTORY_CLOSE_IMAGE @"historyClose"
 
 // Administration History Label texts
