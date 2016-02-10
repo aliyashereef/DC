@@ -59,10 +59,6 @@
 #define NO_BUTTON_TITLE     @"No"
 #define YES_BUTTON_TITLE    @"Yes"
 
-//Button images
-
-#define PLUS_IMAGE @"Plus"
-
 //images
 
 #define SEVERE_WARNING_IMAGE @"SevereWarningSympol"
@@ -491,7 +487,6 @@
 
 // Images
 #define ADMINISTRATION_HISTORY_TICK_IMAGE @"historyTick"
-#define ADMINISTRATION_HISTORY_CAUTION_IMAGE @"historyCaution"
 #define ADMINISTRATION_HISTORY_CLOSE_IMAGE @"historyClose"
 
 // Administration History Label texts
