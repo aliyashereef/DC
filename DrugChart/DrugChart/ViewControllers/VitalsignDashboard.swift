@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import CocoaLumberjack
 
 class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverPresentationControllerDelegate {
 
@@ -25,7 +25,6 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         observationList.appendContentsOf(Helper.VitalSignObservationList)
         graphicalDashBoardView = GraphicalDashBoardView.instanceFromNib() as! GraphicalDashBoardView
         Helper.displayInChildView(graphicalDashBoardView, parentView: parentView)
@@ -44,12 +43,7 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: Selector("leftSwiped"))
         swipeLeft.direction = UISwipeGestureRecognizerDirection.Left
         self.view.addGestureRecognizer(swipeLeft)
-        
-        
-       
     }
-    
-    
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         orientationChanged()
