@@ -96,7 +96,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="67"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Senna 15 mg Tablet" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tzt-gb-W1V">
-                                                            <rect key="frame" x="15" y="6" width="446" height="20"/>
+                                                            <rect key="frame" x="15" y="6" width="453" height="20"/>
                                                             <animations/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="20" id="tjR-Dc-GgZ"/>
@@ -106,7 +106,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="740" text="Oral" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KME-xv-QmP">
-                                                            <rect key="frame" x="15" y="27" width="446" height="18"/>
+                                                            <rect key="frame" x="15" y="27" width="453" height="18"/>
                                                             <animations/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                             <color key="textColor" red="0.45098039220000002" green="0.45098039220000002" blue="0.45098039220000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -180,7 +180,7 @@
                                                         <constraint firstItem="8NZ-BW-zwR" firstAttribute="top" secondItem="KME-xv-QmP" secondAttribute="bottom" constant="1" id="asl-0D-e87"/>
                                                         <constraint firstItem="KME-xv-QmP" firstAttribute="top" secondItem="l95-bK-TJI" secondAttribute="bottom" id="cho-IC-dRA"/>
                                                         <constraint firstAttribute="trailing" secondItem="8NZ-BW-zwR" secondAttribute="trailing" constant="8" id="d2V-99-2Oc"/>
-                                                        <constraint firstItem="l95-bK-TJI" firstAttribute="leading" secondItem="Tzt-gb-W1V" secondAttribute="trailing" constant="19" id="emB-9o-PlN">
+                                                        <constraint firstItem="l95-bK-TJI" firstAttribute="leading" secondItem="Tzt-gb-W1V" secondAttribute="trailing" constant="12" id="emB-9o-PlN">
                                                             <variation key="heightClass=regular-widthClass=compact" constant="19"/>
                                                         </constraint>
                                                         <constraint firstAttribute="bottom" secondItem="8NZ-BW-zwR" secondAttribute="bottom" constant="6" id="fEi-il-gfS"/>

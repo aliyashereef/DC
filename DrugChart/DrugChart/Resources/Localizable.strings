@@ -174,3 +174,8 @@
 "VARY_BETWEEN"         =       "Vary between";
 "AND"                  =       "And";
 
+//Warnings
+
+"ALERTS"               =       "Alerts";
+"ALLERGIES"            =       "Allergies";
+

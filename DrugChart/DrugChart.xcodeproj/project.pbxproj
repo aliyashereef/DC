@@ -152,7 +152,6 @@
 		0BCF5EB01AE10C2D002467BF /* MedicineList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0BCF5EAF1AE10C2D002467BF /* MedicineList.plist */; };
 		0BD3D4DF1AB2CA89002B8711 /* DCMedicationSlot.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD3D4DE1AB2CA89002B8711 /* DCMedicationSlot.m */; };
 		0BD5181D1BFB2F790076B018 /* WeekDays.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0BD5181C1BFB2F790076B018 /* WeekDays.plist */; };
-		0BD659541BD6660D00D3097B /* UIButton+ButtonHighlight.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD659531BD6660D00D3097B /* UIButton+ButtonHighlight.m */; };
 		0BD659561BD6685A00D3097B /* DCAdministerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD659551BD6685A00D3097B /* DCAdministerButton.swift */; };
 		0BD699161BB272BB008797A2 /* DCAdministerTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD699151BB272BB008797A2 /* DCAdministerTableHeaderView.swift */; };
 		0BD699181BB272D9008797A2 /* DCAdministerTableHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BD699171BB272D9008797A2 /* DCAdministerTableHeaderView.xib */; };
@@ -595,8 +594,6 @@
 		0BD3D4DD1AB2CA89002B8711 /* DCMedicationSlot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCMedicationSlot.h; sourceTree = "<group>"; };
 		0BD3D4DE1AB2CA89002B8711 /* DCMedicationSlot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCMedicationSlot.m; sourceTree = "<group>"; };
 		0BD5181C1BFB2F790076B018 /* WeekDays.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = WeekDays.plist; sourceTree = "<group>"; };
-		0BD659521BD6660D00D3097B /* UIButton+ButtonHighlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+ButtonHighlight.h"; sourceTree = "<group>"; };
-		0BD659531BD6660D00D3097B /* UIButton+ButtonHighlight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+ButtonHighlight.m"; sourceTree = "<group>"; };
 		0BD659551BD6685A00D3097B /* DCAdministerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministerButton.swift; sourceTree = "<group>"; };
 		0BD699151BB272BB008797A2 /* DCAdministerTableHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministerTableHeaderView.swift; sourceTree = "<group>"; };
 		0BD699171BB272D9008797A2 /* DCAdministerTableHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCAdministerTableHeaderView.xib; sourceTree = "<group>"; };
@@ -2212,8 +2209,6 @@
 				7D930D1E1AADF82E00C0607F /* DCDateUtility.m */,
 				7D3234BA1AF132250020CC8F /* DCPopOverContentSizeUtility.h */,
 				7D3234BB1AF132250020CC8F /* DCPopOverContentSizeUtility.m */,
-				0BD659521BD6660D00D3097B /* UIButton+ButtonHighlight.h */,
-				0BD659531BD6660D00D3097B /* UIButton+ButtonHighlight.m */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -3364,7 +3359,6 @@
 				1FB5D07D1C08681F00F9A2F7 /* CommaScoreViewController.swift in Sources */,
 				1F7EB7221C29993000F6F22F /* CellDelegate.swift in Sources */,
 				4DDE0ADE1BBBBEDE0044295B /* DCAdministratedByPinVerificationViewController.swift in Sources */,
-				0BD659541BD6660D00D3097B /* UIButton+ButtonHighlight.m in Sources */,
 				0BBEFFD01B5F72EF00E70CCC /* DCWarning.m in Sources */,
 				0B8768BE1C61DF51001DD827 /* DCCalendarHelper.swift in Sources */,
 				FDE2C9B41C3A69CB00FBDFCA /* DCDosageConditionsViewController.swift in Sources */,
@@ -3622,8 +3616,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Md Shaheer K.A. (J69GNJ5DYQ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Md Shaheer K.A. (J69GNJ5DYQ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Vijesh Vijay (D6BPPM2Y6Z)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Vijesh Vijay (D6BPPM2Y6Z)";
 				DEFINES_MODULE = YES;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3647,7 +3641,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.e-mis.drugchart";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e0e1649d-f6be-408a-a401-d6fc15d82bc0";
+				PROVISIONING_PROFILE = "58a9a015-e1dc-49b6-96bc-8ade9ec3f10d";
 				SWIFT_OBJC_BRIDGING_HEADER = "DrugChart/Helpers/AddMedicationHelper/DrugChart-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -3662,8 +3656,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Md Shaheer K.A. (J69GNJ5DYQ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Md Shaheer K.A. (J69GNJ5DYQ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Vijesh Vijay (D6BPPM2Y6Z)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Vijesh Vijay (D6BPPM2Y6Z)";
 				DEFINES_MODULE = YES;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3693,7 +3687,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.e-mis.drugchart";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e0e1649d-f6be-408a-a401-d6fc15d82bc0";
+				PROVISIONING_PROFILE = "58a9a015-e1dc-49b6-96bc-8ade9ec3f10d";
 				SWIFT_OBJC_BRIDGING_HEADER = "DrugChart/Helpers/AddMedicationHelper/DrugChart-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
