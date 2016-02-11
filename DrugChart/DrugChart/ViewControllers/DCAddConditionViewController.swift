@@ -241,6 +241,9 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
             let addNewValueViewController = addMedicationStoryboard.instantiateViewControllerWithIdentifier(ADD_NEW_VALUE_SBID) as? DCAddNewValueViewController
             addNewValueViewController?.titleString = "Every"
             addNewValueViewController?.placeHolderString = (self.dosage?.reducingIncreasingDose.changeOver)!
+            if valueForEvery != "" {
+                addNewValueViewController?.previousValue = valueForEvery as String
+            }
             addNewValueViewController!.newValueEntered = { value in
                 if Int(value!) == 1 {
                     self.valueForEvery = "\(value!) \(String((self.dosage?.reducingIncreasingDose.changeOver)!.characters.dropLast()).lowercaseString)"

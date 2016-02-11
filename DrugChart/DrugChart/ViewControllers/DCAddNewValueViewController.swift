@@ -20,18 +20,33 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
     var valueForUnit : String = ""
     var isInlinePickerActive : Bool = false
     var newValueEntered: NewValueEntered = { value in }
+    var previousValue : String = ""
     @IBOutlet weak var mainTableView: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         mainTableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
-        if detailType == eAddValueWithUnit {
-            valueForUnit = unitArray[0]
+        if detailType == eAddIntegerValue {
+            if previousValue != "" {
+                textFieldValue = previousValue
+            } else {
+                textFieldValue = ""
+            }
+        } else {
+            if previousValue != "" {
+                let arrayOfValueAndUnit: [AnyObject] = previousValue.componentsSeparatedByString(" ")
+                let lastIndex : Int = arrayOfValueAndUnit.endIndex - 1
+                textFieldValue = arrayOfValueAndUnit[lastIndex - 1] as! String
+                valueForUnit = arrayOfValueAndUnit[lastIndex] as! String
+            } else {
+                textFieldValue = ""
+                valueForUnit = unitArray[0]
+            }
         }
         self.configureNavigationBar()
         // Do any additional setup after loading the view.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -78,6 +93,9 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
         if indexPath.row == 0 {
             let newValueTableCell : DCAddNewValueTableViewCell = (mainTableView.dequeueReusableCellWithIdentifier(VALUE_TEXTFIELD_CELL) as? DCAddNewValueTableViewCell)!
             newValueTableCell.newValueTextField.placeholder = placeHolderString
+            if textFieldValue != "" {
+                newValueTableCell.newValueTextField.text = textFieldValue
+            }
             newValueTableCell.newValueTextField.becomeFirstResponder()
             newValueTableCell.newValueTextField.delegate = self
             return newValueTableCell
@@ -91,7 +109,7 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
             newValueTableCell.configurePickerCellWithValues(unitArray)
             newValueTableCell.pickerCompletion = { value in
                 self.valueForUnit = value!
-                self.mainTableView.reloadData()
+                self.mainTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 0)], withRowAnimation: .None)
             }
 
             return newValueTableCell
@@ -143,12 +161,7 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
     
     func displayInlinePickerForUnit(indexPath: NSIndexPath) {
         
-//        let indexPathOfChange = NSIndexPath(forItem: indexPath.row + 1, inSection: 0)
-//        let pickerCell : DCDosageDetailPickerCell = addConditionTableView.cellForRowAtIndexPath(indexPathOfChange) as! DCDosageDetailPickerCell
-//        pickerCell.currentValueForPickerCell(eReducingIncreasingType)
-//        inlinePickerForChangeActive = true
         let indexPaths = [NSIndexPath(forItem: indexPath.row + 1, inSection: indexPath.section)]
-//        addConditionTableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Fade)
         mainTableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Fade)
     }
     
