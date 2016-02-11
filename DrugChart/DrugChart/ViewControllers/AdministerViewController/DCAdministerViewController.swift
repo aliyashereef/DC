@@ -639,7 +639,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         switch indexPath.section {
         case 0 :
             if self.isMedicationDurationBasedInfusion() {
-                let cell = administerTableView.dequeueReusableCellWithIdentifier("MedicationDetailsTableViewCell") as? DCDurationBasedMedicationDetailsCell
+                let cell = administerTableView.dequeueReusableCellWithIdentifier("DurationBasedInfusionCell") as? DCDurationBasedMedicationDetailsCell
                 if let _ = medicationDetails {
                     cell!.configureMedicationDetails(medicationDetails!)
                 }
