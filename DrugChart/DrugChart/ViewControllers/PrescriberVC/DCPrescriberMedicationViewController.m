@@ -628,9 +628,21 @@ typedef enum : NSUInteger {
 
 - (void)addAlertsAndAllergyBarButtonToNavigationBar {
     
-    UIBarButtonItem *alertsAndAllergiesButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:ALERTS_ALLERGIES_ICON] style:UIBarButtonItemStylePlain target:self action:@selector(allergiesAndAlertsButtonTapped:)];
+    UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setImage:[UIImage imageNamed:ALERTS_ALLERGIES_WITHCOUNT_ICON] forState:UIControlStateNormal];
+    //button.titleLabel.textColor = [UIColor blackColor];
+    button.titleLabel.font = [UIFont systemFontOfSize:14.0];
+    [button setTitle:@"3" forState:UIControlStateNormal];
+    //button.titleLabel.textAlignment = NSTextAlignmentRight;
+    button.titleEdgeInsets = UIEdgeInsetsMake(-4, -15, 4, 15);
+    [button addTarget:self action:@selector(allergiesAndAlertsButtonTapped:)forControlEvents:UIControlEventTouchUpInside];
+    [button sizeToFit];
+    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+   // self.navigationItem.leftBarButtonItem = barButtonItem;
+    
+//    UIBarButtonItem *alertsAndAllergiesButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:ALERTS_ALLERGIES_WITHCOUNT_ICON] style:UIBarButtonItemStylePlain target:self action:@selector(allergiesAndAlertsButtonTapped:)];
     if ([allergiesArray count] > 0 || [alertsArray count] > 0) {
-        self.navigationItem.rightBarButtonItems = @[addButton, alertsAndAllergiesButton];
+        self.navigationItem.rightBarButtonItems = @[addButton, barButtonItem];
     } else {
         self.navigationItem.rightBarButtonItem = addButton;
     }
