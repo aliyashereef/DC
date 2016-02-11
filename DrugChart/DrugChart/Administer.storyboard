@@ -452,6 +452,61 @@
                                             <outlet property="notesTextView" destination="Dkl-aX-65a" id="fNF-LN-cWU"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="DurationBasedInfusionCell" rowHeight="125" id="TKY-OY-acQ" customClass="DCDurationBasedMedicationDetailsCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="337.5" width="600" height="125"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TKY-OY-acQ" id="vqj-up-AEr">
+                                            <rect key="frame" x="0.0" y="0.0" width="567" height="124.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tBK-2o-Vhd">
+                                                    <rect key="frame" x="15" y="15" width="537" height="20.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20 mg" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w7b-uT-1dE">
+                                                    <rect key="frame" x="15" y="45" width="537" height="14.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" red="0.45098039220000002" green="0.45098039220000002" blue="0.45098039220000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Regular" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hRf-bm-Vee">
+                                                    <rect key="frame" x="15" y="69" width="537" height="14.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" red="0.45098039220000002" green="0.45098039220000002" blue="0.45098039220000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Flow rate is 10 mg/Hr" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hPQ-jD-UOg">
+                                                    <rect key="frame" x="15" y="94" width="537" height="14.5"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="tBK-2o-Vhd" secondAttribute="trailing" constant="15" id="07k-kg-4Mh"/>
+                                                <constraint firstItem="hPQ-jD-UOg" firstAttribute="leading" secondItem="vqj-up-AEr" secondAttribute="leading" constant="15" id="9ds-pb-RP0"/>
+                                                <constraint firstAttribute="bottom" secondItem="hPQ-jD-UOg" secondAttribute="bottom" constant="16" id="Apy-IC-5xr"/>
+                                                <constraint firstItem="hPQ-jD-UOg" firstAttribute="top" secondItem="hRf-bm-Vee" secondAttribute="bottom" constant="10" id="Hiz-FM-vHo"/>
+                                                <constraint firstAttribute="trailing" secondItem="hRf-bm-Vee" secondAttribute="trailing" constant="15" id="IuO-3b-97n"/>
+                                                <constraint firstAttribute="trailing" secondItem="w7b-uT-1dE" secondAttribute="trailing" constant="15" id="OIs-rW-yKV"/>
+                                                <constraint firstAttribute="trailing" secondItem="hPQ-jD-UOg" secondAttribute="trailing" constant="15" id="VE7-L7-7Se"/>
+                                                <constraint firstItem="w7b-uT-1dE" firstAttribute="leading" secondItem="vqj-up-AEr" secondAttribute="leading" constant="15" id="ZHF-Bp-W2p"/>
+                                                <constraint firstItem="tBK-2o-Vhd" firstAttribute="top" secondItem="vqj-up-AEr" secondAttribute="top" constant="15" id="Zzp-kV-WCJ"/>
+                                                <constraint firstItem="w7b-uT-1dE" firstAttribute="top" secondItem="tBK-2o-Vhd" secondAttribute="bottom" constant="9.5" id="aDJ-nI-G6d"/>
+                                                <constraint firstItem="hRf-bm-Vee" firstAttribute="top" secondItem="w7b-uT-1dE" secondAttribute="bottom" constant="10" id="j3t-hd-F4r"/>
+                                                <constraint firstItem="hRf-bm-Vee" firstAttribute="leading" secondItem="vqj-up-AEr" secondAttribute="leading" constant="15" id="kPN-E5-i65"/>
+                                                <constraint firstItem="tBK-2o-Vhd" firstAttribute="leading" secondItem="vqj-up-AEr" secondAttribute="leading" constant="15" id="niv-4W-Fq0"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="dosageRouteAndInstructionLabel" destination="w7b-uT-1dE" id="G9i-nQ-Lf8"/>
+                                            <outlet property="flowRateLabel" destination="hPQ-jD-UOg" id="Tem-bt-ebD"/>
+                                            <outlet property="medicineCategoryLabel" destination="hRf-bm-Vee" id="prI-em-Mwz"/>
+                                            <outlet property="medicineNameLabel" destination="tBK-2o-Vhd" id="cS4-mY-S1R"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="ZDY-vu-Z4L" id="yev-BM-7FP"/>
@@ -682,15 +737,15 @@
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
-                                            <exclude reference="Uah-fO-CGl"/>
-                                            <exclude reference="BXX-yf-Cxw"/>
-                                            <exclude reference="1vO-ns-AtM"/>
-                                            <exclude reference="wel-kT-AWa"/>
                                             <exclude reference="0DE-Ct-78M"/>
+                                            <exclude reference="1vO-ns-AtM"/>
                                             <exclude reference="9jp-55-CMc"/>
-                                            <exclude reference="PfX-bo-yxD"/>
-                                            <exclude reference="dT2-xh-NGa"/>
+                                            <exclude reference="BXX-yf-Cxw"/>
                                             <exclude reference="JMz-SA-gKG"/>
+                                            <exclude reference="PfX-bo-yxD"/>
+                                            <exclude reference="Uah-fO-CGl"/>
+                                            <exclude reference="dT2-xh-NGa"/>
+                                            <exclude reference="wel-kT-AWa"/>
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>

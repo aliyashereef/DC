@@ -266,6 +266,7 @@
 		4D48D2FF1B4C020B00B050A8 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BAAEDBD1B28621F00DF0DF6 /* libc++.dylib */; };
 		4D48D3011B4C08B300B050A8 /* DCAlertsWebServiceTestCases.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D48D3001B4C08B300B050A8 /* DCAlertsWebServiceTestCases.m */; };
 		4D4D1D6D1B983E9C0007C153 /* DCMedicationListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D4D1D6C1B983E9C0007C153 /* DCMedicationListTableViewCell.m */; };
+		4D52C02A1C6C5F72005BE86B /* DCDurationBasedMedicationDetailsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D52C0291C6C5F72005BE86B /* DCDurationBasedMedicationDetailsCell.swift */; };
 		4D52D5841BCD02FB002ABA8D /* DCAdministerMedicationWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D52D5831BCD02FB002ABA8D /* DCAdministerMedicationWebService.m */; };
 		4D52D58B1BCE74DB002ABA8D /* DCAdministrationStatusTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D52D58A1BCE74DB002ABA8D /* DCAdministrationStatusTableViewController.m */; };
 		4D54C0761BFB245A00A61273 /* OneThirdScreenSizeCalendar.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4D54C0751BFB245A00A61273 /* OneThirdScreenSizeCalendar.storyboard */; };
@@ -724,6 +725,7 @@
 		4D48D3001B4C08B300B050A8 /* DCAlertsWebServiceTestCases.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCAlertsWebServiceTestCases.m; sourceTree = "<group>"; };
 		4D4D1D6B1B983E9C0007C153 /* DCMedicationListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCMedicationListTableViewCell.h; sourceTree = "<group>"; };
 		4D4D1D6C1B983E9C0007C153 /* DCMedicationListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCMedicationListTableViewCell.m; sourceTree = "<group>"; };
+		4D52C0291C6C5F72005BE86B /* DCDurationBasedMedicationDetailsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDurationBasedMedicationDetailsCell.swift; sourceTree = "<group>"; };
 		4D52D5821BCD02FB002ABA8D /* DCAdministerMedicationWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCAdministerMedicationWebService.h; sourceTree = "<group>"; };
 		4D52D5831BCD02FB002ABA8D /* DCAdministerMedicationWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCAdministerMedicationWebService.m; sourceTree = "<group>"; };
 		4D52D5891BCE74DB002ABA8D /* DCAdministrationStatusTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCAdministrationStatusTableViewController.h; sourceTree = "<group>"; };
@@ -923,6 +925,7 @@
 		0B14CD881BB13BD80085E40C /* AdministerViewController */ = {
 			isa = PBXGroup;
 			children = (
+				4D52C0281C6C5F39005BE86B /* DurationBasedMedicationDetailsCell */,
 				0BB535831BBA46FA0043BC61 /* AdministerPickerCell */,
 				0B14CD891BB13BEB0085E40C /* DCAdministerViewController.swift */,
 				0BD6991D1BB2C7AB008797A2 /* NotesTableCell */,
@@ -1808,8 +1811,8 @@
 				0BBC8FA31AA4698E0085ABAB /* BaseViewController */,
 				0B7D5CD11BB90DF80044BE1B /* BNFViewController */,
 				0B1E308C1AF201FB003E49C4 /* SecurityPinViewController */,
-				0BBC8F9F1AA469280085ABAB /* LoginViewController */,
 				0B14CD881BB13BD80085E40C /* AdministerViewController */,
+				0BBC8F9F1AA469280085ABAB /* LoginViewController */,
 				0BC0C4621ADF777D002707DC /* AddMedicationViewController */,
 				FD618F321C197A1A005EC416 /* DosageSelection */,
 				FDC7EA581C1AA8B30081D5C4 /* DosageDetail */,
@@ -2474,6 +2477,14 @@
 				4D4891551BC90053002AC8CA /* DCSwiftObjCNavigationHelper.m */,
 			);
 			path = NavigationHelper;
+			sourceTree = "<group>";
+		};
+		4D52C0281C6C5F39005BE86B /* DurationBasedMedicationDetailsCell */ = {
+			isa = PBXGroup;
+			children = (
+				4D52C0291C6C5F72005BE86B /* DCDurationBasedMedicationDetailsCell.swift */,
+			);
+			name = DurationBasedMedicationDetailsCell;
 			sourceTree = "<group>";
 		};
 		4D52D5881BCE7404002ABA8D /* AdministrationStatusTableViewController */ = {
@@ -3404,6 +3415,7 @@
 				0B90D6541B734EE0003A37E4 /* UICKeyChainStore.m in Sources */,
 				0BAE36941B450A6C007CD64C /* DCAutoSearchCell.m in Sources */,
 				1FD4FCAA1BF4B5CC00B77B94 /* VitalsignDashboard.swift in Sources */,
+				4D52C02A1C6C5F72005BE86B /* DCDurationBasedMedicationDetailsCell.swift in Sources */,
 				0B14CD8D1BB151EA0085E40C /* DCAdministerCell.swift in Sources */,
 				0B7F74FC1B84394B00E3B0A0 /* DCSortTableViewController.m in Sources */,
 				4D54C0791BFB2DF800A61273 /* DCCalendarOneThirdViewController.swift in Sources */,

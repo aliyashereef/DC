@@ -638,11 +638,19 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0 :
-            let cell = administerTableView.dequeueReusableCellWithIdentifier("MedicationDetailsTableViewCell") as? DCMedicationDetailsTableViewCell
-            if let _ = medicationDetails {
-                cell!.configureMedicationDetails(medicationDetails!)
+            if self.isMedicationDurationBasedInfusion() {
+                let cell = administerTableView.dequeueReusableCellWithIdentifier("MedicationDetailsTableViewCell") as? DCDurationBasedMedicationDetailsCell
+                if let _ = medicationDetails {
+                    cell!.configureMedicationDetails(medicationDetails!)
+                }
+                return cell!
+            } else {
+                let cell = administerTableView.dequeueReusableCellWithIdentifier("MedicationDetailsTableViewCell") as? DCMedicationDetailsTableViewCell
+                if let _ = medicationDetails {
+                    cell!.configureMedicationDetails(medicationDetails!)
+                }
+                return cell!
             }
-            return cell!
         default:
                 if (medicationSlot?.medicationAdministration?.status == ADMINISTERED || medicationSlot?.medicationAdministration?.status == STARTED) {
                     //configure tablecells for medication status administered
