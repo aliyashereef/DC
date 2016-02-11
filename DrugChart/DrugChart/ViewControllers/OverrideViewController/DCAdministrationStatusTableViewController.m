@@ -13,6 +13,12 @@
 
 #define TABLE_REUSE_IDENTIFIER @"StatusCell"
 
+@interface DCAdministrationStatusTableViewController () <NamesListDelegate> {
+    
+}
+
+@end
+
 @implementation DCAdministrationStatusTableViewController{
     BOOL isSecondSectionExpanded;
     BOOL isDatePickerExpanded;
@@ -299,8 +305,8 @@
     
     UIStoryboard *administerStoryboard = [UIStoryboard storyboardWithName:ADMINISTER_STORYBOARD bundle:nil];
     DCNameSelectionTableViewController *namesViewController = [administerStoryboard instantiateViewControllerWithIdentifier:NAMES_LIST_VIEW_STORYBOARD_ID];
-    //namesViewController.namesDelegate = self;
     namesViewController.title = CHECKED_BY;
+    namesViewController.namesDelegate = self;
     namesViewController.namesArray = usersListArray;
     [self.navigationController pushViewController:namesViewController animated:YES];
 }
@@ -322,6 +328,10 @@
             }
         }
     }];
+}
+- (void)selectedUserEntry:(DCUser *)user {
+    checkedByUser = user.displayName;
+    [self.tableView reloadData];
 }
 
 @end

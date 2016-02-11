@@ -26,11 +26,11 @@ class DCDurationBasedMedicationDetailsCell: UITableViewCell {
     }
     
     func configureMedicationDetails(medicationDetails : DCMedicationScheduleDetails) {
-        
         medicineNameLabel.text = medicationDetails.name
         if (medicationDetails.route != nil) {
             populateRouteAndInstructionLabelsWithDetails(medicationDetails)
         }
+        self.medicineCategoryLabel.text = DCCalendarHelper.typeDescriptionForMedication(medicationDetails)
     }
     
     func populateRouteAndInstructionLabelsWithDetails(medicationDetails : DCMedicationScheduleDetails) {

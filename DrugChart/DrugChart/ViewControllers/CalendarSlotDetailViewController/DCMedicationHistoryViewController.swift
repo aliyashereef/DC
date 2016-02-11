@@ -277,9 +277,19 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0 :
-            let cell = medicationHistoryTableView.dequeueReusableCellWithIdentifier("MedicationDetailsTableViewCell") as? DCMedicationDetailsTableViewCell
-            cell!.configureMedicationDetails(medicationDetails!)
-            return cell!
+            if self.isMedicationDurationBasedInfusion() {
+                let cell = tableView.dequeueReusableCellWithIdentifier("DurationBasedInfusionCell") as? DCDurationBasedMedicationDetailsCell
+                if let _ = medicationDetails {
+                    cell!.configureMedicationDetails(medicationDetails!)
+                }
+                return cell!
+            } else {
+                let cell = tableView.dequeueReusableCellWithIdentifier("MedicationDetailsTableViewCell") as? DCMedicationDetailsTableViewCell
+                if let _ = medicationDetails {
+                    cell!.configureMedicationDetails(medicationDetails!)
+                }
+                return cell!
+            }
         default:
             var cell = tableView.dequeueReusableCellWithIdentifier(ADMINSTER_MEDICATION_HISTORY_CELL) as? DCAdminsteredMedicationCell
             if cell == nil {
@@ -354,5 +364,14 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         let administerStoryboard : UIStoryboard? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil)
         let bnfViewController : DCBNFViewController? = administerStoryboard!.instantiateViewControllerWithIdentifier(BNF_STORYBOARD_ID) as? DCBNFViewController
         self.navigationController?.pushViewController(bnfViewController!, animated: true)
+    }
+    
+    func isMedicationDurationBasedInfusion () -> Bool {
+        // T0 Do : This is a temporary method to implement the status display for the duration based infusion , when the API gets updated - modifications needed.
+        if (medicationDetails?.route == "Subcutaneous" || medicationDetails?.route == "Intravenous"){
+            return true
+        } else {
+            return false
+        }
     }
 }
