@@ -31,8 +31,6 @@ typedef enum : NSUInteger {
 + (NSArray *)sortArray:(NSArray *)arrayToSort
             basedOnKey:(NSString *)key ascending:(BOOL)ascending;
 
-+ (UIImage *)medicationStatusImageForMedicationStatus:(NSString *)status;
-
 + (void)modifyViewComponentForErrorDisplay:(UIView *)view;
 
 + (NSMutableAttributedString *)dateOfBirthAndAgeAttributedString:(NSDate *)dateOfBirth;

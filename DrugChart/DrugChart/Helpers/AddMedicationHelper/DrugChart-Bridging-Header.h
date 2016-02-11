@@ -29,7 +29,6 @@
 #import "DCAdministrationStatusTableViewController.h"
 #import "DCStopMedicationWebService.h"
 #import "DCBaseViewController.h"
-#import "UIButton+ButtonHighlight.h"
 #import "DCAddMedicationInitialViewController.h"
 #import "DCCalendarNavigationTitleView.h"
 #import "DCAddMedicationDetailViewController.h"

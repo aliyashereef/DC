@@ -95,10 +95,11 @@ class DCAddNewDoseAndTimeViewController: UIViewController , UITableViewDataSourc
     func doneButtonPressed() {
         
         if detailType == eAddNewDose {
-            let dosageCell: DCAddNewDoseAndTimeTableViewCell = newDosageTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! DCAddNewDoseAndTimeTableViewCell
-            if (dosageCell.newDosageTextField.text! != "" && validateNewDosageValue(dosageCell.newDosageTextField.text!)) {
-                self.newDosageEntered(dosageCell.newDosageTextField.text!)
-                self.navigationController!.dismissViewControllerAnimated(true, completion:nil)
+            if let dosageCell: DCAddNewDoseAndTimeTableViewCell = newDosageTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as? DCAddNewDoseAndTimeTableViewCell {
+                if (dosageCell.newDosageTextField.text! != "" && validateNewDosageValue(dosageCell.newDosageTextField.text!)) {
+                    self.newDosageEntered(dosageCell.newDosageTextField.text!)
+                    self.navigationController!.dismissViewControllerAnimated(true, completion:nil)
+                }
             }
         } else {
             let dosageCell: DCAddNewDoseAndTimeTableViewCell = newDosageTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! DCAddNewDoseAndTimeTableViewCell

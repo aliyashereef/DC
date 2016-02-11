@@ -149,6 +149,7 @@
 "PENDING"              =       "Pending";
 "OVERDUE"              =       "Overdue";
 "DUE_NOW"              =       "Due Now";
+"FAILED"               =       "Failed";
 
 // Scheduling
 
@@ -172,4 +173,9 @@
 "STARTING_AT"          =       "Starting at";
 "VARY_BETWEEN"         =       "Vary between";
 "AND"                  =       "And";
+
+//Warnings
+
+"ALERTS"               =       "Alerts";
+"ALLERGIES"            =       "Allergies";
 

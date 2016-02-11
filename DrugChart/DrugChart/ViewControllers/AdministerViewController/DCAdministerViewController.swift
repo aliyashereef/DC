@@ -1026,12 +1026,14 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         administerDictionary.setValue(scheduledDateString, forKey:SCHEDULED_ADMINISTRATION_TIME)
         let dateFormatter : NSDateFormatter = NSDateFormatter.init()
         dateFormatter.dateFormat = EMIS_DATE_FORMAT
+        dateFormatter.timeZone = NSTimeZone.init(name:"UTC")
         if (medicationSlot?.medicationAdministration?.actualAdministrationTime != nil) {
-            let administeredDateString : NSString = dateFormatter.stringFromDate((medicationSlot?.medicationAdministration?.actualAdministrationTime)!)
+            let administeredDateString : NSString = dateFormatter.stringFromDate((DCDateUtility.dateInCurrentTimeZone(medicationSlot?.medicationAdministration?.actualAdministrationTime)!))
             administerDictionary.setValue(administeredDateString, forKey:ACTUAL_ADMINISTRATION_TIME)
         } else {
-            administerDictionary.setValue(dateFormatter.stringFromDate(NSDate()), forKey:ACTUAL_ADMINISTRATION_TIME)
             medicationSlot?.medicationAdministration?.actualAdministrationTime = DCDateUtility.dateInCurrentTimeZone(NSDate())
+            let administeredDateString : NSString = dateFormatter.stringFromDate((medicationSlot?.medicationAdministration?.actualAdministrationTime)!)
+            administerDictionary.setValue(administeredDateString, forKey:ACTUAL_ADMINISTRATION_TIME)
         }
         // To Do : for the sake of display of infusions , untill the API gets updated, this value need to be changed dynamic.
         var adminStatus = medicationSlot?.medicationAdministration?.status

@@ -181,9 +181,9 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
             cell!.contentType.text = DATE
             let dateString : NSString
             if let date = medication.medicationAdministration?.actualAdministrationTime {
-                dateString = DCDateUtility.dateStringFromDate(DCDateUtility.dateInCurrentTimeZone(date), inFormat: ADMINISTER_DATE_TIME_FORMAT)
+                dateString = DCDateUtility.dateStringFromDate(date, inFormat: ADMINISTER_DATE_TIME_FORMAT)
             } else {
-                dateString = DCDateUtility.dateStringFromDate(DCDateUtility.dateInCurrentTimeZone(NSDate()), inFormat: ADMINISTER_DATE_TIME_FORMAT)
+                dateString = DCDateUtility.dateStringFromDate(NSDate(), inFormat: ADMINISTER_DATE_TIME_FORMAT)
             }
             cell!.value.text = dateString as String
             break

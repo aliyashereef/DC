@@ -10,15 +10,6 @@
 #import "DCErrorPopOverBackgroundView.h"
 #import "DCWarning.h"
 
-#define MEDICINE_REFUSED_IMAGE @"MedicineRefused"
-#define MEDICINE_OMITTED_IMAGE @"MedicineOmitted"
-#define MEDICINE_GIVEN_IMAGE @"MedicineGivenImage"
-#define MEDICINE_TOBE_GIVEN_IMAGE @"MedicineToBeGiven"
-#define MEDICINE_SELF_ADMINISTERED_IMAGE @"MedicineSelfAdministered"
-
-#define PRESCRIBER_ADMINISTERED_IMAGE @""
-
-
 @implementation DCUtility
 
 + (BOOL)emailIsValid:(NSString *)email {
@@ -37,22 +28,6 @@
     NSSortDescriptor *sortOrder = [NSSortDescriptor sortDescriptorWithKey:key ascending:ascending];
     NSArray *sortedArray = [arrayToSort sortedArrayUsingDescriptors: @[sortOrder]];
     return sortedArray;
-}
-
-+ (UIImage *)medicationStatusImageForMedicationStatus:(NSString *)status {
-    UIImage *image;
-    if ([status isEqualToString:OMITTED]) {
-        image = [UIImage imageNamed:MEDICINE_OMITTED_IMAGE];
-    } else if ([status isEqualToString:IS_GIVEN]) {
-        image = [UIImage imageNamed:MEDICINE_GIVEN_IMAGE];
-    } else if ([status isEqualToString:REFUSED]) {
-        image = [UIImage imageNamed:MEDICINE_REFUSED_IMAGE];
-    } else if ([status isEqualToString:YET_TO_GIVE]) {
-        image = [UIImage imageNamed:MEDICINE_TOBE_GIVEN_IMAGE];
-    } else {
-        image = [UIImage imageNamed:MEDICINE_SELF_ADMINISTERED_IMAGE];
-    }
-    return image;
 }
 
 + (void)modifyViewComponentForErrorDisplay:(UIView *)view {

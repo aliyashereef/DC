@@ -228,21 +228,11 @@
         case eFirstSection:{
             static NSString *cellIdentifier = ADD_MEDICATION_CONTENT_CELL;
             DCAddMedicationContentCell *cell = [medicationDetailsTableView dequeueReusableCellWithIdentifier:cellIdentifier];
-            cell.titleLabel.text = NSLocalizedString(@"Frequency", @"Date cell title");
+            cell.titleLabel.text = NSLocalizedString(@"Review Frequency", @"Date cell title");
             [cell configureContentCellWithContent:self.selectedMedication.reviewDate];
             return cell;
         }
             break;
-        case 2:{
-            static NSString *cellIdentifier = @"ReviewDatePickerView";
-            DCReviewDatePickerCell *reviewDateCell = [medicationDetailsTableView dequeueReusableCellWithIdentifier:cellIdentifier];
-            [reviewDateCell configurePickerCell];
-            reviewDateCell.pickerCompletion  = ^ (NSString *value) {
-                self.selectedMedication.reviewDate = value;
-                [medicationDetailsTableView reloadData];
-            };
-            return reviewDateCell;
-        }
         default:
             break;
     }
@@ -856,16 +846,29 @@
             break;
         case eFirstSection:{
             if (indexPath.row == 1 && self.selectedMedication.hasReviewDate){
-                if (reviewDatePickerExpanded) {
-                    // display the date picker inline with the table content
-                    reviewDatePickerExpanded = NO;
-                    [medicationDetailsTableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:1]]
-                                                      withRowAnimation:UITableViewRowAnimationFade];
-                } else {
-                    reviewDatePickerExpanded = YES;
-                    [medicationDetailsTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:1]]
-                                                      withRowAnimation:UITableViewRowAnimationFade];
-                }
+                UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
+                DCAddNewValueViewController *addNewValueViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:ADD_NEW_VALUE_SBID];
+                addNewValueViewController.titleString = @"Frequency";
+                addNewValueViewController.placeHolderString = @"Every";
+                addNewValueViewController.detailType = eAddValueWithUnit;
+                addNewValueViewController.unitArray = [[NSArray alloc] initWithObjects:DAYS,WEEKS,MONTHS,nil];
+                addNewValueViewController.previousValue = self.selectedMedication.reviewDate;
+                addNewValueViewController.newValueEntered = ^ (NSString *value) {
+                    self.selectedMedication.reviewDate = [NSString stringWithFormat:@"Every %@",value];
+                    [medicationDetailsTableView reloadData];
+                };
+                [self.navigationController pushViewController:addNewValueViewController animated:YES];
+
+//                if (reviewDatePickerExpanded) {
+//                    // display the date picker inline with the table content
+//                    reviewDatePickerExpanded = NO;
+//                    [medicationDetailsTableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:1]]
+//                                                      withRowAnimation:UITableViewRowAnimationFade];
+//                } else {
+//                    reviewDatePickerExpanded = YES;
+//                    [medicationDetailsTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:1]]
+//                                                      withRowAnimation:UITableViewRowAnimationFade];
+//                }
             }
             break;
         }
