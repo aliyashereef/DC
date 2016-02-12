@@ -84,7 +84,7 @@ class DCAddNewDoseAndTimeViewController: UIViewController , UITableViewDataSourc
         
         let scanner: NSScanner = NSScanner(string:value)
         let isNumeric = scanner.scanDecimal(nil) && scanner.atEnd
-        return isNumeric
+        return isNumeric && NSString(string: value).floatValue < 10000
     }
     
     func cancelButtonPressed() {
@@ -102,12 +102,13 @@ class DCAddNewDoseAndTimeViewController: UIViewController , UITableViewDataSourc
                 }
             }
         } else {
-            let dosageCell: DCAddNewDoseAndTimeTableViewCell = newDosageTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! DCAddNewDoseAndTimeTableViewCell
-            let newTime = DCDateUtility.dateInCurrentTimeZone(dosageCell.timePicker.date)
-            let newTimeString = DCDateUtility.timeStringInTwentyFourHourFormat(newTime)
-            self.newDosageEntered(newTimeString)
-            //delegate?.userDidSelectValue(DCDateUtility.timeStringInTwentyFourHourFormat(newTime))
-            self.navigationController!.dismissViewControllerAnimated(true, completion:nil)
+            if let dosageCell: DCAddNewDoseAndTimeTableViewCell = newDosageTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as? DCAddNewDoseAndTimeTableViewCell {
+                let newTime = DCDateUtility.dateInCurrentTimeZone(dosageCell.timePicker.date)
+                let newTimeString = DCDateUtility.timeStringInTwentyFourHourFormat(newTime)
+                self.newDosageEntered(newTimeString)
+                //delegate?.userDidSelectValue(DCDateUtility.timeStringInTwentyFourHourFormat(newTime))
+                self.navigationController!.dismissViewControllerAnimated(true, completion:nil)
+            }
         }
     }
 
