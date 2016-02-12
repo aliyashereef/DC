@@ -637,7 +637,7 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="80" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="nzW-av-W44">
                                 <rect key="frame" x="0.0" y="0.0" width="310" height="600"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="600" id="tdA-Cz-eRx"/>
                                 </constraints>
@@ -946,7 +946,7 @@
         <!--Scheduling Initial View Controller-->
         <scene sceneID="brG-65-yTm">
             <objects>
-                <viewController storyboardIdentifier="SchedulingInitialView" id="BLx-xC-L5E" customClass="DCSchedulingInitialViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SchedulingInitialView" automaticallyAdjustsScrollViewInsets="NO" id="BLx-xC-L5E" customClass="DCSchedulingInitialViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="R7n-hl-Ed8"/>
                         <viewControllerLayoutGuide type="bottom" id="kpg-2O-aqd"/>
@@ -956,7 +956,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="XKj-eu-iaa" userLabel="Scheduling Initial Table View">
-                                <rect key="frame" x="0.0" y="-15" width="310" height="705"/>
+                                <rect key="frame" x="0.0" y="20" width="310" height="670"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SchedulingInitialCellId" id="ntd-Wg-kAe" customClass="DCSchedulingCell" customModule="DrugChart" customModuleProvider="target">
@@ -1157,7 +1157,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="XKj-eu-iaa" firstAttribute="top" secondItem="R7n-hl-Ed8" secondAttribute="bottom" constant="-35" id="Fok-uV-k7k"/>
+                            <constraint firstItem="XKj-eu-iaa" firstAttribute="top" secondItem="R7n-hl-Ed8" secondAttribute="bottom" id="Fok-uV-k7k"/>
                             <constraint firstAttribute="trailing" secondItem="XKj-eu-iaa" secondAttribute="trailing" id="I60-Hx-XKi"/>
                             <constraint firstItem="kpg-2O-aqd" firstAttribute="top" secondItem="XKj-eu-iaa" secondAttribute="bottom" id="TLm-pv-J0W"/>
                             <constraint firstItem="XKj-eu-iaa" firstAttribute="leading" secondItem="JPy-fM-gKB" secondAttribute="leading" id="Vl2-Eb-bAL"/>

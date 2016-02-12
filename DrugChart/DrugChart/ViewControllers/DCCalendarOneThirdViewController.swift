@@ -51,6 +51,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     }
     
     override func viewWillAppear(animated: Bool) {
+        
         super.viewWillAppear(animated)
         let indexPath : NSIndexPath = NSIndexPath.init(forItem: 5, inSection: 0)
         calendarStripCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: false)
@@ -58,6 +59,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
 }
 
     override func viewWillDisappear(animated: Bool) {
+        
         super.viewWillAppear(animated)
         setParentViewWithCurrentWeekDateArray()
     }
@@ -74,6 +76,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        
         super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
         let orientation = UIDevice.currentDevice().orientation
         if  orientation == UIDeviceOrientation.LandscapeLeft ||  orientation == UIDeviceOrientation.LandscapeRight {
@@ -346,7 +349,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
                     existingStatusViews.addObject(subView)
                 }
             }
-            let viewFrame = CGRectMake(0, 0, 115, 67.0)
+            let viewFrame = CGRectMake(0, 0, 120, 67.0)
             let statusView : DCMedicationAdministrationStatusView = DCMedicationAdministrationStatusView(frame: viewFrame)
             let medicationSchedules = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
             statusView.tag = tag
