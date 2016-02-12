@@ -60,7 +60,7 @@ class DCMedicationAdministrationStatusView: UIView {
         let contentFrame : CGRect = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)
         statusLabel = UILabel.init(frame: contentFrame)
         self.addSubview(statusLabel!)
-        statusLabel?.font = UIFont.systemFontOfSize(13.0)
+        statusLabel?.font = UIFont.systemFontOfSize(12.0)
         statusLabel?.numberOfLines = 0
         let appDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
         if (appDelegate.windowState == DCWindowState.oneThirdWindow){
@@ -120,7 +120,7 @@ class DCMedicationAdministrationStatusView: UIView {
         }
       }
     
-    func positionStatusLabelAndIconForDueAtStatus(dueAtStatus : Bool) {
+    func positionStatusLabelAndIconForDueAtOrNotAdministeredStatus(leftAlign : Bool) {
         
         statusLabel?.hidden = false
         statusIcon?.hidden = false
@@ -129,8 +129,13 @@ class DCMedicationAdministrationStatusView: UIView {
             statusLabel?.center = CGPointMake(self.bounds.size.width/1.34, self.bounds.size.height/2);
         } else {
             statusIconCenterForLeftAlignedState()
-            if dueAtStatus == true {
-                statusLabel?.center = CGPointMake(self.bounds.size.width/1.2, self.bounds.size.height/2);
+            if leftAlign == true {
+//                let appDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
+//                if (appDelegate.windowState == DCWindowState.twoThirdWindow) {
+//                    statusLabel?.center = CGPointMake(self.bounds.size.width/1.25, self.bounds.size.height/2);
+//                } else {
+                    statusLabel?.center = CGPointMake(self.bounds.size.width/1.25, self.bounds.size.height/2);
+               // }
             } else {
                 statusLabel?.center = CGPointMake(self.bounds.size.width/1.7, self.bounds.size.height/2);
             }
@@ -144,7 +149,7 @@ class DCMedicationAdministrationStatusView: UIView {
         if (appDelegate.windowState == DCWindowState.twoThirdWindow || appDelegate.windowState == DCWindowState.oneThirdWindow) {
             statusIcon!.center = CGPointMake(self.bounds.size.width/7.2, self.bounds.size.height/2)
         } else {
-            statusIcon!.center = CGPointMake(self.bounds.size.width/5, self.bounds.size.height/2)
+            statusIcon!.center = CGPointMake(self.bounds.size.width/5.27, self.bounds.size.height/2)
         }
     }
     
@@ -207,7 +212,7 @@ class DCMedicationAdministrationStatusView: UIView {
     func updateDueNowStatusInView() {
         
         //update due now status in view
-        positionStatusLabelAndIconForDueAtStatus(false)
+        positionStatusLabelAndIconForDueAtOrNotAdministeredStatus(false)
         //statusIconCenterForLeftAlignedState()
         if (isOneThirdScreen) {
             //statusLabel?.center = CGPointMake(self.bounds.size.width/1.7, self.bounds.size.height/2);
@@ -233,10 +238,18 @@ class DCMedicationAdministrationStatusView: UIView {
             statusIcon?.image = ADMINISTRATION_SUCCESS_IMAGE
         } else {
             statusIcon?.image = ADMINISTRATION_FAILURE_IMAGE
-            positionStatusLabelAndIconForDueAtStatus(false)
-            statusLabel?.textAlignment = isOneThirdScreen ? .Left : .Center
+            positionStatusLabelAndIconForDueAtOrNotAdministeredStatus(true)
+            let appDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
+            if (appDelegate.windowState == DCWindowState.twoThirdWindow) {
+                statusLabel?.center = CGPointMake(self.bounds.size.width/1.35, self.bounds.size.height/2);
+            }
+            statusLabel?.textAlignment = .Left
             statusLabel?.textColor = UIColor.redColor()
-            statusLabel?.text = String(format: "%i of %i %@", refusedCount, timeArray.count, NSLocalizedString("FAILED", comment: ""))
+            let attributedStatusText : NSMutableAttributedString = NSMutableAttributedString(string: String(format: "%i of %i\n%@", refusedCount, timeArray.count, NSLocalizedString("NOT_ADMINISTERED", comment: "")))
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.lineSpacing = 4
+            attributedStatusText.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, attributedStatusText.length))
+            statusLabel?.attributedText = attributedStatusText;
         }
     }
     
@@ -252,7 +265,7 @@ class DCMedicationAdministrationStatusView: UIView {
                     // get date string from the nearest slot time
                     if (medicationCategory != WHEN_REQUIRED) {
                         let dueTime = DCDateUtility.dateStringFromDate(nearestSlot?.time, inFormat: TWENTYFOUR_HOUR_FORMAT)
-                        positionStatusLabelAndIconForDueAtStatus(true)
+                        positionStatusLabelAndIconForDueAtOrNotAdministeredStatus(true)
                         //Populate due label
                         statusIcon?.image = ADMINISTRATION_DUE_IMAGE
                         if let time = dueTime {
@@ -271,14 +284,14 @@ class DCMedicationAdministrationStatusView: UIView {
     func attributedAdministrationStatusTextForScheduledTime(time : String, inMedicationSlot slot : DCMedicationSlot) -> NSMutableAttributedString {
         
         let statusText = String(format: "Due at %@", time)
-        let attributedStatusText : NSMutableAttributedString = NSMutableAttributedString(string: statusText, attributes: [NSFontAttributeName : UIFont.systemFontOfSize(13.0), NSForegroundColorAttributeName : DUE_AT_FONT_COLOR])
+        let attributedStatusText : NSMutableAttributedString = NSMutableAttributedString(string: statusText, attributes: [NSFontAttributeName : UIFont.systemFontOfSize(12.0), NSForegroundColorAttributeName : DUE_AT_FONT_COLOR])
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 4
         attributedStatusText.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, attributedStatusText.length))
         let slotIndex = timeArray.indexOfObject(slot)
         let pendingCount = timeArray.count - slotIndex
         let pendingText = String(format: "\n%i of %i %@", pendingCount, timeArray.count, PENDING)
-        let attributedPendingText : NSMutableAttributedString = NSMutableAttributedString(string: pendingText, attributes: [NSFontAttributeName : UIFont.systemFontOfSize(13.0), NSForegroundColorAttributeName : PENDING_FONT_COLOR])
+        let attributedPendingText : NSMutableAttributedString = NSMutableAttributedString(string: pendingText, attributes: [NSFontAttributeName : UIFont.systemFontOfSize(12.0), NSForegroundColorAttributeName : PENDING_FONT_COLOR])
         attributedStatusText.appendAttributedString(attributedPendingText)
         return attributedStatusText
     }
