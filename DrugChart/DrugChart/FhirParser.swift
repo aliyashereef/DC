@@ -9,29 +9,42 @@
 import Foundation
 import FHIR
 import AFNetworking
+import CocoaLumberjack
 
-typealias ServiceResponse = (String?, NSError?) -> Void
+typealias ServiceResponse = (FHIRJSON?, NSError?) -> Void
 class FhirParser
 {
     
     func connectServer(apiURL:String,onCompletion:ServiceResponse)->Void
     {
         let manager = DCHTTPRequestOperationManager.sharedVitalSignManager()
-        
+        DDLogInfo("\(Constant.VITAL_SIGN_LOGGER_INDICATOR) API call url:\(apiURL)")
         manager.GET(apiURL ,
             parameters: nil,
             success: { (operation,responseObject) ->Void in
-                //let responseDict = responseObject as! NSDictionary
-                onCompletion(responseObject.description, nil)
+                DDLogDebug("\(Constant.VITAL_SIGN_LOGGER_INDICATOR) Get JSON back:\(responseObject.description)")
+                let json = self.getFHIRJSON(responseObject.description)
+                onCompletion(json, nil)
             },
             failure: { (operation , error) in
-                //print("Error: " + error.localizedDescription)
+                DDLogError("\(Constant.VITAL_SIGN_LOGGER_INDICATOR) Get Error:\(error.localizedDescription)")
                 onCompletion(nil,error)
         })
     }
     
-    func parseJSON(responseObject:String?)
+    func getFHIRJSON(json:String) -> FHIRJSON?
     {
-        print(responseObject) // every class must have to implement it own method
+        do
+        {
+            let data = json.dataUsingEncoding(NSUTF8StringEncoding)
+            let fhirJSON = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? FHIRJSON
+            return fhirJSON
+        }
+        catch
+        {
+            DDLogError("\(Constant.VITAL_SIGN_LOGGER_INDICATOR) Get Error\(error)")
+        }
+        
+        return nil
     }
 }

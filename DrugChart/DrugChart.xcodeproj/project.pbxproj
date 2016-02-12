@@ -163,7 +163,7 @@
 		1F1977241C05DB1400106023 /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1977231C05DB1400106023 /* UITextField.swift */; };
 		1F3007061BF5552E00DDF3F3 /* VitalSignObservation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3007051BF5552E00DDF3F3 /* VitalSignObservation.swift */; };
 		1F380C761C64B21C000A4E5D /* FhirParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F380C751C64B21C000A4E5D /* FhirParser.swift */; };
-		1F380C781C64E1D1000A4E5D /* BundleParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F380C771C64E1D1000A4E5D /* BundleParser.swift */; };
+		1F380C781C64E1D1000A4E5D /* VitalSign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F380C771C64E1D1000A4E5D /* VitalSign.swift */; };
 		1F3C316E1C0DB3CB007C6AE7 /* PatientViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3C316D1C0DB3CB007C6AE7 /* PatientViewController.swift */; };
 		1F3C31701C0DB8F8007C6AE7 /* Patient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3C316F1C0DB8F8007C6AE7 /* Patient.swift */; };
 		1F3C31781C0DE0CF007C6AE7 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3C31771C0DE0CF007C6AE7 /* CalendarViewController.swift */; };
@@ -578,7 +578,7 @@
 		1F1977231C05DB1400106023 /* UITextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
 		1F3007051BF5552E00DDF3F3 /* VitalSignObservation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VitalSignObservation.swift; sourceTree = "<group>"; };
 		1F380C751C64B21C000A4E5D /* FhirParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FhirParser.swift; sourceTree = "<group>"; };
-		1F380C771C64E1D1000A4E5D /* BundleParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BundleParser.swift; sourceTree = "<group>"; };
+		1F380C771C64E1D1000A4E5D /* VitalSign.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VitalSign.swift; sourceTree = "<group>"; };
 		1F3C316D1C0DB3CB007C6AE7 /* PatientViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatientViewController.swift; sourceTree = "<group>"; };
 		1F3C316F1C0DB8F8007C6AE7 /* Patient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Patient.swift; sourceTree = "<group>"; };
 		1F3C31771C0DE0CF007C6AE7 /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
@@ -2053,7 +2053,7 @@
 			isa = PBXGroup;
 			children = (
 				1F380C751C64B21C000A4E5D /* FhirParser.swift */,
-				1F380C771C64E1D1000A4E5D /* BundleParser.swift */,
+				1F380C771C64E1D1000A4E5D /* VitalSign.swift */,
 			);
 			name = VitalSigns;
 			sourceTree = "<group>";
@@ -3070,7 +3070,7 @@
 				1FD4FCCC1BF4B7E000B77B94 /* SelectionView.swift in Sources */,
 				4D48915F1BC90176002AC8CA /* DCPatientListingViewController.swift in Sources */,
 				0B91739E1B01F36200BC9337 /* DCPrescriberDetailsViewController.m in Sources */,
-				1F380C781C64E1D1000A4E5D /* BundleParser.swift in Sources */,
+				1F380C781C64E1D1000A4E5D /* VitalSign.swift in Sources */,
 				4DC527F11BE1EE2F00E2EF09 /* DCDosageMultiLineCell.swift in Sources */,
 				0BC3ACB31C0DB70B0028AF03 /* DCSchedulingInitialViewController.swift in Sources */,
 				1FD4FCCA1BF4B7E000B77B94 /* GeneralObservationView.swift in Sources */,
