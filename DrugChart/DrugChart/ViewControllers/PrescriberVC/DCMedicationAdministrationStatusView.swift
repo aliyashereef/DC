@@ -203,6 +203,9 @@ class DCMedicationAdministrationStatusView: UIView {
                 //display due now view
                 updateDueNowStatusInView()
             } else {
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.backgroundColor = CURRENT_DAY_BACKGROUND_COLOR
+                })
                 updateCurrentDayStatusViewWithAdministrationCount(administrationCount:administeredCount, omittedRefusalCount: omissionRefusalCount)
             }
         }
