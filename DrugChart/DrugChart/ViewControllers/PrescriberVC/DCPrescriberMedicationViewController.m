@@ -48,6 +48,8 @@ typedef enum : NSUInteger {
 
     NSDate *firstDisplayDate;
     UIBarButtonItem *addButton;
+    UIButton *warningsButton;
+    UILabel *warningCountLabel;
     NSMutableArray *alertsArray;
     NSMutableArray *allergiesArray;
     NSString *selectedSortType;
@@ -602,6 +604,8 @@ typedef enum : NSUInteger {
 // show the popover with segmented control to switch between alerts and allergies.
 - (IBAction)allergiesAndAlertsButtonTapped:(id)sender {
     
+    warningsButton.selected = YES;
+    [warningCountLabel setHidden:YES];
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:MAIN_STORYBOARD
                                                              bundle: nil];
     DCAlertsAllergyPopOverViewController *patientAlertsAllergyViewController =
@@ -610,6 +614,10 @@ typedef enum : NSUInteger {
     [self prefillAllergyAndAlertsArrays];
     patientAlertsAllergyViewController.patientsAlertsArray = alertsArray;
     patientAlertsAllergyViewController.patientsAllergyArray = allergiesArray;
+    patientAlertsAllergyViewController.viewDismissed = ^ {
+        warningsButton.selected = NO;
+        [warningCountLabel setHidden:NO];
+    };
     NSMutableArray *warningsArray = [NSMutableArray arrayWithArray:alertsArray];
     [warningsArray addObjectsFromArray:allergiesArray];
     // Instatntiating the navigation controller to present the popover with preferred content size of the poppver.
@@ -618,29 +626,32 @@ typedef enum : NSUInteger {
     // Calculating the height for popover.
     CGFloat popOverHeight = [patientAlertsAllergyViewController allergyAndAlertDisplayTableViewHeightForContent:alertsArray];
     navigationController.preferredContentSize = CGSizeMake(ALERT_ALLERGY_CELL_WIDTH, popOverHeight);
-    [self presentViewController:navigationController animated:YES completion:nil];
     // Presenting the popover presentation controller on the navigation controller.
     UIPopoverPresentationController *alertsPopOverController = [navigationController popoverPresentationController];
     alertsPopOverController.permittedArrowDirections = UIPopoverArrowDirectionAny;
-    alertsPopOverController.sourceView = self.view;
-    alertsPopOverController.barButtonItem = (UIBarButtonItem *)sender;
+    UIBarButtonItem *warningsBarbuttonItem = self.navigationItem.rightBarButtonItems[1];
+    [self presentViewController:navigationController animated:YES completion:nil];
+    alertsPopOverController.barButtonItem = warningsBarbuttonItem;
 }
 
 - (void)addAlertsAndAllergyBarButtonToNavigationBar {
     
-    UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setImage:[UIImage imageNamed:ALERTS_ALLERGIES_WITHCOUNT_ICON] forState:UIControlStateNormal];
-    //button.titleLabel.textColor = [UIColor blackColor];
-    button.titleLabel.font = [UIFont systemFontOfSize:14.0];
-    [button setTitle:@"3" forState:UIControlStateNormal];
-    //button.titleLabel.textAlignment = NSTextAlignmentRight;
-    button.titleEdgeInsets = UIEdgeInsetsMake(-4, -15, 4, 15);
-    [button addTarget:self action:@selector(allergiesAndAlertsButtonTapped:)forControlEvents:UIControlEventTouchUpInside];
-    [button sizeToFit];
-    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
-   // self.navigationItem.leftBarButtonItem = barButtonItem;
-    
-//    UIBarButtonItem *alertsAndAllergiesButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:ALERTS_ALLERGIES_WITHCOUNT_ICON] style:UIBarButtonItemStylePlain target:self action:@selector(allergiesAndAlertsButtonTapped:)];
+    warningsButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    warningsButton.selected = NO;
+    [warningsButton setImage:[UIImage imageNamed:ALERTS_ALLERGIES_WITHCOUNT_ICON] forState:UIControlStateNormal];
+    [warningsButton setImage:[UIImage imageNamed:ALERTS_ALLERGIES_ICON] forState:UIControlStateSelected];
+    [warningsButton addTarget:self action:@selector(allergiesAndAlertsButtonTapped:)forControlEvents:UIControlEventTouchUpInside];
+    [warningsButton sizeToFit];
+    warningCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(warningsButton.frame.origin.x + warningsButton.frame.size.width - 22 , 2, 20, 22)];
+    [warningCountLabel setFont:[UIFont systemFontOfSize:13.0]];
+    [warningCountLabel setHidden:NO];
+    NSInteger warningsCount = alertsArray.count + allergiesArray.count;
+    [warningCountLabel setText:[NSString stringWithFormat:@"%li", (long)warningsCount]];
+    warningCountLabel.textAlignment = NSTextAlignmentCenter;
+    [warningCountLabel setTextColor:[UIColor whiteColor]];
+    [warningCountLabel setBackgroundColor:[UIColor clearColor]];
+    [warningsButton addSubview:warningCountLabel];
+    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:warningsButton];
     if ([allergiesArray count] > 0 || [alertsArray count] > 0) {
         self.navigationItem.rightBarButtonItems = @[addButton, barButtonItem];
     } else {
