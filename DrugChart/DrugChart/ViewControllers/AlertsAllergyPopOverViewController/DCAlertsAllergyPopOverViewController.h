@@ -8,10 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^ViewDismissed)();
+
 @interface DCAlertsAllergyPopOverViewController : UIViewController
 
 @property (nonatomic, strong) NSMutableArray *patientsAlertsArray;
 @property (nonatomic, strong) NSMutableArray *patientsAllergyArray;
+@property (nonatomic, strong) ViewDismissed viewDismissed;
 
 - (CGFloat)allergyAndAlertDisplayTableViewHeightForContent:(NSArray *)displayArray ;
 

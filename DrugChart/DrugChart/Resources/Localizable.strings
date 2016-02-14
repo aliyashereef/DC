@@ -149,7 +149,7 @@
 "PENDING"              =       "Pending";
 "OVERDUE"              =       "Overdue";
 "DUE_NOW"              =       "Due Now";
-"FAILED"               =       "Failed";
+"NOT_ADMINISTERED"     =       "Not Administered";
 
 // Scheduling
 

@@ -39,14 +39,19 @@
     popOverDisplayArray = [NSMutableArray arrayWithArray:self.patientsAlertsArray];
     [popOverDisplayArray addObjectsFromArray:self.patientsAllergyArray];
     [alertsAllergyTableView reloadData];
-    self.preferredContentSize = CGSizeMake(ALERT_ALLERGY_CELL_WIDTH, alertsAllergyTableView.contentSize.height + CELL_PADDING );
-    [self forcePopoverSize];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
     [alertsAllergyTableView reloadData];
+    [self forcePopoverSize];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    
+    self.viewDismissed();
+    [super viewWillDisappear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -154,11 +159,13 @@
 - (IBAction)cancelButtonPressed:(id)sender {
     
     //cancel button action
+    self.viewDismissed();
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void) forcePopoverSize {
     
+    self.preferredContentSize = CGSizeMake(ALERT_ALLERGY_CELL_WIDTH, alertsAllergyTableView.contentSize.height + CELL_PADDING);
     CGSize currentSetSizeForPopover = self.preferredContentSize;
     CGSize momentarySize = CGSizeMake(currentSetSizeForPopover.width, currentSetSizeForPopover.height - 1.0f);
     self.preferredContentSize = momentarySize;
