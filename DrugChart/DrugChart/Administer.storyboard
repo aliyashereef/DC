@@ -562,6 +562,30 @@
                                             <outlet property="medicineNameLabel" destination="tBK-2o-Vhd" id="cS4-mY-S1R"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="progressSliderCell" rowHeight="60" id="g9L-ro-NRf" customClass="DCProgressSliderCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="456.5" width="600" height="60"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="g9L-ro-NRf" id="woV-Io-8PH">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="59.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="dLa-MY-8ez">
+                                                    <rect key="frame" x="100" y="36" width="400" height="2"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="2" id="CBZ-g6-YwV"/>
+                                                    </constraints>
+                                                </progressView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="dLa-MY-8ez" secondAttribute="trailing" constant="100" id="Mfe-Kf-71O"/>
+                                                <constraint firstAttribute="bottom" secondItem="dLa-MY-8ez" secondAttribute="bottom" constant="21.5" id="fNA-dP-DKm"/>
+                                                <constraint firstItem="dLa-MY-8ez" firstAttribute="leading" secondItem="woV-Io-8PH" secondAttribute="leading" constant="100" id="r2s-an-xRF"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="progressView" destination="dLa-MY-8ez" id="N8E-WK-wpE"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="ZDY-vu-Z4L" id="yev-BM-7FP"/>

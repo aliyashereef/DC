@@ -600,6 +600,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 return ADMINISTERED_SECTION_COUNT;
             } else if (medicationSlot?.medicationAdministration?.status == REFUSED){
                 return REFUSED_SECTION_COUNT;
+            }else if (status == IN_PROGRESS){
+                return 3
             }else {
                 return 2
             }
@@ -623,6 +625,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 if (hasInlineDatePicker()) {
                     rowCount++
                 }
+            } else if (status == IN_PROGRESS){
+                rowCount == 1
             }
             return rowCount
         case SectionCount.eSecondSection.rawValue:
@@ -668,24 +672,42 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                     return refusedTableCell
                 } else if (medicationSlot?.medicationAdministration?.status == ENDED || medicationSlot?.medicationAdministration?.status == PAUSED){
                     var administerCell : DCAdministerCell = (administerTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
-                    administerCell = populatedMedicationStatusTableCellAtIndexPath(administerCell, indexPath: indexPath);
+                    if indexPath.section == eSecondSection.rawValue {
+                        administerCell = populatedMedicationStatusTableCellAtIndexPath(administerCell, indexPath: indexPath);
+                        return administerCell
+                    } else if indexPath.section == eFirstSection.rawValue {
+                        let administerCell : DCProgressSliderCell = (administerTableView.dequeueReusableCellWithIdentifier("progressSliderCell") as? DCProgressSliderCell)!
+                        administerCell.medication = medicationSlot
+                        administerCell.addStartDateView()
+                        return administerCell
+                    }
                     return administerCell
                 } else {
-                    let administerCell : DCAdministerCell = (administerTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
-                    administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
-                    if self.isMedicationDurationBasedInfusion() && status == IN_PROGRESS{
-                        administerCell.titleLabel.text = "Status Change"
+                    if (indexPath.section == 1 && status == IN_PROGRESS){
+                        //progressSliderCell
+                        let administerCell : DCProgressSliderCell = (administerTableView.dequeueReusableCellWithIdentifier("progressSliderCell") as? DCProgressSliderCell)!
+                        administerCell.medication = medicationSlot
+                        administerCell.addStartDateView()
+                        return administerCell
                     } else {
-                        administerCell.titleLabel.text = NSLocalizedString("STATUS", comment: "status title text")
+                        let administerCell : DCAdministerCell = (administerTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
+                        if ((status == IN_PROGRESS && indexPath.section == eSecondSection.rawValue)) {
+                            administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+                            if self.isMedicationDurationBasedInfusion() && status == IN_PROGRESS {
+                                administerCell.titleLabel.text = "Status Change"
+                            } else {
+                                administerCell.titleLabel.text = NSLocalizedString("STATUS", comment: "status title text")
+                            }
+                            administerCell.detailLabel.text = EMPTY_STRING
+                            if(saveClicked == true && medicationSlot?.medicationAdministration?.status == nil) {
+                                administerCell.titleLabel.textColor = UIColor.redColor()
+                            } else {
+                                saveButton?.enabled = false
+                                administerCell.titleLabel.textColor = UIColor(forHexString: "#676767")
+                            }
+                        }
+                        return administerCell
                     }
-                    administerCell.detailLabel.text = EMPTY_STRING
-                    if(saveClicked == true && medicationSlot?.medicationAdministration?.status == nil) {
-                        administerCell.titleLabel.textColor = UIColor.redColor()
-                    } else {
-                        saveButton?.enabled = false
-                        administerCell.titleLabel.textColor = UIColor(forHexString: "#676767")
-                    }
-                    return administerCell
             }
         }
     }
@@ -709,6 +731,9 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         case SectionCount.eZerothSection.rawValue:
             return UITableViewAutomaticDimension
         case SectionCount.eFirstSection.rawValue :
+            if (status == IN_PROGRESS){
+                return 60
+            }
             if indexPath.row == RowCount.eZerothRow.rawValue {
                 return TABLE_CELL_DEFAULT_HEIGHT
             } else {
@@ -726,7 +751,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 return NOTES_CELL_HEIGHT
             }else if (medicationSlot?.medicationAdministration.status == OMITTED) {
                 return NOTES_CELL_HEIGHT
-            }  else {
+            } else {
                 return TABLE_CELL_DEFAULT_HEIGHT
             }
         case SectionCount.eThirdSection.rawValue:
@@ -741,7 +766,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         let sectionCount : NSInteger = numberOfSectionsInTableView(tableView)
         let administerHeaderView = NSBundle.mainBundle().loadNibNamed(ADMINISTER_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCAdministerTableHeaderView
         administerHeaderView!.timeLabel.hidden = true
-        if (section == sectionCount - 1 && sectionCount != 2) {
+        if (section == sectionCount - 1 && sectionCount != 2 && status != IN_PROGRESS) {
             if (medicationSlot?.medicationAdministration.status == OMITTED){
                 let errorMessage = NSString(format: "%@", NSLocalizedString("OMMITED_REQUIRE_REASON", comment:""))
                 administerHeaderView?.populateHeaderViewWithErrorMessage(errorMessage as String)
@@ -768,22 +793,45 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         if (indexPath.section == SectionCount.eZerothSection.rawValue) {
             addBNFView()
         }
-        if (indexPath.section == SectionCount.eFirstSection.rawValue) {
-            if indexPath.row == RowCount.eZerothRow.rawValue {
-                presentAdministratedStatusPopOverAtIndexPath(indexPath)
-            } else {
-                if (medicationSlot?.medicationAdministration.status == ADMINISTERED || medicationSlot?.medicationAdministration?.status == STARTED) {
-                    if (indexPath.row == RowCount.eSecondRow.rawValue) {
-                        displayInlineDatePickerForRowAtIndexPath(indexPath)
-                    } else {
-                        displayPrescribersAndAdministersViewAtIndexPath(indexPath)
-                    }
-                } else if (medicationSlot?.medicationAdministration.status == REFUSED) {
-                    if (indexPath.row == RowCount.eFirstRow.rawValue) {
-                        displayInlineDatePickerForRowAtIndexPath(indexPath)
+        
+        if status == IN_PROGRESS {
+            if (indexPath.section == SectionCount.eSecondSection.rawValue) {
+                if indexPath.row == RowCount.eZerothRow.rawValue {
+                    presentAdministratedStatusPopOverAtIndexPath(indexPath)
+                } else {
+                    if (medicationSlot?.medicationAdministration.status == ADMINISTERED || medicationSlot?.medicationAdministration?.status == STARTED) {
+                        if (indexPath.row == RowCount.eSecondRow.rawValue) {
+                            displayInlineDatePickerForRowAtIndexPath(indexPath)
+                        } else {
+                            displayPrescribersAndAdministersViewAtIndexPath(indexPath)
+                        }
+                    } else if (medicationSlot?.medicationAdministration.status == REFUSED) {
+                        if (indexPath.row == RowCount.eFirstRow.rawValue) {
+                            displayInlineDatePickerForRowAtIndexPath(indexPath)
+                        }
                     }
                 }
             }
+
+        } else {
+            if (indexPath.section == SectionCount.eFirstSection.rawValue) {
+                if indexPath.row == RowCount.eZerothRow.rawValue {
+                    presentAdministratedStatusPopOverAtIndexPath(indexPath)
+                } else {
+                    if (medicationSlot?.medicationAdministration.status == ADMINISTERED || medicationSlot?.medicationAdministration?.status == STARTED) {
+                        if (indexPath.row == RowCount.eSecondRow.rawValue) {
+                            displayInlineDatePickerForRowAtIndexPath(indexPath)
+                        } else {
+                            displayPrescribersAndAdministersViewAtIndexPath(indexPath)
+                        }
+                    } else if (medicationSlot?.medicationAdministration.status == REFUSED) {
+                        if (indexPath.row == RowCount.eFirstRow.rawValue) {
+                            displayInlineDatePickerForRowAtIndexPath(indexPath)
+                        }
+                    }
+                }
+            }
+
         }
     }
     

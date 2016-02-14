@@ -282,6 +282,9 @@
 		4D83869E1BB26BC60012EF7D /* DCMedicationHistoryHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D83869D1BB26BC60012EF7D /* DCMedicationHistoryHeaderView.xib */; };
 		4D8386A01BB26D000012EF7D /* DCMedicationHistoryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D83869F1BB26D000012EF7D /* DCMedicationHistoryHeaderView.swift */; };
 		4D8386A21BB2887D0012EF7D /* DCNotesAndReasonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8386A11BB2887D0012EF7D /* DCNotesAndReasonCell.swift */; };
+		4D9225F71C6DDC410060761A /* DCProgressSliderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9225F61C6DDC410060761A /* DCProgressSliderCell.swift */; };
+		4D9225F91C6DE1F00060761A /* DCProgressTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9225F81C6DE1F00060761A /* DCProgressTimeView.swift */; };
+		4D9225FB1C6DE4E20060761A /* DCProgressTimeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D9225FA1C6DE4E20060761A /* DCProgressTimeView.xib */; };
 		4D9649921BA296CC008630B4 /* DCBedsAndPatientsWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D9649911BA296CC008630B4 /* DCBedsAndPatientsWebService.m */; };
 		4D9C7DC41BA1578C00C69094 /* DCAddMedicationWebServiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D9C7DC31BA1578C00C69094 /* DCAddMedicationWebServiceManager.m */; };
 		4DC440181B67990D000EC7AB /* DCOrderSetWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC440171B67990D000EC7AB /* DCOrderSetWebService.m */; };
@@ -739,6 +742,9 @@
 		4D83869D1BB26BC60012EF7D /* DCMedicationHistoryHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCMedicationHistoryHeaderView.xib; sourceTree = "<group>"; };
 		4D83869F1BB26D000012EF7D /* DCMedicationHistoryHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCMedicationHistoryHeaderView.swift; sourceTree = "<group>"; };
 		4D8386A11BB2887D0012EF7D /* DCNotesAndReasonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCNotesAndReasonCell.swift; sourceTree = "<group>"; };
+		4D9225F61C6DDC410060761A /* DCProgressSliderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCProgressSliderCell.swift; sourceTree = "<group>"; };
+		4D9225F81C6DE1F00060761A /* DCProgressTimeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCProgressTimeView.swift; sourceTree = "<group>"; };
+		4D9225FA1C6DE4E20060761A /* DCProgressTimeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCProgressTimeView.xib; sourceTree = "<group>"; };
 		4D9649901BA296CC008630B4 /* DCBedsAndPatientsWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCBedsAndPatientsWebService.h; sourceTree = "<group>"; };
 		4D9649911BA296CC008630B4 /* DCBedsAndPatientsWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCBedsAndPatientsWebService.m; sourceTree = "<group>"; };
 		4D9C7DC21BA1578C00C69094 /* DCAddMedicationWebServiceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCAddMedicationWebServiceManager.h; sourceTree = "<group>"; };
@@ -917,9 +923,10 @@
 		0B14CD881BB13BD80085E40C /* AdministerViewController */ = {
 			isa = PBXGroup;
 			children = (
+				4D9225F51C6DDC130060761A /* ProgressSliderCell */,
+				0B14CD891BB13BEB0085E40C /* DCAdministerViewController.swift */,
 				4D52C0281C6C5F39005BE86B /* DurationBasedMedicationDetailsCell */,
 				0BB535831BBA46FA0043BC61 /* AdministerPickerCell */,
-				0B14CD891BB13BEB0085E40C /* DCAdministerViewController.swift */,
 				0BD6991D1BB2C7AB008797A2 /* NotesTableCell */,
 				0B14CD8E1BB183DD0085E40C /* AdministerMedicationDetailsCell */,
 				0BD699191BB2BAA7008797A2 /* BatchNumberCell */,
@@ -2529,6 +2536,16 @@
 			name = PatientDetailsHelper;
 			sourceTree = "<group>";
 		};
+		4D9225F51C6DDC130060761A /* ProgressSliderCell */ = {
+			isa = PBXGroup;
+			children = (
+				4D9225F61C6DDC410060761A /* DCProgressSliderCell.swift */,
+				4D9225F81C6DE1F00060761A /* DCProgressTimeView.swift */,
+				4D9225FA1C6DE4E20060761A /* DCProgressTimeView.xib */,
+			);
+			name = ProgressSliderCell;
+			sourceTree = "<group>";
+		};
 		4D96498F1BA29681008630B4 /* PatientsAndBedsWebService */ = {
 			isa = PBXGroup;
 			children = (
@@ -3119,6 +3136,7 @@
 				0BBDEDE51AA581630016E6FF /* Lato-Medium.ttf in Resources */,
 				0BCC03931ABBDFB000CACAE3 /* IPRJ2623584.plist in Resources */,
 				1FD4FCF61BF4B8F400B77B94 /* TimePickerCell.xib in Resources */,
+				4D9225FB1C6DE4E20060761A /* DCProgressTimeView.xib in Resources */,
 				0BA40BBF1B29A5CE005B80AD /* HTMLParser_README.txt in Resources */,
 				1FD4FCD11BF4B7E000B77B94 /* SelectionView.xib in Resources */,
 				0BBDEDDE1AA581630016E6FF /* Lato-Hairline.ttf in Resources */,
@@ -3392,6 +3410,7 @@
 				0BAE36941B450A6C007CD64C /* DCAutoSearchCell.m in Sources */,
 				1FD4FCAA1BF4B5CC00B77B94 /* VitalsignDashboard.swift in Sources */,
 				4D52C02A1C6C5F72005BE86B /* DCDurationBasedMedicationDetailsCell.swift in Sources */,
+				4D9225F71C6DDC410060761A /* DCProgressSliderCell.swift in Sources */,
 				0B14CD8D1BB151EA0085E40C /* DCAdministerCell.swift in Sources */,
 				0B7F74FC1B84394B00E3B0A0 /* DCSortTableViewController.m in Sources */,
 				4D54C0791BFB2DF800A61273 /* DCCalendarOneThirdViewController.swift in Sources */,
@@ -3473,6 +3492,7 @@
 				0BB33DD81B79F56900B05E4D /* DCMedicationDetails.m in Sources */,
 				1F3C31701C0DB8F8007C6AE7 /* Patient.swift in Sources */,
 				1FF1F8881C3D7798007F3B9C /* GraphDelegate.swift in Sources */,
+				4D9225F91C6DE1F00060761A /* DCProgressTimeView.swift in Sources */,
 				0BA449DB1B983265009F84E5 /* DCInstructionsTableCell.m in Sources */,
 				7D632D821C3A0BC00029BAF5 /* DCWardsInformationsViewController.swift in Sources */,
 				7D06524B1B564C0B0068CA83 /* DCMedicationAdministration.m in Sources */,

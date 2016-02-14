@@ -139,7 +139,7 @@
 #define WARNINGS_HEADER_VIEW_NIB @"DCWarningsHeaderView"
 #define ADMINISTER_HEADER_VIEW_NIB @"DCAdministerTableHeaderView"
 #define SCHEDULING_HEADER_VIEW_NIB @"DCSchedulingHeaderView"
-
+#define PROGRESSTIMEVIEW_NIB @"DCProgressTimeView"
 // Segue Ids
 #define SHOW_PATIENT_LIST @"showPatientList"
 #define SHOW_PATIENT_LIST_FROM_INITIAL_VIEW @"PatientListFromInitialView" 
