@@ -1106,7 +1106,6 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
     NSInteger sectionCount = [DCAddMedicationHelper numberOfSectionsInMedicationTableViewForSelectedMedication:self.selectedMedication  showWarnings:showWarnings];
-    NSLog(@"sectionCount is %ld", (long)sectionCount);
     return sectionCount;
 }
 
