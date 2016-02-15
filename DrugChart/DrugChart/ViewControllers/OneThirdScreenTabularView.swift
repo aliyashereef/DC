@@ -72,10 +72,7 @@ class OneThirdScreenTabularView: UIViewController,UICollectionViewDataSource, UI
     
     private func setDateDisplay()
     {
-        let calendar = NSCalendar.currentCalendar()
-        let chosenDateComponents = calendar.components([.Month , .Year], fromDate: viewByDate)
-        let displayText = String(format: "%d / %d",chosenDateComponents.month , chosenDateComponents.year)
-        sortMenuItem.title = displayText
+        sortMenuItem.title = viewByDate.getFormattedMonthandYear()
         headingLabel.text = viewByDate.getFormattedMonthName() + " " + viewByDate.getFormattedYear()
     }
     

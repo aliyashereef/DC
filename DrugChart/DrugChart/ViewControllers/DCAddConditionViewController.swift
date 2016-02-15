@@ -27,6 +27,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     var previewDetails = [String]()
     var doseArrayForChange = ["500 mg","250 mg","100 mg","50 mg","10 mg","5 mg"]
     var alertMessagForMismatch : String = ""
+    var doneClicked : Bool = false
     
     @IBOutlet weak var addConditionTableView: UITableView!
     
@@ -65,7 +66,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return 6
+            return 5
         } else {
             return previewDetails.count
         }
@@ -76,14 +77,6 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
         if indexPath .section == 0 {
             if (indexPath.row == 1){
                 if (!inlinePickerForChangeActive) {
-                    return 0
-                }else {
-                    
-                    return 216
-                }
-            } else if (indexPath.row == 4) {
-                
-                if (!inlinePickerForEveryActive) {
                     return 0
                 }else {
                     
@@ -174,16 +167,52 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
             case 0:
                 dosageConditionCell!.addConditionMenuLabel.text = addConditionMenuItems[0]
                 dosageConditionCell?.addConditionValueLabel.text = valueForChange as String
+                if doneClicked {
+                    if valueForChange == "" {
+                        dosageConditionCell?.addConditionMenuLabel.textColor = UIColor.redColor()
+                    } else {
+                        dosageConditionCell?.addConditionMenuLabel.textColor = UIColor.blackColor()
+                    }
+                } else {
+                    dosageConditionCell?.addConditionMenuLabel.textColor = UIColor.blackColor()
+                }
             case 2:
                 dosageConditionCell!.addConditionMenuLabel.text = addConditionMenuItems[1]
                 dosageConditionCell?.addConditionValueLabel.text = valueForDose as String
+                if doneClicked {
+                    if valueForDose == "" {
+                        dosageConditionCell?.addConditionMenuLabel.textColor = UIColor.redColor()
+                    } else {
+                        dosageConditionCell?.addConditionMenuLabel.textColor = UIColor.blackColor()
+                    }
+                } else {
+                    dosageConditionCell?.addConditionMenuLabel.textColor = UIColor.blackColor()
+                }
             case 3:
                 dosageConditionCell!.addConditionMenuLabel.text = addConditionMenuItems[2]
                 dosageConditionCell?.addConditionValueLabel.text = valueForEvery as String
-            case 5:
+                if doneClicked {
+                    if valueForEvery == "" {
+                        dosageConditionCell?.addConditionMenuLabel.textColor = UIColor.redColor()
+                    } else {
+                        dosageConditionCell?.addConditionMenuLabel.textColor = UIColor.blackColor()
+                    }
+                } else {
+                    dosageConditionCell?.addConditionMenuLabel.textColor = UIColor.blackColor()
+                }
+            case 4:
                 dosageConditionCell!.addConditionMenuLabel.text = addConditionMenuItems[3]
                 dosageConditionCell?.addConditionValueLabel.text = valueForUntil as String
-            case 1,4:
+                if doneClicked {
+                    if valueForUntil == "" {
+                        dosageConditionCell?.addConditionMenuLabel.textColor = UIColor.redColor()
+                    } else {
+                        dosageConditionCell?.addConditionMenuLabel.textColor = UIColor.blackColor()
+                    }
+                } else {
+                    dosageConditionCell?.addConditionMenuLabel.textColor = UIColor.blackColor()
+                }
+            case 1:
                 let dosageDetailCell : DCDosageDetailPickerCell = self.configureInlinePicker(indexPath)
                 return dosageDetailCell
             default:
@@ -203,8 +232,10 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
         if (indexPath.section == 0) {
             if indexPath.row != 0 {
                 inlinePickerForChangeActive = false
-            } else if indexPath.row != 3 {
-                inlinePickerForEveryActive = false
+                //Same Clicked
+                inlinePickerForChangeActive = false
+                let indexPaths = [NSIndexPath(forItem: 1, inSection: indexPath.section)]
+                addConditionTableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Fade)
             }
             self.updateTableViewForAddCondition(indexPath)
         }
@@ -218,42 +249,15 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
         if (indexPath.row == 0) {
             
             if (inlinePickerForChangeActive) {
-                
                 //Same Clicked
                 inlinePickerForChangeActive = false
                 let indexPaths = [NSIndexPath(forItem: indexPath.row + 1, inSection: indexPath.section)]
                 addConditionTableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Fade)
             } else {
-                if inlinePickerForEveryActive {
-                    inlinePickerForEveryActive = false
-                    let indexPaths = [NSIndexPath(forItem: 4 , inSection: indexPath.section)]
-                    addConditionTableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Fade)
-                }
                 let indexPathOfChange = NSIndexPath(forItem: indexPath.row + 1, inSection: 0)
                 let pickerCell : DCDosageDetailPickerCell = addConditionTableView.cellForRowAtIndexPath(indexPathOfChange) as! DCDosageDetailPickerCell
                 pickerCell.currentValueForPickerCell(eReducingIncreasingType)
                 inlinePickerForChangeActive = true
-                let indexPaths = [NSIndexPath(forItem: indexPath.row + 1, inSection: indexPath.section)]
-                addConditionTableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Fade)
-            }
-        } else if (indexPath.row == 3) {
-            
-            if (inlinePickerForEveryActive) {
-                
-                //Same Clicked
-                inlinePickerForEveryActive = false
-                let indexPaths = [NSIndexPath(forItem: indexPath.row + 1, inSection: indexPath.section)]
-                addConditionTableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Fade)
-            } else {
-                if inlinePickerForChangeActive {
-                    inlinePickerForChangeActive = false
-                    let indexPaths = [NSIndexPath(forItem: 1, inSection: indexPath.section)]
-                    addConditionTableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Fade)
-                }
-                let indexPathOfChange = NSIndexPath(forItem: indexPath.row + 1, inSection: 0)
-                let pickerCell : DCDosageDetailPickerCell = addConditionTableView.cellForRowAtIndexPath(indexPathOfChange) as! DCDosageDetailPickerCell
-                pickerCell.currentValueForPickerCell(eDayCount)
-                inlinePickerForEveryActive = true
                 let indexPaths = [NSIndexPath(forItem: indexPath.row + 1, inSection: indexPath.section)]
                 addConditionTableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Fade)
             }
@@ -272,7 +276,25 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
                 self.addConditionTableView.reloadData()
             }
             self.navigationController?.pushViewController(addConditionDetailViewController!, animated: true)
-        } else if (indexPath.row == 5) {
+        } else if (indexPath.row == 3) {
+            let addMedicationStoryboard = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil)
+            let addNewValueViewController = addMedicationStoryboard.instantiateViewControllerWithIdentifier(ADD_NEW_VALUE_SBID) as? DCAddNewValueViewController
+            addNewValueViewController?.titleString = "Every"
+            addNewValueViewController?.placeHolderString = (self.dosage?.reducingIncreasingDose.changeOver)!
+            if valueForEvery != "" {
+                addNewValueViewController?.previousValue = valueForEvery as String
+            }
+            addNewValueViewController!.newValueEntered = { value in
+                if Int(value!) == 1 {
+                    self.valueForEvery = "\(value!) \(String((self.dosage?.reducingIncreasingDose.changeOver)!.characters.dropLast()).lowercaseString)"
+                } else {
+                    self.valueForEvery = "\(value!) \(String(UTF8String: (self.dosage?.reducingIncreasingDose.changeOver)!.lowercaseString)!)"
+                }
+                self.updatePreviewDetails()
+                self.addConditionTableView.reloadData()
+            }
+            self.navigationController?.pushViewController(addNewValueViewController!, animated: true)
+        } else if (indexPath.row == 4) {
             let addConditionDetailViewController : DCAddConditionDetailViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(ADD_CONDITION_DETAIL_SBID) as? DCAddConditionDetailViewController
             addConditionDetailViewController!.previousSelectedValue = valueForUntil
             addConditionDetailViewController?.detailType = eUntilDose
@@ -365,26 +387,6 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
         }
     }
     
-    func highlightFieldsWithNilValue () {
-        
-        if valueForChange == "" {
-            let addConditionMenuCell : DCAddConditionTableViewCell = addConditionTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! DCAddConditionTableViewCell
-            addConditionMenuCell.addConditionMenuLabel?.textColor = UIColor.redColor()
-        }
-        if valueForDose == "" {
-            let addConditionMenuCell : DCAddConditionTableViewCell = addConditionTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 2, inSection: 0)) as! DCAddConditionTableViewCell
-            addConditionMenuCell.addConditionMenuLabel?.textColor = UIColor.redColor()
-        }
-        if valueForEvery == "" {
-            let addConditionMenuCell : DCAddConditionTableViewCell = addConditionTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 3, inSection: 0)) as! DCAddConditionTableViewCell
-            addConditionMenuCell.addConditionMenuLabel?.textColor = UIColor.redColor()
-        }
-        if valueForUntil == "" {
-            let addConditionMenuCell : DCAddConditionTableViewCell = addConditionTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 5, inSection: 0)) as! DCAddConditionTableViewCell
-            addConditionMenuCell.addConditionMenuLabel?.textColor = UIColor.redColor()
-        }
-    }
-    
     func updateAlertMessageForMismatch() {
         let newStartingDoseString : String = String(format: newStartingDose! == floor(newStartingDose!) ? "%.0f" : "%.1f", newStartingDose!)
         if (valueForChange == REDUCING) {
@@ -412,7 +414,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     func doneButtonPressed() {
-        
+        doneClicked = true;
         if self.valueForVariablesIsNotNull() {
             if self.validateTheAddConditionValues() {
                 DCDosageHelper.createDescriptionStringForDosageCondition(conditionItem!, dosageUnit: (self.dosage?.doseUnit)!)
@@ -424,7 +426,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
                 addConditionTableView.reloadData()
             }
         } else {
-            self.highlightFieldsWithNilValue()
+            addConditionTableView.reloadData()
         }
     }
 }

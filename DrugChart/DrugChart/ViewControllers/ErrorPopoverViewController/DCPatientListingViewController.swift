@@ -53,15 +53,14 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
         addSearchBar()
         addRefreshControl()
         accessParentViewController()
-        
+        cancelSearching()
+        configureSearchBarViewProperties()
+        self.patientListTableView.reloadData()        
     }
     
     override func viewWillAppear(animated: Bool) {
         
         super.viewWillAppear(animated)
-        cancelSearching()
-        configureSearchBarViewProperties()
-        self.patientListTableView.reloadData()
         self.messageLabel.hidden = true
         patientListTableView.tableFooterView = UIView(frame: CGRectZero)
         patientListTableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
@@ -82,13 +81,14 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
     
     func configureSearchBarViewProperties() {
         if isSearching {
+            patientListTableView.contentOffset = CGPointZero
             patientListTableView.setContentOffset(CGPointZero, animated: false)
             patientListTableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
         } else {
             searchBar.text = EMPTY_STRING
             self.performSelector("hideSearchBar", withObject:nil , afterDelay:0.0)
         }
-        self.viewDidLayoutSubviews()
+//        self.viewDidLayoutSubviews()
     }
     
 //    func configureNavigationBar() {
@@ -118,7 +118,7 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
         if searchBar.isFirstResponder() {
             searchBar.resignFirstResponder()
         }
-        patientListTableView.setContentOffset(CGPointMake(0,-20), animated: false)
+        patientListTableView.contentOffset = CGPoint(x: 0, y: 60)
     }
     
     func addSearchBar () {

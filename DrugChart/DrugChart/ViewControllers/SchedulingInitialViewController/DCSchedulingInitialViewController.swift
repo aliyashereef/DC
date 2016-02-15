@@ -454,6 +454,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         
         dispatch_async(dispatch_get_main_queue(), {
             let sectionCount = self.schedulingTableView.numberOfSections
+            self.schedulingTableView.beginUpdates()
             if (sectionCount == INITIAL_SECTION_COUNT) {
                 //if section count is zero insert new section with animation
                 self.schedulingTableView.insertSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
@@ -469,7 +470,10 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
                     }
                 } else {
                     self.schedulingTableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
-                    if (sectionCount == INTERVAL_SECTION_INITIAL_COUNT && self.scheduling?.interval?.hasStartAndEndDate == true /*&& self.previewArray?.count > 0*/) {
+                    if (sectionCount == INTERVAL_SECTION_INITIAL_COUNT && self.scheduling?.interval?.hasStartAndEndDate == true) {
+                        if (self.previewArray?.count == 0) {
+                            self.populatePreviewArray()
+                        }
                         self.schedulingTableView.insertSections(NSIndexSet(index: 2), withRowAnimation: .Middle)
                     } else {
                         if (self.scheduling?.interval?.hasStartAndEndDate == true && self.previewArray?.count > 0) {
@@ -478,6 +482,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
                     }
                 }
             }
+            self.schedulingTableView.endUpdates()
             self.schedulingTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .None)
         })
     }

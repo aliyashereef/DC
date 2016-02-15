@@ -20,9 +20,10 @@
 
 #define ALERT_BUTTON_VIEW_WIDTH     107.0f
 #define ALLERGIES_BUTTON_VEW_WIDTH  107.0f
-#define CELL_PADDING 18
+#define CELL_PADDING 8
 
-#define ALERTS_ALLERGIES_ICON @"AlertsIcon"
+#define ALERTS_ALLERGIES_ICON @"Bell"
+#define ALERTS_ALLERGIES_WITHCOUNT_ICON @"BellWithNotificationImage"
 #define SORT_KEY_MEDICINE_NAME @"name"
 #define SORT_KEY_MEDICINE_START_DATE @"startDate"
 
@@ -47,6 +48,8 @@ typedef enum : NSUInteger {
 
     NSDate *firstDisplayDate;
     UIBarButtonItem *addButton;
+    UIButton *warningsButton;
+    UILabel *warningCountLabel;
     NSMutableArray *alertsArray;
     NSMutableArray *allergiesArray;
     NSString *selectedSortType;
@@ -295,22 +298,6 @@ typedef enum : NSUInteger {
         NSString *predicateString = @"isActive == YES";
         NSPredicate *medicineCategoryPredicate = [NSPredicate predicateWithFormat:predicateString];
         displayMedicationListArray = (NSMutableArray *)[_patient.medicationListArray filteredArrayUsingPredicate:medicineCategoryPredicate];
-    }
-}
-
-// If the alerts or allergy array count is zero, prefill the array with the default
-// no alerts/allergies to display statement
-- (void) prefillAllergyAndAlertsArrays{
-    
-    if (alertsArray.count == 0) {
-        DCPatientAlert *patientAlert = [[DCPatientAlert alloc] init];
-        patientAlert.alertText = NSLocalizedString(@"NO_ALERTS", @"");
-        [alertsArray addObject:patientAlert];
-    }
-    if (allergiesArray.count == 0) {
-        DCPatientAllergy *patientAllergy = [[DCPatientAllergy alloc] init];
-        patientAllergy.reaction = NSLocalizedString(@"NO_ALLERGIES", @"");
-        [allergiesArray addObject:patientAllergy];
     }
 }
 
@@ -601,33 +588,55 @@ typedef enum : NSUInteger {
 // show the popover with segmented control to switch between alerts and allergies.
 - (IBAction)allergiesAndAlertsButtonTapped:(id)sender {
     
+    warningsButton.selected = YES;
+    [warningCountLabel setHidden:YES];
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:MAIN_STORYBOARD
                                                              bundle: nil];
     DCAlertsAllergyPopOverViewController *patientAlertsAllergyViewController =
     [mainStoryboard instantiateViewControllerWithIdentifier:PATIENTS_ALERTS_ALLERGY_VIEW_SB_ID];
     // configuring the alerts and allergies arrays to be shown.
-    [self prefillAllergyAndAlertsArrays];
     patientAlertsAllergyViewController.patientsAlertsArray = alertsArray;
     patientAlertsAllergyViewController.patientsAllergyArray = allergiesArray;
+    patientAlertsAllergyViewController.viewDismissed = ^ {
+        warningsButton.selected = NO;
+        [warningCountLabel setHidden:NO];
+    };
+    NSMutableArray *warningsArray = [NSMutableArray arrayWithArray:alertsArray];
+    [warningsArray addObjectsFromArray:allergiesArray];
     // Instatntiating the navigation controller to present the popover with preferred content size of the poppver.
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:patientAlertsAllergyViewController];
     navigationController.modalPresentationStyle = UIModalPresentationPopover;
     // Calculating the height for popover.
     CGFloat popOverHeight = [patientAlertsAllergyViewController allergyAndAlertDisplayTableViewHeightForContent:alertsArray];
-    navigationController.preferredContentSize = CGSizeMake(ALERT_ALLERGY_CELL_WIDTH, popOverHeight+ CELL_PADDING );
-    [self presentViewController:navigationController animated:YES completion:nil];
+    navigationController.preferredContentSize = CGSizeMake(ALERT_ALLERGY_CELL_WIDTH, popOverHeight);
     // Presenting the popover presentation controller on the navigation controller.
     UIPopoverPresentationController *alertsPopOverController = [navigationController popoverPresentationController];
     alertsPopOverController.permittedArrowDirections = UIPopoverArrowDirectionAny;
-    alertsPopOverController.sourceView = self.view;
-    alertsPopOverController.barButtonItem = (UIBarButtonItem *)sender;
+    UIBarButtonItem *warningsBarbuttonItem = self.navigationItem.rightBarButtonItems[1];
+    [self presentViewController:navigationController animated:YES completion:nil];
+    alertsPopOverController.barButtonItem = warningsBarbuttonItem;
 }
 
 - (void)addAlertsAndAllergyBarButtonToNavigationBar {
     
-    UIBarButtonItem *alertsAndAllergiesButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:ALERTS_ALLERGIES_ICON] style:UIBarButtonItemStylePlain target:self action:@selector(allergiesAndAlertsButtonTapped:)];
+    warningsButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    warningsButton.selected = NO;
+    [warningsButton setImage:[UIImage imageNamed:ALERTS_ALLERGIES_WITHCOUNT_ICON] forState:UIControlStateNormal];
+    [warningsButton setImage:[UIImage imageNamed:ALERTS_ALLERGIES_ICON] forState:UIControlStateSelected];
+    [warningsButton addTarget:self action:@selector(allergiesAndAlertsButtonTapped:)forControlEvents:UIControlEventTouchUpInside];
+    [warningsButton sizeToFit];
+    warningCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(warningsButton.frame.origin.x + warningsButton.frame.size.width - 22 , 2, 20, 22)];
+    [warningCountLabel setFont:[UIFont systemFontOfSize:13.0]];
+    [warningCountLabel setHidden:NO];
+    NSInteger warningsCount = alertsArray.count + allergiesArray.count;
+    [warningCountLabel setText:[NSString stringWithFormat:@"%li", (long)warningsCount]];
+    warningCountLabel.textAlignment = NSTextAlignmentCenter;
+    [warningCountLabel setTextColor:[UIColor whiteColor]];
+    [warningCountLabel setBackgroundColor:[UIColor clearColor]];
+    [warningsButton addSubview:warningCountLabel];
+    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:warningsButton];
     if ([allergiesArray count] > 0 || [alertsArray count] > 0) {
-        self.navigationItem.rightBarButtonItems = @[addButton, alertsAndAllergiesButton];
+        self.navigationItem.rightBarButtonItems = @[addButton, barButtonItem];
     } else {
         self.navigationItem.rightBarButtonItem = addButton;
     }
@@ -693,7 +702,7 @@ typedef enum : NSUInteger {
     
     DCMedicationScheduleDetails *medicationList = [displayMedicationListArray objectAtIndex:administrationViewPresentedIndexPath.item];
     detailViewController.medicationDetails = medicationList;
-    detailViewController.medicationSlotsArray = _medicationSlotArray;
+//    detailViewController.medicationSlotsArray = _medicationSlotArray;
     [detailViewController initialiseMedicationSlotToAdministerObject];
     [detailViewController.administerTableView reloadData];
 }
@@ -706,7 +715,6 @@ typedef enum : NSUInteger {
     UIStoryboard *administerStoryboard = [UIStoryboard storyboardWithName:ADMINISTER_STORYBOARD bundle:nil];
     detailViewController = [administerStoryboard instantiateViewControllerWithIdentifier:@"AdministrationViewControllerSBID"];
     if ([displayMedicationListArray count] > 0) {
-        
         DCMedicationScheduleDetails *medicationList =  [displayMedicationListArray objectAtIndex:indexPath.item];
         detailViewController.scheduleId = medicationList.scheduleId;
         detailViewController.medicationDetails = medicationList;
@@ -716,14 +724,11 @@ typedef enum : NSUInteger {
         detailViewController.medicationSlotsArray = [self medicationSlotsArrayFromSlotsDictionary:medicationSLotsDictionary];
         detailViewController.weekDate = date;
         detailViewController.patientId = self.patient.patientId;
-
         NSDate *startDate = [DCDateUtility dateFromSourceString:medicationList.startDate];
         NSDate *endDate = [DCDateUtility dateFromSourceString:medicationList.endDate];
-
         NSCalendar *calendar = [NSCalendar currentCalendar];
         NSComparisonResult startDateOrder = [calendar compareDate:startDate toDate:date toUnitGranularity:NSCalendarUnitDay];
         NSComparisonResult endDateOrder = [calendar compareDate:endDate toDate:date toUnitGranularity:NSCalendarUnitDay];
-
         if (medicationList.endDate != nil) {
             if ((startDateOrder == NSOrderedAscending || startDateOrder == NSOrderedSame) &&  (endDateOrder == NSOrderedDescending || endDateOrder == NSOrderedSame)) {
                 [self presentAdministrationwithMedicationList:medicationList andDate:date];

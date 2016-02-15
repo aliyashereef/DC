@@ -33,7 +33,6 @@ class DCInfusionViewController: UIViewController, UITableViewDelegate, UITableVi
     var patientId : String?
     var unitArrayForOver = [HOURS,MINUTES]
     var unitArrayForStartingAt = [MG_PER_HOUR,MG_PER_MINUTE]
-//    var unitArrayFor
     
     override func viewDidLoad() {
         
@@ -442,6 +441,9 @@ class DCInfusionViewController: UIViewController, UITableViewDelegate, UITableVi
     func updateViewOnTableViewZerothSectionSelectionAtIndexPath(indexPath : NSIndexPath) {
         
         //zeroth section selection
+        if (self.infusion == nil) {
+            self.infusion = DCInfusion.init()
+        }
         if (previousAdministerOption != optionsArray![indexPath.row]) {
             previousAdministerOption = optionsArray![indexPath.row]
             if (previousAdministerOptionIndexPath != nil) {
@@ -503,6 +505,19 @@ class DCInfusionViewController: UIViewController, UITableViewDelegate, UITableVi
                 let addNewValueViewController = addMedicationStoryboard.instantiateViewControllerWithIdentifier(ADD_NEW_VALUE_SBID) as? DCAddNewValueViewController
                 addNewValueViewController?.placeHolderString = "ml"
                 addNewValueViewController?.titleString = "ml"
+                if (self.infusion?.administerAsOption == BOLUS_INJECTION) {
+                    if self.infusion?.bolusInjection?.quantity != nil {
+                        addNewValueViewController?.previousValue = (self.infusion?.bolusInjection?.quantity)!
+                    }
+                } else if (self.infusion?.administerAsOption == DURATION_BASED_INFUSION) {
+                    if self.infusion?.durationInfusion?.quantity != nil {
+                        addNewValueViewController?.previousValue = (self.infusion?.durationInfusion?.quantity)!
+                    }
+                } else if (self.infusion?.administerAsOption == RATE_BASED_INFUSION) {
+                    if self.infusion?.rateInfusion?.quantity != nil {
+                        addNewValueViewController?.previousValue = (self.infusion?.rateInfusion?.quantity)!
+                    }
+                }
                 addNewValueViewController!.newValueEntered = { value in
                     if (self.infusion?.administerAsOption == BOLUS_INJECTION) {
                         self.infusion?.bolusInjection?.quantity = value
@@ -534,6 +549,19 @@ class DCInfusionViewController: UIViewController, UITableViewDelegate, UITableVi
                 let addNewValueViewController = addMedicationStoryboard.instantiateViewControllerWithIdentifier(ADD_NEW_VALUE_SBID) as? DCAddNewValueViewController
                 addNewValueViewController?.placeHolderString = "ml"
                 addNewValueViewController?.titleString = "ml"
+                if (self.infusion?.administerAsOption == BOLUS_INJECTION) {
+                    if self.infusion?.bolusInjection?.quantity != nil {
+                        addNewValueViewController?.previousValue = (self.infusion?.bolusInjection?.quantity)!
+                    }
+                } else if (self.infusion?.administerAsOption == DURATION_BASED_INFUSION) {
+                    if self.infusion?.durationInfusion?.quantity != nil {
+                        addNewValueViewController?.previousValue = (self.infusion?.durationInfusion?.quantity)!
+                    }
+                } else if (self.infusion?.administerAsOption == RATE_BASED_INFUSION) {
+                    if self.infusion?.rateInfusion?.quantity != nil {
+                        addNewValueViewController?.previousValue = (self.infusion?.rateInfusion?.quantity)!
+                    }
+                }
                 addNewValueViewController!.newValueEntered = { value in
                     if (self.infusion?.administerAsOption == BOLUS_INJECTION) {
                         self.infusion?.bolusInjection?.quantity = value
@@ -616,20 +644,32 @@ class DCInfusionViewController: UIViewController, UITableViewDelegate, UITableVi
             addNewValueViewController?.unitArray = unitArrayForOver
             addNewValueViewController?.titleString = "Over"
             addNewValueViewController?.placeHolderString = "Over"
+            if self.infusion?.durationInfusion?.flowDuration != nil {
+                addNewValueViewController?.previousValue = (self.infusion?.durationInfusion.flowDuration)!
+            }
         } else if infusion?.administerAsOption == RATE_BASED_INFUSION {
             if indexPath.row == 0 {
                 addNewValueViewController?.detailType = eAddValueWithUnit
                 addNewValueViewController?.unitArray = unitArrayForStartingAt
                 addNewValueViewController?.titleString = "Starting At"
                 addNewValueViewController?.placeHolderString = "Starting At"
+                if self.infusion?.rateInfusion.startingRate != nil {
+                   addNewValueViewController?.previousValue = (self.infusion?.rateInfusion.startingRate)!
+                }
             } else if indexPath.row == 1{
                 addNewValueViewController?.detailType = eAddIntegerValue
                 addNewValueViewController?.titleString = "Vary Between"
                 addNewValueViewController?.placeHolderString = "Vary Between"
+                if self.infusion?.rateInfusion.minimumRate != nil {
+                    addNewValueViewController?.previousValue = (self.infusion?.rateInfusion.minimumRate)!
+                }
             } else {
                 addNewValueViewController?.detailType = eAddIntegerValue
                 addNewValueViewController?.titleString = "And"
                 addNewValueViewController?.placeHolderString = "And"
+                if self.infusion?.rateInfusion.maximumRate != nil {
+                    addNewValueViewController?.previousValue = (self.infusion?.rateInfusion.maximumRate)!
+                }
             }
         }
         addNewValueViewController?.newValueEntered = { value in

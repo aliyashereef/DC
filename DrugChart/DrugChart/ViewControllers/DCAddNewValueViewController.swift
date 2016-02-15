@@ -20,18 +20,35 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
     var valueForUnit : String = ""
     var isInlinePickerActive : Bool = false
     var newValueEntered: NewValueEntered = { value in }
+    var previousValue : String = ""
+    var previousValueInFloat : Float = 0
     @IBOutlet weak var mainTableView: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         mainTableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
-        if detailType == eAddValueWithUnit {
-            valueForUnit = unitArray[0]
+        if detailType == eAddIntegerValue {
+            if previousValue != "" {
+                previousValueInFloat = NSString(string: previousValue).floatValue
+                textFieldValue = String(format: previousValueInFloat == floor(previousValueInFloat) ? "%.0f" : "%.1f", previousValueInFloat)
+            } else {
+                textFieldValue = ""
+            }
+        } else {
+            if previousValue != "" {
+                let arrayOfValueAndUnit: [AnyObject] = previousValue.componentsSeparatedByString(" ")
+                let lastIndex : Int = arrayOfValueAndUnit.endIndex - 1
+                textFieldValue = arrayOfValueAndUnit[lastIndex - 1] as! String
+                valueForUnit = arrayOfValueAndUnit[lastIndex] as! String
+            } else {
+                textFieldValue = ""
+                valueForUnit = unitArray[0]
+            }
         }
         self.configureNavigationBar()
         // Do any additional setup after loading the view.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -78,6 +95,9 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
         if indexPath.row == 0 {
             let newValueTableCell : DCAddNewValueTableViewCell = (mainTableView.dequeueReusableCellWithIdentifier(VALUE_TEXTFIELD_CELL) as? DCAddNewValueTableViewCell)!
             newValueTableCell.newValueTextField.placeholder = placeHolderString
+            if textFieldValue != "" {
+                newValueTableCell.newValueTextField.text = textFieldValue
+            }
             newValueTableCell.newValueTextField.becomeFirstResponder()
             newValueTableCell.newValueTextField.delegate = self
             return newValueTableCell
@@ -91,7 +111,7 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
             newValueTableCell.configurePickerCellWithValues(unitArray)
             newValueTableCell.pickerCompletion = { value in
                 self.valueForUnit = value!
-                self.mainTableView.reloadData()
+                self.mainTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 0)], withRowAnimation: .None)
             }
 
             return newValueTableCell
@@ -143,12 +163,7 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
     
     func displayInlinePickerForUnit(indexPath: NSIndexPath) {
         
-//        let indexPathOfChange = NSIndexPath(forItem: indexPath.row + 1, inSection: 0)
-//        let pickerCell : DCDosageDetailPickerCell = addConditionTableView.cellForRowAtIndexPath(indexPathOfChange) as! DCDosageDetailPickerCell
-//        pickerCell.currentValueForPickerCell(eReducingIncreasingType)
-//        inlinePickerForChangeActive = true
         let indexPaths = [NSIndexPath(forItem: indexPath.row + 1, inSection: indexPath.section)]
-//        addConditionTableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Fade)
         mainTableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Fade)
     }
     
@@ -163,7 +178,7 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         // Create an `NSCharacterSet` set which includes everything *but* the digits
-        let inverseSet = NSCharacterSet(charactersInString:"0123456789").invertedSet
+        let inverseSet = NSCharacterSet(charactersInString:"0123456789.").invertedSet
         
         // At every character in this "inverseSet" contained in the string,
         // split the string up into components which exclude the characters
@@ -176,6 +191,11 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
         // If the original string is equal to the filtered string, i.e. if no
         // inverse characters were present to be eliminated, the input is valid
         // and the statement returns true; else it returns false
+        let newString = (textField.text! as NSString).stringByReplacingCharactersInRange(range, withString: string) as NSString
+        let arrayOfString: [AnyObject] = newString.componentsSeparatedByString(".")
+        if arrayOfString.count > 2 {
+            return false
+        }
         return string == filtered
     }
 }

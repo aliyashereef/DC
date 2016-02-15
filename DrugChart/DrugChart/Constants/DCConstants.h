@@ -59,10 +59,6 @@
 #define NO_BUTTON_TITLE     @"No"
 #define YES_BUTTON_TITLE    @"Yes"
 
-//Button images
-
-#define PLUS_IMAGE @"Plus"
-
 //images
 
 #define SEVERE_WARNING_IMAGE @"SevereWarningSympol"
@@ -143,7 +139,7 @@
 #define WARNINGS_HEADER_VIEW_NIB @"DCWarningsHeaderView"
 #define ADMINISTER_HEADER_VIEW_NIB @"DCAdministerTableHeaderView"
 #define SCHEDULING_HEADER_VIEW_NIB @"DCSchedulingHeaderView"
-
+#define PROGRESSTIMEVIEW_NIB @"DCProgressTimeView"
 // Segue Ids
 #define SHOW_PATIENT_LIST @"showPatientList"
 #define SHOW_PATIENT_LIST_FROM_INITIAL_VIEW @"PatientListFromInitialView" 
@@ -180,6 +176,7 @@
 #define INSTRUCTIONS_CELL_IDENTIFIER @"InstructionsCell"
 #define ADD_MEDICATION_DETAIL_CELL_IDENTIFIER @"DetailCell"
 #define DATE_PICKER_CELL_IDENTIFIER @"pickercell"
+#define DATE_STATUS_PICKER_CELL_IDENTIFIER @"datepickercell"
 #define ADD_DOSAGE_CELL_IDENTIFIER @"AddDosageCell"
 #define WARNINGS_CELL_ID @"WarningsCell"
 #define OVERRIDE_REASON_CELL_ID @"OverrideReasonCell"
@@ -288,6 +285,13 @@
 // Administration status
 #define PENDING @"Pending"
 #define ADMINISTER_MEDICATION @"Administer Medication"
+#define ADMINISTER_NOW @"Administer Now"
+#define IN_PROGRESS @"In progress"
+#define ENDED @"Ended"
+#define STOPED_DUE_TO_PROBLEM @"Stoped due to problem"
+#define CONTINUED_AFTER_PROBLEM @"Continued after problem"
+#define FLUID_CHANGED @"Fluid changed"
+#define PAUSED @"Paused"
 
 #define DATE_COMPONENTS (NSCalendarUnitYear| NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitWeekOfYear |  NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond | NSCalendarUnitWeekday | NSCalendarUnitWeekdayOrdinal)
 
@@ -302,6 +306,7 @@
 #define TO_GIVE @"toGive"
 #define SELF_ADMINISTERED @"selfAdministered"
 #define ADMINISTERED @"Administered"
+#define STARTED @"Started"
 
 //cell heights
 #define CALENDAR_TABLE_CELL_HEIGHT 70.0f
@@ -364,7 +369,6 @@
 
 //image nameds
 #define LOGOUT_IMAGE @"Logout"
-#define NOTIFICATION_IMAGE @"Notification"
 #define SETTINGS_IMAGE @"Settings"
 #define TOP_LOGO @"EmisTopLogo"
 
@@ -491,8 +495,6 @@
 
 // Images
 #define ADMINISTRATION_HISTORY_TICK_IMAGE @"historyTick"
-#define ADMINISTRATION_HISTORY_CAUTION_IMAGE @"historyCaution"
-#define ADMINISTRATION_HISTORY_CLOSE_IMAGE @"historyClose"
 
 // Administration History Label texts
 #define STATUS @"Status"

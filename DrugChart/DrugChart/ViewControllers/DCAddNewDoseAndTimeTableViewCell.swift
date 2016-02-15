@@ -38,7 +38,7 @@ class DCAddNewDoseAndTimeTableViewCell: UITableViewCell {
         
         let scanner: NSScanner = NSScanner(string:value)
         let isNumeric = scanner.scanDecimal(nil) && scanner.atEnd
-        return isNumeric
+        return isNumeric && (NSString(string: value).floatValue < 10000)
     }
 
 

@@ -57,8 +57,9 @@ class DCAddNewDoseAndTimeViewController: UIViewController , UITableViewDataSourc
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         if detailType == eAddNewDose {
-        let newDosageCell : DCAddNewDoseAndTimeTableViewCell? = tableView.dequeueReusableCellWithIdentifier(ADD_NEW_VALUE_CELL_ID) as? DCAddNewDoseAndTimeTableViewCell
-        return newDosageCell!
+            let newDosageCell : DCAddNewDoseAndTimeTableViewCell? = tableView.dequeueReusableCellWithIdentifier(ADD_NEW_VALUE_CELL_ID) as? DCAddNewDoseAndTimeTableViewCell
+            newDosageCell?.newDosageTextField.becomeFirstResponder()
+            return newDosageCell!
         } else {
             let newTimeCell : DCAddNewDoseAndTimeTableViewCell? = newDosageTableView.dequeueReusableCellWithIdentifier(ADD_NEW_TIME_CELL_ID) as? DCAddNewDoseAndTimeTableViewCell
             return newTimeCell!
@@ -84,7 +85,7 @@ class DCAddNewDoseAndTimeViewController: UIViewController , UITableViewDataSourc
         
         let scanner: NSScanner = NSScanner(string:value)
         let isNumeric = scanner.scanDecimal(nil) && scanner.atEnd
-        return isNumeric
+        return isNumeric && NSString(string: value).floatValue < 10000
     }
     
     func cancelButtonPressed() {
@@ -95,18 +96,20 @@ class DCAddNewDoseAndTimeViewController: UIViewController , UITableViewDataSourc
     func doneButtonPressed() {
         
         if detailType == eAddNewDose {
-            let dosageCell: DCAddNewDoseAndTimeTableViewCell = newDosageTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! DCAddNewDoseAndTimeTableViewCell
-            if (dosageCell.newDosageTextField.text! != "" && validateNewDosageValue(dosageCell.newDosageTextField.text!)) {
-                self.newDosageEntered(dosageCell.newDosageTextField.text!)
-                self.navigationController!.dismissViewControllerAnimated(true, completion:nil)
+            if let dosageCell: DCAddNewDoseAndTimeTableViewCell = newDosageTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as? DCAddNewDoseAndTimeTableViewCell {
+                if (dosageCell.newDosageTextField.text! != "" && validateNewDosageValue(dosageCell.newDosageTextField.text!)) {
+                    self.newDosageEntered(dosageCell.newDosageTextField.text!)
+                    self.navigationController!.dismissViewControllerAnimated(true, completion:nil)
+                }
             }
         } else {
-            let dosageCell: DCAddNewDoseAndTimeTableViewCell = newDosageTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! DCAddNewDoseAndTimeTableViewCell
-            let newTime = DCDateUtility.dateInCurrentTimeZone(dosageCell.timePicker.date)
-            let newTimeString = DCDateUtility.timeStringInTwentyFourHourFormat(newTime)
-            self.newDosageEntered(newTimeString)
-            //delegate?.userDidSelectValue(DCDateUtility.timeStringInTwentyFourHourFormat(newTime))
-            self.navigationController!.dismissViewControllerAnimated(true, completion:nil)
+            if let dosageCell: DCAddNewDoseAndTimeTableViewCell = newDosageTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as? DCAddNewDoseAndTimeTableViewCell {
+                let newTime = DCDateUtility.dateInCurrentTimeZone(dosageCell.timePicker.date)
+                let newTimeString = DCDateUtility.timeStringInTwentyFourHourFormat(newTime)
+                self.newDosageEntered(newTimeString)
+                //delegate?.userDidSelectValue(DCDateUtility.timeStringInTwentyFourHourFormat(newTime))
+                self.navigationController!.dismissViewControllerAnimated(true, completion:nil)
+            }
         }
     }
 

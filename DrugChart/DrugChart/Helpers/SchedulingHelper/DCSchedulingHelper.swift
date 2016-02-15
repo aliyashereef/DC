@@ -147,17 +147,15 @@ class DCSchedulingHelper: NSObject {
             case DAILY :
                 if (activeAdministratingTimes.count > 0) {
                     descriptionText.appendFormat(NSLocalizedString("SCHEDULING_GENERAL_DESCRIPTION", comment: ""))
-                    descriptionText.appendFormat(" %@ every", timesCountString)
+                    descriptionText.appendFormat(" %@ a day", timesCountString)
                 } else {
                     descriptionText = NSMutableString(string: NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
                 }
-                if (repeatValue.frequency == SINGLE_DAY) {
-                    descriptionText.appendFormat(" %@", DAY)
-                } else {
-                    descriptionText.appendFormat(" %@", repeatValue.frequency)
-                }
                 if (activeAdministratingTimes.count > 0) {
                     descriptionText.appendFormat(" at %@", administratingTimesStringFromTimeArray(NSMutableArray(array: activeAdministratingTimes)))
+                }
+                if (repeatValue.frequency != SINGLE_DAY) {
+                    descriptionText.appendFormat(" every %@", repeatValue.frequency)
                 }
             case WEEKLY :
                 descriptionText.appendFormat("%@", descriptionTextForWeeklySpecificTimesSchedulingForRepeatValue(repeatValue, selectedAdministratingTimes: activeAdministratingTimes, timesCountDisplayString: timesCountString))

@@ -94,10 +94,15 @@ typedef enum : NSUInteger {
     
 } SchedulingDetailType;
 
-typedef enum : NSUInteger {
+typedef enum :NSUInteger {
     eNotes,
     eReason
-} NotesType;
+}NotesType;
+
+//typedef NS_ENUM(NSInteger,NotesType) {
+//    eNotes,
+//    eReason
+//};
 
 typedef enum : NSInteger {
     
