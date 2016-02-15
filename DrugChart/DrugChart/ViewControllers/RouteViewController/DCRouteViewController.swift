@@ -35,7 +35,9 @@ class DCRouteViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func viewWillDisappear(animated: Bool) {
         
         if let infusionDelegate = self.delegate {
-            infusionDelegate.updatedInfusionObject(self.infusion!)
+            if let updatedInfusion = self.infusion {
+                infusionDelegate.updatedInfusionObject(updatedInfusion)
+            }
         }
         super.viewWillDisappear(animated)
     }
