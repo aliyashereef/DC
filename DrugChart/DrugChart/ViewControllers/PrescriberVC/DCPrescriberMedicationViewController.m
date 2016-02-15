@@ -301,22 +301,6 @@ typedef enum : NSUInteger {
     }
 }
 
-// If the alerts or allergy array count is zero, prefill the array with the default
-// no alerts/allergies to display statement
-- (void) prefillAllergyAndAlertsArrays{
-    
-    if (alertsArray.count == 0) {
-        DCPatientAlert *patientAlert = [[DCPatientAlert alloc] init];
-        patientAlert.alertText = NSLocalizedString(@"NO_ALERTS", @"");
-        [alertsArray addObject:patientAlert];
-    }
-    if (allergiesArray.count == 0) {
-        DCPatientAllergy *patientAllergy = [[DCPatientAllergy alloc] init];
-        patientAllergy.reaction = NSLocalizedString(@"NO_ALLERGIES", @"");
-        [allergiesArray addObject:patientAllergy];
-    }
-}
-
 //Celendar top portion is hidden initially, which has to be updated after reload
 - (void)hideCalendarTopPortion {
     
@@ -611,7 +595,6 @@ typedef enum : NSUInteger {
     DCAlertsAllergyPopOverViewController *patientAlertsAllergyViewController =
     [mainStoryboard instantiateViewControllerWithIdentifier:PATIENTS_ALERTS_ALLERGY_VIEW_SB_ID];
     // configuring the alerts and allergies arrays to be shown.
-    [self prefillAllergyAndAlertsArrays];
     patientAlertsAllergyViewController.patientsAlertsArray = alertsArray;
     patientAlertsAllergyViewController.patientsAllergyArray = allergiesArray;
     patientAlertsAllergyViewController.viewDismissed = ^ {

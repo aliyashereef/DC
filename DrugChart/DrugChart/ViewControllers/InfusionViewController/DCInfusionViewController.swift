@@ -33,7 +33,6 @@ class DCInfusionViewController: UIViewController, UITableViewDelegate, UITableVi
     var patientId : String?
     var unitArrayForOver = [HOURS,MINUTES]
     var unitArrayForStartingAt = [MG_PER_HOUR,MG_PER_MINUTE]
-//    var unitArrayFor
     
     override func viewDidLoad() {
         
@@ -442,6 +441,9 @@ class DCInfusionViewController: UIViewController, UITableViewDelegate, UITableVi
     func updateViewOnTableViewZerothSectionSelectionAtIndexPath(indexPath : NSIndexPath) {
         
         //zeroth section selection
+        if (self.infusion == nil) {
+            self.infusion = DCInfusion.init()
+        }
         if (previousAdministerOption != optionsArray![indexPath.row]) {
             previousAdministerOption = optionsArray![indexPath.row]
             if (previousAdministerOptionIndexPath != nil) {

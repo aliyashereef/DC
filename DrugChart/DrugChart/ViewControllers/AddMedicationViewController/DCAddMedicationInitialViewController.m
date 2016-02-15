@@ -699,10 +699,14 @@
     routesInfusionsViewController.dosage = self.selectedMedication.dose;
     routesInfusionsViewController.patientId = self.patientId;
     NSMutableArray *routeArray = [[NSMutableArray alloc] init];
-    for (NSDictionary *routeDictionary in self.selectedMedication.routeArray) {
-        for (NSString *key in routeDictionary){
-            NSString *route = routeDictionary[key];
-            [routeArray addObject:route];
+    if (self.isEditMedication) {
+        [routeArray addObject:self.selectedMedication.route];
+    } else {
+        for (NSDictionary *routeDictionary in self.selectedMedication.routeArray) {
+            for (NSString *key in routeDictionary){
+                NSString *route = routeDictionary[key];
+                [routeArray addObject:route];
+            }
         }
     }
     routesInfusionsViewController.routesArray = routeArray;
