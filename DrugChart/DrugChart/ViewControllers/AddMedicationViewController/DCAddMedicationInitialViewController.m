@@ -911,8 +911,12 @@
         }
             break;
         case eFifthSection:
-            if ([self isRegularMedicationWithWarnings]) {
-                [self displaySchedulingDetailViewForTableViewAtIndexPath:indexPath];
+            if (showWarnings) {
+                if ([self.selectedMedication.medicineCategory isEqualToString:REGULAR_MEDICATION]) {
+                    [self displaySchedulingDetailViewForTableViewAtIndexPath:indexPath];
+                } else {
+                    [self displayAddMedicationDetailViewForTableRowAtIndexPath:indexPath];
+                }
             } else {
                 if ([self.selectedMedication.medicineCategory isEqualToString:REGULAR_MEDICATION]) {
                     [self displayAddMedicationDetailViewForTableRowAtIndexPath:indexPath];
@@ -923,8 +927,13 @@
             }
             break;
         case eSixthSection:
-            if ([self isRegularMedicationWithWarnings]) {
-                [self displayAddMedicationDetailViewForTableRowAtIndexPath:indexPath];
+            if (showWarnings) {
+                if ([self.selectedMedication.medicineCategory isEqualToString:REGULAR_MEDICATION]) {
+                    [self displayAddMedicationDetailViewForTableRowAtIndexPath:indexPath];
+                } else {
+                    DCInstructionsTableCell *instructionsCell = (DCInstructionsTableCell *)[medicationDetailsTableView cellForRowAtIndexPath:indexPath];
+                    [instructionsCell.instructionsTextView becomeFirstResponder];
+                }
             } else {
                 DCInstructionsTableCell *instructionsCell = (DCInstructionsTableCell *)[medicationDetailsTableView cellForRowAtIndexPath:indexPath];
                 [instructionsCell.instructionsTextView becomeFirstResponder];
@@ -1158,10 +1167,15 @@
             }
         }
         case eFifthSection: {
-            if ([self isRegularMedicationWithWarnings]) {
-                DCAddMedicationContentCell *contentCell = [self addMedicationCellAtIndexPath:indexPath
-                                                                                withCellType:eSchedulingCell];
-                return contentCell;
+            if (showWarnings) {
+                if ([self.selectedMedication.medicineCategory isEqualToString:REGULAR_MEDICATION]) {
+                    DCAddMedicationContentCell *contentCell = [self addMedicationCellAtIndexPath:indexPath
+                                                                                    withCellType:eSchedulingCell];
+                    return contentCell;
+                } else {
+                    UITableViewCell *dosageCell = [self singleOrMultilineDosageCellAtIndexPath:indexPath];
+                    return dosageCell;
+                }
             } else {
                 if ([self.selectedMedication.medicineCategory isEqualToString:REGULAR_MEDICATION]) {
                     UITableViewCell *dosageCell = [self singleOrMultilineDosageCellAtIndexPath:indexPath];
@@ -1171,17 +1185,22 @@
                     return instructionsCell;
                 }
             }
-            }
+        }
         case eSixthSection: {
-            if ([self isRegularMedicationWithWarnings]) {
-                UITableViewCell *dosageCell = [self singleOrMultilineDosageCellAtIndexPath:indexPath];
-                return dosageCell;
+            if (showWarnings) {
+                if ([self.selectedMedication.medicineCategory isEqualToString:REGULAR_MEDICATION]) {
+                    UITableViewCell *dosageCell = [self singleOrMultilineDosageCellAtIndexPath:indexPath];
+                    return dosageCell;
+                } else {
+                    DCInstructionsTableCell *instructionsCell = [self instructionsTableCell];
+                    return instructionsCell;
+                }
             } else {
                 DCInstructionsTableCell *instructionsCell = [self instructionsTableCell];
                 return instructionsCell;
             }
          }
-        case eSeventhSection: {
+       case eSeventhSection: {
             DCInstructionsTableCell *instructionsCell = [self instructionsTableCell];
             return instructionsCell;
         }
@@ -1226,8 +1245,12 @@
             }
         }
     } else if (indexPath.section == eFifthSection) {
-        if ([self isRegularMedicationWithWarnings]) {
-            return ([self indexPathHasPicker:indexPath] ? PICKER_VIEW_CELL_HEIGHT : medicationDetailsTableView.rowHeight);
+        if (showWarnings) {
+            if (![self.selectedMedication.medicineCategory isEqualToString:REGULAR_MEDICATION]) {
+                if (self.selectedMedication.dosage.length > MAXIMUM_CHARACTERS_INCLUDED_IN_ONE_LINE) {
+                    return [DCAddMedicationHelper textContentHeightForDosage:self.selectedMedication.dosage];
+                }
+            }
         } else {
             if ([self.selectedMedication.medicineCategory isEqualToString:REGULAR_MEDICATION]) {
                 if (self.selectedMedication.dosage.length > MAXIMUM_CHARACTERS_INCLUDED_IN_ONE_LINE) {
@@ -1238,13 +1261,16 @@
             }
         }
     } else if (indexPath.section == eSixthSection) {
-        if ([self isRegularMedicationWithWarnings]) {
-            // calculate the height for the given text
-            if (self.selectedMedication.dosage.length > MAXIMUM_CHARACTERS_INCLUDED_IN_ONE_LINE) {
-                return [DCAddMedicationHelper textContentHeightForDosage:self.selectedMedication.dosage];
+        if (showWarnings) {
+            if ([self.selectedMedication.medicineCategory isEqualToString:REGULAR_MEDICATION]) {
+                if (self.selectedMedication.dosage.length > MAXIMUM_CHARACTERS_INCLUDED_IN_ONE_LINE) {
+                    return [DCAddMedicationHelper textContentHeightForDosage:self.selectedMedication.dosage];
+                }
+            } else {
+                return INSTRUCTIONS_ROW_HEIGHT;
             }
         } else {
-            return INSTRUCTIONS_ROW_HEIGHT;
+           return INSTRUCTIONS_ROW_HEIGHT;
         }
     } else if (indexPath.section == eSeventhSection) {
         return INSTRUCTIONS_ROW_HEIGHT;
