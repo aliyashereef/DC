@@ -25,6 +25,7 @@
     int rowCount;
     NSMutableArray *usersListArray;
     NSString *checkedByUser;
+    NSIndexPath *datePickerIndexPath;
 }
 
 #pragma mark - View Management Methods
@@ -76,10 +77,8 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if(indexPath.section == 1) {
-        if(indexPath.row == 1) {
-            if (isDatePickerExpanded) {
+        if (isDatePickerExpanded && datePickerIndexPath == indexPath) {
                 return 216;
-            }
         } else if ([_status isEqualToString: STOPED_DUE_TO_PROBLEM] || [_status isEqualToString:CONTINUED_AFTER_PROBLEM]) {
             return 125;
         }
@@ -125,7 +124,7 @@
                         cell.detailLabel.text =  self.restartedDate;
                         return cell;}
                     case 1:{
-                        if(isDatePickerExpanded) {
+                        if(isDatePickerExpanded && datePickerIndexPath.row == 1) {
                             DCDatePickerCell *pickerCell = [self datePickerTableCell];
                             return pickerCell;
                         } else {
@@ -133,23 +132,37 @@
                         }
                     }
                     case 2:{
-                        if (isDatePickerExpanded) {
+                        if (isDatePickerExpanded && datePickerIndexPath.row == 1) {
                             return [self checkedByCellAtIndexPath:indexPath];
                         } else {
                             return [self configureBatchCellWithText:@"Batch No" AtIndexPath:indexPath];
                         }
                     }
                     case 3:{
-                        if (isDatePickerExpanded) {
+                        if (isDatePickerExpanded && datePickerIndexPath.row == 1) {
                             // Batch number cell
                             return [self configureBatchCellWithText:@"Batch No" AtIndexPath:indexPath];
                         } else {
                             // expiry date cell
-                            return [self configureBatchCellWithText:@"Expiry Date" AtIndexPath:indexPath];
+                            DCAdministerCell *cell = [self configureAdministrationCellAtIndexPath:indexPath];
+                            cell.titleLabel.text = @"Expiry Date";
+                            cell.detailLabel.text = self.expiryDate;
+                            return cell;
                         }
                     }
+                    case 4:
+                        if (isDatePickerExpanded && datePickerIndexPath == indexPath) {
+                            DCDatePickerCell *pickerCell = [self datePickerTableCell];
+                            return pickerCell;
+                        } else {
+                            DCAdministerCell *cell = [self configureAdministrationCellAtIndexPath:indexPath];
+                            cell.titleLabel.text = @"Expiry Date";
+                            cell.detailLabel.text = self.expiryDate;
+                            return cell;
+                        }
                     default:{
-                        return [self configureBatchCellWithText:@"Expiry Date" AtIndexPath:indexPath];
+                        DCDatePickerCell *pickerCell = [self datePickerTableCell];
+                        return pickerCell;
                     }
                 }
                 
@@ -178,17 +191,14 @@
         batchCell = [[DCBatchNumberCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"BatchNumberTableCell"];
     }
     batchCell.selectedIndexPath = indexPath;
-    if (indexPath.row == 2) {
-        batchCell.batchNumberTextField.placeholder = @"Expiry Date";
-    } else {
-        batchCell.batchNumberTextField.placeholder = @"Batch No";
-    }
+        batchCell.batchNumberTextField.placeholder = placeholder;
     return batchCell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     //pass the selected medication status to parent
     if (indexPath.section == 0) {
+        datePickerIndexPath = nil;
         _status = [_namesArray objectAtIndex:indexPath.item];
         _previousSelectedValue = _status;
         [self collapseOpenedSection];
@@ -212,7 +222,11 @@
     } else if (indexPath.section == 1){
         switch (indexPath.row) {
             case 0:{
-                [self displayDatePickerAtIndexPath:indexPath];
+                if (isDatePickerExpanded && datePickerIndexPath.row == indexPath.row+1) {
+                    [self collapseDatePickerAtIndexPath:indexPath];
+                }else {
+                    [self displayDatePickerAtIndexPath:indexPath];
+                }
             }
                 break;
             case 1:{
@@ -220,13 +234,35 @@
                     [self displayPrescribersAndAdministersViewAtIndexPath:indexPath];
                 }
             }
+                break;
             case 2:{
-                if (isDatePickerExpanded) {
+                if (isDatePickerExpanded && datePickerIndexPath.row == 1) {
                     [self displayPrescribersAndAdministersViewAtIndexPath:indexPath];
                 }
             }
                 break;
+            case 3:{
+                if (isDatePickerExpanded && datePickerIndexPath.row == indexPath.row+1) {
+                    [self collapseDatePickerAtIndexPath:indexPath];
+                } else {
+                    [self displayDatePickerAtIndexPath:indexPath];
+                }
+            }
+                break;
+            case 4:{
+                if (isDatePickerExpanded && datePickerIndexPath.row == indexPath.row+1) {
+                    [self collapseDatePickerAtIndexPath:indexPath];
+                } else {
+                    [self displayDatePickerAtIndexPath:indexPath];
+                }
+            }
+                break;
             default:
+                if (isDatePickerExpanded && datePickerIndexPath.row == indexPath.row+1) {
+                    [self collapseDatePickerAtIndexPath:indexPath];
+                } else {
+                    [self displayDatePickerAtIndexPath:indexPath];
+                }
                 break;
         }
     }
@@ -280,8 +316,14 @@
     }
     [pickerCell configureDatePickerProperties];
     pickerCell.selectedDate = ^ (NSDate *date) {
-        self.restartedDate = [DCDateUtility dateStringFromDate:date inFormat:START_DATE_FORMAT];
-        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
+        if (datePickerIndexPath.row  == 1) {
+            self.restartedDate = [DCDateUtility dateStringFromDate:date inFormat:START_DATE_FORMAT];
+            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
+        } else {
+            self.expiryDate = [DCDateUtility dateStringFromDate:date inFormat:START_DATE_FORMAT];
+            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:datePickerIndexPath.row-1 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
+        }
+       
     };
     return pickerCell;
 }
@@ -291,13 +333,25 @@
     if (isDatePickerExpanded) {
         // display the date picker inline with the table content
         isDatePickerExpanded = NO;
-        [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:indexPath.row+1 inSection:1]]
+        [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:datePickerIndexPath.row inSection:1]]
                                           withRowAnimation:UITableViewRowAnimationFade];
     } else {
         isDatePickerExpanded = YES;
         [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:indexPath.row+1 inSection:1]]
                                           withRowAnimation:UITableViewRowAnimationFade];
+        datePickerIndexPath = [NSIndexPath indexPathForRow:indexPath.row +1 inSection:indexPath.section];
+
     }
+    [self.tableView endUpdates];
+}
+
+
+- (void)collapseDatePickerAtIndexPath : (NSIndexPath *)indexPath {
+    [self.tableView beginUpdates];
+    isDatePickerExpanded = NO;
+    datePickerIndexPath = nil;
+    [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:indexPath.row+1 inSection:1]]
+                          withRowAnimation:UITableViewRowAnimationFade];
     [self.tableView endUpdates];
 }
 
