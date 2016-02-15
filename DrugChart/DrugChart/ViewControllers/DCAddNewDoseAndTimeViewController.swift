@@ -57,8 +57,9 @@ class DCAddNewDoseAndTimeViewController: UIViewController , UITableViewDataSourc
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         if detailType == eAddNewDose {
-        let newDosageCell : DCAddNewDoseAndTimeTableViewCell? = tableView.dequeueReusableCellWithIdentifier(ADD_NEW_VALUE_CELL_ID) as? DCAddNewDoseAndTimeTableViewCell
-        return newDosageCell!
+            let newDosageCell : DCAddNewDoseAndTimeTableViewCell? = tableView.dequeueReusableCellWithIdentifier(ADD_NEW_VALUE_CELL_ID) as? DCAddNewDoseAndTimeTableViewCell
+            newDosageCell?.newDosageTextField.becomeFirstResponder()
+            return newDosageCell!
         } else {
             let newTimeCell : DCAddNewDoseAndTimeTableViewCell? = newDosageTableView.dequeueReusableCellWithIdentifier(ADD_NEW_TIME_CELL_ID) as? DCAddNewDoseAndTimeTableViewCell
             return newTimeCell!

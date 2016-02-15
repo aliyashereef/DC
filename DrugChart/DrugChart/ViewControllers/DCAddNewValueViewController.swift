@@ -21,6 +21,7 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
     var isInlinePickerActive : Bool = false
     var newValueEntered: NewValueEntered = { value in }
     var previousValue : String = ""
+    var previousValueInFloat : Float = 0
     @IBOutlet weak var mainTableView: UITableView!
 
     override func viewDidLoad() {
@@ -28,7 +29,8 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
         mainTableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
         if detailType == eAddIntegerValue {
             if previousValue != "" {
-                textFieldValue = previousValue
+                previousValueInFloat = NSString(string: previousValue).floatValue
+                textFieldValue = String(format: previousValueInFloat == floor(previousValueInFloat) ? "%.0f" : "%.1f", previousValueInFloat)
             } else {
                 textFieldValue = ""
             }

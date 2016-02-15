@@ -232,6 +232,10 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
         if (indexPath.section == 0) {
             if indexPath.row != 0 {
                 inlinePickerForChangeActive = false
+                //Same Clicked
+                inlinePickerForChangeActive = false
+                let indexPaths = [NSIndexPath(forItem: 1, inSection: indexPath.section)]
+                addConditionTableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Fade)
             }
             self.updateTableViewForAddCondition(indexPath)
         }
@@ -245,7 +249,6 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
         if (indexPath.row == 0) {
             
             if (inlinePickerForChangeActive) {
-                
                 //Same Clicked
                 inlinePickerForChangeActive = false
                 let indexPaths = [NSIndexPath(forItem: indexPath.row + 1, inSection: indexPath.section)]
