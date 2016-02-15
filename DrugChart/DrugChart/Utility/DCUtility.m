@@ -10,15 +10,6 @@
 #import "DCErrorPopOverBackgroundView.h"
 #import "DCWarning.h"
 
-#define MEDICINE_REFUSED_IMAGE @"MedicineRefused"
-#define MEDICINE_OMITTED_IMAGE @"MedicineOmitted"
-#define MEDICINE_GIVEN_IMAGE @"MedicineGivenImage"
-#define MEDICINE_TOBE_GIVEN_IMAGE @"MedicineToBeGiven"
-#define MEDICINE_SELF_ADMINISTERED_IMAGE @"MedicineSelfAdministered"
-
-#define PRESCRIBER_ADMINISTERED_IMAGE @""
-
-
 @implementation DCUtility
 
 + (BOOL)emailIsValid:(NSString *)email {
@@ -37,22 +28,6 @@
     NSSortDescriptor *sortOrder = [NSSortDescriptor sortDescriptorWithKey:key ascending:ascending];
     NSArray *sortedArray = [arrayToSort sortedArrayUsingDescriptors: @[sortOrder]];
     return sortedArray;
-}
-
-+ (UIImage *)medicationStatusImageForMedicationStatus:(NSString *)status {
-    UIImage *image;
-    if ([status isEqualToString:OMITTED]) {
-        image = [UIImage imageNamed:MEDICINE_OMITTED_IMAGE];
-    } else if ([status isEqualToString:IS_GIVEN]) {
-        image = [UIImage imageNamed:MEDICINE_GIVEN_IMAGE];
-    } else if ([status isEqualToString:REFUSED]) {
-        image = [UIImage imageNamed:MEDICINE_REFUSED_IMAGE];
-    } else if ([status isEqualToString:YET_TO_GIVE]) {
-        image = [UIImage imageNamed:MEDICINE_TOBE_GIVEN_IMAGE];
-    } else {
-        image = [UIImage imageNamed:MEDICINE_SELF_ADMINISTERED_IMAGE];
-    }
-    return image;
 }
 
 + (void)modifyViewComponentForErrorDisplay:(UIView *)view {
@@ -389,6 +364,32 @@
         originalString = [originalString substringToIndex:[originalString length] - 1];
     }
     return originalString;
+}
+
++ (void)backButtonItemForViewController:(UIViewController *)viewController
+                 inNavigationController:(UINavigationController *)navigationController withTitle:(NSString *)title {
+    
+    NSArray *viewControllerArray = [navigationController viewControllers];
+    // get index of the previous ViewContoller
+    long previousViewControllerIndex = [viewControllerArray indexOfObject:viewController] - 1;
+    UIViewController *previous;
+    if (previousViewControllerIndex >= 0) {
+        previous = [viewControllerArray objectAtIndex:previousViewControllerIndex];
+        previous.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]
+                                                     initWithTitle:title
+                                                     style:UIBarButtonItemStylePlain
+                                                     target:nil
+                                                     action:nil];
+    }
+}
+
++ (void)presentNavigationController:(UINavigationController *)navigationController
+             withRootViewController:(UIViewController *)rootViewController {
+    
+    //present navigation controller with root view controller
+    UINavigationController *newNavigationController = [[UINavigationController alloc] initWithRootViewController:rootViewController];
+    newNavigationController.modalPresentationStyle = UIModalPresentationCurrentContext;
+    [navigationController presentViewController:newNavigationController animated:YES completion:nil];
 }
 
 

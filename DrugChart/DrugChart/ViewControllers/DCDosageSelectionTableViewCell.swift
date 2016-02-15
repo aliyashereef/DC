@@ -25,11 +25,31 @@ class DCDosageSelectionTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    @IBAction func textFieldStringDidChange(sender: AnyObject) {
+        
+        requiredDailyDoseTextField.textColor = UIColor.blackColor()
+        if self.validateRequireDailyDoseValue(requiredDailyDoseTextField.text!) {
+            requiredDailyDoseTextField.textColor = UIColor.blackColor()
+        } else {
+            requiredDailyDoseTextField.textColor = UIColor.redColor()
+        }
+    }
+    
+    func validateRequireDailyDoseValue (value: String) -> Bool {
+        
+        let scanner: NSScanner = NSScanner(string:value)
+        let isNumeric = scanner.scanDecimal(nil) && scanner.atEnd
+        if isNumeric && NSString(string: value).floatValue != 0 && value.characters.count <= 5 {
+            return true
+        } else {
+            return false
+        }
+    }
+
     func configureCell(cellTitle:String,selectedValue:String) {
         
         dosageDetailLabel.text = cellTitle
         dosageDetailValueLabel.text = selectedValue
+        dosageDetailLabel.textColor = UIColor.blackColor()
     }
-
-
 }

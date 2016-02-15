@@ -12,6 +12,7 @@ class DCWardsInformationsViewController: DCBaseViewController, WardSelectionDele
     
     var viewTitle : NSString!
     
+    @IBOutlet var activityIndicatorView: UIActivityIndicatorView!
     var patientListArray : NSMutableArray = []
     var sortedPatientListArray : NSMutableArray = []
     var sortedSearchListArray : NSMutableArray = []
@@ -98,13 +99,16 @@ class DCWardsInformationsViewController: DCBaseViewController, WardSelectionDele
         
         if (graphicalDisplayShown) {
             self.view.bringSubviewToFront(patientListViewController!.view)
-//            let wardsListImage: UIImage = UIImage(named: "WardsListing")!
-//            self.navigationItem.rightBarButtonItem?.setBackgroundImage(wardsListImage, forState: .Normal, barMetrics: .Default)
+            let wardsGraphicalImage: UIImage = UIImage(named: "graphicDisplayImage")!
+            let graphicViewButton : UIBarButtonItem = UIBarButtonItem(image:  wardsGraphicalImage, style: UIBarButtonItemStyle.Plain, target: self, action: "showGraphicalWardsView")
+            self.navigationItem.rightBarButtonItem = graphicViewButton
             graphicalDisplayShown = false
         }
         else {
-//            let wardsGraphicalImage: UIImage = UIImage(named: "graphicDisplayImage")!
-//            self.navigationItem.rightBarButtonItem?.setBackgroundImage(wardsGraphicalImage, forState: .Normal, barMetrics: .Default)
+            
+            let wardsListImage: UIImage = UIImage(named: "ListIcon")!
+            let listButton : UIBarButtonItem = UIBarButtonItem(image:  wardsListImage, style: UIBarButtonItemStyle.Plain, target: self, action: "showGraphicalWardsView")
+            self.navigationItem.rightBarButtonItem = listButton
             if ((wardsGraphicalDisplayViewController) != nil) {
                 self.view.bringSubviewToFront(wardsGraphicalDisplayViewController!.view)
             }
@@ -115,14 +119,30 @@ class DCWardsInformationsViewController: DCBaseViewController, WardSelectionDele
         }
     }
     
+    func reloadGraphicalView () {
+        
+        //reload graphical view
+        if (graphicalDisplayShown) {
+            if (wardsGraphicalDisplayViewController == nil) {
+                self.addWardsGraphicalDisplayViewController()
+            }
+            wardsGraphicalDisplayViewController?.bedsArray = self.bedsArray
+            wardsGraphicalDisplayViewController?.wardDisplayed = self.wardsListArray.objectAtIndex(self.selectedIndexPath.row) as! DCWard
+            self.wardsGraphicalDisplayViewController?.configureGraphicalView()
+        }
+    }
+    
     //MARK: ward selection delegate
     
     func newWardSelected(row: NSInteger) {
         
+        let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
         patientListViewController!.cancelSearching()
         selectedIndexPath = NSIndexPath.init(forRow: row, inSection: 0)
         patientListViewController!.selectedIndexPath = NSIndexPath.init(forRow: row, inSection: 0)
-        patientListViewController!.fetchPatientDetails()
+        if appDelegate.isNetworkReachable() {
+            patientListViewController!.fetchPatientDetails()
+        }
     }
 
 

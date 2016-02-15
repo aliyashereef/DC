@@ -18,6 +18,7 @@
 @property BOOL addMedicationCompletionStatus;
 @property (nonatomic) NSInteger severeWarningCount;
 @property (nonatomic) NSInteger mildWarningCount;
+@property (nonatomic,strong) NSMutableArray *routeArray;
 @property (nonatomic, strong) NSString *overriddenReason;
 
 

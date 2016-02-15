@@ -38,10 +38,7 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    [self setGraphicalContentSize];
-    [self configureScrollViewProperties];
-    [self addPatientBedViews];
-    [self fetchAndAddPositionableGraphicsViews];
+    [self configureGraphicalView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -113,6 +110,14 @@
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
     
     return self.wardsGraphicalView;
+}
+
+- (void)configureGraphicalView {
+    
+    [self setGraphicalContentSize];
+    [self configureScrollViewProperties];
+    [self addPatientBedViews];
+    [self fetchAndAddPositionableGraphicsViews];
 }
 
 #pragma mark - delegate methods

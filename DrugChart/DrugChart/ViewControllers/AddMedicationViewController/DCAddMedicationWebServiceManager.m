@@ -54,8 +54,7 @@
     [medicationDictionary setValue:medication.medicationId forKey:PREPARATION_ID];
     [medicationDictionary setValue:medication.dosage forKey:DOSAGE_VALUE];
     [medicationDictionary setValue:medication.instruction forKey:INSTRUCTIONS];
-    //TO DO : Currently hard cording the value for route code id, have to change it according to the route user chooses.
-    NSString *routeCodeId = [self routeCodeIdForRoute:medication.route];
+    NSString *routeCodeId = [self routeCodeIdForRoute:medication];
     [medicationDictionary setValue:routeCodeId forKey:ROUTE_CODE_ID];
     NSMutableArray *scheduleArray = [[NSMutableArray alloc] init];
     for (id content in medication.timeArray) {
@@ -87,21 +86,20 @@
     return medicationDictionary;
 }
 
-- (NSString *)routeCodeIdForRoute:(NSString *)routeString {
+- (NSString *)routeCodeIdForRoute:(DCMedicationScheduleDetails *)medication {
     
-    if ([routeString isEqualToString:ORAL] || [routeString isEqualToString:@"Oral"]) {
-        return ORAL_ID;
-    } else if ([routeString isEqualToString:RECTAL] || [routeString isEqualToString:@"Rectal"]) {
-        return RECTAL_ID;
-    } else if ([routeString isEqualToString:INTRAMASCULAR] || [routeString isEqualToString:@"Intramuscular"]) {
-        return INTRAMASCULAR_ID;
-    } else if ([routeString isEqualToString:INTRATHECAL] || [routeString isEqualToString:@"Intrathecal"]) {
-        return INTRATHECAL_ID;
-    } else if ([routeString isEqualToString:INTRAVENOUS] || [routeString isEqualToString:@"Intravenous"]) {
-        return INTRAVENOUS_ID;
-    } else {
-        return EMPTY_STRING;
+    for (NSDictionary *routeDictionary in medication.routeArray) {
+        for (NSString *key in routeDictionary.allKeys){
+            NSString *route = routeDictionary[key];
+            if ([route isEqualToString:medication.route]) {
+                NSString *keyString = [[key componentsSeparatedByCharactersInSet:
+                                        [[NSCharacterSet decimalDigitCharacterSet] invertedSet]]
+                                       componentsJoinedByString:@""];
+                return keyString;
+            }
+        }
     }
+    return nil;
 }
 
 @end

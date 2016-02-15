@@ -8,7 +8,6 @@
 
 import UIKit
 
-let SECTION_HEIGHT : CGFloat = 38.0
 let ROW_HEIGHT : CGFloat = 80.0
 let ROW_OFFSET_VALUE : CGFloat = 25.0
 let INITIAL_INDEX = 0
@@ -21,13 +20,36 @@ let SECOND_INDEX = 1
 
 @objc class DCWarningsListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, AddMedicationDetailDelegate {
     
-    @IBOutlet weak var warningsTableView: UITableView?
+    @IBOutlet weak var warningsTableView: UITableView!
+    @IBOutlet weak var tableHeight: NSLayoutConstraint!
     
     var warningsArray = [Dictionary<String, AnyObject>]()
     var severeArray : AnyObject?
     var mildArray : AnyObject?
     var loadOverideView : Bool? = false
     var delegate: WarningsDelegate?
+    
+    
+    // MARK: Life Cycle Methods
+    override func viewDidLoad() {
+        
+        super.viewDidLoad()
+        configureViewElements();
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        
+        super.viewDidAppear(true)
+        warningsTableView!.reloadData()
+        // this is set to adjust the bottom constraint, view doesnot move on to its actual height initially
+        tableHeight?.constant = DCUtility.mainWindowSize().height - 64
+        warningsTableView.layoutSubviews()
+    }
+    
+    override func didReceiveMemoryWarning() {
+        
+        super.didReceiveMemoryWarning()
+    }
     
     //MARK: Public Methods
     
@@ -40,28 +62,6 @@ let SECOND_INDEX = 1
         if loadOverideView == true {
             self.navigationItem.hidesBackButton = true
         }
-//        else {
-//            UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetMake(0, -60), forBarMetrics: .Default)
-//        }
-        warningsTableView? .reloadData();
-    }
-    
-    // MARK: Life Cycle Methods
-    override func viewDidLoad() {
-        
-        configureViewElements();
-        super.viewDidLoad()
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        
-        super.viewDidAppear(true)
-        warningsTableView!.reloadData()
-    }
-    
-    override func didReceiveMemoryWarning() {
-        
-        super.didReceiveMemoryWarning()
     }
     
     // MARK: Private Methods
@@ -85,13 +85,6 @@ let SECOND_INDEX = 1
         }
     }
     
-    func calculatedTableCellHeightForWarning(warning : DCWarning) -> CGFloat {
-        
-        var textHeight : CGFloat = ROW_OFFSET_VALUE
-        textHeight += DCUtility.heightValueForText(warning.title, withFont: UIFont.systemFontOfSize(15.0), maxWidth: MAX_WIDTH)
-        textHeight += DCUtility.heightValueForText(warning.detail, withFont: UIFont.systemFontOfSize(12.0), maxWidth: MAX_WIDTH)
-        return textHeight
-    }
     
     // MARK: TableView Methods
     
@@ -111,7 +104,7 @@ let SECOND_INDEX = 1
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if section == INITIAL_INDEX {
+        if section == SectionCount.eZerothSection.rawValue {
             if severeArray?.count > 0 {
                 return severeArray!.count
             } else {
@@ -124,13 +117,13 @@ let SECOND_INDEX = 1
                 return mildArray!.count
             }
         }
-        return 0
+        return RowCount.eZerothRow.rawValue
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell : DCWarningsCell = (tableView.dequeueReusableCellWithIdentifier(WARNINGS_CELL_ID) as? DCWarningsCell)!
-        if indexPath.section == INITIAL_INDEX {
+        if indexPath.section == SectionCount.eZerothSection.rawValue {
             if severeArray?.count > 0 {
             if let warning = severeArray?[indexPath.row]! as? DCWarning {
                 cell.populateWarningsCellWithWarningsObject(warning)
@@ -148,32 +141,19 @@ let SECOND_INDEX = 1
         return cell
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
-        return SECTION_HEIGHT
-    }
-    
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
-        var sectionIndex : NSInteger = 0
-        if section == INITIAL_INDEX {
+        if section == SectionCount.eZerothSection.rawValue {
             if severeArray?.count > 0 {
-                sectionIndex = 0
+                return NSLocalizedString("SEVERE", comment: "Severe Warnings title")
             } else {
-                if mildArray?.count > 0 {
-                    sectionIndex = 1
-                }
+                return NSLocalizedString("MILD", comment: "Mild Warnings title")
             }
         } else {
-            if mildArray?.count > 0 {
-                sectionIndex = 1
-            }
+            return NSLocalizedString("MILD", comment: "Mild Warnings title")
         }
-        let warningsHeaderView = NSBundle.mainBundle().loadNibNamed(WARNINGS_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCWarningsHeaderView
-        warningsHeaderView?.configureHeaderViewForSection(sectionIndex)
-        return warningsHeaderView
     }
-    
+        
     // MARK: Action Methods
     
     @IBAction func donotUseDrugAction(sender: AnyObject) {
@@ -189,7 +169,7 @@ let SECOND_INDEX = 1
         detailViewController!.detailType = eOverrideReason
         detailViewController?.delegate = self
         let navigationController : UINavigationController? = UINavigationController(rootViewController: detailViewController!)
-        navigationController?.modalPresentationStyle = UIModalPresentationStyle.CurrentContext
+        navigationController?.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
         self.presentViewController(navigationController!, animated: true, completion: nil)
     }
     

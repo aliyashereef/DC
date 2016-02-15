@@ -147,17 +147,15 @@ class DCSchedulingHelper: NSObject {
             case DAILY :
                 if (activeAdministratingTimes.count > 0) {
                     descriptionText.appendFormat(NSLocalizedString("SCHEDULING_GENERAL_DESCRIPTION", comment: ""))
-                    descriptionText.appendFormat(" %@ every", timesCountString)
+                    descriptionText.appendFormat(" %@ a day", timesCountString)
                 } else {
                     descriptionText = NSMutableString(string: NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
                 }
-                if (repeatValue.frequency == SINGLE_DAY) {
-                    descriptionText.appendFormat(" %@", DAY)
-                } else {
-                    descriptionText.appendFormat(" %@", repeatValue.frequency)
-                }
                 if (activeAdministratingTimes.count > 0) {
                     descriptionText.appendFormat(" at %@", administratingTimesStringFromTimeArray(NSMutableArray(array: activeAdministratingTimes)))
+                }
+                if (repeatValue.frequency != SINGLE_DAY) {
+                    descriptionText.appendFormat(" every %@", repeatValue.frequency)
                 }
             case WEEKLY :
                 descriptionText.appendFormat("%@", descriptionTextForWeeklySpecificTimesSchedulingForRepeatValue(repeatValue, selectedAdministratingTimes: activeAdministratingTimes, timesCountDisplayString: timesCountString))
@@ -192,18 +190,18 @@ class DCSchedulingHelper: NSObject {
         } else {
             weeksString = weekDays!.joinWithSeparator("")
         }
-        
         if (times.count > 0) {
             descriptionText.appendFormat(" %@ a day", timesString)
         }
-        descriptionText.appendFormat(" on %@ every", weeksString)
+        descriptionText.appendFormat(" on %@", weeksString)
+        if (times.count > 0) {
+            descriptionText.appendFormat(" at %@", administratingTimesStringFromTimeArray(NSMutableArray(array: times)))
+        }
+        descriptionText.appendString(" every")
         if (repeatValue.frequency == SINGLE_WEEK) {
             descriptionText.appendFormat(" %@", WEEK)
         } else {
             descriptionText.appendFormat(" %@", repeatValue.frequency)
-        }
-        if (times.count > 0) {
-            descriptionText.appendFormat(" at %@", administratingTimesStringFromTimeArray(NSMutableArray(array: times)))
         }
         return descriptionText
     }
@@ -217,41 +215,69 @@ class DCSchedulingHelper: NSObject {
             descriptionText.appendFormat(" %@ a day", timesString)
         }
         if (repeatValue.isEachValue == true) {
-            var eachValue : String = EMPTY_STRING
-            if (repeatValue.yearEachValue == nil) {
-                let currentDay = DCDateUtility.currentDay()
-                let currentMonth = DCDateUtility.currentMonth()
-                let monthString = DCDateUtility.monthNames()[currentMonth - 1]
-                repeatValue.yearEachValue = String("\(currentDay) \(monthString)")
-            }
-            let (day, month) = splitComponentsSeparatedBySpace(repeatValue.yearEachValue)
-            if let number = Int(day as String) {
-                let convertedNumber = NSNumber(integer:number)
-                DDLogDebug("\(convertedNumber)")
-                let ordinal = NSString.ordinalNumberFormat(convertedNumber)
-                eachValue = ordinal
-            }
-            if (repeatValue.frequency == SINGLE_YEAR) {
-                descriptionText.appendFormat(" on the %@ of %@ every year", eachValue, month)
-            } else {
-                descriptionText.appendFormat(" on the %@ of %@ every %@", eachValue, month, repeatValue.frequency)
-            }
+            descriptionText.appendFormat("%@", descriptionTextForYearlySpecificTimesSchedulingEachValueForRepeatValue(repeatValue, activeAdministratingTimes: times))
         } else {
-            if (repeatValue.yearOnTheValue == nil) {
-                repeatValue.yearOnTheValue = "First Sunday January"
-            }
-            let yearArray = repeatValue.yearOnTheValue.characters.split{$0 == " "}.map(String.init)
-            let indexValue = yearArray[0]
-            let day = yearArray[1]
-            let month = yearArray[2]
-            if (repeatValue.frequency == SINGLE_YEAR) {
-                descriptionText.appendFormat(" on the %@ %@ of %@ every year", indexValue, day, month)
-            } else {
-                descriptionText.appendFormat(" on the %@ %@ of %@ every %@", indexValue, day, month, repeatValue.frequency)
-            }
+            descriptionText.appendFormat("%@", descriptionTextForYearlySpecificTimesSchedulingOnTheValueForRepeatValue(repeatValue, activeAdministratingTimes: times))
         }
-       if (times.count > 0) {
-         descriptionText.appendFormat(" at %@", administratingTimesStringFromTimeArray(NSMutableArray(array: times)))
+        return descriptionText
+    }
+    
+    static func descriptionTextForYearlySpecificTimesSchedulingEachValueForRepeatValue(repeatValue : DCRepeat, activeAdministratingTimes times : NSArray) -> NSMutableString {
+        
+        let descriptionText : NSMutableString = NSMutableString()
+        var eachValue : String = EMPTY_STRING
+        if (repeatValue.yearEachValue == nil) {
+            let currentDay = DCDateUtility.currentDay()
+            let currentMonth = DCDateUtility.currentMonth()
+            let monthString = DCDateUtility.monthNames()[currentMonth - 1]
+            repeatValue.yearEachValue = String("\(currentDay) \(monthString)")
+        }
+        let (day, month) = splitComponentsSeparatedBySpace(repeatValue.yearEachValue)
+        if let number = Int(day as String) {
+            let convertedNumber = NSNumber(integer:number)
+            DDLogDebug("\(convertedNumber)")
+            let ordinal = NSString.ordinalNumberFormat(convertedNumber)
+            eachValue = ordinal
+        }
+        if (repeatValue.frequency == SINGLE_YEAR) {
+            descriptionText.appendFormat(" on the %@ %@", eachValue, month)
+            if (times.count > 0) {
+                descriptionText.appendFormat(" at %@", administratingTimesStringFromTimeArray(NSMutableArray(array: times)))
+            }
+            descriptionText.appendString(" every year")
+            
+        } else {
+            descriptionText.appendFormat(" on the %@ of %@", eachValue, month)
+            if (times.count > 0) {
+                descriptionText.appendFormat(" at %@", administratingTimesStringFromTimeArray(NSMutableArray(array: times)))
+            }
+            descriptionText.appendFormat(" every %@", repeatValue.frequency)
+        }
+        return descriptionText
+    }
+    
+    static func descriptionTextForYearlySpecificTimesSchedulingOnTheValueForRepeatValue(repeatValue : DCRepeat, activeAdministratingTimes times : NSArray) -> NSMutableString {
+        
+        let descriptionText : NSMutableString = NSMutableString()
+        if (repeatValue.yearOnTheValue == nil) {
+            repeatValue.yearOnTheValue = "First Sunday January"
+        }
+        let yearArray = repeatValue.yearOnTheValue.characters.split{$0 == " "}.map(String.init)
+        let indexValue = yearArray[0]
+        let day = yearArray[1]
+        let month = yearArray[2]
+        if (repeatValue.frequency == SINGLE_YEAR) {
+            descriptionText.appendFormat(" on the %@ %@ of %@", indexValue, day, month)
+            if (times.count > 0) {
+                descriptionText.appendFormat(" at %@", administratingTimesStringFromTimeArray(NSMutableArray(array: times)))
+            }
+            descriptionText.appendString(" every year")
+        } else {
+            descriptionText.appendFormat(" on the %@ %@ of %@", indexValue, day, month)
+            if (times.count > 0) {
+                descriptionText.appendFormat(" at %@", administratingTimesStringFromTimeArray(NSMutableArray(array: times)))
+            }
+            descriptionText.appendFormat(" every %@", repeatValue.frequency)
         }
         return descriptionText
     }
@@ -276,25 +302,29 @@ class DCSchedulingHelper: NSObject {
                 let ordinal = NSString.ordinalNumberFormat(convertedNumber)
                 eachValue = ordinal
             }
-            if (repeatValue.frequency == "1 month") {
-                descriptionText.appendFormat(" on the %@ of the month", eachValue)
+            descriptionText.appendFormat(" on the %@", eachValue)
+            if (times.count > 0) {
+                descriptionText.appendString(" of the month")
             } else {
-                descriptionText.appendFormat(" on the %@ of every %@", eachValue, repeatValue.frequency)
+                descriptionText.appendFormat(" of every %@", repeatValue.frequency)
             }
         } else {
             if (repeatValue.onTheValue == EMPTY_STRING) {
                 repeatValue.onTheValue = "First Sunday"
             }
-            if (repeatValue.frequency == "1 month") {
-                descriptionText.appendFormat(" month on the %@", repeatValue.onTheValue)
+            descriptionText.appendFormat(" on the %@", repeatValue.onTheValue)
+            if (times.count > 0) {
+                descriptionText.appendString(" of the month")
             } else {
-                descriptionText.appendFormat(" %@ on the %@", repeatValue.frequency, repeatValue.onTheValue)
+                descriptionText.appendFormat(" of every %@", repeatValue.frequency)
             }
         }
         if (times.count > 0) {
             descriptionText.appendFormat(" at %@", administratingTimesStringFromTimeArray(NSMutableArray(array: times)))
+            descriptionText.appendString(" every")
+            descriptionText.appendFormat(" %@", repeatValue.frequency)
         }
-        return descriptionText
+         return descriptionText
     }
     
     static func alreadySelectedAdministratingTimesFromTimeArray(timeArray : NSArray) -> NSArray {

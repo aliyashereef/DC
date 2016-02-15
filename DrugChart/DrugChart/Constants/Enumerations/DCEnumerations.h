@@ -82,11 +82,6 @@ typedef enum : NSUInteger {
     eDetailDosage,
     eDetailRoute,
     eDetailType,
-    eDetailStartDate,
-    eDetailEndDate,
-    eDetailAdministrationTime,
-    eNewDosage,
-    eNewAdministrationTime,
     eOverrideReason,
     
 } AddMedicationDetailType;
@@ -99,10 +94,15 @@ typedef enum : NSUInteger {
     
 } SchedulingDetailType;
 
-typedef enum : NSUInteger {
+typedef enum :NSUInteger {
     eNotes,
     eReason
-} NotesType;
+}NotesType;
+
+//typedef NS_ENUM(NSInteger,NotesType) {
+//    eNotes,
+//    eReason
+//};
 
 typedef enum : NSInteger {
     
@@ -121,14 +121,28 @@ typedef enum : NSUInteger {
     eDoseTo,
     eStartingDose,
     eChangeOver,
-    eConditions,
     eAddNewDosage,
-    eAddCondition,
     eAddDoseForTime,
     eAddNewTime,
-    eDose,
-    eUntil
 }DosageDetailType;
+
+typedef enum : NSUInteger {
+    
+    eAddNewDose,
+    eAddNewTimes
+}AddNewType;
+
+typedef enum : NSUInteger {
+    
+    eAddIntegerValue,
+    eAddValueWithUnit,
+}ValueType;
+
+typedef enum : NSUInteger {
+    
+    eDoseChange,
+    eUntilDose
+}AddConditionDetailType;
 
 
 typedef enum : NSUInteger {
@@ -146,17 +160,16 @@ typedef enum : NSUInteger {
     eDayCount,
     eHoursCount,
     eMinutesCount,
-    eReducingIncreasingType
+    eReducingIncreasingType,
 }PickerType;
 
+typedef enum : NSUInteger {
+    
+    eUnit,
+    eFlowDuration,
+    eRateStarting,
+    eRateNormal
+}InfusionPickerType;
 
-
-//typedef enum : NSUInteger {
-//
-//    oneThirdWindow,
-//    halfWindow,
-//    twoThirdWindow,
-//    fullWindow
-//} CurrentWindowState;
 
 #endif

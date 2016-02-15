@@ -29,7 +29,7 @@ let PREVIEW_SECTION_INDEX : NSInteger = 2
 
 typealias SelectedScheduling = DCScheduling? -> Void
 
-class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, AddMedicationDetailDelegate, SchedulingTimeCellDelegate, SchedulingDetailDelegate {
+class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SchedulingTimeCellDelegate, SchedulingDetailDelegate, AdministrationTimesDelegate {
 
     @IBOutlet weak var schedulingTableView: UITableView!
     
@@ -37,6 +37,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
     var previewArray : NSMutableArray? = []
     var isEditMedication : Bool?
     var validate : Bool = false
+    //var backButtonText : NSString = EMPTY_STRING
     var selectedSchedulingValue : SelectedScheduling = {value in }
     var inlinePickerIndexPath : NSIndexPath?
     
@@ -73,9 +74,9 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
     
     func configureNavigationBarItems() {
         
-        //UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffsetMake(0, -60), forBarMetrics: .Default)
         self.navigationItem.title = NSLocalizedString("FREQUENCY", comment: "")
         self.title = NSLocalizedString("FREQUENCY", comment: "")
+       // DCUtility.backButtonItemForViewController(self, inNavigationController: self.navigationController, withTitle: backButtonText as String)
     }
 
     func displaySchedulingDetailViewControllerForSelectedIndexPath(indexPath : NSIndexPath) {
@@ -110,29 +111,40 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         schedulingDetailViewController?.schedulingCompletion = { schedule in
             self.scheduling = schedule
         }
+        self.configureNavigationBackButtonTitle()
         self.navigationController?.pushViewController(schedulingDetailViewController!, animated: true)
     }
     
+    func configureNavigationBackButtonTitle () {
         
+        self.navigationItem.backBarButtonItem = UIBarButtonItem.init(title: self.title, style: .Plain, target: nil, action: nil)
+    }
+
     func presentAdministrationTimeView() {
         
         let storyBoard = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil)
-        let medicationDetailViewController = storyBoard.instantiateViewControllerWithIdentifier(ADD_MEDICATION_DETAIL_STORYBOARD_ID) as? DCAddMedicationDetailViewController
-        medicationDetailViewController!.delegate = self
-        medicationDetailViewController?.selectedEntry = { value in
-            DDLogDebug("Value is \(value)")
+        let administrationTimesViewController = storyBoard.instantiateViewControllerWithIdentifier(ADMINISTRATION_TIMES_SB_ID) as? DCAdministrationTimesViewController
+        administrationTimesViewController!.delegate = self
+        if (self.scheduling?.type == SPECIFIC_TIMES) {
+            if let adminArray = self.scheduling?.specificTimes?.administratingTimesArray {
+                administrationTimesViewController!.timeArray = adminArray
+            }
+        } else {
+            if let administrationTimeArray = self.scheduling?.interval.administratingTimes {
+                administrationTimesViewController!.timeArray = administrationTimeArray
+            }
         }
-        medicationDetailViewController!.detailType = eDetailAdministrationTime
-       // medicationDetailViewController!.contentArray = timeArray
-        medicationDetailViewController!.contentArray = (self.scheduling?.type == SPECIFIC_TIMES) ? self.scheduling?.specificTimes?.administratingTimesArray : self.scheduling?.interval.administratingTimes
-        self.navigationController?.pushViewController(medicationDetailViewController!, animated: true)
+        self.configureNavigationBackButtonTitle()
+        self.navigationController?.pushViewController(administrationTimesViewController!, animated: true)
     }
     
     func frequencyCellAtIndexPath(indexPath : NSIndexPath) -> DCSchedulingCell {
         
         //configure scheduling table cell
         let schedulingCell : DCSchedulingCell? = schedulingTableView.dequeueReusableCellWithIdentifier(SCHEDULING_INITIAL_CELL_ID) as? DCSchedulingCell
+        schedulingCell?.selectionStyle = .Default
         schedulingCell?.descriptionLabel.hidden = false
+        schedulingCell!.titleLabel.textColor = UIColor.blackColor()
         if (indexPath.section == 1) {
             schedulingCell?.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
             if (scheduling?.type == SPECIFIC_TIMES) {
@@ -179,7 +191,6 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
                 }
             }
         }
-        schedulingCell?.selectionStyle = .Default
         return schedulingCell!
     }
     
@@ -201,9 +212,9 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         let timeCell = schedulingTableView.dequeueReusableCellWithIdentifier(SCHEDULING_TIME_CELL_ID) as? DCSchedulingTimeCell
         timeCell!.schedulingCellDelegate = self
         if (indexPath.row == 1) {
+            let switchState = (self.scheduling?.interval?.hasStartAndEndDate == nil) ? false : self.scheduling?.interval?.hasStartAndEndDate
             timeCell?.selectionStyle = .None
-            timeCell?.previousPickerState = self.scheduling?.interval?.hasStartAndEndDate;
-            timeCell?.configureSetStartAndEndTimeCell()
+            timeCell?.configureSetStartAndEndTimeCellForSwitchState(switchState!)
         } else if (indexPath.row == 2) {
             let startTime = self.scheduling?.interval?.startTime == nil ? EMPTY_STRING : self.scheduling?.interval?.startTime
             timeCell?.configureTimeCellForTimeType(NSLocalizedString("START_TIME", comment: "start time title"), withSelectedValue:startTime!)
@@ -211,7 +222,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
             let endTime = self.scheduling?.interval?.endTime == nil ? EMPTY_STRING : self.scheduling?.interval?.endTime
             timeCell?.configureTimeCellForTimeType(NSLocalizedString("END_TIME", comment: "end time title"), withSelectedValue: endTime!)
         }
-        timeCell?.selectionStyle = .Default
+       // timeCell?.selectionStyle = .Default
         return timeCell!
     }
     
@@ -370,15 +381,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
             self.previewArray = DCSchedulingHelper.administrationTimesForIntervalSchedulingWithRepeatFrequencyType(pickerType, timeGap: timeGap, WithStartDateString: (self.scheduling?.interval?.startTime)!, WithendDateString: (self.scheduling?.interval?.endTime)!)
             let administrationTimeArray = createAdministrationTimesArrayFromPreview()
             self.scheduling?.interval?.administratingTimes = administrationTimeArray
-//            if (self.scheduling?.interval?.hasStartAndEndDate == true && self.previewArray?.count > 0) {
-//                self.schedulingTableView.reloadSections(NSIndexSet(index: 2), withRowAnimation: .Middle)
-//            }
         }
-//        if (self.previewArray?.count > 0) {
-//            let administrationTimeArray = createAdministrationTimesArrayFromPreview()
-//            self.scheduling?.interval?.administratingTimes = administrationTimeArray
-//            //self.updatedTimeArray(administrationTimeArray)
-//        }
     }
     
     func reloadIntervalPreviewSection() {
@@ -450,9 +453,8 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         }
         
         dispatch_async(dispatch_get_main_queue(), {
-            self.schedulingTableView.beginUpdates()
             let sectionCount = self.schedulingTableView.numberOfSections
-            self.schedulingTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Fade)
+            self.schedulingTableView.beginUpdates()
             if (sectionCount == INITIAL_SECTION_COUNT) {
                 //if section count is zero insert new section with animation
                 self.schedulingTableView.insertSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
@@ -468,7 +470,10 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
                     }
                 } else {
                     self.schedulingTableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
-                    if (sectionCount == INTERVAL_SECTION_INITIAL_COUNT && self.scheduling?.interval?.hasStartAndEndDate == true /*&& self.previewArray?.count > 0*/) {
+                    if (sectionCount == INTERVAL_SECTION_INITIAL_COUNT && self.scheduling?.interval?.hasStartAndEndDate == true) {
+                        if (self.previewArray?.count == 0) {
+                            self.populatePreviewArray()
+                        }
                         self.schedulingTableView.insertSections(NSIndexSet(index: 2), withRowAnimation: .Middle)
                     } else {
                         if (self.scheduling?.interval?.hasStartAndEndDate == true && self.previewArray?.count > 0) {
@@ -478,6 +483,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
                 }
             }
             self.schedulingTableView.endUpdates()
+            self.schedulingTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .None)
         })
     }
     
@@ -663,7 +669,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
     
     //MARK: Add Medication Detail Delegate Methods
     
-    func updatedAdministrationTimeArray(timeArray: [AnyObject]!) {
+    func updatedAdministrationTimeArray(timeArray : NSArray) {
         
         //new administration time added
         let newTimeArray = NSMutableArray(array: timeArray)
@@ -680,39 +686,41 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
     func setStartEndTimeSwitchValueChanged(state : Bool) {
         
         //configure table based on the switch state
-        populatePreviewArray()
-        let timeCell = schedulingTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 1)) as? DCSchedulingTimeCell
-        timeCell?.timeSwitch.userInteractionEnabled = false
-        self.scheduling?.interval?.hasStartAndEndDate = state
-        let sectionCount = self.schedulingTableView.numberOfSections
-        schedulingTableView.beginUpdates()
-        let indexPathsArray = [NSIndexPath(forRow: 2, inSection: 1), NSIndexPath(forRow: 3, inSection: 1)]
-        if (state == false) {
-            //delete start time, end time table cells
-            schedulingTableView.deleteRowsAtIndexPaths(indexPathsArray, withRowAnimation: .Fade)
-             if sectionCount == INTERVAL_SECTION_PREVIEW_COUNT {
-                schedulingTableView.deleteSections(NSIndexSet(index: 2), withRowAnimation: .Fade)
-            }
-        } else {
-            schedulingTableView.insertRowsAtIndexPaths(indexPathsArray, withRowAnimation: .Fade)
-            if (previewArray?.count > 0) {
-                schedulingTableView.insertSections(NSIndexSet(index: 2), withRowAnimation: .Fade)
-            }
-        }
-        schedulingTableView.endUpdates()
-        if (self.scheduling?.type == INTERVAL) {
-            //when state is false, remove start & end time checks
-            let interval = self.scheduling?.interval
-            self.scheduling?.interval?.intervalDescription = DCSchedulingHelper.scheduleDescriptionForIntervalValue(interval!) as String
+        if (state != self.scheduling?.interval?.hasStartAndEndDate) {
+            populatePreviewArray()
+            let timeCell = schedulingTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 1)) as? DCSchedulingTimeCell
+            timeCell?.timeSwitch.userInteractionEnabled = false
+            self.scheduling?.interval?.hasStartAndEndDate = state
+            let sectionCount = self.schedulingTableView.numberOfSections
+            schedulingTableView.beginUpdates()
+            let indexPathsArray = [NSIndexPath(forRow: 2, inSection: 1), NSIndexPath(forRow: 3, inSection: 1)]
             if (state == false) {
-                schedulingTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 2, inSection: 1)], withRowAnimation: .Fade)
+                //delete start time, end time table cells
+                schedulingTableView.deleteRowsAtIndexPaths(indexPathsArray, withRowAnimation: .Fade)
+                if sectionCount == INTERVAL_SECTION_PREVIEW_COUNT {
+                    schedulingTableView.deleteSections(NSIndexSet(index: 2), withRowAnimation: .Fade)
+                }
             } else {
-                schedulingTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 4, inSection: 1)], withRowAnimation: .Fade)
+                schedulingTableView.insertRowsAtIndexPaths(indexPathsArray, withRowAnimation: .Fade)
+                if (previewArray?.count > 0) {
+                    schedulingTableView.insertSections(NSIndexSet(index: 2), withRowAnimation: .Fade)
+                }
             }
-        }
-        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.7 * Double(NSEC_PER_SEC)))
-        dispatch_after(delayTime, dispatch_get_main_queue()) {
-            timeCell?.timeSwitch.userInteractionEnabled = true
+            schedulingTableView.endUpdates()
+            if (self.scheduling?.type == INTERVAL) {
+                //when state is false, remove start & end time checks
+                let interval = self.scheduling?.interval
+                self.scheduling?.interval?.intervalDescription = DCSchedulingHelper.scheduleDescriptionForIntervalValue(interval!) as String
+                if (state == false) {
+                    schedulingTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 2, inSection: 1)], withRowAnimation: .Fade)
+                } else {
+                    schedulingTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 4, inSection: 1)], withRowAnimation: .Fade)
+                }
+            }
+            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.7 * Double(NSEC_PER_SEC)))
+            dispatch_after(delayTime, dispatch_get_main_queue()) {
+                timeCell?.timeSwitch.userInteractionEnabled = true
+            }
         }
     }
     

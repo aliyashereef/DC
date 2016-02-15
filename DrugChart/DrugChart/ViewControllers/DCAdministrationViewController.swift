@@ -11,8 +11,9 @@ import Foundation
 let headerString : NSString = "ADMINISTRATION DETAILS"
 
 class DCAdministrationViewController : UIViewController, UITableViewDelegate, UITableViewDataSource {
+    @IBOutlet var activityIndicatorView: UIActivityIndicatorView!
     
-    var medicationSlotsArray : [DCMedicationSlot] = []
+    var medicationSlotsArray : [DCMedicationSlot] = [DCMedicationSlot]()
     var medicationDetails : DCMedicationScheduleDetails?
     var contentArray :[AnyObject] = []
     var slotToAdminister : DCMedicationSlot?
@@ -53,28 +54,60 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
     }
     
     func configureMedicationStatusInCell (medication : DCMedicationSlot) -> NSString {
+        
         let currentSystemDate : NSDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
         let currentDateString : NSString? = DCDateUtility.dateStringFromDate(currentSystemDate, inFormat: SHORT_DATE_FORMAT)
+
         if (medication.medicationAdministration?.status != nil && medication.medicationAdministration.actualAdministrationTime != nil){
-            return medication.status
+            return (medication.medicationAdministration?.status)!
         }
+        if medication.medicationAdministration?.status == STARTED {
+            return IN_PROGRESS
+        }
+        //medication slot selected more than the current date
         if (medication.time.compare(currentSystemDate) == NSComparisonResult.OrderedDescending){
             let slotDateString : NSString? = DCDateUtility.dateStringFromDate(slotToAdminister?.time, inFormat: SHORT_DATE_FORMAT)
-            if (currentDateString != slotDateString) {
+            if (currentDateString != slotDateString && medication.medicationAdministration?.status == nil) {
                 return PENDING
+            } else if (medication.medicationAdministration?.status != nil) {
+                if self.checkWhetherMedicationIsDurationBased() {
+                    return IN_PROGRESS
+                } else {
+                    return medication.medicationAdministration.status
+                }
             }
         }
         if let slotToAdministerDate = slotToAdminister?.time {
             if (medication.time.compare(slotToAdministerDate) == NSComparisonResult.OrderedSame) {
-                return ADMINISTER_MEDICATION
+                if self.checkWhetherMedicationIsDurationBased() {
+                    return ADMINISTER_NOW
+                } else {
+                    return ADMINISTER_MEDICATION
+                }
             }
         }
+        //medication slot selected less than the current date
         if (medication.time.compare(currentSystemDate) == NSComparisonResult.OrderedAscending) {
-            if (slotToAdminister?.medicationAdministration?.actualAdministrationTime == nil){
+            if (medication.medicationAdministration?.status != nil) {
+                if self.checkWhetherMedicationIsDurationBased() {
+                    return IN_PROGRESS
+                } else {
+                return medication.medicationAdministration.status
+                }
+            } else if (slotToAdminister?.medicationAdministration?.actualAdministrationTime == nil){
                    return PENDING
             }
         }
         return PENDING
+    }
+    
+    func checkWhetherMedicationIsDurationBased () -> Bool {
+        // T0 Do : This is a temporary method to implement the status display for the duration based infusion , when the API gets updated - modifications needed.
+        if (medicationDetails?.route == "Subcutaneous" || medicationDetails?.route == "Intravenous"){
+            return true
+        } else {
+            return false
+        }
     }
     
     func initialiseMedicationSlotToAdministerObject () {
@@ -82,15 +115,20 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         slotToAdminister = DCMedicationSlot.init()
 
         if (medicationDetails?.medicineCategory == WHEN_REQUIRED) {
-            slotToAdminister?.time = DCDateUtility.dateInCurrentTimeZone(NSDate())
-            medicationSlotsArray.append(slotToAdminister!)
-        }
-
-        if (medicationSlotsArray.count > 0) {
-            for slot : DCMedicationSlot in medicationSlotsArray {
-                if (slot.medicationAdministration?.actualAdministrationTime == nil) {
-                    slotToAdminister = slot
-                    break
+            let today : NSDate = NSDate()
+            let order = NSCalendar.currentCalendar().compareDate(weekDate! , toDate:today,
+                toUnitGranularity: .Day)
+            if order == NSComparisonResult.OrderedSame {
+                slotToAdminister?.time = DCDateUtility.dateInCurrentTimeZone(NSDate())
+                medicationSlotsArray.append(slotToAdminister!)
+            }
+        } else {
+            if (medicationSlotsArray.count > 0) {
+                for slot : DCMedicationSlot in medicationSlotsArray {
+                    if (slot.medicationAdministration?.actualAdministrationTime == nil && slot.medicationAdministration == nil) {
+                        slotToAdminister = slot
+                        break
+                    }
                 }
             }
         }
@@ -131,7 +169,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
     func configureAdministrationStatusCellAtIndexPath (indexPath :NSIndexPath) -> DCAdministrationStatusCell{
         let cell = administerTableView.dequeueReusableCellWithIdentifier("AdministrationStatusCell") as? DCAdministrationStatusCell
         let medicationSlot : DCMedicationSlot = medicationSlotsArray[indexPath.row]
-        if (medicationSlot.medicationAdministration?.status != nil && medicationSlot.medicationAdministration.actualAdministrationTime != nil) {
+        if (medicationSlot.medicationAdministration?.status != nil || medicationSlot.medicationAdministration?.actualAdministrationTime != nil) {
             cell!.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
             cell!.statusLabelTrailingSpace.constant = 5.0
         } else {
@@ -139,19 +177,31 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         }
 
         cell!.administrationStatusLabel.text = configureMedicationStatusInCell(medicationSlot) as String
-        if cell!.administrationStatusLabel.text == ADMINISTER_MEDICATION {
+        if (cell!.administrationStatusLabel.text == ADMINISTER_MEDICATION ||
+            cell!.administrationStatusLabel.text == ADMINISTER_NOW ){
             cell!.administrationStatusLabel.textColor = UIColor(forHexString:"#4A90E2")
+        } else {
+            cell!.administrationStatusLabel.textColor = UIColor(forHexString:"#676767")
         }
         cell?.administrationTimeLabel.text =  DCDateUtility.dateStringFromDate(medicationSlot.time, inFormat: TWENTYFOUR_HOUR_FORMAT)
         return cell!
     }
     
-    func configureMedicationDetailsCellAtIndexPath (indexPath :NSIndexPath) -> DCMedicationDetailsTableViewCell {
-        let cell = administerTableView.dequeueReusableCellWithIdentifier("MedicationDetailsTableViewCell") as? DCMedicationDetailsTableViewCell
-        if let _ = medicationDetails {
-            cell!.configureMedicationDetails(medicationDetails!)
+    func configureMedicationDetailsCellAtIndexPath (indexPath :NSIndexPath) -> UITableViewCell {
+        
+        if self.isMedicationDurationBasedInfusion() {
+            let cell = administerTableView.dequeueReusableCellWithIdentifier("DurationBasedInfusionCell") as? DCDurationBasedMedicationDetailsCell
+            if let _ = medicationDetails {
+                cell!.configureMedicationDetails(medicationDetails!)
+            }
+            return cell!
+        } else {
+            let cell = administerTableView.dequeueReusableCellWithIdentifier("MedicationDetailsTableViewCell") as? DCMedicationDetailsTableViewCell
+            if let _ = medicationDetails {
+                cell!.configureMedicationDetails(medicationDetails!)
+            }
+            return cell!
         }
-        return cell!
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -161,8 +211,10 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
             addBNFView()
         } else {
             let cell = administerTableView.cellForRowAtIndexPath(indexPath) as? DCAdministrationStatusCell
-            if cell?.administrationStatusLabel.text == ADMINISTER_MEDICATION {
-                addAdministerView()
+            let medicationSlot : DCMedicationSlot = medicationSlotsArray[indexPath.row]
+            slotToAdminister?.time = medicationSlot.time
+            if (cell?.administrationStatusLabel.text == ADMINISTER_MEDICATION || cell?.administrationStatusLabel.text == ADMINISTER_NOW || cell?.administrationStatusLabel.text == "In progress") {
+                addAdministerViewWithStatus((cell?.administrationStatusLabel.text)!)
             } else if cell?.administrationStatusLabel.text == PENDING {
                 
             } else {
@@ -181,7 +233,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         self.navigationController?.pushViewController(bnfViewController!, animated: true)
     }
     
-    func addAdministerView () {
+    func addAdministerViewWithStatus(status : NSString) {
         
         //add administer view controller
         let administerStoryboard : UIStoryboard? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil)
@@ -189,6 +241,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         administerViewController?.medicationSlot = slotToAdminister
         administerViewController?.weekDate = weekDate
         administerViewController?.patientId = patientId
+        administerViewController?.status = status
         administerViewController?.helper = helper
         if (medicationSlotsArray.count > 0) {
             administerViewController?.medicationSlot = slotToAdminister
@@ -207,7 +260,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
             administerViewController?.medicationDetails = medicationDetails
             administerViewController?.alertMessage = errorMessage
         let navigationController : UINavigationController = UINavigationController(rootViewController: administerViewController!)
-        navigationController.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
+        navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
         self.presentViewController(navigationController, animated: true, completion:nil)
     }
     
@@ -220,5 +273,14 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
             medicationHistoryViewController?.medicationDetails = medicationDetails
         medicationHistoryViewController?.medicationSlotArray = [medicationSlotsArray[index]]
         self.navigationController?.pushViewController(medicationHistoryViewController!, animated: true)
+    }
+    
+    func isMedicationDurationBasedInfusion () -> Bool {
+        // T0 Do : This is a temporary method to implement the status display for the duration based infusion , when the API gets updated - modifications needed.
+        if (medicationDetails?.route == "Subcutaneous" || medicationDetails?.route == "Intravenous"){
+            return true
+        } else {
+            return false
+        }
     }
 }

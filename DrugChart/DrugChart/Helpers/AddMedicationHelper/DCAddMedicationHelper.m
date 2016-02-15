@@ -88,54 +88,25 @@
     return timeArray;
 }
 
-+ (CellType)cellTypeForSpecificTimesSchedulingAtIndexPath:(NSIndexPath *)indexPath {
-    
-    //get the cell type corresponding to Specific times.
-    CellType cellType;
-    switch (indexPath.row) {
-        case ADMINISTRATION_CELL_INDEX:
-            cellType = eAdministratingTimeCell;
-            break;
-        case REPEAT_CELL_INDEX:
-            cellType = eRepeatCell;
-            break;
-        default:
-            break;
-    }
-    return cellType;
-}
-
 + (AddMedicationDetailType)medicationDetailTypeForIndexPath:(NSIndexPath *)indexPath hasWarnings:(BOOL)showWarnings {
     
     switch (indexPath.section) {
-        case eFirstSection: {
+        case eSecondSection: {
             if (showWarnings) {
                 return eDetailWarning;
             } else {
-                if (indexPath.row == ROUTE_INDEX) {
-                    return eDetailRoute;
-                } else {
-                    return eDetailType;
-                }
+                return eDetailType;
             }
         }
-        case eSecondSection: {
+        case eThirdSection: {
             if (showWarnings) {
-                if (indexPath.row == ROUTE_INDEX) {
-                    return eDetailRoute;
-                } else {
-                    return eDetailType;
-                }
+                return eDetailType;
             }
         }
-        case eFourthSection: {
-//            if (showWarnings) {
-//                return eDetailSchedulingType;
-//            } else {
-                return eDetailDosage;
-          //  }
+        case eFifthSection: {
+            return eDetailDosage;
         }
-        case eFifthSection:
+        case eSixthSection:
             if (showWarnings) {
                 return eDetailDosage;
             }
@@ -200,6 +171,20 @@
     } else {
         label.textColor = [UIColor blackColor];
     }
+}
+
++ (NSInteger)routesTableViewSectionCountForSelectedRoute:(NSString *)route {
+    
+    if ([self routeIsIntravenousOrSubcutaneous:route]) {
+        return 2;
+    } else {
+        return 1;
+    }
+}
+
++ (BOOL)routeIsIntravenousOrSubcutaneous:(NSString *)route {
+    
+    return ([route containsString:@"Intravenous"]|| [route containsString:@"Subcutaneous"]);
 }
 
 @end

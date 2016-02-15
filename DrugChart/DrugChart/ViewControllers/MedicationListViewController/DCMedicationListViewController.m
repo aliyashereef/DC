@@ -14,7 +14,7 @@
 
 #define CELL_PADDING 24
 #define CELL_MININUM_HEIGHT 44
-#define TABLEVIEW_TOP_CONSTRAINT_HALF_SCREEN -20.0f
+#define TABLEVIEW_TOP_CONSTRAINT -20.0f
 
 @interface DCMedicationListViewController () <WarningsDelegate> {
     
@@ -27,6 +27,7 @@
     DCMedicationSearchWebService *medicationWebService;
     NSMutableArray *warningsArray;
     DCMedication *updatedMedication;
+    DCWarningsListViewController *warningsListViewController;
 }
 
 @end
@@ -36,12 +37,22 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+    if ([DCAPPDELEGATE windowState] == halfWindow ||
+        [DCAPPDELEGATE windowState] == oneThirdWindow) {
+        self.isLoadingForFirstTimeInHalfScreen = YES;
+        self.valueForTableTopConstraint = ZERO_CONSTRAINT;
+        tableViewTopConstraint.constant = ZERO_CONSTRAINT;
+    } else {
+        self.valueForTableTopConstraint = TABLEVIEW_TOP_CONSTRAINT;
+    }
     [self configureViewElements];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    
     [super viewWillAppear:animated];
     [medicationSearchBar becomeFirstResponder];
+    medicationListTableView.userInteractionEnabled = YES;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -59,6 +70,10 @@
     
     [self ajustTableViewConstraints];
     [super viewDidLayoutSubviews];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
 }
 
 #pragma mark - Private Methods
@@ -80,13 +95,16 @@
     
     NSInteger windowWidth = [DCUtility mainWindowSize].width;
     NSInteger screenWidth = [[UIScreen mainScreen] bounds].size.width;
-    tableViewTopConstraint.constant = (windowWidth > screenWidth/2) ? ZERO_CONSTRAINT : TABLEVIEW_TOP_CONSTRAINT_HALF_SCREEN;
+    tableViewTopConstraint.constant = (windowWidth > screenWidth/2) ? ZERO_CONSTRAINT : self.valueForTableTopConstraint;
+    if (([DCAPPDELEGATE windowState] == twoThirdWindow ||
+        [DCAPPDELEGATE windowState] == fullWindow) && self.isLoadingForFirstTimeInHalfScreen) {
+        tableViewTopConstraint.constant = 20.0;
+    }
+    
  }
 
 - (void)configureFetchListTableView {
     
-//    medicationListTableView.layoutMargins = UIEdgeInsetsZero;
-//    medicationListTableView.separatorInset = UIEdgeInsetsZero;
     medicationListTableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     medicationWebService = [[DCMedicationSearchWebService alloc] init];
     medicationListArray = [NSMutableArray arrayWithArray:@[NSLocalizedString(@"SEARCH_MEDICATION_MIN_LIMIT", @"")]];
@@ -99,7 +117,6 @@
     medicationWebService.searchString = searchString;
     [activityIndicator startAnimating];
     [medicationWebService getCompleteMedicationListWithCallBackHandler:^(id response, NSDictionary *errorDict) {
-        
         if (!errorDict) {
             medicationListArray = [NSMutableArray arrayWithArray:response];
             if ([medicationListArray count] == 0) {
@@ -136,7 +153,9 @@
 - (void)callWarningsWebServiceForMedication:(DCMedication *)medicationDetails {
     
     DCContraIndicationWebService *webService = [[DCContraIndicationWebService alloc] init];
-    [activityIndicator startAnimating];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [activityIndicator startAnimating];
+    });
     [webService getContraIndicationsForPatientWithId:_patientId forDrugPreparationId:medicationDetails.medicationId withCallBackHandler:^(NSArray *alergiesArray, NSError *error) {
         if (!error) {
             warningsArray = [NSMutableArray arrayWithArray:[DCUtility categorizeContentArrayBasedOnSeverity:alergiesArray]];
@@ -146,6 +165,7 @@
             updatedMedication.name = medicationDetails.name;
             updatedMedication.medicationId = medicationDetails.medicationId;
             updatedMedication.dosage = medicationDetails.dosage;
+            updatedMedication.routeArray = medicationDetails.routeArray;
             updatedMedication.severeWarningCount = severeArray.count;
             updatedMedication.mildWarningCount = mildArray.count;
             if ([severeArray count] == 0) {
@@ -157,6 +177,7 @@
                 [self displayWarningsListView];
             }
         }
+        medicationListTableView.userInteractionEnabled = YES;
         [activityIndicator stopAnimating];
     }];
 }
@@ -165,10 +186,10 @@
     
     //display Warnings list view
     UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
-    DCWarningsListViewController *warningsListViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:WARNINGS_LIST_STORYBOARD_ID];
+    warningsListViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:WARNINGS_LIST_STORYBOARD_ID];
     warningsListViewController.delegate = self;
-    [warningsListViewController populateWarningsListWithWarnings:warningsArray showOverrideView:YES];
     [self.navigationController pushViewController:warningsListViewController animated:YES];
+    [warningsListViewController populateWarningsListWithWarnings:warningsArray showOverrideView:YES];
 }
 
 #pragma mark - UITableView Methods
@@ -192,7 +213,6 @@
     
     static NSString *cellIdentifier = MEDICATION_LIST_CELL_IDENTIFIER;
     DCMedicationListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-//    cell.layoutMargins = UIEdgeInsetsZero;
     if (cell == nil) {
         cell = [[DCMedicationListTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
@@ -208,10 +228,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    tableView.userInteractionEnabled = NO;// to disable  multiple selection
+    [self.view endEditing:YES];
     if ([[medicationListArray objectAtIndex:indexPath.row] isKindOfClass:[DCMedication class]]) {
         DCMedication *medication = [medicationListArray objectAtIndex:indexPath.row];
         [self callWarningsWebServiceForMedication:medication];
-        //[self dismissViewControllerAnimated:YES completion:nil];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

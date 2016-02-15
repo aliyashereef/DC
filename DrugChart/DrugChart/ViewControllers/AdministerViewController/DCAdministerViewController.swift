@@ -58,7 +58,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     var medicationSlot : DCMedicationSlot?
     var medicationDetails : DCMedicationScheduleDetails?
-    var medicationSlotsArray : [DCMedicationSlot] = []
+    var medicationSlotsArray : [DCMedicationSlot] = [DCMedicationSlot]()
     var usersListWebService : DCUsersListWebService?
     var statusCellSelected : Bool = false
     var userListArray : NSMutableArray? = []
@@ -73,7 +73,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     var saveClicked : Bool = false
     var patientId : NSString = EMPTY_STRING
     var helper : DCSwiftObjCNavigationHelper = DCSwiftObjCNavigationHelper.init()
-
+    var status : NSString?
     
     override func viewDidLoad() {
         
@@ -92,6 +92,10 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     override func viewDidAppear(animated: Bool) {
         super.viewWillAppear(animated)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
     }
     
     override func didReceiveMemoryWarning() {
@@ -142,8 +146,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         // Navigation bar done button
         saveButton = UIBarButtonItem(title: "Save", style: UIBarButtonItemStyle.Plain, target: self, action: "saveButtonPressed")
         cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: "cancelButtonPressed")
-        self.navigationItem.leftBarButtonItems = [cancelButton!]
-        self.navigationItem.rightBarButtonItems = [saveButton!]
+        self.navigationItem.leftBarButtonItem = cancelButton
+        self.navigationItem.rightBarButtonItem = saveButton
     }
 
     func addNotifications() {
@@ -190,8 +194,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func checkIfFrequentAdministrationForWhenRequiredMedication () {
         
         //check if frequent administration for when required medication
-        if (medicationSlotsArray.count > 0) {
-            let previousMedicationSlot : DCMedicationSlot? = medicationSlotsArray.last
+        if medicationSlotsArray.count > 1 {
+            let previousMedicationSlot : DCMedicationSlot? = medicationSlotsArray[medicationSlotsArray.count - 2]
             let currentSystemDate : NSDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
             let nextMedicationTimeInterval : NSTimeInterval? = currentSystemDate.timeIntervalSinceDate((previousMedicationSlot?.time)!)
             if (nextMedicationTimeInterval <= 2*60*60) {
@@ -201,6 +205,9 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 medicationSlot?.medicationAdministration.isEarlyAdministration = false
                 medicationSlot?.medicationAdministration.isWhenRequiredEarlyAdministration = false
             }
+        } else {
+            medicationSlot?.medicationAdministration.isEarlyAdministration = false
+            medicationSlot?.medicationAdministration.isWhenRequiredEarlyAdministration = false
         }
     }
     
@@ -251,7 +258,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             if indexPath.row == RowCount.eZerothRow.rawValue {
                 administerCell = populatedMedicationStatusTableCellAtIndexPath(administerCell, indexPath: indexPath);
             } else {
-                if (medicationSlot?.medicationAdministration?.status == ADMINISTERED) {
+                if (medicationSlot?.medicationAdministration?.status == ADMINISTERED || medicationSlot?.medicationAdministration?.status == STARTED) {
                     administerCell = populatedMedicationDetailsCellForAdministeredStatus(administerCell, indexPath: indexPath)
                 }
                 else if (medicationSlot?.medicationAdministration?.status == REFUSED) {
@@ -376,9 +383,9 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func presentAdministratedStatusPopOverAtIndexPath (indexPath : NSIndexPath) {
         
         let statusViewController : DCAdministrationStatusTableViewController? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(STATUS_LIST_VIEW_SB_ID) as? DCAdministrationStatusTableViewController
-        statusViewController?.namesArray = [ADMINISTERED, REFUSED , OMITTED]
         statusViewController?.previousSelectedValue = medicationSlot?.medicationAdministration?.status
         statusViewController?.medicationStatusDelegate = self
+        statusViewController?.status = self.status as! String
         statusViewController?.title = NSLocalizedString("STATUS", comment: "")
         self.navigationController!.pushViewController(statusViewController!, animated: true)
     }
@@ -393,6 +400,15 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         }
         pickerCell?.delegate = self
         return pickerCell!
+    }
+    
+    func isMedicationDurationBasedInfusion () -> Bool {
+        // T0 Do : This is a temporary method to implement the status display for the duration based infusion , when the API gets updated - modifications needed.
+        if (medicationDetails?.route == "Subcutaneous" || medicationDetails?.route == "Intravenous"){
+            return true
+        } else {
+            return false
+        }
     }
     
     func populatedAdministeredTableViewCellAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
@@ -446,7 +462,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         
         if (indexPath.section == SectionCount.eSecondSection.rawValue) {
             let notesCell : DCNotesTableCell = notesTableCellAtIndexPath(indexPath)
-            notesCell.notesType = eReason
+            notesCell.notesType = eReason 
             notesCell.notesTextView.textColor = (!isValid && medicationSlot?.medicationAdministration?.isEarlyAdministration == true) ? UIColor.redColor() : UIColor(forHexString: "#8f8f95")
             if let notes =  medicationSlot?.medicationAdministration.refusedNotes {
                 notesCell.notesTextView.text = notes
@@ -580,10 +596,12 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
 
             if (medicationSlot?.medicationAdministration?.status == OMITTED) {
                 return OMITTED_SECTION_COUNT;
-            } else if (medicationSlot?.medicationAdministration?.status == ADMINISTERED) {
+            } else if (medicationSlot?.medicationAdministration?.status == ADMINISTERED || medicationSlot?.medicationAdministration?.status == STARTED) {
                 return ADMINISTERED_SECTION_COUNT;
             } else if (medicationSlot?.medicationAdministration?.status == REFUSED){
                 return REFUSED_SECTION_COUNT;
+            }else if (status == IN_PROGRESS){
+                return 3
             }else {
                 return 2
             }
@@ -602,11 +620,13 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 if (hasInlineDatePicker()) {
                     rowCount++
                 }
-            }else if (medicationSlot?.medicationAdministration?.status == ADMINISTERED){
+            }else if (medicationSlot?.medicationAdministration?.status == ADMINISTERED || medicationSlot?.medicationAdministration?.status == STARTED){
                 rowCount = ADMINISTERED_SECTION_ROW_COUNT
                 if (hasInlineDatePicker()) {
                     rowCount++
                 }
+            } else if (status == IN_PROGRESS){
+                rowCount == 1
             }
             return rowCount
         case SectionCount.eSecondSection.rawValue:
@@ -622,38 +642,74 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0 :
-            let cell = administerTableView.dequeueReusableCellWithIdentifier("MedicationDetailsTableViewCell") as? DCMedicationDetailsTableViewCell
-            if let _ = medicationDetails {
-                cell!.configureMedicationDetails(medicationDetails!)
+            if self.isMedicationDurationBasedInfusion() {
+                let cell = administerTableView.dequeueReusableCellWithIdentifier("DurationBasedInfusionCell") as? DCDurationBasedMedicationDetailsCell
+                if let _ = medicationDetails {
+                    cell!.configureMedicationDetails(medicationDetails!)
+                }
+                return cell!
+            } else {
+                let cell = administerTableView.dequeueReusableCellWithIdentifier("MedicationDetailsTableViewCell") as? DCMedicationDetailsTableViewCell
+                if let _ = medicationDetails {
+                    cell!.configureMedicationDetails(medicationDetails!)
+                }
+                return cell!
             }
-            return cell!
         default:
-                if (medicationSlot?.medicationAdministration.status == ADMINISTERED) {
+                if (medicationSlot?.medicationAdministration?.status == ADMINISTERED || medicationSlot?.medicationAdministration?.status == STARTED) {
                     //configure tablecells for medication status administered
                     let administeredTableCell = populatedAdministeredTableViewCellAtIndexPath(indexPath)
                     saveButton?.enabled = true
                     return administeredTableCell
-                } else if (medicationSlot?.medicationAdministration.status == OMITTED) {
+                } else if (medicationSlot?.medicationAdministration?.status == OMITTED) {
                     let omittedTableCell = populatedOmittedTableViewCellAtIndexPath(indexPath)
                     saveButton?.enabled = true
                     return omittedTableCell
-                } else if (medicationSlot?.medicationAdministration.status == REFUSED){
+                } else if (medicationSlot?.medicationAdministration?.status == REFUSED){
                     //refused status
                     let refusedTableCell = populatedRefusedTableCellAtIndexPath(indexPath)
                     saveButton?.enabled = true
                     return refusedTableCell
-                } else {
-                    let administerCell : DCAdministerCell = (administerTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
-                    administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
-                    administerCell.titleLabel.text = NSLocalizedString("STATUS", comment: "status title text")
-                    administerCell.detailLabel.text = EMPTY_STRING
-                    if(saveClicked == true && medicationSlot?.medicationAdministration.status == nil) {
-                        administerCell.titleLabel.textColor = UIColor.redColor()
-                    } else {
-                        saveButton?.enabled = false
-                        administerCell.titleLabel.textColor = UIColor(forHexString: "#676767")
+                } else if (medicationSlot?.medicationAdministration?.status == ENDED || medicationSlot?.medicationAdministration?.status == PAUSED){
+                    var administerCell : DCAdministerCell = (administerTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
+                    if indexPath.section == eSecondSection.rawValue {
+                        administerCell = populatedMedicationStatusTableCellAtIndexPath(administerCell, indexPath: indexPath);
+                        return administerCell
+                    } else if indexPath.section == eFirstSection.rawValue {
+                        let administerCell : DCProgressSliderCell = (administerTableView.dequeueReusableCellWithIdentifier("progressSliderCell") as? DCProgressSliderCell)!
+                        administerCell.medication = medicationSlot
+                        administerCell.addStartDateView()
+                        return administerCell
                     }
                     return administerCell
+                } else {
+                    if (indexPath.section == 1 && status == IN_PROGRESS){
+                        //progressSliderCell
+                        let administerCell : DCProgressSliderCell = (administerTableView.dequeueReusableCellWithIdentifier("progressSliderCell") as? DCProgressSliderCell)!
+                        administerCell.medication = medicationSlot
+                        administerCell.addStartDateView()
+                        return administerCell
+                    } else {
+                        let administerCell : DCAdministerCell = (administerTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
+                        if ((status == IN_PROGRESS && indexPath.section == eSecondSection.rawValue)) {
+                            administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+                            if self.isMedicationDurationBasedInfusion() && status == IN_PROGRESS {
+                                administerCell.titleLabel.text = "Status Change"
+                            } else {
+                                administerCell.titleLabel.text = NSLocalizedString("STATUS", comment: "status title text")
+                            }
+                            administerCell.detailLabel.text = EMPTY_STRING
+                            if(saveClicked == true && medicationSlot?.medicationAdministration?.status == nil) {
+                                administerCell.titleLabel.textColor = UIColor.redColor()
+                            } else {
+                                saveButton?.enabled = false
+                                administerCell.titleLabel.textColor = UIColor(forHexString: "#676767")
+                            }
+                        } else if (status != IN_PROGRESS){
+                            administerCell.titleLabel.text = NSLocalizedString("STATUS", comment: "status title text")
+                        }
+                        return administerCell
+                    }
             }
         }
     }
@@ -677,12 +733,15 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         case SectionCount.eZerothSection.rawValue:
             return UITableViewAutomaticDimension
         case SectionCount.eFirstSection.rawValue :
+            if (status == IN_PROGRESS){
+                return 60
+            }
             if indexPath.row == RowCount.eZerothRow.rawValue {
                 return TABLE_CELL_DEFAULT_HEIGHT
             } else {
                 if (medicationSlot?.medicationAdministration.status == OMITTED) {
                     return NOTES_CELL_HEIGHT
-                } else if (medicationSlot?.medicationAdministration.status == ADMINISTERED) {
+                } else if (medicationSlot?.medicationAdministration.status == ADMINISTERED || medicationSlot?.medicationAdministration?.status == STARTED) {
                     return (indexPath.row == RowCount.eThirdRow.rawValue && hasInlineDatePicker()) ? DATE_PICKER_VIEW_CELL_HEIGHT : TABLE_CELL_DEFAULT_HEIGHT
                 } else {
                     //refused status
@@ -694,7 +753,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                 return NOTES_CELL_HEIGHT
             }else if (medicationSlot?.medicationAdministration.status == OMITTED) {
                 return NOTES_CELL_HEIGHT
-            }  else {
+            } else {
                 return TABLE_CELL_DEFAULT_HEIGHT
             }
         case SectionCount.eThirdSection.rawValue:
@@ -709,16 +768,22 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         let sectionCount : NSInteger = numberOfSectionsInTableView(tableView)
         let administerHeaderView = NSBundle.mainBundle().loadNibNamed(ADMINISTER_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCAdministerTableHeaderView
         administerHeaderView!.timeLabel.hidden = true
-        if (section == sectionCount - 1 && sectionCount != 2) {
-                if (medicationSlot?.medicationAdministration?.isEarlyAdministration == true) {
-                    if (medicationSlot?.medicationAdministration?.isWhenRequiredEarlyAdministration == true) {
-                        let errorMessage = NSString(format: "%@ %@", NSLocalizedString("ADMIN_FREQUENCY", comment: "when required new medication is given 2 hrs before previous one"), NSLocalizedString("EARLY_ADMIN_INLINE", comment: ""))
-                        administerHeaderView?.populateHeaderViewWithErrorMessage(errorMessage as String)
-                    } else {
-                        administerHeaderView?.populateHeaderViewWithErrorMessage(NSLocalizedString("EARLY_ADMIN_INLINE", comment: "early administration when medication is attempted 1 hr before scheduled time"))
-                    }
+        if (section == sectionCount - 1 && sectionCount != 2 && status != IN_PROGRESS) {
+            if (medicationSlot?.medicationAdministration.status == OMITTED){
+                let errorMessage = NSString(format: "%@", NSLocalizedString("OMMITED_REQUIRE_REASON", comment:""))
+                administerHeaderView?.populateHeaderViewWithErrorMessage(errorMessage as String)
+                return administerHeaderView
+            }
+            if (medicationSlot?.medicationAdministration?.isEarlyAdministration == true) {
+                if (medicationSlot?.medicationAdministration?.isWhenRequiredEarlyAdministration == true) {
+                    let errorMessage = NSString(format: "%@ %@", NSLocalizedString("ADMIN_FREQUENCY", comment: "when required new medication is given 2 hrs before previous one"), NSLocalizedString("EARLY_ADMIN_INLINE", comment: ""))
+                    administerHeaderView?.populateHeaderViewWithErrorMessage(errorMessage as String)
+                    return administerHeaderView
+                } else {
+                    administerHeaderView?.populateHeaderViewWithErrorMessage(NSLocalizedString("EARLY_ADMIN_INLINE", comment: "early administration when medication is attempted 1 hr before scheduled time"))
                     return administerHeaderView
                 }
+            }
         }
         return nil
     }
@@ -726,25 +791,49 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 
         administerTableView.deselectRowAtIndexPath(indexPath, animated: true)
+        administerTableView.resignFirstResponder()
         if (indexPath.section == SectionCount.eZerothSection.rawValue) {
             addBNFView()
         }
-        if (indexPath.section == SectionCount.eFirstSection.rawValue) {
-            if indexPath.row == RowCount.eZerothRow.rawValue {
-                presentAdministratedStatusPopOverAtIndexPath(indexPath)
-            } else {
-                if (medicationSlot?.medicationAdministration.status == ADMINISTERED) {
-                    if (indexPath.row == RowCount.eSecondRow.rawValue) {
-                        displayInlineDatePickerForRowAtIndexPath(indexPath)
-                    } else {
-                        displayPrescribersAndAdministersViewAtIndexPath(indexPath)
-                    }
-                } else if (medicationSlot?.medicationAdministration.status == REFUSED) {
-                    if (indexPath.row == RowCount.eFirstRow.rawValue) {
-                        displayInlineDatePickerForRowAtIndexPath(indexPath)
+        
+        if status == IN_PROGRESS {
+            if (indexPath.section == SectionCount.eSecondSection.rawValue) {
+                if indexPath.row == RowCount.eZerothRow.rawValue {
+                    presentAdministratedStatusPopOverAtIndexPath(indexPath)
+                } else {
+                    if (medicationSlot?.medicationAdministration.status == ADMINISTERED || medicationSlot?.medicationAdministration?.status == STARTED) {
+                        if (indexPath.row == RowCount.eSecondRow.rawValue) {
+                            displayInlineDatePickerForRowAtIndexPath(indexPath)
+                        } else {
+                            displayPrescribersAndAdministersViewAtIndexPath(indexPath)
+                        }
+                    } else if (medicationSlot?.medicationAdministration.status == REFUSED) {
+                        if (indexPath.row == RowCount.eFirstRow.rawValue) {
+                            displayInlineDatePickerForRowAtIndexPath(indexPath)
+                        }
                     }
                 }
             }
+
+        } else {
+            if (indexPath.section == SectionCount.eFirstSection.rawValue) {
+                if indexPath.row == RowCount.eZerothRow.rawValue {
+                    presentAdministratedStatusPopOverAtIndexPath(indexPath)
+                } else {
+                    if (medicationSlot?.medicationAdministration.status == ADMINISTERED || medicationSlot?.medicationAdministration?.status == STARTED) {
+                        if (indexPath.row == RowCount.eSecondRow.rawValue) {
+                            displayInlineDatePickerForRowAtIndexPath(indexPath)
+                        } else {
+                            displayPrescribersAndAdministersViewAtIndexPath(indexPath)
+                        }
+                    } else if (medicationSlot?.medicationAdministration.status == REFUSED) {
+                        if (indexPath.row == RowCount.eFirstRow.rawValue) {
+                            displayInlineDatePickerForRowAtIndexPath(indexPath)
+                        }
+                    }
+                }
+            }
+
         }
     }
     
@@ -752,13 +841,18 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     // MARK: BatchNumberCellDelegate Methods
     
      func batchNumberFieldSelectedAtIndexPath(indexPath: NSIndexPath) {
-//        let pickerIndexPath :NSIndexPath = NSIndexPath(forRow: 3, inSection: 1)
-        if hasInlineDatePicker() {
-            self.administerTableView.setContentOffset(CGPointMake(0, 180), animated: true)
-        } else {
-            self.administerTableView.setContentOffset(CGPointMake(0, 110), animated: true)
-        }
+        let pickerIndexPath :NSIndexPath = NSIndexPath(forRow: 2, inSection: 1)
         editingIndexPath = indexPath
+        if hasInlineDatePicker() {
+            UIView.animateWithDuration(0.0, animations: {
+                self.displayInlineDatePickerForRowAtIndexPath(pickerIndexPath)
+                }, completion: {
+                    (value: Bool) in
+                    self.administerTableView.setContentOffset(CGPointMake(0,180), animated: true)
+            })
+        } else {
+            self.administerTableView.setContentOffset(CGPointMake(0,180), animated: true)
+        }
     }
     
     func enteredBatchDetails(batch : String) {
@@ -771,19 +865,29 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func notesSelected(editing : Bool, withIndexPath indexPath : NSIndexPath) {
         
         editingIndexPath = indexPath
-        if(medicationSlot?.medicationAdministration?.status == ADMINISTERED) {
-            if hasInlineDatePicker(){
-                self.administerTableView.setContentOffset(CGPointMake(0, 320), animated: true)
-            } else {
-                self.administerTableView.setContentOffset(CGPointMake(0, 180), animated: true)
-            }
+        var pickerIndexPath :NSIndexPath
+        if(self.medicationSlot?.medicationAdministration?.status == ADMINISTERED || medicationSlot?.medicationAdministration?.status == STARTED) {
+            pickerIndexPath = NSIndexPath(forRow: 2, inSection: 1)
         } else {
-            if hasInlineDatePicker(){
-                self.administerTableView.setContentOffset(CGPointMake(0, 180), animated: true)
-            } else {
-                self.administerTableView.setContentOffset(CGPointMake(0, 80), animated: true)
-            }
+            pickerIndexPath = NSIndexPath(forRow: 1, inSection: 1)
         }
+        if hasInlineDatePicker() {
+            UIView.animateWithDuration(0.0, animations: {
+                self.displayInlineDatePickerForRowAtIndexPath(pickerIndexPath)
+                }, completion: {
+                    (value: Bool) in
+                    if(self.medicationSlot?.medicationAdministration?.status == ADMINISTERED || self.medicationSlot?.medicationAdministration?.status == STARTED) {
+                        self.administerTableView.setContentOffset(CGPointMake(0, 300), animated: true)
+                    } else {
+                        self.administerTableView.setContentOffset(CGPointMake(0, 100), animated: true)
+                    }
+            })
+        } else {
+            if(self.medicationSlot?.medicationAdministration?.status == ADMINISTERED || medicationSlot?.medicationAdministration?.status == STARTED) {
+                self.administerTableView.setContentOffset(CGPointMake(0, 300), animated: true)
+            } else {
+                self.administerTableView.setContentOffset(CGPointMake(0, 100), animated: true)
+            }        }
         if (editing == true && keyboardHeight != nil) {
             //animateAdministerTableViewUpWhenKeyboardShows()
         }
@@ -791,16 +895,17 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     
     func enteredNote(note : String) {
         
-        if(medicationSlot?.medicationAdministration?.status == ADMINISTERED) {
+        if(medicationSlot?.medicationAdministration?.status == ADMINISTERED || medicationSlot?.medicationAdministration?.status == STARTED) {
             medicationSlot?.medicationAdministration?.administeredNotes = note
         } else if (medicationSlot?.medicationAdministration?.status == REFUSED) {
             medicationSlot?.medicationAdministration?.refusedNotes = note
         } else {
             medicationSlot?.medicationAdministration?.omittedNotes = note
         }
+        self.administerTableView.setContentOffset(CGPointMake(0, 0), animated: true)
     }
     
-    // mark :StatusList Delegate Methods 
+    // mark:StatusList Delegate Methods
     
     func selectedMedicationStatusEntry(status: String!) {
         saveClicked = false
@@ -811,6 +916,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             medicationSlot?.medicationAdministration.status = REFUSED
         } else if status == OMITTED{
             medicationSlot?.medicationAdministration.status = OMITTED
+        }else {
+            medicationSlot?.medicationAdministration.status = status
         }
         administerTableView .reloadData()
     }
@@ -851,11 +958,14 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     // MARK:AdministerPickerCellDelegate Methods
     
     func newDateValueSelected(newDate : NSDate) {
-        
         if (datePickerIndexPath != nil) {
-            if (datePickerIndexPath?.row == RowCount.eFirstRow.rawValue || datePickerIndexPath?.row == RowCount.eSecondRow.rawValue) {
+            if (datePickerIndexPath?.row == RowCount.eThirdRow.rawValue || datePickerIndexPath?.row == RowCount.eSecondRow.rawValue) {
                 medicationSlot?.medicationAdministration.actualAdministrationTime = newDate
-                administerTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow:datePickerIndexPath!.row - 1, inSection: datePickerIndexPath!.section)], withRowAnimation: UITableViewRowAnimation.None)
+                if medicationSlot?.medicationAdministration.status == ADMINISTERED || medicationSlot?.medicationAdministration?.status == STARTED {
+                    administerTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow:RowCount.eSecondRow.rawValue, inSection: datePickerIndexPath!.section)], withRowAnimation: UITableViewRowAnimation.None)
+                } else {
+                    administerTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow:RowCount.eFirstRow.rawValue, inSection: datePickerIndexPath!.section)], withRowAnimation: UITableViewRowAnimation.None)
+                }
             }
         }
     }
@@ -967,13 +1077,22 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         administerDictionary.setValue(scheduledDateString, forKey:SCHEDULED_ADMINISTRATION_TIME)
         let dateFormatter : NSDateFormatter = NSDateFormatter.init()
         dateFormatter.dateFormat = EMIS_DATE_FORMAT
+        dateFormatter.timeZone = NSTimeZone.init(name:"UTC")
         if (medicationSlot?.medicationAdministration?.actualAdministrationTime != nil) {
-            let administeredDateString : NSString = dateFormatter.stringFromDate((medicationSlot?.medicationAdministration?.actualAdministrationTime)!)
+            let administeredDateString : NSString = dateFormatter.stringFromDate((DCDateUtility.dateInCurrentTimeZone(medicationSlot?.medicationAdministration?.actualAdministrationTime)!))
             administerDictionary.setValue(administeredDateString, forKey:ACTUAL_ADMINISTRATION_TIME)
         } else {
-            administerDictionary.setValue(dateFormatter.stringFromDate(NSDate()), forKey:ACTUAL_ADMINISTRATION_TIME)
+            medicationSlot?.medicationAdministration?.actualAdministrationTime = DCDateUtility.dateInCurrentTimeZone(NSDate())
+            let administeredDateString : NSString = dateFormatter.stringFromDate((medicationSlot?.medicationAdministration?.actualAdministrationTime)!)
+            administerDictionary.setValue(administeredDateString, forKey:ACTUAL_ADMINISTRATION_TIME)
         }
-        administerDictionary.setValue(medicationSlot?.medicationAdministration?.status, forKey: ADMINISTRATION_STATUS)
+        // To Do : for the sake of display of infusions , untill the API gets updated, this value need to be changed dynamic.
+        var adminStatus = medicationSlot?.medicationAdministration?.status
+        if (adminStatus == STARTED) {
+            medicationSlot?.medicationAdministration?.status = IN_PROGRESS
+            adminStatus = ADMINISTERED
+        }
+        administerDictionary.setValue(adminStatus, forKey: ADMINISTRATION_STATUS)
         if let administratingStatus : Bool = medicationSlot?.medicationAdministration?.isSelfAdministered.boolValue {
             if administratingStatus == false {
                 administerDictionary.setValue(medicationSlot?.medicationAdministration?.administratingUser!.userIdentifier, forKey:"AdministratingUserIdentifier")
@@ -1002,11 +1121,18 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         administerMedicationWebService.administerMedicationForScheduleId((medicationDetails?.scheduleId)! as String, forPatientId:patientId as String , withParameters:parameterDictionary as [NSObject : AnyObject]) { (array, error) -> Void in
             self.activityIndicator.stopAnimating()
             if error == nil {
-                let presentingViewController = self.presentingViewController
+                let presentingViewController = self.presentingViewController as! UINavigationController
+                let parentView = presentingViewController.presentingViewController as! UINavigationController
+                let prescriberMedicationListViewController : DCPrescriberMedicationViewController = parentView.viewControllers.last as! DCPrescriberMedicationViewController
+                let administationViewController : DCAdministrationViewController = presentingViewController.viewControllers.last as! DCAdministrationViewController
+                administationViewController.activityIndicatorView.startAnimating()
                 self.dismissViewControllerAnimated(true, completion: {
-                    presentingViewController!.dismissViewControllerAnimated(true, completion:nil)
+                    self.helper.reloadPrescriberMedicationHomeViewControllerWithCompletionHandler({ (Bool) -> Void in
+                        prescriberMedicationListViewController.medicationSlotArray = self.medicationSlotsArray
+                        prescriberMedicationListViewController.reloadAdministrationScreenWithMedicationDetails()
+                        administationViewController.activityIndicatorView.stopAnimating()
+                    })
                 })
-                self.helper.reloadPrescriberMedicationHomeViewController()
             } else {
                 if Int(error.code) == Int(NETWORK_NOT_REACHABLE) {
                     self.displayAlertWithTitle("ERROR", message: NSLocalizedString("INTERNET_CONNECTION_ERROR", comment:""))
@@ -1032,7 +1158,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     // Return the note string based on the administrating status
     func administrationNotesBasedOnMedicationStatus (status : NSString) -> NSString{
         var noteString : NSString = EMPTY_STRING
-        if (status == ADMINISTERED || status == SELF_ADMINISTERED)  {
+        if (status == ADMINISTERED || status == SELF_ADMINISTERED || status == STARTED)  {
             if let administeredNotes = self.medicationSlot?.medicationAdministration?.administeredNotes {
                 noteString = administeredNotes
             }
@@ -1067,7 +1193,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         if (self.medicationSlot?.medicationAdministration?.isEarlyAdministration == true) {
             
             //early administration condition
-            if (medicationStatus == ADMINISTERED) {
+            if (medicationStatus == ADMINISTERED || medicationStatus == STARTED) {
                 //administered medication status
                 let notes : String? = self.medicationSlot?.medicationAdministration?.administeredNotes
                 if (notes == EMPTY_STRING || notes == nil) {

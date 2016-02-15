@@ -18,6 +18,7 @@ class DCNotesTableCell: UITableViewCell, UITextViewDelegate {
 
     @IBOutlet weak var notesTextView: UITextView!
     
+    var noteType : NSString?
     var notesType : NotesType?
     var delegate: NotesCellDelegate?
     var selectedIndexPath : NSIndexPath?
@@ -32,7 +33,6 @@ class DCNotesTableCell: UITableViewCell, UITextViewDelegate {
         // Configure the view for the selected state
     }
     
-    //func textViewDidBeginEditing(textView: UITextView) {
     func textViewShouldBeginEditing(textView: UITextView) -> Bool {
         
         if let delegate = self.delegate {
@@ -45,24 +45,22 @@ class DCNotesTableCell: UITableViewCell, UITextViewDelegate {
         return true
     }
     
-    func textViewDidChange(textView: UITextView) {
+//    func textViewDidChange(textView: UITextView) {
+//        
+//        if (textView.text != hintText()) {
+//            if let delegate = self.delegate {
+//                delegate.enteredNote(textView.text)
+//            }
+//        }
+//    }
+    
+    func textViewDidEndEditing(textView: UITextView) {
         
         if (textView.text != hintText()) {
             if let delegate = self.delegate {
                 delegate.enteredNote(textView.text)
             }
         }
-    }
-    
-    func textViewDidEndEditing(textView: UITextView) {
-        
-        if let delegate = self.delegate {
-            delegate.enteredNote(textView.text)
-        }
-        if let delegate = self.delegate {
-            delegate.notesSelected(false, withIndexPath: selectedIndexPath!)
-        }
-
         if (textView.text == EMPTY_STRING) {
             textView.textColor = UIColor(forHexString: "#8f8f95")
             textView.text = hintText()
@@ -73,10 +71,14 @@ class DCNotesTableCell: UITableViewCell, UITextViewDelegate {
         
         //initial hint text in table cell
         var hint : String
-        if (notesType! == eNotes) {
-            hint = NSLocalizedString("NOTES", comment: "notes hint")
+        if let _ = notesType {
+            if (notesType! == eNotes) {
+                hint = NSLocalizedString("NOTES", comment: "notes hint")
+            } else {
+                hint = NSLocalizedString("REASON" , comment: "reason hint")
+            }
         } else {
-            hint = NSLocalizedString("REASON" , comment: "reason hint")
+            hint = self.noteType as! String
         }
         return hint
     }

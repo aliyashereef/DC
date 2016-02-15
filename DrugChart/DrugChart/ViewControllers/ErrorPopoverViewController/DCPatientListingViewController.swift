@@ -41,6 +41,7 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
     let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
     
     var wardsInformationViewController : DCWardsInformationsViewController?
+   // var wardsGraphicalDisplayViewController : DCWardsGraphicalDisplayViewController?
     
     @IBOutlet var messageLabel: UILabel!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
@@ -52,15 +53,14 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
         addSearchBar()
         addRefreshControl()
         accessParentViewController()
-        
+        cancelSearching()
+        configureSearchBarViewProperties()
+        self.patientListTableView.reloadData()        
     }
     
     override func viewWillAppear(animated: Bool) {
         
         super.viewWillAppear(animated)
-        cancelSearching()
-        configureSearchBarViewProperties()
-        self.patientListTableView.reloadData()
         self.messageLabel.hidden = true
         patientListTableView.tableFooterView = UIView(frame: CGRectZero)
         patientListTableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
@@ -81,13 +81,14 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
     
     func configureSearchBarViewProperties() {
         if isSearching {
+            patientListTableView.contentOffset = CGPointZero
             patientListTableView.setContentOffset(CGPointZero, animated: false)
             patientListTableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
         } else {
             searchBar.text = EMPTY_STRING
             self.performSelector("hideSearchBar", withObject:nil , afterDelay:0.0)
         }
-        self.viewDidLayoutSubviews()
+//        self.viewDidLayoutSubviews()
     }
     
 //    func configureNavigationBar() {
@@ -117,7 +118,7 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
         if searchBar.isFirstResponder() {
             searchBar.resignFirstResponder()
         }
-        patientListTableView.setContentOffset(CGPointMake(0,-20), animated: false)
+        patientListTableView.contentOffset = CGPoint(x: 0, y: 60)
     }
     
     func addSearchBar () {
@@ -152,7 +153,9 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
     func refreshControlAction () {
         
         cancelSearching()
-        fetchPatientDetails()
+        if appDelegate.isNetworkReachable() {
+            fetchPatientDetails()
+        }
     }
     
     //MARK: Table view methods
@@ -399,7 +402,7 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
     func presentGraphicalWardsView () {
         
         var wardsGraphicalDisplayViewController : DCWardsGraphicalDisplayViewController
-        wardsGraphicalDisplayViewController = self.storyboard!.instantiateViewControllerWithIdentifier(WARDS_GRAPHICAL_DISPLAY_VC_SB_ID) as! DCWardsGraphicalDisplayViewController
+        wardsGraphicalDisplayViewController = (self.storyboard!.instantiateViewControllerWithIdentifier(WARDS_GRAPHICAL_DISPLAY_VC_SB_ID) as? DCWardsGraphicalDisplayViewController)!
         wardsGraphicalDisplayViewController.bedsArray = self.bedsArray
         wardsGraphicalDisplayViewController.wardDisplayed = self.wardsListArray.objectAtIndex(selectedIndexPath.row) as! DCWard
         
@@ -412,7 +415,9 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
     func newWardSelected(row: NSInteger) {
         cancelSearching()
         selectedIndexPath = NSIndexPath.init(forRow: row, inSection: 0)
-        fetchPatientDetails()
+        if appDelegate.isNetworkReachable() {
+            fetchPatientDetails()
+        }
     }
     
     //MARK: Search Bar Delegate Methods 
@@ -463,7 +468,7 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
                     self.wardsInformationViewController!.patientListArray = array as NSMutableArray
                     self.wardsInformationViewController!.bedsArray = bedsArray as NSMutableArray
                     self.wardsInformationViewController!.sortedPatientListArray = self.sortedArray(self.patientListArray)
-//                    self.wardsInformationViewController!.fillNavigationBarTitle()
+                    self.wardsInformationViewController!.reloadGraphicalView()
                 }
             }
             self.activityIndicator.stopAnimating()
@@ -471,7 +476,10 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
     }
     
     func fetchPatientDetails () {
+        
         let helper : DCPatientDetailsHelper = DCPatientDetailsHelper()
+        self.wardsInformationViewController?.view.bringSubviewToFront((self.wardsInformationViewController?.activityIndicatorView)!)
+        self.wardsInformationViewController?.activityIndicatorView.startAnimating()
         self.activityIndicator.startAnimating()
         helper.fetchPatientsInWard(wardsListArray.objectAtIndex(selectedIndexPath.row) as! DCWard) { (error, array) -> Void in
             if error == nil {
@@ -487,10 +495,11 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
                     self.navigationItem.rightBarButtonItem?.enabled = false
                     self.messageLabel.hidden = false
                 } else {
-                        self.displayAlertWithTitle(NSLocalizedString("ERROR", comment: ""), message:NSLocalizedString("INTERNET_CONNECTION_ERROR", comment: ""))
+                        self.displayAlertWithTitle(NSLocalizedString("ERROR", comment: ""), message:NSLocalizedString("FETCH_FAILED", comment: ""))
                 }
-                self.activityIndicator.stopAnimating()
             }
+            self.activityIndicator.stopAnimating()
+            self.wardsInformationViewController?.activityIndicatorView.stopAnimating()
             self.refreshControl.endRefreshing()
         }
     }

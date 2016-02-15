@@ -19,6 +19,7 @@ class DCDosageDetailPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerV
     var contentArray = [String]()
     var pickerCompletion: SelectedPickerValue = { value in }
     var selectedContent : String = ""
+    var changeOver : String = ""
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -35,6 +36,19 @@ class DCDosageDetailPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerV
         pickerType = type
         populateContentArrays()
         pickerView.reloadAllComponents()
+    }
+    
+    func currentValueForPickerCell (type : PickerType) {
+        
+        if (pickerType! == eReducingIncreasingType) {
+            
+            selectedContent = reducingIncreasingArray[pickerView.selectedRowInComponent(0)]
+            pickerCompletion(selectedContent)
+        } else {
+            
+            selectedContent = daysCount[pickerView.selectedRowInComponent(0)]
+            pickerCompletion(selectedContent)
+        }
     }
     
     func populateContentArrays() {
@@ -88,7 +102,7 @@ class DCDosageDetailPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerV
                 displayString = String(contentArray[row])
             } else {
                 
-                displayString = DAYS
+                displayString = changeOver.lowercaseString
             }
         }
         return displayString
@@ -105,6 +119,5 @@ class DCDosageDetailPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerV
             selectedContent = daysCount[pickerView.selectedRowInComponent(0)]
             pickerCompletion(selectedContent)
         }
-        print(pickerView.selectedRowInComponent(0))
     }
 }

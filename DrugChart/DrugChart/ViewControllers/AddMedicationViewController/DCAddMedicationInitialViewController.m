@@ -16,9 +16,10 @@
 #import "DCAddMedicationHelper.h"
 #import "DCAddMedicationWebService.h"
 #import "DCAddMedicationWebServiceManager.h"
+#import "DCInfusion.h"
 #import "DrugChart-Swift.h"
 
-@interface DCAddMedicationInitialViewController () <UITableViewDelegate, UITableViewDataSource, AddMedicationDetailDelegate,InstructionCellDelegate, NewDosageValueEntered> {
+@interface DCAddMedicationInitialViewController () <UITableViewDelegate, UITableViewDataSource, AddMedicationDetailDelegate,InstructionCellDelegate, NewDosageValueEntered, RoutesDelegate> {
     
     __weak IBOutlet UITableView *medicationDetailsTableView;
     __weak IBOutlet UILabel *orderSetLabel;
@@ -30,7 +31,7 @@
     BOOL showWarnings;//to check if warnings section is displayed
     NSInteger dateAndTimeSection;
     BOOL isNewMedication; // to decide on whether the new medication is selected from list
-    
+    BOOL reviewDatePickerExpanded;
     DCDosageSelectionViewController *dosageSelectionViewController;
 }
 
@@ -46,8 +47,8 @@
     
     [super viewDidLoad];
     [self configureNavigationBar];
-    [self configureViewForEditMedicationState];
-    [self configureViewElements];
+    [self modifyViewForEditMedicationState];
+    [self configureContentSizeForView];
     medicationDetailsTableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
 }
 
@@ -59,16 +60,17 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    
     [super viewDidAppear:animated];
     [medicationDetailsTableView reloadData];
 }
 
 #pragma mark - Private Methods
 
-//configuring the add button and cancel button as navigation button items on the navigation bar.
-
 - (void)configureNavigationBar {
     
+    // navigation bar configuration includes adding save button(right), cancel button(left)
+    // and the title can be either Add Medication / Edit Medication.
     addButton = [[UIBarButtonItem alloc]
                                   initWithTitle:SAVE_BUTTON_TITLE style:UIBarButtonItemStylePlain  target:self action:@selector(addMedicationButtonPressed:)];
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:CANCEL_BUTTON_TITLE  style:UIBarButtonItemStylePlain target:self action:@selector(addMedicationCancelButtonPressed:)];
@@ -87,22 +89,23 @@
     self.navigationItem.rightBarButtonItem.enabled = false;
 }
 
-- (void)configureViewForEditMedicationState {
+- (void)modifyViewForEditMedicationState {
     
     if (self.isEditMedication) {
         self.segmentedContolTopLayoutViewHeight.constant = -VIEW_TOP_LAYOUT_VIEW_HEIGHT;
         if([self.selectedMedication.medicineCategory isEqualToString:WHEN_REQUIRED]){
             self.selectedMedication.medicineCategory = WHEN_REQUIRED_VALUE;
         }
+        self.selectedMedication.hasReviewDate = (self.selectedMedication.endDate == nil) ? NO : YES;
         self.selectedMedication.hasEndDate = (self.selectedMedication.endDate == nil) ? NO : YES;
         self.selectedMedication.timeArray = [DCAddMedicationHelper timesArrayFromScheduleArray:self.selectedMedication.scheduleTimesArray];
-        dateAndTimeSection = 2; //TODO: temporarily added as warnings are not displayed for the time being
+        dateAndTimeSection = 3; //TODO: temporarily added as warnings are not displayed for the time being
     }
 }
 
 //Setting the layout margins and seperator space for the table view to zero.
 
-- (void)configureViewElements {
+- (void)configureContentSizeForView {
     
     self.preferredContentSize = CGSizeMake(medicationDetailsTableView.contentSize.width, medicationDetailsTableView.frame.size.height);
     if ([self respondsToSelector:@selector(loadViewIfNeeded)]) {
@@ -110,9 +113,9 @@
     }
 }
 
-//Configuring the medication name cell in the medication detail table view.If the table view is loaded before the medication name is selected,it is loaded with the place holder string.
-
-- (UITableViewCell *)populatedMedicationNameTableCell {
+// Configures the medication name cell in the medication detail table view.
+// If the table view is loaded before the medication name is selected,it is loaded with the place holder string.
+- (UITableViewCell *)medicationNameTableViewCell {
     
     static NSString *cellIdentifier = ADD_MEDICATION_CELL_IDENTIFIER;
     UITableViewCell *cell = [medicationDetailsTableView dequeueReusableCellWithIdentifier:cellIdentifier];
@@ -122,10 +125,12 @@
     cell.textLabel.font = SYSTEM_FONT_SIZE_FIFTEEN;
     cell.textLabel.numberOfLines = 0;
     if ([self.selectedMedication.name isEqualToString:EMPTY_STRING] ||  self.selectedMedication.name == nil) {
+        // place holder string displayed.
         self.navigationItem.rightBarButtonItem.enabled = false;
         cell.textLabel.textColor = [UIColor colorForHexString:@"#8f8f95"];
         cell.textLabel.text = NSLocalizedString(@"MEDICATION_NAME", @"hint string");
     } else {
+        // otherwise the selecetd medication name is displayed in the cell.
         self.navigationItem.rightBarButtonItem.enabled = true;
         cell.textLabel.textColor = [UIColor blackColor];
         cell.textLabel.text = self.selectedMedication.name;
@@ -133,48 +138,51 @@
     return cell;
 }
 
-- (DCAddMedicationContentCell *)populatedAddMedicationCellForIndexPath:(NSIndexPath *)indexPath forCellType:(CellType)type {
-    
-    //configuring warning cell, medication details cell, administration time cell
+// Configures the warning cell, medication details cell, scheduling/frequency cell,
+// administration time cell, repeat cell.
+- (DCAddMedicationContentCell *)addMedicationCellAtIndexPath:(NSIndexPath *)indexPath
+                                                withCellType:(CellType)type {
+
     static NSString *cellIdentifier = ADD_MEDICATION_CONTENT_CELL;
     DCAddMedicationContentCell *cell = [medicationDetailsTableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil) {
         cell = [[DCAddMedicationContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
-    if (type == eWarningsCell) {
-        cell.titleLabel.text = NSLocalizedString(@"WARNINGS", @"Warnings cell title");
-        NSInteger warningsCount = self.selectedMedication.severeWarningCount + self.selectedMedication.mildWarningCount;
-        [cell configureMedicationContentCellWithWarningsCount:warningsCount];
-    } else if (type == eMedicationDetailsCell) {
-        cell = [self updatedMedicationDetailsCell:cell atIndexPath:indexPath];
-    } else if (type == eSchedulingCell) {
-        cell.titleLabel.text = NSLocalizedString(@"FREQUENCY", @"");
-        if (doneClicked) {
-            if ([DCAddMedicationHelper frequencyIsValidForSelectedMedication:self.selectedMedication]) {
-                cell.titleLabel.textColor = [UIColor blackColor];
-            } else {
-                cell.titleLabel.textColor = [UIColor redColor];
-            }
-        } else {
+    switch (type) {
+        case eWarningsCell: {
             cell.titleLabel.textColor = [UIColor blackColor];
+            cell.titleLabel.text = NSLocalizedString(@"WARNINGS", @"Warnings cell title");
+            NSInteger warningsCount = self.selectedMedication.severeWarningCount + self.selectedMedication.mildWarningCount;
+            [cell configureMedicationContentCellWithWarningsCount:warningsCount];
         }
-        NSMutableString *schedulingDescription = [[NSMutableString alloc] initWithString:EMPTY_STRING];
-        if ([self.selectedMedication.scheduling.type isEqualToString: SPECIFIC_TIMES] && self.selectedMedication.scheduling.specificTimes.specificTimesDescription != nil) {
-            schedulingDescription = [NSMutableString stringWithString:self.selectedMedication.scheduling.specificTimes.specificTimesDescription];
-        } else if ([self.selectedMedication.scheduling.type isEqualToString: INTERVAL] && self.selectedMedication.scheduling.interval.intervalDescription != nil) {
-            schedulingDescription = [NSMutableString stringWithString:self.selectedMedication.scheduling.interval.intervalDescription];
+            break;
+        case eMedicationDetailsCell: {
+            cell = [self updatedMedicationDetailsCell:cell atIndexPath:indexPath];
         }
-        if (![schedulingDescription isEqualToString:EMPTY_STRING] && schedulingDescription != nil) {
-            schedulingDescription = [NSMutableString stringWithString:[DCAddMedicationHelper considatedFrequencyDescriptionFromString:schedulingDescription]];
+            break;
+        case eSchedulingCell: {
+            cell.titleLabel.text = NSLocalizedString(@"FREQUENCY", @"");
+            if (doneClicked) {
+                if ([DCAddMedicationHelper frequencyIsValidForSelectedMedication:self.selectedMedication]) {
+                    cell.titleLabel.textColor = [UIColor blackColor];
+                } else {
+                    cell.titleLabel.textColor = [UIColor redColor];
+                }
+            } else {
+                cell.titleLabel.textColor = [UIColor blackColor];
+            }
+            NSMutableString *schedulingDescription = [[NSMutableString alloc] initWithString:EMPTY_STRING];
+            if ([self.selectedMedication.scheduling.type isEqualToString: SPECIFIC_TIMES] && self.selectedMedication.scheduling.specificTimes.specificTimesDescription != nil) {
+                schedulingDescription = [NSMutableString stringWithString:self.selectedMedication.scheduling.specificTimes.specificTimesDescription];
+            } else if ([self.selectedMedication.scheduling.type isEqualToString: INTERVAL] && self.selectedMedication.scheduling.interval.intervalDescription != nil) {
+                schedulingDescription = [NSMutableString stringWithString:self.selectedMedication.scheduling.interval.intervalDescription];
+            }
+            if (![schedulingDescription isEqualToString:EMPTY_STRING] && schedulingDescription != nil) {
+                schedulingDescription = [NSMutableString stringWithString:[DCAddMedicationHelper considatedFrequencyDescriptionFromString:schedulingDescription]];
+            }
+            [cell configureContentCellWithContent: schedulingDescription];
         }
-        cell.descriptionLabel.text = schedulingDescription;
-    } else if (type == eAdministratingTimeCell) {
-        cell.titleLabel.text = NSLocalizedString(@"ADMINISTRATING_TIME", @"");
-        [cell configureMedicationAdministratingTimeCell];
-        cell = [self updatedAdministrationTimeTableCell:cell];
-    } else if (type == eRepeatCell) {
-        cell.titleLabel.text = NSLocalizedString(@"REPEAT", @"");
-        [cell configureContentCellWithContent:self.selectedMedication.scheduling.specificTimes.repeatObject.repeatType];
+            break;
     }
     return cell;
 }
@@ -194,9 +202,71 @@
     return cell;
 }
 
-- (DCAddMedicationContentCell *)updatedMedicationDetailsCell:(DCAddMedicationContentCell *)cell
-                                                    atIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)reviewDateCellatIndexPath:(NSIndexPath *)indexPath {
     
+    switch (indexPath.row) {
+        case eZerothSection:{
+            DCDateTableViewCell *cell = [medicationDetailsTableView dequeueReusableCellWithIdentifier:kDateCellID];
+            //no end date cell configuration
+            cell.dateTypeLabel.text = NSLocalizedString(@"REVIEW_DATE", @"review date title");
+            cell.dateTypeLabel.textColor = [UIColor blackColor];
+            [cell configureCellWithReviewDateSwitchState:self.selectedMedication.hasReviewDate];
+            cell.accessoryType = UITableViewCellAccessoryNone;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.noEndDateStatus = ^ (BOOL state) {
+                if (state != self.selectedMedication.hasReviewDate) {
+                    if (_datePickerIndexPath != nil) {
+                        [self collapseOpenedPickerCell];
+                    }
+                    self.selectedMedication.hasReviewDate = state;
+                    [self performSelector:@selector(configureReviewDateTableCellDisplayBasedOnSwitchState) withObject:nil afterDelay:0.1];
+                }
+             };
+           // cell.previousSwitchState = self.selectedMedication.hasReviewDate;
+            return cell;
+        }
+        case eFirstSection:{
+            static NSString *cellIdentifier = ADD_MEDICATION_CONTENT_CELL;
+            DCAddMedicationContentCell *cell = [medicationDetailsTableView dequeueReusableCellWithIdentifier:cellIdentifier];
+            cell.titleLabel.text = NSLocalizedString(@"Review Frequency", @"Date cell title");
+            [cell configureContentCellWithContent:self.selectedMedication.reviewDate];
+            return cell;
+        }
+            break;
+        default:
+            break;
+    }
+    return nil;
+}
+
+- (void)configureReviewDateTableCellDisplayBasedOnSwitchState {
+    
+    //hide/show no date table cell
+    [self collapseOpenedPickerCell];
+    if (!self.selectedMedication.hasReviewDate) {
+        //hide tablecell
+        NSIndexPath *reviewDateIndexPath;
+        reviewDateIndexPath = [NSIndexPath indexPathForRow:1 inSection:eFirstSection];
+        NSMutableArray *indexpaths = [NSMutableArray arrayWithArray:@[reviewDateIndexPath]];
+        if (_datePickerIndexPath.row == (reviewDateIndexPath.row + 1)) {
+            [indexpaths addObject:_datePickerIndexPath];
+            _datePickerIndexPath = nil;
+        }
+        _selectedMedication.hasReviewDate = NO;
+        DCDateTableViewCell *tableCell = (DCDateTableViewCell *)[medicationDetailsTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:reviewDateIndexPath.section]];
+        [tableCell.noEndDateSwitch setUserInteractionEnabled:NO];
+        [self deleteReviewDateCellAfterDelay:tableCell withIndexPath:reviewDateIndexPath];
+    } else {
+        NSIndexPath *reviewDateIndexPath;
+        reviewDateIndexPath = [NSIndexPath indexPathForRow:1 inSection:eFirstSection];
+        DCDateTableViewCell *tableCell = (DCDateTableViewCell *)[medicationDetailsTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:eFirstSection]];
+        [tableCell.noEndDateSwitch setUserInteractionEnabled:NO];
+        [self insertReviewDateCellAfterDelay:tableCell withIndexPath:reviewDateIndexPath];
+    }
+}
+
+- (DCAddMedicationContentCell *)updatedMedicationDetailsCell:(DCAddMedicationContentCell *)cell
+                                                 atIndexPath:(NSIndexPath *)indexPath {
     //doneClicked bool checks if validation is to be done
     if (indexPath.row == ROUTE_INDEX) {
         //if route is not valid, highlight the field in red
@@ -217,14 +287,14 @@
     DCDateTableViewCell *cell = [medicationDetailsTableView dequeueReusableCellWithIdentifier:kDateCellID];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.isEditMedication = self.isEditMedication;
-    if(self.isEditMedication) {
-        cell.previousSwitchState = self.selectedMedication.hasEndDate;
-    }
+   // if(self.isEditMedication) {
+      //  cell.previousSwitchState = self.selectedMedication.hasEndDate;
+   // }
     if (cell == nil) {
         cell = [[DCDateTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kDateCellID];
     }
     if ([self.selectedMedication.medicineCategory isEqualToString:REGULAR_MEDICATION]) {
-        cell = [self regularMedicationUpdatedDateAndTimeCell:cell atIndexPath:indexPath];
+        cell = [self updatedRegularMedicationDateAndTimeCell:cell atIndexPath:indexPath];
     } else if ([self.selectedMedication.medicineCategory isEqualToString:ONCE_MEDICATION]) {
         cell = [self onceMedicationUpdatedDateAndTimeCell:cell atIndexPath:indexPath];
     } else {
@@ -233,7 +303,7 @@
     return cell;
 }
 
-- (DCDateTableViewCell *)regularMedicationUpdatedDateAndTimeCell:(DCDateTableViewCell *)dateAndTimeCell
+- (DCDateTableViewCell *)updatedRegularMedicationDateAndTimeCell:(DCDateTableViewCell *)dateAndTimeCell
                                                         atIndexPath:(NSIndexPath *)indexPath {
     
     //Date and time section table cells for regular medication
@@ -321,12 +391,17 @@
     [tableCell configureCellWithNoEndDateSwitchState:self.selectedMedication.hasEndDate];
     tableCell.accessoryType = UITableViewCellAccessoryNone;
     tableCell.selectionStyle = UITableViewCellSelectionStyleNone;
+   __weak DCDateTableViewCell *weakTableCell = tableCell;
     tableCell.noEndDateStatus = ^ (BOOL state) {
-        if (_datePickerIndexPath != nil) {
-            [self collapseOpenedPickerCell];
+        if (state != self.selectedMedication.hasEndDate) {
+            if (_datePickerIndexPath != nil) {
+                [self collapseOpenedPickerCell];
+            }
+            [weakTableCell.noEndDateSwitch setUserInteractionEnabled:NO];
+            self.selectedMedication.hasEndDate = state;
+           // [self performSelector:@selector(configureNoEndDateTableCellDisplayBasedOnSwitchState) withObject:nil afterDelay:0.1];
+            [self configureNoEndDateTableCellDisplayBasedOnSwitchState];
         }
-        self.selectedMedication.hasEndDate = state;
-        [self performSelector:@selector(configureNoEndDateTableCellDisplayBasedOnSwitchState) withObject:nil afterDelay:0.1];
     };
     return tableCell;
 }
@@ -335,32 +410,25 @@
 
     //hide/show no date table cell
     [self collapseOpenedPickerCell];
-    NSInteger dateSection = showWarnings? 3 : 2;
+    NSInteger dateSection = showWarnings? eFourthSection : eThirdSection;
+    NSIndexPath *endDateIndexPath;
+    if (_datePickerIndexPath.row == DATE_PICKER_INDEX_START_DATE) {
+        endDateIndexPath = [NSIndexPath indexPathForRow:3 inSection:dateSection];
+    } else {
+        endDateIndexPath = [NSIndexPath indexPathForRow:2 inSection:dateSection];
+    }
     if (!self.selectedMedication.hasEndDate) {
         //hide tablecell
-        NSIndexPath *endDateIndexPath;
-        if (_datePickerIndexPath.row == DATE_PICKER_INDEX_START_DATE) {
-            endDateIndexPath = [NSIndexPath indexPathForRow:3 inSection:dateSection];
-        } else {
-            endDateIndexPath = [NSIndexPath indexPathForRow:2 inSection:dateSection];
-        }
         NSMutableArray *indexpaths = [NSMutableArray arrayWithArray:@[endDateIndexPath]];
         if (_datePickerIndexPath.row == (endDateIndexPath.row + 1)) {
             [indexpaths addObject:_datePickerIndexPath];
             _datePickerIndexPath = nil;
         }
          DCDateTableViewCell *tableCell = (DCDateTableViewCell *)[medicationDetailsTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:endDateIndexPath.row - 1 inSection:endDateIndexPath.section]];
-        [tableCell.noEndDateSwitch setUserInteractionEnabled:NO];
+        //[tableCell.noEndDateSwitch setUserInteractionEnabled:NO];
         [self deleteEndDateCellAfterDelay:tableCell withEndDateIndexPath:endDateIndexPath];
     } else {
-        NSIndexPath *endDateIndexPath;
-        if (_datePickerIndexPath.row == DATE_PICKER_INDEX_START_DATE) {
-            endDateIndexPath = [NSIndexPath indexPathForRow:3 inSection:dateSection];
-        } else {
-            endDateIndexPath = [NSIndexPath indexPathForRow:2 inSection:dateSection];
-        }
-        DCDateTableViewCell *tableCell = (DCDateTableViewCell *)[medicationDetailsTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:endDateIndexPath.row - 1 inSection:3]];
-        [tableCell.noEndDateSwitch setUserInteractionEnabled:NO];
+        DCDateTableViewCell *tableCell = (DCDateTableViewCell *)[medicationDetailsTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:endDateIndexPath.row - 1 inSection:dateSection]];
         [self insertEndDateCellAfterDelay:tableCell withEndDateIndexPath:endDateIndexPath];
     }
 }
@@ -372,16 +440,48 @@
     [medicationDetailsTableView insertRowsAtIndexPaths:@[endDateIndexPath]
                                       withRowAnimation:UITableViewRowAnimationRight];
     [medicationDetailsTableView endUpdates];
-    double delayInSeconds = 0.2;
-    dispatch_time_t insertTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-    dispatch_after(insertTime, dispatch_get_main_queue(), ^(void){
+//    double delayInSeconds = 0.2;
+//    dispatch_time_t insertTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+//    dispatch_after(insertTime, dispatch_get_main_queue(), ^(void){
         [self enableNoEndDateCellAfterDelay:tableCell];
-    });
+  //  });
+}
+
+- (void)insertReviewDateCellAfterDelay:(DCDateTableViewCell *)tableCell withIndexPath:(NSIndexPath *)dateIndexPath {
+    
+    //insert end date cell after delay
+    [medicationDetailsTableView beginUpdates];
+    [medicationDetailsTableView insertRowsAtIndexPaths:@[dateIndexPath]
+                                      withRowAnimation:UITableViewRowAnimationRight];
+    [medicationDetailsTableView endUpdates];
+//    double delayInSeconds = 0.2;
+//    dispatch_time_t insertTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+//    dispatch_after(insertTime, dispatch_get_main_queue(), ^(void){
+        [self enableNoEndDateCellAfterDelay:tableCell];
+ //   });
 }
 
 - (void)deleteEndDateCellAfterDelay:(DCDateTableViewCell *)tableCell withEndDateIndexPath:(NSIndexPath *)endDateIndexPath {
     
     NSMutableArray *indexpaths = [NSMutableArray arrayWithArray:@[endDateIndexPath]];
+    [medicationDetailsTableView deleteRowsAtIndexPaths:indexpaths
+                                      withRowAnimation:UITableViewRowAnimationRight];
+//    double delayInSeconds = 0.2;
+//    dispatch_time_t deleteTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+//    dispatch_after(deleteTime, dispatch_get_main_queue(), ^(void){
+        [self enableNoEndDateCellAfterDelay:tableCell];
+ //   });
+}
+
+- (void)deleteReviewDateCellAfterDelay:(DCDateTableViewCell *)tableCell withIndexPath:(NSIndexPath *)reviewDateIndexPath {
+    NSMutableArray *indexpaths;
+    if (reviewDatePickerExpanded) {
+        reviewDatePickerExpanded = NO;
+        NSIndexPath *datePickerIndexPath = [NSIndexPath indexPathForRow:2 inSection:1];
+        indexpaths = [NSMutableArray arrayWithArray:@[reviewDateIndexPath,datePickerIndexPath]];
+    } else {
+        indexpaths = [NSMutableArray arrayWithArray:@[reviewDateIndexPath]];
+    }
     [medicationDetailsTableView deleteRowsAtIndexPaths:indexpaths
                                       withRowAnimation:UITableViewRowAnimationRight];
     double delayInSeconds = 0.2;
@@ -487,11 +587,18 @@
     switch (section) {
         case eZerothSection:
             return MEDICATION_NAME_ROW_COUNT;
-        case eFirstSection:
-            return (showWarnings ? WARNINGS_ROW_COUNT : MEDICATION_DETAILS_ROW_COUNT);
+        case eFirstSection:{
+            NSInteger rowCount = self.selectedMedication.hasReviewDate ? 2 : 1 ;
+            if (reviewDatePickerExpanded) {
+                rowCount ++;
+            }
+            return rowCount;
+        }
         case eSecondSection:
+            return (showWarnings ? WARNINGS_ROW_COUNT : MEDICATION_DETAILS_ROW_COUNT);
+        case eThirdSection:
             return (showWarnings ? MEDICATION_DETAILS_ROW_COUNT : [self numberOfRowsInDateAndTimeSectionForSelectedMedicationType]);
-        case eThirdSection: {
+        case eFourthSection: {
             NSInteger rowCount = [self numberOfRowsInDateAndTimeSectionForSelectedMedicationType];
             return (showWarnings ? rowCount : 1);
         }
@@ -541,13 +648,14 @@
     NSArray *mildArray = [[warningsArray objectAtIndex:1] valueForKey:MILD_WARNING];
     if ([severeArray count] > 0 || [mildArray count] > 0) {
         showWarnings = YES;
-        dateAndTimeSection = 3;
+        dateAndTimeSection = eFourthSection;
     } else {
         showWarnings = NO;
-        dateAndTimeSection = 2;
+        dateAndTimeSection = eThirdSection;
     }
     self.selectedMedication = [[DCMedicationScheduleDetails alloc] init];
     self.selectedMedication.name = medication.name;
+    self.selectedMedication.routeArray = [[NSMutableArray alloc] initWithArray:medication.routeArray];
     self.selectedMedication.medicationId = medication.medicationId;
     self.selectedMedication.dosage = medication.dosage;
     self.selectedMedication.hasEndDate = NO;
@@ -555,7 +663,9 @@
     self.selectedMedication.mildWarningCount = mildArray.count;
     self.selectedMedication.medicineCategory = REGULAR_MEDICATION;
     self.selectedMedication.scheduling = [[DCScheduling alloc] init];
+    self.selectedMedication.dose = [[DCDosage alloc] init];
     dosageArray = [NSMutableArray arrayWithObjects:medication.dosage, nil];
+    self.selectedMedication.infusion = [[DCInfusion alloc] init];
     [medicationDetailsTableView reloadData];
 }
 
@@ -564,25 +674,44 @@
     //display Warnings list view
     UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
     DCWarningsListViewController *warningsListViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:WARNINGS_LIST_STORYBOARD_ID];
+    //warningsListViewController.backButtonText = titleLabel.text;
+    [self configureNavigationBackButtonTitle];
     [warningsListViewController populateWarningsListWithWarnings:warningsArray showOverrideView:NO];
     [self.navigationController pushViewController:warningsListViewController animated:YES];
 }
 
-- (void)updateMedicationDetailsTableViewWithSelectedValue:(NSString *)selectedValue
-                                           withDetailType:(AddMedicationDetailType)detailType {
-    
-    switch (detailType) {
-        case eDetailType:
-            self.selectedMedication.medicineCategory = selectedValue;
-            [self resetDateAndTimeSection];
-            break;
-        case eDetailRoute:
-            self.selectedMedication.route =  selectedValue;
-            break;
-        default:
-            break;
-    }
+- (void)updateMedicationDetailsTableViewWithSelectedValue:(NSString *)selectedValue {
+
+    self.selectedMedication.medicineCategory = selectedValue;
+    [self resetDateAndTimeSection];
     [medicationDetailsTableView reloadData];
+}
+
+- (void)displayRoutesAndInfusionsView {
+    
+    //navigate to routes and infusions view
+    
+    UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
+    DCRouteViewController *routesInfusionsViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:ROUTE_STORYBOARD_ID];
+    routesInfusionsViewController.delegate = self;
+    routesInfusionsViewController.previousRoute = self.selectedMedication.route;
+    routesInfusionsViewController.infusion = self.selectedMedication.infusion;
+    routesInfusionsViewController.dosage = self.selectedMedication.dose;
+    routesInfusionsViewController.patientId = self.patientId;
+    NSMutableArray *routeArray = [[NSMutableArray alloc] init];
+    if (self.isEditMedication) {
+        [routeArray addObject:self.selectedMedication.route];
+    } else {
+        for (NSDictionary *routeDictionary in self.selectedMedication.routeArray) {
+            for (NSString *key in routeDictionary){
+                NSString *route = routeDictionary[key];
+                [routeArray addObject:route];
+            }
+        }
+    }
+    routesInfusionsViewController.routesArray = routeArray;
+    [self configureNavigationBackButtonTitle];
+    [self.navigationController pushViewController:routesInfusionsViewController animated:YES];
 }
 
 - (void)displayAddMedicationDetailViewForTableRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -591,22 +720,38 @@
     if ([DCAddMedicationHelper medicationDetailTypeForIndexPath:indexPath hasWarnings:showWarnings] == 1) {
         UIStoryboard *dosageStoryboard = [UIStoryboard storyboardWithName:DOSAGE_STORYBORD bundle:nil];
         dosageSelectionViewController = [dosageStoryboard instantiateViewControllerWithIdentifier:DOSAGE_SELECTION_SBID];
+        //TODO: Update the dosage to the selectedMedication in this Block.
+        dosageSelectionViewController.selectedDosage = ^ (DCDosage *dosage) {
+        
+        };
         dosageSelectionViewController.newDosageAddedDelegate = self;
         dosageSelectionViewController.dosageArray = dosageArray;
         dosageSelectionViewController.timeArray = self.selectedMedication.timeArray;
         dosageSelectionViewController.menuType = eDosageMenu;
+        if (self.isEditMedication) {
+            if (self.selectedMedication.dose == nil) {
+                self.selectedMedication.dose = [[DCDosage alloc] init];
+            }
+        }
+        if ([self.selectedMedication.medicineCategory  isEqualToString: @"Regular"]) {
+            dosageSelectionViewController.isReducingIncreasingPresent = true;
+            if (self.selectedMedication.scheduling.specificTimes != nil && [self.selectedMedication.scheduling.specificTimes.repeatObject.repeatType  isEqualToString: @"Daily"]) {
+                dosageSelectionViewController.isSplitDailyPresent = true;
+            }
+        }
+        dosageSelectionViewController.dosage = self.selectedMedication.dose;
+        [self configureNavigationBackButtonTitle];
         [self.navigationController pushViewController:dosageSelectionViewController animated:YES];
     } else {
         UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
         DCAddMedicationDetailViewController *medicationDetailViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:ADD_MEDICATION_DETAIL_STORYBOARD_ID];
         medicationDetailViewController.delegate = self;
-        __weak DCAddMedicationDetailViewController *weakDetailVc = medicationDetailViewController;
         medicationDetailViewController.selectedEntry = ^ (NSString *value) {
-            [self updateMedicationDetailsTableViewWithSelectedValue:value withDetailType:weakDetailVc.detailType];
+            [self updateMedicationDetailsTableViewWithSelectedValue:value];
         };
         medicationDetailViewController.detailType = [DCAddMedicationHelper medicationDetailTypeForIndexPath:indexPath hasWarnings:showWarnings];
         DCAddMedicationContentCell *selectedCell = [self selectedCellAtIndexPath:indexPath];
-        if (indexPath.section != 3) {
+        if (indexPath.section != eFourthSection) {
             medicationDetailViewController.previousFilledValue = selectedCell.descriptionLabel.text;
         }
         if (medicationDetailViewController.detailType == eDetailDosage) {
@@ -615,8 +760,6 @@
             } else {
                 medicationDetailViewController.contentArray = dosageArray;
             }
-        } else if (medicationDetailViewController.detailType == eDetailAdministrationTime) {
-            medicationDetailViewController.contentArray = self.selectedMedication.timeArray;
         }
         [self configureNavigationBackButtonTitle];
         [self.navigationController pushViewController:medicationDetailViewController animated:YES];
@@ -625,10 +768,11 @@
 
 - (void)configureNavigationBackButtonTitle {
     
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:titleLabel.text
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:titleLabel.text
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:nil
                                                                             action:nil];
+    self.navigationItem.backBarButtonItem = backButton;
 }
 
 - (void)displaySchedulingDetailViewForTableViewAtIndexPath:(NSIndexPath *)indexPath {
@@ -650,6 +794,7 @@
     }
     schedulingViewController.scheduling = self.selectedMedication.scheduling;
     schedulingViewController.validate = doneClicked;
+    [self configureNavigationBackButtonTitle];
     [self.navigationController pushViewController:schedulingViewController animated:YES];
 }
 
@@ -667,6 +812,16 @@
         NSIndexPath *previousPickerIndexPath = [NSIndexPath indexPathForItem:_datePickerIndexPath.row - 1
                                                                    inSection:_datePickerIndexPath.section];
         [self displayInlineDatePickerForRowAtIndexPath:previousPickerIndexPath];
+    }
+}
+
+- (void)collapseReviewDatePicker {
+    
+    if (reviewDatePickerExpanded) {
+        // display the date picker inline with the table content
+        reviewDatePickerExpanded = NO;
+        [medicationDetailsTableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:1]]
+                                          withRowAnimation:UITableViewRowAnimationFade];
     }
 }
 
@@ -693,21 +848,48 @@
         case eZerothSection:// display medicine name in initial section and detail view will be MedicationListView
             [self displayMedicationSearchListView];
             break;
-        case eFirstSection:
-            if (showWarnings) { //if tableview has warnings section, 'Warnings' selection displays Warnings List, Other wise detail screen display will be that of dosage, route, type
-                [self displayWarningsListView];
-            } else {
-                [self displayAddMedicationDetailViewForTableRowAtIndexPath:indexPath];
+        case eFirstSection:{
+            if (indexPath.row == 1 && self.selectedMedication.hasReviewDate){
+                UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
+                DCAddNewValueViewController *addNewValueViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:ADD_NEW_VALUE_SBID];
+                addNewValueViewController.titleString = @"Frequency";
+                addNewValueViewController.placeHolderString = @"Every";
+                addNewValueViewController.backButtonTitle = @"Add Medication";
+                addNewValueViewController.detailType = eAddValueWithUnit;
+                addNewValueViewController.unitArray = [[NSArray alloc] initWithObjects:@"Day",@"Week",@"Month",nil];
+                addNewValueViewController.previousValue = self.selectedMedication.reviewDate;
+                addNewValueViewController.newValueEntered = ^ (NSString *value) {
+                    self.selectedMedication.reviewDate = [NSString stringWithFormat:@"Every %@",value];
+                    [medicationDetailsTableView reloadData];
+                };
+                [self.navigationController pushViewController:addNewValueViewController animated:YES];
             }
             break;
+        }
         case eSecondSection:
+            if (showWarnings) {
+                //if tableview has warnings section, 'Warnings' selection displays Warnings List, Other wise detail screen display will be that of dosage, route, type
+                [self displayWarningsListView];
+            } else {
+                if (indexPath.row == 0) {
+                    [self displayRoutesAndInfusionsView];
+                } else {
+                    [self displayAddMedicationDetailViewForTableRowAtIndexPath:indexPath];
+                }
+            }
+            break;
+        case eThirdSection:
             if (showWarnings) { //If tableview has warnings section, Second section cell selection shows detail screen for dosage/route/type, otherwise present keyboard in instructions text view
-                [self displayAddMedicationDetailViewForTableRowAtIndexPath:indexPath];
+                if (indexPath.row == 0) {
+                    [self displayRoutesAndInfusionsView];
+                } else {
+                    [self displayAddMedicationDetailViewForTableRowAtIndexPath:indexPath];
+                }
             } else {
                 [self loadDetailViewForDateAndTimeCellOnSelectionAtIndexPath:indexPath];
             }
             break;
-        case eThirdSection: {
+        case eFourthSection: {
             if (showWarnings) { // If Warnings section is shown, third section present instruction text view keyboard,, otherwise load date and time detail section
                 [self loadDetailViewForDateAndTimeCellOnSelectionAtIndexPath:indexPath];
             } else {
@@ -715,14 +897,14 @@
             }
         }
             break;
-        case eFourthSection:
+        case eFifthSection:
             if ([self isRegularMedicationWithWarnings]) {
                 [self displaySchedulingDetailViewForTableViewAtIndexPath:indexPath];
             } else {
                 [self displayAddMedicationDetailViewForTableRowAtIndexPath:indexPath];
             }
             break;
-        case eFifthSection:
+        case eSixthSection:
             if ([self isRegularMedicationWithWarnings]) {
                 [self displayAddMedicationDetailViewForTableRowAtIndexPath:indexPath];
             } else {
@@ -730,7 +912,7 @@
                 [instructionsCell.instructionsTextView becomeFirstResponder];
             }
             break;
-        case eSixthSection: {
+        case eSeventhSection: {
             DCInstructionsTableCell *instructionsCell = (DCInstructionsTableCell *)[medicationDetailsTableView cellForRowAtIndexPath:indexPath];
             [instructionsCell.instructionsTextView becomeFirstResponder];
         }
@@ -800,22 +982,6 @@
             [self displayInlineDatePickerForRowAtIndexPath:indexPath];
         }
     }
-}
-
-- (void)presentAdministrationTimeView {
-    
-    UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
-    DCAddMedicationDetailViewController *medicationDetailViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:ADD_MEDICATION_DETAIL_STORYBOARD_ID];
-    medicationDetailViewController.delegate = self;
-    __weak DCAddMedicationDetailViewController *weakDetailVc = medicationDetailViewController;
-    medicationDetailViewController.selectedEntry = ^ (NSString *value) {
-        [self updateMedicationDetailsTableViewWithSelectedValue:value withDetailType:weakDetailVc.detailType];
-    };
-    medicationDetailViewController.detailType = eDetailAdministrationTime;
-    medicationDetailViewController.contentArray = self.selectedMedication.timeArray;
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:medicationDetailViewController];
-    navigationController.modalPresentationStyle = UIModalPresentationCurrentContext;
-    [self presentViewController:navigationController animated:YES completion:nil];
 }
 
 - (void)resetDateAndTimeSection {
@@ -935,17 +1101,22 @@
     
     switch (indexPath.section) {
         case eZerothSection: { // zeroth section will always have medicine name field
-            UITableViewCell *cell = [self populatedMedicationNameTableCell];
+            UITableViewCell *cell = [self medicationNameTableViewCell];
             return cell;
         }
-        case eFirstSection: { // first section will have warnings or medication details based on warnings section display
+        case eFirstSection:{
+            return [self reviewDateCellatIndexPath:indexPath];
+        }
+        case eSecondSection: { // first section will have warnings or medication details based on warnings section display
             CellType cellType = !showWarnings ? eMedicationDetailsCell : eWarningsCell;
-            DCAddMedicationContentCell *contentCell = [self populatedAddMedicationCellForIndexPath:indexPath forCellType:cellType];
+            DCAddMedicationContentCell *contentCell = [self addMedicationCellAtIndexPath:indexPath
+                                                                            withCellType:cellType];
             return contentCell;
         }
-        case eSecondSection: {
+        case eThirdSection: {
             if (showWarnings) {
-                DCAddMedicationContentCell *contentCell = [self populatedAddMedicationCellForIndexPath:indexPath forCellType:eMedicationDetailsCell];
+                DCAddMedicationContentCell *contentCell = [self addMedicationCellAtIndexPath:indexPath
+                                                                                withCellType:eMedicationDetailsCell];
                 return contentCell;
             }
             else {
@@ -953,25 +1124,27 @@
                 return dateCell;
             }
         }
-        case eThirdSection: {
+        case eFourthSection: {
             if (showWarnings) {
                 UITableViewCell *dateCell = [self dateSectionTableViewCellAtIndexPath:indexPath];
                 return dateCell;
             } else {
-                DCAddMedicationContentCell *contentCell = [self populatedAddMedicationCellForIndexPath:indexPath forCellType:eSchedulingCell];
+                DCAddMedicationContentCell *contentCell = [self addMedicationCellAtIndexPath:indexPath
+                                                                                withCellType:eSchedulingCell];
                 return contentCell;
             }
         }
-        case eFourthSection: {
+        case eFifthSection: {
             if ([self isRegularMedicationWithWarnings]) {
-                DCAddMedicationContentCell *contentCell = [self populatedAddMedicationCellForIndexPath:indexPath forCellType:eSchedulingCell];
+                DCAddMedicationContentCell *contentCell = [self addMedicationCellAtIndexPath:indexPath
+                                                                                withCellType:eSchedulingCell];
                 return contentCell;
             } else {
                 UITableViewCell *dosageCell = [self singleOrMultilineDosageCellAtIndexPath:indexPath];
                 return dosageCell;
             }
             }
-        case eFifthSection: {
+        case eSixthSection: {
             if ([self isRegularMedicationWithWarnings]) {
                 UITableViewCell *dosageCell = [self singleOrMultilineDosageCellAtIndexPath:indexPath];
                 return dosageCell;
@@ -980,7 +1153,7 @@
                 return instructionsCell;
             }
          }
-        case eSixthSection: {
+        case eSeventhSection: {
             DCInstructionsTableCell *instructionsCell = [self instructionsTableCell];
             return instructionsCell;
         }
@@ -1006,15 +1179,19 @@
             nameHeight = (nameHeight < TABLE_CELL_DEFAULT_ROW_HEIGHT) ? TABLE_CELL_DEFAULT_ROW_HEIGHT : nameHeight;
         }
         return nameHeight;
-    } else if (indexPath.section == eSecondSection){
+    }else if (indexPath.section == eFirstSection){
+        if (indexPath.row == 2) {
+            return PICKER_VIEW_CELL_HEIGHT ;
+        }
+    } else if (indexPath.section == eThirdSection){
         if (!showWarnings) {
             return ([self indexPathHasPicker:indexPath] ? PICKER_VIEW_CELL_HEIGHT : medicationDetailsTableView.rowHeight);
         }
-    } else if (indexPath.section == eThirdSection){
+    } else if (indexPath.section == eFourthSection){
         if (showWarnings) {
             return ([self indexPathHasPicker:indexPath] ? PICKER_VIEW_CELL_HEIGHT : medicationDetailsTableView.rowHeight);
         }
-    } else if (indexPath.section == eFourthSection) {
+    } else if (indexPath.section == eFifthSection) {
         if ([self isRegularMedicationWithWarnings]) {
             return ([self indexPathHasPicker:indexPath] ? PICKER_VIEW_CELL_HEIGHT : medicationDetailsTableView.rowHeight);
         } else {
@@ -1022,7 +1199,7 @@
                 return [DCAddMedicationHelper textContentHeightForDosage:self.selectedMedication.dosage];
             }
         }
-    } else if (indexPath.section == eFifthSection) {
+    } else if (indexPath.section == eSixthSection) {
         if ([self isRegularMedicationWithWarnings]) {
             // calculate the height for the given text
             if (self.selectedMedication.dosage.length > MAXIMUM_CHARACTERS_INCLUDED_IN_ONE_LINE) {
@@ -1031,7 +1208,7 @@
         } else {
             return INSTRUCTIONS_ROW_HEIGHT;
         }
-    } else if (indexPath.section == eSixthSection) {
+    } else if (indexPath.section == eSeventhSection) {
         return INSTRUCTIONS_ROW_HEIGHT;
     }
     return TABLE_CELL_DEFAULT_ROW_HEIGHT;
@@ -1041,6 +1218,9 @@
     
     //shrink already opened date picker cell
     [self resignKeyboard];
+    if (indexPath.section != eFirstSection){
+        [self collapseReviewDatePicker];
+    }
     if ((indexPath.section != _datePickerIndexPath.section)) {
          [self collapseOpenedPickerCell];
     } else {
@@ -1212,12 +1392,10 @@
 - (void)keyboardDidShow:(NSNotification *)notification {
     
     //notification methods
-    NSIndexPath *scrollIndexPath = [self indexPathForLastRow];
     double delayInSeconds = isNewMedication?  0.5 : 0.25;
     dispatch_time_t deleteTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
     dispatch_after(deleteTime, dispatch_get_main_queue(), ^(void){
-        [medicationDetailsTableView scrollToRowAtIndexPath:scrollIndexPath
-                                          atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+        [medicationDetailsTableView setContentOffset:CGPointMake(0,500) animated:YES];
     });
     isNewMedication = false;
 }
@@ -1225,7 +1403,8 @@
 #pragma mark - Instruction Delegates
 
 - (void)closeInlineDatePickers {
-    
+
+    [self collapseReviewDatePicker];
     [self collapseOpenedPickerCell];
 }
 
@@ -1245,7 +1424,20 @@
     }
 }
 
-#pragma mark - UIPopOverPresentationCOntroller Delegate
+#pragma mark - RoutesAndInfusions Delegate Methods
+
+- (void)newRouteSelected:(NSString *)route {
+    
+    self.selectedMedication.route = route;
+    [medicationDetailsTableView reloadData];
+}
+
+- (void)updatedInfusionObject:(DCInfusion *)infusion {
+    
+    self.selectedMedication.infusion = infusion;
+}
+
+#pragma mark - UIPopOverPresentationController Delegate
 
 - (BOOL)popoverPresentationControllerShouldDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
     

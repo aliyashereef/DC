@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="KYs-eG-kb5">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="KYs-eG-kb5">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
@@ -299,7 +299,7 @@
         <!--Alerts Allergy Pop Over View Controller-->
         <scene sceneID="5Oa-ov-9eQ">
             <objects>
-                <viewController storyboardIdentifier="PatientAlertsAllergyViewController" id="bZm-dS-1uD" customClass="DCAlertsAllergyPopOverViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PatientAlertsAllergyViewController" automaticallyAdjustsScrollViewInsets="NO" id="bZm-dS-1uD" customClass="DCAlertsAllergyPopOverViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="E63-uH-jNp"/>
                         <viewControllerLayoutGuide type="bottom" id="t9f-k8-XlK"/>
@@ -308,106 +308,66 @@
                         <rect key="frame" x="0.0" y="0.0" width="305" height="200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="RnF-68-KHm">
-                                <rect key="frame" x="25" y="15" width="255" height="29"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="rCa-Ii-ouw">
+                                <rect key="frame" x="0.0" y="20" width="305" height="180"/>
                                 <animations/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="28" id="ciZ-LB-9sX"/>
-                                </constraints>
-                                <segments>
-                                    <segment title="Alerts"/>
-                                    <segment title="Allergies"/>
-                                </segments>
-                                <connections>
-                                    <action selector="segmentSelectionChanged:" destination="bZm-dS-1uD" eventType="valueChanged" id="g7X-5i-v7n"/>
-                                </connections>
-                            </segmentedControl>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aEX-QH-qNc">
-                                <rect key="frame" x="0.0" y="58" width="305" height="142"/>
-                                <subviews>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="34" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="rCa-Ii-ouw">
-                                        <rect key="frame" x="0.0" y="1" width="305" height="141"/>
-                                        <animations/>
-                                        <prototypes>
-                                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PatientAlertsAllergyCell" id="uoJ-CI-msp" customClass="DCAlertsAllergyTableViewCell">
-                                                <rect key="frame" x="0.0" y="22" width="305" height="34"/>
-                                                <autoresizingMask key="autoresizingMask"/>
-                                                <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="uoJ-CI-msp" id="I2m-vU-nOZ">
-                                                    <rect key="frame" x="0.0" y="0.0" width="305" height="33"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KzW-Aw-guh">
-                                                            <rect key="frame" x="12" y="8" width="281" height="17"/>
-                                                            <animations/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PatientAlertsAllergyCell" rowHeight="44" id="uoJ-CI-msp" customClass="DCAlertsAllergyTableViewCell">
+                                        <rect key="frame" x="0.0" y="50" width="305" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="uoJ-CI-msp" id="I2m-vU-nOZ">
+                                            <rect key="frame" x="0.0" y="0.0" width="305" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KzW-Aw-guh">
+                                                    <rect key="frame" x="12" y="8" width="281" height="27"/>
                                                     <animations/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <constraints>
-                                                        <constraint firstItem="KzW-Aw-guh" firstAttribute="top" secondItem="I2m-vU-nOZ" secondAttribute="top" constant="8" id="48C-uz-hRW"/>
-                                                        <constraint firstAttribute="trailing" secondItem="KzW-Aw-guh" secondAttribute="trailing" constant="12" id="51k-JJ-FMx"/>
-                                                        <constraint firstItem="KzW-Aw-guh" firstAttribute="leading" secondItem="I2m-vU-nOZ" secondAttribute="leading" constant="12" id="OHi-5H-Nww"/>
-                                                        <constraint firstAttribute="bottom" secondItem="KzW-Aw-guh" secondAttribute="bottom" constant="8" id="PeF-v8-X1C"/>
-                                                    </constraints>
-                                                </tableViewCellContentView>
-                                                <animations/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                <connections>
-                                                    <outlet property="alertsAllergyLabel" destination="KzW-Aw-guh" id="ga7-pq-HeQ"/>
-                                                </connections>
-                                            </tableViewCell>
-                                        </prototypes>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <animations/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstItem="KzW-Aw-guh" firstAttribute="top" secondItem="I2m-vU-nOZ" secondAttribute="top" constant="8" id="48C-uz-hRW"/>
+                                                <constraint firstAttribute="trailing" secondItem="KzW-Aw-guh" secondAttribute="trailing" constant="12" id="51k-JJ-FMx"/>
+                                                <constraint firstItem="KzW-Aw-guh" firstAttribute="leading" secondItem="I2m-vU-nOZ" secondAttribute="leading" constant="12" id="OHi-5H-Nww"/>
+                                                <constraint firstAttribute="bottom" secondItem="KzW-Aw-guh" secondAttribute="bottom" constant="8" id="PeF-v8-X1C"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <connections>
-                                            <outlet property="dataSource" destination="bZm-dS-1uD" id="hUD-qh-NtR"/>
-                                            <outlet property="delegate" destination="bZm-dS-1uD" id="kNW-EL-E0V"/>
+                                            <outlet property="alertsAllergyLabel" destination="KzW-Aw-guh" id="ga7-pq-HeQ"/>
                                         </connections>
-                                    </tableView>
-                                </subviews>
-                                <animations/>
-                                <color key="backgroundColor" red="0.78431372549019607" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="rCa-Ii-ouw" secondAttribute="trailing" id="Uhc-eZ-AuA"/>
-                                    <constraint firstItem="rCa-Ii-ouw" firstAttribute="top" secondItem="aEX-QH-qNc" secondAttribute="top" constant="1" id="Utl-VK-LzT"/>
-                                    <constraint firstItem="rCa-Ii-ouw" firstAttribute="leading" secondItem="aEX-QH-qNc" secondAttribute="leading" id="sJV-iH-72g"/>
-                                    <constraint firstItem="rCa-Ii-ouw" firstAttribute="top" secondItem="aEX-QH-qNc" secondAttribute="top" constant="0.5" id="wu1-cm-kTD"/>
-                                    <constraint firstAttribute="bottom" secondItem="rCa-Ii-ouw" secondAttribute="bottom" id="z73-in-nax"/>
-                                </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="Utl-VK-LzT"/>
-                                    </mask>
-                                </variation>
-                            </view>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="bZm-dS-1uD" id="hUD-qh-NtR"/>
+                                    <outlet property="delegate" destination="bZm-dS-1uD" id="kNW-EL-E0V"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="aEX-QH-qNc" firstAttribute="top" secondItem="RnF-68-KHm" secondAttribute="bottom" constant="15" id="1WW-ZX-paJ"/>
-                            <constraint firstAttribute="trailing" secondItem="RnF-68-KHm" secondAttribute="trailing" constant="25" id="3qF-cO-Pze"/>
-                            <constraint firstItem="RnF-68-KHm" firstAttribute="leading" secondItem="X1u-A9-z1t" secondAttribute="leading" constant="25" id="Goe-91-1xj"/>
-                            <constraint firstAttribute="trailing" secondItem="aEX-QH-qNc" secondAttribute="trailing" id="Nk0-Rq-mnD"/>
-                            <constraint firstItem="aEX-QH-qNc" firstAttribute="leading" secondItem="X1u-A9-z1t" secondAttribute="leading" id="Up4-Gh-I1X"/>
-                            <constraint firstAttribute="trailing" secondItem="RnF-68-KHm" secondAttribute="trailing" constant="25" id="aBg-W0-916"/>
-                            <constraint firstItem="t9f-k8-XlK" firstAttribute="top" secondItem="aEX-QH-qNc" secondAttribute="bottom" id="iaS-og-nJW"/>
-                            <constraint firstItem="RnF-68-KHm" firstAttribute="top" secondItem="X1u-A9-z1t" secondAttribute="top" constant="33" id="ipR-wr-Hbo">
-                                <variation key="heightClass=regular-widthClass=compact" constant="52"/>
-                            </constraint>
-                            <constraint firstItem="RnF-68-KHm" firstAttribute="leading" secondItem="X1u-A9-z1t" secondAttribute="leading" constant="25" id="mL6-yQ-yvY"/>
-                            <constraint firstItem="RnF-68-KHm" firstAttribute="top" secondItem="E63-uH-jNp" secondAttribute="bottom" constant="15" id="wCM-5o-cND"/>
+                            <constraint firstItem="rCa-Ii-ouw" firstAttribute="leading" secondItem="X1u-A9-z1t" secondAttribute="leading" id="CM1-hU-oaJ"/>
+                            <constraint firstAttribute="trailing" secondItem="rCa-Ii-ouw" secondAttribute="trailing" id="MJX-nD-7pw"/>
+                            <constraint firstItem="t9f-k8-XlK" firstAttribute="top" secondItem="rCa-Ii-ouw" secondAttribute="bottom" id="Wh9-yY-l3K"/>
+                            <constraint firstItem="rCa-Ii-ouw" firstAttribute="centerY" secondItem="X1u-A9-z1t" secondAttribute="centerY" id="ia5-4w-Fb2"/>
+                            <constraint firstItem="rCa-Ii-ouw" firstAttribute="top" secondItem="E63-uH-jNp" secondAttribute="bottom" id="km8-Sv-0mb"/>
+                            <constraint firstItem="rCa-Ii-ouw" firstAttribute="centerX" secondItem="X1u-A9-z1t" secondAttribute="centerX" id="sTu-PK-pCL"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
-                                <exclude reference="3qF-cO-Pze"/>
-                                <exclude reference="Goe-91-1xj"/>
-                                <exclude reference="ipR-wr-Hbo"/>
+                                <exclude reference="ia5-4w-Fb2"/>
+                                <exclude reference="sTu-PK-pCL"/>
                             </mask>
                         </variation>
                     </view>
-                    <nil key="simulatedStatusBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="305" height="200"/>
                     <connections>
@@ -431,7 +391,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleAspectFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="115" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="eRF-Sr-bNl">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="60" width="600" height="540"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -624,7 +584,7 @@
                         <animations/>
                         <color key="backgroundColor" name="controlHighlightColor" catalog="System" colorSpace="catalog"/>
                         <constraints>
-                            <constraint firstItem="eRF-Sr-bNl" firstAttribute="top" secondItem="zm5-jU-enb" secondAttribute="top" id="6UF-ty-weK"/>
+                            <constraint firstItem="eRF-Sr-bNl" firstAttribute="top" secondItem="zm5-jU-enb" secondAttribute="top" constant="60" id="6UF-ty-weK"/>
                             <constraint firstItem="eRF-Sr-bNl" firstAttribute="leading" secondItem="zm5-jU-enb" secondAttribute="leading" id="6i4-aO-jVp"/>
                             <constraint firstItem="2R1-dF-PZa" firstAttribute="centerX" secondItem="zm5-jU-enb" secondAttribute="centerX" id="9cW-r3-A1C"/>
                             <constraint firstItem="3dY-Pa-UBX" firstAttribute="top" secondItem="eRF-Sr-bNl" secondAttribute="bottom" id="Mtc-7t-sGA"/>
@@ -667,9 +627,22 @@
                     <view key="view" contentMode="scaleToFill" id="Dzt-m5-qIr">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <activityIndicatorView contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="leM-81-DVi">
+                                <rect key="frame" x="282" y="282" width="37" height="37"/>
+                                <color key="color" red="0.45098039220000002" green="0.45098039220000002" blue="0.45098039220000002" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
+                        </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="leM-81-DVi" firstAttribute="centerY" secondItem="Dzt-m5-qIr" secondAttribute="centerY" id="0QH-sr-BNA"/>
+                            <constraint firstItem="leM-81-DVi" firstAttribute="centerX" secondItem="Dzt-m5-qIr" secondAttribute="centerX" id="3Yv-2n-KTS"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="activityIndicatorView" destination="leM-81-DVi" id="Vtd-I9-JkD"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jC1-yr-FkA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -15,6 +15,8 @@
 @property (strong, nonatomic) IBOutlet UIToolbar *toolbar;
 @property (nonatomic) BOOL isLoading;
 @property (nonatomic, strong) NSDate *centerDisplayDate;
+@property (nonatomic, strong) NSArray *medicationSlotArray;
+
 
 - (void)displayAdministrationViewForMedicationSlot:(NSDictionary *)medicationSLotsDictionary
                                        atIndexPath:(NSIndexPath *)indexPath
@@ -26,6 +28,7 @@
 - (void)loadCurrentWeekDate ;
 - (void)modifyWeekDatesInCalendarTopPortion;
 - (void)reloadCalendarTopPortion;
+- (void)reloadAdministrationScreenWithMedicationDetails;
 - (void)fetchMedicationListForPatientWithCompletionHandler:(void(^)(BOOL success))completion;
 - (void)cancelPreviousMedicationListFetchRequest;
 - (void)modifyWeekDatesViewConstraint:(CGFloat)leadingConstraint;

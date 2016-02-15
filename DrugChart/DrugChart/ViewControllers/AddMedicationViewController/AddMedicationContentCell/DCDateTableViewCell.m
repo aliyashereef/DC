@@ -15,6 +15,7 @@
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    
     [super setSelected:selected animated:animated];
     // Configure the view for the selected state
 }
@@ -31,12 +32,25 @@
 - (void)configureCellWithNoEndDateSwitchState:(BOOL)state {
     
     if (!_isEditMedication) {
-        _previousSwitchState = 0;
+       // _previousSwitchState = 0;
         [_dateValueLabel setHidden:YES];
     } else {
         [_dateValueLabel setHidden:NO];
     }
     [_dateTypeLabel setText:NSLocalizedString(@"NO_END_DATE", @"No end date title")];
+    [_noEndDateSwitch setHidden:NO];
+    [_noEndDateSwitch setOn:state];
+}
+
+- (void)configureCellWithReviewDateSwitchState:(BOOL)state {
+    
+    if (!_isEditMedication) {
+      //  _previousSwitchState = 0;
+        [_dateValueLabel setHidden:YES];
+    } else {
+        [_dateValueLabel setHidden:NO];
+    }
+    [_dateTypeLabel setText:NSLocalizedString(@"REVIEW_DATE", @"Review date title")];
     [_noEndDateSwitch setHidden:NO];
     [_noEndDateSwitch setOn:state];
 }
@@ -47,10 +61,10 @@
     
     //no end date switch action
     BOOL switchState = [sender isOn];
-    if (switchState != _previousSwitchState) {
-        _previousSwitchState = switchState;
+    //if (switchState != _previousSwitchState) {
+        //_previousSwitchState = switchState;
         self.noEndDateStatus (switchState);
-    }
+   // }
 }
 
 @end

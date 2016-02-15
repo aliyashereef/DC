@@ -14,4 +14,6 @@
 @property (nonatomic, strong) DCWard *wardDisplayed;
 @property (nonatomic, strong) NSMutableArray *bedsArray;
 
+- (void)configureGraphicalView;
+
 @end

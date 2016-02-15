@@ -8,12 +8,6 @@
 
 import UIKit
 
-//protocol PrescriberMedicationTableViewCellDelegate:class {
-//    
-//    func tableCellSwipedToLeftDirection()
-//    func tableCellSwipedToRightDirection()
-//}
-
 protocol EditAndDeleteActionDelegate {
     
     func stopMedicationForSelectedIndexPath(indexPath : NSIndexPath)
@@ -58,12 +52,13 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     // to the containerView holding the 3 subviews (left, right, center)
     // To move the calendar left/right only this constant value needs to be changed.
     @IBOutlet weak var leadingSpaceMasterToContainerView: NSLayoutConstraint!
+    @IBOutlet weak var medicationTypeLabel: UILabel!
+    
     var editAndDeleteDelegate : EditAndDeleteActionDelegate?
     var indexPath : NSIndexPath!
     var cellDelegate : DCPrescriberCellDelegate?
     var inEditMode : Bool = false
     var isMedicationActive : Bool = true
-    
     override func awakeFromNib() {
         
         super.awakeFromNib()
@@ -82,6 +77,7 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
         
         //add pan gesture to medication detail holder view
         let panGesture = UIPanGestureRecognizer(target: self, action: Selector("swipeMedicationDetailView:"))
+        panGesture.delegate = self
         medicineDetailHolderView.addGestureRecognizer(panGesture)
     }
     
@@ -197,12 +193,7 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
                         }
                     }
                 }
-            } else {
-                if let delegate = editAndDeleteDelegate {
-                    delegate.setIndexPathSelected   (indexPath)
-                }
             }
-            
             if (panGesture.state == UIGestureRecognizerState.Ended) {
                 //All fingers are lifted.
                 adjustMedicationDetailViewOnPanGestureEndWithTranslationPoint(translate)
@@ -219,7 +210,18 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
             self.layoutIfNeeded()
         }
     }
-
+    
+    override func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        if (gestureRecognizer.isKindOfClass(UIPanGestureRecognizer)) {
+            let panGesture = gestureRecognizer as? UIPanGestureRecognizer
+            let translation : CGPoint = panGesture!.translationInView(panGesture?.view);
+            if (fabs(translation.x) > fabs(translation.y)) {
+                return false
+            }
+        }
+        return true
+    }
+    
     @IBAction func editMedicationButtonPressed(sender: AnyObject) {
         if let delegate = editAndDeleteDelegate {
             delegate.editMedicationForSelectedIndexPath(indexPath)
@@ -241,5 +243,11 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
             self.layoutIfNeeded()
         }
     }
-
+    
+    @IBAction func typeDescriptionButtonSelected(sender: AnyObject) {
+        
+        //Display Summary
+        
+        print("****** Type Button pressed")
+    }
 }

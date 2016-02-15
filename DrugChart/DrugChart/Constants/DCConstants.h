@@ -64,12 +64,6 @@
 #define NO_BUTTON_TITLE     @"No"
 #define YES_BUTTON_TITLE    @"Yes"
 
-//Button images
-
-#define PLUS_IMAGE @"Plus"
-#define ADMINISTRATING_TIME_UNSELECTED @"AdministratingTimeUnselected"
-#define ADMINISTRATING_TIME_SELECTED @"AdministratingTimeSelected"
-
 //images
 
 #define SEVERE_WARNING_IMAGE @"SevereWarningSympol"
@@ -129,18 +123,28 @@
 #define VITAL_SIGNS_VIEW_CONTROLLER_VIEW_CONTROLLER_SB_ID @"VitalSignViewController"
 #define SCHEDULING_DETAIL_STORYBOARD_ID @"SchedulingDetailView"
 #define SCHEDULING_INITIAL_STORYBOARD_ID @"SchedulingInitialView"
+#define INFUSIONS_STORYBOARD_ID @"InfusionViewController"
 
 #define PRESCRIBER_MEDICATION_SBID @"PrescriberMedicationViewControllerSBID"
 #define DOSAGE_SELECTION_SBID @"DosageSelection"
 #define DOSAGE_DETAIL_SBID @"DosageDetail"
+#define DOSAGE_CONDITIONS_SBID @"DosageConditions"
+#define ADD_CONDITION_SBID @"AddConditions"
+#define ADD_CONDITION_DETAIL_SBID @"AddConditionDetail"
+#define ADD_NEW_DOSE_TIME_SBID @"AddNewViewController"
+#define DOSAGE_UNIT_SELECTION_SBID @"DosageUnitSelection"
 #define WARDS_INFORMATION_SBID @"wardsInformationViewController"
+#define ROUTE_STORYBOARD_ID @"RouteViewController"
+#define INJECTION_REGION_SB_ID @"InjectionRegionView"
+#define ADMINISTRATION_TIMES_SB_ID "AdministrationTimesView"
+#define ADD_NEW_VALUE_SBID @"AddNewValueViewController"
 
 
 //Nib files
 #define WARNINGS_HEADER_VIEW_NIB @"DCWarningsHeaderView"
 #define ADMINISTER_HEADER_VIEW_NIB @"DCAdministerTableHeaderView"
 #define SCHEDULING_HEADER_VIEW_NIB @"DCSchedulingHeaderView"
-
+#define PROGRESSTIMEVIEW_NIB @"DCProgressTimeView"
 // Segue Ids
 #define SHOW_PATIENT_LIST @"showPatientList"
 #define SHOW_PATIENT_LIST_FROM_INITIAL_VIEW @"PatientListFromInitialView" 
@@ -177,6 +181,7 @@
 #define INSTRUCTIONS_CELL_IDENTIFIER @"InstructionsCell"
 #define ADD_MEDICATION_DETAIL_CELL_IDENTIFIER @"DetailCell"
 #define DATE_PICKER_CELL_IDENTIFIER @"pickercell"
+#define DATE_STATUS_PICKER_CELL_IDENTIFIER @"datepickercell"
 #define ADD_DOSAGE_CELL_IDENTIFIER @"AddDosageCell"
 #define WARNINGS_CELL_ID @"WarningsCell"
 #define OVERRIDE_REASON_CELL_ID @"OverrideReasonCell"
@@ -203,6 +208,32 @@
 #define DOSE_PICKER_DISPLAY_CELL_ID @"pickerViewCell"
 #define REQUIRED_DAILY_DOSE_CELL_ID @"requiredDailyDoseCell"
 #define ADD_NEW_TIME_CELL_ID @"timePickerViewCell"
+#define DOSE_CONDITION_CELL_ID @"conditionMenuCell"
+#define DOSE_VALUE_CELL_ID @"doseValueCell"
+#define ADD_NEW_DOSE_CELL_ID @"addNewDoseCell"
+#define ADD_CONDITION_MENU_CELL_ID @"addConditionMenuCell"
+#define ROUTE_CELL_ID @"RouteCell"
+#define INFUSIONS_ADMINISTER_AS_CELL_ID @"InfusionsAdministerAsCell"
+#define INFUSIONS_CELL_ID @"InfusionCell"
+#define SLOW_BOLUS_CELL_ID @"SlowBolusCell"
+#define INJECTION_CELL_ID @"InjectionCellId"
+#define INFUSION_PICKER_CELL_ID @"InfusionPickerCellId"
+#define ADMINISTRATION_TIMES_CELLID @"AdministrationTimesCellId"
+#define VALUE_TEXTFIELD_CELL @"newValueTextfieldCell"
+#define PICKER_DROP_DOWN_CELL @"pickerDropDownCell"
+#define PICKER_CELL @"pickerCell"
+
+// Week days
+
+#define SUNDAY @"Sunday"
+#define MONDAY @"Monday"
+#define TUESDAY @"Tuesday"
+#define WEDNESDAY @"Wednesday"
+#define THURSDAY @"Thursday"
+#define FRIDAY @"Friday"
+#define SATURDAY @"Saturday"
+
+#define SELECTED_TIME_DISPLAY_CELL_ID @"selectedTimeCell"
 
 // title for views
 #define INPATIENT_TITLE @"In Patients"
@@ -237,10 +268,10 @@
 //date
 
 #define WEEK_DAY_FORMAT                 @"EEE"
-#define DAY_DATE_FORMAT                 @"dd"
-#define DEFAULT_DATE_FORMAT             @"yyyy-MM-dd hh:mm:ss z"
-#define SHORT_DATE_FORMAT               @"yyyy-MM-dd"
-#define DATE_FORMAT_RANGE               @"yyyy-MM-dd HH:mm"
+#define DAY_DATE_FORMAT                 @"d"
+#define DEFAULT_DATE_FORMAT             @"yyyy-MM-d hh:mm:ss z"
+#define SHORT_DATE_FORMAT               @"yyyy-MM-d"
+#define DATE_FORMAT_RANGE               @"yyyy-MM-d HH:mm"
 #define DATE_FORMAT_WITH_DAY            @"EE, LLLL d, HH:mm"
 #define DATE_FORMAT_START_DATE          @"dd-MMM-yyyy HH:mm"
 #define DOB_DATE_FORMAT                 @"YYYY-mm-dd"
@@ -259,6 +290,13 @@
 // Administration status
 #define PENDING @"Pending"
 #define ADMINISTER_MEDICATION @"Administer Medication"
+#define ADMINISTER_NOW @"Administer Now"
+#define IN_PROGRESS @"In progress"
+#define ENDED @"Ended"
+#define STOPED_DUE_TO_PROBLEM @"Stoped due to problem"
+#define CONTINUED_AFTER_PROBLEM @"Continued after problem"
+#define FLUID_CHANGED @"Fluid changed"
+#define PAUSED @"Paused"
 
 #define DATE_COMPONENTS (NSCalendarUnitYear| NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitWeekOfYear |  NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond | NSCalendarUnitWeekday | NSCalendarUnitWeekdayOrdinal)
 
@@ -273,6 +311,7 @@
 #define TO_GIVE @"toGive"
 #define SELF_ADMINISTERED @"selfAdministered"
 #define ADMINISTERED @"Administered"
+#define STARTED @"Started"
 
 //cell heights
 #define CALENDAR_TABLE_CELL_HEIGHT 70.0f
@@ -335,9 +374,7 @@
 
 //image nameds
 #define LOGOUT_IMAGE @"Logout"
-#define NOTIFICATION_IMAGE @"Notification"
 #define SETTINGS_IMAGE @"Settings"
-#define ALLERGY_IMAGE @"Allergy"
 #define TOP_LOGO @"EmisTopLogo"
 
 //warning types
@@ -458,11 +495,11 @@
 #define INTRAMASCULAR_ID @"78421000"
 #define INTRATHECAL @"Intrathecal (IT)"
 #define INTRATHECAL_ID @"72607000"
+#define SUBCUTANEOUS @"Subcutaneous"
+#define SUBCUTANEOUS_ID @"34206005"
 
 // Images
 #define ADMINISTRATION_HISTORY_TICK_IMAGE @"historyTick"
-#define ADMINISTRATION_HISTORY_CAUTION_IMAGE @"historyCaution"
-#define ADMINISTRATION_HISTORY_CLOSE_IMAGE @"historyClose"
 
 // Administration History Label texts
 #define STATUS @"Status"
@@ -496,6 +533,10 @@
 #define EXPIRY_DATE @"ExpiryDate"
 
 //Dosage
+#define DOSE_FIXED @"Fixed"
+#define DOSE_VARIABLE @"Variable"
+#define DOSE_REDUCING_INCREASING @"Reducing / Increasing"
+#define DOSE_SPLIT_DAILY @"Split daily"
 #define DOSE_UNIT_LABEL_TEXT @"Dose Unit"
 #define DOSE_UNIT_TITLE @"Unit"
 #define DOSE_VALUE_TITLE @"Dose"
@@ -512,5 +553,18 @@
 #define ADD_NEW_TIME @"Add New Time"
 #define TIME_KEY @"time"
 #define UNTIL_TITLE @"Until"
+
+//Administration times
+ #define SELECTED_KEY @"selected"
+
+//Infusions
+#define BOLUS_INJECTION @"Bolus injection"
+#define DURATION_BASED_INFUSION @"Duration based infusion"
+#define RATE_BASED_INFUSION @"Rate based infusion"
+#define CENTRAL_LINE @"Central line"
+#define PERIPHERAL_LINE_ONE @"Peripheral line 1"
+#define PERIPHERAL_LINE_TWO @"Peripheral line 2"
+#define MG_PER_HOUR @"mg/Hour"
+#define MG_PER_MINUTE @"mg/Minute"
 
 #endif

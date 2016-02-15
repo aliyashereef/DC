@@ -18,6 +18,7 @@ import QuartzCore
     let dateViewFormat : NSString = "EEE d"
     let dayViewFormat : NSString = "d"
     let weekDayViewFormat : NSString = "EEE   '...'"
+    let dateFormat : NSString = "dd MMM yyyy"
 
 
      init(frame: CGRect, date : NSString) {
@@ -40,12 +41,13 @@ import QuartzCore
         dateLabel.textAlignment = .Center
         self.addSubview(dateLabel)
         let today : NSDate = NSDate()
-        if date == convertDateToString(today, format: dateViewFormat as String) {
+        
+        if date == convertDateToString(today, format: dateFormat as String) {
             dateLabel.text = convertDateToString(today, format: weekDayViewFormat as String) as String
             addTodayIndicator ()
             self.backgroundColor = UIColor(forHexString: "#fafafa")
         } else {
-            dateLabel.text = date as String
+            dateLabel.text = convertDateToString(DCDateUtility.dateFromSourceString(date as String), format: dateViewFormat as String) as String
         }
     }
     

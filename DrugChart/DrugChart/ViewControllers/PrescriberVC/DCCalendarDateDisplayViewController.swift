@@ -25,6 +25,7 @@ import CocoaLumberjack
     
     let currentDate : NSDate = NSDate()
     let dateViewFormat : NSString = "EEE d"
+    let dateFormat : NSString = "dd MMM yyyy"
     var windowSizeChanged = false
     //MARK: View Management Methods
     
@@ -97,7 +98,7 @@ import CocoaLumberjack
         let displayDatesArray = NSMutableArray()
         for ( index = 0; index < currentWeekDateArray!.count; index++) {
             let date = currentWeekDateArray?.objectAtIndex(index) as! NSDate
-            let displayDate = DCDateUtility.dateStringFromDate(date, inFormat:dateViewFormat as String)
+            let displayDate = DCDateUtility.dateStringFromDate(date, inFormat:dateFormat as String)
             displayDatesArray .addObject(displayDate)
         }
         return displayDatesArray

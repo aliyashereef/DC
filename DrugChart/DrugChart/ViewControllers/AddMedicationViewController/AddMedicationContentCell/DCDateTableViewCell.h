@@ -17,9 +17,10 @@ typedef void(^NoEndDateStatus)(BOOL state);
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *dateTypeWidth;
 @property (weak, nonatomic) IBOutlet UISwitch *noEndDateSwitch;
 @property (nonatomic, strong) NoEndDateStatus noEndDateStatus;
-@property (nonatomic) BOOL previousSwitchState;
+
+//@property (nonatomic) BOOL previousSwitchState;
 @property (nonatomic) BOOL isEditMedication;
 - (void)configureContentCellWithContent:(NSString *)content;
 - (void)configureCellWithNoEndDateSwitchState:(BOOL)state;
-
+- (void)configureCellWithReviewDateSwitchState:(BOOL)state;
 @end

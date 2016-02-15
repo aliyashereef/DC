@@ -51,13 +51,15 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     }
     
     override func viewWillAppear(animated: Bool) {
+        
         super.viewWillAppear(animated)
         let indexPath : NSIndexPath = NSIndexPath.init(forItem: 5, inSection: 0)
-        calendarStripCollectionView .scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: false)
+        calendarStripCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: false)
         scrolledProgramatically = true
 }
 
     override func viewWillDisappear(animated: Bool) {
+        
         super.viewWillAppear(animated)
         setParentViewWithCurrentWeekDateArray()
     }
@@ -68,13 +70,13 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
             setParentViewWithCurrentWeekDateArray()
         }
-        calendarStripCollectionView.reloadData()
         self.adjustContentOffsetToShowCenterDayInCollectionView()
+        calendarStripCollectionView.reloadData()
         medicationTableView?.reloadData()
-        self.view.layoutIfNeeded()
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        
         super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
         let orientation = UIDevice.currentDevice().orientation
         if  orientation == UIDeviceOrientation.LandscapeLeft ||  orientation == UIDeviceOrientation.LandscapeRight {
@@ -193,7 +195,8 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         let tableCell: DCOneThirdCalendarScreenMedicationCell = tableView.cellForRowAtIndexPath(indexPath) as! DCOneThirdCalendarScreenMedicationCell
-        let subViewArray = tableCell.contentView.subviews[1].subviews[2].subviews
+        let subViewArray = tableCell.contentView.subviews[1].subviews[4].subviews
+        //let subViewArray = tableCell.contentView.subviews
         
         for subVeiw in subViewArray {
             if subVeiw .isKindOfClass(DCMedicationAdministrationStatusView){
@@ -273,11 +276,10 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         atIndexPath indexPath:NSIndexPath) {
             let medicationCell = cell
             if (displayMedicationListArray.count >= indexPath.item) {
-                
                 let medicationSchedules = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
                 medicationCell.medicineName.text = medicationSchedules.name;
                 let routeString : String = medicationSchedules.route.stringByReplacingOccurrencesOfString(" ", withString: EMPTY_STRING)
-                let attributedRouteString : NSMutableAttributedString = NSMutableAttributedString(string: routeString, attributes: [NSFontAttributeName : UIFont.systemFontOfSize(16.0)])
+                let attributedRouteString : NSMutableAttributedString = NSMutableAttributedString(string: routeString, attributes: [NSFontAttributeName : UIFont.systemFontOfSize(14.0)])
                 let attributedInstructionsString : NSMutableAttributedString
                 let instructionString : String
                 if ( medicationSchedules.instruction != EMPTY_STRING &&  medicationSchedules.instruction  != nil) {
@@ -288,6 +290,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
                 attributedInstructionsString  = NSMutableAttributedString(string: instructionString, attributes: [NSFontAttributeName:UIFont.systemFontOfSize(12.0)])
                 attributedRouteString.appendAttributedString(attributedInstructionsString)
                 medicationCell.route.attributedText = attributedRouteString;
+                medicationCell.typeLabel.text = DCCalendarHelper.typeDescriptionForMedication(medicationSchedules)
             }
     }
         
@@ -346,14 +349,14 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
                     existingStatusViews.addObject(subView)
                 }
             }
-            let viewFrame = CGRectMake(0, 0, 115, 35.0)
+            let viewFrame = CGRectMake(0, 0, 120, 67.0)
             let statusView : DCMedicationAdministrationStatusView = DCMedicationAdministrationStatusView(frame: viewFrame)
             let medicationSchedules = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
             statusView.tag = tag
             statusView.delegate = self
             statusView.currentIndexPath = indexPath
             statusView.medicationCategory = medicationSchedules.medicineCategory
-            statusView.backgroundColor = UIColor.whiteColor()
+            statusView.backgroundColor = UIColor.clearColor()
             statusView.isOneThirdScreen = true
             statusView.updateAdministrationStatusViewWithMedicationSlotDictionary(slotDictionary)
             return statusView
@@ -381,7 +384,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         
         let indexPath : NSIndexPath = NSIndexPath(forRow:7 , inSection: 0)
         calendarStripCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: true)
-        self.view .layoutIfNeeded()
+        scrolledProgramatically = true
     }
     
     func modifyStartDateAndWeekDatesArray(isNextWeek : Bool,adderValue : NSInteger) {
@@ -508,6 +511,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         let parentView : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
         parentView.displayAdministrationViewForMedicationSlot(medicationSLotDictionary as [NSObject : AnyObject], atIndexPath: indexPath, withWeekDate: date)
     }
+    
     //MARK - EditDeleteActionDelegate methods
     
     func stopMedicationForSelectedIndexPath(indexPath: NSIndexPath) {
