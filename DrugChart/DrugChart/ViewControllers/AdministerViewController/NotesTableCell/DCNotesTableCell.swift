@@ -45,24 +45,22 @@ class DCNotesTableCell: UITableViewCell, UITextViewDelegate {
         return true
     }
     
-    func textViewDidChange(textView: UITextView) {
+//    func textViewDidChange(textView: UITextView) {
+//        
+//        if (textView.text != hintText()) {
+//            if let delegate = self.delegate {
+//                delegate.enteredNote(textView.text)
+//            }
+//        }
+//    }
+    
+    func textViewDidEndEditing(textView: UITextView) {
         
         if (textView.text != hintText()) {
             if let delegate = self.delegate {
                 delegate.enteredNote(textView.text)
             }
         }
-    }
-    
-    func textViewDidEndEditing(textView: UITextView) {
-        
-        if let delegate = self.delegate {
-            delegate.enteredNote(textView.text)
-        }
-        if let delegate = self.delegate {
-            delegate.notesSelected(false, withIndexPath: selectedIndexPath!)
-        }
-
         if (textView.text == EMPTY_STRING) {
             textView.textColor = UIColor(forHexString: "#8f8f95")
             textView.text = hintText()
