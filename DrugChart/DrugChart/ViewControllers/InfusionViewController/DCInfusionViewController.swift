@@ -44,7 +44,9 @@ class DCInfusionViewController: UIViewController, UITableViewDelegate, UITableVi
     override func viewWillDisappear(animated: Bool) {
         
         if let delegate = administerDelegate {
-            delegate.newInfusionObject(self.infusion!)
+            if let updatedInfusion = self.infusion {
+                delegate.newInfusionObject(updatedInfusion)
+            }
         }
         super.viewWillDisappear(animated)
     }
