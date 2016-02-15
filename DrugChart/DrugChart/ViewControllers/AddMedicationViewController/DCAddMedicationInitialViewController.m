@@ -851,29 +851,19 @@
                 addNewValueViewController.titleString = @"Frequency";
                 addNewValueViewController.placeHolderString = @"Every";
                 addNewValueViewController.detailType = eAddValueWithUnit;
-                addNewValueViewController.unitArray = [[NSArray alloc] initWithObjects:DAYS,WEEKS,MONTHS,nil];
+                addNewValueViewController.unitArray = [[NSArray alloc] initWithObjects:@"Day",@"Week",@"Month",nil];
                 addNewValueViewController.previousValue = self.selectedMedication.reviewDate;
                 addNewValueViewController.newValueEntered = ^ (NSString *value) {
                     self.selectedMedication.reviewDate = [NSString stringWithFormat:@"Every %@",value];
                     [medicationDetailsTableView reloadData];
                 };
                 [self.navigationController pushViewController:addNewValueViewController animated:YES];
-
-//                if (reviewDatePickerExpanded) {
-//                    // display the date picker inline with the table content
-//                    reviewDatePickerExpanded = NO;
-//                    [medicationDetailsTableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:1]]
-//                                                      withRowAnimation:UITableViewRowAnimationFade];
-//                } else {
-//                    reviewDatePickerExpanded = YES;
-//                    [medicationDetailsTableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:1]]
-//                                                      withRowAnimation:UITableViewRowAnimationFade];
-//                }
             }
             break;
         }
         case eSecondSection:
-            if (showWarnings) { //if tableview has warnings section, 'Warnings' selection displays Warnings List, Other wise detail screen display will be that of dosage, route, type
+            if (showWarnings) {
+                //if tableview has warnings section, 'Warnings' selection displays Warnings List, Other wise detail screen display will be that of dosage, route, type
                 [self displayWarningsListView];
             } else {
                 if (indexPath.row == 0) {

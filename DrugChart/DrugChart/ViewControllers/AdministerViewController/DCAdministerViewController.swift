@@ -705,6 +705,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                                 saveButton?.enabled = false
                                 administerCell.titleLabel.textColor = UIColor(forHexString: "#676767")
                             }
+                        } else if (status != IN_PROGRESS){
+                            administerCell.titleLabel.text = NSLocalizedString("STATUS", comment: "status title text")
                         }
                         return administerCell
                     }
