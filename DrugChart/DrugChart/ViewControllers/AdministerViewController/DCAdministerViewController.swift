@@ -900,9 +900,10 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         } else {
             medicationSlot?.medicationAdministration?.omittedNotes = note
         }
+        self.administerTableView.setContentOffset(CGPointMake(0, 0), animated: true)
     }
     
-    // mark :StatusList Delegate Methods 
+    // mark:StatusList Delegate Methods
     
     func selectedMedicationStatusEntry(status: String!) {
         saveClicked = false
