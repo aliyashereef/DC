@@ -115,7 +115,9 @@ class DCRouteViewController: UIViewController, UITableViewDelegate, UITableViewD
         if (DCAddMedicationHelper.routeIsIntravenousOrSubcutaneous(route as String) == false) {
             self.infusion?.administerAsOption = nil
             if let infusionDelegate = self.delegate {
-                infusionDelegate.updatedInfusionObject(self.infusion!)
+                if let updatedInfusion = self.infusion {
+                    infusionDelegate.updatedInfusionObject(updatedInfusion)
+                }
             }
             self.navigationController?.popToRootViewControllerAnimated(true)
         } else {
