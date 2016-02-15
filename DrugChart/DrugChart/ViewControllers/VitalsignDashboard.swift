@@ -301,11 +301,8 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         activityIndicator = startActivityIndicator(self.view) // show the activity indicator
         let parser = VitalSignParser()
         parser.getVitalSignsObservations("bedmanagement/wards", onSuccess: showData)
-//
-//        showData(observationList)
     }
     @IBAction func show(sender: AnyObject) {
- //       if(UIDevice.currentDevice().userInterfaceIdiom == .Pad)
         let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
         if (appDelegate.windowState == DCWindowState.halfWindow || appDelegate.windowState == DCWindowState.oneThirdWindow) {
             let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
