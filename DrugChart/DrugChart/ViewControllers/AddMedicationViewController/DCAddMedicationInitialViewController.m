@@ -854,6 +854,7 @@
                 DCAddNewValueViewController *addNewValueViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:ADD_NEW_VALUE_SBID];
                 addNewValueViewController.titleString = @"Frequency";
                 addNewValueViewController.placeHolderString = @"Every";
+                addNewValueViewController.backButtonTitle = @"Add Medication";
                 addNewValueViewController.detailType = eAddValueWithUnit;
                 addNewValueViewController.unitArray = [[NSArray alloc] initWithObjects:@"Day",@"Week",@"Month",nil];
                 addNewValueViewController.previousValue = self.selectedMedication.reviewDate;

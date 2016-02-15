@@ -18,6 +18,7 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
     var titleString : String = ""
     var textFieldValue : String = ""
     var valueForUnit : String = ""
+    var backButtonTitle : String = ""
     var isInlinePickerActive : Bool = false
     var newValueEntered: NewValueEntered = { value in }
     var previousValue : String = ""
@@ -70,6 +71,7 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
     
     func configureNavigationBar() {
         
+        DCUtility.backButtonItemForViewController(self, inNavigationController: self.navigationController, withTitle:backButtonTitle as String)
         self.navigationItem.title = titleString
         self.title = titleString
     }
