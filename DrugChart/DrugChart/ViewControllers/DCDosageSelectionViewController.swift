@@ -29,6 +29,7 @@ typealias SelectedDosage = DCDosage? -> Void
     var selectedIndexPathInTimeArray : Int = 0
     var previousIndexPath = NSIndexPath(forRow: 5, inSection: 0)
     var dosageArray = [String]()
+    var doseValueFromAPI : String = ""
     var valueStringForRequiredDailyDose : NSString = ""
     var valueForRequiredDailyDose : Float = 0
     var totalValueForDose : Float = 0
@@ -47,6 +48,9 @@ typealias SelectedDosage = DCDosage? -> Void
         self.configureNavigationBarItems()
         if (timeArray != nil) {
             self.configureTimeArray()
+        }
+        if dosageArray.count != 0 {
+            doseValueFromAPI = dosageArray[0]
         }
         dosageTableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
 
@@ -737,7 +741,15 @@ typealias SelectedDosage = DCDosage? -> Void
             } else {
                 self.dosage?.variableDose.doseToValue = value
             }
-            newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
+            if dosageArray.count != 0 {
+                if self.dosage!.variableDose.doseFromValue != doseValueFromAPI && self.dosage!.variableDose.doseToValue != doseValueFromAPI {
+                    newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
+                }
+            } else {
+                if self.dosage?.variableDose.doseFromValue != "" && self.dosage?.variableDose.doseToValue != "" {
+                    newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
+                }
+            }
         } else if (selectedDetailType == eDoseUnit) {
             dosage?.doseUnit = value
         } else if (selectedDetailType == eStartingDose) {
@@ -766,8 +778,26 @@ typealias SelectedDosage = DCDosage? -> Void
             self.dosage?.fixedDose?.doseValue = value
         case eDoseFrom.rawValue:
             self.dosage?.variableDose.doseFromValue = value
+            if dosageArray.count != 0 {
+                if self.dosage!.variableDose.doseFromValue != doseValueFromAPI && self.dosage!.variableDose.doseToValue != doseValueFromAPI {
+                    newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
+                }
+            } else {
+                if self.dosage?.variableDose.doseFromValue != "" && self.dosage?.variableDose.doseToValue != "" {
+                    newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
+                }
+            }
         case eDoseTo.rawValue:
             self.dosage?.variableDose.doseToValue = value
+            if dosageArray.count != 0 {
+                if self.dosage!.variableDose.doseFromValue != doseValueFromAPI && self.dosage!.variableDose.doseToValue != doseValueFromAPI {
+                    newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
+                }
+            } else {
+                if self.dosage?.variableDose?.doseFromValue != "" && self.dosage?.variableDose.doseToValue != "" {
+                    newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
+                }
+            }
         case eStartingDose.rawValue:
             self.dosage?.reducingIncreasingDose.startingDose = value
         case eChangeOver.rawValue:

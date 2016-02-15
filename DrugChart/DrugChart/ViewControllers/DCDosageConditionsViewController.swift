@@ -15,6 +15,7 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
     var dosage : DCDosage?
     var conditionDescriptionArray = [String]()
 
+    @IBOutlet weak var conditionTableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
         if self.dosage?.reducingIncreasingDose?.conditionsArray == nil {
@@ -25,7 +26,14 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
             self.updateMainPreviewDetailsArray()
         }
         self.configureNavigationBarItems()
+        conditionTableView.estimatedRowHeight = 44
+        conditionTableView.rowHeight = UITableViewAutomaticDimension
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        
+        conditionTableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -136,10 +144,6 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 44
-    }
-
 // MARK: - Private Methods
 
     func currentStartingDose() -> Float {
