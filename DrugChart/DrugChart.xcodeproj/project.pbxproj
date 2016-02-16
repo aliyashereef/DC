@@ -1525,6 +1525,7 @@
 				7D5567DB1B4FEE2100BA6733 /* OnceMedicationSample.plist */,
 				7D5567DC1B4FEE2100BA6733 /* RegularMedicationSample.plist */,
 				7D9EA9E91B2960F900337E6A /* GraphicalCoordinateList.plist */,
+				1F3AB1AA1C71EBAF008F0513 /* observation.json */,
 				0BBC8F981AA468370085ABAB /* Fonts */,
 				0BBC8F991AA468370085ABAB /* Images */,
 				0BBC8F941AA467480085ABAB /* Localizable.strings */,
@@ -1542,7 +1543,6 @@
 				7D9EA9EB1B29846C00337E6A /* PositionableGraphics.plist */,
 				0BB397801B42AF500037C8E1 /* OrderSet.plist */,
 				0BD5181C1BFB2F790076B018 /* WeekDays.plist */,
-				1F3AB1AA1C71EBAF008F0513 /* observation.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";

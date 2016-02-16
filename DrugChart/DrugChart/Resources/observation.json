@@ -1,3 +1,5 @@
+
+
 {
     "resourceType": "Bundle",
     "type" : "searchset",
@@ -22,6 +24,7 @@
                          ],
               "text": "O/E - blood pressure reading"
               },
+              "effectiveDateTime": "2016-02-16",
               "component": [
                             {
                             "code": {
@@ -35,7 +38,8 @@
                             },
                             "valueQuantity": {
                             "value": 140,
-                            "unit": "mmHg"
+                            "unit": "mmHg",
+                            "string":"140"
                             }
                             },
                             {
@@ -130,6 +134,7 @@
                          ],
               "text": "O/E - rate of respiration"
               },
+              "effectiveDateTime": "2016-02-16T10:30:10+01:00",
               "valueQuantity": {
               "value": 20,
               "unit": "/minute"
@@ -182,6 +187,7 @@
                          ],
               "text": "O/E - oral temperature taken"
               },
+              "effectiveDateTime": "2016-02-16T10:30:10+01:00",
               "valueQuantity": {
               "value": 34,
               "unit": "degrees C"
@@ -262,6 +268,7 @@
                          ],
               "text": "O/E - pulse rate"
               },
+              "effectiveDateTime": "2016-02-16T10:30:10+01:00",
               "valueQuantity": {
               "value": 65,
               "unit": "beats/min"
