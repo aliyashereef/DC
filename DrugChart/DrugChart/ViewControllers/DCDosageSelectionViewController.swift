@@ -171,7 +171,7 @@ typealias SelectedDosage = DCDosage? -> Void
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
         if (menuType == eDosageMenu) {
-            return 1
+            return 2
         } else if (menuType == eSplitDaily) {
             if (selectedTimeArrayItems.count != 0) {
                 return 4
@@ -189,17 +189,18 @@ typealias SelectedDosage = DCDosage? -> Void
             return dosageMenuItems.count
         } else if (section == 1) {
             switch(menuType.rawValue) {
-                
-            case eFixedDosage.rawValue:
-                return 2
-            case eSplitDaily.rawValue:
-                return 2
-            case eVariableDosage.rawValue:
-                return 3
-            case eReducingIncreasing.rawValue:
-                return 4
-            default:
-                break
+                case eDosageMenu.rawValue:
+                    return 2
+                case eFixedDosage.rawValue:
+                    return 2
+                case eSplitDaily.rawValue:
+                    return 2
+                case eVariableDosage.rawValue:
+                    return 3
+                case eReducingIncreasing.rawValue:
+                    return 4
+                default:
+                    break
             }
         } else if (section == 2) {
             if (selectedTimeArrayItems.count != 0) {
@@ -433,52 +434,56 @@ typealias SelectedDosage = DCDosage? -> Void
         }
         //Configure the cell.
         switch (menuType.rawValue) {
+            case eDosageMenu.rawValue:
+              //  if (indexPath.row == 0) {
+                    dosageSelectionDetailCell.configureCell("test", selectedValue: (dosage?.doseUnit)!)
+              //  }
             
-        case eFixedDosage.rawValue:
-            if(indexPath.row == 0){
-                dosageSelectionDetailCell.configureCell(DOSE_UNIT_LABEL_TEXT, selectedValue: (dosage?.doseUnit)!)
-            }else {
-                dosageSelectionDetailCell.configureCell(DOSE_VALUE_TITLE, selectedValue: (self.dosage?.fixedDose.doseValue)!)
-            }
-        case eVariableDosage.rawValue:
-            if(indexPath.row == 0) {
-                dosageSelectionDetailCell.configureCell(DOSE_UNIT_LABEL_TEXT, selectedValue: (dosage?.doseUnit)!)
-            }else if (indexPath.row == 1) {
-                dosageSelectionDetailCell.configureCell(DOSE_FROM_TITLE, selectedValue: (self.dosage?.variableDose.doseFromValue)!)
-            } else {
-                dosageSelectionDetailCell.configureCell(DOSE_TO_TITLE, selectedValue: (self.dosage?.variableDose.doseToValue)!)
-            }
-        case eReducingIncreasing.rawValue:
-            if(indexPath.row == 0) {
-                dosageSelectionDetailCell.configureCell(DOSE_UNIT_LABEL_TEXT, selectedValue: (dosage?.doseUnit)! as String)
-            }else if (indexPath.row == 1) {
-                dosageSelectionDetailCell.configureCell(STARTING_DOSE_TITLE, selectedValue: (self.dosage?.reducingIncreasingDose.startingDose)!)
-            } else if(indexPath.row == 2){
-                dosageSelectionDetailCell.configureCell(CHANGE_OVER_TITLE, selectedValue: (self.dosage?.reducingIncreasingDose.changeOver)!)
-            } else {
-                dosageSelectionDetailCell.configureCell(CONDITIONS_TITLE, selectedValue: (self.dosage?.reducingIncreasingDose.conditions.conditionDescription)!)
-            }
-        case eSplitDaily.rawValue:
-            if (indexPath.section == 1) {
-                if(indexPath.row == 0){
-                    dosageSelectionDetailCell.configureCell(DOSE_UNIT_LABEL_TEXT, selectedValue: (dosage?.doseUnit)! as String)
+            case eFixedDosage.rawValue:
+                if(indexPath.row == 0) {
+                    dosageSelectionDetailCell.configureCell(DOSE_UNIT_LABEL_TEXT, selectedValue: (dosage?.doseUnit)!)
+                } else {
+                    dosageSelectionDetailCell.configureCell(DOSE_VALUE_TITLE, selectedValue: (self.dosage?.fixedDose.doseValue)!)
                 }
-            } else if (indexPath.section == 2) {
-                if (selectedTimeArrayItems.count != 0) {
-                    dosageSelectionDetailCell.configureCell(selectedTimeArrayItems[indexPath.row], selectedValue: valueForDoseForTime[indexPath.row])
+            case eVariableDosage.rawValue:
+                if(indexPath.row == 0) {
+                    dosageSelectionDetailCell.configureCell(DOSE_UNIT_LABEL_TEXT, selectedValue: (dosage?.doseUnit)!)
+                } else if (indexPath.row == 1) {
+                    dosageSelectionDetailCell.configureCell(DOSE_FROM_TITLE, selectedValue: (self.dosage?.variableDose.doseFromValue)!)
+                } else {
+                    dosageSelectionDetailCell.configureCell(DOSE_TO_TITLE, selectedValue: (self.dosage?.variableDose.doseToValue)!)
+                }
+            case eReducingIncreasing.rawValue:
+                if(indexPath.row == 0) {
+                    dosageSelectionDetailCell.configureCell(DOSE_UNIT_LABEL_TEXT, selectedValue: (dosage?.doseUnit)! as String)
+                } else if (indexPath.row == 1) {
+                    dosageSelectionDetailCell.configureCell(STARTING_DOSE_TITLE, selectedValue: (self.dosage?.reducingIncreasingDose.startingDose)!)
+                } else if(indexPath.row == 2){
+                    dosageSelectionDetailCell.configureCell(CHANGE_OVER_TITLE, selectedValue: (self.dosage?.reducingIncreasingDose.changeOver)!)
+                } else {
+                    dosageSelectionDetailCell.configureCell(CONDITIONS_TITLE, selectedValue: (self.dosage?.reducingIncreasingDose.conditions.conditionDescription)!)
+                }
+            case eSplitDaily.rawValue:
+                if (indexPath.section == 1) {
+                    if(indexPath.row == 0){
+                        dosageSelectionDetailCell.configureCell(DOSE_UNIT_LABEL_TEXT, selectedValue: (dosage?.doseUnit)! as String)
+                    }
+                } else if (indexPath.section == 2) {
+                    if (selectedTimeArrayItems.count != 0) {
+                        dosageSelectionDetailCell.configureCell(selectedTimeArrayItems[indexPath.row], selectedValue: valueForDoseForTime[indexPath.row])
+                    } else {
+                        dosageSelectionDetailCell.dosageMenuLabel.text = ADD_ADMINISTRATION_TIME
+                        dosageSelectionDetailCell.accessoryType = .None
+                        dosageSelectionDetailCell.dosageMenuLabel.textColor = dosageTableView.tintColor
+                    }
                 } else {
                     dosageSelectionDetailCell.dosageMenuLabel.text = ADD_ADMINISTRATION_TIME
                     dosageSelectionDetailCell.accessoryType = .None
                     dosageSelectionDetailCell.dosageMenuLabel.textColor = dosageTableView.tintColor
                 }
-            } else {
-                dosageSelectionDetailCell.dosageMenuLabel.text = ADD_ADMINISTRATION_TIME
-                dosageSelectionDetailCell.accessoryType = .None
-                dosageSelectionDetailCell.dosageMenuLabel.textColor = dosageTableView.tintColor
+            default:
+                break
             }
-        default:
-            break
-        }
         return dosageSelectionDetailCell
     }
     
