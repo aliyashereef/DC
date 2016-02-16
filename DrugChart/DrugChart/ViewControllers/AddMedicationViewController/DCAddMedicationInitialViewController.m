@@ -735,7 +735,7 @@
         }
         if ([self.selectedMedication.medicineCategory  isEqualToString: @"Regular"]) {
             dosageSelectionViewController.isReducingIncreasingPresent = true;
-            if (self.selectedMedication.scheduling.specificTimes != nil && [self.selectedMedication.scheduling.specificTimes.repeatObject.repeatType  isEqualToString: @"Daily"]) {
+            if ([self.selectedMedication.scheduling.type  isEqualToString:SPECIFIC_TIMES] && self.selectedMedication.scheduling.specificTimes != nil && [self.selectedMedication.scheduling.specificTimes.repeatObject.repeatType  isEqualToString: @"Daily"]) {
                 dosageSelectionViewController.isSplitDailyPresent = true;
             }
         }
@@ -861,6 +861,7 @@
                     self.selectedMedication.reviewDate = [NSString stringWithFormat:@"Every %@",value];
                     [medicationDetailsTableView reloadData];
                 };
+                self.title = titleLabel.text;
                 [self.navigationController pushViewController:addNewValueViewController animated:YES];
             }
             break;
