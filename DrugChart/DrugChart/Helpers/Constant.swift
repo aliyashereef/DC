@@ -25,5 +25,6 @@ class Constant
     static let CORNER_RADIUS :CGFloat = 2
     static let CELL_BORDER_COLOR :CGColor = UIColor.lightGrayColor().CGColor
     static let SELECTION_CELL_BACKGROUND_COLOR:UIColor = UIColor(forHexString: "#fafafa")
+    static let VITAL_SIGN_LOGGER_INDICATOR = "[Vital Sign]"
     
 }

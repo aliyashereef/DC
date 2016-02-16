@@ -18,6 +18,8 @@
 
 + (DCHTTPRequestOperationManager *)sharedAdministerMedicationManager;
 
++ (DCHTTPRequestOperationManager *)sharedVitalSignManager;
+
 - (void)configureHeaderFieldsForRequest;
 
 - (void)cancelAllWebRequests;

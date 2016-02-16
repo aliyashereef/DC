@@ -705,6 +705,8 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                                 saveButton?.enabled = false
                                 administerCell.titleLabel.textColor = UIColor(forHexString: "#676767")
                             }
+                        } else if (status != IN_PROGRESS){
+                            administerCell.titleLabel.text = NSLocalizedString("STATUS", comment: "status title text")
                         }
                         return administerCell
                     }
@@ -900,9 +902,10 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         } else {
             medicationSlot?.medicationAdministration?.omittedNotes = note
         }
+        self.administerTableView.setContentOffset(CGPointMake(0, 0), animated: true)
     }
     
-    // mark :StatusList Delegate Methods 
+    // mark:StatusList Delegate Methods
     
     func selectedMedicationStatusEntry(status: String!) {
         saveClicked = false
