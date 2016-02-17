@@ -126,7 +126,22 @@ class VitalSignParser : FhirParser
              obsTemperature.value = obs.valueQuantity!.value!.doubleValue
             return obsTemperature
         case "254063019":// -- blood presure
-            return nil
+            let obsBloodPressure = BloodPressure()
+            obsBloodPressure.date = observationDate!
+            for component in obs.component!
+            {
+                let code = component.code?.coding![0]
+                switch(code!.code!)
+                {
+                    case "114311000006111": // systolic
+                        obsBloodPressure.systolic = (component.valueQuantity?.value?.doubleValue)!
+                    case "619931000006119" : // diastolic
+                        obsBloodPressure.diastolic = (component.valueQuantity?.value?.doubleValue)!
+                    default:
+                        DDLogError("\(Constant.VITAL_SIGN_LOGGER_INDICATOR) Unexpected type \(obs.text) found in blood pressure components.")
+                }
+            }
+            return obsBloodPressure
         case "254020017":// -- pulse rate
             let obsPulse = Pulse()
             obsPulse.date = observationDate!
