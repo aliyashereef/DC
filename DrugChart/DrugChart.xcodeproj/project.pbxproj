@@ -55,6 +55,7 @@
 		0B95FAF01B5E6634002939DF /* DCWarningsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B95FAEF1B5E6634002939DF /* DCWarningsHeaderView.m */; };
 		0B95FAF21B5E6663002939DF /* DCWarningsHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B95FAF11B5E6663002939DF /* DCWarningsHeaderView.xib */; };
 		0B964C7F1C51019000CD509D /* DCInfusionsFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B964C7E1C51019000CD509D /* DCInfusionsFooterView.swift */; };
+		0B96E9831C731A8300464836 /* DCSingleDose.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B96E9821C731A8300464836 /* DCSingleDose.m */; };
 		0B989E971B8C22960012AFE8 /* DCCalendarNavigationTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B989E961B8C22960012AFE8 /* DCCalendarNavigationTitleView.m */; };
 		0B989E991B8C22CD0012AFE8 /* DCCalendarNavigationTitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B989E981B8C22CD0012AFE8 /* DCCalendarNavigationTitleView.xib */; };
 		0B9D6D521BA17244009E0A4E /* DCAddMedicationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B9D6D511BA17244009E0A4E /* DCAddMedicationHelper.m */; };
@@ -461,6 +462,8 @@
 		0B95FAEF1B5E6634002939DF /* DCWarningsHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCWarningsHeaderView.m; sourceTree = "<group>"; };
 		0B95FAF11B5E6663002939DF /* DCWarningsHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCWarningsHeaderView.xib; sourceTree = "<group>"; };
 		0B964C7E1C51019000CD509D /* DCInfusionsFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCInfusionsFooterView.swift; sourceTree = "<group>"; };
+		0B96E9811C731A8300464836 /* DCSingleDose.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCSingleDose.h; sourceTree = "<group>"; };
+		0B96E9821C731A8300464836 /* DCSingleDose.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCSingleDose.m; sourceTree = "<group>"; };
 		0B989E951B8C22960012AFE8 /* DCCalendarNavigationTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCCalendarNavigationTitleView.h; sourceTree = "<group>"; };
 		0B989E961B8C22960012AFE8 /* DCCalendarNavigationTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCCalendarNavigationTitleView.m; sourceTree = "<group>"; };
 		0B989E981B8C22CD0012AFE8 /* DCCalendarNavigationTitleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCCalendarNavigationTitleView.xib; sourceTree = "<group>"; };
@@ -1332,6 +1335,15 @@
 				0B964C7E1C51019000CD509D /* DCInfusionsFooterView.swift */,
 			);
 			path = InfusionsFooterView;
+			sourceTree = "<group>";
+		};
+		0B96E9801C731A5F00464836 /* SingleDose */ = {
+			isa = PBXGroup;
+			children = (
+				0B96E9811C731A8300464836 /* DCSingleDose.h */,
+				0B96E9821C731A8300464836 /* DCSingleDose.m */,
+			);
+			path = SingleDose;
 			sourceTree = "<group>";
 		};
 		0B989E941B8C22780012AFE8 /* CalendarNavigationTitleView */ = {
@@ -2963,6 +2975,7 @@
 				FDD548681C4510E5000EB855 /* Fixed */,
 				FDD548691C4510F5000EB855 /* Variable */,
 				FDD5486A1C451100000EB855 /* ReducingIncreasing */,
+				0B96E9801C731A5F00464836 /* SingleDose */,
 				FDD5486B1C45110F000EB855 /* SplitDaily */,
 			);
 			name = Dosage;
@@ -3283,6 +3296,7 @@
 				FD2FF8BB1C3BD80300778A4E /* DCAddNewDoseAndTimeViewController.swift in Sources */,
 				FD2FF8BF1C3BD84C00778A4E /* DCDosageUnitSelectionViewController.swift in Sources */,
 				0BBC8F841AA44E330085ABAB /* DCLoginWebService.m in Sources */,
+				0B96E9831C731A8300464836 /* DCSingleDose.m in Sources */,
 				0B6B497A1B2ED50700288117 /* DCScrollView.m in Sources */,
 				0BC5FAF61B43FF930019BF36 /* DCAutoSearchView.m in Sources */,
 				4DDEED511B4D0E3F00D8E0FF /* DCPatientAllergyWebService.m in Sources */,

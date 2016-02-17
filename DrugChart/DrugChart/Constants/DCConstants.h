@@ -553,6 +553,8 @@
 #define ADD_NEW_TIME @"Add New Time"
 #define TIME_KEY @"time"
 #define UNTIL_TITLE @"Until"
+#define SINGLE_DOSE @"Single dose"
+#define DOSE_DATE_AND_TIME @"Dose date"
 
 //Administration times
  #define SELECTED_KEY @"selected"
