@@ -17,8 +17,6 @@ class VitalSignObservation
     var respiratory:Respiratory?
     var spo2:SPO2?
     var date:NSDate
-    var time:NSDate
-    
     var eyesOpen:KeyValue?
     var bestVerbalResponse:KeyValue?
     var bestMotorResponse:KeyValue?
@@ -27,7 +25,7 @@ class VitalSignObservation
     var limbMovementArms:KeyValue?
     var limbMovementLegs:KeyValue?
     
-    init()
+     init()
     {
         bloodPressure = nil
         temperature = nil
@@ -36,7 +34,6 @@ class VitalSignObservation
         respiratory = nil
         spo2 = nil
         date = NSDate()
-        time = NSDate()
         eyesOpen = nil
         bestVerbalResponse = nil
         bestMotorResponse = nil

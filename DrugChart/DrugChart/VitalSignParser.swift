@@ -30,15 +30,36 @@ class VitalSignParser : FhirParser
                         let obs = bundleEntry.resource as! Observation
                         if(obs.code?.coding?.count == 0)
                         {
-                            DDLogInfo("\(Constant.VITAL_SIGN_LOGGER_INDICATOR) ignoring the observation because is not found")
+                            DDLogInfo("\(Constant.VITAL_SIGN_LOGGER_INDICATOR) ignoring the observation because code is not found")
                             continue
                         }
-                        let obsVitalSign = VitalSignObservation()
-                        obsVitalSign.date = NSDate()
                         let object = self.getObservation(obs)
                         if(object == nil)
                         {
                             continue
+                        }
+                        
+                        let obsVitalSign:VitalSignObservation
+                        let dateToSearch = (object as? VitalSignBaseModel)?.date
+                        
+                        print (dateToSearch)
+                        
+                        let calendar = NSCalendar.currentCalendar()
+                        let chosenDateComponents = calendar.components([.Month , .Year , .Day , .Hour , .Minute], fromDate: dateToSearch!)
+                        
+                        let filteredObservations = lstObservation.filter { (observationList) -> Bool in
+                            let components = calendar.components([.Month, .Year, .Day , .Hour , .Minute], fromDate:observationList.date)
+                            return components.month == chosenDateComponents.month && components.year == chosenDateComponents.year &&  components.day == chosenDateComponents.day &&  components.hour == chosenDateComponents.hour && components.minute == chosenDateComponents.minute
+                        }
+                        if(filteredObservations.count > 0)
+                        {
+                            obsVitalSign = filteredObservations[0]
+                        }
+                        else
+                        {
+                            obsVitalSign = VitalSignObservation()
+                            obsVitalSign.date = dateToSearch!
+                            lstObservation.append(obsVitalSign)
                         }
                         if(object.isKindOfClass(Respiratory))
                         {
@@ -60,13 +81,13 @@ class VitalSignParser : FhirParser
                         {
                             obsVitalSign.pulse = object as? Pulse
                         }
-                       lstObservation.append(obsVitalSign)
                     }
                 }
                 onSuccess(observationList: lstObservation)
             }
     }
     }
+    
     
     func getObservation(obs:Observation)->AnyObject!
     {
