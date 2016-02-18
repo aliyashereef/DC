@@ -103,8 +103,7 @@ class VitalSignObservation
     func getNews() ->String
     {
         var score :Int = 0
-        var invalidResult:Bool = true
-        var foundValue:Bool = false
+        var invalidResult:Bool = false
         var interimScore : Int
         if respiratory != nil
         {
@@ -114,8 +113,12 @@ class VitalSignObservation
                 invalidResult = true
             }
             score += interimScore
-            foundValue = true
         }
+        else
+        {
+            invalidResult = true
+        }
+        
         if spo2 != nil
         {
             interimScore = getOxygenSaturationRating((spo2?.spO2Percentage)!)
@@ -124,7 +127,10 @@ class VitalSignObservation
                 invalidResult = true
             }
             score += interimScore
-            foundValue = true
+        }
+        else
+        {
+            invalidResult = true
         }
         
         if temperature != nil
@@ -135,7 +141,10 @@ class VitalSignObservation
                 invalidResult = true
             }
            score += interimScore
-           foundValue = true
+        }
+        else
+        {
+            invalidResult = true
         }
         
         if bloodPressure != nil
@@ -146,7 +155,10 @@ class VitalSignObservation
                 invalidResult = true
             }
             score += interimScore
-            foundValue = true
+        }
+        else
+        {
+            invalidResult = true
         }
         
         if pulse != nil
@@ -157,10 +169,14 @@ class VitalSignObservation
                 invalidResult = true
             }
             score += interimScore
-            foundValue = true
+           
+        }
+        else
+        {
+            invalidResult = true
         }
         
-        return foundValue==false || invalidResult == true ? "N/A" : String(score)
+        return invalidResult == true ? "N/A" : String(score)
     }
 
     func getBloodPressureReading() ->String
