@@ -77,18 +77,18 @@
                                             <outlet property="medicineNameLabel" destination="eOh-AF-dsY" id="Rmf-uA-dQW"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="graphDisplayCell" rowHeight="215" id="Ib4-7o-cKW" customClass="DCAdministerGraphViewCell" customModule="DrugChart" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="169" width="310" height="215"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="graphDisplayCell" rowHeight="140" id="Ib4-7o-cKW" customClass="DCAdministerGraphViewCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="169" width="310" height="140"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ib4-7o-cKW" id="bl6-G4-hlr">
-                                            <rect key="frame" x="0.0" y="0.0" width="310" height="214"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="310" height="139"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lz3-1a-rOY" customClass="LineChartView" customModule="Charts">
-                                                    <rect key="frame" x="0.0" y="0.0" width="310" height="214"/>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lz3-1a-rOY" customClass="CombinedChartView" customModule="Charts">
+                                                    <rect key="frame" x="0.0" y="0.0" width="310" height="139"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="214" id="fGc-Pr-tIp"/>
+                                                        <constraint firstAttribute="height" constant="139" id="zOH-mP-Nps"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
@@ -102,11 +102,11 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="chartView" destination="lz3-1a-rOY" id="1qb-Ns-VEf"/>
+                                            <outlet property="chartView" destination="lz3-1a-rOY" id="RA2-oR-Aho"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="valueCell" id="vgk-g0-UwF" customClass="DCAdministerTableViewCell" customModule="DrugChart" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="384" width="310" height="44"/>
+                                        <rect key="frame" x="0.0" y="309" width="310" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vgk-g0-UwF" id="Q5H-rV-S40">
                                             <rect key="frame" x="0.0" y="0.0" width="310" height="43"/>
@@ -147,7 +147,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="0.0" reuseIdentifier="NoteAndReasonCell" rowHeight="44" id="aiF-k0-O64" customClass="DCNotesAndReasonCell" customModule="DrugChart" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="428" width="310" height="44"/>
+                                        <rect key="frame" x="0.0" y="353" width="310" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aiF-k0-O64" id="EXd-uJ-Cwa">
                                             <rect key="frame" x="0.0" y="0.0" width="310" height="43"/>
@@ -194,8 +194,8 @@
                                             <variation key="default">
                                                 <mask key="constraints">
                                                     <exclude reference="5Lb-ly-Dyb"/>
-                                                    <exclude reference="WVw-ln-ABj"/>
                                                     <exclude reference="ETs-ch-2qy"/>
+                                                    <exclude reference="WVw-ln-ABj"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
