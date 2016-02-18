@@ -138,6 +138,7 @@
 #define INJECTION_REGION_SB_ID @"InjectionRegionView"
 #define ADMINISTRATION_TIMES_SB_ID "AdministrationTimesView"
 #define ADD_NEW_VALUE_SBID @"AddNewValueViewController"
+#define SINGLE_DOSE_VIEW_STORYBOARD_ID @"SingleDoseViewController"
 
 
 //Nib files
@@ -222,6 +223,7 @@
 #define VALUE_TEXTFIELD_CELL @"newValueTextfieldCell"
 #define PICKER_DROP_DOWN_CELL @"pickerDropDownCell"
 #define PICKER_CELL @"pickerCell"
+#define SINGLE_DOSE_CELL_ID  @"SingleDoseCellId"
 
 // Week days
 

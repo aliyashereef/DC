@@ -186,7 +186,7 @@ typealias SelectedDosage = DCDosage? -> Void
         } else if (section == 1) {
             switch(menuType.rawValue) {
                 case eDosageMenu.rawValue:
-                    return 2
+                    return 1
                 case eFixedDosage.rawValue:
                     return 2
                 case eSplitDaily.rawValue:
@@ -206,7 +206,7 @@ typealias SelectedDosage = DCDosage? -> Void
                     return 1
                 }
             } else {
-                return 2
+                return 1
             }
         } else if (section == 3) {
             if (menuType == eSplitDaily) {
@@ -215,7 +215,7 @@ typealias SelectedDosage = DCDosage? -> Void
                 }
             }
         }
-        return 2
+        return 1
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -281,71 +281,7 @@ typealias SelectedDosage = DCDosage? -> Void
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         if (indexPath.section == 0) {
-            previousIndexPath = indexPath
-            self.checkWhetherRowAlreadySelected(indexPath)
-            var range = NSMakeRange(3, 2)
-            if (selectedTimeArrayItems.count == 0) {
-                range = NSMakeRange(3, 1)
-            }
-            let sections = NSIndexSet(indexesInRange: range)
-            if (isRowAlreadySelected == true){
-                //if row already selected, deselect the row and delete the dropdown.
-                menuType = eDosageMenu
-                isRowAlreadySelected = false
-                tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .None
-                //if selected type is splitdaily, delete 3 sections. else delete only one section.
-                let sectionCount = tableView.numberOfSections
-                if (sectionCount == 2) {
-                    tableView.deleteSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
-                } else {
-                    tableView.deleteSections(sections, withRowAnimation: .Fade)
-                }
-            } else {
-                let sectionCount = tableView.numberOfSections
-                if (indexPath.row != 3) {
-                    tableView.beginUpdates()
-                    if (sectionCount == 2) {
-                        //if section count is zero insert new section with animation
-                        tableView.reloadSections(NSIndexSet(indexesInRange: NSMakeRange(0, 1)), withRowAnimation: .Fade)
-                        tableView.insertSections(NSIndexSet(index: 2), withRowAnimation: .Fade)
-                    } else if (sectionCount >= 4) {
-                        //Delete 3 sections od splitdaily and insert the new section.
-                        tableView.reloadSections(NSIndexSet(indexesInRange: NSMakeRange(0, 3)), withRowAnimation: .Fade)
-                        tableView.deleteSections(NSIndexSet(index: 3), withRowAnimation: .Fade)
-                        if (selectedTimeArrayItems.count > 0) {
-                            tableView.deleteSections(NSIndexSet(index: 4), withRowAnimation: .Fade)
-                        }
-                    } else {
-                        //reload sections
-                        tableView.reloadSections(NSIndexSet(indexesInRange: NSMakeRange(0, 3)), withRowAnimation: .Fade)
-                    }
-                    tableView.endUpdates()
-                } else {
-                    //Splitdaily selected. insert 3 sections if a new selection, else delete the existing one section and insert the new sections.
-                    if (sectionCount == 2) {
-                        if (selectedTimeArrayItems.count == 0) {
-                            range = NSMakeRange(2, 2)
-                        } else {
-                            range = NSMakeRange(2, 3)
-                        }
-                        tableView.beginUpdates()
-                        tableView.insertSections(NSIndexSet(indexesInRange: range), withRowAnimation: .Fade)
-                        tableView.reloadSections(NSIndexSet(indexesInRange: NSMakeRange(0, 2)), withRowAnimation: .Fade)
-                        tableView.endUpdates()
-                    } else {
-                        tableView.beginUpdates()
-                        let reloadIndexPathRange = NSMakeRange(0, sectionCount)
-                        if (selectedTimeArrayItems.count == 0) {
-                            range = NSMakeRange(2, 3)
-                        } else {
-                           range = NSMakeRange(2, 4)
-                        }
-                        tableView.reloadSections(NSIndexSet(indexesInRange: reloadIndexPathRange), withRowAnimation: .Fade)
-                        tableView.insertSections(NSIndexSet(index: 3), withRowAnimation: .Fade)
-                        tableView.endUpdates()
-                    }
-                }
-            }
+            configureDosageTableViewOnDosageTypeSelectionAtIndexPath(indexPath)
         } else {
             self.displayDosageDetailViewControllerWithSelectedDetailType(indexPath)
         }
@@ -393,6 +329,75 @@ typealias SelectedDosage = DCDosage? -> Void
     }
     
     // MARK: - Private Methods
+    
+    func configureDosageTableViewOnDosageTypeSelectionAtIndexPath(indexPath : NSIndexPath) {
+        
+        //dosage type selection
+        previousIndexPath = indexPath
+        self.checkWhetherRowAlreadySelected(indexPath)
+        var range = NSMakeRange(3, 2)
+        if (selectedTimeArrayItems.count == 0) {
+            range = NSMakeRange(3, 1)
+        }
+        let sections = NSIndexSet(indexesInRange: range)
+        if (isRowAlreadySelected == true){
+            //if row already selected, deselect the row and delete the dropdown.
+            menuType = eDosageMenu
+            isRowAlreadySelected = false
+            dosageTableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .None
+            //if selected type is splitdaily, delete 3 sections. else delete only one section.
+            let sectionCount = dosageTableView.numberOfSections
+            if (sectionCount == 2) {
+                dosageTableView.deleteSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+            } else {
+                dosageTableView.deleteSections(sections, withRowAnimation: .Fade)
+            }
+        } else {
+            let sectionCount = dosageTableView.numberOfSections
+            if (indexPath.row != 3) {
+                dosageTableView.beginUpdates()
+                if (sectionCount == 2) {
+                    //if section count is zero insert new section with animation
+                    dosageTableView.deleteSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+                    dosageTableView.insertSections(NSIndexSet(indexesInRange: NSMakeRange(1, 2)), withRowAnimation: .Fade)
+                    dosageTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Fade)
+                } else if (sectionCount >= 4) {
+                    //Delete 3 sections od splitdaily and insert the new section.
+                    dosageTableView.reloadSections(NSIndexSet(indexesInRange: NSMakeRange(0, 3)), withRowAnimation: .Fade)
+                    dosageTableView.deleteSections(NSIndexSet(index: 3), withRowAnimation: .Fade)
+                    if (selectedTimeArrayItems.count > 0) {
+                        dosageTableView.deleteSections(NSIndexSet(index: 4), withRowAnimation: .Fade)
+                    }
+                } else {
+                    //reload sections
+                    dosageTableView.reloadSections(NSIndexSet(indexesInRange: NSMakeRange(0, 3)), withRowAnimation: .Fade)
+                }
+                dosageTableView.endUpdates()
+            } else {
+                //Splitdaily selected. insert 3 sections if a new selection, else delete the existing one section and insert the new sections.
+                dosageTableView.beginUpdates()
+                if (sectionCount == 2) {
+                    if (selectedTimeArrayItems.count == 0) {
+                        range = NSMakeRange(2, 2)
+                    } else {
+                        range = NSMakeRange(2, 3)
+                    }
+                    dosageTableView.insertSections(NSIndexSet(indexesInRange: range), withRowAnimation: .Fade)
+                    dosageTableView.reloadSections(NSIndexSet(indexesInRange: NSMakeRange(0, 2)), withRowAnimation: .Fade)
+                } else {
+                    let reloadIndexPathRange = NSMakeRange(0, sectionCount)
+                    if (selectedTimeArrayItems.count == 0) {
+                        range = NSMakeRange(2, 3)
+                    } else {
+                        range = NSMakeRange(2, 4)
+                    }
+                    dosageTableView.reloadSections(NSIndexSet(indexesInRange: reloadIndexPathRange), withRowAnimation: .Fade)
+                    dosageTableView.insertSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+                }
+                dosageTableView.endUpdates()
+            }
+        }
+    }
     
     func checkWhetherRowAlreadySelected (indexPath : NSIndexPath) {
         
@@ -460,10 +465,8 @@ typealias SelectedDosage = DCDosage? -> Void
             case eDosageMenu.rawValue:
                 if (indexPath.row == 0) {
                     let singleDoseValue = (dosage?.singleDose?.doseValue == nil) ? EMPTY_STRING : dosage?.singleDose?.doseValue
+                    dosageSelectionDetailCell.accessoryType = .DisclosureIndicator
                     dosageSelectionDetailCell.configureCell(SINGLE_DOSE, selectedValue: singleDoseValue!)
-                } else if (indexPath.row == 1) {
-                    let dateAndTimeValue = (dosage?.singleDose?.dateAndTime == nil) ? EMPTY_STRING : dosage?.singleDose?.dateAndTime
-                    dosageSelectionDetailCell.configureCell(DOSE_DATE_AND_TIME, selectedValue: dateAndTimeValue!)
                 }
             case eFixedDosage.rawValue:
                 if (indexPath.section == 1) {
@@ -475,10 +478,8 @@ typealias SelectedDosage = DCDosage? -> Void
                 } else {
                     if (indexPath.row == 0) {
                         let singleDoseValue = (dosage?.singleDose?.doseValue == nil) ? EMPTY_STRING : dosage?.singleDose?.doseValue
+                        dosageSelectionDetailCell.accessoryType = .DisclosureIndicator
                         dosageSelectionDetailCell.configureCell(SINGLE_DOSE, selectedValue: singleDoseValue!)
-                    } else if (indexPath.row == 1) {
-                        let dateAndTimeValue = (dosage?.singleDose?.dateAndTime == nil) ? EMPTY_STRING : dosage?.singleDose?.dateAndTime
-                        dosageSelectionDetailCell.configureCell(DOSE_DATE_AND_TIME, selectedValue: dateAndTimeValue!)
                     }
                 }
             case eVariableDosage.rawValue:
@@ -493,10 +494,8 @@ typealias SelectedDosage = DCDosage? -> Void
                 } else {
                     if (indexPath.row == 0) {
                         let singleDoseValue = (dosage?.singleDose?.doseValue == nil) ? EMPTY_STRING : dosage?.singleDose?.doseValue
+                        dosageSelectionDetailCell.accessoryType = .DisclosureIndicator
                         dosageSelectionDetailCell.configureCell(SINGLE_DOSE, selectedValue: singleDoseValue!)
-                    } else if (indexPath.row == 1) {
-                        let dateAndTimeValue = (dosage?.singleDose?.dateAndTime == nil) ? EMPTY_STRING : dosage?.singleDose?.dateAndTime
-                        dosageSelectionDetailCell.configureCell(DOSE_DATE_AND_TIME, selectedValue: dateAndTimeValue!)
                     }
                 }
             case eReducingIncreasing.rawValue:
@@ -513,10 +512,8 @@ typealias SelectedDosage = DCDosage? -> Void
                 } else {
                     if (indexPath.row == 0) {
                         let singleDoseValue = (dosage?.singleDose?.doseValue == nil) ? EMPTY_STRING : dosage?.singleDose.doseValue
+                        dosageSelectionDetailCell.accessoryType = .DisclosureIndicator
                         dosageSelectionDetailCell.configureCell(SINGLE_DOSE, selectedValue: singleDoseValue!)
-                    } else if (indexPath.row == 1) {
-                        let dateAndTimeValue = (dosage?.singleDose?.dateAndTime == nil) ? EMPTY_STRING : dosage?.singleDose.dateAndTime
-                        dosageSelectionDetailCell.configureCell(DOSE_DATE_AND_TIME, selectedValue: dateAndTimeValue!)
                     }
                 }
             case eSplitDaily.rawValue:
@@ -540,20 +537,16 @@ typealias SelectedDosage = DCDosage? -> Void
                     } else {
                         if (indexPath.row == 0) {
                             let singleDoseValue = (dosage?.singleDose?.doseValue == nil) ? EMPTY_STRING : dosage?.singleDose?.doseValue
+                            dosageSelectionDetailCell.accessoryType = .DisclosureIndicator
                             dosageSelectionDetailCell.configureCell(SINGLE_DOSE, selectedValue: singleDoseValue!)
-                        } else {
-                            let dateAndTimeValue = (dosage?.singleDose?.dateAndTime == nil) ? EMPTY_STRING : dosage?.singleDose?.dateAndTime
-                            dosageSelectionDetailCell.configureCell(DOSE_DATE_AND_TIME, selectedValue: dateAndTimeValue!)
                         }
                     }
                 }
                 else {
                     if (indexPath.row == 0) {
                         let singleDoseValue = (dosage?.singleDose?.doseValue == nil) ? EMPTY_STRING : dosage?.singleDose?.doseValue
+                        dosageSelectionDetailCell.accessoryType = .DisclosureIndicator
                         dosageSelectionDetailCell.configureCell(SINGLE_DOSE, selectedValue: singleDoseValue!)
-                    } else /*if (indexPath.row == 1) */{
-                        let dateAndTimeValue = (dosage?.singleDose?.dateAndTime == nil) ? EMPTY_STRING : dosage?.singleDose?.dateAndTime
-                        dosageSelectionDetailCell.configureCell(DOSE_DATE_AND_TIME, selectedValue: dateAndTimeValue!)
                     }
                 }
             default:
@@ -566,52 +559,64 @@ typealias SelectedDosage = DCDosage? -> Void
         
         if (indexPath.section == 1) {
             switch (indexPath.row) {
-                
-            case 0:
-                self.transitToDosageUnitSelectionViewController()
-            case 1:
-                if (menuType == eFixedDosage) {
-                    self.transitToFixedDoseValueScreen()
-                } else if (menuType == eVariableDosage) {
-                    self.transitToVariableDoseFromValueScreen()
-                } else if (menuType == eReducingIncreasing) {
-                    self.transitToReducingIncreasingStartingDoseValueScreen()
-                } else {
-                    return
-                }
-            case 2:
-                if (menuType == eVariableDosage) {
-                    self.transitToVariableDoseToValueScreen()
-                } else if (menuType == eReducingIncreasing) {
-                    self.transitToConditionsChangeOverScreen()
-                }
-            case 3:
-                if (menuType == eReducingIncreasing) {
-                    if (self.dosage?.reducingIncreasingDose.startingDose == EMPTY_STRING) {
-                        let dosageCell: DCDosageSelectionTableViewCell = dosageTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 1)) as! DCDosageSelectionTableViewCell
-                        dosageCell.dosageDetailLabel!.textColor = UIColor.redColor()
-                        //                        dosageTableView.reloadData()
+                case 0:
+                    if (menuType == eDosageMenu) {
+                        self.transitToSingleDoseViewController()
                     } else {
-                        let dosageConditionsViewController : DCDosageConditionsViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_CONDITIONS_SBID) as? DCDosageConditionsViewController
-                        dosageConditionsViewController?.dosage = self.dosage
-                        self.configureNavigationBackButtonTitle()
-                        self.navigationController?.pushViewController(dosageConditionsViewController!, animated: true)
+                        self.transitToDosageUnitSelectionViewController()
                     }
-                    return
+                case 1:
+                    if (menuType == eFixedDosage) {
+                        self.transitToFixedDoseValueScreen()
+                    } else if (menuType == eVariableDosage) {
+                        self.transitToVariableDoseFromValueScreen()
+                    } else if (menuType == eReducingIncreasing) {
+                        self.transitToReducingIncreasingStartingDoseValueScreen()
+                    } else {
+                        return
+                    }
+                case 2:
+                    if (menuType == eVariableDosage) {
+                        self.transitToVariableDoseToValueScreen()
+                    } else if (menuType == eReducingIncreasing) {
+                        self.transitToConditionsChangeOverScreen()
+                    }
+                case 3:
+                    if (menuType == eReducingIncreasing) {
+                        if (self.dosage?.reducingIncreasingDose.startingDose == EMPTY_STRING) {
+                            let dosageCell: DCDosageSelectionTableViewCell = dosageTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 1)) as! DCDosageSelectionTableViewCell
+                            dosageCell.dosageDetailLabel!.textColor = UIColor.redColor()
+                        } else {
+                            let dosageConditionsViewController : DCDosageConditionsViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_CONDITIONS_SBID) as? DCDosageConditionsViewController
+                            dosageConditionsViewController?.dosage = self.dosage
+                            self.configureNavigationBackButtonTitle()
+                            self.navigationController?.pushViewController(dosageConditionsViewController!, animated: true)
+                        }
+                        return
+                    }
+                default:
+                    break
                 }
-            default:
-                break
-            }
         } else if (indexPath.section == 2) {
-            if (selectedTimeArrayItems.count != 0) {
-                self.transitToAddDoseForTimeScreen(indexPath)
+            if (menuType == eSplitDaily) {
+                if (selectedTimeArrayItems.count != 0) {
+                    self.transitToAddDoseForTimeScreen(indexPath)
+                } else {
+                    self.transitToAddNewTimeScreen()
+                }
             } else {
+                self.transitToSingleDoseViewController()
+            }
+     } else if (indexPath.section == 3) {
+            if (menuType == eSplitDaily) {
                 self.transitToAddNewTimeScreen()
+            } else {
+                self.transitToSingleDoseViewController()
             }
         } else {
-            self.transitToAddNewTimeScreen()
+            self.transitToSingleDoseViewController()
         }
-    }
+ }
     
     func updateAlertMessageForMismatch () {
         
@@ -724,6 +729,15 @@ typealias SelectedDosage = DCDosage? -> Void
         }
         self.configureNavigationBackButtonTitle();
         self.navigationController?.pushViewController(doseUnitSelectionViewController!, animated: true)
+    }
+    
+    func transitToSingleDoseViewController () {
+        
+        //move to single dose view controller
+        
+        let singleDoseViewController = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(SINGLE_DOSE_VIEW_STORYBOARD_ID) as? DCSingleDoseViewController
+        self.configureNavigationBackButtonTitle();
+        self.navigationController?.pushViewController(singleDoseViewController!, animated: true)
     }
     
     func transitToFixedDoseValueScreen () {

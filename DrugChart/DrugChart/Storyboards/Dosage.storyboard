@@ -5,6 +5,79 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
     </dependencies>
     <scenes>
+        <!--Single Dose View Controller-->
+        <scene sceneID="Zb0-dy-WKM">
+            <objects>
+                <viewController storyboardIdentifier="SingleDoseViewController" id="o6S-QJ-kz3" customClass="DCSingleDoseViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="iSf-NT-iCr"/>
+                        <viewControllerLayoutGuide type="bottom" id="FJP-dS-Jxk"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="RfM-W3-faa">
+                        <rect key="frame" x="0.0" y="0.0" width="310" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="SfI-y3-BOe">
+                                <rect key="frame" x="0.0" y="0.0" width="310" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="SingleDoseCellId" selectionStyle="default" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationWidth="10" reuseIdentifier="dosageDetailCell" id="HjE-8j-dJq" customClass="DCSingleDoseTableCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="310" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="HjE-8j-dJq" id="l6u-yk-ujW">
+                                            <rect key="frame" x="0.0" y="0.0" width="277" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Reducing / Increasing " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NgI-1d-LQG">
+                                                    <rect key="frame" x="16" y="11" width="152" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="21" id="cOq-Pa-Pgh"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Reduce 50mg every day..." textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VqM-6C-6hN">
+                                                    <rect key="frame" x="173" y="11" width="99" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="21" id="1zk-Vl-ocH"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="VqM-6C-6hN" secondAttribute="trailing" constant="5" id="MYr-HB-gNq"/>
+                                                <constraint firstItem="NgI-1d-LQG" firstAttribute="centerY" secondItem="l6u-yk-ujW" secondAttribute="centerY" id="UEK-Ho-c4N"/>
+                                                <constraint firstItem="NgI-1d-LQG" firstAttribute="leading" secondItem="l6u-yk-ujW" secondAttribute="leading" constant="16" id="ahh-1c-AaP"/>
+                                                <constraint firstItem="VqM-6C-6hN" firstAttribute="leading" secondItem="NgI-1d-LQG" secondAttribute="trailing" constant="5" id="n4Y-nO-AYf"/>
+                                                <constraint firstItem="VqM-6C-6hN" firstAttribute="centerY" secondItem="l6u-yk-ujW" secondAttribute="centerY" id="q3k-dE-oJI"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="dosageDetailLabel" destination="NgI-1d-LQG" id="877-vQ-JAY"/>
+                                            <outlet property="dosageDetailValueLabel" destination="VqM-6C-6hN" id="VnK-Cw-SUz"/>
+                                            <outlet property="dosageMenuLabel" destination="NgI-1d-LQG" id="AC0-Bm-fWW"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="SfI-y3-BOe" secondAttribute="trailing" id="LI2-tI-pOg"/>
+                            <constraint firstItem="FJP-dS-Jxk" firstAttribute="top" secondItem="SfI-y3-BOe" secondAttribute="bottom" id="OdK-Ie-FMe"/>
+                            <constraint firstItem="SfI-y3-BOe" firstAttribute="leading" secondItem="RfM-W3-faa" secondAttribute="leading" id="cAA-mK-tf6"/>
+                            <constraint firstItem="SfI-y3-BOe" firstAttribute="top" secondItem="RfM-W3-faa" secondAttribute="top" id="fqJ-2m-Oi6"/>
+                        </constraints>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="310" height="600"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XdR-mc-qkf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2198" y="137"/>
+        </scene>
         <!--Dosage Selection View Controller-->
         <scene sceneID="Lha-xe-n8w">
             <objects>

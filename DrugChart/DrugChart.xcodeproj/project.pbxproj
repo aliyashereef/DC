@@ -47,6 +47,8 @@
 		0B8768BE1C61DF51001DD827 /* DCCalendarHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B8768BD1C61DF51001DD827 /* DCCalendarHelper.swift */; };
 		0B8768C11C621642001DD827 /* DCSummaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B8768C01C621642001DD827 /* DCSummaryButton.swift */; };
 		0B8886AF1B0C7814006FF1BF /* DCDatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B8886AE1B0C7814006FF1BF /* DCDatePickerViewController.m */; };
+		0B8997B81C74960D006974E8 /* DCSingleDoseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B8997B71C74960D006974E8 /* DCSingleDoseViewController.swift */; };
+		0B8997BB1C74970F006974E8 /* DCSingleDoseTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B8997BA1C74970F006974E8 /* DCSingleDoseTableCell.swift */; };
 		0B8D6E7A1B3136C200F0B972 /* DCKeyChainManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B8D6E791B3136C200F0B972 /* DCKeyChainManager.m */; };
 		0B90D6541B734EE0003A37E4 /* UICKeyChainStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B90D6511B734EE0003A37E4 /* UICKeyChainStore.m */; };
 		0B913B2D1C4620F80004899B /* DCInfusion.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B913B2C1C4620F80004899B /* DCInfusion.m */; };
@@ -450,6 +452,8 @@
 		0B8768C01C621642001DD827 /* DCSummaryButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCSummaryButton.swift; sourceTree = "<group>"; };
 		0B8886AD1B0C7814006FF1BF /* DCDatePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCDatePickerViewController.h; sourceTree = "<group>"; };
 		0B8886AE1B0C7814006FF1BF /* DCDatePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCDatePickerViewController.m; sourceTree = "<group>"; };
+		0B8997B71C74960D006974E8 /* DCSingleDoseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCSingleDoseViewController.swift; sourceTree = "<group>"; };
+		0B8997BA1C74970F006974E8 /* DCSingleDoseTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCSingleDoseTableCell.swift; sourceTree = "<group>"; };
 		0B8D6E781B3136C200F0B972 /* DCKeyChainManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCKeyChainManager.h; sourceTree = "<group>"; };
 		0B8D6E791B3136C200F0B972 /* DCKeyChainManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCKeyChainManager.m; sourceTree = "<group>"; };
 		0B90D6501B734EE0003A37E4 /* UICKeyChainStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICKeyChainStore.h; sourceTree = "<group>"; };
@@ -1265,6 +1269,23 @@
 			path = DatePickerViewController;
 			sourceTree = "<group>";
 		};
+		0B8997B61C7495ED006974E8 /* SingleDoseViewController */ = {
+			isa = PBXGroup;
+			children = (
+				0B8997B71C74960D006974E8 /* DCSingleDoseViewController.swift */,
+				0B8997B91C7496EE006974E8 /* SingleDoseTableCell */,
+			);
+			path = SingleDoseViewController;
+			sourceTree = "<group>";
+		};
+		0B8997B91C7496EE006974E8 /* SingleDoseTableCell */ = {
+			isa = PBXGroup;
+			children = (
+				0B8997BA1C74970F006974E8 /* DCSingleDoseTableCell.swift */,
+			);
+			path = SingleDoseTableCell;
+			sourceTree = "<group>";
+		};
 		0B8A62B81AC2CB4000F6DC5B /* DDPopoverBackgroundView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1824,6 +1845,7 @@
 				0B14CD881BB13BD80085E40C /* AdministerViewController */,
 				0BBC8F9F1AA469280085ABAB /* LoginViewController */,
 				0BC0C4621ADF777D002707DC /* AddMedicationViewController */,
+				0B8997B61C7495ED006974E8 /* SingleDoseViewController */,
 				FD618F321C197A1A005EC416 /* DosageSelection */,
 				FDC7EA581C1AA8B30081D5C4 /* DosageDetail */,
 				FD2FF8B91C3BD7C400778A4E /* AddNewDoseAndTime */,
@@ -3295,6 +3317,7 @@
 				FDDB10911C620094007231B6 /* DCAddNewValuePickerCell.swift in Sources */,
 				FD2FF8BB1C3BD80300778A4E /* DCAddNewDoseAndTimeViewController.swift in Sources */,
 				FD2FF8BF1C3BD84C00778A4E /* DCDosageUnitSelectionViewController.swift in Sources */,
+				0B8997BB1C74970F006974E8 /* DCSingleDoseTableCell.swift in Sources */,
 				0BBC8F841AA44E330085ABAB /* DCLoginWebService.m in Sources */,
 				0B96E9831C731A8300464836 /* DCSingleDose.m in Sources */,
 				0B6B497A1B2ED50700288117 /* DCScrollView.m in Sources */,
@@ -3343,6 +3366,7 @@
 				1F5375051C1AEF9F00D4A64F /* GraphView.swift in Sources */,
 				0B4BD4311C47566E00C49589 /* DCRateInfusion.m in Sources */,
 				0B4BD4251C47524500C49589 /* DCBolusInjection.m in Sources */,
+				0B8997B81C74960D006974E8 /* DCSingleDoseViewController.swift in Sources */,
 				0B4BD4291C47551E00C49589 /* DCInjection.m in Sources */,
 				0BA357311B746EAB00A5C3BC /* DCOrderSetOperationQueue.m in Sources */,
 				1F0A9C0A1C47CDE7007ACFDA /* OneThirdContentCell.swift in Sources */,
