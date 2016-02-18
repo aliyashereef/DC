@@ -28,7 +28,7 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
     override func viewDidLoad() {
         super.viewDidLoad()
         mainTableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
-        if detailType == eAddIntegerValue {
+        if detailType == eAddIntegerValue || detailType == eAddSingleDose {
             if previousValue != "" {
                 previousValueInFloat = NSString(string: previousValue).floatValue
                 textFieldValue = String(format: previousValueInFloat == floor(previousValueInFloat) ? "%.0f" : "%.1f", previousValueInFloat)
@@ -56,12 +56,15 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
     }
     
     override func viewWillDisappear(animated: Bool) {
+        
         let newValueCell : DCAddNewValueTableViewCell = mainTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! DCAddNewValueTableViewCell
         textFieldValue = newValueCell.newValueTextField.text!
         if detailType == eAddIntegerValue {
             if textFieldValue != "" {
                 self.newValueEntered(textFieldValue)
             }
+        } else if detailType == eAddSingleDose {
+            self.newValueEntered(textFieldValue)
         } else {
             if textFieldValue != "" && valueForUnit != "" {
                 self.newValueEntered("\(textFieldValue) \(valueForUnit)")
@@ -85,7 +88,7 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if detailType == eAddIntegerValue {
+        if (detailType == eAddIntegerValue || detailType == eAddSingleDose){
             return 1
         } else {
             return 3

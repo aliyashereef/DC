@@ -58,6 +58,7 @@
 		0B95FAF21B5E6663002939DF /* DCWarningsHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B95FAF11B5E6663002939DF /* DCWarningsHeaderView.xib */; };
 		0B964C7F1C51019000CD509D /* DCInfusionsFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B964C7E1C51019000CD509D /* DCInfusionsFooterView.swift */; };
 		0B96E9831C731A8300464836 /* DCSingleDose.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B96E9821C731A8300464836 /* DCSingleDose.m */; };
+		0B976FF51C75B26F002A563F /* DCSingleDosePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B976FF41C75B26E002A563F /* DCSingleDosePickerCell.swift */; };
 		0B989E971B8C22960012AFE8 /* DCCalendarNavigationTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B989E961B8C22960012AFE8 /* DCCalendarNavigationTitleView.m */; };
 		0B989E991B8C22CD0012AFE8 /* DCCalendarNavigationTitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B989E981B8C22CD0012AFE8 /* DCCalendarNavigationTitleView.xib */; };
 		0B9D6D521BA17244009E0A4E /* DCAddMedicationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B9D6D511BA17244009E0A4E /* DCAddMedicationHelper.m */; };
@@ -468,6 +469,7 @@
 		0B964C7E1C51019000CD509D /* DCInfusionsFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCInfusionsFooterView.swift; sourceTree = "<group>"; };
 		0B96E9811C731A8300464836 /* DCSingleDose.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCSingleDose.h; sourceTree = "<group>"; };
 		0B96E9821C731A8300464836 /* DCSingleDose.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCSingleDose.m; sourceTree = "<group>"; };
+		0B976FF41C75B26E002A563F /* DCSingleDosePickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCSingleDosePickerCell.swift; sourceTree = "<group>"; };
 		0B989E951B8C22960012AFE8 /* DCCalendarNavigationTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCCalendarNavigationTitleView.h; sourceTree = "<group>"; };
 		0B989E961B8C22960012AFE8 /* DCCalendarNavigationTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCCalendarNavigationTitleView.m; sourceTree = "<group>"; };
 		0B989E981B8C22CD0012AFE8 /* DCCalendarNavigationTitleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCCalendarNavigationTitleView.xib; sourceTree = "<group>"; };
@@ -1274,6 +1276,7 @@
 			children = (
 				0B8997B71C74960D006974E8 /* DCSingleDoseViewController.swift */,
 				0B8997B91C7496EE006974E8 /* SingleDoseTableCell */,
+				0B976FF31C75B252002A563F /* SingleDosePickerCell */,
 			);
 			path = SingleDoseViewController;
 			sourceTree = "<group>";
@@ -1365,6 +1368,14 @@
 				0B96E9821C731A8300464836 /* DCSingleDose.m */,
 			);
 			path = SingleDose;
+			sourceTree = "<group>";
+		};
+		0B976FF31C75B252002A563F /* SingleDosePickerCell */ = {
+			isa = PBXGroup;
+			children = (
+				0B976FF41C75B26E002A563F /* DCSingleDosePickerCell.swift */,
+			);
+			path = SingleDosePickerCell;
 			sourceTree = "<group>";
 		};
 		0B989E941B8C22780012AFE8 /* CalendarNavigationTitleView */ = {
@@ -3466,6 +3477,7 @@
 				7D104E5A1AEA4A5B00B03C0C /* DCBedWebService.m in Sources */,
 				4D52D5841BCD02FB002ABA8D /* DCAdministerMedicationWebService.m in Sources */,
 				0BBDEDC41AA57F980016E6FF /* DCTextField.m in Sources */,
+				0B976FF51C75B26F002A563F /* DCSingleDosePickerCell.swift in Sources */,
 				0B8768C11C621642001DD827 /* DCSummaryButton.swift in Sources */,
 				0B38AC081BF4592E0027B8E6 /* DCSchedulingCell.swift in Sources */,
 				0BF2DA561ACAB12700B3ED97 /* DCErrorPopOverBackgroundView.m in Sources */,
