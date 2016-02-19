@@ -763,6 +763,7 @@ typealias SelectedDosage = DCDosage? -> Void
         //move to single dose view controller
         let singleDoseViewController = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(SINGLE_DOSE_VIEW_STORYBOARD_ID) as? DCSingleDoseViewController
         singleDoseViewController?.singleDose = self.dosage?.singleDose
+        singleDoseViewController?.doseUnit = self.dosage?.doseUnit
         self.configureNavigationBackButtonTitle();
         self.navigationController?.pushViewController(singleDoseViewController!, animated: true)
     }

@@ -16,6 +16,7 @@ class DCSingleDoseViewController: UIViewController, UITableViewDelegate, UITable
     
     var inlinePickerIndexPath : NSIndexPath?
     var singleDose : DCSingleDose?
+    var doseUnit : NSString?
     var updatedSingleDose : UpdatedSingleDose = { dose in }
 
     override func viewDidLoad() {
@@ -66,7 +67,16 @@ class DCSingleDoseViewController: UIViewController, UITableViewDelegate, UITable
             let singleDoseCell = tableView.dequeueReusableCellWithIdentifier(SINGLE_DOSE_CELL_ID) as? DCSingleDoseTableCell
             if indexPath.row == RowCount.eZerothRow.rawValue {
                 singleDoseCell?.titleLabel.text = NSLocalizedString("DOSE", comment: "")
-                singleDoseCell?.valueLabel.text = singleDose?.doseValue
+                let singleDoseValue = NSMutableString()
+                if let dose = singleDose?.doseValue {
+                    singleDoseValue.appendString(dose)
+                    if doseUnit == nil {
+                        singleDoseValue.appendString(" mg")
+                    } else {
+                        singleDoseValue.appendFormat(" %@", doseUnit!)
+                    }
+                }
+                singleDoseCell?.valueLabel.text = singleDoseValue as String
             } else if indexPath.row == RowCount.eFirstRow.rawValue {
                 singleDoseCell?.titleLabel.text = NSLocalizedString("DATE", comment: "")
                 singleDoseCell?.valueLabel.text = singleDose?.dateAndTime
