@@ -306,6 +306,7 @@
 //medication status
 #define OMITTED @"Omitted"
 #define REFUSED @"Refused"
+#define NOT_ADMINISTRATED @"Not Administrated"
 #define IS_GIVEN @"Administered"
 #define YET_TO_GIVE @"notGiven"
 #define TO_GIVE @"toGive"

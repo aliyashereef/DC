@@ -295,6 +295,8 @@
 		4DC527F11BE1EE2F00E2EF09 /* DCDosageMultiLineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC527F01BE1EE2F00E2EF09 /* DCDosageMultiLineCell.swift */; };
 		4DD829271C0853AD006B2E71 /* DCOneThirdCalendarStripCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD829261C0853AD006B2E71 /* DCOneThirdCalendarStripCollectionCell.swift */; };
 		4DDB53731C0725B900C2C6BA /* DCOneThirdCalendarNavigationTitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DDB53721C0725B900C2C6BA /* DCOneThirdCalendarNavigationTitleView.xib */; };
+		4DDD0C8F1C75912E0021C528 /* DCAdministrationFailureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD0C8E1C75912E0021C528 /* DCAdministrationFailureViewController.swift */; };
+		4DDD0C931C75C7370021C528 /* DCAdministrationSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD0C921C75C7370021C528 /* DCAdministrationSuccessViewController.swift */; };
 		4DDD99A91BD6381F002879CD /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4DDD99A81BD6381F002879CD /* Settings.bundle */; };
 		4DDE0ADE1BBBBEDE0044295B /* DCAdministratedByPinVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDE0ADD1BBBBEDE0044295B /* DCAdministratedByPinVerificationViewController.swift */; };
 		4DDEED481B4CEB6A00D8E0FF /* DCBedWebServiceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DDEED471B4CEB6A00D8E0FF /* DCBedWebServiceTests.m */; };
@@ -762,6 +764,8 @@
 		4DC527F01BE1EE2F00E2EF09 /* DCDosageMultiLineCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageMultiLineCell.swift; sourceTree = "<group>"; };
 		4DD829261C0853AD006B2E71 /* DCOneThirdCalendarStripCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCOneThirdCalendarStripCollectionCell.swift; sourceTree = "<group>"; };
 		4DDB53721C0725B900C2C6BA /* DCOneThirdCalendarNavigationTitleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCOneThirdCalendarNavigationTitleView.xib; sourceTree = "<group>"; };
+		4DDD0C8E1C75912E0021C528 /* DCAdministrationFailureViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministrationFailureViewController.swift; sourceTree = "<group>"; };
+		4DDD0C921C75C7370021C528 /* DCAdministrationSuccessViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministrationSuccessViewController.swift; sourceTree = "<group>"; };
 		4DDD99A81BD6381F002879CD /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		4DDE0ADD1BBBBEDE0044295B /* DCAdministratedByPinVerificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministratedByPinVerificationViewController.swift; sourceTree = "<group>"; };
 		4DDEED471B4CEB6A00D8E0FF /* DCBedWebServiceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCBedWebServiceTests.m; sourceTree = "<group>"; };
@@ -931,8 +935,8 @@
 		0B14CD881BB13BD80085E40C /* AdministerViewController */ = {
 			isa = PBXGroup;
 			children = (
-				4D9225F51C6DDC130060761A /* ProgressSliderCell */,
 				0B14CD891BB13BEB0085E40C /* DCAdministerViewController.swift */,
+				4D9225F51C6DDC130060761A /* ProgressSliderCell */,
 				4D52C0281C6C5F39005BE86B /* DurationBasedMedicationDetailsCell */,
 				0BB535831BBA46FA0043BC61 /* AdministerPickerCell */,
 				0BD6991D1BB2C7AB008797A2 /* NotesTableCell */,
@@ -1785,9 +1789,13 @@
 		0BBC8F9A1AA468920085ABAB /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				4DDD0C911C75C7110021C528 /* AdministrationSuccessViewController */,
+				4DDD0C901C7591360021C528 /* AdministrationFailureViewController */,
+				0B14CD881BB13BD80085E40C /* AdministerViewController */,
+				4D41757E1C22869100F924C1 /* AdministrationViewController */,
+				4D52D5881BCE7404002ABA8D /* AdministrationStatusTableViewController */,
 				FD3214DC1C60B4780058B290 /* AddNewValueViewController */,
 				7D632D801C3A0B960029BAF5 /* WardsInformationsViewController */,
-				4D41757E1C22869100F924C1 /* AdministrationViewController */,
 				4D54C0771BFB2BD700A61273 /* CalendarOneThirdViewController */,
 				7D5319BB1BF21EDB003C3F92 /* AlertsAllergyPopOverViewController */,
 				4D7627841BE8E1770070BAF2 /* VitalSignViewController */,
@@ -1798,7 +1806,6 @@
 				7D6D845C1AF9408E00917A8C /* InitialViewController */,
 				7D6D84561AF88A8700917A8C /* AuthorizationViewController */,
 				7D566D411AEFBDDE00F09AFC /* SettingsViewController */,
-				4D52D5881BCE7404002ABA8D /* AdministrationStatusTableViewController */,
 				0B2400F61C5B25E90095AEA5 /* AdministrationTimeViewController */,
 				0B2157091AB7D1B700BC4611 /* NameListSelectionViewController */,
 				7D70F37D1B20258200E4BA89 /* WardsGraphicalDisplayViewController */,
@@ -1809,7 +1816,6 @@
 				0BBC8FA31AA4698E0085ABAB /* BaseViewController */,
 				0B7D5CD11BB90DF80044BE1B /* BNFViewController */,
 				0B1E308C1AF201FB003E49C4 /* SecurityPinViewController */,
-				0B14CD881BB13BD80085E40C /* AdministerViewController */,
 				0BBC8F9F1AA469280085ABAB /* LoginViewController */,
 				0BC0C4621ADF777D002707DC /* AddMedicationViewController */,
 				FD618F321C197A1A005EC416 /* DosageSelection */,
@@ -2593,6 +2599,22 @@
 			path = LoginWebService;
 			sourceTree = "<group>";
 		};
+		4DDD0C901C7591360021C528 /* AdministrationFailureViewController */ = {
+			isa = PBXGroup;
+			children = (
+				4DDD0C8E1C75912E0021C528 /* DCAdministrationFailureViewController.swift */,
+			);
+			name = AdministrationFailureViewController;
+			sourceTree = "<group>";
+		};
+		4DDD0C911C75C7110021C528 /* AdministrationSuccessViewController */ = {
+			isa = PBXGroup;
+			children = (
+				4DDD0C921C75C7370021C528 /* DCAdministrationSuccessViewController.swift */,
+			);
+			name = AdministrationSuccessViewController;
+			sourceTree = "<group>";
+		};
 		4DDD99AA1BD63E6F002879CD /* PatientListingViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -3332,6 +3354,7 @@
 				0B4BD4291C47551E00C49589 /* DCInjection.m in Sources */,
 				0BA357311B746EAB00A5C3BC /* DCOrderSetOperationQueue.m in Sources */,
 				1F0A9C0A1C47CDE7007ACFDA /* OneThirdContentCell.swift in Sources */,
+				4DDD0C8F1C75912E0021C528 /* DCAdministrationFailureViewController.swift in Sources */,
 				1FD8A1A51C6A36D400030494 /* UIViewController.swift in Sources */,
 				0BBC8FA61AA469AF0085ABAB /* DCBaseViewController.m in Sources */,
 				1FD4FCEA1BF4B8F400B77B94 /* TimePickerCell.swift in Sources */,
@@ -3350,6 +3373,7 @@
 				1FD4FCB91BF4B6B700B77B94 /* Pulse.swift in Sources */,
 				1FD4FCBB1BF4B6B700B77B94 /* SPO2.swift in Sources */,
 				0BF389151AA468C6006792DE /* DCUtility.m in Sources */,
+				4DDD0C931C75C7370021C528 /* DCAdministrationSuccessViewController.swift in Sources */,
 				0B7F75001B8439DA00E3B0A0 /* DCSortTableCell.m in Sources */,
 				1F7EB71D1C21CB5400F6F22F /* BarGraphCell.swift in Sources */,
 				7D9EA9E81B295DDE00337E6A /* DCBedGraphics.m in Sources */,

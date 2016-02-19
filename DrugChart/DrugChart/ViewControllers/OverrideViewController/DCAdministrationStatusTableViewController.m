@@ -57,11 +57,11 @@
 
 - (void)configureStatusArrayWithStatusValue {
     if ([self.status  isEqual: ADMINISTER_NOW]) {
-        _namesArray = @[STARTED, REFUSED, OMITTED];
+        _namesArray = @[STARTED, NOT_ADMINISTRATED];
     } else if ([self.status  isEqual: IN_PROGRESS]){
         _namesArray = @[ENDED,STOPED_DUE_TO_PROBLEM,CONTINUED_AFTER_PROBLEM,FLUID_CHANGED,PAUSED];
     } else {
-        _namesArray = @[ADMINISTERED, REFUSED, OMITTED];
+        _namesArray = @[ADMINISTERED, NOT_ADMINISTRATED];
     }
 }
 
