@@ -85,7 +85,6 @@
         return self.patientsAllergyArray.count;
     }
     return 0;
-  //  return [popOverDisplayArray count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -116,10 +115,15 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     
     if (section == 0) {
-        return NSLocalizedString(@"ALERTS", "");
+        if (self.patientsAlertsArray.count > 0) {
+            return NSLocalizedString(@"ALERTS", "");
+        } else if (self.patientsAllergyArray.count > 0) {
+            return NSLocalizedString(@"ALLERGIES", "");
+        }
     } else {
         return NSLocalizedString(@"ALLERGIES", "");
     }
+    return EMPTY_STRING;
 }
 
 - (CGFloat )allergyAndAlertDisplayTableViewHeightForContent:(NSArray *)displayArray {

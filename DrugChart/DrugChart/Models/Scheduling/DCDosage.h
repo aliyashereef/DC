@@ -11,11 +11,13 @@
 #import "DCVariableDose.h"
 #import "DCReducingIncreasingDose.h"
 #import "DCSplitDailyDose.h"
+#import "DCSingleDose.h"
 
 @interface DCDosage : NSObject
 
 @property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong) NSString *doseUnit;
+@property (nonatomic, strong) DCSingleDose *singleDose;
 @property (nonatomic, strong) DCFixedDose *fixedDose;
 @property (nonatomic, strong) DCVariableDose *variableDose;
 @property (nonatomic, strong) DCReducingIncreasingDose *reducingIncreasingDose;

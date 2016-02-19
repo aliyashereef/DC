@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import CocoaLumberjack
 
 class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverPresentationControllerDelegate {
 
@@ -18,6 +18,7 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
     @IBOutlet weak var nextPage: UIButton!
     var graphicalDashBoardView:GraphicalDashBoardView!
     var graphDisplayView: GraphDisplayView = GraphDisplayView.Day
+    var activityIndicator:UIActivityIndicatorView!
     
     var graphEndDate:NSDate = NSDate()
     @IBOutlet weak var previousPage: UIButton!
@@ -25,12 +26,9 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        observationList.appendContentsOf(Helper.VitalSignObservationList)
         graphicalDashBoardView = GraphicalDashBoardView.instanceFromNib() as! GraphicalDashBoardView
         Helper.displayInChildView(graphicalDashBoardView, parentView: parentView)
         graphicalDashBoardView.delegate = self
-        swipeGraphDate(false,flipDateMode: true)
         // display the titles
         displayTitle()
         
@@ -45,18 +43,17 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         swipeLeft.direction = UISwipeGestureRecognizerDirection.Left
         self.view.addGestureRecognizer(swipeLeft)
         
+        swipeGraphDate(false,flipDateMode: true)
         
-       
     }
-    
-    
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         orientationChanged()
     }
     
-    func showData()
+    func showData(fetchedObservations:[VitalSignObservation] )
     {
+        observationList = fetchedObservations
         switch(graphDisplayView)
         {
             case .Day:
@@ -66,6 +63,9 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         }
         filterObservations = observationList.filter( { return $0.date >= graphStartDate && $0.date < graphEndDate} )
         graphicalDashBoardView.displayData(filterObservations,graphDisplayView: graphDisplayView , graphStartDate: graphStartDate , graphEndDate: graphEndDate)
+        
+        stopActivityIndicator(activityIndicator)
+        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -118,16 +118,14 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         if let sourceViewController = sender.sourceViewController as? ObservationViewController
         {
              observationList.append(sourceViewController.generalObservationView.observation)
-            Helper.VitalSignObservationList.append(sourceViewController.generalObservationView.observation)
         }
         else if let sourceViewController = sender.sourceViewController as? CommaScoreViewController
         {
             observationList.append(sourceViewController.observation)
-            Helper.VitalSignObservationList.append(sourceViewController.observation)
         }
 
         observationList.sortInPlace({ $0.date.compare($1.date) == NSComparisonResult.OrderedAscending })
-        showData()
+        //showData()
     }
     
     //Mark: Delegate Implementation
@@ -295,12 +293,16 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         
         graphStartDate = graphStartDate.minTime()
         graphEndDate = graphEndDate.maxTime()
+        graphicalDashBoardView.graphStartDate = graphStartDate
+        graphicalDashBoardView.graphEndDate = graphEndDate
+        graphicalDashBoardView.graphDisplayView = graphDisplayView
         
-        showData()
+        // now do the FHIR call
+        activityIndicator = startActivityIndicator(self.view) // show the activity indicator
+        let parser = VitalSignParser()
+        parser.getVitalSignsObservations("bedmanagement/wards", onSuccess: showData)
     }
-    
     @IBAction func show(sender: AnyObject) {
- //       if(UIDevice.currentDevice().userInterfaceIdiom == .Pad)
         let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
         if (appDelegate.windowState == DCWindowState.halfWindow || appDelegate.windowState == DCWindowState.oneThirdWindow) {
             let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())

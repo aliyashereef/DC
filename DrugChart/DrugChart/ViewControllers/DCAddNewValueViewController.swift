@@ -18,17 +18,20 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
     var titleString : String = ""
     var textFieldValue : String = ""
     var valueForUnit : String = ""
+    var backButtonTitle : String = ""
     var isInlinePickerActive : Bool = false
     var newValueEntered: NewValueEntered = { value in }
     var previousValue : String = ""
+    var previousValueInFloat : Float = 0
     @IBOutlet weak var mainTableView: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         mainTableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
-        if detailType == eAddIntegerValue {
+        if detailType == eAddIntegerValue || detailType == eAddSingleDose {
             if previousValue != "" {
-                textFieldValue = previousValue
+                previousValueInFloat = NSString(string: previousValue).floatValue
+                textFieldValue = String(format: previousValueInFloat == floor(previousValueInFloat) ? "%.0f" : "%.1f", previousValueInFloat)
             } else {
                 textFieldValue = ""
             }
@@ -53,12 +56,15 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
     }
     
     override func viewWillDisappear(animated: Bool) {
+        
         let newValueCell : DCAddNewValueTableViewCell = mainTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! DCAddNewValueTableViewCell
         textFieldValue = newValueCell.newValueTextField.text!
         if detailType == eAddIntegerValue {
             if textFieldValue != "" {
                 self.newValueEntered(textFieldValue)
             }
+        } else if detailType == eAddSingleDose {
+            self.newValueEntered(textFieldValue)
         } else {
             if textFieldValue != "" && valueForUnit != "" {
                 self.newValueEntered("\(textFieldValue) \(valueForUnit)")
@@ -68,6 +74,7 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
     
     func configureNavigationBar() {
         
+        DCUtility.backButtonItemForViewController(self, inNavigationController: self.navigationController, withTitle:backButtonTitle as String)
         self.navigationItem.title = titleString
         self.title = titleString
     }
@@ -81,7 +88,7 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if detailType == eAddIntegerValue {
+        if (detailType == eAddIntegerValue || detailType == eAddSingleDose){
             return 1
         } else {
             return 3

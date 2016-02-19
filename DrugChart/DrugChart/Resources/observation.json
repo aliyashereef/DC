@@ -1,0 +1,380 @@
+{
+    "resourceType": "Bundle",
+    "type" : "searchset",
+    "entry": [
+              {
+              "fullUrl": "http://localhost:8080/api/patients/950ebee0-f886-4389-bc84-4a5cd9b95b98/carerecord/observations/657f6427-ddb9-4816-9582-225fcfc4b547",
+              "resource": {
+              "resourceType": "Observation",
+              "identifier": [
+                             {
+                             "system": "http://openapi.e-mis.com/fhir/guid-identifier",
+                             "value": "657f6427-ddb9-4816-9582-225fcfc4b547"
+                             }
+                             ],
+              "status": "final",
+              "code": {
+              "coding": [
+                         {
+                         "system": "http://www.e-mis.com/ClinicalCode",
+                         "code": "254063019"
+                         }
+                         ],
+              "text": "O/E - blood pressure reading"
+              },
+              "component": [
+                            {
+                            "code": {
+                            "coding": [
+                                       {
+                                       "system": "http://www.e-mis.com/ClinicalCode",
+                                       "code": "114311000006111"
+                                       }
+                                       ],
+                            "text": "Systolic blood pressure"
+                            },
+                            "valueQuantity": {
+                            "value": 140,
+                            "unit": "mmHg"
+                            }
+                            },
+                            {
+                            "code": {
+                            "coding": [
+                                       {
+                                       "system": "http://www.e-mis.com/ClinicalCode",
+                                       "code": "619931000006119"
+                                       }
+                                       ],
+                            "text": "Diastolic blood pressure"
+                            },
+                            "valueQuantity": {
+                            "value": 40,
+                            "unit": "mmHg"
+                            }
+                            }
+                            ]
+              }
+              },
+              {
+              "fullUrl": "http://localhost:8080/api/patients/950ebee0-f886-4389-bc84-4a5cd9b95b98/carerecord/observations/2fc397d1-891c-417c-90cc-56f311af41e4",
+              "resource": {
+              "resourceType": "Observation",
+              "identifier": [
+                             {
+                             "system": "http://openapi.e-mis.com/fhir/guid-identifier",
+                             "value": "2fc397d1-891c-417c-90cc-56f311af41e4"
+                             }
+                             ],
+              "status": "final",
+              "code": {
+              "coding": [
+                         {
+                         "system": "http://www.e-mis.com/ClinicalCode",
+                         "code": "254063019"
+                         }
+                         ],
+              "text": "O/E - blood pressure reading"
+              },
+              "component": [
+                            {
+                            "code": {
+                            "coding": [
+                                       {
+                                       "system": "http://www.e-mis.com/ClinicalCode",
+                                       "code": "114311000006111"
+                                       }
+                                       ],
+                            "text": "Systolic blood pressure"
+                            },
+                            "valueQuantity": {
+                            "value": 140,
+                            "unit": "mmHg"
+                            }
+                            },
+                            {
+                            "code": {
+                            "coding": [
+                                       {
+                                       "system": "http://www.e-mis.com/ClinicalCode",
+                                       "code": "619931000006119"
+                                       }
+                                       ],
+                            "text": "Diastolic blood pressure"
+                            },
+                            "valueQuantity": {
+                            "value": 4,
+                            "unit": "mmHg"
+                            }
+                            }
+                            ]
+              }
+              },
+              {
+              "fullUrl": "http://localhost:8080/api/patients/950ebee0-f886-4389-bc84-4a5cd9b95b98/carerecord/observations/8e04a20a-643e-46c5-9f58-799537c30b23",
+              "resource": {
+              "resourceType": "Observation",
+              "identifier": [
+                             {
+                             "system": "http://openapi.e-mis.com/fhir/guid-identifier",
+                             "value": "8e04a20a-643e-46c5-9f58-799537c30b23"
+                             }
+                             ],
+              "status": "final",
+              "code": {
+              "coding": [
+                         {
+                         "system": "http://www.e-mis.com/ClinicalCode",
+                         "code": "253914014"
+                         }
+                         ],
+              "text": "O/E - rate of respiration"
+              },
+              "valueQuantity": {
+              "value": 20,
+              "unit": "/minute"
+              }
+              }
+              },
+              {
+              "fullUrl": "http://localhost:8080/api/patients/950ebee0-f886-4389-bc84-4a5cd9b95b98/carerecord/observations/024f9a61-c614-49b1-bf08-8aad539f903c",
+              "resource": {
+              "resourceType": "Observation",
+              "identifier": [
+                             {
+                             "system": "http://openapi.e-mis.com/fhir/guid-identifier",
+                             "value": "024f9a61-c614-49b1-bf08-8aad539f903c"
+                             }
+                             ],
+              "status": "final",
+              "code": {
+              "coding": [
+                         {
+                         "system": "http://www.e-mis.com/ClinicalCode",
+                         "code": "1218970019"
+                         }
+                         ],
+              "text": "Blood oxygen saturation"
+              },
+              "valueQuantity": {
+              "value": 14,
+              "unit": "%"
+              }
+              }
+              },
+              {
+              "fullUrl": "http://localhost:8080/api/patients/950ebee0-f886-4389-bc84-4a5cd9b95b98/carerecord/observations/03a5005c-1169-4b63-b3ac-58bf5eaecf0d",
+              "resource": {
+              "resourceType": "Observation",
+              "identifier": [
+                             {
+                             "system": "http://openapi.e-mis.com/fhir/guid-identifier",
+                             "value": "03a5005c-1169-4b63-b3ac-58bf5eaecf0d"
+                             }
+                             ],
+              "status": "final",
+              "code": {
+              "coding": [
+                         {
+                         "system": "http://www.e-mis.com/ClinicalCode",
+                         "code": "402545016"
+                         }
+                         ],
+              "text": "O/E - oral temperature taken"
+              },
+              "valueQuantity": {
+              "value": 34,
+              "unit": "degrees C"
+              }
+              }
+              },
+              {
+              "fullUrl": "http://localhost:8080/api/patients/950ebee0-f886-4389-bc84-4a5cd9b95b98/carerecord/observations/281f95ae-e24c-4849-a7c8-8a8c3684e95d",
+              "resource": {
+              "resourceType": "Observation",
+              "identifier": [
+                             {
+                             "system": "http://openapi.e-mis.com/fhir/guid-identifier",
+                             "value": "281f95ae-e24c-4849-a7c8-8a8c3684e95d"
+                             }
+                             ],
+              "status": "final",
+              "code": {
+              "coding": [
+                         {
+                         "system": "http://www.e-mis.com/ClinicalCode",
+                         "code": "254063019"
+                         }
+                         ],
+              "text": "O/E - blood pressure reading"
+              },
+              "component": [
+                            {
+                            "code": {
+                            "coding": [
+                                       {
+                                       "system": "http://www.e-mis.com/ClinicalCode",
+                                       "code": "114311000006111"
+                                       }
+                                       ],
+                            "text": "Systolic blood pressure"
+                            },
+                            "valueQuantity": {
+                            "value": 130,
+                            "unit": "mmHg"
+                            }
+                            },
+                            {
+                            "code": {
+                            "coding": [
+                                       {
+                                       "system": "http://www.e-mis.com/ClinicalCode",
+                                       "code": "619931000006119"
+                                       }
+                                       ],
+                            "text": "Diastolic blood pressure"
+                            },
+                            "valueQuantity": {
+                            "value": 100,
+                            "unit": "mmHg"
+                            }
+                            }
+                            ]
+              }
+              },
+              {
+              "fullUrl": "http://localhost:8080/api/patients/950ebee0-f886-4389-bc84-4a5cd9b95b98/carerecord/observations/f8e93be1-bb54-4018-912b-fdf956a7046a",
+              "resource": {
+              "resourceType": "Observation",
+              "identifier": [
+                             {
+                             "system": "http://openapi.e-mis.com/fhir/guid-identifier",
+                             "value": "f8e93be1-bb54-4018-912b-fdf956a7046a"
+                             }
+                             ],
+              "status": "final",
+              "code": {
+              "coding": [
+                         {
+                         "system": "http://www.e-mis.com/ClinicalCode",
+                         "code": "254020017"
+                         }
+                         ],
+              "text": "O/E - pulse rate"
+              },
+              "valueQuantity": {
+              "value": 65,
+              "unit": "beats/min"
+              }
+              }
+              },
+              {
+              "fullUrl": "http://localhost:8080/api/patients/950ebee0-f886-4389-bc84-4a5cd9b95b98/carerecord/observations/ac06ac01-c34d-49ea-85cf-8eb57a1ac792",
+              "resource": {
+              "resourceType": "Observation",
+              "identifier": [
+                             {
+                             "system": "http://openapi.e-mis.com/fhir/guid-identifier",
+                             "value": "ac06ac01-c34d-49ea-85cf-8eb57a1ac792"
+                             }
+                             ],
+              "status": "final",
+              "code": {
+              "coding": [
+                         {
+                         "system": "http://www.e-mis.com/ClinicalCode",
+                         "code": "254063019"
+                         }
+                         ],
+              "text": "O/E - blood pressure reading"
+              },
+              "component": [
+                            {
+                            "code": {
+                            "coding": [
+                                       {
+                                       "system": "http://www.e-mis.com/ClinicalCode",
+                                       "code": "114311000006111"
+                                       }
+                                       ],
+                            "text": "Systolic blood pressure"
+                            },
+                            "valueQuantity": {
+                            "value": 100,
+                            "unit": "mmHg"
+                            }
+                            },
+                            {
+                            "code": {
+                            "coding": [
+                                       {
+                                       "system": "http://www.e-mis.com/ClinicalCode",
+                                       "code": "619931000006119"
+                                       }
+                                       ],
+                            "text": "Diastolic blood pressure"
+                            },
+                            "valueQuantity": {
+                            "value": 90,
+                            "unit": "mmHg"
+                            }
+                            }
+                            ]
+              }
+              },
+              {
+              "fullUrl": "http://localhost:8080/api/patients/950ebee0-f886-4389-bc84-4a5cd9b95b98/carerecord/observations/dbc1472c-94c3-498f-b95d-efe0b1a9d3dc",
+              "resource": {
+              "resourceType": "Observation",
+              "identifier": [
+                             {
+                             "system": "http://openapi.e-mis.com/fhir/guid-identifier",
+                             "value": "dbc1472c-94c3-498f-b95d-efe0b1a9d3dc"
+                             }
+                             ],
+              "status": "final",
+              "code": {
+              "coding": [
+                         {
+                         "system": "http://www.e-mis.com/ClinicalCode",
+                         "code": "254063019"
+                         }
+                         ],
+              "text": "O/E - blood pressure reading"
+              },
+              "component": [
+                            {
+                            "code": {
+                            "coding": [
+                                       {
+                                       "system": "http://www.e-mis.com/ClinicalCode",
+                                       "code": "114311000006111"
+                                       }
+                                       ],
+                            "text": "Systolic blood pressure"
+                            },
+                            "valueQuantity": {
+                            "value": 80,
+                            "unit": "mmHg"
+                            }
+                            },
+                            {
+                            "code": {
+                            "coding": [
+                                       {
+                                       "system": "http://www.e-mis.com/ClinicalCode",
+                                       "code": "619931000006119"
+                                       }
+                                       ],
+                            "text": "Diastolic blood pressure"
+                            },
+                            "valueQuantity": {
+                            "value": 70,
+                            "unit": "mmHg"
+                            }
+                            }
+                            ]
+              }
+              }
+              ]
+}

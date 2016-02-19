@@ -33,7 +33,6 @@ class DCInfusionViewController: UIViewController, UITableViewDelegate, UITableVi
     var patientId : String?
     var unitArrayForOver = [HOURS,MINUTES]
     var unitArrayForStartingAt = [MG_PER_HOUR,MG_PER_MINUTE]
-//    var unitArrayFor
     
     override func viewDidLoad() {
         
@@ -45,8 +44,11 @@ class DCInfusionViewController: UIViewController, UITableViewDelegate, UITableVi
     override func viewWillDisappear(animated: Bool) {
         
         if let delegate = administerDelegate {
-            delegate.newInfusionObject(self.infusion!)
+            if let updatedInfusion = self.infusion {
+                delegate.newInfusionObject(updatedInfusion)
+            }
         }
+        self.title = NSLocalizedString("ADMINISTER_AS", comment: "screen title")
         super.viewWillDisappear(animated)
     }
 
@@ -442,6 +444,9 @@ class DCInfusionViewController: UIViewController, UITableViewDelegate, UITableVi
     func updateViewOnTableViewZerothSectionSelectionAtIndexPath(indexPath : NSIndexPath) {
         
         //zeroth section selection
+        if (self.infusion == nil) {
+            self.infusion = DCInfusion.init()
+        }
         if (previousAdministerOption != optionsArray![indexPath.row]) {
             previousAdministerOption = optionsArray![indexPath.row]
             if (previousAdministerOptionIndexPath != nil) {
