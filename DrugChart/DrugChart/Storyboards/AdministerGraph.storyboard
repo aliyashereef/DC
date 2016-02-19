@@ -20,7 +20,7 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="Uhd-Y1-VVz">
                                 <rect key="frame" x="0.0" y="0.0" width="310" height="600"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="titleCell" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="DurationBasedInfusionCell" rowHeight="119" id="HVA-qg-Yah" customClass="DCAdministerTableViewCell" customModule="DrugChart" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="50" width="310" height="119"/>
@@ -118,7 +118,7 @@
                                                         <constraint firstAttribute="height" constant="43" id="6x3-KG-8gu"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zhz-2O-Bgj">

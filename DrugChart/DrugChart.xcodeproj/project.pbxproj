@@ -3621,7 +3621,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "58a9a015-e1dc-49b6-96bc-8ade9ec3f10d";
+				PROVISIONING_PROFILE = "1b108ca1-0494-4727-88a7-ea6ea7164419";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -3661,7 +3661,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "58a9a015-e1dc-49b6-96bc-8ade9ec3f10d";
+				PROVISIONING_PROFILE = "1b108ca1-0494-4727-88a7-ea6ea7164419";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = 2;
@@ -3699,9 +3699,9 @@
 				INFOPLIST_FILE = DrugChart/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.e-mis.drugchart";
+				PRODUCT_BUNDLE_IDENTIFIER = com.emishealth.mobileprescriptions;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "58a9a015-e1dc-49b6-96bc-8ade9ec3f10d";
+				PROVISIONING_PROFILE = "1b108ca1-0494-4727-88a7-ea6ea7164419";
 				SWIFT_OBJC_BRIDGING_HEADER = "DrugChart/Helpers/AddMedicationHelper/DrugChart-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -3745,9 +3745,9 @@
 				INFOPLIST_FILE = DrugChart/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.e-mis.drugchart";
+				PRODUCT_BUNDLE_IDENTIFIER = com.emishealth.mobileprescriptions;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "58a9a015-e1dc-49b6-96bc-8ade9ec3f10d";
+				PROVISIONING_PROFILE = "1b108ca1-0494-4727-88a7-ea6ea7164419";
 				SWIFT_OBJC_BRIDGING_HEADER = "DrugChart/Helpers/AddMedicationHelper/DrugChart-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
