@@ -129,6 +129,7 @@
 "DESCRIPTION"           =       "Description";
 "DOSE"                  =       "Dose";
 "TIME"                  =       "Time";
+"DATE"                  =       "Date";
 
 //Administer
 

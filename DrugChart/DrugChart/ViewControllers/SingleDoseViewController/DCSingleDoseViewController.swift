@@ -68,7 +68,7 @@ class DCSingleDoseViewController: UIViewController, UITableViewDelegate, UITable
                 singleDoseCell?.titleLabel.text = NSLocalizedString("DOSE", comment: "")
                 singleDoseCell?.valueLabel.text = singleDose?.doseValue
             } else if indexPath.row == RowCount.eFirstRow.rawValue {
-                singleDoseCell?.titleLabel.text = NSLocalizedString("TIME", comment: "")
+                singleDoseCell?.titleLabel.text = NSLocalizedString("DATE", comment: "")
                 singleDoseCell?.valueLabel.text = singleDose?.dateAndTime
             }
             return singleDoseCell!
@@ -90,11 +90,12 @@ class DCSingleDoseViewController: UIViewController, UITableViewDelegate, UITable
             //display inline picker
             displayInlinePickerForRowAtIndexPath(indexPath)
             if (singleDose?.dateAndTime == nil) {
-                let dateString = DCDateUtility.dateStringFromDate(NSDate(), inFormat: START_DATE_FORMAT)
+                let dateString = DCDateUtility.dateStringFromDate(DCDateUtility.dateInCurrentTimeZone(NSDate()), inFormat: START_DATE_FORMAT)
                 singleDose?.dateAndTime = dateString
                 tableView.beginUpdates()
                 tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: 1, inSection: 0)], withRowAnimation:.Fade)
                 tableView.endUpdates()
+                self.performSelector(Selector("reloadDatePickerAfterDelay"), withObject: nil, afterDelay: 0.1)
             }
         }
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
@@ -105,6 +106,13 @@ class DCSingleDoseViewController: UIViewController, UITableViewDelegate, UITable
     func tableViewHasInlinePickerForSection (section : NSInteger) -> Bool {
         
         return (self.inlinePickerIndexPath != nil && section == self.inlinePickerIndexPath?.section)
+    }
+    
+    func reloadDatePickerAfterDelay() {
+        
+        doseTableView.beginUpdates()
+        doseTableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: 2, inSection: 0)], withRowAnimation:UITableViewRowAnimation.None)
+        doseTableView.endUpdates()
     }
     
     func indexPathHasPicker(indexPath : NSIndexPath) -> Bool {
