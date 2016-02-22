@@ -108,4 +108,28 @@ enum GraphDisplayView:Int
     }
 }
 
+enum DashBoardAddOption:Int
+{
+    case VitalSign = 1 , GCS , NEWS
+    
+    static var count: Int {  // I called this "maximumRawValue" in the post
+        var max: Int = 0
+        while let _ = self.init(rawValue: ++max) {}
+        return max
+    }
+}
+
+
+enum DataEntryObservationSource: Int
+{
+    case VitalSignAddIPad = 1 ,VitalSignAddIPhone , VitalSignEditIPhone ,VitalSignEditIPad , NewsIPad , NewsIPhone
+    
+    static var count: Int {  // I called this "maximumRawValue" in the post
+        var max: Int = 0
+        while let _ = self.init(rawValue: ++max) {}
+        return max
+    }
+}
+
+
 
