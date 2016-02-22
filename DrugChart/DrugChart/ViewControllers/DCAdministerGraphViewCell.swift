@@ -114,9 +114,11 @@ class DCAdministerGraphViewCell: UITableViewCell,ChartViewDelegate {
         
         for var index = 0 ; index < dataArray.count; index++ {
             yVals = []
+            nameBubbleYVals = []
+            valueBubbleYVals = []
             let eventData = dataArray[index]
             switch eventData["event"]! {
-            case "Started" :
+            case "Started","ReStarted":
                 // Find the difference between the start time in graph and the event start time in minutes.
                 // This value is the index of starting point of event.
                 nextDate = ordinaryDateFormatter.dateFromString(eventData["startTime"]!)!
@@ -133,7 +135,11 @@ class DCAdministerGraphViewCell: UITableViewCell,ChartViewDelegate {
                 nameBubbleChart.valueColors = [UIColor.whiteColor()]
                 
                 let numberFormatterS: NSNumberFormatter = NSNumberFormatter()
-                numberFormatterS.zeroSymbol = "S"
+                if eventData["event"] == "Started" {
+                    numberFormatterS.zeroSymbol = "S"
+                } else {
+                    numberFormatterS.zeroSymbol = "R"
+                }
                 nameBubbleChart.valueFormatter = numberFormatterS
 
                 // Create a bubble below the starting point to display the start time.
@@ -172,6 +178,65 @@ class DCAdministerGraphViewCell: UITableViewCell,ChartViewDelegate {
                 set.drawValuesEnabled = false
 
 
+                dataSet.append(set)
+                print(timeIndex)
+            case "Paused" :
+                // Find the difference between the start time in graph and the event start time in minutes.
+                // This value is the index of starting point of event.
+                nextDate = ordinaryDateFormatter.dateFromString(eventData["startTime"]!)!
+                timeIndex = calendar.components(.Minute, fromDate: startDate, toDate: nextDate, options: []).minute
+                yVals.append(ChartDataEntry(value: 25, xIndex: timeIndex))
+                
+                // Create a bubble in the start point and set the value as "S".
+                nameBubbleYVals.append(BubbleChartDataEntry(xIndex: timeIndex, value: 25, size: 0))
+                
+                let nameBubbleChart: BubbleChartDataSet = BubbleChartDataSet(yVals: nameBubbleYVals, label: "")
+                nameBubbleChart.setColor(chartView.tintColor, alpha: 1)
+                nameBubbleChart.drawValuesEnabled = true
+                nameBubbleChart.valueFont = UIFont.systemFontOfSize(9)
+                nameBubbleChart.valueColors = [UIColor.whiteColor()]
+                
+                let numberFormatterS: NSNumberFormatter = NSNumberFormatter()
+                numberFormatterS.zeroSymbol = "P"
+                nameBubbleChart.valueFormatter = numberFormatterS
+                
+                // Create a bubble below the starting point to display the start time.
+                valueBubbleYVals.append(BubbleChartDataEntry(xIndex: timeIndex, value: 15, size: 0))
+                
+                let valueBubbleChart: BubbleChartDataSet = BubbleChartDataSet(yVals: valueBubbleYVals, label: "")
+                valueBubbleChart.setColor(UIColor.clearColor(), alpha: 0)
+                valueBubbleChart.drawValuesEnabled = true
+                valueBubbleChart.valueFont = UIFont.systemFontOfSize(7)
+                valueBubbleChart.valueColors = [UIColor.grayColor()]
+                
+                let numberFormatterValue1: NSNumberFormatter = NSNumberFormatter()
+                let timeFormatter = NSDateFormatter()
+                timeFormatter.dateFormat = "HH.mm"
+                timeFormatter.calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
+                valueString = timeFormatter.stringFromDate(nextDate)
+                numberFormatterValue1.zeroSymbol = valueString
+                valueBubbleChart.valueFormatter = numberFormatterValue1
+                
+                bubbleDataSet.append(nameBubbleChart)
+                bubbleDataSet.append(valueBubbleChart)
+                
+                // Find the difference between the start time in graph and the event start time in minutes.
+                // This value is the index of ending point of event.
+                nextDate = ordinaryDateFormatter.dateFromString(eventData["endTime"]!)!
+                timeIndex = calendar.components(.Minute, fromDate: startDate, toDate: nextDate, options: []).minute
+                yVals.append(ChartDataEntry(value: 25, xIndex: timeIndex))
+                
+                let set: LineChartDataSet = LineChartDataSet(yVals: yVals, label: "")
+                set.colors = [chartView.tintColor]
+                set.lineWidth = 1.0
+                set.circleRadius = 7.0
+                set.lineDashLengths = [5.0,5.0]
+                set.drawCircleHoleEnabled = false
+                set.valueFont = UIFont.systemFontOfSize(9.0)
+                set.circleColors = [chartView.tintColor]
+                set.drawValuesEnabled = false
+                
+                
                 dataSet.append(set)
                 print(timeIndex)
             default :
@@ -243,18 +308,42 @@ class DCAdministerGraphViewCell: UITableViewCell,ChartViewDelegate {
         //NSDateComponents handles rolling over between days, months, years, etc
         startDate = calendarStart.dateFromComponents(comps)!
         let firstPoint: NSDate = startDate.dateByAddingTimeInterval(60*10)
-        let lastPoint: NSDate = firstPoint.dateByAddingTimeInterval(60 * 221)
+        let secondPoint: NSDate = startDate.dateByAddingTimeInterval(60 * 75)
+        let thirdPoint: NSDate = startDate.dateByAddingTimeInterval(60 * 185)
+        let fourthPoint: NSDate = startDate.dateByAddingTimeInterval(60 * 285)
+
         endDate = startDate.dateByAddingTimeInterval(60*301)
-        print(firstPoint)
-        print(lastPoint)
         let demoDateFormatter = NSDateFormatter()
         demoDateFormatter.calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
         demoDateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss xx"
         
         dataDictionary["event"] = "Started"
         dataDictionary["startTime"] = demoDateFormatter.stringFromDate(firstPoint)
-        dataDictionary["endTime"] = demoDateFormatter.stringFromDate(lastPoint)
+        dataDictionary["endTime"] = demoDateFormatter.stringFromDate(secondPoint)
         
         dataArray.append(dataDictionary)
+        
+        dataDictionary["event"] = "Paused"
+        dataDictionary["startTime"] = demoDateFormatter.stringFromDate(secondPoint)
+        dataDictionary["endTime"] = demoDateFormatter.stringFromDate(thirdPoint)
+
+        dataArray.append(dataDictionary)
+        
+        dataDictionary["event"] = "ReStarted"
+        dataDictionary["startTime"] = demoDateFormatter.stringFromDate(thirdPoint)
+        dataDictionary["endTime"] = demoDateFormatter.stringFromDate(fourthPoint)
+        
+        dataArray.append(dataDictionary)
+        
+        print(dataArray)
     }
+    
+    func chartValueSelected(chartView: ChartViewBase, entry: ChartDataEntry, dataSetIndex: Int, highlight: ChartHighlight) {
+        NSLog("chartValueSelected")
+    }
+    
+    func chartValueNothingSelected(chartView: ChartViewBase) {
+        NSLog("chartValueNothingSelected")
+    }
+
 }
