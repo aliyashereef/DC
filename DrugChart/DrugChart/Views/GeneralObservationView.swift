@@ -35,6 +35,11 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
     let SECTION_ADDITIONAL_NEWS_OBSERVATION_ROWS = 2
     let ZERO_ROWS = 0
     
+    //general variables
+    let toggleCellIdentifier  = "ToggleCell"
+    let doubleCellIdentifier = "DoubleCell"
+    let bloodPressureCellIdentifier = "BloodPressureCell"
+    
     var datePickerCell:DatePickerCellInline!
     var cells:Dictionary<Int,UITableViewCell> = Dictionary<Int,UITableViewCell>()
     
@@ -49,14 +54,15 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
         self.tableView.estimatedRowHeight = 44
         self.tableView.allowsMultipleSelection = false
         let nib = UINib(nibName: "DoubleCell", bundle: nil)
-        self.tableView.registerNib(nib, forCellReuseIdentifier: "DoubleCell")
-        
-        let nibTimePicker = UINib(nibName: "TimePickerCell", bundle: nil)
-        self.tableView.registerNib(nibTimePicker, forCellReuseIdentifier: "TimePickerCell")
+        self.tableView.registerNib(nib, forCellReuseIdentifier: doubleCellIdentifier)
         
         let nibBloodPressure = UINib(nibName: "BloodPressureCell", bundle: nil)
-        self.tableView.registerNib(nibBloodPressure, forCellReuseIdentifier: "BloodPressureCell")
+        self.tableView.registerNib(nibBloodPressure, forCellReuseIdentifier: bloodPressureCellIdentifier)
+        
         datePickerCell = DatePickerCellInline(style: UITableViewCellStyle.Default, reuseIdentifier: nil)
+        
+        let nibToggle = UINib(nibName: "ToggleCell", bundle: nil)
+        self.tableView.registerNib(nibToggle, forCellReuseIdentifier: toggleCellIdentifier)
         
     }
     func configureView(observation:VitalSignObservation,showobservatioType:ShowObservationType, tag:DataEntryObservationSource)
@@ -77,8 +83,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
         DataEntryObservationSource.VitalSignEditIPhone , DataEntryObservationSource.VitalSignEditIPad:
             return 2
         case DataEntryObservationSource.NewsIPad , DataEntryObservationSource.NewsIPhone:
-           // return 3
-            return 2
+            return 3
         }
     }
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -145,6 +150,10 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
                     return 5
                     /*   case ShowObservationType.BM:
                     return 6*/
+                case ShowObservationType.AdditionalOxygen:
+                    return 6
+                case ShowObservationType.AVPU:
+                    return 7
                 default:
                     return 0
                 }
@@ -181,7 +190,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
         case ObservationType.Respiratory:
             cellTitle = "Resps (per minute)"
             
-            let cell = tableView.dequeueReusableCellWithIdentifier("DoubleCell", forIndexPath: indexPath) as! DoubleCell
+            let cell = tableView.dequeueReusableCellWithIdentifier(doubleCellIdentifier, forIndexPath: indexPath) as! DoubleCell
             cell.tag = ObservationType.Respiratory.rawValue
             cell.configureCell(cellTitle, valuePlaceHolderText: placeHolderText,selectedValue: nil , disableNavigation: showObservationType != .All)
             cells[rowNumber] = cell
@@ -196,7 +205,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             cellTitle = "Oxygen Saturation & Inspired O2"
             placeHolderText = "enter %"
             
-            let cell = tableView.dequeueReusableCellWithIdentifier("DoubleCell", forIndexPath: indexPath) as! DoubleCell
+            let cell = tableView.dequeueReusableCellWithIdentifier(doubleCellIdentifier, forIndexPath: indexPath) as! DoubleCell
             cell.tag = ObservationType.SpO2.rawValue
             cell.configureCell(cellTitle, valuePlaceHolderText: placeHolderText,selectedValue: nil , disableNavigation: showObservationType != .All)
             cells[rowNumber] = cell
@@ -211,7 +220,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             cellTitle = "Temperature (°C)"
             //rowTag =
             
-            let cell = tableView.dequeueReusableCellWithIdentifier("DoubleCell", forIndexPath: indexPath) as! DoubleCell
+            let cell = tableView.dequeueReusableCellWithIdentifier(doubleCellIdentifier, forIndexPath: indexPath) as! DoubleCell
             cell.tag = ObservationType.Temperature.rawValue
             cell.configureCell(cellTitle, valuePlaceHolderText: placeHolderText,selectedValue: nil , disableNavigation: showObservationType != .All)
             cells[rowNumber] = cell
@@ -225,7 +234,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
         case ObservationType.BloodPressure:
             cellTitle="Systolic / Diastolic"
             
-            let cell = tableView.dequeueReusableCellWithIdentifier("BloodPressureCell", forIndexPath: indexPath) as! BloodPressureCell
+            let cell = tableView.dequeueReusableCellWithIdentifier(bloodPressureCellIdentifier, forIndexPath: indexPath) as! BloodPressureCell
             cell.tag = ObservationType.BloodPressure.rawValue
             cells[rowNumber] = cell
             if(showObservationType == ShowObservationType.BloodPressure && observation != nil && observation.bloodPressure != nil )
@@ -240,7 +249,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
         case ObservationType.Pulse:
             cellTitle = "Pulse (beats/min)"
             
-            let cell = tableView.dequeueReusableCellWithIdentifier("DoubleCell", forIndexPath: indexPath) as! DoubleCell
+            let cell = tableView.dequeueReusableCellWithIdentifier(doubleCellIdentifier, forIndexPath: indexPath) as! DoubleCell
             cell.tag = ObservationType.Pulse.rawValue
             cell.configureCell(cellTitle, valuePlaceHolderText: placeHolderText,selectedValue: nil , disableNavigation: showObservationType != .All)
             cells[rowNumber] = cell
@@ -260,7 +269,12 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             cells[rowNumber] = cell
             cell.delegate = self
             return cell*/
-            
+        case ObservationType.AdditionalOxygen:
+            let cell = tableView.dequeueReusableCellWithIdentifier(toggleCellIdentifier, forIndexPath: indexPath) as! ToggleCell
+            return cell
+        case ObservationType.AVPU:
+            let cell = tableView.dequeueReusableCellWithIdentifier(toggleCellIdentifier, forIndexPath: indexPath) as! ToggleCell
+            return cell
         }
         
     }

@@ -164,6 +164,8 @@
 		1F0A9C051C469303007ACFDA /* OneThirdScreenTabularView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0A9C041C469303007ACFDA /* OneThirdScreenTabularView.swift */; };
 		1F0A9C0A1C47CDE7007ACFDA /* OneThirdContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0A9C081C47CDE7007ACFDA /* OneThirdContentCell.swift */; };
 		1F0A9C0B1C47CDE7007ACFDA /* OneThirdContentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F0A9C091C47CDE7007ACFDA /* OneThirdContentCell.xib */; };
+		1F1002E61C7B472100BB0479 /* ToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1002E41C7B472100BB0479 /* ToggleCell.swift */; };
+		1F1002E71C7B472100BB0479 /* ToggleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F1002E51C7B472100BB0479 /* ToggleCell.xib */; };
 		1F1977071BFDE59000106023 /* CustomCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1977061BFDE59000106023 /* CustomCollectionViewLayout.swift */; };
 		1F19770E1BFDE75900106023 /* HeaderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F19770C1BFDE75900106023 /* HeaderCollectionViewCell.swift */; };
 		1F19770F1BFDE75900106023 /* HeaderCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F19770D1BFDE75900106023 /* HeaderCollectionViewCell.xib */; };
@@ -619,6 +621,8 @@
 		1F0A9C041C469303007ACFDA /* OneThirdScreenTabularView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OneThirdScreenTabularView.swift; sourceTree = "<group>"; };
 		1F0A9C081C47CDE7007ACFDA /* OneThirdContentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OneThirdContentCell.swift; sourceTree = "<group>"; };
 		1F0A9C091C47CDE7007ACFDA /* OneThirdContentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OneThirdContentCell.xib; sourceTree = "<group>"; };
+		1F1002E41C7B472100BB0479 /* ToggleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToggleCell.swift; sourceTree = "<group>"; };
+		1F1002E51C7B472100BB0479 /* ToggleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ToggleCell.xib; sourceTree = "<group>"; };
 		1F1977061BFDE59000106023 /* CustomCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewLayout.swift; sourceTree = "<group>"; };
 		1F19770C1BFDE75900106023 /* HeaderCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderCollectionViewCell.swift; sourceTree = "<group>"; };
 		1F19770D1BFDE75900106023 /* HeaderCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -2389,6 +2393,8 @@
 				1F7EB71C1C21CB5400F6F22F /* BarGraphCell.xib */,
 				1F0A9C081C47CDE7007ACFDA /* OneThirdContentCell.swift */,
 				1F0A9C091C47CDE7007ACFDA /* OneThirdContentCell.xib */,
+				1F1002E41C7B472100BB0479 /* ToggleCell.swift */,
+				1F1002E51C7B472100BB0479 /* ToggleCell.xib */,
 			);
 			name = CustomCell;
 			sourceTree = "<group>";
@@ -3114,6 +3120,7 @@
 				4DDB53731C0725B900C2C6BA /* DCOneThirdCalendarNavigationTitleView.xib in Resources */,
 				7D2FF05A1BB9027600B92B85 /* DCCalendarDayView.xib in Resources */,
 				7DE60BD11B2866CD00BCA745 /* DCPortraitBottomUpPatientView.xib in Resources */,
+				1F1002E71C7B472100BB0479 /* ToggleCell.xib in Resources */,
 				0BBDEDDC1AA581630016E6FF /* Lato-Bold.ttf in Resources */,
 				0BAE36961B450AB0007CD64C /* DCAutoSearchCell.xib in Resources */,
 				0BB3977F1B42944B0037C8E1 /* OrderSet.storyboard in Resources */,
@@ -3490,6 +3497,7 @@
 				FDD5486E1C451186000EB855 /* DCFixedDose.m in Sources */,
 				0BB535861BBA472D0043BC61 /* DCAdministerPickerCell.swift in Sources */,
 				0B5948BE1B218B0A0085FB26 /* DCPatientAllergy.m in Sources */,
+				1F1002E61C7B472100BB0479 /* ToggleCell.swift in Sources */,
 				4DD829271C0853AD006B2E71 /* DCOneThirdCalendarStripCollectionCell.swift in Sources */,
 				0BA803711BA7ED7100DBB45D /* DCWarningsListViewController.swift in Sources */,
 				4D70973B1C5A560000832539 /* DCReviewDatePickerCell.swift in Sources */,

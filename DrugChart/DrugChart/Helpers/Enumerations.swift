@@ -25,7 +25,7 @@ enum DashBoardRow:Int
 enum ObservationType:Int
 {
     case Date
-    case Respiratory  , SpO2, Temperature , BloodPressure , Pulse /*, BM*/
+    case Respiratory  , SpO2, Temperature , BloodPressure , Pulse , AdditionalOxygen , AVPU/*, BM*/
     
     static var count: Int {  // I called this "maximumRawValue" in the post
         var max: Int = 0
@@ -36,7 +36,7 @@ enum ObservationType:Int
 
 enum ShowObservationType:Int
 {
-    case All, None, Respiratory  , SpO2, Temperature , BloodPressure , Pulse /*, BM*/
+    case All, None, Respiratory  , SpO2, Temperature , BloodPressure , Pulse , AdditionalOxygen , AVPU /*, BM*/
     
     static var count: Int {  // I called this "maximumRawValue" in the post
         var max: Int = 0
