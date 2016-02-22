@@ -8,14 +8,13 @@
 
 import Foundation
 
-class BloodPressure
+class BloodPressure : VitalSignBaseModel
 {
     var systolic:Double // systolic should be greater than diastolic
     var diastolic:Double
     
-    var date:NSDate = NSDate()
     
-    init()
+    override init()
     {
         systolic = 0.0
         diastolic = 0.0

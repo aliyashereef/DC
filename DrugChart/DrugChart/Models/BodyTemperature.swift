@@ -9,12 +9,11 @@
 import UIKit
 
 
-class BodyTemperature
+class BodyTemperature:VitalSignBaseModel
 {
     var unit:String
     var value:Double
-    var date:NSDate = NSDate()
-    init()
+    override init()
     {
         unit = "Farenheit"
         value = 0.0

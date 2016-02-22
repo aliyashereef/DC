@@ -7,12 +7,11 @@
 //
 
 import Foundation
-class BowelMovement
+class BowelMovement:VitalSignBaseModel
 {
     var value:Double
-    var date:NSDate = NSDate()
     
-    init()
+    override init()
     {
         value = 0.0
     }

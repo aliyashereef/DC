@@ -8,12 +8,11 @@
 
 import Foundation
 
-class Pulse
+class Pulse : VitalSignBaseModel
 {
     var pulseRate:Double
-    var date :NSDate = NSDate()
     
-    init()
+    override init()
     {
         pulseRate = 0.0
     }

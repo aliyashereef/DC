@@ -177,6 +177,7 @@
 		1F380C761C64B21C000A4E5D /* FhirParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F380C751C64B21C000A4E5D /* FhirParser.swift */; };
 		1F380C781C64E1D1000A4E5D /* VitalSignParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F380C771C64E1D1000A4E5D /* VitalSignParser.swift */; };
 		1F3AB1AB1C71EBAF008F0513 /* observation.json in Resources */ = {isa = PBXBuildFile; fileRef = 1F3AB1AA1C71EBAF008F0513 /* observation.json */; };
+		1F3AB1AE1C748E9C008F0513 /* VitalSignBaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3AB1AD1C748E9C008F0513 /* VitalSignBaseModel.swift */; };
 		1F3C316E1C0DB3CB007C6AE7 /* PatientViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3C316D1C0DB3CB007C6AE7 /* PatientViewController.swift */; };
 		1F3C31701C0DB8F8007C6AE7 /* Patient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3C316F1C0DB8F8007C6AE7 /* Patient.swift */; };
 		1F3C31781C0DE0CF007C6AE7 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3C31771C0DE0CF007C6AE7 /* CalendarViewController.swift */; };
@@ -631,6 +632,7 @@
 		1F380C751C64B21C000A4E5D /* FhirParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FhirParser.swift; sourceTree = "<group>"; };
 		1F380C771C64E1D1000A4E5D /* VitalSignParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VitalSignParser.swift; sourceTree = "<group>"; };
 		1F3AB1AA1C71EBAF008F0513 /* observation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = observation.json; sourceTree = "<group>"; };
+		1F3AB1AD1C748E9C008F0513 /* VitalSignBaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VitalSignBaseModel.swift; sourceTree = "<group>"; };
 		1F3C316D1C0DB3CB007C6AE7 /* PatientViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatientViewController.swift; sourceTree = "<group>"; };
 		1F3C316F1C0DB8F8007C6AE7 /* Patient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Patient.swift; sourceTree = "<group>"; };
 		1F3C31771C0DE0CF007C6AE7 /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
@@ -1745,6 +1747,7 @@
 				7D5567DB1B4FEE2100BA6733 /* OnceMedicationSample.plist */,
 				7D5567DC1B4FEE2100BA6733 /* RegularMedicationSample.plist */,
 				7D9EA9E91B2960F900337E6A /* GraphicalCoordinateList.plist */,
+				1F3AB1AA1C71EBAF008F0513 /* observation.json */,
 				0BBC8F981AA468370085ABAB /* Fonts */,
 				0BBC8F991AA468370085ABAB /* Images */,
 				0BBC8F941AA467480085ABAB /* Localizable.strings */,
@@ -1762,7 +1765,6 @@
 				7D9EA9EB1B29846C00337E6A /* PositionableGraphics.plist */,
 				0BB397801B42AF500037C8E1 /* OrderSet.plist */,
 				0BD5181C1BFB2F790076B018 /* WeekDays.plist */,
-				1F3AB1AA1C71EBAF008F0513 /* observation.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -2326,6 +2328,7 @@
 				1FF1F8811C3D6247007F3B9C /* GraphModel.swift */,
 				1FF1F8831C3D629B007F3B9C /* LineGraphModel.swift */,
 				1FF1F8851C3D7177007F3B9C /* BarGraphModel.swift */,
+				1F3AB1AD1C748E9C008F0513 /* VitalSignBaseModel.swift */,
 			);
 			name = VitalSign;
 			sourceTree = "<group>";
@@ -3304,6 +3307,7 @@
 				7DC7C6491C1953F00026608A /* DCWindowScreenState.swift in Sources */,
 				FDE2C9B71C3A6A8A00FBDFCA /* DCDosageConditionsTableViewCell.swift in Sources */,
 				4DC440181B67990D000EC7AB /* DCOrderSetWebService.m in Sources */,
+				1F3AB1AE1C748E9C008F0513 /* VitalSignBaseModel.swift in Sources */,
 				0BADF3E21BF6172400A78175 /* DCSchedulingHelper.swift in Sources */,
 				4D48915E1BC90176002AC8CA /* DCPatientListingCell.swift in Sources */,
 				0B0371EE1C16F9E600F2E0D1 /* DCSpecificTimes.m in Sources */,

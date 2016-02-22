@@ -9,11 +9,10 @@
 import Foundation
 
 
-class Respiratory
+class Respiratory:VitalSignBaseModel
 {
     var repiratoryRate:Double
-    var date:NSDate = NSDate()
-    init()
+    override init()
     {
          repiratoryRate = 0.0
     }
