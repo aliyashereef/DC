@@ -113,7 +113,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date &amp; Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0qY-Zu-6gS">
-                                                    <rect key="frame" x="16" y="0.0" width="85" height="43"/>
+                                                    <rect key="frame" x="15" y="0.0" width="85" height="43"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="43" id="6x3-KG-8gu"/>
                                                     </constraints>
@@ -122,7 +122,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zhz-2O-Bgj">
-                                                    <rect key="frame" x="106" y="0.0" width="180" height="43"/>
+                                                    <rect key="frame" x="105" y="0.0" width="190" height="43"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="43" id="8Vw-Lw-kYA"/>
                                                     </constraints>
@@ -132,12 +132,12 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="Zhz-2O-Bgj" secondAttribute="trailing" constant="24" id="3BI-4H-qR0"/>
+                                                <constraint firstAttribute="trailing" secondItem="Zhz-2O-Bgj" secondAttribute="trailing" constant="15" id="3BI-4H-qR0"/>
                                                 <constraint firstAttribute="bottom" secondItem="0qY-Zu-6gS" secondAttribute="bottom" id="8NY-Cl-Jx4"/>
                                                 <constraint firstItem="0qY-Zu-6gS" firstAttribute="top" secondItem="Q5H-rV-S40" secondAttribute="top" id="Jyy-Bg-cBd"/>
                                                 <constraint firstItem="Zhz-2O-Bgj" firstAttribute="leading" secondItem="0qY-Zu-6gS" secondAttribute="trailing" constant="5" id="TVw-lj-LZ6"/>
                                                 <constraint firstAttribute="bottom" secondItem="Zhz-2O-Bgj" secondAttribute="bottom" id="eoa-Mp-iSP"/>
-                                                <constraint firstItem="0qY-Zu-6gS" firstAttribute="leading" secondItem="Q5H-rV-S40" secondAttribute="leading" constant="16" id="fVT-VX-3L7"/>
+                                                <constraint firstItem="0qY-Zu-6gS" firstAttribute="leading" secondItem="Q5H-rV-S40" secondAttribute="leading" constant="15" id="fVT-VX-3L7"/>
                                                 <constraint firstItem="Zhz-2O-Bgj" firstAttribute="top" secondItem="Q5H-rV-S40" secondAttribute="top" id="nbA-sD-ZPC"/>
                                             </constraints>
                                         </tableViewCellContentView>
