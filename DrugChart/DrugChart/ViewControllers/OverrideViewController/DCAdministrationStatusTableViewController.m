@@ -21,7 +21,6 @@
 
 @implementation DCAdministrationStatusTableViewController{
     BOOL isSecondSectionExpanded;
-    BOOL isDatePickerExpanded;
     int rowCount;
     NSMutableArray *usersListArray;
     NSString *checkedByUser;
@@ -77,7 +76,7 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if(indexPath.section == 1) {
-        if (isDatePickerExpanded && datePickerIndexPath == indexPath) {
+        if ([self hasInlineDatePicker] && datePickerIndexPath == indexPath) {
                 return 216;
         } else if ([_status isEqualToString: STOPED_DUE_TO_PROBLEM] || [_status isEqualToString:CONTINUED_AFTER_PROBLEM]) {
             return 125;
@@ -91,7 +90,7 @@
     int row = rowCount;
     switch (section) {
         case 1:
-            if(isDatePickerExpanded) {
+            if([self hasInlineDatePicker]) {
                 row++;
             }
             return row;
@@ -124,7 +123,7 @@
                         cell.detailLabel.text =  self.restartedDate;
                         return cell;}
                     case 1:{
-                        if(isDatePickerExpanded && datePickerIndexPath.row == 1) {
+                        if([self hasInlineDatePicker] && datePickerIndexPath.row == 1) {
                             DCDatePickerCell *pickerCell = [self datePickerTableCell];
                             return pickerCell;
                         } else {
@@ -132,14 +131,14 @@
                         }
                     }
                     case 2:{
-                        if (isDatePickerExpanded && datePickerIndexPath.row == 1) {
+                        if ([self hasInlineDatePicker] && datePickerIndexPath.row == 1) {
                             return [self checkedByCellAtIndexPath:indexPath];
                         } else {
                             return [self configureBatchCellWithText:@"Batch No" AtIndexPath:indexPath];
                         }
                     }
                     case 3:{
-                        if (isDatePickerExpanded && datePickerIndexPath.row == 1) {
+                        if ([self hasInlineDatePicker] && datePickerIndexPath.row == 1) {
                             // Batch number cell
                             return [self configureBatchCellWithText:@"Batch No" AtIndexPath:indexPath];
                         } else {
@@ -151,7 +150,7 @@
                         }
                     }
                     case 4:
-                        if (isDatePickerExpanded && datePickerIndexPath == indexPath) {
+                        if ([self hasInlineDatePicker] && datePickerIndexPath == indexPath) {
                             DCDatePickerCell *pickerCell = [self datePickerTableCell];
                             return pickerCell;
                         } else {
@@ -222,46 +221,41 @@
     } else if (indexPath.section == 1){
         switch (indexPath.row) {
             case 0:{
-                if (isDatePickerExpanded && datePickerIndexPath.row == indexPath.row+1) {
-                    [self collapseDatePickerAtIndexPath:indexPath];
-                }else {
-                    [self displayDatePickerAtIndexPath:indexPath];
-                }
+                    [self displayInlineDatePickerForRowAtIndexPath:indexPath];
             }
                 break;
             case 1:{
-                if (!isDatePickerExpanded) {
+                if (![self hasInlineDatePicker]) {
                     [self displayPrescribersAndAdministersViewAtIndexPath:indexPath];
                 }
             }
                 break;
             case 2:{
-                if (isDatePickerExpanded && datePickerIndexPath.row == 1) {
+                if ([self hasInlineDatePicker] && datePickerIndexPath.row == 1) {
                     [self displayPrescribersAndAdministersViewAtIndexPath:indexPath];
                 }
             }
                 break;
             case 3:{
-                if (isDatePickerExpanded && datePickerIndexPath.row == indexPath.row+1) {
-                    [self collapseDatePickerAtIndexPath:indexPath];
+                if ([self hasInlineDatePicker] && datePickerIndexPath.row == indexPath.row+1) {
                 } else {
-                    [self displayDatePickerAtIndexPath:indexPath];
+                    [self displayInlineDatePickerForRowAtIndexPath:indexPath];
                 }
             }
                 break;
             case 4:{
-                if (isDatePickerExpanded && datePickerIndexPath.row == indexPath.row+1) {
-                    [self collapseDatePickerAtIndexPath:indexPath];
+                if ([self hasInlineDatePicker] && datePickerIndexPath.row == indexPath.row+1) {
+                    [self displayInlineDatePickerForRowAtIndexPath:indexPath];
                 } else {
-                    [self displayDatePickerAtIndexPath:indexPath];
+                    [self displayInlineDatePickerForRowAtIndexPath:indexPath];
                 }
             }
                 break;
             default:
-                if (isDatePickerExpanded && datePickerIndexPath.row == indexPath.row+1) {
-                    [self collapseDatePickerAtIndexPath:indexPath];
+                if ([self hasInlineDatePicker] && datePickerIndexPath.row == indexPath.row+1) {
+                    [self displayInlineDatePickerForRowAtIndexPath:indexPath];
                 } else {
-                    [self displayDatePickerAtIndexPath:indexPath];
+                    [self displayInlineDatePickerForRowAtIndexPath:indexPath];
                 }
                 break;
         }
@@ -328,33 +322,6 @@
     return pickerCell;
 }
 
-- (void)displayDatePickerAtIndexPath : (NSIndexPath *)indexPath {
-    [self.tableView beginUpdates];
-    if (isDatePickerExpanded) {
-        // display the date picker inline with the table content
-        isDatePickerExpanded = NO;
-        [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:datePickerIndexPath.row inSection:1]]
-                                          withRowAnimation:UITableViewRowAnimationFade];
-    } else {
-        isDatePickerExpanded = YES;
-        [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:indexPath.row+1 inSection:1]]
-                                          withRowAnimation:UITableViewRowAnimationFade];
-        datePickerIndexPath = [NSIndexPath indexPathForRow:indexPath.row +1 inSection:indexPath.section];
-
-    }
-    [self.tableView endUpdates];
-}
-
-
-- (void)collapseDatePickerAtIndexPath : (NSIndexPath *)indexPath {
-    [self.tableView beginUpdates];
-    isDatePickerExpanded = NO;
-    datePickerIndexPath = nil;
-    [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:indexPath.row+1 inSection:1]]
-                          withRowAnimation:UITableViewRowAnimationFade];
-    [self.tableView endUpdates];
-}
-
 - (void)displayPrescribersAndAdministersViewAtIndexPath :(NSIndexPath *)indexPath {
     
     UIStoryboard *administerStoryboard = [UIStoryboard storyboardWithName:ADMINISTER_STORYBOARD bundle:nil];
@@ -386,6 +353,85 @@
 - (void)selectedUserEntry:(DCUser *)user {
     checkedByUser = user.displayName;
     [self.tableView reloadData];
+}
+// MARK: Date Picker Methods
+
+- (BOOL)hasPickerForIndexPath:(NSIndexPath *)indexPath {
+    BOOL hasDatePicker = NO;
+    NSInteger targetedRow = indexPath.row;
+    targetedRow++;
+    UITableViewCell *checkDatePickerCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:targetedRow inSection:indexPath.section]];
+    UIDatePicker *checkDatePicker = (UIDatePicker *)[checkDatePickerCell viewWithTag:99];
+    hasDatePicker = (checkDatePicker != nil);
+    return hasDatePicker;
+}
+
+- (BOOL)indexPathHasPicker:(NSIndexPath *)indexPath {
+    
+    return ([self hasInlineDatePicker] && datePickerIndexPath.row == indexPath.row);
+}
+
+- (BOOL)hasInlineDatePicker {
+    
+    return (datePickerIndexPath != nil);
+}
+
+- (void)scrollToDatePickerAtIndexPath:(NSIndexPath *)indexPath {
+    
+    //scroll to date picker indexpath when when any of the date field is selected
+    if (indexPath.row != datePickerIndexPath.row - 1) {
+        NSIndexPath *scrollToIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //[self.tableView scrollToRowAtIndexPath:scrollToIndexPath
+                                              //atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+            
+        });
+    }
+}
+
+- (void)displayInlineDatePickerForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    // display the date picker inline with the table content
+    [self scrollToDatePickerAtIndexPath:indexPath];
+    [self.tableView beginUpdates];
+    BOOL before = NO;   // indicates if the date picker is below "indexPath", help us determine which row to reveal
+    if ([self hasInlineDatePicker]) {
+        before = datePickerIndexPath.row < indexPath.row;
+    }
+    BOOL sameCellClicked = (datePickerIndexPath.row - 1 == indexPath.row);
+    // remove any date picker cell if it exists
+    if ([self hasInlineDatePicker]) {
+        [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:datePickerIndexPath.row inSection:1]]
+                                          withRowAnimation:UITableViewRowAnimationFade];
+        datePickerIndexPath = nil;
+    }
+    if (!sameCellClicked) {
+        // hide the old date picker and display the new one
+        NSInteger rowToReveal = (before ? indexPath.row - 1 : indexPath.row);
+        NSIndexPath *indexPathToReveal = [NSIndexPath indexPathForRow:rowToReveal inSection:indexPath.section];
+        [self toggleDatePickerForSelectedIndexPath:indexPathToReveal];
+        datePickerIndexPath = [NSIndexPath indexPathForRow:indexPathToReveal.row + 1 inSection:indexPath.section];
+    }
+    // always deselect the row containing the start or end date
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self.tableView endUpdates];
+}
+
+- (void)toggleDatePickerForSelectedIndexPath:(NSIndexPath *)indexPath {
+    
+    [self.tableView beginUpdates];
+    NSArray *indexPaths = @[[NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section]];
+    // check if 'indexPath' has an attached date picker below it
+    if ([self hasPickerForIndexPath:indexPath]) {
+        // found a picker below it, so remove it
+        [self.tableView deleteRowsAtIndexPaths:indexPaths
+                                          withRowAnimation:UITableViewRowAnimationFade];
+    } else {
+        // didn't find a picker below it, so we should insert it
+        [self.tableView insertRowsAtIndexPaths:indexPaths
+                                          withRowAnimation:UITableViewRowAnimationFade];
+    }
+    [self.tableView endUpdates];
 }
 
 @end
