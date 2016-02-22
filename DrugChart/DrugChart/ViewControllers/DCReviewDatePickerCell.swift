@@ -117,7 +117,7 @@ class DCReviewDatePickerCell:UITableViewCell, UIPickerViewDelegate, UIPickerView
         default:
             break;
         }
-        let displayValue = NSString(format: "Every %@ %@", selectedValue,secondValue )
+        let displayValue = NSString(format: "In %@ %@", selectedValue,secondValue )
         pickerCompletion(displayValue)
     }
 }

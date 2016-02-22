@@ -853,13 +853,13 @@
                 UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
                 DCAddNewValueViewController *addNewValueViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:ADD_NEW_VALUE_SBID];
                 addNewValueViewController.titleString = @"Frequency";
-                addNewValueViewController.placeHolderString = @"Every";
+                addNewValueViewController.placeHolderString = @"In";
                 addNewValueViewController.backButtonTitle = @"Add Medication";
                 addNewValueViewController.detailType = eAddValueWithUnit;
                 addNewValueViewController.unitArray = [[NSArray alloc] initWithObjects:@"Day",@"Week",@"Month",nil];
                 addNewValueViewController.previousValue = self.selectedMedication.reviewDate;
                 addNewValueViewController.newValueEntered = ^ (NSString *value) {
-                    self.selectedMedication.reviewDate = [NSString stringWithFormat:@"Every %@",value];
+                    self.selectedMedication.reviewDate = [NSString stringWithFormat:@"In %@",value];
                     [medicationDetailsTableView reloadData];
                 };
                 self.title = titleLabel.text;
