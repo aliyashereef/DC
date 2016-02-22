@@ -65,7 +65,8 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
             }
         } else if detailType == eAddSingleDose {
             self.newValueEntered(textFieldValue)
-        } else {
+        }
+        else {
             if textFieldValue != "" && valueForUnit != "" {
                 self.newValueEntered("\(textFieldValue) \(valueForUnit)")
             }

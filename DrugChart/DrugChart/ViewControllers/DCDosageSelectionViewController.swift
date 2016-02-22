@@ -513,15 +513,7 @@ typealias SelectedDosage = DCDosage? -> Void
                 }
             } else {
                 if (indexPath.row == 0) {
-                    var singleDoseValue = NSMutableString(string: EMPTY_STRING)
-                    if let doseValue = dosage?.singleDose?.doseValue {
-                        singleDoseValue = NSMutableString(format: "%@", doseValue)
-                        if let startTime = dosage?.singleDose?.dateAndTime {
-                            singleDoseValue.appendFormat(" %@", startTime)
-                        }
-                    }
-                    dosageSelectionDetailCell.accessoryType = .DisclosureIndicator
-                    dosageSelectionDetailCell.configureCell(SINGLE_DOSE, selectedValue: singleDoseValue as String)
+                    dosageSelectionDetailCell = populatedSingleDoseCell(dosageSelectionDetailCell, atIndexPath: indexPath)
                 }
             }
         case eSplitDaily.rawValue:
@@ -710,14 +702,16 @@ typealias SelectedDosage = DCDosage? -> Void
         
         var singleDoseValue = NSMutableString(string: EMPTY_STRING)
         if let doseValue = dosage?.singleDose?.doseValue {
-            singleDoseValue = NSMutableString(format: "%@", doseValue)
-            if let doseUnit = self.dosage?.doseUnit {
-                singleDoseValue.appendFormat(" %@", doseUnit)
-            } else {
-                singleDoseValue.appendString(" mg")
-            }
-            if let startTime = dosage?.singleDose?.dateAndTime {
-                singleDoseValue.appendFormat(" on %@", startTime)
+            if doseValue != EMPTY_STRING {
+                singleDoseValue = NSMutableString(format: "%@", doseValue)
+                if let doseUnit = self.dosage?.doseUnit {
+                    singleDoseValue.appendFormat(" %@", doseUnit)
+                } else {
+                    singleDoseValue.appendString(" mg")
+                }
+                if let startTime = dosage?.singleDose?.dateAndTime {
+                    singleDoseValue.appendFormat(" on %@", startTime)
+                }
             }
         }
         singleDoseCell.accessoryType = .DisclosureIndicator
