@@ -69,13 +69,15 @@ class DCSingleDoseViewController: UIViewController, UITableViewDelegate, UITable
                 singleDoseCell?.titleLabel.text = NSLocalizedString("DOSE", comment: "")
                 let singleDoseValue = NSMutableString()
                 if let dose = singleDose?.doseValue {
-                    singleDoseValue.appendString(dose)
-                    if doseUnit == nil {
-                        singleDoseValue.appendString(" mg")
-                    } else {
-                        singleDoseValue.appendFormat(" %@", doseUnit!)
+                    if dose != EMPTY_STRING {
+                        singleDoseValue.appendString(dose)
+                        if doseUnit == nil {
+                            singleDoseValue.appendString(" mg")
+                        } else {
+                            singleDoseValue.appendFormat(" %@", doseUnit!)
+                        }
                     }
-                }
+                 }
                 singleDoseCell?.valueLabel.text = singleDoseValue as String
             } else if indexPath.row == RowCount.eFirstRow.rawValue {
                 singleDoseCell?.titleLabel.text = NSLocalizedString("DATE", comment: "")

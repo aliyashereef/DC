@@ -341,7 +341,6 @@ typealias SelectedDosage = DCDosage? -> Void
         if (selectedTimeArrayItems.count == 0) {
             range = NSMakeRange(3, 1)
         }
-        let sections = NSIndexSet(indexesInRange: range)
         if (isRowAlreadySelected == true){
             //if row already selected, deselect the row and delete the dropdown.
             menuType = eDosageMenu
@@ -349,11 +348,10 @@ typealias SelectedDosage = DCDosage? -> Void
             dosageTableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .None
             //if selected type is splitdaily, delete 3 sections. else delete only one section.
             let sectionCount = dosageTableView.numberOfSections
-            if (sectionCount == 2) {
-                dosageTableView.deleteSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
-            } else {
-                dosageTableView.deleteSections(sections, withRowAnimation: .Fade)
-            }
+            dosageTableView.beginUpdates()
+            dosageTableView.deleteSections(NSIndexSet(indexesInRange: NSMakeRange(1, sectionCount - 1)), withRowAnimation: .Fade)
+            dosageTableView.insertSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+            dosageTableView.endUpdates()
         } else {
             let sectionCount = dosageTableView.numberOfSections
             if (indexPath.row != 3) {
@@ -513,15 +511,7 @@ typealias SelectedDosage = DCDosage? -> Void
                 }
             } else {
                 if (indexPath.row == 0) {
-                    var singleDoseValue = NSMutableString(string: EMPTY_STRING)
-                    if let doseValue = dosage?.singleDose?.doseValue {
-                        singleDoseValue = NSMutableString(format: "%@", doseValue)
-                        if let startTime = dosage?.singleDose?.dateAndTime {
-                            singleDoseValue.appendFormat(" %@", startTime)
-                        }
-                    }
-                    dosageSelectionDetailCell.accessoryType = .DisclosureIndicator
-                    dosageSelectionDetailCell.configureCell(SINGLE_DOSE, selectedValue: singleDoseValue as String)
+                    dosageSelectionDetailCell = populatedSingleDoseCell(dosageSelectionDetailCell, atIndexPath: indexPath)
                 }
             }
         case eSplitDaily.rawValue:
@@ -710,14 +700,16 @@ typealias SelectedDosage = DCDosage? -> Void
         
         var singleDoseValue = NSMutableString(string: EMPTY_STRING)
         if let doseValue = dosage?.singleDose?.doseValue {
-            singleDoseValue = NSMutableString(format: "%@", doseValue)
-            if let doseUnit = self.dosage?.doseUnit {
-                singleDoseValue.appendFormat(" %@", doseUnit)
-            } else {
-                singleDoseValue.appendString(" mg")
-            }
-            if let startTime = dosage?.singleDose?.dateAndTime {
-                singleDoseValue.appendFormat(" on %@", startTime)
+            if doseValue != EMPTY_STRING {
+                singleDoseValue = NSMutableString(format: "%@", doseValue)
+                if let doseUnit = self.dosage?.doseUnit {
+                    singleDoseValue.appendFormat(" %@", doseUnit)
+                } else {
+                    singleDoseValue.appendString(" mg")
+                }
+                if let startTime = dosage?.singleDose?.dateAndTime {
+                    singleDoseValue.appendFormat(" on %@", startTime)
+                }
             }
         }
         singleDoseCell.accessoryType = .DisclosureIndicator
