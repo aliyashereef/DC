@@ -33,6 +33,7 @@
     [super viewDidLoad];
     self.restartedDate = EMPTY_STRING;
     checkedByUser = EMPTY_STRING;
+    datePickerIndexPath = nil;
     [self fetchAdministersAndPrescribersList];
     self.navigationController.navigationBarHidden = NO;
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -75,8 +76,9 @@
     return 1;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     if(indexPath.section == 1) {
-        if ([self hasInlineDatePicker] && datePickerIndexPath == indexPath) {
+        if ([self indexPathHasPicker:indexPath]) {
                 return 216;
         } else if ([_status isEqualToString: STOPED_DUE_TO_PROBLEM] || [_status isEqualToString:CONTINUED_AFTER_PROBLEM]) {
             return 125;
@@ -355,32 +357,16 @@
 }
 
 - (BOOL)indexPathHasPicker:(NSIndexPath *)indexPath {
-    
     return ([self hasInlineDatePicker] && datePickerIndexPath.row == indexPath.row);
 }
 
 - (BOOL)hasInlineDatePicker {
-    
     return (datePickerIndexPath != nil);
-}
-
-- (void)scrollToDatePickerAtIndexPath:(NSIndexPath *)indexPath {
-    
-    //scroll to date picker indexpath when when any of the date field is selected
-    if (indexPath.row != datePickerIndexPath.row - 1) {
-        NSIndexPath *scrollToIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            //[self.tableView scrollToRowAtIndexPath:scrollToIndexPath
-                                              //atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
-            
-        });
-    }
 }
 
 - (void)displayInlineDatePickerForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     // display the date picker inline with the table content
-    [self scrollToDatePickerAtIndexPath:indexPath];
     [self.tableView beginUpdates];
     BOOL before = NO;   // indicates if the date picker is below "indexPath", help us determine which row to reveal
     if ([self hasInlineDatePicker]) {
