@@ -225,7 +225,7 @@
             }
                 break;
             case 1:{
-                if (![self hasInlineDatePicker]) {
+                if (![self hasInlineDatePicker] || datePickerIndexPath.row != 1) {
                     [self displayPrescribersAndAdministersViewAtIndexPath:indexPath];
                 }
             }
@@ -237,26 +237,14 @@
             }
                 break;
             case 3:{
-                if ([self hasInlineDatePicker] && datePickerIndexPath.row == indexPath.row+1) {
-                } else {
-                    [self displayInlineDatePickerForRowAtIndexPath:indexPath];
-                }
+                [self displayInlineDatePickerForRowAtIndexPath:indexPath];
             }
                 break;
             case 4:{
-                if ([self hasInlineDatePicker] && datePickerIndexPath.row == indexPath.row+1) {
-                    [self displayInlineDatePickerForRowAtIndexPath:indexPath];
-                } else {
-                    [self displayInlineDatePickerForRowAtIndexPath:indexPath];
-                }
+                [self displayInlineDatePickerForRowAtIndexPath:indexPath];
             }
                 break;
             default:
-                if ([self hasInlineDatePicker] && datePickerIndexPath.row == indexPath.row+1) {
-                    [self displayInlineDatePickerForRowAtIndexPath:indexPath];
-                } else {
-                    [self displayInlineDatePickerForRowAtIndexPath:indexPath];
-                }
                 break;
         }
     }
