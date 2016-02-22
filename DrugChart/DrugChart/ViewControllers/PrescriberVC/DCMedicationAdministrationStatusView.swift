@@ -143,7 +143,7 @@ class DCMedicationAdministrationStatusView: UIView {
         } else {
             statusIconCenterForLeftAlignedState()
             if leftAlign == true {
-                statusLabel?.center = CGPointMake(self.bounds.size.width/1.25, self.bounds.size.height/2);
+                statusLabel?.center = CGPointMake(self.bounds.size.width/1.3, self.bounds.size.height/2);
             } else {
                 statusLabel?.center = CGPointMake(self.bounds.size.width/1.7, self.bounds.size.height/2);
             }
@@ -157,7 +157,7 @@ class DCMedicationAdministrationStatusView: UIView {
         if (appDelegate.windowState == DCWindowState.twoThirdWindow || appDelegate.windowState == DCWindowState.oneThirdWindow) {
             statusIcon!.center = CGPointMake(self.bounds.size.width/7.2, self.bounds.size.height/2)
         } else {
-            statusIcon!.center = CGPointMake(self.bounds.size.width/5.27, self.bounds.size.height/2)
+            statusIcon!.center = CGPointMake(self.bounds.size.width/6.3, self.bounds.size.height/2)
         }
     }
     
@@ -265,8 +265,8 @@ class DCMedicationAdministrationStatusView: UIView {
             statusIcon?.hidden = false
             let appDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
             if (appDelegate.windowState == DCWindowState.twoThirdWindow) {
-                statusIcon!.center = CGPointMake(self.bounds.size.width/8, self.bounds.size.height/2);
-                statusLabel?.center = CGPointMake(self.bounds.size.width/1.35, self.bounds.size.height/2);
+                statusIcon!.center = CGPointMake(self.bounds.size.width/9, self.bounds.size.height/2);
+                statusLabel?.center = CGPointMake(self.bounds.size.width/1.4, self.bounds.size.height/2);
             } else {
                 positionStatusLabelAndIconForDueAtOrNotAdministeredStatus(true)
             }
