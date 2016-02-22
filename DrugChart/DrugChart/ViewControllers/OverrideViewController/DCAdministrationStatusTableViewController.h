@@ -22,6 +22,7 @@
 @property (nonatomic, strong) NSString *previousSelectedValue;
 @property (nonatomic, strong) NSString *status;
 @property (nonatomic, strong) NSString *restartedDate;
+@property (nonatomic, strong) NSString *expiryDate;
 @property (nonatomic, weak) id <StatusListDelegate> medicationStatusDelegate;
 
 @end

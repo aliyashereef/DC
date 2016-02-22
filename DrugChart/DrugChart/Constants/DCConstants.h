@@ -82,6 +82,7 @@
 #define ORDERSET_STORYBOARD @"OrderSet"
 #define PATIENT_LIST_STORYBOARD @"PatientList"
 #define DOSAGE_STORYBORD @"Dosage"
+#define ADMINISTER_GRAPH @"AdministerGraph"
 
 // Storyboard Ids
 #define PATIENT_LIST_VIEW_CONTROLLER @"patientListingViewController"
@@ -124,6 +125,7 @@
 #define SCHEDULING_DETAIL_STORYBOARD_ID @"SchedulingDetailView"
 #define SCHEDULING_INITIAL_STORYBOARD_ID @"SchedulingInitialView"
 #define INFUSIONS_STORYBOARD_ID @"InfusionViewController"
+#define ADMINISTER_GRAPH_STORYBOARD_ID @"administerGraph"
 
 #define PRESCRIBER_MEDICATION_SBID @"PrescriberMedicationViewControllerSBID"
 #define DOSAGE_SELECTION_SBID @"DosageSelection"
@@ -138,6 +140,7 @@
 #define INJECTION_REGION_SB_ID @"InjectionRegionView"
 #define ADMINISTRATION_TIMES_SB_ID "AdministrationTimesView"
 #define ADD_NEW_VALUE_SBID @"AddNewValueViewController"
+#define SINGLE_DOSE_VIEW_STORYBOARD_ID @"SingleDoseViewController"
 
 
 //Nib files
@@ -222,6 +225,8 @@
 #define VALUE_TEXTFIELD_CELL @"newValueTextfieldCell"
 #define PICKER_DROP_DOWN_CELL @"pickerDropDownCell"
 #define PICKER_CELL @"pickerCell"
+#define SINGLE_DOSE_CELL_ID  @"SingleDoseCellId"
+#define SINGLE_DOSE_PICKER_CELL_ID @"SingleDosePickerCellId"
 
 // Week days
 
@@ -553,6 +558,8 @@
 #define ADD_NEW_TIME @"Add New Time"
 #define TIME_KEY @"time"
 #define UNTIL_TITLE @"Until"
+#define SINGLE_DOSE @"Single dose"
+#define DOSE_DATE_AND_TIME @"Dose date"
 
 //Administration times
  #define SELECTED_KEY @"selected"

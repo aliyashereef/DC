@@ -47,6 +47,8 @@
 		0B8768BE1C61DF51001DD827 /* DCCalendarHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B8768BD1C61DF51001DD827 /* DCCalendarHelper.swift */; };
 		0B8768C11C621642001DD827 /* DCSummaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B8768C01C621642001DD827 /* DCSummaryButton.swift */; };
 		0B8886AF1B0C7814006FF1BF /* DCDatePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B8886AE1B0C7814006FF1BF /* DCDatePickerViewController.m */; };
+		0B8997B81C74960D006974E8 /* DCSingleDoseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B8997B71C74960D006974E8 /* DCSingleDoseViewController.swift */; };
+		0B8997BB1C74970F006974E8 /* DCSingleDoseTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B8997BA1C74970F006974E8 /* DCSingleDoseTableCell.swift */; };
 		0B8D6E7A1B3136C200F0B972 /* DCKeyChainManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B8D6E791B3136C200F0B972 /* DCKeyChainManager.m */; };
 		0B90D6541B734EE0003A37E4 /* UICKeyChainStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B90D6511B734EE0003A37E4 /* UICKeyChainStore.m */; };
 		0B913B2D1C4620F80004899B /* DCInfusion.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B913B2C1C4620F80004899B /* DCInfusion.m */; };
@@ -55,6 +57,8 @@
 		0B95FAF01B5E6634002939DF /* DCWarningsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B95FAEF1B5E6634002939DF /* DCWarningsHeaderView.m */; };
 		0B95FAF21B5E6663002939DF /* DCWarningsHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B95FAF11B5E6663002939DF /* DCWarningsHeaderView.xib */; };
 		0B964C7F1C51019000CD509D /* DCInfusionsFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B964C7E1C51019000CD509D /* DCInfusionsFooterView.swift */; };
+		0B96E9831C731A8300464836 /* DCSingleDose.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B96E9821C731A8300464836 /* DCSingleDose.m */; };
+		0B976FF51C75B26F002A563F /* DCSingleDosePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B976FF41C75B26E002A563F /* DCSingleDosePickerCell.swift */; };
 		0B989E971B8C22960012AFE8 /* DCCalendarNavigationTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B989E961B8C22960012AFE8 /* DCCalendarNavigationTitleView.m */; };
 		0B989E991B8C22CD0012AFE8 /* DCCalendarNavigationTitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B989E981B8C22CD0012AFE8 /* DCCalendarNavigationTitleView.xib */; };
 		0B9D6D521BA17244009E0A4E /* DCAddMedicationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B9D6D511BA17244009E0A4E /* DCAddMedicationHelper.m */; };
@@ -361,6 +365,9 @@
 		FD618F2D1C19777C005EC416 /* Dosage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD618F2C1C19777C005EC416 /* Dosage.storyboard */; };
 		FD618F301C1979E7005EC416 /* DCDosageSelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD618F2E1C1979E7005EC416 /* DCDosageSelectionTableViewCell.swift */; };
 		FD618F311C1979E7005EC416 /* DCDosageSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD618F2F1C1979E7005EC416 /* DCDosageSelectionViewController.swift */; };
+		FD6AD2BE1C73120E0014B7BA /* DCAdministerGraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6AD2BD1C73120E0014B7BA /* DCAdministerGraphViewController.swift */; };
+		FD6AD2C01C73124C0014B7BA /* AdministerGraph.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD6AD2BF1C73124C0014B7BA /* AdministerGraph.storyboard */; };
+		FD6AD2C51C7318570014B7BA /* DCAdministerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6AD2C41C7318570014B7BA /* DCAdministerTableViewCell.swift */; };
 		FDC7EA571C1AA8990081D5C4 /* DCDosageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC7EA561C1AA8990081D5C4 /* DCDosageDetailViewController.swift */; };
 		FDC7EA5A1C1AA9510081D5C4 /* DCDosageDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC7EA591C1AA9510081D5C4 /* DCDosageDetailTableViewCell.swift */; };
 		FDD290E91C4E4A1700BF8796 /* DCDosageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD290E81C4E4A1700BF8796 /* DCDosageHelper.swift */; };
@@ -371,6 +378,8 @@
 		FDD548771C4511CF000EB855 /* DCSplitDailyDose.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD548761C4511CF000EB855 /* DCSplitDailyDose.m */; };
 		FDD5487B1C4513FA000EB855 /* DCConditions.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD5487A1C4513FA000EB855 /* DCConditions.m */; };
 		FDDB10911C620094007231B6 /* DCAddNewValuePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDB10901C620094007231B6 /* DCAddNewValuePickerCell.swift */; };
+		FDDB3DA61C743D0200CE4AB7 /* DCAdministerGraphViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDB3DA51C743D0200CE4AB7 /* DCAdministerGraphViewCell.swift */; };
+		FDDB3DA81C747E3200CE4AB7 /* DCGraphPoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDB3DA71C747E3200CE4AB7 /* DCGraphPoints.swift */; };
 		FDDBBB031C24197800726DDA /* DCDosageDetailPickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDBBB021C24197800726DDA /* DCDosageDetailPickerCell.swift */; };
 		FDDEE1951C4CD13000F02F4B /* DCSelectedTimeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDEE1941C4CD13000F02F4B /* DCSelectedTimeTableViewCell.swift */; };
 		FDDEE1AB1C4D01B200F02F4B /* UIView+UIAppearence_Swift.m in Sources */ = {isa = PBXBuildFile; fileRef = FDDEE1AA1C4D01B200F02F4B /* UIView+UIAppearence_Swift.m */; };
@@ -450,6 +459,8 @@
 		0B8768C01C621642001DD827 /* DCSummaryButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCSummaryButton.swift; sourceTree = "<group>"; };
 		0B8886AD1B0C7814006FF1BF /* DCDatePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCDatePickerViewController.h; sourceTree = "<group>"; };
 		0B8886AE1B0C7814006FF1BF /* DCDatePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCDatePickerViewController.m; sourceTree = "<group>"; };
+		0B8997B71C74960D006974E8 /* DCSingleDoseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCSingleDoseViewController.swift; sourceTree = "<group>"; };
+		0B8997BA1C74970F006974E8 /* DCSingleDoseTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCSingleDoseTableCell.swift; sourceTree = "<group>"; };
 		0B8D6E781B3136C200F0B972 /* DCKeyChainManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCKeyChainManager.h; sourceTree = "<group>"; };
 		0B8D6E791B3136C200F0B972 /* DCKeyChainManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCKeyChainManager.m; sourceTree = "<group>"; };
 		0B90D6501B734EE0003A37E4 /* UICKeyChainStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICKeyChainStore.h; sourceTree = "<group>"; };
@@ -462,6 +473,9 @@
 		0B95FAEF1B5E6634002939DF /* DCWarningsHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCWarningsHeaderView.m; sourceTree = "<group>"; };
 		0B95FAF11B5E6663002939DF /* DCWarningsHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCWarningsHeaderView.xib; sourceTree = "<group>"; };
 		0B964C7E1C51019000CD509D /* DCInfusionsFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCInfusionsFooterView.swift; sourceTree = "<group>"; };
+		0B96E9811C731A8300464836 /* DCSingleDose.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCSingleDose.h; sourceTree = "<group>"; };
+		0B96E9821C731A8300464836 /* DCSingleDose.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCSingleDose.m; sourceTree = "<group>"; };
+		0B976FF41C75B26E002A563F /* DCSingleDosePickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCSingleDosePickerCell.swift; sourceTree = "<group>"; };
 		0B989E951B8C22960012AFE8 /* DCCalendarNavigationTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCCalendarNavigationTitleView.h; sourceTree = "<group>"; };
 		0B989E961B8C22960012AFE8 /* DCCalendarNavigationTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCCalendarNavigationTitleView.m; sourceTree = "<group>"; };
 		0B989E981B8C22CD0012AFE8 /* DCCalendarNavigationTitleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCCalendarNavigationTitleView.xib; sourceTree = "<group>"; };
@@ -859,6 +873,9 @@
 		FD618F2C1C19777C005EC416 /* Dosage.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Dosage.storyboard; sourceTree = "<group>"; };
 		FD618F2E1C1979E7005EC416 /* DCDosageSelectionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageSelectionTableViewCell.swift; sourceTree = "<group>"; };
 		FD618F2F1C1979E7005EC416 /* DCDosageSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageSelectionViewController.swift; sourceTree = "<group>"; };
+		FD6AD2BD1C73120E0014B7BA /* DCAdministerGraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministerGraphViewController.swift; sourceTree = "<group>"; };
+		FD6AD2BF1C73124C0014B7BA /* AdministerGraph.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AdministerGraph.storyboard; sourceTree = "<group>"; };
+		FD6AD2C41C7318570014B7BA /* DCAdministerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministerTableViewCell.swift; sourceTree = "<group>"; };
 		FDC7EA561C1AA8990081D5C4 /* DCDosageDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageDetailViewController.swift; sourceTree = "<group>"; };
 		FDC7EA591C1AA9510081D5C4 /* DCDosageDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageDetailTableViewCell.swift; sourceTree = "<group>"; };
 		FDD290E81C4E4A1700BF8796 /* DCDosageHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageHelper.swift; sourceTree = "<group>"; };
@@ -875,6 +892,8 @@
 		FDD548791C4513FA000EB855 /* DCConditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCConditions.h; sourceTree = "<group>"; };
 		FDD5487A1C4513FA000EB855 /* DCConditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCConditions.m; sourceTree = "<group>"; };
 		FDDB10901C620094007231B6 /* DCAddNewValuePickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAddNewValuePickerCell.swift; sourceTree = "<group>"; };
+		FDDB3DA51C743D0200CE4AB7 /* DCAdministerGraphViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministerGraphViewCell.swift; sourceTree = "<group>"; };
+		FDDB3DA71C747E3200CE4AB7 /* DCGraphPoints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCGraphPoints.swift; sourceTree = "<group>"; };
 		FDDBBB021C24197800726DDA /* DCDosageDetailPickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageDetailPickerCell.swift; sourceTree = "<group>"; };
 		FDDEE1941C4CD13000F02F4B /* DCSelectedTimeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCSelectedTimeTableViewCell.swift; sourceTree = "<group>"; };
 		FDDEE1A91C4D01B200F02F4B /* UIView+UIAppearence_Swift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+UIAppearence_Swift.h"; sourceTree = "<group>"; };
@@ -1264,6 +1283,24 @@
 			path = DatePickerViewController;
 			sourceTree = "<group>";
 		};
+		0B8997B61C7495ED006974E8 /* SingleDoseViewController */ = {
+			isa = PBXGroup;
+			children = (
+				0B8997B71C74960D006974E8 /* DCSingleDoseViewController.swift */,
+				0B8997B91C7496EE006974E8 /* SingleDoseTableCell */,
+				0B976FF31C75B252002A563F /* SingleDosePickerCell */,
+			);
+			path = SingleDoseViewController;
+			sourceTree = "<group>";
+		};
+		0B8997B91C7496EE006974E8 /* SingleDoseTableCell */ = {
+			isa = PBXGroup;
+			children = (
+				0B8997BA1C74970F006974E8 /* DCSingleDoseTableCell.swift */,
+			);
+			path = SingleDoseTableCell;
+			sourceTree = "<group>";
+		};
 		0B8A62B81AC2CB4000F6DC5B /* DDPopoverBackgroundView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1334,6 +1371,23 @@
 				0B964C7E1C51019000CD509D /* DCInfusionsFooterView.swift */,
 			);
 			path = InfusionsFooterView;
+			sourceTree = "<group>";
+		};
+		0B96E9801C731A5F00464836 /* SingleDose */ = {
+			isa = PBXGroup;
+			children = (
+				0B96E9811C731A8300464836 /* DCSingleDose.h */,
+				0B96E9821C731A8300464836 /* DCSingleDose.m */,
+			);
+			path = SingleDose;
+			sourceTree = "<group>";
+		};
+		0B976FF31C75B252002A563F /* SingleDosePickerCell */ = {
+			isa = PBXGroup;
+			children = (
+				0B976FF41C75B26E002A563F /* DCSingleDosePickerCell.swift */,
+			);
+			path = SingleDosePickerCell;
 			sourceTree = "<group>";
 		};
 		0B989E941B8C22780012AFE8 /* CalendarNavigationTitleView */ = {
@@ -1787,6 +1841,7 @@
 		0BBC8F9A1AA468920085ABAB /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				FD6AD2BC1C7310A70014B7BA /* AdministerGraphViewController */,
 				FD3214DC1C60B4780058B290 /* AddNewValueViewController */,
 				7D632D801C3A0B960029BAF5 /* WardsInformationsViewController */,
 				4D41757E1C22869100F924C1 /* AdministrationViewController */,
@@ -1814,6 +1869,7 @@
 				0B14CD881BB13BD80085E40C /* AdministerViewController */,
 				0BBC8F9F1AA469280085ABAB /* LoginViewController */,
 				0BC0C4621ADF777D002707DC /* AddMedicationViewController */,
+				0B8997B61C7495ED006974E8 /* SingleDoseViewController */,
 				FD618F321C197A1A005EC416 /* DosageSelection */,
 				FDC7EA581C1AA8B30081D5C4 /* DosageDetail */,
 				FD2FF8B91C3BD7C400778A4E /* AddNewDoseAndTime */,
@@ -1981,6 +2037,7 @@
 				0BBE3B5F1AA42DC5004CA6E9 /* main.m */,
 				0BBC8F921AA462B70085ABAB /* DrugChart_PrefixHeader.pch */,
 				4DDD99A81BD6381F002879CD /* Settings.bundle */,
+				FDDB3DA71C747E3200CE4AB7 /* DCGraphPoints.swift */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -2071,6 +2128,7 @@
 				4D7627871BE8E22D0070BAF2 /* PatientMenu.storyboard */,
 				4D54C0751BFB245A00A61273 /* OneThirdScreenSizeCalendar.storyboard */,
 				FD618F2C1C19777C005EC416 /* Dosage.storyboard */,
+				FD6AD2BF1C73124C0014B7BA /* AdministerGraph.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -2933,6 +2991,16 @@
 			name = DosageSelection;
 			sourceTree = "<group>";
 		};
+		FD6AD2BC1C7310A70014B7BA /* AdministerGraphViewController */ = {
+			isa = PBXGroup;
+			children = (
+				FD6AD2BD1C73120E0014B7BA /* DCAdministerGraphViewController.swift */,
+				FD6AD2C41C7318570014B7BA /* DCAdministerTableViewCell.swift */,
+				FDDB3DA51C743D0200CE4AB7 /* DCAdministerGraphViewCell.swift */,
+			);
+			name = AdministerGraphViewController;
+			sourceTree = "<group>";
+		};
 		FD7E9E3E1C2BF8F000CDCC77 /* PatientListingOneThirdViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -2966,6 +3034,7 @@
 				FDD548681C4510E5000EB855 /* Fixed */,
 				FDD548691C4510F5000EB855 /* Variable */,
 				FDD5486A1C451100000EB855 /* ReducingIncreasing */,
+				0B96E9801C731A5F00464836 /* SingleDose */,
 				FDD5486B1C45110F000EB855 /* SplitDaily */,
 			);
 			name = Dosage;
@@ -3144,6 +3213,7 @@
 				1FD4FCCF1BF4B7E000B77B94 /* GeneralObservationView.xib in Resources */,
 				0B989E991B8C22CD0012AFE8 /* DCCalendarNavigationTitleView.xib in Resources */,
 				0BBDEDE61AA581630016E6FF /* Lato-MediumItalic.ttf in Resources */,
+				FD6AD2C01C73124C0014B7BA /* AdministerGraph.storyboard in Resources */,
 				0BCF5EA21AE0D803002467BF /* Routes.plist in Resources */,
 				7D9EA9F01B29C10500337E6A /* DCLandScapeLeftPatientView.xib in Resources */,
 				7D5567DD1B4FEE2100BA6733 /* OnceMedicationSample.plist in Resources */,
@@ -3285,7 +3355,10 @@
 				FDDB10911C620094007231B6 /* DCAddNewValuePickerCell.swift in Sources */,
 				FD2FF8BB1C3BD80300778A4E /* DCAddNewDoseAndTimeViewController.swift in Sources */,
 				FD2FF8BF1C3BD84C00778A4E /* DCDosageUnitSelectionViewController.swift in Sources */,
+				0B8997BB1C74970F006974E8 /* DCSingleDoseTableCell.swift in Sources */,
+				FD6AD2BE1C73120E0014B7BA /* DCAdministerGraphViewController.swift in Sources */,
 				0BBC8F841AA44E330085ABAB /* DCLoginWebService.m in Sources */,
+				0B96E9831C731A8300464836 /* DCSingleDose.m in Sources */,
 				0B6B497A1B2ED50700288117 /* DCScrollView.m in Sources */,
 				0BC5FAF61B43FF930019BF36 /* DCAutoSearchView.m in Sources */,
 				4DDEED511B4D0E3F00D8E0FF /* DCPatientAllergyWebService.m in Sources */,
@@ -3302,6 +3375,7 @@
 				0B8886AF1B0C7814006FF1BF /* DCDatePickerViewController.m in Sources */,
 				1F3007061BF5552E00DDF3F3 /* VitalSignObservation.swift in Sources */,
 				0BC5FAFE1B442B6B0019BF36 /* DCOrderSet.m in Sources */,
+				FD6AD2C51C7318570014B7BA /* DCAdministerTableViewCell.swift in Sources */,
 				1F53750A1C1B13D800D4A64F /* NSDate.swift in Sources */,
 				4D9649921BA296CC008630B4 /* DCBedsAndPatientsWebService.m in Sources */,
 				7DC7C6491C1953F00026608A /* DCWindowScreenState.swift in Sources */,
@@ -3324,6 +3398,7 @@
 				0BF3890F1AA46746006792DE /* DCPatient.m in Sources */,
 				FD2FF8B31C3B90DC00778A4E /* DCAddConditionTableViewCell.swift in Sources */,
 				1F3C317A1C0DF755007C6AE7 /* MonthYearPickerView.swift in Sources */,
+				FDDB3DA61C743D0200CE4AB7 /* DCAdministerGraphViewCell.swift in Sources */,
 				1FD4FCE91BF4B8F400B77B94 /* TimePickerCell_Inline.swift in Sources */,
 				1F380C761C64B21C000A4E5D /* FhirParser.swift in Sources */,
 				FD2FF8B81C3BAEF000778A4E /* DCAddConditionDetailViewController.swift in Sources */,
@@ -3333,6 +3408,7 @@
 				1F5375051C1AEF9F00D4A64F /* GraphView.swift in Sources */,
 				0B4BD4311C47566E00C49589 /* DCRateInfusion.m in Sources */,
 				0B4BD4251C47524500C49589 /* DCBolusInjection.m in Sources */,
+				0B8997B81C74960D006974E8 /* DCSingleDoseViewController.swift in Sources */,
 				0B4BD4291C47551E00C49589 /* DCInjection.m in Sources */,
 				0BA357311B746EAB00A5C3BC /* DCOrderSetOperationQueue.m in Sources */,
 				1F0A9C0A1C47CDE7007ACFDA /* OneThirdContentCell.swift in Sources */,
@@ -3432,6 +3508,7 @@
 				7D104E5A1AEA4A5B00B03C0C /* DCBedWebService.m in Sources */,
 				4D52D5841BCD02FB002ABA8D /* DCAdministerMedicationWebService.m in Sources */,
 				0BBDEDC41AA57F980016E6FF /* DCTextField.m in Sources */,
+				0B976FF51C75B26F002A563F /* DCSingleDosePickerCell.swift in Sources */,
 				0B8768C11C621642001DD827 /* DCSummaryButton.swift in Sources */,
 				0B38AC081BF4592E0027B8E6 /* DCSchedulingCell.swift in Sources */,
 				0BF2DA561ACAB12700B3ED97 /* DCErrorPopOverBackgroundView.m in Sources */,
@@ -3510,6 +3587,7 @@
 				7DA89AEE1B2D536300096A0A /* DCPositionableGraphicsView.m in Sources */,
 				0B9D6D521BA17244009E0A4E /* DCAddMedicationHelper.m in Sources */,
 				0BBEEB5E1AD4FF4F00C1D986 /* RoundRectPresentationController.m in Sources */,
+				FDDB3DA81C747E3200CE4AB7 /* DCGraphPoints.swift in Sources */,
 				0BA3572C1B7464D800A5C3BC /* DCAddMedicationOperation.m in Sources */,
 				1FD4FCE51BF4B8F400B77B94 /* DatePickerCell_Inline.swift in Sources */,
 				4DE525A31B8C92740057C5F5 /* DCAddMedicationInitialViewController.m in Sources */,
@@ -3629,7 +3707,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "58a9a015-e1dc-49b6-96bc-8ade9ec3f10d";
+				PROVISIONING_PROFILE = "1b108ca1-0494-4727-88a7-ea6ea7164419";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -3669,7 +3747,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "58a9a015-e1dc-49b6-96bc-8ade9ec3f10d";
+				PROVISIONING_PROFILE = "1b108ca1-0494-4727-88a7-ea6ea7164419";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = 2;
@@ -3707,7 +3785,7 @@
 				INFOPLIST_FILE = DrugChart/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.e-mis.drugchart";
+				PRODUCT_BUNDLE_IDENTIFIER = com.emishealth.mobileprescriptions;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "e0e1649d-f6be-408a-a401-d6fc15d82bc0";
 				SWIFT_OBJC_BRIDGING_HEADER = "DrugChart/Helpers/AddMedicationHelper/DrugChart-Bridging-Header.h";
@@ -3753,7 +3831,7 @@
 				INFOPLIST_FILE = DrugChart/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.e-mis.drugchart";
+				PRODUCT_BUNDLE_IDENTIFIER = com.emishealth.mobileprescriptions;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "e0e1649d-f6be-408a-a401-d6fc15d82bc0";
 				SWIFT_OBJC_BRIDGING_HEADER = "DrugChart/Helpers/AddMedicationHelper/DrugChart-Bridging-Header.h";
