@@ -7,12 +7,11 @@
 //
 
 import Foundation
-class SPO2
+class SPO2 : VitalSignBaseModel
 {
     var spO2Percentage:Double
-    var date:NSDate = NSDate()
     
-    init()
+    override init()
     {
         spO2Percentage = 0.0
     }

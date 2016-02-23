@@ -48,6 +48,7 @@ class DCInfusionViewController: UIViewController, UITableViewDelegate, UITableVi
                 delegate.newInfusionObject(updatedInfusion)
             }
         }
+        self.title = NSLocalizedString("ADMINISTER_AS", comment: "screen title")
         super.viewWillDisappear(animated)
     }
 

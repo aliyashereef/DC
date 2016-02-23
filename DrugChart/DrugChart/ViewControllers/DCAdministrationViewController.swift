@@ -218,9 +218,24 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
             } else if cell?.administrationStatusLabel.text == PENDING {
                 
             } else {
-                addMedicationHistoryViewAtIndex(indexPath.row)
+                if isMedicationDurationBasedInfusion() {
+                    self.transitToAdminsisterGraphViewController(indexPath.row)
+                } else {
+                    addMedicationHistoryViewAtIndex(indexPath.row)
+                }
             }
         }
+    }
+    
+    func transitToAdminsisterGraphViewController(index : NSInteger) {
+        
+        //add medication History view controller
+        let AdministerGraphStoryboard : UIStoryboard? = UIStoryboard(name:ADMINISTER_GRAPH, bundle: nil)
+        let administerGraphViewController = AdministerGraphStoryboard!.instantiateViewControllerWithIdentifier(ADMINISTER_GRAPH_STORYBOARD_ID) as? DCAdministerGraphViewController
+        administerGraphViewController?.weekDate = weekDate
+        administerGraphViewController?.medicationDetails = medicationDetails
+        administerGraphViewController?.medicationSlotArray = [medicationSlotsArray[index]]
+        self.navigationController?.pushViewController(administerGraphViewController!, animated: true)
     }
     
     func doneButtonPressed(){

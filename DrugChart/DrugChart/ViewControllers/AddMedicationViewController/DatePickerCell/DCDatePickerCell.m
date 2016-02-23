@@ -23,7 +23,6 @@
 - (void)configureDatePickerProperties {
     
     //configure picker properties
-    //_datePicker.locale = [NSLocale systemLocale];
     _datePicker.timeZone = [NSTimeZone timeZoneWithAbbreviation:GMT];
 }
 

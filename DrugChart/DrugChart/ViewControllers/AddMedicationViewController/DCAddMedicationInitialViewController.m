@@ -735,7 +735,7 @@
         }
         if ([self.selectedMedication.medicineCategory  isEqualToString: @"Regular"]) {
             dosageSelectionViewController.isReducingIncreasingPresent = true;
-            if (self.selectedMedication.scheduling.specificTimes != nil && [self.selectedMedication.scheduling.specificTimes.repeatObject.repeatType  isEqualToString: @"Daily"]) {
+            if ([self.selectedMedication.scheduling.type  isEqualToString:SPECIFIC_TIMES] && self.selectedMedication.scheduling.specificTimes != nil && [self.selectedMedication.scheduling.specificTimes.repeatObject.repeatType  isEqualToString: @"Daily"]) {
                 dosageSelectionViewController.isSplitDailyPresent = true;
             }
         }
@@ -853,15 +853,16 @@
                 UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
                 DCAddNewValueViewController *addNewValueViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:ADD_NEW_VALUE_SBID];
                 addNewValueViewController.titleString = @"Frequency";
-                addNewValueViewController.placeHolderString = @"Every";
+                addNewValueViewController.placeHolderString = @"In";
                 addNewValueViewController.backButtonTitle = @"Add Medication";
                 addNewValueViewController.detailType = eAddValueWithUnit;
                 addNewValueViewController.unitArray = [[NSArray alloc] initWithObjects:@"Day",@"Week",@"Month",nil];
                 addNewValueViewController.previousValue = self.selectedMedication.reviewDate;
                 addNewValueViewController.newValueEntered = ^ (NSString *value) {
-                    self.selectedMedication.reviewDate = [NSString stringWithFormat:@"Every %@",value];
+                    self.selectedMedication.reviewDate = [NSString stringWithFormat:@"In %@",value];
                     [medicationDetailsTableView reloadData];
                 };
+                self.title = titleLabel.text;
                 [self.navigationController pushViewController:addNewValueViewController animated:YES];
             }
             break;

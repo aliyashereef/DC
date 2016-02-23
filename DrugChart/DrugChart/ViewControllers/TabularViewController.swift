@@ -23,6 +23,7 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
     
     private var selectedContentCell:ContentCollectionViewCell!
     private var contentCellTag:Int = 1
+    private var showColors = true
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -135,6 +136,19 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
                 let observation = filteredObservations[indexPath.row - 1]
                 contentCell.delegate = self
                 contentCell.selectedCellDelegate = self
+                if observation.date.isToday()
+                {
+                    contentCell.backgroundColor = Constant.SELECTION_CELL_BACKGROUND_COLOR
+                }
+                else
+                {
+                    contentCell.backgroundColor = UIColor.whiteColor()
+                }
+                contentCell.layer.borderWidth = Constant.BORDER_WIDTH
+                contentCell.layer.borderColor = Constant.CELL_BORDER_COLOR
+                contentCell.layer.cornerRadius = Constant.CORNER_RADIUS
+                
+                
                 switch(indexPath.section)
                 {
                 case ObservationTabularViewRow.Respiratory.rawValue:
@@ -157,30 +171,44 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
                     contentCell.contentLabel.text = observation.getBMReading()*/
                 case ObservationTabularViewRow.News.rawValue:
                     contentCell.configureCell(observation,showobservationType: .None)
-                    contentCell.contentLabel.text = observation.getNews()
+                    let newsScore = observation.getNews()
+                    contentCell.contentLabel.text = newsScore
+                    contentCell.backgroundColor = getNewsRowColor(newsScore)
                 case ObservationTabularViewRow.CommaScore.rawValue:
                     contentCell.configureCell(observation,showobservationType: .None)
                     contentCell.contentLabel.text = observation.getComaScore()
                 default:
                     print("come in default section")
                 }
-                if observation.date.isToday()
-                {
-                    contentCell.backgroundColor = Constant.SELECTION_CELL_BACKGROUND_COLOR
-                }
-                else
-                {
-                    contentCell.backgroundColor = UIColor.whiteColor()
-                }
-                contentCell.layer.borderWidth = Constant.BORDER_WIDTH
-                contentCell.layer.borderColor = Constant.CELL_BORDER_COLOR
-                contentCell.layer.cornerRadius = Constant.CORNER_RADIUS
-                
                 return contentCell
             }
         }
     }
     
+    func getNewsRowColor(newsScore:String) -> UIColor
+    {
+        let value = Double(newsScore)
+        if(value == nil)
+        {
+            return UIColor.whiteColor()
+        }
+        else if( value > 0 && value < 5)
+        {
+            return UIColor(forHexString: "#CEE5C8")
+        }
+        else if (value >= 5 && value <= 6)
+        {
+            return UIColor(forHexString: "#F5BB86")
+        }
+        else if(value >= 7)
+        {
+            return UIColor(forHexString: "#EE836D")
+        }
+        else
+        {
+            return UIColor.whiteColor()
+        }
+    }
     func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
         print("deselect")
     }
