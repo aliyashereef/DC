@@ -11,7 +11,7 @@ import UIKit
 
 
 
-    class ObservationViewController: UIViewController  {
+class ObservationViewController: UIViewController,ObservationDelegate   {
         @IBOutlet weak var observationSegmentedView: UISegmentedControl!
         @IBOutlet weak var hiddenButton: UIButton!
         @IBOutlet weak var oneThirdHidden: UIButton!
@@ -31,6 +31,7 @@ import UIKit
         {
             generalObservationView = (GeneralObservationView.instanceFromNib() as! GeneralObservationView)
             generalObservationView.uitag = tag
+            generalObservationView.delegate = self
             generalObservationView.observation = observation
         }
         Helper.displayInChildView(generalObservationView, parentView: childView)
@@ -47,6 +48,7 @@ import UIKit
       if(generalObservationView == nil)
        {
             generalObservationView = (GeneralObservationView.instanceFromNib() as! GeneralObservationView)
+            generalObservationView.delegate = self
        }
         generalObservationView.configureView(observation, showobservatioType: showobservatioType,tag:tag)
     }
@@ -98,6 +100,11 @@ import UIKit
        case DataEntryObservationSource.NewsIPhone,DataEntryObservationSource.NewsIPad:
             performSegueWithIdentifier("unwindToTabularView",sender:sender)
        }
+    }
+        
+    // Navigation
+    func ShowModalNavigationController(navigationController: UINavigationController) {
+        self.presentViewController(navigationController, animated: true){}
     }
     // MARK: - Navigation
 

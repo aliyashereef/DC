@@ -10,6 +10,8 @@ import UIKit
 
 class ToggleCell: UITableViewCell {
 
+    @IBOutlet weak var title: UILabel!
+    @IBOutlet weak var toggleValue: UISwitch!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -19,6 +21,10 @@ class ToggleCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    func configureCell(cellTitle :String)
+    {
+        title.text = cellTitle
     }
     
 }

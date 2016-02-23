@@ -9,6 +9,7 @@
 
 import UIKit
 
+
 class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,CellDelegate{
     
     @IBOutlet var tableView: UITableView!
@@ -21,6 +22,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
     var observation:VitalSignObservation!
     var showObservationType:ShowObservationType = ShowObservationType.All
     var uitag:DataEntryObservationSource!
+    var delegate: ObservationDelegate?
     
     // section
     let SECTION_DATE = 0
@@ -39,6 +41,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
     let toggleCellIdentifier  = "ToggleCell"
     let doubleCellIdentifier = "DoubleCell"
     let bloodPressureCellIdentifier = "BloodPressureCell"
+    let segmentedCellIdentifier = "SwitchCell"
     
     var datePickerCell:DatePickerCellInline!
     var cells:Dictionary<Int,UITableViewCell> = Dictionary<Int,UITableViewCell>()
@@ -63,6 +66,9 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
         
         let nibToggle = UINib(nibName: "ToggleCell", bundle: nil)
         self.tableView.registerNib(nibToggle, forCellReuseIdentifier: toggleCellIdentifier)
+        
+        let nibSwitch = UINib(nibName: "SwitchCell", bundle: nil)
+        self.tableView.registerNib(nibSwitch, forCellReuseIdentifier: segmentedCellIdentifier)
         
     }
     func configureView(observation:VitalSignObservation,showobservatioType:ShowObservationType, tag:DataEntryObservationSource)
@@ -171,7 +177,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
         }
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cellTitle:String = ""
+       // var cellTitle:String = ""
         var placeHolderText = "enter value"
         let rowNumber = getRowNumber(indexPath)
         let obsType = ObservationType(rawValue: rowNumber)
@@ -188,11 +194,9 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             return cell
             
         case ObservationType.Respiratory:
-            cellTitle = "Resps (per minute)"
-            
             let cell = tableView.dequeueReusableCellWithIdentifier(doubleCellIdentifier, forIndexPath: indexPath) as! DoubleCell
             cell.tag = ObservationType.Respiratory.rawValue
-            cell.configureCell(cellTitle, valuePlaceHolderText: placeHolderText,selectedValue: nil , disableNavigation: showObservationType != .All)
+            cell.configureCell("Resps (per minute)", valuePlaceHolderText: placeHolderText,selectedValue: nil , disableNavigation: showObservationType != .All)
             cells[rowNumber] = cell
             if(showObservationType == ShowObservationType.Respiratory && observation != nil )
             {
@@ -202,12 +206,11 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             return cell
             
         case ObservationType.SpO2:
-            cellTitle = "Oxygen Saturation & Inspired O2"
             placeHolderText = "enter %"
             
             let cell = tableView.dequeueReusableCellWithIdentifier(doubleCellIdentifier, forIndexPath: indexPath) as! DoubleCell
             cell.tag = ObservationType.SpO2.rawValue
-            cell.configureCell(cellTitle, valuePlaceHolderText: placeHolderText,selectedValue: nil , disableNavigation: showObservationType != .All)
+            cell.configureCell( "Oxygen Saturation & Inspired O2", valuePlaceHolderText: placeHolderText,selectedValue: nil , disableNavigation: showObservationType != .All)
             cells[rowNumber] = cell
             if(showObservationType == ShowObservationType.SpO2 && observation != nil )
             {
@@ -217,12 +220,9 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             return cell
             
         case ObservationType.Temperature:
-            cellTitle = "Temperature (°C)"
-            //rowTag =
-            
             let cell = tableView.dequeueReusableCellWithIdentifier(doubleCellIdentifier, forIndexPath: indexPath) as! DoubleCell
             cell.tag = ObservationType.Temperature.rawValue
-            cell.configureCell(cellTitle, valuePlaceHolderText: placeHolderText,selectedValue: nil , disableNavigation: showObservationType != .All)
+            cell.configureCell("Temperature (°C)", valuePlaceHolderText: placeHolderText,selectedValue: nil , disableNavigation: showObservationType != .All)
             cells[rowNumber] = cell
             if(showObservationType == ShowObservationType.Temperature && observation != nil )
             {
@@ -232,8 +232,6 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             return cell
             
         case ObservationType.BloodPressure:
-            cellTitle="Systolic / Diastolic"
-            
             let cell = tableView.dequeueReusableCellWithIdentifier(bloodPressureCellIdentifier, forIndexPath: indexPath) as! BloodPressureCell
             cell.tag = ObservationType.BloodPressure.rawValue
             cells[rowNumber] = cell
@@ -247,11 +245,9 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             return cell
             
         case ObservationType.Pulse:
-            cellTitle = "Pulse (beats/min)"
-            
             let cell = tableView.dequeueReusableCellWithIdentifier(doubleCellIdentifier, forIndexPath: indexPath) as! DoubleCell
             cell.tag = ObservationType.Pulse.rawValue
-            cell.configureCell(cellTitle, valuePlaceHolderText: placeHolderText,selectedValue: nil , disableNavigation: showObservationType != .All)
+            cell.configureCell("Pulse (beats/min)", valuePlaceHolderText: placeHolderText,selectedValue: nil , disableNavigation: showObservationType != .All)
             cells[rowNumber] = cell
             if(showObservationType == ShowObservationType.Pulse && observation != nil )
             {
@@ -271,12 +267,26 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             return cell*/
         case ObservationType.AdditionalOxygen:
             let cell = tableView.dequeueReusableCellWithIdentifier(toggleCellIdentifier, forIndexPath: indexPath) as! ToggleCell
+            cell.configureCell("Any Supplemental Oxygen")
             return cell
         case ObservationType.AVPU:
-            let cell = tableView.dequeueReusableCellWithIdentifier(toggleCellIdentifier, forIndexPath: indexPath) as! ToggleCell
+            let cell = tableView.dequeueReusableCellWithIdentifier(segmentedCellIdentifier, forIndexPath: indexPath) as! SwitchCell
+            cell.configureCell("Level of Consciousness", values: ["A" , "V,P or U"])
+
+            let infoButton = UIButton(type: .InfoLight)
+            infoButton.addTarget(self, action: "showhelp", forControlEvents: .TouchUpInside )
+            infoButton.tintColor = UIColor.darkGrayColor()
+            cell.accessoryView = infoButton
             return cell
         }
         
+    }
+    
+    func showhelp()
+    {
+        let controller = HelpViewController()
+        let navigation = UINavigationController(rootViewController: controller)
+        delegate?.ShowModalNavigationController(navigation)
     }
     
     func getSelectedValue(indexPath:NSIndexPath) ->Double!

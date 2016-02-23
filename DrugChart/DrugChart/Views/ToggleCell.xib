@@ -23,6 +23,7 @@
                     </label>
                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ACZ-tY-igg">
                         <rect key="frame" x="156" y="6" width="51" height="31"/>
+                        <color key="onTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     </switch>
                 </subviews>
                 <constraints>
@@ -34,6 +35,10 @@
                     <constraint firstAttribute="trailingMargin" secondItem="ACZ-tY-igg" secondAttribute="trailing" constant="-2" id="rGi-wn-jif"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="title" destination="DQv-05-UWa" id="egQ-ME-SPc"/>
+                <outlet property="toggleValue" destination="ACZ-tY-igg" id="wG8-lE-gNC"/>
+            </connections>
         </tableViewCell>
     </objects>
 </document>
