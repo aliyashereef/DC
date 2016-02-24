@@ -472,6 +472,7 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
                 }
             }
             self.activityIndicator.stopAnimating()
+            self.wardsInformationViewController?.activityIndicatorView.stopAnimating()
         }
     }
     
@@ -497,9 +498,9 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
                 } else {
                         self.displayAlertWithTitle(NSLocalizedString("ERROR", comment: ""), message:NSLocalizedString("FETCH_FAILED", comment: ""))
                 }
+                self.activityIndicator.stopAnimating()
+                self.wardsInformationViewController?.activityIndicatorView.stopAnimating()
             }
-            self.activityIndicator.stopAnimating()
-            self.wardsInformationViewController?.activityIndicatorView.stopAnimating()
             self.refreshControl.endRefreshing()
         }
     }
