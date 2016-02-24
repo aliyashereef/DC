@@ -17,6 +17,7 @@
 @property (nonatomic, strong) NSString *dosageString;
 @property (nonatomic, strong) NSString *batch;
 @property (nonatomic, strong) NSString *status;
+@property (nonatomic, strong) NSString *statusReason;
 @property (nonatomic, strong) NSString *administeredNotes;
 @property (nonatomic, strong) NSString *omittedNotes;
 @property (nonatomic, strong) NSString *refusedNotes;

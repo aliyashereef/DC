@@ -215,7 +215,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x0B-Yy-lI4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1020" y="327"/>
+            <point key="canvasLocation" x="1138" y="484"/>
         </scene>
         <!--Calendar Slot Detail View Controller-->
         <scene sceneID="loK-jl-VbR">
@@ -1212,14 +1212,14 @@
         <!--Administration Failure View Controller-->
         <scene sceneID="v5c-0p-Ski">
             <objects>
-                <viewController id="exU-k8-jGi" customClass="DCAdministrationFailureViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="AO8-4N-Syt">
+                <viewController storyboardIdentifier="AdministerFailureViewController" id="exU-k8-jGi" customClass="DCAdministrationFailureViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="AO8-4N-Syt">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="DurationBasedInfusionCell" rowHeight="103" id="HcS-Bn-42K" customClass="DCDurationBasedMedicationDetailsCell" customModule="DrugChart" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="600" height="103"/>
+                                <rect key="frame" x="0.0" y="49.5" width="600" height="103"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="HcS-Bn-42K" id="8eY-iS-SE3">
                                     <rect key="frame" x="0.0" y="0.0" width="567" height="102.5"/>
@@ -1274,7 +1274,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="AdministerCell" id="lO1-ta-fxs" customClass="DCAdministerCell" customModule="DrugChart" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="131" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="152.5" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lO1-ta-fxs" id="3SV-yD-e87">
                                     <rect key="frame" x="0.0" y="0.0" width="567" height="43.5"/>
@@ -1286,7 +1286,6 @@
                                                 <constraint firstAttribute="width" constant="155" id="cZd-oV-SUv"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <color key="textColor" red="0.4039215686" green="0.4039215686" blue="0.4039215686" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sFT-h1-FEP">
@@ -1296,6 +1295,7 @@
                                                 <constraint firstAttribute="width" constant="220" id="h3h-yA-FJB"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" red="0.4039215686" green="0.4039215686" blue="0.4039215686" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -1311,11 +1311,12 @@
                                 <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <connections>
                                     <outlet property="detailLabel" destination="sFT-h1-FEP" id="LqG-UA-Gir"/>
+                                    <outlet property="detailLabelTrailingSpace" destination="QI9-df-AoG" id="0Xf-h2-wvO"/>
                                     <outlet property="titleLabel" destination="2Py-ek-id3" id="T5U-8w-5nO"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NotesCell" rowHeight="125" id="M7O-1d-VrZ" customClass="DCNotesTableCell" customModule="DrugChart" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="175" width="600" height="125"/>
+                                <rect key="frame" x="0.0" y="196.5" width="600" height="125"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="M7O-1d-VrZ" id="YSE-H6-EQW">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="124.5"/>
@@ -1344,7 +1345,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" tag="101" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="datepickercell" rowHeight="216" id="U4o-3m-SH4" customClass="DCDatePickerCell">
-                                <rect key="frame" x="0.0" y="300" width="600" height="216"/>
+                                <rect key="frame" x="0.0" y="321.5" width="600" height="216"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="U4o-3m-SH4" id="U29-g7-mlB">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="215.5"/>
@@ -1400,7 +1401,7 @@
                         </connections>
                     </tableView>
                     <connections>
-                        <outlet property="administrationFaliureTableView" destination="AO8-4N-Syt" id="N3O-vp-fZx"/>
+                        <outlet property="administrationFailureTableView" destination="AO8-4N-Syt" id="gnM-oS-F6c"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O6G-bW-uxc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1409,7 +1410,7 @@
         <!--Administration Success View Controller-->
         <scene sceneID="OD3-39-aIh">
             <objects>
-                <viewController id="Ctg-U5-O3a" customClass="DCAdministrationSuccessViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AdministerSuccessViewController" id="Ctg-U5-O3a" customClass="DCAdministrationSuccessViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="3yk-Rv-WGq"/>
                         <viewControllerLayoutGuide type="bottom" id="gl1-sF-MSg"/>
@@ -1418,12 +1419,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="y9G-E0-s3q">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="y9G-E0-s3q">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="DurationBasedInfusionCell" rowHeight="103" id="VUg-h1-BaQ" customClass="DCDurationBasedMedicationDetailsCell" customModule="DrugChart" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="600" height="103"/>
+                                        <rect key="frame" x="0.0" y="49.5" width="600" height="103"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VUg-h1-BaQ" id="0YZ-uF-Yeb">
                                             <rect key="frame" x="0.0" y="0.0" width="567" height="102.5"/>
@@ -1478,7 +1479,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BatchNumberCell" id="f28-Uy-wUm" customClass="DCBatchNumberCell" customModule="DrugChart" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="131" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="152.5" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="f28-Uy-wUm" id="QaV-Ej-m2j">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
@@ -1498,8 +1499,8 @@
                                             <outlet property="batchNumberTextField" destination="Eje-9s-vHW" id="FDe-KD-5G8"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="AdministerCell" id="RSC-UG-bjA" customClass="DCAdministerCell" customModule="DrugChart" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="175" width="600" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="AdministerCell" id="RSC-UG-bjA" customClass="DCAdministerCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="196.5" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="RSC-UG-bjA" id="0l4-GH-RKp">
                                             <rect key="frame" x="0.0" y="0.0" width="567" height="43.5"/>
@@ -1511,7 +1512,6 @@
                                                         <constraint firstAttribute="width" constant="155" id="Ddy-Uo-0ux"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" red="0.4039215686" green="0.4039215686" blue="0.4039215686" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VRO-H5-dZ1">
@@ -1521,6 +1521,7 @@
                                                         <constraint firstAttribute="height" constant="21" id="pnk-L2-WhX"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" red="0.40392156862745099" green="0.40392156862745099" blue="0.40392156862745099" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -1536,11 +1537,12 @@
                                         <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <connections>
                                             <outlet property="detailLabel" destination="VRO-H5-dZ1" id="I11-fV-YDh"/>
+                                            <outlet property="detailLabelTrailingSpace" destination="d9R-5W-Fgg" id="9UP-DO-TUC"/>
                                             <outlet property="titleLabel" destination="w9c-kQ-dKz" id="T0B-Xh-6L9"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NotesCell" rowHeight="125" id="g0h-HE-q2W" customClass="DCNotesTableCell" customModule="DrugChart" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="219" width="600" height="125"/>
+                                        <rect key="frame" x="0.0" y="240.5" width="600" height="125"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="g0h-HE-q2W" id="caH-fd-jmd">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="124.5"/>
@@ -1569,7 +1571,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" tag="101" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="datepickercell" rowHeight="216" id="BOK-n0-OGa" customClass="DCDatePickerCell">
-                                        <rect key="frame" x="0.0" y="344" width="600" height="216"/>
+                                        <rect key="frame" x="0.0" y="365.5" width="600" height="216"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BOK-n0-OGa" id="QcJ-Ly-4kQ">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="215.5"/>
@@ -1639,6 +1641,206 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xWy-6r-48Z" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+        <!--Administration Status Selection View Controller-->
+        <scene sceneID="0Ek-xN-gpu">
+            <objects>
+                <viewController storyboardIdentifier="AdministerStatusChangeViewController" id="oQh-0l-Sz5" customClass="DCAdministrationStatusSelectionViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="oZM-9O-fUh"/>
+                        <viewControllerLayoutGuide type="bottom" id="64u-gs-shT"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="VLz-fg-NUG">
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ov5-rp-Ndy">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pAV-wu-eV1">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                                <subviews>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="Rlv-L0-Jef">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                        <prototypes>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="DurationBasedInfusionCell" rowHeight="103" id="mEp-nW-Rye" customClass="DCDurationBasedMedicationDetailsCell" customModule="DrugChart" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="49.5" width="600" height="103"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mEp-nW-Rye" id="4um-Ng-ric">
+                                                    <rect key="frame" x="0.0" y="0.0" width="567" height="102.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SjQ-ms-5S7">
+                                                            <rect key="frame" x="15" y="10" width="537" height="20.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20 mg" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fGE-eG-37H">
+                                                            <rect key="frame" x="15" y="36" width="537" height="14.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                            <color key="textColor" red="0.45098039220000002" green="0.45098039220000002" blue="0.45098039220000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Regular" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ia8-xK-Vua">
+                                                            <rect key="frame" x="15" y="57" width="537" height="14.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                            <color key="textColor" red="0.32549019610000002" green="0.59607843140000005" blue="0.8862745098" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Flow rate is 10 mg/Hr" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gDL-sE-z09">
+                                                            <rect key="frame" x="15" y="77" width="537" height="14.5"/>
+                                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
+                                                            <color key="textColor" red="0.45098039220000002" green="0.45098039220000002" blue="0.45098039220000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstAttribute="bottom" secondItem="gDL-sE-z09" secondAttribute="bottom" constant="10.5" id="4Ac-EC-L3A"/>
+                                                        <constraint firstItem="SjQ-ms-5S7" firstAttribute="leading" secondItem="4um-Ng-ric" secondAttribute="leading" constant="15" id="7CF-nC-Dky"/>
+                                                        <constraint firstAttribute="trailing" secondItem="gDL-sE-z09" secondAttribute="trailing" constant="15" id="7da-I0-LkV"/>
+                                                        <constraint firstItem="fGE-eG-37H" firstAttribute="leading" secondItem="4um-Ng-ric" secondAttribute="leading" constant="15" id="8bz-th-Xnx"/>
+                                                        <constraint firstAttribute="trailing" secondItem="SjQ-ms-5S7" secondAttribute="trailing" constant="15" id="AFs-ze-C3m"/>
+                                                        <constraint firstAttribute="trailing" secondItem="Ia8-xK-Vua" secondAttribute="trailing" constant="15" id="KuP-tz-RAB"/>
+                                                        <constraint firstAttribute="trailing" secondItem="fGE-eG-37H" secondAttribute="trailing" constant="15" id="S3H-n4-oHV"/>
+                                                        <constraint firstItem="Ia8-xK-Vua" firstAttribute="top" secondItem="fGE-eG-37H" secondAttribute="bottom" constant="6" id="TEx-fl-Bnx"/>
+                                                        <constraint firstItem="Ia8-xK-Vua" firstAttribute="leading" secondItem="4um-Ng-ric" secondAttribute="leading" constant="15" id="YBF-s7-0YW"/>
+                                                        <constraint firstItem="gDL-sE-z09" firstAttribute="top" secondItem="Ia8-xK-Vua" secondAttribute="bottom" constant="6" id="gAB-uz-BK5"/>
+                                                        <constraint firstItem="fGE-eG-37H" firstAttribute="top" secondItem="SjQ-ms-5S7" secondAttribute="bottom" constant="6" id="mWe-Fe-keQ"/>
+                                                        <constraint firstItem="SjQ-ms-5S7" firstAttribute="top" secondItem="4um-Ng-ric" secondAttribute="top" constant="10" id="qf0-yK-SgW"/>
+                                                        <constraint firstItem="gDL-sE-z09" firstAttribute="leading" secondItem="4um-Ng-ric" secondAttribute="leading" constant="15" id="zg9-ct-k0V"/>
+                                                    </constraints>
+                                                </tableViewCellContentView>
+                                                <connections>
+                                                    <outlet property="dosageRouteAndInstructionLabel" destination="fGE-eG-37H" id="gjP-te-xuQ"/>
+                                                    <outlet property="flowRateLabel" destination="gDL-sE-z09" id="PqB-L8-zOA"/>
+                                                    <outlet property="medicineCategoryLabel" destination="Ia8-xK-Vua" id="cYJ-lG-5Vm"/>
+                                                    <outlet property="medicineNameLabel" destination="SjQ-ms-5S7" id="cqm-EY-Fer"/>
+                                                </connections>
+                                            </tableViewCell>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="AdministerCell" id="P17-nJ-pnV" customClass="DCAdministerCell" customModule="DrugChart" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="152.5" width="600" height="44"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="P17-nJ-pnV" id="7oN-fF-aps">
+                                                    <rect key="frame" x="0.0" y="0.0" width="567" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WsI-tl-HLy">
+                                                            <rect key="frame" x="15" y="11" width="155" height="21"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="155" id="woE-Bu-zyl"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                            <color key="textColor" red="0.4039215686" green="0.4039215686" blue="0.4039215686" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Ls-GQ-gCP">
+                                                            <rect key="frame" x="347" y="11" width="220" height="21"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="21" id="MEe-ws-kuM"/>
+                                                                <constraint firstAttribute="width" constant="220" id="NAY-wC-n71"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="WsI-tl-HLy" firstAttribute="centerY" secondItem="7oN-fF-aps" secondAttribute="centerY" id="9Ak-zN-Pap"/>
+                                                        <constraint firstItem="WsI-tl-HLy" firstAttribute="leading" secondItem="7oN-fF-aps" secondAttribute="leading" constant="15" id="BFJ-3b-aO2"/>
+                                                        <constraint firstItem="8Ls-GQ-gCP" firstAttribute="centerY" secondItem="7oN-fF-aps" secondAttribute="centerY" id="D5J-Er-tix"/>
+                                                        <constraint firstAttribute="trailing" secondItem="8Ls-GQ-gCP" secondAttribute="trailing" id="KAM-Qf-yGX"/>
+                                                        <constraint firstAttribute="bottom" secondItem="WsI-tl-HLy" secondAttribute="bottom" constant="11" id="aVI-fJ-HJZ"/>
+                                                        <constraint firstItem="WsI-tl-HLy" firstAttribute="top" secondItem="7oN-fF-aps" secondAttribute="top" constant="11" id="kGA-pV-gkr"/>
+                                                    </constraints>
+                                                </tableViewCellContentView>
+                                                <connections>
+                                                    <outlet property="detailLabel" destination="8Ls-GQ-gCP" id="zbW-de-JgO"/>
+                                                    <outlet property="titleLabel" destination="WsI-tl-HLy" id="ThT-oE-Sbm"/>
+                                                </connections>
+                                            </tableViewCell>
+                                        </prototypes>
+                                        <connections>
+                                            <outlet property="dataSource" destination="oQh-0l-Sz5" id="0DH-FY-Kcl"/>
+                                            <outlet property="delegate" destination="oQh-0l-Sz5" id="89I-Zj-zTh"/>
+                                        </connections>
+                                    </tableView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="Rlv-L0-Jef" secondAttribute="trailing" id="3uU-Xw-ufQ"/>
+                                    <constraint firstItem="Rlv-L0-Jef" firstAttribute="top" secondItem="pAV-wu-eV1" secondAttribute="top" id="UpD-WP-pPy"/>
+                                    <constraint firstItem="Rlv-L0-Jef" firstAttribute="leading" secondItem="pAV-wu-eV1" secondAttribute="leading" id="aZ3-sv-jRh"/>
+                                    <constraint firstAttribute="bottom" secondItem="Rlv-L0-Jef" secondAttribute="bottom" id="hAH-0g-cQq"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="pAV-wu-eV1" firstAttribute="top" secondItem="oZM-9O-fUh" secondAttribute="bottom" id="09W-fN-UI5"/>
+                            <constraint firstAttribute="trailing" secondItem="Ov5-rp-Ndy" secondAttribute="trailing" id="5YP-nL-j5X"/>
+                            <constraint firstAttribute="bottom" secondItem="Ov5-rp-Ndy" secondAttribute="bottom" id="CGI-m2-vsD"/>
+                            <constraint firstItem="Ov5-rp-Ndy" firstAttribute="leading" secondItem="VLz-fg-NUG" secondAttribute="leading" id="QxL-SA-A1Q"/>
+                            <constraint firstAttribute="trailing" secondItem="pAV-wu-eV1" secondAttribute="trailing" id="cpa-fH-tV3"/>
+                            <constraint firstItem="Ov5-rp-Ndy" firstAttribute="top" secondItem="oZM-9O-fUh" secondAttribute="bottom" id="g84-DM-HcV"/>
+                            <constraint firstItem="pAV-wu-eV1" firstAttribute="leading" secondItem="VLz-fg-NUG" secondAttribute="leading" id="q2n-Q6-dkF"/>
+                            <constraint firstItem="64u-gs-shT" firstAttribute="top" secondItem="pAV-wu-eV1" secondAttribute="bottom" id="u8Q-Fd-N9o"/>
+                        </constraints>
+                    </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="600" height="600"/>
+                    <connections>
+                        <outlet property="administerContainerView" destination="Ov5-rp-Ndy" id="KFr-Et-2qg"/>
+                        <outlet property="administerStatusSelectionTableView" destination="Rlv-L0-Jef" id="VK6-5P-bvj"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="goO-8d-aKP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+        <!--Administration Reason View Controller-->
+        <scene sceneID="weu-yt-gpu">
+            <objects>
+                <viewController storyboardIdentifier="StatusReasonCellViewController" id="fMK-u3-gxC" customClass="DCAdministrationReasonViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Huq-kx-amC"/>
+                        <viewControllerLayoutGuide type="bottom" id="F7A-MZ-stp"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="NJe-Io-D0W">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="TmD-D0-IaI">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="StatusReasonCell" id="8gz-L1-Z3i">
+                                        <rect key="frame" x="0.0" y="49.5" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8gz-L1-Z3i" id="wue-3I-oqr">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="fMK-u3-gxC" id="WCC-q0-gYY"/>
+                                    <outlet property="delegate" destination="fMK-u3-gxC" id="F8K-yI-Jxc"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="F7A-MZ-stp" firstAttribute="top" secondItem="TmD-D0-IaI" secondAttribute="bottom" id="haW-KE-4Dk"/>
+                            <constraint firstItem="TmD-D0-IaI" firstAttribute="top" secondItem="NJe-Io-D0W" secondAttribute="top" id="liJ-aP-Ntj"/>
+                            <constraint firstAttribute="trailing" secondItem="TmD-D0-IaI" secondAttribute="trailing" id="m1f-Qt-3HJ"/>
+                            <constraint firstItem="TmD-D0-IaI" firstAttribute="leading" secondItem="NJe-Io-D0W" secondAttribute="leading" id="w42-k4-Iim"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="X4F-a1-rAb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
         </scene>
     </scenes>
