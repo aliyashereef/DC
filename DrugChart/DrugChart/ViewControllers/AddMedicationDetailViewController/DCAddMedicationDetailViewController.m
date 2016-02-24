@@ -152,7 +152,11 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return _detailType == eOverrideReason ? (self.view.frame.size.height-110) : ROW_HEIGHT_DEFAULT;
+    if ([DCAPPDELEGATE windowState] == oneThirdWindow || [DCAPPDELEGATE windowState] == halfWindow) {
+        return _detailType == eOverrideReason ? (self.view.frame.size.height-133) : ROW_HEIGHT_DEFAULT;
+    } else {
+        return _detailType == eOverrideReason ? (self.view.frame.size.height-114) : ROW_HEIGHT_DEFAULT;
+    }
 }
 
 #pragma mark - Action Methods
