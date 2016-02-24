@@ -28,7 +28,7 @@
 #define START_DATE_ROW_INDEX                    0
 #define NO_END_DATE_ROW_INDEX                   1
 #define END_DATE_ROW_INDEX                      2
-#define INSTRUCTIONS_ROW_HEIGHT                 78
+#define INSTRUCTIONS_ROW_HEIGHT                 132
 #define TABLE_CELL_DEFAULT_ROW_HEIGHT           42
 #define ADD_MEDICATION_INDEX                    0
 #define DATE_PICKER_INDEX_START_DATE            1
@@ -96,6 +96,8 @@ typedef enum : NSUInteger {
 + (BOOL)routeIsIntravenousOrSubcutaneous:(NSString *)route;
 
 + (NSInteger)routesTableViewSectionCountForSelectedRoute:(NSString *)route;
+
++ (CGFloat)instructionCellHeightForInstruction:(NSString *)instructions;
 
 
 

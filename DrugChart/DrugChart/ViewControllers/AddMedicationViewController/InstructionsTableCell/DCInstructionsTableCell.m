@@ -13,6 +13,7 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    _instructionsTextView.contentInset = UIEdgeInsetsMake(5, 0, 5, 0);
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -53,6 +54,7 @@
             [textView setText:NSLocalizedString(@"DESCRIPTION", @"")];
         }
     }
+    [textView scrollRangeToVisible:NSMakeRange (0, 0)];
 }
 
 @end

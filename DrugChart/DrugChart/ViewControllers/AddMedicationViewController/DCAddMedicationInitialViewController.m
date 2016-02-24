@@ -33,6 +33,7 @@
     BOOL isNewMedication; // to decide on whether the new medication is selected from list
     BOOL reviewDatePickerExpanded;
     DCDosageSelectionViewController *dosageSelectionViewController;
+    CGFloat previousScrollOffset;
 }
 
 @property (nonatomic, strong) NSIndexPath *datePickerIndexPath;
@@ -46,6 +47,7 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+    medicationDetailsTableView.contentInset = UIEdgeInsetsMake(-25.0f, 0.0f, 0.0f, 0.0f);
     [self configureNavigationBar];
     [self modifyViewForEditMedicationState];
     [self configureContentSizeForView];
@@ -1102,6 +1104,29 @@
     }
 }
 
+- (void)animateTableViewUpwardsWhenKeyboardAppears {
+    
+    CGFloat contentHeight = medicationDetailsTableView.contentSize.height;
+    NSIndexPath *instructionIndexPath = [self indexPathForLastRow];
+    DCInstructionsTableCell *instructionsCell = (DCInstructionsTableCell *)[medicationDetailsTableView cellForRowAtIndexPath:instructionIndexPath];
+    CGFloat instructionHeight = instructionsCell.instructionsTextView.contentSize.height;
+    if (instructionHeight <= INSTRUCTIONS_ROW_HEIGHT) {
+        instructionHeight = INSTRUCTIONS_ROW_HEIGHT;
+    }
+    NSInteger scrollOffset = contentHeight - self.keyboardSize.height + instructionHeight;
+    if (scrollOffset > self.view.frame.size.height) {
+        scrollOffset = self.view.frame.size.height;
+    }
+    if (previousScrollOffset != scrollOffset) {
+        double delayInSeconds = isNewMedication?  0.5 : 0.25;
+        dispatch_time_t deleteTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+        dispatch_after(deleteTime, dispatch_get_main_queue(), ^(void){
+            [medicationDetailsTableView setContentOffset:CGPointMake(0, scrollOffset + 5) animated:YES];
+            previousScrollOffset = scrollOffset;
+        });
+    }
+}
+
 #pragma mark - UITableView Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -1249,7 +1274,7 @@
                     return [DCAddMedicationHelper textContentHeightForDosage:self.selectedMedication.dosage];
                 }
             } else {
-                return INSTRUCTIONS_ROW_HEIGHT;
+                return [DCAddMedicationHelper instructionCellHeightForInstruction:self.selectedMedication.instruction];
             }
         }
     } else if (indexPath.section == eSixthSection) {
@@ -1259,13 +1284,13 @@
                     return [DCAddMedicationHelper textContentHeightForDosage:self.selectedMedication.dosage];
                 }
             } else {
-                return INSTRUCTIONS_ROW_HEIGHT;
+                return [DCAddMedicationHelper instructionCellHeightForInstruction:self.selectedMedication.instruction];
             }
         } else {
-           return INSTRUCTIONS_ROW_HEIGHT;
+           return [DCAddMedicationHelper instructionCellHeightForInstruction:self.selectedMedication.instruction];
         }
     } else if (indexPath.section == eSeventhSection) {
-        return INSTRUCTIONS_ROW_HEIGHT;
+        return [DCAddMedicationHelper instructionCellHeightForInstruction:self.selectedMedication.instruction];
     }
     return medicationDetailsTableView.rowHeight;
 }
@@ -1448,12 +1473,18 @@
 - (void)keyboardDidShow:(NSNotification *)notification {
     
     //notification methods
-    double delayInSeconds = isNewMedication?  0.5 : 0.25;
-    dispatch_time_t deleteTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-    dispatch_after(deleteTime, dispatch_get_main_queue(), ^(void){
-        [medicationDetailsTableView setContentOffset:CGPointMake(0,450) animated:YES];
-    });
+    self.keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    [self animateTableViewUpwardsWhenKeyboardAppears];
     isNewMedication = false;
+}
+
+- (void)keyboardDidHide:(NSNotification *)notification {
+    
+    [UIView setAnimationsEnabled:YES];
+    [medicationDetailsTableView beginUpdates];
+    [medicationDetailsTableView endUpdates];
+    [UIView setAnimationsEnabled:YES];
+    previousScrollOffset = 0.0;
 }
 
 #pragma mark - Instruction Delegates

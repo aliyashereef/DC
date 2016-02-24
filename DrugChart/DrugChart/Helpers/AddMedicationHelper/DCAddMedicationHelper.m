@@ -195,4 +195,14 @@
     return ([route containsString:@"Intravenous"]|| [route containsString:@"Subcutaneous"]);
 }
 
++ (CGFloat)instructionCellHeightForInstruction:(NSString *)instructions {
+    
+    CGFloat height = [DCUtility heightValueForText:instructions withFont:[UIFont systemFontOfSize:15.0] maxWidth:289.0] + 2.0;
+    if (height <= INSTRUCTIONS_ROW_HEIGHT) {
+        return INSTRUCTIONS_ROW_HEIGHT;
+    } else {
+        return height;
+    }
+}
+
 @end
