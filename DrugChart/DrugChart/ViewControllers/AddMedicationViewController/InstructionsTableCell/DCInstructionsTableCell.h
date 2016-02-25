@@ -11,7 +11,7 @@
 @protocol InstructionCellDelegate <NSObject>
 
 - (void)closeInlineDatePickers;
-- (void)updateTextViewText:(NSString *)instructions isInstruction:(BOOL)isInstruction;
+- (void)updateInstructionsText:(NSString *)instructions;
 
 @end
 
@@ -19,8 +19,6 @@
 
 @property (nonatomic, weak) IBOutlet UITextView *instructionsTextView;
 @property (nonatomic, weak) id <InstructionCellDelegate> delegate;
-@property (nonatomic) BOOL isInstruction;
 
-- (void)populatePlaceholderForFieldIsInstruction:(BOOL)isInstructionField;
 
 @end
