@@ -52,5 +52,6 @@ class DCDosageSelectionTableViewCell: UITableViewCell {
         dosageDetailLabel.text = cellTitle
         dosageDetailValueLabel.text = selectedValue
         dosageDetailLabel.textColor = UIColor.blackColor()
+        accessoryType = .DisclosureIndicator
     }
 }

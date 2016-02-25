@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Single Dose View Controller-->
@@ -474,20 +475,29 @@
                                             <rect key="frame" x="0.0" y="0.0" width="310" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BHD-fd-ump">
-                                                    <rect key="frame" x="16" y="11" width="294" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BHD-fd-ump">
+                                                    <rect key="frame" x="16" y="0.0" width="270" height="43"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="21" id="Go1-Xk-Tyg"/>
+                                                        <constraint firstAttribute="height" constant="43" id="Byu-87-x75"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="BHD-fd-ump" firstAttribute="centerY" secondItem="JNR-ue-0aS" secondAttribute="centerY" id="YfR-1y-eLX"/>
+                                                <constraint firstItem="BHD-fd-ump" firstAttribute="top" secondItem="JNR-ue-0aS" secondAttribute="topMargin" constant="3" id="1fS-v1-Yd1"/>
+                                                <constraint firstAttribute="trailing" secondItem="BHD-fd-ump" secondAttribute="trailing" constant="24" id="RhT-2O-iHO"/>
+                                                <constraint firstItem="BHD-fd-ump" firstAttribute="top" secondItem="JNR-ue-0aS" secondAttribute="top" id="Ucn-t2-nOm"/>
+                                                <constraint firstAttribute="bottom" secondItem="BHD-fd-ump" secondAttribute="bottom" id="Z3x-S7-Mne"/>
                                                 <constraint firstItem="BHD-fd-ump" firstAttribute="leading" secondItem="JNR-ue-0aS" secondAttribute="leading" constant="16" id="a9W-rP-PS0"/>
                                                 <constraint firstAttribute="trailing" secondItem="BHD-fd-ump" secondAttribute="trailing" id="gCZ-9c-RRg"/>
                                             </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="1fS-v1-Yd1"/>
+                                                    <exclude reference="gCZ-9c-RRg"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="conditionsMainLabel" destination="BHD-fd-ump" id="d0k-dT-0J5"/>
@@ -568,6 +578,9 @@
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="310" height="600"/>
+                    <connections>
+                        <outlet property="conditionTableView" destination="hC3-Ks-4kc" id="ECv-dY-QK3"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tzG-10-iPw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
