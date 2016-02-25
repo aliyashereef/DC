@@ -37,7 +37,6 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
     var previewArray : NSMutableArray? = []
     var isEditMedication : Bool?
     var validate : Bool = false
-    //var backButtonText : NSString = EMPTY_STRING
     var selectedSchedulingValue : SelectedScheduling = {value in }
     var inlinePickerIndexPath : NSIndexPath?
     
@@ -76,7 +75,6 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         
         self.navigationItem.title = NSLocalizedString("FREQUENCY", comment: "")
         self.title = NSLocalizedString("FREQUENCY", comment: "")
-       // DCUtility.backButtonItemForViewController(self, inNavigationController: self.navigationController, withTitle: backButtonText as String)
     }
 
     func displaySchedulingDetailViewControllerForSelectedIndexPath(indexPath : NSIndexPath) {

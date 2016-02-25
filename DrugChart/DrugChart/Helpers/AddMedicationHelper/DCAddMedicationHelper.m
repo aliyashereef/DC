@@ -88,7 +88,7 @@
     return timeArray;
 }
 
-+ (AddMedicationDetailType)medicationDetailTypeForIndexPath:(NSIndexPath *)indexPath hasWarnings:(BOOL)showWarnings {
++ (AddMedicationDetailType)medicationDetailTypeForIndexPath:(NSIndexPath *)indexPath hasWarnings:(BOOL)showWarnings medicationType:(NSString *)type {
     
     switch (indexPath.section) {
         case eSecondSection: {
@@ -101,6 +101,14 @@
         case eThirdSection: {
             if (showWarnings) {
                 return eDetailType;
+            }
+        }
+        case eFourthSection: {
+            
+            if (!showWarnings) {
+                if (![type isEqualToString:REGULAR_MEDICATION]) {
+                    return eDetailDosage;
+                }
             }
         }
         case eFifthSection: {
