@@ -340,6 +340,7 @@ typealias SelectedDosage = DCDosage? -> Void
         
         //dosage type selection
         previousIndexPath = indexPath
+        dosageTableView.reloadData()
         self.checkWhetherRowAlreadySelected(indexPath)
         var range = NSMakeRange(3, 2)
         if (selectedTimeArrayItems.count == 0) {
@@ -361,20 +362,19 @@ typealias SelectedDosage = DCDosage? -> Void
             if (indexPath.row != 3) {
                 dosageTableView.beginUpdates()
                 if (sectionCount == 2) {
-                    //if section count is zero insert new section with animation
+                    //if section count is initial count, insert new section with animation
                     dosageTableView.deleteSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
                     dosageTableView.insertSections(NSIndexSet(indexesInRange: NSMakeRange(1, 2)), withRowAnimation: .Fade)
-                    dosageTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Fade)
                 } else if (sectionCount >= 4) {
                     //Delete 3 sections od splitdaily and insert the new section.
-                    dosageTableView.reloadSections(NSIndexSet(indexesInRange: NSMakeRange(0, 3)), withRowAnimation: .Fade)
+                    dosageTableView.reloadSections(NSIndexSet(indexesInRange: NSMakeRange(1, 2)), withRowAnimation: .Fade)
                     dosageTableView.deleteSections(NSIndexSet(index: 3), withRowAnimation: .Fade)
                     if (selectedTimeArrayItems.count > 0) {
                         dosageTableView.deleteSections(NSIndexSet(index: 4), withRowAnimation: .Fade)
                     }
                 } else {
                     //reload sections
-                    dosageTableView.reloadSections(NSIndexSet(indexesInRange: NSMakeRange(0, 3)), withRowAnimation: .Fade)
+                    dosageTableView.reloadSections(NSIndexSet(indexesInRange: NSMakeRange(1, 2)), withRowAnimation: .Fade)
                 }
                 dosageTableView.endUpdates()
             } else {
@@ -386,8 +386,8 @@ typealias SelectedDosage = DCDosage? -> Void
                     } else {
                         range = NSMakeRange(2, 3)
                     }
-                    dosageTableView.insertSections(NSIndexSet(indexesInRange: range), withRowAnimation: .Fade)
-                    dosageTableView.reloadSections(NSIndexSet(indexesInRange: NSMakeRange(0, 2)), withRowAnimation: .Fade)
+                    dosageTableView.deleteSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
+                    dosageTableView.insertSections(NSIndexSet(indexesInRange: NSMakeRange(1, 3)), withRowAnimation: .Fade)
                 } else {
                     if (selectedTimeArrayItems.count == 0) {
                         range = NSMakeRange(1, 3)
