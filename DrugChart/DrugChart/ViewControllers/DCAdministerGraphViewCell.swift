@@ -10,7 +10,7 @@ import UIKit
 import Charts
 
 class DCAdministerGraphViewCell: UITableViewCell,ChartViewDelegate {
-
+    
     var startDate: NSDate = NSDate()
     var nextDate: NSDate = NSDate()
     var endDate : NSDate = NSDate()
@@ -48,17 +48,17 @@ class DCAdministerGraphViewCell: UITableViewCell,ChartViewDelegate {
         self.chartView.legend.enabled = false
         
         self.configureGraphViewForDisplay()
-//        self.chartView.animate(xAxisDuration: 1.5, easingOption: ChartEasingOption.EaseInOutQuart)
+        //        self.chartView.animate(xAxisDuration: 1.5, easingOption: ChartEasingOption.EaseInOutQuart)
     }
-
+    
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
     
     func configureGraphViewForDisplay() {
-
+        
         // Array for adding x-axis values.
         var xVals = [String]()
         
@@ -70,7 +70,7 @@ class DCAdministerGraphViewCell: UITableViewCell,ChartViewDelegate {
         let calendar: NSCalendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
         let components: NSDateComponents = NSDateComponents()
         components.minute = minutesToAdd
-
+        
         // Create the NSDateFormatter to format the date into required format.
         let dateFormatter: NSDateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "dd MMM \n HH:mm"
@@ -95,7 +95,7 @@ class DCAdministerGraphViewCell: UITableViewCell,ChartViewDelegate {
         self.chartView.extraRightOffset = 85
         self.chartView.extraBottomOffset = 15
         self.chartView.xAxis.axisLabelModulus = 60
-
+        
         // Chart data object
         let combinedData: CombinedChartData = CombinedChartData(xVals: xVals)
         
@@ -103,7 +103,7 @@ class DCAdministerGraphViewCell: UITableViewCell,ChartViewDelegate {
         let ordinaryDateFormatter = NSDateFormatter()
         ordinaryDateFormatter.calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
         ordinaryDateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss xx"
-
+        
         var yVals = [ChartDataEntry]()
         var dataSet = [ChartDataSet]()
         var timeIndex : Int = 0
@@ -114,6 +114,8 @@ class DCAdministerGraphViewCell: UITableViewCell,ChartViewDelegate {
         
         for var index = 0 ; index < dataArray.count; index++ {
             yVals = []
+            
+            
             nameBubbleYVals = []
             valueBubbleYVals = []
             let eventData = dataArray[index]
@@ -127,7 +129,7 @@ class DCAdministerGraphViewCell: UITableViewCell,ChartViewDelegate {
                 
                 // Create a bubble in the start point and set the value as "S".
                 nameBubbleYVals.append(BubbleChartDataEntry(xIndex: timeIndex, value: 25, size: 0))
-
+                
                 let nameBubbleChart: BubbleChartDataSet = BubbleChartDataSet(yVals: nameBubbleYVals, label: "")
                 nameBubbleChart.setColor(chartView.tintColor, alpha: 1)
                 nameBubbleChart.drawValuesEnabled = true
@@ -141,10 +143,10 @@ class DCAdministerGraphViewCell: UITableViewCell,ChartViewDelegate {
                     numberFormatterS.zeroSymbol = "R"
                 }
                 nameBubbleChart.valueFormatter = numberFormatterS
-
+                
                 // Create a bubble below the starting point to display the start time.
                 valueBubbleYVals.append(BubbleChartDataEntry(xIndex: timeIndex, value: 15, size: 0))
-
+                
                 let valueBubbleChart: BubbleChartDataSet = BubbleChartDataSet(yVals: valueBubbleYVals, label: "")
                 valueBubbleChart.setColor(UIColor.clearColor(), alpha: 0)
                 valueBubbleChart.drawValuesEnabled = true
@@ -158,16 +160,16 @@ class DCAdministerGraphViewCell: UITableViewCell,ChartViewDelegate {
                 valueString = timeFormatter.stringFromDate(nextDate)
                 numberFormatterValue1.zeroSymbol = valueString
                 valueBubbleChart.valueFormatter = numberFormatterValue1
-
+                
                 bubbleDataSet.append(nameBubbleChart)
                 bubbleDataSet.append(valueBubbleChart)
-
+                
                 // Find the difference between the start time in graph and the event start time in minutes.
                 // This value is the index of ending point of event.
                 nextDate = ordinaryDateFormatter.dateFromString(eventData["endTime"]!)!
                 timeIndex = calendar.components(.Minute, fromDate: startDate, toDate: nextDate, options: []).minute
                 yVals.append(ChartDataEntry(value: 25, xIndex: timeIndex))
-
+                
                 let set: LineChartDataSet = LineChartDataSet(yVals: yVals, label: "")
                 set.colors = [chartView.tintColor]
                 set.lineWidth = 1.0
@@ -176,8 +178,8 @@ class DCAdministerGraphViewCell: UITableViewCell,ChartViewDelegate {
                 set.valueFont = UIFont.systemFontOfSize(9.0)
                 set.circleColors = [chartView.tintColor]
                 set.drawValuesEnabled = false
-
-
+                
+                
                 dataSet.append(set)
                 print(timeIndex)
             case "Paused" :
@@ -285,19 +287,19 @@ class DCAdministerGraphViewCell: UITableViewCell,ChartViewDelegate {
         //        indexArray.append(Int(150))
         //        indexArray.append(Int(250))
         //        indexArray.append(Int(400))
-
+        
         //        let marker: DCGraphPoints = DCGraphPoints(color: self.chartView.tintColor, font: UIFont.systemFontOfSize(15.0), insets: UIEdgeInsetsMake(8.0, 8.0, 20.0, 8.0), markerIndexTextArray: indexArray)
         //        marker.minimumSize = CGSizeMake(80.0, 40.0)
         //        self.chartView.marker = marker
-
+        
         let data: LineChartData = LineChartData(xVals: xVals, dataSets: dataSet)
-        //        self.chartView.data = data
         let bubbleData: BubbleChartData = BubbleChartData(xVals: xVals, dataSets: bubbleDataSet)
-
+        
         combinedData.lineData = data
         combinedData.bubbleData = bubbleData
-        self.chartView.data = combinedData
 
+        self.chartView.data = combinedData
+        
         self.chartView.setNeedsDisplay()
     }
     
@@ -311,7 +313,7 @@ class DCAdministerGraphViewCell: UITableViewCell,ChartViewDelegate {
         let secondPoint: NSDate = startDate.dateByAddingTimeInterval(60 * 75)
         let thirdPoint: NSDate = startDate.dateByAddingTimeInterval(60 * 185)
         let fourthPoint: NSDate = startDate.dateByAddingTimeInterval(60 * 285)
-
+        
         endDate = startDate.dateByAddingTimeInterval(60*301)
         let demoDateFormatter = NSDateFormatter()
         demoDateFormatter.calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
@@ -326,7 +328,7 @@ class DCAdministerGraphViewCell: UITableViewCell,ChartViewDelegate {
         dataDictionary["event"] = "Paused"
         dataDictionary["startTime"] = demoDateFormatter.stringFromDate(secondPoint)
         dataDictionary["endTime"] = demoDateFormatter.stringFromDate(thirdPoint)
-
+        
         dataArray.append(dataDictionary)
         
         dataDictionary["event"] = "ReStarted"
@@ -345,5 +347,5 @@ class DCAdministerGraphViewCell: UITableViewCell,ChartViewDelegate {
     func chartValueNothingSelected(chartView: ChartViewBase) {
         NSLog("chartValueNothingSelected")
     }
-
+    
 }
