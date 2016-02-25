@@ -88,7 +88,7 @@
     return timeArray;
 }
 
-+ (AddMedicationDetailType)medicationDetailTypeForIndexPath:(NSIndexPath *)indexPath hasWarnings:(BOOL)showWarnings {
++ (AddMedicationDetailType)medicationDetailTypeForIndexPath:(NSIndexPath *)indexPath hasWarnings:(BOOL)showWarnings medicationType:(NSString *)type {
     
     switch (indexPath.section) {
         case eSecondSection: {
@@ -101,6 +101,14 @@
         case eThirdSection: {
             if (showWarnings) {
                 return eDetailType;
+            }
+        }
+        case eFourthSection: {
+            
+            if (!showWarnings) {
+                if (![type isEqualToString:REGULAR_MEDICATION]) {
+                    return eDetailDosage;
+                }
             }
         }
         case eFifthSection: {
@@ -185,6 +193,16 @@
 + (BOOL)routeIsIntravenousOrSubcutaneous:(NSString *)route {
     
     return ([route containsString:@"Intravenous"]|| [route containsString:@"Subcutaneous"]);
+}
+
++ (CGFloat)instructionCellHeightForInstruction:(NSString *)instructions {
+    
+    CGFloat height = [DCUtility heightValueForText:instructions withFont:[UIFont systemFontOfSize:15.0] maxWidth:289.0] + 2.0;
+    if (height <= INSTRUCTIONS_ROW_HEIGHT) {
+        return INSTRUCTIONS_ROW_HEIGHT;
+    } else {
+        return height;
+    }
 }
 
 @end

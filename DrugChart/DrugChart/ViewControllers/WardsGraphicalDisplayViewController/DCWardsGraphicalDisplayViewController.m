@@ -17,6 +17,7 @@
 #import "DCPositionableGraphics.h"
 
 #import "DCPlistManager.h"
+#import "DrugChart-Swift.h"
 
 @interface DCWardsGraphicalDisplayViewController ()<DCPatientGraphicalRepresentationViewDelegate> {
     
@@ -120,15 +121,20 @@
     [self fetchAndAddPositionableGraphicsViews];
 }
 
+- (void) goToDrugChartVitalSignsIntermediateScreen {
+    
+    UIStoryboard *menuStoryBoard = [UIStoryboard storyboardWithName:PATIENT_MENU_STORYBOARD bundle:nil];
+    DCPatientMenuViewController *menuViewController = [menuStoryBoard instantiateViewControllerWithIdentifier:PATIENT_MENU_VIEW_CONTROLLER_SB_ID];
+    menuViewController.patient = selectedPatient;
+    [self.navigationController pushViewController:menuViewController animated:YES];
+}
+
 #pragma mark - delegate methods
 
 - (void)goToPatientDetailView:(DCPatient *)currentPatient {
     
     selectedPatient = currentPatient;
-    UIStoryboard *prescriberStoryBoard = [UIStoryboard storyboardWithName:PRESCRIBER_DETAILS_STORYBOARD bundle:nil];
-    DCPrescriberMedicationViewController *prescriberMedicationViewController = [prescriberStoryBoard instantiateViewControllerWithIdentifier:PRESCRIBER_MEDICATION_SBID];
-    prescriberMedicationViewController.patient = selectedPatient;
-    [self.navigationController pushViewController:prescriberMedicationViewController animated:YES];
+    [self goToDrugChartVitalSignsIntermediateScreen];
 }
 
 - (IBAction)cancelButtonPressed:(id)sender {

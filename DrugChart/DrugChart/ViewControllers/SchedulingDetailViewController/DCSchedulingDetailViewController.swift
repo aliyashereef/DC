@@ -131,7 +131,7 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
                     self.scheduling?.specificTimes?.repeatObject?.isEachValue = true
                     self.scheduling?.specificTimes?.repeatObject?.onTheValue = EMPTY_STRING
                 }
-                self.schedulingCompletion(self.scheduling)
+              //  self.schedulingCompletion(self.scheduling)
                 self.detailTableView.reloadData()
             } else {
                 self.updateSchedulingDetailsForSelectedPickerType(pickerType, selectedValue: value!)
@@ -184,7 +184,7 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
             default :
                 break
         }
-        self.schedulingCompletion(self.scheduling)
+        //self.schedulingCompletion(self.scheduling)
         self.detailTableView.reloadData()
     }
     
@@ -451,7 +451,7 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
         if (pickerType != nil) {
             self.updateAdministrationTimesArrayForSelectedPickerType(pickerType!)
         }
-        self.schedulingCompletion(self.scheduling)
+       // self.schedulingCompletion(self.scheduling)
     }
     
     func specificTimesWeeklyOrYearlyDetailCellAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
@@ -586,7 +586,7 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
                     //remove the already existing object from array
                     self.scheduling?.specificTimes?.repeatObject?.weekDays.removeObjectAtIndex(index)
                  }
-                self.schedulingCompletion(self.scheduling)
+               // self.schedulingCompletion(self.scheduling)
                 tableView.beginUpdates()
                 self.detailTableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.Fade)
                 tableView.endUpdates()
@@ -636,7 +636,7 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
                     self.scheduling?.specificTimes?.specificTimesDescription = headerView?.messageLabel.text;
                 }
             }
-            self.schedulingCompletion(self.scheduling)
+           // self.schedulingCompletion(self.scheduling)
             headerHeight = DCUtility.textViewSizeWithText(headerView?.messageLabel.text, maxWidth: HEADER_VIEW_LABEL_MAX_WIDTH, font: UIFont.systemFontOfSize(13.0)).height + 10
             tableView.layoutIfNeeded()
             return headerView!

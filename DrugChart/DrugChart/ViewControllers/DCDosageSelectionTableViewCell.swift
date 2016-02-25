@@ -14,6 +14,7 @@ class DCDosageSelectionTableViewCell: UITableViewCell {
     @IBOutlet weak var dosageDetailLabel: UILabel!
     @IBOutlet weak var dosageDetailValueLabel: UILabel!
     @IBOutlet weak var requiredDailyDoseTextField: UITextField!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -46,10 +47,11 @@ class DCDosageSelectionTableViewCell: UITableViewCell {
         }
     }
 
-    func configureCell(cellTitle:String,selectedValue:String) {
+    func configureCell(cellTitle:String? ,selectedValue:String? ) {
         
         dosageDetailLabel.text = cellTitle
         dosageDetailValueLabel.text = selectedValue
         dosageDetailLabel.textColor = UIColor.blackColor()
+        accessoryType = .DisclosureIndicator
     }
 }

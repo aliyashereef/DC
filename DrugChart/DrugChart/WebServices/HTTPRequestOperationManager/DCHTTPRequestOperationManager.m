@@ -38,6 +38,26 @@
         }
 }
 
+
++ (DCHTTPRequestOperationManager *)sharedVitalSignManager {
+    static dispatch_once_t onceTokenForBase = 0;
+    static dispatch_once_t onceTokenForDemo = 0;
+    __strong static id _sharedObject_Base = nil;
+    __strong static id _sharedObject_Demo = nil;
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:SETTINGS_TOGGLE_BUTTON_KEY]) {
+        dispatch_once(&onceTokenForBase, ^{
+            _sharedObject_Demo =[[DCHTTPRequestOperationManager alloc] initWithURLForVitalSign:kDCBaseVitalSignUrl_Demo];
+        });
+        return _sharedObject_Demo;
+    } else {
+        dispatch_once(&onceTokenForDemo, ^{
+            _sharedObject_Base = [[DCHTTPRequestOperationManager alloc] initWithURLForVitalSign:kDCBaseVitalSignUrl];
+        });
+        return _sharedObject_Base;
+    }
+}
+
+
 + (DCHTTPRequestOperationManager *)sharedMedicationOperationManager {
     
     static dispatch_once_t onceTokenForBase = 0;
@@ -105,6 +125,20 @@
     }
     return self;
 }
+
+- (id)initWithURLForVitalSign: (NSString*)url
+{
+    
+    self = [super initWithBaseURL:[NSURL URLWithString:url]];
+    if (self) {
+        self.requestSerializer = [AFJSONRequestSerializer serializer];
+        self.requestSerializer.timeoutInterval = 30.0f;
+        [self configureHeaderFieldsForRequest];
+        self.responseSerializer = [AFJSONResponseSerializer serializer];
+    }
+    return self;
+}
+
 
 - (id)initWithDemoURLForMedication {
     
