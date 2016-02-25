@@ -259,7 +259,7 @@ typealias SelectedDosage = DCDosage? -> Void
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        if ( indexPath.section == 0) {
+        if (indexPath.section == 0) {
             let dosageSelectionMenuCell : DCDosageSelectionTableViewCell? = dosageTableView.dequeueReusableCellWithIdentifier(DOSE_MENU_CELL_ID) as? DCDosageSelectionTableViewCell
             // Configure the cell...
             dosageSelectionMenuCell!.dosageMenuLabel.text = dosageMenuItems[indexPath.row]
@@ -533,6 +533,7 @@ typealias SelectedDosage = DCDosage? -> Void
             } else if (indexPath.section == 3) {
                 if (selectedTimeArrayItems.count > 0) {
                     dosageSelectionDetailCell.dosageMenuLabel.text = ADD_ADMINISTRATION_TIME
+                    dosageSelectionDetailCell.dosageDetailValueLabel.text = EMPTY_STRING
                     dosageSelectionDetailCell.accessoryType = .None
                     dosageSelectionDetailCell.dosageMenuLabel.textColor = dosageTableView.tintColor
                 } else {
