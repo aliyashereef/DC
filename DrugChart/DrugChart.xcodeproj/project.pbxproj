@@ -70,6 +70,7 @@
 		0BA40BBF1B29A5CE005B80AD /* HTMLParser_README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0BA40BBE1B29A5CE005B80AD /* HTMLParser_README.txt */; };
 		0BA449DB1B983265009F84E5 /* DCInstructionsTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BA449DA1B983265009F84E5 /* DCInstructionsTableCell.m */; };
 		0BA449E31B985100009F84E5 /* DCAddMedicationDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BA449E21B985100009F84E5 /* DCAddMedicationDetailViewController.m */; };
+		0BA4BFD61C7EFB5F00EAE4F2 /* DCSingleDoseEntryTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA4BFD51C7EFB5F00EAE4F2 /* DCSingleDoseEntryTableCell.swift */; };
 		0BA5A38D1BF341DC00251F94 /* DCScheduling.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BA5A38C1BF341DC00251F94 /* DCScheduling.m */; };
 		0BA5A3921BF35E2700251F94 /* DCSchedulingDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA5A3911BF35E2700251F94 /* DCSchedulingDetailViewController.swift */; };
 		0BA5ECBB1BFEF0F700F80C12 /* NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BA5ECBA1BFEF0F700F80C12 /* NSString+Additions.m */; };
@@ -494,6 +495,7 @@
 		0BA449DA1B983265009F84E5 /* DCInstructionsTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCInstructionsTableCell.m; sourceTree = "<group>"; };
 		0BA449E11B985100009F84E5 /* DCAddMedicationDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCAddMedicationDetailViewController.h; sourceTree = "<group>"; };
 		0BA449E21B985100009F84E5 /* DCAddMedicationDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCAddMedicationDetailViewController.m; sourceTree = "<group>"; };
+		0BA4BFD51C7EFB5F00EAE4F2 /* DCSingleDoseEntryTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCSingleDoseEntryTableCell.swift; sourceTree = "<group>"; };
 		0BA5A38B1BF341DC00251F94 /* DCScheduling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCScheduling.h; sourceTree = "<group>"; };
 		0BA5A38C1BF341DC00251F94 /* DCScheduling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCScheduling.m; sourceTree = "<group>"; };
 		0BA5A3911BF35E2700251F94 /* DCSchedulingDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCSchedulingDetailViewController.swift; sourceTree = "<group>"; };
@@ -1277,6 +1279,7 @@
 			isa = PBXGroup;
 			children = (
 				0B8997B71C74960D006974E8 /* DCSingleDoseViewController.swift */,
+				0BA4BFD41C7EFB3500EAE4F2 /* SingleDoseEntryTableCell */,
 				0B8997B91C7496EE006974E8 /* SingleDoseTableCell */,
 				0B976FF31C75B252002A563F /* SingleDosePickerCell */,
 			);
@@ -1476,6 +1479,15 @@
 				0BA449E21B985100009F84E5 /* DCAddMedicationDetailViewController.m */,
 			);
 			path = AddMedicationDetailViewController;
+			sourceTree = "<group>";
+		};
+		0BA4BFD41C7EFB3500EAE4F2 /* SingleDoseEntryTableCell */ = {
+			isa = PBXGroup;
+			children = (
+				0BA4BFD51C7EFB5F00EAE4F2 /* DCSingleDoseEntryTableCell.swift */,
+			);
+			name = SingleDoseEntryTableCell;
+			path = SingleDoseTableCell/SingleDoseEntryTableCell;
 			sourceTree = "<group>";
 		};
 		0BA5A3861BF32B5600251F94 /* Scheduling */ = {
@@ -3542,6 +3554,7 @@
 				7D2FF0581BB9024400B92B85 /* DCCalendarDayView.swift in Sources */,
 				7D2FF1171BBCD1C000B92B85 /* DCMedicationAdministrationStatusView.swift in Sources */,
 				1FD4FCCC1BF4B7E000B77B94 /* SelectionView.swift in Sources */,
+				0BA4BFD61C7EFB5F00EAE4F2 /* DCSingleDoseEntryTableCell.swift in Sources */,
 				4D48915F1BC90176002AC8CA /* DCPatientListingViewController.swift in Sources */,
 				1F380C781C64E1D1000A4E5D /* VitalSignParser.swift in Sources */,
 				0B964C7F1C51019000CD509D /* DCInfusionsFooterView.swift in Sources */,
