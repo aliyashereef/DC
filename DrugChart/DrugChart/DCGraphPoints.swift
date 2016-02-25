@@ -94,7 +94,7 @@ public class DCGraphPoints: ChartMarker
     
     public override func refreshContent(entry entry: ChartDataEntry, highlight: ChartHighlight)
     {
-        if (entry.xIndex > 70 && entry.xIndex < 80) {
+        if (entry.xIndex > 8 && entry.xIndex < 12) {
 
             labelns = "Start"
             _drawAttributes.removeAll()
