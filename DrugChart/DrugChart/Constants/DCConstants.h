@@ -117,6 +117,8 @@
 #define CALENDAR_SLOT_DETAIL_STORYBOARD_ID @"CalendarDetail"
 #define ADMINISTER_SUCCESS_VC_STORYBOARD_ID @"AdministerSuccessViewController"
 #define ADMINISTER_FAILURE_VC_STORYBOARD_ID @"AdministerFailureViewController"
+#define ADMINISTER_IN_PROGRESS_VC_STORYBOARD_ID @"AdministerProgressViewController"
+
 #define ADMINISTRATION_STATUS_CHANGE_VIEW_CONTROLLER @"AdministerStatusChangeViewController"
 #define MEDICATION_STORYBOARD_ID @"MedicationHistory"
 #define BNF_STORYBOARD_ID @"BNFViewController"

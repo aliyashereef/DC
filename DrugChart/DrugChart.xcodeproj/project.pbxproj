@@ -299,6 +299,7 @@
 		4D9C7DC41BA1578C00C69094 /* DCAddMedicationWebServiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D9C7DC31BA1578C00C69094 /* DCAddMedicationWebServiceManager.m */; };
 		4DC440181B67990D000EC7AB /* DCOrderSetWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC440171B67990D000EC7AB /* DCOrderSetWebService.m */; };
 		4DC527F11BE1EE2F00E2EF09 /* DCDosageMultiLineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC527F01BE1EE2F00E2EF09 /* DCDosageMultiLineCell.swift */; };
+		4DD264381C7EFD11007ACC52 /* DCAdministrationInProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD264371C7EFD11007ACC52 /* DCAdministrationInProgressViewController.swift */; };
 		4DD2E2691C7C28AD00950BD8 /* DCAdministrationStatusSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD2E2681C7C28AD00950BD8 /* DCAdministrationStatusSelectionViewController.swift */; };
 		4DD2E26C1C7C39F900950BD8 /* DCAdministrationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD2E26B1C7C39F900950BD8 /* DCAdministrationHelper.swift */; };
 		4DD829271C0853AD006B2E71 /* DCOneThirdCalendarStripCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD829261C0853AD006B2E71 /* DCOneThirdCalendarStripCollectionCell.swift */; };
@@ -782,6 +783,7 @@
 		4DC440161B67990D000EC7AB /* DCOrderSetWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DCOrderSetWebService.h; path = DrugChart/WebServices/DCOrderSetWebService.h; sourceTree = SOURCE_ROOT; };
 		4DC440171B67990D000EC7AB /* DCOrderSetWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DCOrderSetWebService.m; path = DrugChart/WebServices/DCOrderSetWebService.m; sourceTree = SOURCE_ROOT; };
 		4DC527F01BE1EE2F00E2EF09 /* DCDosageMultiLineCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageMultiLineCell.swift; sourceTree = "<group>"; };
+		4DD264371C7EFD11007ACC52 /* DCAdministrationInProgressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministrationInProgressViewController.swift; sourceTree = "<group>"; };
 		4DD2E2681C7C28AD00950BD8 /* DCAdministrationStatusSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministrationStatusSelectionViewController.swift; sourceTree = "<group>"; };
 		4DD2E26B1C7C39F900950BD8 /* DCAdministrationHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministrationHelper.swift; sourceTree = "<group>"; };
 		4DD829261C0853AD006B2E71 /* DCOneThirdCalendarStripCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCOneThirdCalendarStripCollectionCell.swift; sourceTree = "<group>"; };
@@ -1851,6 +1853,7 @@
 		0BBC8F9A1AA468920085ABAB /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				4DD264361C7EFCF4007ACC52 /* AdministrationInProgressViewController */,
 				4D026E531C7DAF6800F9FF68 /* AdministrationReasonViewController */,
 				4DD2E26A1C7C398000950BD8 /* AdministerHelper */,
 				4DD2E2671C7C287900950BD8 /* AdministrationStatusSelectionViewController */,
@@ -2675,6 +2678,14 @@
 			);
 			name = OrderSetWebService;
 			path = LoginWebService;
+			sourceTree = "<group>";
+		};
+		4DD264361C7EFCF4007ACC52 /* AdministrationInProgressViewController */ = {
+			isa = PBXGroup;
+			children = (
+				4DD264371C7EFD11007ACC52 /* DCAdministrationInProgressViewController.swift */,
+			);
+			name = AdministrationInProgressViewController;
 			sourceTree = "<group>";
 		};
 		4DD2E2671C7C287900950BD8 /* AdministrationStatusSelectionViewController */ = {
@@ -3665,6 +3676,7 @@
 				0BB33DD81B79F56900B05E4D /* DCMedicationDetails.m in Sources */,
 				1F3C31701C0DB8F8007C6AE7 /* Patient.swift in Sources */,
 				1FF1F8881C3D7798007F3B9C /* GraphDelegate.swift in Sources */,
+				4DD264381C7EFD11007ACC52 /* DCAdministrationInProgressViewController.swift in Sources */,
 				4D9225F91C6DE1F00060761A /* DCProgressTimeView.swift in Sources */,
 				0BA449DB1B983265009F84E5 /* DCInstructionsTableCell.m in Sources */,
 				7D632D821C3A0BC00029BAF5 /* DCWardsInformationsViewController.swift in Sources */,

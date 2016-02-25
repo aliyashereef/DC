@@ -58,4 +58,123 @@ class DCAdministrationHelper : NSObject {
         }
         return userListArray
     }
+    
+    //MARK: API Integration
+    static func medicationAdministrationDictionaryForMedicationSlot(medicationSlot : DCMedicationSlot, medicationDetails : DCMedicationScheduleDetails) -> NSDictionary {
+        
+        let administerDictionary : NSMutableDictionary = [:]
+        let scheduledDateString : NSString
+        if (medicationSlot.medicationAdministration?.scheduledDateTime != nil) {
+            scheduledDateString = DCDateUtility.dateStringFromDate(medicationSlot.medicationAdministration?.scheduledDateTime, inFormat: "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+        } else {
+            scheduledDateString = DCDateUtility.dateStringFromDate(NSDate(), inFormat: "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+        }
+        administerDictionary.setValue(scheduledDateString, forKey:SCHEDULED_ADMINISTRATION_TIME)
+        let dateFormatter : NSDateFormatter = NSDateFormatter.init()
+        dateFormatter.dateFormat = EMIS_DATE_FORMAT
+        dateFormatter.timeZone = NSTimeZone.init(name:"UTC")
+        if (medicationSlot.medicationAdministration?.actualAdministrationTime != nil) {
+            let administeredDateString : NSString = dateFormatter.stringFromDate((DCDateUtility.dateInCurrentTimeZone(medicationSlot
+                .medicationAdministration?.actualAdministrationTime)!))
+            administerDictionary.setValue(administeredDateString, forKey:ACTUAL_ADMINISTRATION_TIME)
+        } else {
+            medicationSlot.medicationAdministration?.actualAdministrationTime = DCDateUtility.dateInCurrentTimeZone(NSDate())
+            let administeredDateString : NSString = dateFormatter.stringFromDate((medicationSlot.medicationAdministration.actualAdministrationTime))
+            administerDictionary.setValue(administeredDateString, forKey:ACTUAL_ADMINISTRATION_TIME)
+        }
+        // To Do : for the sake of display of infusions , untill the API gets updated, this value need to be changed dynamic.
+        var adminStatus = medicationSlot.medicationAdministration?.status
+        if (adminStatus == STARTED) {
+            medicationSlot.medicationAdministration?.status = IN_PROGRESS
+            adminStatus = ADMINISTERED
+        } else if (adminStatus == NOT_ADMINISTRATED) {
+            adminStatus = REFUSED
+        }
+        administerDictionary.setValue(adminStatus, forKey: ADMINISTRATION_STATUS)
+        if let administratingStatus : Bool = medicationSlot.medicationAdministration?.isSelfAdministered.boolValue {
+            if administratingStatus == false {
+                administerDictionary.setValue(medicationSlot.medicationAdministration?.administratingUser!.userIdentifier, forKey:"AdministratingUserIdentifier")
+            }
+            administerDictionary.setValue(administratingStatus, forKey: IS_SELF_ADMINISTERED)
+        }
+        //TO DO : Configure the dosage and batch number from the form.
+        if let dosage = medicationDetails.dosage {
+            administerDictionary.setValue(dosage, forKey: ADMINISTRATING_DOSAGE)
+        }
+        if let batch = medicationSlot.medicationAdministration?.batch {
+            administerDictionary.setValue(batch, forKey: ADMINISTRATING_BATCH)
+        }
+        let notes : NSString  = administrationNotesBasedOnMedicationStatus (medicationSlot)
+        administerDictionary.setValue(notes, forKey:ADMINISTRATING_NOTES)
+        
+        //TODO: currently hardcoded as ther is no expiry field in UI
+        // administerDictionary.setValue("2015-10-23T19:40:00.000Z", forKey: EXPIRY_DATE)
+        return administerDictionary
+    }
+    
+    static func displayAlertWithTitle(title : NSString, message : NSString ) {
+        //display alert view for view controllers
+        let alertController : UIAlertController = UIAlertController(title: title as String, message: message as String, preferredStyle: UIAlertControllerStyle.Alert)
+        let action : UIAlertAction = UIAlertAction(title: OK_BUTTON_TITLE, style: UIAlertActionStyle.Default, handler: { action in
+            alertController.dismissViewControllerAnimated(true, completion: nil)
+        })
+        alertController.addAction(action)
+//        self.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    // Return the note string based on the administrating status
+    static func administrationNotesBasedOnMedicationStatus (medicationSlot : DCMedicationSlot) -> NSString{
+        var noteString : NSString = EMPTY_STRING
+        let status = medicationSlot.medicationAdministration.status
+        if (status == ADMINISTERED || status == SELF_ADMINISTERED || status == STARTED)  {
+            if let administeredNotes = medicationSlot.medicationAdministration?.administeredNotes {
+                noteString = administeredNotes
+            }
+        } else if status == REFUSED {
+            if let refusedNotes = medicationSlot.medicationAdministration?.refusedNotes {
+                noteString =  refusedNotes
+            }
+        } else {
+            if let omittedNotes = medicationSlot.medicationAdministration?.omittedNotes {
+                noteString = omittedNotes
+            }
+        }
+        return noteString
+    }
+    
+    static func entriesAreValidInMedication(medicationSlot : DCMedicationSlot) -> (Bool) {
+        
+        // check if the values entered are valid
+        var isValid : Bool = true
+        let medicationStatus = medicationSlot.medicationAdministration.status
+        //notes will be mandatory always for omitted ones , it will be mandatory for administered/refused for early administration, currently checked for all cases
+        if (medicationStatus == OMITTED) {
+            //omitted medication status
+            let omittedNotes = medicationSlot.medicationAdministration.omittedNotes
+            if (omittedNotes == EMPTY_STRING || omittedNotes == nil) {
+                isValid = false
+            }
+        } else if (medicationStatus == nil) {
+            isValid = false
+        }
+        
+        if (medicationSlot.medicationAdministration?.isEarlyAdministration == true) {
+            
+            //early administration condition
+            if (medicationStatus == ADMINISTERED || medicationStatus == STARTED) {
+                //administered medication status
+                let notes : String? = medicationSlot.medicationAdministration?.administeredNotes
+                if (notes == EMPTY_STRING || notes == nil) {
+                    isValid = false
+                }
+            } else if (medicationStatus == REFUSED) {
+                //refused medication status
+                let refusedNotes = medicationSlot.medicationAdministration.refusedNotes
+                if (refusedNotes == EMPTY_STRING || refusedNotes == nil) {
+                    isValid = false
+                }
+            }
+        }
+        return isValid
+    }
 }

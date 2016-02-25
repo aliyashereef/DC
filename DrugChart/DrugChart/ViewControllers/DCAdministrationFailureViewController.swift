@@ -102,6 +102,7 @@ class DCAdministrationFailureViewController: UIViewController ,NotesCellDelegate
         let administerCell : DCAdministerCell = (administrationFailureTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
         administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         administerCell.titleLabel.text = STATUS
+        medicationSlot?.medicationAdministration.status = NOT_ADMINISTRATED
         administerCell.detailLabel?.text = NOT_ADMINISTRATED
         return administerCell
     }
@@ -232,6 +233,7 @@ class DCAdministrationFailureViewController: UIViewController ,NotesCellDelegate
     func selectedMedicationStatusEntry(status: String!) {
         
         let parentView : DCAdministrationStatusSelectionViewController = self.parentViewController as! DCAdministrationStatusSelectionViewController
+        medicationSlot?.medicationAdministration.status = status
         parentView.updateViewWithChangeInStatus(status)
     }
     
