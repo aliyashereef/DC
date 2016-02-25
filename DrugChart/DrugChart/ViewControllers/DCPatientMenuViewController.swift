@@ -17,7 +17,7 @@ let menuTableCellIdentifier : NSString = "MenuTableCell"
 
 // DCBaseViewController is a subclass for UIViewController
 
-class DCPatientMenuViewController: DCBaseViewController, UITableViewDataSource, UITableViewDelegate{
+@objc class DCPatientMenuViewController: DCBaseViewController, UITableViewDataSource, UITableViewDelegate{
     
     @IBOutlet weak var menuTableView: UITableView!
     var patient : DCPatient = DCPatient.init()
