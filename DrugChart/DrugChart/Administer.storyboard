@@ -1863,12 +1863,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="VJ7-4t-AeZ">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="VJ7-4t-AeZ">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="AdministerTableCell" id="QIP-Ee-AML" customClass="DCAdministerCell" customModule="DrugChart" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="AdministerCell" id="QIP-Ee-AML" customClass="DCAdministerCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="49.5" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QIP-Ee-AML" id="fL9-UY-RxQ">
                                             <rect key="frame" x="0.0" y="0.0" width="567" height="43.5"/>
@@ -1909,7 +1909,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="DurationBasedInfusionCell" rowHeight="103" id="JBz-Td-rHq" customClass="DCDurationBasedMedicationDetailsCell" customModule="DrugChart" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="72" width="600" height="103"/>
+                                        <rect key="frame" x="0.0" y="93.5" width="600" height="103"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JBz-Td-rHq" id="5sb-fF-eau">
                                             <rect key="frame" x="0.0" y="0.0" width="567" height="102.5"/>
@@ -1964,9 +1964,19 @@
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="OJT-Aw-hTR" id="YBt-Lm-glu"/>
+                                    <outlet property="delegate" destination="OJT-Aw-hTR" id="PDs-h5-FBi"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="VJ7-4t-AeZ" secondAttribute="trailing" id="BuX-Iu-YVg"/>
+                            <constraint firstItem="VJ7-4t-AeZ" firstAttribute="leading" secondItem="wjJ-ml-cmr" secondAttribute="leading" id="Ka1-rf-fJe"/>
+                            <constraint firstItem="UVL-eL-iT3" firstAttribute="top" secondItem="VJ7-4t-AeZ" secondAttribute="bottom" id="fOv-Ee-eiG"/>
+                            <constraint firstItem="VJ7-4t-AeZ" firstAttribute="top" secondItem="wjJ-ml-cmr" secondAttribute="top" id="xWS-jR-5NE"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="administerInProgressTableView" destination="VJ7-4t-AeZ" id="KOC-XO-9Fv"/>

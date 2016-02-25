@@ -48,8 +48,7 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
         let administerCell : DCAdministerCell = (administerInProgressTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
         administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         administerCell.titleLabel.text = STATUS
-        medicationSlot?.medicationAdministration.status = IN_PROGRESS
-        administerCell.detailLabel?.text = IN_PROGRESS
+        administerCell.detailLabel?.text = medicationSlot?.medicationAdministration.status
         return administerCell
     }
 
@@ -92,7 +91,7 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
         case SectionCount.eZerothSection.rawValue:
             return UITableViewAutomaticDimension
         case SectionCount.eFirstSection.rawValue:
-                return 44
+                return 0
         case SectionCount.eSecondSection.rawValue:
             return 44
         default:
@@ -108,7 +107,7 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
             self.navigationController?.pushViewController(DCAdministrationHelper.addBNFView(), animated: true)
             break
         case SectionCount.eSecondSection.rawValue:
-            let statusViewController : DCAdministrationStatusTableViewController = DCAdministrationHelper.administratedStatusPopOverAtIndexPathWithStatus(indexPath, status:ADMINISTERED)
+            let statusViewController : DCAdministrationStatusTableViewController = DCAdministrationHelper.administratedStatusPopOverAtIndexPathWithStatus(indexPath, status:IN_PROGRESS)
             statusViewController.previousSelectedValue = self.medicationSlot?.medicationAdministration?.status
             statusViewController.medicationStatusDelegate = self
             self.navigationController!.pushViewController(statusViewController, animated: true)
@@ -123,6 +122,7 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
         
         let parentView : DCAdministrationStatusSelectionViewController = self.parentViewController as! DCAdministrationStatusSelectionViewController
         medicationSlot?.medicationAdministration.status = status
+        self.administerInProgressTableView.reloadData()
         parentView.updateViewWithChangeInStatus(status)
     }
     
