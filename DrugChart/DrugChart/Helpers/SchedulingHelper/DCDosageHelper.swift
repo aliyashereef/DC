@@ -52,4 +52,11 @@ class DCDosageHelper: NSObject {
         }
         return displayString
     }
+    
+    static func validateRequireDailyDoseValue (value: String) -> Bool {
+        
+        let scanner: NSScanner = NSScanner(string:value)
+        let isNumeric = scanner.scanDecimal(nil) && scanner.atEnd
+        return isNumeric && (NSString(string: value).floatValue < 10000)
+    }
 }

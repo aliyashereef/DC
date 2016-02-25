@@ -231,6 +231,7 @@
 #define PICKER_CELL @"pickerCell"
 #define SINGLE_DOSE_CELL_ID  @"SingleDoseCellId"
 #define SINGLE_DOSE_PICKER_CELL_ID @"SingleDosePickerCellId"
+#define SINGLE_DOSE_ENTRY_CELL_ID @"SingleDoseEntryCellId"
 
 // Week days
 
