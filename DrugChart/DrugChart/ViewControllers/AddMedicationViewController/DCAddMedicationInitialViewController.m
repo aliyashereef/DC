@@ -562,7 +562,6 @@
     if (instructionsCell == nil) {
         instructionsCell = [[DCInstructionsTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
-    [instructionsCell populatePlaceholderForFieldIsInstruction:YES];
     if (self.selectedMedication.instruction) {
         instructionsCell.instructionsTextView.text = self.selectedMedication.instruction;
     } else {
@@ -1322,7 +1321,9 @@
     //add medication button action
     doneClicked = YES;
     [medicationDetailsTableView reloadData];
-    [self configureInstructionForMedication];
+    if ([self.selectedMedication.instruction isEqualToString:INSTRUCTIONS]) {
+        self.selectedMedication.instruction = EMPTY_STRING;
+    }
     if ([DCAddMedicationHelper selectedMedicationDetailsAreValid:self.selectedMedication]) {
         if ([DCAPPDELEGATE isNetworkReachable]) {
             if (self.isEditMedication) {
@@ -1495,20 +1496,9 @@
     [self collapseOpenedPickerCell];
 }
 
-- (void)updateTextViewText:(NSString *)instructions isInstruction:(BOOL)isInstruction {
+- (void)updateInstructionsText:(NSString *)instructions {
     
-    if (isInstruction) {
-        self.selectedMedication.instruction = instructions;
-    }
-}
-
-- (void)configureInstructionForMedication {
-
-    NSIndexPath *instructionIndexPath = [self indexPathForLastRow];
-    DCInstructionsTableCell *instructionsCell = (DCInstructionsTableCell *)[medicationDetailsTableView cellForRowAtIndexPath:instructionIndexPath];
-    if (![instructionsCell.instructionsTextView.text isEqualToString:INSTRUCTIONS]) {
-        self.selectedMedication.instruction = instructionsCell.instructionsTextView.text;
-    }
+    self.selectedMedication.instruction = instructions;
 }
 
 #pragma mark - RoutesAndInfusions Delegate Methods
