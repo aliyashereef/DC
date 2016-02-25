@@ -382,12 +382,12 @@ typealias SelectedDosage = DCDosage? -> Void
                 dosageTableView.beginUpdates()
                 if (sectionCount == 2) {
                     if (selectedTimeArrayItems.count == 0) {
-                        range = NSMakeRange(2, 2)
+                        range = NSMakeRange(1, 3)
                     } else {
-                        range = NSMakeRange(2, 3)
+                        range = NSMakeRange(1, 4)
                     }
                     dosageTableView.deleteSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
-                    dosageTableView.insertSections(NSIndexSet(indexesInRange: NSMakeRange(1, 3)), withRowAnimation: .Fade)
+                    dosageTableView.insertSections(NSIndexSet(indexesInRange: range), withRowAnimation: .Fade)
                 } else {
                     if (selectedTimeArrayItems.count == 0) {
                         range = NSMakeRange(1, 3)
