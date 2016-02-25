@@ -267,16 +267,22 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             return cell*/
         case ObservationType.AdditionalOxygen:
             let cell = tableView.dequeueReusableCellWithIdentifier(toggleCellIdentifier, forIndexPath: indexPath) as! ToggleCell
+            cells[rowNumber] = cell
+            cell.tag = ObservationType.AdditionalOxygen.rawValue
+            cell.delegate = self
             cell.configureCell("Any Supplemental Oxygen")
             return cell
         case ObservationType.AVPU:
             let cell = tableView.dequeueReusableCellWithIdentifier(segmentedCellIdentifier, forIndexPath: indexPath) as! SwitchCell
+            cell.tag = ObservationType.AVPU.rawValue
+            cell.delegate = self
             cell.configureCell("Level of Consciousness", values: ["A" , "V,P or U"])
 
             let infoButton = UIButton(type: .InfoLight)
             infoButton.addTarget(self, action: "showhelp", forControlEvents: .TouchUpInside )
             infoButton.tintColor = UIColor.darkGrayColor()
             cell.accessoryView = infoButton
+            cells[rowNumber] = cell
             return cell
         }
         
@@ -501,6 +507,160 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             {
                 bloodPressureCell.getFocus()
             }
+        }
+    }
+    
+    func cellValueChanged(rowNumber: Int) {
+        
+        if(self.uitag != DataEntryObservationSource.NewsIPad && self.uitag != DataEntryObservationSource.NewsIPhone) // only do it for the news score
+        {
+            return
+        }
+        
+        let cellNumber = rowNumber
+        let observationType = ObservationType(rawValue: cellNumber)
+        switch(observationType!)
+        {
+        case ObservationType.Respiratory:
+            let doubleCell = cells[cellNumber] as? DoubleCell
+            let value =  doubleCell?.getValue()
+            if(doubleCell?.isValueEntered() == false)
+            {
+                doubleCell?.backgroundColor = Constant.NO_COLOR
+                
+            }
+            else if(value <= 8 || value >= 25)
+            {
+                doubleCell?.backgroundColor = Constant.RED_COLOR
+            }
+            else if(value >= 9 && value <= 11)
+            {
+                doubleCell?.backgroundColor = Constant.GREEN_COLOR
+            }
+            else if(value >= 21 && value <= 24 )
+            {
+                doubleCell?.backgroundColor = Constant.AMBER_COLOR
+            }
+            else
+            {
+                doubleCell?.backgroundColor = Constant.NO_COLOR
+            }
+        case ObservationType.SpO2:
+            let doubleCell = cells[cellNumber] as? DoubleCell
+            let value =  doubleCell?.getValue()
+            if(doubleCell?.isValueEntered() == false)
+            {
+                doubleCell?.backgroundColor = Constant.NO_COLOR
+                
+            }
+            else if(value <= 91)
+            {
+                doubleCell?.backgroundColor = Constant.RED_COLOR
+            }
+            else if(value >= 92 && value <= 93)
+            {
+                doubleCell?.backgroundColor = Constant.AMBER_COLOR
+            }
+            else if (value >= 94 && value <= 95)
+            {
+                doubleCell?.backgroundColor = Constant.GREEN_COLOR
+            }
+            else
+            {
+                doubleCell?.backgroundColor = Constant.NO_COLOR
+            }
+        case ObservationType.Temperature:
+            let doubleCell = cells[cellNumber] as? DoubleCell
+            let value =  doubleCell?.getValue()
+            if(doubleCell?.isValueEntered() == false)
+            {
+                doubleCell?.backgroundColor = Constant.NO_COLOR
+                
+            }
+            else if(value <= 35)
+            {
+                doubleCell?.backgroundColor = Constant.RED_COLOR
+            }
+            else if(value >= 39.1)
+            {
+                doubleCell?.backgroundColor = Constant.AMBER_COLOR
+            }
+            else if ((value >= 35.1 && value <= 36 ) || (value >= 38.1 && value <= 39))
+            {
+                doubleCell?.backgroundColor = Constant.GREEN_COLOR
+            }
+            else
+            {
+                doubleCell?.backgroundColor = Constant.NO_COLOR
+            }
+        case ObservationType.BloodPressure:
+            let bloodPressureCell = cells[cellNumber] as? BloodPressureCell
+            let value =  bloodPressureCell?.getSystolicValue()
+            if(bloodPressureCell?.isValueEntered() == false)
+            {
+                bloodPressureCell?.backgroundColor = Constant.NO_COLOR
+            }
+            else if(value <= 90 || value >= 220)
+            {
+                bloodPressureCell?.backgroundColor = Constant.RED_COLOR
+            }
+            else if(value >= 91 && value <= 100)
+            {
+                bloodPressureCell?.backgroundColor = Constant.AMBER_COLOR
+            }
+            else if (value >= 101 && value <= 110)
+            {
+                bloodPressureCell?.backgroundColor = Constant.GREEN_COLOR
+            }
+            else
+            {
+                bloodPressureCell?.backgroundColor = Constant.NO_COLOR
+            }
+        case ObservationType.Pulse:
+            let doubleCell = cells[cellNumber] as? DoubleCell
+            let value =  doubleCell?.getValue()
+            if(doubleCell?.isValueEntered() == false)
+            {
+                doubleCell?.backgroundColor = Constant.NO_COLOR
+            }
+            else if(value <= 40 || value >= 131)
+            {
+                doubleCell?.backgroundColor = Constant.RED_COLOR
+            }
+            else if(value >= 111 && value <= 130)
+            {
+                doubleCell?.backgroundColor = Constant.AMBER_COLOR
+            }
+            else if ((value >= 41 && value <= 50) || (value >= 91 && value <= 110))
+            {
+                doubleCell?.backgroundColor = Constant.GREEN_COLOR
+            }
+            else
+            {
+                doubleCell?.backgroundColor = Constant.NO_COLOR
+            }
+        case ObservationType.AdditionalOxygen:
+            let toggleCell = cells[cellNumber] as? ToggleCell
+            if(toggleCell?.toggleValue.on == true)
+            {
+                toggleCell?.backgroundColor = Constant.AMBER_COLOR
+            }
+            else
+            {
+                toggleCell?.backgroundColor = Constant.NO_COLOR
+            }
+        case ObservationType.AVPU:
+            let switchCell = cells[cellNumber] as? SwitchCell
+            if(switchCell?.segmentedValue.selectedSegmentIndex == 1)// user has selected V,P or U
+            {
+                switchCell?.backgroundColor = Constant.RED_COLOR
+            }
+            else
+            {
+                switchCell?.backgroundColor = Constant.NO_COLOR
+            }
+        default:
+            print("printing default value")
         }
     }
     

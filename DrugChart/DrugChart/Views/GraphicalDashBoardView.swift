@@ -324,7 +324,6 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
             let graphData = getGraphData(singleBarGraphController.observationType, cellTitle: getGraphTitle(singleBarGraphController.observationType)) as! BarGraphModel
                 singleBarGraphController.graphData = graphData
         }
-        
         delegate?.PushViewController(navigationController)
     }
 

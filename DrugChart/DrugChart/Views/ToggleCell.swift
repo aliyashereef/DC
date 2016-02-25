@@ -12,9 +12,17 @@ class ToggleCell: UITableViewCell {
 
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var toggleValue: UISwitch!
+    var delegate:CellDelegate?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        toggleValue.addTarget(self, action: "valueChanged", forControlEvents: .ValueChanged )
+    }
+    
+    func valueChanged()
+    {
+        delegate?.cellValueChanged(tag)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

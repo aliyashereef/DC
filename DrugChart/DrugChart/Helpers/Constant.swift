@@ -26,5 +26,8 @@ class Constant
     static let CELL_BORDER_COLOR :CGColor = UIColor.lightGrayColor().CGColor
     static let SELECTION_CELL_BACKGROUND_COLOR:UIColor = UIColor(forHexString: "#fafafa")
     static let VITAL_SIGN_LOGGER_INDICATOR = "[Vital Sign]"
-    
+    static let GREEN_COLOR = UIColor(forHexString: "#CEE5C8")
+    static let AMBER_COLOR = UIColor(forHexString: "#F5BB86")
+    static let RED_COLOR = UIColor(forHexString: "#EE836D")
+    static let NO_COLOR = UIColor.whiteColor()
 }
