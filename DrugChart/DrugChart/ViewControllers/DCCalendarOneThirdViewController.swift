@@ -53,10 +53,15 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     override func viewWillAppear(animated: Bool) {
         
         super.viewWillAppear(animated)
+        if (displayMedicationListArray.count == 0) {
+            let parentViewController = self.parentViewController as? DCPrescriberMedicationViewController
+            parentViewController?.fetchMedicationListForPatientWithCompletionHandler({ (Bool) -> Void in
+            })
+        }
         let indexPath : NSIndexPath = NSIndexPath.init(forItem: 5, inSection: 0)
         calendarStripCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: false)
         scrolledProgramatically = true
-}
+    }
 
     override func viewWillDisappear(animated: Bool) {
         
