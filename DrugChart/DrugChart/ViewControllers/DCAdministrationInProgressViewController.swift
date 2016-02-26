@@ -76,7 +76,8 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
             return self.medicationDetailsCellAtIndexPath(indexPath)
         case 1:
             // cell for graph
-            return self.medicationDetailsCellAtIndexPath(indexPath)
+            let cell = administerInProgressTableView.dequeueReusableCellWithIdentifier("progressViewDisplayCell") as? DCAdministerProgressViewGraphCell
+            return cell!
 
         case 2:
             return self.administrationStatusTableCellAtIndexPath(indexPath)
@@ -91,7 +92,7 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
         case SectionCount.eZerothSection.rawValue:
             return UITableViewAutomaticDimension
         case SectionCount.eFirstSection.rawValue:
-                return 0
+                return 70
         case SectionCount.eSecondSection.rawValue:
             return 44
         default:

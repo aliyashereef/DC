@@ -1868,7 +1868,7 @@
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="AdministerCell" id="QIP-Ee-AML" customClass="DCAdministerCell" customModule="DrugChart" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="49.5" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="50" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QIP-Ee-AML" id="fL9-UY-RxQ">
                                             <rect key="frame" x="0.0" y="0.0" width="567" height="43"/>
@@ -1909,7 +1909,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="DurationBasedInfusionCell" rowHeight="103" id="JBz-Td-rHq" customClass="DCDurationBasedMedicationDetailsCell" customModule="DrugChart" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="93.5" width="600" height="103"/>
+                                        <rect key="frame" x="0.0" y="94" width="600" height="103"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JBz-Td-rHq" id="5sb-fF-eau">
                                             <rect key="frame" x="0.0" y="0.0" width="567" height="102"/>
@@ -1963,8 +1963,8 @@
                                             <outlet property="medicineNameLabel" destination="7vL-TN-6xe" id="ePn-hS-9Y0"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="graphDisplayCell" rowHeight="140" id="17R-iZ-yMc" customClass="DCAdministerGraphViewCell" customModule="DrugChart" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="175" width="600" height="140"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="progressViewDisplayCell" rowHeight="140" id="17R-iZ-yMc" customClass="DCAdministerProgressViewGraphCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="197" width="600" height="140"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="17R-iZ-yMc" id="kqC-U2-k04">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="139"/>
@@ -1988,7 +1988,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="chartView" destination="BOU-Uk-9TM" id="uLZ-qw-a6N"/>
+                                            <outlet property="chartView" destination="BOU-Uk-9TM" id="PgN-Da-IRQ"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
