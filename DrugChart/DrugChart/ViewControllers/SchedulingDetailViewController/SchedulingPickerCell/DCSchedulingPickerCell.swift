@@ -8,9 +8,9 @@
 
 import UIKit
 
-let DAYS_IN_WEEK_COUNT : NSInteger = 7
-let WEEKS_IN_MONTH_COUNT : NSInteger = 5
-let MONTHS_IN_YEAR_COUNT : NSInteger = 12
+let DAYS_IN_WEEK_COUNT : NSInteger = 4
+let WEEKS_IN_MONTH_COUNT : NSInteger = 4
+let MONTHS_IN_YEAR_COUNT : NSInteger = 11
 let DAYS_IN_MONTH_COUNT : NSInteger = 31
 let MAX_YEAR : NSInteger = 5
 let HOURS_IN_DAY_COUNT : NSInteger = 24
