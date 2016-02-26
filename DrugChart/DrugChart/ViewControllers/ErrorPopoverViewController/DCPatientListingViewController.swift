@@ -118,7 +118,7 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
         if searchBar.isFirstResponder() {
             searchBar.resignFirstResponder()
         }
-        patientListTableView.contentOffset = CGPoint(x: 0, y: 60)
+        patientListTableView.contentOffset = CGPoint(x: 0, y: 44)
     }
     
     func addSearchBar () {
