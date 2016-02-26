@@ -13,7 +13,6 @@ class DCAdministrationSuccessViewController: UIViewController ,NotesCellDelegate
     //MARK: Variables
     
     @IBOutlet weak var administerSuccessTableView: UITableView!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     var medicationSlot : DCMedicationSlot?
     var weekDate : NSDate?
     var medicationDetails : DCMedicationScheduleDetails?
@@ -25,18 +24,18 @@ class DCAdministrationSuccessViewController: UIViewController ,NotesCellDelegate
 
     //MARK: View Management Methods
     override func viewDidLoad() {
+        
         super.viewDidLoad()
-        let selfAdministratedPatientName = SELF_ADMINISTERED_TITLE
-        let selfAdministratedPatientIdentifier = EMPTY_STRING
-        let selfAdministratedUser : DCUser? = DCUser.init()
-        selfAdministratedUser!.displayName = selfAdministratedPatientName
-        selfAdministratedUser!.userIdentifier = selfAdministratedPatientIdentifier
-        medicationSlot?.medicationAdministration?.administratingUser = selfAdministratedUser
-        self.medicationSlot?.medicationAdministration?.isSelfAdministered = true
         self.userListArray = DCAdministrationHelper.fetchAdministersAndPrescribersList()
+        self.configureAdministratingUserForMedicationSlot()
+        medicationSlot?.medicationAdministration?.actualAdministrationTime = DCDateUtility.dateInCurrentTimeZone(NSDate())
         configureViewElements()
     }
     
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.collapseOpenedPickerCell()
+    }
     // MARK: Private Methods
     //MARK:
     
@@ -51,22 +50,6 @@ class DCAdministrationSuccessViewController: UIViewController ,NotesCellDelegate
         configureTableViewProperties()
     }
     
-    func configureNavigationBar() {
-        //Navigation bar title string
-        let dateString : String
-        if let date = medicationSlot?.time {
-            dateString = DCDateUtility.dateStringFromDate(date, inFormat: DATE_MONTHNAME_YEAR_FORMAT)
-        } else {
-            dateString = DCDateUtility.dateStringFromDate(weekDate, inFormat: DATE_MONTHNAME_YEAR_FORMAT)
-        }
-        let slotDate = DCDateUtility.dateStringFromDate(medicationSlot!.time, inFormat: TWENTYFOUR_HOUR_FORMAT)
-        self.title = "\(dateString), \(slotDate)"
-        // Navigation bar done button
-        saveButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: "doneButtonPressed")
-        cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: "cancelButtonPressed")
-        self.navigationItem.leftBarButtonItem = cancelButton
-        self.navigationItem.rightBarButtonItem = saveButton
-    }
     //MARK: Configuring Table View Cells
     
     //Medication Details Cell
@@ -84,6 +67,7 @@ class DCAdministrationSuccessViewController: UIViewController ,NotesCellDelegate
         
         let administerCell : DCAdministerCell = (administerSuccessTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
         administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+        administerCell.detailLabelTrailingSpace.constant = 0.0
         administerCell.titleLabel.text = STATUS
         medicationSlot!.medicationAdministration.status = medicationSlot!.status
         administerCell.detailLabel.text = medicationSlot!.status
@@ -95,6 +79,7 @@ class DCAdministrationSuccessViewController: UIViewController ,NotesCellDelegate
         
         let administerCell : DCAdministerCell = (administerSuccessTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
         administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+        administerCell.detailLabelTrailingSpace.constant = 0.0
         administerCell.titleLabel.text = "Checked By"
         administerCell.detailLabel?.text = medicationSlot?.medicationAdministration.checkingUser.displayName
         return administerCell
@@ -106,6 +91,7 @@ class DCAdministrationSuccessViewController: UIViewController ,NotesCellDelegate
         let administerCell : DCAdministerCell = (administerSuccessTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
         administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         administerCell.titleLabel.text = REASON
+        administerCell.detailLabelTrailingSpace.constant = 0.0
         administerCell.detailLabel?.text = medicationSlot?.medicationAdministration.statusReason
         return administerCell
     }
@@ -132,10 +118,9 @@ class DCAdministrationSuccessViewController: UIViewController ,NotesCellDelegate
     }
     
     // Notes Cell
-    func notesTableCellAtIndexPath(indexPath : NSIndexPath) -> (DCNotesTableCell) {
+    func notesTableCell() -> (DCNotesTableCell) {
         
         let notesCell : DCNotesTableCell = (administerSuccessTableView.dequeueReusableCellWithIdentifier(NOTES_CELL_ID) as? DCNotesTableCell)!
-        notesCell.selectedIndexPath = indexPath
         notesCell.notesType = eNotes
         notesCell.delegate = self
         return notesCell
@@ -162,8 +147,10 @@ class DCAdministrationSuccessViewController: UIViewController ,NotesCellDelegate
         pickerCell.selectedDate = { date in
             if indexPath.row == 4 {
                 self.medicationSlot!.medicationAdministration.actualAdministrationTime = date
+                self.administerSuccessTableView .reloadRowsAtIndexPaths([NSIndexPath(forRow: 3, inSection: 1)], withRowAnimation:UITableViewRowAnimation.None)
             } else {
                 self.medicationSlot!.medicationAdministration.expiryDateTime = date
+                self.administerSuccessTableView .reloadRowsAtIndexPaths([NSIndexPath(forRow: 6, inSection: 1)], withRowAnimation:UITableViewRowAnimation.None)
             }
         }
     return pickerCell;
@@ -213,6 +200,7 @@ class DCAdministrationSuccessViewController: UIViewController ,NotesCellDelegate
     func displayInlineDatePickerForRowAtIndexPath(indexPath : NSIndexPath) {
         
         // display the date picker inline with the table content
+        administerSuccessTableView.resignFirstResponder()
         administerSuccessTableView.beginUpdates()
         var before : Bool = false
         if (hasInlineDatePicker()) {
@@ -234,6 +222,14 @@ class DCAdministrationSuccessViewController: UIViewController ,NotesCellDelegate
         // always deselect the row containing the start or end date
         administerSuccessTableView.deselectRowAtIndexPath(indexPath, animated: true)
         administerSuccessTableView.endUpdates()
+    }
+    
+    func collapseOpenedPickerCell() {
+        //close inline pickers if any present in table cell
+        if ((datePickerIndexPath) != nil) {
+            let previousIndexPath = NSIndexPath(forRow: datePickerIndexPath!.row - 1, inSection: datePickerIndexPath!.section)
+            self.displayInlineDatePickerForRowAtIndexPath(previousIndexPath)
+        }
     }
     
     //MARK: TableView Delegate Methods
@@ -287,12 +283,14 @@ class DCAdministrationSuccessViewController: UIViewController ,NotesCellDelegate
             return self.medicationAdministrationDetailsInSecondSectionAtIndexPath(indexPath)
         default:
             //Notes cell
-            return self.notesTableCellAtIndexPath(indexPath)
+            let notesCell : DCNotesTableCell = self.notesTableCell()
+            notesCell.selectedIndexPath = indexPath
+            return notesCell
         }
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-
+        self.resignKeyboard()
         administerSuccessTableView.resignFirstResponder()
         switch indexPath.section {
         case SectionCount.eZerothSection.rawValue:
@@ -305,10 +303,25 @@ class DCAdministrationSuccessViewController: UIViewController ,NotesCellDelegate
             break
         }
         administerSuccessTableView.reloadData()
+        administerSuccessTableView.deselectRowAtIndexPath(indexPath, animated: false)
     }
     
     //MARK: Private Methods
+    
+    func configureAdministratingUserForMedicationSlot () {
+        
+        // To set the API with the administrating user value which is mandatory in the api parameter list
+        let selfAdministratedPatientName = SELF_ADMINISTERED_TITLE
+        let selfAdministratedPatientIdentifier = EMPTY_STRING
+        let selfAdministratedUser : DCUser? = DCUser.init()
+        selfAdministratedUser!.displayName = selfAdministratedPatientName
+        selfAdministratedUser!.userIdentifier = selfAdministratedPatientIdentifier
+        medicationSlot?.medicationAdministration?.administratingUser = selfAdministratedUser
+        self.medicationSlot?.medicationAdministration?.isSelfAdministered = true
+    }
+    
     func cellSelectionForIndexPath (indexPath : NSIndexPath) {
+        
         let administerDatePickerIndexPath : NSIndexPath = NSIndexPath(forRow: 4, inSection: 0)
         switch (indexPath.row) {
         case 0:
@@ -318,7 +331,7 @@ class DCAdministrationSuccessViewController: UIViewController ,NotesCellDelegate
             self.navigationController!.pushViewController(statusViewController, animated: true)
             break
         case 1:
-            let reasonViewController : DCAdministrationReasonViewController = DCAdministrationHelper.administratedReasonPopOverAtIndexPathWithStatus(NOT_ADMINISTRATED)
+            let reasonViewController : DCAdministrationReasonViewController = DCAdministrationHelper.administratedReasonPopOverAtIndexPathWithStatus(ADMINISTERED)
             reasonViewController.delegate = self
             self.navigationController!.pushViewController(reasonViewController, animated: true)
         case 3:
@@ -326,12 +339,12 @@ class DCAdministrationSuccessViewController: UIViewController ,NotesCellDelegate
             break
         case 4:
             if (!indexPathHasPicker(administerDatePickerIndexPath)) {
-                displayPrescribersAndAdministersViewAtIndexPath(indexPath)
+                displayPrescribersAndAdministersView()
             }
             break
         case 5:
             if (indexPathHasPicker(administerDatePickerIndexPath)) {
-                displayPrescribersAndAdministersViewAtIndexPath(indexPath)
+                displayPrescribersAndAdministersView()
             }
             
         case 6:
@@ -350,49 +363,50 @@ class DCAdministrationSuccessViewController: UIViewController ,NotesCellDelegate
     }
     
     func medicationAdministrationDetailsInSecondSectionAtIndexPath (indexPath : NSIndexPath) -> UITableViewCell {
-    let administerDatePickerIndexPath : NSIndexPath = NSIndexPath(forRow: 4, inSection: 0)
-    switch indexPath.row {
-    case 0:
-        //status cell
-        return self.administrationStatusTableCellAtIndexPath(indexPath)
-    case 1:
-        //reason cell
-        return self.administrationReasonTableCellAtIndexPath(indexPath)
-    case 2:
-        //Dose cell
-        return self.batchNumberOrExpiryDateTableCellAtIndexPathWithLabel(indexPath,label: "Dose")
-    case 3:
-        //date and time cell
-        return self.administrationDateAndTimeTableCellAtIndexPath(indexPath,label: "Date & Time")
-    case 4:
-        if (indexPathHasPicker(administerDatePickerIndexPath)) {
+        let administerDatePickerIndexPath : NSIndexPath = NSIndexPath(forRow: 4, inSection: 0)
+        switch indexPath.row {
+        case 0:
+            //status cell
+            return self.administrationStatusTableCellAtIndexPath(indexPath)
+        case 1:
+            //reason cell
+            return self.administrationReasonTableCellAtIndexPath(indexPath)
+        case 2:
+            //Dose cell
+            return self.batchNumberOrExpiryDateTableCellAtIndexPathWithLabel(indexPath,label: "Dose")
+        case 3:
+            //date and time cell
+            return self.administrationDateAndTimeTableCellAtIndexPath(indexPath,label: "Date & Time")
+        case 4:
+            if (indexPathHasPicker(administerDatePickerIndexPath)) {
+                return datePickerTableCellAtIndexPath(indexPath)
+            } else {
+                return self.administrationCheckedByTableCellAtIndexPath(indexPath)
+            }
+        case 5:
+            if (indexPathHasPicker(administerDatePickerIndexPath)) {
+                return self.administrationCheckedByTableCellAtIndexPath(indexPath)
+            } else {
+                return self.batchNumberOrExpiryDateTableCellAtIndexPathWithLabel(indexPath,label: "Batch Number")
+            }
+        case 6:
+            if (indexPathHasPicker(administerDatePickerIndexPath)) {
+                return self.batchNumberOrExpiryDateTableCellAtIndexPathWithLabel(indexPath,label: "Batch Number")
+            } else {
+                return self.administrationDateAndTimeTableCellAtIndexPath(indexPath,label: "Expiry Date")
+            }
+        case 7:
+            if (indexPathHasPicker(administerDatePickerIndexPath)) {
+                return self.administrationDateAndTimeTableCellAtIndexPath(indexPath,label: "Expiry Date")
+            } else {
+                return datePickerTableCellAtIndexPath(indexPath)
+            }
+        default:
             return datePickerTableCellAtIndexPath(indexPath)
-        } else {
-            return self.administrationCheckedByTableCellAtIndexPath(indexPath)
         }
-    case 5:
-        if (indexPathHasPicker(administerDatePickerIndexPath)) {
-            return self.administrationCheckedByTableCellAtIndexPath(indexPath)
-        } else {
-            return self.batchNumberOrExpiryDateTableCellAtIndexPathWithLabel(indexPath,label: "Batch Number")
-        }
-    case 6:
-        if (indexPathHasPicker(administerDatePickerIndexPath)) {
-            return self.batchNumberOrExpiryDateTableCellAtIndexPathWithLabel(indexPath,label: "Batch Number")
-        } else {
-            return self.administrationDateAndTimeTableCellAtIndexPath(indexPath,label: "Expiry Date")
-        }
-    case 7:
-        if (indexPathHasPicker(administerDatePickerIndexPath)) {
-            return self.administrationDateAndTimeTableCellAtIndexPath(indexPath,label: "Expiry Date")
-        } else {
-            return datePickerTableCellAtIndexPath(indexPath)
-        }
-    default:
-    return datePickerTableCellAtIndexPath(indexPath)
     }
-    }
-    func displayPrescribersAndAdministersViewAtIndexPath (indexPath : NSIndexPath) {
+    
+    func displayPrescribersAndAdministersView () {
         
         let namesViewController : DCNameSelectionTableViewController? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(NAMES_LIST_VIEW_STORYBOARD_ID) as? DCNameSelectionTableViewController
         namesViewController?.namesDelegate = self
@@ -404,8 +418,34 @@ class DCAdministrationSuccessViewController: UIViewController ,NotesCellDelegate
         self.navigationController!.pushViewController(namesViewController!,animated: true)
     }
     
+    func displaySecurityPinEntryViewForUser(user : DCUser ) {
+        
+        let securityPinViewController : DCAdministratedByPinVerificationViewController? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(SECURITY_PIN_VIEW_CONTROLLER) as? DCAdministratedByPinVerificationViewController
+        securityPinViewController?.delegate = self
+        securityPinViewController?.user = user
+        securityPinViewController?.transitioningDelegate = securityPinViewController
+        securityPinViewController?.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
+        securityPinViewController!.view.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(SECURITY_PIN_VIEW_ALPHA)
+        securityPinViewController!.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
+        self.presentViewController(securityPinViewController!, animated: true, completion: nil)
+    }
+    
+    func resignKeyboard() {
+    //resign keyboard
+    let notesCell : DCNotesTableCell = self.notesTableCell()
+    if (notesCell.notesTextView.isFirstResponder()) {
+    notesCell.notesTextView.resignFirstResponder()
+    }
+    let expiryCell : DCBatchNumberCell = (administerSuccessTableView.dequeueReusableCellWithIdentifier(BATCH_NUMBER_CELL_ID) as? DCBatchNumberCell)!
+    if (expiryCell.batchNumberTextField.isFirstResponder()) {
+        expiryCell.batchNumberTextField.resignFirstResponder()
+    }
+    self.view.endEditing(true)
+    }
+    
     // MARK: BatchNumberCellDelegate Methods
     func batchNumberFieldSelectedAtIndexPath(indexPath: NSIndexPath) {
+        self.collapseOpenedPickerCell()
 
     }
     
@@ -415,7 +455,8 @@ class DCAdministrationSuccessViewController: UIViewController ,NotesCellDelegate
     
     // MARK: NotesCell Delegate Methods
     func notesSelected(editing : Bool, withIndexPath indexPath : NSIndexPath) {
-        
+        self.collapseOpenedPickerCell()
+
     }
     
     func enteredNote(note : String) {
@@ -439,17 +480,6 @@ class DCAdministrationSuccessViewController: UIViewController ,NotesCellDelegate
                 self.performSelector("displaySecurityPinEntryViewForUser:", withObject:selectedUser , afterDelay: 0.5)
             }
         administerSuccessTableView.reloadData()
-    }
-    
-    func displaySecurityPinEntryViewForUser(user : DCUser ) {
-        let securityPinViewController : DCAdministratedByPinVerificationViewController? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(SECURITY_PIN_VIEW_CONTROLLER) as? DCAdministratedByPinVerificationViewController
-        securityPinViewController?.delegate = self
-        securityPinViewController?.user = user
-        securityPinViewController?.transitioningDelegate = securityPinViewController
-        securityPinViewController?.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
-        securityPinViewController!.view.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(SECURITY_PIN_VIEW_ALPHA)
-        securityPinViewController!.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
-        self.presentViewController(securityPinViewController!, animated: true, completion: nil)
     }
     
     //MARK : Security pin Match Delegate

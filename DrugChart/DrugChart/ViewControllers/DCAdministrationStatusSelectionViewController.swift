@@ -138,7 +138,7 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
         let administerCell : DCAdministerCell = (administerStatusSelectionTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
         administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         administerCell.titleLabel.text = STATUS
-        administerCell.detailLabel.text = statusState
+        administerCell.detailLabel.text = EMPTY_STRING
         if statusState == IN_PROGRESS {
             updateViewWithChangeInStatus(statusState!)
         }
