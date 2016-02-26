@@ -300,7 +300,8 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         // now do the FHIR call
         activityIndicator = startActivityIndicator(self.view) // show the activity indicator
         let parser = VitalSignParser()
-        parser.getVitalSignsObservations("bedmanagement/wards", onSuccess: showData)
+        //parser.getVitalSignsObservations("bedmanagement/wards", onSuccess: showData)
+        parser.getVitalSignsObservations("patients/86EEFF16-5F1D-47DB-9155-19A8953647EE/carerecord/observations?CodeValues=254063019,271181000006113,253914014", onSuccess: showData)
     }
     @IBAction func show(sender: AnyObject) {
         let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate

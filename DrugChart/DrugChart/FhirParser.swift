@@ -23,15 +23,23 @@ class FhirParser
             parameters: nil,
             success: { (operation,responseObject) ->Void in
                 DDLogDebug("\(Constant.VITAL_SIGN_LOGGER_INDICATOR) Get JSON back:\(responseObject.description)")
-                let json = self.getFHIRJSON(responseObject.description)
-                onCompletion(json, nil)
+                do{
+                    let json = try NSJSONSerialization.JSONObjectWithData(responseObject as! NSData, options:NSJSONReadingOptions.MutableContainers) as? FHIRJSON
+                    onCompletion(json, nil)
+                }
+                catch
+                {
+                    DDLogError("\(Constant.VITAL_SIGN_LOGGER_INDICATOR) Get Error\(error)")
+                }
             },
             failure: { (operation , error) in
                 DDLogError("\(Constant.VITAL_SIGN_LOGGER_INDICATOR) Get Error:\(error.localizedDescription)")
                 onCompletion(nil,error)
         })
+        
     }
     
+    // This method converts string to FHIR JSON
     func getFHIRJSON(json:String) -> FHIRJSON?
     {
         do
