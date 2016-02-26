@@ -184,7 +184,6 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
             default :
                 break
         }
-        //self.schedulingCompletion(self.scheduling)
         self.detailTableView.reloadData()
     }
     
@@ -194,6 +193,7 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
         //dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
             if (pickerType == eDayCount) {
                 if (self.scheduling?.interval?.startTime != nil) {
+                    self.previewArray?.removeAllObjects()
                     self.previewArray?.addObject((self.scheduling?.interval?.startTime)!)
                     if let delegate = self.detailDelegate {
                         delegate.updatedIntervalPreviewArray(self.previewArray!)
