@@ -218,7 +218,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
             } else if cell?.administrationStatusLabel.text == PENDING {
                 
             } else {
-                if isMedicationDurationBasedInfusion() {
+                if isMedicationDurationBasedInfusion() && cell?.administrationStatusLabel.text == IS_GIVEN {
                     self.transitToAdminsisterGraphViewController(indexPath.row)
                 } else {
                     addMedicationHistoryViewAtIndex(indexPath.row)
@@ -252,14 +252,14 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         
         //add administer view controller
         let administerStoryboard : UIStoryboard? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil)
-        let administerViewController : DCAdministerViewController? = administerStoryboard!.instantiateViewControllerWithIdentifier(ADMINISTER_STORYBOARD_ID) as? DCAdministerViewController
-        administerViewController?.medicationSlot = slotToAdminister
-        administerViewController?.weekDate = weekDate
-        administerViewController?.patientId = patientId
-        administerViewController?.status = status
-        administerViewController?.helper = helper
+        let administerStatusViewController : DCAdministrationStatusSelectionViewController? = administerStoryboard!.instantiateViewControllerWithIdentifier(ADMINISTRATION_STATUS_CHANGE_VIEW_CONTROLLER) as? DCAdministrationStatusSelectionViewController
+        administerStatusViewController?.medicationSlot = slotToAdminister
+        administerStatusViewController?.weekDate = weekDate
+        administerStatusViewController?.patientId = patientId
+        administerStatusViewController?.statusState = status as String
+        administerStatusViewController?.helper = helper
         if (medicationSlotsArray.count > 0) {
-            administerViewController?.medicationSlot = slotToAdminister
+            administerStatusViewController?.medicationSlot = slotToAdminister
             var medicationArray : [DCMedicationSlot] = [DCMedicationSlot]()
             if let toAdministerArray : [DCMedicationSlot] = medicationSlotsArray {
                 var slotCount = 0
@@ -270,11 +270,11 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
                         }
                     }
                 }
-                administerViewController?.medicationSlotsArray = (medicationDetails?.medicineCategory == WHEN_REQUIRED) ? medicationSlotsArray : medicationArray
+                administerStatusViewController?.medicationSlotsArray = (medicationDetails?.medicineCategory == WHEN_REQUIRED) ? medicationSlotsArray : medicationArray
             }
-            administerViewController?.medicationDetails = medicationDetails
-            administerViewController?.alertMessage = errorMessage
-        let navigationController : UINavigationController = UINavigationController(rootViewController: administerViewController!)
+            administerStatusViewController?.medicationDetails = medicationDetails
+//            administerStatusViewController?.alertMessage = errorMessage
+        let navigationController : UINavigationController = UINavigationController(rootViewController: administerStatusViewController!)
         navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
         self.presentViewController(navigationController, animated: true, completion:nil)
     }

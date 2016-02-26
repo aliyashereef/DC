@@ -107,7 +107,6 @@ class DCAddNewDoseAndTimeViewController: UIViewController , UITableViewDataSourc
                 let newTime = DCDateUtility.dateInCurrentTimeZone(dosageCell.timePicker.date)
                 let newTimeString = DCDateUtility.timeStringInTwentyFourHourFormat(newTime)
                 self.newDosageEntered(newTimeString)
-                //delegate?.userDidSelectValue(DCDateUtility.timeStringInTwentyFourHourFormat(newTime))
                 self.navigationController!.dismissViewControllerAnimated(true, completion:nil)
             }
         }

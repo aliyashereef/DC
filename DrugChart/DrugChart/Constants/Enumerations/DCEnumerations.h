@@ -136,7 +136,6 @@ typedef enum : NSUInteger {
     
     eAddIntegerValue,
     eAddValueWithUnit,
-    eAddSingleDose
 }ValueType;
 
 typedef enum : NSUInteger {

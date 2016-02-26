@@ -518,7 +518,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     // MARK: Date Picker Methods
-    
     func hasPickerForIndexPath(indexPath : NSIndexPath) -> Bool {
         
         var hasDatePicker : Bool = false
@@ -531,7 +530,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func hasInlineDatePicker() -> Bool {
-        
         return(datePickerIndexPath != nil)
     }
     

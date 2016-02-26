@@ -140,22 +140,22 @@ class DCSchedulingHelper: NSObject {
     
     static func scheduleDescriptionForSpecificTimesRepeatValue(repeatValue : DCRepeat, administratingTimes times : NSArray) -> NSMutableString {
         
-        var descriptionText : NSMutableString = NSMutableString()
+        let descriptionText : NSMutableString = NSMutableString()
         let activeAdministratingTimes = self.alreadySelectedAdministratingTimesFromTimeArray(times)
         let timesCountString = self.specificTimesAdministratingTimesCountString(activeAdministratingTimes.count)
         switch repeatValue.repeatType {
             case DAILY :
+                descriptionText.appendFormat(NSLocalizedString("SCHEDULING_GENERAL_DESCRIPTION", comment: ""))
                 if (activeAdministratingTimes.count > 0) {
-                    descriptionText.appendFormat(NSLocalizedString("SCHEDULING_GENERAL_DESCRIPTION", comment: ""))
                     descriptionText.appendFormat(" %@ a day", timesCountString)
-                } else {
-                    descriptionText = NSMutableString(string: NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
                 }
                 if (activeAdministratingTimes.count > 0) {
                     descriptionText.appendFormat(" at %@", administratingTimesStringFromTimeArray(NSMutableArray(array: activeAdministratingTimes)))
                 }
                 if (repeatValue.frequency != SINGLE_DAY) {
                     descriptionText.appendFormat(" every %@", repeatValue.frequency)
+                } else {
+                    descriptionText.appendString(" every day")
                 }
             case WEEKLY :
                 descriptionText.appendFormat("%@", descriptionTextForWeeklySpecificTimesSchedulingForRepeatValue(repeatValue, selectedAdministratingTimes: activeAdministratingTimes, timesCountDisplayString: timesCountString))
@@ -181,19 +181,21 @@ class DCSchedulingHelper: NSObject {
         //description for weekly Specific Times
         let descriptionText : NSMutableString = NSMutableString()
         descriptionText.appendFormat(NSLocalizedString("SCHEDULING_GENERAL_DESCRIPTION", comment: ""))
-        var weekDays = repeatValue.weekDays as NSArray as? [String]
-        var weeksString : String = ""
-        if (weekDays?.count > 1) {
-            let lastElement = weekDays!.removeLast()
-            weeksString = weekDays!.joinWithSeparator(", ")
-            weeksString = weeksString + " and \(lastElement)"
-        } else {
-            weeksString = weekDays!.joinWithSeparator("")
-        }
         if (times.count > 0) {
             descriptionText.appendFormat(" %@ a day", timesString)
         }
-        descriptionText.appendFormat(" on %@", weeksString)
+        if (repeatValue.weekDays != nil) {
+             var weeksString : String = ""
+            var weekDays = repeatValue.weekDays as NSArray as? [String]
+            if (weekDays?.count > 1) {
+                let lastElement = weekDays!.removeLast()
+                weeksString = weekDays!.joinWithSeparator(", ")
+                weeksString = weeksString + " and \(lastElement)"
+            } else {
+                weeksString = weekDays!.joinWithSeparator("")
+            }
+            descriptionText.appendFormat(" on %@", weeksString)
+        }
         if (times.count > 0) {
             descriptionText.appendFormat(" at %@", administratingTimesStringFromTimeArray(NSMutableArray(array: times)))
         }
