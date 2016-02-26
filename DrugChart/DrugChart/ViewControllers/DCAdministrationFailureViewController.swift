@@ -170,6 +170,12 @@ class DCAdministrationFailureViewController: UIViewController ,NotesCellDelegate
         }
     }
     
+    func collapseOpenedPickerCell () {
+        if isDatePickerShown {
+            self.toggleDatePickerForSelectedIndexPath(NSIndexPath(forRow: 2, inSection: 1))
+        }
+    }
+    
     func cellSelectionForIndexPath (indexPath : NSIndexPath) {
         switch (indexPath.row) {
         case 0:
@@ -223,10 +229,11 @@ class DCAdministrationFailureViewController: UIViewController ,NotesCellDelegate
     // MARK: NotesCell Delegate Methods
     
     func notesSelected(editing : Bool, withIndexPath indexPath : NSIndexPath) {
-        
+        self.collapseOpenedPickerCell()
     }
     
     func enteredNote(note : String) {
+        medicationSlot?.medicationAdministration?.refusedNotes = note        
     }
     
     // mark:StatusList Delegate Methods

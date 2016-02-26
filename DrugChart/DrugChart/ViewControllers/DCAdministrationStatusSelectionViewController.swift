@@ -342,15 +342,17 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
         if medicationSlot?.medicationAdministration.status == NOT_ADMINISTRATED {
             self.medicationSlot = DCMedicationSlot.init()
             self.medicationSlot = administrationFailureViewController?.medicationSlot
-        } else {
+            self.callAdministerMedicationWebService()
+        } else if medicationSlot?.medicationAdministration.status == ADMINISTERED || medicationSlot?.medicationAdministration.status == STARTED {
             self.medicationSlot = DCMedicationSlot.init()
             self.medicationSlot = administrationSuccessViewController?.medicationSlot
+            self.callAdministerMedicationWebService()
         }
 //        self.saveClicked = true
 //        if(entriesAreValid()) {
 //            self.activityIndicator.startAnimating()
 //            self.isValid = true
-            self.callAdministerMedicationWebService()
+//            self.callAdministerMedicationWebService()
 //        } else {
 //            // show entries in red
 //            self.validateAndReloadAdministerView()

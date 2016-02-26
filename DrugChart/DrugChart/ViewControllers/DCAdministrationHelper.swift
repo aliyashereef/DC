@@ -126,11 +126,11 @@ class DCAdministrationHelper : NSObject {
     static func administrationNotesBasedOnMedicationStatus (medicationSlot : DCMedicationSlot) -> NSString{
         var noteString : NSString = EMPTY_STRING
         let status = medicationSlot.medicationAdministration.status
-        if (status == ADMINISTERED || status == SELF_ADMINISTERED || status == STARTED)  {
+        if (status == ADMINISTERED || status == SELF_ADMINISTERED || status == STARTED || status == IN_PROGRESS)  {
             if let administeredNotes = medicationSlot.medicationAdministration?.administeredNotes {
                 noteString = administeredNotes
             }
-        } else if status == REFUSED {
+        } else if status == REFUSED || status == NOT_ADMINISTRATED {
             if let refusedNotes = medicationSlot.medicationAdministration?.refusedNotes {
                 noteString =  refusedNotes
             }

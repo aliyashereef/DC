@@ -460,6 +460,7 @@ class DCAdministrationSuccessViewController: UIViewController ,NotesCellDelegate
     }
     
     func enteredNote(note : String) {
+        medicationSlot?.medicationAdministration?.administeredNotes = note
     }
     
     // mark:StatusList Delegate Methods
