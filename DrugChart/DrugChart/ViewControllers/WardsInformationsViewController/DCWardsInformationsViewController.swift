@@ -64,6 +64,7 @@ class DCWardsInformationsViewController: DCBaseViewController, WardSelectionDele
     
     func configureNavigationBar() {
         fillNavigationBarTitle()
+        self.navigationController?.navigationBar.backgroundColor = UIColor.whiteColor()
         let wardsButton : UIBarButtonItem = UIBarButtonItem(title:"Wards", style: UIBarButtonItemStyle.Plain, target: self, action: "presentWardsListView:")
         let graphicViewButton : UIBarButtonItem = UIBarButtonItem(image:  UIImage(named: "graphicDisplayImage"), style: UIBarButtonItemStyle.Plain, target: self, action: "showGraphicalWardsView")
         self.navigationItem.leftBarButtonItem = wardsButton
