@@ -138,7 +138,10 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
         let administerCell : DCAdministerCell = (administerStatusSelectionTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
         administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         administerCell.titleLabel.text = STATUS
-        administerCell.detailTextLabel?.text = statusState
+        administerCell.detailLabel.text = statusState
+        if statusState == IN_PROGRESS {
+            updateViewWithChangeInStatus(statusState!)
+        }
         return administerCell
     }
     //MARK: StatusList Delegate Methods
@@ -208,9 +211,9 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
         case NOT_ADMINISTRATED :
             addAdministrationFailureView ()
             break
-        case IN_PROGRESS :
-            addInProgressStatusView ()
         default :
+            addInProgressStatusView ()
+            self.administerStatusSelectionTableView.reloadData()
             break
         }
     }
@@ -297,7 +300,7 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
             
         }
         self.view.bringSubviewToFront(administerContainerView)
-        administerContainerView.bringSubviewToFront((administrationFailureViewController?.view)!)
+        administerContainerView.bringSubviewToFront((administrationInProgressViewController?.view)!)
         
 
         

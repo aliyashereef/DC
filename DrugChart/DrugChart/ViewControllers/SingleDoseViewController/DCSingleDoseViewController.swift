@@ -10,7 +10,7 @@ import UIKit
 
 typealias UpdatedSingleDose = DCSingleDose? -> Void
 
-class DCSingleDoseViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class DCSingleDoseViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SingleDoseEntryCellDelegate {
     
     @IBOutlet weak var doseTableView: UITableView!
     
@@ -50,40 +50,17 @@ class DCSingleDoseViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        if (indexPath.row == 2) {
-            let pickerCell = tableView.dequeueReusableCellWithIdentifier(SINGLE_DOSE_PICKER_CELL_ID) as? DCSingleDosePickerCell
-            if let singleDoseTime = singleDose?.dateAndTime {
-                let date = DCDateUtility.dateFromSourceString(singleDoseTime)
-                pickerCell?.datePickerView.date =  date
-            } 
-            pickerCell?.pickerCompletion = { time in
-                self.singleDose?.dateAndTime = time as? String
-                tableView.beginUpdates()
-                tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: indexPath.row - 1, inSection: indexPath.section)], withRowAnimation: .Fade)
-                tableView.endUpdates()
-            }
-            return pickerCell!
+        if (indexPath.row == 0) {
+            let singleDoseEntryCell = singleDoseEntryCellAtIndexPath(indexPath)
+            return singleDoseEntryCell
+        } else if (indexPath.row == 2) {
+            let pickerCell = datePickerCellAtindexPath(indexPath)
+            return pickerCell
         } else {
             let singleDoseCell = tableView.dequeueReusableCellWithIdentifier(SINGLE_DOSE_CELL_ID) as? DCSingleDoseTableCell
-            if indexPath.row == RowCount.eZerothRow.rawValue {
-                singleDoseCell?.titleLabel.text = NSLocalizedString("DOSE", comment: "")
-                let singleDoseValue = NSMutableString()
-                if let dose = singleDose?.doseValue {
-                    if dose != EMPTY_STRING {
-                        singleDoseValue.appendString(dose)
-                        if doseUnit == nil {
-                            singleDoseValue.appendString(" mg")
-                        } else {
-                            singleDoseValue.appendFormat(" %@", doseUnit!)
-                        }
-                    }
-                 }
-                singleDoseCell?.valueLabel.text = singleDoseValue as String
-            } else if indexPath.row == RowCount.eFirstRow.rawValue {
                 singleDoseCell?.titleLabel.text = NSLocalizedString("DATE", comment: "")
                 singleDoseCell?.valueLabel.text = singleDose?.dateAndTime
-            }
-            return singleDoseCell!
+                return singleDoseCell!
         }
     }
     
@@ -94,11 +71,7 @@ class DCSingleDoseViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        if (indexPath.row == RowCount.eZerothRow.rawValue) {
-            //display new dose view
-            collapseOpenedPickerCell()
-            displayAddNewDoseView()
-        } else if (indexPath.row == RowCount.eFirstRow.rawValue) {
+        if (indexPath.row == RowCount.eFirstRow.rawValue) {
             //display inline picker
             displayInlinePickerForRowAtIndexPath(indexPath)
             if (singleDose?.dateAndTime == nil) {
@@ -178,24 +151,43 @@ class DCSingleDoseViewController: UIViewController, UITableViewDelegate, UITable
         }
     }
     
-    func displayAddNewDoseView() {
+    func singleDoseEntryCellAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
         
-        let addMedicationStoryboard = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil)
-        let addNewValueViewController = addMedicationStoryboard.instantiateViewControllerWithIdentifier(ADD_NEW_VALUE_SBID) as? DCAddNewValueViewController
-        addNewValueViewController?.titleString = "Dose"
-        addNewValueViewController?.placeHolderString = "Dose"
-        addNewValueViewController?.backButtonTitle = SINGLE_DOSE
-        addNewValueViewController?.detailType = eAddSingleDose
-        if let doseValue = self.singleDose?.doseValue {
-            addNewValueViewController?.previousValue = doseValue
+        let singleDoseEntryCell = doseTableView.dequeueReusableCellWithIdentifier(SINGLE_DOSE_ENTRY_CELL_ID) as? DCSingleDoseEntryTableCell
+        singleDoseEntryCell?.singleDoseDelegate = self
+        if indexPath.row == RowCount.eZerothRow.rawValue {
+            let singleDoseValue = NSMutableString()
+            if let dose = singleDose?.doseValue {
+                if dose != EMPTY_STRING {
+                    singleDoseValue.appendString(dose)
+                }
+            }
+            singleDoseEntryCell?.singleDoseTextfield.text = singleDoseValue as String
         }
-        addNewValueViewController?.newValueEntered = { value in
-            self.singleDose?.doseValue = value!
+        return singleDoseEntryCell!
+    }
+    
+    func datePickerCellAtindexPath(indexPath : NSIndexPath) -> UITableViewCell {
+        
+        let pickerCell = doseTableView.dequeueReusableCellWithIdentifier(SINGLE_DOSE_PICKER_CELL_ID) as? DCSingleDosePickerCell
+        if let singleDoseTime = singleDose?.dateAndTime {
+            let date = DCDateUtility.dateFromSourceString(singleDoseTime)
+            pickerCell?.datePickerView.date =  date
+        }
+        pickerCell?.pickerCompletion = { time in
+            self.singleDose?.dateAndTime = time as? String
             self.doseTableView.beginUpdates()
-            self.doseTableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: 0, inSection: 0)], withRowAnimation:.Fade)
+            self.doseTableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: indexPath.row - 1, inSection: indexPath.section)], withRowAnimation: .Fade)
             self.doseTableView.endUpdates()
         }
-        self.navigationController?.pushViewController(addNewValueViewController!, animated: true)
+        return pickerCell!
+    }
+    
+    //MARK: Single Dose Delegate Methods
+    
+    func singleDoseValueChanged(dose : String?) {
+        
+        self.singleDose?.doseValue = dose
     }
 
 }

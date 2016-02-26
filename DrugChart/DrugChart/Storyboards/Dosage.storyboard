@@ -110,6 +110,34 @@
                                             <outlet property="datePickerView" destination="eFP-Ku-QGC" id="q5E-nw-2VS"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="newDosageCell" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationWidth="10" reuseIdentifier="SingleDoseEntryCellId" id="M1d-HE-rah" customClass="DCSingleDoseEntryTableCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="310" width="310" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="M1d-HE-rah" id="LdA-jm-dyQ">
+                                            <rect key="frame" x="0.0" y="0.0" width="310" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Dose" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nKe-kd-cqg" userLabel="Single Dosage Text Field">
+                                                    <rect key="frame" x="16" y="0.0" width="294" height="43"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
+                                                    <connections>
+                                                        <action selector="singleDoseTextfieldValueChanged:" destination="M1d-HE-rah" eventType="editingChanged" id="E2Y-QP-MXY"/>
+                                                    </connections>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="nKe-kd-cqg" firstAttribute="leading" secondItem="LdA-jm-dyQ" secondAttribute="leading" constant="16" id="DJe-oA-Cyx"/>
+                                                <constraint firstAttribute="trailing" secondItem="nKe-kd-cqg" secondAttribute="trailing" id="iB0-yL-cJ9"/>
+                                                <constraint firstItem="nKe-kd-cqg" firstAttribute="top" secondItem="LdA-jm-dyQ" secondAttribute="top" id="rZe-Vf-r4H"/>
+                                                <constraint firstAttribute="bottom" secondItem="nKe-kd-cqg" secondAttribute="bottom" id="zBc-tg-qcc"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="singleDoseTextfield" destination="nKe-kd-cqg" id="cWP-8H-Mau"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="o6S-QJ-kz3" id="uJW-O3-BaB"/>
