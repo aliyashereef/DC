@@ -16,7 +16,8 @@ class DCAdministerGraphViewCell: UITableViewCell,ChartViewDelegate {
     var endDate : NSDate = NSDate()
     var dataDictionary = [String: String]()
     var dataArray = [[String:String]]()
-    
+    let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
+
     @IBOutlet weak var chartView: CombinedChartView!
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -91,9 +92,14 @@ class DCAdministerGraphViewCell: UITableViewCell,ChartViewDelegate {
         
         // Configure the chartview to required size.
         self.chartView.extraTopOffset = 24
-        self.chartView.extraLeftOffset = 85
-        self.chartView.extraRightOffset = 85
         self.chartView.extraBottomOffset = 15
+        if appDelegate.windowState == DCWindowState.halfWindow || appDelegate.windowState == DCWindowState.oneThirdWindow {
+            self.chartView.extraLeftOffset = 40
+            self.chartView.extraRightOffset = 40
+        } else {
+            self.chartView.extraLeftOffset = 85
+            self.chartView.extraRightOffset = 85
+        }
         self.chartView.xAxis.axisLabelModulus = 60
         
         // Chart data object

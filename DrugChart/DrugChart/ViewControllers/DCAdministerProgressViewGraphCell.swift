@@ -357,4 +357,9 @@ class DCAdministerProgressViewGraphCell: UITableViewCell,ChartViewDelegate {
     func chartValueNothingSelected(chartView: ChartViewBase) {
         NSLog("chartValueNothingSelected")
     }
+    
+    func chartScaled(chartView: ChartViewBase, scaleX: CGFloat, scaleY: CGFloat) {
+        
+        print(scaleX)
+    }
 }
