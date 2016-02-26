@@ -483,7 +483,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
                 }
             }
         }
-        return String(format: "\n %@", schedulingDescription)
+        return String(format: "%@", schedulingDescription)
     }
     // MARK: TableView Methods
     
@@ -585,7 +585,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         
         if section == 1 {
             let schedulingDescription : NSString = schedulingDescriptionFooterText()
-            let headerHeight : CGFloat = DCUtility.textViewSizeWithText(String(format: "\t %@", schedulingDescription), maxWidth: HEADER_VIEW_LABEL_MAX_WIDTH, font: UIFont.systemFontOfSize(14.0)).height
+            let headerHeight : CGFloat = DCUtility.textViewSizeWithText(String(format: "%@", schedulingDescription), maxWidth: 280, font: UIFont.systemFontOfSize(14.0)).height + 20
             return headerHeight
         }
         return UITableViewAutomaticDimension
