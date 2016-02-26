@@ -58,11 +58,11 @@
 
 - (void)configureStatusArrayWithStatusValue {
     if ([self.status  isEqual: ADMINISTER_NOW]) {
-        _namesArray = @[STARTED, REFUSED, OMITTED];
-    } else if ([self.status  isEqual: IN_PROGRESS]){
+        _namesArray = @[STARTED, NOT_ADMINISTRATED];
+    } else if ([self.status  isEqual: IN_PROGRESS] || [@[ENDED,STOPED_DUE_TO_PROBLEM,CONTINUED_AFTER_PROBLEM,FLUID_CHANGED,PAUSED] containsObject:self.status]){
         _namesArray = @[ENDED,STOPED_DUE_TO_PROBLEM,CONTINUED_AFTER_PROBLEM,FLUID_CHANGED,PAUSED];
     } else {
-        _namesArray = @[ADMINISTERED, REFUSED, OMITTED];
+        _namesArray = @[ADMINISTERED, NOT_ADMINISTRATED];
     }
 }
 
@@ -75,6 +75,7 @@
     }
     return 1;
 }
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if(indexPath.section == 1) {

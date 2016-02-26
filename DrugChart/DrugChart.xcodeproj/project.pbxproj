@@ -246,6 +246,7 @@
 		4D011C521BB14374005C79A2 /* MedicationHistory.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4D011C511BB14374005C79A2 /* MedicationHistory.storyboard */; };
 		4D011C581BB147D7005C79A2 /* DCMedicationHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D011C571BB147D7005C79A2 /* DCMedicationHistoryViewController.swift */; };
 		4D011C5B1BB15D6B005C79A2 /* DCAdminsteredMedicationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D011C5A1BB15D6B005C79A2 /* DCAdminsteredMedicationCell.swift */; };
+		4D026E551C7DAF8B00F9FF68 /* DCAdministrationReasonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D026E541C7DAF8B00F9FF68 /* DCAdministrationReasonViewController.swift */; };
 		4D16FAD31B5E1F1B0034406A /* DCMedicationScheduleWebServiceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D16FAD21B5E1F1B0034406A /* DCMedicationScheduleWebServiceTests.m */; };
 		4D16FAD51B5E21DB0034406A /* DCUsersListWebServiceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D16FAD41B5E21DB0034406A /* DCUsersListWebServiceTests.m */; };
 		4D16FADD1B5E34210034406A /* DCStopMedicationWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D16FADC1B5E34210034406A /* DCStopMedicationWebService.m */; };
@@ -298,8 +299,13 @@
 		4D9C7DC41BA1578C00C69094 /* DCAddMedicationWebServiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D9C7DC31BA1578C00C69094 /* DCAddMedicationWebServiceManager.m */; };
 		4DC440181B67990D000EC7AB /* DCOrderSetWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC440171B67990D000EC7AB /* DCOrderSetWebService.m */; };
 		4DC527F11BE1EE2F00E2EF09 /* DCDosageMultiLineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC527F01BE1EE2F00E2EF09 /* DCDosageMultiLineCell.swift */; };
+		4DD264381C7EFD11007ACC52 /* DCAdministrationInProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD264371C7EFD11007ACC52 /* DCAdministrationInProgressViewController.swift */; };
+		4DD2E2691C7C28AD00950BD8 /* DCAdministrationStatusSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD2E2681C7C28AD00950BD8 /* DCAdministrationStatusSelectionViewController.swift */; };
+		4DD2E26C1C7C39F900950BD8 /* DCAdministrationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD2E26B1C7C39F900950BD8 /* DCAdministrationHelper.swift */; };
 		4DD829271C0853AD006B2E71 /* DCOneThirdCalendarStripCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD829261C0853AD006B2E71 /* DCOneThirdCalendarStripCollectionCell.swift */; };
 		4DDB53731C0725B900C2C6BA /* DCOneThirdCalendarNavigationTitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DDB53721C0725B900C2C6BA /* DCOneThirdCalendarNavigationTitleView.xib */; };
+		4DDD0C8F1C75912E0021C528 /* DCAdministrationFailureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD0C8E1C75912E0021C528 /* DCAdministrationFailureViewController.swift */; };
+		4DDD0C931C75C7370021C528 /* DCAdministrationSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD0C921C75C7370021C528 /* DCAdministrationSuccessViewController.swift */; };
 		4DDD99A91BD6381F002879CD /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4DDD99A81BD6381F002879CD /* Settings.bundle */; };
 		4DDE0ADE1BBBBEDE0044295B /* DCAdministratedByPinVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDE0ADD1BBBBEDE0044295B /* DCAdministratedByPinVerificationViewController.swift */; };
 		4DDEED481B4CEB6A00D8E0FF /* DCBedWebServiceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DDEED471B4CEB6A00D8E0FF /* DCBedWebServiceTests.m */; };
@@ -368,6 +374,7 @@
 		FD6AD2BE1C73120E0014B7BA /* DCAdministerGraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6AD2BD1C73120E0014B7BA /* DCAdministerGraphViewController.swift */; };
 		FD6AD2C01C73124C0014B7BA /* AdministerGraph.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD6AD2BF1C73124C0014B7BA /* AdministerGraph.storyboard */; };
 		FD6AD2C51C7318570014B7BA /* DCAdministerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6AD2C41C7318570014B7BA /* DCAdministerTableViewCell.swift */; };
+		FD94B6071C80110E0093681E /* DCAdministerProgressViewGraphCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD94B6061C80110E0093681E /* DCAdministerProgressViewGraphCell.swift */; };
 		FDC7EA571C1AA8990081D5C4 /* DCDosageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC7EA561C1AA8990081D5C4 /* DCDosageDetailViewController.swift */; };
 		FDC7EA5A1C1AA9510081D5C4 /* DCDosageDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC7EA591C1AA9510081D5C4 /* DCDosageDetailTableViewCell.swift */; };
 		FDD290E91C4E4A1700BF8796 /* DCDosageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD290E81C4E4A1700BF8796 /* DCDosageHelper.swift */; };
@@ -710,6 +717,7 @@
 		4D011C511BB14374005C79A2 /* MedicationHistory.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = MedicationHistory.storyboard; path = ../MedicationHistory.storyboard; sourceTree = "<group>"; };
 		4D011C571BB147D7005C79A2 /* DCMedicationHistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCMedicationHistoryViewController.swift; sourceTree = "<group>"; };
 		4D011C5A1BB15D6B005C79A2 /* DCAdminsteredMedicationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdminsteredMedicationCell.swift; sourceTree = "<group>"; };
+		4D026E541C7DAF8B00F9FF68 /* DCAdministrationReasonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministrationReasonViewController.swift; sourceTree = "<group>"; };
 		4D16FAD21B5E1F1B0034406A /* DCMedicationScheduleWebServiceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCMedicationScheduleWebServiceTests.m; sourceTree = "<group>"; };
 		4D16FAD41B5E21DB0034406A /* DCUsersListWebServiceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCUsersListWebServiceTests.m; sourceTree = "<group>"; };
 		4D16FADB1B5E34210034406A /* DCStopMedicationWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCStopMedicationWebService.h; sourceTree = "<group>"; };
@@ -776,8 +784,13 @@
 		4DC440161B67990D000EC7AB /* DCOrderSetWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DCOrderSetWebService.h; path = DrugChart/WebServices/DCOrderSetWebService.h; sourceTree = SOURCE_ROOT; };
 		4DC440171B67990D000EC7AB /* DCOrderSetWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DCOrderSetWebService.m; path = DrugChart/WebServices/DCOrderSetWebService.m; sourceTree = SOURCE_ROOT; };
 		4DC527F01BE1EE2F00E2EF09 /* DCDosageMultiLineCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageMultiLineCell.swift; sourceTree = "<group>"; };
+		4DD264371C7EFD11007ACC52 /* DCAdministrationInProgressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministrationInProgressViewController.swift; sourceTree = "<group>"; };
+		4DD2E2681C7C28AD00950BD8 /* DCAdministrationStatusSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministrationStatusSelectionViewController.swift; sourceTree = "<group>"; };
+		4DD2E26B1C7C39F900950BD8 /* DCAdministrationHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministrationHelper.swift; sourceTree = "<group>"; };
 		4DD829261C0853AD006B2E71 /* DCOneThirdCalendarStripCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCOneThirdCalendarStripCollectionCell.swift; sourceTree = "<group>"; };
 		4DDB53721C0725B900C2C6BA /* DCOneThirdCalendarNavigationTitleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCOneThirdCalendarNavigationTitleView.xib; sourceTree = "<group>"; };
+		4DDD0C8E1C75912E0021C528 /* DCAdministrationFailureViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministrationFailureViewController.swift; sourceTree = "<group>"; };
+		4DDD0C921C75C7370021C528 /* DCAdministrationSuccessViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministrationSuccessViewController.swift; sourceTree = "<group>"; };
 		4DDD99A81BD6381F002879CD /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		4DDE0ADD1BBBBEDE0044295B /* DCAdministratedByPinVerificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministratedByPinVerificationViewController.swift; sourceTree = "<group>"; };
 		4DDEED471B4CEB6A00D8E0FF /* DCBedWebServiceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCBedWebServiceTests.m; sourceTree = "<group>"; };
@@ -876,6 +889,7 @@
 		FD6AD2BD1C73120E0014B7BA /* DCAdministerGraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministerGraphViewController.swift; sourceTree = "<group>"; };
 		FD6AD2BF1C73124C0014B7BA /* AdministerGraph.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AdministerGraph.storyboard; sourceTree = "<group>"; };
 		FD6AD2C41C7318570014B7BA /* DCAdministerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministerTableViewCell.swift; sourceTree = "<group>"; };
+		FD94B6061C80110E0093681E /* DCAdministerProgressViewGraphCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministerProgressViewGraphCell.swift; sourceTree = "<group>"; };
 		FDC7EA561C1AA8990081D5C4 /* DCDosageDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageDetailViewController.swift; sourceTree = "<group>"; };
 		FDC7EA591C1AA9510081D5C4 /* DCDosageDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageDetailTableViewCell.swift; sourceTree = "<group>"; };
 		FDD290E81C4E4A1700BF8796 /* DCDosageHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageHelper.swift; sourceTree = "<group>"; };
@@ -952,8 +966,8 @@
 		0B14CD881BB13BD80085E40C /* AdministerViewController */ = {
 			isa = PBXGroup;
 			children = (
-				4D9225F51C6DDC130060761A /* ProgressSliderCell */,
 				0B14CD891BB13BEB0085E40C /* DCAdministerViewController.swift */,
+				4D9225F51C6DDC130060761A /* ProgressSliderCell */,
 				4D52C0281C6C5F39005BE86B /* DurationBasedMedicationDetailsCell */,
 				0BB535831BBA46FA0043BC61 /* AdministerPickerCell */,
 				0BD6991D1BB2C7AB008797A2 /* NotesTableCell */,
@@ -1843,10 +1857,18 @@
 		0BBC8F9A1AA468920085ABAB /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				4DD264361C7EFCF4007ACC52 /* AdministrationInProgressViewController */,
+				4D026E531C7DAF6800F9FF68 /* AdministrationReasonViewController */,
+				4DD2E26A1C7C398000950BD8 /* AdministerHelper */,
+				4DD2E2671C7C287900950BD8 /* AdministrationStatusSelectionViewController */,
+				4DDD0C911C75C7110021C528 /* AdministrationSuccessViewController */,
+				4DDD0C901C7591360021C528 /* AdministrationFailureViewController */,
+				0B14CD881BB13BD80085E40C /* AdministerViewController */,
+				4D41757E1C22869100F924C1 /* AdministrationViewController */,
+				4D52D5881BCE7404002ABA8D /* AdministrationStatusTableViewController */,
 				FD6AD2BC1C7310A70014B7BA /* AdministerGraphViewController */,
 				FD3214DC1C60B4780058B290 /* AddNewValueViewController */,
 				7D632D801C3A0B960029BAF5 /* WardsInformationsViewController */,
-				4D41757E1C22869100F924C1 /* AdministrationViewController */,
 				4D54C0771BFB2BD700A61273 /* CalendarOneThirdViewController */,
 				7D5319BB1BF21EDB003C3F92 /* AlertsAllergyPopOverViewController */,
 				4D7627841BE8E1770070BAF2 /* VitalSignViewController */,
@@ -1857,7 +1879,6 @@
 				7D6D845C1AF9408E00917A8C /* InitialViewController */,
 				7D6D84561AF88A8700917A8C /* AuthorizationViewController */,
 				7D566D411AEFBDDE00F09AFC /* SettingsViewController */,
-				4D52D5881BCE7404002ABA8D /* AdministrationStatusTableViewController */,
 				0B2400F61C5B25E90095AEA5 /* AdministrationTimeViewController */,
 				0B2157091AB7D1B700BC4611 /* NameListSelectionViewController */,
 				7D70F37D1B20258200E4BA89 /* WardsGraphicalDisplayViewController */,
@@ -1868,7 +1889,6 @@
 				0BBC8FA31AA4698E0085ABAB /* BaseViewController */,
 				0B7D5CD11BB90DF80044BE1B /* BNFViewController */,
 				0B1E308C1AF201FB003E49C4 /* SecurityPinViewController */,
-				0B14CD881BB13BD80085E40C /* AdministerViewController */,
 				0BBC8F9F1AA469280085ABAB /* LoginViewController */,
 				0BC0C4621ADF777D002707DC /* AddMedicationViewController */,
 				0B8997B61C7495ED006974E8 /* SingleDoseViewController */,
@@ -2494,6 +2514,14 @@
 			name = MedicationHistoryCells;
 			sourceTree = "<group>";
 		};
+		4D026E531C7DAF6800F9FF68 /* AdministrationReasonViewController */ = {
+			isa = PBXGroup;
+			children = (
+				4D026E541C7DAF8B00F9FF68 /* DCAdministrationReasonViewController.swift */,
+			);
+			name = AdministrationReasonViewController;
+			sourceTree = "<group>";
+		};
 		4D16FAD61B5E33110034406A /* AddMedicationWebService */ = {
 			isa = PBXGroup;
 			children = (
@@ -2653,6 +2681,47 @@
 			);
 			name = OrderSetWebService;
 			path = LoginWebService;
+			sourceTree = "<group>";
+		};
+		4DD264361C7EFCF4007ACC52 /* AdministrationInProgressViewController */ = {
+			isa = PBXGroup;
+			children = (
+				4DD264371C7EFD11007ACC52 /* DCAdministrationInProgressViewController.swift */,
+				FD94B6061C80110E0093681E /* DCAdministerProgressViewGraphCell.swift */,
+			);
+			name = AdministrationInProgressViewController;
+			sourceTree = "<group>";
+		};
+		4DD2E2671C7C287900950BD8 /* AdministrationStatusSelectionViewController */ = {
+			isa = PBXGroup;
+			children = (
+				4DD2E2681C7C28AD00950BD8 /* DCAdministrationStatusSelectionViewController.swift */,
+			);
+			name = AdministrationStatusSelectionViewController;
+			sourceTree = "<group>";
+		};
+		4DD2E26A1C7C398000950BD8 /* AdministerHelper */ = {
+			isa = PBXGroup;
+			children = (
+				4DD2E26B1C7C39F900950BD8 /* DCAdministrationHelper.swift */,
+			);
+			name = AdministerHelper;
+			sourceTree = "<group>";
+		};
+		4DDD0C901C7591360021C528 /* AdministrationFailureViewController */ = {
+			isa = PBXGroup;
+			children = (
+				4DDD0C8E1C75912E0021C528 /* DCAdministrationFailureViewController.swift */,
+			);
+			name = AdministrationFailureViewController;
+			sourceTree = "<group>";
+		};
+		4DDD0C911C75C7110021C528 /* AdministrationSuccessViewController */ = {
+			isa = PBXGroup;
+			children = (
+				4DDD0C921C75C7370021C528 /* DCAdministrationSuccessViewController.swift */,
+			);
+			name = AdministrationSuccessViewController;
 			sourceTree = "<group>";
 		};
 		4DDD99AA1BD63E6F002879CD /* PatientListingViewController */ = {
@@ -3357,6 +3426,7 @@
 				FD2FF8BB1C3BD80300778A4E /* DCAddNewDoseAndTimeViewController.swift in Sources */,
 				FD2FF8BF1C3BD84C00778A4E /* DCDosageUnitSelectionViewController.swift in Sources */,
 				0B8997BB1C74970F006974E8 /* DCSingleDoseTableCell.swift in Sources */,
+				4DD2E2691C7C28AD00950BD8 /* DCAdministrationStatusSelectionViewController.swift in Sources */,
 				FD6AD2BE1C73120E0014B7BA /* DCAdministerGraphViewController.swift in Sources */,
 				0BBC8F841AA44E330085ABAB /* DCLoginWebService.m in Sources */,
 				0B96E9831C731A8300464836 /* DCSingleDose.m in Sources */,
@@ -3413,6 +3483,7 @@
 				0B4BD4291C47551E00C49589 /* DCInjection.m in Sources */,
 				0BA357311B746EAB00A5C3BC /* DCOrderSetOperationQueue.m in Sources */,
 				1F0A9C0A1C47CDE7007ACFDA /* OneThirdContentCell.swift in Sources */,
+				4DDD0C8F1C75912E0021C528 /* DCAdministrationFailureViewController.swift in Sources */,
 				1FD8A1A51C6A36D400030494 /* UIViewController.swift in Sources */,
 				0BBC8FA61AA469AF0085ABAB /* DCBaseViewController.m in Sources */,
 				1FD4FCEA1BF4B8F400B77B94 /* TimePickerCell.swift in Sources */,
@@ -3431,6 +3502,7 @@
 				1FD4FCB91BF4B6B700B77B94 /* Pulse.swift in Sources */,
 				1FD4FCBB1BF4B6B700B77B94 /* SPO2.swift in Sources */,
 				0BF389151AA468C6006792DE /* DCUtility.m in Sources */,
+				4DDD0C931C75C7370021C528 /* DCAdministrationSuccessViewController.swift in Sources */,
 				0B7F75001B8439DA00E3B0A0 /* DCSortTableCell.m in Sources */,
 				1F7EB71D1C21CB5400F6F22F /* BarGraphCell.swift in Sources */,
 				7D9EA9E81B295DDE00337E6A /* DCBedGraphics.m in Sources */,
@@ -3464,6 +3536,8 @@
 				1FD4FD051BF4BAAD00B77B94 /* PickerCell.swift in Sources */,
 				0BBEEB5D1AD4FF4F00C1D986 /* BounceAnimationController.m in Sources */,
 				4D66A06B1B737B100075677E /* DCOrderSetAutoSearchHeaderView.m in Sources */,
+				4D026E551C7DAF8B00F9FF68 /* DCAdministrationReasonViewController.swift in Sources */,
+				FD94B6071C80110E0093681E /* DCAdministerProgressViewGraphCell.swift in Sources */,
 				1FF1F8821C3D6247007F3B9C /* GraphModel.swift in Sources */,
 				1FD4FCAC1BF4B5FB00B77B94 /* ObservationViewController.swift in Sources */,
 				0B989E971B8C22960012AFE8 /* DCCalendarNavigationTitleView.m in Sources */,
@@ -3607,10 +3681,12 @@
 				0BB33DD81B79F56900B05E4D /* DCMedicationDetails.m in Sources */,
 				1F3C31701C0DB8F8007C6AE7 /* Patient.swift in Sources */,
 				1FF1F8881C3D7798007F3B9C /* GraphDelegate.swift in Sources */,
+				4DD264381C7EFD11007ACC52 /* DCAdministrationInProgressViewController.swift in Sources */,
 				4D9225F91C6DE1F00060761A /* DCProgressTimeView.swift in Sources */,
 				0BA449DB1B983265009F84E5 /* DCInstructionsTableCell.m in Sources */,
 				7D632D821C3A0BC00029BAF5 /* DCWardsInformationsViewController.swift in Sources */,
 				7D06524B1B564C0B0068CA83 /* DCMedicationAdministration.m in Sources */,
+				4DD2E26C1C7C39F900950BD8 /* DCAdministrationHelper.swift in Sources */,
 				0BA3F80C1BAA828A00DC1C2A /* DCReasonCell.swift in Sources */,
 				0B14CD901BB183F40085E40C /* DCAdministerMedicationDetailsCell.swift in Sources */,
 				0B2442F41B96F71D00E8F0EB /* DCMedicationListViewController.m in Sources */,

@@ -79,7 +79,7 @@ class PickerCell: UITableViewCell , UIPickerViewDataSource, UIPickerViewDelegate
         return dataSource.count
     }
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return dataSource[row]
     }
     
