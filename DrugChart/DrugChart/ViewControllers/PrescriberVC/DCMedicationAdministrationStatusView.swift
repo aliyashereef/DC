@@ -19,6 +19,7 @@ let OVERDUE_FONT_COLOR              =   UIColor(forHexString: "#ff8972") // get 
 let DUE_NOW_FONT_COLOR              =   UIColor.whiteColor()
 let CURRENT_DAY_BACKGROUND_COLOR    =   UIColor(forHexString: "#fafafa")
 let DUE_NOW_BACKGROUND_COLOR        =   UIColor(forHexString: "#f99e35")
+let PENDING_COUNT_FONT_COLOR        =   UIColor(forHexString: "#595959")
 
 typealias AdministerButtonTappedCallback = (Bool) -> Void
 
@@ -329,7 +330,7 @@ class DCMedicationAdministrationStatusView: UIView {
         let slotIndex = timeArray.indexOfObject(slot)
         let pendingCount = timeArray.count - slotIndex
         let pendingText = String(format: "\n%i of %i %@", pendingCount, timeArray.count, PENDING)
-        let attributedPendingText : NSMutableAttributedString = NSMutableAttributedString(string: pendingText, attributes: [NSFontAttributeName : statusLabelFont(), NSForegroundColorAttributeName : PENDING_FONT_COLOR])
+        let attributedPendingText : NSMutableAttributedString = NSMutableAttributedString(string: pendingText, attributes: [NSFontAttributeName : statusLabelFont(), NSForegroundColorAttributeName : PENDING_COUNT_FONT_COLOR])
         attributedStatusText.appendAttributedString(attributedPendingText)
         return attributedStatusText
     }
