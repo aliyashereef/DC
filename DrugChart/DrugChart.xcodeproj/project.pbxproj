@@ -374,6 +374,7 @@
 		FD6AD2BE1C73120E0014B7BA /* DCAdministerGraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6AD2BD1C73120E0014B7BA /* DCAdministerGraphViewController.swift */; };
 		FD6AD2C01C73124C0014B7BA /* AdministerGraph.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD6AD2BF1C73124C0014B7BA /* AdministerGraph.storyboard */; };
 		FD6AD2C51C7318570014B7BA /* DCAdministerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6AD2C41C7318570014B7BA /* DCAdministerTableViewCell.swift */; };
+		FD94B6071C80110E0093681E /* DCAdministerProgressViewGraphCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD94B6061C80110E0093681E /* DCAdministerProgressViewGraphCell.swift */; };
 		FDC7EA571C1AA8990081D5C4 /* DCDosageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC7EA561C1AA8990081D5C4 /* DCDosageDetailViewController.swift */; };
 		FDC7EA5A1C1AA9510081D5C4 /* DCDosageDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC7EA591C1AA9510081D5C4 /* DCDosageDetailTableViewCell.swift */; };
 		FDD290E91C4E4A1700BF8796 /* DCDosageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD290E81C4E4A1700BF8796 /* DCDosageHelper.swift */; };
@@ -888,6 +889,7 @@
 		FD6AD2BD1C73120E0014B7BA /* DCAdministerGraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministerGraphViewController.swift; sourceTree = "<group>"; };
 		FD6AD2BF1C73124C0014B7BA /* AdministerGraph.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AdministerGraph.storyboard; sourceTree = "<group>"; };
 		FD6AD2C41C7318570014B7BA /* DCAdministerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministerTableViewCell.swift; sourceTree = "<group>"; };
+		FD94B6061C80110E0093681E /* DCAdministerProgressViewGraphCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministerProgressViewGraphCell.swift; sourceTree = "<group>"; };
 		FDC7EA561C1AA8990081D5C4 /* DCDosageDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageDetailViewController.swift; sourceTree = "<group>"; };
 		FDC7EA591C1AA9510081D5C4 /* DCDosageDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageDetailTableViewCell.swift; sourceTree = "<group>"; };
 		FDD290E81C4E4A1700BF8796 /* DCDosageHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageHelper.swift; sourceTree = "<group>"; };
@@ -2685,6 +2687,7 @@
 			isa = PBXGroup;
 			children = (
 				4DD264371C7EFD11007ACC52 /* DCAdministrationInProgressViewController.swift */,
+				FD94B6061C80110E0093681E /* DCAdministerProgressViewGraphCell.swift */,
 			);
 			name = AdministrationInProgressViewController;
 			sourceTree = "<group>";
@@ -3534,6 +3537,7 @@
 				0BBEEB5D1AD4FF4F00C1D986 /* BounceAnimationController.m in Sources */,
 				4D66A06B1B737B100075677E /* DCOrderSetAutoSearchHeaderView.m in Sources */,
 				4D026E551C7DAF8B00F9FF68 /* DCAdministrationReasonViewController.swift in Sources */,
+				FD94B6071C80110E0093681E /* DCAdministerProgressViewGraphCell.swift in Sources */,
 				1FF1F8821C3D6247007F3B9C /* GraphModel.swift in Sources */,
 				1FD4FCAC1BF4B5FB00B77B94 /* ObservationViewController.swift in Sources */,
 				0B989E971B8C22960012AFE8 /* DCCalendarNavigationTitleView.m in Sources */,
