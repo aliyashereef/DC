@@ -585,7 +585,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         
         if section == 1 {
             let schedulingDescription : NSString = schedulingDescriptionFooterText()
-            let headerHeight : CGFloat = DCUtility.textViewSizeWithText(String(format: "%@", schedulingDescription), maxWidth: 280, font: UIFont.systemFontOfSize(14.0)).height + 20
+            let headerHeight : CGFloat = DCUtility.textViewSizeWithText(String(format: "%@", schedulingDescription), maxWidth: 280, font: UIFont.systemFontOfSize(14.0)).height + 15.0
             return headerHeight
         }
         return UITableViewAutomaticDimension
