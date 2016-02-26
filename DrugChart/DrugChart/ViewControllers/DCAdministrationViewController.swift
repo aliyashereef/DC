@@ -218,7 +218,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
             } else if cell?.administrationStatusLabel.text == PENDING {
                 
             } else {
-                if isMedicationDurationBasedInfusion() {
+                if isMedicationDurationBasedInfusion() && cell?.administrationStatusLabel.text == IS_GIVEN {
                     self.transitToAdminsisterGraphViewController(indexPath.row)
                 } else {
                     addMedicationHistoryViewAtIndex(indexPath.row)
