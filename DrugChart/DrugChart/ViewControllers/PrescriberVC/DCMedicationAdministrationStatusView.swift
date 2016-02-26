@@ -68,7 +68,7 @@ class DCMedicationAdministrationStatusView: UIView {
         if (appDelegate.windowState == DCWindowState.oneThirdWindow){
             statusIcon = UIImageView.init(frame: CGRectMake(0, 0, 17.5, 17.5))
         } else {
-            statusIcon = UIImageView.init(frame: CGRectMake(0, 0, 25, 25))
+            statusIcon = UIImageView.init(frame: CGRectMake(0, 0, 26, 26))
         }
         self.addSubview(statusIcon!)
         statusIcon!.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
@@ -142,7 +142,7 @@ class DCMedicationAdministrationStatusView: UIView {
             statusIcon!.center = CGPointMake(self.bounds.size.width/8.2, self.bounds.size.height/2);
             statusLabel?.center = CGPointMake(self.bounds.size.width/2 - 5, self.bounds.size.height/2);
         } else {
-            statusIconCenterForLeftAlignedState()
+            statusIcon!.center = CGPointMake(self.bounds.size.width/7.2, self.bounds.size.height/2)
             if leftAlign == true {
                 statusLabel?.center = CGPointMake(self.bounds.size.width/1.3, self.bounds.size.height/2);
             } else {
@@ -150,17 +150,6 @@ class DCMedicationAdministrationStatusView: UIView {
             }
         }
       }
-    
-    func statusIconCenterForLeftAlignedState () {
-        
-        // Left Aligned Status Icon
-        let appDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
-        if (appDelegate.windowState == DCWindowState.twoThirdWindow || appDelegate.windowState == DCWindowState.oneThirdWindow) {
-            statusIcon!.center = CGPointMake(self.bounds.size.width/7.2, self.bounds.size.height/2)
-        } else {
-            statusIcon!.center = CGPointMake(self.bounds.size.width/6.3, self.bounds.size.height/2)
-        }
-    }
     
     func configureStatusViewForToday() {
         
