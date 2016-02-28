@@ -327,11 +327,12 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
                 })
             } else {
                 if Int(error.code) == Int(NETWORK_NOT_REACHABLE) {
-                    DCAdministrationHelper.displayAlertWithTitle("ERROR", message: NSLocalizedString("INTERNET_CONNECTION_ERROR", comment:""))
+                    self.presentViewController(DCAdministrationHelper.displayAlertWithTitle("ERROR", message: NSLocalizedString("INTERNET_CONNECTION_ERROR", comment:"")), animated: true, completion: nil)
+
                 } else if Int(error.code) == Int(WEBSERVICE_UNAVAILABLE)  {
-                    DCAdministrationHelper.displayAlertWithTitle("ERROR", message: NSLocalizedString("WEBSERVICE_UNAVAILABLE", comment:""))
+                    self.presentViewController(DCAdministrationHelper.displayAlertWithTitle("ERROR", message: NSLocalizedString("WEBSERVICE_UNAVAILABLE", comment:"")), animated: true, completion: nil)
                 } else {
-                    DCAdministrationHelper.displayAlertWithTitle("ERROR", message:"Administration Failed")
+                    self.presentViewController(DCAdministrationHelper.displayAlertWithTitle("ERROR", message:"Administration Failed"), animated: true, completion: nil)
                 }
             }
         }
@@ -357,11 +358,10 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
 //            // show entries in red
 //            self.validateAndReloadAdministerView()
 //        }
-
     }
+    
     func cancelButtonPressed () {
         self.dismissViewControllerAnimated(true, completion: nil)
-        
     }
     
 }

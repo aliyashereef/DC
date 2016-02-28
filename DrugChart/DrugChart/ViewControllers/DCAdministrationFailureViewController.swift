@@ -8,7 +8,7 @@
 
 import Foundation
 
-class DCAdministrationFailureViewController: UIViewController ,NotesCellDelegate , StatusListDelegate, reasonDelegate{
+class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDelegate , StatusListDelegate, reasonDelegate{
     
     @IBOutlet var administrationFailureTableView: UITableView!
     
@@ -22,6 +22,7 @@ class DCAdministrationFailureViewController: UIViewController ,NotesCellDelegate
     //MARK: View Management Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        initialiseMedicationSlotObject()
         configureTableViewProperties()
     }
     
@@ -32,6 +33,20 @@ class DCAdministrationFailureViewController: UIViewController ,NotesCellDelegate
         administrationFailureTableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
     }
 
+    func initialiseMedicationSlotObject () {
+        
+        //initialise Medication Slot object
+        if (medicationSlot == nil) {
+            medicationSlot = DCMedicationSlot.init()
+        }
+        if(medicationSlot?.medicationAdministration == nil) {
+            medicationSlot?.medicationAdministration = DCMedicationAdministration.init()
+            medicationSlot?.medicationAdministration.checkingUser = DCUser.init()
+            medicationSlot?.medicationAdministration.administratingUser = DCUser.init()
+            medicationSlot?.medicationAdministration.scheduledDateTime = medicationSlot?.time
+        }
+        medicationSlot?.medicationAdministration?.actualAdministrationTime = DCDateUtility.dateInCurrentTimeZone(NSDate())
+    }
     
     //MARK: TableView Delegate Methods
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -185,6 +200,7 @@ class DCAdministrationFailureViewController: UIViewController ,NotesCellDelegate
             self.navigationController!.pushViewController(statusViewController, animated: true)
             break
         case 1:
+            self.collapseOpenedPickerCell()
             let reasonViewController : DCAdministrationReasonViewController = DCAdministrationHelper.administratedReasonPopOverAtIndexPathWithStatus(NOT_ADMINISTRATED)
             reasonViewController.delegate = self
             self.navigationController!.pushViewController(reasonViewController, animated: true)
@@ -230,6 +246,7 @@ class DCAdministrationFailureViewController: UIViewController ,NotesCellDelegate
     
     func notesSelected(editing : Bool, withIndexPath indexPath : NSIndexPath) {
         self.collapseOpenedPickerCell()
+        self.administrationFailureTableView.contentOffset = CGPointMake(0, 200)
     }
     
     func enteredNote(note : String) {
@@ -250,6 +267,18 @@ class DCAdministrationFailureViewController: UIViewController ,NotesCellDelegate
         
         self.medicationSlot?.medicationAdministration.statusReason = reason
         self.administrationFailureTableView.reloadData()
+    }
+    
+    // MARK: - keyboard Delegate Methods
+    
+     func keyboardDidShow(notification: NSNotification) {
+        // notification methods
+        let info:NSDictionary = notification.userInfo!
+        let kbSize:CGSize = (info.objectForKey(UIKeyboardFrameBeginUserInfoKey)?.CGRectValue.size)!
+        let contentInsets:UIEdgeInsets = UIEdgeInsetsMake(0.0,0.0,kbSize.height,0.0)
+        administrationFailureTableView.contentInset = contentInsets
+        administrationFailureTableView.scrollIndicatorInsets = contentInsets
+
     }
     
 }

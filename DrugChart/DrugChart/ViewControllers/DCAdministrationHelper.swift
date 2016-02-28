@@ -91,12 +91,17 @@ class DCAdministrationHelper : NSObject {
             adminStatus = REFUSED
         }
         administerDictionary.setValue(adminStatus, forKey: ADMINISTRATION_STATUS)
-        if let administratingStatus : Bool = medicationSlot.medicationAdministration?.isSelfAdministered.boolValue {
-            if administratingStatus == false {
-                administerDictionary.setValue(medicationSlot.medicationAdministration?.administratingUser!.userIdentifier, forKey:"AdministratingUserIdentifier")
+        if adminStatus == REFUSED {
+            administerDictionary.setValue(true, forKey: IS_SELF_ADMINISTERED)
+        } else {
+            if let administratingStatus : Bool = medicationSlot.medicationAdministration?.isSelfAdministered.boolValue {
+                if administratingStatus == false {
+                    administerDictionary.setValue(medicationSlot.medicationAdministration?.administratingUser!.userIdentifier, forKey:"AdministratingUserIdentifier")
+                }
+                administerDictionary.setValue(administratingStatus, forKey: IS_SELF_ADMINISTERED)
             }
-            administerDictionary.setValue(administratingStatus, forKey: IS_SELF_ADMINISTERED)
         }
+        
         //TO DO : Configure the dosage and batch number from the form.
         if let dosage = medicationDetails.dosage {
             administerDictionary.setValue(dosage, forKey: ADMINISTRATING_DOSAGE)
@@ -104,6 +109,7 @@ class DCAdministrationHelper : NSObject {
         if let batch = medicationSlot.medicationAdministration?.batch {
             administerDictionary.setValue(batch, forKey: ADMINISTRATING_BATCH)
         }
+
         let notes : NSString  = administrationNotesBasedOnMedicationStatus (medicationSlot)
         administerDictionary.setValue(notes, forKey:ADMINISTRATING_NOTES)
         
@@ -112,14 +118,14 @@ class DCAdministrationHelper : NSObject {
         return administerDictionary
     }
     
-    static func displayAlertWithTitle(title : NSString, message : NSString ) {
+    static func displayAlertWithTitle(title : NSString, message : NSString ) -> UIAlertController {
         //display alert view for view controllers
         let alertController : UIAlertController = UIAlertController(title: title as String, message: message as String, preferredStyle: UIAlertControllerStyle.Alert)
         let action : UIAlertAction = UIAlertAction(title: OK_BUTTON_TITLE, style: UIAlertActionStyle.Default, handler: { action in
             alertController.dismissViewControllerAnimated(true, completion: nil)
         })
         alertController.addAction(action)
-//        self.presentViewController(alertController, animated: true, completion: nil)
+        return alertController
     }
     
     // Return the note string based on the administrating status

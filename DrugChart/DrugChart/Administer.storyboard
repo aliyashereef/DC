@@ -780,6 +780,7 @@
                                         </textField>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <connections>
                                     <outlet property="batchNumberTextField" destination="ZRi-Ol-fls" id="0gK-wW-j8H"/>
                                 </connections>
@@ -830,6 +831,7 @@
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
+                                <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <connections>
                                     <outlet property="datePicker" destination="fDk-RH-7cV" id="xtZ-M4-QQv"/>
                                 </connections>
@@ -1655,7 +1657,7 @@
                         <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="EvP-3v-KOZ">
+                            <activityIndicatorView hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="EvP-3v-KOZ">
                                 <rect key="frame" x="282" y="250" width="37" height="37"/>
                                 <color key="color" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
@@ -2055,15 +2057,15 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="OnU-6W-vI1"/>
-                                                    <exclude reference="W6K-Iz-lac"/>
-                                                    <exclude reference="y4U-be-6r2"/>
-                                                    <exclude reference="D30-7m-hig"/>
-                                                    <exclude reference="aWF-Is-TqF"/>
-                                                    <exclude reference="WmN-P5-4DX"/>
                                                     <exclude reference="9eE-ob-alU"/>
                                                     <exclude reference="CyJ-Jz-UHH"/>
+                                                    <exclude reference="D30-7m-hig"/>
+                                                    <exclude reference="OnU-6W-vI1"/>
+                                                    <exclude reference="W6K-Iz-lac"/>
+                                                    <exclude reference="WmN-P5-4DX"/>
+                                                    <exclude reference="aWF-Is-TqF"/>
                                                     <exclude reference="fvD-dH-1q0"/>
+                                                    <exclude reference="y4U-be-6r2"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>

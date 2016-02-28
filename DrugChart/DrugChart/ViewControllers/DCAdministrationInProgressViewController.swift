@@ -231,8 +231,6 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
     
     // mark:StatusList Delegate Methods
     func selectedMedicationStatusEntry(status: String!) {
-        
-//        let parentView : DCAdministrationStatusSelectionViewController = self.parentViewController as! DCAdministrationStatusSelectionViewController
         medicationSlot?.medicationAdministration.status = status
         self.administerInProgressTableView.reloadData()
     }
@@ -240,6 +238,7 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
     // MARK: NotesCell Delegate Methods
     func notesSelected(editing : Bool, withIndexPath indexPath : NSIndexPath) {
         self.collapseOpenedDatePicker()
+        self.administerInProgressTableView.setContentOffset(CGPointMake(0, 250), animated: true)
     }
     
     func enteredNote(note : String) {

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class DCAdministrationSuccessViewController: UIViewController ,NotesCellDelegate,BatchCellDelegate, StatusListDelegate ,reasonDelegate, NamesListDelegate, SecurityPinMatchDelegate{
+class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDelegate,BatchCellDelegate, StatusListDelegate ,reasonDelegate, NamesListDelegate, SecurityPinMatchDelegate{
     
     //MARK: Variables
     
@@ -21,6 +21,8 @@ class DCAdministrationSuccessViewController: UIViewController ,NotesCellDelegate
     var saveButton: UIBarButtonItem?
     var cancelButton: UIBarButtonItem?
     var userListArray : NSMutableArray? = []
+    var previousScrollOffset : CGFloat?
+
 
     //MARK: View Management Methods
     override func viewDidLoad() {
@@ -31,7 +33,9 @@ class DCAdministrationSuccessViewController: UIViewController ,NotesCellDelegate
         medicationSlot?.medicationAdministration?.actualAdministrationTime = DCDateUtility.dateInCurrentTimeZone(NSDate())
         configureViewElements()
     }
-    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+    }
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         self.collapseOpenedPickerCell()
@@ -446,7 +450,7 @@ class DCAdministrationSuccessViewController: UIViewController ,NotesCellDelegate
     // MARK: BatchNumberCellDelegate Methods
     func batchNumberFieldSelectedAtIndexPath(indexPath: NSIndexPath) {
         self.collapseOpenedPickerCell()
-
+        self.administerSuccessTableView.contentOffset = CGPointMake(0, 300)
     }
     
     func enteredBatchDetails(batch : String) {
@@ -456,6 +460,7 @@ class DCAdministrationSuccessViewController: UIViewController ,NotesCellDelegate
     // MARK: NotesCell Delegate Methods
     func notesSelected(editing : Bool, withIndexPath indexPath : NSIndexPath) {
         self.collapseOpenedPickerCell()
+        self.administerSuccessTableView.contentOffset = CGPointMake(0, 400)
 
     }
     
@@ -494,5 +499,4 @@ class DCAdministrationSuccessViewController: UIViewController ,NotesCellDelegate
         self.medicationSlot?.medicationAdministration.statusReason = reason
         self.administerSuccessTableView.reloadData()
     }
-    
 }
