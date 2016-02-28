@@ -506,6 +506,7 @@ class DCInfusionViewController: UIViewController, UITableViewDelegate, UITableVi
             case RowCount.eSecondRow.rawValue :
                 let addMedicationStoryboard = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil)
                 let addNewValueViewController = addMedicationStoryboard.instantiateViewControllerWithIdentifier(ADD_NEW_VALUE_SBID) as? DCAddNewValueViewController
+                addNewValueViewController?.backButtonTitle = NSLocalizedString("ADMINISTER_AS", comment: "screen title")
                 addNewValueViewController?.placeHolderString = "ml"
                 addNewValueViewController?.titleString = "ml"
                 if (self.infusion?.administerAsOption == BOLUS_INJECTION) {
@@ -550,6 +551,7 @@ class DCInfusionViewController: UIViewController, UITableViewDelegate, UITableVi
             case RowCount.eFirstRow.rawValue :
                 let addMedicationStoryboard = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil)
                 let addNewValueViewController = addMedicationStoryboard.instantiateViewControllerWithIdentifier(ADD_NEW_VALUE_SBID) as? DCAddNewValueViewController
+                addNewValueViewController?.backButtonTitle = NSLocalizedString("ADMINISTER_AS", comment: "screen title")
                 addNewValueViewController?.placeHolderString = "ml"
                 addNewValueViewController?.titleString = "ml"
                 if (self.infusion?.administerAsOption == BOLUS_INJECTION) {
@@ -642,6 +644,7 @@ class DCInfusionViewController: UIViewController, UITableViewDelegate, UITableVi
         
         let addMedicationStoryboard = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil)
         let addNewValueViewController = addMedicationStoryboard.instantiateViewControllerWithIdentifier(ADD_NEW_VALUE_SBID) as? DCAddNewValueViewController
+        addNewValueViewController?.backButtonTitle = NSLocalizedString("ADMINISTER_AS", comment: "screen title")
         if infusion?.administerAsOption == DURATION_BASED_INFUSION {
             addNewValueViewController?.detailType = eAddValueWithUnit
             addNewValueViewController?.unitArray = unitArrayForOver

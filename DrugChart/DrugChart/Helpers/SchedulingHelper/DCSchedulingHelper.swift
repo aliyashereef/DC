@@ -181,19 +181,21 @@ class DCSchedulingHelper: NSObject {
         //description for weekly Specific Times
         let descriptionText : NSMutableString = NSMutableString()
         descriptionText.appendFormat(NSLocalizedString("SCHEDULING_GENERAL_DESCRIPTION", comment: ""))
-        var weekDays = repeatValue.weekDays as NSArray as? [String]
-        var weeksString : String = ""
-        if (weekDays?.count > 1) {
-            let lastElement = weekDays!.removeLast()
-            weeksString = weekDays!.joinWithSeparator(", ")
-            weeksString = weeksString + " and \(lastElement)"
-        } else {
-            weeksString = weekDays!.joinWithSeparator("")
-        }
         if (times.count > 0) {
             descriptionText.appendFormat(" %@ a day", timesString)
         }
-        descriptionText.appendFormat(" on %@", weeksString)
+        if (repeatValue.weekDays != nil) {
+             var weeksString : String = ""
+            var weekDays = repeatValue.weekDays as NSArray as? [String]
+            if (weekDays?.count > 1) {
+                let lastElement = weekDays!.removeLast()
+                weeksString = weekDays!.joinWithSeparator(", ")
+                weeksString = weeksString + " and \(lastElement)"
+            } else {
+                weeksString = weekDays!.joinWithSeparator("")
+            }
+            descriptionText.appendFormat(" on %@", weeksString)
+        }
         if (times.count > 0) {
             descriptionText.appendFormat(" at %@", administratingTimesStringFromTimeArray(NSMutableArray(array: times)))
         }

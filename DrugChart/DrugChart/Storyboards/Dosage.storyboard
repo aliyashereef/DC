@@ -436,7 +436,7 @@
                                                     <rect key="frame" x="16" y="0.0" width="294" height="43"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
                                                     <connections>
                                                         <action selector="newDoseTextChanged:" destination="wr1-cx-x8E" eventType="editingChanged" id="bH9-Kf-FpG"/>
                                                     </connections>
@@ -885,7 +885,7 @@
                                                     <rect key="frame" x="16" y="0.0" width="294" height="43"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
                                                     <connections>
                                                         <action selector="newDoseTextChanged:" destination="GT2-Ik-ceV" eventType="editingChanged" id="OOe-zs-Sr4"/>
                                                     </connections>

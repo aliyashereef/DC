@@ -391,7 +391,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleAspectFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="115" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="eRF-Sr-bNl">
-                                <rect key="frame" x="0.0" y="60" width="600" height="540"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -584,7 +584,7 @@
                         <animations/>
                         <color key="backgroundColor" name="controlHighlightColor" catalog="System" colorSpace="catalog"/>
                         <constraints>
-                            <constraint firstItem="eRF-Sr-bNl" firstAttribute="top" secondItem="zm5-jU-enb" secondAttribute="top" constant="60" id="6UF-ty-weK"/>
+                            <constraint firstItem="eRF-Sr-bNl" firstAttribute="top" secondItem="zm5-jU-enb" secondAttribute="top" id="6UF-ty-weK"/>
                             <constraint firstItem="eRF-Sr-bNl" firstAttribute="leading" secondItem="zm5-jU-enb" secondAttribute="leading" id="6i4-aO-jVp"/>
                             <constraint firstItem="2R1-dF-PZa" firstAttribute="centerX" secondItem="zm5-jU-enb" secondAttribute="centerX" id="9cW-r3-A1C"/>
                             <constraint firstItem="3dY-Pa-UBX" firstAttribute="top" secondItem="eRF-Sr-bNl" secondAttribute="bottom" id="Mtc-7t-sGA"/>
@@ -625,10 +625,10 @@
                         <viewControllerLayoutGuide type="bottom" id="dnI-QS-VDP"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Dzt-m5-qIr">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <activityIndicatorView contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="leM-81-DVi">
+                            <activityIndicatorView contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="leM-81-DVi">
                                 <rect key="frame" x="282" y="282" width="37" height="37"/>
                                 <color key="color" red="0.45098039220000002" green="0.45098039220000002" blue="0.45098039220000002" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
@@ -640,6 +640,7 @@
                             <constraint firstItem="leM-81-DVi" firstAttribute="centerX" secondItem="Dzt-m5-qIr" secondAttribute="centerX" id="3Yv-2n-KTS"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <connections>
                         <outlet property="activityIndicatorView" destination="leM-81-DVi" id="Vtd-I9-JkD"/>
                     </connections>
