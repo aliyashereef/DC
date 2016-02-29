@@ -74,7 +74,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
             if (currentDateString != slotDateString && medication.medicationAdministration?.status == nil) {
                 return PENDING
             } else if (medication.medicationAdministration?.status != nil) {
-                if self.checkWhetherMedicationIsDurationBased() {
+                if DCAdministrationHelper.isMedicationDurationBasedInfusion(medicationDetails!) {
                     return IN_PROGRESS
                 } else {
                     return medication.medicationAdministration.status
@@ -83,7 +83,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         }
         if let slotToAdministerDate = slotToAdminister?.time {
             if (medication.time.compare(slotToAdministerDate) == NSComparisonResult.OrderedSame) {
-                if self.checkWhetherMedicationIsDurationBased() {
+                if DCAdministrationHelper.isMedicationDurationBasedInfusion(medicationDetails!) {
                     return ADMINISTER_NOW
                 } else {
                     return ADMINISTER_MEDICATION
@@ -93,7 +93,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         //medication slot selected less than the current date
         if (medication.time.compare(currentSystemDate) == NSComparisonResult.OrderedAscending) {
             if (medication.medicationAdministration?.status != nil) {
-                if self.checkWhetherMedicationIsDurationBased() {
+                if DCAdministrationHelper.isMedicationDurationBasedInfusion(medicationDetails!) {
                     return IN_PROGRESS
                 } else {
                 return medication.medicationAdministration.status
@@ -103,15 +103,6 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
             }
         }
         return PENDING
-    }
-    
-    func checkWhetherMedicationIsDurationBased () -> Bool {
-        // T0 Do : This is a temporary method to implement the status display for the duration based infusion , when the API gets updated - modifications needed.
-        if (medicationDetails?.route == "Subcutaneous" || medicationDetails?.route == "Intravenous"){
-            return true
-        } else {
-            return false
-        }
     }
     
     func initialiseMedicationSlotToAdministerObject () {
@@ -193,7 +184,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
     
     func configureMedicationDetailsCellAtIndexPath (indexPath :NSIndexPath) -> UITableViewCell {
         
-        if self.isMedicationDurationBasedInfusion() {
+        if DCAdministrationHelper.isMedicationDurationBasedInfusion(medicationDetails!){
             let cell = administerTableView.dequeueReusableCellWithIdentifier("DurationBasedInfusionCell") as? DCDurationBasedMedicationDetailsCell
             if let _ = medicationDetails {
                 cell!.configureMedicationDetails(medicationDetails!)
@@ -222,7 +213,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
             } else if cell?.administrationStatusLabel.text == PENDING {
                 
             } else {
-                if isMedicationDurationBasedInfusion() && cell?.administrationStatusLabel.text == IS_GIVEN {
+                if DCAdministrationHelper.isMedicationDurationBasedInfusion(medicationDetails!) && cell?.administrationStatusLabel.text == ADMINISTERED {
                     self.transitToAdminsisterGraphViewController(indexPath.row)
                 } else {
                     addMedicationHistoryViewAtIndex(indexPath.row)
@@ -292,14 +283,5 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
             medicationHistoryViewController?.medicationDetails = medicationDetails
         medicationHistoryViewController?.medicationSlotArray = [medicationSlotsArray[index]]
         self.navigationController?.pushViewController(medicationHistoryViewController!, animated: true)
-    }
-    
-    func isMedicationDurationBasedInfusion () -> Bool {
-        // T0 Do : This is a temporary method to implement the status display for the duration based infusion , when the API gets updated - modifications needed.
-        if (medicationDetails?.route == "Subcutaneous" || medicationDetails?.route == "Intravenous"){
-            return true
-        } else {
-            return false
-        }
     }
 }

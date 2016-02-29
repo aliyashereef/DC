@@ -34,6 +34,7 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
             medicationSlot?.medicationAdministration.checkingUser = DCUser.init()
             medicationSlot?.medicationAdministration.administratingUser = DCUser.init()
         }
+        medicationSlot?.medicationAdministration.statusReason = EMPTY_STRING
     }
     func configureTableViewProperties (){
         

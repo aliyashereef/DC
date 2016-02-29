@@ -69,11 +69,17 @@
 
 - (void)rowCountAccordingToStatus {
     
-//    if ([_previousSelectedValue isEqualToString: STOPED_DUE_TO_PROBLEM] || [_previousSelectedValue isEqualToString:CONTINUED_AFTER_PROBLEM]) {
-//        [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
-//    } else if ([_previousSelectedValue isEqualToString: FLUID_CHANGED]) {
-//        [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:3 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
-//    }
+    if ([_previousSelectedValue isEqualToString: STOPED_DUE_TO_PROBLEM] || [_previousSelectedValue isEqualToString:CONTINUED_AFTER_PROBLEM]) {
+        isSecondSectionExpanded = YES;
+        [self insertSection];
+        rowCount = 1;
+        [self.tableView reloadData];
+    } else if ([_previousSelectedValue isEqualToString: FLUID_CHANGED]) {
+        isSecondSectionExpanded = YES;
+        [self insertSection];
+        rowCount = 4;
+        [self.tableView reloadData];
+    }
 }
 
 #pragma mark - Table View Data Source Methods
@@ -91,7 +97,7 @@
     if(indexPath.section == 1) {
         if ([self indexPathHasPicker:indexPath]) {
                 return 216;
-        } else if ([_status isEqualToString: STOPED_DUE_TO_PROBLEM] || [_status isEqualToString:CONTINUED_AFTER_PROBLEM]) {
+        } else if ([_status isEqualToString: STOPED_DUE_TO_PROBLEM] || [_status isEqualToString:CONTINUED_AFTER_PROBLEM] || [_previousSelectedValue isEqualToString: STOPED_DUE_TO_PROBLEM] || [_previousSelectedValue isEqualToString:CONTINUED_AFTER_PROBLEM]) {
             return 125;
         }
     }
@@ -128,7 +134,7 @@
             return cell;
         }
         case 1:
-            if ([_status isEqualToString: FLUID_CHANGED]) {
+            if ([_status isEqualToString: FLUID_CHANGED] || [_previousSelectedValue isEqualToString: FLUID_CHANGED]) {
                 switch (indexPath.row) {
                     case 0:{
                         DCAdministerCell *cell = [self configureAdministrationCellAtIndexPath:indexPath];
@@ -178,7 +184,7 @@
                     }
                 }
                 
-            } else  if ([_status isEqualToString: STOPED_DUE_TO_PROBLEM] || [_status isEqualToString:CONTINUED_AFTER_PROBLEM]) {
+            } else  if ([_status isEqualToString: STOPED_DUE_TO_PROBLEM] || [_status isEqualToString:CONTINUED_AFTER_PROBLEM] || [_previousSelectedValue isEqualToString: STOPED_DUE_TO_PROBLEM] || [_previousSelectedValue isEqualToString:CONTINUED_AFTER_PROBLEM]) {
                 return [self notesCellAtIndexPath:indexPath];
             }
         default:
