@@ -11,7 +11,7 @@ import UIKit
 // protocol used for sending data back
 @objc public protocol NewDosageValueEntered: class {
     
-    func newDosageAdded(dosage : String)
+    func newDosageAdded(dosage : DCDosage)
 }
 
 typealias SelectedDosage = DCDosage? -> Void
@@ -59,6 +59,11 @@ typealias SelectedDosage = DCDosage? -> Void
     override func viewDidAppear(animated: Bool) {
         
         dosageTableView.reloadData()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        
+        newDosageAddedDelegate?.newDosageAdded(self.dosage!)
     }
     
     override func didReceiveMemoryWarning() {
@@ -848,7 +853,7 @@ typealias SelectedDosage = DCDosage? -> Void
         //Enter the selected value to the particular type.
         if (selectedDetailType == eDoseValue) {
             self.dosage?.fixedDose?.doseValue = value
-            newDosageAddedDelegate?.newDosageAdded("\(value) \((dosage?.doseUnit)!)")
+//            newDosageAddedDelegate?.newDosageAdded("\(value) \((dosage?.doseUnit)!)")
         } else if (selectedDetailType == eDoseFrom || selectedDetailType == eDoseTo) {
             if (selectedDetailType == eDoseFrom) {
                 self.dosage?.variableDose?.doseFromValue = value
@@ -857,11 +862,11 @@ typealias SelectedDosage = DCDosage? -> Void
             }
             if dosageArray.count != 0 {
                 if self.dosage!.variableDose.doseFromValue != doseValueFromAPI && self.dosage!.variableDose.doseToValue != doseValueFromAPI {
-                    newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
+//                    newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
                 }
             } else {
                 if self.dosage?.variableDose.doseFromValue != "" && self.dosage?.variableDose.doseToValue != "" {
-                    newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
+//                    newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
                 }
             }
         } else if (selectedDetailType == eDoseUnit) {
@@ -894,22 +899,22 @@ typealias SelectedDosage = DCDosage? -> Void
             self.dosage?.variableDose.doseFromValue = value
             if dosageArray.count != 0 {
                 if self.dosage!.variableDose.doseFromValue != doseValueFromAPI && self.dosage!.variableDose.doseToValue != doseValueFromAPI {
-                    newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
+//                    newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
                 }
             } else {
                 if self.dosage?.variableDose.doseFromValue != "" && self.dosage?.variableDose.doseToValue != "" {
-                    newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
+//                    newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
                 }
             }
         case eDoseTo.rawValue:
             self.dosage?.variableDose.doseToValue = value
             if dosageArray.count != 0 {
                 if self.dosage!.variableDose.doseFromValue != doseValueFromAPI && self.dosage!.variableDose.doseToValue != doseValueFromAPI {
-                    newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
+//                    newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
                 }
             } else {
                 if self.dosage?.variableDose?.doseFromValue != "" && self.dosage?.variableDose.doseToValue != "" {
-                    newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
+//                    newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
                 }
             }
         case eStartingDose.rawValue:

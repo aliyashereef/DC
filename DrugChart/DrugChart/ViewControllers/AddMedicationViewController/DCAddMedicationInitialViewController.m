@@ -1456,7 +1456,7 @@
 
 #pragma mark - AddMedicationDetail Delegate Methods
 
-- (void)newDosageAdded:(NSString *)dosage {
+- (void)newDosageAdded:(DCDosage *)dosage {
     
     //new dosage added
     self.selectedMedication.dosage = dosage;
