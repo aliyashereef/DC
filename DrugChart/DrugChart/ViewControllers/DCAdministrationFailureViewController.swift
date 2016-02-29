@@ -44,9 +44,9 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
             medicationSlot = DCMedicationSlot.init()
         }
         medicationSlot?.medicationAdministration = DCMedicationAdministration.init()
-        medicationSlot?.medicationAdministration.administratingUser = DCUser.init()
-        medicationSlot?.medicationAdministration.scheduledDateTime = medicationSlot?.time
-        medicationSlot?.medicationAdministration.statusReason = EMPTY_STRING
+        medicationSlot?.medicationAdministration?.administratingUser = DCUser.init()
+        medicationSlot?.medicationAdministration?.scheduledDateTime = medicationSlot?.time
+        medicationSlot?.medicationAdministration?.statusReason = EMPTY_STRING
         medicationSlot?.medicationAdministration?.actualAdministrationTime = DCDateUtility.dateInCurrentTimeZone(NSDate())
     }
     
@@ -127,7 +127,7 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
         let administerCell : DCAdministerCell = (administrationFailureTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
         administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         administerCell.titleLabel.text = STATUS
-        medicationSlot?.medicationAdministration.status = NOT_ADMINISTRATED
+        medicationSlot?.medicationAdministration?.status = NOT_ADMINISTRATED
         administerCell.detailLabel?.text = NOT_ADMINISTRATED
         return administerCell
     }
@@ -138,7 +138,7 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
         let administerCell : DCAdministerCell = (administrationFailureTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
         administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         administerCell.titleLabel.text = REASON
-        administerCell.detailLabel?.text = self.medicationSlot?.medicationAdministration.statusReason
+        administerCell.detailLabel?.text = self.medicationSlot?.medicationAdministration?.statusReason
         return administerCell
     }
     
@@ -175,7 +175,7 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
         pickerCell.configureDatePickerProperties()
         pickerCell.datePicker?.maximumDate = NSDate()
         pickerCell.selectedDate = { date in
-            self.medicationSlot!.medicationAdministration.actualAdministrationTime = date
+            self.medicationSlot!.medicationAdministration?.actualAdministrationTime = date
             self.administrationFailureTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow:RowCount.eSecondRow.rawValue, inSection:1)], withRowAnimation: UITableViewRowAnimation.None)
         }
         return pickerCell;
@@ -214,7 +214,7 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
             self.collapseOpenedPickerCell()
             let reasonViewController : DCAdministrationReasonViewController = DCAdministrationHelper.administratedReasonPopOverAtIndexPathWithStatus(NOT_ADMINISTRATED)
             reasonViewController.delegate = self
-            if let reasonString = self.medicationSlot?.medicationAdministration.statusReason {
+            if let reasonString = self.medicationSlot?.medicationAdministration?.statusReason {
                 reasonViewController.previousSelection = reasonString
             }
             self.navigationController!.pushViewController(reasonViewController, animated: true)
@@ -271,7 +271,7 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
     func selectedMedicationStatusEntry(status: String!) {
         
         let parentView : DCAdministrationStatusSelectionViewController = self.parentViewController as! DCAdministrationStatusSelectionViewController
-        medicationSlot?.medicationAdministration.status = status
+        medicationSlot?.medicationAdministration?.status = status
         parentView.updateViewWithChangeInStatus(status)
     }
     
@@ -279,7 +279,7 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
 
     func reasonSelected(reason: String) {
         
-        self.medicationSlot?.medicationAdministration.statusReason = reason
+        self.medicationSlot?.medicationAdministration?.statusReason = reason
         self.administrationFailureTableView.reloadData()
     }
     

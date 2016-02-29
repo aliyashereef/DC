@@ -51,10 +51,10 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         
         //initialise Medication Slot object
         medicationSlot?.medicationAdministration = DCMedicationAdministration.init()
-        medicationSlot?.medicationAdministration.statusReason = EMPTY_STRING
-        medicationSlot?.medicationAdministration.administratingUser = DCUser.init()
-        medicationSlot?.medicationAdministration.checkingUser = DCUser.init()
-        medicationSlot?.medicationAdministration.scheduledDateTime = medicationSlot?.time
+        medicationSlot?.medicationAdministration?.statusReason = EMPTY_STRING
+        medicationSlot?.medicationAdministration?.administratingUser = DCUser.init()
+        medicationSlot?.medicationAdministration?.checkingUser = DCUser.init()
+        medicationSlot?.medicationAdministration?.scheduledDateTime = medicationSlot?.time
         medicationSlot?.medicationAdministration?.actualAdministrationTime = DCDateUtility.dateInCurrentTimeZone(NSDate())
     }
     
@@ -99,9 +99,9 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         administerCell.titleLabel.text = STATUS
         if (medicationSlot!.status != nil) {
             administerCell.detailLabel.text = medicationSlot!.status
-            medicationSlot?.medicationAdministration.status = medicationSlot!.status
+            medicationSlot?.medicationAdministration?.status = medicationSlot!.status
         } else {
-            administerCell.detailLabel.text = medicationSlot!.medicationAdministration.status
+            administerCell.detailLabel.text = medicationSlot!.medicationAdministration?.status
         }
         return administerCell
     }
@@ -128,7 +128,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         administerCell.titleLabel.text = REASON
         administerCell.detailLabelTrailingSpace.constant = 0.0
-        administerCell.detailLabel?.text = medicationSlot?.medicationAdministration.statusReason
+        administerCell.detailLabel?.text = medicationSlot?.medicationAdministration?.statusReason
         return administerCell
     }
     
@@ -187,10 +187,10 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         pickerCell.configureDatePickerProperties()
         pickerCell.selectedDate = { date in
             if indexPath.row == 4 {
-                self.medicationSlot!.medicationAdministration.actualAdministrationTime = date
+                self.medicationSlot!.medicationAdministration?.actualAdministrationTime = date
                 self.administerSuccessTableView .reloadRowsAtIndexPaths([self.dateTimeCellIndexPath], withRowAnimation:UITableViewRowAnimation.None)
             } else {
-                self.medicationSlot!.medicationAdministration.expiryDateTime = date
+                self.medicationSlot!.medicationAdministration?.expiryDateTime = date
                 self.administerSuccessTableView .reloadRowsAtIndexPaths([self.expiryDateCellIndexPath], withRowAnimation:UITableViewRowAnimation.None)
             }
         }
@@ -369,7 +369,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
             let statusViewController : DCAdministrationStatusTableViewController
             if let medicationStatus = medicationSlot?.status {
                 statusViewController  = DCAdministrationHelper.administratedStatusPopOverAtIndexPathWithStatus(indexPath, status:medicationStatus)
-                medicationSlot?.medicationAdministration.status = medicationStatus
+                medicationSlot?.medicationAdministration?.status = medicationStatus
                 statusViewController.previousSelectedValue = medicationStatus
             } else {
                 if DCAdministrationHelper.isMedicationDurationBasedInfusion(medicationDetails!) {
@@ -386,7 +386,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         case 1:
             let reasonViewController : DCAdministrationReasonViewController = DCAdministrationHelper.administratedReasonPopOverAtIndexPathWithStatus(ADMINISTERED)
             reasonViewController.delegate = self
-            if let reasonString = self.medicationSlot?.medicationAdministration.statusReason {
+            if let reasonString = self.medicationSlot?.medicationAdministration?.statusReason {
                 reasonViewController.previousSelection = reasonString
             }
             self.navigationController!.pushViewController(reasonViewController, animated: true)
@@ -523,7 +523,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
     // mark:StatusList Delegate Methods
     func selectedMedicationStatusEntry(status: String!) {
         let parentView : DCAdministrationStatusSelectionViewController = self.parentViewController as! DCAdministrationStatusSelectionViewController
-        medicationSlot!.medicationAdministration.status = status
+        medicationSlot!.medicationAdministration?.status = status
         parentView.updateViewWithChangeInStatus(status)
     }
     
@@ -548,7 +548,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
 
     // MARK:AdministerPickerCellDelegate Methods
     func reasonSelected(reason: String) {
-        self.medicationSlot?.medicationAdministration.statusReason = reason
+        self.medicationSlot?.medicationAdministration?.statusReason = reason
         self.administerSuccessTableView.reloadData()
     }
 }
