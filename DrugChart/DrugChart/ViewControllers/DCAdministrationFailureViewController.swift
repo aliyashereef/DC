@@ -101,13 +101,7 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
     
     //Medication Details Cell
     func medicationDetailsCellAtIndexPath (indexPath :NSIndexPath) -> UITableViewCell {
-        
-//        let cell = administrationFailureTableView.dequeueReusableCellWithIdentifier("DurationBasedInfusionCell") as? DCDurationBasedMedicationDetailsCell
-//        if let _ = medicationDetails {
-//            cell!.configureMedicationDetails(medicationDetails!)
-//        }
-//        return cell!
-        
+                
         if DCAdministrationHelper.isMedicationDurationBasedInfusion(medicationDetails!){
             let cell = administrationFailureTableView.dequeueReusableCellWithIdentifier("DurationBasedInfusionCell") as? DCDurationBasedMedicationDetailsCell
             if let _ = medicationDetails {

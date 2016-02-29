@@ -72,13 +72,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
     
     //Medication Details Cell
     func medicationDetailsCellAtIndexPath (indexPath :NSIndexPath) -> UITableViewCell {
-        
-//            let cell = administerSuccessTableView.dequeueReusableCellWithIdentifier("DurationBasedInfusionCell") as? DCDurationBasedMedicationDetailsCell
-//            if let _ = medicationDetails {
-//                cell!.configureMedicationDetails(medicationDetails!)
-//            }
-//            return cell!
-        
+                
         if DCAdministrationHelper.isMedicationDurationBasedInfusion(medicationDetails!){
             let cell = administerSuccessTableView.dequeueReusableCellWithIdentifier("DurationBasedInfusionCell") as? DCDurationBasedMedicationDetailsCell
             if let _ = medicationDetails {
