@@ -118,7 +118,7 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
         if searchBar.isFirstResponder() {
             searchBar.resignFirstResponder()
         }
-        patientListTableView.contentOffset = CGPoint(x: 0, y: 60)
+        patientListTableView.contentOffset = CGPoint(x: 0, y: 44)
     }
     
     func addSearchBar () {
@@ -472,6 +472,7 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
                 }
             }
             self.activityIndicator.stopAnimating()
+            self.wardsInformationViewController?.activityIndicatorView.stopAnimating()
         }
     }
     
@@ -497,9 +498,9 @@ class DCPatientListingViewController: DCBaseViewController ,UITableViewDataSourc
                 } else {
                         self.displayAlertWithTitle(NSLocalizedString("ERROR", comment: ""), message:NSLocalizedString("FETCH_FAILED", comment: ""))
                 }
+                self.activityIndicator.stopAnimating()
+                self.wardsInformationViewController?.activityIndicatorView.stopAnimating()
             }
-            self.activityIndicator.stopAnimating()
-            self.wardsInformationViewController?.activityIndicatorView.stopAnimating()
             self.refreshControl.endRefreshing()
         }
     }

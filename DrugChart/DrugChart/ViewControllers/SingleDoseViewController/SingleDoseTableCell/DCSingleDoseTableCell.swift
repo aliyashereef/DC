@@ -1,20 +1,19 @@
 //
-//  DCSchedulingDescriptionTableCell.swift
+//  DCSingleDoseTableCell.swift
 //  DrugChart
 //
-//  Created by Jilu Mary Joy on 12/2/15.
+//  Created by Jilu Mary Joy on 2/17/16.
 //
 //
 
 import UIKit
 
-
-class DCSchedulingDescriptionTableCell: DCInstructionsTableCell {
+class DCSingleDoseTableCell: UITableViewCell {
     
-     @IBOutlet weak var descriptionTextView: UITextView!
-
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var valueLabel: UILabel!
+    
     override func awakeFromNib() {
-        
         super.awakeFromNib()
         // Initialization code
     }

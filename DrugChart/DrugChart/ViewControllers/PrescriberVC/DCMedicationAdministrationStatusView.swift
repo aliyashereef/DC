@@ -19,6 +19,7 @@ let OVERDUE_FONT_COLOR              =   UIColor(forHexString: "#ff8972") // get 
 let DUE_NOW_FONT_COLOR              =   UIColor.whiteColor()
 let CURRENT_DAY_BACKGROUND_COLOR    =   UIColor(forHexString: "#fafafa")
 let DUE_NOW_BACKGROUND_COLOR        =   UIColor(forHexString: "#f99e35")
+let PENDING_COUNT_FONT_COLOR        =   UIColor(forHexString: "#595959")
 
 typealias AdministerButtonTappedCallback = (Bool) -> Void
 
@@ -67,7 +68,7 @@ class DCMedicationAdministrationStatusView: UIView {
         if (appDelegate.windowState == DCWindowState.oneThirdWindow){
             statusIcon = UIImageView.init(frame: CGRectMake(0, 0, 17.5, 17.5))
         } else {
-            statusIcon = UIImageView.init(frame: CGRectMake(0, 0, 25, 25))
+            statusIcon = UIImageView.init(frame: CGRectMake(0, 0, 26, 26))
         }
         self.addSubview(statusIcon!)
         statusIcon!.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
@@ -141,25 +142,14 @@ class DCMedicationAdministrationStatusView: UIView {
             statusIcon!.center = CGPointMake(self.bounds.size.width/8.2, self.bounds.size.height/2);
             statusLabel?.center = CGPointMake(self.bounds.size.width/2 - 5, self.bounds.size.height/2);
         } else {
-            statusIconCenterForLeftAlignedState()
+            statusIcon!.center = CGPointMake(self.bounds.size.width/7.2, self.bounds.size.height/2)
             if leftAlign == true {
-                statusLabel?.center = CGPointMake(self.bounds.size.width/1.25, self.bounds.size.height/2);
+                statusLabel?.center = CGPointMake(self.bounds.size.width/1.3, self.bounds.size.height/2);
             } else {
                 statusLabel?.center = CGPointMake(self.bounds.size.width/1.7, self.bounds.size.height/2);
             }
         }
       }
-    
-    func statusIconCenterForLeftAlignedState () {
-        
-        // Left Aligned Status Icon
-        let appDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
-        if (appDelegate.windowState == DCWindowState.twoThirdWindow || appDelegate.windowState == DCWindowState.oneThirdWindow) {
-            statusIcon!.center = CGPointMake(self.bounds.size.width/7.2, self.bounds.size.height/2)
-        } else {
-            statusIcon!.center = CGPointMake(self.bounds.size.width/5.27, self.bounds.size.height/2)
-        }
-    }
     
     func configureStatusViewForToday() {
         
@@ -265,8 +255,8 @@ class DCMedicationAdministrationStatusView: UIView {
             statusIcon?.hidden = false
             let appDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
             if (appDelegate.windowState == DCWindowState.twoThirdWindow) {
-                statusIcon!.center = CGPointMake(self.bounds.size.width/8, self.bounds.size.height/2);
-                statusLabel?.center = CGPointMake(self.bounds.size.width/1.35, self.bounds.size.height/2);
+                statusIcon!.center = CGPointMake(self.bounds.size.width/9, self.bounds.size.height/2);
+                statusLabel?.center = CGPointMake(self.bounds.size.width/1.4, self.bounds.size.height/2);
             } else {
                 positionStatusLabelAndIconForDueAtOrNotAdministeredStatus(true)
             }
@@ -329,7 +319,7 @@ class DCMedicationAdministrationStatusView: UIView {
         let slotIndex = timeArray.indexOfObject(slot)
         let pendingCount = timeArray.count - slotIndex
         let pendingText = String(format: "\n%i of %i %@", pendingCount, timeArray.count, PENDING)
-        let attributedPendingText : NSMutableAttributedString = NSMutableAttributedString(string: pendingText, attributes: [NSFontAttributeName : statusLabelFont(), NSForegroundColorAttributeName : PENDING_FONT_COLOR])
+        let attributedPendingText : NSMutableAttributedString = NSMutableAttributedString(string: pendingText, attributes: [NSFontAttributeName : statusLabelFont(), NSForegroundColorAttributeName : PENDING_COUNT_FONT_COLOR])
         attributedStatusText.appendAttributedString(attributedPendingText)
         return attributedStatusText
     }

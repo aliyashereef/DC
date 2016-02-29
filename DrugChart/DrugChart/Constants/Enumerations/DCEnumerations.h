@@ -129,7 +129,7 @@ typedef enum : NSUInteger {
 typedef enum : NSUInteger {
     
     eAddNewDose,
-    eAddNewTimes
+    eAddNewTimes,
 }AddNewType;
 
 typedef enum : NSUInteger {

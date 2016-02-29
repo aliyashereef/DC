@@ -82,6 +82,7 @@
 #define ORDERSET_STORYBOARD @"OrderSet"
 #define PATIENT_LIST_STORYBOARD @"PatientList"
 #define DOSAGE_STORYBORD @"Dosage"
+#define ADMINISTER_GRAPH @"AdministerGraph"
 
 // Storyboard Ids
 #define PATIENT_LIST_VIEW_CONTROLLER @"patientListingViewController"
@@ -114,7 +115,11 @@
 #define ADD_MEDICATION_DETAIL_STORYBOARD_ID @"AddMedicationDetail"
 #define WARNINGS_LIST_STORYBOARD_ID @"WarningsList"
 #define CALENDAR_SLOT_DETAIL_STORYBOARD_ID @"CalendarDetail"
-#define ADMINISTER_STORYBOARD_ID @"AdministerViewController"
+#define ADMINISTER_SUCCESS_VC_STORYBOARD_ID @"AdministerSuccessViewController"
+#define ADMINISTER_FAILURE_VC_STORYBOARD_ID @"AdministerFailureViewController"
+#define ADMINISTER_IN_PROGRESS_VC_STORYBOARD_ID @"AdministerProgressViewController"
+
+#define ADMINISTRATION_STATUS_CHANGE_VIEW_CONTROLLER @"AdministerStatusChangeViewController"
 #define MEDICATION_STORYBOARD_ID @"MedicationHistory"
 #define BNF_STORYBOARD_ID @"BNFViewController"
 #define PRESCRIBER_LIST_SBID @"PrescriberMedicationList"
@@ -124,6 +129,7 @@
 #define SCHEDULING_DETAIL_STORYBOARD_ID @"SchedulingDetailView"
 #define SCHEDULING_INITIAL_STORYBOARD_ID @"SchedulingInitialView"
 #define INFUSIONS_STORYBOARD_ID @"InfusionViewController"
+#define ADMINISTER_GRAPH_STORYBOARD_ID @"administerGraph"
 
 #define PRESCRIBER_MEDICATION_SBID @"PrescriberMedicationViewControllerSBID"
 #define DOSAGE_SELECTION_SBID @"DosageSelection"
@@ -138,6 +144,7 @@
 #define INJECTION_REGION_SB_ID @"InjectionRegionView"
 #define ADMINISTRATION_TIMES_SB_ID "AdministrationTimesView"
 #define ADD_NEW_VALUE_SBID @"AddNewValueViewController"
+#define SINGLE_DOSE_VIEW_STORYBOARD_ID @"SingleDoseViewController"
 
 
 //Nib files
@@ -222,6 +229,9 @@
 #define VALUE_TEXTFIELD_CELL @"newValueTextfieldCell"
 #define PICKER_DROP_DOWN_CELL @"pickerDropDownCell"
 #define PICKER_CELL @"pickerCell"
+#define SINGLE_DOSE_CELL_ID  @"SingleDoseCellId"
+#define SINGLE_DOSE_PICKER_CELL_ID @"SingleDosePickerCellId"
+#define SINGLE_DOSE_ENTRY_CELL_ID @"SingleDoseEntryCellId"
 
 // Week days
 
@@ -306,6 +316,7 @@
 //medication status
 #define OMITTED @"Omitted"
 #define REFUSED @"Refused"
+#define NOT_ADMINISTRATED @"Not Administrated"
 #define IS_GIVEN @"Administered"
 #define YET_TO_GIVE @"notGiven"
 #define TO_GIVE @"toGive"
@@ -553,6 +564,8 @@
 #define ADD_NEW_TIME @"Add New Time"
 #define TIME_KEY @"time"
 #define UNTIL_TITLE @"Until"
+#define SINGLE_DOSE @"Single dose"
+#define DOSE_DATE_AND_TIME @"Dose date"
 
 //Administration times
  #define SELECTED_KEY @"selected"

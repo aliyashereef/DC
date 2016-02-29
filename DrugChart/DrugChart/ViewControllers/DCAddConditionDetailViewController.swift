@@ -34,6 +34,28 @@ class DCAddConditionDetailViewController: UIViewController, UITableViewDataSourc
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillDisappear(animated: Bool) {
+        
+        if let dosageCell: DCAddConditionDetailTableViewCell = detailTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 1)) as? DCAddConditionDetailTableViewCell {
+            if (dosageCell.newDoseTextField.text! != "" && validateNewDosageValue(dosageCell.newDoseTextField.text!)) {
+                self.previousSelectedValue = "\(dosageCell.newDoseTextField.text!) mg"
+                self.valueForDoseSelected("\(dosageCell.newDoseTextField.text!) mg")
+                if self.detailType == eDoseChange {
+                    if !self.doseArrayForChange.contains("\(dosageCell.newDoseTextField.text!) mg") {
+                        self.doseArrayForChange.append("\(dosageCell.newDoseTextField.text!) mg")
+                        self.doseArrayForChange =  self.doseArrayForChange.sort { NSString(string: $0).floatValue > NSString(string: $1).floatValue }
+                    }
+                } else {
+                    if !self.doseArrayForUntil.contains("\(dosageCell.newDoseTextField.text!) mg") {
+                        self.doseArrayForUntil.append("\(dosageCell.newDoseTextField.text!) mg")
+                        self.doseArrayForUntil =  self.doseArrayForUntil.sort { NSString(string: $0).floatValue > NSString(string: $1).floatValue }
+                    }
+                }
+            }
+        }
+        self.detailTableView.reloadData()
+    }
+    
     func configureNavigationBarItems() {
         
         if (detailType == eDoseChange) {
@@ -79,11 +101,9 @@ class DCAddConditionDetailViewController: UIViewController, UITableViewDataSourc
             dosageValueCell?.valueForDoseLabel.textColor = UIColor.blackColor()
             return dosageValueCell!
         } else {
-            let newDosageCell : DCAddConditionDetailTableViewCell? = tableView.dequeueReusableCellWithIdentifier(ADD_NEW_DOSE_CELL_ID) as? DCAddConditionDetailTableViewCell
-            newDosageCell?.newDoseLabel.text = ADD_NEW_TITLE
-            newDosageCell?.accessoryType = .None
-            newDosageCell?.newDoseLabel.textColor = tableView.tintColor
-            return newDosageCell!
+            let dosageDetailCell : DCAddConditionDetailTableViewCell? = detailTableView.dequeueReusableCellWithIdentifier(ADD_NEW_VALUE_CELL_ID) as? DCAddConditionDetailTableViewCell
+            dosageDetailCell?.accessoryType = .None
+            return dosageDetailCell!
         }
     }
     
@@ -98,7 +118,8 @@ class DCAddConditionDetailViewController: UIViewController, UITableViewDataSourc
             }
             self.navigationController?.popViewControllerAnimated(true)
         case 1:
-            self.transitToAddNewDoseScreen()
+            break
+//            self.transitToAddNewDoseScreen()
         default:
             break
         }
@@ -136,4 +157,10 @@ class DCAddConditionDetailViewController: UIViewController, UITableViewDataSourc
         self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
     }
     
+    func validateNewDosageValue (value: String) -> Bool {
+        
+        let scanner: NSScanner = NSScanner(string:value)
+        let isNumeric = scanner.scanDecimal(nil) && scanner.atEnd
+        return isNumeric && (NSString(string: value).floatValue < 10000)
+    }
 }

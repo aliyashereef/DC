@@ -13,15 +13,15 @@ typealias NewValueEntered = String? -> Void
 class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
 
     var detailType : ValueType = eAddIntegerValue
-    var placeHolderString : String = ""
+    var placeHolderString : String = EMPTY_STRING
     var unitArray = [String]()
-    var titleString : String = ""
-    var textFieldValue : String = ""
-    var valueForUnit : String = ""
-    var backButtonTitle : String = ""
+    var titleString : String = EMPTY_STRING
+    var textFieldValue : String = EMPTY_STRING
+    var valueForUnit : String = EMPTY_STRING
+    var backButtonTitle : String = EMPTY_STRING
     var isInlinePickerActive : Bool = false
     var newValueEntered: NewValueEntered = { value in }
-    var previousValue : String = ""
+    var previousValue : String = EMPTY_STRING
     var previousValueInFloat : Float = 0
     @IBOutlet weak var mainTableView: UITableView!
 
@@ -29,20 +29,20 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
         super.viewDidLoad()
         mainTableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
         if detailType == eAddIntegerValue {
-            if previousValue != "" {
+            if previousValue != EMPTY_STRING {
                 previousValueInFloat = NSString(string: previousValue).floatValue
                 textFieldValue = String(format: previousValueInFloat == floor(previousValueInFloat) ? "%.0f" : "%.1f", previousValueInFloat)
             } else {
-                textFieldValue = ""
+                textFieldValue = EMPTY_STRING
             }
         } else {
-            if previousValue != "" {
+            if previousValue != EMPTY_STRING {
                 let arrayOfValueAndUnit: [AnyObject] = previousValue.componentsSeparatedByString(" ")
                 let lastIndex : Int = arrayOfValueAndUnit.endIndex - 1
                 textFieldValue = arrayOfValueAndUnit[lastIndex - 1] as! String
                 valueForUnit = arrayOfValueAndUnit[lastIndex] as! String
             } else {
-                textFieldValue = ""
+                textFieldValue = EMPTY_STRING
                 valueForUnit = unitArray[0]
             }
         }
@@ -56,15 +56,23 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
     }
     
     override func viewWillDisappear(animated: Bool) {
+        
         let newValueCell : DCAddNewValueTableViewCell = mainTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! DCAddNewValueTableViewCell
         textFieldValue = newValueCell.newValueTextField.text!
         if detailType == eAddIntegerValue {
-            if textFieldValue != "" {
+            if textFieldValue != EMPTY_STRING {
                 self.newValueEntered(textFieldValue)
             }
-        } else {
-            if textFieldValue != "" && valueForUnit != "" {
-                self.newValueEntered("\(textFieldValue) \(valueForUnit)")
+        }
+        else {
+            if textFieldValue != EMPTY_STRING && valueForUnit != EMPTY_STRING {
+                let number: Int? = Int(textFieldValue)
+                if number > 1 {
+                    self.newValueEntered("\(textFieldValue) \(valueForUnit)s")
+                }
+                else {
+                    self.newValueEntered("\(textFieldValue) \(valueForUnit)")
+                }
             }
         }
     }
@@ -85,7 +93,7 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if detailType == eAddIntegerValue {
+        if (detailType == eAddIntegerValue){
             return 1
         } else {
             return 3
@@ -97,7 +105,7 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
         if indexPath.row == 0 {
             let newValueTableCell : DCAddNewValueTableViewCell = (mainTableView.dequeueReusableCellWithIdentifier(VALUE_TEXTFIELD_CELL) as? DCAddNewValueTableViewCell)!
             newValueTableCell.newValueTextField.placeholder = placeHolderString
-            if textFieldValue != "" {
+            if textFieldValue != EMPTY_STRING {
                 newValueTableCell.newValueTextField.text = textFieldValue
             }
             newValueTableCell.newValueTextField.becomeFirstResponder()
@@ -188,7 +196,7 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
         let components = string.componentsSeparatedByCharactersInSet(inverseSet)
         
         // Rejoin these components
-        let filtered = components.joinWithSeparator("")  // use join("", components) if you are using Swift 1.2
+        let filtered = components.joinWithSeparator(EMPTY_STRING)  // use join(EMPTY_STRING, components) if you are using Swift 1.2
         
         // If the original string is equal to the filtered string, i.e. if no
         // inverse characters were present to be eliminated, the input is valid

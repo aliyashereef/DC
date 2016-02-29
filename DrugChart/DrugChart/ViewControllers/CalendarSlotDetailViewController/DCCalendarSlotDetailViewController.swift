@@ -183,7 +183,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
 
         showTopBarDoneButton(true)
         if administerViewController == nil {
-            administerViewController = administerStoryboard!.instantiateViewControllerWithIdentifier(ADMINISTER_STORYBOARD_ID) as? DCAdministerViewController
+            //administerViewController = administerStoryboard!.instantiateViewControllerWithIdentifier(ADMINISTER_STORYBOARD_ID) as? DCAdministerViewController
             administerViewController?.medicationSlot = slotToAdminister
             administerViewController?.weekDate = weekDate
             if (medicationSlotsArray.count > 0) {

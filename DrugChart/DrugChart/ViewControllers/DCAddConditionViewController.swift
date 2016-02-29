@@ -279,6 +279,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
         } else if (indexPath.row == 3) {
             let addMedicationStoryboard = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil)
             let addNewValueViewController = addMedicationStoryboard.instantiateViewControllerWithIdentifier(ADD_NEW_VALUE_SBID) as? DCAddNewValueViewController
+            addNewValueViewController?.backButtonTitle = ADD_CONDITION_TITLE
             addNewValueViewController?.titleString = "Every"
             addNewValueViewController?.placeHolderString = (self.dosage?.reducingIncreasingDose.changeOver)!
             if valueForEvery != "" {

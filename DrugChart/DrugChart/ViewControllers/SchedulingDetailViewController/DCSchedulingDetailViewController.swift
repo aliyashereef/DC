@@ -33,12 +33,13 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
     var scheduling : DCScheduling?
     var schedulingCompletion: SchedulingCompletion = { value in }
     var frequencyValue : SelectedFrequencyValue = {value in }
-    var headerHeight : CGFloat = 0.0
+   // var headerHeight : CGFloat = 0.0
     var detailType : SchedulingDetailType?
     var previousFilledValue : NSString = EMPTY_STRING
     var previewArray : NSMutableArray? = []
     var detailDelegate : SchedulingDetailDelegate?
     var administratingTimes : NSArray?
+    var previousRepeatIndexPath : NSIndexPath?
     
     override func viewDidLoad() {
         
@@ -72,8 +73,8 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
         
         //set view properties and values
         //calculate header view height
-        let schedulingDescription = (self.scheduling?.type == SPECIFIC_TIMES) ? self.scheduling?.specificTimes?.specificTimesDescription : self.scheduling?.interval?.intervalDescription
-        headerHeight = DCUtility.textViewSizeWithText(schedulingDescription, maxWidth: HEADER_VIEW_LABEL_MAX_WIDTH, font: UIFont.systemFontOfSize(13.0)).height + 10
+//        let schedulingDescription = (self.scheduling?.type == SPECIFIC_TIMES) ? self.scheduling?.specificTimes?.specificTimesDescription : self.scheduling?.interval?.intervalDescription
+//        headerHeight = DCUtility.textViewSizeWithText(schedulingDescription, maxWidth: HEADER_VIEW_LABEL_MAX_WIDTH, font: UIFont.systemFontOfSize(13.0)).height + 10
         detailTableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
         configureNavigationView()
     }
@@ -131,7 +132,7 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
                     self.scheduling?.specificTimes?.repeatObject?.isEachValue = true
                     self.scheduling?.specificTimes?.repeatObject?.onTheValue = EMPTY_STRING
                 }
-                self.schedulingCompletion(self.scheduling)
+              //  self.schedulingCompletion(self.scheduling)
                 self.detailTableView.reloadData()
             } else {
                 self.updateSchedulingDetailsForSelectedPickerType(pickerType, selectedValue: value!)
@@ -184,7 +185,6 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
             default :
                 break
         }
-        self.schedulingCompletion(self.scheduling)
         self.detailTableView.reloadData()
     }
     
@@ -194,6 +194,7 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
         //dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
             if (pickerType == eDayCount) {
                 if (self.scheduling?.interval?.startTime != nil) {
+                    self.previewArray?.removeAllObjects()
                     self.previewArray?.addObject((self.scheduling?.interval?.startTime)!)
                     if let delegate = self.detailDelegate {
                         delegate.updatedIntervalPreviewArray(self.previewArray!)
@@ -295,11 +296,14 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
         }
     }
     
-    func populatedIntervalCell(intervalCell : DCSchedulingCell, WithRepeatFrequencyType type : NSString) -> DCSchedulingCell {
+    func populatedIntervalCell(intervalCell : DCSchedulingCell,  atIndexPath indexPath : NSIndexPath, WithRepeatFrequencyType type : NSString) -> DCSchedulingCell {
         
         //populated interval cell
         intervalCell.titleLabel.text = type as String
         intervalCell.accessoryType = self.scheduling?.interval?.repeatFrequencyType == type ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
+        if (self.scheduling?.interval?.repeatFrequencyType == type) {
+            previousRepeatIndexPath = indexPath
+        }
         return intervalCell
     }
     
@@ -314,9 +318,9 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
         if (self.inlinePickerIndexPath == nil) {
             switch indexPath.row {
             case 1 :
-                intervalCell? = populatedIntervalCell(intervalCell!, WithRepeatFrequencyType: HOURS_TITLE)
+                intervalCell? = populatedIntervalCell(intervalCell!, atIndexPath: indexPath, WithRepeatFrequencyType: HOURS_TITLE)
             case 2 :
-                intervalCell? = populatedIntervalCell(intervalCell!, WithRepeatFrequencyType: MINUTES_TITLE)
+                intervalCell? = populatedIntervalCell(intervalCell!, atIndexPath: indexPath, WithRepeatFrequencyType: MINUTES_TITLE)
             default :
                 break
             }
@@ -326,30 +330,30 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
                 let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: eDayCount)
                 return pickerCell
             case 2 :
-                intervalCell? = populatedIntervalCell(intervalCell!, WithRepeatFrequencyType: HOURS_TITLE)
+                intervalCell? = populatedIntervalCell(intervalCell!, atIndexPath: indexPath, WithRepeatFrequencyType: HOURS_TITLE)
             case 3 :
-                intervalCell? = populatedIntervalCell(intervalCell!, WithRepeatFrequencyType: MINUTES_TITLE)
+                intervalCell? = populatedIntervalCell(intervalCell!, atIndexPath: indexPath, WithRepeatFrequencyType: MINUTES_TITLE)
             default :
                 break
             }
         } else if (self.inlinePickerIndexPath?.row == 2) { // picker for hour
             switch indexPath.row {
             case 1 :
-                intervalCell? = populatedIntervalCell(intervalCell!, WithRepeatFrequencyType: HOURS_TITLE)
+                intervalCell? = populatedIntervalCell(intervalCell!, atIndexPath: indexPath, WithRepeatFrequencyType: HOURS_TITLE)
             case 2:
                 let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: eHoursCount)
                 return pickerCell
             case 3 :
-                intervalCell? = populatedIntervalCell(intervalCell!, WithRepeatFrequencyType: MINUTES_TITLE)
+                intervalCell? = populatedIntervalCell(intervalCell!, atIndexPath: indexPath, WithRepeatFrequencyType: MINUTES_TITLE)
             default :
                 break
             }
         } else {
             switch indexPath.row {
             case 1 :
-                intervalCell? = populatedIntervalCell(intervalCell!, WithRepeatFrequencyType: HOURS_TITLE)
+                intervalCell? = populatedIntervalCell(intervalCell!, atIndexPath: indexPath, WithRepeatFrequencyType: HOURS_TITLE)
             case 2 :
-                intervalCell? = populatedIntervalCell(intervalCell!, WithRepeatFrequencyType: MINUTES_TITLE)
+                intervalCell? = populatedIntervalCell(intervalCell!, atIndexPath: indexPath, WithRepeatFrequencyType: MINUTES_TITLE)
                 
             case 3:
                 let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: eMinutesCount)
@@ -451,7 +455,6 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
         if (pickerType != nil) {
             self.updateAdministrationTimesArrayForSelectedPickerType(pickerType!)
         }
-        self.schedulingCompletion(self.scheduling)
     }
     
     func specificTimesWeeklyOrYearlyDetailCellAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
@@ -489,6 +492,25 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
             }
             return repeatCell
         }
+    }
+    
+    func schedulingDescriptionFooterText () -> String {
+        
+        if (self.detailType! == eDetailIntervalRepeatFrequency) {
+            if let intervalObject = self.scheduling?.interval {
+                self.scheduling?.interval?.intervalDescription = DCSchedulingHelper.scheduleDescriptionForIntervalValue(intervalObject) as String
+                return (self.scheduling?.interval?.intervalDescription)!
+            }
+        } else {
+            if let repeatObject = self.scheduling?.specificTimes?.repeatObject {
+                if administratingTimes == nil {
+                    administratingTimes = []
+                }
+                self.scheduling?.specificTimes?.specificTimesDescription = DCSchedulingHelper.scheduleDescriptionForSpecificTimesRepeatValue(repeatObject, administratingTimes: administratingTimes!) as String
+                return (self.scheduling?.specificTimes?.specificTimesDescription)!
+            }
+        }
+        return EMPTY_STRING
     }
     
     // MARK: TableView Methods
@@ -567,8 +589,19 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
                 displayInlinePickerForRowAtIndexPath(indexPath)
             } else if (self.detailType! == eDetailIntervalRepeatFrequency) {
                 updateSchedulingDetailsForSelectedIntervalRepeatFrequencyAtIndexPath(indexPath)
-                self.detailTableView.reloadData()
-                let dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(0.14 * Double(NSEC_PER_SEC)))
+                let indexPaths : NSMutableArray = [indexPath]
+                if let pickerIndexPath = self.inlinePickerIndexPath {
+                    indexPaths.addObject(NSIndexPath(forRow: pickerIndexPath.row - 1, inSection: pickerIndexPath.section))
+                } else {
+                    if (previousRepeatIndexPath != nil) {
+                        indexPaths.addObject(previousRepeatIndexPath!)
+                    }
+                }
+                self.detailTableView.beginUpdates()
+                self.detailTableView.reloadRowsAtIndexPaths(NSArray(array: indexPaths) as! [NSIndexPath] , withRowAnimation: .Fade)
+                self.detailTableView.endUpdates()
+                previousRepeatIndexPath = indexPath
+                let dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(0.2 * Double(NSEC_PER_SEC)))
                 dispatch_after(dispatchTime, dispatch_get_main_queue(), {
                     // your function here
                     self.displayInlinePickerForRowAtIndexPath(indexPath)
@@ -586,9 +619,8 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
                     //remove the already existing object from array
                     self.scheduling?.specificTimes?.repeatObject?.weekDays.removeObjectAtIndex(index)
                  }
-                self.schedulingCompletion(self.scheduling)
                 tableView.beginUpdates()
-                self.detailTableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.Fade)
+                self.detailTableView.reloadSections(NSIndexSet(indexesInRange: NSMakeRange(0, 2)), withRowAnimation: UITableViewRowAnimation.Fade)
                 tableView.endUpdates()
             } else {
                 
@@ -610,41 +642,35 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        
-        if (section == 1) {
-            return (headerHeight > HEADER_VIEW_MIN_HEIGHT) ? headerHeight : HEADER_VIEW_MIN_HEIGHT
-        }
-        return 0
-    }
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         
-        if (section == 1) {
-            let headerView = NSBundle.mainBundle().loadNibNamed(SCHEDULING_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCSchedulingHeaderView
-            if (self.detailType! == eDetailIntervalRepeatFrequency) {
-                if let intervalObject = self.scheduling?.interval {
-                    headerView?.populateMessageLabelForIntervalValue(intervalObject)
-                    self.scheduling?.interval?.intervalDescription = headerView?.messageLabel.text;
-                }
-            } else {
-                if let repeatObject = self.scheduling?.specificTimes?.repeatObject {
-                    if administratingTimes == nil {
-                        administratingTimes = []
-                    }
-                    headerView?.populateMessageLabelWithSpecificTimesRepeatValue(repeatObject, administratingTimes: administratingTimes!)
-                    self.scheduling?.specificTimes?.specificTimesDescription = headerView?.messageLabel.text;
-                }
-            }
-            self.schedulingCompletion(self.scheduling)
-            headerHeight = DCUtility.textViewSizeWithText(headerView?.messageLabel.text, maxWidth: HEADER_VIEW_LABEL_MAX_WIDTH, font: UIFont.systemFontOfSize(13.0)).height + 10
-            tableView.layoutIfNeeded()
-            return headerView!
+        //Set the header as PREVIEW
+        if section == 0 {
+            return schedulingDescriptionFooterText()
         }
-
         return nil
     }
     
+    func tableView(tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+        
+        //Change text color to red and change text from full upper case to desired sentence.
+        if let view = view as? UITableViewHeaderFooterView {
+            view.textLabel!.font = UIFont.systemFontOfSize(14.0)
+        }
+    }
+    
+    
+    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        
+        if (section == 0) {
+            let schedulingDescription : NSString = schedulingDescriptionFooterText()
+            let headerHeight : CGFloat = DCUtility.textViewSizeWithText(String(format: "%@", schedulingDescription), maxWidth: FOOTER_VIEW_MAX_WIDTH, font: UIFont.systemFontOfSize(14.0)).height + FOOTER_VIEW_HEIGHT_OFFSET_VALUE
+            return headerHeight < FOOTER_VIEW_MIN_HEIGHT ? FOOTER_VIEW_MIN_HEIGHT : (headerHeight + FOOTER_VIEW_TOTAL_HEIGHT_OFFSET)
+        }
+        return 0
+    }
+
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         return (indexPathHasPicker(indexPath)) ? PICKER_CELL_HEIGHT : TABLE_VIEW_ROW_HEIGHT

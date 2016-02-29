@@ -41,6 +41,29 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillDisappear(animated: Bool) {
+        
+        if let dosageCell: DCDosageDetailTableViewCell = dosageDetailTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 1)) as? DCDosageDetailTableViewCell {
+            if (dosageCell.addNewDosageTextField.text! != "" && validateNewDosageValue(dosageCell.addNewDosageTextField.text!)) {
+                self.previousSelectedValue = dosageCell.addNewDosageTextField.text!
+                if self.detailType == eAddDoseForTime {
+                    if !self.doseForTimeArray.contains(dosageCell.addNewDosageTextField.text!) {
+                        self.doseForTimeArray.append(dosageCell.addNewDosageTextField.text!)
+                        self.doseForTimeArray =  self.doseForTimeArray.sort { NSString(string: $0).floatValue > NSString(string: $1).floatValue }
+                        self.delegate?.newDosageAdded(dosageCell.addNewDosageTextField.text!)
+                    }
+                } else {
+                    if !self.dosageDetailsArray.contains(dosageCell.addNewDosageTextField.text!) {
+                        self.dosageDetailsArray.append(dosageCell.addNewDosageTextField.text!)
+                        self.dosageDetailsArray =  self.dosageDetailsArray.sort { NSString(string: $0).floatValue > NSString(string: $1).floatValue }
+                        self.delegate?.newDosageAdded(dosageCell.addNewDosageTextField.text!)
+                    }
+                }
+                self.dosageDetailTableView.reloadData()
+            }
+        }
+    }
+    
     func configureNavigationBarItems() {
         
             // Configure navigation title.
@@ -127,10 +150,12 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
                 }
                 self.navigationController?.popViewControllerAnimated(true)
             }else {
-                    self.transitToAddNewScreen()
+                // New dose textfield cell
+//                    self.transitToAddNewScreen()
             }
         } else {
-            self.transitToAddNewScreen()
+            // New dose textfield cell
+//            self.transitToAddNewScreen()
         }
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
@@ -144,10 +169,8 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
     
     func configureCellForAddNew() -> DCDosageDetailTableViewCell{
         
-        let dosageDetailCell : DCDosageDetailTableViewCell? = dosageDetailTableView.dequeueReusableCellWithIdentifier(DOSE_DETAIL_DISPLAY_CELL_ID) as? DCDosageDetailTableViewCell
-            dosageDetailCell?.dosageDetailCellLabel.text = ADD_NEW_TITLE
+        let dosageDetailCell : DCDosageDetailTableViewCell? = dosageDetailTableView.dequeueReusableCellWithIdentifier(ADD_NEW_VALUE_CELL_ID) as? DCDosageDetailTableViewCell
         dosageDetailCell?.accessoryType = .None
-        dosageDetailCell?.dosageDetailCellLabel.textColor = dosageDetailTableView.tintColor
         return dosageDetailCell!
     }
     
@@ -214,5 +237,12 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
         let navigationController: UINavigationController = UINavigationController(rootViewController: addNewDosageViewController!)
         navigationController.modalPresentationStyle = UIModalPresentationStyle.CurrentContext
         self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
+    }
+    
+    func validateNewDosageValue (value: String) -> Bool {
+        
+        let scanner: NSScanner = NSScanner(string:value)
+        let isNumeric = scanner.scanDecimal(nil) && scanner.atEnd
+        return isNumeric && NSString(string: value).floatValue < 10000
     }
 }
