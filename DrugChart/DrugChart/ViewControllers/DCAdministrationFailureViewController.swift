@@ -28,7 +28,6 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        medicationSlot?.medicationAdministration.statusReason = EMPTY_STRING
     }
     
     func configureTableViewProperties () {

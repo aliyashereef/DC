@@ -43,7 +43,6 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         self.collapseOpenedPickerCell()
-        medicationSlot?.medicationAdministration.statusReason = EMPTY_STRING
     }
     // MARK: Private Methods
     //MARK:
