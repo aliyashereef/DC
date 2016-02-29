@@ -39,12 +39,10 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
         if (medicationSlot == nil) {
             medicationSlot = DCMedicationSlot.init()
         }
-        if(medicationSlot?.medicationAdministration == nil) {
-            medicationSlot?.medicationAdministration = DCMedicationAdministration.init()
-            medicationSlot?.medicationAdministration.checkingUser = DCUser.init()
-            medicationSlot?.medicationAdministration.administratingUser = DCUser.init()
-            medicationSlot?.medicationAdministration.scheduledDateTime = medicationSlot?.time
-        }
+        medicationSlot?.medicationAdministration = DCMedicationAdministration.init()
+        medicationSlot?.medicationAdministration.administratingUser = DCUser.init()
+        medicationSlot?.medicationAdministration.scheduledDateTime = medicationSlot?.time
+        medicationSlot?.medicationAdministration.statusReason = EMPTY_STRING
         medicationSlot?.medicationAdministration?.actualAdministrationTime = DCDateUtility.dateInCurrentTimeZone(NSDate())
     }
     
@@ -163,6 +161,7 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
         
         let pickerCell : DCDatePickerCell = (administrationFailureTableView.dequeueReusableCellWithIdentifier(DATE_STATUS_PICKER_CELL_IDENTIFIER) as? DCDatePickerCell)!
         pickerCell.configureDatePickerProperties()
+        pickerCell.datePicker?.maximumDate = NSDate()
         pickerCell.selectedDate = { date in
             self.medicationSlot!.medicationAdministration.actualAdministrationTime = date
             self.administrationFailureTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow:RowCount.eSecondRow.rawValue, inSection:1)], withRowAnimation: UITableViewRowAnimation.None)
@@ -203,6 +202,9 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
             self.collapseOpenedPickerCell()
             let reasonViewController : DCAdministrationReasonViewController = DCAdministrationHelper.administratedReasonPopOverAtIndexPathWithStatus(NOT_ADMINISTRATED)
             reasonViewController.delegate = self
+            if let reasonString = self.medicationSlot?.medicationAdministration.statusReason {
+                reasonViewController.previousSelection = reasonString
+            }
             self.navigationController!.pushViewController(reasonViewController, animated: true)
         case 2:
             self.toggleDatePickerForSelectedIndexPath(indexPath)

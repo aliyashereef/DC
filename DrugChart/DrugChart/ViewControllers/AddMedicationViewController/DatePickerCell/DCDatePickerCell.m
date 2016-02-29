@@ -23,6 +23,7 @@
 - (void)configureDatePickerProperties {
     
     //configure picker properties
+    _datePicker.date = [NSDate date];
     _datePicker.timeZone = [NSTimeZone timeZoneWithAbbreviation:GMT];
 }
 
@@ -30,6 +31,5 @@
     
     self.selectedDate (_datePicker.date);
 }
-
 
 @end

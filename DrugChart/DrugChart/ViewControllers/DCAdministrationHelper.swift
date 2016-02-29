@@ -84,7 +84,7 @@ class DCAdministrationHelper : NSObject {
         }
         // To Do : for the sake of display of infusions , untill the API gets updated, this value need to be changed dynamic.
         var adminStatus = medicationSlot.medicationAdministration?.status
-        if (adminStatus == STARTED) {
+        if (adminStatus == STARTED || adminStatus == IN_PROGRESS) {
             medicationSlot.medicationAdministration?.status = IN_PROGRESS
             adminStatus = ADMINISTERED
         } else if (adminStatus == NOT_ADMINISTRATED) {
@@ -98,7 +98,7 @@ class DCAdministrationHelper : NSObject {
                 if administratingStatus == false {
                     administerDictionary.setValue(medicationSlot.medicationAdministration?.administratingUser!.userIdentifier, forKey:"AdministratingUserIdentifier")
                 }
-                administerDictionary.setValue(administratingStatus, forKey: IS_SELF_ADMINISTERED)
+                administerDictionary.setValue(true, forKey: IS_SELF_ADMINISTERED)
             }
         }
         
@@ -147,6 +147,16 @@ class DCAdministrationHelper : NSObject {
         }
         return noteString
     }
+    
+    static func isMedicationDurationBasedInfusion (medication : DCMedicationScheduleDetails) -> Bool {
+        // T0 Do : This is a temporary method to implement the status display for the duration based infusion , when the API gets updated - modifications needed.
+        if (medication.route == "Subcutaneous" || medication.route == "Intravenous"){
+            return true
+        } else {
+            return false
+        }
+    }
+
     
     static func entriesAreValidInMedication(medicationSlot : DCMedicationSlot) -> (Bool) {
         

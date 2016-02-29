@@ -225,18 +225,6 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
             administrationSuccessViewController = administerStoryboard!.instantiateViewControllerWithIdentifier(ADMINISTER_SUCCESS_VC_STORYBOARD_ID) as? DCAdministrationSuccessViewController
             administrationSuccessViewController?.medicationSlot = self.medicationSlot
             administrationSuccessViewController?.medicationSlot?.status = statusState
-            if (medicationSlotsArray.count > 0) {
-                var medicationArray : [DCMedicationSlot] = [DCMedicationSlot]()
-                if let toAdministerArray : [DCMedicationSlot] = medicationSlotsArray {
-                    var slotCount = 0
-                    for slot : DCMedicationSlot in toAdministerArray {
-                        if (slot.medicationAdministration?.actualAdministrationTime == nil) {
-                            medicationArray.insert(slot, atIndex: slotCount)
-                            slotCount++
-                        }
-                    }
-                }
-            }
             administrationSuccessViewController?.medicationDetails = medicationDetails
             administerContainerView.addSubview((administrationSuccessViewController?.view)!)
             self.addChildViewController(administrationSuccessViewController!)
@@ -253,18 +241,6 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
         if administrationFailureViewController == nil {
             administrationFailureViewController = administerStoryboard!.instantiateViewControllerWithIdentifier(ADMINISTER_FAILURE_VC_STORYBOARD_ID) as? DCAdministrationFailureViewController
             administrationFailureViewController?.medicationSlot = medicationSlot
-            if (medicationSlotsArray.count > 0) {
-                var medicationArray : [DCMedicationSlot] = [DCMedicationSlot]()
-                if let toAdministerArray : [DCMedicationSlot] = medicationSlotsArray {
-                    var slotCount = 0
-                    for slot : DCMedicationSlot in toAdministerArray {
-                        if (slot.medicationAdministration?.actualAdministrationTime == nil) {
-                            medicationArray.insert(slot, atIndex: slotCount)
-                            slotCount++
-                        }
-                    }
-                }
-            }
             administrationFailureViewController?.medicationDetails = medicationDetails
             administerContainerView.addSubview((administrationFailureViewController?.view)!)
             self.addChildViewController(administrationFailureViewController!)
@@ -281,18 +257,6 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
         if administrationInProgressViewController == nil {
             administrationInProgressViewController = administerStoryboard!.instantiateViewControllerWithIdentifier(ADMINISTER_IN_PROGRESS_VC_STORYBOARD_ID) as? DCAdministrationInProgressViewController
             administrationInProgressViewController?.medicationSlot = medicationSlot
-            if (medicationSlotsArray.count > 0) {
-                var medicationArray : [DCMedicationSlot] = [DCMedicationSlot]()
-                if let toAdministerArray : [DCMedicationSlot] = medicationSlotsArray {
-                    var slotCount = 0
-                    for slot : DCMedicationSlot in toAdministerArray {
-                        if (slot.medicationAdministration?.actualAdministrationTime == nil) {
-                            medicationArray.insert(slot, atIndex: slotCount)
-                            slotCount++
-                        }
-                    }
-                }
-            }
             administrationInProgressViewController?.medicationDetails = medicationDetails
             administerContainerView.addSubview((administrationInProgressViewController?.view)!)
             self.addChildViewController(administrationInProgressViewController!)
@@ -340,14 +304,19 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
 
     func saveButtonPressed () {
         //perform administer medication api call here
+        self.view.bringSubviewToFront(self.activityIndicator)
         if medicationSlot?.medicationAdministration.status == NOT_ADMINISTRATED {
             self.medicationSlot = DCMedicationSlot.init()
             self.medicationSlot = administrationFailureViewController?.medicationSlot
+            self.activityIndicator.startAnimating()
             self.callAdministerMedicationWebService()
         } else if medicationSlot?.medicationAdministration.status == ADMINISTERED || medicationSlot?.medicationAdministration.status == STARTED {
             self.medicationSlot = DCMedicationSlot.init()
             self.medicationSlot = administrationSuccessViewController?.medicationSlot
+            self.activityIndicator.startAnimating()
             self.callAdministerMedicationWebService()
+        } else {
+            self.dismissViewControllerAnimated(true, completion: nil)
         }
 //        self.saveClicked = true
 //        if(entriesAreValid()) {

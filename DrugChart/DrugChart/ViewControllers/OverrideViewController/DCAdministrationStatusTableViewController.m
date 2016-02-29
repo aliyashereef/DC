@@ -47,6 +47,7 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.tableView reloadData];
+    [self rowCountAccordingToStatus];
 }
 
 #pragma mark - Memory Management Methods
@@ -57,13 +58,22 @@
 }
 
 - (void)configureStatusArrayWithStatusValue {
-    if ([self.status  isEqual: ADMINISTER_NOW]) {
+    if ([self.status  isEqual: ADMINISTER_NOW] || [self.status  isEqual: STARTED]) {
         _namesArray = @[STARTED, NOT_ADMINISTRATED];
     } else if ([self.status  isEqual: IN_PROGRESS] || [@[ENDED,STOPED_DUE_TO_PROBLEM,CONTINUED_AFTER_PROBLEM,FLUID_CHANGED,PAUSED] containsObject:self.status]){
         _namesArray = @[ENDED,STOPED_DUE_TO_PROBLEM,CONTINUED_AFTER_PROBLEM,FLUID_CHANGED,PAUSED];
     } else {
         _namesArray = @[ADMINISTERED, NOT_ADMINISTRATED];
     }
+}
+
+- (void)rowCountAccordingToStatus {
+    
+//    if ([_previousSelectedValue isEqualToString: STOPED_DUE_TO_PROBLEM] || [_previousSelectedValue isEqualToString:CONTINUED_AFTER_PROBLEM]) {
+//        [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
+//    } else if ([_previousSelectedValue isEqualToString: FLUID_CHANGED]) {
+//        [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:3 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
+//    }
 }
 
 #pragma mark - Table View Data Source Methods
@@ -284,12 +294,18 @@
         pickerCell = [[DCDatePickerCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:pickerCellId];
     }
     [pickerCell configureDatePickerProperties];
+    if (datePickerIndexPath.row == 1) {
+        pickerCell.datePicker.datePickerMode = UIDatePickerModeDateAndTime;
+        pickerCell.datePicker.maximumDate = [NSDate date];
+    } else {
+        pickerCell.datePicker.datePickerMode = UIDatePickerModeDate;
+    }
     pickerCell.selectedDate = ^ (NSDate *date) {
         if (datePickerIndexPath.row  == 1) {
-            self.restartedDate = [DCDateUtility dateStringFromDate:date inFormat:START_DATE_FORMAT];
+            self.restartedDate = [DCDateUtility dateStringFromDate:date inFormat:ADMINISTER_DATE_TIME_FORMAT];
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
         } else {
-            self.expiryDate = [DCDateUtility dateStringFromDate:date inFormat:START_DATE_FORMAT];
+            self.expiryDate = [DCDateUtility dateStringFromDate:date inFormat:BIRTH_DATE_FORMAT];
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:datePickerIndexPath.row-1 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
         }
        

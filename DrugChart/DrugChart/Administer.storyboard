@@ -702,7 +702,6 @@
                                     <subviews>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Notes" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="JrJ-iw-EU1">
                                             <rect key="frame" x="9" y="0.0" width="582" height="124"/>
-                                            <color key="textColor" red="0.56078431370000004" green="0.56078431370000004" blue="0.58431372550000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             <connections>
@@ -1326,7 +1325,6 @@
                                     <subviews>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Notes" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="mvi-ja-qEP">
                                             <rect key="frame" x="9" y="0.0" width="582" height="124"/>
-                                            <color key="textColor" red="0.56078431370000004" green="0.56078431370000004" blue="0.58431372550000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             <connections>
@@ -1975,7 +1973,6 @@
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Notes" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="rcq-i8-Wyu">
                                                     <rect key="frame" x="9" y="0.0" width="582" height="124"/>
-                                                    <color key="textColor" red="0.56078431370000004" green="0.56078431370000004" blue="0.58431372550000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                     <connections>

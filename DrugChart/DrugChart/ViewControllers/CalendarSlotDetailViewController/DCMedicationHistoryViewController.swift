@@ -69,7 +69,11 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
             break
         case 1:
             cell!.contentType.text = REASON
-            cell!.value.text = NONE_TEXT
+            if let reason = medication.medicationAdministration.statusReason {
+                cell!.value.text = reason
+            } else {
+                cell!.value.text = NONE_TEXT
+            }
             break
         case 2:
             cell!.contentType.text = DATE_TIME
@@ -103,7 +107,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
             cell!.contentType.text = "Expiry Date"
             var dateString = EMPTY_STRING
             if let date = medication.medicationAdministration?.expiryDateTime {
-                dateString = DCDateUtility.dateStringFromDate(date, inFormat: ADMINISTER_DATE_TIME_FORMAT)
+                dateString = DCDateUtility.dateStringFromDate(date, inFormat: BIRTH_DATE_FORMAT)
                 cell!.value.text = dateString
             }else {
                 cell!.value.text = NONE_TEXT

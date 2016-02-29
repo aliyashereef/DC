@@ -59,7 +59,11 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         let currentDateString : NSString? = DCDateUtility.dateStringFromDate(currentSystemDate, inFormat: SHORT_DATE_FORMAT)
 
         if (medication.medicationAdministration?.status != nil && medication.medicationAdministration.actualAdministrationTime != nil){
-            return (medication.medicationAdministration?.status)!
+            if medication.medicationAdministration?.status == REFUSED {
+                return NOT_ADMINISTRATED
+            } else {
+                return (medication.medicationAdministration?.status)!
+            }
         }
         if medication.medicationAdministration?.status == STARTED {
             return IN_PROGRESS
