@@ -18,6 +18,10 @@ let SPECIFIC_TIMES_ROW_COUNT : NSInteger = 2
 let TIME_PICKER_CELL_HEIGHT : CGFloat = 216.0
 let START_TIME_PICKER_ROW_INDEX : NSInteger = 3
 let PREVIEW_SECTION_INDEX : NSInteger = 2
+let FOOTER_VIEW_MAX_WIDTH : CGFloat = 280.0
+let FOOTER_VIEW_MIN_HEIGHT : CGFloat = 40.0
+let FOOTER_VIEW_HEIGHT_OFFSET_VALUE : CGFloat = 15.0
+let FOOTER_VIEW_TOTAL_HEIGHT_OFFSET : CGFloat = 8.0
 
 typealias SelectedScheduling = DCScheduling? -> Void
 
@@ -585,8 +589,8 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         
         if section == 1 {
             let schedulingDescription : NSString = schedulingDescriptionFooterText()
-            let headerHeight : CGFloat = DCUtility.textViewSizeWithText(String(format: "%@", schedulingDescription), maxWidth: 280, font: UIFont.systemFontOfSize(14.0)).height + 15.0
-            return headerHeight
+            let headerHeight : CGFloat = DCUtility.textViewSizeWithText(String(format: "%@", schedulingDescription), maxWidth: FOOTER_VIEW_MAX_WIDTH, font: UIFont.systemFontOfSize(14.0)).height + FOOTER_VIEW_HEIGHT_OFFSET_VALUE
+            return headerHeight < FOOTER_VIEW_MIN_HEIGHT ? FOOTER_VIEW_MIN_HEIGHT : (headerHeight + FOOTER_VIEW_TOTAL_HEIGHT_OFFSET)
         }
         return UITableViewAutomaticDimension
     }

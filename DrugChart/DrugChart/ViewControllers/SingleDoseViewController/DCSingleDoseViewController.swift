@@ -23,6 +23,7 @@ class DCSingleDoseViewController: UIViewController, UITableViewDelegate, UITable
         
         super.viewDidLoad()
         self.title = SINGLE_DOSE;
+        doseTableView.keyboardDismissMode = .OnDrag
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -73,6 +74,7 @@ class DCSingleDoseViewController: UIViewController, UITableViewDelegate, UITable
         
         if (indexPath.row == RowCount.eFirstRow.rawValue) {
             //display inline picker
+            tableView.endEditing(true)
             displayInlinePickerForRowAtIndexPath(indexPath)
             if (singleDose?.dateAndTime == nil) {
                 let dateString = DCDateUtility.dateStringFromDate(DCDateUtility.dateInCurrentTimeZone(NSDate()), inFormat: START_DATE_FORMAT)
@@ -181,6 +183,16 @@ class DCSingleDoseViewController: UIViewController, UITableViewDelegate, UITable
             self.doseTableView.endUpdates()
         }
         return pickerCell!
+    }
+    
+    //MARK: Keyboard notification Methods
+    
+    func keyboardDidShow(notification : NSNotification) {
+        
+        if let pickerIndexPath = self.inlinePickerIndexPath {
+            let previousPickerIndexPath = NSIndexPath(forItem: pickerIndexPath.row - 1, inSection: pickerIndexPath.section)
+            self.displayInlinePickerForRowAtIndexPath(previousPickerIndexPath)
+        }
     }
     
     //MARK: Single Dose Delegate Methods

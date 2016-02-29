@@ -10,6 +10,7 @@
 
 #define MEDICINE_NAME_FIELD_MAX_WIDTH   310
 #define OFFSET_VALUE 15
+#define INSTRUCTION_OFFSET_VALUE 18.0
 
 @implementation DCAddMedicationHelper
 
@@ -197,11 +198,11 @@
 
 + (CGFloat)instructionCellHeightForInstruction:(NSString *)instructions {
     
-    CGFloat height = [DCUtility heightValueForText:instructions withFont:[UIFont systemFontOfSize:15.0] maxWidth:289.0] + 2.0;
+    CGFloat height = [DCUtility heightValueForText:instructions withFont:[UIFont systemFontOfSize:15.0] maxWidth:289.0];
     if (height <= INSTRUCTIONS_ROW_HEIGHT) {
         return INSTRUCTIONS_ROW_HEIGHT;
     } else {
-        return height;
+        return height + INSTRUCTION_OFFSET_VALUE;
     }
 }
 
