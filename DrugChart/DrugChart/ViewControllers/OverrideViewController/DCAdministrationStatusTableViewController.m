@@ -42,6 +42,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear: animated];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -71,12 +72,10 @@
     
     if ([_previousSelectedValue isEqualToString: STOPED_DUE_TO_PROBLEM] || [_previousSelectedValue isEqualToString:CONTINUED_AFTER_PROBLEM]) {
         isSecondSectionExpanded = YES;
-        [self insertSection];
         rowCount = 1;
         [self.tableView reloadData];
     } else if ([_previousSelectedValue isEqualToString: FLUID_CHANGED]) {
         isSecondSectionExpanded = YES;
-        [self insertSection];
         rowCount = 4;
         [self.tableView reloadData];
     }
