@@ -26,6 +26,11 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
         configureTableViewProperties()
     }
     
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        medicationSlot?.medicationAdministration.statusReason = EMPTY_STRING
+    }
+    
     func configureTableViewProperties () {
         self.administrationFailureTableView.rowHeight = UITableViewAutomaticDimension
         self.administrationFailureTableView.estimatedRowHeight = 44.0
