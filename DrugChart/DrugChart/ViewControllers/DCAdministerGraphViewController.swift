@@ -115,6 +115,7 @@ class DCAdministerGraphViewController: DCBaseViewController, UITableViewDataSour
         
         switch indexPath.section {
         case 0:
+            self.addBNFView()
             break
         case 1:
             break
@@ -167,6 +168,13 @@ class DCAdministerGraphViewController: DCBaseViewController, UITableViewDataSour
         //        noteCell!.layoutMargins = UIEdgeInsetsZero
         return noteCell!
     }
+    
+    func addBNFView () {
+        let administerStoryboard : UIStoryboard? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil)
+        let bnfViewController : DCBNFViewController? = administerStoryboard!.instantiateViewControllerWithIdentifier(BNF_STORYBOARD_ID) as? DCBNFViewController
+        self.navigationController?.pushViewController(bnfViewController!, animated: true)
+    }
+
     
     // On taping more button in the cell,it gets expanded closing all othe expanded cells.
     
