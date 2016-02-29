@@ -1459,7 +1459,7 @@
 - (void)newDosageAdded:(DCDosage *)dosage {
     
     //new dosage added
-    self.selectedMedication.dosage = dosage;
+    self.selectedMedication.dosage = dosage.type;
     [medicationDetailsTableView reloadData];
 }
 

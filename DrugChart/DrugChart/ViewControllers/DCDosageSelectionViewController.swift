@@ -59,6 +59,12 @@ typealias SelectedDosage = DCDosage? -> Void
     override func viewDidAppear(animated: Bool) {
         
         dosageTableView.reloadData()
+        if menuType == eSplitDaily {
+            updateAlertMessageForMismatch()
+            dosageTableView.reloadData()
+            dosageTableView.beginUpdates()
+            dosageTableView.endUpdates()
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -456,6 +462,7 @@ typealias SelectedDosage = DCDosage? -> Void
                     dosageSelectionDetailCell = (dosageTableView.dequeueReusableCellWithIdentifier(DOSE_DROP_DOWN_CELL_ID) as? DCDosageSelectionTableViewCell)!
                 } else {
                     dosageSelectionDetailCell = (dosageTableView.dequeueReusableCellWithIdentifier(REQUIRED_DAILY_DOSE_CELL_ID) as? DCDosageSelectionTableViewCell)!
+                    dosageSelectionDetailCell.requiredDailyDoseTextField.text = self.dosage?.splitDailyDose.dailyDose
                     dosageSelectionDetailCell.requiredDailyDoseTextField.delegate = self
                 }
             } else if (indexPath.section == 2) {
@@ -629,6 +636,7 @@ typealias SelectedDosage = DCDosage? -> Void
         
         let dosageCell: DCDosageSelectionTableViewCell = dosageTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 1)) as! DCDosageSelectionTableViewCell
         valueStringForRequiredDailyDose = dosageCell.requiredDailyDoseTextField.text!
+        self.dosage?.splitDailyDose.dailyDose = valueStringForRequiredDailyDose as String
         valueForRequiredDailyDose = NSString(string: valueStringForRequiredDailyDose).floatValue
         if (valueStringForRequiredDailyDose != "" && valueForRequiredDailyDose != 0 && selectedTimeArrayItems.count != 0) {
             
