@@ -234,7 +234,9 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         self.navigationController?.pushViewController(administerGraphViewController!, animated: true)
     }
     
-    func doneButtonPressed(){
+    func doneButtonPressed() {
+        
+        slotToAdminister = nil
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     

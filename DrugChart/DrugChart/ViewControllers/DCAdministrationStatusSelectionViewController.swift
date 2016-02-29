@@ -338,6 +338,9 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
     }
     
     func cancelButtonPressed () {
+        
+        self.medicationSlot?.status = nil
+        medicationSlot?.medicationAdministration = nil
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
