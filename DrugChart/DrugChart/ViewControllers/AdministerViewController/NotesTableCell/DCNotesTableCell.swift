@@ -47,6 +47,9 @@ class DCNotesTableCell: UITableViewCell, UITextViewDelegate {
     
     func textViewDidChange(textView: UITextView) {
         textView.textColor = UIColor.blackColor()
+        if let delegate = self.delegate {
+            delegate.enteredNote(textView.text)
+        }
     }
     
     func textViewDidEndEditing(textView: UITextView) {

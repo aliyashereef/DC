@@ -8,7 +8,7 @@
 
 import Foundation
 
-class DCAdministrationFailureViewController: UIViewController ,NotesCellDelegate , StatusListDelegate, reasonDelegate{
+class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDelegate , StatusListDelegate, reasonDelegate{
     
     @IBOutlet var administrationFailureTableView: UITableView!
     
@@ -22,7 +22,13 @@ class DCAdministrationFailureViewController: UIViewController ,NotesCellDelegate
     //MARK: View Management Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        initialiseMedicationSlotObject()
         configureTableViewProperties()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        medicationSlot?.medicationAdministration.statusReason = EMPTY_STRING
     }
     
     func configureTableViewProperties () {
@@ -32,6 +38,18 @@ class DCAdministrationFailureViewController: UIViewController ,NotesCellDelegate
         administrationFailureTableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
     }
 
+    func initialiseMedicationSlotObject () {
+        
+        //initialise Medication Slot object
+        if (medicationSlot == nil) {
+            medicationSlot = DCMedicationSlot.init()
+        }
+        medicationSlot?.medicationAdministration = DCMedicationAdministration.init()
+        medicationSlot?.medicationAdministration.administratingUser = DCUser.init()
+        medicationSlot?.medicationAdministration.scheduledDateTime = medicationSlot?.time
+        medicationSlot?.medicationAdministration.statusReason = EMPTY_STRING
+        medicationSlot?.medicationAdministration?.actualAdministrationTime = DCDateUtility.dateInCurrentTimeZone(NSDate())
+    }
     
     //MARK: TableView Delegate Methods
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -88,12 +106,20 @@ class DCAdministrationFailureViewController: UIViewController ,NotesCellDelegate
     
     //Medication Details Cell
     func medicationDetailsCellAtIndexPath (indexPath :NSIndexPath) -> UITableViewCell {
-        
-        let cell = administrationFailureTableView.dequeueReusableCellWithIdentifier("DurationBasedInfusionCell") as? DCDurationBasedMedicationDetailsCell
-        if let _ = medicationDetails {
-            cell!.configureMedicationDetails(medicationDetails!)
+                
+        if DCAdministrationHelper.isMedicationDurationBasedInfusion(medicationDetails!){
+            let cell = administrationFailureTableView.dequeueReusableCellWithIdentifier("DurationBasedInfusionCell") as? DCDurationBasedMedicationDetailsCell
+            if let _ = medicationDetails {
+                cell!.configureMedicationDetails(medicationDetails!)
+            }
+            return cell!
+        } else {
+            let cell = administrationFailureTableView.dequeueReusableCellWithIdentifier("MedicationDetailsTableViewCell") as? DCMedicationDetailsTableViewCell
+            if let _ = medicationDetails {
+                cell!.configureMedicationDetails(medicationDetails!)
+            }
+            return cell!
         }
-        return cell!
     }
     
     // Administration Status Cell
@@ -148,6 +174,7 @@ class DCAdministrationFailureViewController: UIViewController ,NotesCellDelegate
         
         let pickerCell : DCDatePickerCell = (administrationFailureTableView.dequeueReusableCellWithIdentifier(DATE_STATUS_PICKER_CELL_IDENTIFIER) as? DCDatePickerCell)!
         pickerCell.configureDatePickerProperties()
+        pickerCell.datePicker?.maximumDate = NSDate()
         pickerCell.selectedDate = { date in
             self.medicationSlot!.medicationAdministration.actualAdministrationTime = date
             self.administrationFailureTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow:RowCount.eSecondRow.rawValue, inSection:1)], withRowAnimation: UITableViewRowAnimation.None)
@@ -170,6 +197,12 @@ class DCAdministrationFailureViewController: UIViewController ,NotesCellDelegate
         }
     }
     
+    func collapseOpenedPickerCell () {
+        if isDatePickerShown {
+            self.toggleDatePickerForSelectedIndexPath(NSIndexPath(forRow: 2, inSection: 1))
+        }
+    }
+    
     func cellSelectionForIndexPath (indexPath : NSIndexPath) {
         switch (indexPath.row) {
         case 0:
@@ -179,8 +212,12 @@ class DCAdministrationFailureViewController: UIViewController ,NotesCellDelegate
             self.navigationController!.pushViewController(statusViewController, animated: true)
             break
         case 1:
+            self.collapseOpenedPickerCell()
             let reasonViewController : DCAdministrationReasonViewController = DCAdministrationHelper.administratedReasonPopOverAtIndexPathWithStatus(NOT_ADMINISTRATED)
             reasonViewController.delegate = self
+            if let reasonString = self.medicationSlot?.medicationAdministration.statusReason {
+                reasonViewController.previousSelection = reasonString
+            }
             self.navigationController!.pushViewController(reasonViewController, animated: true)
         case 2:
             self.toggleDatePickerForSelectedIndexPath(indexPath)
@@ -223,10 +260,12 @@ class DCAdministrationFailureViewController: UIViewController ,NotesCellDelegate
     // MARK: NotesCell Delegate Methods
     
     func notesSelected(editing : Bool, withIndexPath indexPath : NSIndexPath) {
-        
+        self.collapseOpenedPickerCell()
+        self.administrationFailureTableView.contentOffset = CGPointMake(0, 200)
     }
     
     func enteredNote(note : String) {
+        medicationSlot?.medicationAdministration?.refusedNotes = note        
     }
     
     // mark:StatusList Delegate Methods
@@ -243,6 +282,18 @@ class DCAdministrationFailureViewController: UIViewController ,NotesCellDelegate
         
         self.medicationSlot?.medicationAdministration.statusReason = reason
         self.administrationFailureTableView.reloadData()
+    }
+    
+    // MARK: - keyboard Delegate Methods
+    
+     func keyboardDidShow(notification: NSNotification) {
+        // notification methods
+        let info:NSDictionary = notification.userInfo!
+        let kbSize:CGSize = (info.objectForKey(UIKeyboardFrameBeginUserInfoKey)?.CGRectValue.size)!
+        let contentInsets:UIEdgeInsets = UIEdgeInsetsMake(0.0,0.0,kbSize.height,0.0)
+        administrationFailureTableView.contentInset = contentInsets
+        administrationFailureTableView.scrollIndicatorInsets = contentInsets
+
     }
     
 }

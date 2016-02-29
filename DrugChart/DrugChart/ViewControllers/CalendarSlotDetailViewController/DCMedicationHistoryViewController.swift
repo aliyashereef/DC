@@ -68,14 +68,12 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
             }
             break
         case 1:
-            cell!.contentType.text = ADMINISTRATED_BY
-            let administratedBy : String
-            if let name = medication.medicationAdministration?.administratingUser?.displayName {
-                administratedBy = name
+            cell!.contentType.text = REASON
+            if let reason = medication.medicationAdministration.statusReason {
+                cell!.value.text = reason
             } else {
-                administratedBy = SELF_ADMINISTERED_TITLE
+                cell!.value.text = NONE_TEXT
             }
-            cell!.value.text = administratedBy
             break
         case 2:
             cell!.contentType.text = DATE_TIME
@@ -98,7 +96,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
             cell!.value.text = checkedBy
             break
         case 4:
-            cell!.contentType.text = BATCHNO_EXPIRY
+            cell!.contentType.text = "Batch No"
             if medication.medicationAdministration?.batch?.characters.count > 0 {
                 cell!.value.text = medication.medicationAdministration?.batch
             } else {
@@ -106,6 +104,16 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
             }
             break
         case 5:
+            cell!.contentType.text = "Expiry Date"
+            var dateString = EMPTY_STRING
+            if let date = medication.medicationAdministration?.expiryDateTime {
+                dateString = DCDateUtility.dateStringFromDate(date, inFormat: BIRTH_DATE_FORMAT)
+                cell!.value.text = dateString
+            }else {
+                cell!.value.text = NONE_TEXT
+            }
+            break
+        case 6:
             let reason : NSString
             if let reasonText = medication.medicationAdministration?.administeredNotes {
                 reason = (reasonText == EMPTY_STRING) ? NONE_TEXT : reasonText
@@ -175,9 +183,13 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         switch (indexPath.row) {
         case 0:
             cell!.contentType.text = STATUS
-            cell!.value.text = REFUSED
+            cell!.value.text = NOT_ADMINISTRATED
             break
         case 1:
+            cell!.contentType.text = REASON
+            cell!.value.text = NONE_TEXT
+            break
+        case 2:
             cell!.contentType.text = DATE
             let dateString : NSString
             if let date = medication.medicationAdministration?.actualAdministrationTime {
@@ -187,14 +199,14 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
             }
             cell!.value.text = dateString as String
             break
-        case 2:
+        case 3:
             let reason : NSString
             if let reasonText = medication.medicationAdministration?.refusedNotes {
                 reason =  (reasonText == EMPTY_STRING) ? NONE_TEXT : reasonText
             } else {
                 reason = NONE_TEXT
             }
-            return configureNotesAndReasonCellsAtIndexPath(indexPath,type:REASON,text : reason)
+            return configureNotesAndReasonCellsAtIndexPath(indexPath,type:NOTES,text : reason)
         default:
             break
         }
@@ -259,11 +271,11 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         }
        if(indexPath == selectedRowIndex ) {
         var notesString = EMPTY_STRING
-        if medication.status == ADMINISTERED || medication.status == SELF_ADMINISTERED {
+        if medication.medicationAdministration.status == ADMINISTERED || medication.medicationAdministration.status == SELF_ADMINISTERED {
             notesString = medication.medicationAdministration.administeredNotes
-        } else if medication.status == REFUSED {
+        } else if medication.medicationAdministration.status == REFUSED || medication.medicationAdministration.status == NOT_ADMINISTRATED {
             notesString = medication.medicationAdministration.refusedNotes
-        }else if medication.status == OMITTED {
+        }else if medication.medicationAdministration.status == OMITTED {
             notesString = medication.medicationAdministration.omittedNotes
         }
         let textHeight : CGSize = DCUtility.textViewSizeWithText(notesString , maxWidth:478 , font:UIFont.systemFontOfSize(14))
@@ -297,7 +309,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
             }
             if (medication.medicationAdministration?.status == SELF_ADMINISTERED || medication.medicationAdministration?.status == IS_GIVEN ){
                 return configureAdministeredCellAtIndexPathWithMedicationSlot(indexPath, medication: medication) as! UITableViewCell
-            } else if medication.medicationAdministration?.status == REFUSED {
+            } else if medication.medicationAdministration?.status == REFUSED || medication.medicationAdministration?.status == NOT_ADMINISTRATED {
                 return configureRefusedCellAtIndexPathForMedicationDetails(indexPath, medication: medication) as! UITableViewCell
             } else if medication.medicationAdministration?.status == OMITTED {
                 return configureOmittedCellAtIndexPathForMedicationDetails(indexPath, medication: medication) as! UITableViewCell
@@ -330,11 +342,11 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         var rowCount : Int
         if let medicationValue : DCMedicationSlot = medicationSlot {
             if (medicationValue.medicationAdministration?.status == IS_GIVEN || medicationValue.medicationAdministration?.status == SELF_ADMINISTERED){
-                rowCount = 6
+                rowCount = 7
             } else if medicationValue.medicationAdministration?.status == OMITTED {
                 rowCount = 2
-            } else if medicationValue.medicationAdministration?.status == REFUSED {
-                rowCount = 3
+            } else if medicationValue.medicationAdministration?.status == REFUSED || medicationValue.medicationAdministration?.status == NOT_ADMINISTRATED{
+                rowCount = 4
             } else {
                 rowCount = 0
             }

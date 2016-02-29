@@ -20,7 +20,7 @@ class DCAdministrationReasonViewController : UIViewController {
     var administrationStatus : String?
     let successReasonArray = ["Nurse Administered","Patient Declared Administered","Supervised Self Administered","Covertly Administered","IV Access Lost","Vomitted","Partial Administration"]
     let failureReasonArray = ["Omitted","Patient Refused","Nil by Mouth","Drug Unavailable","Not Administered other"]
-
+    var previousSelection : String?
     //MARK: TableView Delegate Methods
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -37,8 +37,12 @@ class DCAdministrationReasonViewController : UIViewController {
         switch (administrationStatus!) {
         case NOT_ADMINISTRATED :
             cell.textLabel?.text = failureReasonArray[indexPath.row]
+            cell.accessoryType = (previousSelection == failureReasonArray[indexPath.row]) ? .Checkmark : .None
+
         default:
             cell.textLabel?.text = successReasonArray[indexPath.row]
+            cell.accessoryType = (previousSelection == successReasonArray[indexPath.row]) ? .Checkmark : .None
+
         }
         return cell
     }
