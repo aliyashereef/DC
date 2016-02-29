@@ -285,13 +285,11 @@
         if ([self.selectedMedication.infusion.administerAsOption  isEqual: RATE_BASED_INFUSION]) {
             cell.userInteractionEnabled = NO;
             cell.accessoryView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
-            cell.backgroundColor = [UIColor colorForHexString:@"#f1f1f1"];
             cell.titleLabel.textColor = [UIColor colorForHexString:@"#8f8f95"];
             cell.descriptionLabel.textColor = [UIColor colorForHexString:@"#8f8f95"];
         } else {
             cell.accessoryView = nil;
             cell.userInteractionEnabled = YES;
-            cell.backgroundColor = [UIColor whiteColor];
             cell.titleLabel.textColor = [UIColor blackColor];
 //            cell.descriptionLabel.textColor = [UIColor scrollViewTexturedBackgroundColor];
         }
