@@ -14,7 +14,7 @@ class DCCalendarHelper: NSObject {
     
     static func typeDescriptionForMedication(medicationSchedule : DCMedicationScheduleDetails) -> String {
         
-        if (medicationSchedule.medicineCategory == ONCE) {
+        if (medicationSchedule.medicineCategory == ONCE_MEDICATION) {
             return medicationSchedule.medicineCategory
         } else if (medicationSchedule.medicineCategory == WHEN_REQUIRED) {
             return WHEN_REQUIRED_VALUE
