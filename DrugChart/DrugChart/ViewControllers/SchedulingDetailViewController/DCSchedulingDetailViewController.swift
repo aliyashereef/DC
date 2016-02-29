@@ -39,6 +39,7 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
     var previewArray : NSMutableArray? = []
     var detailDelegate : SchedulingDetailDelegate?
     var administratingTimes : NSArray?
+    var previousRepeatIndexPath : NSIndexPath?
     
     override func viewDidLoad() {
         
@@ -295,11 +296,14 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
         }
     }
     
-    func populatedIntervalCell(intervalCell : DCSchedulingCell, WithRepeatFrequencyType type : NSString) -> DCSchedulingCell {
+    func populatedIntervalCell(intervalCell : DCSchedulingCell,  atIndexPath indexPath : NSIndexPath, WithRepeatFrequencyType type : NSString) -> DCSchedulingCell {
         
         //populated interval cell
         intervalCell.titleLabel.text = type as String
         intervalCell.accessoryType = self.scheduling?.interval?.repeatFrequencyType == type ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
+        if (self.scheduling?.interval?.repeatFrequencyType == type) {
+            previousRepeatIndexPath = indexPath
+        }
         return intervalCell
     }
     
@@ -314,9 +318,9 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
         if (self.inlinePickerIndexPath == nil) {
             switch indexPath.row {
             case 1 :
-                intervalCell? = populatedIntervalCell(intervalCell!, WithRepeatFrequencyType: HOURS_TITLE)
+                intervalCell? = populatedIntervalCell(intervalCell!, atIndexPath: indexPath, WithRepeatFrequencyType: HOURS_TITLE)
             case 2 :
-                intervalCell? = populatedIntervalCell(intervalCell!, WithRepeatFrequencyType: MINUTES_TITLE)
+                intervalCell? = populatedIntervalCell(intervalCell!, atIndexPath: indexPath, WithRepeatFrequencyType: MINUTES_TITLE)
             default :
                 break
             }
@@ -326,30 +330,30 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
                 let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: eDayCount)
                 return pickerCell
             case 2 :
-                intervalCell? = populatedIntervalCell(intervalCell!, WithRepeatFrequencyType: HOURS_TITLE)
+                intervalCell? = populatedIntervalCell(intervalCell!, atIndexPath: indexPath, WithRepeatFrequencyType: HOURS_TITLE)
             case 3 :
-                intervalCell? = populatedIntervalCell(intervalCell!, WithRepeatFrequencyType: MINUTES_TITLE)
+                intervalCell? = populatedIntervalCell(intervalCell!, atIndexPath: indexPath, WithRepeatFrequencyType: MINUTES_TITLE)
             default :
                 break
             }
         } else if (self.inlinePickerIndexPath?.row == 2) { // picker for hour
             switch indexPath.row {
             case 1 :
-                intervalCell? = populatedIntervalCell(intervalCell!, WithRepeatFrequencyType: HOURS_TITLE)
+                intervalCell? = populatedIntervalCell(intervalCell!, atIndexPath: indexPath, WithRepeatFrequencyType: HOURS_TITLE)
             case 2:
                 let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: eHoursCount)
                 return pickerCell
             case 3 :
-                intervalCell? = populatedIntervalCell(intervalCell!, WithRepeatFrequencyType: MINUTES_TITLE)
+                intervalCell? = populatedIntervalCell(intervalCell!, atIndexPath: indexPath, WithRepeatFrequencyType: MINUTES_TITLE)
             default :
                 break
             }
         } else {
             switch indexPath.row {
             case 1 :
-                intervalCell? = populatedIntervalCell(intervalCell!, WithRepeatFrequencyType: HOURS_TITLE)
+                intervalCell? = populatedIntervalCell(intervalCell!, atIndexPath: indexPath, WithRepeatFrequencyType: HOURS_TITLE)
             case 2 :
-                intervalCell? = populatedIntervalCell(intervalCell!, WithRepeatFrequencyType: MINUTES_TITLE)
+                intervalCell? = populatedIntervalCell(intervalCell!, atIndexPath: indexPath, WithRepeatFrequencyType: MINUTES_TITLE)
                 
             case 3:
                 let pickerCell : DCSchedulingPickerCell = inlinePickerCellAtIndexPath(indexPath, forPickerType: eMinutesCount)
@@ -567,8 +571,19 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
                 displayInlinePickerForRowAtIndexPath(indexPath)
             } else if (self.detailType! == eDetailIntervalRepeatFrequency) {
                 updateSchedulingDetailsForSelectedIntervalRepeatFrequencyAtIndexPath(indexPath)
-                //self.detailTableView.reloadData()
-                let dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(0.14 * Double(NSEC_PER_SEC)))
+                let indexPaths : NSMutableArray = [indexPath]
+                if let pickerIndexPath = self.inlinePickerIndexPath {
+                    indexPaths.addObject(NSIndexPath(forRow: pickerIndexPath.row - 1, inSection: pickerIndexPath.section))
+                } else {
+                    if (previousRepeatIndexPath != nil) {
+                        indexPaths.addObject(previousRepeatIndexPath!)
+                    }
+                }
+                self.detailTableView.beginUpdates()
+                self.detailTableView.reloadRowsAtIndexPaths(NSArray(array: indexPaths) as! [NSIndexPath] , withRowAnimation: .Fade)
+                self.detailTableView.endUpdates()
+                previousRepeatIndexPath = indexPath
+                let dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(0.2 * Double(NSEC_PER_SEC)))
                 dispatch_after(dispatchTime, dispatch_get_main_queue(), {
                     // your function here
                     self.displayInlinePickerForRowAtIndexPath(indexPath)
