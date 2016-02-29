@@ -205,18 +205,19 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         if (indexPath.section == 0) {
             addBNFView()
         } else {
+            
             let cell = administerTableView.cellForRowAtIndexPath(indexPath) as? DCAdministrationStatusCell
-            let medicationSlot : DCMedicationSlot = medicationSlotsArray[indexPath.row]
-            slotToAdminister?.time = medicationSlot.time
-            if (cell?.administrationStatusLabel.text == ADMINISTER_MEDICATION || cell?.administrationStatusLabel.text == ADMINISTER_NOW || cell?.administrationStatusLabel.text == "In progress") {
-                addAdministerViewWithStatus((cell?.administrationStatusLabel.text)!)
-            } else if cell?.administrationStatusLabel.text == PENDING {
-                
-            } else {
-                if DCAdministrationHelper.isMedicationDurationBasedInfusion(medicationDetails!) && cell?.administrationStatusLabel.text == ADMINISTERED {
-                    self.transitToAdminsisterGraphViewController(indexPath.row)
+            if cell?.administrationStatusLabel.text != PENDING {
+                let medicationSlot : DCMedicationSlot = medicationSlotsArray[indexPath.row]
+                if (cell?.administrationStatusLabel.text == ADMINISTER_MEDICATION || cell?.administrationStatusLabel.text == ADMINISTER_NOW || cell?.administrationStatusLabel.text == "In progress") {
+                    slotToAdminister?.time = medicationSlot.time
+                    addAdministerViewWithStatus((cell?.administrationStatusLabel.text)!)
                 } else {
-                    addMedicationHistoryViewAtIndex(indexPath.row)
+                    if DCAdministrationHelper.isMedicationDurationBasedInfusion(medicationDetails!) && cell?.administrationStatusLabel.text == ADMINISTERED {
+                        self.transitToAdminsisterGraphViewController(indexPath.row)
+                    } else {
+                        addMedicationHistoryViewAtIndex(indexPath.row)
+                    }
                 }
             }
         }
