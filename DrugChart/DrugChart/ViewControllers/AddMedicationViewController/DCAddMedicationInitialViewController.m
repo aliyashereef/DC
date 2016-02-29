@@ -727,7 +727,8 @@
         };
         dosageSelectionViewController.newDosageAddedDelegate = self;
         dosageSelectionViewController.dosageArray = dosageArray;
-        dosageSelectionViewController.timeArray = self.selectedMedication.timeArray;
+//        dosageSelectionViewController.timeArray = self.selectedMedication.timeArray;
+//        self.selectedMedication.dose.splitDailyDose.timeArray = self.selectedMedication.timeArray;
         dosageSelectionViewController.menuType = eDosageMenu;
         if (self.isEditMedication) {
             if (self.selectedMedication.dose == nil) {

@@ -47,7 +47,7 @@ typealias SelectedDosage = DCDosage? -> Void
         super.viewDidLoad()
         self.configureInitialValues()
         self.configureNavigationBarItems()
-        if (timeArray != nil) {
+        if (dosage?.splitDailyDose.timeArray != nil) {
             self.configureTimeArray()
         }
         if dosageArray.count != 0 {
@@ -136,9 +136,9 @@ typealias SelectedDosage = DCDosage? -> Void
         valueForDoseForTime = []
         //Extract the selected times and update time array and dose array.
         let predicate = NSPredicate(format: "selected == 1")
-        let filteredArray = timeArray!.filteredArrayUsingPredicate(predicate)
-        if (filteredArray.count != 0) {
-            for timeDictionary in filteredArray {
+        let filteredArray = dosage?.splitDailyDose.timeArray.filteredArrayUsingPredicate(predicate)
+        if (filteredArray!.count != 0) {
+            for timeDictionary in filteredArray! {
                 let time = timeDictionary["time"]
                 selectedTimeArrayItems.append((time as? String)!)
                 if let val = timeDictionary["dose"] {
@@ -232,7 +232,7 @@ typealias SelectedDosage = DCDosage? -> Void
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
         //Set the alert for mismatch of Required daily dose.
-        if (section == 2 && timeArray != nil && alertMessageForMismatch != "" && menuType == eSplitDaily) {
+        if (section == 2 && dosage?.splitDailyDose.timeArray != nil && alertMessageForMismatch != "" && menuType == eSplitDaily) {
             return alertMessageForMismatch as String
         } else {
             return nil
@@ -250,7 +250,7 @@ typealias SelectedDosage = DCDosage? -> Void
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
-        if (section == 2 && timeArray != nil && alertMessageForMismatch != "" && menuType == eSplitDaily) {
+        if (section == 2 && dosage?.splitDailyDose.timeArray != nil && alertMessageForMismatch != "" && menuType == eSplitDaily) {
             return 44.0
         } else {
             return 0.0
@@ -297,7 +297,7 @@ typealias SelectedDosage = DCDosage? -> Void
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         
         // Return YES to set the specified time list to be editable.
-        if indexPath.section == 2 && timeArray != nil && selectedTimeArrayItems.count != 0 {
+        if indexPath.section == 2 && dosage?.splitDailyDose.timeArray != nil && selectedTimeArrayItems.count != 0 {
             return true
         } else {
             return false
@@ -655,12 +655,12 @@ typealias SelectedDosage = DCDosage? -> Void
     
     func updateTimeArray (index: Int) {
         
-        if (timeArray != nil) {
-            for timeDictionary in timeArray! {
+        if (dosage?.splitDailyDose.timeArray != nil) {
+            for timeDictionary in (dosage?.splitDailyDose.timeArray)! {
                 let time = timeDictionary["time"] as! String
                 if (time == selectedTimeArrayItems[index]) {
                     let populatedDict = ["time": time, "selected": 1, "dose":valueForDoseForTime[index]]
-                    timeArray?.replaceObjectAtIndex((timeArray?.indexOfObject(timeDictionary))!, withObject: populatedDict)
+                    dosage?.splitDailyDose.timeArray.replaceObjectAtIndex((dosage?.splitDailyDose.timeArray.indexOfObject(timeDictionary))!, withObject: populatedDict)
                 }
             }
         }
@@ -668,12 +668,12 @@ typealias SelectedDosage = DCDosage? -> Void
     
     func deleteElementFromTimeArrayAtSelectedIndexPath (index: Int) {
         
-        if (timeArray != nil) {
-            for timeDictionary in timeArray! {
+        if (dosage?.splitDailyDose.timeArray != nil) {
+            for timeDictionary in (dosage?.splitDailyDose.timeArray)! {
                 let time = timeDictionary["time"] as! String
                 if (time == selectedTimeArrayItems[index]) {
                     let populatedDict = ["time": time, "selected": 0]
-                    timeArray?.replaceObjectAtIndex((timeArray?.indexOfObject(timeDictionary))!, withObject: populatedDict)
+                    dosage?.splitDailyDose.timeArray.replaceObjectAtIndex((dosage?.splitDailyDose.timeArray.indexOfObject(timeDictionary))!, withObject: populatedDict)
                 }
             }
         }
@@ -683,10 +683,10 @@ typealias SelectedDosage = DCDosage? -> Void
     func insertNewTimeToTimeArray(time: String) {
         
         var timeAlreadyPresent : Bool = false
-        if (timeArray == nil) {
-            timeArray = NSMutableArray(array: DCPlistManager.administratingTimeList())
+        if (dosage?.splitDailyDose.timeArray == nil) {
+            dosage?.splitDailyDose.timeArray = NSMutableArray(array: DCPlistManager.administratingTimeList())
         }
-        for timeDictionary in timeArray! {
+        for timeDictionary in (dosage?.splitDailyDose.timeArray)! {
             let timeInArray = timeDictionary["time"] as! String
             let isTimeSelected = timeDictionary["selected"] as! Int
             if (timeInArray == time && isTimeSelected != 0) {
@@ -695,8 +695,8 @@ typealias SelectedDosage = DCDosage? -> Void
         }
         if (timeAlreadyPresent == false) {
             let populatedDict = ["time": time, "selected": 1]
-            timeArray?.addObject(populatedDict)
-            timeArray = NSMutableArray(array: DCUtility.sortArray(NSMutableArray(array: timeArray!) as [AnyObject], basedOnKey: TIME_KEY, ascending: true))
+            dosage?.splitDailyDose.timeArray.addObject(populatedDict)
+            dosage?.splitDailyDose.timeArray = NSMutableArray(array: DCUtility.sortArray(NSMutableArray(array: (dosage?.splitDailyDose.timeArray)!) as [AnyObject], basedOnKey: TIME_KEY, ascending: true))
         }
     }
     
