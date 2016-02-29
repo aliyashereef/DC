@@ -41,6 +41,9 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
                 let lastIndex : Int = arrayOfValueAndUnit.endIndex - 1
                 textFieldValue = arrayOfValueAndUnit[lastIndex - 1] as! String
                 valueForUnit = arrayOfValueAndUnit[lastIndex] as! String
+                if (Int(textFieldValue) > 1) {
+                    valueForUnit = valueForUnit.substringToIndex(valueForUnit.endIndex.predecessor())
+                }
             } else {
                 textFieldValue = EMPTY_STRING
                 valueForUnit = unitArray[0]
