@@ -18,13 +18,18 @@ class DoubleCell: UITableViewCell ,ButtonAction{
         // Initialization code
         value.textAlignment = NSTextAlignment.Right
         value.buttonActionDelegate = self
+        value.addTarget(self, action: "valueChanged", forControlEvents: UIControlEvents.EditingChanged)
     }
 
     
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
         // Configure the view for the selected state
+    }
+    
+    func valueChanged()
+    {
+        delegate?.cellValueChanged(tag)
     }
     
     func nextButtonAction()

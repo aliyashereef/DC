@@ -43,7 +43,7 @@ class OneThirdContentCell: UITableViewCell {
         {
             let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
             let observationDetails : ObservationViewController = mainStoryboard.instantiateViewControllerWithIdentifier("ObservationViewController") as! ObservationViewController
-            observationDetails.configureView(observation, showobservatioType: showObservationType,tag:2)
+            observationDetails.configureView(observation, showobservatioType: showObservationType,tag:DataEntryObservationSource.VitalSignEditIPhone)
             let navigationController : UINavigationController? = UINavigationController(rootViewController: observationDetails)
             navigationController?.modalPresentationStyle = UIModalPresentationStyle.FormSheet
             delegate?.ShowModalNavigationController(navigationController!)

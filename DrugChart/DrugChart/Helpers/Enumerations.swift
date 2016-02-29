@@ -25,7 +25,7 @@ enum DashBoardRow:Int
 enum ObservationType:Int
 {
     case Date
-    case Respiratory  , SpO2, Temperature , BloodPressure , Pulse /*, BM*/
+    case Respiratory  , SpO2, Temperature , BloodPressure , Pulse , AdditionalOxygen , AVPU /*, BM*/
     
     static var count: Int {  // I called this "maximumRawValue" in the post
         var max: Int = 0
@@ -36,7 +36,7 @@ enum ObservationType:Int
 
 enum ShowObservationType:Int
 {
-    case All, None, Respiratory  , SpO2, Temperature , BloodPressure , Pulse /*, BM*/
+    case All, None, Respiratory  , SpO2, Temperature , BloodPressure , Pulse , AdditionalOxygen , AVPU /*, BM*/
     
     static var count: Int {  // I called this "maximumRawValue" in the post
         var max: Int = 0
@@ -107,5 +107,29 @@ enum GraphDisplayView:Int
         return max
     }
 }
+
+enum DashBoardAddOption:Int
+{
+    case VitalSign = 1 , GCS , NEWS
+    
+    static var count: Int {  // I called this "maximumRawValue" in the post
+        var max: Int = 0
+        while let _ = self.init(rawValue: ++max) {}
+        return max
+    }
+}
+
+
+enum DataEntryObservationSource: Int
+{
+    case VitalSignAddIPad = 1 ,VitalSignAddIPhone , VitalSignEditIPhone ,VitalSignEditIPad , NewsIPad , NewsIPhone
+    
+    static var count: Int {  // I called this "maximumRawValue" in the post
+        var max: Int = 0
+        while let _ = self.init(rawValue: ++max) {}
+        return max
+    }
+}
+
 
 

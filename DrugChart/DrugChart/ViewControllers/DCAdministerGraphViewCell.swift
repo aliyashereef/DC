@@ -94,11 +94,11 @@ class DCAdministerGraphViewCell: UITableViewCell,ChartViewDelegate {
         self.chartView.extraTopOffset = 24
         self.chartView.extraBottomOffset = 15
         if appDelegate.windowState == DCWindowState.halfWindow || appDelegate.windowState == DCWindowState.oneThirdWindow {
-            self.chartView.extraLeftOffset = 40
-            self.chartView.extraRightOffset = 40
+            self.chartView.extraLeftOffset = 25
+            self.chartView.extraRightOffset = 25
         } else {
-            self.chartView.extraLeftOffset = 85
-            self.chartView.extraRightOffset = 85
+            self.chartView.extraLeftOffset = 25
+            self.chartView.extraRightOffset = 25
         }
         self.chartView.xAxis.axisLabelModulus = 60
         
