@@ -93,6 +93,7 @@ class VitalSignParser : FhirParser
             {
                 var lstObservation = [VitalSignObservation]()
                 let bundle = Bundle(json: json)
+                
                 for bundleEntry in bundle.entry!
                     {
                         let obs = bundleEntry.resource as! Observation
@@ -177,22 +178,25 @@ class VitalSignParser : FhirParser
       let code = obs.code?.coding![0]
       switch(code!.code!)
       {
-        case "253914014":// -- respiratory rate
+        case Constant.CODE_RESPIRATORY_RATE:// -- respiratory rate
             let obsRespiratory = Respiratory()
             obsRespiratory.date = observationDate!
             obsRespiratory.repiratoryRate = obs.valueQuantity!.value!.doubleValue
+            obsRespiratory.stringValue = (obs.valueQuantity?.stringValue)!
             return obsRespiratory
-        case "1218970019":// -- oxygen saturation
+        case Constant.CODE_OXYGEN_SATURATION:// -- oxygen saturation
             let obsSPO2 = SPO2()
             obsSPO2.date = observationDate!
             obsSPO2.spO2Percentage = obs.valueQuantity!.value!.doubleValue
+            obsSPO2.stringValue = (obs.valueQuantity?.stringValue)!
         return obsSPO2
-        case "402545016":// -- oral temperature
+        case Constant.CODE_ORAL_TEMPERATURE:// -- oral temperature
              let obsTemperature = BodyTemperature()
              obsTemperature.date = observationDate!
              obsTemperature.value = obs.valueQuantity!.value!.doubleValue
+             obsTemperature.stringValue = (obs.valueQuantity?.stringValue)!
             return obsTemperature
-        case "254063019":// -- blood presure
+        case Constant.CODE_BLOOD_PRESSURE:// -- blood presure
             let obsBloodPressure = BloodPressure()
             obsBloodPressure.date = observationDate!
             for component in obs.component!
@@ -200,19 +204,20 @@ class VitalSignParser : FhirParser
                 let code = component.code?.coding![0]
                 switch(code!.code!)
                 {
-                    case "114311000006111": // systolic
+                    case Constant.CODE_SYSTOLIC_READING: // systolic
                         obsBloodPressure.systolic = (component.valueQuantity?.value?.doubleValue)!
-                    case "619931000006119" : // diastolic
+                    case Constant.CODE_DIASTOLIC_READING : // diastolic
                         obsBloodPressure.diastolic = (component.valueQuantity?.value?.doubleValue)!
                     default:
                         DDLogError("\(Constant.VITAL_SIGN_LOGGER_INDICATOR) Unexpected type \(obs.text) found in blood pressure components.")
                 }
             }
             return obsBloodPressure
-        case "254020017":// -- pulse rate
+        case Constant.CODE_PULSE_RATE:// -- pulse rate
             let obsPulse = Pulse()
             obsPulse.date = observationDate!
             obsPulse.pulseRate = obs.valueQuantity!.value!.doubleValue
+            obsPulse.stringValue = (obs.valueQuantity?.stringValue)!
             return obsPulse
       default:
             return nil

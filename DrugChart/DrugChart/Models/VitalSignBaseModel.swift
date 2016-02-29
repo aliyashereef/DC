@@ -11,4 +11,5 @@ import Foundation
 class VitalSignBaseModel
 {
     var date:NSDate = NSDate()
+    var stringValue:String = ""
 }

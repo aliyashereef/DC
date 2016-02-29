@@ -59,6 +59,13 @@ extension NSDate:Comparable{
         return formatter.stringFromDate(self)
     }
     
+    func getFHIRDateandTime()->String
+    {
+        let formatter  = NSDateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        return formatter.stringFromDate(self)
+    }
+    
     func getFormattedDateTime() -> String
     {
         let formatter = NSDateFormatter()
