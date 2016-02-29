@@ -843,6 +843,25 @@
     [self.view endEditing:YES];
 }
 
+- (void)displayReviewViewController {
+    
+    UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
+    DCAddNewValueViewController *addNewValueViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:ADD_NEW_VALUE_SBID];
+    addNewValueViewController.titleString = @"Frequency";
+    addNewValueViewController.placeHolderString = @"In";
+    addNewValueViewController.backButtonTitle = @"Add Medication";
+    addNewValueViewController.detailType = eAddValueWithUnit;
+    addNewValueViewController.unitArray = [[NSArray alloc] initWithObjects:@"Day",@"Week",@"Month",nil];
+    addNewValueViewController.previousValue = self.selectedMedication.reviewDate;
+    addNewValueViewController.newValueEntered = ^ (NSString *value) {
+        self.selectedMedication.reviewDate = [NSString stringWithFormat:@"In %@",value];
+        [medicationDetailsTableView reloadData];
+    };
+    self.title = titleLabel.text;
+    [self.navigationController pushViewController:addNewValueViewController animated:YES];
+    
+}
+
 - (void)displayDetailViewForSelectedCellAtIndexPath:(NSIndexPath *)indexPath {
     
     switch (indexPath.section) {
@@ -851,20 +870,7 @@
             break;
         case eFirstSection:{
             if (indexPath.row == 1 && self.selectedMedication.hasReviewDate){
-                UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
-                DCAddNewValueViewController *addNewValueViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:ADD_NEW_VALUE_SBID];
-                addNewValueViewController.titleString = @"Frequency";
-                addNewValueViewController.placeHolderString = @"In";
-                addNewValueViewController.backButtonTitle = @"Add Medication";
-                addNewValueViewController.detailType = eAddValueWithUnit;
-                addNewValueViewController.unitArray = [[NSArray alloc] initWithObjects:@"Day",@"Week",@"Month",nil];
-                addNewValueViewController.previousValue = self.selectedMedication.reviewDate;
-                addNewValueViewController.newValueEntered = ^ (NSString *value) {
-                    self.selectedMedication.reviewDate = [NSString stringWithFormat:@"In %@",value];
-                    [medicationDetailsTableView reloadData];
-                };
-                self.title = titleLabel.text;
-                [self.navigationController pushViewController:addNewValueViewController animated:YES];
+                [self displayReviewViewController];
             }
             break;
         }
