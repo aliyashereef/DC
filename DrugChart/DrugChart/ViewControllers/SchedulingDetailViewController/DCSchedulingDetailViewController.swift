@@ -33,7 +33,7 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
     var scheduling : DCScheduling?
     var schedulingCompletion: SchedulingCompletion = { value in }
     var frequencyValue : SelectedFrequencyValue = {value in }
-    var headerHeight : CGFloat = 0.0
+   // var headerHeight : CGFloat = 0.0
     var detailType : SchedulingDetailType?
     var previousFilledValue : NSString = EMPTY_STRING
     var previewArray : NSMutableArray? = []
@@ -73,8 +73,8 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
         
         //set view properties and values
         //calculate header view height
-        let schedulingDescription = (self.scheduling?.type == SPECIFIC_TIMES) ? self.scheduling?.specificTimes?.specificTimesDescription : self.scheduling?.interval?.intervalDescription
-        headerHeight = DCUtility.textViewSizeWithText(schedulingDescription, maxWidth: HEADER_VIEW_LABEL_MAX_WIDTH, font: UIFont.systemFontOfSize(13.0)).height + 10
+//        let schedulingDescription = (self.scheduling?.type == SPECIFIC_TIMES) ? self.scheduling?.specificTimes?.specificTimesDescription : self.scheduling?.interval?.intervalDescription
+//        headerHeight = DCUtility.textViewSizeWithText(schedulingDescription, maxWidth: HEADER_VIEW_LABEL_MAX_WIDTH, font: UIFont.systemFontOfSize(13.0)).height + 10
         detailTableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
         configureNavigationView()
     }
@@ -455,7 +455,6 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
         if (pickerType != nil) {
             self.updateAdministrationTimesArrayForSelectedPickerType(pickerType!)
         }
-       // self.schedulingCompletion(self.scheduling)
     }
     
     func specificTimesWeeklyOrYearlyDetailCellAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
@@ -493,6 +492,25 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
             }
             return repeatCell
         }
+    }
+    
+    func schedulingDescriptionFooterText () -> String {
+        
+        if (self.detailType! == eDetailIntervalRepeatFrequency) {
+            if let intervalObject = self.scheduling?.interval {
+                self.scheduling?.interval?.intervalDescription = DCSchedulingHelper.scheduleDescriptionForIntervalValue(intervalObject) as String
+                return (self.scheduling?.interval?.intervalDescription)!
+            }
+        } else {
+            if let repeatObject = self.scheduling?.specificTimes?.repeatObject {
+                if administratingTimes == nil {
+                    administratingTimes = []
+                }
+                self.scheduling?.specificTimes?.specificTimesDescription = DCSchedulingHelper.scheduleDescriptionForSpecificTimesRepeatValue(repeatObject, administratingTimes: administratingTimes!) as String
+                return (self.scheduling?.specificTimes?.specificTimesDescription)!
+            }
+        }
+        return EMPTY_STRING
     }
     
     // MARK: TableView Methods
@@ -601,9 +619,8 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
                     //remove the already existing object from array
                     self.scheduling?.specificTimes?.repeatObject?.weekDays.removeObjectAtIndex(index)
                  }
-               // self.schedulingCompletion(self.scheduling)
                 tableView.beginUpdates()
-                self.detailTableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.Fade)
+                self.detailTableView.reloadSections(NSIndexSet(indexesInRange: NSMakeRange(0, 2)), withRowAnimation: UITableViewRowAnimation.Fade)
                 tableView.endUpdates()
             } else {
                 
@@ -625,41 +642,35 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        
-        if (section == 1) {
-            return (headerHeight > HEADER_VIEW_MIN_HEIGHT) ? headerHeight : HEADER_VIEW_MIN_HEIGHT
-        }
-        return 0
-    }
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         
-        if (section == 1) {
-            let headerView = NSBundle.mainBundle().loadNibNamed(SCHEDULING_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCSchedulingHeaderView
-            if (self.detailType! == eDetailIntervalRepeatFrequency) {
-                if let intervalObject = self.scheduling?.interval {
-                    headerView?.populateMessageLabelForIntervalValue(intervalObject)
-                    self.scheduling?.interval?.intervalDescription = headerView?.messageLabel.text;
-                }
-            } else {
-                if let repeatObject = self.scheduling?.specificTimes?.repeatObject {
-                    if administratingTimes == nil {
-                        administratingTimes = []
-                    }
-                    headerView?.populateMessageLabelWithSpecificTimesRepeatValue(repeatObject, administratingTimes: administratingTimes!)
-                    self.scheduling?.specificTimes?.specificTimesDescription = headerView?.messageLabel.text;
-                }
-            }
-           // self.schedulingCompletion(self.scheduling)
-            headerHeight = DCUtility.textViewSizeWithText(headerView?.messageLabel.text, maxWidth: HEADER_VIEW_LABEL_MAX_WIDTH, font: UIFont.systemFontOfSize(13.0)).height + 10
-            tableView.layoutIfNeeded()
-            return headerView!
+        //Set the header as PREVIEW
+        if section == 0 {
+            return schedulingDescriptionFooterText()
         }
-
         return nil
     }
     
+    func tableView(tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+        
+        //Change text color to red and change text from full upper case to desired sentence.
+        if let view = view as? UITableViewHeaderFooterView {
+            view.textLabel!.font = UIFont.systemFontOfSize(14.0)
+        }
+    }
+    
+    
+    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        
+        if (section == 0) {
+            let schedulingDescription : NSString = schedulingDescriptionFooterText()
+            let headerHeight : CGFloat = DCUtility.textViewSizeWithText(String(format: "%@", schedulingDescription), maxWidth: FOOTER_VIEW_MAX_WIDTH, font: UIFont.systemFontOfSize(14.0)).height + FOOTER_VIEW_HEIGHT_OFFSET_VALUE
+            return headerHeight < FOOTER_VIEW_MIN_HEIGHT ? FOOTER_VIEW_MIN_HEIGHT : (headerHeight + FOOTER_VIEW_TOTAL_HEIGHT_OFFSET)
+        }
+        return 0
+    }
+
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         return (indexPathHasPicker(indexPath)) ? PICKER_CELL_HEIGHT : TABLE_VIEW_ROW_HEIGHT
