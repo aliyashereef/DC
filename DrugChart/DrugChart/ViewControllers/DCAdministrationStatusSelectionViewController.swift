@@ -125,11 +125,19 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
     //Medication Details Cell
     func medicationDetailsCellAtIndexPath (indexPath :NSIndexPath) -> UITableViewCell {
         
-        let cell = administerStatusSelectionTableView.dequeueReusableCellWithIdentifier("DurationBasedInfusionCell") as? DCDurationBasedMedicationDetailsCell
-        if let _ = medicationDetails {
-            cell!.configureMedicationDetails(medicationDetails!)
+        if DCAdministrationHelper.isMedicationDurationBasedInfusion(medicationDetails!){
+            let cell = administerStatusSelectionTableView.dequeueReusableCellWithIdentifier("DurationBasedInfusionCell") as? DCDurationBasedMedicationDetailsCell
+            if let _ = medicationDetails {
+                cell!.configureMedicationDetails(medicationDetails!)
+            }
+            return cell!
+        } else {
+            let cell = administerStatusSelectionTableView.dequeueReusableCellWithIdentifier("MedicationDetailsTableViewCell") as? DCMedicationDetailsTableViewCell
+            if let _ = medicationDetails {
+                cell!.configureMedicationDetails(medicationDetails!)
+            }
+            return cell!
         }
-        return cell!
     }
     
     // Administration Status Cell
