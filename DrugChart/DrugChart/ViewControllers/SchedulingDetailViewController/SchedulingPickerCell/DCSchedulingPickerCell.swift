@@ -80,7 +80,6 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
             default :
                 break
         }
-        NSLog("*** content array is %@", contentArray!)
     }
     
     func configurePickerViewForSchedulingFrequency() {

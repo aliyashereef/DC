@@ -37,7 +37,7 @@
     } else {
         [_dateValueLabel setHidden:NO];
     }
-    [_dateTypeLabel setText:NSLocalizedString(@"NO_END_DATE", @"No end date title")];
+    [_dateTypeLabel setText:NSLocalizedString(@"SET_END_DATE", @"No end date title")];
     [_noEndDateSwitch setHidden:NO];
     [_noEndDateSwitch setOn:state];
 }
