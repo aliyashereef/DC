@@ -132,7 +132,6 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
                     self.scheduling?.specificTimes?.repeatObject?.isEachValue = true
                     self.scheduling?.specificTimes?.repeatObject?.onTheValue = EMPTY_STRING
                 }
-              //  self.schedulingCompletion(self.scheduling)
                 self.detailTableView.reloadData()
             } else {
                 self.updateSchedulingDetailsForSelectedPickerType(pickerType, selectedValue: value!)

@@ -403,7 +403,7 @@
 - (DCDateTableViewCell *)noEndDateTableCell:(DCDateTableViewCell *)tableCell {
     
     //no end date cell configuration
-    tableCell.dateTypeLabel.text = NSLocalizedString(@"NO_END_DATE", @"no end date title");
+    tableCell.dateTypeLabel.text = NSLocalizedString(@"SET_END_DATE", @"set end date title");
     tableCell.dateTypeLabel.textColor = [UIColor blackColor];
     [tableCell configureCellWithNoEndDateSwitchState:self.selectedMedication.hasEndDate];
     tableCell.accessoryType = UITableViewCellAccessoryNone;
@@ -862,7 +862,7 @@
     
     UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
     DCAddNewValueViewController *addNewValueViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:ADD_NEW_VALUE_SBID];
-    addNewValueViewController.titleString = @"Frequency";
+    addNewValueViewController.titleString = NSLocalizedString(@"Review Frequency", @"screen title");;
     addNewValueViewController.placeHolderString = @"In";
     addNewValueViewController.backButtonTitle = @"Add Medication";
     addNewValueViewController.detailType = eAddValueWithUnit;
