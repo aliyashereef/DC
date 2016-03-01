@@ -85,10 +85,15 @@ class VitalSignParser : FhirParser
 //            }
 //    }
 //    }
+    
+    var CARE_RECORD_URL = "patients/%@/carerecord/observations?CodeValues=%@&StartDateTime=%@&EndDateTime=%@&IncludeMostRecent=%@"
+    
 
-    func getVitalSignsObservations(apiURL:String , onSuccess:(observationList:[VitalSignObservation])->Void)
+    func getVitalSignsObservations(patientId:String, commaSeparatedCodes:String, startDate:NSDate, endDate:NSDate , includeMostRecent:Bool , onSuccess:(observationList:[VitalSignObservation])->Void)
     {
-        super.connectServer(apiURL){(json:FHIRJSON? , error:NSError? ) in
+        let url = String(format:CARE_RECORD_URL , patientId , commaSeparatedCodes , startDate.getFHIRDateandTime() , endDate.getFHIRDateandTime(), includeMostRecent == true ?"true":"false")
+        
+        super.connectServer(url){(json:FHIRJSON? , error:NSError? ) in
             var lstObservation = [VitalSignObservation]()
             if(error == nil) //so there is no error and the json can be parsed now.
             {

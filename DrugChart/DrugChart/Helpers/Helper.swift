@@ -21,5 +21,11 @@ class Helper
         subView.frame.origin.y = 0
         parentView.addSubview(subView)
     }
+    
+    static func getCareRecordCodes() ->String
+    {
+        let codes = String(format:"%@,%@,%@,%@,%@",Constant.CODE_PULSE_RATE,Constant.CODE_OXYGEN_SATURATION,Constant.CODE_RESPIRATORY_RATE,Constant.CODE_ORAL_TEMPERATURE,Constant.CODE_BLOOD_PRESSURE)
+        return codes
+    }
 }
 

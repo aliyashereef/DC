@@ -24,7 +24,6 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
     @IBOutlet weak var previousPage: UIButton!
     var graphStartDate:NSDate = NSDate()
     
-    var CARE_RECORD_URL = "patients/%@/carerecord/observations?CodeValues=%@&StartDateTime=%@&EndDateTime=%@&IncludeMostRecent=true"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -302,15 +301,9 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         // now do the FHIR call
         activityIndicator = startActivityIndicator(self.view) // show the activity indicator
         let parser = VitalSignParser()
-        let codes = getCareRecordCodes()
-        let url = String(format:CARE_RECORD_URL , patient.patientId , codes , graphStartDate.getFHIRDateandTime() , graphEndDate.getFHIRDateandTime())
-        parser.getVitalSignsObservations(url, onSuccess: showData)
+        parser.getVitalSignsObservations(patient.patientId,commaSeparatedCodes:  Helper.getCareRecordCodes(),startDate:  graphStartDate , endDate:  graphEndDate,includeMostRecent:  true , onSuccess: showData)
     }
-    func getCareRecordCodes() ->String
-    {
-        let codes = String(format:"%@,%@,%@,%@,%@",Constant.CODE_PULSE_RATE,Constant.CODE_OXYGEN_SATURATION,Constant.CODE_RESPIRATORY_RATE,Constant.CODE_ORAL_TEMPERATURE,Constant.CODE_BLOOD_PRESSURE)
-        return codes
-    }
+   
     @IBAction func show(sender: AnyObject) {
         let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
         if (appDelegate.windowState == DCWindowState.halfWindow || appDelegate.windowState == DCWindowState.oneThirdWindow) {
