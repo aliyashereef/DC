@@ -1459,7 +1459,17 @@
 - (void)newDosageAdded:(DCDosage *)dosage {
     
     //new dosage added
-    self.selectedMedication.dosage = dosage.type;
+    self.selectedMedication.dose = dosage;
+    self.selectedMedication.timeArray = dosage.splitDailyDose.timeArray;
+    if ([dosage.type isEqualToString:DOSE_FIXED]) {
+        if (![dosage.fixedDose.doseValue  isEqualToString:@""] && [DCDosageHelper validateRequireDailyDoseValue:dosage.fixedDose.doseValue]) {
+            self.selectedMedication.dosage = [NSString stringWithFormat:@"%@, %@ %@",dosage.type,dosage.fixedDose.doseValue,dosage.doseUnit];
+        }
+    } else if ([dosage.type isEqualToString:DOSE_VARIABLE]){
+        if (![dosage.variableDose.doseFromValue  isEqualToString:@""] && ![dosage.variableDose.doseToValue  isEqualToString:@""] && [DCDosageHelper validateRequireDailyDoseValue:dosage.variableDose.doseFromValue] && [DCDosageHelper validateRequireDailyDoseValue:dosage.variableDose.doseToValue]) {
+            self.selectedMedication.dosage = [NSString stringWithFormat:@"%@, %@ %@,%@ %@",dosage.type,dosage.variableDose.doseFromValue,dosage.doseUnit,dosage.variableDose.doseToValue,dosage.doseUnit];
+        }
+    }
     [medicationDetailsTableView reloadData];
 }
 
