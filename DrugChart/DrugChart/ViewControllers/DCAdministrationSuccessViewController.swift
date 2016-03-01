@@ -388,6 +388,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
             reasonViewController.delegate = self
             if let reasonString = self.medicationSlot?.medicationAdministration?.statusReason {
                 reasonViewController.previousSelection = reasonString
+                reasonViewController.secondaryReason = self.medicationSlot?.medicationAdministration?.secondaryReason
             }
             self.navigationController!.pushViewController(reasonViewController, animated: true)
         case 3:
@@ -502,7 +503,6 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
     // MARK: BatchNumberCellDelegate Methods
     func batchNumberFieldSelectedAtIndexPath(indexPath: NSIndexPath) {
         self.collapseOpenedPickerCell()
-        self.administerSuccessTableView.contentOffset = CGPointMake(0, 300)
     }
     
     func enteredBatchDetails(batch : String) {
@@ -512,8 +512,6 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
     // MARK: NotesCell Delegate Methods
     func notesSelected(editing : Bool, withIndexPath indexPath : NSIndexPath) {
         self.collapseOpenedPickerCell()
-        self.administerSuccessTableView.contentOffset = CGPointMake(0, 400)
-
     }
     
     func enteredNote(note : String) {
@@ -547,8 +545,24 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
     }
 
     // MARK:AdministerPickerCellDelegate Methods
-    func reasonSelected(reason: String) {
+    func reasonSelected(reason: String, secondaryReason : String) {
         self.medicationSlot?.medicationAdministration?.statusReason = reason
+        self.medicationSlot?.medicationAdministration?.secondaryReason = secondaryReason
         self.administerSuccessTableView.reloadData()
+    }
+    
+    func keyboardDidShow(notification : NSNotification) {
+        if let userInfo = notification.userInfo {
+            if let keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+                let contentHeight = self.administerSuccessTableView.contentSize.height
+                let scrollOffset = contentHeight - keyboardSize.height + 110.0
+                self.administerSuccessTableView.setContentOffset(CGPoint(x: 0, y: scrollOffset), animated: true)
+            }
+        }
+    }
+    
+    func keyboardDidHide(notification :NSNotification){
+        administerSuccessTableView.beginUpdates()
+        administerSuccessTableView.endUpdates()
     }
 }

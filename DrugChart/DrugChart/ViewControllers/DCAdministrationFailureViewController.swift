@@ -216,6 +216,7 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
             reasonViewController.delegate = self
             if let reasonString = self.medicationSlot?.medicationAdministration?.statusReason {
                 reasonViewController.previousSelection = reasonString
+                reasonViewController.secondaryReason = self.medicationSlot?.medicationAdministration?.secondaryReason
             }
             self.navigationController!.pushViewController(reasonViewController, animated: true)
         case 2:
@@ -260,7 +261,6 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
     
     func notesSelected(editing : Bool, withIndexPath indexPath : NSIndexPath) {
         self.collapseOpenedPickerCell()
-        self.administrationFailureTableView.contentOffset = CGPointMake(0, 200)
     }
     
     func enteredNote(note : String) {
@@ -277,22 +277,30 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
     
     // MARK:AdministerPickerCellDelegate Methods
 
-    func reasonSelected(reason: String) {
-        
+    func reasonSelected(reason: String, secondaryReason : String) {
+    
         self.medicationSlot?.medicationAdministration?.statusReason = reason
+        self.medicationSlot?.medicationAdministration?.secondaryReason = secondaryReason
         self.administrationFailureTableView.reloadData()
     }
     
     // MARK: - keyboard Delegate Methods
     
-     func keyboardDidShow(notification: NSNotification) {
-        // notification methods
-        let info:NSDictionary = notification.userInfo!
-        let kbSize:CGSize = (info.objectForKey(UIKeyboardFrameBeginUserInfoKey)?.CGRectValue.size)!
-        let contentInsets:UIEdgeInsets = UIEdgeInsetsMake(0.0,0.0,kbSize.height,0.0)
-        administrationFailureTableView.contentInset = contentInsets
-        administrationFailureTableView.scrollIndicatorInsets = contentInsets
-
+    func keyboardDidShow(notification : NSNotification) {
+        if let userInfo = notification.userInfo {
+            if let keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+                let contentHeight = self.administrationFailureTableView.contentSize.height
+                let scrollOffset = contentHeight - keyboardSize.height + 125.0
+                self.administrationFailureTableView.setContentOffset(CGPoint(x: 0, y: scrollOffset), animated: true)
+            }
+        }
     }
+    
+    func keyboardDidHide(notification :NSNotification){
+//        self.administrationFailureTableView.setContentOffset(CGPoint(x: 0, y: -48), animated: true)
+        administrationFailureTableView.beginUpdates()
+        administrationFailureTableView.endUpdates()
+    }
+
     
 }

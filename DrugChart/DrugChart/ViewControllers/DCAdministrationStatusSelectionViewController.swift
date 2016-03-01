@@ -35,6 +35,7 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
     override func viewDidLoad() {
         self.configureViewElements()
         self.configureNavigationBar()
+        self.saveButton?.enabled = false
         super.viewDidLoad()
     }
     // MARK: Private Methods
@@ -239,6 +240,7 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
             administrationSuccessViewController!.view.frame = administerContainerView.bounds
             
         }
+        self.saveButton?.enabled = true
         self.view.bringSubviewToFront(administerContainerView)
         administerContainerView.bringSubviewToFront((administrationSuccessViewController?.view)!)
     }
@@ -255,6 +257,7 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
             administrationFailureViewController!.view.frame = administerContainerView.bounds
             
         }
+        self.saveButton?.enabled = true
         self.view.bringSubviewToFront(administerContainerView)
         administerContainerView.bringSubviewToFront((administrationFailureViewController?.view)!)
         
@@ -271,6 +274,7 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
             administrationInProgressViewController!.view.frame = administerContainerView.bounds
             
         }
+        self.saveButton?.enabled = false
         self.view.bringSubviewToFront(administerContainerView)
         administerContainerView.bringSubviewToFront((administrationInProgressViewController?.view)!)
         

@@ -62,7 +62,11 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
         let administerCell : DCAdministerCell = (administerInProgressTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
         administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         administerCell.detailLabelTrailingSpace.constant = 0.0
-        administerCell.titleLabel.text = STATUS
+        if medicationSlot?.medicationAdministration.status == EMPTY_STRING ||  medicationSlot?.medicationAdministration.status == nil{
+            administerCell.titleLabel.text = STATUS_CHANGE
+        } else {
+            administerCell.titleLabel.text = STATUS
+        }
         administerCell.detailLabel?.text = medicationSlot?.medicationAdministration.status
         return administerCell
     }

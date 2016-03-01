@@ -70,7 +70,11 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         case 1:
             cell!.contentType.text = REASON
             if let reason = medication.medicationAdministration.statusReason {
-                cell!.value.text = reason
+                if (reason != EMPTY_STRING){
+                    cell!.value.text = reason
+                } else {
+                    cell!.value.text = NONE_TEXT
+                }
             } else {
                 cell!.value.text = NONE_TEXT
             }
@@ -187,7 +191,15 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
             break
         case 1:
             cell!.contentType.text = REASON
-            cell!.value.text = NONE_TEXT
+            if let reason = medication.medicationAdministration.statusReason {
+                if (reason != EMPTY_STRING){
+                    cell!.value.text = reason
+                } else {
+                    cell!.value.text = NONE_TEXT
+                }
+            } else {
+                cell!.value.text = NONE_TEXT
+            }
             break
         case 2:
             cell!.contentType.text = DATE
