@@ -80,6 +80,7 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
             default :
                 break
         }
+        NSLog("*** content array is %@", contentArray!)
     }
     
     func configurePickerViewForSchedulingFrequency() {
@@ -87,7 +88,9 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
         //scheduling frequency type
         if let repeatType = repeatValue?.repeatType {
             let selectedIndex = contentArray?.indexOfObject(repeatType)
-            [pickerView .selectRow(selectedIndex!, inComponent: 0, animated: true)]
+            if selectedIndex <= contentArray?.count {
+                [pickerView .selectRow(selectedIndex!, inComponent: 0, animated: true)]
+            }
         }
     }
     
@@ -98,7 +101,9 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
             if let range = frequency.rangeOfString(" ") {
                 let frequencyCount = frequency.substringToIndex(range.startIndex)
                 let selectedIndex = contentArray?.indexOfObject(Int(frequencyCount)!)
-                [pickerView .selectRow(selectedIndex!, inComponent: 0, animated: true)]
+                if selectedIndex <= contentArray?.count {
+                    [pickerView .selectRow(selectedIndex!, inComponent: 0, animated: true)]
+                }
             }
         }
     }
@@ -110,7 +115,9 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
             if let range = frequency.rangeOfString(" ") {
                 let frequencyCount = frequency.substringToIndex(range.startIndex)
                 let selectedIndex = contentArray?.indexOfObject(Int(frequencyCount)!)
-                [pickerView .selectRow(selectedIndex!, inComponent: 0, animated: true)]
+                if selectedIndex <= contentArray?.count {
+                    [pickerView .selectRow(selectedIndex!, inComponent: 0, animated: true)]
+                }
             } else {
                 [pickerView .selectRow(0, inComponent: 0, animated: true)]
             }
@@ -121,7 +128,9 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
         
         if let monthEach = repeatValue?.eachValue {
             let selectedIndex = contentArray?.indexOfObject(Int(monthEach)!)
-            [pickerView .selectRow(selectedIndex!, inComponent: 0, animated: true)]
+            if selectedIndex <= contentArray?.count {
+                [pickerView .selectRow(selectedIndex!, inComponent: 0, animated: true)]
+            }
         }
     }
     
@@ -131,7 +140,9 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
             if (monthOnThe != EMPTY_STRING) {
                 let (indexValue, weekDay) = DCSchedulingHelper.splitComponentsSeparatedBySpace(monthOnThe)
                 let firstComponentIndex = contentArray?.indexOfObject(indexValue)
-                [pickerView.selectRow(firstComponentIndex!, inComponent: 0, animated: true)]
+                if firstComponentIndex <= contentArray?.count {
+                    [pickerView.selectRow(firstComponentIndex!, inComponent: 0, animated: true)]
+                }
                 let secondComponentIndex = weekDaysArray?.indexOfObject(weekDay)
                 if (pickerView.numberOfComponents == 2) {
                     [pickerView.selectRow(secondComponentIndex!, inComponent: 1, animated: true)]
@@ -147,7 +158,9 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
             if (yearEachValue != EMPTY_STRING) {
                 let (day, month) = DCSchedulingHelper.splitComponentsSeparatedBySpace(yearEachValue)
                 let firstComponentIndex = contentArray?.indexOfObject(Int(day as String)!)
-                [pickerView.selectRow(firstComponentIndex!, inComponent: 0, animated: true)]
+                if firstComponentIndex <= contentArray?.count {
+                    [pickerView.selectRow(firstComponentIndex!, inComponent: 0, animated: true)]
+                }
                 let secondComponentIndex = monthArray?.indexOfObject(month)
                 if (pickerView.numberOfComponents == 2) {
                     [pickerView.selectRow(secondComponentIndex!, inComponent: 1, animated: true)]
@@ -166,7 +179,9 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
                 let weekDay = components[1]
                 let month = components[2]
                 let firstComponentIndex = contentArray?.indexOfObject(indexValue)
-                [pickerView.selectRow(firstComponentIndex!, inComponent: 0, animated: true)]
+                if firstComponentIndex <= contentArray?.count {
+                    [pickerView.selectRow(firstComponentIndex!, inComponent: 0, animated: true)]
+                }
                 if (pickerView.numberOfComponents == 3) {
                     let secondComponentIndex = weekDaysArray?.indexOfObject(weekDay)
                     [pickerView.selectRow(secondComponentIndex!, inComponent: 1, animated: true)]
@@ -190,7 +205,9 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
         }
         if let dayInterval = repeatFrequency {
             let selectedIndex = contentArray?.indexOfObject(Int(dayInterval)!)
-            [pickerView .selectRow(selectedIndex!, inComponent: 0, animated: true)]
+            if selectedIndex <= contentArray?.count {
+                [pickerView .selectRow(selectedIndex!, inComponent: 0, animated: true)]
+            }
         } else {
             [pickerView .selectRow(0, inComponent: 0, animated: true)]
         }
@@ -320,5 +337,7 @@ class DCSchedulingPickerCell: UITableViewCell, UIPickerViewDelegate, UIPickerVie
             }
         }
     }
+    
+    
 }
 
