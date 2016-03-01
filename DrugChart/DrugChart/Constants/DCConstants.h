@@ -19,8 +19,8 @@
 #define kDCBaseUrl_Demo @"http://openapidemo.cloudapp.net/api" // demo URL
 
 
-#define kDCBaseVitalSignUrl @"http://interfacetest.cloudapp.net/api"
-#define kDCBaseVitalSignUrl_Demo @"http://openapidemo.cloudapp.net/api" // demo URL
+#define kDCBaseVitalSignUrl @"http://emisvitalsigns.cloudapp.net/hub/api"
+#define kDCBaseVitalSignUrl_Demo @"http://emisvitalsigns.cloudapp.net/hub/api" // demo URL
 
 
 #define AUTHORIZE_URL           @"https://interfacetest.cloudapp.net/ehc-identity/identity/connect/authorize"

@@ -28,6 +28,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
     let SECTION_DATE = 0
     let SECTION_OBSERVATION = 1
     let SECTION_ADDITIONAL_NEWS_OBSERVATION = 2
+    let SECTION_NEWS_SCORE = 3
     
     
     // rows
@@ -35,6 +36,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
     let SECTION_OBSERVATION_ADD_ROWS = 5 // show all the observations becuase this is add case
     let SECTION_OBSERVATION_EDIT_ROWS = 1 // show only single observation because this is editing of a single observation
     let SECTION_ADDITIONAL_NEWS_OBSERVATION_ROWS = 2
+    let SECTION_NEWS_SCORE_ROWS = 1
     let ZERO_ROWS = 0
     
     //general variables
@@ -89,7 +91,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
         DataEntryObservationSource.VitalSignEditIPhone , DataEntryObservationSource.VitalSignEditIPad:
             return 2
         case DataEntryObservationSource.NewsIPad , DataEntryObservationSource.NewsIPhone:
-            return 3
+            return 4
         }
     }
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -125,6 +127,8 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
                 return SECTION_OBSERVATION_ADD_ROWS // 5 rows for observation
             case  SECTION_ADDITIONAL_NEWS_OBSERVATION:
                 return SECTION_ADDITIONAL_NEWS_OBSERVATION // 2 rows for the additional oxygen and for the AVPU
+          case SECTION_NEWS_SCORE:
+                return SECTION_NEWS_SCORE_ROWS
           default:
                return ZERO_ROWS
             }
@@ -284,6 +288,21 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             cell.accessoryView = infoButton
             cells[rowNumber] = cell
             return cell
+        case ObservationType.News:
+            placeHolderText = ""
+            let cell = tableView.dequeueReusableCellWithIdentifier(doubleCellIdentifier, forIndexPath: indexPath) as! DoubleCell
+            cell.tag = ObservationType.News.rawValue
+            cell.configureCell("NEWS", valuePlaceHolderText: placeHolderText,selectedValue: nil , disableNavigation: showObservationType != .All)
+            cell.value.enabled = false
+            cell.value.text = "noureen "
+            cells[rowNumber] = cell
+            if(showObservationType == ShowObservationType.Pulse && observation != nil )
+            {
+                cell.value.text = observation.getPulseReading()
+            }
+            cell.delegate = self
+            return cell
+            
         }
         
     }
