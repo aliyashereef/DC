@@ -29,7 +29,7 @@
 
 - (IBAction)datePickerValueChanged:(id)sender {
     
-    self.selectedDate (_datePicker.date);
+    self.selectedDate ([DCDateUtility dateInCurrentTimeZone:_datePicker.date]);
 }
 
 @end

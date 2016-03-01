@@ -12,6 +12,7 @@
 
 @property (nonatomic, strong) NSDate *scheduledDateTime;
 @property (nonatomic, strong) NSDate *actualAdministrationTime;
+@property (nonatomic, strong) NSDate *restartedDate;
 @property (nonatomic, strong) NSDate *expiryDateTime;
 @property (nonatomic, strong) DCUser *administratingUser;
 @property (nonatomic, strong) DCUser *checkingUser;

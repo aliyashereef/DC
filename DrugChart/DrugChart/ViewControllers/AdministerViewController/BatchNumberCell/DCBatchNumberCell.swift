@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol BatchCellDelegate {
+@objc public protocol BatchCellDelegate {
     
     func enteredBatchDetails(batch : String)
     func batchNumberFieldSelectedAtIndexPath(indexPath: NSIndexPath)

@@ -195,6 +195,7 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
             switch indexPath.row {
             case 0:
                 let statusViewController : DCAdministrationStatusTableViewController = DCAdministrationHelper.administratedStatusPopOverAtIndexPathWithStatus(indexPath, status:IN_PROGRESS)
+                statusViewController.medicationSlot = self.medicationSlot
                 statusViewController.previousSelectedValue = self.medicationSlot?.medicationAdministration?.status
                 statusViewController.medicationStatusDelegate = self
                 self.collapseOpenedDatePicker()
@@ -243,7 +244,7 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
     // MARK: NotesCell Delegate Methods
     func notesSelected(editing : Bool, withIndexPath indexPath : NSIndexPath) {
         self.collapseOpenedDatePicker()
-        self.administerInProgressTableView.setContentOffset(CGPointMake(0, 250), animated: true)
+        self.administerInProgressTableView.setContentOffset(CGPointMake(0, 280), animated: true)
     }
     
     func enteredNote(note : String) {

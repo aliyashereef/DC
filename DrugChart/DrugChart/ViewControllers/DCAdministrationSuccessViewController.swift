@@ -183,6 +183,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
             pickerCell.datePicker?.maximumDate = NSDate()
         } else {
             pickerCell.datePicker?.datePickerMode = UIDatePickerMode.Date
+            pickerCell.datePicker?.maximumDate = nil
         }
         pickerCell.configureDatePickerProperties()
         pickerCell.selectedDate = { date in
