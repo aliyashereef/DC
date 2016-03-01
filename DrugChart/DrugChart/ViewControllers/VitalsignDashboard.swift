@@ -25,7 +25,6 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
     var graphStartDate:NSDate = NSDate()
     
     var CARE_RECORD_URL = "patients/%@/carerecord/observations?CodeValues=%@&StartDateTime=%@&EndDateTime=%@&IncludeMostRecent=true"
-   // var CARE_RECORD_URL = "patients/%@/carerecord/observations?CodeValues=%@"
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -11,5 +11,22 @@ import Foundation
 class VitalSignBaseModel
 {
     var date:NSDate = NSDate()
-    var stringValue:String = ""
+    private var strValue = ""
+    var stringValue:String
+    {
+        set (newVal)
+        {
+            strValue = newVal
+            setCorrespondentDoubleValue(newVal)
+        }
+        get
+        {
+            return strValue
+        }
+    }
+    
+    func setCorrespondentDoubleValue(valueString:String)
+    {
+        //Every child class must have to override this class.
+    }
 }

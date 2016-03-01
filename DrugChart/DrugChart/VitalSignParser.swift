@@ -89,9 +89,9 @@ class VitalSignParser : FhirParser
     func getVitalSignsObservations(apiURL:String , onSuccess:(observationList:[VitalSignObservation])->Void)
     {
         super.connectServer(apiURL){(json:FHIRJSON? , error:NSError? ) in
+            var lstObservation = [VitalSignObservation]()
             if(error == nil) //so there is no error and the json can be parsed now.
             {
-                var lstObservation = [VitalSignObservation]()
                 let bundle = Bundle(json: json)
                 
                 for bundleEntry in bundle.entry!
@@ -154,6 +154,10 @@ class VitalSignParser : FhirParser
                 //}
                 onSuccess(observationList: lstObservation)
             }
+            else // this is error condition
+            {
+                onSuccess(observationList: lstObservation) //Currently the error get logged into the logger but if we have to show the error on main UI then we porbably need to pass the error from here.
+            }
         }
     }
     
@@ -206,8 +210,10 @@ class VitalSignParser : FhirParser
                 {
                     case Constant.CODE_SYSTOLIC_READING: // systolic
                         obsBloodPressure.systolic = (component.valueQuantity?.value?.doubleValue)!
+                        obsBloodPressure.stringValueSystolic = (component.valueQuantity?.value?.stringValue)!
                     case Constant.CODE_DIASTOLIC_READING : // diastolic
                         obsBloodPressure.diastolic = (component.valueQuantity?.value?.doubleValue)!
+                    obsBloodPressure.stringValueDiastolic = (component.valueQuantity?.value?.stringValue)!
                     default:
                         DDLogError("\(Constant.VITAL_SIGN_LOGGER_INDICATOR) Unexpected type \(obs.text) found in blood pressure components.")
                 }

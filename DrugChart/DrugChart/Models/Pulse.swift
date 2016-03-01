@@ -16,4 +16,8 @@ class Pulse : VitalSignBaseModel
     {
         pulseRate = 0.0
     }
+    
+    override func setCorrespondentDoubleValue(valueString: String) {
+        pulseRate = (valueString as NSString!).doubleValue
+    }
 }

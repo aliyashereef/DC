@@ -51,6 +51,11 @@ class DoubleCell: UITableViewCell ,ButtonAction{
         return (value.text as NSString!).doubleValue
     }
     
+    func getStringValue() ->String
+    {
+        return value.text!
+    }
+    
     func isValueEntered() -> Bool
     {
         return value.isValueEntered()

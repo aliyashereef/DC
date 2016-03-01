@@ -30,7 +30,6 @@ class HelpViewController: UIViewController, QLPreviewControllerDataSource {
         
         let doneButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: self, action: "doneButtonPressed:")
         
-//        (id: "doneButton", barButtonSystemItem: UIBarButtonSystemItem.Done, target: self, action: "doneButtonPressed:")
         self.navigationItem.rightBarButtonItem = doneButton
         
         let path = NSBundle.mainBundle().pathForResource("NEWS", ofType: "pdf")!

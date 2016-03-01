@@ -15,4 +15,8 @@ class SPO2 : VitalSignBaseModel
     {
         spO2Percentage = 0.0
     }
+    
+    override func setCorrespondentDoubleValue(valueString: String) {
+        spO2Percentage = (valueString as NSString!).doubleValue
+    }
 }

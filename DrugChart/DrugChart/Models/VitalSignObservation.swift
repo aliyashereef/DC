@@ -43,25 +43,6 @@ class VitalSignObservation
         limbMovementLegs = nil
     }
     
-//    func getConsolidatedDate() ->NSDate
-//    {
-////        let calendar = NSCalendar.currentCalendar()
-////      //  let comp = NSCalendarUnit.Day | NSCalendarUnit.Month | NSCalendarUnit.Year
-////        let components = calendar.components(NSCalendarUnit.Day , fromDate: date)
-////        let year = components.year
-////        
-//    
-//        var newDate:NSDate!
-//        let calendar = NSCalendar.currentCalendar()
-//        let components = NSDateComponents()
-//        components.day = 5
-//        components.month = 01
-//        components.year = 2016
-//        components.hour = 19
-//        components.minute = 30
-//        newDate = calendar.dateFromComponents(components)
-//        return newDate
-//    }
     func getComaScore()  -> String
     {
         var score :Int = 0
@@ -80,12 +61,6 @@ class VitalSignObservation
         }
         return score < 3 ? "N/A" : String(score)
     }
-//    func getFormattedTime() ->String
-//    {
-//        let dateFormatter = NSDateFormatter()
-//        dateFormatter.dateFormat = "h:mm a"
-//        return dateFormatter.stringFromDate(self.date)
-//    }
     func getFormattedDate() -> String
     {
         let formatter = NSDateFormatter()
@@ -183,7 +158,7 @@ class VitalSignObservation
     {
         if(bloodPressure != nil)
         {
-            return String (bloodPressure!.systolic ) + "/" + String (bloodPressure!.diastolic)
+            return bloodPressure!.stringValueSystolic + "/" + bloodPressure!.stringValueDiastolic
         }
         else
         {
@@ -194,7 +169,7 @@ class VitalSignObservation
     {
         if(spo2 != nil)
         {
-            return String (spo2!.spO2Percentage)
+            return spo2!.stringValue
         }
         else
         {
@@ -205,7 +180,7 @@ class VitalSignObservation
     {
         if(pulse != nil)
         {
-            return String(pulse!.pulseRate)
+            return pulse!.stringValue
         }
         else
         {
@@ -216,7 +191,7 @@ class VitalSignObservation
     {
         if respiratory != nil
         {
-            return String(respiratory!.repiratoryRate)
+            return respiratory!.stringValue
         }
         else
         {
@@ -231,11 +206,12 @@ class VitalSignObservation
         }
         respiratory?.repiratoryRate = value
     }
+    
     func getTemperatureReading() -> String
     {
         if temperature != nil
         {
-            return String(temperature!.value)
+            return temperature!.stringValue
         }
         else
         {

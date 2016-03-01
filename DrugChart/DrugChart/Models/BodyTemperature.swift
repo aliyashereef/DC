@@ -18,4 +18,8 @@ class BodyTemperature:VitalSignBaseModel
         unit = "Farenheit"
         value = 0.0
     }
+    
+    override func setCorrespondentDoubleValue(valueString: String) {
+        value = (valueString as NSString!).doubleValue
+    }
 }

@@ -16,4 +16,8 @@ class Respiratory:VitalSignBaseModel
     {
          repiratoryRate = 0.0
     }
+    
+    override func setCorrespondentDoubleValue(valueString: String) {
+        repiratoryRate = (valueString as NSString!).doubleValue
+    }
 }
