@@ -274,7 +274,7 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
             administrationInProgressViewController!.view.frame = administerContainerView.bounds
             
         }
-        self.saveButton?.enabled = false
+        self.saveButton?.enabled = true
         self.view.bringSubviewToFront(administerContainerView)
         administerContainerView.bringSubviewToFront((administrationInProgressViewController?.view)!)
         
