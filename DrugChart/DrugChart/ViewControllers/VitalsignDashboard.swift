@@ -183,11 +183,6 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
             popOverController.delegate = self
             controller.delegate = self
         }
-        
-        else if let tabularViewController:TabularViewController = segue.destinationViewController as? TabularViewController
-        {
-             tabularViewController.observationList = observationList
-        }
     }
     
     func adaptivePresentationStyleForPresentationController(
@@ -316,7 +311,6 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         {
             let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
             let tabularView : TabularViewController = mainStoryboard.instantiateViewControllerWithIdentifier("TabularViewController") as! TabularViewController
-            tabularView.observationList = observationList
             tabularView.patient = patient
             PushViewController(tabularView)
             

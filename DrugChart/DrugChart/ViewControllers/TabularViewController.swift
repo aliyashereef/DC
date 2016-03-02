@@ -17,7 +17,6 @@ class TabularViewController: PatientViewController , UICollectionViewDataSource,
     let rowHeaderCellIdentifier = "rowHeaderCellIdentifier"
     
     @IBOutlet weak var collectionView: UICollectionView!
-    var observationList:[VitalSignObservation]!
     var filteredObservations:[VitalSignObservation] = [VitalSignObservation]()
     private var viewByDate:NSDate = NSDate()
     var activityIndicator:UIActivityIndicatorView!
@@ -37,7 +36,7 @@ class TabularViewController: PatientViewController , UICollectionViewDataSource,
         collectionView.layer.borderWidth = 0.5
         collectionView.layer.borderColor = UIColor.lightGrayColor().CGColor
         setDateDisplay()
-        reloadView(observationList)
+        reloadView()
     }
     
     private func setDateDisplay()
@@ -45,7 +44,7 @@ class TabularViewController: PatientViewController , UICollectionViewDataSource,
         sortMenuItem.title = viewByDate.getFormattedMonthandYear()
     }
     
-    private func reloadView(observationList:[VitalSignObservation])
+    private func reloadView()
     {
         let startDate = viewByDate.minDayofMonth()
         let endDate = viewByDate.maxDayofMonth()
@@ -252,7 +251,7 @@ class TabularViewController: PatientViewController , UICollectionViewDataSource,
     {
         viewByDate = value
         setDateDisplay()
-        reloadView(observationList)
+        reloadView()
     }
     
     func ShowModalNavigationController(navigationController:UINavigationController)
@@ -290,7 +289,7 @@ class TabularViewController: PatientViewController , UICollectionViewDataSource,
     
     @IBAction func unwindToTabularView(sender:UIStoryboardSegue)
     {
-      reloadView(observationList)
+      reloadView()
         
     }
     
