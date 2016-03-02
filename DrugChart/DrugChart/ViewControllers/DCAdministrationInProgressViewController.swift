@@ -44,6 +44,15 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
         administerInProgressTableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
     }
     
+    func changeSaveButtonDisabilityWithMedicationStatus () {
+        let parentView : DCAdministrationStatusSelectionViewController = self.parentViewController as! DCAdministrationStatusSelectionViewController
+        if medicationSlot?.medicationAdministration.status == EMPTY_STRING ||  medicationSlot?.medicationAdministration.status == nil{
+            parentView.setSaveButtonDisability(false)
+        } else {
+            parentView.setSaveButtonDisability(true)
+        }
+    }
+    
     //MARK: Configuring Table View Cells
     
     //Medication Details Cell
@@ -238,6 +247,7 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
     // mark:StatusList Delegate Methods
     func selectedMedicationStatusEntry(status: String!) {
         medicationSlot?.medicationAdministration.status = status
+        changeSaveButtonDisabilityWithMedicationStatus()
         self.administerInProgressTableView.reloadData()
     }
     
