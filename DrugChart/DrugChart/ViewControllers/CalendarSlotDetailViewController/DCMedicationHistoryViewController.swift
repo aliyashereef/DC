@@ -111,7 +111,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
             cell!.contentType.text = "Expiry Date"
             var dateString = EMPTY_STRING
             if let date = medication.medicationAdministration?.expiryDateTime {
-                dateString = DCDateUtility.dateStringFromDate(date, inFormat: BIRTH_DATE_FORMAT)
+                dateString = DCDateUtility.dateStringFromDate(date, inFormat: EXPIRY_DATE_FORMAT)
                 cell!.value.text = dateString
             }else {
                 cell!.value.text = NONE_TEXT

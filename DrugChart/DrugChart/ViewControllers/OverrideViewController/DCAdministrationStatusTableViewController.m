@@ -167,7 +167,7 @@
                             DCAdministerCell *cell = [self configureAdministrationCellAtIndexPath:indexPath];
                             cell.titleLabel.text = @"Expiry Date";
                             if (self.medicationSlot.medicationAdministration.expiryDateTime != nil) {
-                                cell.detailLabel.text = [DCDateUtility dateStringFromDate:self.medicationSlot.medicationAdministration.expiryDateTime inFormat:BIRTH_DATE_FORMAT];
+                                cell.detailLabel.text = [DCDateUtility dateStringFromDate:self.medicationSlot.medicationAdministration.expiryDateTime inFormat:EXPIRY_DATE_FORMAT];
                             }
                             return cell;
                         }
@@ -180,7 +180,7 @@
                             DCAdministerCell *cell = [self configureAdministrationCellAtIndexPath:indexPath];
                             cell.titleLabel.text = @"Expiry Date";
                             if (self.medicationSlot.medicationAdministration.expiryDateTime != nil) {
-                                cell.detailLabel.text = [DCDateUtility dateStringFromDate:self.medicationSlot.medicationAdministration.expiryDateTime inFormat:BIRTH_DATE_FORMAT];
+                                cell.detailLabel.text = [DCDateUtility dateStringFromDate:self.medicationSlot.medicationAdministration.expiryDateTime inFormat:EXPIRY_DATE_FORMAT];
                             }                            return cell;
                         }
                     default:{
@@ -330,7 +330,7 @@
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
         } else {
             self.medicationSlot.medicationAdministration.expiryDateTime = date;
-            self.expiryDate = [DCDateUtility dateStringFromDate:date inFormat:BIRTH_DATE_FORMAT];
+            self.expiryDate = [DCDateUtility dateStringFromDate:date inFormat:EXPIRY_DATE_FORMAT];
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:datePickerIndexPath.row-1 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
         }
        

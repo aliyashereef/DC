@@ -24,7 +24,8 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
     var previousScrollOffset : CGFloat?
     var dateTimeCellIndexPath : NSIndexPath = NSIndexPath(forRow: 3, inSection: 1)
     var expiryDateCellIndexPath : NSIndexPath = NSIndexPath(forRow: 6, inSection: 1)
-
+    var doseCellIndexPath : NSIndexPath?
+    var textFieldSelectionIndexPath : NSIndexPath?
 
     //MARK: View Management Methods
     override func viewDidLoad() {
@@ -87,8 +88,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
             }
             return cell!
         }
-
-        }
+    }
     
     // Administration Status Cell
     func administrationStatusTableCellAtIndexPath(indexPath : NSIndexPath) -> (DCAdministerCell) {
@@ -142,7 +142,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         var dateString : String = EMPTY_STRING
         if( label == "Expiry Date") {
             if let date = medicationSlot?.medicationAdministration?.expiryDateTime {
-                dateString = DCDateUtility.dateStringFromDate(date, inFormat: BIRTH_DATE_FORMAT)
+                dateString = DCDateUtility.dateStringFromDate(date, inFormat: EXPIRY_DATE_FORMAT)
             }
         } else {
             if let date = medicationSlot?.medicationAdministration?.actualAdministrationTime {
@@ -169,7 +169,9 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         expiryCell.batchDelegate = self
         expiryCell.batchNumberTextField.placeholder = label as String
         if label == "Dose" {
+            doseCellIndexPath = indexPath
             expiryCell.batchNumberTextField?.text = medicationDetails?.dosage
+            textFieldSelectionIndexPath = indexPath
         }
         expiryCell.selectedIndexPath = indexPath
         return expiryCell;
@@ -503,6 +505,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
     
     // MARK: BatchNumberCellDelegate Methods
     func batchNumberFieldSelectedAtIndexPath(indexPath: NSIndexPath) {
+        textFieldSelectionIndexPath = indexPath
         self.collapseOpenedPickerCell()
     }
     
@@ -512,6 +515,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
     
     // MARK: NotesCell Delegate Methods
     func notesSelected(editing : Bool, withIndexPath indexPath : NSIndexPath) {
+        textFieldSelectionIndexPath = indexPath
         self.collapseOpenedPickerCell()
     }
     
@@ -553,11 +557,17 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
     }
     
     func keyboardDidShow(notification : NSNotification) {
-        if let userInfo = notification.userInfo {
-            if let keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
-                let contentHeight = self.administerSuccessTableView.contentSize.height
-                let scrollOffset = contentHeight - keyboardSize.height + 110.0
-                self.administerSuccessTableView.setContentOffset(CGPoint(x: 0, y: scrollOffset), animated: true)
+        if textFieldSelectionIndexPath != doseCellIndexPath {
+            if let userInfo = notification.userInfo {
+                if let keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+                    let contentHeight = self.administerSuccessTableView.contentSize.height
+                    var offset : CGFloat = 50
+                    if textFieldSelectionIndexPath?.section == 2 {
+                        offset = 110
+                    }
+                    let scrollOffset = contentHeight - keyboardSize.height + offset
+                    self.administerSuccessTableView.setContentOffset(CGPoint(x: 0, y: scrollOffset), animated: true)
+                }
             }
         }
     }
