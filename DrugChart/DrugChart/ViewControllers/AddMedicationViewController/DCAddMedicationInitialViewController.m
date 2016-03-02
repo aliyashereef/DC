@@ -277,7 +277,7 @@
         [cell configureContentCellWithContent:self.selectedMedication.route];
     } else {
         if ([self.selectedMedication.infusion.administerAsOption  isEqual: RATE_BASED_INFUSION]) {
-            self.selectedMedication.medicineCategory = ONCE;
+            self.selectedMedication.medicineCategory = ONCE_MEDICATION;
         }
         [DCAddMedicationHelper configureAddMedicationCellLabel:cell.titleLabel forContentText:self.selectedMedication.medicineCategory forSaveButtonAction:doneClicked];
         cell.titleLabel.text = NSLocalizedString(@"TYPE", @"Type cell title");
