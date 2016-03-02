@@ -317,6 +317,7 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
             let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
             let tabularView : TabularViewController = mainStoryboard.instantiateViewControllerWithIdentifier("TabularViewController") as! TabularViewController
             tabularView.observationList = observationList
+            tabularView.patient = patient
             PushViewController(tabularView)
             
         }

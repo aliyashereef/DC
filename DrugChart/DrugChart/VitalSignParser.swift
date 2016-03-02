@@ -98,7 +98,8 @@ class VitalSignParser : FhirParser
             if(error == nil) //so there is no error and the json can be parsed now.
             {
                 let bundle = Bundle(json: json)
-                
+                if(bundle.entry?.count > 0)
+                {
                 for bundleEntry in bundle.entry!
                     {
                         let obs = bundleEntry.resource as! Observation
@@ -112,12 +113,8 @@ class VitalSignParser : FhirParser
                         {
                             continue
                         }
-                        
                         let obsVitalSign:VitalSignObservation
                         let dateToSearch = (object as? VitalSignBaseModel)?.date
-                        
-                        print (dateToSearch)
-                        
                         let calendar = NSCalendar.currentCalendar()
                         let chosenDateComponents = calendar.components([.Month , .Year , .Day , .Hour , .Minute], fromDate: dateToSearch!)
                         
@@ -155,8 +152,8 @@ class VitalSignParser : FhirParser
                         {
                             obsVitalSign.pulse = object as? Pulse
                         }
-                    }
-                //}
+                }
+                }
                 onSuccess(observationList: lstObservation)
             }
             else // this is error condition
