@@ -1534,7 +1534,7 @@
     
     self.selectedMedication.infusion = infusion;
     if ([self.selectedMedication.infusion.administerAsOption  isEqual: RATE_BASED_INFUSION]) {
-        self.selectedMedication.medicineCategory = ONCE;
+        self.selectedMedication.medicineCategory = ONCE_MEDICATION;
     }
 }
 
