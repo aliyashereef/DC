@@ -514,6 +514,7 @@
 
 // Administration History Label texts
 #define STATUS @"Status"
+#define STATUS_CHANGE @"Status Change"
 #define ADMINISTRATED_BY @"Administered By"
 #define DATE_TIME @"Date & Time"
 #define CHECKED_BY @"Checked By"

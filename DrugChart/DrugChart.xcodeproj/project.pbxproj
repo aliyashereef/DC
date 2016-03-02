@@ -168,6 +168,12 @@
 		1F0A9C051C469303007ACFDA /* OneThirdScreenTabularView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0A9C041C469303007ACFDA /* OneThirdScreenTabularView.swift */; };
 		1F0A9C0A1C47CDE7007ACFDA /* OneThirdContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0A9C081C47CDE7007ACFDA /* OneThirdContentCell.swift */; };
 		1F0A9C0B1C47CDE7007ACFDA /* OneThirdContentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F0A9C091C47CDE7007ACFDA /* OneThirdContentCell.xib */; };
+		1F1002E61C7B472100BB0479 /* ToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1002E41C7B472100BB0479 /* ToggleCell.swift */; };
+		1F1002E71C7B472100BB0479 /* ToggleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F1002E51C7B472100BB0479 /* ToggleCell.xib */; };
+		1F1002EA1C7B629D00BB0479 /* SwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1002E81C7B629D00BB0479 /* SwitchCell.swift */; };
+		1F1002EB1C7B629D00BB0479 /* SwitchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F1002E91C7B629D00BB0479 /* SwitchCell.xib */; };
+		1F1002EE1C7C9E9500BB0479 /* NEWS.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1F1002ED1C7C9E9500BB0479 /* NEWS.pdf */; };
+		1F1002F01C7C9FA600BB0479 /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1002EF1C7C9FA600BB0479 /* HelpViewController.swift */; };
 		1F1977071BFDE59000106023 /* CustomCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1977061BFDE59000106023 /* CustomCollectionViewLayout.swift */; };
 		1F19770E1BFDE75900106023 /* HeaderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F19770C1BFDE75900106023 /* HeaderCollectionViewCell.swift */; };
 		1F19770F1BFDE75900106023 /* HeaderCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F19770D1BFDE75900106023 /* HeaderCollectionViewCell.xib */; };
@@ -640,6 +646,12 @@
 		1F0A9C041C469303007ACFDA /* OneThirdScreenTabularView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OneThirdScreenTabularView.swift; sourceTree = "<group>"; };
 		1F0A9C081C47CDE7007ACFDA /* OneThirdContentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OneThirdContentCell.swift; sourceTree = "<group>"; };
 		1F0A9C091C47CDE7007ACFDA /* OneThirdContentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OneThirdContentCell.xib; sourceTree = "<group>"; };
+		1F1002E41C7B472100BB0479 /* ToggleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToggleCell.swift; sourceTree = "<group>"; };
+		1F1002E51C7B472100BB0479 /* ToggleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ToggleCell.xib; sourceTree = "<group>"; };
+		1F1002E81C7B629D00BB0479 /* SwitchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCell.swift; sourceTree = "<group>"; };
+		1F1002E91C7B629D00BB0479 /* SwitchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SwitchCell.xib; sourceTree = "<group>"; };
+		1F1002ED1C7C9E9500BB0479 /* NEWS.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = NEWS.pdf; sourceTree = "<group>"; };
+		1F1002EF1C7C9FA600BB0479 /* HelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
 		1F1977061BFDE59000106023 /* CustomCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewLayout.swift; sourceTree = "<group>"; };
 		1F19770C1BFDE75900106023 /* HeaderCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderCollectionViewCell.swift; sourceTree = "<group>"; };
 		1F19770D1BFDE75900106023 /* HeaderCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -1814,6 +1826,7 @@
 		0BBC8F931AA467190085ABAB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1F1002EC1C7C9E6200BB0479 /* VitalSign */,
 				7D5567DB1B4FEE2100BA6733 /* OnceMedicationSample.plist */,
 				7D5567DC1B4FEE2100BA6733 /* RegularMedicationSample.plist */,
 				7D9EA9E91B2960F900337E6A /* GraphicalCoordinateList.plist */,
@@ -2332,6 +2345,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		1F1002EC1C7C9E6200BB0479 /* VitalSign */ = {
+			isa = PBXGroup;
+			children = (
+				1F1002ED1C7C9E9500BB0479 /* NEWS.pdf */,
+			);
+			name = VitalSign;
+			sourceTree = "<group>";
+		};
 		1F1977051BFDE56500106023 /* CustomLayout */ = {
 			isa = PBXGroup;
 			children = (
@@ -2468,6 +2489,10 @@
 				1F7EB71C1C21CB5400F6F22F /* BarGraphCell.xib */,
 				1F0A9C081C47CDE7007ACFDA /* OneThirdContentCell.swift */,
 				1F0A9C091C47CDE7007ACFDA /* OneThirdContentCell.xib */,
+				1F1002E41C7B472100BB0479 /* ToggleCell.swift */,
+				1F1002E51C7B472100BB0479 /* ToggleCell.xib */,
+				1F1002E81C7B629D00BB0479 /* SwitchCell.swift */,
+				1F1002E91C7B629D00BB0479 /* SwitchCell.xib */,
 			);
 			name = CustomCell;
 			sourceTree = "<group>";
@@ -2630,6 +2655,7 @@
 				1FF1F87F1C3D1E1E007F3B9C /* SingleLineGraphController.swift */,
 				1FF1F8891C3EBACB007F3B9C /* SingleBarGraphController.swift */,
 				1F0A9C041C469303007ACFDA /* OneThirdScreenTabularView.swift */,
+				1F1002EF1C7C9FA600BB0479 /* HelpViewController.swift */,
 			);
 			name = VitalSignViewController;
 			sourceTree = "<group>";
@@ -3253,6 +3279,7 @@
 				4DDB53731C0725B900C2C6BA /* DCOneThirdCalendarNavigationTitleView.xib in Resources */,
 				7D2FF05A1BB9027600B92B85 /* DCCalendarDayView.xib in Resources */,
 				7DE60BD11B2866CD00BCA745 /* DCPortraitBottomUpPatientView.xib in Resources */,
+				1F1002E71C7B472100BB0479 /* ToggleCell.xib in Resources */,
 				0BBDEDDC1AA581630016E6FF /* Lato-Bold.ttf in Resources */,
 				0BAE36961B450AB0007CD64C /* DCAutoSearchCell.xib in Resources */,
 				0BB3977F1B42944B0037C8E1 /* OrderSet.storyboard in Resources */,
@@ -3305,6 +3332,7 @@
 				1F19770F1BFDE75900106023 /* HeaderCollectionViewCell.xib in Resources */,
 				0BBDEDDB1AA581630016E6FF /* Lato-BlackItalic.ttf in Resources */,
 				0BBDEDEC1AA581630016E6FF /* OFL.txt in Resources */,
+				1F1002EE1C7C9E9500BB0479 /* NEWS.pdf in Resources */,
 				0BBDEDE51AA581630016E6FF /* Lato-Medium.ttf in Resources */,
 				0BCC03931ABBDFB000CACAE3 /* IPRJ2623584.plist in Resources */,
 				1FD4FCF61BF4B8F400B77B94 /* TimePickerCell.xib in Resources */,
@@ -3331,6 +3359,7 @@
 				0BBDEDE31AA581630016E6FF /* Lato-Light.ttf in Resources */,
 				0BBDEDED1AA581630016E6FF /* README.txt in Resources */,
 				0BCC190B1ABAC404003552C9 /* IPRJ2623512.plist in Resources */,
+				1F1002EB1C7B629D00BB0479 /* SwitchCell.xib in Resources */,
 				1F1977211C0485C500106023 /* RowHeaderCollectionViewCell.xib in Resources */,
 				7D5567DE1B4FEE2100BA6733 /* RegularMedicationSample.plist in Resources */,
 				4D83869E1BB26BC60012EF7D /* DCMedicationHistoryHeaderView.xib in Resources */,
@@ -3474,6 +3503,7 @@
 				1F380C761C64B21C000A4E5D /* FhirParser.swift in Sources */,
 				FD2FF8B81C3BAEF000778A4E /* DCAddConditionDetailViewController.swift in Sources */,
 				1FD4FCB51BF4B6B700B77B94 /* BloodPressure.swift in Sources */,
+				1F1002EA1C7B629D00BB0479 /* SwitchCell.swift in Sources */,
 				0B0371F21C1700C700F2E0D1 /* DCInterval.m in Sources */,
 				0BD659561BD6685A00D3097B /* DCAdministerButton.swift in Sources */,
 				1F5375051C1AEF9F00D4A64F /* GraphView.swift in Sources */,
@@ -3553,6 +3583,7 @@
 				1FF1F88A1C3EBACB007F3B9C /* SingleBarGraphController.swift in Sources */,
 				4D2DD3CC1B9889F0008CDEA0 /* DCDateTableViewCell.m in Sources */,
 				0BBC8FA21AA469440085ABAB /* DCLoginViewController.m in Sources */,
+				1F1002F01C7C9FA600BB0479 /* HelpViewController.swift in Sources */,
 				7D6D84591AF88A8700917A8C /* DCAuthorizationViewController.m in Sources */,
 				0B720B4F1B1D87B800144665 /* DCMedicationSearchWebService.m in Sources */,
 				7DA89AEA1B2D528400096A0A /* DCPositionableGraphics.m in Sources */,
@@ -3642,6 +3673,7 @@
 				FDD5486E1C451186000EB855 /* DCFixedDose.m in Sources */,
 				0BB535861BBA472D0043BC61 /* DCAdministerPickerCell.swift in Sources */,
 				0B5948BE1B218B0A0085FB26 /* DCPatientAllergy.m in Sources */,
+				1F1002E61C7B472100BB0479 /* ToggleCell.swift in Sources */,
 				4DD829271C0853AD006B2E71 /* DCOneThirdCalendarStripCollectionCell.swift in Sources */,
 				0BA803711BA7ED7100DBB45D /* DCWarningsListViewController.swift in Sources */,
 				4D70973B1C5A560000832539 /* DCReviewDatePickerCell.swift in Sources */,

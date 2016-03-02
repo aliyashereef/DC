@@ -31,21 +31,24 @@ class ObservationSelectionViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 2
+        return 3
     }
 
    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(observationIdentifier, forIndexPath: indexPath)
-        if(indexPath.row == 0)
-        {
-            cell.textLabel?.text = "Vital Signs"
-        }
-        else
-        {
-            cell.textLabel?.text = "Comma Score"
-        }
         
+        
+        let option = DashBoardAddOption(rawValue: indexPath.row + 1 )!
+        switch(option)
+        {
+        case DashBoardAddOption.VitalSign:
+            cell.textLabel?.text = "Vital Signs"
+        case DashBoardAddOption.GCS:
+            cell.textLabel?.text = "Glasgow Comma Score (GCS)"
+        case DashBoardAddOption.NEWS:
+            cell.textLabel?.text = "National Early Warning Score (NEWS)"
+        }
         // Configure the cell...
 
         return cell
@@ -55,21 +58,35 @@ class ObservationSelectionViewController: UITableViewController {
         self.dismissViewControllerAnimated(true, completion: nil)
         
         // now show the modal dialog to take the input
-        if(indexPath.row == 0)
+        let option = DashBoardAddOption(rawValue: indexPath.row + 1)!
+        switch(option)
         {
+        case DashBoardAddOption.VitalSign:
             let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
             let observationDetails : ObservationViewController = mainStoryboard.instantiateViewControllerWithIdentifier("ObservationViewController") as! ObservationViewController
-            //observationDetails.observation = cell?.getObservation()
             let navigationController : UINavigationController? = UINavigationController(rootViewController: observationDetails)
+            if(UIDevice.currentDevice().userInterfaceIdiom == .Pad)
+            {
+                observationDetails.tag = DataEntryObservationSource.VitalSignAddIPad
+            }
+            else if(UIDevice.currentDevice().userInterfaceIdiom  == .Phone)
+            {
+                observationDetails.tag = DataEntryObservationSource.VitalSignAddIPhone
+            }
             navigationController?.modalPresentationStyle = UIModalPresentationStyle.FormSheet
             delegate?.ShowModalNavigationController(navigationController!)
-        }
-        else
-        {
+        case DashBoardAddOption.GCS:
             let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
             let commaDetails : CommaScoreViewController = mainStoryboard.instantiateViewControllerWithIdentifier("CommaScoreViewController") as! CommaScoreViewController
-            //observationDetails.observation = cell?.getObservation()
             let navigationController : UINavigationController? = UINavigationController(rootViewController: commaDetails)
+            navigationController?.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+            delegate?.ShowModalNavigationController(navigationController!)
+        case DashBoardAddOption.NEWS:
+            
+            let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
+            let observationDetails : ObservationViewController = mainStoryboard.instantiateViewControllerWithIdentifier("ObservationViewController") as! ObservationViewController
+            let navigationController : UINavigationController? = UINavigationController(rootViewController: observationDetails)
+            observationDetails.tag = DataEntryObservationSource.NewsIPad
             navigationController?.modalPresentationStyle = UIModalPresentationStyle.FormSheet
             delegate?.ShowModalNavigationController(navigationController!)
         }

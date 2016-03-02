@@ -23,6 +23,8 @@
 @property (nonatomic, strong) NSString *status;
 @property (nonatomic, strong) NSString *restartedDate;
 @property (nonatomic, strong) NSString *expiryDate;
+@property (nonatomic, strong) DCMedicationSlot *medicationSlot;
+
 @property (nonatomic, weak) id <StatusListDelegate> medicationStatusDelegate;
 
 @end

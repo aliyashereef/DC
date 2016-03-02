@@ -402,15 +402,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         return pickerCell!
     }
     
-    func isMedicationDurationBasedInfusion () -> Bool {
-        // T0 Do : This is a temporary method to implement the status display for the duration based infusion , when the API gets updated - modifications needed.
-        if (medicationDetails?.route == "Subcutaneous" || medicationDetails?.route == "Intravenous"){
-            return true
-        } else {
-            return false
-        }
-    }
-    
     func populatedAdministeredTableViewCellAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
         
         if (indexPath.section == SectionCount.eSecondSection.rawValue && indexPath.row == RowCount.eZerothRow.rawValue) {
@@ -640,7 +631,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0 :
-            if self.isMedicationDurationBasedInfusion() {
+            if DCAdministrationHelper.isMedicationDurationBasedInfusion(medicationDetails!) {
                 let cell = administerTableView.dequeueReusableCellWithIdentifier("DurationBasedInfusionCell") as? DCDurationBasedMedicationDetailsCell
                 if let _ = medicationDetails {
                     cell!.configureMedicationDetails(medicationDetails!)
@@ -691,7 +682,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
                         let administerCell : DCAdministerCell = (administerTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
                         if ((status == IN_PROGRESS && indexPath.section == eSecondSection.rawValue)) {
                             administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
-                            if self.isMedicationDurationBasedInfusion() && status == IN_PROGRESS {
+                            if DCAdministrationHelper.isMedicationDurationBasedInfusion(medicationDetails!) && status == IN_PROGRESS {
                                 administerCell.titleLabel.text = "Status Change"
                             } else {
                                 administerCell.titleLabel.text = NSLocalizedString("STATUS", comment: "status title text")
@@ -1021,7 +1012,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func keyboardDidShow(notification : NSNotification) {
-        
         if let userInfo = notification.userInfo {
             if let keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
                 keyboardHeight = keyboardSize.height
@@ -1042,7 +1032,6 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func saveButtonPressed() {
-        
         //perform administer medication api call here
         self.saveClicked = true
         if(entriesAreValid()) {

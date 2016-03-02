@@ -35,6 +35,7 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
     override func viewDidLoad() {
         self.configureViewElements()
         self.configureNavigationBar()
+        self.saveButton?.enabled = false
         super.viewDidLoad()
     }
     // MARK: Private Methods
@@ -125,11 +126,19 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
     //Medication Details Cell
     func medicationDetailsCellAtIndexPath (indexPath :NSIndexPath) -> UITableViewCell {
         
-        let cell = administerStatusSelectionTableView.dequeueReusableCellWithIdentifier("DurationBasedInfusionCell") as? DCDurationBasedMedicationDetailsCell
-        if let _ = medicationDetails {
-            cell!.configureMedicationDetails(medicationDetails!)
+        if DCAdministrationHelper.isMedicationDurationBasedInfusion(medicationDetails!){
+            let cell = administerStatusSelectionTableView.dequeueReusableCellWithIdentifier("DurationBasedInfusionCell") as? DCDurationBasedMedicationDetailsCell
+            if let _ = medicationDetails {
+                cell!.configureMedicationDetails(medicationDetails!)
+            }
+            return cell!
+        } else {
+            let cell = administerStatusSelectionTableView.dequeueReusableCellWithIdentifier("MedicationDetailsTableViewCell") as? DCMedicationDetailsTableViewCell
+            if let _ = medicationDetails {
+                cell!.configureMedicationDetails(medicationDetails!)
+            }
+            return cell!
         }
-        return cell!
     }
     
     // Administration Status Cell
@@ -138,7 +147,7 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
         let administerCell : DCAdministerCell = (administerStatusSelectionTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
         administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         administerCell.titleLabel.text = STATUS
-        administerCell.detailLabel.text = statusState
+        administerCell.detailLabel.text = EMPTY_STRING
         if statusState == IN_PROGRESS {
             updateViewWithChangeInStatus(statusState!)
         }
@@ -225,24 +234,13 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
             administrationSuccessViewController = administerStoryboard!.instantiateViewControllerWithIdentifier(ADMINISTER_SUCCESS_VC_STORYBOARD_ID) as? DCAdministrationSuccessViewController
             administrationSuccessViewController?.medicationSlot = self.medicationSlot
             administrationSuccessViewController?.medicationSlot?.status = statusState
-            if (medicationSlotsArray.count > 0) {
-                var medicationArray : [DCMedicationSlot] = [DCMedicationSlot]()
-                if let toAdministerArray : [DCMedicationSlot] = medicationSlotsArray {
-                    var slotCount = 0
-                    for slot : DCMedicationSlot in toAdministerArray {
-                        if (slot.medicationAdministration?.actualAdministrationTime == nil) {
-                            medicationArray.insert(slot, atIndex: slotCount)
-                            slotCount++
-                        }
-                    }
-                }
-            }
             administrationSuccessViewController?.medicationDetails = medicationDetails
             administerContainerView.addSubview((administrationSuccessViewController?.view)!)
             self.addChildViewController(administrationSuccessViewController!)
             administrationSuccessViewController!.view.frame = administerContainerView.bounds
             
         }
+        self.saveButton?.enabled = true
         self.view.bringSubviewToFront(administerContainerView)
         administerContainerView.bringSubviewToFront((administrationSuccessViewController?.view)!)
     }
@@ -253,24 +251,13 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
         if administrationFailureViewController == nil {
             administrationFailureViewController = administerStoryboard!.instantiateViewControllerWithIdentifier(ADMINISTER_FAILURE_VC_STORYBOARD_ID) as? DCAdministrationFailureViewController
             administrationFailureViewController?.medicationSlot = medicationSlot
-            if (medicationSlotsArray.count > 0) {
-                var medicationArray : [DCMedicationSlot] = [DCMedicationSlot]()
-                if let toAdministerArray : [DCMedicationSlot] = medicationSlotsArray {
-                    var slotCount = 0
-                    for slot : DCMedicationSlot in toAdministerArray {
-                        if (slot.medicationAdministration?.actualAdministrationTime == nil) {
-                            medicationArray.insert(slot, atIndex: slotCount)
-                            slotCount++
-                        }
-                    }
-                }
-            }
             administrationFailureViewController?.medicationDetails = medicationDetails
             administerContainerView.addSubview((administrationFailureViewController?.view)!)
             self.addChildViewController(administrationFailureViewController!)
             administrationFailureViewController!.view.frame = administerContainerView.bounds
             
         }
+        self.saveButton?.enabled = true
         self.view.bringSubviewToFront(administerContainerView)
         administerContainerView.bringSubviewToFront((administrationFailureViewController?.view)!)
         
@@ -281,24 +268,13 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
         if administrationInProgressViewController == nil {
             administrationInProgressViewController = administerStoryboard!.instantiateViewControllerWithIdentifier(ADMINISTER_IN_PROGRESS_VC_STORYBOARD_ID) as? DCAdministrationInProgressViewController
             administrationInProgressViewController?.medicationSlot = medicationSlot
-            if (medicationSlotsArray.count > 0) {
-                var medicationArray : [DCMedicationSlot] = [DCMedicationSlot]()
-                if let toAdministerArray : [DCMedicationSlot] = medicationSlotsArray {
-                    var slotCount = 0
-                    for slot : DCMedicationSlot in toAdministerArray {
-                        if (slot.medicationAdministration?.actualAdministrationTime == nil) {
-                            medicationArray.insert(slot, atIndex: slotCount)
-                            slotCount++
-                        }
-                    }
-                }
-            }
             administrationInProgressViewController?.medicationDetails = medicationDetails
             administerContainerView.addSubview((administrationInProgressViewController?.view)!)
             self.addChildViewController(administrationInProgressViewController!)
             administrationInProgressViewController!.view.frame = administerContainerView.bounds
             
         }
+        self.saveButton?.enabled = false
         self.view.bringSubviewToFront(administerContainerView)
         administerContainerView.bringSubviewToFront((administrationInProgressViewController?.view)!)
         
@@ -327,11 +303,12 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
                 })
             } else {
                 if Int(error.code) == Int(NETWORK_NOT_REACHABLE) {
-                    DCAdministrationHelper.displayAlertWithTitle("ERROR", message: NSLocalizedString("INTERNET_CONNECTION_ERROR", comment:""))
+                    self.presentViewController(DCAdministrationHelper.displayAlertWithTitle("ERROR", message: NSLocalizedString("INTERNET_CONNECTION_ERROR", comment:"")), animated: true, completion: nil)
+
                 } else if Int(error.code) == Int(WEBSERVICE_UNAVAILABLE)  {
-                    DCAdministrationHelper.displayAlertWithTitle("ERROR", message: NSLocalizedString("WEBSERVICE_UNAVAILABLE", comment:""))
+                    self.presentViewController(DCAdministrationHelper.displayAlertWithTitle("ERROR", message: NSLocalizedString("WEBSERVICE_UNAVAILABLE", comment:"")), animated: true, completion: nil)
                 } else {
-                    DCAdministrationHelper.displayAlertWithTitle("ERROR", message:"Administration Failed")
+                    self.presentViewController(DCAdministrationHelper.displayAlertWithTitle("ERROR", message:"Administration Failed"), animated: true, completion: nil)
                 }
             }
         }
@@ -339,27 +316,36 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
 
     func saveButtonPressed () {
         //perform administer medication api call here
+        self.view.bringSubviewToFront(self.activityIndicator)
         if medicationSlot?.medicationAdministration.status == NOT_ADMINISTRATED {
             self.medicationSlot = DCMedicationSlot.init()
             self.medicationSlot = administrationFailureViewController?.medicationSlot
-        } else {
+            self.activityIndicator.startAnimating()
+            self.callAdministerMedicationWebService()
+        } else if medicationSlot?.medicationAdministration.status == ADMINISTERED || medicationSlot?.medicationAdministration.status == STARTED {
             self.medicationSlot = DCMedicationSlot.init()
             self.medicationSlot = administrationSuccessViewController?.medicationSlot
+            self.activityIndicator.startAnimating()
+            self.callAdministerMedicationWebService()
+        } else {
+            self.dismissViewControllerAnimated(true, completion: nil)
         }
 //        self.saveClicked = true
 //        if(entriesAreValid()) {
 //            self.activityIndicator.startAnimating()
 //            self.isValid = true
-            self.callAdministerMedicationWebService()
+//            self.callAdministerMedicationWebService()
 //        } else {
 //            // show entries in red
 //            self.validateAndReloadAdministerView()
 //        }
-
     }
+    
     func cancelButtonPressed () {
-        self.dismissViewControllerAnimated(true, completion: nil)
         
+        self.medicationSlot?.status = nil
+        medicationSlot?.medicationAdministration = nil
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
 }

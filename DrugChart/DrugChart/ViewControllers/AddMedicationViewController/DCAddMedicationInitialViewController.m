@@ -276,9 +276,24 @@
         cell.titleLabel.text = NSLocalizedString(@"ROUTE", @"Route cell title");
         [cell configureContentCellWithContent:self.selectedMedication.route];
     } else {
+        if ([self.selectedMedication.infusion.administerAsOption  isEqual: RATE_BASED_INFUSION]) {
+            self.selectedMedication.medicineCategory = ONCE;
+        }
         [DCAddMedicationHelper configureAddMedicationCellLabel:cell.titleLabel forContentText:self.selectedMedication.medicineCategory forSaveButtonAction:doneClicked];
         cell.titleLabel.text = NSLocalizedString(@"TYPE", @"Type cell title");
         [cell configureContentCellWithContent:self.selectedMedication.medicineCategory];
+        if ([self.selectedMedication.infusion.administerAsOption  isEqual: RATE_BASED_INFUSION]) {
+            cell.userInteractionEnabled = NO;
+            cell.accessoryView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
+            cell.titleLabel.textColor = [UIColor colorForHexString:@"#8f8f95"];
+            cell.descriptionLabel.textColor = [UIColor colorForHexString:@"#8f8f95"];
+        } else {
+            cell.accessoryView = nil;
+            cell.userInteractionEnabled = YES;
+            cell.titleLabel.textColor = [UIColor blackColor];
+//            cell.descriptionLabel.textColor = [UIColor scrollViewTexturedBackgroundColor];
+        }
+
     }
     return cell;
 }
@@ -388,7 +403,7 @@
 - (DCDateTableViewCell *)noEndDateTableCell:(DCDateTableViewCell *)tableCell {
     
     //no end date cell configuration
-    tableCell.dateTypeLabel.text = NSLocalizedString(@"NO_END_DATE", @"no end date title");
+    tableCell.dateTypeLabel.text = NSLocalizedString(@"SET_END_DATE", @"set end date title");
     tableCell.dateTypeLabel.textColor = [UIColor blackColor];
     [tableCell configureCellWithNoEndDateSwitchState:self.selectedMedication.hasEndDate];
     tableCell.accessoryType = UITableViewCellAccessoryNone;
@@ -847,7 +862,7 @@
     
     UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
     DCAddNewValueViewController *addNewValueViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:ADD_NEW_VALUE_SBID];
-    addNewValueViewController.titleString = @"Frequency";
+    addNewValueViewController.titleString = NSLocalizedString(@"Review Frequency", @"screen title");;
     addNewValueViewController.placeHolderString = @"In";
     addNewValueViewController.backButtonTitle = @"Add Medication";
     addNewValueViewController.detailType = eAddValueWithUnit;
@@ -1518,6 +1533,9 @@
 - (void)updatedInfusionObject:(DCInfusion *)infusion {
     
     self.selectedMedication.infusion = infusion;
+    if ([self.selectedMedication.infusion.administerAsOption  isEqual: RATE_BASED_INFUSION]) {
+        self.selectedMedication.medicineCategory = ONCE;
+    }
 }
 
 #pragma mark - UIPopOverPresentationController Delegate
