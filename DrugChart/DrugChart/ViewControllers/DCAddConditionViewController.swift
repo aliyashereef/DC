@@ -153,7 +153,6 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
         if section == 0 {
             if (self.previewDetails.count != 0 && self.validateTheAddConditionValues()) {
                     let height: CGFloat = DCUtility.heightValueForText(DCDosageHelper.createDescriptionStringForDosageCondition(conditionItem!, dosageUnit: (self.dosage?.doseUnit)!), withFont: UIFont.systemFontOfSize(14.0), maxWidth: self.view.bounds.width - 30) + 25
-                print(height)
                     return height
             }
         }
