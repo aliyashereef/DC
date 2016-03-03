@@ -74,6 +74,10 @@
     NSMutableArray *weekdays = [[NSMutableArray alloc] init];
     for (int i = 0; i < daysCount; i++) {
         [weekdays addObject:date];
+        if (i == daysCount - 2) {
+            [components setHour:23];
+            [components setMinute:58];
+        }
         date = [[NSCalendar currentCalendar] dateByAddingComponents:components toDate:date options:0];
     }
     return weekdays;
