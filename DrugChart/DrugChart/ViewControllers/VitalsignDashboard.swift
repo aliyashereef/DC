@@ -304,7 +304,7 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         if (appDelegate.windowState == DCWindowState.halfWindow || appDelegate.windowState == DCWindowState.oneThirdWindow) {
             let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
             let tabularView : OneThirdScreenTabularView = mainStoryboard.instantiateViewControllerWithIdentifier("OneThirdScreenTabularViewController") as! OneThirdScreenTabularView
-            tabularView.observationList = observationList
+            tabularView.patient = patient
             PushViewController(tabularView)
         }
         else

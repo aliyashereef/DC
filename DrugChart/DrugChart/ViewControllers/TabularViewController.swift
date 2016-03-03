@@ -58,7 +58,6 @@ class TabularViewController: PatientViewController , UICollectionViewDataSource,
     func showData(fetchedObservations:[VitalSignObservation] )
     {
         filteredObservations = fetchedObservations
-        //filterList()
         let collectionViewLayOut = self.collectionView.collectionViewLayout as! CustomCollectionViewLayout
         collectionViewLayOut.setNoOfColumns(filteredObservations.count + 1)
         self.collectionView.reloadData()

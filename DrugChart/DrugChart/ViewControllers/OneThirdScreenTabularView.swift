@@ -8,7 +8,7 @@
 
 import UIKit
 
-class OneThirdScreenTabularView: UIViewController,UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UITableViewDelegate,UITableViewDataSource,ObservationDelegate,UIPopoverPresentationControllerDelegate  {
+class OneThirdScreenTabularView: PatientViewController ,UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UITableViewDelegate,UITableViewDataSource,ObservationDelegate,UIPopoverPresentationControllerDelegate  {
    
     @IBOutlet weak var stripView: UIView!
     
@@ -19,11 +19,12 @@ class OneThirdScreenTabularView: UIViewController,UICollectionViewDataSource, UI
     @IBOutlet weak var sortMenuItem: UIBarButtonItem!
     @IBOutlet weak var dateHeadingLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
-    var observationList:[VitalSignObservation]!
+    //var observationList:[VitalSignObservation]!
     let headerCellIdentifier = "headerCellIdentifier"
     let contentCellIdentifier = "contentCell"
     var selectedObservation:VitalSignObservation! = nil
-
+    var activityIndicator:UIActivityIndicatorView!
+  
     var filteredObservations:[VitalSignObservation]!
     private var viewByDate:NSDate = NSDate()
     var selectedRow:Int = 0
@@ -44,7 +45,7 @@ class OneThirdScreenTabularView: UIViewController,UICollectionViewDataSource, UI
         stripView.backgroundColor = Constant.SELECTION_CELL_BACKGROUND_COLOR
         tableView.allowsMultipleSelectionDuringEditing = false
         setDateDisplay()
-        reloadView(observationList)
+        reloadView()
     }
     
     func selectSpecificStripItem()
@@ -59,16 +60,16 @@ class OneThirdScreenTabularView: UIViewController,UICollectionViewDataSource, UI
     override func viewDidAppear(animated: Bool) {
     }
     
-    func filterList()
-    {
-        let calendar = NSCalendar.currentCalendar()
-        let chosenDateComponents = calendar.components([.Month , .Year], fromDate: viewByDate)
-        
-        filteredObservations = observationList.filter { (observationList) -> Bool in
-            let components = calendar.components([.Month, .Year], fromDate:observationList.date)
-            return components.month == chosenDateComponents.month && components.year == chosenDateComponents.year
-        }
-    }
+//    func filterList()
+//    {
+//        let calendar = NSCalendar.currentCalendar()
+//        let chosenDateComponents = calendar.components([.Month , .Year], fromDate: viewByDate)
+//        
+//        filteredObservations = observationList.filter { (observationList) -> Bool in
+//            let components = calendar.components([.Month, .Year], fromDate:observationList.date)
+//            return components.month == chosenDateComponents.month && components.year == chosenDateComponents.year
+//        }
+//    }
     
     private func setDateDisplay()
     {
@@ -283,13 +284,55 @@ class OneThirdScreenTabularView: UIViewController,UICollectionViewDataSource, UI
     {
         viewByDate = value
         setDateDisplay()
-        reloadView(observationList)
+        reloadView()
     }
     
-    private func reloadView(observationList:[VitalSignObservation])
+    private func reloadView()
     {
-        self.observationList = observationList // order matters here
-        filterList()
+        let startDate = viewByDate.minDayofMonth()
+        let endDate = viewByDate.maxDayofMonth()
+        activityIndicator = startActivityIndicator(self.view) // show the activity indicator
+        let parser = VitalSignParser()
+        parser.getVitalSignsObservations(patient.patientId,commaSeparatedCodes:  Helper.getCareRecordCodes(),startDate:  startDate , endDate:  endDate,includeMostRecent:  false , onSuccess: showData)
+//
+//    }
+//    
+//    
+//    func showData(fetchedObservations:[VitalSignObservation] )
+//    {
+//        filteredObservations = fetchedObservations
+//        //filterList()
+//        let collectionViewLayOut = self.collectionView.collectionViewLayout as! CustomCollectionViewLayout
+//        collectionViewLayOut.setNoOfColumns(filteredObservations.count + 1)
+//        self.collectionView.reloadData()
+//        stopActivityIndicator(activityIndicator)
+//    }
+        
+        //self.observationList = observationList // order matters here
+//        filterList()
+//        if(filteredObservations.count == 0)
+//        {
+//            dateHeadingLabel.text = "No Data"
+//            self.collectionView.hidden = true
+//            self.tableView.hidden = true
+//            stripView.hidden = true
+//        }
+//        else
+//        {
+//            selectedRow = 0
+//            self.collectionView.hidden = false
+//            self.tableView.hidden = false
+//            stripView.hidden = false
+//            self.collectionView.reloadData()
+//            self.tableView.reloadData()
+//            selectSpecificStripItem()
+//        }
+        
+    }
+    
+    func showData(fetchedObservations:[VitalSignObservation] )
+    {
+        filteredObservations = fetchedObservations
         if(filteredObservations.count == 0)
         {
             dateHeadingLabel.text = "No Data"
@@ -307,7 +350,7 @@ class OneThirdScreenTabularView: UIViewController,UICollectionViewDataSource, UI
             self.tableView.reloadData()
             selectSpecificStripItem()
         }
-        
+        stopActivityIndicator(activityIndicator)
     }
     
     /*

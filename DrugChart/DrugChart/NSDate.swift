@@ -134,7 +134,7 @@ extension NSDate:Comparable{
         let range = NSCalendar.currentCalendar().rangeOfUnit(.Day, inUnit: .Month, forDate: minDate)
         
         let endDate =  NSCalendar.currentCalendar().dateByAddingUnit(.Day,
-            value: range.length,
+            value: range.length - 1,
             toDate:minDate ,
             options: NSCalendarOptions(rawValue: 0))!
         return endDate.maxTime()
