@@ -54,6 +54,14 @@
     medicationDetailsTableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(addMedicationViewDismissed)]) {
+        [self.delegate addMedicationViewDismissed];
+    }
+    [super viewWillDisappear:animated];
+}
+
 #pragma mark - Memory Management methods
 
 - (void)didReceiveMemoryWarning {
@@ -1538,12 +1546,12 @@
     }
 }
 
-#pragma mark - UIPopOverPresentationController Delegate
-
-- (BOOL)popoverPresentationControllerShouldDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
-    
-    //this method restricts the pop over dismiss on tapping pop over background. 
-    return NO;
-}
+//#pragma mark - UIPopOverPresentationController Delegate
+//
+//- (BOOL)popoverPresentationControllerShouldDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
+//    
+//    //this method restricts the pop over dismiss on tapping pop over background. 
+//    return NO;
+//}
 
 @end

@@ -582,6 +582,7 @@ typedef enum : NSUInteger {
     UIPopoverArrowDirectionAny;
     presentationController.sourceView = self.view;
     presentationController.barButtonItem = (UIBarButtonItem *)sender;
+    warningsButton.userInteractionEnabled = NO;
 }
 
 // when press the alerts and allergies notification button
@@ -971,6 +972,12 @@ typedef enum : NSUInteger {
             completion(success);
         }];
     }
+}
+
+- (void)addMedicationViewDismissed {
+    
+    //add medication view dismissed
+    warningsButton.userInteractionEnabled = YES;
 }
 
 @end
