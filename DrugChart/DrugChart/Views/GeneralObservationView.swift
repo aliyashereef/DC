@@ -368,7 +368,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
     }
     func prepareObjects()
     {
-                if(showObservationType != ShowObservationType.All && showObservationType != ShowObservationType.None)
+                if(uitag == DataEntryObservationSource.VitalSignEditIPad || uitag == DataEntryObservationSource.VitalSignEditIPhone)
                 {
                     switch(showObservationType)
                     {
@@ -492,8 +492,8 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             observation.temperature = obsBodyTemperature
             observation.pulse = obsPulse
         }
-               }
     }
+}
     // Mark : Cell delegate
     func moveNext(rowNumber:Int)
     {

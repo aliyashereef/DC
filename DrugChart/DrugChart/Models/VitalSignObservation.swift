@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import FHIR
+import CocoaLumberjack
 
 class VitalSignObservation
 {
@@ -347,4 +349,42 @@ class VitalSignObservation
         }
     }
     
+    func asJSON()
+    {
+        let bundle = Bundle(type:"transaction")
+        bundle.entry =  [BundleEntry]()
+        
+        if(self.respiratory != nil )
+        {
+            let entry = BundleEntry(json: nil)
+            entry.resource = self.respiratory?.FHIRResource()
+            bundle.entry?.append(entry)
+        }
+        if(self.spo2 != nil)
+        {
+            let entry = BundleEntry(json: nil)
+            entry.resource = self.spo2?.FHIRResource()
+            bundle.entry?.append(entry)
+        }
+        if(self.temperature != nil)
+        {
+            let entry = BundleEntry(json: nil)
+            entry.resource = self.temperature?.FHIRResource()
+            bundle.entry?.append(entry)
+        }
+        if(self.bloodPressure != nil)
+        {
+            let entry = BundleEntry(json: nil)
+            entry.resource = self.bloodPressure?.FHIRResource()
+            bundle.entry?.append(entry)
+        }
+        if(self.pulse != nil)
+        {
+            let entry = BundleEntry(json: nil)
+            entry.resource = self.pulse?.FHIRResource()
+            bundle.entry?.append(entry)
+        }
+        
+        print( bundle.asJSON()) // Need to replace it with the DDLogInfo
+    }
 }

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import FHIR
 
 class Respiratory:VitalSignBaseModel
 {
@@ -19,5 +19,14 @@ class Respiratory:VitalSignBaseModel
     
     override func setCorrespondentDoubleValue(valueString: String) {
         repiratoryRate = (valueString as NSString!).doubleValue
+    }
+    
+    override func FHIRResource() -> Resource? {
+        let code = FHIRCode("O/E - respiratory rate",  codeId: Constant.CODE_RESPIRATORY_RATE)
+        let observation = Observation(code:code  , status: "final")
+        observation.comments = associatedText
+        observation.effectiveDateTime = FHIRDate(super.date)
+        observation.valueQuantity = FHIRQuantity(stringValue, doubleQuantity: repiratoryRate, unit: "/minute")
+        return observation
     }
 }

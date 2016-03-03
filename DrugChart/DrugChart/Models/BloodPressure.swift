@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import FHIR
 
 class BloodPressure : VitalSignBaseModel
 {
@@ -44,7 +45,20 @@ class BloodPressure : VitalSignBaseModel
     {
         systolic = 0.0
         diastolic = 0.0
-//        stringValueSystolic = ""
-//        stringValueDiastolic = ""
+    }
+    
+    override func FHIRResource() -> Resource? {
+        let code = FHIRCode("O/E - blood pressure reading", codeId: Constant.CODE_BLOOD_PRESSURE)
+        let observation = Observation(code:code  , status: "final")
+        observation.comments = associatedText
+        observation.effectiveDateTime = FHIRDate(super.date)
+        observation.component = [ObservationComponent]()
+        // systolic component
+        observation.component?.append(FHIRComponent(FHIRCode("Systolic blood pressure", codeId: "114311000006111"), quantity: FHIRQuantity(strSystolic, doubleQuantity: systolic, unit: "mmHg")))
+        
+        // diastolic component
+        observation.component?.append(FHIRComponent(FHIRCode("Diastolic blood pressure", codeId: "619931000006119"), quantity: FHIRQuantity(strDiastolic, doubleQuantity: diastolic, unit: "mmHg")))
+        
+        return observation
     }
 }

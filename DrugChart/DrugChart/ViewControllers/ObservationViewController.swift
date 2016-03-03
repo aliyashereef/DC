@@ -112,7 +112,9 @@ class ObservationViewController: UIViewController,ObservationDelegate   {
      override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
       
             generalObservationView.prepareObjects()
+            generalObservationView.observation.asJSON()
             self.dismissViewControllerAnimated(true, completion: nil)
         
     }
+    
 }
