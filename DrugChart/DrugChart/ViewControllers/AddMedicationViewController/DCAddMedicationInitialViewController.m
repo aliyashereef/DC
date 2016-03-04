@@ -328,6 +328,15 @@
         //when inline picker is not shown
         dateAndTimeCell.dateTypeLabel.text = NSLocalizedString(@"START_DATE", @"start date cell title");
         dateAndTimeCell = [self populatedStartDateTableCell:dateAndTimeCell];
+        if (self.isEditMedication) {
+            dateAndTimeCell.userInteractionEnabled = NO;
+            dateAndTimeCell.accessoryView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
+            dateAndTimeCell.dateTypeLabel.textColor = [UIColor colorForHexString:@"#8f8f95"];
+            dateAndTimeCell.dateValueLabel.textColor = [UIColor colorForHexString:@"#8f8f95"];
+        } else {
+            dateAndTimeCell.accessoryView = nil;
+            dateAndTimeCell.userInteractionEnabled = YES;
+        }
     } else {
         if (self.datePickerIndexPath.row == DATE_PICKER_INDEX_START_DATE) {
             //  Start date cell has inline picker shown, So the very next cell to inline picker will be no wnd date cell. If opted to have end date, datePickerIndexPath.row + 2 shows end date cell
@@ -881,7 +890,9 @@
     
     switch (indexPath.section) {
         case eZerothSection:// display medicine name in initial section and detail view will be MedicationListView
-            [self displayMedicationSearchListView];
+            if (!self.isEditMedication) {
+                [self displayMedicationSearchListView];
+            }
             break;
         case eFirstSection:{
             if (indexPath.row == 1 && self.selectedMedication.hasReviewDate){
