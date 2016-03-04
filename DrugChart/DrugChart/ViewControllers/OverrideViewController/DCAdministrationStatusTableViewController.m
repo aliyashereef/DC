@@ -257,6 +257,28 @@
     }
 }
 
+- (void)dateCellSelectedAtIndexPath:(NSIndexPath *)indexPath {
+    
+    BOOL dateValueChanged = NO;
+    if (indexPath.row == 0 && self.medicationSlot.medicationAdministration.restartedDate == nil) {
+        self.medicationSlot.medicationAdministration.restartedDate = [DCDateUtility dateInCurrentTimeZone:[NSDate date]];
+        dateValueChanged = YES;
+    } else if (self.medicationSlot.medicationAdministration.restartedDate == nil) {
+        if (indexPath.row == 3 || indexPath.row ==4 ){
+            self.medicationSlot.medicationAdministration.expiryDateTime = [DCDateUtility dateInCurrentTimeZone:[NSDate date]];
+            dateValueChanged = YES;
+        }
+    }
+    if (dateValueChanged) {
+        [self.tableView beginUpdates];
+        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:indexPath.row inSection:2]] withRowAnimation:UITableViewRowAnimationFade];
+        [self.tableView endUpdates];
+        [self performSelector:@selector(displayInlineDatePickerForRowAtIndexPath:) withObject:indexPath afterDelay:0.1];
+    } else {
+        [self displayInlineDatePickerForRowAtIndexPath:indexPath];
+    }
+}
+
 //MARK:Configuring table view cells
 - (DCAdministerCell *)configureAdministrationCellAtIndexPath: (NSIndexPath *)indexPath {
     

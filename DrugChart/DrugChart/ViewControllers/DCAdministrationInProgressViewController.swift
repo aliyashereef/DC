@@ -214,13 +214,25 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
                 self.navigationController!.pushViewController(statusViewController, animated: true)
                 break
             case 1:
-                self.toggleDatePickerForSelectedIndexPath(indexPath)
+                self.dateCellSelectedAtIndexPath(indexPath)
                 break
             default:
                 break
             }
         default:
             break
+        }
+    }
+    
+    func dateCellSelectedAtIndexPath (indexPath : NSIndexPath) {
+        if (self.medicationSlot?.medicationAdministration.expiryDateTime == nil) {
+            self.medicationSlot?.medicationAdministration.expiryDateTime = DCDateUtility.dateInCurrentTimeZone(NSDate())
+            self.administerInProgressTableView.beginUpdates()
+            self.administerInProgressTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 2)], withRowAnimation:.Fade)
+            self.administerInProgressTableView.endUpdates()
+            self.performSelector(Selector("toggleDatePickerForSelectedIndexPath:"), withObject: indexPath, afterDelay: 0.1)
+        } else {
+            self.toggleDatePickerForSelectedIndexPath(indexPath)
         }
     }
     

@@ -411,16 +411,28 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
             
         case 6:
             if (!indexPathHasPicker(administerDatePickerIndexPath)) {
-                self.displayInlineDatePickerForRowAtIndexPath(indexPath)
+                self.expiryCellSelectedAtIndexPath(indexPath)
             }
             break
         case 7:
             if (indexPathHasPicker(administerDatePickerIndexPath)) {
-                self.displayInlineDatePickerForRowAtIndexPath(indexPath)
+                self.expiryCellSelectedAtIndexPath(indexPath)
             }
             break
         default:
             break
+        }
+    }
+    
+    func expiryCellSelectedAtIndexPath (indexPath : NSIndexPath) {
+        if (self.medicationSlot?.medicationAdministration.expiryDateTime == nil) {
+            self.medicationSlot?.medicationAdministration.expiryDateTime = DCDateUtility.dateInCurrentTimeZone(NSDate())
+            self.administerSuccessTableView.beginUpdates()
+            self.administerSuccessTableView.reloadRowsAtIndexPaths([expiryDateCellIndexPath], withRowAnimation:.Fade)
+            self.administerSuccessTableView.endUpdates()
+            self.performSelector(Selector("displayInlineDatePickerForRowAtIndexPath:"), withObject: indexPath, afterDelay: 0.1)
+        } else {
+            self.displayInlineDatePickerForRowAtIndexPath(indexPath)
         }
     }
     
