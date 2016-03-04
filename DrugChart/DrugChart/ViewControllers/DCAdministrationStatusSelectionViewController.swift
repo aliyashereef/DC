@@ -284,7 +284,6 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
             administrationInProgressViewController!.view.frame = administerContainerView.bounds
             
         }
-        self.saveButton?.enabled = true
         self.view.bringSubviewToFront(administerContainerView)
         administerContainerView.bringSubviewToFront((administrationInProgressViewController?.view)!)
         
@@ -349,6 +348,10 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
 //            // show entries in red
 //            self.validateAndReloadAdministerView()
 //        }
+    }
+    
+    func setSaveButtonDisability (state : Bool) {
+        self.saveButton?.enabled = state
     }
     
     func cancelButtonPressed () {

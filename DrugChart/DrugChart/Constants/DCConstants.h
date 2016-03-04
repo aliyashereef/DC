@@ -286,7 +286,7 @@
 #define DATE_FORMAT_START_DATE          @"dd-MMM-yyyy HH:mm"
 #define DOB_DATE_FORMAT                 @"YYYY-mm-dd"
 #define BIRTH_DATE_FORMAT               @"dd MMM yyyy"
-#define EXPIRY_DATE_FORMAT               @"dd-MMM-yyyy"
+#define EXPIRY_DATE_FORMAT               @"d-MMM-yyyy"
 #define LONG_DATE_FORMAT                @"yyyy-MM-dd HH:mm:ss"
 #define DATE_MONTHNAME_YEAR_FORMAT      @"d LLLL yyyy"
 #define ADMINISTER_DATE_TIME_FORMAT     @"d-MMM-yyyy hh:mm a"

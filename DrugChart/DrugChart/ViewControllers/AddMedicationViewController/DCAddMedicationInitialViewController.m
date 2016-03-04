@@ -610,7 +610,7 @@
     if (pickerCell == nil) {
         pickerCell = [[DCDatePickerCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:pickerCellId];
     }
-    [pickerCell configureDatePickerProperties];
+    [pickerCell configureDatePickerPropertiesForAddMedication];
     return pickerCell;
 }
 

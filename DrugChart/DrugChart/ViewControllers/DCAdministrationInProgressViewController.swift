@@ -44,6 +44,15 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
         administerInProgressTableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
     }
     
+    func changeSaveButtonDisabilityWithMedicationStatus () {
+        let parentView : DCAdministrationStatusSelectionViewController = self.parentViewController as! DCAdministrationStatusSelectionViewController
+        if medicationSlot?.medicationAdministration.status == EMPTY_STRING ||  medicationSlot?.medicationAdministration.status == nil{
+            parentView.setSaveButtonDisability(false)
+        } else {
+            parentView.setSaveButtonDisability(true)
+        }
+    }
+    
     //MARK: Configuring Table View Cells
     
     //Medication Details Cell
@@ -89,7 +98,10 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
     //Date picker Cell
     func datePickerTableCellAtIndexPath (indexPath : NSIndexPath) -> (UITableViewCell) {
         let pickerCell : DCDatePickerCell = (administerInProgressTableView.dequeueReusableCellWithIdentifier(DATE_STATUS_PICKER_CELL_IDENTIFIER) as? DCDatePickerCell)!
-        pickerCell.configureDatePickerProperties()
+        pickerCell.datePicker?.datePickerMode = UIDatePickerMode.DateAndTime
+        pickerCell.datePicker?.maximumDate = NSDate()
+        pickerCell.datePicker?.minimumDate = nil;
+        pickerCell.datePicker?.date = DCDateUtility.dateInCurrentTimeZone(NSDate())
         pickerCell.selectedDate = { date in
             self.medicationSlot!.medicationAdministration.actualAdministrationTime = date
             self.administerInProgressTableView .reloadRowsAtIndexPaths([NSIndexPath(forRow: indexPath.row - 1, inSection: indexPath.section)], withRowAnimation:UITableViewRowAnimation.None)
@@ -238,6 +250,7 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
     // mark:StatusList Delegate Methods
     func selectedMedicationStatusEntry(status: String!) {
         medicationSlot?.medicationAdministration.status = status
+        changeSaveButtonDisabilityWithMedicationStatus()
         self.administerInProgressTableView.reloadData()
     }
     
