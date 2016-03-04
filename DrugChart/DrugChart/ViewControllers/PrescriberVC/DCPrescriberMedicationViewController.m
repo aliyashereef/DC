@@ -701,11 +701,13 @@ typedef enum : NSUInteger {
 
 - (void)reloadAdministrationScreenWithMedicationDetails {
     
-    DCMedicationScheduleDetails *medicationList = [displayMedicationListArray objectAtIndex:administrationViewPresentedIndexPath.item];
-    detailViewController.medicationDetails = medicationList;
-//    detailViewController.medicationSlotsArray = _medicationSlotArray;
-    [detailViewController initialiseMedicationSlotToAdministerObject];
-    [detailViewController.administerTableView reloadData];
+    if (displayMedicationListArray > 0) {
+        DCMedicationScheduleDetails *medicationList = [displayMedicationListArray objectAtIndex:administrationViewPresentedIndexPath.item];
+        detailViewController.medicationDetails = medicationList;
+        //    detailViewController.medicationSlotsArray = _medicationSlotArray;
+        [detailViewController initialiseMedicationSlotToAdministerObject];
+        [detailViewController.administerTableView reloadData];
+    }
 }
 
 - (void)displayAdministrationViewForMedicationSlot:(NSDictionary *)medicationSLotsDictionary
