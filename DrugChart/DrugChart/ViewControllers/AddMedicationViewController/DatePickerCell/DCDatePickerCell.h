@@ -16,6 +16,8 @@ typedef void(^SelectedDate)(NSDate *date);
 @property BOOL isStartDate;
 @property (nonatomic, strong) SelectedDate selectedDate;
 
-- (void)configureDatePickerProperties;
+- (void)configureDatePickerPropertiesForAddMedication;
+- (void)configureDatePickerPropertiesForAdministrationDate;
+- (void)configureDatePickerPropertiesForexpiryDate;
 
 @end

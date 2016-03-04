@@ -183,11 +183,13 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         if indexPath.row == dateTimeCellIndexPath.row + 1 {
             pickerCell.datePicker?.datePickerMode = UIDatePickerMode.DateAndTime
             pickerCell.datePicker?.maximumDate = NSDate()
+            //pickerCell.configureDatePickerPropertiesForAdministrationDate()
         } else {
-            pickerCell.datePicker?.datePickerMode = UIDatePickerMode.Date
+            //pickerCell.configureDatePickerPropertiesForexpiryDate()
             pickerCell.datePicker?.maximumDate = nil
+            pickerCell.datePicker?.datePickerMode = UIDatePickerMode.Date
+
         }
-        pickerCell.configureDatePickerProperties()
         pickerCell.selectedDate = { date in
             if indexPath.row == 4 {
                 self.medicationSlot!.medicationAdministration?.actualAdministrationTime = date
@@ -510,7 +512,11 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
     }
     
     func enteredBatchDetails(batch : String) {
-        medicationSlot?.medicationAdministration?.batch = batch
+        if textFieldSelectionIndexPath == doseCellIndexPath {
+            medicationSlot?.medicationAdministration?.dosageString = batch
+        } else {
+            medicationSlot?.medicationAdministration?.batch = batch
+        }
     }
     
     // MARK: NotesCell Delegate Methods

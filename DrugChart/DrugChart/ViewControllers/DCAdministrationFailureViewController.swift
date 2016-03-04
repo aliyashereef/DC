@@ -172,7 +172,7 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
     func datePickerTableCellAtIndexPath (indexPath : NSIndexPath) -> (UITableViewCell) {
         
         let pickerCell : DCDatePickerCell = (administrationFailureTableView.dequeueReusableCellWithIdentifier(DATE_STATUS_PICKER_CELL_IDENTIFIER) as? DCDatePickerCell)!
-        pickerCell.configureDatePickerProperties()
+        pickerCell.configureDatePickerPropertiesForAdministrationDate()
         pickerCell.datePicker?.maximumDate = NSDate()
         pickerCell.selectedDate = { date in
             self.medicationSlot!.medicationAdministration?.actualAdministrationTime = date

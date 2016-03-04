@@ -315,13 +315,11 @@
     if (pickerCell == nil) {
         pickerCell = [[DCDatePickerCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:pickerCellId];
     }
-    [pickerCell configureDatePickerProperties];
     if (datePickerIndexPath.row == 1) {
-        pickerCell.datePicker.datePickerMode = UIDatePickerModeDateAndTime;
-        pickerCell.datePicker.maximumDate = [NSDate date];
+        [pickerCell configureDatePickerPropertiesForAdministrationDate];
     } else {
+        [pickerCell configureDatePickerPropertiesForexpiryDate];
         pickerCell.datePicker.datePickerMode = UIDatePickerModeDate;
-        pickerCell.datePicker.maximumDate = nil;
     }
     pickerCell.selectedDate = ^ (NSDate *date) {
         if (datePickerIndexPath.row  == 1) {

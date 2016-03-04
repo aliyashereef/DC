@@ -98,7 +98,10 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
     //Date picker Cell
     func datePickerTableCellAtIndexPath (indexPath : NSIndexPath) -> (UITableViewCell) {
         let pickerCell : DCDatePickerCell = (administerInProgressTableView.dequeueReusableCellWithIdentifier(DATE_STATUS_PICKER_CELL_IDENTIFIER) as? DCDatePickerCell)!
-        pickerCell.configureDatePickerProperties()
+        pickerCell.datePicker?.datePickerMode = UIDatePickerMode.DateAndTime
+        pickerCell.datePicker?.maximumDate = NSDate()
+        pickerCell.datePicker?.minimumDate = nil;
+        pickerCell.datePicker?.date = DCDateUtility.dateInCurrentTimeZone(NSDate())
         pickerCell.selectedDate = { date in
             self.medicationSlot!.medicationAdministration.actualAdministrationTime = date
             self.administerInProgressTableView .reloadRowsAtIndexPaths([NSIndexPath(forRow: indexPath.row - 1, inSection: indexPath.section)], withRowAnimation:UITableViewRowAnimation.None)
