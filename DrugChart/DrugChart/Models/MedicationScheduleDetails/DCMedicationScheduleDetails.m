@@ -186,10 +186,10 @@
 - (NSMutableArray *)findDatesOfWhenRequiredAdministration:(NSString *)nextDate {
     
     NSMutableArray *timeArray = [[NSMutableArray alloc] init];
+    NSDateFormatter *shortDateFormatter = [[NSDateFormatter alloc] init];
+    [shortDateFormatter setDateFormat:SHORT_DATE_FORMAT];
+    [shortDateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
     for (int i = 0 ; i<self.administrationDetailsArray.count; i++) {
-        NSDateFormatter *shortDateFormatter = [[NSDateFormatter alloc] init];
-        [shortDateFormatter setDateFormat:SHORT_DATE_FORMAT];
-        [shortDateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
         NSString *medicationDateString = [shortDateFormatter stringFromDate:[[self.administrationDetailsArray objectAtIndex:i] valueForKey:@"scheduledDateTime"]];
         if ([medicationDateString isEqualToString:nextDate]) {
             [timeArray addObject:[self.administrationDetailsArray objectAtIndex:i]];
