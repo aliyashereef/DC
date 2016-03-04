@@ -8,7 +8,7 @@
 
 import Foundation
 
-class DCAdministrationInProgressViewController : UIViewController,StatusListDelegate,NotesCellDelegate {
+class DCAdministrationInProgressViewController : UIViewController,StatusListDelegate,NotesCellDelegate, AdministrationDateDelegate {
     
     @IBOutlet weak var administerInProgressTableView: UITableView!
     var medicationSlot : DCMedicationSlot?
@@ -97,15 +97,13 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
     
     //Date picker Cell
     func datePickerTableCellAtIndexPath (indexPath : NSIndexPath) -> (UITableViewCell) {
-        let pickerCell : DCDatePickerCell = (administerInProgressTableView.dequeueReusableCellWithIdentifier(DATE_STATUS_PICKER_CELL_IDENTIFIER) as? DCDatePickerCell)!
+        let pickerCell : DCAdministrationDatePickerCell = (administerInProgressTableView.dequeueReusableCellWithIdentifier("AdministrationInProgressDatePickerCell") as? DCAdministrationDatePickerCell)!
         pickerCell.datePicker?.datePickerMode = UIDatePickerMode.DateAndTime
         pickerCell.datePicker?.maximumDate = NSDate()
         pickerCell.datePicker?.minimumDate = nil;
         pickerCell.datePicker?.date = DCDateUtility.dateInCurrentTimeZone(NSDate())
-        pickerCell.selectedDate = { date in
-            self.medicationSlot!.medicationAdministration.actualAdministrationTime = date
-            self.administerInProgressTableView .reloadRowsAtIndexPaths([NSIndexPath(forRow: indexPath.row - 1, inSection: indexPath.section)], withRowAnimation:UITableViewRowAnimation.None)
-        }
+        pickerCell.selectedIndexPath = indexPath
+        pickerCell.delegate = self
         return pickerCell;
     }
     
@@ -270,6 +268,12 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
     func notesSelected(editing : Bool, withIndexPath indexPath : NSIndexPath) {
         self.collapseOpenedDatePicker()
         self.administerInProgressTableView.setContentOffset(CGPointMake(0, 280), animated: true)
+    }
+    
+    func selectedDateAtIndexPath(date: NSDate, indexPath: NSIndexPath) {
+        
+        self.medicationSlot!.medicationAdministration.actualAdministrationTime = date
+        self.administerInProgressTableView .reloadRowsAtIndexPaths([NSIndexPath(forRow: indexPath.row - 1, inSection: indexPath.section)], withRowAnimation:UITableViewRowAnimation.None)
     }
     
     func enteredNote(note : String) {

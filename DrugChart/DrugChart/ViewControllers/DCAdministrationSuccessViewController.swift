@@ -8,7 +8,7 @@
 
 import Foundation
 
-class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDelegate,BatchCellDelegate, StatusListDelegate ,reasonDelegate, NamesListDelegate, SecurityPinMatchDelegate{
+class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDelegate,BatchCellDelegate, StatusListDelegate ,reasonDelegate, NamesListDelegate, SecurityPinMatchDelegate, AdministrationDateDelegate{
     
     //MARK: Variables
     
@@ -179,26 +179,16 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
     
     //Date picker Cell
     func datePickerTableCellAtIndexPath (indexPath : NSIndexPath) -> (UITableViewCell) {
-        let pickerCell : DCDatePickerCell = (administerSuccessTableView.dequeueReusableCellWithIdentifier(DATE_STATUS_PICKER_CELL_IDENTIFIER) as? DCDatePickerCell)!
+        let pickerCell : DCAdministrationDatePickerCell = (administerSuccessTableView.dequeueReusableCellWithIdentifier("AdministrationDatePickerCell") as? DCAdministrationDatePickerCell)!
+        pickerCell.delegate = self
         if indexPath.row == dateTimeCellIndexPath.row + 1 {
             pickerCell.datePicker?.datePickerMode = UIDatePickerMode.DateAndTime
             pickerCell.datePicker?.maximumDate = NSDate()
-            //pickerCell.configureDatePickerPropertiesForAdministrationDate()
         } else {
-            //pickerCell.configureDatePickerPropertiesForexpiryDate()
             pickerCell.datePicker?.maximumDate = nil
             pickerCell.datePicker?.datePickerMode = UIDatePickerMode.Date
-
         }
-        pickerCell.selectedDate = { date in
-            if indexPath.row == 4 {
-                self.medicationSlot!.medicationAdministration?.actualAdministrationTime = date
-                self.administerSuccessTableView .reloadRowsAtIndexPaths([self.dateTimeCellIndexPath], withRowAnimation:UITableViewRowAnimation.None)
-            } else {
-                self.medicationSlot!.medicationAdministration?.expiryDateTime = date
-                self.administerSuccessTableView .reloadRowsAtIndexPaths([self.expiryDateCellIndexPath], withRowAnimation:UITableViewRowAnimation.None)
-            }
-        }
+        pickerCell.selectedIndexPath = indexPath
     return pickerCell;
     }
     
@@ -574,6 +564,16 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         self.administerSuccessTableView.reloadData()
     }
     
+    func selectedDateAtIndexPath (date : NSDate, indexPath:NSIndexPath) {
+        
+        if indexPath.row == 4 {
+            self.medicationSlot!.medicationAdministration?.actualAdministrationTime = date
+            self.administerSuccessTableView .reloadRowsAtIndexPaths([self.dateTimeCellIndexPath], withRowAnimation:UITableViewRowAnimation.None)
+        } else {
+            self.medicationSlot!.medicationAdministration?.expiryDateTime = date
+            self.administerSuccessTableView .reloadRowsAtIndexPaths([self.expiryDateCellIndexPath], withRowAnimation:UITableViewRowAnimation.None)
+        }
+    }
     func keyboardDidShow(notification : NSNotification) {
         if textFieldSelectionIndexPath != doseCellIndexPath {
             if let userInfo = notification.userInfo {

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDelegate , StatusListDelegate, reasonDelegate{
+class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDelegate , StatusListDelegate, reasonDelegate, AdministrationDateDelegate{
     
     @IBOutlet var administrationFailureTableView: UITableView!
     
@@ -171,13 +171,10 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
     
     func datePickerTableCellAtIndexPath (indexPath : NSIndexPath) -> (UITableViewCell) {
         
-        let pickerCell : DCDatePickerCell = (administrationFailureTableView.dequeueReusableCellWithIdentifier(DATE_STATUS_PICKER_CELL_IDENTIFIER) as? DCDatePickerCell)!
-        pickerCell.configureDatePickerPropertiesForAdministrationDate()
+        let pickerCell : DCAdministrationDatePickerCell = (administrationFailureTableView.dequeueReusableCellWithIdentifier("AdministrationFailurePickerCell") as? DCAdministrationDatePickerCell)!
+        pickerCell.selectedIndexPath = indexPath
+        pickerCell.delegate = self
         pickerCell.datePicker?.maximumDate = NSDate()
-        pickerCell.selectedDate = { date in
-            self.medicationSlot!.medicationAdministration?.actualAdministrationTime = date
-            self.administrationFailureTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow:RowCount.eSecondRow.rawValue, inSection:1)], withRowAnimation: UITableViewRowAnimation.None)
-        }
         return pickerCell;
     }
     
@@ -194,6 +191,11 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
         default:
             break
         }
+    }
+    
+    func selectedDateAtIndexPath (date : NSDate, indexPath:NSIndexPath) {
+        self.medicationSlot!.medicationAdministration?.actualAdministrationTime = date
+        self.administrationFailureTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow:RowCount.eSecondRow.rawValue, inSection:1)], withRowAnimation: UITableViewRowAnimation.None)
     }
     
     func collapseOpenedPickerCell () {
