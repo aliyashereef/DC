@@ -338,7 +338,7 @@
         dateAndTimeCell = [self populatedStartDateTableCell:dateAndTimeCell];
         if (self.isEditMedication) {
             dateAndTimeCell.userInteractionEnabled = NO;
-            dateAndTimeCell.accessoryView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
+            dateAndTimeCell.accessoryView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 15, 24)];
             dateAndTimeCell.dateTypeLabel.textColor = [UIColor colorForHexString:@"#8f8f95"];
             dateAndTimeCell.dateValueLabel.textColor = [UIColor colorForHexString:@"#8f8f95"];
         } else {
