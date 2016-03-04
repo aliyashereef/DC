@@ -1557,12 +1557,12 @@
     }
 }
 
-//#pragma mark - UIPopOverPresentationController Delegate
-//
-//- (BOOL)popoverPresentationControllerShouldDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
-//    
-//    //this method restricts the pop over dismiss on tapping pop over background. 
-//    return NO;
-//}
+#pragma mark - UIPopOverPresentationController Delegate
+
+- (BOOL)popoverPresentationControllerShouldDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
+    
+    //this method restricts the pop over dismiss on tapping pop over background. 
+    return NO;
+}
 
 @end

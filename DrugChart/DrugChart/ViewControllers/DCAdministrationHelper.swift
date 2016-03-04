@@ -102,10 +102,10 @@ class DCAdministrationHelper : NSObject {
             }
         }
         
-        //TO DO : Configure the dosage and batch number from the form.
-        if let dosage = medicationDetails.dosage {
+        if let dosage = medicationSlot.medicationAdministration?.dosageString {
             administerDictionary.setValue(dosage, forKey: ADMINISTRATING_DOSAGE)
         }
+        
         if let batch = medicationSlot.medicationAdministration?.batch {
             administerDictionary.setValue(batch, forKey: ADMINISTRATING_BATCH)
         }
