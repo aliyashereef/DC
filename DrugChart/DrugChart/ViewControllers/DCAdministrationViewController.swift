@@ -23,7 +23,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
     var scheduleId : NSString = EMPTY_STRING
     var errorMessage : String = EMPTY_STRING
     var helper : DCSwiftObjCNavigationHelper = DCSwiftObjCNavigationHelper.init()
-
+    let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
     
     override func viewDidLoad() {
         
@@ -50,7 +50,13 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         self.title = dateString
         // Navigation bar done button
         let doneButton : UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: "doneButtonPressed")
-        self.navigationItem.leftBarButtonItems = [doneButton]
+        if (appDelegate.windowState == DCWindowState.halfWindow || appDelegate.windowState == DCWindowState.oneThirdWindow) {
+            self.navigationItem.leftBarButtonItems = [doneButton]
+        } else {
+            let negativeSpacer: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+            negativeSpacer.width = -12
+            self.navigationItem.leftBarButtonItems = [negativeSpacer,doneButton]
+        }
     }
     
     func configureMedicationStatusInCell (medication : DCMedicationSlot) -> NSString {
