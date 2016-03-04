@@ -93,7 +93,7 @@ class VitalSignParser : FhirParser
     {
         let url = String(format:CARE_RECORD_URL , patientId , commaSeparatedCodes , startDate.getFHIRDateandTime() , endDate.getFHIRDateandTime(), includeMostRecent == true ?"true":"false")
         
-        super.connectServer(url){(json:FHIRJSON? , error:NSError? ) in
+        super.connectServerGet(url){(json:FHIRJSON? , error:NSError? ) in
             var lstObservation = [VitalSignObservation]()
             if(error == nil) //so there is no error and the json can be parsed now.
             {

@@ -349,7 +349,7 @@ class VitalSignObservation
         }
     }
     
-    func asJSON()
+    func asJSON() -> FHIRJSON?
     {
         let bundle = Bundle(type:"transaction")
         bundle.entry =  [BundleEntry]()
@@ -385,6 +385,7 @@ class VitalSignObservation
             bundle.entry?.append(entry)
         }
         
-        print( bundle.asJSON()) // Need to replace it with the DDLogInfo
+        print( bundle.asJSON()) //TODO: Need to replace it with the DDLogInfo
+        return bundle.asJSON()
     }
 }

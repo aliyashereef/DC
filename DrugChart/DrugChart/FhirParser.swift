@@ -14,8 +14,7 @@ import CocoaLumberjack
 typealias ServiceResponse = (FHIRJSON?, NSError?) -> Void
 class FhirParser
 {
-    
-    func connectServer(apiURL:String,onCompletion:ServiceResponse)->Void
+    func connectServerGet(apiURL:String,onCompletion:ServiceResponse)->Void
     {
         let manager = DCHTTPRequestOperationManager.sharedVitalSignManager()
         DDLogInfo("\(Constant.VITAL_SIGN_LOGGER_INDICATOR) API call url:\(apiURL)")
@@ -23,6 +22,32 @@ class FhirParser
         DDLogInfo("\(Constant.VITAL_SIGN_LOGGER_INDICATOR) API call encoded url:\(encodedURL)")
         manager.GET(encodedURL ,
             parameters: nil,
+            success: { (operation,responseObject) ->Void in
+                DDLogDebug("\(Constant.VITAL_SIGN_LOGGER_INDICATOR) Get JSON back:\(responseObject.description)")
+                do{
+                    let json = try NSJSONSerialization.JSONObjectWithData(responseObject as! NSData, options:NSJSONReadingOptions.MutableContainers) as? FHIRJSON
+                    onCompletion(json, nil)
+                }
+                catch
+                {
+                    DDLogError("\(Constant.VITAL_SIGN_LOGGER_INDICATOR) Get Error\(error)")
+                }
+            },
+            failure: { (operation , error) in
+                DDLogError("\(Constant.VITAL_SIGN_LOGGER_INDICATOR) Get Error:\(error.localizedDescription)")
+                onCompletion(nil,error)
+        })
+        
+    }
+    
+    func connectServerPost(apiURL:String,requestJSON:FHIRJSON?, onCompletion:ServiceResponse)->Void
+    {
+        let manager = DCHTTPRequestOperationManager.sharedVitalSignManager()
+        DDLogInfo("\(Constant.VITAL_SIGN_LOGGER_INDICATOR) API call url:\(apiURL)")
+        let encodedURL = apiURL.stringByReplacingOccurrencesOfString("+", withString: "%2B")
+        DDLogInfo("\(Constant.VITAL_SIGN_LOGGER_INDICATOR) API call encoded url:\(encodedURL)")
+        manager.POST(encodedURL ,
+            parameters: requestJSON,
             success: { (operation,responseObject) ->Void in
                 DDLogDebug("\(Constant.VITAL_SIGN_LOGGER_INDICATOR) Get JSON back:\(responseObject.description)")
                 do{
