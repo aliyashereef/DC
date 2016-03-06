@@ -23,7 +23,8 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
     var helper : DCSwiftObjCNavigationHelper = DCSwiftObjCNavigationHelper.init()
     var statusState : String?
     var medicationSlotsArray : [DCMedicationSlot] = [DCMedicationSlot]()
-    
+    let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
+
     //MARK:
     var saveButton: UIBarButtonItem?
     var cancelButton: UIBarButtonItem?
@@ -35,6 +36,7 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
     override func viewDidLoad() {
         self.configureViewElements()
         self.configureNavigationBar()
+        self.saveButton?.enabled = false
         super.viewDidLoad()
     }
     // MARK: Private Methods
@@ -75,8 +77,17 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
         // Navigation bar done button
         saveButton = UIBarButtonItem(title: "Save", style: UIBarButtonItemStyle.Plain, target: self, action: "saveButtonPressed")
         cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: "cancelButtonPressed")
-        self.navigationItem.leftBarButtonItem = cancelButton
-        self.navigationItem.rightBarButtonItem = saveButton
+        if (appDelegate.windowState == DCWindowState.halfWindow || appDelegate.windowState == DCWindowState.oneThirdWindow) {
+            self.navigationItem.leftBarButtonItem = cancelButton
+            self.navigationItem.rightBarButtonItem = saveButton
+        } else {
+            let negativeSpacerLeading: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+            negativeSpacerLeading.width = -12
+            let negativeSpacerTrailing: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+            negativeSpacerTrailing.width = -12
+            self.navigationItem.leftBarButtonItems = [negativeSpacerLeading,cancelButton!]
+            self.navigationItem.rightBarButtonItems = [negativeSpacerTrailing,saveButton!]
+        }
     }
     
     //MARK: TableView Delegate Methods
@@ -239,6 +250,7 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
             administrationSuccessViewController!.view.frame = administerContainerView.bounds
             
         }
+        self.saveButton?.enabled = true
         self.view.bringSubviewToFront(administerContainerView)
         administerContainerView.bringSubviewToFront((administrationSuccessViewController?.view)!)
     }
@@ -255,6 +267,7 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
             administrationFailureViewController!.view.frame = administerContainerView.bounds
             
         }
+        self.saveButton?.enabled = true
         self.view.bringSubviewToFront(administerContainerView)
         administerContainerView.bringSubviewToFront((administrationFailureViewController?.view)!)
         
@@ -335,6 +348,10 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
 //            // show entries in red
 //            self.validateAndReloadAdministerView()
 //        }
+    }
+    
+    func setSaveButtonDisability (state : Bool) {
+        self.saveButton?.enabled = state
     }
     
     func cancelButtonPressed () {

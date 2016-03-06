@@ -582,6 +582,7 @@ typedef enum : NSUInteger {
     UIPopoverArrowDirectionAny;
     presentationController.sourceView = self.view;
     presentationController.barButtonItem = (UIBarButtonItem *)sender;
+    warningsButton.userInteractionEnabled = NO;
 }
 
 // when press the alerts and allergies notification button
@@ -700,11 +701,13 @@ typedef enum : NSUInteger {
 
 - (void)reloadAdministrationScreenWithMedicationDetails {
     
-    DCMedicationScheduleDetails *medicationList = [displayMedicationListArray objectAtIndex:administrationViewPresentedIndexPath.item];
-    detailViewController.medicationDetails = medicationList;
-//    detailViewController.medicationSlotsArray = _medicationSlotArray;
-    [detailViewController initialiseMedicationSlotToAdministerObject];
-    [detailViewController.administerTableView reloadData];
+    if (displayMedicationListArray.count > 0) {
+        DCMedicationScheduleDetails *medicationList = [displayMedicationListArray objectAtIndex:administrationViewPresentedIndexPath.item];
+        detailViewController.medicationDetails = medicationList;
+        //    detailViewController.medicationSlotsArray = _medicationSlotArray;
+        [detailViewController initialiseMedicationSlotToAdministerObject];
+        [detailViewController.administerTableView reloadData];
+    }
 }
 
 - (void)displayAdministrationViewForMedicationSlot:(NSDictionary *)medicationSLotsDictionary
@@ -724,9 +727,9 @@ typedef enum : NSUInteger {
         detailViewController.medicationSlotsArray = [self medicationSlotsArrayFromSlotsDictionary:medicationSLotsDictionary];
         detailViewController.weekDate = date;
         detailViewController.patientId = self.patient.patientId;
-        NSDate *startDate = [DCDateUtility dateFromSourceString:medicationList.startDate];
-        NSDate *endDate = [DCDateUtility dateFromSourceString:medicationList.endDate];
         NSCalendar *calendar = [NSCalendar currentCalendar];
+        NSDate *startDate = [self dateWithRemovingTimeComponentsForDate:[DCDateUtility dateFromSourceString:medicationList.startDate] inCalendar:calendar];
+        NSDate *endDate = [self dateWithRemovingTimeComponentsForDate:[DCDateUtility dateFromSourceString:medicationList.endDate] inCalendar:calendar];
         NSComparisonResult startDateOrder = [calendar compareDate:startDate toDate:date toUnitGranularity:NSCalendarUnitDay];
         NSComparisonResult endDateOrder = [calendar compareDate:endDate toDate:date toUnitGranularity:NSCalendarUnitDay];
         if (medicationList.endDate != nil) {
@@ -739,6 +742,13 @@ typedef enum : NSUInteger {
             }
         }
     }
+}
+
+- (NSDate *)dateWithRemovingTimeComponentsForDate:(NSDate*)date inCalendar:(NSCalendar *)calendar {
+    [calendar setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+    NSDateComponents* components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:date];
+    NSDate* dateOnly = [calendar dateFromComponents:components];
+    return dateOnly;
 }
 
 - (void)presentAdministrationwithMedicationList:(DCMedicationScheduleDetails *)medicationList andDate:(NSDate *)date {
@@ -971,6 +981,12 @@ typedef enum : NSUInteger {
             completion(success);
         }];
     }
+}
+
+- (void)addMedicationViewDismissed {
+    
+    //add medication view dismissed
+    warningsButton.userInteractionEnabled = YES;
 }
 
 @end

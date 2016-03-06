@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol NotesCellDelegate {
+@objc public protocol NotesCellDelegate {
     
     func notesSelected(editing : Bool, withIndexPath indexPath : NSIndexPath)
     func enteredNote(note : String)

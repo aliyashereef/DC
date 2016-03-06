@@ -8,7 +8,7 @@
 
 import Foundation
 
-class DCAdministrationInProgressViewController : UIViewController,StatusListDelegate,NotesCellDelegate {
+class DCAdministrationInProgressViewController : UIViewController,StatusListDelegate,NotesCellDelegate, AdministrationDateDelegate {
     
     @IBOutlet weak var administerInProgressTableView: UITableView!
     var medicationSlot : DCMedicationSlot?
@@ -44,6 +44,15 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
         administerInProgressTableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
     }
     
+    func changeSaveButtonDisabilityWithMedicationStatus () {
+        let parentView : DCAdministrationStatusSelectionViewController = self.parentViewController as! DCAdministrationStatusSelectionViewController
+        if medicationSlot?.medicationAdministration.status == EMPTY_STRING ||  medicationSlot?.medicationAdministration.status == nil{
+            parentView.setSaveButtonDisability(false)
+        } else {
+            parentView.setSaveButtonDisability(true)
+        }
+    }
+    
     //MARK: Configuring Table View Cells
     
     //Medication Details Cell
@@ -62,7 +71,11 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
         let administerCell : DCAdministerCell = (administerInProgressTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
         administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         administerCell.detailLabelTrailingSpace.constant = 0.0
-        administerCell.titleLabel.text = STATUS
+        if medicationSlot?.medicationAdministration.status == EMPTY_STRING ||  medicationSlot?.medicationAdministration.status == nil{
+            administerCell.titleLabel.text = STATUS_CHANGE
+        } else {
+            administerCell.titleLabel.text = STATUS
+        }
         administerCell.detailLabel?.text = medicationSlot?.medicationAdministration.status
         return administerCell
     }
@@ -84,12 +97,13 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
     
     //Date picker Cell
     func datePickerTableCellAtIndexPath (indexPath : NSIndexPath) -> (UITableViewCell) {
-        let pickerCell : DCDatePickerCell = (administerInProgressTableView.dequeueReusableCellWithIdentifier(DATE_STATUS_PICKER_CELL_IDENTIFIER) as? DCDatePickerCell)!
-        pickerCell.configureDatePickerProperties()
-        pickerCell.selectedDate = { date in
-            self.medicationSlot!.medicationAdministration.actualAdministrationTime = date
-            self.administerInProgressTableView .reloadRowsAtIndexPaths([NSIndexPath(forRow: indexPath.row - 1, inSection: indexPath.section)], withRowAnimation:UITableViewRowAnimation.None)
-        }
+        let pickerCell : DCAdministrationDatePickerCell = (administerInProgressTableView.dequeueReusableCellWithIdentifier("AdministrationInProgressDatePickerCell") as? DCAdministrationDatePickerCell)!
+        pickerCell.datePicker?.datePickerMode = UIDatePickerMode.DateAndTime
+        pickerCell.datePicker?.maximumDate = NSDate()
+        pickerCell.datePicker?.minimumDate = nil;
+        pickerCell.datePicker?.date = NSDate()
+        pickerCell.selectedIndexPath = indexPath
+        pickerCell.delegate = self
         return pickerCell;
     }
     
@@ -191,19 +205,32 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
             switch indexPath.row {
             case 0:
                 let statusViewController : DCAdministrationStatusTableViewController = DCAdministrationHelper.administratedStatusPopOverAtIndexPathWithStatus(indexPath, status:IN_PROGRESS)
+                statusViewController.medicationSlot = self.medicationSlot
                 statusViewController.previousSelectedValue = self.medicationSlot?.medicationAdministration?.status
                 statusViewController.medicationStatusDelegate = self
                 self.collapseOpenedDatePicker()
                 self.navigationController!.pushViewController(statusViewController, animated: true)
                 break
             case 1:
-                self.toggleDatePickerForSelectedIndexPath(indexPath)
+                self.dateCellSelectedAtIndexPath(indexPath)
                 break
             default:
                 break
             }
         default:
             break
+        }
+    }
+    
+    func dateCellSelectedAtIndexPath (indexPath : NSIndexPath) {
+        if (self.medicationSlot?.medicationAdministration.expiryDateTime == nil) {
+            self.medicationSlot?.medicationAdministration.expiryDateTime = NSDate()
+            self.administerInProgressTableView.beginUpdates()
+            self.administerInProgressTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 2)], withRowAnimation:.Fade)
+            self.administerInProgressTableView.endUpdates()
+            self.performSelector(Selector("toggleDatePickerForSelectedIndexPath:"), withObject: indexPath, afterDelay: 0.1)
+        } else {
+            self.toggleDatePickerForSelectedIndexPath(indexPath)
         }
     }
     
@@ -233,13 +260,20 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
     // mark:StatusList Delegate Methods
     func selectedMedicationStatusEntry(status: String!) {
         medicationSlot?.medicationAdministration.status = status
+        changeSaveButtonDisabilityWithMedicationStatus()
         self.administerInProgressTableView.reloadData()
     }
     
     // MARK: NotesCell Delegate Methods
     func notesSelected(editing : Bool, withIndexPath indexPath : NSIndexPath) {
         self.collapseOpenedDatePicker()
-        self.administerInProgressTableView.setContentOffset(CGPointMake(0, 250), animated: true)
+        self.administerInProgressTableView.setContentOffset(CGPointMake(0, 280), animated: true)
+    }
+    
+    func selectedDateAtIndexPath(date: NSDate, indexPath: NSIndexPath) {
+        
+        self.medicationSlot!.medicationAdministration.actualAdministrationTime = date
+        self.administerInProgressTableView .reloadRowsAtIndexPaths([NSIndexPath(forRow: indexPath.row - 1, inSection: indexPath.section)], withRowAnimation:UITableViewRowAnimation.None)
     }
     
     func enteredNote(note : String) {

@@ -20,15 +20,14 @@
     // Configure the view for the selected state
 }
 
-- (void)configureDatePickerProperties {
+- (void)configureDatePickerPropertiesForAddMedication {
     
     //configure picker properties
     _datePicker.date = [NSDate date];
-//    _datePicker.timeZone = [NSTimeZone timeZoneWithAbbreviation:GMT];
+
 }
 
 - (IBAction)datePickerValueChanged:(id)sender {
-    
     self.selectedDate (_datePicker.date);
 }
 

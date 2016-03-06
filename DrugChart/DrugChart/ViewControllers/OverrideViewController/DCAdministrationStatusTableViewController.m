@@ -7,13 +7,13 @@
 //
 
 #import "DCAdministrationStatusTableViewController.h"
-#import "DCDatePickerCell.h"
+
 #import "DCUser.h"
 #import "DrugChart-Swift.h"
 
 #define TABLE_REUSE_IDENTIFIER @"StatusCell"
 
-@interface DCAdministrationStatusTableViewController () <NamesListDelegate> {
+@interface DCAdministrationStatusTableViewController () <NamesListDelegate, NotesCellDelegate, BatchCellDelegate , AdministrationDateDelegate> {
     
 }
 
@@ -138,11 +138,15 @@
                     case 0:{
                         DCAdministerCell *cell = [self configureAdministrationCellAtIndexPath:indexPath];
                         cell.titleLabel.text = @"Restarted on";
-                        cell.detailLabel.text =  self.restartedDate;
-                        return cell;}
+                        if (self.medicationSlot.medicationAdministration.restartedDate != nil) {
+                            cell.detailLabel.text = [DCDateUtility dateStringFromDate:self.medicationSlot.medicationAdministration.restartedDate inFormat:ADMINISTER_DATE_TIME_FORMAT];
+                        }
+                        return cell;
+                    }
                     case 1:{
                         if([self hasInlineDatePicker] && datePickerIndexPath.row == 1) {
-                            DCDatePickerCell *pickerCell = [self datePickerTableCell];
+                            DCAdministrationDatePickerCell *pickerCell = [self datePickerTableCell];
+                            pickerCell.selectedIndexPath = indexPath;
                             return pickerCell;
                         } else {
                             return [self checkedByCellAtIndexPath:indexPath];
@@ -163,22 +167,27 @@
                             // expiry date cell
                             DCAdministerCell *cell = [self configureAdministrationCellAtIndexPath:indexPath];
                             cell.titleLabel.text = @"Expiry Date";
-                            cell.detailLabel.text = self.expiryDate;
+                            if (self.medicationSlot.medicationAdministration.expiryDateTime != nil) {
+                                cell.detailLabel.text = [DCDateUtility dateStringFromDate:self.medicationSlot.medicationAdministration.expiryDateTime inFormat:EXPIRY_DATE_FORMAT];
+                            }
                             return cell;
                         }
                     }
                     case 4:
                         if ([self hasInlineDatePicker] && datePickerIndexPath == indexPath) {
-                            DCDatePickerCell *pickerCell = [self datePickerTableCell];
+                            DCAdministrationDatePickerCell *pickerCell = [self datePickerTableCell];
+                            pickerCell.selectedIndexPath = indexPath;
                             return pickerCell;
                         } else {
                             DCAdministerCell *cell = [self configureAdministrationCellAtIndexPath:indexPath];
                             cell.titleLabel.text = @"Expiry Date";
-                            cell.detailLabel.text = self.expiryDate;
-                            return cell;
+                            if (self.medicationSlot.medicationAdministration.expiryDateTime != nil) {
+                                cell.detailLabel.text = [DCDateUtility dateStringFromDate:self.medicationSlot.medicationAdministration.expiryDateTime inFormat:EXPIRY_DATE_FORMAT];
+                            }                            return cell;
                         }
                     default:{
-                        DCDatePickerCell *pickerCell = [self datePickerTableCell];
+                        DCAdministrationDatePickerCell *pickerCell = [self datePickerTableCell];
+                        pickerCell.selectedIndexPath = indexPath;
                         return pickerCell;
                     }
                 }
@@ -200,6 +209,7 @@
         _previousSelectedValue = _status;
         [self collapseOpenedSection];
         if ([_status isEqualToString: STOPED_DUE_TO_PROBLEM] || [_status isEqualToString:CONTINUED_AFTER_PROBLEM]) {
+            self.medicationSlot.medicationAdministration.administeredNotes = EMPTY_STRING;
             isSecondSectionExpanded = YES;
             rowCount = 1;
             [self insertSection];
@@ -250,6 +260,28 @@
     }
 }
 
+- (void)dateCellSelectedAtIndexPath:(NSIndexPath *)indexPath {
+    
+    BOOL dateValueChanged = NO;
+    if (indexPath.row == 0 && self.medicationSlot.medicationAdministration.restartedDate == nil) {
+        self.medicationSlot.medicationAdministration.restartedDate = [NSDate date];
+        dateValueChanged = YES;
+    } else if (self.medicationSlot.medicationAdministration.restartedDate == nil) {
+        if (indexPath.row == 3 || indexPath.row ==4 ){
+            self.medicationSlot.medicationAdministration.expiryDateTime = [NSDate date];
+            dateValueChanged = YES;
+        }
+    }
+    if (dateValueChanged) {
+        [self.tableView beginUpdates];
+        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:indexPath.row inSection:2]] withRowAnimation:UITableViewRowAnimationFade];
+        [self.tableView endUpdates];
+        [self performSelector:@selector(displayInlineDatePickerForRowAtIndexPath:) withObject:indexPath afterDelay:0.1];
+    } else {
+        [self displayInlineDatePickerForRowAtIndexPath:indexPath];
+    }
+}
+
 //MARK:Configuring table view cells
 - (DCAdministerCell *)configureAdministrationCellAtIndexPath: (NSIndexPath *)indexPath {
     
@@ -268,7 +300,12 @@
         batchCell = [[DCBatchNumberCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"BatchNumberTableCell"];
     }
     batchCell.selectedIndexPath = indexPath;
-    batchCell.batchNumberTextField.placeholder = placeholder;
+    batchCell.batchDelegate = self;
+    if (self.medicationSlot.medicationAdministration.batch != nil){
+        batchCell.batchNumberTextField.placeholder = self.medicationSlot.medicationAdministration.batch;
+    } else {
+        batchCell.batchNumberTextField.placeholder = @"Batch No";
+    }
     return batchCell;
 }
 
@@ -276,7 +313,7 @@
     
     DCAdministerCell *cell = [self configureAdministrationCellAtIndexPath:indexPath];
     cell.titleLabel.text = NSLocalizedString(@"CHECKED_BY", comment: @"Checked by title");
-    cell.detailLabel.text =  checkedByUser;
+    cell.detailLabel.text =  self.medicationSlot.medicationAdministration.checkingUser.displayName;
     return cell;
 }
 
@@ -287,34 +324,28 @@
     }
     cell.noteType = @"Reason";
     cell.selectedIndexPath = indexPath;
-    cell.notesTextView.text = [cell hintText];
+    cell.delegate = self;
+    if (self.medicationSlot.medicationAdministration.administeredNotes == nil || [self.medicationSlot.medicationAdministration.administeredNotes  isEqual: EMPTY_STRING]){
+        cell.notesTextView.text = [cell hintText];
+    } else {
+        cell.notesTextView.text = self.medicationSlot.medicationAdministration.administeredNotes;
+    }
     return cell;
 }
 
-- (DCDatePickerCell *)datePickerTableCell {
+- (DCAdministrationDatePickerCell *)datePickerTableCell {
     
-    static NSString *pickerCellId = DATE_STATUS_PICKER_CELL_IDENTIFIER;
-    DCDatePickerCell *pickerCell = [self.tableView dequeueReusableCellWithIdentifier:pickerCellId];
+    static NSString *pickerCellId = @"StatusChangePickerCell";
+    DCAdministrationDatePickerCell *pickerCell = [self.tableView dequeueReusableCellWithIdentifier:pickerCellId];
     if (pickerCell == nil) {
-        pickerCell = [[DCDatePickerCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:pickerCellId];
+        pickerCell = [[DCAdministrationDatePickerCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:pickerCellId];
     }
-    [pickerCell configureDatePickerProperties];
+    pickerCell.delegate = self;
     if (datePickerIndexPath.row == 1) {
         pickerCell.datePicker.datePickerMode = UIDatePickerModeDateAndTime;
-        pickerCell.datePicker.maximumDate = [NSDate date];
     } else {
         pickerCell.datePicker.datePickerMode = UIDatePickerModeDate;
     }
-    pickerCell.selectedDate = ^ (NSDate *date) {
-        if (datePickerIndexPath.row  == 1) {
-            self.restartedDate = [DCDateUtility dateStringFromDate:date inFormat:ADMINISTER_DATE_TIME_FORMAT];
-            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
-        } else {
-            self.expiryDate = [DCDateUtility dateStringFromDate:date inFormat:BIRTH_DATE_FORMAT];
-            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:datePickerIndexPath.row-1 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
-        }
-       
-    };
     return pickerCell;
 }
 
@@ -361,6 +392,7 @@
 //MARK : Names list delegate method implementation
 - (void)selectedUserEntry:(DCUser *)user {
     checkedByUser = user.displayName;
+    self.medicationSlot.medicationAdministration.checkingUser = user;
     [self.tableView reloadData];
 }
 
@@ -433,6 +465,33 @@
                                           withRowAnimation:UITableViewRowAnimationFade];
     }
     [self.tableView endUpdates];
+}
+
+- (void)enteredBatchDetails:(NSString *)batch {
+    self.medicationSlot.medicationAdministration.batch = batch;
+}
+
+- (void)batchNumberFieldSelectedAtIndexPath:(NSIndexPath *)indexPath {
+    
+}
+- (void)notesSelected:(BOOL)editing withIndexPath:(NSIndexPath *)indexPath {
+    
+}
+- (void)enteredNote:(NSString *)note {
+    self.medicationSlot.medicationAdministration.administeredNotes = note;
+}
+
+- (void)selectedDateAtIndexPath:(NSDate *)date indexPath:(NSIndexPath *)indexPath {
+    if (datePickerIndexPath.row  == 1) {
+        self.medicationSlot.medicationAdministration.restartedDate = date;
+        self.restartedDate = [DCDateUtility dateStringFromDate:date inFormat:ADMINISTER_DATE_TIME_FORMAT];
+        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
+    } else {
+        self.medicationSlot.medicationAdministration.expiryDateTime = date;
+        self.expiryDate = [DCDateUtility dateStringFromDate:date inFormat:EXPIRY_DATE_FORMAT];
+        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:datePickerIndexPath.row-1 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
+    }
+
 }
 
 @end

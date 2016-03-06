@@ -75,7 +75,7 @@ class DCAdministrationHelper : NSObject {
         dateFormatter.timeZone = NSTimeZone.init(name:"UTC")
         if (medicationSlot.medicationAdministration?.actualAdministrationTime != nil) {
             let administeredDateString : NSString = dateFormatter.stringFromDate((medicationSlot
-                .medicationAdministration?.actualAdministrationTime!)!)
+                .medicationAdministration?.actualAdministrationTime)!)
             administerDictionary.setValue(administeredDateString, forKey:ACTUAL_ADMINISTRATION_TIME)
         } else {
             medicationSlot.medicationAdministration?.actualAdministrationTime = NSDate()
@@ -102,10 +102,10 @@ class DCAdministrationHelper : NSObject {
             }
         }
         
-        //TO DO : Configure the dosage and batch number from the form.
-        if let dosage = medicationDetails.dosage {
+        if let dosage = medicationSlot.medicationAdministration?.dosageString {
             administerDictionary.setValue(dosage, forKey: ADMINISTRATING_DOSAGE)
         }
+        
         if let batch = medicationSlot.medicationAdministration?.batch {
             administerDictionary.setValue(batch, forKey: ADMINISTRATING_BATCH)
         }

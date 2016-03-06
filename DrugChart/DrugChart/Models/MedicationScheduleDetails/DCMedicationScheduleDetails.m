@@ -167,7 +167,9 @@
             //[shortDateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
             NSString *medicationDateString = [shortDateFormatter stringFromDate:nextDate];
             NSPredicate *datePredicate = [NSPredicate predicateWithFormat:@"scheduledDateTime.description contains[cd] %@", medicationDateString];
-            NSArray *resultsArray = [self.administrationDetailsArray filteredArrayUsingPredicate:datePredicate];
+            //TODO: Create a predicate to filter the array.
+//            NSArray *resultsArray = [self.administrationDetailsArray filteredArrayUsingPredicate:datePredicate];
+            NSArray *resultsArray = [self findDatesOfWhenRequiredAdministration:medicationDateString];
             for (DCMedicationAdministration *administration  in resultsArray) {
                 DCMedicationSlot *medicationSlot = [[DCMedicationSlot alloc] init];
                 medicationSlot.time = administration.scheduledDateTime;
@@ -181,6 +183,20 @@
     return timeSlotsArray;
 }
 
+- (NSMutableArray *)findDatesOfWhenRequiredAdministration:(NSString *)nextDate {
+    
+    NSMutableArray *timeArray = [[NSMutableArray alloc] init];
+    NSDateFormatter *shortDateFormatter = [[NSDateFormatter alloc] init];
+    [shortDateFormatter setDateFormat:SHORT_DATE_FORMAT];
+    [shortDateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
+    for (int i = 0 ; i<self.administrationDetailsArray.count; i++) {
+        NSString *medicationDateString = [shortDateFormatter stringFromDate:[[self.administrationDetailsArray objectAtIndex:i] valueForKey:@"scheduledDateTime"]];
+        if ([medicationDateString isEqualToString:nextDate]) {
+            [timeArray addObject:[self.administrationDetailsArray objectAtIndex:i]];
+        }
+    }
+    return timeArray;
+}
 
 - (NSMutableArray *)medicationScheduleTimeArrayFromScheduleDictionary:(NSDictionary *)scheduleDictionary
                                                            withStartWeekDate:(NSDate *)startWeekDate

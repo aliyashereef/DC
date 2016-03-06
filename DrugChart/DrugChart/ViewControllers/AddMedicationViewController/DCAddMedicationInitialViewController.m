@@ -54,6 +54,14 @@
     medicationDetailsTableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(addMedicationViewDismissed)]) {
+        [self.delegate addMedicationViewDismissed];
+    }
+    [super viewWillDisappear:animated];
+}
+
 #pragma mark - Memory Management methods
 
 - (void)didReceiveMemoryWarning {
@@ -277,7 +285,7 @@
         [cell configureContentCellWithContent:self.selectedMedication.route];
     } else {
         if ([self.selectedMedication.infusion.administerAsOption  isEqual: RATE_BASED_INFUSION]) {
-            self.selectedMedication.medicineCategory = ONCE;
+            self.selectedMedication.medicineCategory = ONCE_MEDICATION;
         }
         [DCAddMedicationHelper configureAddMedicationCellLabel:cell.titleLabel forContentText:self.selectedMedication.medicineCategory forSaveButtonAction:doneClicked];
         cell.titleLabel.text = NSLocalizedString(@"TYPE", @"Type cell title");
@@ -328,6 +336,15 @@
         //when inline picker is not shown
         dateAndTimeCell.dateTypeLabel.text = NSLocalizedString(@"START_DATE", @"start date cell title");
         dateAndTimeCell = [self populatedStartDateTableCell:dateAndTimeCell];
+        if (self.isEditMedication) {
+            dateAndTimeCell.userInteractionEnabled = NO;
+            dateAndTimeCell.accessoryView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 15, 24)];
+            dateAndTimeCell.dateTypeLabel.textColor = [UIColor colorForHexString:@"#8f8f95"];
+            dateAndTimeCell.dateValueLabel.textColor = [UIColor colorForHexString:@"#8f8f95"];
+        } else {
+            dateAndTimeCell.accessoryView = nil;
+            dateAndTimeCell.userInteractionEnabled = YES;
+        }
     } else {
         if (self.datePickerIndexPath.row == DATE_PICKER_INDEX_START_DATE) {
             //  Start date cell has inline picker shown, So the very next cell to inline picker will be no wnd date cell. If opted to have end date, datePickerIndexPath.row + 2 shows end date cell
@@ -403,7 +420,7 @@
 - (DCDateTableViewCell *)noEndDateTableCell:(DCDateTableViewCell *)tableCell {
     
     //no end date cell configuration
-    tableCell.dateTypeLabel.text = NSLocalizedString(@"NO_END_DATE", @"no end date title");
+    tableCell.dateTypeLabel.text = NSLocalizedString(@"SET_END_DATE", @"set end date title");
     tableCell.dateTypeLabel.textColor = [UIColor blackColor];
     [tableCell configureCellWithNoEndDateSwitchState:self.selectedMedication.hasEndDate];
     tableCell.accessoryType = UITableViewCellAccessoryNone;
@@ -593,7 +610,7 @@
     if (pickerCell == nil) {
         pickerCell = [[DCDatePickerCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:pickerCellId];
     }
-    [pickerCell configureDatePickerProperties];
+    [pickerCell configureDatePickerPropertiesForAddMedication];
     return pickerCell;
 }
 
@@ -862,7 +879,7 @@
     
     UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
     DCAddNewValueViewController *addNewValueViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:ADD_NEW_VALUE_SBID];
-    addNewValueViewController.titleString = @"Frequency";
+    addNewValueViewController.titleString = NSLocalizedString(@"Review Frequency", @"screen title");;
     addNewValueViewController.placeHolderString = @"In";
     addNewValueViewController.backButtonTitle = @"Add Medication";
     addNewValueViewController.detailType = eAddValueWithUnit;
@@ -881,7 +898,9 @@
     
     switch (indexPath.section) {
         case eZerothSection:// display medicine name in initial section and detail view will be MedicationListView
-            [self displayMedicationSearchListView];
+            if (!self.isEditMedication) {
+                [self displayMedicationSearchListView];
+            }
             break;
         case eFirstSection:{
             if (indexPath.row == 1 && self.selectedMedication.hasReviewDate){
@@ -1534,7 +1553,7 @@
     
     self.selectedMedication.infusion = infusion;
     if ([self.selectedMedication.infusion.administerAsOption  isEqual: RATE_BASED_INFUSION]) {
-        self.selectedMedication.medicineCategory = ONCE;
+        self.selectedMedication.medicineCategory = ONCE_MEDICATION;
     }
 }
 

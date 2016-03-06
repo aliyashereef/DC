@@ -60,7 +60,7 @@
     //populate navigation title
     switch (_detailType) {
         case eDetailType:
-            self.title = NSLocalizedString(@"MEDICATION_TYPE", @"");
+            self.title = NSLocalizedString(@"TYPE", @"");
             break;
         case eOverrideReason:
             self.title = NSLocalizedString(@"REASON", @"");
