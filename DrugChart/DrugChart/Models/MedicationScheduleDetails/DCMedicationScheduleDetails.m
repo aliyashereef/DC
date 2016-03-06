@@ -164,7 +164,7 @@
             NSMutableArray *medicationSlotsArray = [[NSMutableArray alloc] init];
             NSDateFormatter *shortDateFormatter = [[NSDateFormatter alloc] init];
             [shortDateFormatter setDateFormat:SHORT_DATE_FORMAT];
-            [shortDateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
+            //[shortDateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
             NSString *medicationDateString = [shortDateFormatter stringFromDate:nextDate];
             NSPredicate *datePredicate = [NSPredicate predicateWithFormat:@"scheduledDateTime.description contains[cd] %@", medicationDateString];
             NSArray *resultsArray = [self.administrationDetailsArray filteredArrayUsingPredicate:datePredicate];
@@ -202,7 +202,7 @@
     NSDate *calculatedEndDate = [self endDateForMedicationStartdate:startDate medicationEndDate:endDate startWeekDate:startWeekDate endWeekDate:endWeekDate];
     NSDate *nextDate;
     NSCalendar *calendar = [NSCalendar currentCalendar];
-    [calendar setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
+    //[calendar setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
     if (calculatedStartDate != nil && calculatedEndDate != nil) {
         for (nextDate = calculatedStartDate ; [nextDate compare:calculatedEndDate] <= 0 ; nextDate = [nextDate dateByAddingTimeInterval:24*60*60] ) {
             NSMutableArray *medicationSlotsArray = [[NSMutableArray alloc] init];
@@ -233,7 +233,7 @@
             }
             NSDateFormatter *shortDateFormatter = [[NSDateFormatter alloc] init];
             [shortDateFormatter setDateFormat:SHORT_DATE_FORMAT];
-            [shortDateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
+            //[shortDateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
             NSString *medicationDateString = [shortDateFormatter stringFromDate:nextDate];
             [timeSlotsArray addObject:@{MED_DATE:medicationDateString,MED_DETAILS:medicationSlotsArray}];
         }

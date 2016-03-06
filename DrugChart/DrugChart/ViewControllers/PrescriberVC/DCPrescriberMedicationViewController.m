@@ -87,7 +87,9 @@ typedef enum : NSUInteger {
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    [self currentWeekDatesArrayFromDate:[DCDateUtility dateInCurrentTimeZone:[NSDate date]]];
+    [self currentWeekDatesArrayFromDate:[NSDate date]];
+
+//    [self currentWeekDatesArrayFromDate:[DCDateUtility dateInCurrentTimeZone:[NSDate date]]];
     [self addAddMedicationButtonToNavigationBar];
     [self populateMonthYearLabel];
     [self hideCalendarTopPortion];
@@ -397,7 +399,6 @@ typedef enum : NSUInteger {
     [self fetchMedicationListForPatientId:self.patient.patientId
                     withCompletionHandler:^(NSArray *result, NSError *error) {
                         
-                        DDLogInfo(@"the response is recieved ************");
                         if (!error) {
                             _patient.medicationListArray = result;
                             [self configureAlertsAndAllergiesArrayForDisplay];
