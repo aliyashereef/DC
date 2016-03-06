@@ -366,7 +366,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         self.scheduling?.interval.hoursCount = ONE
         self.scheduling?.interval?.intervalDescription = String(format: "%@ hour.", NSLocalizedString("DAILY_DESCRIPTION", comment: ""))
         if (self.scheduling?.interval?.startTime == nil) {
-            let startTimeInCurrentZone  = DCDateUtility.dateInCurrentTimeZone(NSDate())
+            let startTimeInCurrentZone  = NSDate()
             let startTime = DCDateUtility.timeStringInTwentyFourHourFormat(startTimeInCurrentZone)
             self.scheduling?.interval?.startTime = startTime
             self.scheduling?.interval?.endTime = "23:00"

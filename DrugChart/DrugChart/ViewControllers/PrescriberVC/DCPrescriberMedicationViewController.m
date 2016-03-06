@@ -89,7 +89,6 @@ typedef enum : NSUInteger {
     [super viewDidLoad];
     [self currentWeekDatesArrayFromDate:[NSDate date]];
 
-//    [self currentWeekDatesArrayFromDate:[DCDateUtility dateInCurrentTimeZone:[NSDate date]]];
     [self addAddMedicationButtonToNavigationBar];
     [self populateMonthYearLabel];
     [self hideCalendarTopPortion];
@@ -803,7 +802,7 @@ typedef enum : NSUInteger {
 
 - (void)loadCurrentWeekDate {
     
-    [self currentWeekDatesArrayFromDate:[DCDateUtility dateInCurrentTimeZone:[NSDate date]]];
+    [self currentWeekDatesArrayFromDate:[NSDate date]];
 }
 
 - (void)modifyWeekDatesInCalendarTopPortion {
@@ -902,7 +901,7 @@ typedef enum : NSUInteger {
     [self.view addSubview:prescriberMedicationOneThirdSizeViewController.view];
     [prescriberMedicationOneThirdSizeViewController didMoveToParentViewController:self];
     if (currentWeekDatesArray.count == 0) {
-        [self currentWeekDatesArrayFromDate:[DCDateUtility dateInCurrentTimeZone:[NSDate date]]];
+        [self currentWeekDatesArrayFromDate:[NSDate date]];
     }
     [self.view bringSubviewToFront:activityIndicatorView];
 }

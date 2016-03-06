@@ -140,7 +140,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
     
     func errorMessageForFilledMedicationSlotArray() -> NSString {
         
-        let currentSystemDate : NSDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
+        let currentSystemDate : NSDate = NSDate()
         let currentDateString : NSString? = DCDateUtility.dateStringFromDate(currentSystemDate, inFormat: SHORT_DATE_FORMAT)
         if (slotToAdminister?.time == nil) {
             errorMessage = NSLocalizedString("ALREADY_ADMINISTERED", comment: "medications are already administered")
@@ -163,7 +163,7 @@ class DCCalendarSlotDetailViewController: UIViewController, UIViewControllerTran
         
         //Whne medication slot array is empty
         if (medicationDetails?.medicineCategory == WHEN_REQUIRED) {
-            let currentSystemDate : NSDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
+            let currentSystemDate : NSDate = NSDate()
             let currentDateString : NSString? = DCDateUtility.dateStringFromDate(currentSystemDate, inFormat: SHORT_DATE_FORMAT)
             let weekDateString : NSString? = DCDateUtility.dateStringFromDate(weekDate, inFormat: SHORT_DATE_FORMAT)
             if (currentDateString != weekDateString) {

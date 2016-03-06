@@ -55,7 +55,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
     
     func configureMedicationStatusInCell (medication : DCMedicationSlot) -> NSString {
         
-        let currentSystemDate : NSDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
+        let currentSystemDate : NSDate = NSDate()
         let currentDateString : NSString? = DCDateUtility.dateStringFromDate(currentSystemDate, inFormat: SHORT_DATE_FORMAT)
 
         if (medication.medicationAdministration?.status != nil && medication.medicationAdministration.actualAdministrationTime != nil){
@@ -114,7 +114,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
             let order = NSCalendar.currentCalendar().compareDate(weekDate! , toDate:today,
                 toUnitGranularity: .Day)
             if order == NSComparisonResult.OrderedSame {
-                slotToAdminister?.time = DCDateUtility.dateInCurrentTimeZone(NSDate())
+                slotToAdminister?.time = NSDate()
                 medicationSlotsArray.append(slotToAdminister!)
             }
         } else {

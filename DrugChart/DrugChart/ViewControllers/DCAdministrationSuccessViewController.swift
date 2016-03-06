@@ -32,7 +32,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         super.viewDidLoad()
         self.userListArray = DCAdministrationHelper.fetchAdministersAndPrescribersList()
         self.configureAdministratingUserForMedicationSlot()
-        medicationSlot?.medicationAdministration?.actualAdministrationTime = DCDateUtility.dateInCurrentTimeZone(NSDate())
+        medicationSlot?.medicationAdministration?.actualAdministrationTime = NSDate()
         configureViewElements()
         initialiseMedicationSlotObject()
     }
@@ -55,7 +55,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         medicationSlot?.medicationAdministration?.administratingUser = DCUser.init()
         medicationSlot?.medicationAdministration?.checkingUser = DCUser.init()
         medicationSlot?.medicationAdministration?.scheduledDateTime = medicationSlot?.time
-        medicationSlot?.medicationAdministration?.actualAdministrationTime = DCDateUtility.dateInCurrentTimeZone(NSDate())
+        medicationSlot?.medicationAdministration?.actualAdministrationTime = NSDate()
     }
     
     func configureTableViewProperties () {

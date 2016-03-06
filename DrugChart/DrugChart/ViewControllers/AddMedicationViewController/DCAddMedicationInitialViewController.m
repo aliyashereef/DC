@@ -369,7 +369,7 @@
     tableCell.dateTypeLabel.textColor = [UIColor blackColor];
     tableCell.dateTypeWidth.constant = TIME_TITLE_LABEL_WIDTH;
     if (!self.selectedMedication.startDate || [self.selectedMedication.startDate isEqualToString:EMPTY_STRING]) {
-        NSDate *dateInCurrentZone = [DCDateUtility dateInCurrentTimeZone:[NSDate date]];
+        NSDate *dateInCurrentZone = [NSDate date];
         NSString *dateString = [DCDateUtility dateStringFromDate:dateInCurrentZone inFormat:START_DATE_FORMAT];
         self.selectedMedication.startDate = dateString;
         [tableCell configureContentCellWithContent:dateString];

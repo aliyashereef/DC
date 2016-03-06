@@ -158,7 +158,7 @@ class DCMedicationAdministrationStatusView: UIView {
         var administeredCount : NSInteger = 0
         var omissionRefusalCount : NSInteger = 0
         var dueNow = false
-        let currentSystemDate : NSDate = NSDate()//DCDateUtility.dateInCurrentTimeZone(NSDate())
+        let currentSystemDate : NSDate = NSDate()
         for slot in timeArray as [AnyObject] {
             let medication = slot as! DCMedicationSlot
             if (medication.time.compare(currentSystemDate) == NSComparisonResult.OrderedAscending) {
