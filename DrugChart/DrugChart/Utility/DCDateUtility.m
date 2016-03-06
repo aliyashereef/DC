@@ -10,25 +10,19 @@
 
 @implementation DCDateUtility
 
+#define CUSTOM_DATE_FORMAT @"yyyy-MM-d HH:mm:ss"
+
 + (NSDate *)initialDateForCalendarDisplay:(NSDate *)date
                               withAdderValue:(NSInteger)adder {
-    
-    //make current date as the middle date and get initial day of the week
-    NSCalendar *currentCalendar = [NSCalendar currentCalendar];
-    NSDateComponents *components = [currentCalendar components:DATE_COMPONENTS fromDate:date];
-    [components setDay:components.day];
-    [components setHour:0];
-    [components setMinute:1];
-    [components setSecond:0];
-    NSDate *todayMidnightDate = [currentCalendar dateFromComponents:components];
-    NSDateComponents *initialComponents = [currentCalendar components:DATE_COMPONENTS fromDate:todayMidnightDate];
-    [initialComponents setDay:components.day + adder];
-    [initialComponents setHour:0];
-    [initialComponents setMinute:1];
-    [initialComponents setSecond:0];
-    NSDate *initialDate = [currentCalendar dateFromComponents:initialComponents];
-    return initialDate;
-    
+
+    NSDate *initialDate = [date dateByAddingTimeInterval: adder * 60 * 60 * 24];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:SHORT_DATE_FORMAT];
+    NSString *initialDateString = [dateFormatter stringFromDate:initialDate];
+    NSString *initialDateModifiedString = [NSString stringWithFormat:@"%@ 00:00:00", initialDateString];
+    NSDate *modifiedInitialDate = [DCDateUtility dateForDateString:initialDateModifiedString
+                                                    withDateFormat:CUSTOM_DATE_FORMAT];
+    return modifiedInitialDate;
 }
 
 + (NSDate *)shortDateFromDate:(NSDate *)originalDate {
