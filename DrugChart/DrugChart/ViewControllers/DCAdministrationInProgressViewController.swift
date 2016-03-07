@@ -14,6 +14,7 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
     var medicationSlot : DCMedicationSlot?
     var medicationDetails : DCMedicationScheduleDetails?
     var isDatePickerShown : Bool = false
+    var isValid : Bool = true
 
     override func viewDidLoad() {
         
@@ -22,6 +23,10 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
         configureTableViewProperties()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.administerInProgressTableView.reloadData()
+    }
     // MARK: Private Methods
     func initialiseMedicationSlotObject () {
         
@@ -76,6 +81,7 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
         } else {
             administerCell.titleLabel.text = STATUS
         }
+        administerCell.titleLabel.textColor = (!isValid && medicationSlot?.medicationAdministration?.restartedDate == nil ? UIColor.redColor() : UIColor.blackColor())
         administerCell.detailLabel?.text = medicationSlot?.medicationAdministration.status
         return administerCell
     }
@@ -206,6 +212,7 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
             case 0:
                 let statusViewController : DCAdministrationStatusTableViewController = DCAdministrationHelper.administratedStatusPopOverAtIndexPathWithStatus(indexPath, status:IN_PROGRESS)
                 statusViewController.medicationSlot = self.medicationSlot
+                statusViewController.isValid = self.isValid
                 statusViewController.previousSelectedValue = self.medicationSlot?.medicationAdministration?.status
                 statusViewController.medicationStatusDelegate = self
                 self.collapseOpenedDatePicker()

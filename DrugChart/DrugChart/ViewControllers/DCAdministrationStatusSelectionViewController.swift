@@ -24,6 +24,8 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
     var statusState : String?
     var medicationSlotsArray : [DCMedicationSlot] = [DCMedicationSlot]()
     let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
+    var saveClicked : Bool?
+    var isValid : Bool = true
 
     //MARK:
     var saveButton: UIBarButtonItem?
@@ -194,6 +196,12 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
     } else {
         medicationSlot?.medicationAdministration.isEarlyAdministration = false
     }
+        if (medicationSlot?.time.compare(currentSystemDate) == NSComparisonResult.OrderedAscending) {
+            //past time, check if any medication administration is pending
+            medicationSlot?.medicationAdministration?.isLateAdministration = true
+        } else {
+            medicationSlot?.medicationAdministration?.isLateAdministration = false
+        }
 }
 
 func checkIfFrequentAdministrationForWhenRequiredMedication () {
@@ -219,6 +227,8 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
     //MARK: Logic 
     
     func updateViewWithChangeInStatus (status : String) {
+        saveClicked = false
+        isValid = true
         statusState = status
         switch statusState! {
         case ADMINISTERED :
@@ -242,9 +252,11 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
         let administerStoryboard : UIStoryboard? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil)
         if administrationSuccessViewController == nil {
             administrationSuccessViewController = administerStoryboard!.instantiateViewControllerWithIdentifier(ADMINISTER_SUCCESS_VC_STORYBOARD_ID) as? DCAdministrationSuccessViewController
+            
             administrationSuccessViewController?.medicationSlot = self.medicationSlot
             administrationSuccessViewController?.medicationSlot?.status = statusState
             administrationSuccessViewController?.medicationDetails = medicationDetails
+            administrationSuccessViewController?.isValid = isValid
             administerContainerView.addSubview((administrationSuccessViewController?.view)!)
             self.addChildViewController(administrationSuccessViewController!)
             administrationSuccessViewController!.view.frame = administerContainerView.bounds
@@ -262,6 +274,7 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
             administrationFailureViewController = administerStoryboard!.instantiateViewControllerWithIdentifier(ADMINISTER_FAILURE_VC_STORYBOARD_ID) as? DCAdministrationFailureViewController
             administrationFailureViewController?.medicationSlot = medicationSlot
             administrationFailureViewController?.medicationDetails = medicationDetails
+            administrationFailureViewController?.isValid = isValid
             administerContainerView.addSubview((administrationFailureViewController?.view)!)
             self.addChildViewController(administrationFailureViewController!)
             administrationFailureViewController!.view.frame = administerContainerView.bounds
@@ -325,29 +338,19 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
 
     func saveButtonPressed () {
         //perform administer medication api call here
-        self.view.bringSubviewToFront(self.activityIndicator)
         if medicationSlot?.medicationAdministration.status == NOT_ADMINISTRATED {
             self.medicationSlot = DCMedicationSlot.init()
             self.medicationSlot = administrationFailureViewController?.medicationSlot
-            self.activityIndicator.startAnimating()
-            self.callAdministerMedicationWebService()
+            self.checkValidAndCallAdministerMedicationWebService()
         } else if medicationSlot?.medicationAdministration.status == ADMINISTERED || medicationSlot?.medicationAdministration.status == STARTED {
             self.medicationSlot = DCMedicationSlot.init()
             self.medicationSlot = administrationSuccessViewController?.medicationSlot
-            self.activityIndicator.startAnimating()
-            self.callAdministerMedicationWebService()
-        } else {
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.checkValidAndCallAdministerMedicationWebService()
+        } else  {
+            self.medicationSlot = DCMedicationSlot.init()
+            self.medicationSlot = administrationInProgressViewController?.medicationSlot
+            self.checkValidAndCallAdministerMedicationWebService()
         }
-//        self.saveClicked = true
-//        if(entriesAreValid()) {
-//            self.activityIndicator.startAnimating()
-//            self.isValid = true
-//            self.callAdministerMedicationWebService()
-//        } else {
-//            // show entries in red
-//            self.validateAndReloadAdministerView()
-//        }
     }
     
     func setSaveButtonDisability (state : Bool) {
@@ -355,10 +358,108 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
     }
     
     func cancelButtonPressed () {
-        
         self.medicationSlot?.status = nil
         medicationSlot?.medicationAdministration = nil
         self.dismissViewControllerAnimated(true, completion: nil)
     }
+    
+    func checkValidAndCallAdministerMedicationWebService () {
+        
+        if (medicationDetails?.medicineCategory == WHEN_REQUIRED) {
+            checkIfFrequentAdministrationForWhenRequiredMedication()
+        } else {
+            if (medicationSlot?.time != nil) {
+                checkIfAdministrationIsEarly()
+            }
+        }
+        self.saveClicked = true
+        if(entriesAreValid()) {
+            self.isValid = true
+            self.view.bringSubviewToFront(self.activityIndicator)
+            let inProgressArray = [ENDED,STOPED_DUE_TO_PROBLEM,CONTINUED_AFTER_PROBLEM,FLUID_CHANGED,PAUSED]
+            if inProgressArray.contains((medicationSlot?.medicationAdministration.status)!) {
+                self.dismissViewControllerAnimated(true, completion: nil)
+            } else {
+                self.activityIndicator.startAnimating()
+                self.callAdministerMedicationWebService()
+            }
+        } else {
+            // show entries in red
+            self.validateAndReloadAdministrationView()
+        }
+    }
+    
+    func validateAndReloadAdministrationView () {
+        //validate and reload administer view
+        isValid = false
+        if (medicationSlot?.medicationAdministration.status == nil) {
+            
+        }
+        if medicationSlot?.medicationAdministration.status == NOT_ADMINISTRATED {
+            administrationFailureViewController?.isValid = isValid
+            administrationFailureViewController?.administrationFailureTableView.reloadData()
+        } else if medicationSlot?.medicationAdministration.status == ADMINISTERED || medicationSlot?.medicationAdministration.status == STARTED {
+            administrationSuccessViewController?.isValid = isValid
+            administrationSuccessViewController?.administerSuccessTableView.reloadData()
+        } else {
+            administrationInProgressViewController?.isValid = isValid
+            administrationInProgressViewController?.administerInProgressTableView.reloadData()
+        }
+    }
+    
+    func entriesAreValid() -> (Bool) {
+        
+        // check if the values entered are valid
+        isValid = true
+        let medicationStatus = self.medicationSlot?.medicationAdministration.status
+        //notes will be mandatory always for omitted ones , it will be mandatory for administered/refused for early administration, currently checked for all cases
+        if (medicationStatus == nil) {
+            isValid = false
+        }
+        if (self.medicationSlot?.medicationAdministration.isLateAdministration == true) {
+            //early administration condition
+            if (medicationStatus == ADMINISTERED || medicationStatus == STARTED) {
+                //administered medication status
+                let notes : String? = self.medicationSlot?.medicationAdministration?.administeredNotes
+                if (notes == EMPTY_STRING || notes == nil) {
+                    isValid = false
+                }
+            }
+            if (medicationStatus == NOT_ADMINISTRATED) {
+                //administered medication status
+                let notes : String? = self.medicationSlot?.medicationAdministration?.refusedNotes
+                if (notes == EMPTY_STRING || notes == nil) {
+                    isValid = false
+                }
+            }
+        }
+        if (self.medicationSlot?.medicationAdministration?.isEarlyAdministration == true) {
+            //early administration condition
+            if (medicationStatus == ADMINISTERED || medicationStatus == STARTED) {
+                //administered medication status
+                let notes : String? = self.medicationSlot?.medicationAdministration?.administeredNotes
+                if (notes == EMPTY_STRING || notes == nil) {
+                    isValid = false
+                }
+            }
+            if (medicationStatus == NOT_ADMINISTRATED) {
+                //administered medication status
+                let notes : String? = self.medicationSlot?.medicationAdministration?.refusedNotes
+                if (notes == EMPTY_STRING || notes == nil) {
+                    isValid = false
+                }
+            }
+        }
+        let inProgressArray = [ENDED,STOPED_DUE_TO_PROBLEM,CONTINUED_AFTER_PROBLEM,FLUID_CHANGED,PAUSED]
+        if inProgressArray.contains(medicationStatus!) {
+            if medicationStatus == FLUID_CHANGED {
+               if ((medicationSlot?.medicationAdministration.restartedDate) == nil) {
+                    isValid = false
+                }
+            }
+        }
+        return isValid
+    }
+
     
 }

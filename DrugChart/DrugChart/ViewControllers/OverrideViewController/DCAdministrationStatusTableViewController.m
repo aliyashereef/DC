@@ -141,6 +141,7 @@
                         if (self.medicationSlot.medicationAdministration.restartedDate != nil) {
                             cell.detailLabel.text = [DCDateUtility dateStringFromDate:self.medicationSlot.medicationAdministration.restartedDate inFormat:ADMINISTER_DATE_TIME_FORMAT];
                         }
+                        cell.titleLabel.textColor = (!_isValid && self.medicationSlot.medicationAdministration.restartedDate == nil ? [UIColor redColor] : [UIColor blackColor]);
                         return cell;
                     }
                     case 1:{
@@ -165,12 +166,7 @@
                             return [self configureBatchCellWithText:@"Batch No" AtIndexPath:indexPath];
                         } else {
                             // expiry date cell
-                            DCAdministerCell *cell = [self configureAdministrationCellAtIndexPath:indexPath];
-                            cell.titleLabel.text = @"Expiry Date";
-                            if (self.medicationSlot.medicationAdministration.expiryDateTime != nil) {
-                                cell.detailLabel.text = [DCDateUtility dateStringFromDate:self.medicationSlot.medicationAdministration.expiryDateTime inFormat:EXPIRY_DATE_FORMAT];
-                            }
-                            return cell;
+                            return [self expiryDateCellAtIndexPath:indexPath];
                         }
                     }
                     case 4:
@@ -179,11 +175,7 @@
                             pickerCell.selectedIndexPath = indexPath;
                             return pickerCell;
                         } else {
-                            DCAdministerCell *cell = [self configureAdministrationCellAtIndexPath:indexPath];
-                            cell.titleLabel.text = @"Expiry Date";
-                            if (self.medicationSlot.medicationAdministration.expiryDateTime != nil) {
-                                cell.detailLabel.text = [DCDateUtility dateStringFromDate:self.medicationSlot.medicationAdministration.expiryDateTime inFormat:EXPIRY_DATE_FORMAT];
-                            }                            return cell;
+                            return [self expiryDateCellAtIndexPath:indexPath];
                         }
                     default:{
                         DCAdministrationDatePickerCell *pickerCell = [self datePickerTableCell];
@@ -282,6 +274,17 @@
     }
 }
 
+-(DCAdministerCell *)expiryDateCellAtIndexPath: (NSIndexPath *)indexPath {
+    
+    DCAdministerCell *cell = [self configureAdministrationCellAtIndexPath:indexPath];
+        cell.titleLabel.text = @"Expiry Date";
+        cell.titleLabel.textColor = [UIColor blackColor];
+        if (self.medicationSlot.medicationAdministration.expiryDateTime != nil) {
+            cell.detailLabel.text = [DCDateUtility dateStringFromDate:self.medicationSlot.medicationAdministration.expiryDateTime inFormat:EXPIRY_DATE_FORMAT];
+        }
+    return cell;
+}
+    
 //MARK:Configuring table view cells
 - (DCAdministerCell *)configureAdministrationCellAtIndexPath: (NSIndexPath *)indexPath {
     
