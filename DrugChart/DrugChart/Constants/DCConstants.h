@@ -262,6 +262,7 @@
 
 // time zone
 #define GMT @"GMT"
+#define UTC @"UTC"
 
 //file types
 #define PLIST @"plist"
