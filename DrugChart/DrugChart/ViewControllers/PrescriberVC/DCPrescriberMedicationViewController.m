@@ -20,7 +20,7 @@
 
 #define ALERT_BUTTON_VIEW_WIDTH     107.0f
 #define ALLERGIES_BUTTON_VEW_WIDTH  107.0f
-#define CELL_PADDING 8
+#define ALERT_POPOVER_INITIAL_HEIGHT 100.0f
 
 #define ALERTS_ALLERGIES_ICON @"Bell"
 #define ALERTS_ALLERGIES_WITHCOUNT_ICON @"BellWithNotificationImage"
@@ -607,9 +607,7 @@ typedef enum : NSUInteger {
     // Instatntiating the navigation controller to present the popover with preferred content size of the poppver.
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:patientAlertsAllergyViewController];
     navigationController.modalPresentationStyle = UIModalPresentationPopover;
-    // Calculating the height for popover.
-    CGFloat popOverHeight = [patientAlertsAllergyViewController allergyAndAlertDisplayTableViewHeightForContent:alertsArray];
-    navigationController.preferredContentSize = CGSizeMake(ALERT_ALLERGY_CELL_WIDTH, popOverHeight);
+    navigationController.preferredContentSize = CGSizeMake(ALERT_ALLERGY_CELL_WIDTH, ALERT_POPOVER_INITIAL_HEIGHT);
     // Presenting the popover presentation controller on the navigation controller.
     UIPopoverPresentationController *alertsPopOverController = [navigationController popoverPresentationController];
     alertsPopOverController.permittedArrowDirections = UIPopoverArrowDirectionAny;
