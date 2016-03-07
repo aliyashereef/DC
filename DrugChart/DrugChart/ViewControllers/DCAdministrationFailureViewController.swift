@@ -18,6 +18,7 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
     var medicationSlot : DCMedicationSlot?
     var medicationDetails : DCMedicationScheduleDetails?
     var isDatePickerShown : Bool = false
+    var isValid : Bool = true
 
     //MARK: View Management Methods
     override func viewDidLoad() {
@@ -101,6 +102,41 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
             return 44
         }
     }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if (section == 2) {
+            if medicationSlot?.medicationAdministration.isWhenRequiredEarlyAdministration == true {
+                return 30
+            } else if (medicationSlot?.medicationAdministration?.isEarlyAdministration == true || medicationSlot?.medicationAdministration?.isLateAdministration == true ) {
+                return (medicationSlot?.medicationAdministration?.isEarlyAdministration == true || medicationSlot?.medicationAdministration?.isLateAdministration == true ) ? MEDICATION_DETAILS_SECTION_HEIGHT : TABLEVIEW_DEFAULT_SECTION_HEIGHT
+            }
+        }
+        return 0
+    }
+    
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        let administerHeaderView = NSBundle.mainBundle().loadNibNamed(ADMINISTER_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCAdministerTableHeaderView
+        administerHeaderView!.timeLabel.hidden = true
+        if (section == 2) {
+            if (medicationSlot?.medicationAdministration?.isEarlyAdministration == true || medicationSlot?.medicationAdministration?.isLateAdministration == true) {
+                if (medicationSlot?.medicationAdministration?.isWhenRequiredEarlyAdministration == true) {
+                    let errorMessage = NSString(format: "%@ %@", NSLocalizedString("ADMIN_FREQUENCY", comment: "when required new medication is given 2 hrs before previous one"), NSLocalizedString("EARLY_ADMIN_INLINE", comment: ""))
+                    administerHeaderView?.populateHeaderViewWithErrorMessage(errorMessage as String)
+                    return administerHeaderView
+                } else if (medicationSlot?.medicationAdministration?.isLateAdministration == true) {
+                    let errorMessage = NSString(format: "%@", NSLocalizedString("LATE_ADMIN_INLINE", comment: ""))
+                    administerHeaderView?.populateHeaderViewWithErrorMessage(errorMessage as String)
+                    return administerHeaderView
+                } else {
+                    administerHeaderView?.populateHeaderViewWithErrorMessage(NSLocalizedString("EARLY_ADMIN_INLINE", comment: "early administration when medication is attempted 1 hr before scheduled time"))
+                    return administerHeaderView
+                }
+            }
+        }
+        return nil
+    }
+
     //MARK: Configuring Table View Cells
     
     //Medication Details Cell
@@ -163,6 +199,7 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
         let notesCell : DCNotesTableCell = (administrationFailureTableView.dequeueReusableCellWithIdentifier(NOTES_CELL_ID) as? DCNotesTableCell)!
         notesCell.selectedIndexPath = indexPath
         notesCell.notesType = eNotes
+        notesCell.notesTextView.textColor = (!isValid && (medicationSlot?.medicationAdministration?.isEarlyAdministration == true || medicationSlot?.medicationAdministration?.isLateAdministration == true)) ? UIColor.redColor() : UIColor(forHexString: "#8f8f95")
         notesCell.delegate = self
         return notesCell
     }

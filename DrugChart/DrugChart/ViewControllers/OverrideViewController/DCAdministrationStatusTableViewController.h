@@ -24,6 +24,7 @@
 @property (nonatomic, strong) NSString *restartedDate;
 @property (nonatomic, strong) NSString *expiryDate;
 @property (nonatomic, strong) DCMedicationSlot *medicationSlot;
+@property (nonatomic, assign) BOOL isValid;
 
 @property (nonatomic, weak) id <StatusListDelegate> medicationStatusDelegate;
 

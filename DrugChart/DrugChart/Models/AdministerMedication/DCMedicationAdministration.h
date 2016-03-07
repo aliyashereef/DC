@@ -26,6 +26,7 @@
 @property (nonatomic, strong) NSString *refusedNotes;
 @property (nonatomic) BOOL isSelfAdministered;
 @property (nonatomic) BOOL isEarlyAdministration;
+@property (nonatomic) BOOL isLateAdministration;
 @property (nonatomic) BOOL isWhenRequiredEarlyAdministration;
 
 - (DCMedicationAdministration *)initWithAdministrationDetails:(NSDictionary *)administrationDetails;
