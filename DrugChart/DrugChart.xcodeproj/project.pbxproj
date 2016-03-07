@@ -184,6 +184,7 @@
 		1F1977211C0485C500106023 /* RowHeaderCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F19771F1C0485C500106023 /* RowHeaderCollectionViewCell.xib */; };
 		1F1977241C05DB1400106023 /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1977231C05DB1400106023 /* UITextField.swift */; };
 		1F3007061BF5552E00DDF3F3 /* VitalSignObservation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3007051BF5552E00DDF3F3 /* VitalSignObservation.swift */; };
+		1F30B07D1C847ED20058F3D3 /* Quantity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F30B07C1C847ED20058F3D3 /* Quantity.swift */; };
 		1F380C761C64B21C000A4E5D /* FhirParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F380C751C64B21C000A4E5D /* FhirParser.swift */; };
 		1F380C781C64E1D1000A4E5D /* VitalSignParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F380C771C64E1D1000A4E5D /* VitalSignParser.swift */; };
 		1F3AB1AB1C71EBAF008F0513 /* observation.json in Resources */ = {isa = PBXBuildFile; fileRef = 1F3AB1AA1C71EBAF008F0513 /* observation.json */; };
@@ -663,6 +664,7 @@
 		1F19771F1C0485C500106023 /* RowHeaderCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RowHeaderCollectionViewCell.xib; sourceTree = "<group>"; };
 		1F1977231C05DB1400106023 /* UITextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
 		1F3007051BF5552E00DDF3F3 /* VitalSignObservation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VitalSignObservation.swift; sourceTree = "<group>"; };
+		1F30B07C1C847ED20058F3D3 /* Quantity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Quantity.swift; sourceTree = "<group>"; };
 		1F380C751C64B21C000A4E5D /* FhirParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FhirParser.swift; sourceTree = "<group>"; };
 		1F380C771C64E1D1000A4E5D /* VitalSignParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VitalSignParser.swift; sourceTree = "<group>"; };
 		1F3AB1AA1C71EBAF008F0513 /* observation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = observation.json; sourceTree = "<group>"; };
@@ -2370,6 +2372,7 @@
 				1F5375091C1B13D800D4A64F /* NSDate.swift */,
 				1F7EB71F1C2303A400F6F22F /* Double.swift */,
 				1FD8A1A41C6A36D400030494 /* UIViewController.swift */,
+				1F30B07C1C847ED20058F3D3 /* Quantity.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -3651,6 +3654,7 @@
 				0BAD236D1C58979E00697FFF /* DCInfusionCell.swift in Sources */,
 				0B6DDB891BF5CFD700A61D14 /* DCSchedulingPickerCell.swift in Sources */,
 				4D011C581BB147D7005C79A2 /* DCMedicationHistoryViewController.swift in Sources */,
+				1F30B07D1C847ED20058F3D3 /* Quantity.swift in Sources */,
 				0B4BD4371C47C45400C49589 /* DCInjectionTableCell.swift in Sources */,
 				0B1589EB1AD52D3B005F3811 /* DCHTTPRequestOperationManager.m in Sources */,
 				1FF1F8801C3D1E1E007F3B9C /* SingleLineGraphController.swift in Sources */,

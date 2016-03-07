@@ -28,6 +28,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
     let SECTION_DATE = 0
     let SECTION_OBSERVATION = 1
     let SECTION_ADDITIONAL_NEWS_OBSERVATION = 2
+    let SECTION_NEWS_SCORE = 3
     
     
     // rows
@@ -35,6 +36,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
     let SECTION_OBSERVATION_ADD_ROWS = 5 // show all the observations becuase this is add case
     let SECTION_OBSERVATION_EDIT_ROWS = 1 // show only single observation because this is editing of a single observation
     let SECTION_ADDITIONAL_NEWS_OBSERVATION_ROWS = 2
+    let SECTION_NEWS_SCORE_ROWS = 1
     let ZERO_ROWS = 0
     
     //general variables
@@ -89,7 +91,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
         DataEntryObservationSource.VitalSignEditIPhone , DataEntryObservationSource.VitalSignEditIPad:
             return 2
         case DataEntryObservationSource.NewsIPad , DataEntryObservationSource.NewsIPhone:
-            return 3
+            return 4
         }
     }
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -125,6 +127,8 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
                 return SECTION_OBSERVATION_ADD_ROWS // 5 rows for observation
             case  SECTION_ADDITIONAL_NEWS_OBSERVATION:
                 return SECTION_ADDITIONAL_NEWS_OBSERVATION // 2 rows for the additional oxygen and for the AVPU
+          case SECTION_NEWS_SCORE:
+                return SECTION_NEWS_SCORE_ROWS
           default:
                return ZERO_ROWS
             }
@@ -237,8 +241,8 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             cells[rowNumber] = cell
             if(showObservationType == ShowObservationType.BloodPressure && observation != nil && observation.bloodPressure != nil )
             {
-                cell.systolicValue.text =  String( observation.bloodPressure!.systolic)
-                cell.diastolicValue.text    = String(observation.bloodPressure!.diastolic)
+                cell.systolicValue.text =  observation.bloodPressure!.stringValueSystolic
+                cell.diastolicValue.text    = observation.bloodPressure!.stringValueDiastolic
             }
             cell.configureCell(showObservationType != .All)
             cell.delegate = self
@@ -284,6 +288,21 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             cell.accessoryView = infoButton
             cells[rowNumber] = cell
             return cell
+        case ObservationType.News:
+            placeHolderText = ""
+            let cell = tableView.dequeueReusableCellWithIdentifier(doubleCellIdentifier, forIndexPath: indexPath) as! DoubleCell
+            cell.tag = ObservationType.News.rawValue
+            cell.configureCell("NEWS", valuePlaceHolderText: placeHolderText,selectedValue: nil , disableNavigation: showObservationType != .All)
+            cell.value.enabled = false
+            cell.value.text = "noureen "
+            cells[rowNumber] = cell
+            if(showObservationType == ShowObservationType.Pulse && observation != nil )
+            {
+                cell.value.text = observation.getPulseReading()
+            }
+            cell.delegate = self
+            return cell
+            
         }
         
     }
@@ -349,7 +368,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
     }
     func prepareObjects()
     {
-                if(showObservationType != ShowObservationType.All && showObservationType != ShowObservationType.None)
+                if(uitag == DataEntryObservationSource.VitalSignEditIPad || uitag == DataEntryObservationSource.VitalSignEditIPhone)
                 {
                     switch(showObservationType)
                     {
@@ -357,32 +376,32 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
                         if(observation != nil && observation.respiratory != nil)
                         {
                             let cell = getCell(ObservationType.Respiratory.rawValue) as! DoubleCell
-                            observation.respiratory?.repiratoryRate = cell.getValue()
+                            observation.respiratory?.stringValue = cell.getStringValue()
                         }
                     case .SpO2:
                         if(observation != nil && observation.spo2 != nil)
                         {
                             let cell = getCell(ObservationType.SpO2.rawValue) as! DoubleCell
-                            observation.spo2?.spO2Percentage = cell.getValue()
+                            observation.spo2?.stringValue = cell.getStringValue()
                         }
                     case .Temperature:
                         if(observation != nil && observation.temperature != nil)
                         {
                             let cell = getCell(ObservationType.Temperature.rawValue) as! DoubleCell
-                            observation.temperature?.value = cell.getValue()
+                            observation.temperature?.stringValue = cell.getStringValue()
                         }
                     case .BloodPressure:
                         if(observation != nil && observation.bloodPressure != nil)
                         {
                             let cell = getCell(ObservationType.BloodPressure.rawValue) as! BloodPressureCell
-                            observation.bloodPressure?.systolic = cell.getSystolicValue()
-                            observation.bloodPressure?.diastolic = cell.getDiastolicValue()
+                            observation.bloodPressure?.stringValueSystolic = cell.getSystolicStringValue()
+                            observation.bloodPressure?.stringValueDiastolic = cell.getDiastolicStringValue()
                         }
                     case .Pulse:
                         if(observation != nil && observation.pulse != nil)
                         {
                             let cell = getCell(ObservationType.Pulse.rawValue) as! DoubleCell
-                            observation.pulse?.pulseRate = cell.getValue()
+                            observation.pulse?.stringValue = cell.getStringValue()
                         }
                     default:
                         print("nothing happened")
@@ -401,7 +420,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
                 if doubleCell.isValueEntered()
                 {
                     obsBodyTemperature = BodyTemperature()
-                    obsBodyTemperature?.value = doubleCell.getValue()
+                    obsBodyTemperature?.stringValue = doubleCell.getStringValue()
                 }
                 else
                 {
@@ -412,7 +431,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
                 if(doubleCell.isValueEntered())
                 {
                     obsRespiratory = Respiratory()
-                    obsRespiratory!.repiratoryRate = doubleCell.getValue()
+                    obsRespiratory!.stringValue = doubleCell.getStringValue()
                 }
                 else
                 {
@@ -423,7 +442,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
                 if(doubleCell.isValueEntered())
                 {
                     obsPulse = Pulse()
-                    obsPulse!.pulseRate = doubleCell.getValue()
+                    obsPulse!.stringValue = doubleCell.getStringValue()
                 }
                 else
                 {
@@ -434,7 +453,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
                 if (doubleCell.isValueEntered())
                 {
                     obsSPO2 = SPO2()
-                    obsSPO2!.spO2Percentage = doubleCell.getValue()
+                    obsSPO2!.stringValue = doubleCell.getStringValue()
                 }
                 else
                 {
@@ -456,8 +475,8 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
                 if(bloodPressureCell.isValueEntered())
                 {
                     obsBP = BloodPressure()
-                    obsBP!.systolic = bloodPressureCell.getSystolicValue()
-                    obsBP!.diastolic = bloodPressureCell.getDiastolicValue()
+                    obsBP!.stringValueSystolic = bloodPressureCell.getSystolicStringValue()
+                    obsBP!.stringValueDiastolic = bloodPressureCell.getDiastolicStringValue()
                 }
                 else
                 {
@@ -473,8 +492,8 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             observation.temperature = obsBodyTemperature
             observation.pulse = obsPulse
         }
-               }
     }
+}
     // Mark : Cell delegate
     func moveNext(rowNumber:Int)
     {

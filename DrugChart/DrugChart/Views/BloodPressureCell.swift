@@ -35,6 +35,7 @@ class BloodPressureCell: UITableViewCell ,ButtonAction{
     {
         return systolicValue.isValueEntered()
     }
+
     func  getSystolicValue() ->Double
     {
         return (systolicValue.text as NSString!).doubleValue
@@ -45,6 +46,15 @@ class BloodPressureCell: UITableViewCell ,ButtonAction{
         return (diastolicValue.text as NSString!).doubleValue
     }
     
+    func  getSystolicStringValue() ->String
+    {
+        return systolicValue.text!
+    }
+    
+    func  getDiastolicStringValue() ->String
+    {
+        return diastolicValue.text!
+    }
     func nextButtonAction()
     {
         if(self.systolicValue.isFirstResponder())

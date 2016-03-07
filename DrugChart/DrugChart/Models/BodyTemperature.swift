@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import FHIR
 
 class BodyTemperature:VitalSignBaseModel
 {
@@ -17,5 +17,18 @@ class BodyTemperature:VitalSignBaseModel
     {
         unit = "Farenheit"
         value = 0.0
+    }
+    
+    override func setCorrespondentDoubleValue(valueString: String) {
+        value = (valueString as NSString!).doubleValue
+    }
+    
+    override func FHIRResource() -> Resource? {
+        let code = FHIRCode( "O/E - oral temperature taken",codeId: Constant.CODE_ORAL_TEMPERATURE)
+        let observation = Observation(code:code  , status: "final")
+        observation.comments = associatedText
+        observation.effectiveDateTime = FHIRDate(super.date)
+        observation.valueQuantity = FHIRQuantity(stringValue, doubleQuantity: value,unit: "degrees C")
+        return observation
     }
 }

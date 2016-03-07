@@ -24,6 +24,7 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
     @IBOutlet weak var previousPage: UIButton!
     var graphStartDate:NSDate = NSDate()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         graphicalDashBoardView = GraphicalDashBoardView.instanceFromNib() as! GraphicalDashBoardView
@@ -182,11 +183,6 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
             popOverController.delegate = self
             controller.delegate = self
         }
-        
-        else if let tabularViewController:TabularViewController = segue.destinationViewController as? TabularViewController
-        {
-             tabularViewController.observationList = observationList
-        }
     }
     
     func adaptivePresentationStyleForPresentationController(
@@ -300,21 +296,22 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         // now do the FHIR call
         activityIndicator = startActivityIndicator(self.view) // show the activity indicator
         let parser = VitalSignParser()
-        parser.getVitalSignsObservations("bedmanagement/wards", onSuccess: showData)
+        parser.getVitalSignsObservations(patient.patientId,commaSeparatedCodes:  Helper.getCareRecordCodes(),startDate:  graphStartDate , endDate:  graphEndDate,includeMostRecent:  true , onSuccess: showData)
     }
+   
     @IBAction func show(sender: AnyObject) {
         let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
         if (appDelegate.windowState == DCWindowState.halfWindow || appDelegate.windowState == DCWindowState.oneThirdWindow) {
             let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
             let tabularView : OneThirdScreenTabularView = mainStoryboard.instantiateViewControllerWithIdentifier("OneThirdScreenTabularViewController") as! OneThirdScreenTabularView
-            tabularView.observationList = observationList
+            tabularView.patient = patient
             PushViewController(tabularView)
         }
         else
         {
             let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
             let tabularView : TabularViewController = mainStoryboard.instantiateViewControllerWithIdentifier("TabularViewController") as! TabularViewController
-            tabularView.observationList = observationList
+            tabularView.patient = patient
             PushViewController(tabularView)
             
         }

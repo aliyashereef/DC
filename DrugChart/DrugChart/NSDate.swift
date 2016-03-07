@@ -59,6 +59,13 @@ extension NSDate:Comparable{
         return formatter.stringFromDate(self)
     }
     
+    func getFHIRDateandTime()->String
+    {
+        let formatter  = NSDateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        return formatter.stringFromDate(self)
+    }
+    
     func getFormattedDateTime() -> String
     {
         let formatter = NSDateFormatter()
@@ -110,6 +117,29 @@ extension NSDate:Comparable{
             return false
         }
     }
+    func minDayofMonth() -> NSDate // return with min time as well
+    {
+        let calendar = NSCalendar.currentCalendar()
+        let chosenDateComponents = calendar.components([.Hour , .Minute,.Day, .Month , .Year , .Second], fromDate: self)
+        chosenDateComponents.hour = 0
+        chosenDateComponents.minute = 0
+        chosenDateComponents.second = 0
+        chosenDateComponents.day = 1
+        return  calendar.dateFromComponents(chosenDateComponents)!
+    }
+    func maxDayofMonth() ->NSDate
+    {
+        let minDate = self.minDayofMonth()
+        
+        let range = NSCalendar.currentCalendar().rangeOfUnit(.Day, inUnit: .Month, forDate: minDate)
+        
+        let endDate =  NSCalendar.currentCalendar().dateByAddingUnit(.Day,
+            value: range.length - 1,
+            toDate:minDate ,
+            options: NSCalendarOptions(rawValue: 0))!
+        return endDate.maxTime()
+    }
+    
     func minTime() -> NSDate
     {
         let calendar = NSCalendar.currentCalendar()

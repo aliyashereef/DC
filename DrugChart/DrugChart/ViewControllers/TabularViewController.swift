@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TabularViewController: UIViewController , UICollectionViewDataSource, UICollectionViewDelegate , ObservationDelegate ,UIPopoverPresentationControllerDelegate,CellDelegate{
+class TabularViewController: PatientViewController , UICollectionViewDataSource, UICollectionViewDelegate , ObservationDelegate ,UIPopoverPresentationControllerDelegate,CellDelegate{
 
     @IBOutlet weak var sortMenuItem: UIBarButtonItem!
     
@@ -17,9 +17,9 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
     let rowHeaderCellIdentifier = "rowHeaderCellIdentifier"
     
     @IBOutlet weak var collectionView: UICollectionView!
-    var observationList:[VitalSignObservation]!
-    var filteredObservations:[VitalSignObservation]!
+    var filteredObservations:[VitalSignObservation] = [VitalSignObservation]()
     private var viewByDate:NSDate = NSDate()
+    var activityIndicator:UIActivityIndicatorView!
     
     private var selectedContentCell:ContentCollectionViewCell!
     private var contentCellTag:Int = 1
@@ -35,9 +35,8 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
         self.collectionView .registerNib(UINib(nibName: "RowHeaderCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: rowHeaderCellIdentifier)
         collectionView.layer.borderWidth = 0.5
         collectionView.layer.borderColor = UIColor.lightGrayColor().CGColor
-        
         setDateDisplay()
-        reloadView(observationList)
+        reloadView()
     }
     
     private func setDateDisplay()
@@ -45,13 +44,24 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
         sortMenuItem.title = viewByDate.getFormattedMonthandYear()
     }
     
-    private func reloadView(observationList:[VitalSignObservation])
+    private func reloadView()
     {
-        self.observationList = observationList // order matters here
-        filterList()
+        let startDate = viewByDate.minDayofMonth()
+        let endDate = viewByDate.maxDayofMonth()
+        activityIndicator = startActivityIndicator(self.view) // show the activity indicator
+        let parser = VitalSignParser()
+        parser.getVitalSignsObservations(patient.patientId,commaSeparatedCodes:  Helper.getCareRecordCodes(),startDate:  startDate , endDate:  endDate,includeMostRecent:  false , onSuccess: showData)
+    
+    }
+    
+    
+    func showData(fetchedObservations:[VitalSignObservation] )
+    {
+        filteredObservations = fetchedObservations
         let collectionViewLayOut = self.collectionView.collectionViewLayout as! CustomCollectionViewLayout
         collectionViewLayOut.setNoOfColumns(filteredObservations.count + 1)
         self.collectionView.reloadData()
+        stopActivityIndicator(activityIndicator)
     }
     
     // MARK - UICollectionViewDataSource
@@ -63,6 +73,7 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
     
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
         return ( filteredObservations.count + 1 )
     }
     
@@ -239,7 +250,7 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
     {
         viewByDate = value
         setDateDisplay()
-        reloadView(observationList)
+        reloadView()
     }
     
     func ShowModalNavigationController(navigationController:UINavigationController)
@@ -253,16 +264,16 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
     }
     
   
-    func filterList()
-    {
-        let calendar = NSCalendar.currentCalendar()
-        let chosenDateComponents = calendar.components([.Month , .Year], fromDate: viewByDate)
-        
-        filteredObservations = observationList.filter { (observationList) -> Bool in
-            let components = calendar.components([.Month, .Year], fromDate:observationList.date)
-            return components.month == chosenDateComponents.month && components.year == chosenDateComponents.year
-        }
-    }
+//    func filterList()
+//    {
+//        let calendar = NSCalendar.currentCalendar()
+//        let chosenDateComponents = calendar.components([.Month , .Year], fromDate: viewByDate)
+//        
+//        filteredObservations = observationList.filter { (observationList) -> Bool in
+//            let components = calendar.components([.Month, .Year], fromDate:observationList.date)
+//            return components.month == chosenDateComponents.month && components.year == chosenDateComponents.year
+//        }
+//    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -277,7 +288,7 @@ class TabularViewController: UIViewController , UICollectionViewDataSource, UICo
     
     @IBAction func unwindToTabularView(sender:UIStoryboardSegue)
     {
-      reloadView(observationList)
+      reloadView()
         
     }
     
