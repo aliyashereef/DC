@@ -78,11 +78,13 @@
     NSMutableArray *weekdays = [[NSMutableArray alloc] init];
     for (int i = 0; i < daysCount; i++) {
         [weekdays addObject:date];
-        if (i == daysCount - 2) {
-            [components setHour:23];
-            [components setMinute:58];
-        }
-        date = [[NSCalendar currentCalendar] dateByAddingComponents:components toDate:date options:0];
+//        if (i == daysCount - 2) {
+//            [components setHour:23];
+//            [components setMinute:55];
+//        }
+        NSCalendar *currentCalendar = [NSCalendar currentCalendar];
+        [currentCalendar setTimeZone:[NSTimeZone timeZoneWithAbbreviation:UTC]];
+        date = [currentCalendar dateByAddingComponents:components toDate:date options:0];
     }
     return weekdays;
 }
@@ -91,7 +93,7 @@
                withDateFormat:(NSString *)dateFormatString {
     //convert date string to NSDate value
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
+    //[formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
     [formatter setDateFormat:dateFormatString];
     NSDate *date = [formatter dateFromString:dateString];
     return date;

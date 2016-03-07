@@ -188,7 +188,7 @@
     NSMutableArray *timeArray = [[NSMutableArray alloc] init];
     NSDateFormatter *shortDateFormatter = [[NSDateFormatter alloc] init];
     [shortDateFormatter setDateFormat:SHORT_DATE_FORMAT];
-    [shortDateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
+    //[shortDateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
     for (int i = 0 ; i<self.administrationDetailsArray.count; i++) {
         NSString *medicationDateString = [shortDateFormatter stringFromDate:[[self.administrationDetailsArray objectAtIndex:i] valueForKey:@"scheduledDateTime"]];
         if ([medicationDateString isEqualToString:nextDate]) {
@@ -218,9 +218,10 @@
     NSDate *calculatedEndDate = [self endDateForMedicationStartdate:startDate medicationEndDate:endDate startWeekDate:startWeekDate endWeekDate:endWeekDate];
     NSDate *nextDate;
     NSCalendar *calendar = [NSCalendar currentCalendar];
-    //[calendar setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
+    //[calendar setTimeZone:[NSTimeZone timeZoneWithAbbreviation:UTC]];
     if (calculatedStartDate != nil && calculatedEndDate != nil) {
         for (nextDate = calculatedStartDate ; [nextDate compare:calculatedEndDate] <= 0 ; nextDate = [nextDate dateByAddingTimeInterval:24*60*60] ) {
+            NSLog(@"***** nextDate is %@", nextDate);
             NSMutableArray *medicationSlotsArray = [[NSMutableArray alloc] init];
             NSInteger timeSlotsCount = 0;
             NSDateComponents *components = [calendar components:NSCalendarUnitYear| NSCalendarUnitMonth | NSCalendarUnitDay  fromDate:nextDate];
