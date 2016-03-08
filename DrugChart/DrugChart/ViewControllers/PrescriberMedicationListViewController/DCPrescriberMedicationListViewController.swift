@@ -566,6 +566,28 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         popover!.sourceView = cell?.editButton
     }
     
+    func transitToSummaryScreenForMedication(indexpath : NSIndexPath) {
+        
+        let summaryStoryboard : UIStoryboard? = UIStoryboard(name:"Summary", bundle: nil)
+        let medicationSummaryViewController = summaryStoryboard!.instantiateViewControllerWithIdentifier("MedicationSummary") as? DCMedicationSummaryDisplayViewController
+        let medicationList: DCMedicationScheduleDetails = displayMedicationListArray[indexpath.item] as! DCMedicationScheduleDetails
+        medicationSummaryViewController!.scheduleId = medicationList.scheduleId
+        medicationSummaryViewController!.medicationDetails = medicationList
+//        var helper: DCSwiftObjCNavigationHelper = DCSwiftObjCNavigationHelper()
+//        helper.delegate = self
+//        medicationSummaryViewController.helper = helper
+        let rowDisplayMedicationSlotsArray = self.prepareMedicationSlotsForDisplayInCellFromScheduleDetails(medicationList)
+        medicationSummaryViewController!.medicationSlotsArray = rowDisplayMedicationSlotsArray as! [DCMedicationSlot]
+//        medicationSummaryViewController.medicationSlotsArray = self.medicationSlotsArrayFromSlotsDictionary(medicationSLotsDictionary)
+//        medicationSummaryViewController.weekDate = date
+        medicationSummaryViewController!.patientId = self.patientId
+
+        let navigationController: UINavigationController = UINavigationController(rootViewController: medicationSummaryViewController!)
+        navigationController.modalPresentationStyle = .FormSheet
+        self.presentViewController(navigationController, animated: true, completion: { _ in })
+
+    }
+
     func deleteMedicationAtIndexPath(indexPath : NSIndexPath) {
         
         let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails

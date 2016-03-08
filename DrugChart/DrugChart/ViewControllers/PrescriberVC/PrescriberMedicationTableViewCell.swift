@@ -13,7 +13,7 @@ protocol EditAndDeleteActionDelegate {
     func stopMedicationForSelectedIndexPath(indexPath : NSIndexPath)
     func editMedicationForSelectedIndexPath (indexPath : NSIndexPath)
     func setIndexPathSelected(indexPath : NSIndexPath)
-
+    func transitToSummaryScreenForMedication(indexpath : NSIndexPath)
 }
 
 let TIME_VIEW_WIDTH : CGFloat                       =               70.0
@@ -247,7 +247,8 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     @IBAction func typeDescriptionButtonSelected(sender: AnyObject) {
         
         //Display Summary
-        
-        print("****** Type Button pressed")
+        if let delegate = editAndDeleteDelegate {
+            delegate.transitToSummaryScreenForMedication(indexPath)
+        }
     }
 }
