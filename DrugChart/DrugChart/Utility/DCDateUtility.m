@@ -22,10 +22,7 @@
     [currentCalendar setTimeZone:[NSTimeZone timeZoneWithAbbreviation:UTC]];
     NSDateComponents *components = [currentCalendar components:DATE_COMPONENTS fromDate:date];
     [components setDay:components.day];
-    [components setHour:0];
-    [components setMinute:0];
-    [components setSecond:0];
-    NSDate *todayMidnightDate = [currentCalendar dateFromComponents:components];
+    NSDate *todayMidnightDate = [self midNightTimeForDate:date];
     NSDateComponents *initialComponents = [currentCalendar components:DATE_COMPONENTS fromDate:todayMidnightDate];
     [initialComponents setDay:components.day + adder];
     [initialComponents setHour:0];
@@ -34,6 +31,21 @@
     NSDate *initialDate = [currentCalendar dateFromComponents:initialComponents];
     return initialDate;
     
+}
+
++ (NSDate *)midNightTimeForDate:(NSDate *)date {
+    
+    NSCalendar *currentCalendar = [NSCalendar currentCalendar];
+    // since iOS returns the date in UTC, we are setting the calendar days from the datecomponents
+    // in the same format.
+    [currentCalendar setTimeZone:[NSTimeZone timeZoneWithAbbreviation:UTC]];
+    NSDateComponents *components = [currentCalendar components:DATE_COMPONENTS fromDate:date];
+    [components setDay:components.day];
+    [components setHour:0];
+    [components setMinute:0];
+    [components setSecond:0];
+    NSDate *todayMidnightDate = [currentCalendar dateFromComponents:components];
+    return todayMidnightDate;
 }
 
 + (NSDate *)shortDateFromDate:(NSDate *)originalDate {
@@ -78,10 +90,6 @@
     NSMutableArray *weekdays = [[NSMutableArray alloc] init];
     for (int i = 0; i < daysCount; i++) {
         [weekdays addObject:date];
-//        if (i == daysCount - 2) {
-//            [components setHour:23];
-//            [components setMinute:55];
-//        }
         NSCalendar *currentCalendar = [NSCalendar currentCalendar];
         [currentCalendar setTimeZone:[NSTimeZone timeZoneWithAbbreviation:UTC]];
         date = [currentCalendar dateByAddingComponents:components toDate:date options:0];

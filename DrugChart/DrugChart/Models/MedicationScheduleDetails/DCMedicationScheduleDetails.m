@@ -115,7 +115,8 @@
             calculatedStartDate = startWeekDate;
         } else {
             // medication has started some where between the selected week schedules
-            calculatedStartDate = medicationStartDate;
+            //start date set here as the midnight date since the slot creation logic adds one day to the previous date. If start date slot time is some time towards end of day, last day of the third week will be skipped 
+            calculatedStartDate = [DCDateUtility midNightTimeForDate:medicationStartDate];
         }
     }
     return calculatedStartDate;
@@ -137,7 +138,8 @@
             calculatedEndDate = medicationEndDate;
        } else {
             //medication extends even after the current 3 weeks schedule
-            calculatedEndDate = endWeekDate;
+           
+           calculatedEndDate = endWeekDate;
         }
     }
     return calculatedEndDate;
@@ -208,12 +210,11 @@
     NSDate *startDate = [DCDateUtility dateFromSourceString:self.startDate];
     NSDate *endDate;
     if (self.endDate == nil) {
-        endDate = endWeekDate; //max limit to be displayed is end week date
-    }
-    else {
+    //max limit to be displayed is end week date
+        endDate = [self dayEndTimeForDate:endWeekDate];
+    } else {
         endDate = [DCDateUtility dateFromSourceString:self.endDate];
     }
-    
     NSDate *calculatedStartDate = [self startDateForMedicationStartdate:startDate medicationEndDate:endDate startWeekDate:startWeekDate endWeekDate:endWeekDate];
     NSDate *calculatedEndDate = [self endDateForMedicationStartdate:startDate medicationEndDate:endDate startWeekDate:startWeekDate endWeekDate:endWeekDate];
     NSDate *nextDate;
@@ -221,7 +222,6 @@
     //[calendar setTimeZone:[NSTimeZone timeZoneWithAbbreviation:UTC]];
     if (calculatedStartDate != nil && calculatedEndDate != nil) {
         for (nextDate = calculatedStartDate ; [nextDate compare:calculatedEndDate] <= 0 ; nextDate = [nextDate dateByAddingTimeInterval:24*60*60] ) {
-            NSLog(@"***** nextDate is %@", nextDate);
             NSMutableArray *medicationSlotsArray = [[NSMutableArray alloc] init];
             NSInteger timeSlotsCount = 0;
             NSDateComponents *components = [calendar components:NSCalendarUnitYear| NSCalendarUnitMonth | NSCalendarUnitDay  fromDate:nextDate];
@@ -256,6 +256,17 @@
         }
     }
     return timeSlotsArray;
+}
+
+- (NSDate *)dayEndTimeForDate:(NSDate *) date {
+    
+    NSDateComponents *components = [[NSDateComponents alloc] init];
+    [components setHour:23];
+    [components setMinute:59];
+    NSCalendar *currentCalendar = [NSCalendar currentCalendar];
+    [currentCalendar setTimeZone:[NSTimeZone timeZoneWithAbbreviation:UTC]];
+    NSDate *endDate = [currentCalendar dateByAddingComponents:components toDate:date options:0];
+    return endDate;
 }
 
 @end
