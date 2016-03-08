@@ -16,28 +16,20 @@ protocol reasonDelegate {
 
 class DCAdministrationReasonViewController : DCBaseViewController, NotesCellDelegate {
     
-    var delegate: reasonDelegate?
-    var administrationStatus : String?
     let successReasonArray = ["Nurse Administered","Patient Declared Administered","Supervised Self Administered","Covertly Administered","IV Access Lost","Vomitted","Partial Administration"]
     let failureReasonArray = ["Omitted","Patient Refused","Nil by Mouth","Drug Unavailable","Not Administered other"]
+
+    var delegate: reasonDelegate?
+    var administrationStatus : String?
     var previousSelection : String?
     var secondaryReason : String?
     var NotesFieldShown : Bool = false
+    
     @IBOutlet var reasonTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        var otherString : String
-        switch (administrationStatus!) {
-        case NOT_ADMINISTRATED :
-            otherString = failureReasonArray[failureReasonArray.count - 1]
-        default:
-            otherString = successReasonArray[successReasonArray.count - 1]
-        }
-        if previousSelection == otherString {
-            NotesFieldShown = true
-            reasonTableView.reloadData()
-        }
+        self.showOtherReasonsFieldForReason()
     }
     
     //MARK: TableView Delegate Methods
@@ -117,16 +109,30 @@ class DCAdministrationReasonViewController : DCBaseViewController, NotesCellDele
             reasonArray = successReasonArray
         }
         reasonString = reasonArray[indexPath.row]
+        if (self.delegate != nil) {
+            self.delegate?.reasonSelected(reasonString, secondaryReason: EMPTY_STRING)
+        }
         if indexPath.row == reasonArray.count - 1 {
             NotesFieldShown = true
             tableView.reloadData()
         } else {
-            if (self.delegate != nil) {
-                self.delegate?.reasonSelected(reasonString, secondaryReason: EMPTY_STRING)
-            }
             self.navigationController?.popViewControllerAnimated(true)
         }
         previousSelection = reasonArray[indexPath.row] as String
+    }
+    
+    func showOtherReasonsFieldForReason () {
+        var otherReasonString : String
+        switch (administrationStatus!) {
+        case NOT_ADMINISTRATED :
+            otherReasonString = failureReasonArray[failureReasonArray.count - 1]
+        default:
+            otherReasonString = successReasonArray[successReasonArray.count - 1]
+        }
+        if previousSelection == otherReasonString {
+            NotesFieldShown = true
+            reasonTableView.reloadData()
+        }
     }
     
     func notesSelected(editing : Bool, withIndexPath indexPath : NSIndexPath) {
@@ -135,7 +141,7 @@ class DCAdministrationReasonViewController : DCBaseViewController, NotesCellDele
     
     func enteredNote(note : String) {
         if (self.delegate != nil) {
-            self.delegate?.reasonSelected(previousSelection!, secondaryReason: note)
+            self.delegate?.reasonSelected(previousSelection!, secondaryReason:note)
         }
     }
     
