@@ -72,9 +72,9 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     override func viewDidLayoutSubviews() {
         
         super.viewDidLayoutSubviews()
-        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-            setParentViewWithCurrentWeekDateArray()
-        }
+//        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+//            setParentViewWithCurrentWeekDateArray()
+//        }
         self.adjustContentOffsetToShowCenterDayInCollectionView()
         calendarStripCollectionView.reloadData()
         medicationTableView?.reloadData()
@@ -387,8 +387,14 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     
     func adjustContentOffsetToShowCenterDayInCollectionView() {
         
-        let indexPath : NSIndexPath = NSIndexPath(forRow:7 , inSection: 0)
-        calendarStripCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: true)
+        var indexPath : NSIndexPath?
+        let orientation = UIApplication.sharedApplication().statusBarOrientation
+        if (orientation == UIInterfaceOrientation.Portrait || orientation == UIInterfaceOrientation.PortraitUpsideDown) {
+            indexPath = NSIndexPath(forRow:6 , inSection: 0)
+        } else {
+            indexPath = NSIndexPath(forRow:7 , inSection: 0)
+        }
+        calendarStripCollectionView.scrollToItemAtIndexPath(indexPath!, atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: true)
         scrolledProgramatically = true
     }
     
