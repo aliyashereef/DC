@@ -1682,26 +1682,8 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AddDosageCell" rowHeight="44" id="lPI-ry-b4i" customClass="DCAddDosageCell">
-                                        <rect key="frame" x="0.0" y="94" width="310" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lPI-ry-b4i" id="EYm-Ti-v8D">
-                                            <rect key="frame" x="0.0" y="0.0" width="310" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="New Dosage" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="d8M-sP-zgV">
-                                                    <rect key="frame" x="13" y="7" width="284" height="30"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <textInputTraits key="textInputTraits"/>
-                                                </textField>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="dosageTextField" destination="d8M-sP-zgV" id="Ik1-LS-CMT"/>
-                                        </connections>
-                                    </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="OverrideReasonCell" rowHeight="78" id="DCf-lD-HiC" customClass="DCReasonCell" customModule="DrugChart" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="138" width="310" height="78"/>
+                                        <rect key="frame" x="0.0" y="94" width="310" height="78"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DCf-lD-HiC" id="dbQ-47-zkG">
                                             <rect key="frame" x="0.0" y="0.0" width="310" height="77"/>
