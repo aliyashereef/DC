@@ -24,14 +24,7 @@ class NumericTextField: UITextField ,UITextFieldDelegate{
     
     func isValueEntered() -> Bool
     {
-        if (self.text == nil || self.text!.isEmpty == true)
-        {
-            return false
-        }
-        else
-        {
-            return true
-        }
+        return !self.text!.isEmpty
     }
     
     func addDoneButtonOnKeyboard()
@@ -82,6 +75,11 @@ class NumericTextField: UITextField ,UITextFieldDelegate{
     {
         buttonActionDelegate?.previousButtonAction()
     }
+    
+    func  getValue() ->Double
+    {
+        return (self.text as NSString!).doubleValue
+    }
     //Mark: UITextFieldDelegate
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -89,7 +87,6 @@ class NumericTextField: UITextField ,UITextFieldDelegate{
         self.resignFirstResponder()
         return true
     }
-    
     func textField(textField: UITextField,
         shouldChangeCharactersInRange range: NSRange,
         replacementString string: String)

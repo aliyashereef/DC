@@ -8,7 +8,7 @@
 //
 
 import UIKit
-
+import CocoaLumberjack
 
 class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,CellDelegate{
     
@@ -23,7 +23,6 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
     var showObservationType:ShowObservationType = ShowObservationType.All
     var uitag:DataEntryObservationSource!
     var delegate: ObservationDelegate?
-    
     // section
     let SECTION_DATE = 0
     let SECTION_OBSERVATION = 1
@@ -58,9 +57,10 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 44
         self.tableView.allowsMultipleSelection = false
+        
         let nib = UINib(nibName: "DoubleCell", bundle: nil)
         self.tableView.registerNib(nib, forCellReuseIdentifier: doubleCellIdentifier)
-        
+//        
         let nibBloodPressure = UINib(nibName: "BloodPressureCell", bundle: nil)
         self.tableView.registerNib(nibBloodPressure, forCellReuseIdentifier: bloodPressureCellIdentifier)
         
@@ -164,6 +164,8 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
                     return 6
                 case ShowObservationType.AVPU:
                     return 7
+                case ShowObservationType.News:
+                    return 8
                 default:
                     return 0
                 }
@@ -182,6 +184,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
        // var cellTitle:String = ""
+        
         var placeHolderText = "enter value"
         let rowNumber = getRowNumber(indexPath)
         let obsType = ObservationType(rawValue: rowNumber)
@@ -198,19 +201,22 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             return cell
             
         case ObservationType.Respiratory:
+            //let cell = DoubleCell(style: UITableViewCellStyle.Default, reuseIdentifier: doubleCellIdentifier)
             let cell = tableView.dequeueReusableCellWithIdentifier(doubleCellIdentifier, forIndexPath: indexPath) as! DoubleCell
             cell.tag = ObservationType.Respiratory.rawValue
             cell.configureCell("Resps (per minute)", valuePlaceHolderText: placeHolderText,selectedValue: nil , disableNavigation: showObservationType != .All)
             cells[rowNumber] = cell
             if(showObservationType == ShowObservationType.Respiratory && observation != nil )
             {
-                cell.value.text = observation.getRespiratoryReading()
+                cell.numericValue.text = observation.getRespiratoryReading()
             }
+            
             cell.delegate = self
             return cell
             
         case ObservationType.SpO2:
             placeHolderText = "enter %"
+            //let cell = DoubleCell(style: UITableViewCellStyle.Default, reuseIdentifier: nil)
             
             let cell = tableView.dequeueReusableCellWithIdentifier(doubleCellIdentifier, forIndexPath: indexPath) as! DoubleCell
             cell.tag = ObservationType.SpO2.rawValue
@@ -218,24 +224,27 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             cells[rowNumber] = cell
             if(showObservationType == ShowObservationType.SpO2 && observation != nil )
             {
-                cell.value.text = observation.getSpo2Reading()
+                cell.numericValue.text = observation.getSpo2Reading()
             }
             cell.delegate = self
             return cell
             
         case ObservationType.Temperature:
+            //let cell = DoubleCell(style: UITableViewCellStyle.Default, reuseIdentifier: nil)
+            
             let cell = tableView.dequeueReusableCellWithIdentifier(doubleCellIdentifier, forIndexPath: indexPath) as! DoubleCell
             cell.tag = ObservationType.Temperature.rawValue
             cell.configureCell("Temperature (°C)", valuePlaceHolderText: placeHolderText,selectedValue: nil , disableNavigation: showObservationType != .All)
             cells[rowNumber] = cell
             if(showObservationType == ShowObservationType.Temperature && observation != nil )
             {
-                cell.value.text = observation.getTemperatureReading()
+                cell.numericValue.text = observation.getTemperatureReading()
             }
             cell.delegate = self
             return cell
             
         case ObservationType.BloodPressure:
+            
             let cell = tableView.dequeueReusableCellWithIdentifier(bloodPressureCellIdentifier, forIndexPath: indexPath) as! BloodPressureCell
             cell.tag = ObservationType.BloodPressure.rawValue
             cells[rowNumber] = cell
@@ -249,13 +258,15 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             return cell
             
         case ObservationType.Pulse:
+            //let cell = DoubleCell(style: UITableViewCellStyle.Default, reuseIdentifier: nil)
+            
             let cell = tableView.dequeueReusableCellWithIdentifier(doubleCellIdentifier, forIndexPath: indexPath) as! DoubleCell
             cell.tag = ObservationType.Pulse.rawValue
             cell.configureCell("Pulse (beats/min)", valuePlaceHolderText: placeHolderText,selectedValue: nil , disableNavigation: showObservationType != .All)
             cells[rowNumber] = cell
             if(showObservationType == ShowObservationType.Pulse && observation != nil )
             {
-                cell.value.text = observation.getPulseReading()
+                cell.numericValue.text = observation.getPulseReading()
             }
             cell.delegate = self
             return cell
@@ -293,12 +304,12 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             let cell = tableView.dequeueReusableCellWithIdentifier(doubleCellIdentifier, forIndexPath: indexPath) as! DoubleCell
             cell.tag = ObservationType.News.rawValue
             cell.configureCell("NEWS", valuePlaceHolderText: placeHolderText,selectedValue: nil , disableNavigation: showObservationType != .All)
-            cell.value.enabled = false
-            cell.value.text = "noureen "
+            cell.numericValue.enabled = false
+            cell.numericValue.text = ""
             cells[rowNumber] = cell
             if(showObservationType == ShowObservationType.Pulse && observation != nil )
             {
-                cell.value.text = observation.getPulseReading()
+                cell.numericValue.text = observation.getPulseReading()
             }
             cell.delegate = self
             return cell
@@ -356,6 +367,16 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
         
     }
     
+    func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
+        if (indexPath.section != 0)
+        {
+            return nil
+        }
+        else
+        {
+            return indexPath
+        }
+    }
     func getCell(rowNum:Int) -> UITableViewCell!
     {
         for cell in tableView.visibleCells {
@@ -366,6 +387,11 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
         }
         return nil
     }
+    
+//    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+//        
+//        print("display cell")
+//    }
     func prepareObjects()
     {
                 if(uitag == DataEntryObservationSource.VitalSignEditIPad || uitag == DataEntryObservationSource.VitalSignEditIPhone)
@@ -497,7 +523,6 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
     // Mark : Cell delegate
     func moveNext(rowNumber:Int)
     {
-        //if(ObservationType.count)
         let cellNumber = rowNumber + 1
         if(cellNumber < ObservationType.count)
         {
@@ -529,157 +554,172 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
         }
     }
     
-    func cellValueChanged(rowNumber: Int) {
+    func cellValueChanged(rowNumber: Int, object:AnyObject) {
         
         if(self.uitag != DataEntryObservationSource.NewsIPad && self.uitag != DataEntryObservationSource.NewsIPhone) // only do it for the news score
         {
             return
         }
-        
         let cellNumber = rowNumber
         let observationType = ObservationType(rawValue: cellNumber)
         switch(observationType!)
         {
         case ObservationType.Respiratory:
             let doubleCell = cells[cellNumber] as? DoubleCell
-            let value =  doubleCell?.getValue()
-            if(doubleCell?.isValueEntered() == false)
+            let numericTextField = object as? NumericTextField
+            let value =  numericTextField?.getValue()
+            
+            print("respiratory value \(value) and \(doubleCell?.selected)")
+            
+            if(numericTextField?.isValueEntered() == false)
             {
-                doubleCell?.backgroundColor = Constant.NO_COLOR
-                
+                doubleCell?.setCellBackgroundColor (Constant.NO_COLOR)
             }
             else if(value <= 8 || value >= 25)
             {
-                doubleCell?.backgroundColor = Constant.RED_COLOR
+                doubleCell?.setCellBackgroundColor (Constant.RED_COLOR)
             }
             else if(value >= 9 && value <= 11)
             {
-                doubleCell?.backgroundColor = Constant.GREEN_COLOR
+                doubleCell?.setCellBackgroundColor (Constant.GREEN_COLOR)
             }
             else if(value >= 21 && value <= 24 )
             {
-                doubleCell?.backgroundColor = Constant.AMBER_COLOR
+                doubleCell?.setCellBackgroundColor (Constant.AMBER_COLOR)
             }
             else
             {
-                doubleCell?.backgroundColor = Constant.NO_COLOR
+                doubleCell?.setCellBackgroundColor (Constant.NO_COLOR)
             }
         case ObservationType.SpO2:
             let doubleCell = cells[cellNumber] as? DoubleCell
-            let value =  doubleCell?.getValue()
-            if(doubleCell?.isValueEntered() == false)
+            let numericTextField = object as? NumericTextField
+            
+            let value =  numericTextField?.getValue()
+            print("spo2 value \(value) and \(doubleCell?.selected)")
+            
+            if(numericTextField?.isValueEntered() == false)
             {
-                doubleCell?.backgroundColor = Constant.NO_COLOR
-                
+                doubleCell?.setCellBackgroundColor (Constant.NO_COLOR)
             }
             else if(value <= 91)
             {
-                doubleCell?.backgroundColor = Constant.RED_COLOR
+                doubleCell?.setCellBackgroundColor (Constant.RED_COLOR)
             }
             else if(value >= 92 && value <= 93)
             {
-                doubleCell?.backgroundColor = Constant.AMBER_COLOR
+                doubleCell?.setCellBackgroundColor (Constant.AMBER_COLOR)
             }
             else if (value >= 94 && value <= 95)
             {
-                doubleCell?.backgroundColor = Constant.GREEN_COLOR
+                doubleCell?.setCellBackgroundColor (Constant.GREEN_COLOR)
             }
             else
             {
-                doubleCell?.backgroundColor = Constant.NO_COLOR
+                doubleCell?.setCellBackgroundColor (Constant.NO_COLOR)
             }
         case ObservationType.Temperature:
             let doubleCell = cells[cellNumber] as? DoubleCell
-            let value =  doubleCell?.getValue()
-            if(doubleCell?.isValueEntered() == false)
+            let numericTextField = object as? NumericTextField
+            let value =  numericTextField?.getValue()
+            print("temperature value \(value) and \(doubleCell?.selected)")
+            
+            if(numericTextField?.isValueEntered() == false)
             {
-                doubleCell?.backgroundColor = Constant.NO_COLOR
-                
+                doubleCell?.setCellBackgroundColor (Constant.NO_COLOR)
             }
             else if(value <= 35)
             {
-                doubleCell?.backgroundColor = Constant.RED_COLOR
+                doubleCell?.setCellBackgroundColor (Constant.RED_COLOR)
             }
             else if(value >= 39.1)
             {
-                doubleCell?.backgroundColor = Constant.AMBER_COLOR
+                doubleCell?.setCellBackgroundColor (Constant.AMBER_COLOR)
             }
             else if ((value >= 35.1 && value <= 36 ) || (value >= 38.1 && value <= 39))
             {
-                doubleCell?.backgroundColor = Constant.GREEN_COLOR
+                doubleCell?.setCellBackgroundColor (Constant.GREEN_COLOR)
             }
             else
             {
-                doubleCell?.backgroundColor = Constant.NO_COLOR
+                doubleCell?.setCellBackgroundColor (Constant.NO_COLOR)
             }
         case ObservationType.BloodPressure:
             let bloodPressureCell = cells[cellNumber] as? BloodPressureCell
-            let value =  bloodPressureCell?.getSystolicValue()
-            if(bloodPressureCell?.isValueEntered() == false)
+            let numericTextField = object as? NumericTextField
+            let value =  numericTextField?.getValue()
+            print("blood pressure  \(value) and \(bloodPressureCell?.selected)")
+            
+            if(numericTextField?.isValueEntered() == false)
             {
-                bloodPressureCell?.backgroundColor = Constant.NO_COLOR
+                bloodPressureCell?.contentView.backgroundColor = (Constant.NO_COLOR)
             }
             else if(value <= 90 || value >= 220)
             {
-                bloodPressureCell?.backgroundColor = Constant.RED_COLOR
+                bloodPressureCell?.contentView.backgroundColor = (Constant.RED_COLOR)
             }
             else if(value >= 91 && value <= 100)
             {
-                bloodPressureCell?.backgroundColor = Constant.AMBER_COLOR
+                bloodPressureCell?.contentView.backgroundColor = (Constant.AMBER_COLOR)
             }
             else if (value >= 101 && value <= 110)
             {
-                bloodPressureCell?.backgroundColor = Constant.GREEN_COLOR
+                bloodPressureCell?.contentView.backgroundColor = (Constant.GREEN_COLOR)
             }
             else
             {
-                bloodPressureCell?.backgroundColor = Constant.NO_COLOR
+                bloodPressureCell?.contentView.backgroundColor = (Constant.NO_COLOR)
             }
         case ObservationType.Pulse:
             let doubleCell = cells[cellNumber] as? DoubleCell
-            let value =  doubleCell?.getValue()
-            if(doubleCell?.isValueEntered() == false)
+            let numericTextField = object as? NumericTextField
+            let value =  numericTextField?.getValue()
+            print("pulse value \(value) and \(doubleCell?.selected)")
+            
+            if(numericTextField?.isValueEntered() == false)
             {
-                doubleCell?.backgroundColor = Constant.NO_COLOR
+                doubleCell?.setCellBackgroundColor (Constant.NO_COLOR)
             }
             else if(value <= 40 || value >= 131)
             {
-                doubleCell?.backgroundColor = Constant.RED_COLOR
+                doubleCell?.setCellBackgroundColor (Constant.RED_COLOR)
             }
             else if(value >= 111 && value <= 130)
             {
-                doubleCell?.backgroundColor = Constant.AMBER_COLOR
+                doubleCell?.setCellBackgroundColor (Constant.AMBER_COLOR)
             }
             else if ((value >= 41 && value <= 50) || (value >= 91 && value <= 110))
             {
-                doubleCell?.backgroundColor = Constant.GREEN_COLOR
+                doubleCell?.setCellBackgroundColor (Constant.GREEN_COLOR)
             }
             else
             {
-                doubleCell?.backgroundColor = Constant.NO_COLOR
+                doubleCell?.setCellBackgroundColor (Constant.NO_COLOR)
             }
         case ObservationType.AdditionalOxygen:
             let toggleCell = cells[cellNumber] as? ToggleCell
-            if(toggleCell?.toggleValue.on == true)
+            let switchValue = object as? UISwitch
+            if(switchValue?.on == true)
             {
-                toggleCell?.backgroundColor = Constant.AMBER_COLOR
+                toggleCell?.setCellBackgroundColor(Constant.AMBER_COLOR)
             }
             else
             {
-                toggleCell?.backgroundColor = Constant.NO_COLOR
+                toggleCell?.setCellBackgroundColor(Constant.NO_COLOR)
             }
         case ObservationType.AVPU:
             let switchCell = cells[cellNumber] as? SwitchCell
-            if(switchCell?.segmentedValue.selectedSegmentIndex == 1)// user has selected V,P or U
+            let switchValue = object as? UISegmentedControl
+            if(switchValue?.selectedSegmentIndex == 1)// user has selected V,P or U
             {
-                switchCell?.backgroundColor = Constant.RED_COLOR
+                switchCell?.setCellBackgroundColor(Constant.RED_COLOR)
             }
             else
             {
-                switchCell?.backgroundColor = Constant.NO_COLOR
+                switchCell?.setCellBackgroundColor(Constant.NO_COLOR)
             }
         default:
-            print("printing default value")
+            DDLogDebug("No valid row to perform cellValueChanged")
         }
     }
     

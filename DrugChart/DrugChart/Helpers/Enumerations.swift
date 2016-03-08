@@ -36,7 +36,7 @@ enum ObservationType:Int
 
 enum ShowObservationType:Int
 {
-    case All, None, Respiratory  , SpO2, Temperature , BloodPressure , Pulse , AdditionalOxygen , AVPU /*, BM*/
+    case All, None, Respiratory  , SpO2, Temperature , BloodPressure , Pulse , AdditionalOxygen , AVPU , News /*, BM*/
     
     static var count: Int {  // I called this "maximumRawValue" in the post
         var max: Int = 0

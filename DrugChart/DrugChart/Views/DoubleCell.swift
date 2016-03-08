@@ -11,25 +11,29 @@ import UIKit
 class DoubleCell: UITableViewCell ,ButtonAction{
 
     @IBOutlet weak var titleText: UILabel!
-    @IBOutlet weak var value: NumericTextField!
+    @IBOutlet weak var numericValue: NumericTextField!
+    
+    
+    
     var delegate:CellDelegate?
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        value.textAlignment = NSTextAlignment.Right
-        value.buttonActionDelegate = self
-        value.addTarget(self, action: "valueChanged", forControlEvents: UIControlEvents.EditingChanged)
+        numericValue.textAlignment = NSTextAlignment.Right
+        numericValue.buttonActionDelegate = self
+        numericValue.addTarget(self, action: "valueChanged:", forControlEvents: UIControlEvents.EditingChanged)
+        self.selectionStyle = UITableViewCellSelectionStyle.None
     }
-
     
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         // Configure the view for the selected state
     }
     
-    func valueChanged()
+    
+    func valueChanged(textField: AnyObject)
     {
-        delegate?.cellValueChanged(tag)
+        delegate?.cellValueChanged(tag,object: textField)
     }
     
     func nextButtonAction()
@@ -43,33 +47,57 @@ class DoubleCell: UITableViewCell ,ButtonAction{
     
     func getFocus()
     {
-        self.value.becomeFirstResponder()
+        self.numericValue.becomeFirstResponder()
     }
 
     func  getValue() ->Double
     {
-        return (value.text as NSString!).doubleValue
+       // return (numericValue.text as NSString!).doubleValue
+       return numericValue.getValue()
     }
     
     func getStringValue() ->String
     {
-        return value.text!
+        return numericValue.text!
     }
     
     func isValueEntered() -> Bool
     {
-        return value.isValueEntered()
+        return numericValue.isValueEntered()
     }
+    
+    func setCellBackgroundColor(color:UIColor)
+    {
+        self.backgroundView = nil
+        self.backgroundColor = color
+        self.contentView.backgroundColor = color
+        self.titleText.backgroundColor = color
+        self.numericValue.backgroundColor = color
+        self.selectedBackgroundView = nil
+    }
+    
+//    func isValueEntered() -> Bool
+//    {
+//        if (value.text == nil || value.text!.isEmpty == true)
+//        {
+//            return false
+//        }
+//        else
+//        {
+//            return true
+//        }
+//    }
+    
     
     func configureCell(title:String , valuePlaceHolderText:String , selectedValue:Double! , disableNavigation:Bool)
     {
         titleText.text = title
-        value.placeholder = valuePlaceHolderText
+        numericValue.placeholder = valuePlaceHolderText
         if selectedValue != nil
         {
-            value.text = String(selectedValue)
+            numericValue.text = String(selectedValue)
         }
-        self.value.tag = self.tag
-        self.value.initialize(disableNavigation)
+        self.numericValue.tag = self.tag
+        self.numericValue.initialize(disableNavigation)
     }
 }

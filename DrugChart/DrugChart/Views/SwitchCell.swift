@@ -17,7 +17,7 @@ class SwitchCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        segmentedValue.addTarget(self, action: "valueChanged", forControlEvents: .ValueChanged )
+        segmentedValue.addTarget(self, action: "valueChanged:", forControlEvents: .ValueChanged )
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -26,9 +26,9 @@ class SwitchCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func valueChanged()
+    func valueChanged(segmentedValue:AnyObject)
     {
-        delegate?.cellValueChanged(tag)
+        delegate?.cellValueChanged(tag, object: segmentedValue)
     }
     
     func configureCell(cellTitle:String , values:[String])
@@ -48,6 +48,14 @@ class SwitchCell: UITableViewCell {
             
             index++
         }
+    }
+    
+    func setCellBackgroundColor(color:UIColor)
+    {
+        self.backgroundView = nil
+        self.backgroundColor = color
+        self.contentView.backgroundColor = color
+        self.selectedBackgroundView = nil
     }
     
 }
