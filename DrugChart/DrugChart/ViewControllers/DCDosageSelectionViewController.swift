@@ -511,7 +511,11 @@ typealias SelectedDosage = DCDosage? -> Void
                     dosageSelectionDetailCell.configureCell(CHANGE_OVER_TITLE, selectedValue: (self.dosage?.reducingIncreasingDose.changeOver)!)
                 } else {
                     if (self.dosage?.reducingIncreasingDose?.conditionsArray != nil) {
-                    dosageSelectionDetailCell.configureCell(CONDITIONS_TITLE, selectedValue: DCDosageHelper.createDescriptionStringForDosageCondition((self.dosage?.reducingIncreasingDose.conditionsArray[0])! as! DCConditions, dosageUnit: (self.dosage?.doseUnit)!))
+                        if self.dosage?.reducingIncreasingDose?.conditionsArray.count > 0 {
+                            dosageSelectionDetailCell.configureCell(CONDITIONS_TITLE, selectedValue: DCDosageHelper.createDescriptionStringForDosageCondition((self.dosage?.reducingIncreasingDose.conditionsArray[0])! as! DCConditions, dosageUnit: (self.dosage?.doseUnit)!))
+                        } else {
+                            dosageSelectionDetailCell.configureCell(CONDITIONS_TITLE, selectedValue: "")
+                        }
                     } else {
                         dosageSelectionDetailCell.configureCell(CONDITIONS_TITLE, selectedValue: "")
                     }
