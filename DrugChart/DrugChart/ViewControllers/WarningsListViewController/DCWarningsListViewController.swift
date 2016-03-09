@@ -28,6 +28,7 @@ let NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR : CGFloat = 44.0
     var warningsArray = [Dictionary<String, AnyObject>]()
     var severeArray : AnyObject?
     var mildArray : AnyObject?
+    var overiddenReason : NSString?
     var loadOverideView : Bool? = false
     var delegate: WarningsDelegate?
     
@@ -116,22 +117,42 @@ let NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR : CGFloat = 44.0
                 sectionCount = sectionCount + 1
             }
         }
+        if loadOverideView == false {
+            sectionCount++
+        }
         return sectionCount
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        if section == SectionCount.eZerothSection.rawValue {
-            if severeArray?.count > 0 {
-                return severeArray!.count
+        if loadOverideView == false {
+            if section == SectionCount.eZerothSection.rawValue {
+                return 1
+            } else if section == SectionCount.eFirstSection.rawValue {
+                if severeArray?.count > 0 {
+                    return severeArray!.count
+                } else {
+                    if mildArray?.count > 0 {
+                        return mildArray!.count
+                    }
+                }
             } else {
                 if mildArray?.count > 0 {
                     return mildArray!.count
                 }
             }
         } else {
-            if mildArray?.count > 0 {
-                return mildArray!.count
+            if section == SectionCount.eZerothSection.rawValue {
+                if severeArray?.count > 0 {
+                    return severeArray!.count
+                } else {
+                    if mildArray?.count > 0 {
+                        return mildArray!.count
+                    }
+                }
+            } else {
+                if mildArray?.count > 0 {
+                    return mildArray!.count
+                }
             }
         }
         return RowCount.eZerothRow.rawValue
@@ -140,10 +161,19 @@ let NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR : CGFloat = 44.0
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell : DCWarningsCell = (tableView.dequeueReusableCellWithIdentifier(WARNINGS_CELL_ID) as? DCWarningsCell)!
-        if indexPath.section == SectionCount.eZerothSection.rawValue {
-            if severeArray?.count > 0 {
-            if let warning = severeArray?[indexPath.row]! as? DCWarning {
-                cell.populateWarningsCellWithWarningsObject(warning)
+        if loadOverideView == false {
+            if indexPath.section == SectionCount.eZerothSection.rawValue {
+                cell.populateCellWithOverrideReasonObject(overiddenReason!)
+
+            }else if indexPath.section == SectionCount.eFirstSection.rawValue {
+                if severeArray?.count > 0 {
+                    if let warning = severeArray?[indexPath.row]! as? DCWarning {
+                        cell.populateWarningsCellWithWarningsObject(warning)
+                    }
+                } else {
+                    if let warning = mildArray?[indexPath.row]! as? DCWarning {
+                        cell.populateWarningsCellWithWarningsObject(warning)
+                    }
                 }
             } else {
                 if let warning = mildArray?[indexPath.row]! as? DCWarning {
@@ -151,23 +181,48 @@ let NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR : CGFloat = 44.0
                 }
             }
         } else {
-            if let warning = mildArray?[indexPath.row]! as? DCWarning {
-                cell.populateWarningsCellWithWarningsObject(warning)
+            if indexPath.section == SectionCount.eZerothSection.rawValue {
+                if severeArray?.count > 0 {
+                    if let warning = severeArray?[indexPath.row]! as? DCWarning {
+                        cell.populateWarningsCellWithWarningsObject(warning)
+                    }
+                } else {
+                    if let warning = mildArray?[indexPath.row]! as? DCWarning {
+                        cell.populateWarningsCellWithWarningsObject(warning)
+                    }
+                }
+            } else {
+                if let warning = mildArray?[indexPath.row]! as? DCWarning {
+                    cell.populateWarningsCellWithWarningsObject(warning)
+                }
             }
         }
         return cell
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
-        if section == SectionCount.eZerothSection.rawValue {
-            if severeArray?.count > 0 {
-                return NSLocalizedString("SEVERE", comment: "Severe Warnings title")
+        if loadOverideView == false {
+            if section == SectionCount.eZerothSection.rawValue{
+                return NSLocalizedString("OVERRIDE REASON", comment: "override reasons title")
+            }else if section == SectionCount.eFirstSection.rawValue {
+                if severeArray?.count > 0 {
+                    return NSLocalizedString("SEVERE", comment: "Severe Warnings title")
+                } else {
+                    return NSLocalizedString("MILD", comment: "Mild Warnings title")
+                }
             } else {
                 return NSLocalizedString("MILD", comment: "Mild Warnings title")
             }
         } else {
-            return NSLocalizedString("MILD", comment: "Mild Warnings title")
+            if section == SectionCount.eZerothSection.rawValue {
+                if severeArray?.count > 0 {
+                    return NSLocalizedString("SEVERE", comment: "Severe Warnings title")
+                } else {
+                    return NSLocalizedString("MILD", comment: "Mild Warnings title")
+                }
+            } else {
+                return NSLocalizedString("MILD", comment: "Mild Warnings title")
+            }
         }
     }
         
@@ -192,7 +247,7 @@ let NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR : CGFloat = 44.0
     
     // MARK : AddMedicationDetailDelegate Methods
     
-    func overrideReasonSubmitted(reason: String!) {
+    func overrideReasonSubmittedInDetailView(reason: String!) {
         
         if let delegate = self.delegate {
             delegate.overrideReasonSubmitted(reason)

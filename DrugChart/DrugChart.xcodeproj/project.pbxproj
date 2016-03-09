@@ -10,7 +10,6 @@
 		0B0371EE1C16F9E600F2E0D1 /* DCSpecificTimes.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B0371ED1C16F9E600F2E0D1 /* DCSpecificTimes.m */; };
 		0B0371F21C1700C700F2E0D1 /* DCInterval.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B0371F11C1700C700F2E0D1 /* DCInterval.m */; };
 		0B0F1B611AB664B100DD2D69 /* Administer.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0B0F1B601AB664B100DD2D69 /* Administer.storyboard */; };
-		0B14CD8A1BB13BEB0085E40C /* DCAdministerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B14CD891BB13BEB0085E40C /* DCAdministerViewController.swift */; };
 		0B14CD8D1BB151EA0085E40C /* DCAdministerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B14CD8C1BB151EA0085E40C /* DCAdministerCell.swift */; };
 		0B14CD901BB183F40085E40C /* DCAdministerMedicationDetailsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B14CD8F1BB183F40085E40C /* DCAdministerMedicationDetailsCell.swift */; };
 		0B1589E71AD51B33005F3811 /* DCWardWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B1589E61AD51B33005F3811 /* DCWardWebService.m */; };
@@ -40,7 +39,6 @@
 		0B7D5CD31BB90E210044BE1B /* DCBNFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7D5CD21BB90E210044BE1B /* DCBNFViewController.swift */; };
 		0B7F74FC1B84394B00E3B0A0 /* DCSortTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B7F74FB1B84394B00E3B0A0 /* DCSortTableViewController.m */; };
 		0B7F75001B8439DA00E3B0A0 /* DCSortTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B7F74FF1B8439DA00E3B0A0 /* DCSortTableCell.m */; };
-		0B8498BD1BB11B9B00C740F2 /* DCCalendarSlotDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B8498BC1BB11B9B00C740F2 /* DCCalendarSlotDetailViewController.swift */; };
 		0B85D6811BF9CBCB009CF795 /* DCSchedulingHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B85D6801BF9CBCB009CF795 /* DCSchedulingHeaderView.swift */; };
 		0B85D6831BF9CC02009CF795 /* DCSchedulingHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B85D6821BF9CC02009CF795 /* DCSchedulingHeaderView.xib */; };
 		0B8768BE1C61DF51001DD827 /* DCCalendarHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B8768BD1C61DF51001DD827 /* DCCalendarHelper.swift */; };
@@ -422,7 +420,6 @@
 		0B0371F01C1700C700F2E0D1 /* DCInterval.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCInterval.h; sourceTree = "<group>"; };
 		0B0371F11C1700C700F2E0D1 /* DCInterval.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCInterval.m; sourceTree = "<group>"; };
 		0B0F1B601AB664B100DD2D69 /* Administer.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Administer.storyboard; path = ../Administer.storyboard; sourceTree = "<group>"; };
-		0B14CD891BB13BEB0085E40C /* DCAdministerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministerViewController.swift; sourceTree = "<group>"; };
 		0B14CD8C1BB151EA0085E40C /* DCAdministerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministerCell.swift; sourceTree = "<group>"; };
 		0B14CD8F1BB183F40085E40C /* DCAdministerMedicationDetailsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministerMedicationDetailsCell.swift; sourceTree = "<group>"; };
 		0B1589E51AD51B33005F3811 /* DCWardWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DCWardWebService.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -470,7 +467,6 @@
 		0B7F74FB1B84394B00E3B0A0 /* DCSortTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCSortTableViewController.m; sourceTree = "<group>"; };
 		0B7F74FE1B8439DA00E3B0A0 /* DCSortTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCSortTableCell.h; sourceTree = "<group>"; };
 		0B7F74FF1B8439DA00E3B0A0 /* DCSortTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCSortTableCell.m; sourceTree = "<group>"; };
-		0B8498BC1BB11B9B00C740F2 /* DCCalendarSlotDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCCalendarSlotDetailViewController.swift; sourceTree = "<group>"; };
 		0B85D6801BF9CBCB009CF795 /* DCSchedulingHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCSchedulingHeaderView.swift; sourceTree = "<group>"; };
 		0B85D6821BF9CC02009CF795 /* DCSchedulingHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCSchedulingHeaderView.xib; sourceTree = "<group>"; };
 		0B8768BD1C61DF51001DD827 /* DCCalendarHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCCalendarHelper.swift; sourceTree = "<group>"; };
@@ -990,7 +986,6 @@
 		0B14CD881BB13BD80085E40C /* AdministerViewController */ = {
 			isa = PBXGroup;
 			children = (
-				0B14CD891BB13BEB0085E40C /* DCAdministerViewController.swift */,
 				4D9225F51C6DDC130060761A /* ProgressSliderCell */,
 				4D52C0281C6C5F39005BE86B /* DurationBasedMedicationDetailsCell */,
 				0BB535831BBA46FA0043BC61 /* AdministerPickerCell */,
@@ -1272,7 +1267,6 @@
 			children = (
 				4D83869D1BB26BC60012EF7D /* DCMedicationHistoryHeaderView.xib */,
 				4D83869F1BB26D000012EF7D /* DCMedicationHistoryHeaderView.swift */,
-				0B8498BC1BB11B9B00C740F2 /* DCCalendarSlotDetailViewController.swift */,
 				4D011C571BB147D7005C79A2 /* DCMedicationHistoryViewController.swift */,
 				4D011C591BB15D47005C79A2 /* MedicationHistoryCells */,
 			);
@@ -3603,7 +3597,6 @@
 				0B989E971B8C22960012AFE8 /* DCCalendarNavigationTitleView.m in Sources */,
 				FDD548661C4510B1000EB855 /* DCDosage.m in Sources */,
 				0B1FB56C1AFC8EBD0067FB38 /* DCLogOutWebService.m in Sources */,
-				0B8498BD1BB11B9B00C740F2 /* DCCalendarSlotDetailViewController.swift in Sources */,
 				0B720B531B1DA4FD00144665 /* DCSearchMedication.m in Sources */,
 				0B2400F81C5B26220095AEA5 /* DCAdministrationTimesViewController.swift in Sources */,
 				7D4DBE9B1AA55D2D00A5E39B /* DCPatientListWebService.m in Sources */,
@@ -3738,7 +3731,6 @@
 				1FD4FD0B1BF4BAE000B77B94 /* Helper.swift in Sources */,
 				1FB412681BFB522900D91487 /* String.swift in Sources */,
 				7D3234A81AF108990020CC8F /* DCSettingsViewController.m in Sources */,
-				0B14CD8A1BB13BEB0085E40C /* DCAdministerViewController.swift in Sources */,
 				4D8386A01BB26D000012EF7D /* DCMedicationHistoryHeaderView.swift in Sources */,
 				0BB33DD01B79D48E00B05E4D /* DCAuthorizationManager.m in Sources */,
 				0BA5A3921BF35E2700251F94 /* DCSchedulingDetailViewController.swift in Sources */,

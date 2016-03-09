@@ -8,7 +8,7 @@
 
 import Foundation
 
-class DCAdministrationInProgressViewController : UIViewController,StatusListDelegate,NotesCellDelegate, AdministrationDateDelegate {
+class DCAdministrationInProgressViewController : DCBaseViewController,StatusListDelegate,NotesCellDelegate, AdministrationDateDelegate {
     
     @IBOutlet weak var administerInProgressTableView: UITableView!
     var medicationSlot : DCMedicationSlot?
@@ -16,6 +16,8 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
     var isDatePickerShown : Bool = false
     var isValid : Bool = true
 
+    var datePickerIndexPath : NSIndexPath = NSIndexPath(forRow: 1, inSection: 2)
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -233,7 +235,7 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
         if (self.medicationSlot?.medicationAdministration.expiryDateTime == nil) {
             self.medicationSlot?.medicationAdministration.expiryDateTime = NSDate()
             self.administerInProgressTableView.beginUpdates()
-            self.administerInProgressTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 2)], withRowAnimation:.Fade)
+            self.administerInProgressTableView.reloadRowsAtIndexPaths([datePickerIndexPath], withRowAnimation:.Fade)
             self.administerInProgressTableView.endUpdates()
             self.performSelector(Selector("toggleDatePickerForSelectedIndexPath:"), withObject: indexPath, afterDelay: 0.1)
         } else {
@@ -243,12 +245,12 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
     
     func collapseOpenedDatePicker () {
         if isDatePickerShown {
-            self.toggleDatePickerForSelectedIndexPath(NSIndexPath(forRow: 1, inSection: 2))
+            self.toggleDatePickerForSelectedIndexPath(datePickerIndexPath)
         }
     }
     
     func toggleDatePickerForSelectedIndexPath(indexPath : NSIndexPath) {
-        
+        administerInProgressTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: indexPath.row - 1, inSection: indexPath.section), atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
         administerInProgressTableView.beginUpdates()
         let indexPaths = [NSIndexPath(forRow: indexPath.row + 1, inSection: indexPath.section)]
         // check if 'indexPath' has an attached date picker below it
@@ -274,7 +276,6 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
     // MARK: NotesCell Delegate Methods
     func notesSelected(editing : Bool, withIndexPath indexPath : NSIndexPath) {
         self.collapseOpenedDatePicker()
-        self.administerInProgressTableView.setContentOffset(CGPointMake(0, 280), animated: true)
     }
     
     func selectedDateAtIndexPath(date: NSDate, indexPath: NSIndexPath) {
@@ -287,5 +288,26 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
         
     }
     
+    // MARK: - keyboard Delegate Methods
+    
+    func keyboardDidShow(notification : NSNotification) {
+        if let userInfo = notification.userInfo {
+            if let keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+                let offset : CGFloat = NOTES_CELL_HEIGHT
+                let delayInSeconds: Double = 0.50
+                let deleteTime : dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(delayInSeconds * Double(NSEC_PER_SEC)))
+                dispatch_after(deleteTime, dispatch_get_main_queue(), {() -> Void in
+                    let contentHeight : CGFloat? = self.administerInProgressTableView.frame.height
+                    let scrollOffset = contentHeight! - keyboardSize.height + offset + 5
+                    self.administerInProgressTableView.setContentOffset(CGPoint(x: 0, y: scrollOffset), animated: true)
+                })
+            }
+        }
+    }
+    
+    func keyboardDidHide(notification :NSNotification){
+        administerInProgressTableView.beginUpdates()
+        administerInProgressTableView.endUpdates()
+    }
     
 }

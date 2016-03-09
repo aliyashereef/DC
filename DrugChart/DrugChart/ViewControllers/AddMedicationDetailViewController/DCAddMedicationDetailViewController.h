@@ -14,7 +14,7 @@ typedef void(^EntrySelected)(NSString *value);
 
 @optional
 
-- (void)overrideReasonSubmitted:(NSString *)reason;
+- (void)overrideReasonSubmittedInDetailView:(NSString *)reason;
 
 @end
 

@@ -168,8 +168,8 @@
         DCReasonCell *reasonCell = (DCReasonCell *)[detailTableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
         if (![reasonCell.reasonTextView.text isEqualToString:EMPTY_STRING] && ![reasonCell.reasonTextView.text isEqualToString:REASON]) {
             [self.navigationController dismissViewControllerAnimated:YES completion:^{
-                if (self.delegate && [self.delegate respondsToSelector:@selector(overrideReasonSubmitted:)]) {
-                    [self.delegate overrideReasonSubmitted:reasonCell.reasonTextView.text];
+                if (self.delegate && [self.delegate respondsToSelector:@selector(overrideReasonSubmittedInDetailView:)]) {
+                    [self.delegate overrideReasonSubmittedInDetailView:reasonCell.reasonTextView.text];
                 }
             }];
         } else {
