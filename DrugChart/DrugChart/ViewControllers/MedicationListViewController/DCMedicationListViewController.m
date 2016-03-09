@@ -27,6 +27,7 @@
     DCMedicationSearchWebService *medicationWebService;
     NSMutableArray *warningsArray;
     DCMedication *updatedMedication;
+    NSString *overiddenReason;
     DCWarningsListViewController *warningsListViewController;
 }
 

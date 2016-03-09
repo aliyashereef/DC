@@ -692,6 +692,7 @@
     self.selectedMedication.medicationId = medication.medicationId;
     self.selectedMedication.dosage = medication.dosage;
     self.selectedMedication.hasEndDate = NO;
+    self.selectedMedication.overriddenReason = medication.overriddenReason;
     self.selectedMedication.severeWarningCount = severeArray.count;
     self.selectedMedication.mildWarningCount = mildArray.count;
     self.selectedMedication.medicineCategory = REGULAR_MEDICATION;
@@ -709,6 +710,7 @@
     DCWarningsListViewController *warningsListViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:WARNINGS_LIST_STORYBOARD_ID];
     //warningsListViewController.backButtonText = titleLabel.text;
     [self configureNavigationBackButtonTitle];
+    warningsListViewController.overiddenReason = self.selectedMedication.overriddenReason;
     [warningsListViewController populateWarningsListWithWarnings:warningsArray showOverrideView:NO];
     [self.navigationController pushViewController:warningsListViewController animated:YES];
 }
