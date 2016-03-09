@@ -10,6 +10,9 @@ import UIKit
 
 class DCMedicationSummaryDisplayTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var contentLabel: UILabel!
+    @IBOutlet weak var valueLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

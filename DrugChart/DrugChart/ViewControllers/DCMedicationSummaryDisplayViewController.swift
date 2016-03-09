@@ -104,13 +104,13 @@ class DCMedicationSummaryDisplayViewController: UIViewController, UITableViewDel
     //MARK: TableView Delegate Methods
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0 : return 1
-        case 1 : return medicationSlotsArray.count
+        case 1 : return 2
         default : break
         }
         return 0
@@ -122,16 +122,16 @@ class DCMedicationSummaryDisplayViewController: UIViewController, UITableViewDel
         case 0 :
             return configureMedicationDetailsCellAtIndexPath(indexPath)
         default:
-            return configureAdministrationStatusCellAtIndexPath(indexPath)
+            return configureContentCellAtIndexPath(indexPath)
         }
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        case 1 : return headerString as String
-        default : return EMPTY_STRING
-        }
-    }
+//    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        switch section {
+//        case 1 : return headerString as String
+//        default : return EMPTY_STRING
+//        }
+//    }
     
     func configureAdministrationStatusCellAtIndexPath (indexPath :NSIndexPath) -> DCAdministrationStatusCell{
         let cell = summaryDisplayTableView.dequeueReusableCellWithIdentifier("AdministrationStatusCell") as? DCAdministrationStatusCell
@@ -163,27 +163,24 @@ class DCMedicationSummaryDisplayViewController: UIViewController, UITableViewDel
         return cell!
     }
     
+    func configureContentCellAtIndexPath (indexPath :NSIndexPath) -> DCMedicationSummaryDisplayTableViewCell{
+        
+        let cell : DCMedicationSummaryDisplayTableViewCell = summaryDisplayTableView.dequeueReusableCellWithIdentifier("menuCell") as! DCMedicationSummaryDisplayTableViewCell
+        if indexPath.row == 0 {
+            cell.contentLabel.text = "Administration History"
+        } else {
+            cell.contentLabel.text = "Review History"
+        }
+        return cell
+    }
+    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         if (indexPath.section == 0) {
-            addBNFView()
+            
         } else {
             
-            let cell = summaryDisplayTableView.cellForRowAtIndexPath(indexPath) as? DCAdministrationStatusCell
-            if cell?.administrationStatusLabel.text != PENDING {
-                let medicationSlot : DCMedicationSlot = medicationSlotsArray[indexPath.row]
-                if (cell?.administrationStatusLabel.text == ADMINISTER_MEDICATION || cell?.administrationStatusLabel.text == ADMINISTER_NOW || cell?.administrationStatusLabel.text == "In progress") {
-                    slotToAdminister?.time = medicationSlot.time
-                    addAdministerViewWithStatus((cell?.administrationStatusLabel.text)!)
-                } else {
-                    if DCAdministrationHelper.isMedicationDurationBasedInfusion(medicationDetails!) && cell?.administrationStatusLabel.text == ADMINISTERED {
-                        self.transitToAdminsisterGraphViewController(indexPath.row)
-                    } else {
-                        addMedicationHistoryViewAtIndex(indexPath.row)
-                    }
-                }
-            }
         }
     }
     

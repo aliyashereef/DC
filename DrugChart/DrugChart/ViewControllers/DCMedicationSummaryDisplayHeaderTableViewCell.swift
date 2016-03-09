@@ -13,7 +13,7 @@ class DCMedicationSummaryDisplayHeaderTableViewCell: UITableViewCell {
     @IBOutlet weak var medicineNameLabel: UILabel!
     @IBOutlet weak var medicineCategoryLabel: UILabel!
     @IBOutlet weak var dosageRouteAndInstructionLabel: UILabel!
-    
+    @IBOutlet weak var doseValueLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -32,6 +32,7 @@ class DCMedicationSummaryDisplayHeaderTableViewCell: UITableViewCell {
             populateRouteAndInstructionLabelsWithDetails(medicationDetails)
         }
         self.medicineCategoryLabel.text = DCCalendarHelper.typeDescriptionForMedication(medicationDetails)
+        self.doseValueLabel.text = medicationDetails.dosage
     }
     
     func populateRouteAndInstructionLabelsWithDetails(medicationDetails : DCMedicationScheduleDetails) {
