@@ -8,12 +8,14 @@
 
 import UIKit
 
+typealias ReducingIncreasingDoseEntered = DCReducingIncreasingDose? -> Void
+
 class DCDosageConditionsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate{
 
     var previewDetailsArray = [String]()
-    var previousSelectedValue : NSString = ""
     var dosage : DCDosage?
     var conditionDescriptionArray = [String]()
+    var reducingIncreasingDoseEntered: ReducingIncreasingDoseEntered = { value in }
 
     @IBOutlet weak var conditionTableView: UITableView!
     override func viewDidLoad() {
@@ -35,7 +37,7 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
         
         conditionTableView.reloadData()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -117,6 +119,7 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
                     self.dosage?.reducingIncreasingDose?.conditionsArray.addObject(value!)
                     self.updateConditionDescriptionArray()
                     self.updateMainPreviewDetailsArray()
+                    self.reducingIncreasingDoseEntered(self.dosage?.reducingIncreasingDose)
                     tableView.reloadData()
                 }
                 addConditionViewController!.dosage = self.dosage
@@ -131,6 +134,7 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
                 self.dosage?.reducingIncreasingDose?.conditionsArray.addObject(value!)
                 self.updateConditionDescriptionArray()
                 self.updateMainPreviewDetailsArray()
+                self.reducingIncreasingDoseEntered(self.dosage?.reducingIncreasingDose)
                 tableView.reloadData()
             }
             addConditionViewController!.dosage = self.dosage

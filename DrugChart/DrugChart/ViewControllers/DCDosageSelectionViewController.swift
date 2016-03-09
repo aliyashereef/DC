@@ -510,7 +510,11 @@ typealias SelectedDosage = DCDosage? -> Void
                 } else if(indexPath.row == 2){
                     dosageSelectionDetailCell.configureCell(CHANGE_OVER_TITLE, selectedValue: (self.dosage?.reducingIncreasingDose.changeOver)!)
                 } else {
-                    dosageSelectionDetailCell.configureCell(CONDITIONS_TITLE, selectedValue: (self.dosage?.reducingIncreasingDose.conditions.conditionDescription)!)
+                    if (self.dosage?.reducingIncreasingDose?.conditionsArray != nil) {
+                    dosageSelectionDetailCell.configureCell(CONDITIONS_TITLE, selectedValue: DCDosageHelper.createDescriptionStringForDosageCondition((self.dosage?.reducingIncreasingDose.conditionsArray[0])! as! DCConditions, dosageUnit: (self.dosage?.doseUnit)!))
+                    } else {
+                        dosageSelectionDetailCell.configureCell(CONDITIONS_TITLE, selectedValue: "")
+                    }
                 }
             } else {
                 if (indexPath.row == 0) {
@@ -586,6 +590,9 @@ typealias SelectedDosage = DCDosage? -> Void
                             dosageCell.dosageDetailLabel!.textColor = UIColor.redColor()
                         } else {
                             let dosageConditionsViewController : DCDosageConditionsViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_CONDITIONS_SBID) as? DCDosageConditionsViewController
+                            dosageConditionsViewController?.reducingIncreasingDoseEntered = { value in
+                                self.dosage?.reducingIncreasingDose = value 
+                            }
                             dosageConditionsViewController?.dosage = self.dosage
                             self.configureNavigationBackButtonTitle()
                             self.navigationController?.pushViewController(dosageConditionsViewController!, animated: true)
