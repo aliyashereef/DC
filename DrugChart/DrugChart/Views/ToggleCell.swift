@@ -17,6 +17,7 @@ class ToggleCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.selectionStyle = UITableViewCellSelectionStyle.None
         toggleValue.addTarget(self, action: "valueChanged:", forControlEvents: .ValueChanged )
     }
     

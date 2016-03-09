@@ -17,6 +17,7 @@ class SwitchCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.selectionStyle = UITableViewCellSelectionStyle.None
         segmentedValue.addTarget(self, action: "valueChanged:", forControlEvents: .ValueChanged )
     }
 

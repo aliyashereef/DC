@@ -13,12 +13,6 @@ import CocoaLumberjack
 class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,CellDelegate{
     
     @IBOutlet var tableView: UITableView!
-    private var obsBodyTemperature:BodyTemperature?
-    private var obsRespiratory : Respiratory?
-    private var obsPulse :Pulse?
-    private var obsSPO2 : SPO2?
-    private var obsBM : BowelMovement?
-    private var obsBP :BloodPressure?
     var observation:VitalSignObservation!
     var showObservationType:ShowObservationType = ShowObservationType.All
     var uitag:DataEntryObservationSource!
@@ -158,8 +152,6 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
                     return 4
                 case ShowObservationType.Pulse:
                     return 5
-                    /*   case ShowObservationType.BM:
-                    return 6*/
                 case ShowObservationType.AdditionalOxygen:
                     return 6
                 case ShowObservationType.AVPU:
@@ -183,7 +175,6 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
         }
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-       // var cellTitle:String = ""
         
         var placeHolderText = "enter value"
         let rowNumber = getRowNumber(indexPath)
@@ -201,7 +192,6 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             return cell
             
         case ObservationType.Respiratory:
-            //let cell = DoubleCell(style: UITableViewCellStyle.Default, reuseIdentifier: doubleCellIdentifier)
             let cell = tableView.dequeueReusableCellWithIdentifier(doubleCellIdentifier, forIndexPath: indexPath) as! DoubleCell
             cell.tag = ObservationType.Respiratory.rawValue
             cell.configureCell("Resps (per minute)", valuePlaceHolderText: placeHolderText,selectedValue: nil , disableNavigation: showObservationType != .All)
@@ -216,7 +206,6 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             
         case ObservationType.SpO2:
             placeHolderText = "enter %"
-            //let cell = DoubleCell(style: UITableViewCellStyle.Default, reuseIdentifier: nil)
             
             let cell = tableView.dequeueReusableCellWithIdentifier(doubleCellIdentifier, forIndexPath: indexPath) as! DoubleCell
             cell.tag = ObservationType.SpO2.rawValue
@@ -230,7 +219,6 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             return cell
             
         case ObservationType.Temperature:
-            //let cell = DoubleCell(style: UITableViewCellStyle.Default, reuseIdentifier: nil)
             
             let cell = tableView.dequeueReusableCellWithIdentifier(doubleCellIdentifier, forIndexPath: indexPath) as! DoubleCell
             cell.tag = ObservationType.Temperature.rawValue
@@ -258,8 +246,6 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             return cell
             
         case ObservationType.Pulse:
-            //let cell = DoubleCell(style: UITableViewCellStyle.Default, reuseIdentifier: nil)
-            
             let cell = tableView.dequeueReusableCellWithIdentifier(doubleCellIdentifier, forIndexPath: indexPath) as! DoubleCell
             cell.tag = ObservationType.Pulse.rawValue
             cell.configureCell("Pulse (beats/min)", valuePlaceHolderText: placeHolderText,selectedValue: nil , disableNavigation: showObservationType != .All)
@@ -270,16 +256,6 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             }
             cell.delegate = self
             return cell
-            
-            /* case ObservationType.BM:
-            cellTitle = "BM"
-            
-            let cell = tableView.dequeueReusableCellWithIdentifier("DoubleCell", forIndexPath: indexPath) as! DoubleCell
-            cell.tag = ObservationType.BM.rawValue
-            cell.configureCell(cellTitle, valuePlaceHolderText: placeHolderText,selectedValue: nil , disableNavigation: showObservationType != .All)
-            cells[rowNumber] = cell
-            cell.delegate = self
-            return cell*/
         case ObservationType.AdditionalOxygen:
             let cell = tableView.dequeueReusableCellWithIdentifier(toggleCellIdentifier, forIndexPath: indexPath) as! ToggleCell
             cells[rowNumber] = cell
@@ -388,10 +364,6 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
         return nil
     }
     
-//    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-//        
-//        print("display cell")
-//    }
     func prepareObjects()
     {
                 if(uitag == DataEntryObservationSource.VitalSignEditIPad || uitag == DataEntryObservationSource.VitalSignEditIPhone)
@@ -430,7 +402,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
                             observation.pulse?.stringValue = cell.getStringValue()
                         }
                     default:
-                        print("nothing happened")
+                        print("Not a valid option for prepareObjects ")
                     }
                 }
                 else
@@ -443,80 +415,27 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
                 observation.date = dateCell.date
             case ObservationType.Temperature.rawValue:
                 let doubleCell = cell as! DoubleCell
-                if doubleCell.isValueEntered()
-                {
-                    obsBodyTemperature = BodyTemperature()
-                    obsBodyTemperature?.stringValue = doubleCell.getStringValue()
-                }
-                else
-                {
-                    obsBodyTemperature = nil
-                }
+                observation.temperature?.stringValue = doubleCell.getStringValue()
+                
             case ObservationType.Respiratory.rawValue:
                 let doubleCell = cell as! DoubleCell
-                if(doubleCell.isValueEntered())
-                {
-                    obsRespiratory = Respiratory()
-                    obsRespiratory!.stringValue = doubleCell.getStringValue()
-                }
-                else
-                {
-                    obsRespiratory = nil
-                }
+                observation.respiratory?.stringValue = doubleCell.getStringValue()
+            
             case ObservationType.Pulse.rawValue:
                 let doubleCell = cell as! DoubleCell
-                if(doubleCell.isValueEntered())
-                {
-                    obsPulse = Pulse()
-                    obsPulse!.stringValue = doubleCell.getStringValue()
-                }
-                else
-                {
-                    obsPulse = nil
-                }
+                   observation.pulse?.stringValue = doubleCell.getStringValue()
+               
             case ObservationType.SpO2.rawValue:
                 let doubleCell = cell as! DoubleCell
-                if (doubleCell.isValueEntered())
-                {
-                    obsSPO2 = SPO2()
-                    obsSPO2!.stringValue = doubleCell.getStringValue()
-                }
-                else
-                {
-                    obsSPO2 = nil
-                }
-                /* case ObservationType.BM.rawValue:
-                let doubleCell = cell as! DoubleCell
-                if(doubleCell.isValueEntered())
-                {
-                obsBM = BowelMovement()
-                obsBM!.value = doubleCell.getValue()
-                }
-                else
-                {
-                obsBM = nil
-                }*/
+                observation.spo2?.stringValue = doubleCell.getStringValue()
+                
             case ObservationType.BloodPressure.rawValue:
                 let bloodPressureCell = cell as! BloodPressureCell
-                if(bloodPressureCell.isValueEntered())
-                {
-                    obsBP = BloodPressure()
-                    obsBP!.stringValueSystolic = bloodPressureCell.getSystolicStringValue()
-                    obsBP!.stringValueDiastolic = bloodPressureCell.getDiastolicStringValue()
-                }
-                else
-                {
-                    obsBP = nil
-                }
+                    observation.bloodPressure!.stringValueSystolic = bloodPressureCell.getSystolicStringValue()
+                    observation.bloodPressure!.stringValueDiastolic = bloodPressureCell.getDiastolicStringValue()
             default:
                 print("nothing have been selected", terminator: "")
             }
-            observation.bm = obsBM
-            observation.bloodPressure = obsBP
-            observation.spo2 = obsSPO2
-            observation.respiratory = obsRespiratory
-            observation.temperature = obsBodyTemperature
-            observation.pulse = obsPulse
         }
     }
 }
@@ -568,8 +487,9 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             let doubleCell = cells[cellNumber] as? DoubleCell
             let numericTextField = object as? NumericTextField
             let value =  numericTextField?.getValue()
+            observation.respiratory?.stringValue = numericTextField!.text!
             
-            print("respiratory value \(value) and \(doubleCell?.selected)")
+           // print("respiratory value \(value) and \(doubleCell?.selected)")
             
             if(numericTextField?.isValueEntered() == false)
             {
@@ -596,7 +516,9 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             let numericTextField = object as? NumericTextField
             
             let value =  numericTextField?.getValue()
-            print("spo2 value \(value) and \(doubleCell?.selected)")
+            observation.spo2?.stringValue = numericTextField!.text!
+            
+            //  print("spo2 value \(value) and \(doubleCell?.selected)")
             
             if(numericTextField?.isValueEntered() == false)
             {
@@ -622,7 +544,9 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             let doubleCell = cells[cellNumber] as? DoubleCell
             let numericTextField = object as? NumericTextField
             let value =  numericTextField?.getValue()
-            print("temperature value \(value) and \(doubleCell?.selected)")
+            observation.temperature?.stringValue = numericTextField!.text!
+            
+          //  print("temperature value \(value) and \(doubleCell?.selected)")
             
             if(numericTextField?.isValueEntered() == false)
             {
@@ -648,7 +572,9 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             let bloodPressureCell = cells[cellNumber] as? BloodPressureCell
             let numericTextField = object as? NumericTextField
             let value =  numericTextField?.getValue()
-            print("blood pressure  \(value) and \(bloodPressureCell?.selected)")
+            observation.bloodPressure?.stringValueSystolic = numericTextField!.text!
+            
+            //   print("blood pressure  \(value) and \(bloodPressureCell?.selected)")
             
             if(numericTextField?.isValueEntered() == false)
             {
@@ -674,7 +600,9 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             let doubleCell = cells[cellNumber] as? DoubleCell
             let numericTextField = object as? NumericTextField
             let value =  numericTextField?.getValue()
-            print("pulse value \(value) and \(doubleCell?.selected)")
+            observation.pulse?.stringValue = numericTextField!.text!
+            
+            //print("pulse value \(value) and \(doubleCell?.selected)")
             
             if(numericTextField?.isValueEntered() == false)
             {
@@ -699,6 +627,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
         case ObservationType.AdditionalOxygen:
             let toggleCell = cells[cellNumber] as? ToggleCell
             let switchValue = object as? UISwitch
+            observation.additionalOxygen = (switchValue?.on)!
             if(switchValue?.on == true)
             {
                 toggleCell?.setCellBackgroundColor(Constant.AMBER_COLOR)
@@ -710,6 +639,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
         case ObservationType.AVPU:
             let switchCell = cells[cellNumber] as? SwitchCell
             let switchValue = object as? UISegmentedControl
+            observation.isConscious = (switchValue?.selectedSegmentIndex == 1 ? false:true)
             if(switchValue?.selectedSegmentIndex == 1)// user has selected V,P or U
             {
                 switchCell?.setCellBackgroundColor(Constant.RED_COLOR)
@@ -721,7 +651,33 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
         default:
             DDLogDebug("No valid row to perform cellValueChanged")
         }
+        updateNewsScore()
     }
     
+    func updateNewsScore()
+    {
+        let score = observation.getNews()
+        let rowNumber  = getRowNumber(NSIndexPath(forRow: 0, inSection: SECTION_NEWS_SCORE))
+        let doubleCell = cells[rowNumber] as? DoubleCell
+        doubleCell?.numericValue.text = score
+        let value = doubleCell?.getValue()
+        if(value >= 1 && value <= 4 )
+        {
+            doubleCell?.setCellBackgroundColor(Constant.GREEN_COLOR)
+        }
+        else if(value >= 5 && value <= 6)
+        {
+            doubleCell?.setCellBackgroundColor(Constant.AMBER_COLOR)
+        }
+        else if(value >= 7)
+        {
+            doubleCell?.setCellBackgroundColor(Constant.RED_COLOR)
+        }
+        else
+        {
+            doubleCell?.setCellBackgroundColor(Constant.NO_COLOR)
+        }
+        
+    }
 }
 

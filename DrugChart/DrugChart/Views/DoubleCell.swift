@@ -52,7 +52,6 @@ class DoubleCell: UITableViewCell ,ButtonAction{
 
     func  getValue() ->Double
     {
-       // return (numericValue.text as NSString!).doubleValue
        return numericValue.getValue()
     }
     
@@ -75,18 +74,6 @@ class DoubleCell: UITableViewCell ,ButtonAction{
         self.numericValue.backgroundColor = color
         self.selectedBackgroundView = nil
     }
-    
-//    func isValueEntered() -> Bool
-//    {
-//        if (value.text == nil || value.text!.isEmpty == true)
-//        {
-//            return false
-//        }
-//        else
-//        {
-//            return true
-//        }
-//    }
     
     
     func configureCell(title:String , valuePlaceHolderText:String , selectedValue:Double! , disableNavigation:Bool)

@@ -19,6 +19,10 @@ class VitalSignObservation
     var respiratory:Respiratory?
     var spo2:SPO2?
     var date:NSDate
+    var additionalOxygen:Bool
+    var isConscious:Bool
+    
+    // Comma Score
     var eyesOpen:KeyValue?
     var bestVerbalResponse:KeyValue?
     var bestMotorResponse:KeyValue?
@@ -29,13 +33,16 @@ class VitalSignObservation
     
      init()
     {
-        bloodPressure = nil
-        temperature = nil
+        bloodPressure = BloodPressure()
+        temperature = BodyTemperature()
         bm = nil
-        pulse = nil
-        respiratory = nil
-        spo2 = nil
+        pulse = Pulse()
+        respiratory = Respiratory()
+        spo2 = SPO2()
         date = NSDate()
+        additionalOxygen = false
+        isConscious = true
+        
         eyesOpen = nil
         bestVerbalResponse = nil
         bestMotorResponse = nil
@@ -82,7 +89,7 @@ class VitalSignObservation
         var score :Int = 0
         var invalidResult:Bool = false
         var interimScore : Int
-        if respiratory != nil
+        if (respiratory!.isValueEntered())
         {
             interimScore = getRepiratoryRating((respiratory?.repiratoryRate)!)
             if(interimScore == -1)
@@ -96,7 +103,7 @@ class VitalSignObservation
             invalidResult = true
         }
         
-        if spo2 != nil
+        if spo2!.isValueEntered()
         {
             interimScore = getOxygenSaturationRating((spo2?.spO2Percentage)!)
             if(interimScore == -1)
@@ -110,7 +117,7 @@ class VitalSignObservation
             invalidResult = true
         }
         
-        if temperature != nil
+        if temperature!.isValueEntered()
         {
             interimScore = getTemperatureRating((temperature?.value)!)
             if(interimScore == -1)
@@ -124,7 +131,7 @@ class VitalSignObservation
             invalidResult = true
         }
         
-        if bloodPressure != nil
+        if bloodPressure!.isValueEntered()
         {
             interimScore = getBloodPressureRating((bloodPressure?.systolic)!)
             if(interimScore == -1)
@@ -138,7 +145,7 @@ class VitalSignObservation
             invalidResult = true
         }
         
-        if pulse != nil
+        if pulse!.isValueEntered()
         {
             interimScore = getHeartRateRating((pulse?.pulseRate)!)
             if(interimScore == -1)

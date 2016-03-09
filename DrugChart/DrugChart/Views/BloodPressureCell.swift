@@ -17,6 +17,7 @@ class BloodPressureCell: UITableViewCell ,ButtonAction{
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.selectionStyle = UITableViewCellSelectionStyle.None
         systolicValue.addTarget(self, action: "valueChanged:", forControlEvents: UIControlEvents.EditingChanged)
     }
    

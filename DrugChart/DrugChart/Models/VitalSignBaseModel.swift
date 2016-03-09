@@ -37,6 +37,11 @@ class VitalSignBaseModel
         return nil
     }
     
+    func isValueEntered() -> Bool
+    {
+        return !strValue.isEmpty
+    }
+    
     //This function only supports one code in the array.
     func FHIRCode(text:String , codeId:String ) -> CodeableConcept
     {
