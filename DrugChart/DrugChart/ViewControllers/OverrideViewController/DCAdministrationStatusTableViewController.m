@@ -70,11 +70,11 @@
 
 - (void)rowCountAccordingToStatus {
     
-    if ([_previousSelectedValue isEqualToString: STOPED_DUE_TO_PROBLEM] || [_previousSelectedValue isEqualToString:CONTINUED_AFTER_PROBLEM]) {
+    if (([_previousSelectedValue isEqualToString: STOPED_DUE_TO_PROBLEM] || [_previousSelectedValue isEqualToString:CONTINUED_AFTER_PROBLEM]) && [_status  isEqual: IN_PROGRESS]) {
         isSecondSectionExpanded = YES;
         rowCount = 1;
         [self.tableView reloadData];
-    } else if ([_previousSelectedValue isEqualToString: FLUID_CHANGED]) {
+    } else if ([_previousSelectedValue isEqualToString: FLUID_CHANGED] && [_status  isEqual: IN_PROGRESS]) {
         isSecondSectionExpanded = YES;
         rowCount = 4;
         [self.tableView reloadData];
@@ -442,7 +442,6 @@
 }
 
 - (void)displayInlineDatePickerForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     // display the date picker inline with the table content
     [self.tableView beginUpdates];
     BOOL before = NO;   // indicates if the date picker is below "indexPath", help us determine which row to reveal
@@ -460,6 +459,7 @@
         // hide the old date picker and display the new one
         NSInteger rowToReveal = (before ? indexPath.row - 1 : indexPath.row);
         NSIndexPath *indexPathToReveal = [NSIndexPath indexPathForRow:rowToReveal inSection:indexPath.section];
+        [self scrollToDatePickerAtIndexPath:indexPath];
         [self toggleDatePickerForSelectedIndexPath:indexPathToReveal];
         datePickerIndexPath = [NSIndexPath indexPathForRow:indexPathToReveal.row + 1 inSection:indexPath.section];
     }
@@ -484,6 +484,19 @@
     }
     [self.tableView endUpdates];
 }
+
+- (void)scrollToDatePickerAtIndexPath:(NSIndexPath *)indexPath {
+    
+    //scroll to date picker indexpath when when any of the date field is selected
+    NSIndexPath *scrollToIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView scrollToRowAtIndexPath:scrollToIndexPath
+                              atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+        
+    });
+}
+
+//MARK: Delegate Methods
 
 - (void)enteredBatchDetails:(NSString *)batch {
     self.medicationSlot.medicationAdministration.batch = batch;
