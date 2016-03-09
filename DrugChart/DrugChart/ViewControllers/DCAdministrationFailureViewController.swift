@@ -307,7 +307,8 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
     }
     
     func enteredNote(note : String) {
-        medicationSlot?.medicationAdministration?.refusedNotes = note        
+        isValid = true
+        medicationSlot?.medicationAdministration?.refusedNotes = note
     }
     
     // mark:StatusList Delegate Methods
@@ -340,7 +341,6 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
     }
     
     func keyboardDidHide(notification :NSNotification){
-//        self.administrationFailureTableView.setContentOffset(CGPoint(x: 0, y: -48), animated: true)
         administrationFailureTableView.beginUpdates()
         administrationFailureTableView.endUpdates()
     }

@@ -8,6 +8,42 @@
 
 import Foundation
 
+let INITIAL_SECTION_ROW_COUNT : NSInteger = 2
+let STATUS_ROW_COUNT : NSInteger = 1
+let ADMINISTERED_SECTION_ROW_COUNT : NSInteger = 4
+let OMITTED_OR_REFUSED_SECTION_ROW_COUNT : NSInteger = 1
+let NOTES_SECTION_ROW_COUNT : NSInteger = 1
+let INITIAL_SECTION_HEIGHT : CGFloat = 0.0
+let TABLEVIEW_DEFAULT_SECTION_HEIGHT : CGFloat = 20.0
+let MEDICATION_DETAILS_SECTION_HEIGHT : CGFloat = 0.0
+let MEDICATION_DETAILS_CELL_INDEX : NSInteger = 0
+let DATE_PICKER_VIEW_CELL_HEIGHT : CGFloat = 200.0
+let NOTES_CELL_HEIGHT : CGFloat = 125.0
+let TABLE_CELL_DEFAULT_HEIGHT : CGFloat = 41.0
+let DATE_PICKER_CELL_TAG : NSInteger = 101
+let SECURITY_PIN_VIEW_ALPHA : CGFloat = 0.3
+let DISPLAY_SECURITY_PIN_ENTRY : String = "displaySecurityPinEntryViewForUser:"
+
+enum SectionCount : NSInteger {
+    
+    // enum for Section Count
+    case eZerothSection = 0
+    case eFirstSection
+    case eSecondSection
+    case eThirdSection
+    case eFourthSection
+}
+
+enum RowCount : NSInteger {
+    
+    //enum for row count
+    case eZerothRow = 0
+    case eFirstRow
+    case eSecondRow
+    case eThirdRow
+    case eFourthRow
+}
+
 class DCAdministrationStatusSelectionViewController: UIViewController,StatusListDelegate {
     
     @IBOutlet weak var administerStatusSelectionTableView: UITableView!

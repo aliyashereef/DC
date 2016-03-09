@@ -162,7 +162,9 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         let notesCell : DCNotesTableCell = (administerSuccessTableView.dequeueReusableCellWithIdentifier(NOTES_CELL_ID) as? DCNotesTableCell)!
         notesCell.selectedIndexPath = indexPath
         notesCell.notesType = eNotes
-        //        notesCell.notesTextView.text = self.medicationSlot?.medicationAdministration?.administeredNotes
+        if ((self.medicationSlot?.medicationAdministration?.administeredNotes) != nil) {
+            notesCell.notesTextView.text = self.medicationSlot?.medicationAdministration?.administeredNotes
+        }
         notesCell.notesTextView.textColor = (!isValid! && (medicationSlot?.medicationAdministration?.isEarlyAdministration == true || medicationSlot?.medicationAdministration?.isLateAdministration == true)) ? UIColor.redColor() : UIColor(forHexString: "#8f8f95")
         notesCell.delegate = self
         return notesCell
@@ -593,6 +595,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
     }
     
     func enteredNote(note : String) {
+        isValid = true
         medicationSlot?.medicationAdministration?.administeredNotes = note
     }
     
