@@ -256,11 +256,11 @@
     
     BOOL dateValueChanged = NO;
     if (indexPath.row == 0 && self.medicationSlot.medicationAdministration.restartedDate == nil) {
-        self.medicationSlot.medicationAdministration.restartedDate = [DCDateUtility dateInCurrentTimeZone:[NSDate date]];
+        self.medicationSlot.medicationAdministration.restartedDate = [NSDate date];
         dateValueChanged = YES;
     } else if (self.medicationSlot.medicationAdministration.restartedDate == nil) {
         if (indexPath.row == 3 || indexPath.row ==4 ){
-            self.medicationSlot.medicationAdministration.expiryDateTime = [DCDateUtility dateInCurrentTimeZone:[NSDate date]];
+            self.medicationSlot.medicationAdministration.expiryDateTime = [NSDate date];
             dateValueChanged = YES;
         }
     }
@@ -346,8 +346,10 @@
     pickerCell.delegate = self;
     if (datePickerIndexPath.row == 1) {
         pickerCell.datePicker.datePickerMode = UIDatePickerModeDateAndTime;
+        pickerCell.datePicker.maximumDate = [NSDate date];
     } else {
         pickerCell.datePicker.datePickerMode = UIDatePickerModeDate;
+        pickerCell.datePicker.maximumDate = nil;
     }
     return pickerCell;
 }

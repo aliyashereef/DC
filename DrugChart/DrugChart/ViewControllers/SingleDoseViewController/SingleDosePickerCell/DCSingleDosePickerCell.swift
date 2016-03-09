@@ -18,7 +18,6 @@ class DCSingleDosePickerCell: UITableViewCell {
     override func awakeFromNib() {
         
         super.awakeFromNib()
-        datePickerView.timeZone = NSTimeZone(abbreviation: GMT)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

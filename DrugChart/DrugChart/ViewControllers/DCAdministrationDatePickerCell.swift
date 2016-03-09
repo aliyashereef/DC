@@ -24,7 +24,7 @@ class DCAdministrationDatePickerCell: UITableViewCell {
     
     @IBAction func valueChanged(sender: AnyObject) {
         if let delegate = delegate {
-            delegate.selectedDateAtIndexPath(DCDateUtility.dateInCurrentTimeZone(datePicker.date), indexPath: selectedIndexPath!)
+            delegate.selectedDateAtIndexPath(datePicker.date, indexPath: selectedIndexPath!)
         }
     }
 }

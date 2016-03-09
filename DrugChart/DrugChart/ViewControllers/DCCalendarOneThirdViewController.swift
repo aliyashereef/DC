@@ -450,23 +450,23 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     
     func displayDateFromScrollIndexForIndexPath ( cell:DCOneThirdCalendarStripCollectionCell , indexPath : NSIndexPath){
         if scrollIndex == 0 {
-            if [0,5,10].contains(indexPath.row) {
+            if [5].contains(indexPath.row) {
                 assignCenterDisplayDateWithCellIndexAndReloadTableView(cell.displayDate!)
             }
         } else if scrollIndex == 1 {
-            if [1,6,11].contains(indexPath.row) {
+            if [6].contains(indexPath.row) {
                 assignCenterDisplayDateWithCellIndexAndReloadTableView(cell.displayDate!)
             }
         } else if scrollIndex == 2 {
-            if [2,7,12].contains(indexPath.row) {
+            if [7].contains(indexPath.row) {
                 assignCenterDisplayDateWithCellIndexAndReloadTableView(cell.displayDate!)
             }
         } else if scrollIndex == 3 {
-            if [3,8,13].contains(indexPath.row) {
+            if [8].contains(indexPath.row) {
                 assignCenterDisplayDateWithCellIndexAndReloadTableView(cell.displayDate!)
             }
         }  else if scrollIndex == 4 {
-            if [4,9,14].contains(indexPath.row) {
+            if [9].contains(indexPath.row) {
                 assignCenterDisplayDateWithCellIndexAndReloadTableView(cell.displayDate!)
             }
         }

@@ -23,7 +23,8 @@
 - (void)configureDatePickerPropertiesForAddMedication {
     
     //configure picker properties
-    _datePicker.timeZone = [NSTimeZone timeZoneWithAbbreviation:GMT];
+    _datePicker.date = [NSDate date];
+
 }
 
 - (IBAction)datePickerValueChanged:(id)sender {

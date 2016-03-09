@@ -12,6 +12,8 @@ let ROW_HEIGHT : CGFloat = 80.0
 let ROW_OFFSET_VALUE : CGFloat = 25.0
 let INITIAL_INDEX = 0
 let SECOND_INDEX = 1
+let NAVIGATION_BAR_HEIGHT_WITH_STATUS_BAR : CGFloat = 64.0
+let NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR : CGFloat = 44.0
 
 @objc public protocol WarningsDelegate {
     
@@ -44,6 +46,21 @@ let SECOND_INDEX = 1
         // this is set to adjust the bottom constraint, view doesnot move on to its actual height initially
         tableHeight?.constant = DCUtility.mainWindowSize().height - 64
         warningsTableView.layoutSubviews()
+    }
+        
+    override func viewDidLayoutSubviews() {
+        
+        super.viewDidLayoutSubviews()
+        let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
+        if let navigationBar = self.navigationController?.navigationBar {
+            var frame = navigationBar.frame
+            if (appDelegate.windowState == DCWindowState.oneThirdWindow || appDelegate.windowState == DCWindowState.halfWindow) {
+                frame.size.height = NAVIGATION_BAR_HEIGHT_WITH_STATUS_BAR
+            } else {
+                frame.size.height = NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR
+            }
+            navigationBar.frame = frame
+        }
     }
     
     override func didReceiveMemoryWarning() {

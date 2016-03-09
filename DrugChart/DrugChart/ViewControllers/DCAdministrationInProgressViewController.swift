@@ -107,7 +107,7 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
         pickerCell.datePicker?.datePickerMode = UIDatePickerMode.DateAndTime
         pickerCell.datePicker?.maximumDate = NSDate()
         pickerCell.datePicker?.minimumDate = nil;
-        pickerCell.datePicker?.date = DCDateUtility.dateInCurrentTimeZone(NSDate())
+        pickerCell.datePicker?.date = NSDate()
         pickerCell.selectedIndexPath = indexPath
         pickerCell.delegate = self
         return pickerCell;
@@ -231,7 +231,7 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
     
     func dateCellSelectedAtIndexPath (indexPath : NSIndexPath) {
         if (self.medicationSlot?.medicationAdministration.expiryDateTime == nil) {
-            self.medicationSlot?.medicationAdministration.expiryDateTime = DCDateUtility.dateInCurrentTimeZone(NSDate())
+            self.medicationSlot?.medicationAdministration.expiryDateTime = NSDate()
             self.administerInProgressTableView.beginUpdates()
             self.administerInProgressTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 2)], withRowAnimation:.Fade)
             self.administerInProgressTableView.endUpdates()

@@ -103,7 +103,7 @@ class DCMedicationAdministrationStatusView: UIView {
     func configureStatusViewForWeekDate(weeksDate : NSDate) {
         
         weekDate = weeksDate
-        let currentSystemDate : NSDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
+        let currentSystemDate : NSDate = NSDate()//DCDateUtility.dateInCurrentTimeZone(NSDate())
         let currentDateString = DCDateUtility.dateStringFromDate(currentSystemDate, inFormat: SHORT_DATE_FORMAT)
         let weekDateString = DCDateUtility.dateStringFromDate(weekDate, inFormat: SHORT_DATE_FORMAT)
         if (currentDateString == weekDateString) {
@@ -117,7 +117,7 @@ class DCMedicationAdministrationStatusView: UIView {
         
         timeArray = timeSlotsArray
         let initialSlot = timeArray.objectAtIndex(0) as? DCMedicationSlot
-        let currentSystemDate : NSDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
+        let currentSystemDate : NSDate = NSDate() //DCDateUtility.dateInCurrentTimeZone(NSDate())
         let currentDateString = DCDateUtility.dateStringFromDate(currentSystemDate, inFormat: SHORT_DATE_FORMAT)
         let initialSlotDateString = DCDateUtility.dateStringFromDate(initialSlot?.time, inFormat: SHORT_DATE_FORMAT)
         if (currentDateString == initialSlotDateString) {
@@ -158,7 +158,7 @@ class DCMedicationAdministrationStatusView: UIView {
         var administeredCount : NSInteger = 0
         var omissionRefusalCount : NSInteger = 0
         var dueNow = false
-        let currentSystemDate : NSDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
+        let currentSystemDate : NSDate = NSDate()
         for slot in timeArray as [AnyObject] {
             let medication = slot as! DCMedicationSlot
             if (medication.time.compare(currentSystemDate) == NSComparisonResult.OrderedAscending) {
