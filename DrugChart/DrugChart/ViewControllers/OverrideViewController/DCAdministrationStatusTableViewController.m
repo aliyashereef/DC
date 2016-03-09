@@ -346,8 +346,10 @@
     pickerCell.delegate = self;
     if (datePickerIndexPath.row == 1) {
         pickerCell.datePicker.datePickerMode = UIDatePickerModeDateAndTime;
+        pickerCell.datePicker.maximumDate = [NSDate date];
     } else {
         pickerCell.datePicker.datePickerMode = UIDatePickerModeDate;
+        pickerCell.datePicker.maximumDate = nil;
     }
     return pickerCell;
 }
