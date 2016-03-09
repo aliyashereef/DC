@@ -72,9 +72,9 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     override func viewDidLayoutSubviews() {
         
         super.viewDidLayoutSubviews()
-//        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-//            setParentViewWithCurrentWeekDateArray()
-//        }
+        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+            setParentViewWithCurrentWeekDateArray()
+        }
         self.adjustContentOffsetToShowCenterDayInCollectionView()
         calendarStripCollectionView.reloadData()
         medicationTableView?.reloadData()
@@ -387,14 +387,8 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     
     func adjustContentOffsetToShowCenterDayInCollectionView() {
         
-        var indexPath : NSIndexPath?
-        let orientation = UIApplication.sharedApplication().statusBarOrientation
-        if (orientation == UIInterfaceOrientation.Portrait || orientation == UIInterfaceOrientation.PortraitUpsideDown) {
-            indexPath = NSIndexPath(forRow:6 , inSection: 0)
-        } else {
-            indexPath = NSIndexPath(forRow:7 , inSection: 0)
-        }
-        calendarStripCollectionView.scrollToItemAtIndexPath(indexPath!, atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: true)
+        let indexPath : NSIndexPath = NSIndexPath(forRow:7 , inSection: 0)
+        calendarStripCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: true)
         scrolledProgramatically = true
     }
     
@@ -456,23 +450,23 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     
     func displayDateFromScrollIndexForIndexPath ( cell:DCOneThirdCalendarStripCollectionCell , indexPath : NSIndexPath){
         if scrollIndex == 0 {
-            if [0,5,10].contains(indexPath.row) {
+            if [5].contains(indexPath.row) {
                 assignCenterDisplayDateWithCellIndexAndReloadTableView(cell.displayDate!)
             }
         } else if scrollIndex == 1 {
-            if [1,6,11].contains(indexPath.row) {
+            if [6].contains(indexPath.row) {
                 assignCenterDisplayDateWithCellIndexAndReloadTableView(cell.displayDate!)
             }
         } else if scrollIndex == 2 {
-            if [2,7,12].contains(indexPath.row) {
+            if [7].contains(indexPath.row) {
                 assignCenterDisplayDateWithCellIndexAndReloadTableView(cell.displayDate!)
             }
         } else if scrollIndex == 3 {
-            if [3,8,13].contains(indexPath.row) {
+            if [8].contains(indexPath.row) {
                 assignCenterDisplayDateWithCellIndexAndReloadTableView(cell.displayDate!)
             }
         }  else if scrollIndex == 4 {
-            if [4,9,14].contains(indexPath.row) {
+            if [9].contains(indexPath.row) {
                 assignCenterDisplayDateWithCellIndexAndReloadTableView(cell.displayDate!)
             }
         }
