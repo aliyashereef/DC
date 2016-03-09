@@ -777,6 +777,7 @@
                                 <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <connections>
                                     <outlet property="detailLabel" destination="dMv-xI-eK2" id="weC-fe-ylo"/>
+                                    <outlet property="detailLabelTrailingSpace" destination="xPq-Pv-ovW" id="ADk-g3-h15"/>
                                     <outlet property="titleLabel" destination="DLE-zS-JiR" id="rl3-eu-8jV"/>
                                 </connections>
                             </tableViewCell>
@@ -1893,6 +1894,7 @@
                                                 </tableViewCellContentView>
                                                 <connections>
                                                     <outlet property="detailLabel" destination="8Ls-GQ-gCP" id="zbW-de-JgO"/>
+                                                    <outlet property="detailLabelTrailingSpace" destination="KAM-Qf-yGX" id="9rd-ns-yx2"/>
                                                     <outlet property="titleLabel" destination="WsI-tl-HLy" id="ThT-oE-Sbm"/>
                                                 </connections>
                                             </tableViewCell>

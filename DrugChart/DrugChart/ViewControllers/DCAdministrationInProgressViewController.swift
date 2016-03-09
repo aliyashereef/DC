@@ -16,6 +16,8 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
     var isDatePickerShown : Bool = false
     var isValid : Bool = true
 
+    var datePickerIndexPath : NSIndexPath = NSIndexPath(forRow: 1, inSection: 2)
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -230,10 +232,11 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
     }
     
     func dateCellSelectedAtIndexPath (indexPath : NSIndexPath) {
-        if (self.medicationSlot?.medicationAdministration.expiryDateTime == nil) {
-            self.medicationSlot?.medicationAdministration.expiryDateTime = DCDateUtility.dateInCurrentTimeZone(NSDate())
+        
+        if (self.medicationSlot?.medicationAdministration.actualAdministrationTime == nil) {
+            self.medicationSlot?.medicationAdministration.actualAdministrationTime = DCDateUtility.dateInCurrentTimeZone(NSDate())
             self.administerInProgressTableView.beginUpdates()
-            self.administerInProgressTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 2)], withRowAnimation:.Fade)
+            self.administerInProgressTableView.reloadRowsAtIndexPaths([datePickerIndexPath], withRowAnimation:.Fade)
             self.administerInProgressTableView.endUpdates()
             self.performSelector(Selector("toggleDatePickerForSelectedIndexPath:"), withObject: indexPath, afterDelay: 0.1)
         } else {
@@ -243,7 +246,7 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
     
     func collapseOpenedDatePicker () {
         if isDatePickerShown {
-            self.toggleDatePickerForSelectedIndexPath(NSIndexPath(forRow: 1, inSection: 2))
+            self.toggleDatePickerForSelectedIndexPath(datePickerIndexPath)
         }
     }
     
