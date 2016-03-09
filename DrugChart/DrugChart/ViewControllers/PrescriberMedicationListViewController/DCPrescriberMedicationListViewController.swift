@@ -123,7 +123,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         let index = (appDelegate.windowState == DCWindowState.fullWindow) ? 7 : 4
         let weekDate = currentWeekDatesArray.objectAtIndex(index) // extracting the middle date - todays date
         let centerDate = DCDateUtility.shortDateFromDate(weekDate as! NSDate)
-        let todayDate = DCDateUtility.shortDateFromDate(DCDateUtility.dateInCurrentTimeZone(NSDate())) as NSDate
+        let todayDate = DCDateUtility.shortDateFromDate(NSDate()) as NSDate
         if centerDate != todayDate {
             self.hideAdministrationDetailsInCellsOnQuickSwipe()
             if (appDelegate.windowState == DCWindowState.fullWindow ||

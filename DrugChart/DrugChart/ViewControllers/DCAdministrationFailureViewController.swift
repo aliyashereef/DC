@@ -48,7 +48,7 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
         medicationSlot?.medicationAdministration?.administratingUser = DCUser.init()
         medicationSlot?.medicationAdministration?.scheduledDateTime = medicationSlot?.time
         medicationSlot?.medicationAdministration?.statusReason = EMPTY_STRING
-        medicationSlot?.medicationAdministration?.actualAdministrationTime = DCDateUtility.dateInCurrentTimeZone(NSDate())
+        medicationSlot?.medicationAdministration?.actualAdministrationTime = NSDate()
     }
     
     //MARK: TableView Delegate Methods

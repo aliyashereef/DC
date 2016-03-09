@@ -34,7 +34,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         super.viewDidLoad()
         self.userListArray = DCAdministrationHelper.fetchAdministersAndPrescribersList()
         self.configureAdministratingUserForMedicationSlot()
-        medicationSlot?.medicationAdministration?.actualAdministrationTime = DCDateUtility.dateInCurrentTimeZone(NSDate())
+        medicationSlot?.medicationAdministration?.actualAdministrationTime = NSDate()
         configureViewElements()
         initialiseMedicationSlotObject()
     }
@@ -57,7 +57,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         medicationSlot?.medicationAdministration?.administratingUser = DCUser.init()
         medicationSlot?.medicationAdministration?.checkingUser = DCUser.init()
         medicationSlot?.medicationAdministration?.scheduledDateTime = medicationSlot?.time
-        medicationSlot?.medicationAdministration?.actualAdministrationTime = DCDateUtility.dateInCurrentTimeZone(NSDate())
+        medicationSlot?.medicationAdministration?.actualAdministrationTime = NSDate()
     }
     
     func configureTableViewProperties () {
@@ -452,7 +452,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
     
     func expiryCellSelectedAtIndexPath (indexPath : NSIndexPath) {
         if (self.medicationSlot?.medicationAdministration.expiryDateTime == nil) {
-            self.medicationSlot?.medicationAdministration.expiryDateTime = DCDateUtility.dateInCurrentTimeZone(NSDate())
+            self.medicationSlot?.medicationAdministration.expiryDateTime = NSDate()
             self.administerSuccessTableView.beginUpdates()
             self.administerSuccessTableView.reloadRowsAtIndexPaths([expiryDateCellIndexPath], withRowAnimation:.Fade)
             self.administerSuccessTableView.endUpdates()

@@ -78,7 +78,7 @@ class DCAdministrationHelper : NSObject {
                 .medicationAdministration?.actualAdministrationTime)!)
             administerDictionary.setValue(administeredDateString, forKey:ACTUAL_ADMINISTRATION_TIME)
         } else {
-            medicationSlot.medicationAdministration?.actualAdministrationTime = DCDateUtility.dateInCurrentTimeZone(NSDate())
+            medicationSlot.medicationAdministration?.actualAdministrationTime = NSDate()
             let administeredDateString : NSString = dateFormatter.stringFromDate((medicationSlot.medicationAdministration.actualAdministrationTime))
             administerDictionary.setValue(administeredDateString, forKey:ACTUAL_ADMINISTRATION_TIME)
         }

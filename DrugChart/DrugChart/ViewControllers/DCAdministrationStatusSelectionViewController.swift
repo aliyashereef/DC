@@ -187,7 +187,7 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
     func checkIfAdministrationIsEarly () {
     
     //check if administration is early
-    let currentSystemDate : NSDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
+    let currentSystemDate : NSDate = NSDate()
     let nextMedicationTimeInterval : NSTimeInterval? = (medicationSlot?.time)!.timeIntervalSinceDate(currentSystemDate)
     if (nextMedicationTimeInterval  >= 60*60) {
         // is early administration
@@ -209,7 +209,7 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
     //check if frequent administration for when required medication
     if medicationSlotsArray.count > 1 {
         let previousMedicationSlot : DCMedicationSlot? = medicationSlotsArray[medicationSlotsArray.count - 2]
-        let currentSystemDate : NSDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
+        let currentSystemDate : NSDate = NSDate()
         let nextMedicationTimeInterval : NSTimeInterval? = currentSystemDate.timeIntervalSinceDate((previousMedicationSlot?.time)!)
         if (nextMedicationTimeInterval <= 2*60*60) {
             medicationSlot?.medicationAdministration.isEarlyAdministration = true

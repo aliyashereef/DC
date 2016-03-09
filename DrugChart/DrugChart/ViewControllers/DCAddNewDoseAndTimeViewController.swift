@@ -104,7 +104,7 @@ class DCAddNewDoseAndTimeViewController: UIViewController , UITableViewDataSourc
             }
         } else {
             if let dosageCell: DCAddNewDoseAndTimeTableViewCell = newDosageTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as? DCAddNewDoseAndTimeTableViewCell {
-                let newTime = DCDateUtility.dateInCurrentTimeZone(dosageCell.timePicker.date)
+                let newTime = dosageCell.timePicker.date
                 let newTimeString = DCDateUtility.timeStringInTwentyFourHourFormat(newTime)
                 self.newDosageEntered(newTimeString)
                 self.navigationController!.dismissViewControllerAnimated(true, completion:nil)

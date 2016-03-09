@@ -87,7 +87,8 @@ typedef enum : NSUInteger {
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    [self currentWeekDatesArrayFromDate:[DCDateUtility dateInCurrentTimeZone:[NSDate date]]];
+    [self currentWeekDatesArrayFromDate:[NSDate date]];
+
     [self addAddMedicationButtonToNavigationBar];
     [self populateMonthYearLabel];
     [self hideCalendarTopPortion];
@@ -397,7 +398,6 @@ typedef enum : NSUInteger {
     [self fetchMedicationListForPatientId:self.patient.patientId
                     withCompletionHandler:^(NSArray *result, NSError *error) {
                         
-                        DDLogInfo(@"the response is recieved ************");
                         if (!error) {
                             _patient.medicationListArray = result;
                             [self configureAlertsAndAllergiesArrayForDisplay];
@@ -810,7 +810,7 @@ typedef enum : NSUInteger {
 
 - (void)loadCurrentWeekDate {
     
-    [self currentWeekDatesArrayFromDate:[DCDateUtility dateInCurrentTimeZone:[NSDate date]]];
+    [self currentWeekDatesArrayFromDate:[NSDate date]];
 }
 
 - (void)modifyWeekDatesInCalendarTopPortion {
@@ -909,7 +909,7 @@ typedef enum : NSUInteger {
     [self.view addSubview:prescriberMedicationOneThirdSizeViewController.view];
     [prescriberMedicationOneThirdSizeViewController didMoveToParentViewController:self];
     if (currentWeekDatesArray.count == 0) {
-        [self currentWeekDatesArrayFromDate:[DCDateUtility dateInCurrentTimeZone:[NSDate date]]];
+        [self currentWeekDatesArrayFromDate:[NSDate date]];
     }
     [self.view bringSubviewToFront:activityIndicatorView];
 }

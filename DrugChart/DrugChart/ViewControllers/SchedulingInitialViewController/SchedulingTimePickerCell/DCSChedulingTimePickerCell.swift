@@ -34,7 +34,7 @@ class DCSChedulingTimePickerCell: UITableViewCell {
         //time picker properties
         let locale = NSLocale.init(localeIdentifier: NETHERLANDS_LOCALE)
         schedulingTimePickerView.locale = locale
-        schedulingTimePickerView.timeZone = NSTimeZone(abbreviation: GMT)
+       // schedulingTimePickerView.timeZone = NSTimeZone(abbreviation: GMT)
     }
     
     func populatePickerWithPreviousSelectedTime() {
