@@ -118,6 +118,7 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
             let newValueTableCell : DCAddNewValueTableViewCell = (mainTableView.dequeueReusableCellWithIdentifier(PICKER_DROP_DOWN_CELL) as? DCAddNewValueTableViewCell)!
             newValueTableCell.unitLabel.text = "Unit"
             newValueTableCell.unitValueLabel.text = valueForUnit
+            newValueTableCell.accessoryView = UIView(frame: CGRectMake(0, 0, 15, 24))
             return newValueTableCell
         }else {
             let newValueTableCell : DCAddNewValuePickerCell = (mainTableView.dequeueReusableCellWithIdentifier(PICKER_CELL) as? DCAddNewValuePickerCell)!

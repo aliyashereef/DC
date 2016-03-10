@@ -41,7 +41,7 @@ class DCSchedulingTimeCell: UITableViewCell {
         timeTypeLabel.text = type
         timeValueLabel.text = value
         timeValueLabel.hidden = false
-        self.accessoryType = .DisclosureIndicator
+        self.accessoryView = UIView(frame: CGRectMake(0, 0, 15, 24))
     }
     
     func configureSetStartAndEndTimeCellForSwitchState(state : Bool) {
@@ -53,6 +53,7 @@ class DCSchedulingTimeCell: UITableViewCell {
         timeValueLabel.hidden = true
         timeTypeLabel.text = NSLocalizedString("SET_START_END_TIME", comment: "")
         self.accessoryType = .None
+        self.accessoryView = nil
     }
         
     //MARK: Action Methods
