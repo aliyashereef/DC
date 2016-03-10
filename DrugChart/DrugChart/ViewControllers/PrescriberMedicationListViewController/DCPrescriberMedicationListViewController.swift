@@ -462,6 +462,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             statusView.currentIndexPath = indexPath
             statusView.isOneThirdScreen = false
             statusView.medicationCategory = medicationSchedules.medicineCategory
+            statusView.startDate = DCDateUtility.dateFromSourceString(medicationSchedules.startDate)
             statusView.backgroundColor = UIColor.whiteColor()
             statusView.updateAdministrationStatusViewWithMedicationSlotDictionary(slotDictionary)
             return statusView

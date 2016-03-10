@@ -39,7 +39,7 @@ class DCMedicationAdministrationStatusView: UIView {
     var statusLabel : UILabel?
     var medicationCategory : NSString?
     var startDate : NSDate?
-    var endDate : NSDate?
+    var slotsCount : NSInteger? = 0
     
     var isOneThirdScreen : Bool = false
     var administerButtonCallback: AdministerButtonTappedCallback!
@@ -82,6 +82,7 @@ class DCMedicationAdministrationStatusView: UIView {
         
         medicationSlotDictionary = slotDictionary.copy() as? NSDictionary
         if let timeSlotsArray  = medicationSlotDictionary?["timeSlots"] {
+            slotsCount = timeSlotsArray.count
             if timeSlotsArray.count > 0 {
                 configureStatusViewForTimeArray(timeSlotsArray as! [DCMedicationSlot])
             }
@@ -318,7 +319,7 @@ class DCMedicationAdministrationStatusView: UIView {
         attributedStatusText.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, attributedStatusText.length))
         let slotIndex = timeArray.indexOfObject(slot)
         let pendingCount = timeArray.count - slotIndex
-        let pendingText = String(format: "\n%i of %i %@", pendingCount, timeArray.count, PENDING)
+        let pendingText = String(format: "\n%i of %i %@", pendingCount, slotsCount!, PENDING)
         let attributedPendingText : NSMutableAttributedString = NSMutableAttributedString(string: pendingText, attributes: [NSFontAttributeName : statusLabelFont(), NSForegroundColorAttributeName : PENDING_COUNT_FONT_COLOR])
         attributedStatusText.appendAttributedString(attributedPendingText)
         return attributedStatusText
