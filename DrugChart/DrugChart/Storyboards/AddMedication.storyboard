@@ -699,6 +699,7 @@
                                         <connections>
                                             <outlet property="descriptionLabel" destination="pV2-Ip-VUl" id="GkG-B3-jSW"/>
                                             <outlet property="titleLabel" destination="RSP-cs-DD4" id="HLK-8U-rO8"/>
+                                            <outlet property="warningDescriptionTextTopSpace" destination="2BW-oU-F9p" id="eWc-99-PUO"/>
                                             <outlet property="warningDescriptionTextTrailingSpace" destination="Qpa-jZ-noQ" id="GXx-J4-xya"/>
                                             <outlet property="warningImageView" destination="ggN-Gy-Sd6" id="C9G-aT-JeU"/>
                                         </connections>

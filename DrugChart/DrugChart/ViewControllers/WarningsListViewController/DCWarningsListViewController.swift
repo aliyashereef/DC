@@ -201,6 +201,7 @@ let NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR : CGFloat = 44.0
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
         if loadOverideView == false && overiddenReason != nil {
             if section == SectionCount.eZerothSection.rawValue{
                 return NSLocalizedString("OVERRIDE REASON", comment: "override reasons title")
