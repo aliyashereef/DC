@@ -158,6 +158,10 @@ class VitalSignObservation
             invalidResult = true
         }
         
+        
+        score += additionalOxygen ? 2:0
+        score += !isConscious ? 3:0
+
         return invalidResult == true ? "N/A" : String(score)
     }
 

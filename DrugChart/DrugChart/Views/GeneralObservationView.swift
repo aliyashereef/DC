@@ -433,6 +433,12 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
                 let bloodPressureCell = cell as! BloodPressureCell
                     observation.bloodPressure.stringValueSystolic = bloodPressureCell.getSystolicStringValue()
                     observation.bloodPressure.stringValueDiastolic = bloodPressureCell.getDiastolicStringValue()
+            case ObservationType.AdditionalOxygen.rawValue:
+                let toggleCell = cell as! ToggleCell
+                observation.additionalOxygen = toggleCell.isOn()
+            case ObservationType.AVPU.rawValue:
+                let switchCell = cell as! SwitchCell
+                observation.additionalOxygen = switchCell.getValue() == 0 ? false:true
             default:
                 print("nothing have been selected", terminator: "")
             }

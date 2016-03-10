@@ -27,7 +27,7 @@ class BloodPressure : VitalSignBaseModel
     }
     override func isValueEntered() -> Bool
     {
-        return !stringValueSystolic.isEmpty && !stringValueDiastolic.isEmpty
+        return !stringValueSystolic.isEmpty /* && !stringValueDiastolic.isEmpty*/
     }
     var stringValueDiastolic:String
     {

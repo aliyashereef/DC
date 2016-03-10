@@ -36,6 +36,11 @@ class ToggleCell: UITableViewCell {
         title.text = cellTitle
     }
     
+    
+    func isOn() -> Bool
+    {
+        return toggleValue.on
+    }
     func setCellBackgroundColor(color:UIColor)
     {
         self.backgroundView = nil

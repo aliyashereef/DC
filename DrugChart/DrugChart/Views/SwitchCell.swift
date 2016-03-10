@@ -59,4 +59,8 @@ class SwitchCell: UITableViewCell {
         self.selectedBackgroundView = nil
     }
     
+    func getValue()-> Int
+    {
+        return segmentedValue.selectedSegmentIndex
+    }
 }
