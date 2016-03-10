@@ -18,7 +18,6 @@
 
 @interface DCAddMedicationDetailViewController : UIViewController
 
-@property (nonatomic, strong) NSString *previousFilledValue;
 @property (nonatomic, weak) id <AddMedicationDetailDelegate> delegate;
 
 @end
