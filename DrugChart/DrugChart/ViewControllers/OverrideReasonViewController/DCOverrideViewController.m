@@ -6,13 +6,13 @@
 //
 //
 
-#import "DCAddMedicationDetailViewController.h"
+#import "DCOverrideViewController.h"
 #import "DCAddMedicationInitialViewController.h"
 #import "DrugChart-Swift.h"
 
 #define DEFAULT_SECTION_COUNT                   1
 
-@interface DCAddMedicationDetailViewController () {
+@interface DCOverrideViewController () {
     
     __weak IBOutlet UITableView *detailTableView;
     
@@ -21,7 +21,7 @@
 
 @end
 
-@implementation DCAddMedicationDetailViewController
+@implementation DCOverrideViewController
 
 - (void)viewDidLoad {
     

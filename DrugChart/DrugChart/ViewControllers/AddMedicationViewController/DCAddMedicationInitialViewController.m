@@ -11,7 +11,6 @@
 #import "DCAddMedicationContentCell.h"
 #import "DCInstructionsTableCell.h"
 #import "DCDateTableViewCell.h"
-#import "DCAddMedicationDetailViewController.h"
 #import "DCDatePickerCell.h"
 #import "DCAddMedicationHelper.h"
 #import "DCAddMedicationWebService.h"

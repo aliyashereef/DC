@@ -16,7 +16,7 @@
 
 @end
 
-@interface DCAddMedicationDetailViewController : UIViewController
+@interface DCOverrideViewController : UIViewController
 
 @property (nonatomic, weak) id <AddMedicationDetailDelegate> delegate;
 

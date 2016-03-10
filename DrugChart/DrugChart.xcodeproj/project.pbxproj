@@ -34,7 +34,7 @@
 		0B6B497A1B2ED50700288117 /* DCScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B6B49791B2ED50700288117 /* DCScrollView.m */; };
 		0B6B9DC21B4111B000395AC5 /* AdministratingTime.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0B6B9DC11B4111B000395AC5 /* AdministratingTime.plist */; };
 		0B6CEFD71C91627500F6639C /* DCMedicationTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6CEFD61C91627500F6639C /* DCMedicationTypeViewController.swift */; };
-		0B6CEFDD1C917E0000F6639C /* DCAddMedicationDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B6CEFDA1C917E0000F6639C /* DCAddMedicationDetailViewController.m */; };
+		0B6CEFDD1C917E0000F6639C /* DCOverrideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B6CEFDA1C917E0000F6639C /* DCOverrideViewController.m */; };
 		0B6CEFDE1C917E0000F6639C /* DCReasonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6CEFDC1C917E0000F6639C /* DCReasonCell.swift */; };
 		0B6DDB891BF5CFD700A61D14 /* DCSchedulingPickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6DDB881BF5CFD700A61D14 /* DCSchedulingPickerCell.swift */; };
 		0B720B4F1B1D87B800144665 /* DCMedicationSearchWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B720B4E1B1D87B800144665 /* DCMedicationSearchWebService.m */; };
@@ -459,8 +459,8 @@
 		0B6B49791B2ED50700288117 /* DCScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCScrollView.m; sourceTree = "<group>"; };
 		0B6B9DC11B4111B000395AC5 /* AdministratingTime.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AdministratingTime.plist; sourceTree = "<group>"; };
 		0B6CEFD61C91627500F6639C /* DCMedicationTypeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCMedicationTypeViewController.swift; sourceTree = "<group>"; };
-		0B6CEFD91C917E0000F6639C /* DCAddMedicationDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCAddMedicationDetailViewController.h; sourceTree = "<group>"; };
-		0B6CEFDA1C917E0000F6639C /* DCAddMedicationDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCAddMedicationDetailViewController.m; sourceTree = "<group>"; };
+		0B6CEFD91C917E0000F6639C /* DCOverrideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCOverrideViewController.h; sourceTree = "<group>"; };
+		0B6CEFDA1C917E0000F6639C /* DCOverrideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCOverrideViewController.m; sourceTree = "<group>"; };
 		0B6CEFDC1C917E0000F6639C /* DCReasonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCReasonCell.swift; sourceTree = "<group>"; };
 		0B6DDB881BF5CFD700A61D14 /* DCSchedulingPickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCSchedulingPickerCell.swift; sourceTree = "<group>"; };
 		0B720B4D1B1D87B800144665 /* DCMedicationSearchWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCMedicationSearchWebService.h; sourceTree = "<group>"; };
@@ -1222,8 +1222,8 @@
 		0B6CEFD81C917DBA00F6639C /* OverrideReasonViewController */ = {
 			isa = PBXGroup;
 			children = (
-				0B6CEFD91C917E0000F6639C /* DCAddMedicationDetailViewController.h */,
-				0B6CEFDA1C917E0000F6639C /* DCAddMedicationDetailViewController.m */,
+				0B6CEFD91C917E0000F6639C /* DCOverrideViewController.h */,
+				0B6CEFDA1C917E0000F6639C /* DCOverrideViewController.m */,
 				0B6CEFDB1C917E0000F6639C /* ReasonCell */,
 			);
 			path = OverrideReasonViewController;
@@ -3655,7 +3655,7 @@
 				0BAE369A1B455DDF007CD64C /* DCOrderSetMedicineView.m in Sources */,
 				0BAD23771C58991F00697FFF /* DCInfusionViewController.swift in Sources */,
 				1F5375031C1AED9700D4A64F /* GraphCollectionViewCell.swift in Sources */,
-				0B6CEFDD1C917E0000F6639C /* DCAddMedicationDetailViewController.m in Sources */,
+				0B6CEFDD1C917E0000F6639C /* DCOverrideViewController.m in Sources */,
 				1FD4FD011BF4BAAD00B77B94 /* BloodPressureCell.swift in Sources */,
 				4D766C0D1BBCFE6400413E08 /* DCCalendarDateView.swift in Sources */,
 				4D16FAE21B5E56160034406A /* DCContraIndicationWebService.m in Sources */,
