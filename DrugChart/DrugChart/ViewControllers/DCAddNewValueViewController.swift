@@ -53,6 +53,22 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
         // Do any additional setup after loading the view.
     }
     
+    override func viewDidLayoutSubviews() {
+        
+        super.viewDidLayoutSubviews()
+        let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
+        if let navigationBar = self.navigationController?.navigationBar {
+            var frame = navigationBar.frame
+            if (appDelegate.windowState == DCWindowState.oneThirdWindow || appDelegate.windowState == DCWindowState.halfWindow) {
+                frame.size.height = NAVIGATION_BAR_HEIGHT_WITH_STATUS_BAR
+            } else {
+                frame.size.height = NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR
+            }
+            navigationBar.frame = frame
+        }
+    }
+
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

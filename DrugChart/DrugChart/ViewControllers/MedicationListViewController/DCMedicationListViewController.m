@@ -56,6 +56,18 @@
     medicationListTableView.userInteractionEnabled = YES;
 }
 
+- (void)viewDidLayoutSubviews {
+    
+    [super viewDidLayoutSubviews];
+    CGRect titleBarFrame = self.navigationController.navigationBar.frame;
+    if ([DCAPPDELEGATE windowState] == oneThirdWindow || [DCAPPDELEGATE windowState] == halfWindow) {
+        titleBarFrame.size.height = NAVIGATION_BAR_HEIGHT_WITH_STATUS_BAR;
+    } else {
+        titleBarFrame.size.height = NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR;
+    }
+    self.navigationController.navigationBar.frame = titleBarFrame;
+}
+
 - (void)viewWillDisappear:(BOOL)animated {
     
     [medicationWebService cancelPreviousRequest];
@@ -66,11 +78,6 @@
     
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-- (void)viewDidLayoutSubviews {
-    
-    [self ajustTableViewConstraints];
-    [super viewDidLayoutSubviews];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
