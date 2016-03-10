@@ -336,13 +336,12 @@
         //when inline picker is not shown
         dateAndTimeCell.dateTypeLabel.text = NSLocalizedString(@"START_DATE", @"start date cell title");
         dateAndTimeCell = [self populatedStartDateTableCell:dateAndTimeCell];
+        dateAndTimeCell.accessoryView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 15, 24)];
         if (self.isEditMedication) {
             dateAndTimeCell.userInteractionEnabled = NO;
-            dateAndTimeCell.accessoryView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 15, 24)];
             dateAndTimeCell.dateTypeLabel.textColor = [UIColor colorForHexString:@"#8f8f95"];
             dateAndTimeCell.dateValueLabel.textColor = [UIColor colorForHexString:@"#8f8f95"];
         } else {
-            dateAndTimeCell.accessoryView = nil;
             dateAndTimeCell.userInteractionEnabled = YES;
         }
     } else {
@@ -412,6 +411,7 @@
     }
     tableCell.dateTypeLabel.text = NSLocalizedString(@"END_DATE", @"end date cell title");
     NSDate *endDate = [DCDateUtility dateFromSourceString:self.selectedMedication.endDate];
+    tableCell.accessoryView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 15, 24)];
     NSString *dateString = [DCDateUtility dateStringFromDate:endDate inFormat:START_DATE_FORMAT];
     [tableCell configureContentCellWithContent:dateString];
     return tableCell;
@@ -547,6 +547,7 @@
                                                         atIndexPath:(NSIndexPath *)indexPath {
     
     dateAndTimeCell.dateTypeLabel.text = NSLocalizedString(@"DATE", @"date cell title");
+    dateAndTimeCell.accessoryView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 15, 24)];
     dateAndTimeCell = [self populatedStartDateTableCell:dateAndTimeCell];
     return dateAndTimeCell;
 }
@@ -557,6 +558,7 @@
     //Date and time section for when required medication
     if (indexPath.row == START_DATE_ROW_INDEX) {
         dateAndTimeCell.dateTypeLabel.text = NSLocalizedString(@"START_DATE", @"start date cell title");
+        dateAndTimeCell.accessoryView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 15, 24)];
         dateAndTimeCell = [self populatedStartDateTableCell:dateAndTimeCell];
     } else {
         if (_datePickerIndexPath.row == DATE_PICKER_INDEX_START_DATE) {
