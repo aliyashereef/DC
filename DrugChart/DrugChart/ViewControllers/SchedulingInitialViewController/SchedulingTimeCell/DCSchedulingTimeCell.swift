@@ -41,7 +41,8 @@ class DCSchedulingTimeCell: UITableViewCell {
         timeTypeLabel.text = type
         timeValueLabel.text = value
         timeValueLabel.hidden = false
-        self.accessoryView = UIView(frame: CGRectMake(0, 0, 15, 24))
+        self.accessoryType = .None
+        self.accessoryView = nil
     }
     
     func configureSetStartAndEndTimeCellForSwitchState(state : Bool) {

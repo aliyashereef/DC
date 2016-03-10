@@ -61,7 +61,8 @@ class DCSingleDoseViewController: UIViewController, UITableViewDelegate, UITable
             let singleDoseCell = tableView.dequeueReusableCellWithIdentifier(SINGLE_DOSE_CELL_ID) as? DCSingleDoseTableCell
                 singleDoseCell?.titleLabel.text = NSLocalizedString("DATE", comment: "")
                 singleDoseCell?.valueLabel.text = singleDose?.dateAndTime
-                singleDoseCell?.accessoryView = UIView(frame: CGRectMake(0, 0, 15, 24))
+                singleDoseCell!.accessoryType = .None
+                singleDoseCell?.accessoryView = UIView(frame: CGRectMake(0, 0, 0, 24))
                 return singleDoseCell!
         }
     }
