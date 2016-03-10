@@ -262,6 +262,10 @@
 
 #define PLACEHOLDER_COLOR_HEX @"#797979"
 
+#define NAVIGATION_BAR_HEIGHT_WITH_STATUS_BAR 64.0f
+#define NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR 44.0f
+
+
 // time zone
 #define GMT @"GMT"
 #define UTC @"UTC"

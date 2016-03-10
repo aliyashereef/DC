@@ -11,8 +11,6 @@
 #import "DrugChart-Swift.h"
 
 #define DEFAULT_SECTION_COUNT                   1
-#define NAVIGATION_BAR_HEIGHT_WITH_STATUS_BAR 64.0f
-#define NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR 44.0f
 
 
 @interface DCOverrideViewController () {
