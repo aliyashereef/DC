@@ -645,7 +645,6 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
         } else {
             self.scheduling?.interval?.administratingTimes = newTimeArray
         }
-       // self.updatedTimeArray(newTimeArray)
     }
     
     //MARK: SchedulingTimeCell Delegate Methods

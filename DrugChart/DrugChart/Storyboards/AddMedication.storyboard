@@ -1643,34 +1643,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="310" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Ic-oZ-R4c" userLabel="Date picker View">
-                                <rect key="frame" x="0.0" y="0.0" width="310" height="216"/>
-                                <subviews>
-                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="9DF-zJ-gnb">
-                                        <rect key="frame" x="0.0" y="0.0" width="310" height="216"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="216" id="3sv-xx-N3D"/>
-                                        </constraints>
-                                        <date key="date" timeIntervalSinceReferenceDate="463398465.808963">
-                                            <!--2015-09-08 09:47:45 +0000-->
-                                        </date>
-                                        <variation key="default">
-                                            <mask key="constraints">
-                                                <exclude reference="3sv-xx-N3D"/>
-                                            </mask>
-                                        </variation>
-                                    </datePicker>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="9DF-zJ-gnb" secondAttribute="trailing" id="Ud3-fJ-fjI"/>
-                                    <constraint firstItem="9DF-zJ-gnb" firstAttribute="leading" secondItem="4Ic-oZ-R4c" secondAttribute="leading" id="dWf-OE-0fq"/>
-                                    <constraint firstItem="9DF-zJ-gnb" firstAttribute="top" secondItem="4Ic-oZ-R4c" secondAttribute="top" id="pIz-Ue-YFm"/>
-                                    <constraint firstAttribute="height" constant="216" id="wzC-v5-OTE"/>
-                                    <constraint firstAttribute="bottom" secondItem="9DF-zJ-gnb" secondAttribute="bottom" id="y5W-GO-noQ"/>
-                                </constraints>
-                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="qp2-G7-i1U">
                                 <rect key="frame" x="0.0" y="0.0" width="310" height="600"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -1741,10 +1713,7 @@
                             <constraint firstAttribute="trailing" secondItem="qp2-G7-i1U" secondAttribute="trailing" id="2t0-9K-of6"/>
                             <constraint firstItem="qp2-G7-i1U" firstAttribute="top" secondItem="H2c-bY-wsc" secondAttribute="bottom" id="DQd-Lp-DdO"/>
                             <constraint firstItem="PfQ-R2-toz" firstAttribute="top" secondItem="qp2-G7-i1U" secondAttribute="bottom" id="UGk-bP-YgT"/>
-                            <constraint firstItem="4Ic-oZ-R4c" firstAttribute="leading" secondItem="Zvr-TS-HfF" secondAttribute="leading" id="YDc-RH-p3B"/>
                             <constraint firstItem="qp2-G7-i1U" firstAttribute="leading" secondItem="Zvr-TS-HfF" secondAttribute="leading" id="hCF-nm-1Iw"/>
-                            <constraint firstAttribute="trailing" secondItem="4Ic-oZ-R4c" secondAttribute="trailing" id="kYg-8Q-jb3"/>
-                            <constraint firstItem="4Ic-oZ-R4c" firstAttribute="top" secondItem="H2c-bY-wsc" secondAttribute="bottom" id="rBZ-BN-SGO"/>
                         </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
@@ -1754,13 +1723,41 @@
                     <size key="freeformSize" width="310" height="600"/>
                     <connections>
                         <outlet property="detailTableView" destination="qp2-G7-i1U" id="LGU-rW-yIH"/>
-                        <outlet property="pickerContentView" destination="4Ic-oZ-R4c" id="wZX-24-9eg"/>
-                        <outlet property="timePickerView" destination="9DF-zJ-gnb" id="sMd-iL-dhO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nes-mY-fpo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3577" y="465"/>
+        </scene>
+        <!--Medication Type View Controller-->
+        <scene sceneID="ngk-5b-N46">
+            <objects>
+                <tableViewController storyboardIdentifier="MedicationTypeStoryboardId" id="4Lp-WJ-aCD" customClass="DCMedicationTypeViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="NWQ-ya-6Gz">
+                        <rect key="frame" x="0.0" y="0.0" width="310" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TypeCellId" id="GIp-w7-6kd">
+                                <rect key="frame" x="0.0" y="50" width="310" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GIp-w7-6kd" id="pHd-hi-WjU">
+                                    <rect key="frame" x="0.0" y="0.0" width="310" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="4Lp-WJ-aCD" id="AOr-En-Ksq"/>
+                            <outlet property="delegate" destination="4Lp-WJ-aCD" id="eEH-sI-e2b"/>
+                        </connections>
+                    </tableView>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="310" height="600"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZtQ-Cb-txj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4052" y="486"/>
         </scene>
         <!--Date Picker View Controller-->
         <scene sceneID="BGL-3O-RjD">

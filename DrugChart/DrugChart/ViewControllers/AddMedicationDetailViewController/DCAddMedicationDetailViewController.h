@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void(^EntrySelected)(NSString *value);
-
 @protocol AddMedicationDetailDelegate <NSObject>
 
 @optional
@@ -20,10 +18,7 @@ typedef void(^EntrySelected)(NSString *value);
 
 @interface DCAddMedicationDetailViewController : UIViewController
 
-@property (nonatomic) AddMedicationDetailType detailType;
-@property (nonatomic, strong) EntrySelected selectedEntry;
 @property (nonatomic, strong) NSString *previousFilledValue;
-@property (nonatomic, strong) NSMutableArray *contentArray;
 @property (nonatomic, weak) id <AddMedicationDetailDelegate> delegate;
 
 @end
