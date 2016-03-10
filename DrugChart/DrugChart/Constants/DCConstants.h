@@ -145,6 +145,7 @@
 #define ADMINISTRATION_TIMES_SB_ID "AdministrationTimesView"
 #define ADD_NEW_VALUE_SBID @"AddNewValueViewController"
 #define SINGLE_DOSE_VIEW_STORYBOARD_ID @"SingleDoseViewController"
+#define MEDICATION_TYPE_STORYBOARD_ID @"MedicationTypeStoryboardId"
 
 
 //Nib files
@@ -232,6 +233,7 @@
 #define SINGLE_DOSE_CELL_ID  @"SingleDoseCellId"
 #define SINGLE_DOSE_PICKER_CELL_ID @"SingleDosePickerCellId"
 #define SINGLE_DOSE_ENTRY_CELL_ID @"SingleDoseEntryCellId"
+#define TYPE_CELL_ID @"TypeCellId"
 
 // Week days
 

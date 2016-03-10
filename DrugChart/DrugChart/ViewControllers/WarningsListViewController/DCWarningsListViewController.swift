@@ -237,8 +237,7 @@ let NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR : CGFloat = 44.0
     @IBAction func overrideButtonPressed(sender: AnyObject) {
         
         //display reason view
-        let detailViewController : DCAddMedicationDetailViewController? = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(ADD_MEDICATION_DETAIL_STORYBOARD_ID) as? DCAddMedicationDetailViewController
-        detailViewController!.detailType = eOverrideReason
+        let detailViewController : DCOverrideViewController? = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(ADD_MEDICATION_DETAIL_STORYBOARD_ID) as? DCOverrideViewController
         detailViewController?.delegate = self
         let navigationController : UINavigationController? = UINavigationController(rootViewController: detailViewController!)
         navigationController?.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext

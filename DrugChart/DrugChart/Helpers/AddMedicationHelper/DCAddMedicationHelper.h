@@ -78,8 +78,6 @@ typedef enum : NSUInteger {
 
 + (NSMutableArray *)timesArrayFromScheduleArray:(NSArray *)scheduleArray;
 
-+ (AddMedicationDetailType)medicationDetailTypeForIndexPath:(NSIndexPath *)indexPath hasWarnings:(BOOL)showWarnings medicationType:(NSString *)type;
-
 + (NSInteger)numberOfSectionsInMedicationTableViewForSelectedMedication:(DCMedicationScheduleDetails *)selectedmedication
                                                            showWarnings:(BOOL)showWarnings;
 

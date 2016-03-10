@@ -78,16 +78,6 @@ typedef enum : NSUInteger {
 
 typedef enum : NSUInteger {
     
-    eDetailWarning,
-    eDetailDosage,
-    eDetailRoute,
-    eDetailType,
-    eOverrideReason,
-    
-} AddMedicationDetailType;
-
-typedef enum : NSUInteger {
-    
     eDetailSchedulingType,
     eDetailSpecificTimesRepeatType,
     eDetailIntervalRepeatFrequency
@@ -98,11 +88,6 @@ typedef enum :NSUInteger {
     eNotes,
     eReason
 }NotesType;
-
-//typedef NS_ENUM(NSInteger,NotesType) {
-//    eNotes,
-//    eReason
-//};
 
 typedef enum : NSInteger {
     
