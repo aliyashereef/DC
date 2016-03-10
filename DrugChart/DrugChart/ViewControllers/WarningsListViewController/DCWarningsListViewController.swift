@@ -117,14 +117,14 @@ let NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR : CGFloat = 44.0
                 sectionCount = sectionCount + 1
             }
         }
-        if loadOverideView == false {
+        if loadOverideView == false && overiddenReason != nil{
             sectionCount++
         }
         return sectionCount
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if loadOverideView == false {
+        if loadOverideView == false && overiddenReason != nil{
             if section == SectionCount.eZerothSection.rawValue {
                 return 1
             } else if section == SectionCount.eFirstSection.rawValue {
@@ -161,7 +161,7 @@ let NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR : CGFloat = 44.0
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell : DCWarningsCell = (tableView.dequeueReusableCellWithIdentifier(WARNINGS_CELL_ID) as? DCWarningsCell)!
-        if loadOverideView == false {
+        if loadOverideView == false && overiddenReason != nil {
             if indexPath.section == SectionCount.eZerothSection.rawValue {
                 cell.populateCellWithOverrideReasonObject(overiddenReason!)
 
@@ -201,7 +201,7 @@ let NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR : CGFloat = 44.0
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if loadOverideView == false {
+        if loadOverideView == false && overiddenReason != nil {
             if section == SectionCount.eZerothSection.rawValue{
                 return NSLocalizedString("OVERRIDE REASON", comment: "override reasons title")
             }else if section == SectionCount.eFirstSection.rawValue {
