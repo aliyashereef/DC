@@ -30,6 +30,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     var scrollDirection : Direction = .ScrollDirectionNone
     var scrollingLocked : Bool = false
     var selectedIndexPath : NSIndexPath!
+    
     required init?(coder aDecoder: NSCoder) {
         
         super.init(coder: aDecoder)
@@ -363,6 +364,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
             statusView.medicationCategory = medicationSchedules.medicineCategory
             statusView.backgroundColor = UIColor.clearColor()
             statusView.isOneThirdScreen = true
+            statusView.startDate = DCDateUtility.dateFromSourceString(medicationSchedules.startDate)
             statusView.updateAdministrationStatusViewWithMedicationSlotDictionary(slotDictionary)
             return statusView
     }
