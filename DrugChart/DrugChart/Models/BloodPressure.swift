@@ -23,10 +23,12 @@ class BloodPressure : VitalSignBaseModel
         set (newVal)
         {
             stringValue = newVal
-    //        systolic = (newVal as NSString!).doubleValue
         }
     }
-
+    override func isValueEntered() -> Bool
+    {
+        return !stringValueSystolic.isEmpty && !stringValueDiastolic.isEmpty
+    }
     var stringValueDiastolic:String
     {
         get
@@ -40,6 +42,10 @@ class BloodPressure : VitalSignBaseModel
         }
     }
     
+    override func delete() {
+        stringValueSystolic = ""
+        stringValueDiastolic = ""
+    }
     override init()
     {
         systolic = 0.0

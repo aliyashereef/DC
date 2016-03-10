@@ -236,10 +236,10 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             let cell = tableView.dequeueReusableCellWithIdentifier(bloodPressureCellIdentifier, forIndexPath: indexPath) as! BloodPressureCell
             cell.tag = ObservationType.BloodPressure.rawValue
             cells[rowNumber] = cell
-            if(showObservationType == ShowObservationType.BloodPressure && observation != nil && observation.bloodPressure != nil )
+            if(showObservationType == ShowObservationType.BloodPressure && observation != nil && observation.bloodPressure.isValueEntered() )
             {
-                cell.systolicValue.text =  observation.bloodPressure!.stringValueSystolic
-                cell.diastolicValue.text    = observation.bloodPressure!.stringValueDiastolic
+                cell.systolicValue.text =  observation.bloodPressure.stringValueSystolic
+                cell.diastolicValue.text    = observation.bloodPressure.stringValueDiastolic
             }
             cell.configureCell(showObservationType != .All)
             cell.delegate = self
@@ -308,7 +308,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
         switch(rowNumber)
         {
         case ObservationType.Respiratory.rawValue:
-            return observation.respiratory?.repiratoryRate
+            return observation.respiratory.repiratoryRate
         default:
             return nil
         }
@@ -371,35 +371,35 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
                     switch(showObservationType)
                     {
                     case .Respiratory:
-                        if(observation != nil && observation.respiratory != nil)
+                        if(observation != nil )
                         {
                             let cell = getCell(ObservationType.Respiratory.rawValue) as! DoubleCell
-                            observation.respiratory?.stringValue = cell.getStringValue()
+                            observation.respiratory.stringValue = cell.getStringValue()
                         }
                     case .SpO2:
-                        if(observation != nil && observation.spo2 != nil)
+                        if(observation != nil )
                         {
                             let cell = getCell(ObservationType.SpO2.rawValue) as! DoubleCell
-                            observation.spo2?.stringValue = cell.getStringValue()
+                            observation.spo2.stringValue = cell.getStringValue()
                         }
                     case .Temperature:
-                        if(observation != nil && observation.temperature != nil)
+                        if(observation != nil )
                         {
                             let cell = getCell(ObservationType.Temperature.rawValue) as! DoubleCell
-                            observation.temperature?.stringValue = cell.getStringValue()
+                            observation.temperature.stringValue = cell.getStringValue()
                         }
                     case .BloodPressure:
-                        if(observation != nil && observation.bloodPressure != nil)
+                        if(observation != nil )
                         {
                             let cell = getCell(ObservationType.BloodPressure.rawValue) as! BloodPressureCell
-                            observation.bloodPressure?.stringValueSystolic = cell.getSystolicStringValue()
-                            observation.bloodPressure?.stringValueDiastolic = cell.getDiastolicStringValue()
+                            observation.bloodPressure.stringValueSystolic = cell.getSystolicStringValue()
+                            observation.bloodPressure.stringValueDiastolic = cell.getDiastolicStringValue()
                         }
                     case .Pulse:
-                        if(observation != nil && observation.pulse != nil)
+                        if(observation != nil )
                         {
                             let cell = getCell(ObservationType.Pulse.rawValue) as! DoubleCell
-                            observation.pulse?.stringValue = cell.getStringValue()
+                            observation.pulse.stringValue = cell.getStringValue()
                         }
                     default:
                         print("Not a valid option for prepareObjects ")
@@ -415,24 +415,24 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
                 observation.date = dateCell.date
             case ObservationType.Temperature.rawValue:
                 let doubleCell = cell as! DoubleCell
-                observation.temperature?.stringValue = doubleCell.getStringValue()
+                observation.temperature.stringValue = doubleCell.getStringValue()
                 
             case ObservationType.Respiratory.rawValue:
                 let doubleCell = cell as! DoubleCell
-                observation.respiratory?.stringValue = doubleCell.getStringValue()
+                observation.respiratory.stringValue = doubleCell.getStringValue()
             
             case ObservationType.Pulse.rawValue:
                 let doubleCell = cell as! DoubleCell
-                   observation.pulse?.stringValue = doubleCell.getStringValue()
+                   observation.pulse.stringValue = doubleCell.getStringValue()
                
             case ObservationType.SpO2.rawValue:
                 let doubleCell = cell as! DoubleCell
-                observation.spo2?.stringValue = doubleCell.getStringValue()
+                observation.spo2.stringValue = doubleCell.getStringValue()
                 
             case ObservationType.BloodPressure.rawValue:
                 let bloodPressureCell = cell as! BloodPressureCell
-                    observation.bloodPressure!.stringValueSystolic = bloodPressureCell.getSystolicStringValue()
-                    observation.bloodPressure!.stringValueDiastolic = bloodPressureCell.getDiastolicStringValue()
+                    observation.bloodPressure.stringValueSystolic = bloodPressureCell.getSystolicStringValue()
+                    observation.bloodPressure.stringValueDiastolic = bloodPressureCell.getDiastolicStringValue()
             default:
                 print("nothing have been selected", terminator: "")
             }
@@ -487,7 +487,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             let doubleCell = cells[cellNumber] as? DoubleCell
             let numericTextField = object as? NumericTextField
             let value =  numericTextField?.getValue()
-            observation.respiratory?.stringValue = numericTextField!.text!
+            observation.respiratory.stringValue = numericTextField!.text!
             
            // print("respiratory value \(value) and \(doubleCell?.selected)")
             
@@ -516,7 +516,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             let numericTextField = object as? NumericTextField
             
             let value =  numericTextField?.getValue()
-            observation.spo2?.stringValue = numericTextField!.text!
+            observation.spo2.stringValue = numericTextField!.text!
             
             //  print("spo2 value \(value) and \(doubleCell?.selected)")
             
@@ -544,7 +544,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             let doubleCell = cells[cellNumber] as? DoubleCell
             let numericTextField = object as? NumericTextField
             let value =  numericTextField?.getValue()
-            observation.temperature?.stringValue = numericTextField!.text!
+            observation.temperature.stringValue = numericTextField!.text!
             
           //  print("temperature value \(value) and \(doubleCell?.selected)")
             
@@ -572,7 +572,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             let bloodPressureCell = cells[cellNumber] as? BloodPressureCell
             let numericTextField = object as? NumericTextField
             let value =  numericTextField?.getValue()
-            observation.bloodPressure?.stringValueSystolic = numericTextField!.text!
+            observation.bloodPressure.stringValueSystolic = numericTextField!.text!
             
             //   print("blood pressure  \(value) and \(bloodPressureCell?.selected)")
             
@@ -600,7 +600,7 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             let doubleCell = cells[cellNumber] as? DoubleCell
             let numericTextField = object as? NumericTextField
             let value =  numericTextField?.getValue()
-            observation.pulse?.stringValue = numericTextField!.text!
+            observation.pulse.stringValue = numericTextField!.text!
             
             //print("pulse value \(value) and \(doubleCell?.selected)")
             

@@ -54,7 +54,10 @@ class VitalSignBaseModel
         code.coding?.append(coding)
         return code
     }
-    
+    func delete()
+    {
+        stringValue = ""
+    }
     func FHIRDate(localDate:NSDate) -> DateTime
     {
         return DateTime(string: localDate.getFHIRDateandTime())!

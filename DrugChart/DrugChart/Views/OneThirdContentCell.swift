@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CocoaLumberjack
 
 class OneThirdContentCell: UITableViewCell {
 
@@ -55,18 +56,18 @@ class OneThirdContentCell: UITableViewCell {
         switch (showObservationType!)
         {
         case ShowObservationType.Respiratory:
-            return  (observation != nil && observation.respiratory != nil) ? true : false
+            return  (observation != nil && observation.respiratory.isValueEntered()) ? true : false
         case ShowObservationType.SpO2:
-            return  (observation != nil && observation.spo2 != nil) ? true : false
+            return  (observation != nil && observation.spo2.isValueEntered()) ? true : false
             
         case ShowObservationType.Temperature:
-            return  (observation != nil && observation.temperature != nil) ? true : false
+            return  (observation != nil && observation.temperature.isValueEntered()) ? true : false
             
         case ShowObservationType.BloodPressure:
-            return  (observation != nil && observation.bloodPressure != nil) ? true : false
+            return  (observation != nil && observation.bloodPressure.isValueEntered()) ? true : false
             
         case ShowObservationType.Pulse:
-            return  (observation != nil && observation.pulse != nil) ? true : false
+            return  (observation != nil && observation.pulse.isValueEntered()) ? true : false
             
         default:
             return false
@@ -105,32 +106,32 @@ class OneThirdContentCell: UITableViewCell {
             case ShowObservationType.Respiratory:
                 if(self.observation != nil)
                 {
-                    self.observation.respiratory = nil
+                    self.observation.respiratory.delete()
                 }
                 
             case ShowObservationType.SpO2:
                 if(self.observation != nil)
                 {
-                    self.observation.spo2 = nil
+                    self.observation.spo2.delete()
                 }
                 
             case ShowObservationType.Temperature:
                 if(self.observation != nil)
                 {
-                    self.observation.temperature = nil
+                    self.observation.temperature.delete()
                 }
             case ShowObservationType.BloodPressure:
                 if(self.observation != nil)
                 {
-                    self.observation.bloodPressure = nil
+                    self.observation.bloodPressure.delete()
                 }
             case ShowObservationType.Pulse:
                 if(self.observation != nil)
                 {
-                    self.observation.pulse = nil
+                    self.observation.pulse.delete()
                 }
             default:
-                print("nothing to delete")
+                DDLogDebug("\(Constant.VITAL_SIGN_LOGGER_INDICATOR) nothing to delete")
             }
             
             let tableView =  self.superview?.superview as? UITableView
