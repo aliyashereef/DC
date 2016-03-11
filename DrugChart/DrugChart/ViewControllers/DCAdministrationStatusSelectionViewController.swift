@@ -361,7 +361,7 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
                     })
                 })
             } else {
-                if Int(error.code) == Int(NETWORK_NOT_REACHABLE) {
+                if ((Int(error.code) == Int(NETWORK_NOT_REACHABLE)) || (Int(error.code) == Int(NOT_CONNECTED_TO_INTERNET))) {
                     self.presentViewController(DCAdministrationHelper.displayAlertWithTitle("ERROR", message: NSLocalizedString("INTERNET_CONNECTION_ERROR", comment:"")), animated: true, completion: nil)
 
                 } else if Int(error.code) == Int(WEBSERVICE_UNAVAILABLE)  {

@@ -51,11 +51,11 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         // Navigation bar done button
         let doneButton : UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: "doneButtonPressed")
         if (appDelegate.windowState == DCWindowState.halfWindow || appDelegate.windowState == DCWindowState.oneThirdWindow) {
-            self.navigationItem.leftBarButtonItems = [doneButton]
+            self.navigationItem.rightBarButtonItems = [doneButton]
         } else {
             let negativeSpacer: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
-            negativeSpacer.width = -12
-            self.navigationItem.leftBarButtonItems = [negativeSpacer,doneButton]
+            negativeSpacer.width = -8
+            self.navigationItem.rightBarButtonItems = [negativeSpacer, doneButton]
         }
     }
     
