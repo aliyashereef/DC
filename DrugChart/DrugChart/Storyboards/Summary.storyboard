@@ -22,45 +22,45 @@
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="summaryDisplayHeaderCell" rowHeight="199" id="QnQ-5q-G6d" customClass="DCMedicationSummaryDisplayHeaderTableViewCell" customModule="DrugChart" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="50" width="310" height="199"/>
+                                    <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="summaryDisplayHeaderCell" rowHeight="181" id="QnQ-5q-G6d" customClass="DCMedicationSummaryDisplayHeaderTableViewCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="310" height="181"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QnQ-5q-G6d" id="RUF-ZN-Umk">
-                                            <rect key="frame" x="0.0" y="0.0" width="310" height="198"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="310" height="180"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6g2-UD-kOW">
-                                                    <rect key="frame" x="15" y="19" width="295" height="21"/>
+                                                    <rect key="frame" x="15" y="15" width="295" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20 mg" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NF8-iu-hFP">
-                                                    <rect key="frame" x="15" y="136" width="295" height="16"/>
+                                                    <rect key="frame" x="15" y="124" width="295" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.45098039220000002" green="0.45098039220000002" blue="0.45098039220000002" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Active - Patient own drug" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5lE-hp-ekK">
-                                                    <rect key="frame" x="15" y="82" width="295" height="16"/>
+                                                    <rect key="frame" x="15" y="74" width="295" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                    <color key="textColor" red="0.27450980392156865" green="0.27450980392156865" blue="0.27450980392156865" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" red="0.45098039215686275" green="0.45098039215686275" blue="0.45098039215686275" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Oral" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ll8-vb-gNX">
-                                                    <rect key="frame" x="15" y="51" width="295" height="20"/>
+                                                    <rect key="frame" x="15" y="45" width="295" height="20"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.45098039215686275" green="0.45098039215686275" blue="0.45098039215686275" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Review every 2 weeks" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Cv-kb-mhl">
-                                                    <rect key="frame" x="15" y="163" width="295" height="16"/>
+                                                    <rect key="frame" x="15" y="149" width="295" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                    <color key="textColor" red="0.20392156862745098" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" red="0.45098039215686275" green="0.45098039215686275" blue="0.45098039215686275" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="When required" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aDG-9o-oKl">
-                                                    <rect key="frame" x="15" y="109" width="295" height="16"/>
+                                                    <rect key="frame" x="15" y="99" width="295" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.45098039215686275" green="0.45098039215686275" blue="0.45098039215686275" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -71,21 +71,21 @@
                                                 <constraint firstAttribute="trailing" secondItem="NF8-iu-hFP" secondAttribute="trailing" id="31q-Cz-Pr0"/>
                                                 <constraint firstItem="5lE-hp-ekK" firstAttribute="leading" secondItem="RUF-ZN-Umk" secondAttribute="leading" constant="15" id="4eP-S6-SZC"/>
                                                 <constraint firstAttribute="trailing" secondItem="4Cv-kb-mhl" secondAttribute="trailing" id="6nN-BI-nxx"/>
-                                                <constraint firstItem="NF8-iu-hFP" firstAttribute="top" secondItem="aDG-9o-oKl" secondAttribute="bottom" constant="11" id="7Ix-xg-9ib"/>
+                                                <constraint firstItem="NF8-iu-hFP" firstAttribute="top" secondItem="aDG-9o-oKl" secondAttribute="bottom" constant="9" id="7Ix-xg-9ib"/>
                                                 <constraint firstAttribute="trailing" secondItem="5lE-hp-ekK" secondAttribute="trailing" id="89N-hE-8JH"/>
-                                                <constraint firstItem="aDG-9o-oKl" firstAttribute="top" secondItem="5lE-hp-ekK" secondAttribute="bottom" constant="11" id="AeJ-95-9Mn"/>
+                                                <constraint firstItem="aDG-9o-oKl" firstAttribute="top" secondItem="5lE-hp-ekK" secondAttribute="bottom" constant="9" id="AeJ-95-9Mn"/>
                                                 <constraint firstItem="Ll8-vb-gNX" firstAttribute="leading" secondItem="RUF-ZN-Umk" secondAttribute="leading" constant="15" id="CT9-yf-OXC"/>
                                                 <constraint firstItem="aDG-9o-oKl" firstAttribute="leading" secondItem="RUF-ZN-Umk" secondAttribute="leading" constant="15" id="ETT-mL-SZt"/>
                                                 <constraint firstAttribute="trailing" secondItem="Ll8-vb-gNX" secondAttribute="trailing" id="Mq7-tS-6a8"/>
                                                 <constraint firstItem="6g2-UD-kOW" firstAttribute="leading" secondItem="RUF-ZN-Umk" secondAttribute="leading" constant="15" id="Qfq-X4-A0n"/>
-                                                <constraint firstItem="Ll8-vb-gNX" firstAttribute="top" secondItem="6g2-UD-kOW" secondAttribute="bottom" constant="11" id="UET-qF-ii6"/>
+                                                <constraint firstItem="Ll8-vb-gNX" firstAttribute="top" secondItem="6g2-UD-kOW" secondAttribute="bottom" constant="9" id="UET-qF-ii6"/>
                                                 <constraint firstItem="4Cv-kb-mhl" firstAttribute="leading" secondItem="RUF-ZN-Umk" secondAttribute="leading" constant="15" id="adx-O9-mjk"/>
-                                                <constraint firstItem="4Cv-kb-mhl" firstAttribute="top" secondItem="NF8-iu-hFP" secondAttribute="bottom" constant="11" id="ftv-lC-FXe"/>
-                                                <constraint firstAttribute="bottom" secondItem="4Cv-kb-mhl" secondAttribute="bottom" constant="19" id="jcU-nE-Z16"/>
-                                                <constraint firstItem="6g2-UD-kOW" firstAttribute="top" secondItem="RUF-ZN-Umk" secondAttribute="top" constant="19" id="oNy-FF-Nv9"/>
+                                                <constraint firstItem="4Cv-kb-mhl" firstAttribute="top" secondItem="NF8-iu-hFP" secondAttribute="bottom" constant="9" id="ftv-lC-FXe"/>
+                                                <constraint firstAttribute="bottom" secondItem="4Cv-kb-mhl" secondAttribute="bottom" constant="15" id="jcU-nE-Z16"/>
+                                                <constraint firstItem="6g2-UD-kOW" firstAttribute="top" secondItem="RUF-ZN-Umk" secondAttribute="top" constant="15" id="oNy-FF-Nv9"/>
                                                 <constraint firstAttribute="trailing" secondItem="6g2-UD-kOW" secondAttribute="trailing" id="oe8-pQ-BXz"/>
                                                 <constraint firstItem="NF8-iu-hFP" firstAttribute="leading" secondItem="RUF-ZN-Umk" secondAttribute="leading" constant="15" id="reI-gv-IXA"/>
-                                                <constraint firstItem="5lE-hp-ekK" firstAttribute="top" secondItem="Ll8-vb-gNX" secondAttribute="bottom" constant="11" id="sfU-a6-Dkd"/>
+                                                <constraint firstItem="5lE-hp-ekK" firstAttribute="top" secondItem="Ll8-vb-gNX" secondAttribute="bottom" constant="9" id="sfU-a6-Dkd"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -96,7 +96,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="menuCell" id="Sl9-o4-JbR" customClass="DCMedicationSummaryDisplayTableViewCell" customModule="DrugChart" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="249" width="310" height="44"/>
+                                        <rect key="frame" x="0.0" y="231" width="310" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Sl9-o4-JbR" id="1Z9-Cr-Igl">
                                             <rect key="frame" x="0.0" y="0.0" width="277" height="43"/>
