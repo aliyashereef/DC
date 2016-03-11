@@ -401,7 +401,16 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                 }
                 let routeString : String = medicationSchedules.route.stringByReplacingOccurrencesOfString(" ", withString: EMPTY_STRING)
                 medicationCell.route.text = routeString;
-                medicationCell.medicationTypeLabel.text = DCCalendarHelper.typeDescriptionForMedication(medicationSchedules)
+                var typeString : String = DCCalendarHelper.typeDescriptionForMedication(medicationSchedules)
+                if medicationSchedules.isActive == true {
+                    medicationCell.medicationTypeLabel.text = typeString
+                } else {
+                    typeString = "\(typeString) - \(DISCONTINUED_STRING)"
+                    let range = (typeString as NSString).rangeOfString(DISCONTINUED_STRING)
+                    let attributedTypeString  = NSMutableAttributedString(string: typeString, attributes: [NSFontAttributeName:UIFont.systemFontOfSize(12.0)])
+                    attributedTypeString.addAttribute(NSForegroundColorAttributeName, value: UIColor(forHexString: "#e87b7b") , range: range)
+                    medicationCell.medicationTypeLabel.attributedText = attributedTypeString
+                }
             }
     }
     

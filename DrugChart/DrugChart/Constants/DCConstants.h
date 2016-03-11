@@ -384,6 +384,7 @@
 #define INACTIVE @"Inactive"
 #define CURRENTLY_ACTIVE @"Currently Active"
 #define INCLUDE_DISCONTINUED @"Include Discontinued"
+#define DISCONTINUED_STRING @"Discontinued"
 
 //Prescriber filter criterias
 
