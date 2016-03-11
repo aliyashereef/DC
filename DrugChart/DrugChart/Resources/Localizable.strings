@@ -120,7 +120,7 @@
 "REVIEW_DATE"           =       "Review Date";
 "SEVERE"                =       "SEVERE";
 "MILD"                  =       "MILD";
-"OVERRIDE REASON"       =       "OVERRIDE REASON";
+"OVERRIDE REASON"       =       "OVERRIDDEN REASON";
 "REASON"                =       "Reason";
 "NEW_DOSAGE"            =       "New Dosage";
 "SCHEDULING"            =       "Scheduling";
