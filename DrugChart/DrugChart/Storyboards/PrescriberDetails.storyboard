@@ -315,7 +315,7 @@
                                                                 <constraint firstAttribute="width" constant="264" id="fHp-eT-j7E"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                            <color key="textColor" red="0.32549019607843138" green="0.59607843137254901" blue="0.88627450980392153" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <color key="textColor" red="0.45098039215686275" green="0.45098039215686275" blue="0.45098039215686275" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                             <variation key="default">
                                                                 <mask key="constraints">

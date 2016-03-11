@@ -296,7 +296,16 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
                 attributedInstructionsString  = NSMutableAttributedString(string: instructionString, attributes: [NSFontAttributeName:UIFont.systemFontOfSize(12.0)])
                 attributedRouteString.appendAttributedString(attributedInstructionsString)
                 medicationCell.route.attributedText = attributedRouteString;
-                medicationCell.typeLabel.text = DCCalendarHelper.typeDescriptionForMedication(medicationSchedules)
+                var typeString : String = DCCalendarHelper.typeDescriptionForMedication(medicationSchedules)
+                if medicationSchedules.isActive == true {
+                    medicationCell.typeLabel.text = typeString
+                } else {
+                    typeString = "\(typeString) - \(DISCONTINUED_STRING)"
+                    let range = (typeString as NSString).rangeOfString(DISCONTINUED_STRING)
+                    let attributedTypeString  = NSMutableAttributedString(string: typeString, attributes: [NSFontAttributeName:UIFont.systemFontOfSize(10.0)])
+                    attributedTypeString.addAttribute(NSForegroundColorAttributeName, value: UIColor(forHexString: "#e87b7b") , range: range)
+                    medicationCell.typeLabel.attributedText = attributedTypeString
+                }
             }
     }
         
