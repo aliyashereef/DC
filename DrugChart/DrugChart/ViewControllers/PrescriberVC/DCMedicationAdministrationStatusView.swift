@@ -247,7 +247,7 @@ class DCMedicationAdministrationStatusView: UIView {
             statusIcon?.hidden = false
             statusLabel?.hidden = true
             if isOneThirdScreen {
-                statusIcon?.center = CGPointMake(self.bounds.size.width/1.13, self.bounds.size.height/2);
+                statusIcon?.center = CGPointMake(self.bounds.size.width/1.18, self.bounds.size.height/2);
             }
             statusIcon?.image = ADMINISTRATION_SUCCESS_IMAGE
         } else {
@@ -290,7 +290,7 @@ class DCMedicationAdministrationStatusView: UIView {
                         statusLabel?.hidden = false
                         statusIcon?.hidden = false
                         if isOneThirdScreen {
-                            statusIcon!.center = CGPointMake(self.bounds.size.width/3.8, self.bounds.size.height/2);
+                            statusIcon!.center = CGPointMake(self.bounds.size.width/5.5, self.bounds.size.height/2);
                             statusLabel?.center = CGPointMake(self.bounds.size.width/2 - 5, self.bounds.size.height/2);
                         } else {
                             positionStatusLabelAndIconForDueAtOrNotAdministeredStatus(true)
@@ -389,6 +389,9 @@ class DCMedicationAdministrationStatusView: UIView {
             let pendingCount : NSInteger = timeArray.count
             statusLabel?.hidden = false
             statusIcon?.hidden = true
+            if isOneThirdScreen {
+                statusLabel?.center = CGPointMake(self.bounds.size.width/2 - 5, self.bounds.size.height/2);
+            }
             statusLabel?.textColor = PENDING_FONT_COLOR
             statusLabel?.text = String(format: "%i %@", pendingCount, NSLocalizedString("PENDING", comment: ""))
             statusLabel?.textAlignment = isOneThirdScreen ? .Right : .Center
