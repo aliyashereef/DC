@@ -8,12 +8,15 @@
 
 import UIKit
 
-class ObservationSelectionViewController: UITableViewController {
+class ObservationSelectionViewController: PatientViewController,UITableViewDataSource,UITableViewDelegate {
 
+    @IBOutlet var tableView: UITableView!
     let observationIdentifier = "ObservationIdentifier"
     var delegate:ObservationDelegate? = nil
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
         self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: observationIdentifier)
     }
 
@@ -24,18 +27,18 @@ class ObservationSelectionViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return 3
     }
 
    
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(observationIdentifier, forIndexPath: indexPath)
         
         
@@ -54,7 +57,7 @@ class ObservationSelectionViewController: UITableViewController {
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.dismissViewControllerAnimated(true, completion: nil)
         
         // now show the modal dialog to take the input
@@ -64,6 +67,7 @@ class ObservationSelectionViewController: UITableViewController {
         case DashBoardAddOption.VitalSign:
             let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
             let observationDetails : ObservationViewController = mainStoryboard.instantiateViewControllerWithIdentifier("ObservationViewController") as! ObservationViewController
+            observationDetails.patient = patient
             let navigationController : UINavigationController? = UINavigationController(rootViewController: observationDetails)
             if(UIDevice.currentDevice().userInterfaceIdiom == .Pad)
             {

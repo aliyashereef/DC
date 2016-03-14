@@ -413,6 +413,11 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             case ObservationType.Date.rawValue:
                 let dateCell = cell as! DatePickerCellInline
                 observation.date = dateCell.date
+                observation.temperature.date = dateCell.date
+                observation.pulse.date = dateCell.date
+                observation.spo2.date = dateCell.date
+                observation.bloodPressure.date = dateCell.date
+                observation.respiratory.date = dateCell.date
             case ObservationType.Temperature.rawValue:
                 let doubleCell = cell as! DoubleCell
                 observation.temperature.stringValue = doubleCell.getStringValue()

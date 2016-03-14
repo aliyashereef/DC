@@ -11,7 +11,7 @@ import UIKit
 
 
 
-class ObservationViewController: UIViewController,ObservationDelegate   {
+class ObservationViewController: PatientViewController,ObservationDelegate   {
         @IBOutlet weak var observationSegmentedView: UISegmentedControl!
         @IBOutlet weak var hiddenButton: UIButton!
         @IBOutlet weak var oneThirdHidden: UIButton!
@@ -107,7 +107,7 @@ class ObservationViewController: UIViewController,ObservationDelegate   {
     {
         generalObservationView.prepareObjects()
         let parser = VitalSignParser()
-        parser.saveVitalSignObservations("f641b7bb-6dd4-4364-ab44-101a9334b84a", requestBody: generalObservationView.observation.asJSON(), onCompletion:saveCompleted)
+        parser.saveVitalSignObservations(patient.patientId, requestBody: generalObservationView.observation.asJSON(), onCompletion:saveCompleted)
         
     }
     func saveCompleted( savedSuccessfully:Bool)

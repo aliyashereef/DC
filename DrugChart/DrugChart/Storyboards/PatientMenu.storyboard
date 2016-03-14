@@ -175,6 +175,9 @@
                         </connections>
                     </tableView>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="tableView" destination="lqT-pf-4hM" id="PWj-3T-vYH"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aTh-Ip-v49" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

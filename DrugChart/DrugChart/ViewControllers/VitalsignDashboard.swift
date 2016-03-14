@@ -186,6 +186,7 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let controller:ObservationSelectionViewController = segue.destinationViewController as?ObservationSelectionViewController
         {
+            controller.patient = patient
             let popOverController:UIPopoverPresentationController = controller.popoverPresentationController!
             popOverController.delegate = self
             controller.delegate = self

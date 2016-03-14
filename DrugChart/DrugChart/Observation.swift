@@ -17,8 +17,7 @@ extension Observation
         var json:[String] = [String]()
         json.append(FHIRHelper.formatJSONKeyValue("resourceType", value: "Observation"))
         json.append(",")
-        json.append(FHIRHelper.formatJSONKeyValue("effectiveDateTime", value: self.effectiveDateTime!.description)) 
-        
+        json.append(FHIRHelper.formatJSONKeyValue("effectiveDateTime", value: self.effectiveDateTime!.nsDate.getFHIRDateandTime()))
         json.append(",")
         json.append(FHIRHelper.formatJSONKeyValue("status", value: "final"))
         json.append(",")
