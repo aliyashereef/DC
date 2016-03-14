@@ -270,6 +270,9 @@ typedef enum : NSUInteger {
         selectedSortType = START_DATE_ORDER;
         [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
         }];
+    } else {
+        //hide activity indicator if network is not available
+        [self showActivityIndicationOnViewRefresh:false];
     }
 }
 
