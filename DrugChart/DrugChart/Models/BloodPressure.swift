@@ -13,21 +13,22 @@ class BloodPressure : VitalSignBaseModel
 {
     var systolic:Double // systolic should be greater than diastolic
     var diastolic:Double
-    private var strSystolic = ""
     private var strDiastolic = ""
     var stringValueSystolic:String
     {
         get
         {
-            return strSystolic
+            return stringValue
         }
         set (newVal)
         {
-            strSystolic = newVal
-            systolic = (newVal as NSString!).doubleValue
+            stringValue = newVal
         }
     }
-
+    override func isValueEntered() -> Bool
+    {
+        return !stringValueSystolic.isEmpty /* && !stringValueDiastolic.isEmpty*/
+    }
     var stringValueDiastolic:String
     {
         get
@@ -41,10 +42,19 @@ class BloodPressure : VitalSignBaseModel
         }
     }
     
+    override func delete() {
+        stringValueSystolic = ""
+        stringValueDiastolic = ""
+    }
     override init()
     {
         systolic = 0.0
         diastolic = 0.0
+    }
+    
+    
+    override func setCorrespondentDoubleValue(valueString: String) {
+        systolic = (valueString as NSString!).doubleValue
     }
     
     override func FHIRResource() -> Resource? {
@@ -54,7 +64,7 @@ class BloodPressure : VitalSignBaseModel
         observation.effectiveDateTime = FHIRDate(super.date)
         observation.component = [ObservationComponent]()
         // systolic component
-        observation.component?.append(FHIRComponent(FHIRCode("Systolic blood pressure", codeId: "114311000006111"), quantity: FHIRQuantity(strSystolic, doubleQuantity: systolic, unit: "mmHg")))
+        observation.component?.append(FHIRComponent(FHIRCode("Systolic blood pressure", codeId: "114311000006111"), quantity: FHIRQuantity(stringValueSystolic, doubleQuantity: systolic, unit: "mmHg")))
         
         // diastolic component
         observation.component?.append(FHIRComponent(FHIRCode("Diastolic blood pressure", codeId: "619931000006119"), quantity: FHIRQuantity(strDiastolic, doubleQuantity: diastolic, unit: "mmHg")))

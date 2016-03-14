@@ -17,12 +17,13 @@ class ToggleCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        toggleValue.addTarget(self, action: "valueChanged", forControlEvents: .ValueChanged )
+        self.selectionStyle = UITableViewCellSelectionStyle.None
+        toggleValue.addTarget(self, action: "valueChanged:", forControlEvents: .ValueChanged )
     }
     
-    func valueChanged()
+    func valueChanged(uiSwitch: AnyObject)
     {
-        delegate?.cellValueChanged(tag)
+        delegate?.cellValueChanged(tag ,object: uiSwitch)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -35,4 +36,16 @@ class ToggleCell: UITableViewCell {
         title.text = cellTitle
     }
     
+    
+    func isOn() -> Bool
+    {
+        return toggleValue.on
+    }
+    func setCellBackgroundColor(color:UIColor)
+    {
+        self.backgroundView = nil
+        self.backgroundColor = color
+        self.contentView.backgroundColor = color
+        self.selectedBackgroundView = nil
+    }
 }

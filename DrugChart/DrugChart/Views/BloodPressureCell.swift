@@ -17,7 +17,8 @@ class BloodPressureCell: UITableViewCell ,ButtonAction{
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        systolicValue.addTarget(self, action: "valueChanged", forControlEvents: UIControlEvents.EditingChanged)
+        self.selectionStyle = UITableViewCellSelectionStyle.None
+        systolicValue.addTarget(self, action: "valueChanged:", forControlEvents: UIControlEvents.EditingChanged)
     }
    
     override func setSelected(selected: Bool, animated: Bool) {
@@ -26,9 +27,17 @@ class BloodPressureCell: UITableViewCell ,ButtonAction{
         // Configure the view for the selected state
     }
     
-    func valueChanged()
+    func setCellBackgroundColor(color:UIColor)
     {
-        delegate?.cellValueChanged(tag)
+        self.backgroundView = nil
+        self.backgroundColor = color
+        self.contentView.backgroundColor = color
+        self.selectedBackgroundView = nil
+    }
+    
+    func valueChanged(textField: AnyObject)
+    {
+        delegate?.cellValueChanged(tag,object: textField)
     }
     
     func isValueEntered() -> Bool
