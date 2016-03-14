@@ -348,7 +348,7 @@ class VitalSignObservation
         }
     }
     
-    func asJSON() -> FHIRJSON?
+    func asJSON() -> String
     {
         let bundle = Bundle(type:"transaction")
         bundle.entry =  [BundleEntry]()
@@ -383,8 +383,6 @@ class VitalSignObservation
             entry.resource = self.pulse.FHIRResource()
             bundle.entry?.append(entry)
         }
-        
-        print( bundle.asJSON()) //TODO: Need to replace it with the DDLogInfo
-        return bundle.asJSON()
+        return bundle.asJSONString()
     }
 }

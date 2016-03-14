@@ -135,6 +135,13 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         self.presentViewController(navigationController, animated: false, completion: nil)
     }
     
+    
+    func ShowPopOver(viewController: UIViewController) {
+        if let popover = viewController.popoverPresentationController {
+            popover.delegate = self
+        }
+        self.presentViewController(viewController, animated: false, completion: nil)
+    }
     func ShowModalViewController(viewController:UIViewController)
     {
         self.presentViewController(viewController, animated: false, completion: nil)

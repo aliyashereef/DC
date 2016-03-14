@@ -86,12 +86,29 @@ class VitalSignParser : FhirParser
 //    }
 //    }
     
-    var CARE_RECORD_URL = "patients/%@/carerecord/observations?CodeValues=%@&StartDateTime=%@&EndDateTime=%@&IncludeMostRecent=%@"
+    var CARE_RECORD_URL_SEARCH = "patients/%@/carerecord/observations?CodeValues=%@&StartDateTime=%@&EndDateTime=%@&IncludeMostRecent=%@"
     
-
+    var CARE_RECORD_URL_POST = "patients/%@/carerecord/observations"
+    
+    
+    func saveVitalSignObservations(patientId:String,requestBody:String, onCompletion:(saveSuccessfully:Bool)->Void)
+    {
+        let url = String(format:CARE_RECORD_URL_POST , patientId )
+        super.connectServerPost(url, requestJSON: requestBody){(status:Int) in
+           if(status == 200)
+           {
+              onCompletion( saveSuccessfully: true)
+           }
+            else
+           {
+              onCompletion(saveSuccessfully: false)
+           }
+        }
+    }
+    
     func getVitalSignsObservations(patientId:String, commaSeparatedCodes:String, startDate:NSDate, endDate:NSDate , includeMostRecent:Bool , onSuccess:(observationList:[VitalSignObservation])->Void)
     {
-        let url = String(format:CARE_RECORD_URL , patientId , commaSeparatedCodes , startDate.getFHIRDateandTime() , endDate.getFHIRDateandTime(), includeMostRecent == true ?"true":"false")
+        let url = String(format:CARE_RECORD_URL_SEARCH , patientId , commaSeparatedCodes , startDate.getFHIRDateandTime() , endDate.getFHIRDateandTime(), includeMostRecent == true ?"true":"false")
         
         super.connectServerGet(url){(json:FHIRJSON? , error:NSError? ) in
             var lstObservation = [VitalSignObservation]()

@@ -8,6 +8,7 @@
 
 
 
+
 class GraphView:UIView,GraphDelegate
 {
     @IBInspectable var startColor:UIColor  = UIColor.redColor()
@@ -54,6 +55,13 @@ class GraphView:UIView,GraphDelegate
         return x
     }
     
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?)
+    {
+       let touch = touches.first!
+        let location = touch.locationInView(self)
+        print("Location: \(location)")
+    }
+    
     func columnXLabelPoint (column:Int , noOfPoints:Int) -> CGFloat
     {
         let spacer = (width - margin*2 - 4) / CGFloat(noOfPoints - 1)
@@ -77,7 +85,6 @@ class GraphView:UIView,GraphDelegate
         label.font = UIFont(name: label.font.fontName, size: 13)
         label.text = "Normal Range: __"
         self.addSubview(label)
-        
     }
     func drawGraphTitle()
     {

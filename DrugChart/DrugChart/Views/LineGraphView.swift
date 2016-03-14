@@ -13,6 +13,9 @@ import UIKit
     private var xAxisValue:[NSDate]!
     private var yAxisValue:[Double]!
     
+    
+    var observationDelegate:ObservationDelegate? = nil
+    
         override func drawRect(rect: CGRect) {
             
             for subUIView in self.subviews {
@@ -119,15 +122,31 @@ import UIKit
                 }
                 
             // draw the circle dots on the graph
+//            for i in 0..<yAxisValue.count
+//            {
+//                var point = CGPoint(x:columnXPoint(xAxisValue[i].getDatePart(displayView,startDate:graphStartDate)) , y:columnYPoint(yAxisValue[i]))
+//                point.x -= 5.0/2
+//                point.y -= 5.0/2
+//                let circle = UIBezierPath(ovalInRect: CGRect(origin: point, size: CGSize(width: 5.0,height: 5.0)))
+//                circle.fill()
+//            }
+
+                
+                
             for i in 0..<yAxisValue.count
             {
-                var point = CGPoint(x:columnXPoint(xAxisValue[i].getDatePart(displayView,startDate:graphStartDate)) , y:columnYPoint(yAxisValue[i]))
-                point.x -= 5.0/2
-                point.y -= 5.0/2
-                let circle = UIBezierPath(ovalInRect: CGRect(origin: point, size: CGSize(width: 5.0,height: 5.0)))
-                circle.fill()
+                let point = CGPoint(x:columnXPoint(xAxisValue[i].getDatePart(displayView,startDate:graphStartDate)) , y:columnYPoint(yAxisValue[i]))
+                
+                let dot = UIButton(type: UIButtonType.Custom) as UIButton
+                dot.frame = CGRect(origin: point, size: CGSize(width: 14.0,height: 14.0))
+                dot.setImage(UIImage(named:"graphDot" as String)!, forState: UIControlState.Normal)
+                dot.center = point
+                dot.tag = i // save the item number in tag so that later on you can access the records.
+                dot.addTarget(self, action: "btnTouched:", forControlEvents:.TouchUpInside)
+                self.addSubview(dot)
             }
-            
+
+                
             drawHorizontalLines()
             // add last entered label
             drawLatestReadiongLabels()
@@ -138,7 +157,30 @@ import UIKit
                 self.drawGraph = false
             }
         }
+
     
+    
+    func btnTouched(sender:AnyObject)
+   {
+    let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
+    let tooltipViewController : UIViewController = mainStoryboard.instantiateViewControllerWithIdentifier("ToolTip")
+    tooltipViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
+    if let popover = tooltipViewController.popoverPresentationController
+    {
+        let viewForSource = sender as! UIView
+        popover.sourceView = viewForSource
+        
+        // the position of the popover where it's showed
+        popover.sourceRect = viewForSource.bounds
+        
+        // the size you want to display
+        tooltipViewController.preferredContentSize = CGSizeMake(200,100)
+       // popover.delegate = self
+    }
+    
+    observationDelegate?.ShowPopOver(tooltipViewController)
+    
+    }
    override func setMaxYAxis() {
         if(self.yAxisValue != nil && self.yAxisValue.count>0)
         {

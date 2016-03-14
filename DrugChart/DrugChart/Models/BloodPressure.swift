@@ -62,6 +62,7 @@ class BloodPressure : VitalSignBaseModel
         let observation = Observation(code:code  , status: "final")
         observation.comments = associatedText
         observation.effectiveDateTime = FHIRDate(super.date)
+        
         observation.component = [ObservationComponent]()
         // systolic component
         observation.component?.append(FHIRComponent(FHIRCode("Systolic blood pressure", codeId: "114311000006111"), quantity: FHIRQuantity(stringValueSystolic, doubleQuantity: systolic, unit: "mmHg")))

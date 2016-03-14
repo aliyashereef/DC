@@ -18,7 +18,7 @@ class BarGraphCell: GraphCollectionnViewCell {
         super.awakeFromNib()
         // Initialization code
         super.graphView = barGraph
-        registerSingleTap()
+        registerDoubleTap()
     }
     
     override func showIndividualGraph()
