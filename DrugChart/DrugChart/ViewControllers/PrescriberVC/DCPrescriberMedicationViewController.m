@@ -104,9 +104,16 @@ typedef enum : NSUInteger {
     [self addCustomTitleViewToNavigationBar];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkAvailable:) name:kNetworkAvailable object:nil];
+}
+
 - (void)viewWillDisappear:(BOOL)animated {
     
     [self cancelPreviousMedicationListFetchRequest];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super viewWillDisappear:animated];
 }
 
@@ -988,6 +995,13 @@ typedef enum : NSUInteger {
     
     //add medication view dismissed
     warningsButton.userInteractionEnabled = YES;
+}
+
+#pragma mark - Notification Methods
+
+- (void)networkAvailable:(NSNotification *)notification {
+    
+    [self refreshMedicationList];
 }
 
 @end
