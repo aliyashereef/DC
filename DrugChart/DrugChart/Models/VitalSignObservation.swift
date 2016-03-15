@@ -12,13 +12,16 @@ import CocoaLumberjack
 
 class VitalSignObservation
 {
-    var bloodPressure:BloodPressure?
-    var temperature:BodyTemperature?
-    var bm:BowelMovement?
-    var pulse:Pulse?
-    var respiratory:Respiratory?
-    var spo2:SPO2?
+    var bloodPressure:BloodPressure
+    var temperature:BodyTemperature
+    var pulse:Pulse
+    var respiratory:Respiratory
+    var spo2:SPO2
     var date:NSDate
+    var additionalOxygen:Bool
+    var isConscious:Bool
+    
+    // Comma Score
     var eyesOpen:KeyValue?
     var bestVerbalResponse:KeyValue?
     var bestMotorResponse:KeyValue?
@@ -29,13 +32,15 @@ class VitalSignObservation
     
      init()
     {
-        bloodPressure = nil
-        temperature = nil
-        bm = nil
-        pulse = nil
-        respiratory = nil
-        spo2 = nil
+        bloodPressure = BloodPressure()
+        temperature = BodyTemperature()
+        pulse = Pulse()
+        respiratory = Respiratory()
+        spo2 = SPO2()
         date = NSDate()
+        additionalOxygen = false
+        isConscious = true
+        
         eyesOpen = nil
         bestVerbalResponse = nil
         bestMotorResponse = nil
@@ -82,9 +87,9 @@ class VitalSignObservation
         var score :Int = 0
         var invalidResult:Bool = false
         var interimScore : Int
-        if respiratory != nil
+        if (respiratory.isValueEntered())
         {
-            interimScore = getRepiratoryRating((respiratory?.repiratoryRate)!)
+            interimScore = getRepiratoryRating((respiratory.repiratoryRate))
             if(interimScore == -1)
             {
                 invalidResult = true
@@ -96,9 +101,9 @@ class VitalSignObservation
             invalidResult = true
         }
         
-        if spo2 != nil
+        if spo2.isValueEntered()
         {
-            interimScore = getOxygenSaturationRating((spo2?.spO2Percentage)!)
+            interimScore = getOxygenSaturationRating((spo2.spO2Percentage))
             if(interimScore == -1)
             {
                 invalidResult = true
@@ -110,9 +115,9 @@ class VitalSignObservation
             invalidResult = true
         }
         
-        if temperature != nil
+        if temperature.isValueEntered()
         {
-            interimScore = getTemperatureRating((temperature?.value)!)
+            interimScore = getTemperatureRating(temperature.value)
             if(interimScore == -1)
             {
                 invalidResult = true
@@ -124,9 +129,9 @@ class VitalSignObservation
             invalidResult = true
         }
         
-        if bloodPressure != nil
+        if bloodPressure.isValueEntered()
         {
-            interimScore = getBloodPressureRating((bloodPressure?.systolic)!)
+            interimScore = getBloodPressureRating(bloodPressure.systolic)
             if(interimScore == -1)
             {
                 invalidResult = true
@@ -138,9 +143,9 @@ class VitalSignObservation
             invalidResult = true
         }
         
-        if pulse != nil
+        if pulse.isValueEntered()
         {
-            interimScore = getHeartRateRating((pulse?.pulseRate)!)
+            interimScore = getHeartRateRating(pulse.pulseRate)
             if(interimScore == -1)
             {
                 invalidResult = true
@@ -153,14 +158,18 @@ class VitalSignObservation
             invalidResult = true
         }
         
+        
+        score += additionalOxygen ? 2:0
+        score += !isConscious ? 3:0
+
         return invalidResult == true ? "N/A" : String(score)
     }
 
     func getBloodPressureReading() ->String
     {
-        if(bloodPressure != nil)
+        if(bloodPressure.isValueEntered())
         {
-            return bloodPressure!.stringValueSystolic + "/" + bloodPressure!.stringValueDiastolic
+            return bloodPressure.stringValueSystolic + "/" + bloodPressure.stringValueDiastolic
         }
         else
         {
@@ -169,9 +178,9 @@ class VitalSignObservation
     }
     func getSpo2Reading() -> String
     {
-        if(spo2 != nil)
+        if(spo2.isValueEntered())
         {
-            return spo2!.stringValue
+            return spo2.stringValue
         }
         else
         {
@@ -180,9 +189,9 @@ class VitalSignObservation
     }
     func getPulseReading() -> String
     {
-        if(pulse != nil)
+        if(pulse.isValueEntered())
         {
-            return pulse!.stringValue
+            return pulse.stringValue
         }
         else
         {
@@ -191,9 +200,9 @@ class VitalSignObservation
     }
     func getRespiratoryReading() -> String
     {
-        if respiratory != nil
+        if respiratory.isValueEntered()
         {
-            return respiratory!.stringValue
+            return respiratory.stringValue
         }
         else
         {
@@ -202,35 +211,25 @@ class VitalSignObservation
     }
     func setRespiratoryReading(value:Double )
     {
-        if(respiratory == nil)
+        if respiratory.isValueEntered()
         {
             respiratory = Respiratory()
         }
-        respiratory?.repiratoryRate = value
+        respiratory.repiratoryRate = value
     }
     
     func getTemperatureReading() -> String
     {
-        if temperature != nil
+        if temperature.isValueEntered()
         {
-            return temperature!.stringValue
+            return temperature.stringValue
         }
         else
         {
             return " "
         }
     }
-    func getBMReading() -> String
-    {
-        if bm != nil
-        {
-            return String(bm!.value)
-        }
-        else
-        {
-            return " "
-        }
-    }
+    
     func getHeartRateRating(value : Double) -> Int
     {
         if value <= 40 || value >= 131
@@ -354,34 +353,34 @@ class VitalSignObservation
         let bundle = Bundle(type:"transaction")
         bundle.entry =  [BundleEntry]()
         
-        if(self.respiratory != nil )
+        if(self.respiratory.isValueEntered() )
         {
             let entry = BundleEntry(json: nil)
-            entry.resource = self.respiratory?.FHIRResource()
+            entry.resource = self.respiratory.FHIRResource()
             bundle.entry?.append(entry)
         }
-        if(self.spo2 != nil)
+        if(self.spo2.isValueEntered())
         {
             let entry = BundleEntry(json: nil)
-            entry.resource = self.spo2?.FHIRResource()
+            entry.resource = self.spo2.FHIRResource()
             bundle.entry?.append(entry)
         }
-        if(self.temperature != nil)
+        if(self.temperature.isValueEntered())
         {
             let entry = BundleEntry(json: nil)
-            entry.resource = self.temperature?.FHIRResource()
+            entry.resource = self.temperature.FHIRResource()
             bundle.entry?.append(entry)
         }
-        if(self.bloodPressure != nil)
+        if(self.bloodPressure.isValueEntered())
         {
             let entry = BundleEntry(json: nil)
-            entry.resource = self.bloodPressure?.FHIRResource()
+            entry.resource = self.bloodPressure.FHIRResource()
             bundle.entry?.append(entry)
         }
-        if(self.pulse != nil)
+        if(self.pulse.isValueEntered())
         {
             let entry = BundleEntry(json: nil)
-            entry.resource = self.pulse?.FHIRResource()
+            entry.resource = self.pulse.FHIRResource()
             bundle.entry?.append(entry)
         }
         

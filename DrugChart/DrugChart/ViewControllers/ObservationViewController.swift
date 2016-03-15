@@ -98,7 +98,7 @@ class ObservationViewController: UIViewController,ObservationDelegate   {
        case DataEntryObservationSource.VitalSignEditIPad:
             performSegueWithIdentifier("unwindToTabularView",sender:sender)
        case DataEntryObservationSource.NewsIPhone,DataEntryObservationSource.NewsIPad:
-            performSegueWithIdentifier("unwindToTabularView",sender:sender)
+            performSegueWithIdentifier("unwindToObservationList",sender:sender)
        }
     }
         
