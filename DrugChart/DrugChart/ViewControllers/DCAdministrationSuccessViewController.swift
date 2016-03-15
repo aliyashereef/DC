@@ -180,15 +180,17 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         let expiryCell : DCBatchNumberCell = (administerSuccessTableView.dequeueReusableCellWithIdentifier(BATCH_NUMBER_CELL_ID) as? DCBatchNumberCell)!
         expiryCell.batchDelegate = self
         expiryCell.batchNumberTextField.placeholder = label as String
-        if label == "Dose" {
+        if label == "Dose" && indexPath == doseCellIndexPath {
             if let dosageString = medicationSlot?.medicationAdministration?.dosageString {
                 expiryCell.batchNumberTextField?.text = dosageString
             } else {
                 expiryCell.batchNumberTextField?.text = medicationDetails?.dosage
             }
-        } else {// label is batch
+        } else if label == "Batch Number" {// label is batch
             if let batchString = medicationSlot?.medicationAdministration?.batch {
                 expiryCell.batchNumberTextField?.text = batchString
+            } else {
+                expiryCell.batchNumberTextField?.text = EMPTY_STRING
             }
         }
         expiryCell.selectedIndexPath = indexPath
