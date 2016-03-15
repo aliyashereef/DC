@@ -449,8 +449,7 @@ typedef enum : NSUInteger {
                                                         message:NSLocalizedString(@"INTERNET_CONNECTION_ERROR", @"")];
                                 } else if (error.code == WEBSERVICE_UNAVAILABLE) {
                                     [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"") message:NSLocalizedString(@"WEBSERVICE_UNAVAILABLE", @"")];
-                                }
-                                else {
+                                } else if (error.code != REQUEST_CANCELLED) {
                                     [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"") message:NSLocalizedString(@"MEDICATION_SCHEDULE_ERROR", @"")];
                                 }
                             }

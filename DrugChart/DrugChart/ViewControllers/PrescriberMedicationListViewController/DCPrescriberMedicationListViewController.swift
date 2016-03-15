@@ -619,6 +619,11 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
 //                }
             } else {
                 // TO DO: handle the case for already deleted medication.
+                if (error.code == NETWORK_NOT_REACHABLE || error.code == NOT_CONNECTED_TO_INTERNET) {
+                    DCUtility.displayAlertWithTitle(NSLocalizedString("ERROR", comment: ""), message: NSLocalizedString("INTERNET_CONNECTION_ERROR", comment: ""))
+                } else if (error.code == WEBSERVICE_UNAVAILABLE) {
+                    DCUtility.displayAlertWithTitle(NSLocalizedString("ERROR", comment: ""), message: NSLocalizedString("WEBSERVICE_UNAVAILABLE", comment: ""))
+                }
             }
         }
     }
