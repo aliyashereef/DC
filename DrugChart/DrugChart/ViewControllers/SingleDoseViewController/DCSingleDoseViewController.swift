@@ -10,7 +10,7 @@ import UIKit
 
 typealias UpdatedSingleDose = DCSingleDose? -> Void
 
-class DCSingleDoseViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SingleDoseEntryCellDelegate {
+class DCSingleDoseViewController: DCBaseViewController, UITableViewDelegate, UITableViewDataSource, SingleDoseEntryCellDelegate {
     
     @IBOutlet weak var doseTableView: UITableView!
     

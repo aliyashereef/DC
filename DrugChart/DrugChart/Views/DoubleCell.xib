@@ -40,8 +40,8 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="numericValue" destination="zRd-af-an9" id="17X-NC-S8A"/>
                 <outlet property="titleText" destination="z4T-K7-v0t" id="DvF-0Z-NzV"/>
-                <outlet property="value" destination="zRd-af-an9" id="1AQ-YR-wC0"/>
             </connections>
         </tableViewCell>
     </objects>

@@ -104,9 +104,16 @@ typedef enum : NSUInteger {
     [self addCustomTitleViewToNavigationBar];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkAvailable:) name:kNetworkAvailable object:nil];
+}
+
 - (void)viewWillDisappear:(BOOL)animated {
     
     [self cancelPreviousMedicationListFetchRequest];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super viewWillDisappear:animated];
 }
 
@@ -248,12 +255,12 @@ typedef enum : NSUInteger {
     else if ([DCAPPDELEGATE windowState] == fullWindow ||
              [DCAPPDELEGATE windowState] == twoThirdWindow) {
         isOneThirdMedicationViewShown = NO;
-//        [self showActivityIndicationOnViewRefresh:true];
+        [self showActivityIndicationOnViewRefresh:true];
         [self addPrescriberDrugChartViewForFullAndTwoThirdWindow];
-//        if ([DCAPPDELEGATE isNetworkReachable]) {
-//            [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
-//            }];
-//        }
+        if ([DCAPPDELEGATE isNetworkReachable]) {
+            [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
+            }];
+        }
     }
 }
 
@@ -270,6 +277,9 @@ typedef enum : NSUInteger {
         selectedSortType = START_DATE_ORDER;
         [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
         }];
+    } else {
+        //hide activity indicator if network is not available
+        [self showActivityIndicationOnViewRefresh:false];
     }
 }
 
@@ -363,11 +373,10 @@ typedef enum : NSUInteger {
                         }
                     }
                 }
+                completionHandler(medicationListArray, nil);
+            } else {
+                completionHandler(nil, error);
             }
-            // else
-            // get the DCMedicationScheduleDetails from the medicationArray,
-            // then simply call the update method to update the time chart.
-            completionHandler(medicationListArray, nil);
         }];
 
         //
@@ -432,16 +441,20 @@ typedef enum : NSUInteger {
                             }
                         }
                         else {
-                            if (error.code == NETWORK_NOT_REACHABLE) {
-                                [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"")
-                                                    message:NSLocalizedString(@"INTERNET_CONNECTION_ERROR", @"")];
-                            } else if (error.code == WEBSERVICE_UNAVAILABLE) {
-                                [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"") message:NSLocalizedString(@"WEBSERVICE_UNAVAILABLE", @"")];
+                            if (prescriberMedicationOneThirdSizeViewController && isOneThirdMedicationViewShown) {
+                                [prescriberMedicationOneThirdSizeViewController displayErrorMessageForErrorCode:error.code];
+                            } else {
+                                if (error.code == NETWORK_NOT_REACHABLE || error.code == NOT_CONNECTED_TO_INTERNET) {
+                                    [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"")
+                                                        message:NSLocalizedString(@"INTERNET_CONNECTION_ERROR", @"")];
+                                } else if (error.code == WEBSERVICE_UNAVAILABLE) {
+                                    [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"") message:NSLocalizedString(@"WEBSERVICE_UNAVAILABLE", @"")];
+                                }
+                                else {
+                                    [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"") message:NSLocalizedString(@"MEDICATION_SCHEDULE_ERROR", @"")];
+                                }
                             }
-                            else {
-                                [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"") message:NSLocalizedString(@"MEDICATION_SCHEDULE_ERROR", @"")];
-                            }
-                        }
+                         }
                         [self showActivityIndicationOnViewRefresh:false];
                         completion(true);
                     }];
@@ -985,6 +998,13 @@ typedef enum : NSUInteger {
     
     //add medication view dismissed
     warningsButton.userInteractionEnabled = YES;
+}
+
+#pragma mark - Notification Methods
+
+- (void)networkAvailable:(NSNotification *)notification {
+    
+    [self refreshMedicationList];
 }
 
 @end

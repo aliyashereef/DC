@@ -19,9 +19,12 @@ class DCCalendarHelper: NSObject {
         } else if (medicationSchedule.medicineCategory == WHEN_REQUIRED) {
             return WHEN_REQUIRED_VALUE
         } else {
+           
             if let timeArray = medicationSchedule.timeChart {
                 if (timeArray.count > 0) {
-                    let initialMedication = timeArray[0] as! NSDictionary
+                    //if medication start date has time slots count less than actual administration times count, get slots count for second day 
+                    var initialMedication : NSDictionary
+                    initialMedication = ((timeArray.count > 1) ? timeArray[1] : timeArray[0]) as! NSDictionary
                     let medicationCount = initialMedication[MED_DETAILS]?.count
                     if (medicationCount! == 1) {
                         return ONCE_IN_DAY

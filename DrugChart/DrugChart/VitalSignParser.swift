@@ -134,23 +134,23 @@ class VitalSignParser : FhirParser
                         }
                         if(object.isKindOfClass(Respiratory))
                         {
-                            obsVitalSign.respiratory = object as? Respiratory
+                            obsVitalSign.respiratory = (object as? Respiratory)!
                         }
                         else if(object.isKindOfClass(BodyTemperature))
                         {
-                            obsVitalSign.temperature = object as? BodyTemperature
+                            obsVitalSign.temperature = (object as? BodyTemperature)!
                         }
                         else if(object.isKindOfClass(SPO2))
                         {
-                            obsVitalSign.spo2 = object as? SPO2
+                            obsVitalSign.spo2 = (object as? SPO2)!
                         }
                         else if(object.isKindOfClass(BloodPressure))
                         {
-                            obsVitalSign.bloodPressure = object as? BloodPressure
+                            obsVitalSign.bloodPressure = (object as? BloodPressure)!
                         }
                         else if(object.isKindOfClass(Pulse))
                         {
-                            obsVitalSign.pulse = object as? Pulse
+                            obsVitalSign.pulse = (object as? Pulse)!
                         }
                 }
                 }

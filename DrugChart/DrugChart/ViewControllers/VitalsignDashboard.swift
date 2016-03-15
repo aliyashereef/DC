@@ -126,7 +126,7 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         }
 
         observationList.sortInPlace({ $0.date.compare($1.date) == NSComparisonResult.OrderedAscending })
-        //showData()
+        showData(observationList)
     }
     
     //Mark: Delegate Implementation
