@@ -45,7 +45,6 @@ public class DCGraphPoints: ChartMarker
         {
             return
         }
-        print(context);
         var rect = CGRect(origin: point, size: _size)
         rect.origin.x -= _size.width / 2.0
         rect.origin.y -= _size.height
