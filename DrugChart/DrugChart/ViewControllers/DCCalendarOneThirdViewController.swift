@@ -333,7 +333,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     
     func displayErrorMessageForErrorCode(code : NSInteger) {
         
-        NSLog("code is %i", code)
+        NSLog("code is %d", code)
         if (code == NETWORK_NOT_REACHABLE || code == NOT_CONNECTED_TO_INTERNET) {
             self.displayAlertWithTitle(NSLocalizedString("ERROR", comment: ""), message: NSLocalizedString("INTERNET_CONNECTION_ERROR", comment: ""))
         } else if code == WEBSERVICE_UNAVAILABLE {
@@ -602,6 +602,8 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
 
             } else {
                 // TO DO: handle the case for already deleted medication.
+                self.performSelector(Selector("displayErrorMessageForErrorCode:"), withObject: error.code, afterDelay: 0.2)
+               // self.displayErrorMessageForErrorCode(error.code)
             }
         }
     }
