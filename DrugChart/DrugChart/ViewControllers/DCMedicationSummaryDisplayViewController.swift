@@ -152,7 +152,14 @@ class DCMedicationSummaryDisplayViewController: UIViewController, UITableViewDel
         if (indexPath.section == 0) {
             
         } else {
-            
+            if indexPath.row == 0 {
+                let administrationHistoryViewController : DCSummaryAdministrationHistoryViewController? = UIStoryboard(name: SUMMARY_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(MEDICATION_SUMMARY_ADMINISTRATION_HISTORY_SBID) as? DCSummaryAdministrationHistoryViewController
+                administrationHistoryViewController?.medicationType = DCCalendarHelper.typeDescriptionForMedication(medicationDetails!)
+                self.navigationController?.pushViewController(administrationHistoryViewController!, animated: true)
+            } else {
+                let summaryHistoryViewController : DCSummaryReviewHistoryDisplayViewController? = UIStoryboard(name: SUMMARY_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(MEDICATION_SUMMARY_REVIEW_HISTORY_SBID) as? DCSummaryReviewHistoryDisplayViewController
+                self.navigationController?.pushViewController(summaryHistoryViewController!, animated: true)
+            }
         }
     }
     

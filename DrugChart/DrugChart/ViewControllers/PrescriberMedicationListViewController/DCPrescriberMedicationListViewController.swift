@@ -628,7 +628,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     
     func transitToSummaryScreenForMedication(indexpath : NSIndexPath) {
         
-        let summaryStoryboard : UIStoryboard? = UIStoryboard(name:"Summary", bundle: nil)
+        let summaryStoryboard : UIStoryboard? = UIStoryboard(name:SUMMARY_STORYBOARD, bundle: nil)
         let medicationSummaryViewController = summaryStoryboard!.instantiateViewControllerWithIdentifier("MedicationSummary") as? DCMedicationSummaryDisplayViewController
         let medicationList: DCMedicationScheduleDetails = displayMedicationListArray[indexpath.item] as! DCMedicationScheduleDetails
         medicationSummaryViewController!.scheduleId = medicationList.scheduleId
@@ -669,6 +669,11 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
 //                }
             } else {
                 // TO DO: handle the case for already deleted medication.
+                if (error.code == NETWORK_NOT_REACHABLE || error.code == NOT_CONNECTED_TO_INTERNET) {
+                    DCUtility.displayAlertWithTitle(NSLocalizedString("ERROR", comment: ""), message: NSLocalizedString("INTERNET_CONNECTION_ERROR", comment: ""))
+                } else if (error.code == WEBSERVICE_UNAVAILABLE) {
+                    DCUtility.displayAlertWithTitle(NSLocalizedString("ERROR", comment: ""), message: NSLocalizedString("WEBSERVICE_UNAVAILABLE", comment: ""))
+                }
             }
         }
     }

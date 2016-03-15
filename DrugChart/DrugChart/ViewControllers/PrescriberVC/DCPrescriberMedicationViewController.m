@@ -255,12 +255,12 @@ typedef enum : NSUInteger {
     else if ([DCAPPDELEGATE windowState] == fullWindow ||
              [DCAPPDELEGATE windowState] == twoThirdWindow) {
         isOneThirdMedicationViewShown = NO;
-        [self showActivityIndicationOnViewRefresh:true];
+       // [self showActivityIndicationOnViewRefresh:true];
         [self addPrescriberDrugChartViewForFullAndTwoThirdWindow];
-        if ([DCAPPDELEGATE isNetworkReachable]) {
-            [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
-            }];
-        }
+//        if ([DCAPPDELEGATE isNetworkReachable]) {
+//            [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
+//            }];
+//        }
     }
 }
 
@@ -455,8 +455,7 @@ typedef enum : NSUInteger {
                                                         message:NSLocalizedString(@"INTERNET_CONNECTION_ERROR", @"")];
                                 } else if (error.code == WEBSERVICE_UNAVAILABLE) {
                                     [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"") message:NSLocalizedString(@"WEBSERVICE_UNAVAILABLE", @"")];
-                                }
-                                else {
+                                } else if (error.code != REQUEST_CANCELLED) {
                                     [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"") message:NSLocalizedString(@"MEDICATION_SCHEDULE_ERROR", @"")];
                                 }
                             }

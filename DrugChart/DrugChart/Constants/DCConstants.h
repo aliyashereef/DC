@@ -83,6 +83,7 @@
 #define PATIENT_LIST_STORYBOARD @"PatientList"
 #define DOSAGE_STORYBORD @"Dosage"
 #define ADMINISTER_GRAPH @"AdministerGraph"
+#define SUMMARY_STORYBOARD @"Summary"
 
 // Storyboard Ids
 #define PATIENT_LIST_VIEW_CONTROLLER @"patientListingViewController"
@@ -146,6 +147,8 @@
 #define ADD_NEW_VALUE_SBID @"AddNewValueViewController"
 #define SINGLE_DOSE_VIEW_STORYBOARD_ID @"SingleDoseViewController"
 #define MEDICATION_TYPE_STORYBOARD_ID @"MedicationTypeStoryboardId"
+#define MEDICATION_SUMMARY_ADMINISTRATION_HISTORY_SBID @"summaryAdministrationHistoryDisplay"
+#define MEDICATION_SUMMARY_REVIEW_HISTORY_SBID @"summaryReviewHistoryDisplay"
 
 
 //Nib files
@@ -425,6 +428,7 @@
 #define WEBSERVICE_UNAVAILABLE 101
 #define NETWORK_NOT_REACHABLE -1001
 #define NOT_CONNECTED_TO_INTERNET -1009
+#define REQUEST_CANCELLED -999
 
 //Warnings
 
