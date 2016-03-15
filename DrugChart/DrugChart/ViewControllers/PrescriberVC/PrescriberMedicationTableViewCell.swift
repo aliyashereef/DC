@@ -59,10 +59,15 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     var cellDelegate : DCPrescriberCellDelegate?
     var inEditMode : Bool = false
     var isMedicationActive : Bool = true
+    let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
+    
     override func awakeFromNib() {
         
         super.awakeFromNib()
             addPanGestureToMedicationDetailHolderView()
+            addPanGestureToMedicationDetailHolderView()
+        // Administer status views are created here to make the views reusable for a table view cell
+            createAdministerStatusViews()
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -71,8 +76,64 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    // MARK: Private Methods
+    // This function should be called when there is a change in the number of weekdays displayed.
+    // Removes the previously added status views.
+    func removeAllStatusViews() {
+        let noOfSubviews = masterMedicationAdministerDetailsView.subviews.count
         
+        var tag = 1
+        for _ in 0..<noOfSubviews {
+            leftMedicationAdministerDetailsView.viewWithTag(tag)?.removeFromSuperview()
+            masterMedicationAdministerDetailsView.viewWithTag(tag)?.removeFromSuperview()
+            rightMedicationAdministerDetailsView.viewWithTag(tag)?.removeFromSuperview()
+            
+            tag++
+        }
+    }
+    
+    func createAdministerStatusViews() {
+        let noOfStatusViews = (appDelegate.windowState == DCWindowState.twoThirdWindow) ? 9 : 15
+        let calendarStripDaysCount = (appDelegate.windowState == DCWindowState.fullWindow) ? 5:3
+        
+        var count = 0
+        
+        autoreleasepool { () -> () in
+            for _ in 0..<noOfStatusViews {
+                switch (count) {
+                case 0..<calendarStripDaysCount:
+                    // Status views should be added to leftMedicationAdministerDetailsView
+                    self.addAdministerStatusViewsTo(leftMedicationAdministerDetailsView, atSlotIndex: count)
+                case calendarStripDaysCount..<2*calendarStripDaysCount:
+                    // Status views should be added to masterMedicationAdministerDetailsView
+                    self.addAdministerStatusViewsTo(masterMedicationAdministerDetailsView, atSlotIndex: count-calendarStripDaysCount)
+                case 2*calendarStripDaysCount..<3*calendarStripDaysCount:
+                    // Status views should be added to rightMedicationAdministerDetailsView
+                    self.addAdministerStatusViewsTo(rightMedicationAdministerDetailsView, atSlotIndex: count-2*calendarStripDaysCount)
+                default:
+                    break
+                }
+                
+                count++
+            }
+        }
+        
+    }
+    
+    // MARK: Private Methods
+    
+    func addAdministerStatusViewsTo(containerView: UIView, atSlotIndex index: Int) {
+        let slotWidth = DCUtility.mainWindowSize().width
+        let viewWidth = (appDelegate.windowState == DCWindowState.fullWindow) ? (slotWidth - 300)/5 : (slotWidth - 300)/3
+        let xValue : CGFloat = CGFloat(index) * viewWidth + CGFloat(index) + 1;
+        let viewFrame = CGRectMake(xValue, 0, viewWidth, 78.0)
+        let statusView : DCMedicationAdministrationStatusView = DCMedicationAdministrationStatusView(frame: viewFrame)
+        statusView.tag = index+1
+        statusView.isOneThirdScreen = false
+        statusView.backgroundColor = UIColor.whiteColor()
+        
+        containerView.addSubview(statusView)
+    }
+    
     func addPanGestureToMedicationDetailHolderView () {
         
         //add pan gesture to medication detail holder view

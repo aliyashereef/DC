@@ -15,6 +15,11 @@ enum Direction  {
     case ScrollDirectionLeft
 }
 
+let WEBSERVICE_UNAVAILABLE : NSInteger = 101
+let NETWORK_NOT_REACHABLE : NSInteger = -1001
+let NOT_CONNECTED_TO_INTERNET : NSInteger = -1009
+
+
 class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource, UITableViewDelegate, DCMedicationAdministrationStatusProtocol , UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, EditDeleteActionDelegate {
     
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
@@ -322,12 +327,21 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         parentView.fetchMedicationListForPatientWithCompletionHandler { (success :Bool) -> Void in
              if success {
                 self.medicationTableView?.reloadData()
-            }
+             }
+        }
+    }
+    
+    func displayErrorMessageForErrorCode(code : NSInteger) {
+        
+        if (code == NETWORK_NOT_REACHABLE || code == NOT_CONNECTED_TO_INTERNET) {
+            self.displayAlertWithTitle(NSLocalizedString("ERROR", comment: ""), message: NSLocalizedString("INTERNET_CONNECTION_ERROR", comment: ""))
+        } else if code == WEBSERVICE_UNAVAILABLE {
+            self.displayAlertWithTitle(NSLocalizedString("ERROR", comment: ""), message: NSLocalizedString("WEBSERVICE_UNAVAILABLE", comment: ""))
         }
     }
     
     func prepareMedicationSlotsForDisplayInCellFromScheduleDetailsForDate (medicationScheduleDetails: DCMedicationScheduleDetails, date : NSDate ) -> NSMutableArray {
-            
+        
         var count = 0
         let medicationSlotsArray: NSMutableArray = []
         let slotsDictionary = NSMutableDictionary()
@@ -587,6 +601,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
 
             } else {
                 // TO DO: handle the case for already deleted medication.
+                self.displayErrorMessageForErrorCode(error.code)
             }
         }
     }

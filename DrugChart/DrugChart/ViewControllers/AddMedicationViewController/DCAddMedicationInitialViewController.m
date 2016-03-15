@@ -229,6 +229,11 @@
                     }
                     self.selectedMedication.hasReviewDate = state;
                     [self performSelector:@selector(configureReviewDateTableCellDisplayBasedOnSwitchState) withObject:nil afterDelay:0.1];
+                    if (!state) {
+                        if (self.selectedMedication.reviewDate != nil) {
+                            self.selectedMedication.reviewDate = nil;
+                        }
+                    }
                 }
              };
            // cell.previousSwitchState = self.selectedMedication.hasReviewDate;
@@ -432,6 +437,11 @@
             }
             [weakTableCell.noEndDateSwitch setUserInteractionEnabled:NO];
             self.selectedMedication.hasEndDate = state;
+            if (!state) {
+                if (self.selectedMedication.endDate != nil) {
+                    self.selectedMedication.endDate = nil;
+                }
+            }
            // [self performSelector:@selector(configureNoEndDateTableCellDisplayBasedOnSwitchState) withObject:nil afterDelay:0.1];
             [self configureNoEndDateTableCellDisplayBasedOnSwitchState];
         }

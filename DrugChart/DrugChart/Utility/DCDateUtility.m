@@ -12,6 +12,17 @@
 
 #define CUSTOM_DATE_FORMAT @"yyyy-MM-d HH:mm:ss"
 
++ (NSDateFormatter *)sharedDateFormatter {
+    static NSDateFormatter *sharedFormatter = nil;
+    static dispatch_once_t onceToken;
+    
+    dispatch_once(&onceToken, ^{
+        sharedFormatter = [[NSDateFormatter alloc] init];
+    });
+    
+    return sharedFormatter;
+}
+
 + (NSDate *)initialDateForCalendarDisplay:(NSDate *)date
                            withAdderValue:(NSInteger)adder {
     
@@ -61,7 +72,7 @@
 + (NSArray *)monthNames {
     
     //get month names
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    NSDateFormatter *formatter = [self sharedDateFormatter];
     NSMutableArray *monthSymbols = [[NSMutableArray alloc] init];
     for(int months = 0; months < 12; months++) {
         [monthSymbols addObject:[NSString stringWithFormat:@"%@", [[formatter monthSymbols]objectAtIndex: months]]];
@@ -100,7 +111,7 @@
 + (NSDate *)dateForDateString:(NSString *)dateString
                withDateFormat:(NSString *)dateFormatString {
     //convert date string to NSDate value
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    NSDateFormatter *formatter = [self sharedDateFormatter];
     //[formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
     [formatter setDateFormat:dateFormatString];
     NSDate *date = [formatter dateFromString:dateString];
@@ -110,7 +121,7 @@
 + (NSString *)dateStringFromDate:(NSDate *)date
                         inFormat:(NSString *)formatString {
  
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    NSDateFormatter *formatter = [self sharedDateFormatter];
     [formatter setDateFormat:formatString];
     NSString *dateString = [formatter stringFromDate:date];
     return dateString;
@@ -118,7 +129,7 @@
 
 + (NSString *)displayDateInTwentyFourHourFormat:(NSDate *)date {
     
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    NSDateFormatter *dateFormatter = [self sharedDateFormatter];
     [dateFormatter setDateFormat:@"HH:mm"];
     NSString *displayString = [dateFormatter stringFromDate:date];
     return displayString;
@@ -130,7 +141,7 @@
     NSArray *dateFormatterList = [NSArray arrayWithObjects:EMIS_DATE_FORMAT,
                                  @"yyyy-MM-dd HH:mm:ss", @"yyyy-MM-dd HH:mm:ss.SSS", @"yyyy-MM-dd'T'HH:mm:ss",@"dd MMM,yyyy HH:mm", @"d-MMM-yyyy HH:mm", TWENTYFOUR_HOUR_FORMAT, @"yyyy-MM-dd HH:mm",@"dd MMM yyyy",nil];//include all possible date formats here
     if (sourceString) {
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        NSDateFormatter *dateFormatter = [self sharedDateFormatter];
         for (NSString *dateFormatterString in dateFormatterList) {
             [dateFormatter setDateFormat:dateFormatterString];
             NSDate *originalDate = [dateFormatter dateFromString:sourceString];
@@ -146,7 +157,7 @@
 + (NSString *)nextMedicationDisplayStringFromDate:(NSDate *)date {
     
     if (date) {
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        NSDateFormatter *formatter = [self sharedDateFormatter];
         [formatter setDateFormat:DISPLAY_DATE_FORMAT];
         NSString *displayDateString = [formatter stringFromDate:date];
         if (![displayDateString isEqualToString:EMPTY_STRING]) {
@@ -165,7 +176,7 @@
 + (NSString *)timeStringInTwentyFourHourFormat:(NSDate *)time {
     
     //get time in 24 hour format
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    NSDateFormatter *dateFormatter = [self sharedDateFormatter];
     [dateFormatter setDateFormat:@"HH:mm"];
     [dateFormatter setLocale:[NSLocale systemLocale]];
     NSString *displayString = [dateFormatter stringFromDate:time];
@@ -174,7 +185,7 @@
 
 + (NSDate *)administrationDateForString:(NSString *)dateString {
     
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    NSDateFormatter *dateFormatter = [self sharedDateFormatter];
     NSArray *dateFormatterList = [NSArray arrayWithObjects:@"yyyy-MM-dd'T'HH:mm:ss",
                                   @"yyyy-MM-dd'T'HH:mm:ss.SSS", nil];
     for (NSString *dateFormatterString in dateFormatterList) {
