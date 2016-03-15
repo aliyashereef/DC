@@ -985,7 +985,7 @@
 			path = Interval;
 			sourceTree = "<group>";
 		};
-		0B14CD881BB13BD80085E40C /* AdministerViewController */ = {
+		0B14CD881BB13BD80085E40C /* AdministrationCells */ = {
 			isa = PBXGroup;
 			children = (
 				4D9225F51C6DDC130060761A /* ProgressSliderCell */,
@@ -996,6 +996,7 @@
 				0BD699191BB2BAA7008797A2 /* BatchNumberCell */,
 				0B14CD8B1BB151C50085E40C /* AdministerCell */,
 			);
+			name = AdministrationCells;
 			path = AdministerViewController;
 			sourceTree = "<group>";
 		};
@@ -1892,7 +1893,7 @@
 				4DD2E2671C7C287900950BD8 /* AdministrationStatusSelectionViewController */,
 				4DDD0C911C75C7110021C528 /* AdministrationSuccessViewController */,
 				4DDD0C901C7591360021C528 /* AdministrationFailureViewController */,
-				0B14CD881BB13BD80085E40C /* AdministerViewController */,
+				0B14CD881BB13BD80085E40C /* AdministrationCells */,
 				4D41757E1C22869100F924C1 /* AdministrationViewController */,
 				4D52D5881BCE7404002ABA8D /* AdministrationStatusTableViewController */,
 				FD6AD2BC1C7310A70014B7BA /* AdministerGraphViewController */,

@@ -32,6 +32,10 @@ class DCAdministrationReasonViewController : DCBaseViewController, NotesCellDele
         self.showOtherReasonsFieldForReason()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+    }
+    
     //MARK: TableView Delegate Methods
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -146,17 +150,33 @@ class DCAdministrationReasonViewController : DCBaseViewController, NotesCellDele
     }
     
     func keyboardDidShow(notification : NSNotification) {
+        
         if let userInfo = notification.userInfo {
             if let keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
-                let contentHeight = self.reasonTableView.contentSize.height
-                let scrollOffset = contentHeight - keyboardSize.height + 125.0
-                reasonTableView.setContentOffset(CGPoint(x: 0, y: scrollOffset), animated: true)
+                var offset : CGFloat
+                var reasonArray = successReasonArray
+                switch (administrationStatus!) {
+                case NOT_ADMINISTRATED :
+                    reasonArray = failureReasonArray
+                    offset = (3.0 - CGFloat(reasonArray.count))*10.0
+                default:
+                    reasonArray = successReasonArray
+                    offset = (3.0 - CGFloat(reasonArray.count))*10.0
+                    offset = abs(offset)
+                }
+                let delayInSeconds: Double = 0.50
+                let deleteTime : dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(delayInSeconds * Double(NSEC_PER_SEC)))
+                dispatch_after(deleteTime, dispatch_get_main_queue(), {() -> Void in
+                    let contentHeight : CGFloat? = self.reasonTableView.frame.height
+                    let scrollOffset = contentHeight! - keyboardSize.height - NOTES_CELL_HEIGHT + offset
+                    self.reasonTableView.setContentOffset(CGPoint(x: 0, y: scrollOffset), animated: true)
+                })
             }
         }
     }
     
     func keyboardDidHide(notification :NSNotification){
-        reasonTableView.setContentOffset(CGPoint(x: 0, y: -48), animated: true)
-
+        reasonTableView.beginUpdates()
+        reasonTableView.endUpdates()
     }
 }

@@ -19,11 +19,17 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
     var medicationDetails : DCMedicationScheduleDetails?
     var isDatePickerShown : Bool = false
     var isValid : Bool?
+    
     //MARK: View Management Methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initialiseMedicationSlotObject()
         configureTableViewProperties()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -333,12 +339,11 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
     func keyboardDidShow(notification : NSNotification) {
         if let userInfo = notification.userInfo {
             if let keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
-                let offset : CGFloat = NOTES_CELL_HEIGHT
                 let delayInSeconds: Double = 0.50
                 let deleteTime : dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(delayInSeconds * Double(NSEC_PER_SEC)))
                 dispatch_after(deleteTime, dispatch_get_main_queue(), {() -> Void in
                     let contentHeight : CGFloat? = self.administrationFailureTableView.frame.height
-                    let scrollOffset = contentHeight! - keyboardSize.height + offset + 5
+                    let scrollOffset = contentHeight! - keyboardSize.height + 15
                     self.administrationFailureTableView.setContentOffset(CGPoint(x: 0, y: scrollOffset), animated: true)
                 })
             }
