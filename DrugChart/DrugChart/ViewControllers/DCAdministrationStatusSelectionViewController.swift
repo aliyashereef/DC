@@ -82,6 +82,12 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
     
     override func viewDidLayoutSubviews() {
         self.administerContainerView.layoutIfNeeded()
+        administrationFailureViewController?.view.frame = administerContainerView.bounds
+        administrationFailureViewController?.view.layoutIfNeeded()
+        administrationSuccessViewController?.view.frame = administerContainerView.bounds
+        administrationSuccessViewController?.view.layoutIfNeeded()
+        administrationInProgressViewController?.view.frame = administerContainerView.bounds
+        administrationInProgressViewController?.view.layoutIfNeeded()
         super.viewDidLayoutSubviews()
     }
     

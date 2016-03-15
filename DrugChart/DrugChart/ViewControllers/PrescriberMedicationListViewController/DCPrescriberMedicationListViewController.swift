@@ -578,7 +578,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     
     func transitToSummaryScreenForMedication(indexpath : NSIndexPath) {
         
-        let summaryStoryboard : UIStoryboard? = UIStoryboard(name:"Summary", bundle: nil)
+        let summaryStoryboard : UIStoryboard? = UIStoryboard(name:SUMMARY_STORYBOARD, bundle: nil)
         let medicationSummaryViewController = summaryStoryboard!.instantiateViewControllerWithIdentifier("MedicationSummary") as? DCMedicationSummaryDisplayViewController
         let medicationList: DCMedicationScheduleDetails = displayMedicationListArray[indexpath.item] as! DCMedicationScheduleDetails
         medicationSummaryViewController!.scheduleId = medicationList.scheduleId

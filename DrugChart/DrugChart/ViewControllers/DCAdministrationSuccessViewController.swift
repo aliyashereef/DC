@@ -43,6 +43,10 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         self.administerSuccessTableView.reloadData()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+    }
+    
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         self.collapseOpenedPickerCell()
