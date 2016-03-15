@@ -66,6 +66,7 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
         super.awakeFromNib()
             addPanGestureToMedicationDetailHolderView()
             addPanGestureToMedicationDetailHolderView()
+        // Administer status views are created here to make the views reusable for a table view cell
             createAdministerStatusViews()
     }
 
@@ -75,6 +76,8 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    // This function should be called when there is a change in the number of weekdays displayed.
+    // Removes the previously added status views.
     func removeAllStatusViews() {
         let noOfSubviews = masterMedicationAdministerDetailsView.subviews.count
         

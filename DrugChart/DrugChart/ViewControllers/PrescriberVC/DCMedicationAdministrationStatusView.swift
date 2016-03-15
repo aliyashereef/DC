@@ -69,6 +69,8 @@ class DCMedicationAdministrationStatusView: UIView {
         
         currentSystemDate = NSDate()
         currentDateString = DCDateUtility.dateStringFromDate(currentSystemDate, inFormat: SHORT_DATE_FORMAT)
+        
+         // Storing the center points during init, to avoid calculations for each loop of table view row
         centerPoint = CGPointMake(0.5 * self.bounds.size.width, 0.5 * self.bounds.size.height)
         iconCenterForOneThirdScreenDueAtStatus = CGPointMake(self.bounds.size.width/8.2, 0.5 * self.bounds.size.height)
         iconCenterForLeftAlignedDueAtStatusCaseOne = CGPointMake(self.bounds.size.width/7.2, 0.5 * self.bounds.size.height)
@@ -110,6 +112,7 @@ class DCMedicationAdministrationStatusView: UIView {
         administerButton?.addTarget(self, action: Selector("administerButtonClicked:"), forControlEvents: .TouchUpInside)
     }
     
+    // Resets the frame and content of view elements, to prevent previous state being maintained while the status view is being reused
     func resetViewElements() {
         let contentFrame : CGRect = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)
         statusLabel?.frame = contentFrame
@@ -160,6 +163,9 @@ class DCMedicationAdministrationStatusView: UIView {
             if(!isOneThirdScreen) {
                 self.backgroundColor = CURRENT_DAY_BACKGROUND_COLOR
             }
+        }
+        else {
+            self.backgroundColor = UIColor.whiteColor()
         }
     }
     

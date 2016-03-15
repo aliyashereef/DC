@@ -377,7 +377,9 @@ typedef enum : NSUInteger {
             // else
             // get the DCMedicationScheduleDetails from the medicationArray,
             // then simply call the update method to update the time chart.
-            completionHandler(medicationListArray, nil);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completionHandler(medicationListArray, nil);
+            });
         }];
 
         //

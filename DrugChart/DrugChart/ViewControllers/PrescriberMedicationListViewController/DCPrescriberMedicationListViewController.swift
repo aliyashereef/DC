@@ -112,6 +112,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         
         displayMedicationListArray = NSMutableArray.init(array: displayArray)
         // Store current week dates as string values
+        // This eliminates the need to create date string values for each status view
         currentWeekDatesStrings = []
         for weekDate in currentWeekDatesArray {
             let date = weekDate as! NSDate
@@ -398,7 +399,14 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     }
     
     // MARK: - Data processing
-    
+    /**
+    Flattens the time chart data in the following format
+    {
+    "medicationId": {
+    "date": [DCMedicationSlot]
+    }
+    }
+    */
     func flattenMedicationTimeChartData() {
         medicationTimeChartData = NSMutableDictionary()
         for medicationScheduleDetails in displayMedicationListArray {
