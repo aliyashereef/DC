@@ -255,12 +255,12 @@ typedef enum : NSUInteger {
     else if ([DCAPPDELEGATE windowState] == fullWindow ||
              [DCAPPDELEGATE windowState] == twoThirdWindow) {
         isOneThirdMedicationViewShown = NO;
-        [self showActivityIndicationOnViewRefresh:true];
+       // [self showActivityIndicationOnViewRefresh:true];
         [self addPrescriberDrugChartViewForFullAndTwoThirdWindow];
-        if ([DCAPPDELEGATE isNetworkReachable]) {
-            [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
-            }];
-        }
+//        if ([DCAPPDELEGATE isNetworkReachable]) {
+//            [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
+//            }];
+//        }
     }
 }
 
