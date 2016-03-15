@@ -345,7 +345,7 @@
 -(DCAdministerCell *)expiryDateCellAtIndexPath: (NSIndexPath *)indexPath {
     
     DCAdministerCell *cell = [self configureAdministrationCellAtIndexPath:indexPath];
-    cell.titleLabel.text = @"Expiry Date";
+    cell.titleLabel.text = EXPIRY_DATE_STRING;
     cell.titleLabel.textColor = [UIColor blackColor];
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.detailLabelTrailingSpace.constant = 15.0;

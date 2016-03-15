@@ -146,7 +146,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         administerCell.titleLabel.text = label as String
         administerCell.detailLabelTrailingSpace.constant = 15.0
         var dateString : String = EMPTY_STRING
-        if( label == "Expiry Date") {
+        if( label == EXPIRY_DATE_STRING) {
             if let date = medicationSlot?.medicationAdministration?.expiryDateTime {
                 dateString = DCDateUtility.dateStringFromDate(date, inFormat: EXPIRY_DATE_FORMAT)
             }
@@ -180,13 +180,13 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         let expiryCell : DCBatchNumberCell = (administerSuccessTableView.dequeueReusableCellWithIdentifier(BATCH_NUMBER_CELL_ID) as? DCBatchNumberCell)!
         expiryCell.batchDelegate = self
         expiryCell.batchNumberTextField.placeholder = label as String
-        if label == "Dose" && indexPath == doseCellIndexPath {
+        if label == DOSE && indexPath == doseCellIndexPath {
             if let dosageString = medicationSlot?.medicationAdministration?.dosageString {
                 expiryCell.batchNumberTextField?.text = dosageString
             } else {
                 expiryCell.batchNumberTextField?.text = medicationDetails?.dosage
             }
-        } else if label == "Batch Number" {// label is batch
+        } else if label == BATCH_NUMBER{// label is batch
             if let batchString = medicationSlot?.medicationAdministration?.batch {
                 expiryCell.batchNumberTextField?.text = batchString
             } else {
@@ -528,7 +528,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
             return self.administrationReasonTableCellAtIndexPath(indexPath)
         case 2:
             //Dose cell
-            return self.batchNumberOrExpiryDateTableCellAtIndexPathWithLabel(indexPath,label: "Dose")
+            return self.batchNumberOrExpiryDateTableCellAtIndexPathWithLabel(indexPath,label: DOSE)
         case 3:
             //date and time cell
             return self.administrationDateAndTimeTableCellAtIndexPath(indexPath,label: "Date & Time")
@@ -542,17 +542,17 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
             if (indexPathHasPicker(administerDatePickerIndexPath)) {
                 return self.administrationCheckedByTableCellAtIndexPath(indexPath)
             } else {
-                return self.batchNumberOrExpiryDateTableCellAtIndexPathWithLabel(indexPath,label: "Batch Number")
+                return self.batchNumberOrExpiryDateTableCellAtIndexPathWithLabel(indexPath,label:BATCH_NUMBER)
             }
         case 6:
             if (indexPathHasPicker(administerDatePickerIndexPath)) {
-                return self.batchNumberOrExpiryDateTableCellAtIndexPathWithLabel(indexPath,label: "Batch Number")
+                return self.batchNumberOrExpiryDateTableCellAtIndexPathWithLabel(indexPath,label: BATCH_NUMBER)
             } else {
-                return self.administrationDateAndTimeTableCellAtIndexPath(indexPath,label: "Expiry Date")
+                return self.administrationDateAndTimeTableCellAtIndexPath(indexPath,label: EXPIRY_DATE_STRING)
             }
         case 7:
             if (indexPathHasPicker(administerDatePickerIndexPath)) {
-                return self.administrationDateAndTimeTableCellAtIndexPath(indexPath,label: "Expiry Date")
+                return self.administrationDateAndTimeTableCellAtIndexPath(indexPath,label: EXPIRY_DATE_STRING)
             } else {
                 return datePickerTableCellAtIndexPath(indexPath)
             }

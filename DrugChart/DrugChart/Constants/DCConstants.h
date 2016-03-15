@@ -527,6 +527,7 @@
 
 // Administration History Label texts
 #define STATUS @"Status"
+#define DOSE @"Dose"
 #define STATUS_CHANGE @"Status Change"
 #define ADMINISTRATED_BY @"Administered By"
 #define DATE_TIME @"Date & Time"
@@ -541,7 +542,8 @@
 #define OVERDUE_KEY @"Overdue"
 #define IMMEDIATE_KEY @"Immediate"
 #define NOT_IMMEDIATE_KEY @"Not Immediate"
-
+#define BATCH_NUMBER @"Batch Number"
+#define EXPIRY_DATE_STRING @"Expiry Date"
 #define NA_TEXT @"N/A"
 #define DUMMY_DOCTOR @"KENNEDY, Frederick (Dr)"
 #define BED_NUMBER @"0"
