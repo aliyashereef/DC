@@ -302,6 +302,10 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         graphicalDashBoardView.graphDisplayView = graphDisplayView
         
         // now do the FHIR call
+        if(activityIndicator != nil)
+        {
+            stopActivityIndicator(activityIndicator)
+        }
         activityIndicator = startActivityIndicator(self.view) // show the activity indicator
         let parser = VitalSignParser()
         parser.getVitalSignsObservations(patient.patientId,commaSeparatedCodes:  Helper.getCareRecordCodes(),startDate:  graphStartDate , endDate:  graphEndDate,includeMostRecent:  true , onSuccess: showData)

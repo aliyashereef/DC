@@ -10,9 +10,11 @@ import UIKit
 
 class TooltipViewController: UIViewController {
 
+    @IBOutlet weak var toolTip: UILabel!
+    var toolTipText:String = ""
     override func viewDidLoad() {
         super.viewDidLoad()
-
+     toolTip.text = toolTipText
         // Do any additional setup after loading the view.
     }
 

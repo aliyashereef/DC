@@ -55,12 +55,12 @@ class GraphView:UIView,GraphDelegate
         return x
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?)
-    {
-       let touch = touches.first!
-        let location = touch.locationInView(self)
-        print("Location: \(location)")
-    }
+//    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?)
+//    {
+//       let touch = touches.first!
+//        let location = touch.locationInView(self)
+//        print("Location: \(location)")
+//    }
     
     func columnXLabelPoint (column:Int , noOfPoints:Int) -> CGFloat
     {

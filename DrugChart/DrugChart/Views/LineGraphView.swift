@@ -138,7 +138,7 @@ import UIKit
                 let point = CGPoint(x:columnXPoint(xAxisValue[i].getDatePart(displayView,startDate:graphStartDate)) , y:columnYPoint(yAxisValue[i]))
                 
                 let dot = UIButton(type: UIButtonType.Custom) as UIButton
-                dot.frame = CGRect(origin: point, size: CGSize(width: 14.0,height: 14.0))
+                dot.frame = CGRect(origin: point, size: CGSize(width: 20.0,height: 20.0))
                 dot.setImage(UIImage(named:"graphDot" as String)!, forState: UIControlState.Normal)
                 dot.center = point
                 dot.tag = i // save the item number in tag so that later on you can access the records.
@@ -163,7 +163,10 @@ import UIKit
     func btnTouched(sender:AnyObject)
    {
     let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
-    let tooltipViewController : UIViewController = mainStoryboard.instantiateViewControllerWithIdentifier("ToolTip")
+    let tooltipViewController : TooltipViewController = (mainStoryboard.instantiateViewControllerWithIdentifier("ToolTip") as? TooltipViewController)!
+    let senderButton = sender as? UIButton
+    let tooltiptext = String("(\(yAxisValue[senderButton!.tag]),\(xAxisValue[senderButton!.tag].getFormattedDateTime()))")
+    tooltipViewController.toolTipText = tooltiptext
     tooltipViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
     if let popover = tooltipViewController.popoverPresentationController
     {
@@ -174,7 +177,7 @@ import UIKit
         popover.sourceRect = viewForSource.bounds
         
         // the size you want to display
-        tooltipViewController.preferredContentSize = CGSizeMake(200,100)
+        tooltipViewController.preferredContentSize = CGSizeMake(300,70)
        // popover.delegate = self
     }
     

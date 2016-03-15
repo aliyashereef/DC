@@ -382,10 +382,10 @@
             </objects>
             <point key="canvasLocation" x="2262.5" y="1842.5"/>
         </scene>
-        <!--View Controller-->
+        <!--Tooltip View Controller-->
         <scene sceneID="OlJ-le-pyT">
             <objects>
-                <viewController storyboardIdentifier="ToolTip" id="Lmn-lp-UTg" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ToolTip" id="Lmn-lp-UTg" customClass="TooltipViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="YC7-AA-uvB"/>
                         <viewControllerLayoutGuide type="bottom" id="Kqg-Ib-dFF"/>
@@ -394,8 +394,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="This is my first tooltip" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Em3-uj-QEC">
-                                <rect key="frame" x="0.0" y="20" width="375" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="This is my first tooltip" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Em3-uj-QEC">
+                                <rect key="frame" x="6" y="20" width="363" height="647"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -403,13 +403,16 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="Em3-uj-QEC" secondAttribute="trailing" constant="-20" id="6JC-RW-s5T"/>
-                            <constraint firstItem="Kqg-Ib-dFF" firstAttribute="top" secondItem="Em3-uj-QEC" secondAttribute="bottom" constant="626" id="Y8z-It-OXd"/>
-                            <constraint firstItem="Em3-uj-QEC" firstAttribute="top" secondItem="YC7-AA-uvB" secondAttribute="bottom" id="cR5-lN-IwU"/>
-                            <constraint firstItem="Em3-uj-QEC" firstAttribute="leading" secondItem="GlU-Y4-FDo" secondAttribute="leadingMargin" constant="-20" id="vZX-R4-wgC"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Em3-uj-QEC" secondAttribute="trailing" constant="-14" id="do1-8O-ROf"/>
+                            <constraint firstItem="Em3-uj-QEC" firstAttribute="leading" secondItem="GlU-Y4-FDo" secondAttribute="leadingMargin" constant="-14" id="qOJ-3O-MdR"/>
+                            <constraint firstItem="Kqg-Ib-dFF" firstAttribute="top" secondItem="Em3-uj-QEC" secondAttribute="bottom" id="rUS-2f-v0q"/>
+                            <constraint firstItem="Em3-uj-QEC" firstAttribute="top" secondItem="YC7-AA-uvB" secondAttribute="bottom" id="z5Q-gb-Jwy"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="toolTip" destination="Em3-uj-QEC" id="aHu-t9-vXB"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="r01-7x-gV6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
