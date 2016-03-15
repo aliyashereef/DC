@@ -503,8 +503,9 @@
 }
 
 - (void)batchNumberFieldSelectedAtIndexPath:(NSIndexPath *)indexPath {
-    
+    [self collapseOpenedPickerCell];
 }
+
 - (void)notesSelected:(BOOL)editing withIndexPath:(NSIndexPath *)indexPath {
     
 }
