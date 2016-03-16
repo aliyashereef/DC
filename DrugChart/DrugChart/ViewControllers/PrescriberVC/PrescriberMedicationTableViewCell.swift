@@ -21,7 +21,6 @@ let TIME_VIEW_HEIGHT : CGFloat                      =               21.0
 let MEDICATION_VIEW_LEFT_OFFSET : CGFloat           =               120.0
 let MEDICATION_VIEW_INITIAL_LEFT_OFFSET : CGFloat   =               0.0
 let ANIMATION_DURATION : Double                     =               0.3
-let MEDICATION_VIEW_WIDTH : CGFloat                 =               300
 let EDIT_TEXT : String                              =               "Edit"
 let STOP_TEXT : String                              =               "Stop"
 
@@ -32,7 +31,8 @@ protocol DCPrescriberCellDelegate:class {
 
 class PrescriberMedicationTableViewCell: UITableViewCell {
     
-    
+    @IBOutlet weak var medicationDetailHolderViewWidthConstraint: NSLayoutConstraint!
+
     @IBOutlet weak var medicineDetailHolderView: UIView!
     @IBOutlet weak var medicineName: UILabel!
     @IBOutlet weak var route: UILabel!
@@ -123,7 +123,8 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     
     func addAdministerStatusViewsTo(containerView: UIView, atSlotIndex index: Int) {
         let slotWidth = DCUtility.mainWindowSize().width
-        let viewWidth = (appDelegate.windowState == DCWindowState.fullWindow) ? (slotWidth - 300)/5 : (slotWidth - 300)/3
+        let viewFrameWidth = slotWidth * 0.30 // 70 percent of the screen width
+        let viewWidth = (appDelegate.windowState == DCWindowState.fullWindow) ? (slotWidth - viewFrameWidth)/5 : (slotWidth - viewFrameWidth)/3
         let xValue : CGFloat = CGFloat(index) * viewWidth + CGFloat(index) + 1;
         let viewFrame = CGRectMake(xValue, 0, viewWidth, 78.0)
         let statusView : DCMedicationAdministrationStatusView = DCMedicationAdministrationStatusView(frame: viewFrame)
