@@ -53,6 +53,13 @@
     medicationDetailsTableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    self.preferredContentSize =  [DCUtility popOverPreferredContentSize];
+    self.navigationController.preferredContentSize = [DCUtility popOverPreferredContentSize];
+}
+
 - (void)viewWillDisappear:(BOOL)animated {
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(addMedicationViewDismissed)]) {

@@ -59,15 +59,9 @@
 - (void)viewDidLayoutSubviews {
     
     [super viewDidLayoutSubviews];
-    CGRect titleBarFrame = self.navigationController.navigationBar.frame;
-    if ([DCAPPDELEGATE windowState] == oneThirdWindow || [DCAPPDELEGATE windowState] == halfWindow) {
-        titleBarFrame.size.height = NAVIGATION_BAR_HEIGHT_WITH_STATUS_BAR;
-    } else {
-        titleBarFrame.size.height = NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR;
-    }
-    self.navigationController.navigationBar.frame = titleBarFrame;
-    self.preferredContentSize = CGSizeMake(310, 800);
-    self.navigationController.preferredContentSize = CGSizeMake(310, 800);
+    self.navigationController.navigationBar.frame = [DCUtility navigationBarFrameForNavigationController:self.navigationController];
+    self.preferredContentSize = [DCUtility popOverPreferredContentSize];
+    self.navigationController.preferredContentSize = [DCUtility popOverPreferredContentSize];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

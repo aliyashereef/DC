@@ -392,5 +392,24 @@
     [navigationController presentViewController:newNavigationController animated:YES completion:nil];
 }
 
++ (CGSize)popOverPreferredContentSize {
+    
+    CGFloat viewWidth = [DCUtility mainWindowSize].width;
+    CGFloat viewHeight = [DCUtility mainWindowSize].height - 2*80;
+    CGSize preferredContentSize = CGSizeMake(viewWidth*.28, viewHeight);
+    return preferredContentSize;
+}
+
++ (CGRect)navigationBarFrameForNavigationController:(UINavigationController *)navigationController {
+    
+    CGRect frame = navigationController.navigationBar.frame;
+    if ([DCAPPDELEGATE windowState] == oneThirdWindow || [DCAPPDELEGATE windowState] == halfWindow) {
+        frame.size.height = NAVIGATION_BAR_HEIGHT_WITH_STATUS_BAR;
+    } else {
+        frame.size.height = NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR;
+    }
+    return frame;
+}
+
 
 @end

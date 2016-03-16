@@ -619,7 +619,7 @@ typedef enum : NSUInteger {
     // Instatntiating the navigation controller to present the popover with preferred content size of the poppver.
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:patientAlertsAllergyViewController];
     navigationController.modalPresentationStyle = UIModalPresentationPopover;
-    navigationController.preferredContentSize = CGSizeMake(ALERT_ALLERGY_CELL_WIDTH, ALERT_POPOVER_INITIAL_HEIGHT);
+    navigationController.preferredContentSize = CGSizeMake([DCUtility popOverPreferredContentSize].width, ALERT_POPOVER_INITIAL_HEIGHT);
     // Presenting the popover presentation controller on the navigation controller.
     UIPopoverPresentationController *alertsPopOverController = [navigationController popoverPresentationController];
     alertsPopOverController.permittedArrowDirections = UIPopoverArrowDirectionAny;
