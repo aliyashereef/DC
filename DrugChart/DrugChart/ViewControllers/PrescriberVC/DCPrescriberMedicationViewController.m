@@ -45,6 +45,8 @@ typedef enum : NSUInteger {
     IBOutlet UIView *medicationListHolderView;
     IBOutlet UILabel *monthYearLabel;
     UIView *dateView;
+    __weak IBOutlet UIView *MonthYearView;
+    __weak IBOutlet NSLayoutConstraint *monthYearViewWidthConstraint;
 
     NSDate *firstDisplayDate;
     UIBarButtonItem *addButton;
@@ -164,7 +166,7 @@ typedef enum : NSUInteger {
 }
 
 - (void) dateViewForOrientationChanges {
-    
+    monthYearViewWidthConstraint.constant = self.view.frame.size.width * 0.30;
     UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
     if (UIDeviceOrientationIsLandscape(orientation) && (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)){
         calendarDateHolderViewTopSpace.constant = 30.0;
@@ -238,7 +240,8 @@ typedef enum : NSUInteger {
 - (void)calculateCalendarSlotWidth {
     
     //calculate calendar slot width
-    slotWidth = ([DCUtility mainWindowSize].width - 300)/5;
+    CGFloat medicationDetailsTableViewWidth = [DCUtility mainWindowSize].width * 0.30;
+    slotWidth = ([DCUtility mainWindowSize].width - medicationDetailsTableViewWidth)/5;
 }
 
 - (void)prescriberCalendarChildViewControllerBasedOnWindowState {
