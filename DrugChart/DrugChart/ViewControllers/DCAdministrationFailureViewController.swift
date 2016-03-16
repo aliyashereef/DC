@@ -339,18 +339,20 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
     func keyboardDidShow(notification : NSNotification) {
         if let userInfo = notification.userInfo {
             if let keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
-                let delayInSeconds: Double = 0.50
-                let deleteTime : dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(delayInSeconds * Double(NSEC_PER_SEC)))
-                dispatch_after(deleteTime, dispatch_get_main_queue(), {() -> Void in
-                    //let contentHeight : CGFloat? = self.administrationFailureTableView.frame.height
-                    let scrollOffset =  keyboardSize.height + 30
-                    self.administrationFailureTableView.setContentOffset(CGPoint(x: 0, y: scrollOffset), animated: true)
-                })
+                        let contentInsets: UIEdgeInsets
+                        contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.height), 0.0)
+                        self.administrationFailureTableView.contentInset = contentInsets;
+                        self.administrationFailureTableView.scrollIndicatorInsets = contentInsets;
+                        self.administrationFailureTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 2), atScrollPosition: UITableViewScrollPosition.Top, animated: true)
             }
         }
     }
     
     func keyboardDidHide(notification :NSNotification){
+        
+        let contentInsets:UIEdgeInsets  = UIEdgeInsetsZero;
+        administrationFailureTableView.contentInset = contentInsets;
+        administrationFailureTableView.scrollIndicatorInsets = contentInsets;
         administrationFailureTableView.beginUpdates()
         administrationFailureTableView.endUpdates()
     }

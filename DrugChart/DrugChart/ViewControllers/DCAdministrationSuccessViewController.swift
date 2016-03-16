@@ -670,22 +670,11 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
     func keyboardDidShow(notification : NSNotification) {
             if let userInfo = notification.userInfo {
                 if let keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
-                    if textFieldSelectionIndexPath?.section == 1 {
-                        let info:NSDictionary = notification.userInfo!
-                        let kbSize:CGSize = (info.objectForKey(UIKeyboardFrameBeginUserInfoKey)?.CGRectValue.size)!
-                        let contentInsets:UIEdgeInsets = UIEdgeInsetsMake(0.0,0.0,kbSize.height + 5,0.0)
-                        self.administerSuccessTableView.contentInset = contentInsets
-                        self.administerSuccessTableView.scrollIndicatorInsets = contentInsets
-                    } else {
-                        let offset : CGFloat = NOTES_CELL_HEIGHT
-                        let delayInSeconds: Double = 0.50
-                        let deleteTime : dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(delayInSeconds * Double(NSEC_PER_SEC)))
-                        dispatch_after(deleteTime, dispatch_get_main_queue(), {() -> Void in
-                            let contentHeight : CGFloat? = self.administerSuccessTableView.frame.height
-                            let scrollOffset = contentHeight! - keyboardSize.height + offset + 20
-                            self.administerSuccessTableView.setContentOffset(CGPoint(x: 0, y: scrollOffset), animated: true)
-                        })
-                    }
+                    let contentInsets: UIEdgeInsets
+                        contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.height), 0.0)
+                    self.administerSuccessTableView.contentInset = contentInsets;
+                    self.administerSuccessTableView.scrollIndicatorInsets = contentInsets;
+                    self.administerSuccessTableView.scrollToRowAtIndexPath(textFieldSelectionIndexPath!, atScrollPosition: UITableViewScrollPosition.Top, animated: true)
                 }
         }
     }

@@ -150,32 +150,21 @@ class DCAdministrationReasonViewController : DCBaseViewController, NotesCellDele
     }
     
     func keyboardDidShow(notification : NSNotification) {
-        
         if let userInfo = notification.userInfo {
             if let keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
-                var offset : CGFloat
-                var reasonArray = successReasonArray
-                switch (administrationStatus!) {
-                case NOT_ADMINISTRATED :
-                    reasonArray = failureReasonArray
-                    offset = (3.0 - CGFloat(reasonArray.count))*10.0
-                default:
-                    reasonArray = successReasonArray
-                    offset = (3.0 - CGFloat(reasonArray.count))*10.0
-                    offset = abs(offset)
-                }
-                let delayInSeconds: Double = 0.50
-                let deleteTime : dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(delayInSeconds * Double(NSEC_PER_SEC)))
-                dispatch_after(deleteTime, dispatch_get_main_queue(), {() -> Void in
-                    let contentHeight : CGFloat? = self.reasonTableView.frame.height
-                    let scrollOffset = contentHeight! - keyboardSize.height - NOTES_CELL_HEIGHT + offset
-                    self.reasonTableView.setContentOffset(CGPoint(x: 0, y: scrollOffset), animated: true)
-                })
+                let contentInsets: UIEdgeInsets
+                contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.height), 0.0)
+                self.reasonTableView.contentInset = contentInsets;
+                self.reasonTableView.scrollIndicatorInsets = contentInsets;
+                self.reasonTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 1), atScrollPosition: UITableViewScrollPosition.Top, animated: true)
             }
         }
     }
     
     func keyboardDidHide(notification :NSNotification){
+        let contentInsets:UIEdgeInsets  = UIEdgeInsetsMake(48, 0, 0, 0);
+        reasonTableView.contentInset = contentInsets;
+        reasonTableView.scrollIndicatorInsets = contentInsets;
         reasonTableView.beginUpdates()
         reasonTableView.endUpdates()
     }
