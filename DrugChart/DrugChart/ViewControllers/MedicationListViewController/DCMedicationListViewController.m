@@ -66,6 +66,8 @@
         titleBarFrame.size.height = NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR;
     }
     self.navigationController.navigationBar.frame = titleBarFrame;
+    self.preferredContentSize = CGSizeMake(310, 800);
+    self.navigationController.preferredContentSize = CGSizeMake(310, 800);
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -132,11 +134,12 @@
             }
             [medicationListTableView reloadData];
         } else {
+            [self.view endEditing:true];
             NSInteger errorCode = [[errorDict valueForKey:@"code"] integerValue];
             if (errorCode != NSURLErrorCancelled) {
                 medicationListArray = [NSMutableArray arrayWithArray:@[NSLocalizedString(@"NO_MEDICATIONS", @"")]];
                 [medicationListTableView reloadData];
-                if (errorCode == NETWORK_NOT_REACHABLE) {
+                if (errorCode == NETWORK_NOT_REACHABLE || errorCode == NOT_CONNECTED_TO_INTERNET) {
                     [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"") message:NSLocalizedString(@"INTERNET_CONNECTION_ERROR", @"")];
                 } else if (errorCode == NSURLErrorTimedOut) {
                     //time out error here
