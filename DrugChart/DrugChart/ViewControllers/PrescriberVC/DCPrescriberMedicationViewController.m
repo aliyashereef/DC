@@ -59,6 +59,7 @@ typedef enum : NSUInteger {
     BOOL discontinuedMedicationShown;
     BOOL isOneThirdMedicationViewShown;
     BOOL windowSizeChanged;
+    BOOL fetchOnLayout;
     SortType sortType;
     NSIndexPath *administrationViewPresentedIndexPath;
     DCPrescriberMedicationListViewController *prescriberMedicationListViewController;
@@ -255,12 +256,13 @@ typedef enum : NSUInteger {
     else if ([DCAPPDELEGATE windowState] == fullWindow ||
              [DCAPPDELEGATE windowState] == twoThirdWindow) {
         isOneThirdMedicationViewShown = NO;
-       // [self showActivityIndicationOnViewRefresh:true];
+        [self currentWeekDatesArrayFromDate:_centerDisplayDate];
         [self addPrescriberDrugChartViewForFullAndTwoThirdWindow];
-//        if ([DCAPPDELEGATE isNetworkReachable]) {
-//            [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
-//            }];
-//        }
+        [self showActivityIndicationOnViewRefresh:true];
+        fetchOnLayout = YES;
+        [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
+            fetchOnLayout = NO;
+        }];
     }
 }
 
@@ -450,13 +452,15 @@ typedef enum : NSUInteger {
                             if (prescriberMedicationOneThirdSizeViewController && isOneThirdMedicationViewShown) {
                                 [prescriberMedicationOneThirdSizeViewController displayErrorMessageForErrorCode:error.code];
                             } else {
-                                if (error.code == NETWORK_NOT_REACHABLE || error.code == NOT_CONNECTED_TO_INTERNET) {
-                                    [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"")
-                                                        message:NSLocalizedString(@"INTERNET_CONNECTION_ERROR", @"")];
-                                } else if (error.code == WEBSERVICE_UNAVAILABLE) {
-                                    [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"") message:NSLocalizedString(@"WEBSERVICE_UNAVAILABLE", @"")];
-                                } else if (error.code != REQUEST_CANCELLED) {
-                                    [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"") message:NSLocalizedString(@"MEDICATION_SCHEDULE_ERROR", @"")];
+                                if (fetchOnLayout == NO) { // alert should not be shown on call in layout subviews
+                                    if (error.code == NETWORK_NOT_REACHABLE || error.code == NOT_CONNECTED_TO_INTERNET) {
+                                        [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"")
+                                                            message:NSLocalizedString(@"INTERNET_CONNECTION_ERROR", @"")];
+                                    } else if (error.code == WEBSERVICE_UNAVAILABLE) {
+                                        [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"") message:NSLocalizedString(@"WEBSERVICE_UNAVAILABLE", @"")];
+                                    } else if (error.code != REQUEST_CANCELLED) {
+                                        [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"") message:NSLocalizedString(@"MEDICATION_SCHEDULE_ERROR", @"")];
+                                    }
                                 }
                             }
                          }
