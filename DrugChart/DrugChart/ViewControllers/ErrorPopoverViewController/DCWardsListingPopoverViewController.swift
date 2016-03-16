@@ -30,7 +30,8 @@ class DCWardsListingPopoverViewController : DCBaseViewController , UITableViewDe
         let cancelButton : UIBarButtonItem = UIBarButtonItem(title:CANCEL_BUTTON_TITLE, style: UIBarButtonItemStyle.Plain, target:self, action: "cancelButtonPressed")
         self.navigationItem.rightBarButtonItem = cancelButton
 //        UINavigationBar.appearance().barTintColor = UIColor.whiteColor()
-        self.preferredContentSize = CGSizeMake(305, CGFloat(Double(wardsArray.count-1)*45.0))
+        self.preferredContentSize = CGSizeMake(DCUtility.popOverPreferredContentSize().width, CGFloat(Double(wardsArray.count-1)*45.0))
+        self.navigationController!.preferredContentSize = CGSizeMake(DCUtility.popOverPreferredContentSize().width, CGFloat(Double(wardsArray.count-1)*45.0))
         wardsTableView.reloadData()
     }
     

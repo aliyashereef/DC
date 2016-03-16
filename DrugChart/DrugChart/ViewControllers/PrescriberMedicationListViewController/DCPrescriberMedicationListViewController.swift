@@ -594,7 +594,6 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         
         let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
         let addMedicationViewController : DCAddMedicationInitialViewController? = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(ADD_MEDICATION_POPOVER_SB_ID) as? DCAddMedicationInitialViewController
-
         addMedicationViewController?.patientId = self.patientId as String
         //TODO: Remove shedule details when scheduling is available from api
         if (medicationScheduleDetails.scheduling == nil) {
@@ -615,14 +614,11 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         let navigationController : UINavigationController? = UINavigationController(rootViewController: addMedicationViewController!)
         navigationController?.modalPresentationStyle = UIModalPresentationStyle.Popover
         self.presentViewController(navigationController!, animated: true, completion: nil)
-
         let popover = navigationController?.popoverPresentationController
         popover?.delegate = addMedicationViewController
         popover?.permittedArrowDirections = .Left
-
         let cell = medicationTableView!.cellForRowAtIndexPath(indexPath) as! PrescriberMedicationTableViewCell?
         popover?.sourceRect = CGRectMake(cell!.editButton.bounds.origin.x - (205 + cell!.editButton.bounds.size.width),cell!.editButton.bounds.origin.y - 300,310,690);
-        
         popover!.sourceView = cell?.editButton
     }
     

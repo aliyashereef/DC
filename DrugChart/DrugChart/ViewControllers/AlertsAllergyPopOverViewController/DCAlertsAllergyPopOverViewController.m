@@ -44,7 +44,8 @@
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
-    self.preferredContentSize = alertsAllergyTableView.contentSize;
+    self.preferredContentSize = CGSizeMake([DCUtility popOverPreferredContentSize].width, alertsAllergyTableView.contentSize.height);
+    self.navigationController.preferredContentSize = CGSizeMake([DCUtility popOverPreferredContentSize].width, alertsAllergyTableView.contentSize.height);
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

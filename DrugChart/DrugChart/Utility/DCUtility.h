@@ -102,4 +102,8 @@ typedef enum : NSUInteger {
 + (void)presentNavigationController:(UINavigationController *)navigationController
              withRootViewController:(UIViewController *)rootViewController;
 
++ (CGSize)popOverPreferredContentSize;
+
++ (CGRect)navigationBarFrameForNavigationController:(UINavigationController *)navigationController;
+
 @end

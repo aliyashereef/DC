@@ -33,13 +33,7 @@
 - (void)viewDidLayoutSubviews {
     
     [super viewDidLayoutSubviews];
-    CGRect titleBarFrame = self.navigationController.navigationBar.frame;
-    if ([DCAPPDELEGATE windowState] == oneThirdWindow || [DCAPPDELEGATE windowState] == halfWindow) {
-        titleBarFrame.size.height = NAVIGATION_BAR_HEIGHT_WITH_STATUS_BAR;
-    } else {
-        titleBarFrame.size.height = NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR;
-    }
-    self.navigationController.navigationBar.frame = titleBarFrame;
+    self.navigationController.navigationBar.frame = [DCUtility navigationBarFrameForNavigationController: self.navigationController];
 }
 
 - (void)didReceiveMemoryWarning {

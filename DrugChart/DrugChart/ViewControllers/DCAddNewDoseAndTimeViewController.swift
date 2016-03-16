@@ -30,16 +30,9 @@ class DCAddNewDoseAndTimeViewController: UIViewController , UITableViewDataSourc
     override func viewDidLayoutSubviews() {
         
         super.viewDidLayoutSubviews()
-        let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
-        if let navigationBar = self.navigationController?.navigationBar {
-            var frame = navigationBar.frame
-            if (appDelegate.windowState == DCWindowState.oneThirdWindow || appDelegate.windowState == DCWindowState.halfWindow) {
-                frame.size.height = NAVIGATION_BAR_HEIGHT_WITH_STATUS_BAR
-            } else {
-                frame.size.height = NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR
-            }
-            navigationBar.frame = frame
-        }
+        self.navigationController?.navigationBar.frame = DCUtility.navigationBarFrameForNavigationController(self.navigationController)
+        self.preferredContentSize = DCUtility.popOverPreferredContentSize()
+        self.navigationController!.preferredContentSize = DCUtility.popOverPreferredContentSize()
     }
 
     func configureNavigationBarItems() {
