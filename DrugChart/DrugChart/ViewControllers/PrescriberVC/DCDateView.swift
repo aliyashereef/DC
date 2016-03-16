@@ -66,10 +66,10 @@ import QuartzCore
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = dayViewFormat as String
         let dateString = dateFormatter.stringFromDate(today)
-        indicatorImageView.frame = CGRectMake(self.frame.width/2 + 10, 12.0, 28, 28)
+        indicatorImageView.frame = CGRectMake(self.frame.width/2 + 7, 12.0, 28, 28)
         indicatorImageView.image = UIImage(named: "CurrentDateBlueRound")
         self.addSubview(indicatorImageView)
-        indicatorLabel.frame = CGRectMake(self.frame.width/2 + 10, 12.0, 28, 28)
+        indicatorLabel.frame = CGRectMake(self.frame.width/2 + 7, 12.0, 28, 28)
         indicatorLabel.font = UIFont.systemFontOfSize(17)
         indicatorLabel.textAlignment = .Center
         indicatorLabel.textColor = UIColor.whiteColor()

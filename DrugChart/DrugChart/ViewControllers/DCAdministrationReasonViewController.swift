@@ -153,10 +153,10 @@ class DCAdministrationReasonViewController : DCBaseViewController, NotesCellDele
         if let userInfo = notification.userInfo {
             if let keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
                 let contentInsets: UIEdgeInsets
-                contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.height), 0.0)
+                contentInsets = UIEdgeInsetsMake(48, 0.0, (keyboardSize.height), 0.0)
                 self.reasonTableView.contentInset = contentInsets;
                 self.reasonTableView.scrollIndicatorInsets = contentInsets;
-                self.reasonTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 1), atScrollPosition: UITableViewScrollPosition.Top, animated: true)
+                self.reasonTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 1), atScrollPosition: UITableViewScrollPosition.Middle, animated: true)
             }
         }
     }

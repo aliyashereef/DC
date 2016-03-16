@@ -738,26 +738,28 @@ typedef enum : NSUInteger {
     detailViewController = [administerStoryboard instantiateViewControllerWithIdentifier:@"AdministrationViewControllerSBID"];
     if ([displayMedicationListArray count] > 0) {
         DCMedicationScheduleDetails *medicationList =  [displayMedicationListArray objectAtIndex:indexPath.item];
-        detailViewController.scheduleId = medicationList.scheduleId;
-        detailViewController.medicationDetails = medicationList;
-        DCSwiftObjCNavigationHelper *helper = [[DCSwiftObjCNavigationHelper alloc] init];
-        helper.delegate = self;
-        detailViewController.helper = helper;
-        detailViewController.medicationSlotsArray = [self medicationSlotsArrayFromSlotsDictionary:medicationSLotsDictionary];
-        detailViewController.weekDate = date;
-        detailViewController.patientId = self.patient.patientId;
-        NSCalendar *calendar = [NSCalendar currentCalendar];
-        NSDate *startDate = [self dateWithRemovingTimeComponentsForDate:[DCDateUtility dateFromSourceString:medicationList.startDate] inCalendar:calendar];
-        NSDate *endDate = [self dateWithRemovingTimeComponentsForDate:[DCDateUtility dateFromSourceString:medicationList.endDate] inCalendar:calendar];
-        NSComparisonResult startDateOrder = [calendar compareDate:startDate toDate:date toUnitGranularity:NSCalendarUnitDay];
-        NSComparisonResult endDateOrder = [calendar compareDate:endDate toDate:date toUnitGranularity:NSCalendarUnitDay];
-        if (medicationList.endDate != nil) {
-            if ((startDateOrder == NSOrderedAscending || startDateOrder == NSOrderedSame) &&  (endDateOrder == NSOrderedDescending || endDateOrder == NSOrderedSame)) {
-                [self presentAdministrationwithMedicationList:medicationList andDate:date];
-            }
-        } else {
-            if (startDateOrder == NSOrderedAscending || startDateOrder == NSOrderedSame) {
-                [self presentAdministrationwithMedicationList:medicationList andDate:date];
+        if (medicationList.isActive) {
+            detailViewController.scheduleId = medicationList.scheduleId;
+            detailViewController.medicationDetails = medicationList;
+            DCSwiftObjCNavigationHelper *helper = [[DCSwiftObjCNavigationHelper alloc] init];
+            helper.delegate = self;
+            detailViewController.helper = helper;
+            detailViewController.medicationSlotsArray = [self medicationSlotsArrayFromSlotsDictionary:medicationSLotsDictionary];
+            detailViewController.weekDate = date;
+            detailViewController.patientId = self.patient.patientId;
+            NSCalendar *calendar = [NSCalendar currentCalendar];
+            NSDate *startDate = [self dateWithRemovingTimeComponentsForDate:[DCDateUtility dateFromSourceString:medicationList.startDate] inCalendar:calendar];
+            NSDate *endDate = [self dateWithRemovingTimeComponentsForDate:[DCDateUtility dateFromSourceString:medicationList.endDate] inCalendar:calendar];
+            NSComparisonResult startDateOrder = [calendar compareDate:startDate toDate:date toUnitGranularity:NSCalendarUnitDay];
+            NSComparisonResult endDateOrder = [calendar compareDate:endDate toDate:date toUnitGranularity:NSCalendarUnitDay];
+            if (medicationList.endDate != nil) {
+                if ((startDateOrder == NSOrderedAscending || startDateOrder == NSOrderedSame) &&  (endDateOrder == NSOrderedDescending || endDateOrder == NSOrderedSame)) {
+                    [self presentAdministrationwithMedicationList:medicationList andDate:date];
+                }
+            } else {
+                if (startDateOrder == NSOrderedAscending || startDateOrder == NSOrderedSame) {
+                    [self presentAdministrationwithMedicationList:medicationList andDate:date];
+                }
             }
         }
     }
