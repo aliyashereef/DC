@@ -134,6 +134,9 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
             let newValueTableCell : DCAddNewValueTableViewCell = (mainTableView.dequeueReusableCellWithIdentifier(PICKER_DROP_DOWN_CELL) as? DCAddNewValueTableViewCell)!
             newValueTableCell.unitLabel.text = "Unit"
             newValueTableCell.unitValueLabel.text = valueForUnit
+            newValueTableCell.preservesSuperviewLayoutMargins = false
+            newValueTableCell.separatorInset = UIEdgeInsetsZero
+            newValueTableCell.layoutMargins = UIEdgeInsetsZero
             return newValueTableCell
         }else {
             let newValueTableCell : DCAddNewValuePickerCell = (mainTableView.dequeueReusableCellWithIdentifier(PICKER_CELL) as? DCAddNewValuePickerCell)!
@@ -179,7 +182,7 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
             return 44
         case 2:
             if isInlinePickerActive {
-                return 216
+                return 217
             } else {
                 return 0
             }

@@ -36,28 +36,9 @@ class DCAddNewValuePickerCell: UITableViewCell , UIPickerViewDelegate, UIPickerV
     
     func currentValueForPickerCell (type : PickerType) {
         
-        //        if (pickerType! == eReducingIncreasingType) {
-        //
-        //            selectedContent = reducingIncreasingArray[pickerView.selectedRowInComponent(0)]
-        //            pickerCompletion(selectedContent)
-        //        } else {
-        //
-        //            selectedContent = daysCount[pickerView.selectedRowInComponent(0)]
-        //            pickerCompletion(selectedContent)
-        //        }
+        //To return selected value on first click.
     }
-    
-    //    func populateContentArrays() {
-    //
-    //        if (pickerType! == eReducingIncreasingType) {
-    //
-    //            contentArray = [REDUCING,INCREASING]
-    //        } else {
-    //
-    //            contentArray = daysCount
-    //        }
-    //    }
-    
+        
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
         
         return 1

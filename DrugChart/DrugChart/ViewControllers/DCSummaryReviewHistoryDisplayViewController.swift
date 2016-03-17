@@ -42,7 +42,7 @@ class DCSummaryReviewHistoryDisplayViewController: UIViewController, UITableView
         displayDictionary["notes"] = "Intake of the medications should be supplemented with proper anti allergens throughout the course of this medication."
         displayArray.append(displayDictionary)
         
-        displayDictionary["date"] = "18-Dec-2016"
+        displayDictionary["date"] = "18-Dec-2015"
         displayDictionary["notes"] = "Stop the course if the patient shows any vomiting tendency."
         displayArray.append(displayDictionary)
     }
