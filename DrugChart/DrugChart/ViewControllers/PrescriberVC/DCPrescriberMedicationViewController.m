@@ -727,8 +727,12 @@ typedef enum : NSUInteger {
     if (displayMedicationListArray.count > 0) {
         DCMedicationScheduleDetails *medicationList = [displayMedicationListArray objectAtIndex:administrationViewPresentedIndexPath.item];
         detailViewController.medicationDetails = medicationList;
-        //    detailViewController.medicationSlotsArray = _medicationSlotArray;
-        [detailViewController initialiseMedicationSlotToAdministerObject];
+        if ([medicationList.medicineCategory  isEqual: WHEN_REQUIRED]) {
+            detailViewController.medicationSlotsArray = _medicationSlotArray;
+            [detailViewController initialiseMedicationSlotToAdministerObject];
+        } else {
+            [detailViewController initialiseMedicationSlotToAdministerObject];
+        }
         [detailViewController.administerTableView reloadData];
     }
 }
