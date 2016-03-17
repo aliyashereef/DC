@@ -176,7 +176,7 @@
 + (NSString *)timeStringInTwentyFourHourFormat:(NSDate *)time {
     
     //get time in 24 hour format
-    NSDateFormatter *dateFormatter = [self sharedDateFormatter];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"HH:mm"];
     [dateFormatter setLocale:[NSLocale systemLocale]];
     NSString *displayString = [dateFormatter stringFromDate:time];
