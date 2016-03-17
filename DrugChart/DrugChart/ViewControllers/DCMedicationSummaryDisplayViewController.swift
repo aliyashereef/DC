@@ -79,11 +79,7 @@ class DCMedicationSummaryDisplayViewController: UIViewController, UITableViewDel
         }
         if let slotToAdministerDate = slotToAdminister?.time {
             if (medication.time.compare(slotToAdministerDate) == NSComparisonResult.OrderedSame) {
-                if DCAdministrationHelper.isMedicationDurationBasedInfusion(medicationDetails!) {
-                    return ADMINISTER_NOW
-                } else {
-                    return ADMINISTER_MEDICATION
-                }
+                return ADMINISTER_MEDICATION
             }
         }
         //medication slot selected less than the current date

@@ -89,11 +89,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         }
         if let slotToAdministerDate = slotToAdminister?.time {
             if (medication.time.compare(slotToAdministerDate) == NSComparisonResult.OrderedSame) {
-                if DCAdministrationHelper.isMedicationDurationBasedInfusion(medicationDetails!) {
-                    return ADMINISTER_NOW
-                } else {
-                    return ADMINISTER_MEDICATION
-                }
+                return ADMINISTER_MEDICATION
             }
         }
         //medication slot selected less than the current date
@@ -178,8 +174,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         }
 
         cell!.administrationStatusLabel.text = configureMedicationStatusInCell(medicationSlot) as String
-        if (cell!.administrationStatusLabel.text == ADMINISTER_MEDICATION ||
-            cell!.administrationStatusLabel.text == ADMINISTER_NOW ){
+        if (cell!.administrationStatusLabel.text == ADMINISTER_MEDICATION ){
             cell!.administrationStatusLabel.textColor = UIColor(forHexString:"#4A90E2")
         } else {
             cell!.administrationStatusLabel.textColor = UIColor(forHexString:"#676767")
@@ -215,7 +210,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
             let cell = administerTableView.cellForRowAtIndexPath(indexPath) as? DCAdministrationStatusCell
             if cell?.administrationStatusLabel.text != PENDING {
                 let medicationSlot : DCMedicationSlot = medicationSlotsArray[indexPath.row]
-                if (cell?.administrationStatusLabel.text == ADMINISTER_MEDICATION || cell?.administrationStatusLabel.text == ADMINISTER_NOW || cell?.administrationStatusLabel.text == "In progress") {
+                if (cell?.administrationStatusLabel.text == ADMINISTER_MEDICATION || cell?.administrationStatusLabel.text == "In progress") {
                     slotToAdminister?.time = medicationSlot.time
                     addAdministerViewWithStatus((cell?.administrationStatusLabel.text)!)
                 } else {

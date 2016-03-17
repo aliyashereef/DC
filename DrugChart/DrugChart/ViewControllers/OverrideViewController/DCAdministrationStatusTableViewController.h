@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DCMedicationScheduleDetails.h"
 
 @protocol StatusListDelegate <NSObject>
 
@@ -19,6 +20,7 @@
 @interface DCAdministrationStatusTableViewController : UITableViewController
 
 @property (nonatomic, strong) NSArray *namesArray;
+@property (nonatomic, strong) DCMedicationScheduleDetails *medicationDetails;
 @property (nonatomic, strong) NSString *previousSelectedValue;
 @property (nonatomic, strong) NSString *status;
 @property (nonatomic, strong) NSString *restartedDate;

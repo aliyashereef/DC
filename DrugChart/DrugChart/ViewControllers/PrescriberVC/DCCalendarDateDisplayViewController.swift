@@ -41,7 +41,7 @@ import CocoaLumberjack
     
     func translateCalendarContainerViewsForTranslationParameters(xTranslation: CGFloat, withXVelocity xVelocity:CGFloat, panEndedValue panEnded:Bool) {
         
-        let calendarWidth : CGFloat = (DCUtility.mainWindowSize().width - MEDICATION_VIEW_WIDTH);
+        let calendarWidth : CGFloat = (DCUtility.mainWindowSize().width - DCUtility.mainWindowSize().width * 0.30);
         let valueToTranslate = (calendarViewLeadingConstraint.constant + xTranslation);
         if (valueToTranslate >= -calendarWidth && valueToTranslate <= calendarWidth) {
             calendarViewLeadingConstraint.constant = calendarViewLeadingConstraint.constant + xTranslation;
@@ -70,8 +70,8 @@ import CocoaLumberjack
     func displayPreviousWeekDatesInCalendar() {
         
         UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
-            let calendarWidth : CGFloat = (DCUtility.mainWindowSize().width - MEDICATION_VIEW_WIDTH);
-            if (self.calendarViewLeadingConstraint.constant >= MEDICATION_VIEW_WIDTH) {
+            let calendarWidth : CGFloat = (DCUtility.mainWindowSize().width - DCUtility.mainWindowSize().width * 0.30);
+            if (self.calendarViewLeadingConstraint.constant >= DCUtility.mainWindowSize().width * 0.30) {
                 self.calendarViewLeadingConstraint.constant = calendarWidth
             }
             self.view.layoutIfNeeded()
@@ -82,8 +82,8 @@ import CocoaLumberjack
     
     func displayNextWeekDatesInCalendar() {
         UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
-            let calendarWidth : CGFloat = (DCUtility.mainWindowSize().width - MEDICATION_VIEW_WIDTH);
-            if (self.calendarViewLeadingConstraint.constant <= -MEDICATION_VIEW_WIDTH) {
+            let calendarWidth : CGFloat = (DCUtility.mainWindowSize().width - DCUtility.mainWindowSize().width * 0.30);
+            if (self.calendarViewLeadingConstraint.constant <= -DCUtility.mainWindowSize().width * 0.30) {
                 self.calendarViewLeadingConstraint.constant = -calendarWidth
             }
             self.view.layoutIfNeeded()
@@ -113,12 +113,12 @@ import CocoaLumberjack
     
     func adjustHolderFrameAndDisplayDates () {
         
-        calendarViewWidthConstraint.constant = (DCUtility.mainWindowSize().width - MEDICATION_VIEW_WIDTH);
+        calendarViewWidthConstraint.constant = (DCUtility.mainWindowSize().width - DCUtility.mainWindowSize().width * 0.30);
     }
 
     // Populate the dates for the previous and next date views
     func displayDatesInView () {
-        
+        self.adjustHolderFrameAndDisplayDates()
         let displayDatesArray = displayWeekDatesArray()
         var index : NSInteger = 0
         let leftDatesArray : NSMutableArray = []

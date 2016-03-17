@@ -214,6 +214,7 @@ class DCAdministrationInProgressViewController : DCBaseViewController,StatusList
             case 0:
                 let statusViewController : DCAdministrationStatusTableViewController = DCAdministrationHelper.administratedStatusPopOverAtIndexPathWithStatus(indexPath, status:IN_PROGRESS)
                 statusViewController.medicationSlot = self.medicationSlot
+                statusViewController.medicationDetails = medicationDetails
                 statusViewController.isValid = self.isValid
                 statusViewController.previousSelectedValue = self.medicationSlot?.medicationAdministration?.status
                 statusViewController.medicationStatusDelegate = self
@@ -293,19 +294,19 @@ class DCAdministrationInProgressViewController : DCBaseViewController,StatusList
     func keyboardDidShow(notification : NSNotification) {
         if let userInfo = notification.userInfo {
             if let keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
-                let offset : CGFloat = NOTES_CELL_HEIGHT
-                let delayInSeconds: Double = 0.50
-                let deleteTime : dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(delayInSeconds * Double(NSEC_PER_SEC)))
-                dispatch_after(deleteTime, dispatch_get_main_queue(), {() -> Void in
-                    let contentHeight : CGFloat? = self.administerInProgressTableView.frame.height
-                    let scrollOffset = contentHeight! - keyboardSize.height + offset + 5
-                    self.administerInProgressTableView.setContentOffset(CGPoint(x: 0, y: scrollOffset), animated: true)
-                })
+                let contentInsets: UIEdgeInsets
+                contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.height), 0.0)
+                self.administerInProgressTableView.contentInset = contentInsets;
+                self.administerInProgressTableView.scrollIndicatorInsets = contentInsets;
+                self.administerInProgressTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 3), atScrollPosition: UITableViewScrollPosition.Top, animated: true)
             }
         }
     }
     
     func keyboardDidHide(notification :NSNotification){
+        let contentInsets:UIEdgeInsets  = UIEdgeInsetsZero;
+        administerInProgressTableView.contentInset = contentInsets;
+        administerInProgressTableView.scrollIndicatorInsets = contentInsets;
         administerInProgressTableView.beginUpdates()
         administerInProgressTableView.endUpdates()
     }

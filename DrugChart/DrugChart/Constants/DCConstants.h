@@ -311,7 +311,6 @@
 // Administration status
 #define PENDING @"Pending"
 #define ADMINISTER_MEDICATION @"Administer Medication"
-#define ADMINISTER_NOW @"Administer Now"
 #define IN_PROGRESS @"In progress"
 #define ENDED @"Ended"
 #define STOPED_DUE_TO_PROBLEM @"Stoped due to problem"
@@ -528,6 +527,7 @@
 
 // Administration History Label texts
 #define STATUS @"Status"
+#define DOSE @"Dose"
 #define STATUS_CHANGE @"Status Change"
 #define ADMINISTRATED_BY @"Administered By"
 #define DATE_TIME @"Date & Time"
@@ -542,7 +542,8 @@
 #define OVERDUE_KEY @"Overdue"
 #define IMMEDIATE_KEY @"Immediate"
 #define NOT_IMMEDIATE_KEY @"Not Immediate"
-
+#define BATCH_NUMBER @"Batch Number"
+#define EXPIRY_DATE_STRING @"Expiry Date"
 #define NA_TEXT @"N/A"
 #define DUMMY_DOCTOR @"KENNEDY, Frederick (Dr)"
 #define BED_NUMBER @"0"

@@ -45,6 +45,8 @@ typedef enum : NSUInteger {
     IBOutlet UIView *medicationListHolderView;
     IBOutlet UILabel *monthYearLabel;
     UIView *dateView;
+    __weak IBOutlet UIView *MonthYearView;
+    __weak IBOutlet NSLayoutConstraint *monthYearViewWidthConstraint;
 
     NSDate *firstDisplayDate;
     UIBarButtonItem *addButton;
@@ -59,6 +61,7 @@ typedef enum : NSUInteger {
     BOOL discontinuedMedicationShown;
     BOOL isOneThirdMedicationViewShown;
     BOOL windowSizeChanged;
+    BOOL fetchOnLayout;
     SortType sortType;
     NSIndexPath *administrationViewPresentedIndexPath;
     DCPrescriberMedicationListViewController *prescriberMedicationListViewController;
@@ -164,7 +167,7 @@ typedef enum : NSUInteger {
 }
 
 - (void) dateViewForOrientationChanges {
-    
+    monthYearViewWidthConstraint.constant = self.view.frame.size.width * 0.30;
     UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
     if (UIDeviceOrientationIsLandscape(orientation) && (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)){
         calendarDateHolderViewTopSpace.constant = 30.0;
@@ -238,7 +241,8 @@ typedef enum : NSUInteger {
 - (void)calculateCalendarSlotWidth {
     
     //calculate calendar slot width
-    slotWidth = ([DCUtility mainWindowSize].width - 300)/5;
+    CGFloat medicationDetailsTableViewWidth = [DCUtility mainWindowSize].width * 0.30;
+    slotWidth = ([DCUtility mainWindowSize].width - medicationDetailsTableViewWidth)/5;
 }
 
 - (void)prescriberCalendarChildViewControllerBasedOnWindowState {
@@ -255,12 +259,13 @@ typedef enum : NSUInteger {
     else if ([DCAPPDELEGATE windowState] == fullWindow ||
              [DCAPPDELEGATE windowState] == twoThirdWindow) {
         isOneThirdMedicationViewShown = NO;
-       // [self showActivityIndicationOnViewRefresh:true];
+        [self currentWeekDatesArrayFromDate:_centerDisplayDate];
         [self addPrescriberDrugChartViewForFullAndTwoThirdWindow];
-//        if ([DCAPPDELEGATE isNetworkReachable]) {
-//            [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
-//            }];
-//        }
+        [self showActivityIndicationOnViewRefresh:true];
+        fetchOnLayout = YES;
+        [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
+            fetchOnLayout = NO;
+        }];
     }
 }
 
@@ -450,13 +455,15 @@ typedef enum : NSUInteger {
                             if (prescriberMedicationOneThirdSizeViewController && isOneThirdMedicationViewShown) {
                                 [prescriberMedicationOneThirdSizeViewController displayErrorMessageForErrorCode:error.code];
                             } else {
-                                if (error.code == NETWORK_NOT_REACHABLE || error.code == NOT_CONNECTED_TO_INTERNET) {
-                                    [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"")
-                                                        message:NSLocalizedString(@"INTERNET_CONNECTION_ERROR", @"")];
-                                } else if (error.code == WEBSERVICE_UNAVAILABLE) {
-                                    [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"") message:NSLocalizedString(@"WEBSERVICE_UNAVAILABLE", @"")];
-                                } else if (error.code != REQUEST_CANCELLED) {
-                                    [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"") message:NSLocalizedString(@"MEDICATION_SCHEDULE_ERROR", @"")];
+                                if (fetchOnLayout == NO) { // alert should not be shown on call in layout subviews
+                                    if (error.code == NETWORK_NOT_REACHABLE || error.code == NOT_CONNECTED_TO_INTERNET) {
+                                        [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"")
+                                                            message:NSLocalizedString(@"INTERNET_CONNECTION_ERROR", @"")];
+                                    } else if (error.code == WEBSERVICE_UNAVAILABLE) {
+                                        [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"") message:NSLocalizedString(@"WEBSERVICE_UNAVAILABLE", @"")];
+                                    } else if (error.code != REQUEST_CANCELLED) {
+                                        [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"") message:NSLocalizedString(@"MEDICATION_SCHEDULE_ERROR", @"")];
+                                    }
                                 }
                             }
                          }
@@ -625,7 +632,7 @@ typedef enum : NSUInteger {
     // Instatntiating the navigation controller to present the popover with preferred content size of the poppver.
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:patientAlertsAllergyViewController];
     navigationController.modalPresentationStyle = UIModalPresentationPopover;
-    navigationController.preferredContentSize = CGSizeMake(ALERT_ALLERGY_CELL_WIDTH, ALERT_POPOVER_INITIAL_HEIGHT);
+    navigationController.preferredContentSize = CGSizeMake([DCUtility popOverPreferredContentSize].width, ALERT_POPOVER_INITIAL_HEIGHT);
     // Presenting the popover presentation controller on the navigation controller.
     UIPopoverPresentationController *alertsPopOverController = [navigationController popoverPresentationController];
     alertsPopOverController.permittedArrowDirections = UIPopoverArrowDirectionAny;
@@ -735,26 +742,28 @@ typedef enum : NSUInteger {
     detailViewController = [administerStoryboard instantiateViewControllerWithIdentifier:@"AdministrationViewControllerSBID"];
     if ([displayMedicationListArray count] > 0) {
         DCMedicationScheduleDetails *medicationList =  [displayMedicationListArray objectAtIndex:indexPath.item];
-        detailViewController.scheduleId = medicationList.scheduleId;
-        detailViewController.medicationDetails = medicationList;
-        DCSwiftObjCNavigationHelper *helper = [[DCSwiftObjCNavigationHelper alloc] init];
-        helper.delegate = self;
-        detailViewController.helper = helper;
-        detailViewController.medicationSlotsArray = [self medicationSlotsArrayFromSlotsDictionary:medicationSLotsDictionary];
-        detailViewController.weekDate = date;
-        detailViewController.patientId = self.patient.patientId;
-        NSCalendar *calendar = [NSCalendar currentCalendar];
-        NSDate *startDate = [self dateWithRemovingTimeComponentsForDate:[DCDateUtility dateFromSourceString:medicationList.startDate] inCalendar:calendar];
-        NSDate *endDate = [self dateWithRemovingTimeComponentsForDate:[DCDateUtility dateFromSourceString:medicationList.endDate] inCalendar:calendar];
-        NSComparisonResult startDateOrder = [calendar compareDate:startDate toDate:date toUnitGranularity:NSCalendarUnitDay];
-        NSComparisonResult endDateOrder = [calendar compareDate:endDate toDate:date toUnitGranularity:NSCalendarUnitDay];
-        if (medicationList.endDate != nil) {
-            if ((startDateOrder == NSOrderedAscending || startDateOrder == NSOrderedSame) &&  (endDateOrder == NSOrderedDescending || endDateOrder == NSOrderedSame)) {
-                [self presentAdministrationwithMedicationList:medicationList andDate:date];
-            }
-        } else {
-            if (startDateOrder == NSOrderedAscending || startDateOrder == NSOrderedSame) {
-                [self presentAdministrationwithMedicationList:medicationList andDate:date];
+        if (medicationList.isActive) {
+            detailViewController.scheduleId = medicationList.scheduleId;
+            detailViewController.medicationDetails = medicationList;
+            DCSwiftObjCNavigationHelper *helper = [[DCSwiftObjCNavigationHelper alloc] init];
+            helper.delegate = self;
+            detailViewController.helper = helper;
+            detailViewController.medicationSlotsArray = [self medicationSlotsArrayFromSlotsDictionary:medicationSLotsDictionary];
+            detailViewController.weekDate = date;
+            detailViewController.patientId = self.patient.patientId;
+            NSCalendar *calendar = [NSCalendar currentCalendar];
+            NSDate *startDate = [self dateWithRemovingTimeComponentsForDate:[DCDateUtility dateFromSourceString:medicationList.startDate] inCalendar:calendar];
+            NSDate *endDate = [self dateWithRemovingTimeComponentsForDate:[DCDateUtility dateFromSourceString:medicationList.endDate] inCalendar:calendar];
+            NSComparisonResult startDateOrder = [calendar compareDate:startDate toDate:date toUnitGranularity:NSCalendarUnitDay];
+            NSComparisonResult endDateOrder = [calendar compareDate:endDate toDate:date toUnitGranularity:NSCalendarUnitDay];
+            if (medicationList.endDate != nil) {
+                if ((startDateOrder == NSOrderedAscending || startDateOrder == NSOrderedSame) &&  (endDateOrder == NSOrderedDescending || endDateOrder == NSOrderedSame)) {
+                    [self presentAdministrationwithMedicationList:medicationList andDate:date];
+                }
+            } else {
+                if (startDateOrder == NSOrderedAscending || startDateOrder == NSOrderedSame) {
+                    [self presentAdministrationwithMedicationList:medicationList andDate:date];
+                }
             }
         }
     }

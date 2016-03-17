@@ -81,9 +81,9 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             if medicationCell == nil {
                 medicationCell = PrescriberMedicationTableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: CELL_IDENTIFIER)
             }
-            
             self.resetStatusViewsIfNeededInTableViewCell(medicationCell!)
             let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
+            medicationCell?.medicationDetailHolderViewWidthConstraint.constant = self.view.frame.width * 0.30 // 30% of the screen
             medicationCell?.editAndDeleteDelegate = self
             medicationCell?.indexPath = indexPath
             medicationCell?.isMedicationActive = medicationScheduleDetails.isActive
@@ -200,7 +200,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         isLastCell:Bool) {
             
             
-            let calendarWidth : CGFloat = (DCUtility.mainWindowSize().width - MEDICATION_VIEW_WIDTH);
+            let calendarWidth : CGFloat = (DCUtility.mainWindowSize().width - DCUtility.mainWindowSize().width * 0.30);
             let valueToTranslate = medicationCell.leadingSpaceMasterToContainerView.constant + xTranslation;
             if (valueToTranslate >= -calendarWidth && valueToTranslate <= calendarWidth) {
                 medicationCell.leadingSpaceMasterToContainerView.constant = medicationCell.leadingSpaceMasterToContainerView.constant + xTranslation;
@@ -248,7 +248,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     
     func displayPreviousWeekAdministrationDetailsInTableView(medicationCell : PrescriberMedicationTableViewCell, isLastCell:Bool) {
         
-        let calendarWidth : CGFloat = (DCUtility.mainWindowSize().width - MEDICATION_VIEW_WIDTH);
+        let calendarWidth : CGFloat = (DCUtility.mainWindowSize().width - DCUtility.mainWindowSize().width * 0.30);
         let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
         var weekViewAnimated : Bool = false
         UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
@@ -285,7 +285,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     
     func displayNextWeekAdministrationDetailsInTableView(medicationCell : PrescriberMedicationTableViewCell, isLastCell:Bool) {
         
-        let calendarWidth : CGFloat = (DCUtility.mainWindowSize().width - MEDICATION_VIEW_WIDTH);
+        let calendarWidth : CGFloat = (DCUtility.mainWindowSize().width - DCUtility.mainWindowSize().width * 0.30);
         let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
         var weekViewAnimated : Bool = false
         UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
@@ -517,9 +517,10 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                 }
             }
             let slotWidth = DCUtility.mainWindowSize().width
-            var viewWidth = (slotWidth - 300)/3
+            let medicationDetailTableWidth = slotWidth * 0.30
+            var viewWidth = (slotWidth - medicationDetailTableWidth)/3
             if (appDelegate.windowState == DCWindowState.fullWindow) {
-                viewWidth = (slotWidth - 300)/5
+                viewWidth = (slotWidth - medicationDetailTableWidth)/5
             }
             let xValue : CGFloat = CGFloat(tag) * viewWidth + CGFloat(tag) + 1;
             let viewFrame = CGRectMake(xValue, 0, viewWidth, 78.0)
@@ -594,7 +595,6 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         
         let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
         let addMedicationViewController : DCAddMedicationInitialViewController? = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(ADD_MEDICATION_POPOVER_SB_ID) as? DCAddMedicationInitialViewController
-
         addMedicationViewController?.patientId = self.patientId as String
         //TODO: Remove shedule details when scheduling is available from api
         if (medicationScheduleDetails.scheduling == nil) {
@@ -615,14 +615,11 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         let navigationController : UINavigationController? = UINavigationController(rootViewController: addMedicationViewController!)
         navigationController?.modalPresentationStyle = UIModalPresentationStyle.Popover
         self.presentViewController(navigationController!, animated: true, completion: nil)
-
         let popover = navigationController?.popoverPresentationController
         popover?.delegate = addMedicationViewController
         popover?.permittedArrowDirections = .Left
-
         let cell = medicationTableView!.cellForRowAtIndexPath(indexPath) as! PrescriberMedicationTableViewCell?
         popover?.sourceRect = CGRectMake(cell!.editButton.bounds.origin.x - (205 + cell!.editButton.bounds.size.width),cell!.editButton.bounds.origin.y - 300,310,690);
-        
         popover!.sourceView = cell?.editButton
     }
     
@@ -677,7 +674,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
         parentViewController.showActivityIndicationOnViewRefresh(true)
         let indexPathArray : [NSIndexPath] = medicationTableView!.indexPathsForVisibleRows!
-        let calendarWidth : CGFloat = (DCUtility.mainWindowSize().width - MEDICATION_VIEW_WIDTH);
+        let calendarWidth : CGFloat = (DCUtility.mainWindowSize().width - DCUtility.mainWindowSize().width * 0.30);
         var calendarWidthConstraint = calendarWidth
         if (!isRight) {
             calendarWidthConstraint = -calendarWidth

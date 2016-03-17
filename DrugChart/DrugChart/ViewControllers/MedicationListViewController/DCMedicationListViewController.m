@@ -59,13 +59,9 @@
 - (void)viewDidLayoutSubviews {
     
     [super viewDidLayoutSubviews];
-    CGRect titleBarFrame = self.navigationController.navigationBar.frame;
-    if ([DCAPPDELEGATE windowState] == oneThirdWindow || [DCAPPDELEGATE windowState] == halfWindow) {
-        titleBarFrame.size.height = NAVIGATION_BAR_HEIGHT_WITH_STATUS_BAR;
-    } else {
-        titleBarFrame.size.height = NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR;
-    }
-    self.navigationController.navigationBar.frame = titleBarFrame;
+    self.navigationController.navigationBar.frame = [DCUtility navigationBarFrameForNavigationController:self.navigationController];
+    self.preferredContentSize = [DCUtility popOverPreferredContentSize];
+    self.navigationController.preferredContentSize = [DCUtility popOverPreferredContentSize];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -132,11 +128,12 @@
             }
             [medicationListTableView reloadData];
         } else {
+            [self.view endEditing:true];
             NSInteger errorCode = [[errorDict valueForKey:@"code"] integerValue];
             if (errorCode != NSURLErrorCancelled) {
                 medicationListArray = [NSMutableArray arrayWithArray:@[NSLocalizedString(@"NO_MEDICATIONS", @"")]];
                 [medicationListTableView reloadData];
-                if (errorCode == NETWORK_NOT_REACHABLE) {
+                if (errorCode == NETWORK_NOT_REACHABLE || errorCode == NOT_CONNECTED_TO_INTERNET) {
                     [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"") message:NSLocalizedString(@"INTERNET_CONNECTION_ERROR", @"")];
                 } else if (errorCode == NSURLErrorTimedOut) {
                     //time out error here

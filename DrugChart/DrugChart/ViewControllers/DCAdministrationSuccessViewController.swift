@@ -43,6 +43,10 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         self.administerSuccessTableView.reloadData()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+    }
+    
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         self.collapseOpenedPickerCell()
@@ -142,7 +146,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         administerCell.titleLabel.text = label as String
         administerCell.detailLabelTrailingSpace.constant = 15.0
         var dateString : String = EMPTY_STRING
-        if( label == "Expiry Date") {
+        if( label == EXPIRY_DATE_STRING) {
             if let date = medicationSlot?.medicationAdministration?.expiryDateTime {
                 dateString = DCDateUtility.dateStringFromDate(date, inFormat: EXPIRY_DATE_FORMAT)
             }
@@ -176,15 +180,17 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         let expiryCell : DCBatchNumberCell = (administerSuccessTableView.dequeueReusableCellWithIdentifier(BATCH_NUMBER_CELL_ID) as? DCBatchNumberCell)!
         expiryCell.batchDelegate = self
         expiryCell.batchNumberTextField.placeholder = label as String
-        if label == "Dose" {
+        if label == DOSE && indexPath == doseCellIndexPath {
             if let dosageString = medicationSlot?.medicationAdministration?.dosageString {
                 expiryCell.batchNumberTextField?.text = dosageString
             } else {
                 expiryCell.batchNumberTextField?.text = medicationDetails?.dosage
             }
-        } else {// label is batch
+        } else if label == BATCH_NUMBER{// label is batch
             if let batchString = medicationSlot?.medicationAdministration?.batch {
                 expiryCell.batchNumberTextField?.text = batchString
+            } else {
+                expiryCell.batchNumberTextField?.text = EMPTY_STRING
             }
         }
         expiryCell.selectedIndexPath = indexPath
@@ -483,6 +489,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
                 statusViewController.previousSelectedValue = ADMINISTERED
             }
         }
+        statusViewController.medicationDetails = medicationDetails
         statusViewController.medicationStatusDelegate = self
         return statusViewController
     }
@@ -522,7 +529,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
             return self.administrationReasonTableCellAtIndexPath(indexPath)
         case 2:
             //Dose cell
-            return self.batchNumberOrExpiryDateTableCellAtIndexPathWithLabel(indexPath,label: "Dose")
+            return self.batchNumberOrExpiryDateTableCellAtIndexPathWithLabel(indexPath,label: DOSE)
         case 3:
             //date and time cell
             return self.administrationDateAndTimeTableCellAtIndexPath(indexPath,label: "Date & Time")
@@ -536,17 +543,17 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
             if (indexPathHasPicker(administerDatePickerIndexPath)) {
                 return self.administrationCheckedByTableCellAtIndexPath(indexPath)
             } else {
-                return self.batchNumberOrExpiryDateTableCellAtIndexPathWithLabel(indexPath,label: "Batch Number")
+                return self.batchNumberOrExpiryDateTableCellAtIndexPathWithLabel(indexPath,label:BATCH_NUMBER)
             }
         case 6:
             if (indexPathHasPicker(administerDatePickerIndexPath)) {
-                return self.batchNumberOrExpiryDateTableCellAtIndexPathWithLabel(indexPath,label: "Batch Number")
+                return self.batchNumberOrExpiryDateTableCellAtIndexPathWithLabel(indexPath,label: BATCH_NUMBER)
             } else {
-                return self.administrationDateAndTimeTableCellAtIndexPath(indexPath,label: "Expiry Date")
+                return self.administrationDateAndTimeTableCellAtIndexPath(indexPath,label: EXPIRY_DATE_STRING)
             }
         case 7:
             if (indexPathHasPicker(administerDatePickerIndexPath)) {
-                return self.administrationDateAndTimeTableCellAtIndexPath(indexPath,label: "Expiry Date")
+                return self.administrationDateAndTimeTableCellAtIndexPath(indexPath,label: EXPIRY_DATE_STRING)
             } else {
                 return datePickerTableCellAtIndexPath(indexPath)
             }
@@ -664,22 +671,11 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
     func keyboardDidShow(notification : NSNotification) {
             if let userInfo = notification.userInfo {
                 if let keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
-                    if textFieldSelectionIndexPath?.section == 1 {
-                        let info:NSDictionary = notification.userInfo!
-                        let kbSize:CGSize = (info.objectForKey(UIKeyboardFrameBeginUserInfoKey)?.CGRectValue.size)!
-                        let contentInsets:UIEdgeInsets = UIEdgeInsetsMake(0.0,0.0,kbSize.height + 5,0.0)
-                        self.administerSuccessTableView.contentInset = contentInsets
-                        self.administerSuccessTableView.scrollIndicatorInsets = contentInsets
-                    } else {
-                        let offset : CGFloat = NOTES_CELL_HEIGHT
-                        let delayInSeconds: Double = 0.50
-                        let deleteTime : dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(delayInSeconds * Double(NSEC_PER_SEC)))
-                        dispatch_after(deleteTime, dispatch_get_main_queue(), {() -> Void in
-                            let contentHeight : CGFloat? = self.administerSuccessTableView.frame.height
-                            let scrollOffset = contentHeight! - keyboardSize.height + offset + 20
-                            self.administerSuccessTableView.setContentOffset(CGPoint(x: 0, y: scrollOffset), animated: true)
-                        })
-                    }
+                    let contentInsets: UIEdgeInsets
+                        contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.height), 0.0)
+                    self.administerSuccessTableView.contentInset = contentInsets;
+                    self.administerSuccessTableView.scrollIndicatorInsets = contentInsets;
+                    self.administerSuccessTableView.scrollToRowAtIndexPath(textFieldSelectionIndexPath!, atScrollPosition: UITableViewScrollPosition.Top, animated: true)
                 }
         }
     }

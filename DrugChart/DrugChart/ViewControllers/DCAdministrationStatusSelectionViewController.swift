@@ -80,6 +80,17 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
     // MARK: Private Methods
     //MARK:
     
+    override func viewDidLayoutSubviews() {
+        self.administerContainerView.layoutIfNeeded()
+        administrationFailureViewController?.view.frame = administerContainerView.bounds
+        administrationFailureViewController?.view.layoutIfNeeded()
+        administrationSuccessViewController?.view.frame = administerContainerView.bounds
+        administrationSuccessViewController?.view.layoutIfNeeded()
+        administrationInProgressViewController?.view.frame = administerContainerView.bounds
+        administrationInProgressViewController?.view.layoutIfNeeded()
+        super.viewDidLayoutSubviews()
+    }
+    
     func configureTableViewProperties () {
         self.administerStatusSelectionTableView.rowHeight = UITableViewAutomaticDimension
         self.administerStatusSelectionTableView.estimatedRowHeight = 44.0
@@ -155,6 +166,7 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
         } else {
             let statusViewController : DCAdministrationStatusTableViewController = DCAdministrationHelper.administratedStatusPopOverAtIndexPathWithStatus(indexPath, status:statusState!)
             statusViewController.previousSelectedValue = medicationSlot?.medicationAdministration?.status
+            statusViewController.medicationDetails = medicationDetails
             statusViewController.medicationStatusDelegate = self
             self.navigationController!.pushViewController(statusViewController, animated: true)
         }
@@ -308,24 +320,25 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
         let administerStoryboard : UIStoryboard? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil)
         if administrationFailureViewController == nil {
             administrationFailureViewController = administerStoryboard!.instantiateViewControllerWithIdentifier(ADMINISTER_FAILURE_VC_STORYBOARD_ID) as? DCAdministrationFailureViewController
+            
             administrationFailureViewController?.medicationSlot = medicationSlot
             administrationFailureViewController?.medicationDetails = medicationDetails
             administerContainerView.addSubview((administrationFailureViewController?.view)!)
             self.addChildViewController(administrationFailureViewController!)
             administrationFailureViewController!.view.frame = administerContainerView.bounds
-            
         }
         administrationFailureViewController?.isValid = self.isValid
         self.saveButton?.enabled = true
         self.view.bringSubviewToFront(administerContainerView)
         administerContainerView.bringSubviewToFront((administrationFailureViewController?.view)!)
-        
     }
+    
     func addInProgressStatusView () {
         //add administer view controller
         let administerStoryboard : UIStoryboard? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil)
         if administrationInProgressViewController == nil {
             administrationInProgressViewController = administerStoryboard!.instantiateViewControllerWithIdentifier(ADMINISTER_IN_PROGRESS_VC_STORYBOARD_ID) as? DCAdministrationInProgressViewController
+            
             administrationInProgressViewController?.medicationSlot = medicationSlot
             administrationInProgressViewController?.medicationDetails = medicationDetails
             administerContainerView.addSubview((administrationInProgressViewController?.view)!)
@@ -336,9 +349,6 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
         administrationInProgressViewController?.isValid = self.isValid
         self.view.bringSubviewToFront(administerContainerView)
         administerContainerView.bringSubviewToFront((administrationInProgressViewController?.view)!)
-        
-
-        
     }
     
     func callAdministerMedicationWebService() {
@@ -395,9 +405,11 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
             self.isValid = true
             if statusState == NOT_ADMINISTRATED {
                 self.medicationSlot = DCMedicationSlot.init()
+                administrationFailureViewController?.medicationSlot?.medicationAdministration?.status = NOT_ADMINISTRATED
                 self.medicationSlot = administrationFailureViewController?.medicationSlot
             } else if statusState == ADMINISTERED || statusState == STARTED {
                 self.medicationSlot = DCMedicationSlot.init()
+                administrationSuccessViewController?.medicationSlot?.medicationAdministration?.status = ADMINISTERED
                 self.medicationSlot = administrationSuccessViewController?.medicationSlot
             } else  {
                 self.medicationSlot = DCMedicationSlot.init()

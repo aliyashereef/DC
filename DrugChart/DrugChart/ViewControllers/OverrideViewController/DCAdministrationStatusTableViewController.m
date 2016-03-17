@@ -59,10 +59,11 @@
 }
 
 - (void)configureStatusArrayWithStatusValue {
-    if ([self.status  isEqual: ADMINISTER_NOW] || [self.status  isEqual: STARTED]) {
-        _namesArray = @[STARTED, NOT_ADMINISTRATED];
-    } else if ([self.status  isEqual: IN_PROGRESS] || [@[ENDED,STOPED_DUE_TO_PROBLEM,CONTINUED_AFTER_PROBLEM,FLUID_CHANGED,PAUSED] containsObject:self.status]){
+
+    if ([self.status  isEqual: IN_PROGRESS] || [@[ENDED,STOPED_DUE_TO_PROBLEM,CONTINUED_AFTER_PROBLEM,FLUID_CHANGED,PAUSED] containsObject:self.status]){
         _namesArray = @[ENDED,STOPED_DUE_TO_PROBLEM,CONTINUED_AFTER_PROBLEM,FLUID_CHANGED,PAUSED];
+    } else if ([DCAdministrationHelper isMedicationDurationBasedInfusion:self.medicationDetails]){
+        _namesArray = @[STARTED, NOT_ADMINISTRATED];
     } else {
         _namesArray = @[ADMINISTERED, NOT_ADMINISTRATED];
     }
@@ -345,7 +346,7 @@
 -(DCAdministerCell *)expiryDateCellAtIndexPath: (NSIndexPath *)indexPath {
     
     DCAdministerCell *cell = [self configureAdministrationCellAtIndexPath:indexPath];
-    cell.titleLabel.text = @"Expiry Date";
+    cell.titleLabel.text = EXPIRY_DATE_STRING;
     cell.titleLabel.textColor = [UIColor blackColor];
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.detailLabelTrailingSpace.constant = 15.0;
@@ -503,8 +504,9 @@
 }
 
 - (void)batchNumberFieldSelectedAtIndexPath:(NSIndexPath *)indexPath {
-    
+    [self collapseOpenedPickerCell];
 }
+
 - (void)notesSelected:(BOOL)editing withIndexPath:(NSIndexPath *)indexPath {
     
 }

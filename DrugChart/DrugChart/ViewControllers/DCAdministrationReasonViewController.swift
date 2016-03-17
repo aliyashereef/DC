@@ -32,6 +32,10 @@ class DCAdministrationReasonViewController : DCBaseViewController, NotesCellDele
         self.showOtherReasonsFieldForReason()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+    }
+    
     //MARK: TableView Delegate Methods
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -148,15 +152,20 @@ class DCAdministrationReasonViewController : DCBaseViewController, NotesCellDele
     func keyboardDidShow(notification : NSNotification) {
         if let userInfo = notification.userInfo {
             if let keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
-                let contentHeight = self.reasonTableView.contentSize.height
-                let scrollOffset = contentHeight - keyboardSize.height + 125.0
-                reasonTableView.setContentOffset(CGPoint(x: 0, y: scrollOffset), animated: true)
+                let contentInsets: UIEdgeInsets
+                contentInsets = UIEdgeInsetsMake(48, 0.0, (keyboardSize.height), 0.0)
+                self.reasonTableView.contentInset = contentInsets;
+                self.reasonTableView.scrollIndicatorInsets = contentInsets;
+                self.reasonTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 1), atScrollPosition: UITableViewScrollPosition.Middle, animated: true)
             }
         }
     }
     
     func keyboardDidHide(notification :NSNotification){
-        reasonTableView.setContentOffset(CGPoint(x: 0, y: -48), animated: true)
-
+        let contentInsets:UIEdgeInsets  = UIEdgeInsetsMake(48, 0, 0, 0);
+        reasonTableView.contentInset = contentInsets;
+        reasonTableView.scrollIndicatorInsets = contentInsets;
+        reasonTableView.beginUpdates()
+        reasonTableView.endUpdates()
     }
 }

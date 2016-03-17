@@ -35,7 +35,8 @@ import QuartzCore
     
     func setDate( date : NSString ) {
         
-        dateLabel.frame = CGRectMake(0, 0, 144, 49)
+        dateLabel.frame = CGRectMake(0, 0, self.frame.width, 49)
+        dateLabel.center = CGPointMake(self.frame.width/2, 49/2)
         dateLabel.backgroundColor = UIColor.clearColor()
         dateLabel.font = UIFont.systemFontOfSize(17)
         dateLabel.textAlignment = .Center
@@ -65,10 +66,10 @@ import QuartzCore
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = dayViewFormat as String
         let dateString = dateFormatter.stringFromDate(today)
-        indicatorImageView.frame = CGRectMake(81, 12.0, 28, 28)
+        indicatorImageView.frame = CGRectMake(self.frame.width/2 + 7, 12.0, 28, 28)
         indicatorImageView.image = UIImage(named: "CurrentDateBlueRound")
         self.addSubview(indicatorImageView)
-        indicatorLabel.frame = CGRectMake(81, 12.0, 28, 28)
+        indicatorLabel.frame = CGRectMake(self.frame.width/2 + 7, 12.0, 28, 28)
         indicatorLabel.font = UIFont.systemFontOfSize(17)
         indicatorLabel.textAlignment = .Center
         indicatorLabel.textColor = UIColor.whiteColor()
