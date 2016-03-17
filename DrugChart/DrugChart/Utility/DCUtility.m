@@ -396,7 +396,7 @@
     
     CGFloat viewWidth = [DCUtility mainWindowSize].width;
     CGFloat viewHeight = [DCUtility mainWindowSize].height - 2*80;
-    CGSize preferredContentSize = CGSizeMake(viewWidth*.28, viewHeight);
+    CGSize preferredContentSize = CGSizeMake(viewWidth*.38, viewHeight);
     return preferredContentSize;
 }
 

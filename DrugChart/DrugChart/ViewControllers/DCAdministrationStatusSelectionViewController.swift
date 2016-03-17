@@ -409,7 +409,7 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
                 self.medicationSlot = administrationFailureViewController?.medicationSlot
             } else if statusState == ADMINISTERED || statusState == STARTED {
                 self.medicationSlot = DCMedicationSlot.init()
-                administrationSuccessViewController?.medicationSlot?.medicationAdministration?.status = ADMINISTERED
+                administrationSuccessViewController?.medicationSlot?.medicationAdministration?.status = statusState
                 self.medicationSlot = administrationSuccessViewController?.medicationSlot
             } else  {
                 self.medicationSlot = DCMedicationSlot.init()
