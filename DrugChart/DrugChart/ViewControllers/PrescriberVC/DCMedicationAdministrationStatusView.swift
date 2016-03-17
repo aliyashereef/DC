@@ -79,7 +79,7 @@ class DCMedicationAdministrationStatusView: UIView {
         iconCenterForOneThirdScreenAdministeredStatus = CGPointMake(self.bounds.size.width/1.13, 0.5 * self.bounds.size.height)
         iconCenterForTwoThirdScreenAdministeredStatus = CGPointMake(self.bounds.size.width/9, 0.5 * self.bounds.size.height)
         iconCenterForOneThirdScreenNearestSlot = CGPointMake(self.bounds.size.width/3.8, 0.5 * self.bounds.size.height)
-        labelCenterForOneThirdScreenDueAtStatus = CGPointMake(0.5 * self.bounds.size.width - 5, 0.5 * self.bounds.size.height)
+        labelCenterForOneThirdScreenDueAtStatus = CGPointMake(0.5 * self.bounds.size.width, 0.5 * self.bounds.size.height)
         labelCenterForLeftAlignedDueAtStatus = CGPointMake(self.bounds.size.width/1.3, 0.5 * self.bounds.size.height)
         labelCenterForNotLeftAlignedDueAtStatus = CGPointMake(self.bounds.size.width/1.7, 0.5 * self.bounds.size.height)
         labelCenterForTwoThirdScreenAdministeredStatus = CGPointMake(self.bounds.size.width/1.4, 0.5 * self.bounds.size.height)
@@ -99,12 +99,12 @@ class DCMedicationAdministrationStatusView: UIView {
         statusLabel?.font = statusLabelFont()
         statusLabel?.numberOfLines = 0
         let appDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
-        if (appDelegate.windowState == DCWindowState.oneThirdWindow){
+        if (appDelegate.windowState == DCWindowState.oneThirdWindow || appDelegate.windowState == DCWindowState.halfWindow){
             statusIcon = UIImageView.init(frame: CGRectMake(0, 0, 17.5, 17.5))
         } else {
             statusIcon = UIImageView.init(frame: CGRectMake(0, 0, 26, 26))
+            self.addSubview(statusIcon!)
         }
-        self.addSubview(statusIcon!)
         statusIcon!.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
         administerButton = DCAdministerButton.init(frame: contentFrame)
         self.addSubview(administerButton!)
@@ -270,7 +270,7 @@ class DCMedicationAdministrationStatusView: UIView {
         statusLabel?.font = statusLabelFont()
         statusLabel?.text = NSLocalizedString("OVERDUE", comment: "Some medications are overdue")
         if isOneThirdScreen {
-            statusLabel?.center = CGPointMake(self.bounds.size.width/2 - 5, self.bounds.size.height/2);
+            statusLabel?.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
         }
         statusLabel?.textAlignment = isOneThirdScreen ? .Right : .Center
     }
@@ -301,10 +301,15 @@ class DCMedicationAdministrationStatusView: UIView {
     func updateAdministeredOrRejectedStatusForAdministrationCount(administrationCount administeredCount: NSInteger, omittedRefusalCount refusedCount : NSInteger) {
         
         if (administeredCount == timeArray.count) {
-            statusIcon?.hidden = false
-            statusLabel?.hidden = true
             if isOneThirdScreen {
                 statusIcon?.center = CGPointMake(self.bounds.size.width/1.18, self.bounds.size.height/2);
+                statusLabel?.text = ADMINISTERED
+                statusLabel?.font = statusLabelFont()
+                statusLabel?.textAlignment = .Right
+                statusLabel?.textColor = PENDING_COUNT_FONT_COLOR
+            } else {
+                statusLabel?.hidden = true
+                statusIcon?.hidden = false
             }
             statusIcon?.image = ADMINISTRATION_SUCCESS_IMAGE
         } else {
@@ -348,7 +353,7 @@ class DCMedicationAdministrationStatusView: UIView {
                         statusIcon?.hidden = false
                         if isOneThirdScreen {
                             statusIcon!.center = CGPointMake(self.bounds.size.width/5.5, self.bounds.size.height/2);
-                            statusLabel?.center = CGPointMake(self.bounds.size.width/2 - 5, self.bounds.size.height/2);
+                            statusLabel?.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
                         } else {
                             positionStatusLabelAndIconForDueAtOrNotAdministeredStatus(true)
                         }
@@ -431,6 +436,7 @@ class DCMedicationAdministrationStatusView: UIView {
                 statusIcon?.hidden = true
                 statusLabel?.hidden = false
                 statusLabel?.textColor = OVERDUE_FONT_COLOR
+                statusLabel?.font = statusLabelFont()
                 statusLabel?.text = NSLocalizedString("OVERDUE", comment: "Some medications has not been administered till now")
                 statusLabel?.textAlignment = isOneThirdScreen ? .Right : .Center
             }
@@ -447,7 +453,7 @@ class DCMedicationAdministrationStatusView: UIView {
             statusLabel?.hidden = false
             statusIcon?.hidden = true
             if isOneThirdScreen {
-                statusLabel?.center = CGPointMake(self.bounds.size.width/2 - 5, self.bounds.size.height/2);
+                statusLabel?.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
             }
             statusLabel?.textColor = PENDING_FONT_COLOR
             statusLabel?.text = String(format: "%i %@", pendingCount, NSLocalizedString("PENDING", comment: ""))

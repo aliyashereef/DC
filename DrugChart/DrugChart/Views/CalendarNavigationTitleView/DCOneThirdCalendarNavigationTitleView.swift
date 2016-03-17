@@ -28,7 +28,9 @@ class DCOneThirdCalendarNavigationTitleView: UIView {
         if dobDateString != EMPTY_STRING {
             dobLabel.text = String(format: "\(dobDateString as String) (\(age as String) years)")
         }
-        nhsLabel.text = nhsNumber as String
+        if nhsNumber != EMPTY_STRING {
+            nhsLabel.text = nhsNumber as String
+        }
     }
     
     func populatViewForOneThirdLandscapeWithPatientName(patientName: NSString, nhsNumber : NSString , dateOfBirth : NSDate , age: NSString) {

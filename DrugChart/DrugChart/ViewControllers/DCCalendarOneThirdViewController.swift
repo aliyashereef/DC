@@ -206,9 +206,8 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         let tableCell: DCOneThirdCalendarScreenMedicationCell = tableView.cellForRowAtIndexPath(indexPath) as! DCOneThirdCalendarScreenMedicationCell
-        let subViewArray = tableCell.contentView.subviews[1].subviews[4].subviews
+        let subViewArray = tableCell.contentView.subviews[1].subviews[5].subviews
         //let subViewArray = tableCell.contentView.subviews
-        
         for subVeiw in subViewArray {
             if subVeiw .isKindOfClass(DCMedicationAdministrationStatusView){
                 (subVeiw as! DCMedicationAdministrationStatusView).administerMedicationWithMedicationSlot()
@@ -222,7 +221,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
-        let scrollVelocity : CGPoint = calendarStripCollectionView.panGestureRecognizer.velocityInView(calendarStripCollectionView.superview)
+        let scrollVelocity = calendarStripCollectionView.panGestureRecognizer.velocityInView(calendarStripCollectionView.superview)
         if scrollVelocity.x > 0.0 {
             scrollDirection = .ScrollDirectionLeft
         } else if scrollVelocity.x < 0.0 {
@@ -235,9 +234,9 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
             scrolledProgramatically = false
         } else {
             if scrollView == calendarStripCollectionView {
-                let firstDate : NSDate = currentWeekDatesArray.objectAtIndex(0) as! NSDate
-                let lastDate : NSDate = currentWeekDatesArray.lastObject as! NSDate
-                let visibleCells : NSArray = calendarStripCollectionView.visibleCells()
+                let firstDate = currentWeekDatesArray.objectAtIndex(0) as! NSDate
+                let lastDate = currentWeekDatesArray.lastObject as! NSDate
+                let visibleCells = calendarStripCollectionView.visibleCells()
                 if visibleCells.count > 0 {
                     
                     for obj : AnyObject in visibleCells  {
@@ -378,7 +377,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
                     existingStatusViews.addObject(subView)
                 }
             }
-            let viewFrame = CGRectMake(0, 0, 120, 67.0)
+            let viewFrame = CGRectMake(0, 0, containerView.frame.width, 67.0)
             let statusView : DCMedicationAdministrationStatusView = DCMedicationAdministrationStatusView(frame: viewFrame)
             let medicationSchedules = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
             statusView.tag = tag
@@ -583,6 +582,22 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         self.presentViewController(navigationController!, animated: true, completion: nil)
     }
     
+    func transitToSummaryScreenForMedication(indexpath : NSIndexPath) {
+        
+        let summaryStoryboard : UIStoryboard? = UIStoryboard(name:SUMMARY_STORYBOARD, bundle: nil)
+        let medicationSummaryViewController = summaryStoryboard!.instantiateViewControllerWithIdentifier("MedicationSummary") as? DCMedicationSummaryDisplayViewController
+        let medicationList: DCMedicationScheduleDetails = displayMedicationListArray[indexpath.item] as! DCMedicationScheduleDetails
+        medicationSummaryViewController!.scheduleId = medicationList.scheduleId
+        medicationSummaryViewController!.medicationDetails = medicationList
+        let parentView : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
+        medicationSummaryViewController!.patientId = parentView.patient.patientId as String
+        
+        let navigationController: UINavigationController = UINavigationController(rootViewController: medicationSummaryViewController!)
+        navigationController.modalPresentationStyle = .FormSheet
+        self.presentViewController(navigationController, animated: true, completion: { _ in })
+        
+    }
+
     func deleteMedicationAtIndexPath(indexPath : NSIndexPath) {
         
         let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails

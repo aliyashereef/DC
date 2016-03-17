@@ -39,11 +39,11 @@ class DCSummaryReviewHistoryDisplayViewController: UIViewController, UITableView
     
         displayArray = []
         displayDictionary["date"] = "26-Feb-2016"
-        displayDictionary["notes"] = "Lorem ipsum dolor sit amet, ne sale sonet maiorum qui, augue pertinacia te mei. Latine recusabo at ius. Ei nam iusto corpora officiis. Ne meis legimus pro. ipsum dolor sit amet, ne sale sonet maiorum qui. ipsum dolor sit amet, ne sale sonet maiorum qui."
+        displayDictionary["notes"] = "Intake of the medications should be supplemented with proper anti allergens throughout the course of this medication."
         displayArray.append(displayDictionary)
         
         displayDictionary["date"] = "18-Dec-2016"
-        displayDictionary["notes"] = "Lorem ipsum dolor sit amet, ne sale sonet maiorum qui, augue pertinacia te mei. Latine recusabo at ius."
+        displayDictionary["notes"] = "Stop the course if the patient shows any vomiting tendency."
         displayArray.append(displayDictionary)
     }
     
