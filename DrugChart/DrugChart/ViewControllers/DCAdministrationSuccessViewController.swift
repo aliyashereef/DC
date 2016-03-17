@@ -675,7 +675,9 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
                         contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.height), 0.0)
                     self.administerSuccessTableView.contentInset = contentInsets;
                     self.administerSuccessTableView.scrollIndicatorInsets = contentInsets;
-                    self.administerSuccessTableView.scrollToRowAtIndexPath(textFieldSelectionIndexPath!, atScrollPosition: UITableViewScrollPosition.Top, animated: true)
+                    if ((textFieldSelectionIndexPath) != nil){
+                        self.administerSuccessTableView.scrollToRowAtIndexPath(textFieldSelectionIndexPath!, atScrollPosition: UITableViewScrollPosition.Top, animated: true)
+                    }
                 }
         }
     }

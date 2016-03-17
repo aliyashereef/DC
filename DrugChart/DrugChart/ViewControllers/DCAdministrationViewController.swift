@@ -112,7 +112,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         slotToAdminister = DCMedicationSlot.init()
 
         if (medicationDetails?.medicineCategory == WHEN_REQUIRED) {
-            let today : NSDate = NSDate()
+            let today = NSDate()
             let order = NSCalendar.currentCalendar().compareDate(weekDate! , toDate:today,
                 toUnitGranularity: .Day)
             if order == NSComparisonResult.OrderedSame {
