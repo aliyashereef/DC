@@ -153,7 +153,8 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         noteCell!.moreButton.addTarget(self, action: "moreButtonPressed:", forControlEvents: .TouchUpInside)
         // Assigning value for the cell labels
         noteCell!.cellContentTypeLabel!.text = type as String
-        noteCell!.reasonTextLabel.text = text.stringByReplacingOccurrencesOfString("\n", withString: EMPTY_STRING) as String
+        noteCell!.reasonTextLabel.text = text as String
+        //.stringByReplacingOccurrencesOfString("\n", withString: EMPTY_STRING) as String
         noteCell!.reasonTextLabel.textAlignment = .Right
         // Calculating the count of text characters and checking whether the more button have to be visible.
         let count : NSInteger = text.length
