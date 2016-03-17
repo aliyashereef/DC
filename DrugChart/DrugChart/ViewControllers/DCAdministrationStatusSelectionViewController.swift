@@ -166,6 +166,7 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
         } else {
             let statusViewController : DCAdministrationStatusTableViewController = DCAdministrationHelper.administratedStatusPopOverAtIndexPathWithStatus(indexPath, status:statusState!)
             statusViewController.previousSelectedValue = medicationSlot?.medicationAdministration?.status
+            statusViewController.medicationDetails = medicationDetails
             statusViewController.medicationStatusDelegate = self
             self.navigationController!.pushViewController(statusViewController, animated: true)
         }
@@ -404,9 +405,11 @@ func checkIfFrequentAdministrationForWhenRequiredMedication () {
             self.isValid = true
             if statusState == NOT_ADMINISTRATED {
                 self.medicationSlot = DCMedicationSlot.init()
+                administrationFailureViewController?.medicationSlot?.medicationAdministration?.status = NOT_ADMINISTRATED
                 self.medicationSlot = administrationFailureViewController?.medicationSlot
             } else if statusState == ADMINISTERED || statusState == STARTED {
                 self.medicationSlot = DCMedicationSlot.init()
+                administrationSuccessViewController?.medicationSlot?.medicationAdministration?.status = ADMINISTERED
                 self.medicationSlot = administrationSuccessViewController?.medicationSlot
             } else  {
                 self.medicationSlot = DCMedicationSlot.init()

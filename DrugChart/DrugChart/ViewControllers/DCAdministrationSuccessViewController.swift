@@ -489,6 +489,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
                 statusViewController.previousSelectedValue = ADMINISTERED
             }
         }
+        statusViewController.medicationDetails = medicationDetails
         statusViewController.medicationStatusDelegate = self
         return statusViewController
     }

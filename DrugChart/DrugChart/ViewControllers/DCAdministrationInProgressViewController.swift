@@ -214,6 +214,7 @@ class DCAdministrationInProgressViewController : DCBaseViewController,StatusList
             case 0:
                 let statusViewController : DCAdministrationStatusTableViewController = DCAdministrationHelper.administratedStatusPopOverAtIndexPathWithStatus(indexPath, status:IN_PROGRESS)
                 statusViewController.medicationSlot = self.medicationSlot
+                statusViewController.medicationDetails = medicationDetails
                 statusViewController.isValid = self.isValid
                 statusViewController.previousSelectedValue = self.medicationSlot?.medicationAdministration?.status
                 statusViewController.medicationStatusDelegate = self

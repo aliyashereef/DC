@@ -311,7 +311,6 @@
 // Administration status
 #define PENDING @"Pending"
 #define ADMINISTER_MEDICATION @"Administer Medication"
-#define ADMINISTER_NOW @"Administer Now"
 #define IN_PROGRESS @"In progress"
 #define ENDED @"Ended"
 #define STOPED_DUE_TO_PROBLEM @"Stoped due to problem"
