@@ -167,6 +167,7 @@ typedef enum : NSUInteger {
 }
 
 - (void) dateViewForOrientationChanges {
+    //TODO: medication administration slots have to be made constant width , medication details flexible width
     monthYearViewWidthConstraint.constant = self.view.frame.size.width * 0.30;
     UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
     if (UIDeviceOrientationIsLandscape(orientation) && (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)){
@@ -241,6 +242,7 @@ typedef enum : NSUInteger {
 - (void)calculateCalendarSlotWidth {
     
     //calculate calendar slot width
+    //TODO: medication administration slots have to be made constant width , medication details flexible width
     CGFloat medicationDetailsTableViewWidth = [DCUtility mainWindowSize].width * 0.30;
     slotWidth = ([DCUtility mainWindowSize].width - medicationDetailsTableViewWidth)/5;
 }
