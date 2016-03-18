@@ -169,6 +169,20 @@ class VitalSignParser : FhirParser
                         {
                             obsVitalSign.pulse = (object as? Pulse)!
                         }
+//                        else if (object.isKindOfClass(AdditionalOxygen))
+//                        {
+//                            obsVitalSign.additionalOxygen = true
+//                        }
+//                        else if (object.isKindOfClass(AVPU))
+//                        {
+//                            let levelofConscious = object as? AVPU
+//                            obsVitalSign.isConscious = levelofConscious?.isConscious
+//                        }
+//                        else if (object.isKindOfClass(News))
+//                        {
+//                            let news = object as? News
+//                            obsVitalSign.newsScore = String(news?.newsScore)
+//                        }
                 }
                 }
                 onSuccess(observationList: lstObservation)
@@ -244,6 +258,26 @@ class VitalSignParser : FhirParser
             obsPulse.pulseRate = obs.valueQuantity!.value!.doubleValue
             obsPulse.stringValue = (obs.valueQuantity?.stringValue)!
             return obsPulse
+      case Constant.CODE_ADDITIONAL_OXYGEN:
+            let obsAdditionalOxygen = AdditionalOxygen()
+            obsAdditionalOxygen.onOxygen = true
+            return obsAdditionalOxygen
+      case Constant.CODE_AVPU:
+            let obsAVPU = AVPU()
+            let value = obs.valueQuantity?.value?.doubleValue
+            if(value == 0)
+            {
+                obsAVPU.isConscious = true
+            }
+            else
+            {
+                obsAVPU.isConscious = false
+            }
+            return obsAVPU
+      case Constant.CODE_NEWS:
+        let news  = News()
+        news.newsScore = Int((obs.valueQuantity?.value?.stringValue)!)!
+        return news
       default:
             return nil
       }

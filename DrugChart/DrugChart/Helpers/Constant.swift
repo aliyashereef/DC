@@ -37,4 +37,7 @@ class Constant
     static let CODE_PULSE_RATE = "254020017"
     static let CODE_SYSTOLIC_READING = "114311000006111"
     static let CODE_DIASTOLIC_READING = "619931000006119"
+    static let CODE_ADDITIONAL_OXYGEN = "95596013"
+    static let CODE_AVPU = "1959741000006117"
+    static let CODE_NEWS = "247999010"
 }

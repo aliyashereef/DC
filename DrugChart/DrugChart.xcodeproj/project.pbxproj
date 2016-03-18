@@ -246,11 +246,14 @@
 		1FD8A1A51C6A36D400030494 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD8A1A41C6A36D400030494 /* UIViewController.swift */; };
 		1FE8E5521C92435B00E591FB /* TooltipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE8E5511C92435B00E591FB /* TooltipViewController.swift */; };
 		1FE8E5551C96CD0300E591FB /* Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE8E5541C96CD0300E591FB /* Bundle.swift */; };
-		1FE8E5571C96E09C00E591FB /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE8E5561C96E09C00E591FB /* Resource.swift */; };
 		1FE8E55B1C96EE0200E591FB /* BundleEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE8E55A1C96EE0200E591FB /* BundleEntry.swift */; };
 		1FE8E55D1C96EF0400E591FB /* FHIRHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE8E55C1C96EF0400E591FB /* FHIRHelper.swift */; };
 		1FE8E55F1C96F3FF00E591FB /* Observation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE8E55E1C96F3FF00E591FB /* Observation.swift */; };
 		1FE8E5611C96F8D700E591FB /* CodeableConcept.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE8E5601C96F8D700E591FB /* CodeableConcept.swift */; };
+		1FE90DF61C99BE31004D9171 /* VitalSignFHIRBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE90DF51C99BE31004D9171 /* VitalSignFHIRBase.swift */; };
+		1FE90DF81C9B644F004D9171 /* AdditionalOxygen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE90DF71C9B644E004D9171 /* AdditionalOxygen.swift */; };
+		1FE90DFA1C9B6489004D9171 /* AVPU.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE90DF91C9B6489004D9171 /* AVPU.swift */; };
+		1FE90DFC1C9B68D7004D9171 /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE90DFB1C9B68D7004D9171 /* News.swift */; };
 		1FF1F8801C3D1E1E007F3B9C /* SingleLineGraphController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF1F87F1C3D1E1E007F3B9C /* SingleLineGraphController.swift */; };
 		1FF1F8821C3D6247007F3B9C /* GraphModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF1F8811C3D6247007F3B9C /* GraphModel.swift */; };
 		1FF1F8841C3D629B007F3B9C /* LineGraphModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF1F8831C3D629B007F3B9C /* LineGraphModel.swift */; };
@@ -734,11 +737,14 @@
 		1FD8A1A41C6A36D400030494 /* UIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		1FE8E5511C92435B00E591FB /* TooltipViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TooltipViewController.swift; sourceTree = "<group>"; };
 		1FE8E5541C96CD0300E591FB /* Bundle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bundle.swift; sourceTree = "<group>"; };
-		1FE8E5561C96E09C00E591FB /* Resource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
 		1FE8E55A1C96EE0200E591FB /* BundleEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BundleEntry.swift; sourceTree = "<group>"; };
 		1FE8E55C1C96EF0400E591FB /* FHIRHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FHIRHelper.swift; sourceTree = "<group>"; };
 		1FE8E55E1C96F3FF00E591FB /* Observation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Observation.swift; sourceTree = "<group>"; };
 		1FE8E5601C96F8D700E591FB /* CodeableConcept.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeableConcept.swift; sourceTree = "<group>"; };
+		1FE90DF51C99BE31004D9171 /* VitalSignFHIRBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VitalSignFHIRBase.swift; sourceTree = "<group>"; };
+		1FE90DF71C9B644E004D9171 /* AdditionalOxygen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdditionalOxygen.swift; sourceTree = "<group>"; };
+		1FE90DF91C9B6489004D9171 /* AVPU.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AVPU.swift; sourceTree = "<group>"; };
+		1FE90DFB1C9B68D7004D9171 /* News.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
 		1FF1F87F1C3D1E1E007F3B9C /* SingleLineGraphController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleLineGraphController.swift; sourceTree = "<group>"; };
 		1FF1F8811C3D6247007F3B9C /* GraphModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphModel.swift; sourceTree = "<group>"; };
 		1FF1F8831C3D629B007F3B9C /* LineGraphModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineGraphModel.swift; sourceTree = "<group>"; };
@@ -2449,6 +2455,10 @@
 				1FF1F8831C3D629B007F3B9C /* LineGraphModel.swift */,
 				1FF1F8851C3D7177007F3B9C /* BarGraphModel.swift */,
 				1F3AB1AD1C748E9C008F0513 /* VitalSignBaseModel.swift */,
+				1FE90DF51C99BE31004D9171 /* VitalSignFHIRBase.swift */,
+				1FE90DF71C9B644E004D9171 /* AdditionalOxygen.swift */,
+				1FE90DF91C9B6489004D9171 /* AVPU.swift */,
+				1FE90DFB1C9B68D7004D9171 /* News.swift */,
 			);
 			name = VitalSign;
 			sourceTree = "<group>";
@@ -2554,7 +2564,6 @@
 			children = (
 				1F30B07C1C847ED20058F3D3 /* Quantity.swift */,
 				1FE8E5541C96CD0300E591FB /* Bundle.swift */,
-				1FE8E5561C96E09C00E591FB /* Resource.swift */,
 				1FE8E55A1C96EE0200E591FB /* BundleEntry.swift */,
 				1FE8E55C1C96EF0400E591FB /* FHIRHelper.swift */,
 				1FE8E55E1C96F3FF00E591FB /* Observation.swift */,
@@ -3539,12 +3548,14 @@
 				FDDB3DA61C743D0200CE4AB7 /* DCAdministerGraphViewCell.swift in Sources */,
 				1FD4FCE91BF4B8F400B77B94 /* TimePickerCell_Inline.swift in Sources */,
 				1FE8E55D1C96EF0400E591FB /* FHIRHelper.swift in Sources */,
+				1FE90DF81C9B644F004D9171 /* AdditionalOxygen.swift in Sources */,
 				1F380C761C64B21C000A4E5D /* FhirParser.swift in Sources */,
 				FD2FF8B81C3BAEF000778A4E /* DCAddConditionDetailViewController.swift in Sources */,
 				1FD4FCB51BF4B6B700B77B94 /* BloodPressure.swift in Sources */,
 				1F1002EA1C7B629D00BB0479 /* SwitchCell.swift in Sources */,
 				0B0371F21C1700C700F2E0D1 /* DCInterval.m in Sources */,
 				0BD659561BD6685A00D3097B /* DCAdministerButton.swift in Sources */,
+				1FE90DF61C99BE31004D9171 /* VitalSignFHIRBase.swift in Sources */,
 				1F5375051C1AEF9F00D4A64F /* GraphView.swift in Sources */,
 				0B4BD4311C47566E00C49589 /* DCRateInfusion.m in Sources */,
 				0B4BD4251C47524500C49589 /* DCBolusInjection.m in Sources */,
@@ -3668,7 +3679,6 @@
 				1FD4FCAA1BF4B5CC00B77B94 /* VitalsignDashboard.swift in Sources */,
 				4D52C02A1C6C5F72005BE86B /* DCDurationBasedMedicationDetailsCell.swift in Sources */,
 				1FE8E55F1C96F3FF00E591FB /* Observation.swift in Sources */,
-				1FE8E5571C96E09C00E591FB /* Resource.swift in Sources */,
 				4D9225F71C6DDC410060761A /* DCProgressSliderCell.swift in Sources */,
 				0B14CD8D1BB151EA0085E40C /* DCAdministerCell.swift in Sources */,
 				0B7F74FC1B84394B00E3B0A0 /* DCSortTableViewController.m in Sources */,
@@ -3719,6 +3729,7 @@
 				FDD5486E1C451186000EB855 /* DCFixedDose.m in Sources */,
 				0BB535861BBA472D0043BC61 /* DCAdministerPickerCell.swift in Sources */,
 				0B5948BE1B218B0A0085FB26 /* DCPatientAllergy.m in Sources */,
+				1FE90DFC1C9B68D7004D9171 /* News.swift in Sources */,
 				1F1002E61C7B472100BB0479 /* ToggleCell.swift in Sources */,
 				4DD829271C0853AD006B2E71 /* DCOneThirdCalendarStripCollectionCell.swift in Sources */,
 				0BA803711BA7ED7100DBB45D /* DCWarningsListViewController.swift in Sources */,
@@ -3734,6 +3745,7 @@
 				0BF2DA501ACA982E00B3ED97 /* DCErrorPopOverViewController.m in Sources */,
 				1FE8E5551C96CD0300E591FB /* Bundle.swift in Sources */,
 				0BACFB501C17DFFD00D8FFA3 /* DCSchedulingTimeCell.swift in Sources */,
+				1FE90DFA1C9B6489004D9171 /* AVPU.swift in Sources */,
 				0BA5A38D1BF341DC00251F94 /* DCScheduling.m in Sources */,
 				0BB33DDC1B79F5B500B05E4D /* DCMedicationScheduleDetails.m in Sources */,
 				7D5319C21BF21EF7003C3F92 /* DCAlertsAllergyTableViewCell.m in Sources */,
@@ -3944,7 +3956,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.e-mis.drugchart";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "76c9154a-5f6b-4d29-a86f-16497b8aa502";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "DrugChart/Helpers/AddMedicationHelper/DrugChart-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -3990,7 +4002,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.e-mis.drugchart";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "76c9154a-5f6b-4d29-a86f-16497b8aa502";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "DrugChart/Helpers/AddMedicationHelper/DrugChart-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";

@@ -65,10 +65,10 @@ class BloodPressure : VitalSignBaseModel
         
         observation.component = [ObservationComponent]()
         // systolic component
-        observation.component?.append(FHIRComponent(FHIRCode("Systolic blood pressure", codeId: "114311000006111"), quantity: FHIRQuantity(stringValueSystolic, doubleQuantity: systolic, unit: "mmHg")))
+        observation.component?.append(FHIRComponent(FHIRCode("Systolic blood pressure", codeId: "114311000006111"), quantity: FHIRQuantity(stringValueSystolic,  unit: "mmHg")))
         
         // diastolic component
-        observation.component?.append(FHIRComponent(FHIRCode("Diastolic blood pressure", codeId: "619931000006119"), quantity: FHIRQuantity(strDiastolic, doubleQuantity: diastolic, unit: "mmHg")))
+        observation.component?.append(FHIRComponent(FHIRCode("Diastolic blood pressure", codeId: "619931000006119"), quantity: FHIRQuantity(strDiastolic,  unit: "mmHg")))
         
         return observation
     }

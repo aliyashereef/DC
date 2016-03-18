@@ -28,7 +28,7 @@ class BodyTemperature:VitalSignBaseModel
         let observation = Observation(code:code  , status: "final")
         observation.comments = associatedText
         observation.effectiveDateTime = FHIRDate(super.date)
-        observation.valueQuantity = FHIRQuantity(stringValue, doubleQuantity: value,unit: "degrees C")
+        observation.valueQuantity = FHIRQuantity(stringValue,unit: "degrees C")
         return observation
     }
 }

@@ -88,25 +88,51 @@ class BarGraphView: GraphView {
     
             graphPath.stroke()
             // draw the circle dots on the graph
-            for i in 0..<yAxisMaxValue.count
-            {
-                var point = CGPoint(x:columnXPoint(xAxisValue[i].getDatePart(self.displayView,startDate:graphStartDate)) , y:columnYPoint(yAxisMaxValue[i]))
-                point.x -= 5.0/2
-                point.y -= 5.0/2
-                let circle = UIBezierPath(ovalInRect: CGRect(origin: point, size: CGSize(width: 5.0,height: 5.0)))
-                //let circle = UIBezierPath(arcCenter: point, radius: 2.5, startAngle: 0, endAngle: 360, clockwise: true)
-                circle.stroke()
-                //circle.fill()
-            }
-            
-            for i in 0..<yAxisMinValue.count
-            {
-                var point = CGPoint(x:columnXPoint(xAxisValue[i].getDatePart(self.displayView,startDate:graphStartDate)) , y:columnYPoint(yAxisMinValue[i]))
-                point.x -= 5.0/2
-                point.y -= 5.0/2
-                let circle = UIBezierPath(ovalInRect: CGRect(origin: point, size: CGSize(width: 5.0,height: 5.0)))
-                circle.fill()
-            }
+//            for i in 0..<yAxisMaxValue.count
+//            {
+//                var point = CGPoint(x:columnXPoint(xAxisValue[i].getDatePart(self.displayView,startDate:graphStartDate)) , y:columnYPoint(yAxisMaxValue[i]))
+//                point.x -= 5.0/2
+//                point.y -= 5.0/2
+//                let circle = UIBezierPath(ovalInRect: CGRect(origin: point, size: CGSize(width: 5.0,height: 5.0)))
+//                circle.stroke()
+//            }
+//            
+//            for i in 0..<yAxisMinValue.count
+//            {
+//                var point = CGPoint(x:columnXPoint(xAxisValue[i].getDatePart(self.displayView,startDate:graphStartDate)) , y:columnYPoint(yAxisMinValue[i]))
+//                point.x -= 5.0/2
+//                point.y -= 5.0/2
+//                let circle = UIBezierPath(ovalInRect: CGRect(origin: point, size: CGSize(width: 5.0,height: 5.0)))
+//                circle.fill()
+//            }
+                
+                // draw the button instead to have some events on
+                // draw diastolic
+                for i in 0..<yAxisMaxValue.count
+                {
+                    let point = CGPoint(x:columnXPoint(xAxisValue[i].getDatePart(self.displayView,startDate:graphStartDate)) , y:columnYPoint(yAxisMaxValue[i]))
+                    
+                    let dot = UIButton(type: UIButtonType.Custom) as UIButton
+                    dot.frame = CGRect(origin: point, size: CGSize(width: 16.0,height: 16.0))
+                    dot.setImage(UIImage(named:"whiteDot" as String)!, forState: UIControlState.Normal)
+                    dot.center = point
+                    dot.tag = i // save the item number in tag so that later on you can access the records.
+                    dot.addTarget(self, action: "btnTouched:", forControlEvents:.TouchUpInside)
+                    self.addSubview(dot)
+                }
+                
+                for i in 0..<yAxisMinValue.count
+                {
+                    let point = CGPoint(x:columnXPoint(xAxisValue[i].getDatePart(self.displayView,startDate:graphStartDate)) , y:columnYPoint(yAxisMinValue[i]))
+                    
+                    let dot = UIButton(type: UIButtonType.Custom) as UIButton
+                    dot.frame = CGRect(origin: point, size: CGSize(width: 16.0,height: 16.0))
+                    dot.setImage(UIImage(named:"blackDot" as String)!, forState: UIControlState.Normal)
+                    dot.center = point
+                    dot.tag = i // save the item number in tag so that later on you can access the records.
+                    dot.addTarget(self, action: "btnTouched:", forControlEvents:.TouchUpInside)
+                    self.addSubview(dot)
+                }
                 // draw the horizontal lines
                 drawHorizontalLines()
                 // now add the label on the UI
@@ -117,6 +143,9 @@ class BarGraphView: GraphView {
         }
     }
     
+    override func getToolTip(tag: Int) -> String {
+        return String("(\(yAxisMaxValue[tag]) / \(yAxisMinValue[tag]) ,\(xAxisValue[tag].getFormattedDateTime()))")
+    }
     override func setMaxYAxis() {
         if(self.yAxisMaxValue != nil && self.yAxisMaxValue.count>0)
         {

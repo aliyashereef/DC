@@ -366,7 +366,11 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
     
     func prepareObjects()
     {
-                if(uitag == DataEntryObservationSource.VitalSignEditIPad || uitag == DataEntryObservationSource.VitalSignEditIPhone)
+        if(self.uitag == DataEntryObservationSource.NewsIPad || self.uitag == DataEntryObservationSource.NewsIPhone)
+        {
+            observation.calculateNews = true
+        }
+        if(uitag == DataEntryObservationSource.VitalSignEditIPad || uitag == DataEntryObservationSource.VitalSignEditIPhone)
                 {
                     switch(showObservationType)
                     {
@@ -486,7 +490,8 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
     
     func cellValueChanged(rowNumber: Int, object:AnyObject) {
         
-        if(self.uitag != DataEntryObservationSource.NewsIPad && self.uitag != DataEntryObservationSource.NewsIPhone) // only do it for the news score
+        if(self.uitag != DataEntryObservationSource.NewsIPad && self.uitag != DataEntryObservationSource.NewsIPhone)
+            // only do it for the news score
         {
             return
         }

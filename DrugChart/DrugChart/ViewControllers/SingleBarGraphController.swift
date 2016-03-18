@@ -9,7 +9,7 @@
 
 import UIKit
 
-class SingleBarGraphController: UIViewController {
+class SingleBarGraphController: UIViewController , ObservationDelegate,UIPopoverPresentationControllerDelegate{
 
     @IBOutlet weak var barGraph: BarGraphView!
     var graphData:BarGraphModel!
@@ -23,6 +23,7 @@ class SingleBarGraphController: UIViewController {
         // Do any additional setup after loading the view.
         barGraph.plotBarGraph(graphData.xAxisValue, yAxisMinValue: graphData.yAxisMinValue, yAxisMaxValue: graphData.yAxisMaxValue, displayView: graphData.graphDisplayView, graphTitle: graphData.cellTitle, graphStartDate: graphData.graphStartDate, graphEndDate: graphData.graphEndDate, latestReadingText: graphData.latestObservationText, latestReadingDate: graphData.latestObservationDate ,noOfHorizontalLines: Constant.FULL_SCREEN_GRAPH_HORIZONTAL_LINES
         )
+        barGraph.observationDelegate = self
         setDateLabel()
     }
     
@@ -37,6 +38,20 @@ class SingleBarGraphController: UIViewController {
             dateLabel.text = String(format:"%@ - %@", graphData.graphStartDate.getFormattedDate() , graphData.graphEndDate.getFormattedDate())
         }
     }
+    
+    func ShowPopOver(viewController: UIViewController)
+    {
+        if let popover = viewController.popoverPresentationController {
+            popover.delegate = self
+        }
+        self.presentViewController(viewController, animated: false, completion: nil)
+    }
+    
+    func adaptivePresentationStyleForPresentationController(
+        controller: UIPresentationController) -> UIModalPresentationStyle {
+            return .None
+    }
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

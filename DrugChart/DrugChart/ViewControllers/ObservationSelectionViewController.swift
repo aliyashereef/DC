@@ -89,8 +89,16 @@ class ObservationSelectionViewController: PatientViewController,UITableViewDataS
             
             let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
             let observationDetails : ObservationViewController = mainStoryboard.instantiateViewControllerWithIdentifier("ObservationViewController") as! ObservationViewController
+            observationDetails.patient = patient
             let navigationController : UINavigationController? = UINavigationController(rootViewController: observationDetails)
-            observationDetails.tag = DataEntryObservationSource.NewsIPad
+            if(UIDevice.currentDevice().userInterfaceIdiom == .Pad)
+            {
+                observationDetails.tag = DataEntryObservationSource.NewsIPad
+            }
+            else if(UIDevice.currentDevice().userInterfaceIdiom  == .Phone)
+            {
+                observationDetails.tag = DataEntryObservationSource.NewsIPhone
+            }
             navigationController?.modalPresentationStyle = UIModalPresentationStyle.FormSheet
             delegate?.ShowModalNavigationController(navigationController!)
         }

@@ -158,22 +158,22 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         switch(dataType)
         {
         case .Respiratory:
-            let filterObject = observationList.filter( { return $0.respiratory != nil } ).last
+            let filterObject = observationList.filter( { return $0.respiratory.isValueEntered() } ).last
             return filterObject
         case .Temperature:
-            let filterObject = observationList.filter( { return $0.temperature != nil } ).last
+            let filterObject = observationList.filter( { return $0.temperature.isValueEntered() } ).last
             return filterObject
         case .Pulse:
-            let filterObject = observationList.filter( { return $0.pulse != nil } ).last
+            let filterObject = observationList.filter( { return $0.pulse.isValueEntered() } ).last
             return filterObject
         case .SpO2:
-            let filterObject = observationList.filter( { return $0.spo2 != nil } ).last
+            let filterObject = observationList.filter( { return $0.spo2.isValueEntered() } ).last
             return filterObject
        /* case .BM:
             let filterObject = observationList.filter( { return $0.bm != nil } ).last
             return filterObject*/
         case .BloodPressure:
-            let filterObject = observationList.filter( { return $0.bloodPressure != nil } ).last
+            let filterObject = observationList.filter( { return $0.bloodPressure.isValueEntered() } ).last
             return filterObject
     
         }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BarGraphCell: GraphCollectionnViewCell {
+class BarGraphCell: GraphCollectionnViewCell , ObservationDelegate{
 
     @IBOutlet weak var barGraph: BarGraphView!
     var delegate:ObservationDelegate? = nil
@@ -18,7 +18,13 @@ class BarGraphCell: GraphCollectionnViewCell {
         super.awakeFromNib()
         // Initialization code
         super.graphView = barGraph
+        barGraph.observationDelegate = self
         registerDoubleTap()
+    }
+    
+    func ShowPopOver(viewController: UIViewController)
+    {
+        delegate?.ShowPopOver(viewController)
     }
     
     override func showIndividualGraph()
