@@ -54,6 +54,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         medicationTableView!.tableFooterView = UIView(frame: CGRectZero)
         medicationTableView!.delaysContentTouches = false
         generateCurrentWeekDatesArray()
+        medicationTableView!.addSubview(self.refreshControl)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -95,6 +96,24 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         }
     }
     
+    // MARK: - Pull to refresh methods
+    
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: "handleRefresh:", forControlEvents: UIControlEvents.ValueChanged)
+        
+        return refreshControl
+    }()
+    
+    func handleRefresh(refreshControl: UIRefreshControl) {
+        // Do some reloading of data and update the table view's data source
+        // Fetch more objects from a web service, for example...
+        
+        // Simply adding an object to the data source for this example
+        medicationTableView!.reloadData()
+        refreshControl.endRefreshing()
+    }
+
     //MARK: - Collection View Delegate Methods
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
