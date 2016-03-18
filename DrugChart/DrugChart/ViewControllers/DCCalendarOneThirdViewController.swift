@@ -108,10 +108,12 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     func handleRefresh(refreshControl: UIRefreshControl) {
         // Do some reloading of data and update the table view's data source
         // Fetch more objects from a web service, for example...
-        
-        // Simply adding an object to the data source for this example
-        medicationTableView!.reloadData()
+        let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
         refreshControl.endRefreshing()
+        parentViewController.showActivityIndicationOnViewRefresh(true)
+        parentViewController.fetchMedicationListForPatientWithCompletionHandler { (Bool) -> Void in
+            parentViewController.showActivityIndicationOnViewRefresh(false)
+        }
     }
 
     //MARK: - Collection View Delegate Methods
