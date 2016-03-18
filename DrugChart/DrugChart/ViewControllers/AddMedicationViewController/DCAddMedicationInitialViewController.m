@@ -1506,9 +1506,12 @@
 - (void)keyboardDidShow:(NSNotification *)notification {
     
     //notification methods
-    self.keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-    [self animateTableViewUpwardsWhenKeyboardAppears];
-    isNewMedication = false;
+    UITableViewCell *selectedCell = [medicationDetailsTableView cellForRowAtIndexPath:[self indexPathForLastRow]];
+    if ([selectedCell isKindOfClass:[DCInstructionsTableCell class]]) {
+        self.keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+        [self animateTableViewUpwardsWhenKeyboardAppears];
+        isNewMedication = false;
+    }
 }
 
 - (void)keyboardDidHide:(NSNotification *)notification {

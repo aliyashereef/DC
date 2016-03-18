@@ -39,7 +39,7 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking (~> 2.6.1)
-  - Charts
+  - Charts (= 2.2.2)
   - CocoaLumberjack/Swift
   - Crashlytics (~> 3.3.4)
   - Fabric (~> 1.5.5)

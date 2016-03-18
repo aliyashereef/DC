@@ -394,9 +394,8 @@
 
 + (CGSize)popOverPreferredContentSize {
     
-    CGFloat viewWidth = [DCUtility mainWindowSize].width;
     CGFloat viewHeight = [DCUtility mainWindowSize].height - 2*80;
-    CGSize preferredContentSize = CGSizeMake(viewWidth*.35, viewHeight);
+    CGSize preferredContentSize = CGSizeMake(365.0, viewHeight);
     return preferredContentSize;
 }
 

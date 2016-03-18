@@ -315,8 +315,17 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         
     func reloadMedicationListWithDisplayArray (displayArray: NSMutableArray) {
         
+        var addedNewMedication : Bool!
+        if (displayMedicationListArray.count != 0 && displayMedicationListArray.count < displayArray.count) {
+            addedNewMedication = true
+        }
+        else {
+            addedNewMedication = false
+        }
         displayMedicationListArray =  displayArray as NSMutableArray
         medicationTableView?.reloadData()
+        medicationTableView?.layoutIfNeeded()
+        self.scrollToLatestMedication(shouldScroll: addedNewMedication)
     }
     
     func fetchPatientListAndReloadMedicationList () {
@@ -618,6 +627,26 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
                 // TO DO: handle the case for already deleted medication.
                 self.displayErrorMessageForErrorCode(error.code)
             }
+        }
+    }
+    
+    func indexPathForLastRowWith(numberOfRows rows : Int, numberOfSection sections : Int) -> NSIndexPath {
+        
+        return NSIndexPath(forRow: rows - 1, inSection: sections)
+    }
+    
+    func scrollToLatestMedication(shouldScroll scroll:Bool) {
+        
+        if scroll {
+            let numberOfRows : Int! = self.medicationTableView?.numberOfRowsInSection(0)
+            if numberOfRows > 0 {
+                print(numberOfRows)
+                let indexPath = self.indexPathForLastRowWith(numberOfRows: numberOfRows-1, numberOfSection: 0)
+                print(indexPath)
+                self.medicationTableView?.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Top, animated: true)
+            }
+        }else {
+            
         }
     }
 }
