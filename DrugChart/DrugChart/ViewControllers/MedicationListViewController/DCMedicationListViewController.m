@@ -27,6 +27,7 @@
     DCMedicationSearchWebService *medicationWebService;
     NSMutableArray *warningsArray;
     DCMedication *updatedMedication;
+    NSString *overiddenReason;
     DCWarningsListViewController *warningsListViewController;
 }
 
@@ -55,6 +56,14 @@
     medicationListTableView.userInteractionEnabled = YES;
 }
 
+- (void)viewDidLayoutSubviews {
+    
+    [super viewDidLayoutSubviews];
+    self.navigationController.navigationBar.frame = [DCUtility navigationBarFrameForNavigationController:self.navigationController];
+    self.preferredContentSize = [DCUtility popOverPreferredContentSize];
+    self.navigationController.preferredContentSize = [DCUtility popOverPreferredContentSize];
+}
+
 - (void)viewWillDisappear:(BOOL)animated {
     
     [medicationWebService cancelPreviousRequest];
@@ -65,11 +74,6 @@
     
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-- (void)viewDidLayoutSubviews {
-    
-    [self ajustTableViewConstraints];
-    [super viewDidLayoutSubviews];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -124,11 +128,12 @@
             }
             [medicationListTableView reloadData];
         } else {
+            [self.view endEditing:true];
             NSInteger errorCode = [[errorDict valueForKey:@"code"] integerValue];
             if (errorCode != NSURLErrorCancelled) {
                 medicationListArray = [NSMutableArray arrayWithArray:@[NSLocalizedString(@"NO_MEDICATIONS", @"")]];
                 [medicationListTableView reloadData];
-                if (errorCode == NETWORK_NOT_REACHABLE) {
+                if (errorCode == NETWORK_NOT_REACHABLE || errorCode == NOT_CONNECTED_TO_INTERNET) {
                     [self displayAlertWithTitle:NSLocalizedString(@"ERROR", @"") message:NSLocalizedString(@"INTERNET_CONNECTION_ERROR", @"")];
                 } else if (errorCode == NSURLErrorTimedOut) {
                     //time out error here

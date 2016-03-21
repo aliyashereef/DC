@@ -83,6 +83,7 @@
 #define PATIENT_LIST_STORYBOARD @"PatientList"
 #define DOSAGE_STORYBORD @"Dosage"
 #define ADMINISTER_GRAPH @"AdministerGraph"
+#define SUMMARY_STORYBOARD @"Summary"
 
 // Storyboard Ids
 #define PATIENT_LIST_VIEW_CONTROLLER @"patientListingViewController"
@@ -145,6 +146,9 @@
 #define ADMINISTRATION_TIMES_SB_ID "AdministrationTimesView"
 #define ADD_NEW_VALUE_SBID @"AddNewValueViewController"
 #define SINGLE_DOSE_VIEW_STORYBOARD_ID @"SingleDoseViewController"
+#define MEDICATION_TYPE_STORYBOARD_ID @"MedicationTypeStoryboardId"
+#define MEDICATION_SUMMARY_ADMINISTRATION_HISTORY_SBID @"summaryAdministrationHistoryDisplay"
+#define MEDICATION_SUMMARY_REVIEW_HISTORY_SBID @"summaryReviewHistoryDisplay"
 
 
 //Nib files
@@ -232,6 +236,7 @@
 #define SINGLE_DOSE_CELL_ID  @"SingleDoseCellId"
 #define SINGLE_DOSE_PICKER_CELL_ID @"SingleDosePickerCellId"
 #define SINGLE_DOSE_ENTRY_CELL_ID @"SingleDoseEntryCellId"
+#define TYPE_CELL_ID @"TypeCellId"
 
 // Week days
 
@@ -260,8 +265,13 @@
 
 #define PLACEHOLDER_COLOR_HEX @"#797979"
 
+#define NAVIGATION_BAR_HEIGHT_WITH_STATUS_BAR 64.0f
+#define NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR 44.0f
+
+
 // time zone
 #define GMT @"GMT"
+#define UTC @"UTC"
 
 //file types
 #define PLIST @"plist"
@@ -301,7 +311,6 @@
 // Administration status
 #define PENDING @"Pending"
 #define ADMINISTER_MEDICATION @"Administer Medication"
-#define ADMINISTER_NOW @"Administer Now"
 #define IN_PROGRESS @"In progress"
 #define ENDED @"Ended"
 #define STOPED_DUE_TO_PROBLEM @"Stoped due to problem"
@@ -377,6 +386,7 @@
 #define INACTIVE @"Inactive"
 #define CURRENTLY_ACTIVE @"Currently Active"
 #define INCLUDE_DISCONTINUED @"Include Discontinued"
+#define DISCONTINUED_STRING @"Discontinued"
 
 //Prescriber filter criterias
 
@@ -416,6 +426,8 @@
 
 #define WEBSERVICE_UNAVAILABLE 101
 #define NETWORK_NOT_REACHABLE -1001
+#define NOT_CONNECTED_TO_INTERNET -1009
+#define REQUEST_CANCELLED -999
 
 //Warnings
 
@@ -515,6 +527,7 @@
 
 // Administration History Label texts
 #define STATUS @"Status"
+#define DOSE @"Dose"
 #define STATUS_CHANGE @"Status Change"
 #define ADMINISTRATED_BY @"Administered By"
 #define DATE_TIME @"Date & Time"
@@ -529,7 +542,8 @@
 #define OVERDUE_KEY @"Overdue"
 #define IMMEDIATE_KEY @"Immediate"
 #define NOT_IMMEDIATE_KEY @"Not Immediate"
-
+#define BATCH_NUMBER @"Batch Number"
+#define EXPIRY_DATE_STRING @"Expiry Date"
 #define NA_TEXT @"N/A"
 #define DUMMY_DOCTOR @"KENNEDY, Frederick (Dr)"
 #define BED_NUMBER @"0"

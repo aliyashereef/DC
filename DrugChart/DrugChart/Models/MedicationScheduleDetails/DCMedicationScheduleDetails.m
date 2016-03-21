@@ -115,7 +115,8 @@
             calculatedStartDate = startWeekDate;
         } else {
             // medication has started some where between the selected week schedules
-            calculatedStartDate = medicationStartDate;
+            //start date set here as the midnight date since the slot creation logic adds one day to the previous date. If start date slot time is some time towards end of day, last day of the third week will be skipped 
+            calculatedStartDate = [DCDateUtility midNightTimeForDate:medicationStartDate];
         }
     }
     return calculatedStartDate;
@@ -137,7 +138,8 @@
             calculatedEndDate = medicationEndDate;
        } else {
             //medication extends even after the current 3 weeks schedule
-            calculatedEndDate = endWeekDate;
+           
+           calculatedEndDate = endWeekDate;
         }
     }
     return calculatedEndDate;
@@ -164,9 +166,9 @@
             NSMutableArray *medicationSlotsArray = [[NSMutableArray alloc] init];
             NSDateFormatter *shortDateFormatter = [[NSDateFormatter alloc] init];
             [shortDateFormatter setDateFormat:SHORT_DATE_FORMAT];
-            [shortDateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
+            //[shortDateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
             NSString *medicationDateString = [shortDateFormatter stringFromDate:nextDate];
-            NSPredicate *datePredicate = [NSPredicate predicateWithFormat:@"scheduledDateTime.description contains[cd] %@", medicationDateString];
+          //  NSPredicate *datePredicate = [NSPredicate predicateWithFormat:@"scheduledDateTime.description contains[cd] %@", medicationDateString];
             //TODO: Create a predicate to filter the array.
 //            NSArray *resultsArray = [self.administrationDetailsArray filteredArrayUsingPredicate:datePredicate];
             NSArray *resultsArray = [self findDatesOfWhenRequiredAdministration:medicationDateString];
@@ -188,7 +190,6 @@
     NSMutableArray *timeArray = [[NSMutableArray alloc] init];
     NSDateFormatter *shortDateFormatter = [[NSDateFormatter alloc] init];
     [shortDateFormatter setDateFormat:SHORT_DATE_FORMAT];
-    [shortDateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
     for (int i = 0 ; i<self.administrationDetailsArray.count; i++) {
         NSString *medicationDateString = [shortDateFormatter stringFromDate:[[self.administrationDetailsArray objectAtIndex:i] valueForKey:@"scheduledDateTime"]];
         if ([medicationDateString isEqualToString:nextDate]) {
@@ -208,53 +209,78 @@
     NSDate *startDate = [DCDateUtility dateFromSourceString:self.startDate];
     NSDate *endDate;
     if (self.endDate == nil) {
-        endDate = endWeekDate; //max limit to be displayed is end week date
-    }
-    else {
+    //max limit to be displayed is end week date
+        endDate = [self dayEndTimeForDate:endWeekDate];
+    } else {
         endDate = [DCDateUtility dateFromSourceString:self.endDate];
     }
-    
     NSDate *calculatedStartDate = [self startDateForMedicationStartdate:startDate medicationEndDate:endDate startWeekDate:startWeekDate endWeekDate:endWeekDate];
     NSDate *calculatedEndDate = [self endDateForMedicationStartdate:startDate medicationEndDate:endDate startWeekDate:startWeekDate endWeekDate:endWeekDate];
     NSDate *nextDate;
     NSCalendar *calendar = [NSCalendar currentCalendar];
-    [calendar setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
     if (calculatedStartDate != nil && calculatedEndDate != nil) {
         for (nextDate = calculatedStartDate ; [nextDate compare:calculatedEndDate] <= 0 ; nextDate = [nextDate dateByAddingTimeInterval:24*60*60] ) {
             NSMutableArray *medicationSlotsArray = [[NSMutableArray alloc] init];
             NSInteger timeSlotsCount = 0;
             NSDateComponents *components = [calendar components:NSCalendarUnitYear| NSCalendarUnitMonth | NSCalendarUnitDay  fromDate:nextDate];
+            NSString *currentDateString = [DCDateUtility dateStringFromDate:[NSDate date] inFormat:SHORT_DATE_FORMAT];
+            NSString *startDateString = [DCDateUtility dateStringFromDate:calculatedStartDate inFormat:SHORT_DATE_FORMAT];
+            BOOL medicationStartsToday = NO;
+            if ([currentDateString isEqualToString:startDateString]) {
+                // both falls on the same day
+                medicationStartsToday = YES;
+            }
             while (timeSlotsCount < [timesArray count]) {
+                BOOL addTimeSlot = YES;
                 NSString *timeString = [timesArray objectAtIndex:timeSlotsCount];
                 NSArray *timeComponents = [timeString componentsSeparatedByString:@":"];
+                NSDate *medicationDateTime = nil;
                 if ([timeComponents count] >= 3 ) {
                     [components setDay:components.day];
                     [components setHour:[[timeComponents objectAtIndex:0] integerValue]];
                     [components setMinute:[[timeComponents objectAtIndex:1] integerValue]];
                     [components setSecond:[[timeComponents objectAtIndex:2] integerValue]];
+                    medicationDateTime = [calendar dateFromComponents:components];
+                    if (medicationStartsToday) {
+                        if ([startDate compare:medicationDateTime] == NSOrderedDescending) {
+                            // If medication starts today, create medication slots having medication time after the start date
+                            addTimeSlot = NO;
+                        }
+                    }
                 }
-                NSDate *medicationDateTime = [calendar dateFromComponents:components];
-                DCMedicationSlot *medicationSlot = [[DCMedicationSlot alloc] init];
-                medicationSlot.time = medicationDateTime;
-                medicationSlot.status = IS_GIVEN;
-                NSPredicate *datePredicate = [NSPredicate predicateWithFormat:@"scheduledDateTime == %@",medicationDateTime];
-                NSArray *resultsArray = [self.administrationDetailsArray filteredArrayUsingPredicate:datePredicate];
-                if ([resultsArray count] > 0) {
-                    DCMedicationAdministration *medicationAdministration = (DCMedicationAdministration *)[resultsArray objectAtIndex:0];
-                    medicationSlot.status = medicationAdministration.status;
-                    medicationSlot.medicationAdministration = medicationAdministration;
+                if (addTimeSlot == YES) {
+                    DCMedicationSlot *medicationSlot = [[DCMedicationSlot alloc] init];
+                    medicationSlot.time = medicationDateTime;
+                    medicationSlot.status = IS_GIVEN;
+                    NSPredicate *datePredicate = [NSPredicate predicateWithFormat:@"scheduledDateTime == %@",medicationDateTime];
+                    NSArray *resultsArray = [self.administrationDetailsArray filteredArrayUsingPredicate:datePredicate];
+                    if ([resultsArray count] > 0) {
+                        DCMedicationAdministration *medicationAdministration = (DCMedicationAdministration *)[resultsArray objectAtIndex:0];
+                        medicationSlot.status = medicationAdministration.status;
+                        medicationSlot.medicationAdministration = medicationAdministration;
+                    }
+                    [medicationSlotsArray addObject:medicationSlot];
                 }
-                [medicationSlotsArray addObject:medicationSlot];
                 timeSlotsCount++;
             }
             NSDateFormatter *shortDateFormatter = [[NSDateFormatter alloc] init];
             [shortDateFormatter setDateFormat:SHORT_DATE_FORMAT];
-            [shortDateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
             NSString *medicationDateString = [shortDateFormatter stringFromDate:nextDate];
             [timeSlotsArray addObject:@{MED_DATE:medicationDateString,MED_DETAILS:medicationSlotsArray}];
         }
     }
     return timeSlotsArray;
+}
+
+- (NSDate *)dayEndTimeForDate:(NSDate *) date {
+    
+    NSDateComponents *components = [[NSDateComponents alloc] init];
+    [components setHour:23];
+    [components setMinute:59];
+    NSCalendar *currentCalendar = [NSCalendar currentCalendar];
+    [currentCalendar setTimeZone:[NSTimeZone timeZoneWithAbbreviation:UTC]];
+    NSDate *endDate = [currentCalendar dateByAddingComponents:components toDate:date options:0];
+    return endDate;
 }
 
 @end

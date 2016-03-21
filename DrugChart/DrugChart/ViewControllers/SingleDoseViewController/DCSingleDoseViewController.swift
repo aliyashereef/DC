@@ -10,7 +10,7 @@ import UIKit
 
 typealias UpdatedSingleDose = DCSingleDose? -> Void
 
-class DCSingleDoseViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SingleDoseEntryCellDelegate {
+class DCSingleDoseViewController: DCBaseViewController, UITableViewDelegate, UITableViewDataSource, SingleDoseEntryCellDelegate {
     
     @IBOutlet weak var doseTableView: UITableView!
     
@@ -61,6 +61,8 @@ class DCSingleDoseViewController: UIViewController, UITableViewDelegate, UITable
             let singleDoseCell = tableView.dequeueReusableCellWithIdentifier(SINGLE_DOSE_CELL_ID) as? DCSingleDoseTableCell
                 singleDoseCell?.titleLabel.text = NSLocalizedString("DATE", comment: "")
                 singleDoseCell?.valueLabel.text = singleDose?.dateAndTime
+                singleDoseCell!.accessoryType = .None
+                singleDoseCell?.accessoryView = UIView(frame: CGRectMake(0, 0, 0, 24))
                 return singleDoseCell!
         }
     }
@@ -77,7 +79,7 @@ class DCSingleDoseViewController: UIViewController, UITableViewDelegate, UITable
             tableView.endEditing(true)
             displayInlinePickerForRowAtIndexPath(indexPath)
             if (singleDose?.dateAndTime == nil) {
-                let dateString = DCDateUtility.dateStringFromDate(DCDateUtility.dateInCurrentTimeZone(NSDate()), inFormat: START_DATE_FORMAT)
+                let dateString = DCDateUtility.dateStringFromDate(NSDate(), inFormat: START_DATE_FORMAT)
                 singleDose?.dateAndTime = dateString
                 tableView.beginUpdates()
                 tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: 1, inSection: 0)], withRowAnimation:.Fade)
@@ -157,6 +159,7 @@ class DCSingleDoseViewController: UIViewController, UITableViewDelegate, UITable
         
         let singleDoseEntryCell = doseTableView.dequeueReusableCellWithIdentifier(SINGLE_DOSE_ENTRY_CELL_ID) as? DCSingleDoseEntryTableCell
         singleDoseEntryCell?.singleDoseDelegate = self
+        singleDoseEntryCell?.singleDoseTextfield.becomeFirstResponder()
         if indexPath.row == RowCount.eZerothRow.rawValue {
             let singleDoseValue = NSMutableString()
             if let dose = singleDose?.doseValue {

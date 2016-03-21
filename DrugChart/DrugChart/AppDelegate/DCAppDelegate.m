@@ -84,7 +84,7 @@
     [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
         
         DDLogInfo(@"Reachability status is %ld", (long)status);
-        if (status != AFNetworkReachabilityStatusNotReachable) {
+        if (status != AFNetworkReachabilityStatusNotReachable && status != AFNetworkReachabilityStatusUnknown) {
             [[NSNotificationCenter defaultCenter] postNotificationName:kNetworkAvailable object:nil];
         }
     }];
@@ -117,10 +117,10 @@
     
     AFNetworkReachabilityStatus status = [[AFNetworkReachabilityManager sharedManager] networkReachabilityStatus];
     BOOL connected = (status == AFNetworkReachabilityStatusNotReachable) ? NO : YES;
-    if (!connected) {
-        [DCUtility displayAlertWithTitle:NSLocalizedString(@"ERROR", @"")
-                                 message:NSLocalizedString(@"INTERNET_CONNECTION_ERROR", @"")];
-    }
+//    if (!connected) {
+//        [DCUtility displayAlertWithTitle:NSLocalizedString(@"ERROR", @"")
+//                                 message:NSLocalizedString(@"INTERNET_CONNECTION_ERROR", @"")];
+//    }
     return connected;
 }
 

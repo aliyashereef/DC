@@ -116,10 +116,11 @@
 "DATE"                  =       "Date";
 "ADD_DOSAGE"            =       "Add Dosage";
 "ADD_TIME"              =       "Add New Time";
-"SET_END_DATE"           =      "Set End Date";
+"SET_END_DATE"          =       "Set End Date";
 "REVIEW_DATE"           =       "Review Date";
 "SEVERE"                =       "SEVERE";
 "MILD"                  =       "MILD";
+"OVERRIDE REASON"       =       "OVERRIDDEN REASON";
 "REASON"                =       "Reason";
 "NEW_DOSAGE"            =       "New Dosage";
 "SCHEDULING"            =       "Scheduling";

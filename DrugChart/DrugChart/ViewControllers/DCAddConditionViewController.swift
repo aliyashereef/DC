@@ -43,6 +43,14 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewDidLayoutSubviews() {
+        
+        super.viewDidLayoutSubviews()
+        self.navigationController?.navigationBar.frame = DCUtility.navigationBarFrameForNavigationController(self.navigationController)
+        self.preferredContentSize = DCUtility.popOverPreferredContentSize()
+        self.navigationController!.preferredContentSize = DCUtility.popOverPreferredContentSize()
+    }
+
     func configureNavigationBarItems() {
         
         // Configure bar buttons for Add new.

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class DCAdministrationInProgressViewController : UIViewController,StatusListDelegate,NotesCellDelegate, AdministrationDateDelegate {
+class DCAdministrationInProgressViewController : DCBaseViewController,StatusListDelegate,NotesCellDelegate, AdministrationDateDelegate {
     
     @IBOutlet weak var administerInProgressTableView: UITableView!
     var medicationSlot : DCMedicationSlot?
@@ -16,6 +16,8 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
     var isDatePickerShown : Bool = false
     var isValid : Bool = true
 
+    var datePickerIndexPath : NSIndexPath = NSIndexPath(forRow: 1, inSection: 2)
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -107,7 +109,7 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
         pickerCell.datePicker?.datePickerMode = UIDatePickerMode.DateAndTime
         pickerCell.datePicker?.maximumDate = NSDate()
         pickerCell.datePicker?.minimumDate = nil;
-        pickerCell.datePicker?.date = DCDateUtility.dateInCurrentTimeZone(NSDate())
+        pickerCell.datePicker?.date = NSDate()
         pickerCell.selectedIndexPath = indexPath
         pickerCell.delegate = self
         return pickerCell;
@@ -212,6 +214,7 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
             case 0:
                 let statusViewController : DCAdministrationStatusTableViewController = DCAdministrationHelper.administratedStatusPopOverAtIndexPathWithStatus(indexPath, status:IN_PROGRESS)
                 statusViewController.medicationSlot = self.medicationSlot
+                statusViewController.medicationDetails = medicationDetails
                 statusViewController.isValid = self.isValid
                 statusViewController.previousSelectedValue = self.medicationSlot?.medicationAdministration?.status
                 statusViewController.medicationStatusDelegate = self
@@ -231,9 +234,9 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
     
     func dateCellSelectedAtIndexPath (indexPath : NSIndexPath) {
         if (self.medicationSlot?.medicationAdministration.expiryDateTime == nil) {
-            self.medicationSlot?.medicationAdministration.expiryDateTime = DCDateUtility.dateInCurrentTimeZone(NSDate())
+            self.medicationSlot?.medicationAdministration.expiryDateTime = NSDate()
             self.administerInProgressTableView.beginUpdates()
-            self.administerInProgressTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 2)], withRowAnimation:.Fade)
+            self.administerInProgressTableView.reloadRowsAtIndexPaths([datePickerIndexPath], withRowAnimation:.Fade)
             self.administerInProgressTableView.endUpdates()
             self.performSelector(Selector("toggleDatePickerForSelectedIndexPath:"), withObject: indexPath, afterDelay: 0.1)
         } else {
@@ -243,12 +246,12 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
     
     func collapseOpenedDatePicker () {
         if isDatePickerShown {
-            self.toggleDatePickerForSelectedIndexPath(NSIndexPath(forRow: 1, inSection: 2))
+            self.toggleDatePickerForSelectedIndexPath(datePickerIndexPath)
         }
     }
     
     func toggleDatePickerForSelectedIndexPath(indexPath : NSIndexPath) {
-        
+        administerInProgressTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: indexPath.row - 1, inSection: indexPath.section), atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
         administerInProgressTableView.beginUpdates()
         let indexPaths = [NSIndexPath(forRow: indexPath.row + 1, inSection: indexPath.section)]
         // check if 'indexPath' has an attached date picker below it
@@ -274,7 +277,6 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
     // MARK: NotesCell Delegate Methods
     func notesSelected(editing : Bool, withIndexPath indexPath : NSIndexPath) {
         self.collapseOpenedDatePicker()
-        self.administerInProgressTableView.setContentOffset(CGPointMake(0, 280), animated: true)
     }
     
     func selectedDateAtIndexPath(date: NSDate, indexPath: NSIndexPath) {
@@ -287,5 +289,26 @@ class DCAdministrationInProgressViewController : UIViewController,StatusListDele
         
     }
     
+    // MARK: - keyboard Delegate Methods
+    
+    func keyboardDidShow(notification : NSNotification) {
+        if let userInfo = notification.userInfo {
+            if let keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+                let contentInsets: UIEdgeInsets
+                contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.height), 0.0)
+                self.administerInProgressTableView.contentInset = contentInsets;
+                self.administerInProgressTableView.scrollIndicatorInsets = contentInsets;
+                self.administerInProgressTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 3), atScrollPosition: UITableViewScrollPosition.Top, animated: true)
+            }
+        }
+    }
+    
+    func keyboardDidHide(notification :NSNotification){
+        let contentInsets:UIEdgeInsets  = UIEdgeInsetsZero;
+        administerInProgressTableView.contentInset = contentInsets;
+        administerInProgressTableView.scrollIndicatorInsets = contentInsets;
+        administerInProgressTableView.beginUpdates()
+        administerInProgressTableView.endUpdates()
+    }
     
 }

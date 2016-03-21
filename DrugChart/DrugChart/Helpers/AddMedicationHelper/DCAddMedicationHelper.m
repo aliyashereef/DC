@@ -89,41 +89,6 @@
     return timeArray;
 }
 
-+ (AddMedicationDetailType)medicationDetailTypeForIndexPath:(NSIndexPath *)indexPath hasWarnings:(BOOL)showWarnings medicationType:(NSString *)type {
-    
-    switch (indexPath.section) {
-        case eSecondSection: {
-            if (showWarnings) {
-                return eDetailWarning;
-            } else {
-                return eDetailType;
-            }
-        }
-        case eThirdSection: {
-            if (showWarnings) {
-                return eDetailType;
-            }
-        }
-        case eFourthSection: {
-            
-            if (!showWarnings) {
-                if (![type isEqualToString:REGULAR_MEDICATION]) {
-                    return eDetailDosage;
-                }
-            }
-        }
-        case eFifthSection: {
-            return eDetailDosage;
-        }
-        case eSixthSection:
-            if (showWarnings) {
-                return eDetailDosage;
-            }
-        default:
-             return 0;
-    }
-}
-
 + (NSInteger)numberOfSectionsInMedicationTableViewForSelectedMedication:(DCMedicationScheduleDetails *)selectedmedication
                                                            showWarnings:(BOOL)showWarnings {
     

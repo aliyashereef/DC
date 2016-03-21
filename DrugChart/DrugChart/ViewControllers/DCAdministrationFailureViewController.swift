@@ -18,13 +18,23 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
     var medicationSlot : DCMedicationSlot?
     var medicationDetails : DCMedicationScheduleDetails?
     var isDatePickerShown : Bool = false
-    var isValid : Bool = true
-
+    var isValid : Bool?
+    
     //MARK: View Management Methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initialiseMedicationSlotObject()
         configureTableViewProperties()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.administrationFailureTableView.reloadData()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -48,7 +58,7 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
         medicationSlot?.medicationAdministration?.administratingUser = DCUser.init()
         medicationSlot?.medicationAdministration?.scheduledDateTime = medicationSlot?.time
         medicationSlot?.medicationAdministration?.statusReason = EMPTY_STRING
-        medicationSlot?.medicationAdministration?.actualAdministrationTime = DCDateUtility.dateInCurrentTimeZone(NSDate())
+        medicationSlot?.medicationAdministration?.actualAdministrationTime = NSDate()
     }
     
     //MARK: TableView Delegate Methods
@@ -105,7 +115,7 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if (section == 2) {
-            if medicationSlot?.medicationAdministration.isWhenRequiredEarlyAdministration == true {
+            if medicationSlot?.medicationAdministration?.isWhenRequiredEarlyAdministration == true {
                 return 30
             } else if (medicationSlot?.medicationAdministration?.isEarlyAdministration == true || medicationSlot?.medicationAdministration?.isLateAdministration == true ) {
                 return (medicationSlot?.medicationAdministration?.isEarlyAdministration == true || medicationSlot?.medicationAdministration?.isLateAdministration == true ) ? MEDICATION_DETAILS_SECTION_HEIGHT : TABLEVIEW_DEFAULT_SECTION_HEIGHT
@@ -119,7 +129,7 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
         let administerHeaderView = NSBundle.mainBundle().loadNibNamed(ADMINISTER_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCAdministerTableHeaderView
         administerHeaderView!.timeLabel.hidden = true
         if (section == 2) {
-            if (medicationSlot?.medicationAdministration?.isEarlyAdministration == true || medicationSlot?.medicationAdministration?.isLateAdministration == true) {
+            if (!isValid!) {
                 if (medicationSlot?.medicationAdministration?.isWhenRequiredEarlyAdministration == true) {
                     let errorMessage = NSString(format: "%@ %@", NSLocalizedString("ADMIN_FREQUENCY", comment: "when required new medication is given 2 hrs before previous one"), NSLocalizedString("EARLY_ADMIN_INLINE", comment: ""))
                     administerHeaderView?.populateHeaderViewWithErrorMessage(errorMessage as String)
@@ -199,7 +209,7 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
         let notesCell : DCNotesTableCell = (administrationFailureTableView.dequeueReusableCellWithIdentifier(NOTES_CELL_ID) as? DCNotesTableCell)!
         notesCell.selectedIndexPath = indexPath
         notesCell.notesType = eNotes
-        notesCell.notesTextView.textColor = (!isValid && (medicationSlot?.medicationAdministration?.isEarlyAdministration == true || medicationSlot?.medicationAdministration?.isLateAdministration == true)) ? UIColor.redColor() : UIColor(forHexString: "#8f8f95")
+        notesCell.notesTextView.textColor = (!isValid! && (medicationSlot?.medicationAdministration?.isEarlyAdministration == true || medicationSlot?.medicationAdministration?.isLateAdministration == true)) ? UIColor.redColor() : UIColor(forHexString: "#8f8f95")
         notesCell.delegate = self
         return notesCell
     }
@@ -245,7 +255,8 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
         switch (indexPath.row) {
         case 0:
             let statusViewController : DCAdministrationStatusTableViewController = DCAdministrationHelper.administratedStatusPopOverAtIndexPathWithStatus(indexPath, status:ADMINISTERED)
-            statusViewController.previousSelectedValue = self.medicationSlot?.medicationAdministration?.status
+            statusViewController.medicationDetails = medicationDetails
+            statusViewController.previousSelectedValue = NOT_ADMINISTRATED
             statusViewController.medicationStatusDelegate = self
             self.navigationController!.pushViewController(statusViewController, animated: true)
             break
@@ -303,7 +314,8 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
     }
     
     func enteredNote(note : String) {
-        medicationSlot?.medicationAdministration?.refusedNotes = note        
+        isValid = true
+        medicationSlot?.medicationAdministration?.refusedNotes = note
     }
     
     // mark:StatusList Delegate Methods
@@ -328,18 +340,21 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
     func keyboardDidShow(notification : NSNotification) {
         if let userInfo = notification.userInfo {
             if let keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
-                let contentHeight = self.administrationFailureTableView.contentSize.height
-                let scrollOffset = contentHeight - keyboardSize.height + 125.0
-                self.administrationFailureTableView.setContentOffset(CGPoint(x: 0, y: scrollOffset), animated: true)
+                        let contentInsets: UIEdgeInsets
+                        contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.height), 0.0)
+                        self.administrationFailureTableView.contentInset = contentInsets;
+                        self.administrationFailureTableView.scrollIndicatorInsets = contentInsets;
+                        self.administrationFailureTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 2), atScrollPosition: UITableViewScrollPosition.Top, animated: true)
             }
         }
     }
     
     func keyboardDidHide(notification :NSNotification){
-//        self.administrationFailureTableView.setContentOffset(CGPoint(x: 0, y: -48), animated: true)
+        
+        let contentInsets:UIEdgeInsets  = UIEdgeInsetsZero;
+        administrationFailureTableView.contentInset = contentInsets;
+        administrationFailureTableView.scrollIndicatorInsets = contentInsets;
         administrationFailureTableView.beginUpdates()
         administrationFailureTableView.endUpdates()
     }
-
-    
 }

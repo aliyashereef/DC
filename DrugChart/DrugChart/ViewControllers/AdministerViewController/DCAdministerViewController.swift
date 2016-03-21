@@ -188,7 +188,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
     func checkIfAdministrationIsEarly () {
         
         //check if administration is early
-        let currentSystemDate : NSDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
+        let currentSystemDate : NSDate = NSDate()
         let nextMedicationTimeInterval : NSTimeInterval? = (medicationSlot?.time)!.timeIntervalSinceDate(currentSystemDate)
         if (nextMedicationTimeInterval  >= 60*60) {
             // is early administration
@@ -204,7 +204,7 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         //check if frequent administration for when required medication
         if medicationSlotsArray.count > 1 {
             let previousMedicationSlot : DCMedicationSlot? = medicationSlotsArray[medicationSlotsArray.count - 2]
-            let currentSystemDate : NSDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
+            let currentSystemDate : NSDate = NSDate()
             let nextMedicationTimeInterval : NSTimeInterval? = currentSystemDate.timeIntervalSinceDate((previousMedicationSlot?.time)!)
             if (nextMedicationTimeInterval <= 2*60*60) {
                 medicationSlot?.medicationAdministration.isEarlyAdministration = true
@@ -293,9 +293,9 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
             let dateString : String
             if let date = medicationSlot?.medicationAdministration.actualAdministrationTime {
 
-                dateString = DCDateUtility.dateStringFromDate(DCDateUtility.dateInCurrentTimeZone(date), inFormat: ADMINISTER_DATE_TIME_FORMAT)
+                dateString = DCDateUtility.dateStringFromDate(date, inFormat: ADMINISTER_DATE_TIME_FORMAT)
             } else {
-                dateString = DCDateUtility.dateStringFromDate(DCDateUtility.dateInCurrentTimeZone(NSDate()), inFormat: ADMINISTER_DATE_TIME_FORMAT)
+                dateString = DCDateUtility.dateStringFromDate(NSDate(), inFormat: ADMINISTER_DATE_TIME_FORMAT)
             }
             cell.detailLabel.text = dateString
             break
@@ -318,9 +318,9 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         let dateString : String
         if let date = medicationSlot?.medicationAdministration.actualAdministrationTime {
 
-            dateString = DCDateUtility.dateStringFromDate(DCDateUtility.dateInCurrentTimeZone(date), inFormat: ADMINISTER_DATE_TIME_FORMAT)
+            dateString = DCDateUtility.dateStringFromDate(date, inFormat: ADMINISTER_DATE_TIME_FORMAT)
         } else {
-            dateString = DCDateUtility.dateStringFromDate(DCDateUtility.dateInCurrentTimeZone(NSDate()), inFormat: ADMINISTER_DATE_TIME_FORMAT)
+            dateString = DCDateUtility.dateStringFromDate(NSDate(), inFormat: ADMINISTER_DATE_TIME_FORMAT)
         }
         cell.detailLabel.text = dateString
         return cell
@@ -1074,10 +1074,10 @@ class DCAdministerViewController: UIViewController, UITableViewDelegate, UITable
         dateFormatter.dateFormat = EMIS_DATE_FORMAT
         dateFormatter.timeZone = NSTimeZone.init(name:"UTC")
         if (medicationSlot?.medicationAdministration?.actualAdministrationTime != nil) {
-            let administeredDateString : NSString = dateFormatter.stringFromDate((DCDateUtility.dateInCurrentTimeZone(medicationSlot?.medicationAdministration?.actualAdministrationTime)!))
+            let administeredDateString : NSString = dateFormatter.stringFromDate((medicationSlot?.medicationAdministration?.actualAdministrationTime)!)
             administerDictionary.setValue(administeredDateString, forKey:ACTUAL_ADMINISTRATION_TIME)
         } else {
-            medicationSlot?.medicationAdministration?.actualAdministrationTime = DCDateUtility.dateInCurrentTimeZone(NSDate())
+            medicationSlot?.medicationAdministration?.actualAdministrationTime = NSDate()
             let administeredDateString : NSString = dateFormatter.stringFromDate((medicationSlot?.medicationAdministration?.actualAdministrationTime)!)
             administerDictionary.setValue(administeredDateString, forKey:ACTUAL_ADMINISTRATION_TIME)
         }

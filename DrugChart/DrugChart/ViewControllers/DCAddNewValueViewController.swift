@@ -53,6 +53,22 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
         // Do any additional setup after loading the view.
     }
     
+    override func viewDidLayoutSubviews() {
+        
+        super.viewDidLayoutSubviews()
+        let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
+        if let navigationBar = self.navigationController?.navigationBar {
+            var frame = navigationBar.frame
+            if (appDelegate.windowState == DCWindowState.oneThirdWindow || appDelegate.windowState == DCWindowState.halfWindow) {
+                frame.size.height = NAVIGATION_BAR_HEIGHT_WITH_STATUS_BAR
+            } else {
+                frame.size.height = NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR
+            }
+            navigationBar.frame = frame
+        }
+    }
+
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -118,6 +134,9 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
             let newValueTableCell : DCAddNewValueTableViewCell = (mainTableView.dequeueReusableCellWithIdentifier(PICKER_DROP_DOWN_CELL) as? DCAddNewValueTableViewCell)!
             newValueTableCell.unitLabel.text = "Unit"
             newValueTableCell.unitValueLabel.text = valueForUnit
+            newValueTableCell.preservesSuperviewLayoutMargins = false
+            newValueTableCell.separatorInset = UIEdgeInsetsZero
+            newValueTableCell.layoutMargins = UIEdgeInsetsZero
             return newValueTableCell
         }else {
             let newValueTableCell : DCAddNewValuePickerCell = (mainTableView.dequeueReusableCellWithIdentifier(PICKER_CELL) as? DCAddNewValuePickerCell)!
@@ -163,7 +182,7 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
             return 44
         case 2:
             if isInlinePickerActive {
-                return 216
+                return 217
             } else {
                 return 0
             }

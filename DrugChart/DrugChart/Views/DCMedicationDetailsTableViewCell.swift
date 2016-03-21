@@ -12,7 +12,8 @@ class DCMedicationDetailsTableViewCell: UITableViewCell {
     
     @IBOutlet var medicineNameLabel: UILabel!
     @IBOutlet var oralAndInstructionsLabel: UILabel!
-    
+    @IBOutlet var frequencyLabel: UILabel!
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -24,6 +25,7 @@ class DCMedicationDetailsTableViewCell: UITableViewCell {
         if (medicationDetails.route != nil) {
             populateRouteAndInstructionLabelsWithDetails(medicationDetails)
         }
+        self.frequencyLabel.text = DCCalendarHelper.typeDescriptionForMedication(medicationDetails)
     }
 
     func populateRouteAndInstructionLabelsWithDetails(medicationDetails : DCMedicationScheduleDetails) {

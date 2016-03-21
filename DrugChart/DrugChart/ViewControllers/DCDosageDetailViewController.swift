@@ -43,7 +43,13 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
     
     override func viewWillDisappear(animated: Bool) {
         
-        if let dosageCell: DCDosageDetailTableViewCell = dosageDetailTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 1)) as? DCDosageDetailTableViewCell {
+        var sectionValue : Int = 1
+        if dosageDetailsArray.count == 0 && self.detailType != eAddDoseForTime{
+            sectionValue = 0
+        } else {
+            sectionValue = 1
+        }
+        if let dosageCell: DCDosageDetailTableViewCell = dosageDetailTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: sectionValue)) as? DCDosageDetailTableViewCell{
             if (dosageCell.addNewDosageTextField.text! != "" && validateNewDosageValue(dosageCell.addNewDosageTextField.text!)) {
                 self.previousSelectedValue = dosageCell.addNewDosageTextField.text!
                 if self.detailType == eAddDoseForTime {

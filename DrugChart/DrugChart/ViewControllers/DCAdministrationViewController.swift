@@ -51,17 +51,17 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         // Navigation bar done button
         let doneButton : UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: "doneButtonPressed")
         if (appDelegate.windowState == DCWindowState.halfWindow || appDelegate.windowState == DCWindowState.oneThirdWindow) {
-            self.navigationItem.leftBarButtonItems = [doneButton]
+            self.navigationItem.rightBarButtonItems = [doneButton]
         } else {
             let negativeSpacer: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
-            negativeSpacer.width = -12
-            self.navigationItem.leftBarButtonItems = [negativeSpacer,doneButton]
+            negativeSpacer.width = -8
+            self.navigationItem.rightBarButtonItems = [negativeSpacer, doneButton]
         }
     }
     
     func configureMedicationStatusInCell (medication : DCMedicationSlot) -> NSString {
         
-        let currentSystemDate : NSDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
+        let currentSystemDate : NSDate = NSDate()
         let currentDateString : NSString? = DCDateUtility.dateStringFromDate(currentSystemDate, inFormat: SHORT_DATE_FORMAT)
 
         if (medication.medicationAdministration?.status != nil && medication.medicationAdministration.actualAdministrationTime != nil){
@@ -89,11 +89,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         }
         if let slotToAdministerDate = slotToAdminister?.time {
             if (medication.time.compare(slotToAdministerDate) == NSComparisonResult.OrderedSame) {
-                if DCAdministrationHelper.isMedicationDurationBasedInfusion(medicationDetails!) {
-                    return ADMINISTER_NOW
-                } else {
-                    return ADMINISTER_MEDICATION
-                }
+                return ADMINISTER_MEDICATION
             }
         }
         //medication slot selected less than the current date
@@ -116,11 +112,11 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         slotToAdminister = DCMedicationSlot.init()
 
         if (medicationDetails?.medicineCategory == WHEN_REQUIRED) {
-            let today : NSDate = NSDate()
+            let today = NSDate()
             let order = NSCalendar.currentCalendar().compareDate(weekDate! , toDate:today,
                 toUnitGranularity: .Day)
             if order == NSComparisonResult.OrderedSame {
-                slotToAdminister?.time = DCDateUtility.dateInCurrentTimeZone(NSDate())
+                slotToAdminister?.time = NSDate()
                 medicationSlotsArray.append(slotToAdminister!)
             }
         } else {
@@ -178,8 +174,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         }
 
         cell!.administrationStatusLabel.text = configureMedicationStatusInCell(medicationSlot) as String
-        if (cell!.administrationStatusLabel.text == ADMINISTER_MEDICATION ||
-            cell!.administrationStatusLabel.text == ADMINISTER_NOW ){
+        if (cell!.administrationStatusLabel.text == ADMINISTER_MEDICATION ){
             cell!.administrationStatusLabel.textColor = UIColor(forHexString:"#4A90E2")
         } else {
             cell!.administrationStatusLabel.textColor = UIColor(forHexString:"#676767")
@@ -215,7 +210,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
             let cell = administerTableView.cellForRowAtIndexPath(indexPath) as? DCAdministrationStatusCell
             if cell?.administrationStatusLabel.text != PENDING {
                 let medicationSlot : DCMedicationSlot = medicationSlotsArray[indexPath.row]
-                if (cell?.administrationStatusLabel.text == ADMINISTER_MEDICATION || cell?.administrationStatusLabel.text == ADMINISTER_NOW || cell?.administrationStatusLabel.text == "In progress") {
+                if (cell?.administrationStatusLabel.text == ADMINISTER_MEDICATION || cell?.administrationStatusLabel.text == "In progress") {
                     slotToAdminister?.time = medicationSlot.time
                     addAdministerViewWithStatus((cell?.administrationStatusLabel.text)!)
                 } else {
