@@ -10,7 +10,7 @@ import Foundation
 import FHIR
 import CocoaLumberjack
 
-class VitalSignObservation
+class VitalSignObservation:VitalSignFHIRBase
 {
     var bloodPressure:BloodPressure
     var temperature:BodyTemperature
@@ -19,7 +19,10 @@ class VitalSignObservation
     var spo2:SPO2
     var date:NSDate
     var additionalOxygen:Bool
-    var isConscious:Bool
+    var isConscious:Bool?
+    var calculateNews:Bool
+    var newsScore:String
+    
     
     // Comma Score
     var eyesOpen:KeyValue?
@@ -30,7 +33,7 @@ class VitalSignObservation
     var limbMovementArms:KeyValue?
     var limbMovementLegs:KeyValue?
     
-     init()
+    override init()
     {
         bloodPressure = BloodPressure()
         temperature = BodyTemperature()
@@ -39,7 +42,9 @@ class VitalSignObservation
         spo2 = SPO2()
         date = NSDate()
         additionalOxygen = false
-        isConscious = true
+        isConscious = nil
+        calculateNews = false
+        newsScore = "N/A"
         
         eyesOpen = nil
         bestVerbalResponse = nil
@@ -160,7 +165,8 @@ class VitalSignObservation
         
         
         score += additionalOxygen ? 2:0
-        score += !isConscious ? 3:0
+        
+        score += (isConscious != nil && isConscious! == false ) ? 3:0
 
         return invalidResult == true ? "N/A" : String(score)
     }
@@ -348,7 +354,7 @@ class VitalSignObservation
         }
     }
     
-    func asJSON() -> FHIRJSON?
+    func asJSON() -> String
     {
         let bundle = Bundle(type:"transaction")
         bundle.entry =  [BundleEntry]()
@@ -383,8 +389,44 @@ class VitalSignObservation
             entry.resource = self.pulse.FHIRResource()
             bundle.entry?.append(entry)
         }
-        
-        print( bundle.asJSON()) //TODO: Need to replace it with the DDLogInfo
-        return bundle.asJSON()
+        if(self.additionalOxygen)
+        {
+            let entry = BundleEntry(json:nil)
+            let code = super.FHIRCode("", codeId: Constant.CODE_ADDITIONAL_OXYGEN)
+            entry.resource = self.FHIRResource(code, associatedText: "", effectiveDateTime: self.date)
+            bundle.entry?.append(entry)
+        }
+        if(self.isConscious != nil)
+        {
+            if(self.isConscious!)
+            {
+                let entry = BundleEntry(json:nil)
+                let code = super.FHIRCode("", codeId: Constant.CODE_AVPU)
+                let quantity = self.FHIRQuantity("0",  unit: "")
+                entry.resource = self.FHIRResource(code, associatedText: "", effectiveDateTime: self.date , quantity: quantity)
+                bundle.entry?.append(entry)
+            }
+            else
+            {
+                let entry = BundleEntry(json:nil)
+                let code = super.FHIRCode("", codeId: Constant.CODE_AVPU)
+                let quantity = self.FHIRQuantity("1", unit: "")
+            entry.resource = self.FHIRResource(code, associatedText: "", effectiveDateTime: self.date, quantity: quantity)
+                bundle.entry?.append(entry)
+            }
+        }
+        if(calculateNews)
+        {
+            let newsScrore = getNews()
+            if(newsScrore != "N/A")
+            {
+                let entry = BundleEntry(json:nil)
+                let code = super.FHIRCode("", codeId: Constant.CODE_AVPU)
+                let quantity = self.FHIRQuantity(newsScrore,  unit: "")
+                entry.resource = self.FHIRResource(code, associatedText: "", effectiveDateTime: self.date , quantity: quantity)
+                bundle.entry?.append(entry)
+            }
+        }
+        return bundle.asJSONString()
     }
 }

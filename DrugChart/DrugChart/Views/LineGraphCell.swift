@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LineGraphCell: GraphCollectionnViewCell {
+class LineGraphCell: GraphCollectionnViewCell , ObservationDelegate {
 
     @IBOutlet weak var lineGraph: LineGraphView!
     var delegate:ObservationDelegate? = nil
@@ -17,8 +17,15 @@ class LineGraphCell: GraphCollectionnViewCell {
         super.awakeFromNib()
         // Initialization code
         super.graphView = lineGraph
-        
-        super.registerSingleTap()
+        lineGraph.observationDelegate = self
+        super.registerDoubleTap()
+    }
+    
+    
+    
+    func ShowPopOver(viewController: UIViewController)
+    {
+        delegate?.ShowPopOver(viewController)
     }
     
     override func showIndividualGraph()

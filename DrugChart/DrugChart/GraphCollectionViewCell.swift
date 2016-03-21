@@ -23,11 +23,11 @@ class GraphCollectionnViewCell : UICollectionViewCell
     }
     
     //Mark : tap functionality
-    func registerSingleTap()
+    func registerDoubleTap()
     {
         // add the single tap gesture
         let tap = UITapGestureRecognizer(target: self, action: "showIndividualGraph")
-        tap.numberOfTapsRequired = 1
+        tap.numberOfTapsRequired = 2
         self.addGestureRecognizer(tap)
     }
     

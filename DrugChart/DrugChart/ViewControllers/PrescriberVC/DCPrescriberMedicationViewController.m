@@ -62,6 +62,7 @@ typedef enum : NSUInteger {
     BOOL isOneThirdMedicationViewShown;
     BOOL windowSizeChanged;
     BOOL fetchOnLayout;
+    BOOL isInBackground;
     SortType sortType;
     NSIndexPath *administrationViewPresentedIndexPath;
     DCPrescriberMedicationListViewController *prescriberMedicationListViewController;
@@ -111,6 +112,8 @@ typedef enum : NSUInteger {
     
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkAvailable:) name:kNetworkAvailable object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationEnteredBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationEnteredForeground:) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -122,7 +125,7 @@ typedef enum : NSUInteger {
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    if (windowSizeChanged) {
+    if (windowSizeChanged && !isInBackground) {
         [self prescriberCalendarChildViewControllerBasedOnWindowState];
         [self configureDateArrayForOneThirdCalendarScreen];
         [self setCurrentScreenOrientation];
@@ -1025,6 +1028,18 @@ typedef enum : NSUInteger {
 - (void)networkAvailable:(NSNotification *)notification {
     
     [self refreshMedicationList];
+}
+
+- (void)applicationEnteredBackground:(NSNotification *)notification {
+    
+    NSLog(@"******* Entered background *****");
+    isInBackground = YES;
+}
+
+- (void)applicationEnteredForeground:(NSNotification *)notification {
+    
+    NSLog(@"****** ENtered foreground");
+    isInBackground = NO;
 }
 
 @end

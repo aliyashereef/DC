@@ -26,7 +26,7 @@ class Respiratory:VitalSignBaseModel
         let observation = Observation(code:code  , status: "final")
         observation.comments = associatedText
         observation.effectiveDateTime = FHIRDate(super.date)
-        observation.valueQuantity = FHIRQuantity(stringValue, doubleQuantity: repiratoryRate, unit: "/minute")
+        observation.valueQuantity = FHIRQuantity(stringValue,  unit: "/minute")
         return observation
     }
 }

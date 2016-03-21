@@ -8,10 +8,14 @@
 
 
 
+
 class GraphView:UIView,GraphDelegate
 {
     @IBInspectable var startColor:UIColor  = UIColor.redColor()
     @IBInspectable var endColor:UIColor = UIColor.greenColor()
+   
+    var observationDelegate:ObservationDelegate? = nil
+    
     var maxXAxis:Int!
     var drawGraph:Bool = false
     var displayView:GraphDisplayView!
@@ -54,6 +58,42 @@ class GraphView:UIView,GraphDelegate
         return x
     }
     
+    func btnTouched(sender:AnyObject)
+    {
+        let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
+        let tooltipViewController : TooltipViewController = (mainStoryboard.instantiateViewControllerWithIdentifier("ToolTip") as? TooltipViewController)!
+        let tooltiptext = getToolTip(sender.tag)
+        tooltipViewController.toolTipText = tooltiptext
+        tooltipViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
+        if let popover = tooltipViewController.popoverPresentationController
+        {
+            let viewForSource = sender as! UIView
+            popover.sourceView = viewForSource
+            
+            // the position of the popover where it's showed
+            popover.sourceRect = viewForSource.bounds
+            
+            // the size you want to display
+            tooltipViewController.preferredContentSize = CGSizeMake(300,70)
+            // popover.delegate = self
+        }
+        
+        observationDelegate?.ShowPopOver(tooltipViewController)
+        
+    }
+    
+    func getToolTip(tag:Int) ->String
+    {
+        return ""
+    }
+    
+//    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?)
+//    {
+//       let touch = touches.first!
+//        let location = touch.locationInView(self)
+//        print("Location: \(location)")
+//    }
+    
     func columnXLabelPoint (column:Int , noOfPoints:Int) -> CGFloat
     {
         let spacer = (width - margin*2 - 4) / CGFloat(noOfPoints - 1)
@@ -77,7 +117,6 @@ class GraphView:UIView,GraphDelegate
         label.font = UIFont(name: label.font.fontName, size: 13)
         label.text = "Normal Range: __"
         self.addSubview(label)
-        
     }
     func drawGraphTitle()
     {

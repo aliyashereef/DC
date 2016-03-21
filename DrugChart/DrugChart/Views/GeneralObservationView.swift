@@ -366,7 +366,11 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
     
     func prepareObjects()
     {
-                if(uitag == DataEntryObservationSource.VitalSignEditIPad || uitag == DataEntryObservationSource.VitalSignEditIPhone)
+        if(self.uitag == DataEntryObservationSource.NewsIPad || self.uitag == DataEntryObservationSource.NewsIPhone)
+        {
+            observation.calculateNews = true
+        }
+        if(uitag == DataEntryObservationSource.VitalSignEditIPad || uitag == DataEntryObservationSource.VitalSignEditIPhone)
                 {
                     switch(showObservationType)
                     {
@@ -413,6 +417,11 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             case ObservationType.Date.rawValue:
                 let dateCell = cell as! DatePickerCellInline
                 observation.date = dateCell.date
+                observation.temperature.date = dateCell.date
+                observation.pulse.date = dateCell.date
+                observation.spo2.date = dateCell.date
+                observation.bloodPressure.date = dateCell.date
+                observation.respiratory.date = dateCell.date
             case ObservationType.Temperature.rawValue:
                 let doubleCell = cell as! DoubleCell
                 observation.temperature.stringValue = doubleCell.getStringValue()
@@ -481,7 +490,8 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
     
     func cellValueChanged(rowNumber: Int, object:AnyObject) {
         
-        if(self.uitag != DataEntryObservationSource.NewsIPad && self.uitag != DataEntryObservationSource.NewsIPhone) // only do it for the news score
+        if(self.uitag != DataEntryObservationSource.NewsIPad && self.uitag != DataEntryObservationSource.NewsIPhone)
+            // only do it for the news score
         {
             return
         }

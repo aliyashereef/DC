@@ -298,5 +298,9 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
         }
         delegate?.PushViewController(navigationController)
     }
+    
+    func ShowPopOver(viewController: UIViewController) {
+        delegate?.ShowPopOver(viewController)
+    }
 
 }

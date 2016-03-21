@@ -27,7 +27,7 @@ class SPO2 : VitalSignBaseModel
         let observation = Observation(code:code  , status: "final")
         observation.comments = associatedText
         observation.effectiveDateTime = FHIRDate(super.date)
-        observation.valueQuantity = FHIRQuantity(stringValue, doubleQuantity: spO2Percentage,  unit: "%")
+        observation.valueQuantity = FHIRQuantity(stringValue,  unit: "%")
         return observation
     }
 }

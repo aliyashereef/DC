@@ -135,6 +135,7 @@
         self.requestSerializer.timeoutInterval = 30.0f;
         [self configureHeaderFieldsForVitalSignRequest];
         [self.requestSerializer setValue:@"application/json+fhir" forHTTPHeaderField:@"Accept"];
+        [self.requestSerializer setValue:@"application/json+fhir" forHTTPHeaderField:@"Content-Type"];
         self.responseSerializer = [AFHTTPResponseSerializer serializer];
         self.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/json+fhir"];
     }
