@@ -20,7 +20,9 @@ class DCWardsListingPopoverViewController : DCBaseViewController , UITableViewDe
     var delegate : WardSelectionDelegate?
     var wardsArray : NSMutableArray = []
     @IBOutlet var wardsTableView: UITableView!
-    
+    var searchActive : Bool = false
+    var filteredArray = [AnyObject]()
+
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -37,26 +39,67 @@ class DCWardsListingPopoverViewController : DCBaseViewController , UITableViewDe
     
     override func viewDidLayoutSubviews() {
         
-        displayNavigationBarBasedOnSizeClass()
         super.viewDidLayoutSubviews()
+        displayNavigationBarBasedOnSizeClass()
+        if !searchActive {
+            wardsTableView.contentOffset = CGPoint(x: 0, y: 44)
+        } else {
+            wardsTableView.contentOffset = CGPointZero
+        }
+    }
+    
+    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+        searchActive = true;
+    }
+
+    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
+        searchActive = false;
+    }
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        searchActive = false;
+    }
+    
+//    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+//        searchActive = false;
+//    }
+    
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        searchActive = true
+        let predicateString = NSString(format: "wardName contains[cd] '%@'",searchText)
+        let predicate = NSPredicate(format: predicateString as String)
+        filteredArray  = wardsArray.filteredArrayUsingPredicate(predicate)
+//        if(filteredArray.count == 0){
+//            searchActive = false;
+//        } else {
+//            searchActive = true;
+//        }
+        self.wardsTableView.reloadData()
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell : DCWardsCell = (tableView.dequeueReusableCellWithIdentifier(wardsTableViewCellID as String) as? DCWardsCell)!
-        cell.layoutMargins = UIEdgeInsetsZero
-        let ward : DCWard  = wardsArray.objectAtIndex(indexPath.row) as! DCWard
-        if let name = ward.wardName {
-            cell.wardNameLabel.text = name
-
+//        cell.layoutMargins = UIEdgeInsetsZero
+        let ward :DCWard?
+        if(searchActive){
+            ward = filteredArray[indexPath.row] as? DCWard
+        } else {
+            ward = wardsArray.objectAtIndex(indexPath.row) as? DCWard
         }
-        cell.wardNumberLabel.text = "Ward \(ward.wardNumber)"
+            if let name = ward!.wardName {
+            cell.wardNameLabel.text = name
+        }
+        cell.wardNumberLabel.text = "Ward \(ward!.wardNumber)"
         return cell
-
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
+        if(searchActive) {
+            return filteredArray.count
+        }
         return wardsArray.count
     }
     
@@ -67,12 +110,17 @@ class DCWardsListingPopoverViewController : DCBaseViewController , UITableViewDe
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
+        var indexOfSelectedWard : Int?
+        if searchActive {
+            indexOfSelectedWard = wardsArray.indexOfObject(filteredArray[indexPath.row])
+        } else {
+            indexOfSelectedWard = indexPath.row
+        }
         if let delegate = self.delegate {
-            delegate.newWardSelected(indexPath.row)
+            delegate.newWardSelected(indexOfSelectedWard!)
         }
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         self.dismissViewControllerAnimated(true, completion: nil)
-        
     }
     
     func displayNavigationBarBasedOnSizeClass(){

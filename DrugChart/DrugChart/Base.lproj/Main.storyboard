@@ -653,7 +653,7 @@
         <!--Wards Listing Popover View Controller-->
         <scene sceneID="RLR-gZ-IK8">
             <objects>
-                <viewController storyboardIdentifier="WardsListingPopoverViewController" id="cT9-c4-Dpt" customClass="DCWardsListingPopoverViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WardsListingPopoverViewController" automaticallyAdjustsScrollViewInsets="NO" id="cT9-c4-Dpt" customClass="DCWardsListingPopoverViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="b2m-bv-Aco"/>
                         <viewControllerLayoutGuide type="bottom" id="sd7-fV-7P4"/>
@@ -668,9 +668,17 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="sectionIndexColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="sectionIndexBackgroundColor" name="keyboardFocusIndicatorColor" catalog="System" colorSpace="catalog"/>
+                                <searchBar key="tableHeaderView" contentMode="redraw" id="Ve5-nB-eRQ">
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                    <connections>
+                                        <outlet property="delegate" destination="cT9-c4-Dpt" id="0Pu-ZZ-hYH"/>
+                                    </connections>
+                                </searchBar>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="WardsCell" rowHeight="45" id="61h-t5-Aaz" customClass="DCWardsCell" customModule="DrugChart" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="1" width="300" height="45"/>
+                                        <rect key="frame" x="0.0" y="45" width="300" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="61h-t5-Aaz" id="NP0-pn-EMl">
                                             <rect key="frame" x="0.0" y="0.0" width="300" height="44"/>
