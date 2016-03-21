@@ -21,8 +21,8 @@ let CURRENT_DAY_BACKGROUND_COLOR    =   UIColor(forHexString: "#fafafa")
 let DUE_NOW_BACKGROUND_COLOR        =   UIColor(forHexString: "#f99e35")
 let PENDING_COUNT_FONT_COLOR        =   UIColor(forHexString: "#595959")
 
-let DUE_NOW_MEDICATION_TIME_PAST_MAX_LIMIT : NSTimeInterval = -60*10
-let DUE_NOW_MEDICATION_TIME_PREVIOUS_MIN_LIMIT : NSTimeInterval = 60*5
+let TIME_INTERVAL_LIMIT_BEFORE_DUE_NOW : NSTimeInterval = -60*10
+let TIME_INTERVAL_LIMIT_AFTER_DUE_NOW : NSTimeInterval = 60*5
 
 
 typealias AdministerButtonTappedCallback = (Bool) -> Void
@@ -227,7 +227,7 @@ class DCMedicationAdministrationStatusView: UIView {
             if (medication.time.compare(currentSystemDate) == NSComparisonResult.OrderedAscending) {
                 //past time, check if any medication administration is pending
                 if (medication.medicationAdministration?.actualAdministrationTime == nil) {
-                     if (timeIntervalFromCurrentTime >= DUE_NOW_MEDICATION_TIME_PAST_MAX_LIMIT && timeIntervalFromCurrentTime <= 0) {
+                     if (timeIntervalFromCurrentTime >= TIME_INTERVAL_LIMIT_BEFORE_DUE_NOW && timeIntervalFromCurrentTime <= 0) {
                         // due now status has to shown
                         dueNow = true
                      } else {
@@ -237,7 +237,7 @@ class DCMedicationAdministrationStatusView: UIView {
                  }
             }
             // due now functionality
-            if (timeIntervalFromCurrentTime <= DUE_NOW_MEDICATION_TIME_PREVIOUS_MIN_LIMIT || dueNow == true) {
+            if (timeIntervalFromCurrentTime <= TIME_INTERVAL_LIMIT_AFTER_DUE_NOW || dueNow == true) {
                 //Due in 5 minutes
                 if (medication.medicationAdministration?.status == nil) {
                     dueNow = true
