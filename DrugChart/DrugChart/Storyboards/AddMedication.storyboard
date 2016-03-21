@@ -1977,6 +1977,26 @@
             </objects>
             <point key="canvasLocation" x="2604" y="522"/>
         </scene>
+        <!--Review View Controller-->
+        <scene sceneID="yVY-S4-mqK">
+            <objects>
+                <viewController id="tum-eV-ZFd" customClass="DCReviewViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Hhi-2h-kj7"/>
+                        <viewControllerLayoutGuide type="bottom" id="Bo3-NY-e89"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="5Ku-fR-vix">
+                        <rect key="frame" x="0.0" y="0.0" width="310" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="310" height="600"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WNh-C2-zVq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2982" y="-1153"/>
+        </scene>
         <!--Add New Value View Controller-->
         <scene sceneID="a1L-hg-QWC">
             <objects>
