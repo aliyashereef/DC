@@ -188,6 +188,10 @@ class GeneralObservationView: UIView ,UITableViewDelegate,UITableViewDataSource,
             {
                 cell.userInteractionEnabled = false
             }
+            if(observation != nil)
+            {
+                cell.date = observation.date
+            }
             
             return cell
             

@@ -193,6 +193,7 @@
 		1F3C31701C0DB8F8007C6AE7 /* Patient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3C316F1C0DB8F8007C6AE7 /* Patient.swift */; };
 		1F3C31781C0DE0CF007C6AE7 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3C31771C0DE0CF007C6AE7 /* CalendarViewController.swift */; };
 		1F3C317A1C0DF755007C6AE7 /* MonthYearPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3C31791C0DF755007C6AE7 /* MonthYearPickerView.swift */; };
+		1F418E491CA020F400D2DCFB /* Identifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F418E481CA020F400D2DCFB /* Identifier.swift */; };
 		1F5374FB1C19C57000D4A64F /* TabularViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5374FA1C19C57000D4A64F /* TabularViewController.swift */; };
 		1F5374FD1C1AE9FE00D4A64F /* LineGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5374FC1C1AE9FE00D4A64F /* LineGraphView.swift */; };
 		1F5375001C1AEC2C00D4A64F /* LineGraphCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5374FE1C1AEC2C00D4A64F /* LineGraphCell.swift */; };
@@ -691,6 +692,7 @@
 		1F3C316F1C0DB8F8007C6AE7 /* Patient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Patient.swift; sourceTree = "<group>"; };
 		1F3C31771C0DE0CF007C6AE7 /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		1F3C31791C0DF755007C6AE7 /* MonthYearPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonthYearPickerView.swift; sourceTree = "<group>"; };
+		1F418E481CA020F400D2DCFB /* Identifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Identifier.swift; sourceTree = "<group>"; };
 		1F5374FA1C19C57000D4A64F /* TabularViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabularViewController.swift; sourceTree = "<group>"; };
 		1F5374FC1C1AE9FE00D4A64F /* LineGraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineGraphView.swift; sourceTree = "<group>"; };
 		1F5374FE1C1AEC2C00D4A64F /* LineGraphCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineGraphCell.swift; sourceTree = "<group>"; };
@@ -2595,6 +2597,7 @@
 				1FE8E55E1C96F3FF00E591FB /* Observation.swift */,
 				1FE8E5601C96F8D700E591FB /* CodeableConcept.swift */,
 				1F129E051C970A4F00CE1141 /* ObservationComponent.swift */,
+				1F418E481CA020F400D2DCFB /* Identifier.swift */,
 			);
 			name = FHIR;
 			sourceTree = "<group>";
@@ -3815,6 +3818,7 @@
 				7DA89AEE1B2D536300096A0A /* DCPositionableGraphicsView.m in Sources */,
 				0B9D6D521BA17244009E0A4E /* DCAddMedicationHelper.m in Sources */,
 				0BBEEB5E1AD4FF4F00C1D986 /* RoundRectPresentationController.m in Sources */,
+				1F418E491CA020F400D2DCFB /* Identifier.swift in Sources */,
 				FDDB3DA81C747E3200CE4AB7 /* DCGraphPoints.swift in Sources */,
 				0BA3572C1B7464D800A5C3BC /* DCAddMedicationOperation.m in Sources */,
 				1FD4FCE51BF4B8F400B77B94 /* DatePickerCell_Inline.swift in Sources */,

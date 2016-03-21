@@ -427,6 +427,8 @@ class VitalSignObservation:VitalSignFHIRBase
                 bundle.entry?.append(entry)
             }
         }
+      //  print(bundle.asJSONString())
+        
         return bundle.asJSONString()
     }
 }

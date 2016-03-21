@@ -106,6 +106,21 @@ class VitalSignParser : FhirParser
         }
     }
     
+    func updateVitalSignObservations(patientId:String,requestBody:String, onCompletion:(saveSuccessfully:Bool)->Void)
+    {
+        let url = String(format:CARE_RECORD_URL_POST , patientId )
+        super.connectServerPut(url, requestJSON: requestBody){(status:Int) in
+            if(status == 200)
+            {
+                onCompletion( saveSuccessfully: true)
+            }
+            else
+            {
+                onCompletion(saveSuccessfully: false)
+            }
+        }
+    }
+    
     func getVitalSignsObservations(patientId:String, commaSeparatedCodes:String, startDate:NSDate, endDate:NSDate , includeMostRecent:Bool , onSuccess:(observationList:[VitalSignObservation])->Void)
     {
         let url = String(format:CARE_RECORD_URL_SEARCH , patientId , commaSeparatedCodes , startDate.getFHIRDateandTime() , endDate.getFHIRDateandTime(), includeMostRecent == true ?"true":"false")
@@ -194,6 +209,12 @@ class VitalSignParser : FhirParser
         }
     }
     
+    func getGUIDIdentifier(obs:Observation) ->String
+    {
+        let guid = obs.identifier?.filter({return $0.system?.absoluteString == "http://openapi.e-mis.com/fhir/guid-identifier"}).last
+        return (guid?.value)!
+    }
+    
     func getObservation(obs:Observation)->AnyObject!
     {
         if(obs.effectiveDateTime == nil)
@@ -219,12 +240,14 @@ class VitalSignParser : FhirParser
             let obsRespiratory = Respiratory()
             obsRespiratory.date = observationDate!
             obsRespiratory.repiratoryRate = obs.valueQuantity!.value!.doubleValue
+            obsRespiratory.guid = getGUIDIdentifier(obs)
             obsRespiratory.stringValue = (obs.valueQuantity?.stringValue)!
             return obsRespiratory
         case Constant.CODE_OXYGEN_SATURATION:// -- oxygen saturation
             let obsSPO2 = SPO2()
             obsSPO2.date = observationDate!
             obsSPO2.spO2Percentage = obs.valueQuantity!.value!.doubleValue
+            obsSPO2.guid = getGUIDIdentifier(obs)
             obsSPO2.stringValue = (obs.valueQuantity?.stringValue)!
         return obsSPO2
         case Constant.CODE_ORAL_TEMPERATURE:// -- oral temperature
@@ -232,10 +255,12 @@ class VitalSignParser : FhirParser
              obsTemperature.date = observationDate!
              obsTemperature.value = obs.valueQuantity!.value!.doubleValue
              obsTemperature.stringValue = (obs.valueQuantity?.stringValue)!
+             obsTemperature.guid = getGUIDIdentifier(obs)
             return obsTemperature
         case Constant.CODE_BLOOD_PRESSURE:// -- blood presure
             let obsBloodPressure = BloodPressure()
             obsBloodPressure.date = observationDate!
+            obsBloodPressure.guid = getGUIDIdentifier(obs)
             for component in obs.component!
             {
                 let code = component.code?.coding![0]
@@ -256,6 +281,7 @@ class VitalSignParser : FhirParser
             let obsPulse = Pulse()
             obsPulse.date = observationDate!
             obsPulse.pulseRate = obs.valueQuantity!.value!.doubleValue
+            obsPulse.guid = getGUIDIdentifier(obs)
             obsPulse.stringValue = (obs.valueQuantity?.stringValue)!
             return obsPulse
       case Constant.CODE_ADDITIONAL_OXYGEN:

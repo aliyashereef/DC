@@ -25,10 +25,7 @@ class BodyTemperature:VitalSignBaseModel
     
     override func FHIRResource() -> Resource? {
         let code = FHIRCode( "O/E - oral temperature taken",codeId: Constant.CODE_ORAL_TEMPERATURE)
-        let observation = Observation(code:code  , status: "final")
-        observation.comments = associatedText
-        observation.effectiveDateTime = FHIRDate(super.date)
-        observation.valueQuantity = FHIRQuantity(stringValue,unit: "degrees C")
-        return observation
+        let valueQuantity = FHIRQuantity(stringValue,unit: "degrees C")
+        return self.FHIRResource(code, associatedText: associatedText, effectiveDateTime: super.date, quantity: valueQuantity)
     }
 }

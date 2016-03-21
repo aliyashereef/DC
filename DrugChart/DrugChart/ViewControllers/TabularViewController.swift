@@ -252,6 +252,11 @@ class TabularViewController: PatientViewController , UICollectionViewDataSource,
     
     func ShowModalNavigationController(navigationController:UINavigationController)
     {
+        if(navigationController.viewControllers[0].isKindOfClass(PatientViewController))
+        {
+            let patientViewController = navigationController.viewControllers[0] as? PatientViewController
+            patientViewController?.patient = self.patient
+        }
         self.presentViewController(navigationController, animated: false, completion: nil)
     }
     
