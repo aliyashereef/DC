@@ -223,11 +223,11 @@ class DCMedicationAdministrationStatusView: UIView {
         let currentSystemDate : NSDate = NSDate()
         for slot in timeArray as [AnyObject] {
             let medication = slot as! DCMedicationSlot
-            let secondsBetween = medication.time.timeIntervalSinceDate(currentSystemDate)
+            let timeIntervalFromCurrentTime = medication.time.timeIntervalSinceDate(currentSystemDate)
             if (medication.time.compare(currentSystemDate) == NSComparisonResult.OrderedAscending) {
                 //past time, check if any medication administration is pending
                 if (medication.medicationAdministration?.actualAdministrationTime == nil) {
-                     if (secondsBetween >= DUE_NOW_MEDICATION_TIME_PAST_MAX_LIMIT && secondsBetween <= 0) {
+                     if (timeIntervalFromCurrentTime >= DUE_NOW_MEDICATION_TIME_PAST_MAX_LIMIT && timeIntervalFromCurrentTime <= 0) {
                         // due now status has to shown
                         dueNow = true
                      } else {
@@ -237,7 +237,7 @@ class DCMedicationAdministrationStatusView: UIView {
                  }
             }
             // due now functionality
-            if (secondsBetween <= DUE_NOW_MEDICATION_TIME_PREVIOUS_MIN_LIMIT || dueNow == true) {
+            if (timeIntervalFromCurrentTime <= DUE_NOW_MEDICATION_TIME_PREVIOUS_MIN_LIMIT || dueNow == true) {
                 //Due in 5 minutes
                 if (medication.medicationAdministration?.status == nil) {
                     dueNow = true
