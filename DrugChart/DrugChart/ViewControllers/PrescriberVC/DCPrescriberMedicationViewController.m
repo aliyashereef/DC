@@ -167,8 +167,9 @@ typedef enum : NSUInteger {
 }
 
 - (void) dateViewForOrientationChanges {
-    //TODO: medication administration slots have to be made constant width , medication details flexible width
-    monthYearViewWidthConstraint.constant = self.view.frame.size.width * 0.30;
+    //medication administration slots have to be made constant width , medication details flexible width
+    
+    monthYearViewWidthConstraint.constant = self.view.frame.size.width - appDelegate.calendarViewWidth;
     UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
     if (UIDeviceOrientationIsLandscape(orientation) && (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)){
         calendarDateHolderViewTopSpace.constant = 30.0;
@@ -242,9 +243,8 @@ typedef enum : NSUInteger {
 - (void)calculateCalendarSlotWidth {
     
     //calculate calendar slot width
-    //TODO: medication administration slots have to be made constant width , medication details flexible width
-    CGFloat medicationDetailsTableViewWidth = [DCUtility mainWindowSize].width * 0.30;
-    slotWidth = ([DCUtility mainWindowSize].width - medicationDetailsTableViewWidth)/5;
+    //medication administration slots have to be made constant width , medication details flexible width
+    slotWidth = (appDelegate.calendarViewWidth)/5;
 }
 
 - (void)prescriberCalendarChildViewControllerBasedOnWindowState {

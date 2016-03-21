@@ -33,6 +33,8 @@ typedef NS_ENUM(NSUInteger, DCScreenOrientation) {
 
 @property (strong, nonatomic) NSString *authorizeURL;
 
+@property (nonatomic) CGFloat calendarViewWidth;
+
 @property DCWindowState windowState;
 
 @property DCScreenOrientation screenOrientation;

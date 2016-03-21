@@ -15,15 +15,15 @@ import UIKit
     let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
     
     func calculateWeekViewSlotWidth () {
-        //TODO: medication administration slots have to be made constant width , medication details flexible width
-        let medicationDetailTableWidth = DCUtility.mainWindowSize().width * 0.30
+        // medication administration slots have to be made constant width , medication details flexible width
+
         // here width has to be changed.
         if (appDelegate.windowState == DCWindowState.fullWindow) {
             
-            weekViewWidth = (DCUtility.mainWindowSize().width - medicationDetailTableWidth)/5
+            weekViewWidth = (appDelegate.calendarViewWidth)/5
         }
         else {
-            weekViewWidth = (DCUtility.mainWindowSize().width - medicationDetailTableWidth)/3
+            weekViewWidth = (appDelegate.calendarViewWidth)/3
         }
     }
     
