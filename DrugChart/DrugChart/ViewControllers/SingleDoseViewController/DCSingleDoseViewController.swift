@@ -159,6 +159,7 @@ class DCSingleDoseViewController: DCBaseViewController, UITableViewDelegate, UIT
         
         let singleDoseEntryCell = doseTableView.dequeueReusableCellWithIdentifier(SINGLE_DOSE_ENTRY_CELL_ID) as? DCSingleDoseEntryTableCell
         singleDoseEntryCell?.singleDoseDelegate = self
+        singleDoseEntryCell?.singleDoseTextfield.becomeFirstResponder()
         if indexPath.row == RowCount.eZerothRow.rawValue {
             let singleDoseValue = NSMutableString()
             if let dose = singleDose?.doseValue {

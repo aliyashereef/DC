@@ -158,8 +158,20 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         noteCell!.reasonTextLabel.textAlignment = .Right
         // Calculating the count of text characters and checking whether the more button have to be visible.
         let count : NSInteger = text.length
-        if text == NONE_TEXT || count < 47{
-            noteCell!.isNotesExpanded = true // The notes need not to be expanded further.
+        let nextLineCharacter = "\n"
+        var containsNextLine = false
+        if (text.containsString(nextLineCharacter)) {
+            containsNextLine = true
+        } else {
+            containsNextLine = false
+        }
+        
+        if containsNextLine {
+            noteCell!.isNotesExpanded = false
+        } else {
+            if text == NONE_TEXT || count < 47 {
+                noteCell!.isNotesExpanded = true // The notes need not to be expanded further.
+            }
         }
         
         if(noteCell!.isNotesExpanded == false || indexPath == selectedRowIndex ) {
