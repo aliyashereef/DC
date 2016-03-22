@@ -15,11 +15,12 @@ protocol WardSelectionDelegate {
     func newWardSelected( row : NSInteger)
 }
 
-class DCWardsListingPopoverViewController : DCBaseViewController , UITableViewDelegate , UITableViewDataSource {
+class DCWardsListingPopoverViewController : DCBaseViewController , UITableViewDelegate , UITableViewDataSource , UISearchBarDelegate{
     
     var delegate : WardSelectionDelegate?
     var wardsArray : NSMutableArray = []
     @IBOutlet var wardsTableView: UITableView!
+    @IBOutlet weak var searchBar: UISearchBar!
     var searchActive : Bool = false
     var filteredArray = [AnyObject]()
 
@@ -41,52 +42,43 @@ class DCWardsListingPopoverViewController : DCBaseViewController , UITableViewDe
         
         super.viewDidLayoutSubviews()
         displayNavigationBarBasedOnSizeClass()
-        if !searchActive {
-            wardsTableView.contentOffset = CGPoint(x: 0, y: 44)
-        } else {
-            wardsTableView.contentOffset = CGPointZero
-        }
+        showSearchBar()
     }
     
+//MARK: UISearchBarDelegate methods
+    
     func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
-        searchActive = true;
+        searchActive = true
     }
 
     func searchBarTextDidEndEditing(searchBar: UISearchBar) {
         searchActive = false;
-    }
-    
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-        searchActive = false;
-    }
-    
-//    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-//        searchActive = false;
-//    }
-    
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-        
-        searchActive = true
-        let predicateString = NSString(format: "wardName contains[cd] '%@'",searchText)
-        let predicate = NSPredicate(format: predicateString as String)
-        filteredArray  = wardsArray.filteredArrayUsingPredicate(predicate)
-//        if(filteredArray.count == 0){
-//            searchActive = false;
-//        } else {
-//            searchActive = true;
-//        }
+        hideSearchBar()
         self.wardsTableView.reloadData()
     }
+    
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        searchActive = true
+        if searchText.characters.count == 0 {
+            filteredArray = wardsArray as [AnyObject]
+            hideSearchBar()
+        } else {
+            searchWardListWithText(searchText)
+        }
+        self.wardsTableView.reloadData()
+
+    }
+    
+    //MARK: TableViewDelegate Methods
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell : DCWardsCell = (tableView.dequeueReusableCellWithIdentifier(wardsTableViewCellID as String) as? DCWardsCell)!
-//        cell.layoutMargins = UIEdgeInsetsZero
         let ward :DCWard?
         if(searchActive){
             ward = filteredArray[indexPath.row] as? DCWard
         } else {
-            ward = wardsArray.objectAtIndex(indexPath.row) as? DCWard
+            ward = wardsArray[indexPath.row] as? DCWard
         }
             if let name = ward!.wardName {
             cell.wardNameLabel.text = name
@@ -123,6 +115,8 @@ class DCWardsListingPopoverViewController : DCBaseViewController , UITableViewDe
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
+    //MARK: Private Methods
+    
     func displayNavigationBarBasedOnSizeClass(){
         
         let orientation : UIInterfaceOrientation = UIApplication.sharedApplication().statusBarOrientation
@@ -143,6 +137,14 @@ class DCWardsListingPopoverViewController : DCBaseViewController , UITableViewDe
         }
     }
     
+    func searchWardListWithText (text : NSString){
+        
+        let predicateString = NSString(format: "wardName contains[cd] '%@'",text)
+        let predicate = NSPredicate(format: predicateString as String)
+        filteredArray  = wardsArray.filteredArrayUsingPredicate(predicate)
+        self.wardsTableView.reloadData()
+    }
+    
     func showNavigationBar(show:Bool) {
         
         if show == true {
@@ -150,6 +152,25 @@ class DCWardsListingPopoverViewController : DCBaseViewController , UITableViewDe
         } else {
             self.navigationController?.navigationBar.hidden = true
         }
+    }
+    
+    func showSearchBar () {
+        
+        if searchActive {
+            wardsTableView.contentOffset = CGPointZero
+            wardsTableView.setContentOffset(CGPointZero, animated: false)
+        } else {
+            self.performSelector("hideSearchBar", withObject:nil , afterDelay:0.0)
+        }
+    }
+    
+    func hideSearchBar () {
+        
+        if searchBar.isFirstResponder() {
+            searchBar.resignFirstResponder()
+        }
+        wardsTableView.contentOffset = CGPoint(x: 0, y: 44)
+        searchActive = false
     }
     
     func cancelButtonPressed() {
