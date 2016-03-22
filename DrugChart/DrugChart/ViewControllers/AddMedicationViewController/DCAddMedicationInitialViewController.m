@@ -1056,15 +1056,7 @@
             }
             [self dismissViewControllerAnimated:YES completion:nil];
         }
-        [addButton setEnabled:YES];
-    }];
-}
-
-- (void)callDeleteMedicationWebServicewithCallBackHandler:(void (^)(NSError *error))callBack {
-    
-    DCStopMedicationWebService *webServiceManager = [[DCStopMedicationWebService alloc] init];
-    [webServiceManager stopMedicationForPatientWithId:self.patientId drugWithScheduleId:self.selectedMedication.scheduleId  withCallBackHandler:^(id response, NSError *error) {
-        callBack(error);
+        [self updateAddButton:YES];
     }];
 }
 
@@ -1156,6 +1148,24 @@
             previousScrollOffset = scrollOffset;
         });
     }
+}
+
+- (void)editMedicationWebService {
+    
+    // To Do: API need to be integrated.
+    [self updateAddButton:YES];
+}
+
+- (void)updateAddButton:(BOOL)enable {
+    
+    if (enable) {
+        [addButton setTarget:self];
+        [addButton setAction:@selector(addMedicationButtonPressed:)];
+    } else {
+        [addButton setTarget:nil];
+        [addButton setAction:nil];
+    }
+    [addButton setEnabled:enable];
 }
 
 #pragma mark - UITableView Methods
@@ -1352,6 +1362,7 @@
     
     //add medication button action
     doneClicked = YES;
+    [self updateAddButton:NO];
     [medicationDetailsTableView reloadData];
     if ([self.selectedMedication.instruction isEqualToString:INSTRUCTIONS]) {
         self.selectedMedication.instruction = EMPTY_STRING;
@@ -1359,29 +1370,21 @@
     if ([DCAddMedicationHelper selectedMedicationDetailsAreValid:self.selectedMedication]) {
         if ([DCAPPDELEGATE isNetworkReachable]) {
             if (self.isEditMedication) {
-                // To Do: API need to be integrated.
-//                NSDate *dateInCurrentZone = [DCDateUtility dateInCurrentTimeZone:[NSDate date]];
-//                NSString *dateString = [DCDateUtility convertDate:dateInCurrentZone FromFormat:DEFAULT_DATE_FORMAT ToFormat:@"d-MMM-yyyy HH:mm"];
-//                self.selectedMedication.startDate = dateString;
-//                [self callDeleteMedicationWebServicewithCallBackHandler:^(NSError *error) {
-//                    if (!error) {
-//                        [self callAddMedicationWebService];
-//                    } else {
-//                        [self displayAlertWithTitle:@"ERROR" message:@"Edit medication failed"];
-//                    }
-//                }];
-//TODO : temporarly added till api is available
+ //TODO : temporarly added till api is available
+                [self editMedicationWebService];
                 if (self.delegate && [self.delegate respondsToSelector:@selector(medicationEditCancelledForIndexPath:)]) {
                     [self.delegate medicationEditCancelledForIndexPath:_medicationEditIndexPath];
                 }
                 [self dismissViewControllerAnimated:YES completion:nil];
             } else {
-                [addButton setEnabled:NO];
                 [self callAddMedicationWebService];
             }
+        } else {
+            [self updateAddButton:YES];
         }
+    } else {
+        [self updateAddButton:YES];
     }
-    
 }
 
 - (void)addMedicationCancelButtonPressed :(id)sender {
