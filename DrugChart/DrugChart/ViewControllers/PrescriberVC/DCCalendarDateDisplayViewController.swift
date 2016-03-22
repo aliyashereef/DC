@@ -23,6 +23,7 @@ import CocoaLumberjack
     var lastDateForCurrentWeek : NSDate?
     var firstDateForCurrentWeek : NSDate?
     
+    var calendarViewWidth : CGFloat = 0.0
     let currentDate : NSDate = NSDate()
     let dateViewFormat : NSString = "EEE d"
     let dateFormat : NSString = "dd MMM yyyy"
@@ -32,6 +33,7 @@ import CocoaLumberjack
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        calendarViewWidth = (appDelegate.windowState == DCWindowState.fullWindow) ? CGFloat(CALENDAR_FULL_WINDOW_WIDTH): CGFloat(CALENDAR_TWO_THIRD_WINDOW_WIDTH)
         self.adjustHolderFrameAndDisplayDates()
         self.displayDatesInView()
     }
@@ -43,7 +45,7 @@ import CocoaLumberjack
         // medication administration slots have to be made constant width , medication details flexible width
 
         let valueToTranslate = (calendarViewLeadingConstraint.constant + xTranslation);
-        if (valueToTranslate >= -appDelegate.calendarViewWidth && valueToTranslate <= appDelegate.calendarViewWidth) {
+        if (valueToTranslate >= -calendarViewWidth && valueToTranslate <= calendarViewWidth) {
             calendarViewLeadingConstraint.constant = calendarViewLeadingConstraint.constant + xTranslation;
         }
         if (panEnded == true) {
@@ -68,12 +70,11 @@ import CocoaLumberjack
     // MARK :Next, Previous and Today actions
     
     func displayPreviousWeekDatesInCalendar() {
-        
         UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
             //medication administration slots have to be made constant width , medication details flexible width
-            let calendarWidth : CGFloat = (DCUtility.mainWindowSize().width - self.appDelegate.calendarViewWidth);
+            let calendarWidth : CGFloat = (DCUtility.mainWindowSize().width - self.calendarViewWidth);
             if (self.calendarViewLeadingConstraint.constant >= calendarWidth) {
-                self.calendarViewLeadingConstraint.constant = self.appDelegate.calendarViewWidth
+                self.calendarViewLeadingConstraint.constant = self.calendarViewWidth
             }
             self.view.layoutIfNeeded()
             }) { (Bool) -> Void in
@@ -84,9 +85,9 @@ import CocoaLumberjack
     func displayNextWeekDatesInCalendar() {
         UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
             //medication administration slots have to be made constant width , medication details flexible width
-            let calendarWidth : CGFloat = (DCUtility.mainWindowSize().width - self.appDelegate.calendarViewWidth);
+            let calendarWidth : CGFloat = (DCUtility.mainWindowSize().width - self.calendarViewWidth);
             if (self.calendarViewLeadingConstraint.constant <= -calendarWidth) {
-                self.calendarViewLeadingConstraint.constant = -self.appDelegate.calendarViewWidth
+                self.calendarViewLeadingConstraint.constant = -self.calendarViewWidth
             }
             self.view.layoutIfNeeded()
             }) { (Bool) -> Void in
@@ -116,7 +117,7 @@ import CocoaLumberjack
     func adjustHolderFrameAndDisplayDates () {
         
         //medication administration slots have to be made constant width , medication details flexible width
-        calendarViewWidthConstraint.constant = self.appDelegate.calendarViewWidth;
+        calendarViewWidthConstraint.constant = calendarViewWidth;
     }
 
     // Populate the dates for the previous and next date views
@@ -141,9 +142,23 @@ import CocoaLumberjack
             }
         }
         DDLogDebug("\(centerCalendarView.backgroundColor)")
+        leftCalendarView.weekViewWidth = calculateWeekViewSlotWidth()
         leftCalendarView .populateViewForDateArray(leftDatesArray)
+        centerCalendarView.weekViewWidth = calculateWeekViewSlotWidth()
         centerCalendarView.populateViewForDateArray(centerDatesArray)
+        rightCalendarView.weekViewWidth = calculateWeekViewSlotWidth()
         rightCalendarView.populateViewForDateArray(rightDatesArray)
     }
-
+    
+    func calculateWeekViewSlotWidth () -> CGFloat {
+        
+        // medication administration slots have to be made constant width , medication details flexible width
+        let weekViewWidth : CGFloat!
+        if (appDelegate.windowState == DCWindowState.fullWindow) {
+            weekViewWidth = (calendarViewWidth)/5
+        } else {
+            weekViewWidth = (calendarViewWidth)/3
+        }
+        return weekViewWidth
+    }
 }

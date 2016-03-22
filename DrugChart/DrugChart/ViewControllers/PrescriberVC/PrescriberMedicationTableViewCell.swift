@@ -54,6 +54,7 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     @IBOutlet weak var leadingSpaceMasterToContainerView: NSLayoutConstraint!
     @IBOutlet weak var medicationTypeLabel: UILabel!
     
+    var calendarWidth : CGFloat!
     var editAndDeleteDelegate : EditAndDeleteActionDelegate?
     var indexPath : NSIndexPath!
     var cellDelegate : DCPrescriberCellDelegate?
@@ -64,10 +65,10 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         
         super.awakeFromNib()
-            addPanGestureToMedicationDetailHolderView()
-            addPanGestureToMedicationDetailHolderView()
+        addPanGestureToMedicationDetailHolderView()
+        addPanGestureToMedicationDetailHolderView()
         // Administer status views are created here to make the views reusable for a table view cell
-            createAdministerStatusViews()
+        createAdministerStatusViews()
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -124,7 +125,7 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     func addAdministerStatusViewsTo(containerView: UIView, atSlotIndex index: Int) {
         //TODO: medication administration slots have to be made constant width , medication details flexible width
 
-        let viewWidth = (appDelegate.windowState == DCWindowState.fullWindow) ? (appDelegate.calendarViewWidth)/5 : (appDelegate.calendarViewWidth)/3
+        let viewWidth : CGFloat = (appDelegate.windowState == DCWindowState.fullWindow) ?(725.0)/5.0 : (435.0)/3.0
         let xValue : CGFloat = CGFloat(index) * viewWidth + CGFloat(index) + 1;
         let viewFrame = CGRectMake(xValue, 0, viewWidth, 78.0)
         let statusView : DCMedicationAdministrationStatusView = DCMedicationAdministrationStatusView(frame: viewFrame)

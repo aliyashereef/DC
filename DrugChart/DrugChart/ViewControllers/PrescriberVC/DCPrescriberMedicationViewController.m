@@ -92,7 +92,6 @@ typedef enum : NSUInteger {
     
     [super viewDidLoad];
     [self currentWeekDatesArrayFromDate:[NSDate date]];
-
     [self addAddMedicationButtonToNavigationBar];
     [self populateMonthYearLabel];
     [self hideCalendarTopPortion];
@@ -104,6 +103,7 @@ typedef enum : NSUInteger {
     
     [super viewDidAppear:animated];
     [self setCurrentScreenOrientation];
+    [self configureCurrentWindowCalendarWidth];
     [self prescriberCalendarChildViewControllerBasedOnWindowState];
     [self addCustomTitleViewToNavigationBar];
 }
@@ -125,6 +125,7 @@ typedef enum : NSUInteger {
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
+    [self configureCurrentWindowCalendarWidth];
     if (windowSizeChanged && !isInBackground) {
         [self prescriberCalendarChildViewControllerBasedOnWindowState];
         [self configureDateArrayForOneThirdCalendarScreen];
@@ -144,6 +145,7 @@ typedef enum : NSUInteger {
     if (screenOrientation == landscape && appDelegate.screenOrientation == portrait) {
         if (appDelegate.windowState == twoThirdWindow) {
             appDelegate.windowState = halfWindow;
+            [self configureCurrentWindowCalendarWidth];
             [self prescriberCalendarChildViewControllerBasedOnWindowState];
             [self configureDateArrayForOneThirdCalendarScreen];
             [self setCurrentScreenOrientation];
@@ -172,7 +174,7 @@ typedef enum : NSUInteger {
 - (void) dateViewForOrientationChanges {
     //medication administration slots have to be made constant width , medication details flexible width
     
-    monthYearViewWidthConstraint.constant = self.view.frame.size.width - appDelegate.calendarViewWidth;
+    monthYearViewWidthConstraint.constant = self.view.frame.size.width - self.calendarViewWidth;
     UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
     if (UIDeviceOrientationIsLandscape(orientation) && (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)){
         calendarDateHolderViewTopSpace.constant = 30.0;
@@ -247,7 +249,23 @@ typedef enum : NSUInteger {
     
     //calculate calendar slot width
     //medication administration slots have to be made constant width , medication details flexible width
-    slotWidth = (appDelegate.calendarViewWidth)/5;
+    slotWidth = (self.calendarViewWidth)/5;
+}
+
+- (void)configureCurrentWindowCalendarWidth {
+
+    if (appDelegate.windowState == oneThirdWindow) {
+        self.calendarViewWidth = CALENDAR_TWO_THIRD_WINDOW_WIDTH;
+    } else {
+        if (appDelegate.windowState == halfWindow) {
+            self.calendarViewWidth = CALENDAR_TWO_THIRD_WINDOW_WIDTH;
+        } else if (appDelegate.windowState == fullWindow) {
+            self.calendarViewWidth = CALENDAR_FULL_WINDOW_WIDTH;
+        } else {
+            self.calendarViewWidth = CALENDAR_TWO_THIRD_WINDOW_WIDTH;
+        }
+    }
+    calendarDateDisplayViewController.calendarViewWidth = self.calendarViewWidth;
 }
 
 - (void)prescriberCalendarChildViewControllerBasedOnWindowState {

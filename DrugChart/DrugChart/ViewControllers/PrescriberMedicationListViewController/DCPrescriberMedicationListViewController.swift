@@ -107,7 +107,9 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             self.resetStatusViewsIfNeededInTableViewCell(medicationCell!)
             let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
             //medication administration slots have to be made constant width , medication details flexible width
-            medicationCell?.medicationDetailHolderViewWidthConstraint.constant = DCUtility.mainWindowSize().width - appDelegate.calendarViewWidth
+            let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
+            medicationCell?.medicationDetailHolderViewWidthConstraint.constant = DCUtility.mainWindowSize().width - parentViewController.calendarViewWidth
+            medicationCell?.calendarWidth = parentViewController.calendarViewWidth
             medicationCell?.editAndDeleteDelegate = self
             medicationCell?.indexPath = indexPath
             medicationCell?.isMedicationActive = medicationScheduleDetails.isActive
@@ -234,7 +236,8 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         panEnded : Bool,
         isLastCell:Bool) {
             //medication administration slots have to be made constant width , medication details flexible width
-            let calendarWidth : CGFloat = self.appDelegate.calendarViewWidth;
+            let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
+            let calendarWidth : CGFloat = parentViewController.calendarViewWidth;
             let valueToTranslate = medicationCell.leadingSpaceMasterToContainerView.constant + xTranslation;
             if (valueToTranslate >= -calendarWidth && valueToTranslate <= calendarWidth) {
                 medicationCell.leadingSpaceMasterToContainerView.constant = medicationCell.leadingSpaceMasterToContainerView.constant + xTranslation;
@@ -292,7 +295,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             if (medicationCell.leadingSpaceMasterToContainerView.constant >= 100 ||
                 medicationCell.leadingSpaceMasterToContainerView.constant < 0) {
                 // animate to right , load previous week
-                medicationCell.leadingSpaceMasterToContainerView.constant = self.appDelegate.calendarViewWidth
+                medicationCell.leadingSpaceMasterToContainerView.constant = parentViewController.calendarViewWidth
                 parentViewController.showActivityIndicationOnViewRefresh(true)
             } else {
                 medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
@@ -304,7 +307,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             medicationCell.layoutIfNeeded()
             }) { (Bool) -> Void in
                 if isLastCell {
-                    if ( medicationCell.leadingSpaceMasterToContainerView.constant == self.appDelegate.calendarViewWidth) {
+                    if ( medicationCell.leadingSpaceMasterToContainerView.constant == parentViewController.calendarViewWidth) {
                         autoreleasepool({ () -> () in
                             parentViewController.modifyStartDayAndWeekDates(false)
                             self.displayNextSetOfAdministrationDetails(false)
@@ -329,7 +332,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             // direction immediatly after panning to one direction. In that case the constant value will be positive.
             if (medicationCell.leadingSpaceMasterToContainerView.constant <= -100 || medicationCell.leadingSpaceMasterToContainerView.constant > 0) {
                 //load next week details
-                medicationCell.leadingSpaceMasterToContainerView.constant = -self.appDelegate.calendarViewWidth
+                medicationCell.leadingSpaceMasterToContainerView.constant = -parentViewController.calendarViewWidth
                 parentViewController.showActivityIndicationOnViewRefresh(true)
             } else {
                 medicationCell.leadingSpaceMasterToContainerView.constant = 0.0
@@ -341,7 +344,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             medicationCell.layoutIfNeeded()
             }) { (Bool) -> Void in
                 if isLastCell {
-                    if (medicationCell.leadingSpaceMasterToContainerView.constant == -self.appDelegate.calendarViewWidth) {
+                    if (medicationCell.leadingSpaceMasterToContainerView.constant == -parentViewController.calendarViewWidth) {
                         
                         autoreleasepool({ () -> () in
                             parentViewController.modifyStartDayAndWeekDates(true)
@@ -550,9 +553,10 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             }
             let slotWidth = DCUtility.mainWindowSize().width
             // medication administration slots have to be made constant width , medication details flexible width
-            var viewWidth = (slotWidth - self.appDelegate.calendarViewWidth)/3
+            let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
+            var viewWidth = (slotWidth - parentViewController.calendarViewWidth)/3
             if (appDelegate.windowState == DCWindowState.fullWindow) {
-                viewWidth = (slotWidth - self.appDelegate.calendarViewWidth)/5
+                viewWidth = (slotWidth - parentViewController.calendarViewWidth)/5
             }
             let xValue : CGFloat = CGFloat(tag) * viewWidth + CGFloat(tag) + 1;
             let viewFrame = CGRectMake(xValue, 0, viewWidth, 78.0)
@@ -707,9 +711,9 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         parentViewController.showActivityIndicationOnViewRefresh(true)
         let indexPathArray : [NSIndexPath] = medicationTableView!.indexPathsForVisibleRows!
         //medication administration slots have to be made constant width , medication details flexible width
-        var calendarWidthConstraint = self.appDelegate.calendarViewWidth
+        var calendarWidthConstraint = parentViewController.calendarViewWidth
         if (!isRight) {
-            calendarWidthConstraint = -self.appDelegate.calendarViewWidth
+            calendarWidthConstraint = -parentViewController.calendarViewWidth
         }
         for var count = 0; count < indexPathArray.count; count++ {
             let indexPath = indexPathArray[count]

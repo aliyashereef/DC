@@ -97,23 +97,16 @@
     DCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     if (IS_IPHONE) {
         appDelegate.windowState = oneThirdWindow;
-        appDelegate.calendarViewWidth = CALENDAR_TWO_THIRD_WINDOW_WIDTH;
     }
     else {
         if (windowWidth <= screenWidth/2) {
             appDelegate.windowState = halfWindow;
-            appDelegate.calendarViewWidth = CALENDAR_TWO_THIRD_WINDOW_WIDTH;
         } else  {
             if (windowWidth == screenWidth) {
                 appDelegate.windowState = isLandScapeMode? fullWindow : twoThirdWindow;
             }
             else {
                 appDelegate.windowState = isLandScapeMode? twoThirdWindow : halfWindow;
-            }
-            if (appDelegate.windowState == fullWindow) {
-                appDelegate.calendarViewWidth = CALENDAR_FULL_WINDOW_WIDTH;
-            } else {
-                appDelegate.calendarViewWidth = CALENDAR_TWO_THIRD_WINDOW_WIDTH;
             }
         }
     }    

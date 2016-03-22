@@ -14,19 +14,6 @@ import UIKit
     var weekViewWidth: CGFloat = 0.0
     let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
     
-    func calculateWeekViewSlotWidth () {
-        // medication administration slots have to be made constant width , medication details flexible width
-
-        // here width has to be changed.
-        if (appDelegate.windowState == DCWindowState.fullWindow) {
-            
-            weekViewWidth = (appDelegate.calendarViewWidth)/5
-        }
-        else {
-            weekViewWidth = (appDelegate.calendarViewWidth)/3
-        }
-    }
-    
     func populateViewForDateArray(dateArray : NSArray) {
         
         self.dateArray = dateArray
@@ -37,7 +24,6 @@ import UIKit
     
     func showDatesInView( dateArray : NSArray ) {
         
-        calculateWeekViewSlotWidth()
         var counterLimit : NSInteger = 2
         if (appDelegate.windowState == DCWindowState.fullWindow) {
             counterLimit = 4
