@@ -54,6 +54,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         medicationTableView!.tableFooterView = UIView(frame: CGRectZero)
         medicationTableView!.delaysContentTouches = false
         generateCurrentWeekDatesArray()
+        medicationTableView!.addSubview(self.refreshControl)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -95,6 +96,26 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         }
     }
     
+    // MARK: - Pull to refresh methods
+    
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: "handleRefresh:", forControlEvents: UIControlEvents.ValueChanged)
+        
+        return refreshControl
+    }()
+    
+    func handleRefresh(refreshControl: UIRefreshControl) {
+        // Do some reloading of data and update the table view's data source
+        // Fetch more objects from a web service, for example...
+        let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
+        refreshControl.endRefreshing()
+        parentViewController.showActivityIndicationOnViewRefresh(true)
+        parentViewController.fetchMedicationListForPatientWithCompletionHandler { (Bool) -> Void in
+            parentViewController.showActivityIndicationOnViewRefresh(false)
+        }
+    }
+
     //MARK: - Collection View Delegate Methods
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -410,6 +431,11 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
                     atSlotIndex:0)
                 statusView.isOneThirdScreen = true
                 let weekdate = centerDate
+                if statusView.statusLabel?.text == NSLocalizedString("DUE_NOW", comment: "due now text") {
+                    medicationCell.medicineDetailHolderView.backgroundColor = DUE_NOW_BACKGROUND_COLOR
+                } else {
+                    medicationCell.medicineDetailHolderView.backgroundColor = UIColor.whiteColor()
+                }
                 medicationCell.adminstrationStatusView.addSubview(statusView)
                 statusView.configureStatusViewForWeekDate(weekdate)
             }

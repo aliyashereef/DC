@@ -13,6 +13,8 @@ import UIKit
     private var xAxisValue:[NSDate]!
     private var yAxisValue:[Double]!
     
+    
+    
         override func drawRect(rect: CGRect) {
             
             for subUIView in self.subviews {
@@ -119,27 +121,47 @@ import UIKit
                 }
                 
             // draw the circle dots on the graph
+//            for i in 0..<yAxisValue.count
+//            {
+//                var point = CGPoint(x:columnXPoint(xAxisValue[i].getDatePart(displayView,startDate:graphStartDate)) , y:columnYPoint(yAxisValue[i]))
+//                point.x -= 5.0/2
+//                point.y -= 5.0/2
+//                let circle = UIBezierPath(ovalInRect: CGRect(origin: point, size: CGSize(width: 5.0,height: 5.0)))
+//                circle.fill()
+//            }
+
+                
+                
             for i in 0..<yAxisValue.count
             {
-                var point = CGPoint(x:columnXPoint(xAxisValue[i].getDatePart(displayView,startDate:graphStartDate)) , y:columnYPoint(yAxisValue[i]))
-                point.x -= 5.0/2
-                point.y -= 5.0/2
-                let circle = UIBezierPath(ovalInRect: CGRect(origin: point, size: CGSize(width: 5.0,height: 5.0)))
-                circle.fill()
+                let point = CGPoint(x:columnXPoint(xAxisValue[i].getDatePart(displayView,startDate:graphStartDate)) , y:columnYPoint(yAxisValue[i]))
+                
+                let dot = UIButton(type: UIButtonType.Custom) as UIButton
+                dot.frame = CGRect(origin: point, size: CGSize(width: 16.0,height: 16.0))
+                dot.setImage(UIImage(named:"whiteDot" as String)!, forState: UIControlState.Normal)
+                dot.center = point
+                dot.tag = i // save the item number in tag so that later on you can access the records.
+                dot.addTarget(self, action: "btnTouched:", forControlEvents:.TouchUpInside)
+                self.addSubview(dot)
             }
-            
+
+                
             drawHorizontalLines()
             // add last entered label
             drawLatestReadiongLabels()
             // now add the label on the UI
             drawXAxisLabels()
-           
              // set the bit false again to be used next time
                 self.drawGraph = false
             }
         }
     
-   override func setMaxYAxis() {
+    override func getToolTip(tag: Int) -> String {
+        
+        return String("(\(yAxisValue[tag]),\(xAxisValue[tag].getFormattedDateTime()))")
+        
+    }
+       override func setMaxYAxis() {
         if(self.yAxisValue != nil && self.yAxisValue.count>0)
         {
             self.maxYAxis = Int(ceil (yAxisValue.maxElement()!))

@@ -26,7 +26,7 @@ class Pulse : VitalSignBaseModel
         let observation = Observation(code:code  , status: "final")
         observation.comments = associatedText
         observation.effectiveDateTime = FHIRDate(super.date)
-        observation.valueQuantity = FHIRQuantity(stringValue, doubleQuantity: pulseRate, unit: "beats/min")
+        observation.valueQuantity = FHIRQuantity(stringValue, unit: "beats/min")
         return observation
     }
 }

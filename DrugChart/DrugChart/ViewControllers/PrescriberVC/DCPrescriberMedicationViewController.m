@@ -47,7 +47,7 @@ typedef enum : NSUInteger {
     UIView *dateView;
     __weak IBOutlet UIView *MonthYearView;
     __weak IBOutlet NSLayoutConstraint *monthYearViewWidthConstraint;
-
+    NSTimer *refreshTimer;
     NSDate *firstDisplayDate;
     UIBarButtonItem *addButton;
     UIButton *warningsButton;
@@ -62,6 +62,7 @@ typedef enum : NSUInteger {
     BOOL isOneThirdMedicationViewShown;
     BOOL windowSizeChanged;
     BOOL fetchOnLayout;
+    BOOL isInBackground;
     SortType sortType;
     NSIndexPath *administrationViewPresentedIndexPath;
     DCPrescriberMedicationListViewController *prescriberMedicationListViewController;
@@ -111,6 +112,8 @@ typedef enum : NSUInteger {
     
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkAvailable:) name:kNetworkAvailable object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationEnteredBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationEnteredForeground:) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -122,7 +125,7 @@ typedef enum : NSUInteger {
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    if (windowSizeChanged) {
+    if (windowSizeChanged && !isInBackground) {
         [self prescriberCalendarChildViewControllerBasedOnWindowState];
         [self configureDateArrayForOneThirdCalendarScreen];
         [self setCurrentScreenOrientation];
@@ -417,6 +420,7 @@ typedef enum : NSUInteger {
     
     [self showActivityIndicationOnViewRefresh:true];
     [noMedicationsAvailableLabel setHidden:YES];
+    [self initialiseTimer];
     [self fetchMedicationListForPatientId:self.patient.patientId
                     withCompletionHandler:^(NSArray *result, NSError *error) {
                         
@@ -1023,6 +1027,40 @@ typedef enum : NSUInteger {
 #pragma mark - Notification Methods
 
 - (void)networkAvailable:(NSNotification *)notification {
+    
+    [self refreshMedicationList];
+}
+
+- (void)applicationEnteredBackground:(NSNotification *)notification {
+    
+    NSLog(@"******* Entered background *****");
+    isInBackground = YES;
+}
+
+- (void)applicationEnteredForeground:(NSNotification *)notification {
+    
+    NSLog(@"****** ENtered foreground");
+    isInBackground = NO;
+}
+
+#pragma mark - Refresh Timer methods
+
+- (void)initialiseTimer {
+    
+    [self invalidateTimer];
+    refreshTimer = [NSTimer scheduledTimerWithTimeInterval:FIFTEEN_MINUTES target:self selector:@selector(handleRefreshTimerAction) userInfo:nil repeats:NO];
+}
+
+- (void)invalidateTimer {
+    
+    if (refreshTimer) {
+        
+        [refreshTimer invalidate];
+        refreshTimer = nil;
+    }
+}
+
+- (void)handleRefreshTimerAction {
     
     [self refreshMedicationList];
 }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SingleLineGraphController: UIViewController {
+class SingleLineGraphController: UIViewController , ObservationDelegate,UIPopoverPresentationControllerDelegate  {
 
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet var lineGraph: LineGraphView!
@@ -20,7 +20,9 @@ class SingleLineGraphController: UIViewController {
         // Do any additional setup after loading the view.
         lineGraph.plotLineGraph(graphData.xAxisValue, yAxisValue: graphData.yAxisValue, displayView: graphData.graphDisplayView, graphTitle: graphData.cellTitle, graphStartDate: graphData.graphStartDate, graphEndDate: graphData.graphEndDate, latestReadingText: graphData.latestObservationText, latestReadingDate: graphData.latestObservationDate ,noOfHorizontalLines: Constant.FULL_SCREEN_GRAPH_HORIZONTAL_LINES
            )
+        lineGraph.observationDelegate = self
         setDateLabel()
+        
     }
     
     func setDateLabel()
@@ -43,6 +45,20 @@ class SingleLineGraphController: UIViewController {
    
     lineGraph.plotLineGraph(graphData.xAxisValue, yAxisValue: graphData.yAxisValue, displayView: graphData.graphDisplayView, graphTitle: graphData.cellTitle, graphStartDate: graphData.graphStartDate, graphEndDate: graphData.graphEndDate, latestReadingText: graphData.latestObservationText, latestReadingDate: graphData.latestObservationDate,noOfHorizontalLines: Constant.FULL_SCREEN_GRAPH_HORIZONTAL_LINES)
 }
+    
+    func ShowPopOver(viewController: UIViewController)
+    {
+        if let popover = viewController.popoverPresentationController {
+            popover.delegate = self
+        }
+        self.presentViewController(viewController, animated: false, completion: nil)
+    }
+    
+    func adaptivePresentationStyleForPresentationController(
+        controller: UIPresentationController) -> UIModalPresentationStyle {
+            return .None
+    }
+
 
     /*
     // MARK: - Navigation

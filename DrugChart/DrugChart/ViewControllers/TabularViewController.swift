@@ -123,8 +123,6 @@ class TabularViewController: PatientViewController , UICollectionViewDataSource,
                     headerText = Constant.BLOOD_PRESSURE
                 case ObservationTabularViewRow.Pulse.rawValue:
                     headerText = Constant.PULSE
-                /*case ObservationTabularViewRow.BM.rawValue:
-                    headerText = Constant.BM*/
                 case ObservationTabularViewRow.News.rawValue:
                     headerText = Constant.NEWS
                 case ObservationTabularViewRow.CommaScore.rawValue:
@@ -177,11 +175,10 @@ class TabularViewController: PatientViewController , UICollectionViewDataSource,
                 case ObservationTabularViewRow.Pulse.rawValue:
                     contentCell.configureCell(observation,showobservationType: .Pulse)
                     contentCell.contentLabel.text = observation.getPulseReading()
-                /*case ObservationTabularViewRow.BM.rawValue:
-                    contentCell.configureCell(observation,showobservationType: .BM)
-                    contentCell.contentLabel.text = observation.getBMReading()*/
                 case ObservationTabularViewRow.News.rawValue:
                     contentCell.configureCell(observation,showobservationType: .None)
+                    //let newsScore = observation.newsScore
+                   // contentCell.contentLabel.text = observation.newsScore
                     let newsScore = observation.getNews()
                     contentCell.contentLabel.text = newsScore
                     contentCell.backgroundColor = getNewsRowColor(newsScore)

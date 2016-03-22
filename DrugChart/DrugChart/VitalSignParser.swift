@@ -86,12 +86,29 @@ class VitalSignParser : FhirParser
 //    }
 //    }
     
-    var CARE_RECORD_URL = "patients/%@/carerecord/observations?CodeValues=%@&StartDateTime=%@&EndDateTime=%@&IncludeMostRecent=%@"
+    var CARE_RECORD_URL_SEARCH = "patients/%@/carerecord/observations?CodeValues=%@&StartDateTime=%@&EndDateTime=%@&IncludeMostRecent=%@"
     
-
+    var CARE_RECORD_URL_POST = "patients/%@/carerecord/observations"
+    
+    
+    func saveVitalSignObservations(patientId:String,requestBody:String, onCompletion:(saveSuccessfully:Bool)->Void)
+    {
+        let url = String(format:CARE_RECORD_URL_POST , patientId )
+        super.connectServerPost(url, requestJSON: requestBody){(status:Int) in
+           if(status == 200)
+           {
+              onCompletion( saveSuccessfully: true)
+           }
+            else
+           {
+              onCompletion(saveSuccessfully: false)
+           }
+        }
+    }
+    
     func getVitalSignsObservations(patientId:String, commaSeparatedCodes:String, startDate:NSDate, endDate:NSDate , includeMostRecent:Bool , onSuccess:(observationList:[VitalSignObservation])->Void)
     {
-        let url = String(format:CARE_RECORD_URL , patientId , commaSeparatedCodes , startDate.getFHIRDateandTime() , endDate.getFHIRDateandTime(), includeMostRecent == true ?"true":"false")
+        let url = String(format:CARE_RECORD_URL_SEARCH , patientId , commaSeparatedCodes , startDate.getFHIRDateandTime() , endDate.getFHIRDateandTime(), includeMostRecent == true ?"true":"false")
         
         super.connectServerGet(url){(json:FHIRJSON? , error:NSError? ) in
             var lstObservation = [VitalSignObservation]()
@@ -152,6 +169,20 @@ class VitalSignParser : FhirParser
                         {
                             obsVitalSign.pulse = (object as? Pulse)!
                         }
+//                        else if (object.isKindOfClass(AdditionalOxygen))
+//                        {
+//                            obsVitalSign.additionalOxygen = true
+//                        }
+//                        else if (object.isKindOfClass(AVPU))
+//                        {
+//                            let levelofConscious = object as? AVPU
+//                            obsVitalSign.isConscious = levelofConscious?.isConscious
+//                        }
+//                        else if (object.isKindOfClass(News))
+//                        {
+//                            let news = object as? News
+//                            obsVitalSign.newsScore = String(news?.newsScore)
+//                        }
                 }
                 }
                 onSuccess(observationList: lstObservation)
@@ -227,6 +258,26 @@ class VitalSignParser : FhirParser
             obsPulse.pulseRate = obs.valueQuantity!.value!.doubleValue
             obsPulse.stringValue = (obs.valueQuantity?.stringValue)!
             return obsPulse
+      case Constant.CODE_ADDITIONAL_OXYGEN:
+            let obsAdditionalOxygen = AdditionalOxygen()
+            obsAdditionalOxygen.onOxygen = true
+            return obsAdditionalOxygen
+      case Constant.CODE_AVPU:
+            let obsAVPU = AVPU()
+            let value = obs.valueQuantity?.value?.doubleValue
+            if(value == 0)
+            {
+                obsAVPU.isConscious = true
+            }
+            else
+            {
+                obsAVPU.isConscious = false
+            }
+            return obsAVPU
+      case Constant.CODE_NEWS:
+        let news  = News()
+        news.newsScore = Int((obs.valueQuantity?.value?.stringValue)!)!
+        return news
       default:
             return nil
       }
