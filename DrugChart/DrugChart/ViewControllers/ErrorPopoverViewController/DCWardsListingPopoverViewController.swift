@@ -157,7 +157,6 @@ class DCWardsListingPopoverViewController : DCBaseViewController , UITableViewDe
     func showSearchBar () {
         
         if searchActive {
-            wardsTableView.contentOffset = CGPointZero
             wardsTableView.setContentOffset(CGPointZero, animated: false)
         } else {
             self.performSelector("hideSearchBar", withObject:nil , afterDelay:0.0)
