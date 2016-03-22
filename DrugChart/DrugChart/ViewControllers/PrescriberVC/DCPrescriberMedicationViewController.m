@@ -47,7 +47,7 @@ typedef enum : NSUInteger {
     UIView *dateView;
     __weak IBOutlet UIView *MonthYearView;
     __weak IBOutlet NSLayoutConstraint *monthYearViewWidthConstraint;
-
+    NSTimer *refreshTimer;
     NSDate *firstDisplayDate;
     UIBarButtonItem *addButton;
     UIButton *warningsButton;
@@ -420,6 +420,7 @@ typedef enum : NSUInteger {
     
     [self showActivityIndicationOnViewRefresh:true];
     [noMedicationsAvailableLabel setHidden:YES];
+    [self initialiseTimer];
     [self fetchMedicationListForPatientId:self.patient.patientId
                     withCompletionHandler:^(NSArray *result, NSError *error) {
                         
@@ -1040,6 +1041,28 @@ typedef enum : NSUInteger {
     
     NSLog(@"****** ENtered foreground");
     isInBackground = NO;
+}
+
+#pragma mark - Refresh Timer methods
+
+- (void)initialiseTimer {
+    
+    [self invalidateTimer];
+    refreshTimer = [NSTimer scheduledTimerWithTimeInterval:FIFTEEN_MINUTES target:self selector:@selector(handleRefreshTimerAction) userInfo:nil repeats:NO];
+}
+
+- (void)invalidateTimer {
+    
+    if (refreshTimer) {
+        
+        [refreshTimer invalidate];
+        refreshTimer = nil;
+    }
+}
+
+- (void)handleRefreshTimerAction {
+    
+    [self refreshMedicationList];
 }
 
 @end

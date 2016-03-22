@@ -43,6 +43,7 @@
 #define DOT @"."
 #define COLON @":"
 #define NONE_TEXT @"None"
+#define FIFTEEN_MINUTES 900.0
 
 //web requests
 

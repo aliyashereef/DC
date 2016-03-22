@@ -54,6 +54,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         medicationTableView!.tableFooterView = UIView(frame: CGRectZero)
         medicationTableView!.delaysContentTouches = false;
         addPanGestureToPrescriberTableView()
+        medicationTableView!.addSubview(self.refreshControl)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -67,6 +68,28 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         super.didReceiveMemoryWarning()
     }
     
+    // MARK: - Pull to refresh methods
+
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: "handleRefresh:", forControlEvents: UIControlEvents.ValueChanged)
+        
+        return refreshControl
+    }()
+    
+    func handleRefresh(refreshControl: UIRefreshControl) {
+        // Do some reloading of data and update the table view's data source
+        // Fetch more objects from a web service, for example...
+        
+        // Simply adding an object to the data source for this example
+        let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
+        refreshControl.endRefreshing()
+        parentViewController.showActivityIndicationOnViewRefresh(true)
+        parentViewController.fetchMedicationListForPatientWithCompletionHandler { (Bool) -> Void in
+            parentViewController.showActivityIndicationOnViewRefresh(false)
+        }
+    }
+
     // MARK: - UITableView DataSource Methods
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -352,7 +375,6 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             })
         }
         self.modifyParentViewOnSwipeEnd(parentViewController)
-        
     }
     
     func resetMedicationListCellsToOriginalPositionAfterCalendarSwipe() {
