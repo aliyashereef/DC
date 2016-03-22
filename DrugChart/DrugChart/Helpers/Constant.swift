@@ -39,5 +39,5 @@ class Constant
     static let CODE_DIASTOLIC_READING = "619931000006119"
     static let CODE_ADDITIONAL_OXYGEN = "95596013"
     static let CODE_AVPU = "1959741000006117"
-    static let CODE_NEWS = "247999010"
+    static let CODE_NEWS = "1859591000006111"
 }

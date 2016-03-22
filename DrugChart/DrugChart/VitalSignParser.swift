@@ -184,20 +184,20 @@ class VitalSignParser : FhirParser
                         {
                             obsVitalSign.pulse = (object as? Pulse)!
                         }
-//                        else if (object.isKindOfClass(AdditionalOxygen))
-//                        {
-//                            obsVitalSign.additionalOxygen = true
-//                        }
-//                        else if (object.isKindOfClass(AVPU))
-//                        {
-//                            let levelofConscious = object as? AVPU
-//                            obsVitalSign.isConscious = levelofConscious?.isConscious
-//                        }
-//                        else if (object.isKindOfClass(News))
-//                        {
-//                            let news = object as? News
-//                            obsVitalSign.newsScore = String(news?.newsScore)
-//                        }
+                        else if (object.isKindOfClass(AdditionalOxygen))
+                        {
+                            obsVitalSign.additionalOxygen = true
+                        }
+                        else if (object.isKindOfClass(AVPU))
+                        {
+                            let levelofConscious = object as? AVPU
+                            obsVitalSign.isConscious = levelofConscious?.isConscious
+                        }
+                        else if (object.isKindOfClass(News))
+                        {
+                            let news = object as? News
+                            obsVitalSign.newsScore = String(news!.newsScore)
+                        }
                 }
                 }
                 onSuccess(observationList: lstObservation)
@@ -286,11 +286,14 @@ class VitalSignParser : FhirParser
             return obsPulse
       case Constant.CODE_ADDITIONAL_OXYGEN:
             let obsAdditionalOxygen = AdditionalOxygen()
+            obsAdditionalOxygen.date = observationDate!
             obsAdditionalOxygen.onOxygen = true
             return obsAdditionalOxygen
       case Constant.CODE_AVPU:
             let obsAVPU = AVPU()
+            obsAVPU.date = observationDate!
             let value = obs.valueQuantity?.value?.doubleValue
+            
             if(value == 0)
             {
                 obsAVPU.isConscious = true
@@ -302,6 +305,7 @@ class VitalSignParser : FhirParser
             return obsAVPU
       case Constant.CODE_NEWS:
         let news  = News()
+        news.date = observationDate!
         news.newsScore = Int((obs.valueQuantity?.value?.stringValue)!)!
         return news
       default:

@@ -8,11 +8,11 @@
 
 import Foundation
 
-class AdditionalOxygen
+class AdditionalOxygen : VitalSignBaseModel
 {
     var onOxygen:Bool
     
-    init()
+    override init()
     {
         onOxygen = false
     }

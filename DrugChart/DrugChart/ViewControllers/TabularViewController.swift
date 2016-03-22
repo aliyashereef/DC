@@ -177,9 +177,7 @@ class TabularViewController: PatientViewController , UICollectionViewDataSource,
                     contentCell.contentLabel.text = observation.getPulseReading()
                 case ObservationTabularViewRow.News.rawValue:
                     contentCell.configureCell(observation,showobservationType: .None)
-                    //let newsScore = observation.newsScore
-                   // contentCell.contentLabel.text = observation.newsScore
-                    let newsScore = observation.getNews()
+                    let newsScore = observation.newsScore
                     contentCell.contentLabel.text = newsScore
                     contentCell.backgroundColor = getNewsRowColor(newsScore)
                 case ObservationTabularViewRow.CommaScore.rawValue:
@@ -265,19 +263,8 @@ class TabularViewController: PatientViewController , UICollectionViewDataSource,
         self.presentViewController(alertController, animated: true, completion: nil)
     }
     
-  
-//    func filterList()
-//    {
-//        let calendar = NSCalendar.currentCalendar()
-//        let chosenDateComponents = calendar.components([.Month , .Year], fromDate: viewByDate)
-//        
-//        filteredObservations = observationList.filter { (observationList) -> Bool in
-//            let components = calendar.components([.Month, .Year], fromDate:observationList.date)
-//            return components.month == chosenDateComponents.month && components.year == chosenDateComponents.year
-//        }
-//    }
 
-    override func didReceiveMemoryWarning() {
+   override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
