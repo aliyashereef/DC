@@ -149,6 +149,7 @@
 #define MEDICATION_TYPE_STORYBOARD_ID @"MedicationTypeStoryboardId"
 #define MEDICATION_SUMMARY_ADMINISTRATION_HISTORY_SBID @"summaryAdministrationHistoryDisplay"
 #define MEDICATION_SUMMARY_REVIEW_HISTORY_SBID @"summaryReviewHistoryDisplay"
+#define REVIEW_VIEW_CONTROLLER_SB_ID @"ReviewViewController"
 
 
 //Nib files
@@ -237,6 +238,8 @@
 #define SINGLE_DOSE_PICKER_CELL_ID @"SingleDosePickerCellId"
 #define SINGLE_DOSE_ENTRY_CELL_ID @"SingleDoseEntryCellId"
 #define TYPE_CELL_ID @"TypeCellId"
+#define REVIEW_SELECTION_CELL_ID @"ReviewSelectionCellId"
+#define NEW_REVIEW_CELL_ID @"newReviewCellId"
 
 // Week days
 
@@ -595,5 +598,10 @@
 #define PERIPHERAL_LINE_TWO @"Peripheral line 2"
 #define MG_PER_HOUR @"mg/Hour"
 #define MG_PER_MINUTE @"mg/Minute"
+
+
+#define REVIEW_INTERVAL @"Review Interval"
+#define REVIEW_DATE @"Review Date"
+
 
 #endif

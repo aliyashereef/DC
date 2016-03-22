@@ -710,6 +710,7 @@
     self.selectedMedication.dose = [[DCDosage alloc] init];
     dosageArray = [NSMutableArray arrayWithObjects:medication.dosage, nil];
     self.selectedMedication.infusion = [[DCInfusion alloc] init];
+    self.selectedMedication.medicationReview = [[DCMedicationReview alloc] init];
     [medicationDetailsTableView reloadData];
 }
 
@@ -859,19 +860,23 @@
 - (void)displayReviewViewController {
     
     UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
-    DCAddNewValueViewController *addNewValueViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:ADD_NEW_VALUE_SBID];
-    addNewValueViewController.titleString = NSLocalizedString(@"Review Frequency", @"screen title");;
-    addNewValueViewController.placeHolderString = @"In";
-    addNewValueViewController.backButtonTitle = @"Add Medication";
-    addNewValueViewController.detailType = eAddValueWithUnit;
-    addNewValueViewController.unitArray = [[NSArray alloc] initWithObjects:@"Day",@"Week",@"Month",nil];
-    addNewValueViewController.previousValue = self.selectedMedication.reviewDate;
-    addNewValueViewController.newValueEntered = ^ (NSString *value) {
-        self.selectedMedication.reviewDate = [NSString stringWithFormat:@"In %@",value];
-        [medicationDetailsTableView reloadData];
-    };
-    self.title = titleLabel.text;
-    [self.navigationController pushViewController:addNewValueViewController animated:YES];
+//    DCAddNewValueViewController *addNewValueViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:ADD_NEW_VALUE_SBID];
+//    addNewValueViewController.titleString = NSLocalizedString(@"Review Frequency", @"screen title");;
+//    addNewValueViewController.placeHolderString = @"In";
+//    addNewValueViewController.backButtonTitle = @"Add Medication";
+//    addNewValueViewController.detailType = eAddValueWithUnit;
+//    addNewValueViewController.unitArray = [[NSArray alloc] initWithObjects:@"Day",@"Week",@"Month",nil];
+//    addNewValueViewController.previousValue = self.selectedMedication.reviewDate;
+//    addNewValueViewController.newValueEntered = ^ (NSString *value) {
+//        self.selectedMedication.reviewDate = [NSString stringWithFormat:@"In %@",value];
+//        [medicationDetailsTableView reloadData];
+//    };
+//    self.title = titleLabel.text;
+//    [self.navigationController pushViewController:addNewValueViewController animated:YES];
+    DCReviewViewController *reviewViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:REVIEW_VIEW_CONTROLLER_SB_ID];
+    reviewViewController.title = NSLocalizedString(@"Review Frequency", @"screen title");
+    reviewViewController.review = self.selectedMedication.medicationReview;
+    [self.navigationController pushViewController:reviewViewController animated:YES];
 }
 
 - (void)displayMedicationTypeView {
