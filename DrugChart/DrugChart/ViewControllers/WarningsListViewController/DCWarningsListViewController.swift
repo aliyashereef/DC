@@ -12,6 +12,8 @@ let ROW_HEIGHT : CGFloat = 80.0
 let ROW_OFFSET_VALUE : CGFloat = 25.0
 let INITIAL_INDEX = 0
 let SECOND_INDEX = 1
+let NAVIGATION_BAR_HEIGHT_WITH_STATUS_BAR : CGFloat = 64.0
+let NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR : CGFloat = 44.0
 
 @objc public protocol WarningsDelegate {
     
@@ -26,6 +28,7 @@ let SECOND_INDEX = 1
     var warningsArray = [Dictionary<String, AnyObject>]()
     var severeArray : AnyObject?
     var mildArray : AnyObject?
+    var overiddenReason : NSString?
     var loadOverideView : Bool? = false
     var delegate: WarningsDelegate?
     
@@ -44,6 +47,21 @@ let SECOND_INDEX = 1
         // this is set to adjust the bottom constraint, view doesnot move on to its actual height initially
         tableHeight?.constant = DCUtility.mainWindowSize().height - 64
         warningsTableView.layoutSubviews()
+    }
+        
+    override func viewDidLayoutSubviews() {
+        
+        super.viewDidLayoutSubviews()
+        let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
+        if let navigationBar = self.navigationController?.navigationBar {
+            var frame = navigationBar.frame
+            if (appDelegate.windowState == DCWindowState.oneThirdWindow || appDelegate.windowState == DCWindowState.halfWindow) {
+                frame.size.height = NAVIGATION_BAR_HEIGHT_WITH_STATUS_BAR
+            } else {
+                frame.size.height = NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR
+            }
+            navigationBar.frame = frame
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -99,22 +117,42 @@ let SECOND_INDEX = 1
                 sectionCount = sectionCount + 1
             }
         }
+        if loadOverideView == false && overiddenReason != nil{
+            sectionCount++
+        }
         return sectionCount
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        if section == SectionCount.eZerothSection.rawValue {
-            if severeArray?.count > 0 {
-                return severeArray!.count
+        if loadOverideView == false && overiddenReason != nil{
+            if section == SectionCount.eZerothSection.rawValue {
+                return 1
+            } else if section == SectionCount.eFirstSection.rawValue {
+                if severeArray?.count > 0 {
+                    return severeArray!.count
+                } else {
+                    if mildArray?.count > 0 {
+                        return mildArray!.count
+                    }
+                }
             } else {
                 if mildArray?.count > 0 {
                     return mildArray!.count
                 }
             }
         } else {
-            if mildArray?.count > 0 {
-                return mildArray!.count
+            if section == SectionCount.eZerothSection.rawValue {
+                if severeArray?.count > 0 {
+                    return severeArray!.count
+                } else {
+                    if mildArray?.count > 0 {
+                        return mildArray!.count
+                    }
+                }
+            } else {
+                if mildArray?.count > 0 {
+                    return mildArray!.count
+                }
             }
         }
         return RowCount.eZerothRow.rawValue
@@ -123,10 +161,19 @@ let SECOND_INDEX = 1
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell : DCWarningsCell = (tableView.dequeueReusableCellWithIdentifier(WARNINGS_CELL_ID) as? DCWarningsCell)!
-        if indexPath.section == SectionCount.eZerothSection.rawValue {
-            if severeArray?.count > 0 {
-            if let warning = severeArray?[indexPath.row]! as? DCWarning {
-                cell.populateWarningsCellWithWarningsObject(warning)
+        if loadOverideView == false && overiddenReason != nil {
+            if indexPath.section == SectionCount.eZerothSection.rawValue {
+                cell.populateCellWithOverrideReasonObject(overiddenReason!)
+
+            }else if indexPath.section == SectionCount.eFirstSection.rawValue {
+                if severeArray?.count > 0 {
+                    if let warning = severeArray?[indexPath.row]! as? DCWarning {
+                        cell.populateWarningsCellWithWarningsObject(warning)
+                    }
+                } else {
+                    if let warning = mildArray?[indexPath.row]! as? DCWarning {
+                        cell.populateWarningsCellWithWarningsObject(warning)
+                    }
                 }
             } else {
                 if let warning = mildArray?[indexPath.row]! as? DCWarning {
@@ -134,8 +181,20 @@ let SECOND_INDEX = 1
                 }
             }
         } else {
-            if let warning = mildArray?[indexPath.row]! as? DCWarning {
-                cell.populateWarningsCellWithWarningsObject(warning)
+            if indexPath.section == SectionCount.eZerothSection.rawValue {
+                if severeArray?.count > 0 {
+                    if let warning = severeArray?[indexPath.row]! as? DCWarning {
+                        cell.populateWarningsCellWithWarningsObject(warning)
+                    }
+                } else {
+                    if let warning = mildArray?[indexPath.row]! as? DCWarning {
+                        cell.populateWarningsCellWithWarningsObject(warning)
+                    }
+                }
+            } else {
+                if let warning = mildArray?[indexPath.row]! as? DCWarning {
+                    cell.populateWarningsCellWithWarningsObject(warning)
+                }
             }
         }
         return cell
@@ -143,14 +202,28 @@ let SECOND_INDEX = 1
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
-        if section == SectionCount.eZerothSection.rawValue {
-            if severeArray?.count > 0 {
-                return NSLocalizedString("SEVERE", comment: "Severe Warnings title")
+        if loadOverideView == false && overiddenReason != nil {
+            if section == SectionCount.eZerothSection.rawValue{
+                return NSLocalizedString("OVERRIDE REASON", comment: "override reasons title")
+            }else if section == SectionCount.eFirstSection.rawValue {
+                if severeArray?.count > 0 {
+                    return NSLocalizedString("SEVERE", comment: "Severe Warnings title")
+                } else {
+                    return NSLocalizedString("MILD", comment: "Mild Warnings title")
+                }
             } else {
                 return NSLocalizedString("MILD", comment: "Mild Warnings title")
             }
         } else {
-            return NSLocalizedString("MILD", comment: "Mild Warnings title")
+            if section == SectionCount.eZerothSection.rawValue {
+                if severeArray?.count > 0 {
+                    return NSLocalizedString("SEVERE", comment: "Severe Warnings title")
+                } else {
+                    return NSLocalizedString("MILD", comment: "Mild Warnings title")
+                }
+            } else {
+                return NSLocalizedString("MILD", comment: "Mild Warnings title")
+            }
         }
     }
         
@@ -165,8 +238,7 @@ let SECOND_INDEX = 1
     @IBAction func overrideButtonPressed(sender: AnyObject) {
         
         //display reason view
-        let detailViewController : DCAddMedicationDetailViewController? = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(ADD_MEDICATION_DETAIL_STORYBOARD_ID) as? DCAddMedicationDetailViewController
-        detailViewController!.detailType = eOverrideReason
+        let detailViewController : DCOverrideViewController? = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(ADD_MEDICATION_DETAIL_STORYBOARD_ID) as? DCOverrideViewController
         detailViewController?.delegate = self
         let navigationController : UINavigationController? = UINavigationController(rootViewController: detailViewController!)
         navigationController?.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
@@ -175,7 +247,7 @@ let SECOND_INDEX = 1
     
     // MARK : AddMedicationDetailDelegate Methods
     
-    func overrideReasonSubmitted(reason: String!) {
+    func overrideReasonSubmittedInDetailView(reason: String!) {
         
         if let delegate = self.delegate {
             delegate.overrideReasonSubmitted(reason)

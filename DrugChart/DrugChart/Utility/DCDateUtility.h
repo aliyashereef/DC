@@ -24,7 +24,7 @@
 + (NSString *)dateStringFromDate:(NSDate *)date
                         inFormat:(NSString *)formatString;
 
-+ (NSDate *)dateInCurrentTimeZone:(NSDate *)date;
++ (NSDate *)midNightTimeForDate:(NSDate *)date;
 
 + (NSDate *)shortDateFromDate:(NSDate *)originalDate;
 

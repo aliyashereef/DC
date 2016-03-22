@@ -10,26 +10,53 @@
 
 @implementation DCDateUtility
 
+#define CUSTOM_DATE_FORMAT @"yyyy-MM-d HH:mm:ss"
+
++ (NSDateFormatter *)sharedDateFormatter {
+    static NSDateFormatter *sharedFormatter = nil;
+    static dispatch_once_t onceToken;
+    
+    dispatch_once(&onceToken, ^{
+        sharedFormatter = [[NSDateFormatter alloc] init];
+    });
+    
+    return sharedFormatter;
+}
+
 + (NSDate *)initialDateForCalendarDisplay:(NSDate *)date
-                              withAdderValue:(NSInteger)adder {
+                           withAdderValue:(NSInteger)adder {
     
     //make current date as the middle date and get initial day of the week
     NSCalendar *currentCalendar = [NSCalendar currentCalendar];
-    [currentCalendar setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
+    // since iOS returns the date in UTC, we are setting the calendar days from the datecomponents
+    // in the same format.
+    [currentCalendar setTimeZone:[NSTimeZone timeZoneWithAbbreviation:UTC]];
     NSDateComponents *components = [currentCalendar components:DATE_COMPONENTS fromDate:date];
     [components setDay:components.day];
-    [components setHour:0];
-    [components setMinute:1];
-    [components setSecond:0];
-    NSDate *todayMidnightDate = [currentCalendar dateFromComponents:components];
+    NSDate *todayMidnightDate = [self midNightTimeForDate:date];
     NSDateComponents *initialComponents = [currentCalendar components:DATE_COMPONENTS fromDate:todayMidnightDate];
     [initialComponents setDay:components.day + adder];
     [initialComponents setHour:0];
-    [initialComponents setMinute:1];
+    [initialComponents setMinute:0];
     [initialComponents setSecond:0];
     NSDate *initialDate = [currentCalendar dateFromComponents:initialComponents];
     return initialDate;
     
+}
+
++ (NSDate *)midNightTimeForDate:(NSDate *)date {
+    
+    NSCalendar *currentCalendar = [NSCalendar currentCalendar];
+    // since iOS returns the date in UTC, we are setting the calendar days from the datecomponents
+    // in the same format.
+    [currentCalendar setTimeZone:[NSTimeZone timeZoneWithAbbreviation:UTC]];
+    NSDateComponents *components = [currentCalendar components:DATE_COMPONENTS fromDate:date];
+    [components setDay:components.day];
+    [components setHour:0];
+    [components setMinute:0];
+    [components setSecond:0];
+    NSDate *todayMidnightDate = [currentCalendar dateFromComponents:components];
+    return todayMidnightDate;
 }
 
 + (NSDate *)shortDateFromDate:(NSDate *)originalDate {
@@ -45,7 +72,7 @@
 + (NSArray *)monthNames {
     
     //get month names
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    NSDateFormatter *formatter = [self sharedDateFormatter];
     NSMutableArray *monthSymbols = [[NSMutableArray alloc] init];
     for(int months = 0; months < 12; months++) {
         [monthSymbols addObject:[NSString stringWithFormat:@"%@", [[formatter monthSymbols]objectAtIndex: months]]];
@@ -74,7 +101,9 @@
     NSMutableArray *weekdays = [[NSMutableArray alloc] init];
     for (int i = 0; i < daysCount; i++) {
         [weekdays addObject:date];
-        date = [[NSCalendar currentCalendar] dateByAddingComponents:components toDate:date options:0];
+        NSCalendar *currentCalendar = [NSCalendar currentCalendar];
+        [currentCalendar setTimeZone:[NSTimeZone timeZoneWithAbbreviation:UTC]];
+        date = [currentCalendar dateByAddingComponents:components toDate:date options:0];
     }
     return weekdays;
 }
@@ -82,8 +111,8 @@
 + (NSDate *)dateForDateString:(NSString *)dateString
                withDateFormat:(NSString *)dateFormatString {
     //convert date string to NSDate value
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
+    NSDateFormatter *formatter = [self sharedDateFormatter];
+    //[formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
     [formatter setDateFormat:dateFormatString];
     NSDate *date = [formatter dateFromString:dateString];
     return date;
@@ -92,27 +121,15 @@
 + (NSString *)dateStringFromDate:(NSDate *)date
                         inFormat:(NSString *)formatString {
  
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
+    NSDateFormatter *formatter = [self sharedDateFormatter];
     [formatter setDateFormat:formatString];
     NSString *dateString = [formatter stringFromDate:date];
     return dateString;
 }
 
-+ (NSDate *)dateInCurrentTimeZone:(NSDate *)date {
-    
-    NSTimeZone *sourceTimeZone = [NSTimeZone timeZoneWithAbbreviation:GMT];
-    NSTimeZone *destinationTimeZone = [NSTimeZone systemTimeZone];
-    NSInteger sourceGMTOffset = [sourceTimeZone secondsFromGMTForDate:date];
-    NSInteger destinationGMTOffset = [destinationTimeZone secondsFromGMTForDate:date];
-    NSTimeInterval interval = destinationGMTOffset - sourceGMTOffset;
-    NSDate *systemDate = [[NSDate alloc] initWithTimeInterval:interval sinceDate:date];
-    return systemDate;
-}
-
 + (NSString *)displayDateInTwentyFourHourFormat:(NSDate *)date {
     
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    NSDateFormatter *dateFormatter = [self sharedDateFormatter];
     [dateFormatter setDateFormat:@"HH:mm"];
     NSString *displayString = [dateFormatter stringFromDate:date];
     return displayString;
@@ -124,8 +141,7 @@
     NSArray *dateFormatterList = [NSArray arrayWithObjects:EMIS_DATE_FORMAT,
                                  @"yyyy-MM-dd HH:mm:ss", @"yyyy-MM-dd HH:mm:ss.SSS", @"yyyy-MM-dd'T'HH:mm:ss",@"dd MMM,yyyy HH:mm", @"d-MMM-yyyy HH:mm", TWENTYFOUR_HOUR_FORMAT, @"yyyy-MM-dd HH:mm",@"dd MMM yyyy",nil];//include all possible date formats here
     if (sourceString) {
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
+        NSDateFormatter *dateFormatter = [self sharedDateFormatter];
         for (NSString *dateFormatterString in dateFormatterList) {
             [dateFormatter setDateFormat:dateFormatterString];
             NSDate *originalDate = [dateFormatter dateFromString:sourceString];
@@ -141,9 +157,8 @@
 + (NSString *)nextMedicationDisplayStringFromDate:(NSDate *)date {
     
     if (date) {
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        NSDateFormatter *formatter = [self sharedDateFormatter];
         [formatter setDateFormat:DISPLAY_DATE_FORMAT];
-        [formatter setTimeZone:[NSTimeZone timeZoneWithName:GMT]];
         NSString *displayDateString = [formatter stringFromDate:date];
         if (![displayDateString isEqualToString:EMPTY_STRING]) {
             NSArray *splittedDateArray = [displayDateString componentsSeparatedByString:COMMA];
@@ -164,15 +179,13 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"HH:mm"];
     [dateFormatter setLocale:[NSLocale systemLocale]];
-    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:GMT]];
     NSString *displayString = [dateFormatter stringFromDate:time];
     return displayString;
 }
 
 + (NSDate *)administrationDateForString:(NSString *)dateString {
     
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:GMT]];
+    NSDateFormatter *dateFormatter = [self sharedDateFormatter];
     NSArray *dateFormatterList = [NSArray arrayWithObjects:@"yyyy-MM-dd'T'HH:mm:ss",
                                   @"yyyy-MM-dd'T'HH:mm:ss.SSS", nil];
     for (NSString *dateFormatterString in dateFormatterList) {
@@ -188,7 +201,7 @@
 
 + (NSString *)systemDateStringInShortDisplayFormat {
     
-    NSDate *currentSystemDate = [self dateInCurrentTimeZone:[NSDate date]];
+    NSDate *currentSystemDate = [NSDate date];
     NSString *currentDateString = [self dateStringFromDate:currentSystemDate inFormat:SHORT_DATE_FORMAT];
     return currentDateString;
 }
@@ -196,7 +209,7 @@
 + (NSDateComponents *)currentDateComponentsForCalendarUnit:(NSCalendarUnit)unit {
     
     NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDate *currentSystemDate = [self dateInCurrentTimeZone:[NSDate date]];
+    NSDate *currentSystemDate = [NSDate date];
     NSDateComponents *components = [calendar components:unit fromDate:currentSystemDate];
     return  components;
 }

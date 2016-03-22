@@ -7,16 +7,24 @@
 //
 
 import Foundation
+import FHIR
+import CocoaLumberjack
 
-class VitalSignObservation
+class VitalSignObservation:VitalSignFHIRBase
 {
-    var bloodPressure:BloodPressure?
-    var temperature:BodyTemperature?
-    var bm:BowelMovement?
-    var pulse:Pulse?
-    var respiratory:Respiratory?
-    var spo2:SPO2?
+    var bloodPressure:BloodPressure
+    var temperature:BodyTemperature
+    var pulse:Pulse
+    var respiratory:Respiratory
+    var spo2:SPO2
     var date:NSDate
+    var additionalOxygen:Bool
+    var isConscious:Bool?
+    var calculateNews:Bool
+    var newsScore:String
+    
+    
+    // Comma Score
     var eyesOpen:KeyValue?
     var bestVerbalResponse:KeyValue?
     var bestMotorResponse:KeyValue?
@@ -25,15 +33,19 @@ class VitalSignObservation
     var limbMovementArms:KeyValue?
     var limbMovementLegs:KeyValue?
     
-     init()
+    override init()
     {
-        bloodPressure = nil
-        temperature = nil
-        bm = nil
-        pulse = nil
-        respiratory = nil
-        spo2 = nil
+        bloodPressure = BloodPressure()
+        temperature = BodyTemperature()
+        pulse = Pulse()
+        respiratory = Respiratory()
+        spo2 = SPO2()
         date = NSDate()
+        additionalOxygen = false
+        isConscious = nil
+        calculateNews = false
+        newsScore = "N/A"
+        
         eyesOpen = nil
         bestVerbalResponse = nil
         bestMotorResponse = nil
@@ -43,25 +55,6 @@ class VitalSignObservation
         limbMovementLegs = nil
     }
     
-//    func getConsolidatedDate() ->NSDate
-//    {
-////        let calendar = NSCalendar.currentCalendar()
-////      //  let comp = NSCalendarUnit.Day | NSCalendarUnit.Month | NSCalendarUnit.Year
-////        let components = calendar.components(NSCalendarUnit.Day , fromDate: date)
-////        let year = components.year
-////        
-//    
-//        var newDate:NSDate!
-//        let calendar = NSCalendar.currentCalendar()
-//        let components = NSDateComponents()
-//        components.day = 5
-//        components.month = 01
-//        components.year = 2016
-//        components.hour = 19
-//        components.minute = 30
-//        newDate = calendar.dateFromComponents(components)
-//        return newDate
-//    }
     func getComaScore()  -> String
     {
         var score :Int = 0
@@ -80,12 +73,6 @@ class VitalSignObservation
         }
         return score < 3 ? "N/A" : String(score)
     }
-//    func getFormattedTime() ->String
-//    {
-//        let dateFormatter = NSDateFormatter()
-//        dateFormatter.dateFormat = "h:mm a"
-//        return dateFormatter.stringFromDate(self.date)
-//    }
     func getFormattedDate() -> String
     {
         let formatter = NSDateFormatter()
@@ -105,9 +92,9 @@ class VitalSignObservation
         var score :Int = 0
         var invalidResult:Bool = false
         var interimScore : Int
-        if respiratory != nil
+        if (respiratory.isValueEntered())
         {
-            interimScore = getRepiratoryRating((respiratory?.repiratoryRate)!)
+            interimScore = getRepiratoryRating((respiratory.repiratoryRate))
             if(interimScore == -1)
             {
                 invalidResult = true
@@ -119,9 +106,9 @@ class VitalSignObservation
             invalidResult = true
         }
         
-        if spo2 != nil
+        if spo2.isValueEntered()
         {
-            interimScore = getOxygenSaturationRating((spo2?.spO2Percentage)!)
+            interimScore = getOxygenSaturationRating((spo2.spO2Percentage))
             if(interimScore == -1)
             {
                 invalidResult = true
@@ -133,9 +120,9 @@ class VitalSignObservation
             invalidResult = true
         }
         
-        if temperature != nil
+        if temperature.isValueEntered()
         {
-            interimScore = getTemperatureRating((temperature?.value)!)
+            interimScore = getTemperatureRating(temperature.value)
             if(interimScore == -1)
             {
                 invalidResult = true
@@ -147,9 +134,9 @@ class VitalSignObservation
             invalidResult = true
         }
         
-        if bloodPressure != nil
+        if bloodPressure.isValueEntered()
         {
-            interimScore = getBloodPressureRating((bloodPressure?.systolic)!)
+            interimScore = getBloodPressureRating(bloodPressure.systolic)
             if(interimScore == -1)
             {
                 invalidResult = true
@@ -161,9 +148,9 @@ class VitalSignObservation
             invalidResult = true
         }
         
-        if pulse != nil
+        if pulse.isValueEntered()
         {
-            interimScore = getHeartRateRating((pulse?.pulseRate)!)
+            interimScore = getHeartRateRating(pulse.pulseRate)
             if(interimScore == -1)
             {
                 invalidResult = true
@@ -176,14 +163,19 @@ class VitalSignObservation
             invalidResult = true
         }
         
+        
+        score += additionalOxygen ? 2:0
+        
+        score += (isConscious != nil && isConscious! == false ) ? 3:0
+
         return invalidResult == true ? "N/A" : String(score)
     }
 
     func getBloodPressureReading() ->String
     {
-        if(bloodPressure != nil)
+        if(bloodPressure.isValueEntered())
         {
-            return String (bloodPressure!.systolic ) + "/" + String (bloodPressure!.diastolic)
+            return bloodPressure.stringValueSystolic + "/" + bloodPressure.stringValueDiastolic
         }
         else
         {
@@ -192,9 +184,9 @@ class VitalSignObservation
     }
     func getSpo2Reading() -> String
     {
-        if(spo2 != nil)
+        if(spo2.isValueEntered())
         {
-            return String (spo2!.spO2Percentage)
+            return spo2.stringValue
         }
         else
         {
@@ -203,9 +195,9 @@ class VitalSignObservation
     }
     func getPulseReading() -> String
     {
-        if(pulse != nil)
+        if(pulse.isValueEntered())
         {
-            return String(pulse!.pulseRate)
+            return pulse.stringValue
         }
         else
         {
@@ -214,9 +206,9 @@ class VitalSignObservation
     }
     func getRespiratoryReading() -> String
     {
-        if respiratory != nil
+        if respiratory.isValueEntered()
         {
-            return String(respiratory!.repiratoryRate)
+            return respiratory.stringValue
         }
         else
         {
@@ -225,34 +217,25 @@ class VitalSignObservation
     }
     func setRespiratoryReading(value:Double )
     {
-        if(respiratory == nil)
+        if respiratory.isValueEntered()
         {
             respiratory = Respiratory()
         }
-        respiratory?.repiratoryRate = value
+        respiratory.repiratoryRate = value
     }
+    
     func getTemperatureReading() -> String
     {
-        if temperature != nil
+        if temperature.isValueEntered()
         {
-            return String(temperature!.value)
+            return temperature.stringValue
         }
         else
         {
             return " "
         }
     }
-    func getBMReading() -> String
-    {
-        if bm != nil
-        {
-            return String(bm!.value)
-        }
-        else
-        {
-            return " "
-        }
-    }
+    
     func getHeartRateRating(value : Double) -> Int
     {
         if value <= 40 || value >= 131
@@ -371,4 +354,79 @@ class VitalSignObservation
         }
     }
     
+    func asJSON() -> String
+    {
+        let bundle = Bundle(type:"transaction")
+        bundle.entry =  [BundleEntry]()
+        
+        if(self.respiratory.isValueEntered() )
+        {
+            let entry = BundleEntry(json: nil)
+            entry.resource = self.respiratory.FHIRResource()
+            bundle.entry?.append(entry)
+        }
+        if(self.spo2.isValueEntered())
+        {
+            let entry = BundleEntry(json: nil)
+            entry.resource = self.spo2.FHIRResource()
+            bundle.entry?.append(entry)
+        }
+        if(self.temperature.isValueEntered())
+        {
+            let entry = BundleEntry(json: nil)
+            entry.resource = self.temperature.FHIRResource()
+            bundle.entry?.append(entry)
+        }
+        if(self.bloodPressure.isValueEntered())
+        {
+            let entry = BundleEntry(json: nil)
+            entry.resource = self.bloodPressure.FHIRResource()
+            bundle.entry?.append(entry)
+        }
+        if(self.pulse.isValueEntered())
+        {
+            let entry = BundleEntry(json: nil)
+            entry.resource = self.pulse.FHIRResource()
+            bundle.entry?.append(entry)
+        }
+        if(self.additionalOxygen)
+        {
+            let entry = BundleEntry(json:nil)
+            let code = super.FHIRCode("", codeId: Constant.CODE_ADDITIONAL_OXYGEN)
+            entry.resource = self.FHIRResource(code, associatedText: "", effectiveDateTime: self.date)
+            bundle.entry?.append(entry)
+        }
+        if(self.isConscious != nil)
+        {
+            if(self.isConscious!)
+            {
+                let entry = BundleEntry(json:nil)
+                let code = super.FHIRCode("", codeId: Constant.CODE_AVPU)
+                let quantity = self.FHIRQuantity("0",  unit: "")
+                entry.resource = self.FHIRResource(code, associatedText: "", effectiveDateTime: self.date , quantity: quantity)
+                bundle.entry?.append(entry)
+            }
+            else
+            {
+                let entry = BundleEntry(json:nil)
+                let code = super.FHIRCode("", codeId: Constant.CODE_AVPU)
+                let quantity = self.FHIRQuantity("1", unit: "")
+            entry.resource = self.FHIRResource(code, associatedText: "", effectiveDateTime: self.date, quantity: quantity)
+                bundle.entry?.append(entry)
+            }
+        }
+        if(calculateNews)
+        {
+            let newsScrore = getNews()
+            if(newsScrore != "N/A")
+            {
+                let entry = BundleEntry(json:nil)
+                let code = super.FHIRCode("", codeId: Constant.CODE_AVPU)
+                let quantity = self.FHIRQuantity(newsScrore,  unit: "")
+                entry.resource = self.FHIRResource(code, associatedText: "", effectiveDateTime: self.date , quantity: quantity)
+                bundle.entry?.append(entry)
+            }
+        }
+        return bundle.asJSONString()
+    }
 }

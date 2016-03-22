@@ -74,36 +74,42 @@ class DCAdministrationHelper : NSObject {
         dateFormatter.dateFormat = EMIS_DATE_FORMAT
         dateFormatter.timeZone = NSTimeZone.init(name:"UTC")
         if (medicationSlot.medicationAdministration?.actualAdministrationTime != nil) {
-            let administeredDateString : NSString = dateFormatter.stringFromDate((DCDateUtility.dateInCurrentTimeZone(medicationSlot
-                .medicationAdministration?.actualAdministrationTime)!))
+            let administeredDateString : NSString = dateFormatter.stringFromDate((medicationSlot
+                .medicationAdministration?.actualAdministrationTime)!)
             administerDictionary.setValue(administeredDateString, forKey:ACTUAL_ADMINISTRATION_TIME)
         } else {
-            medicationSlot.medicationAdministration?.actualAdministrationTime = DCDateUtility.dateInCurrentTimeZone(NSDate())
+            medicationSlot.medicationAdministration?.actualAdministrationTime = NSDate()
             let administeredDateString : NSString = dateFormatter.stringFromDate((medicationSlot.medicationAdministration.actualAdministrationTime))
             administerDictionary.setValue(administeredDateString, forKey:ACTUAL_ADMINISTRATION_TIME)
         }
         // To Do : for the sake of display of infusions , untill the API gets updated, this value need to be changed dynamic.
         var adminStatus = medicationSlot.medicationAdministration?.status
-        if (adminStatus == STARTED) {
+        if (adminStatus == STARTED || adminStatus == IN_PROGRESS) {
             medicationSlot.medicationAdministration?.status = IN_PROGRESS
             adminStatus = ADMINISTERED
         } else if (adminStatus == NOT_ADMINISTRATED) {
             adminStatus = REFUSED
         }
         administerDictionary.setValue(adminStatus, forKey: ADMINISTRATION_STATUS)
-        if let administratingStatus : Bool = medicationSlot.medicationAdministration?.isSelfAdministered.boolValue {
-            if administratingStatus == false {
-                administerDictionary.setValue(medicationSlot.medicationAdministration?.administratingUser!.userIdentifier, forKey:"AdministratingUserIdentifier")
+        if adminStatus == REFUSED {
+            administerDictionary.setValue(true, forKey: IS_SELF_ADMINISTERED)
+        } else {
+            if let administratingStatus : Bool = medicationSlot.medicationAdministration?.isSelfAdministered.boolValue {
+                if administratingStatus == false {
+                    administerDictionary.setValue(medicationSlot.medicationAdministration?.administratingUser!.userIdentifier, forKey:"AdministratingUserIdentifier")
+                }
+                administerDictionary.setValue(true, forKey: IS_SELF_ADMINISTERED)
             }
-            administerDictionary.setValue(administratingStatus, forKey: IS_SELF_ADMINISTERED)
         }
-        //TO DO : Configure the dosage and batch number from the form.
-        if let dosage = medicationDetails.dosage {
+        
+        if let dosage = medicationSlot.medicationAdministration?.dosageString {
             administerDictionary.setValue(dosage, forKey: ADMINISTRATING_DOSAGE)
         }
+        
         if let batch = medicationSlot.medicationAdministration?.batch {
             administerDictionary.setValue(batch, forKey: ADMINISTRATING_BATCH)
         }
+
         let notes : NSString  = administrationNotesBasedOnMedicationStatus (medicationSlot)
         administerDictionary.setValue(notes, forKey:ADMINISTRATING_NOTES)
         
@@ -112,25 +118,25 @@ class DCAdministrationHelper : NSObject {
         return administerDictionary
     }
     
-    static func displayAlertWithTitle(title : NSString, message : NSString ) {
+    static func displayAlertWithTitle(title : NSString, message : NSString ) -> UIAlertController {
         //display alert view for view controllers
         let alertController : UIAlertController = UIAlertController(title: title as String, message: message as String, preferredStyle: UIAlertControllerStyle.Alert)
         let action : UIAlertAction = UIAlertAction(title: OK_BUTTON_TITLE, style: UIAlertActionStyle.Default, handler: { action in
             alertController.dismissViewControllerAnimated(true, completion: nil)
         })
         alertController.addAction(action)
-//        self.presentViewController(alertController, animated: true, completion: nil)
+        return alertController
     }
     
     // Return the note string based on the administrating status
     static func administrationNotesBasedOnMedicationStatus (medicationSlot : DCMedicationSlot) -> NSString{
         var noteString : NSString = EMPTY_STRING
         let status = medicationSlot.medicationAdministration.status
-        if (status == ADMINISTERED || status == SELF_ADMINISTERED || status == STARTED)  {
+        if (status == ADMINISTERED || status == SELF_ADMINISTERED || status == STARTED || status == IN_PROGRESS)  {
             if let administeredNotes = medicationSlot.medicationAdministration?.administeredNotes {
                 noteString = administeredNotes
             }
-        } else if status == REFUSED {
+        } else if status == REFUSED || status == NOT_ADMINISTRATED {
             if let refusedNotes = medicationSlot.medicationAdministration?.refusedNotes {
                 noteString =  refusedNotes
             }
@@ -141,6 +147,16 @@ class DCAdministrationHelper : NSObject {
         }
         return noteString
     }
+    
+    static func isMedicationDurationBasedInfusion (medication : DCMedicationScheduleDetails) -> Bool {
+        // T0 Do : This is a temporary method to implement the status display for the duration based infusion , when the API gets updated - modifications needed.
+        if (medication.route == "Subcutaneous" || medication.route == "Intravenous"){
+            return true
+        } else {
+            return false
+        }
+    }
+
     
     static func entriesAreValidInMedication(medicationSlot : DCMedicationSlot) -> (Bool) {
         

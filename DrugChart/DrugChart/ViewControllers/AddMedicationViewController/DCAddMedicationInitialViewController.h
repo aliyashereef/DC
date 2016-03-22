@@ -16,6 +16,7 @@
 @optional
 - (void)addedNewMedicationForPatient;
 - (void)medicationEditCancelledForIndexPath:(NSIndexPath *)editIndexPath;
+- (void)addMedicationViewDismissed;
 
 @end
 

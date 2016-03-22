@@ -21,6 +21,10 @@ let CURRENT_DAY_BACKGROUND_COLOR    =   UIColor(forHexString: "#fafafa")
 let DUE_NOW_BACKGROUND_COLOR        =   UIColor(forHexString: "#f99e35")
 let PENDING_COUNT_FONT_COLOR        =   UIColor(forHexString: "#595959")
 
+let TIME_INTERVAL_LIMIT_BEFORE_DUE_NOW : NSTimeInterval = -60*10
+let TIME_INTERVAL_LIMIT_AFTER_DUE_NOW : NSTimeInterval = 60*5
+
+
 typealias AdministerButtonTappedCallback = (Bool) -> Void
 
 protocol DCMedicationAdministrationStatusProtocol:class {
@@ -39,16 +43,50 @@ class DCMedicationAdministrationStatusView: UIView {
     var statusLabel : UILabel?
     var medicationCategory : NSString?
     var startDate : NSDate?
-    var endDate : NSDate?
+    var slotsCount : NSInteger? = 0
     
     var isOneThirdScreen : Bool = false
     var administerButtonCallback: AdministerButtonTappedCallback!
     weak var delegate:DCMedicationAdministrationStatusProtocol?
 
+    var currentSystemDate: NSDate!
+    var currentDateString: String!
+    var centerPoint: CGPoint!
+    var iconCenterForOneThirdScreenDueAtStatus: CGPoint!
+    var iconCenterForLeftAlignedDueAtStatusCaseOne: CGPoint!
+    var iconCenterForLeftAlignedDueAtStatusCaseTwo: CGPoint!
+    var iconCenterForOneThirdScreenDueNowStatus: CGPoint!
+    var iconCenterForOneThirdScreenAdministeredStatus: CGPoint!
+    var iconCenterForTwoThirdScreenAdministeredStatus: CGPoint!
+    var iconCenterForOneThirdScreenNearestSlot: CGPoint!
+    var labelCenterForOneThirdScreenDueAtStatus: CGPoint!
+    var labelCenterForLeftAlignedDueAtStatus: CGPoint!
+    var labelCenterForNotLeftAlignedDueAtStatus: CGPoint!
+    var labelCenterForTwoThirdScreenAdministeredStatus: CGPoint!
+
+    
     override init(frame: CGRect) {
         
         super.init(frame: frame)
-         addViewElements()
+        addViewElements()
+        
+        
+        currentSystemDate = NSDate()
+        currentDateString = DCDateUtility.dateStringFromDate(currentSystemDate, inFormat: SHORT_DATE_FORMAT)
+        
+         // Storing the center points during init, to avoid calculations for each loop of table view row
+        centerPoint = CGPointMake(0.5 * self.bounds.size.width, 0.5 * self.bounds.size.height)
+        iconCenterForOneThirdScreenDueAtStatus = CGPointMake(self.bounds.size.width/8.2, 0.5 * self.bounds.size.height)
+        iconCenterForLeftAlignedDueAtStatusCaseOne = CGPointMake(self.bounds.size.width/7.2, 0.5 * self.bounds.size.height)
+        iconCenterForLeftAlignedDueAtStatusCaseTwo = CGPointMake(self.bounds.size.width/6.3, 0.5 * self.bounds.size.height)
+        iconCenterForOneThirdScreenDueNowStatus = CGPointMake(self.bounds.size.width/6, 0.5 * self.bounds.size.height)
+        iconCenterForOneThirdScreenAdministeredStatus = CGPointMake(self.bounds.size.width/1.13, 0.5 * self.bounds.size.height)
+        iconCenterForTwoThirdScreenAdministeredStatus = CGPointMake(self.bounds.size.width/9, 0.5 * self.bounds.size.height)
+        iconCenterForOneThirdScreenNearestSlot = CGPointMake(self.bounds.size.width/3.8, 0.5 * self.bounds.size.height)
+        labelCenterForOneThirdScreenDueAtStatus = CGPointMake(0.5 * self.bounds.size.width, 0.5 * self.bounds.size.height)
+        labelCenterForLeftAlignedDueAtStatus = CGPointMake(self.bounds.size.width/1.3, 0.5 * self.bounds.size.height)
+        labelCenterForNotLeftAlignedDueAtStatus = CGPointMake(self.bounds.size.width/1.7, 0.5 * self.bounds.size.height)
+        labelCenterForTwoThirdScreenAdministeredStatus = CGPointMake(self.bounds.size.width/1.4, 0.5 * self.bounds.size.height)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -65,23 +103,42 @@ class DCMedicationAdministrationStatusView: UIView {
         statusLabel?.font = statusLabelFont()
         statusLabel?.numberOfLines = 0
         let appDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
-        if (appDelegate.windowState == DCWindowState.oneThirdWindow){
+        if (appDelegate.windowState == DCWindowState.oneThirdWindow || appDelegate.windowState == DCWindowState.halfWindow){
             statusIcon = UIImageView.init(frame: CGRectMake(0, 0, 17.5, 17.5))
         } else {
             statusIcon = UIImageView.init(frame: CGRectMake(0, 0, 26, 26))
+            self.addSubview(statusIcon!)
         }
-        self.addSubview(statusIcon!)
         statusIcon!.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
         administerButton = DCAdministerButton.init(frame: contentFrame)
         self.addSubview(administerButton!)
         self.sendSubviewToBack(administerButton!)
         administerButton?.addTarget(self, action: Selector("administerButtonClicked:"), forControlEvents: .TouchUpInside)
     }
+    
+    // Resets the frame and content of view elements, to prevent previous state being maintained while the status view is being reused
+    func resetViewElements() {
+        let contentFrame : CGRect = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)
+        statusLabel?.frame = contentFrame
+        statusLabel?.font = statusLabelFont()
+        statusLabel?.numberOfLines = 0
+        let appDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
+        if (appDelegate.windowState == DCWindowState.oneThirdWindow){
+            statusIcon?.frame = CGRectMake(0, 0, 17.5, 17.5)
+        } else {
+            statusIcon?.frame = CGRectMake(0, 0, 25, 25)
+        }
+        
+        statusIcon?.center = centerPoint
+        statusIcon?.hidden = true
+        statusLabel?.text = ""
+    }
 
     func updateAdministrationStatusViewWithMedicationSlotDictionary(slotDictionary : NSDictionary) {
         
         medicationSlotDictionary = slotDictionary.copy() as? NSDictionary
         if let timeSlotsArray  = medicationSlotDictionary?["timeSlots"] {
+            slotsCount = timeSlotsArray.count
             if timeSlotsArray.count > 0 {
                 configureStatusViewForTimeArray(timeSlotsArray as! [DCMedicationSlot])
             }
@@ -103,7 +160,7 @@ class DCMedicationAdministrationStatusView: UIView {
     func configureStatusViewForWeekDate(weeksDate : NSDate) {
         
         weekDate = weeksDate
-        let currentSystemDate : NSDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
+        let currentSystemDate : NSDate = NSDate()//DCDateUtility.dateInCurrentTimeZone(NSDate())
         let currentDateString = DCDateUtility.dateStringFromDate(currentSystemDate, inFormat: SHORT_DATE_FORMAT)
         let weekDateString = DCDateUtility.dateStringFromDate(weekDate, inFormat: SHORT_DATE_FORMAT)
         if (currentDateString == weekDateString) {
@@ -111,14 +168,17 @@ class DCMedicationAdministrationStatusView: UIView {
                 self.backgroundColor = CURRENT_DAY_BACKGROUND_COLOR
             }
         }
+        else {
+            self.backgroundColor = UIColor.whiteColor()
+        }
     }
     
     func configureStatusViewForTimeArray(timeSlotsArray : NSArray) {
         
         timeArray = timeSlotsArray
         let initialSlot = timeArray.objectAtIndex(0) as? DCMedicationSlot
-        let currentSystemDate : NSDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
-        let currentDateString = DCDateUtility.dateStringFromDate(currentSystemDate, inFormat: SHORT_DATE_FORMAT)
+//        let currentSystemDate : NSDate = NSDate() //DCDateUtility.dateInCurrentTimeZone(NSDate())
+//        let currentDateString = DCDateUtility.dateStringFromDate(currentSystemDate, inFormat: SHORT_DATE_FORMAT)
         let initialSlotDateString = DCDateUtility.dateStringFromDate(initialSlot?.time, inFormat: SHORT_DATE_FORMAT)
         if (currentDateString == initialSlotDateString) {
             // both falls on the same day
@@ -139,8 +199,10 @@ class DCMedicationAdministrationStatusView: UIView {
         statusLabel?.hidden = false
         statusIcon?.hidden = false
         if isOneThirdScreen {
-            statusIcon!.center = CGPointMake(self.bounds.size.width/8.2, self.bounds.size.height/2);
-            statusLabel?.center = CGPointMake(self.bounds.size.width/2 - 5, self.bounds.size.height/2);
+//            statusIcon!.center = CGPointMake(self.bounds.size.width/8.2, self.bounds.size.height/2);
+//            statusLabel?.center = CGPointMake(self.bounds.size.width/2 - 5, self.bounds.size.height/2);
+            statusIcon!.center = iconCenterForOneThirdScreenDueAtStatus
+            statusLabel!.center = labelCenterForOneThirdScreenDueAtStatus
         } else {
             statusIcon!.center = CGPointMake(self.bounds.size.width/7.2, self.bounds.size.height/2)
             if leftAlign == true {
@@ -158,19 +220,24 @@ class DCMedicationAdministrationStatusView: UIView {
         var administeredCount : NSInteger = 0
         var omissionRefusalCount : NSInteger = 0
         var dueNow = false
-        let currentSystemDate : NSDate = DCDateUtility.dateInCurrentTimeZone(NSDate())
+        let currentSystemDate : NSDate = NSDate()
         for slot in timeArray as [AnyObject] {
             let medication = slot as! DCMedicationSlot
+            let timeIntervalFromCurrentTime = medication.time.timeIntervalSinceDate(currentSystemDate)
             if (medication.time.compare(currentSystemDate) == NSComparisonResult.OrderedAscending) {
                 //past time, check if any medication administration is pending
                 if (medication.medicationAdministration?.actualAdministrationTime == nil) {
-                    overDueCount++
-                    break;
-                }
+                     if (timeIntervalFromCurrentTime >= TIME_INTERVAL_LIMIT_BEFORE_DUE_NOW && timeIntervalFromCurrentTime <= 0) {
+                        // due now status has to shown
+                        dueNow = true
+                     } else {
+                        overDueCount++
+                        break;
+                    }
+                 }
             }
             // due now functionality
-            let secondsBetween = medication.time.timeIntervalSinceDate(currentSystemDate)
-            if (secondsBetween <= 60*5 && secondsBetween > 0) {
+            if (timeIntervalFromCurrentTime <= TIME_INTERVAL_LIMIT_AFTER_DUE_NOW || dueNow == true) {
                 //Due in 5 minutes
                 if (medication.medicationAdministration?.status == nil) {
                     dueNow = true
@@ -212,7 +279,7 @@ class DCMedicationAdministrationStatusView: UIView {
         statusLabel?.font = statusLabelFont()
         statusLabel?.text = NSLocalizedString("OVERDUE", comment: "Some medications are overdue")
         if isOneThirdScreen {
-            statusLabel?.center = CGPointMake(self.bounds.size.width/2 - 5, self.bounds.size.height/2);
+            statusLabel?.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
         }
         statusLabel?.textAlignment = isOneThirdScreen ? .Right : .Center
     }
@@ -243,10 +310,15 @@ class DCMedicationAdministrationStatusView: UIView {
     func updateAdministeredOrRejectedStatusForAdministrationCount(administrationCount administeredCount: NSInteger, omittedRefusalCount refusedCount : NSInteger) {
         
         if (administeredCount == timeArray.count) {
-            statusIcon?.hidden = false
-            statusLabel?.hidden = true
             if isOneThirdScreen {
-                statusIcon?.center = CGPointMake(self.bounds.size.width/1.13, self.bounds.size.height/2);
+                statusIcon?.center = CGPointMake(self.bounds.size.width/1.18, self.bounds.size.height/2);
+                statusLabel?.text = ADMINISTERED
+                statusLabel?.font = statusLabelFont()
+                statusLabel?.textAlignment = .Right
+                statusLabel?.textColor = PENDING_COUNT_FONT_COLOR
+            } else {
+                statusLabel?.hidden = true
+                statusIcon?.hidden = false
             }
             statusIcon?.image = ADMINISTRATION_SUCCESS_IMAGE
         } else {
@@ -289,8 +361,8 @@ class DCMedicationAdministrationStatusView: UIView {
                         statusLabel?.hidden = false
                         statusIcon?.hidden = false
                         if isOneThirdScreen {
-                            statusIcon!.center = CGPointMake(self.bounds.size.width/3.8, self.bounds.size.height/2);
-                            statusLabel?.center = CGPointMake(self.bounds.size.width/2 - 5, self.bounds.size.height/2);
+                            statusIcon!.center = CGPointMake(self.bounds.size.width/5.5, self.bounds.size.height/2);
+                            statusLabel?.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
                         } else {
                             positionStatusLabelAndIconForDueAtOrNotAdministeredStatus(true)
                         }
@@ -318,7 +390,7 @@ class DCMedicationAdministrationStatusView: UIView {
         attributedStatusText.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, attributedStatusText.length))
         let slotIndex = timeArray.indexOfObject(slot)
         let pendingCount = timeArray.count - slotIndex
-        let pendingText = String(format: "\n%i of %i %@", pendingCount, timeArray.count, PENDING)
+        let pendingText = String(format: "\n%i of %i %@", pendingCount, slotsCount!, PENDING)
         let attributedPendingText : NSMutableAttributedString = NSMutableAttributedString(string: pendingText, attributes: [NSFontAttributeName : statusLabelFont(), NSForegroundColorAttributeName : PENDING_COUNT_FONT_COLOR])
         attributedStatusText.appendAttributedString(attributedPendingText)
         return attributedStatusText
@@ -373,6 +445,7 @@ class DCMedicationAdministrationStatusView: UIView {
                 statusIcon?.hidden = true
                 statusLabel?.hidden = false
                 statusLabel?.textColor = OVERDUE_FONT_COLOR
+                statusLabel?.font = statusLabelFont()
                 statusLabel?.text = NSLocalizedString("OVERDUE", comment: "Some medications has not been administered till now")
                 statusLabel?.textAlignment = isOneThirdScreen ? .Right : .Center
             }
@@ -388,6 +461,9 @@ class DCMedicationAdministrationStatusView: UIView {
             let pendingCount : NSInteger = timeArray.count
             statusLabel?.hidden = false
             statusIcon?.hidden = true
+            if isOneThirdScreen {
+                statusLabel?.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
+            }
             statusLabel?.textColor = PENDING_FONT_COLOR
             statusLabel?.text = String(format: "%i %@", pendingCount, NSLocalizedString("PENDING", comment: ""))
             statusLabel?.textAlignment = isOneThirdScreen ? .Right : .Center
@@ -397,7 +473,9 @@ class DCMedicationAdministrationStatusView: UIView {
     func administerMedicationWithMedicationSlot() {
         
         if let slotDictionary = medicationSlotDictionary {
-            delegate?.administerMedicationWithMedicationSlots(slotDictionary, atIndexPath: currentIndexPath, withWeekDate: weekDate!)
+            if let date = weekDate {
+                delegate?.administerMedicationWithMedicationSlots(slotDictionary, atIndexPath: currentIndexPath, withWeekDate: date)
+            }
         }
     }
     

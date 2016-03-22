@@ -51,17 +51,17 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
       
             for observation in observationList
             {
-                if observation.respiratory == nil
+                if !observation.respiratory.isValueEntered()
                 {
                     continue
                 }
-                graphData.yAxisValue.append((observation.respiratory?.repiratoryRate)!)
+                graphData.yAxisValue.append(observation.respiratory.repiratoryRate)
                 graphData.xAxisValue.append(observation.date)
             }
             let latestObservation = delegate?.GetLatestObservation(DashBoardRow.Respiratory)
             if(latestObservation != nil)
             {
-                graphData.latestObservationText = latestObservation!.respiratory!.repiratoryRate.cleanValue + " breaths/min"
+                graphData.latestObservationText = latestObservation!.respiratory.repiratoryRate.cleanValue + " breaths/min"
                 graphData.latestObservationDate = latestObservation?.date
             }
             return graphData
@@ -75,18 +75,18 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
             
             for observation in observationList
             {
-                if observation.temperature == nil
+                if !observation.temperature.isValueEntered()
                 {
                     continue
                 }
-                graphData.yAxisValue.append((observation.temperature?.value)!)
+                graphData.yAxisValue.append(observation.temperature.value)
                 graphData.xAxisValue.append(observation.date)
                 
             }
             let latestObservation = delegate?.GetLatestObservation(DashBoardRow.Temperature)
             if(latestObservation != nil)
             {
-                graphData.latestObservationText = String(latestObservation!.temperature!.value) + " °C"
+                graphData.latestObservationText = String(latestObservation!.temperature.value) + " °C"
                 graphData.latestObservationDate = latestObservation?.date
             }
             return graphData
@@ -100,18 +100,18 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
             
             for observation in observationList
             {
-                if observation.pulse == nil
+                if !observation.pulse.isValueEntered()
                 {
                     continue
                 }
-                graphData.yAxisValue.append((observation.pulse?.pulseRate)!)
+                graphData.yAxisValue.append(observation.pulse.pulseRate)
                 graphData.xAxisValue.append(observation.date)
                 
             }
             let latestObservation = delegate?.GetLatestObservation(DashBoardRow.Pulse)
             if(latestObservation != nil)
             {
-                graphData.latestObservationText = latestObservation!.pulse!.pulseRate.cleanValue + " bpm"
+                graphData.latestObservationText = latestObservation!.pulse.pulseRate.cleanValue + " bpm"
                 graphData.latestObservationDate = latestObservation?.date
             }
             return graphData
@@ -125,43 +125,20 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
             
             for observation in observationList
             {
-                if observation.spo2 == nil{
+                if !observation.spo2.isValueEntered()
+                {
                     continue
                 }
-                graphData.yAxisValue.append((observation.spo2?.spO2Percentage)!)
+                graphData.yAxisValue.append(observation.spo2.spO2Percentage)
                 graphData.xAxisValue.append(observation.date)
             }
             let latestObservation = delegate?.GetLatestObservation(DashBoardRow.SpO2)
             if(latestObservation != nil)
             {
-                graphData.latestObservationText = String(latestObservation!.spo2!.spO2Percentage) + " %"
+                graphData.latestObservationText = String(latestObservation!.spo2.spO2Percentage) + " %"
                 graphData.latestObservationDate = latestObservation?.date
             }
             return graphData
-      /*  case DashBoardRow.BM:
-            let graphData:LineGraphModel = LineGraphModel()
-            graphData.cellTitle = cellTitle
-            graphData.graphStartDate = graphStartDate
-            graphData.graphEndDate = graphEndDate
-            graphData.graphDisplayView = graphDisplayView
-            
-            
-            for observation in observationList
-            {
-                if observation.bm == nil
-                {
-                    continue
-                }
-                graphData.yAxisValue.append((observation.bm?.value)!)
-                graphData.xAxisValue.append(observation.date)
-            }
-            let latestObservation = delegate?.GetLatestObservation(DashBoardRow.BM)
-            if(latestObservation != nil)
-            {
-                graphData.latestObservationText = String(latestObservation!.bm!.value)
-                graphData.latestObservationDate = latestObservation?.date
-            }
-            return graphData*/
         case DashBoardRow.BloodPressure:
             let graphData:BarGraphModel = BarGraphModel()
             graphData.cellTitle = cellTitle
@@ -172,17 +149,18 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
             
             for observation in observationList
             {
-                if observation.bloodPressure == nil{
+                if !observation.bloodPressure.isValueEntered()
+                {
                     continue
                 }
-                graphData.yAxisMaxValue.append((observation.bloodPressure?.systolic)!)
-                graphData.yAxisMinValue.append((observation.bloodPressure?.diastolic)!)
+                graphData.yAxisMaxValue.append(observation.bloodPressure.systolic)
+                graphData.yAxisMinValue.append(observation.bloodPressure.diastolic)
                 graphData.xAxisValue.append(observation.date)
             }
             let latestObservation = delegate?.GetLatestObservation(DashBoardRow.BloodPressure)
             if(latestObservation != nil)
             {
-                graphData.latestObservationText = String(format:"%@ / %@", latestObservation!.bloodPressure!.systolic.cleanValue, latestObservation!.bloodPressure!.diastolic.cleanValue)
+                graphData.latestObservationText = String(format:"%@ / %@", latestObservation!.bloodPressure.systolic.cleanValue, latestObservation!.bloodPressure.diastolic.cleanValue)
                 
                 graphData.latestObservationDate = latestObservation?.date
             }
@@ -244,12 +222,6 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
             cellTitle = getGraphTitle(cellObservationType)
             graphData = getGraphData(cellObservationType,cellTitle: cellTitle)
             
-     /*   case DashBoardRow.BM:
-                chartType = ChartType.LineChart
-                cellObservationType = DashBoardRow.BM
-                cellTitle = getGraphTitle(cellObservationType)
-                graphData = getGraphData(cellObservationType,cellTitle: cellTitle)
-        */    
         case DashBoardRow.BloodPressure:
             chartType = ChartType.BarChart
             cellObservationType = DashBoardRow.BloodPressure
@@ -324,8 +296,11 @@ class GraphicalDashBoardView: UIView,UICollectionViewDataSource,UICollectionView
             let graphData = getGraphData(singleBarGraphController.observationType, cellTitle: getGraphTitle(singleBarGraphController.observationType)) as! BarGraphModel
                 singleBarGraphController.graphData = graphData
         }
-        
         delegate?.PushViewController(navigationController)
+    }
+    
+    func ShowPopOver(viewController: UIViewController) {
+        delegate?.ShowPopOver(viewController)
     }
 
 }

@@ -100,7 +100,7 @@
         return kMedicationDue;
     } else {
         
-        NSTimeInterval timeInterval = [self.nextMedicationDate timeIntervalSinceDate:[DCDateUtility dateInCurrentTimeZone:[NSDate date]]];
+        NSTimeInterval timeInterval = [self.nextMedicationDate timeIntervalSinceDate:[NSDate date]];
         if (timeInterval < MEDICATION_DUE) {
             return kMedicationDue;
         }
@@ -165,7 +165,7 @@
     if (self.nextMedicationDate) {
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:DISPLAY_DATE_FORMAT];
-        [formatter setTimeZone:[NSTimeZone timeZoneWithName:GMT]];
+       // [formatter setTimeZone:[NSTimeZone timeZoneWithName:GMT]];
         NSString *displayDateString = [formatter stringFromDate:self.nextMedicationDate];
         if (![displayDateString isEqualToString:EMPTY_STRING]) {
             NSArray *splittedDateArray = [displayDateString componentsSeparatedByString:COMMA];

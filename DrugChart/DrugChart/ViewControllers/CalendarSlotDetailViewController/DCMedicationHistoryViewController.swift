@@ -68,16 +68,28 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
             }
             break
         case 1:
-            cell!.contentType.text = ADMINISTRATED_BY
-            let administratedBy : String
-            if let name = medication.medicationAdministration?.administratingUser?.displayName {
-                administratedBy = name
+            cell!.contentType.text = REASON
+            if let reason = medication.medicationAdministration.statusReason {
+                if (reason != EMPTY_STRING){
+                    cell!.value.text = reason
+                } else {
+                    cell!.value.text = NONE_TEXT
+                }
             } else {
-                administratedBy = SELF_ADMINISTERED_TITLE
+                cell!.value.text = NONE_TEXT
             }
-            cell!.value.text = administratedBy
             break
         case 2:
+            cell!.contentType.text = DOSE
+            let doseString : String
+            if let dose = medication.medicationAdministration?.dosageString {
+                doseString = dose
+            } else {
+                doseString = medicationDetails.dosage
+            }
+            cell!.value.text = doseString
+            break
+        case 3:
             cell!.contentType.text = DATE_TIME
             let dateString : String
             if let date = medication.medicationAdministration?.actualAdministrationTime {
@@ -87,7 +99,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
             }
             cell!.value.text = dateString
             break
-        case 3:
+        case 4:
             cell!.contentType.text = CHECKED_BY
             let checkedBy : String
             if let name = medication.medicationAdministration?.checkingUser?.displayName {
@@ -97,15 +109,25 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
             }
             cell!.value.text = checkedBy
             break
-        case 4:
-            cell!.contentType.text = BATCHNO_EXPIRY
+        case 5:
+            cell!.contentType.text = BATCH_NUMBER
             if medication.medicationAdministration?.batch?.characters.count > 0 {
                 cell!.value.text = medication.medicationAdministration?.batch
             } else {
                 cell!.value.text = NONE_TEXT
             }
             break
-        case 5:
+        case 6:
+            cell!.contentType.text = EXPIRY_DATE_STRING
+            var dateString = EMPTY_STRING
+            if let date = medication.medicationAdministration?.expiryDateTime {
+                dateString = DCDateUtility.dateStringFromDate(date, inFormat: EXPIRY_DATE_FORMAT)
+                cell!.value.text = dateString
+            }else {
+                cell!.value.text = NONE_TEXT
+            }
+            break
+        case 7:
             let reason : NSString
             if let reasonText = medication.medicationAdministration?.administeredNotes {
                 reason = (reasonText == EMPTY_STRING) ? NONE_TEXT : reasonText
@@ -131,12 +153,25 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         noteCell!.moreButton.addTarget(self, action: "moreButtonPressed:", forControlEvents: .TouchUpInside)
         // Assigning value for the cell labels
         noteCell!.cellContentTypeLabel!.text = type as String
-        noteCell!.reasonTextLabel.text = text.stringByReplacingOccurrencesOfString("\n", withString: EMPTY_STRING) as String
+        noteCell!.reasonTextLabel.text = text as String
+        //.stringByReplacingOccurrencesOfString("\n", withString: EMPTY_STRING) as String
         noteCell!.reasonTextLabel.textAlignment = .Right
         // Calculating the count of text characters and checking whether the more button have to be visible.
         let count : NSInteger = text.length
-        if text == NONE_TEXT || count < 47{
-            noteCell!.isNotesExpanded = true // The notes need not to be expanded further.
+        let nextLineCharacter = "\n"
+        var containsNextLine = false
+        if (text.containsString(nextLineCharacter)) {
+            containsNextLine = true
+        } else {
+            containsNextLine = false
+        }
+        
+        if containsNextLine {
+            noteCell!.isNotesExpanded = false
+        } else {
+            if text == NONE_TEXT || count < 47 {
+                noteCell!.isNotesExpanded = true // The notes need not to be expanded further.
+            }
         }
         
         if(noteCell!.isNotesExpanded == false || indexPath == selectedRowIndex ) {
@@ -175,10 +210,22 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         switch (indexPath.row) {
         case 0:
             cell!.contentType.text = STATUS
-            cell!.value.text = REFUSED
+            cell!.value.text = NOT_ADMINISTRATED
             break
         case 1:
-            cell!.contentType.text = DATE
+            cell!.contentType.text = REASON
+            if let reason = medication.medicationAdministration.statusReason {
+                if (reason != EMPTY_STRING){
+                    cell!.value.text = reason
+                } else {
+                    cell!.value.text = NONE_TEXT
+                }
+            } else {
+                cell!.value.text = NONE_TEXT
+            }
+            break
+        case 2:
+            cell!.contentType.text = DOSE
             let dateString : NSString
             if let date = medication.medicationAdministration?.actualAdministrationTime {
                 dateString = DCDateUtility.dateStringFromDate(date, inFormat: ADMINISTER_DATE_TIME_FORMAT)
@@ -187,14 +234,14 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
             }
             cell!.value.text = dateString as String
             break
-        case 2:
+        case 3:
             let reason : NSString
             if let reasonText = medication.medicationAdministration?.refusedNotes {
                 reason =  (reasonText == EMPTY_STRING) ? NONE_TEXT : reasonText
             } else {
                 reason = NONE_TEXT
             }
-            return configureNotesAndReasonCellsAtIndexPath(indexPath,type:REASON,text : reason)
+            return configureNotesAndReasonCellsAtIndexPath(indexPath,type:NOTES,text : reason)
         default:
             break
         }
@@ -259,11 +306,11 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         }
        if(indexPath == selectedRowIndex ) {
         var notesString = EMPTY_STRING
-        if medication.status == ADMINISTERED || medication.status == SELF_ADMINISTERED {
+        if medication.medicationAdministration.status == ADMINISTERED || medication.medicationAdministration.status == SELF_ADMINISTERED {
             notesString = medication.medicationAdministration.administeredNotes
-        } else if medication.status == REFUSED {
+        } else if medication.medicationAdministration.status == REFUSED || medication.medicationAdministration.status == NOT_ADMINISTRATED {
             notesString = medication.medicationAdministration.refusedNotes
-        }else if medication.status == OMITTED {
+        }else if medication.medicationAdministration.status == OMITTED {
             notesString = medication.medicationAdministration.omittedNotes
         }
         let textHeight : CGSize = DCUtility.textViewSizeWithText(notesString , maxWidth:478 , font:UIFont.systemFontOfSize(14))
@@ -277,7 +324,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0 :
-            if self.isMedicationDurationBasedInfusion() {
+            if DCAdministrationHelper.isMedicationDurationBasedInfusion(medicationDetails){
                 let cell = tableView.dequeueReusableCellWithIdentifier("DurationBasedInfusionCell") as? DCDurationBasedMedicationDetailsCell
                 if let _ = medicationDetails {
                     cell!.configureMedicationDetails(medicationDetails!)
@@ -297,7 +344,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
             }
             if (medication.medicationAdministration?.status == SELF_ADMINISTERED || medication.medicationAdministration?.status == IS_GIVEN ){
                 return configureAdministeredCellAtIndexPathWithMedicationSlot(indexPath, medication: medication) as! UITableViewCell
-            } else if medication.medicationAdministration?.status == REFUSED {
+            } else if medication.medicationAdministration?.status == REFUSED || medication.medicationAdministration?.status == NOT_ADMINISTRATED {
                 return configureRefusedCellAtIndexPathForMedicationDetails(indexPath, medication: medication) as! UITableViewCell
             } else if medication.medicationAdministration?.status == OMITTED {
                 return configureOmittedCellAtIndexPathForMedicationDetails(indexPath, medication: medication) as! UITableViewCell
@@ -330,11 +377,11 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         var rowCount : Int
         if let medicationValue : DCMedicationSlot = medicationSlot {
             if (medicationValue.medicationAdministration?.status == IS_GIVEN || medicationValue.medicationAdministration?.status == SELF_ADMINISTERED){
-                rowCount = 6
+                rowCount = 8
             } else if medicationValue.medicationAdministration?.status == OMITTED {
                 rowCount = 2
-            } else if medicationValue.medicationAdministration?.status == REFUSED {
-                rowCount = 3
+            } else if medicationValue.medicationAdministration?.status == REFUSED || medicationValue.medicationAdministration?.status == NOT_ADMINISTRATED{
+                rowCount = 4
             } else {
                 rowCount = 0
             }
@@ -364,14 +411,5 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         let administerStoryboard : UIStoryboard? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil)
         let bnfViewController : DCBNFViewController? = administerStoryboard!.instantiateViewControllerWithIdentifier(BNF_STORYBOARD_ID) as? DCBNFViewController
         self.navigationController?.pushViewController(bnfViewController!, animated: true)
-    }
-    
-    func isMedicationDurationBasedInfusion () -> Bool {
-        // T0 Do : This is a temporary method to implement the status display for the duration based infusion , when the API gets updated - modifications needed.
-        if (medicationDetails?.route == "Subcutaneous" || medicationDetails?.route == "Intravenous"){
-            return true
-        } else {
-            return false
-        }
     }
 }

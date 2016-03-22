@@ -31,7 +31,7 @@ class DCInfusionViewController: UIViewController, UITableViewDelegate, UITableVi
     var dosage : DCDosage?
     var inlinePickerIndexPath : NSIndexPath? = nil
     var patientId : String?
-    var unitArrayForOver = [HOURS,MINUTES]
+    var unitArrayForOver = [HOURS_TITLE,MINUTES_TITLE]
     var unitArrayForStartingAt = [MG_PER_HOUR,MG_PER_MINUTE]
     
     override func viewDidLoad() {

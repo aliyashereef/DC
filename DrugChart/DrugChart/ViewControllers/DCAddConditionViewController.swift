@@ -43,6 +43,14 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewDidLayoutSubviews() {
+        
+        super.viewDidLayoutSubviews()
+        self.navigationController?.navigationBar.frame = DCUtility.navigationBarFrameForNavigationController(self.navigationController)
+        self.preferredContentSize = DCUtility.popOverPreferredContentSize()
+        self.navigationController!.preferredContentSize = DCUtility.popOverPreferredContentSize()
+    }
+
     func configureNavigationBarItems() {
         
         // Configure bar buttons for Add new.
@@ -152,7 +160,8 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
         
         if section == 0 {
             if (self.previewDetails.count != 0 && self.validateTheAddConditionValues()) {
-                return HEADER_VIEW_MIN_HEIGHT
+                    let height: CGFloat = DCUtility.heightValueForText(DCDosageHelper.createDescriptionStringForDosageCondition(conditionItem!, dosageUnit: (self.dosage?.doseUnit)!), withFont: UIFont.systemFontOfSize(14.0), maxWidth: self.view.bounds.width - 30) + 25
+                    return height
             }
         }
         return 0

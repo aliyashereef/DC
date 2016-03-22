@@ -12,7 +12,7 @@
 #import "DCPatientAllergy.h"
 
 #define SYSTEM_FONT_FIFTEEN [UIFont systemFontOfSize:15]
-#define WIDTH_ALERT_NAME_LABEL 280
+#define WIDTH_ALERT_NAME_LABEL 275
 #define ALERT_CELL_HEIGHT_MIN 34
 #define ALERT_CELL_HEIGHT_MAX 390
 #define ALERT_CELL_PADDING 10
@@ -44,8 +44,8 @@
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
-    [alertsAllergyTableView reloadData];
-    [self forcePopoverSize];
+    self.preferredContentSize = CGSizeMake([DCUtility popOverPreferredContentSize].width, alertsAllergyTableView.contentSize.height);
+    self.navigationController.preferredContentSize = CGSizeMake([DCUtility popOverPreferredContentSize].width, alertsAllergyTableView.contentSize.height);
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -126,38 +126,6 @@
     return EMPTY_STRING;
 }
 
-- (CGFloat )allergyAndAlertDisplayTableViewHeightForContent:(NSArray *)displayArray {
-    
-    cellHeightArray = [[NSMutableArray alloc] init];
-    CGFloat totalAlertCellsHeight = 0.0;
-    for (int index = 0; index < displayArray.count; index++) {
-        CGSize stepSize;
-        if ([[displayArray objectAtIndex:index] isKindOfClass:[DCPatientAlert
-                                                                               class]] ) {
-            DCPatientAlert *patientAlert = [displayArray objectAtIndex:index];
-            stepSize = [DCUtility requiredSizeForText:patientAlert.alertText
-                                                           font:SYSTEM_FONT_FIFTEEN
-                                                       maxWidth:WIDTH_ALERT_NAME_LABEL];
-        } else {
-            DCPatientAllergy *patientAllergy = [displayArray objectAtIndex:index];
-            stepSize = [DCUtility requiredSizeForText:patientAllergy.allergyName
-                                                    font:SYSTEM_FONT_FIFTEEN
-                                                maxWidth:WIDTH_ALERT_NAME_LABEL];
-
-        }
-        CGFloat alertCellHeight = ALERT_CELL_PADDING + stepSize.height ;
-        [cellHeightArray addObject:[NSNumber numberWithFloat:alertCellHeight]];
-        totalAlertCellsHeight += alertCellHeight;
-    }
-    if (self.patientsAlertsArray.count > 0) {
-        totalAlertCellsHeight += 18;
-    }
-    if (self.patientsAllergyArray.count > 0) {
-        totalAlertCellsHeight += 18;
-    }
-    return totalAlertCellsHeight;
-}
-
 #pragma mark - Private Methods
 
 - (IBAction)cancelButtonPressed:(id)sender {
@@ -165,17 +133,6 @@
     //cancel button action
     self.viewDismissed();
     [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void) forcePopoverSize {
-    
-    self.preferredContentSize = CGSizeMake(ALERT_ALLERGY_CELL_WIDTH, alertsAllergyTableView.contentSize.height + CELL_PADDING);
-    CGSize currentSetSizeForPopover = self.preferredContentSize;
-    CGSize momentarySize = CGSizeMake(currentSetSizeForPopover.width, currentSetSizeForPopover.height - 1.0f);
-    self.preferredContentSize = momentarySize;
-    self.navigationController.preferredContentSize = momentarySize;
-    self.preferredContentSize = currentSetSizeForPopover;
-    self.navigationController.preferredContentSize = momentarySize;
 }
 
 - (void)configureNavigationBarItems {

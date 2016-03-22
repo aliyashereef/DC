@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CocoaLumberjack
 
 class ContentCollectionViewCell: UICollectionViewCell,UIGestureRecognizerDelegate{
     @IBOutlet weak var contentLabel: UILabel!
@@ -71,7 +72,7 @@ class ContentCollectionViewCell: UICollectionViewCell,UIGestureRecognizerDelegat
         {
             let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
             let observationDetails : ObservationViewController = mainStoryboard.instantiateViewControllerWithIdentifier("ObservationViewController") as! ObservationViewController
-            observationDetails.configureView(observation, showobservatioType: showObservationType,tag:1)
+            observationDetails.configureView(observation, showobservatioType: showObservationType,tag:DataEntryObservationSource.VitalSignEditIPad)
             let navigationController : UINavigationController? = UINavigationController(rootViewController: observationDetails)
             navigationController?.modalPresentationStyle = UIModalPresentationStyle.FormSheet
             delegate?.ShowModalNavigationController(navigationController!)
@@ -88,32 +89,32 @@ class ContentCollectionViewCell: UICollectionViewCell,UIGestureRecognizerDelegat
             case ShowObservationType.Respiratory:
                 if(self.observation != nil)
                 {
-                    self.observation.respiratory = nil
+                    self.observation.respiratory.delete()
                 }
                 
             case ShowObservationType.SpO2:
                 if(self.observation != nil)
                 {
-                    self.observation.spo2 = nil
+                    self.observation.spo2.delete()
                 }
                 
             case ShowObservationType.Temperature:
                 if(self.observation != nil)
                 {
-                    self.observation.temperature = nil
+                    self.observation.temperature.delete()
                 }
             case ShowObservationType.BloodPressure:
                 if(self.observation != nil)
                 {
-                    self.observation.bloodPressure = nil
+                    self.observation.bloodPressure.delete()
                 }
             case ShowObservationType.Pulse:
                 if(self.observation != nil)
                 {
-                    self.observation.pulse = nil
+                    self.observation.pulse.delete()
                 }
             default:
-                print("nothing to delete")
+                DDLogDebug("\(Constant.VITAL_SIGN_LOGGER_INDICATOR) nothing to delete")
             }
             
             let collectionView =  self.superview as? UICollectionView
@@ -133,18 +134,18 @@ class ContentCollectionViewCell: UICollectionViewCell,UIGestureRecognizerDelegat
         switch (showObservationType!)
         {
         case ShowObservationType.Respiratory:
-            return  (observation != nil && observation.respiratory != nil) ? true : false
+            return  (observation != nil && observation.respiratory.isValueEntered() ) ? true : false
         case ShowObservationType.SpO2:
-            return  (observation != nil && observation.spo2 != nil) ? true : false
+            return  (observation != nil && observation.spo2.isValueEntered()) ? true : false
             
         case ShowObservationType.Temperature:
-            return  (observation != nil && observation.temperature != nil) ? true : false
+            return  (observation != nil && observation.temperature.isValueEntered()) ? true : false
             
         case ShowObservationType.BloodPressure:
-            return  (observation != nil && observation.bloodPressure != nil) ? true : false
+            return  (observation != nil && observation.bloodPressure.isValueEntered()) ? true : false
             
         case ShowObservationType.Pulse:
-            return  (observation != nil && observation.pulse != nil) ? true : false
+            return  (observation != nil && observation.pulse.isValueEntered()) ? true : false
             
         default:
             return false

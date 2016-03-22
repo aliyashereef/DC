@@ -24,6 +24,7 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
     @IBOutlet weak var previousPage: UIButton!
     var graphStartDate:NSDate = NSDate()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         graphicalDashBoardView = GraphicalDashBoardView.instanceFromNib() as! GraphicalDashBoardView
@@ -125,7 +126,7 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         }
 
         observationList.sortInPlace({ $0.date.compare($1.date) == NSComparisonResult.OrderedAscending })
-        //showData()
+        showData(observationList)
     }
     
     //Mark: Delegate Implementation
@@ -134,6 +135,13 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         self.presentViewController(navigationController, animated: false, completion: nil)
     }
     
+    
+    func ShowPopOver(viewController: UIViewController) {
+        if let popover = viewController.popoverPresentationController {
+            popover.delegate = self
+        }
+        self.presentViewController(viewController, animated: false, completion: nil)
+    }
     func ShowModalViewController(viewController:UIViewController)
     {
         self.presentViewController(viewController, animated: false, completion: nil)
@@ -150,22 +158,22 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         switch(dataType)
         {
         case .Respiratory:
-            let filterObject = observationList.filter( { return $0.respiratory != nil } ).last
+            let filterObject = observationList.filter( { return $0.respiratory.isValueEntered() } ).last
             return filterObject
         case .Temperature:
-            let filterObject = observationList.filter( { return $0.temperature != nil } ).last
+            let filterObject = observationList.filter( { return $0.temperature.isValueEntered() } ).last
             return filterObject
         case .Pulse:
-            let filterObject = observationList.filter( { return $0.pulse != nil } ).last
+            let filterObject = observationList.filter( { return $0.pulse.isValueEntered() } ).last
             return filterObject
         case .SpO2:
-            let filterObject = observationList.filter( { return $0.spo2 != nil } ).last
+            let filterObject = observationList.filter( { return $0.spo2.isValueEntered() } ).last
             return filterObject
        /* case .BM:
             let filterObject = observationList.filter( { return $0.bm != nil } ).last
             return filterObject*/
         case .BloodPressure:
-            let filterObject = observationList.filter( { return $0.bloodPressure != nil } ).last
+            let filterObject = observationList.filter( { return $0.bloodPressure.isValueEntered() } ).last
             return filterObject
     
         }
@@ -178,14 +186,10 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let controller:ObservationSelectionViewController = segue.destinationViewController as?ObservationSelectionViewController
         {
+            controller.patient = patient
             let popOverController:UIPopoverPresentationController = controller.popoverPresentationController!
             popOverController.delegate = self
             controller.delegate = self
-        }
-        
-        else if let tabularViewController:TabularViewController = segue.destinationViewController as? TabularViewController
-        {
-             tabularViewController.observationList = observationList
         }
     }
     
@@ -298,23 +302,28 @@ class VitalsignDashboard: PatientViewController , ObservationDelegate,UIPopoverP
         graphicalDashBoardView.graphDisplayView = graphDisplayView
         
         // now do the FHIR call
+        if(activityIndicator != nil)
+        {
+            stopActivityIndicator(activityIndicator)
+        }
         activityIndicator = startActivityIndicator(self.view) // show the activity indicator
         let parser = VitalSignParser()
-        parser.getVitalSignsObservations("bedmanagement/wards", onSuccess: showData)
+        parser.getVitalSignsObservations(patient.patientId,commaSeparatedCodes:  Helper.getCareRecordCodes(),startDate:  graphStartDate , endDate:  graphEndDate,includeMostRecent:  true , onSuccess: showData)
     }
+   
     @IBAction func show(sender: AnyObject) {
         let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
         if (appDelegate.windowState == DCWindowState.halfWindow || appDelegate.windowState == DCWindowState.oneThirdWindow) {
             let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
             let tabularView : OneThirdScreenTabularView = mainStoryboard.instantiateViewControllerWithIdentifier("OneThirdScreenTabularViewController") as! OneThirdScreenTabularView
-            tabularView.observationList = observationList
+            tabularView.patient = patient
             PushViewController(tabularView)
         }
         else
         {
             let mainStoryboard = UIStoryboard(name: "PatientMenu", bundle: NSBundle.mainBundle())
             let tabularView : TabularViewController = mainStoryboard.instantiateViewControllerWithIdentifier("TabularViewController") as! TabularViewController
-            tabularView.observationList = observationList
+            tabularView.patient = patient
             PushViewController(tabularView)
             
         }

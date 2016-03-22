@@ -16,6 +16,5 @@ typedef void(^ViewDismissed)();
 @property (nonatomic, strong) NSMutableArray *patientsAllergyArray;
 @property (nonatomic, strong) ViewDismissed viewDismissed;
 
-- (CGFloat)allergyAndAlertDisplayTableViewHeightForContent:(NSArray *)displayArray ;
 
 @end

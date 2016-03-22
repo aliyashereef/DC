@@ -12,6 +12,7 @@ protocol CellDelegate
     func moveNext(rowNumber:Int)
     func movePrevious(rowNumber:Int)
     func selectedCell(cell:UICollectionViewCell)
+    func cellValueChanged(rowNumber:Int , object:AnyObject)
 }
 protocol ButtonAction
 {
@@ -25,4 +26,5 @@ extension CellDelegate
     func moveNext(rowNumber:Int){}
     func movePrevious(rowNumber:Int){}
     func selectedCell(cell:UICollectionViewCell){}
+    func cellValueChanged(rowNumber:Int, object:AnyObject){}
 }

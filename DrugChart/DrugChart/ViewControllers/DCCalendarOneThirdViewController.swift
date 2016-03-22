@@ -15,6 +15,11 @@ enum Direction  {
     case ScrollDirectionLeft
 }
 
+let WEBSERVICE_UNAVAILABLE : NSInteger = 101
+let NETWORK_NOT_REACHABLE : NSInteger = -1001
+let NOT_CONNECTED_TO_INTERNET : NSInteger = -1009
+
+
 class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource, UITableViewDelegate, DCMedicationAdministrationStatusProtocol , UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, EditDeleteActionDelegate {
     
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
@@ -30,6 +35,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     var scrollDirection : Direction = .ScrollDirectionNone
     var scrollingLocked : Bool = false
     var selectedIndexPath : NSIndexPath!
+    
     required init?(coder aDecoder: NSCoder) {
         
         super.init(coder: aDecoder)
@@ -75,9 +81,9 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
             setParentViewWithCurrentWeekDateArray()
         }
-        self.adjustContentOffsetToShowCenterDayInCollectionView()
         calendarStripCollectionView.reloadData()
         medicationTableView?.reloadData()
+        self.adjustContentOffsetToShowCenterDayInCollectionView()
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
@@ -200,9 +206,8 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         let tableCell: DCOneThirdCalendarScreenMedicationCell = tableView.cellForRowAtIndexPath(indexPath) as! DCOneThirdCalendarScreenMedicationCell
-        let subViewArray = tableCell.contentView.subviews[1].subviews[4].subviews
+        let subViewArray = tableCell.contentView.subviews[1].subviews[5].subviews
         //let subViewArray = tableCell.contentView.subviews
-        
         for subVeiw in subViewArray {
             if subVeiw .isKindOfClass(DCMedicationAdministrationStatusView){
                 (subVeiw as! DCMedicationAdministrationStatusView).administerMedicationWithMedicationSlot()
@@ -216,7 +221,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
-        let scrollVelocity : CGPoint = calendarStripCollectionView.panGestureRecognizer.velocityInView(calendarStripCollectionView.superview)
+        let scrollVelocity = calendarStripCollectionView.panGestureRecognizer.velocityInView(calendarStripCollectionView.superview)
         if scrollVelocity.x > 0.0 {
             scrollDirection = .ScrollDirectionLeft
         } else if scrollVelocity.x < 0.0 {
@@ -229,9 +234,9 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
             scrolledProgramatically = false
         } else {
             if scrollView == calendarStripCollectionView {
-                let firstDate : NSDate = currentWeekDatesArray.objectAtIndex(0) as! NSDate
-                let lastDate : NSDate = currentWeekDatesArray.lastObject as! NSDate
-                let visibleCells : NSArray = calendarStripCollectionView.visibleCells()
+                let firstDate = currentWeekDatesArray.objectAtIndex(0) as! NSDate
+                let lastDate = currentWeekDatesArray.lastObject as! NSDate
+                let visibleCells = calendarStripCollectionView.visibleCells()
                 if visibleCells.count > 0 {
                     
                     for obj : AnyObject in visibleCells  {
@@ -295,14 +300,32 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
                 attributedInstructionsString  = NSMutableAttributedString(string: instructionString, attributes: [NSFontAttributeName:UIFont.systemFontOfSize(12.0)])
                 attributedRouteString.appendAttributedString(attributedInstructionsString)
                 medicationCell.route.attributedText = attributedRouteString;
-                medicationCell.typeLabel.text = DCCalendarHelper.typeDescriptionForMedication(medicationSchedules)
+                var typeString : String = DCCalendarHelper.typeDescriptionForMedication(medicationSchedules)
+                if medicationSchedules.isActive == true {
+                    medicationCell.typeLabel.text = typeString
+                } else {
+                    typeString = "\(typeString) - \(DISCONTINUED_STRING)"
+                    let range = (typeString as NSString).rangeOfString(DISCONTINUED_STRING)
+                    let attributedTypeString  = NSMutableAttributedString(string: typeString, attributes: [NSFontAttributeName:UIFont.systemFontOfSize(10.0)])
+                    attributedTypeString.addAttribute(NSForegroundColorAttributeName, value: UIColor(forHexString: "#e87b7b") , range: range)
+                    medicationCell.typeLabel.attributedText = attributedTypeString
+                }
             }
     }
         
     func reloadMedicationListWithDisplayArray (displayArray: NSMutableArray) {
         
+        var addedNewMedication : Bool!
+        if (displayMedicationListArray.count != 0 && displayMedicationListArray.count < displayArray.count) {
+            addedNewMedication = true
+        }
+        else {
+            addedNewMedication = false
+        }
         displayMedicationListArray =  displayArray as NSMutableArray
         medicationTableView?.reloadData()
+        medicationTableView?.layoutIfNeeded()
+        self.scrollToLatestMedication(shouldScroll: addedNewMedication)
     }
     
     func fetchPatientListAndReloadMedicationList () {
@@ -312,12 +335,21 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         parentView.fetchMedicationListForPatientWithCompletionHandler { (success :Bool) -> Void in
              if success {
                 self.medicationTableView?.reloadData()
-            }
+             }
+        }
+    }
+    
+    func displayErrorMessageForErrorCode(code : NSInteger) {
+        
+        if (code == NETWORK_NOT_REACHABLE || code == NOT_CONNECTED_TO_INTERNET) {
+            self.displayAlertWithTitle(NSLocalizedString("ERROR", comment: ""), message: NSLocalizedString("INTERNET_CONNECTION_ERROR", comment: ""))
+        } else if code == WEBSERVICE_UNAVAILABLE {
+            self.displayAlertWithTitle(NSLocalizedString("ERROR", comment: ""), message: NSLocalizedString("WEBSERVICE_UNAVAILABLE", comment: ""))
         }
     }
     
     func prepareMedicationSlotsForDisplayInCellFromScheduleDetailsForDate (medicationScheduleDetails: DCMedicationScheduleDetails, date : NSDate ) -> NSMutableArray {
-            
+        
         var count = 0
         let medicationSlotsArray: NSMutableArray = []
         let slotsDictionary = NSMutableDictionary()
@@ -354,7 +386,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
                     existingStatusViews.addObject(subView)
                 }
             }
-            let viewFrame = CGRectMake(0, 0, 120, 67.0)
+            let viewFrame = CGRectMake(0, 0, containerView.frame.width, 67.0)
             let statusView : DCMedicationAdministrationStatusView = DCMedicationAdministrationStatusView(frame: viewFrame)
             let medicationSchedules = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
             statusView.tag = tag
@@ -363,6 +395,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
             statusView.medicationCategory = medicationSchedules.medicineCategory
             statusView.backgroundColor = UIColor.clearColor()
             statusView.isOneThirdScreen = true
+            statusView.startDate = DCDateUtility.dateFromSourceString(medicationSchedules.startDate)
             statusView.updateAdministrationStatusViewWithMedicationSlotDictionary(slotDictionary)
             return statusView
     }
@@ -388,6 +421,13 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     func adjustContentOffsetToShowCenterDayInCollectionView() {
         
         let indexPath : NSIndexPath = NSIndexPath(forRow:7 , inSection: 0)
+//        var indexPath : NSIndexPath?
+//        let orientation = UIApplication.sharedApplication().statusBarOrientation
+//        if (orientation == UIInterfaceOrientation.Portrait || orientation == UIInterfaceOrientation.PortraitUpsideDown) {
+//            indexPath = NSIndexPath(forRow:6 , inSection: 0)
+//        } else {
+//            indexPath = NSIndexPath(forRow:7 , inSection: 0)
+//        }
         calendarStripCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: true)
         scrolledProgramatically = true
     }
@@ -450,23 +490,23 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     
     func displayDateFromScrollIndexForIndexPath ( cell:DCOneThirdCalendarStripCollectionCell , indexPath : NSIndexPath){
         if scrollIndex == 0 {
-            if [0,5,10].contains(indexPath.row) {
+            if [5].contains(indexPath.row) {
                 assignCenterDisplayDateWithCellIndexAndReloadTableView(cell.displayDate!)
             }
         } else if scrollIndex == 1 {
-            if [1,6,11].contains(indexPath.row) {
+            if [6].contains(indexPath.row) {
                 assignCenterDisplayDateWithCellIndexAndReloadTableView(cell.displayDate!)
             }
         } else if scrollIndex == 2 {
-            if [2,7,12].contains(indexPath.row) {
+            if [7].contains(indexPath.row) {
                 assignCenterDisplayDateWithCellIndexAndReloadTableView(cell.displayDate!)
             }
         } else if scrollIndex == 3 {
-            if [3,8,13].contains(indexPath.row) {
+            if [8].contains(indexPath.row) {
                 assignCenterDisplayDateWithCellIndexAndReloadTableView(cell.displayDate!)
             }
         }  else if scrollIndex == 4 {
-            if [4,9,14].contains(indexPath.row) {
+            if [9].contains(indexPath.row) {
                 assignCenterDisplayDateWithCellIndexAndReloadTableView(cell.displayDate!)
             }
         }
@@ -551,6 +591,22 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         self.presentViewController(navigationController!, animated: true, completion: nil)
     }
     
+    func transitToSummaryScreenForMedication(indexpath : NSIndexPath) {
+        
+        let summaryStoryboard : UIStoryboard? = UIStoryboard(name:SUMMARY_STORYBOARD, bundle: nil)
+        let medicationSummaryViewController = summaryStoryboard!.instantiateViewControllerWithIdentifier("MedicationSummary") as? DCMedicationSummaryDisplayViewController
+        let medicationList: DCMedicationScheduleDetails = displayMedicationListArray[indexpath.item] as! DCMedicationScheduleDetails
+        medicationSummaryViewController!.scheduleId = medicationList.scheduleId
+        medicationSummaryViewController!.medicationDetails = medicationList
+        let parentView : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
+        medicationSummaryViewController!.patientId = parentView.patient.patientId as String
+        
+        let navigationController: UINavigationController = UINavigationController(rootViewController: medicationSummaryViewController!)
+        navigationController.modalPresentationStyle = .FormSheet
+        self.presentViewController(navigationController, animated: true, completion: { _ in })
+        
+    }
+
     func deleteMedicationAtIndexPath(indexPath : NSIndexPath) {
         
         let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
@@ -569,7 +625,28 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
 
             } else {
                 // TO DO: handle the case for already deleted medication.
+                self.displayErrorMessageForErrorCode(error.code)
             }
+        }
+    }
+    
+    func indexPathForLastRowWith(numberOfRows rows : Int, numberOfSection sections : Int) -> NSIndexPath {
+        
+        return NSIndexPath(forRow: rows - 1, inSection: sections)
+    }
+    
+    func scrollToLatestMedication(shouldScroll scroll:Bool) {
+        
+        if scroll {
+            let numberOfRows : Int! = self.medicationTableView?.numberOfRowsInSection(0)
+            if numberOfRows > 0 {
+                print(numberOfRows)
+                let indexPath = self.indexPathForLastRowWith(numberOfRows: numberOfRows-1, numberOfSection: 0)
+                print(indexPath)
+                self.medicationTableView?.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Top, animated: true)
+            }
+        }else {
+            
         }
     }
 }

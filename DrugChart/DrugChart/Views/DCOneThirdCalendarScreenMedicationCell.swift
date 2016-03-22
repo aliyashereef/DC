@@ -13,7 +13,7 @@ protocol EditDeleteActionDelegate {
     func stopMedicationForSelectedIndexPath(indexPath : NSIndexPath)
     func editMedicationForSelectedIndexPath (indexPath : NSIndexPath)
     func setIndexPathSelected(indexPath : NSIndexPath)
-    
+    func transitToSummaryScreenForMedication(indexpath : NSIndexPath)
 }
 
 class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
@@ -201,6 +201,13 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
         print("***** Display Summary popover")
     }
 
+    @IBAction func summaryDisplayButton(sender: AnyObject) {
+
+        //Display Summary
+        if let delegate = editAndDeleteDelegate {
+            delegate.transitToSummaryScreenForMedication(indexPath)
+        }
+    }
 
 
 }

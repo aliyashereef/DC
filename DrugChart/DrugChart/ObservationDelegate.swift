@@ -18,6 +18,7 @@ protocol ObservationDelegate
     func GetLatestObservation(dataType:DashBoardRow)->VitalSignObservation!
     func PushViewController(navigationController:UIViewController)
     func ShowAlertController(alertController:UIAlertController)
+    func ShowPopOver(viewController:UIViewController)
 }
 
 extension ObservationDelegate
@@ -29,5 +30,5 @@ extension ObservationDelegate
     func GetLatestObservation(dataType:DashBoardRow)->VitalSignObservation! { return nil}
     func PushViewController(navigationController:UIViewController){}
     func ShowAlertController(alertController:UIAlertController) {}
-
+    func ShowPopOver(viewController:UIViewController){}
 }

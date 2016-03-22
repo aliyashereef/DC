@@ -115,6 +115,7 @@ class DCAdministerGraphViewController: DCBaseViewController, UITableViewDataSour
         
         switch indexPath.section {
         case 0:
+            self.addBNFView()
             break
         case 1:
             break
@@ -124,7 +125,38 @@ class DCAdministerGraphViewController: DCBaseViewController, UITableViewDataSour
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
+    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if indexPath.section == 2 && indexPath.row == 2 {
+            return 44
+        } else {
+            return UITableViewAutomaticDimension
+        }
+    }
+
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+        if indexPath.section == 2 && indexPath.row == 2 {
+            if(indexPath == selectedRowIndex ) {
+                var notesString = EMPTY_STRING
+                if medication.medicationAdministration.status == ADMINISTERED || medication.medicationAdministration.status == SELF_ADMINISTERED {
+                    notesString = medication.medicationAdministration.administeredNotes
+                } else if medication.medicationAdministration.status == REFUSED || medication.medicationAdministration.status == NOT_ADMINISTRATED {
+                    notesString = medication.medicationAdministration.refusedNotes
+                }else if medication.medicationAdministration.status == OMITTED {
+                    notesString = medication.medicationAdministration.omittedNotes
+                }
+                let textHeight : CGSize = DCUtility.textViewSizeWithText(notesString , maxWidth:478 , font:UIFont.systemFontOfSize(14))
+                return textHeight.height + 45 // the top padding space is 30 points. + some padding of 15 px
+            } else {
+                return 44
+            }
+        } else {
+            return UITableViewAutomaticDimension
+        }
+    }
+    
     func configureNotesAndReasonCellsAtIndexPath (indexPath : NSIndexPath, type : NSString ,text : NSString) -> DCNotesAndReasonCell {
+        
         
         var noteCell = medicationHistoryTableview.dequeueReusableCellWithIdentifier(NOTES_AND_REASON_CELL) as? DCNotesAndReasonCell
         if noteCell == nil {
@@ -134,7 +166,8 @@ class DCAdministerGraphViewController: DCBaseViewController, UITableViewDataSour
         noteCell!.moreButton.addTarget(self, action: "moreButtonPressed:", forControlEvents: .TouchUpInside)
         // Assigning value for the cell labels
         noteCell!.cellContentTypeLabel!.text = type as String
-        noteCell!.reasonTextLabel.text = text.stringByReplacingOccurrencesOfString("\n", withString: EMPTY_STRING) as String
+        noteCell!.reasonTextLabel.text = text as String
+        //.stringByReplacingOccurrencesOfString("\n", withString: EMPTY_STRING) as String
         noteCell!.reasonTextLabel.textAlignment = .Right
         // Calculating the count of text characters and checking whether the more button have to be visible.
         let count : NSInteger = text.length
@@ -167,6 +200,13 @@ class DCAdministerGraphViewController: DCBaseViewController, UITableViewDataSour
         //        noteCell!.layoutMargins = UIEdgeInsetsZero
         return noteCell!
     }
+    
+    func addBNFView () {
+        let administerStoryboard : UIStoryboard? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil)
+        let bnfViewController : DCBNFViewController? = administerStoryboard!.instantiateViewControllerWithIdentifier(BNF_STORYBOARD_ID) as? DCBNFViewController
+        self.navigationController?.pushViewController(bnfViewController!, animated: true)
+    }
+
     
     // On taping more button in the cell,it gets expanded closing all othe expanded cells.
     

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import FHIR
 class Pulse : VitalSignBaseModel
 {
     var pulseRate:Double
@@ -15,5 +15,18 @@ class Pulse : VitalSignBaseModel
     override init()
     {
         pulseRate = 0.0
+    }
+    
+    override func setCorrespondentDoubleValue(valueString: String) {
+        pulseRate = (valueString as NSString!).doubleValue
+    }
+    
+    override func FHIRResource() -> Resource? {
+        let code = FHIRCode("O/E - pulse rate",  codeId: Constant.CODE_PULSE_RATE)
+        let observation = Observation(code:code  , status: "final")
+        observation.comments = associatedText
+        observation.effectiveDateTime = FHIRDate(super.date)
+        observation.valueQuantity = FHIRQuantity(stringValue, unit: "beats/min")
+        return observation
     }
 }

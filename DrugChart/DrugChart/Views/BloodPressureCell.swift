@@ -17,6 +17,8 @@ class BloodPressureCell: UITableViewCell ,ButtonAction{
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.selectionStyle = UITableViewCellSelectionStyle.None
+        systolicValue.addTarget(self, action: "valueChanged:", forControlEvents: UIControlEvents.EditingChanged)
     }
    
     override func setSelected(selected: Bool, animated: Bool) {
@@ -25,10 +27,24 @@ class BloodPressureCell: UITableViewCell ,ButtonAction{
         // Configure the view for the selected state
     }
     
+    func setCellBackgroundColor(color:UIColor)
+    {
+        self.backgroundView = nil
+        self.backgroundColor = color
+        self.contentView.backgroundColor = color
+        self.selectedBackgroundView = nil
+    }
+    
+    func valueChanged(textField: AnyObject)
+    {
+        delegate?.cellValueChanged(tag,object: textField)
+    }
+    
     func isValueEntered() -> Bool
     {
         return systolicValue.isValueEntered()
     }
+
     func  getSystolicValue() ->Double
     {
         return (systolicValue.text as NSString!).doubleValue
@@ -39,6 +55,15 @@ class BloodPressureCell: UITableViewCell ,ButtonAction{
         return (diastolicValue.text as NSString!).doubleValue
     }
     
+    func  getSystolicStringValue() ->String
+    {
+        return systolicValue.text!
+    }
+    
+    func  getDiastolicStringValue() ->String
+    {
+        return diastolicValue.text!
+    }
     func nextButtonAction()
     {
         if(self.systolicValue.isFirstResponder())

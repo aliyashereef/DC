@@ -22,7 +22,6 @@ typealias SelectedDosage = DCDosage? -> Void
     var menuType : DosageSelectionType = eDosageMenu
     var dosage : DCDosage?
     var selectedDetailType : DosageDetailType = eDoseValue
-    var timeArray : NSMutableArray? = []
     var selectedTimeArrayItems = [String]()
     var valueForDoseForTime = [String]()
     var isRowAlreadySelected : Bool = false
@@ -522,7 +521,15 @@ typealias SelectedDosage = DCDosage? -> Void
                 } else if(indexPath.row == 2){
                     dosageSelectionDetailCell.configureCell(CHANGE_OVER_TITLE, selectedValue: (self.dosage?.reducingIncreasingDose.changeOver)!)
                 } else {
-                    dosageSelectionDetailCell.configureCell(CONDITIONS_TITLE, selectedValue: (self.dosage?.reducingIncreasingDose.conditions.conditionDescription)!)
+                    if (self.dosage?.reducingIncreasingDose?.conditionsArray != nil) {
+                        if self.dosage?.reducingIncreasingDose?.conditionsArray.count > 0 {
+                            dosageSelectionDetailCell.configureCell(CONDITIONS_TITLE, selectedValue: DCDosageHelper.createDescriptionStringForDosageCondition((self.dosage?.reducingIncreasingDose.conditionsArray[0])! as! DCConditions, dosageUnit: (self.dosage?.doseUnit)!))
+                        } else {
+                            dosageSelectionDetailCell.configureCell(CONDITIONS_TITLE, selectedValue: "")
+                        }
+                    } else {
+                        dosageSelectionDetailCell.configureCell(CONDITIONS_TITLE, selectedValue: "")
+                    }
                 }
             } else {
                 if (indexPath.row == 0) {
@@ -598,6 +605,9 @@ typealias SelectedDosage = DCDosage? -> Void
                             dosageCell.dosageDetailLabel!.textColor = UIColor.redColor()
                         } else {
                             let dosageConditionsViewController : DCDosageConditionsViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(DOSAGE_CONDITIONS_SBID) as? DCDosageConditionsViewController
+                            dosageConditionsViewController?.reducingIncreasingDoseEntered = { value in
+                                self.dosage?.reducingIncreasingDose = value 
+                            }
                             dosageConditionsViewController?.dosage = self.dosage
                             self.configureNavigationBackButtonTitle()
                             self.navigationController?.pushViewController(dosageConditionsViewController!, animated: true)
@@ -701,9 +711,11 @@ typealias SelectedDosage = DCDosage? -> Void
         }
         for timeDictionary in (dosage?.splitDailyDose.timeArray)! {
             let timeInArray = timeDictionary["time"] as! String
-            let isTimeSelected = timeDictionary["selected"] as! Int
-            if (timeInArray == time && isTimeSelected != 0) {
+//            let isTimeSelected = timeDictionary["selected"] as! Int
+            if (timeInArray == time) {
                 timeAlreadyPresent = true
+                let populatedDict = ["time": time, "selected": 1]
+                dosage?.splitDailyDose.timeArray.replaceObjectAtIndex((dosage?.splitDailyDose.timeArray.indexOfObject(timeDictionary))!, withObject: populatedDict)
             }
         }
         if (timeAlreadyPresent == false) {
@@ -861,21 +873,11 @@ typealias SelectedDosage = DCDosage? -> Void
         //Enter the selected value to the particular type.
         if (selectedDetailType == eDoseValue) {
             self.dosage?.fixedDose?.doseValue = value
-//            newDosageAddedDelegate?.newDosageAdded("\(value) \((dosage?.doseUnit)!)")
         } else if (selectedDetailType == eDoseFrom || selectedDetailType == eDoseTo) {
             if (selectedDetailType == eDoseFrom) {
                 self.dosage?.variableDose?.doseFromValue = value
             } else {
                 self.dosage?.variableDose.doseToValue = value
-            }
-            if dosageArray.count != 0 {
-                if self.dosage!.variableDose.doseFromValue != doseValueFromAPI && self.dosage!.variableDose.doseToValue != doseValueFromAPI {
-//                    newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
-                }
-            } else {
-                if self.dosage?.variableDose.doseFromValue != "" && self.dosage?.variableDose.doseToValue != "" {
-//                    newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
-                }
             }
         } else if (selectedDetailType == eDoseUnit) {
             dosage?.doseUnit = value

@@ -11,7 +11,7 @@ import UIKit
 
 
 
-    class ObservationViewController: UIViewController  {
+class ObservationViewController: PatientViewController,ObservationDelegate   {
         @IBOutlet weak var observationSegmentedView: UISegmentedControl!
         @IBOutlet weak var hiddenButton: UIButton!
         @IBOutlet weak var oneThirdHidden: UIButton!
@@ -19,7 +19,7 @@ import UIKit
         @IBOutlet weak var childView: UIView!
         var generalObservationView : GeneralObservationView!
         var observation:VitalSignObservation!
-        var tag:Int=0
+        var tag:DataEntryObservationSource!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hiddenButton.hidden = true
@@ -30,6 +30,8 @@ import UIKit
         if(generalObservationView == nil)
         {
             generalObservationView = (GeneralObservationView.instanceFromNib() as! GeneralObservationView)
+            generalObservationView.uitag = tag
+            generalObservationView.delegate = self
             generalObservationView.observation = observation
         }
         Helper.displayInChildView(generalObservationView, parentView: childView)
@@ -39,15 +41,16 @@ import UIKit
         
     }
     
-        func configureView(observation:VitalSignObservation,showobservatioType:ShowObservationType,tag:Int)
+   func configureView(observation:VitalSignObservation,showobservatioType:ShowObservationType,tag:DataEntryObservationSource)
     {
       self.observation = observation
       self.tag = tag
       if(generalObservationView == nil)
        {
             generalObservationView = (GeneralObservationView.instanceFromNib() as! GeneralObservationView)
+            generalObservationView.delegate = self
        }
-        generalObservationView.configureView(observation, showobservatioType: showobservatioType)
+        generalObservationView.configureView(observation, showobservatioType: showobservatioType,tag:tag)
     }
         
     func keyboardWasShown(sender: NSNotification) {
@@ -76,40 +79,53 @@ import UIKit
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 
-        func TakeObservationInput(viewController:UIAlertController)
+    func TakeObservationInput(viewController:UIAlertController)
+    {
+        self.presentViewController(viewController, animated: true)
         {
-            self.presentViewController(viewController, animated: true)
-            {
-                let textView = viewController.view.viewWithTag(10) as! UITextField
-                print(textView)
-            }
+            let textView = viewController.view.viewWithTag(10) as! UITextField
+            print(textView)
         }
+    }
         
     @IBAction func doneClick(sender: AnyObject) {
-        if(generalObservationView.showObservationType != .None && generalObservationView.showObservationType != .All)
-        {
-            if(tag == 2)
-            {
-                performSegueWithIdentifier("unwindToOneThirdTabularView",sender:sender)
-            }
-            else if(tag == 1)
-            {
-                performSegueWithIdentifier("unwindToTabularView",sender:sender)
-            }
-        }
-        else
-        {
-            performSegueWithIdentifier("unwindToObservationList",sender:sender)
-        }
-        }
-            
+        saveObject(sender)
+    }
+        
+    // Navigation
+    func ShowModalNavigationController(navigationController: UINavigationController) {
+        self.presentViewController(navigationController, animated: true){}
+    }
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
      override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-      
-            generalObservationView.prepareObjects()
-            self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func saveObject(sender:AnyObject)
+    {
+        generalObservationView.prepareObjects()
+        let parser = VitalSignParser()
+        parser.saveVitalSignObservations(patient.patientId, requestBody: generalObservationView.observation.asJSON(), onCompletion:saveCompleted)
         
     }
+    func saveCompleted( savedSuccessfully:Bool)
+    {
+        if(savedSuccessfully)
+        {
+            switch(self.tag!)
+            {
+            case DataEntryObservationSource.VitalSignAddIPhone, DataEntryObservationSource.VitalSignAddIPad:
+                performSegueWithIdentifier("unwindToObservationList",sender:nil)
+            case DataEntryObservationSource.VitalSignEditIPhone:
+                performSegueWithIdentifier("unwindToOneThirdTabularView",sender:nil)
+            case DataEntryObservationSource.VitalSignEditIPad:
+                performSegueWithIdentifier("unwindToTabularView",sender:nil)
+            case DataEntryObservationSource.NewsIPhone,DataEntryObservationSource.NewsIPad:
+                performSegueWithIdentifier("unwindToObservationList",sender:nil)
+            }
+        }
+    }
+    
 }
