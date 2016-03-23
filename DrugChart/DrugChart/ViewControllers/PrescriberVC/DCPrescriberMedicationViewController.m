@@ -126,7 +126,7 @@ typedef enum : NSUInteger {
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     [self configureCurrentWindowCalendarWidth];
-    if (windowSizeChanged && !isInBackground) {
+    if (windowSizeChanged ) {
         [self prescriberCalendarChildViewControllerBasedOnWindowState];
         [self configureDateArrayForOneThirdCalendarScreen];
         [self setCurrentScreenOrientation];
@@ -284,11 +284,14 @@ typedef enum : NSUInteger {
         isOneThirdMedicationViewShown = NO;
         [self currentWeekDatesArrayFromDate:_centerDisplayDate];
         [self addPrescriberDrugChartViewForFullAndTwoThirdWindow];
-        [self showActivityIndicationOnViewRefresh:true];
         fetchOnLayout = YES;
-        [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
-            fetchOnLayout = NO;
-        }];
+        if( !isInBackground ){
+            [self showActivityIndicationOnViewRefresh:true];
+            [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
+                fetchOnLayout = NO;
+            }];
+        }
+        
     }
 }
 
