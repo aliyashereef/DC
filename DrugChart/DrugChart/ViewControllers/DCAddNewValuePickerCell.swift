@@ -34,6 +34,13 @@ class DCAddNewValuePickerCell: UITableViewCell , UIPickerViewDelegate, UIPickerV
         unitPickerCell.reloadAllComponents()
     }
     
+    func selectPickerViewForValue(value : String) {
+        
+        let selectedIndex = unitArrayForDisplay.indexOf(value)
+        NSLog("**** selectedIndex is %i", selectedIndex!)
+        unitPickerCell.selectRow(selectedIndex!, inComponent: PickerComponentsCount.eZerothComponent.rawValue, animated: true)
+    }
+    
     func currentValueForPickerCell (type : PickerType) {
         
         //To return selected value on first click.
