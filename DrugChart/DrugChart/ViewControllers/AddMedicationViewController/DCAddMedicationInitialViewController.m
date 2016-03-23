@@ -253,11 +253,11 @@
             NSMutableString *reviewFrequency = [[NSMutableString alloc] initWithString:EMPTY_STRING];
             if ([self.selectedMedication.medicationReview.reviewType isEqualToString:REVIEW_INTERVAL]) {
                 if (self.selectedMedication.medicationReview.reviewInterval.intervalCount != nil && self.selectedMedication.medicationReview.reviewInterval.unit != nil) {
-                    [reviewFrequency appendFormat:@"in %@ %@", self.selectedMedication.medicationReview.reviewInterval.intervalCount, self.selectedMedication.medicationReview.reviewInterval.unit];
+                    [reviewFrequency appendFormat:@"In %@ %@", self.selectedMedication.medicationReview.reviewInterval.intervalCount, self.selectedMedication.medicationReview.reviewInterval.unit];
                 }
             } else if ([self.selectedMedication.medicationReview.reviewType isEqualToString:REVIEW_DATE]) {
                 if (self.selectedMedication.medicationReview.reviewDate.dateAndTime != nil) {
-                    [reviewFrequency appendFormat:@"on %@", self.selectedMedication.medicationReview.reviewDate.dateAndTime];
+                    [reviewFrequency appendFormat:@"On %@", self.selectedMedication.medicationReview.reviewDate.dateAndTime];
                 }
             }
             [cell configureContentCellWithContent:reviewFrequency];

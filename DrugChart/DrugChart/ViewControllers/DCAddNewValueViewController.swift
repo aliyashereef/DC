@@ -41,9 +41,6 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
                 let lastIndex : Int = arrayOfValueAndUnit.endIndex - 1
                 textFieldValue = arrayOfValueAndUnit[lastIndex - 1] as! String
                 valueForUnit = arrayOfValueAndUnit[lastIndex] as! String
-                if (Int(textFieldValue) > 1) {
-                    valueForUnit = valueForUnit.substringToIndex(valueForUnit.endIndex.predecessor())
-                }
             } else {
                 textFieldValue = EMPTY_STRING
                 valueForUnit = unitArray[0]
@@ -56,16 +53,7 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
     override func viewDidLayoutSubviews() {
         
         super.viewDidLayoutSubviews()
-        let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
-        if let navigationBar = self.navigationController?.navigationBar {
-            var frame = navigationBar.frame
-            if (appDelegate.windowState == DCWindowState.oneThirdWindow || appDelegate.windowState == DCWindowState.halfWindow) {
-                frame.size.height = NAVIGATION_BAR_HEIGHT_WITH_STATUS_BAR
-            } else {
-                frame.size.height = NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR
-            }
-            navigationBar.frame = frame
-        }
+        self.navigationController?.navigationBar.frame = DCUtility.navigationBarFrameForNavigationController(self.navigationController)
     }
 
     
@@ -93,6 +81,8 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
                     let unit = String(valueForUnit.characters.dropLast())
                     self.newValueEntered("\(textFieldValue) \(unit)")
                 }
+            } else {
+                self.newValueEntered(nil)
             }
         }
     }

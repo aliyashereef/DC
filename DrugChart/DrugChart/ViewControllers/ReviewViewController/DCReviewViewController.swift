@@ -208,7 +208,7 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
         let warningCell = reviewTableView.dequeueReusableCellWithIdentifier(PICKER_DROP_DOWN_CELL, forIndexPath: indexPath) as? DCAddNewValueTableViewCell
         warningCell!.unitLabel.text = NSLocalizedString("WARNING_PERIOD", comment: "warning period cell text")
         if let warningPeriod = review?.warningPeriod {
-            warningCell!.unitValueLabel.text = warningPeriod
+            warningCell!.unitValueLabel.text = String(format: "Before %@", warningPeriod)
         } else {
             warningCell!.unitValueLabel.text = EMPTY_STRING
         }
@@ -225,7 +225,7 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
                 let newValueTableCell = reviewTableView.dequeueReusableCellWithIdentifier(VALUE_TEXTFIELD_CELL, forIndexPath: indexPath) as? DCAddNewValueTableViewCell
                 if let reviewInterval = review?.reviewInterval {
                     if let intervalCount = reviewInterval.intervalCount {
-                        newValueTableCell!.newValueTextField.placeholder = intervalCount
+                        newValueTableCell!.newValueTextField.text = intervalCount
                     } else {
                         newValueTableCell!.newValueTextField.placeholder =  NSLocalizedString("IN", comment: "in placeholder text")
                     }
