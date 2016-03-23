@@ -250,7 +250,17 @@
             static NSString *cellIdentifier = ADD_MEDICATION_CONTENT_CELL;
             DCAddMedicationContentCell *cell = [medicationDetailsTableView dequeueReusableCellWithIdentifier:cellIdentifier];
             cell.titleLabel.text = NSLocalizedString(@"Review Frequency", @"Date cell title");
-            [cell configureContentCellWithContent:self.selectedMedication.reviewDate];
+            NSMutableString *reviewFrequency = [[NSMutableString alloc] initWithString:EMPTY_STRING];
+            if ([self.selectedMedication.medicationReview.reviewType isEqualToString:REVIEW_INTERVAL]) {
+                if (self.selectedMedication.medicationReview.reviewInterval.intervalCount != nil && self.selectedMedication.medicationReview.reviewInterval.unit != nil) {
+                    [reviewFrequency appendFormat:@"in %@ %@", self.selectedMedication.medicationReview.reviewInterval.intervalCount, self.selectedMedication.medicationReview.reviewInterval.unit];
+                }
+            } else if ([self.selectedMedication.medicationReview.reviewType isEqualToString:REVIEW_DATE]) {
+                if (self.selectedMedication.medicationReview.reviewDate.dateAndTime != nil) {
+                    [reviewFrequency appendFormat:@"on %@", self.selectedMedication.medicationReview.reviewDate.dateAndTime];
+                }
+            }
+            [cell configureContentCellWithContent:reviewFrequency];
             return cell;
         }
             break;
@@ -710,6 +720,7 @@
     self.selectedMedication.dose = [[DCDosage alloc] init];
     dosageArray = [NSMutableArray arrayWithObjects:medication.dosage, nil];
     self.selectedMedication.infusion = [[DCInfusion alloc] init];
+    self.selectedMedication.medicationReview = [[DCMedicationReview alloc] init];
     [medicationDetailsTableView reloadData];
 }
 
@@ -859,19 +870,14 @@
 - (void)displayReviewViewController {
     
     UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
-    DCAddNewValueViewController *addNewValueViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:ADD_NEW_VALUE_SBID];
-    addNewValueViewController.titleString = NSLocalizedString(@"Review Frequency", @"screen title");;
-    addNewValueViewController.placeHolderString = @"In";
-    addNewValueViewController.backButtonTitle = @"Add Medication";
-    addNewValueViewController.detailType = eAddValueWithUnit;
-    addNewValueViewController.unitArray = [[NSArray alloc] initWithObjects:@"Day",@"Week",@"Month",nil];
-    addNewValueViewController.previousValue = self.selectedMedication.reviewDate;
-    addNewValueViewController.newValueEntered = ^ (NSString *value) {
-        self.selectedMedication.reviewDate = [NSString stringWithFormat:@"In %@",value];
-        [medicationDetailsTableView reloadData];
+    DCReviewViewController *reviewViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:REVIEW_VIEW_CONTROLLER_SB_ID];
+    reviewViewController.title = NSLocalizedString(@"Review Frequency", @"screen title");
+    reviewViewController.review = self.selectedMedication.medicationReview;
+    reviewViewController.updatedReviewObject = ^ (DCMedicationReview *review){
+        self.selectedMedication.medicationReview = review;
     };
-    self.title = titleLabel.text;
-    [self.navigationController pushViewController:addNewValueViewController animated:YES];
+    [self configureNavigationBackButtonTitle];
+    [self.navigationController pushViewController:reviewViewController animated:YES];
 }
 
 - (void)displayMedicationTypeView {
