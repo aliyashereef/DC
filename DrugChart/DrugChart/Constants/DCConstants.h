@@ -43,6 +43,7 @@
 #define DOT @"."
 #define COLON @":"
 #define NONE_TEXT @"None"
+#define FIFTEEN_MINUTES 900.0
 
 //web requests
 
@@ -50,6 +51,11 @@
 
 //content offset
 #define MEDICINE_NAME_TEXTVIEW_EDGE_INSETS  UIEdgeInsetsMake(10, 10, 10, 30)
+
+// calendar view width constants
+
+#define CALENDAR_TWO_THIRD_WINDOW_WIDTH 435.0
+#define CALENDAR_FULL_WINDOW_WIDTH 725.0
 
 //Button Titles
 #define OK_BUTTON_TITLE     @"OK"

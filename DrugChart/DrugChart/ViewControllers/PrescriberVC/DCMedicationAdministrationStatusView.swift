@@ -290,7 +290,7 @@ class DCMedicationAdministrationStatusView: UIView {
         statusLabel?.hidden = false
         statusIcon?.hidden = false
         statusLabel?.font = statusLabelFont()
-        statusLabel?.textAlignment = NSTextAlignment.Center
+        statusLabel?.textAlignment = isOneThirdScreen ? .Right : .Center
         if (isOneThirdScreen) {
             statusIcon!.center = CGPointMake(self.bounds.size.width/6, self.bounds.size.height/2);
             statusLabel?.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
