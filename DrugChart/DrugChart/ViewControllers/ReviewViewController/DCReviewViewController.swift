@@ -8,43 +8,46 @@
 
 import UIKit
 
-class DCReviewViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+let HOURS_TEXT = "Hours"
+let DAYS_TEXT = "Days"
+let WEEKS_TEXT = "Weeks"
+let MONTHS_TEXT = "Months"
+
+typealias UpdatedReviewObject = DCMedicationReview? -> Void
+
+class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var reviewTableView: UITableView!
     
+    var inlinePickerIndexPath : NSIndexPath?
     var review : DCMedicationReview?
+    var updatedReviewObject : UpdatedReviewObject?
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        reviewTableView.keyboardDismissMode = .OnDrag
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        
+        if (self.review?.reviewType == REVIEW_INTERVAL) {
+            self.updateReviewIntervalCountValue()
+        }
+        self.updatedReviewObject!(self.review)
+        super.viewWillDisappear(animated)
     }
 
     override func didReceiveMemoryWarning() {
+        
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
+        
     // MARK: TableView Methods
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        if (review?.reviewType == nil) {
-            return SectionCount.eSecondSection.rawValue
-        } else {
-            return SectionCount.eThirdSection.rawValue
-        }
+        return (review?.reviewType == nil) ? SectionCount.eSecondSection.rawValue : SectionCount.eThirdSection.rawValue
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -57,8 +60,13 @@ class DCReviewViewController: UIViewController, UITableViewDelegate, UITableView
                 if (review?.reviewType == REVIEW_INTERVAL) {
                     rowCount = RowCount.eSecondRow.rawValue
                 }
+                if (tableViewHasInlinePickerForSection(section)) {
+                    // increment row count if there is picker view displayed
+                    rowCount++
+                }
                 return rowCount
             case eSecondSection.rawValue :
+                //warning period section
                 return RowCount.eFirstRow.rawValue
             default :
                 break
@@ -77,47 +85,12 @@ class DCReviewViewController: UIViewController, UITableViewDelegate, UITableView
                     let warningCell = warningsPeriodCellAtIndexPath(indexPath)
                     return warningCell
                 } else if (review?.reviewType == REVIEW_INTERVAL) {
-                    switch indexPath.row {
-                        case RowCount.eZerothRow.rawValue :
-                            let newValueTableCell = tableView.dequeueReusableCellWithIdentifier(VALUE_TEXTFIELD_CELL, forIndexPath: indexPath) as? DCAddNewValueTableViewCell
-                             if let reviewInterval = review?.reviewInterval {
-                                if let intervalCount = reviewInterval.intervalCount {
-                                    newValueTableCell!.newValueTextField.placeholder = intervalCount
-                                } else {
-                                    newValueTableCell!.newValueTextField.placeholder =  "In"
-                                }
-                            }
-                            return newValueTableCell!
-                        case RowCount.eFirstRow.rawValue :
-                            let newValueTableCell = tableView.dequeueReusableCellWithIdentifier(PICKER_DROP_DOWN_CELL, forIndexPath: indexPath) as? DCAddNewValueTableViewCell
-                            newValueTableCell!.unitLabel.text = "Unit"
-                            if let reviewInterval = review?.reviewInterval {
-                                newValueTableCell!.unitValueLabel.text = (reviewInterval.unit == nil) ? EMPTY_STRING : reviewInterval.unit
-                            }
-                            return newValueTableCell!
-                        case RowCount.eSecondRow.rawValue :
-                            let newValueTableCell : DCAddNewValuePickerCell = (tableView.dequeueReusableCellWithIdentifier(PICKER_CELL) as? DCAddNewValuePickerCell)!
-                            newValueTableCell.configurePickerCellWithValues(["Day","Week","Month"])
-                            newValueTableCell.pickerCompletion = { value in
-                                // self.valueForUnit = value!
-                                //self.mainTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 0)], withRowAnimation: .None)
-                            }
-                        default:
-                            break
-                        }
+                    let reviewIntervalCell = self.reviewIntervalCellAtIndexPath(indexPath)
+                    return reviewIntervalCell!
                 } else {
                     //review date
-                    if (indexPath.row == RowCount.eZerothRow.rawValue) {
-                        let newValueTableCell = tableView.dequeueReusableCellWithIdentifier(PICKER_DROP_DOWN_CELL, forIndexPath: indexPath) as? DCAddNewValueTableViewCell
-                        newValueTableCell!.unitLabel.text = DATE
-                        if let reviewDate = review?.reviewDate {
-                            newValueTableCell!.unitValueLabel.text = (reviewDate.dateAndTime == nil) ? EMPTY_STRING : reviewDate.dateAndTime
-                        }
-                        return newValueTableCell!
-                    } else {
-                        let datePickerCell : DCAddNewDoseAndTimeTableViewCell? = tableView.dequeueReusableCellWithIdentifier(ADD_NEW_TIME_CELL_ID) as?DCAddNewDoseAndTimeTableViewCell
-                        return datePickerCell!
-                    }
+                    let reviewDateCell = self.reviewDateCellAtIndexPath(indexPath)
+                    return reviewDateCell!
              }
             case eSecondSection.rawValue :
                 let warningCell = self.warningsPeriodCellAtIndexPath(indexPath)
@@ -132,36 +105,19 @@ class DCReviewViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
+        self.view.endEditing(true)
         switch indexPath.section {
             case eZerothSection.rawValue :
-                review?.reviewType = (indexPath.row == RowCount.eZerothRow.rawValue) ? REVIEW_INTERVAL : REVIEW_DATE
-                if review?.reviewType == nil {
-                    review?.reviewInterval = DCReviewInterval.init()
-                    review?.reviewDate = DCReviewDate.init()
-                }
-                if (indexPath.row == RowCount.eZerothRow.rawValue) {
-                    let reviewIntervalCell = tableView.cellForRowAtIndexPath(indexPath)
-                    reviewIntervalCell?.accessoryType = .Checkmark
-                    let reviewDateCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 0))
-                    reviewDateCell?.accessoryType = .None
-                } else {
-                    let reviewIntervalCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0))
-                    reviewIntervalCell?.accessoryType = .None
-                    let reviewDateCell = tableView.cellForRowAtIndexPath(indexPath)
-                    reviewDateCell?.accessoryType = .Checkmark
-                }
-                let sectionCount = tableView.numberOfSections
-                tableView.beginUpdates()
-                tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .None)
-                if (sectionCount == 2) {
-                    tableView.insertSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
-                } else {
-                    tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
-                }
-                tableView.endUpdates()
+                self.updateViewOnReviewTypeCellSelectionAtIndexPath(indexPath)
             case eFirstSection.rawValue :
                 if review?.reviewType == nil {
                     self.displayWarningPeriodView()
+                } else if (review?.reviewType == REVIEW_INTERVAL) {
+                    if (indexPath.row == RowCount.eFirstRow.rawValue) {
+                        displayInlinePickerForRowAtIndexPath (indexPath)
+                    }
+                } else {
+                    displayInlinePickerForRowAtIndexPath (indexPath)
                 }
             case eSecondSection.rawValue :
                 self.displayWarningPeriodView()
@@ -171,10 +127,16 @@ class DCReviewViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+        return (indexPathHasPicker(indexPath)) ? PICKER_CELL_HEIGHT : TABLE_VIEW_ROW_HEIGHT
+    }
+    
     // MARK: Private Methods
     
     func reviewTypeSelectionCellAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell {
         
+        //select review type
         let reviewCell = reviewTableView.dequeueReusableCellWithIdentifier(REVIEW_SELECTION_CELL_ID, forIndexPath: indexPath)
         reviewCell.textLabel?.font = UIFont.systemFontOfSize(15.0)
         if (indexPath.section == eZerothSection.rawValue) {
@@ -189,17 +151,48 @@ class DCReviewViewController: UIViewController, UITableViewDelegate, UITableView
         return reviewCell
     }
     
+    func updateViewOnReviewTypeCellSelectionAtIndexPath(indexPath : NSIndexPath) {
+        
+        // review type cell selection
+        self.closeInlinePickers()
+        if review?.reviewType == nil {
+            // initialise reviewtypes
+            review?.reviewInterval = DCReviewInterval.init()
+            review?.reviewDate = DCReviewDate.init()
+        }
+        review?.reviewType = (indexPath.row == RowCount.eZerothRow.rawValue) ? REVIEW_INTERVAL : REVIEW_DATE
+        if (indexPath.row == RowCount.eZerothRow.rawValue) {
+            let reviewIntervalCell = reviewTableView.cellForRowAtIndexPath(indexPath)
+            reviewIntervalCell?.accessoryType = .Checkmark
+            let reviewDateCell = reviewTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 0))
+            reviewDateCell?.accessoryType = .None
+        } else {
+            let reviewIntervalCell = reviewTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0))
+            reviewIntervalCell?.accessoryType = .None
+            let reviewDateCell = reviewTableView.cellForRowAtIndexPath(indexPath)
+            reviewDateCell?.accessoryType = .Checkmark
+        }
+        let sectionCount = reviewTableView.numberOfSections
+        reviewTableView.beginUpdates()
+        if (sectionCount == 2) {
+            reviewTableView.insertSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
+        } else {
+            reviewTableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Middle)
+        }
+        reviewTableView.endUpdates()
+    }
+    
     func displayWarningPeriodView () {
         
+        self.closeInlinePickers()
         //show warnings period view
-        
         let addMedicationStoryboard = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil)
         let addNewValueViewController = addMedicationStoryboard.instantiateViewControllerWithIdentifier(ADD_NEW_VALUE_SBID) as? DCAddNewValueViewController
         addNewValueViewController!.titleString = NSLocalizedString("WARNING_PERIOD", comment: "warning period cell text")
         addNewValueViewController!.placeHolderString = NSLocalizedString("BEGINS", comment: "warning period begins placeholder")
         addNewValueViewController!.backButtonTitle = self.title!
         addNewValueViewController!.detailType = eAddValueWithUnit
-        addNewValueViewController!.unitArray = [DAY, HOUR]
+        addNewValueViewController!.unitArray = [HOURS_TEXT, DAYS_TEXT]
         if let warningPeriod = review?.warningPeriod {
             addNewValueViewController!.previousValue = warningPeriod
         }
@@ -222,5 +215,151 @@ class DCReviewViewController: UIViewController, UITableViewDelegate, UITableView
         warningCell!.accessoryType = .DisclosureIndicator
         return warningCell!
     }
-
+    
+    func reviewIntervalCellAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell? {
+        
+        //tablecell at first section of review type interval
+        switch indexPath.row {
+            case RowCount.eZerothRow.rawValue :
+                // review interval count
+                let newValueTableCell = reviewTableView.dequeueReusableCellWithIdentifier(VALUE_TEXTFIELD_CELL, forIndexPath: indexPath) as? DCAddNewValueTableViewCell
+                if let reviewInterval = review?.reviewInterval {
+                    if let intervalCount = reviewInterval.intervalCount {
+                        newValueTableCell!.newValueTextField.placeholder = intervalCount
+                    } else {
+                        newValueTableCell!.newValueTextField.placeholder =  NSLocalizedString("IN", comment: "in placeholder text")
+                    }
+                }
+                return newValueTableCell!
+            case RowCount.eFirstRow.rawValue :
+                // interval unit
+                let reviewIntervalTableCell = reviewTableView.dequeueReusableCellWithIdentifier(PICKER_DROP_DOWN_CELL, forIndexPath: indexPath) as? DCAddNewValueTableViewCell
+                reviewIntervalTableCell!.unitLabel.text = DOSE_UNIT_TITLE
+                if let reviewInterval = review?.reviewInterval {
+                    if (reviewInterval.unit == nil) {
+                        reviewInterval.unit = HOURS_TEXT
+                    }
+                    reviewIntervalTableCell!.unitValueLabel.text = reviewInterval.unit
+                }
+                return reviewIntervalTableCell!
+            case RowCount.eSecondRow.rawValue :
+                // interval unit types picker
+                let newValueTableCell : DCAddNewValuePickerCell = (reviewTableView.dequeueReusableCellWithIdentifier(PICKER_CELL) as? DCAddNewValuePickerCell)!
+                newValueTableCell.configurePickerCellWithValues([HOURS_TEXT, DAYS_TEXT, WEEKS_TEXT, MONTHS_TEXT])
+                newValueTableCell.pickerCompletion = { value in
+                    self.review?.reviewInterval?.unit = value
+                    self.reviewTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: RowCount.eFirstRow.rawValue, inSection: eFirstSection.rawValue)], withRowAnimation: .None)
+                }
+                return newValueTableCell
+            default:
+                break
+            }
+        return nil
+    }
+    
+    func reviewDateCellAtIndexPath(indexPath : NSIndexPath) -> UITableViewCell? {
+        
+        //review date cells for firat section
+        if (indexPath.row == RowCount.eZerothRow.rawValue) {
+            // review date cell
+            let newValueTableCell = reviewTableView.dequeueReusableCellWithIdentifier(PICKER_DROP_DOWN_CELL, forIndexPath: indexPath) as? DCAddNewValueTableViewCell
+            newValueTableCell!.unitLabel.text = DATE
+            if let reviewDate = review?.reviewDate {
+                newValueTableCell!.unitValueLabel.text = (reviewDate.dateAndTime == nil) ? EMPTY_STRING : reviewDate.dateAndTime
+            }
+            return newValueTableCell!
+        } else {
+            // date pickercell
+            let datePickerCell : DCDatePickerCell? = reviewTableView.dequeueReusableCellWithIdentifier(DATE_PICKER_CELL_IDENTIFIER) as?DCDatePickerCell
+            datePickerCell?.datePicker?.minimumDate = NSDate()
+            if let reviewDate = review?.reviewDate?.dateAndTime {
+                datePickerCell?.datePicker?.date = DCDateUtility.dateFromSourceString(reviewDate)
+            } else {
+                self.performSelector(Selector("reloadReviewDateTableCellForDateValue:"), withObject: NSDate(), afterDelay: 0.02)
+            }
+            datePickerCell?.selectedDate = { date in
+                self.reloadReviewDateTableCellForDateValue(date)
+            }
+            return datePickerCell!
+        }
+    }
+    
+    func tableViewHasInlinePickerForSection (section : NSInteger) -> Bool {
+        
+        return (self.inlinePickerIndexPath != nil && section == self.inlinePickerIndexPath?.section)
+    }
+    
+    func indexPathHasPicker(indexPath : NSIndexPath) -> Bool {
+        
+        return (tableViewHasInlinePickerForSection(indexPath.section) && self.inlinePickerIndexPath!.row == indexPath.row);
+    }
+    
+    func displayInlinePickerForRowAtIndexPath(indexPath : NSIndexPath) {
+        
+        reviewTableView.beginUpdates()
+        var pickerBeforeSelectedIndexPath = false
+        var sameCellClicked = false
+        if (self.inlinePickerIndexPath != nil) {
+            pickerBeforeSelectedIndexPath = self.inlinePickerIndexPath!.row < indexPath.row
+            if (tableViewHasInlinePickerForSection(indexPath.section)) {
+                sameCellClicked = (self.inlinePickerIndexPath!.row - 1 == indexPath.row);
+            }
+            let pickerIndexPath : NSIndexPath = self.inlinePickerIndexPath!
+            self.inlinePickerIndexPath = nil
+            reviewTableView.deleteRowsAtIndexPaths([pickerIndexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+        }
+        // remove any picker cell if it exists
+        if (!sameCellClicked) {
+            // hide the date picker and display the new one
+            let rowToReveal : NSInteger = (pickerBeforeSelectedIndexPath ? indexPath.row - 1 : indexPath.row);
+            let indexPathToReveal : NSIndexPath = NSIndexPath(forItem: rowToReveal, inSection: indexPath.section)
+            togglePickerForSelectedIndexPath(indexPathToReveal)
+            self.inlinePickerIndexPath = NSIndexPath(forItem: indexPathToReveal.row + 1, inSection: indexPath.section)
+        }
+        reviewTableView.deselectRowAtIndexPath(indexPath, animated: true)
+        reviewTableView.endUpdates()
+    }
+    
+    func togglePickerForSelectedIndexPath(indexPath : NSIndexPath) {
+        
+        let indexPaths = [NSIndexPath(forItem: indexPath.row + 1, inSection: indexPath.section)]
+        if (tableViewHasInlinePickerForSection(indexPath.section)) {
+            reviewTableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.Fade)
+        } else {
+            // didn't find a picker below it, so we should insert it
+            reviewTableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.Fade)
+        }
+    }
+    
+    func closeInlinePickers () {
+        
+        if let pickerIndexPath = inlinePickerIndexPath {
+            let previousPickerIndexPath = NSIndexPath(forItem: pickerIndexPath.row - 1, inSection: pickerIndexPath.section)
+            self.displayInlinePickerForRowAtIndexPath(previousPickerIndexPath)
+        }
+    }
+    
+    func updateReviewIntervalCountValue() {
+        
+        //update the interval count value
+        let intervalCell = reviewTableView.cellForRowAtIndexPath(NSIndexPath(forItem: RowCount.eZerothRow.rawValue, inSection: eFirstSection.rawValue)) as? DCAddNewValueTableViewCell
+        review?.reviewInterval?.intervalCount = intervalCell!.newValueTextField.text
+    }
+    
+    func reloadReviewDateTableCellForDateValue(date : NSDate) {
+        
+        let dateString = DCDateUtility.dateStringFromDate(date, inFormat: START_DATE_FORMAT)
+        self.review?.reviewDate?.dateAndTime = dateString
+        reviewTableView.beginUpdates()
+        reviewTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: RowCount.eZerothRow.rawValue, inSection: eFirstSection.rawValue) ], withRowAnimation: .Fade)
+        reviewTableView.endUpdates()
+    }
+    
+    // MARK: Notification Methods
+    
+    func keyboardDidShow(notification : NSNotification) {
+        
+        closeInlinePickers()
+    }
+    
 }
