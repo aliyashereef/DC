@@ -290,6 +290,8 @@ typedef enum : NSUInteger {
             [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
                 fetchOnLayout = NO;
             }];
+        } else {
+            [self cancelPreviousMedicationListFetchRequest];
         }
         
     }
