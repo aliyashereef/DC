@@ -182,6 +182,20 @@ class OneThirdScreenTabularView: PatientViewController ,UICollectionViewDataSour
             {
                 cell.content.text = selectedObservation.getComaScore()
             }
+        case ObservationTabularViewRow.AdditionalOxygen:
+            cell.title.text = Constant.ADDITIONAL_OXYGEN
+            observationType = ShowObservationType.None
+            if(selectedObservation != nil)
+            {
+                cell.content.text = ""
+            }
+        case ObservationTabularViewRow.AVPU:
+            cell.title.text = Constant.AVPU
+            observationType = ShowObservationType.None
+            if(selectedObservation != nil)
+            {
+                cell.content.text = ""
+            }
         }
         if(selectedObservation  != nil)
         {

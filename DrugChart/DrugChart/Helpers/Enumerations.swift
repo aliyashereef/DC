@@ -88,7 +88,7 @@ enum ChartType:Int
 }
 enum ObservationTabularViewRow:Int
 {
-    case Respiratory = 1 , SPO2 , Temperature , BloodPressure , Pulse,/* BM ,*/ News , CommaScore
+    case Respiratory = 1 , SPO2 , Temperature , BloodPressure , Pulse, AdditionalOxygen , AVPU , News , CommaScore
     
     static var count: Int {  // I called this "maximumRawValue" in the post
         var max: Int = 0
@@ -123,6 +123,17 @@ enum DashBoardAddOption:Int
 enum DataEntryObservationSource: Int
 {
     case VitalSignAddIPad = 1 ,VitalSignAddIPhone , VitalSignEditIPhone ,VitalSignEditIPad , NewsIPad , NewsIPhone
+    
+    static var count: Int {  // I called this "maximumRawValue" in the post
+        var max: Int = 0
+        while let _ = self.init(rawValue: ++max) {}
+        return max
+    }
+}
+
+enum Mode: Int
+{
+    case EditDelete = 1, DeleteOnly , None
     
     static var count: Int {  // I called this "maximumRawValue" in the post
         var max: Int = 0

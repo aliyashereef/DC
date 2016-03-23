@@ -18,6 +18,8 @@ class Constant
     static let BM :String = "BM"
     static let NEWS :String = "News"
     static let COMMA_SCORE :String = "Comma Score"
+    static let ADDITIONAL_OXYGEN: String = "Additional Oxygen"
+    static let AVPU = "Unconsciousness"
     static let MINIMUM_OBSERVATION_ROW: Int = 1
     static let MAXIMUM_OBSERVATION_ROW: Int = 5
     static let FULL_SCREEN_GRAPH_HORIZONTAL_LINES = 10
