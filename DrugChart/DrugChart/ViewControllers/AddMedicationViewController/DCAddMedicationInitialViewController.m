@@ -212,6 +212,11 @@
     //check if dosage is valid, if not valid highlight field in red
     [DCAddMedicationHelper configureAddMedicationCellLabel:cell.titleLabel
                                                 forContentText:self.selectedMedication.dosage forSaveButtonAction:doneClicked];
+    if (doneClicked) {
+        if (![DCAddMedicationHelper dosageIsValidForSelectedMedication:self.selectedMedication.dose]) {
+            cell.titleLabel.textColor = [UIColor redColor];
+        }
+    }
     cell.titleLabel.text = NSLocalizedString(@"DOSE", @"Dosage cell title");
     cell.descriptionLabel.numberOfLines = 0;
     cell.descriptionLabel.text = self.selectedMedication.dosage;
@@ -1112,6 +1117,11 @@
     static NSString *cellIdentifier = ADD_MEDICATION_CONTENT_CELL;
     DCAddMedicationContentCell *cell = [medicationDetailsTableView dequeueReusableCellWithIdentifier:cellIdentifier];
     [DCAddMedicationHelper configureAddMedicationCellLabel:cell.titleLabel forContentText:self.selectedMedication.dosage forSaveButtonAction:doneClicked];
+    if (doneClicked) {
+        if (![DCAddMedicationHelper dosageIsValidForSelectedMedication:self.selectedMedication.dose]) {
+            cell.titleLabel.textColor = [UIColor redColor];
+        }
+    }
     cell.titleLabel.text = NSLocalizedString(@"DOSE", @"Dose cell title");
     [cell configureContentCellWithContent:self.selectedMedication.dosage];
     return cell;

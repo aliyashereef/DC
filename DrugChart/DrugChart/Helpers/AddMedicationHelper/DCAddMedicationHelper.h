@@ -91,6 +91,8 @@ typedef enum : NSUInteger {
                          forContentText:(NSString *)content
                     forSaveButtonAction:(BOOL)clicked;
 
++ (BOOL)dosageIsValidForSelectedMedication:(DCDosage *)dosage;
+
 + (BOOL)routeIsIntravenousOrSubcutaneous:(NSString *)route;
 
 + (NSInteger)routesTableViewSectionCountForSelectedRoute:(NSString *)route;
