@@ -157,7 +157,6 @@ class DCAdministerGraphViewController: DCBaseViewController, UITableViewDataSour
     
     func configureNotesAndReasonCellsAtIndexPath (indexPath : NSIndexPath, type : NSString ,text : NSString) -> DCNotesAndReasonCell {
         
-        
         var noteCell = medicationHistoryTableview.dequeueReusableCellWithIdentifier(NOTES_AND_REASON_CELL) as? DCNotesAndReasonCell
         if noteCell == nil {
             noteCell = DCNotesAndReasonCell(style: UITableViewCellStyle.Value1, reuseIdentifier:NOTES_AND_REASON_CELL)
@@ -171,10 +170,21 @@ class DCAdministerGraphViewController: DCBaseViewController, UITableViewDataSour
         noteCell!.reasonTextLabel.textAlignment = .Right
         // Calculating the count of text characters and checking whether the more button have to be visible.
         let count : NSInteger = text.length
-        if text == NONE_TEXT || count < 47{
-            noteCell!.isNotesExpanded = true // The notes need not to be expanded further.
+        let nextLineCharacter = "\n"
+        var containsNextLine = false
+        if (text.containsString(nextLineCharacter)) {
+            containsNextLine = true
+        } else {
+            containsNextLine = false
         }
         
+        if containsNextLine {
+            noteCell!.isNotesExpanded = false
+        } else {
+            if text == NONE_TEXT || count < 47 {
+                noteCell!.isNotesExpanded = true // The notes need not to be expanded further.
+            }
+        }
         if(noteCell!.isNotesExpanded == false || indexPath == selectedRowIndex ) {
             if indexPath == selectedRowIndex { // For the selected indexpath the more reason label need to be expanded.
                 noteCell!.moreButtonWidthConstaint.constant = 0.0
