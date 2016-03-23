@@ -10,6 +10,7 @@ import Foundation
 
 let wardViewTitle : NSString = "Wards"
 let wardsTableViewCellID : NSString = "WardsCell"
+let wardsCellHeight = 45.0
 
 protocol WardSelectionDelegate {
     func newWardSelected( row : NSInteger)
@@ -33,8 +34,8 @@ class DCWardsListingPopoverViewController : DCBaseViewController , UITableViewDe
         let cancelButton : UIBarButtonItem = UIBarButtonItem(title:CANCEL_BUTTON_TITLE, style: UIBarButtonItemStyle.Plain, target:self, action: "cancelButtonPressed")
         self.navigationItem.rightBarButtonItem = cancelButton
 //        UINavigationBar.appearance().barTintColor = UIColor.whiteColor()
-        self.preferredContentSize = CGSizeMake(DCUtility.popOverPreferredContentSize().width, CGFloat(Double(wardsArray.count-1)*45.0))
-        self.navigationController!.preferredContentSize = CGSizeMake(DCUtility.popOverPreferredContentSize().width, CGFloat(Double(wardsArray.count-1)*45.0))
+        self.preferredContentSize = CGSizeMake(DCUtility.popOverPreferredContentSize().width, CGFloat(Double(wardsArray.count)*wardsCellHeight))
+        self.navigationController!.preferredContentSize = CGSizeMake(DCUtility.popOverPreferredContentSize().width, CGFloat(Double(wardsArray.count)*wardsCellHeight))
         wardsTableView.reloadData()
     }
     
@@ -42,7 +43,6 @@ class DCWardsListingPopoverViewController : DCBaseViewController , UITableViewDe
         
         super.viewDidLayoutSubviews()
         displayNavigationBarBasedOnSizeClass()
-        showSearchBar()
     }
     
 //MARK: UISearchBarDelegate methods
@@ -53,7 +53,6 @@ class DCWardsListingPopoverViewController : DCBaseViewController , UITableViewDe
 
     func searchBarTextDidEndEditing(searchBar: UISearchBar) {
         searchActive = false;
-        hideSearchBar()
         self.wardsTableView.reloadData()
     }
     
@@ -61,7 +60,6 @@ class DCWardsListingPopoverViewController : DCBaseViewController , UITableViewDe
         searchActive = true
         if searchText.characters.count == 0 {
             filteredArray = wardsArray as [AnyObject]
-            hideSearchBar()
         } else {
             searchWardListWithText(searchText)
         }
@@ -152,24 +150,6 @@ class DCWardsListingPopoverViewController : DCBaseViewController , UITableViewDe
         } else {
             self.navigationController?.navigationBar.hidden = true
         }
-    }
-    
-    func showSearchBar () {
-        
-        if searchActive {
-            wardsTableView.setContentOffset(CGPointZero, animated: false)
-        } else {
-            self.performSelector("hideSearchBar", withObject:nil , afterDelay:0.0)
-        }
-    }
-    
-    func hideSearchBar () {
-        
-        if searchBar.isFirstResponder() {
-            searchBar.resignFirstResponder()
-        }
-        wardsTableView.contentOffset = CGPoint(x: 0, y: 44)
-        searchActive = false
     }
     
     func cancelButtonPressed() {
