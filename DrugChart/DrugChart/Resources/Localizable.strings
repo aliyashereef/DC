@@ -182,3 +182,7 @@
 "ALERTS"               =       "Alerts";
 "ALLERGIES"            =       "Allergies";
 
+// Review
+
+"WARNING_PERIOD"       =       "Warning Period";
+"BEGINS"               =       "Begins";

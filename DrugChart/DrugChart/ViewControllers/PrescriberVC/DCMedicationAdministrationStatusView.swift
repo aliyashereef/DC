@@ -15,7 +15,7 @@ let ADMINISTRATION_DUE_NOW_IMAGE    =   UIImage(named: "DueNow")
 
 let PENDING_FONT_COLOR              =   UIColor(forHexString: "#acacac")
 let DUE_AT_FONT_COLOR               =   UIColor(forHexString: "#007aff")
-let OVERDUE_FONT_COLOR              =   UIColor(forHexString: "#ff8972") // get exact color for display
+let OVERDUE_FONT_COLOR              =   UIColor(forHexString: "#ff0000") // get exact color for display
 let DUE_NOW_FONT_COLOR              =   UIColor.whiteColor()
 let CURRENT_DAY_BACKGROUND_COLOR    =   UIColor(forHexString: "#fafafa")
 let DUE_NOW_BACKGROUND_COLOR        =   UIColor(forHexString: "#f99e35")
