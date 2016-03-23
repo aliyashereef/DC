@@ -244,13 +244,16 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
                 return reviewIntervalTableCell!
             case RowCount.eSecondRow.rawValue :
                 // interval unit types picker
-                let newValueTableCell : DCAddNewValuePickerCell = (reviewTableView.dequeueReusableCellWithIdentifier(PICKER_CELL) as? DCAddNewValuePickerCell)!
-                newValueTableCell.configurePickerCellWithValues([HOURS_TEXT, DAYS_TEXT, WEEKS_TEXT, MONTHS_TEXT])
-                newValueTableCell.pickerCompletion = { value in
+                let pickerCell : DCAddNewValuePickerCell = (reviewTableView.dequeueReusableCellWithIdentifier(PICKER_CELL) as? DCAddNewValuePickerCell)!
+                pickerCell.configurePickerCellWithValues([HOURS_TEXT, DAYS_TEXT, WEEKS_TEXT, MONTHS_TEXT])
+                if let unit = self.review?.reviewInterval?.unit {
+                    pickerCell.selectPickerViewForValue(unit)
+                }
+                pickerCell.pickerCompletion = { value in
                     self.review?.reviewInterval?.unit = value
                     self.reviewTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: RowCount.eFirstRow.rawValue, inSection: eFirstSection.rawValue)], withRowAnimation: .None)
                 }
-                return newValueTableCell
+                return pickerCell
             default:
                 break
             }

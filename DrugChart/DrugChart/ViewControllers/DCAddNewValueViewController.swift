@@ -132,6 +132,11 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
         }else {
             let newValueTableCell : DCAddNewValuePickerCell = (mainTableView.dequeueReusableCellWithIdentifier(PICKER_CELL) as? DCAddNewValuePickerCell)!
             newValueTableCell.configurePickerCellWithValues(unitArray)
+            if detailType == eAddValueWithUnit {
+                if valueForUnit != EMPTY_STRING {
+                    newValueTableCell.selectPickerViewForValue(valueForUnit)
+                }
+            }
             newValueTableCell.pickerCompletion = { value in
                 self.valueForUnit = value!
                 self.mainTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 0)], withRowAnimation: .None)

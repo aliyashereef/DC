@@ -252,7 +252,7 @@
             cell.titleLabel.text = NSLocalizedString(@"Review Frequency", @"Date cell title");
             NSMutableString *reviewFrequency = [[NSMutableString alloc] initWithString:EMPTY_STRING];
             if ([self.selectedMedication.medicationReview.reviewType isEqualToString:REVIEW_INTERVAL]) {
-                if (self.selectedMedication.medicationReview.reviewInterval.intervalCount != nil && self.selectedMedication.medicationReview.reviewInterval.unit != nil) {
+                if (self.selectedMedication.medicationReview.reviewInterval.intervalCount != nil && ![self.selectedMedication.medicationReview.reviewInterval.intervalCount isEqualToString:EMPTY_STRING] && self.selectedMedication.medicationReview.reviewInterval.unit != nil) {
                     [reviewFrequency appendFormat:@"In %@ %@", self.selectedMedication.medicationReview.reviewInterval.intervalCount, self.selectedMedication.medicationReview.reviewInterval.unit];
                 }
             } else if ([self.selectedMedication.medicationReview.reviewType isEqualToString:REVIEW_DATE]) {
@@ -284,11 +284,13 @@
             _datePickerIndexPath = nil;
         }
         _selectedMedication.hasReviewDate = NO;
+        _selectedMedication.medicationReview = nil;
         DCDateTableViewCell *tableCell = (DCDateTableViewCell *)[medicationDetailsTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:reviewDateIndexPath.section]];
         [tableCell.noEndDateSwitch setUserInteractionEnabled:NO];
         [self deleteReviewDateCellAfterDelay:tableCell withIndexPath:reviewDateIndexPath];
     } else {
         NSIndexPath *reviewDateIndexPath;
+        _selectedMedication.medicationReview = [[DCMedicationReview alloc] init];
         reviewDateIndexPath = [NSIndexPath indexPathForRow:1 inSection:eFirstSection];
         DCDateTableViewCell *tableCell = (DCDateTableViewCell *)[medicationDetailsTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:eFirstSection]];
         [tableCell.noEndDateSwitch setUserInteractionEnabled:NO];
