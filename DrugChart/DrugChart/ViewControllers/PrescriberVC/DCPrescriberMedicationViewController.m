@@ -1057,6 +1057,7 @@ typedef enum : NSUInteger {
 - (void)applicationEnteredBackground:(NSNotification *)notification {
     
     NSLog(@"******* Entered background *****");
+    [self cancelPreviousMedicationListFetchRequest];
     isInBackground = YES;
 }
 
