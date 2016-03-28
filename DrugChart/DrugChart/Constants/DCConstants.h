@@ -43,7 +43,8 @@
 #define DOT @"."
 #define COLON @":"
 #define NONE_TEXT @"None"
-#define FIFTEEN_MINUTES 900.0
+#define FIFTEEN_MINUTES 900.0 // In seconds
+#define ONE_HOUR 3600.0       // In seconds  
 
 //web requests
 
