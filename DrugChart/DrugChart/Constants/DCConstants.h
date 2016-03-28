@@ -43,6 +43,7 @@
 #define DOT @"."
 #define COLON @":"
 #define NONE_TEXT @"None"
+#define FIFTEEN_MINUTES 900.0
 
 //web requests
 
@@ -50,6 +51,11 @@
 
 //content offset
 #define MEDICINE_NAME_TEXTVIEW_EDGE_INSETS  UIEdgeInsetsMake(10, 10, 10, 30)
+
+// calendar view width constants
+
+#define CALENDAR_TWO_THIRD_WINDOW_WIDTH 435.0
+#define CALENDAR_FULL_WINDOW_WIDTH 725.0
 
 //Button Titles
 #define OK_BUTTON_TITLE     @"OK"
@@ -149,6 +155,7 @@
 #define MEDICATION_TYPE_STORYBOARD_ID @"MedicationTypeStoryboardId"
 #define MEDICATION_SUMMARY_ADMINISTRATION_HISTORY_SBID @"summaryAdministrationHistoryDisplay"
 #define MEDICATION_SUMMARY_REVIEW_HISTORY_SBID @"summaryReviewHistoryDisplay"
+#define REVIEW_VIEW_CONTROLLER_SB_ID @"ReviewViewController"
 
 
 //Nib files
@@ -237,6 +244,8 @@
 #define SINGLE_DOSE_PICKER_CELL_ID @"SingleDosePickerCellId"
 #define SINGLE_DOSE_ENTRY_CELL_ID @"SingleDoseEntryCellId"
 #define TYPE_CELL_ID @"TypeCellId"
+#define REVIEW_SELECTION_CELL_ID @"ReviewSelectionCellId"
+#define NEW_REVIEW_CELL_ID @"newReviewCellId"
 
 // Week days
 
@@ -595,5 +604,10 @@
 #define PERIPHERAL_LINE_TWO @"Peripheral line 2"
 #define MG_PER_HOUR @"mg/Hour"
 #define MG_PER_MINUTE @"mg/Minute"
+
+
+#define REVIEW_INTERVAL @"Review Interval"
+#define REVIEW_DATE @"Review Date"
+
 
 #endif

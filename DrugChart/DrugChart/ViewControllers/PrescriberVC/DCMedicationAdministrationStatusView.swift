@@ -15,11 +15,15 @@ let ADMINISTRATION_DUE_NOW_IMAGE    =   UIImage(named: "DueNow")
 
 let PENDING_FONT_COLOR              =   UIColor(forHexString: "#acacac")
 let DUE_AT_FONT_COLOR               =   UIColor(forHexString: "#007aff")
-let OVERDUE_FONT_COLOR              =   UIColor(forHexString: "#ff8972") // get exact color for display
+let OVERDUE_FONT_COLOR              =   UIColor(forHexString: "#ff0000") // get exact color for display
 let DUE_NOW_FONT_COLOR              =   UIColor.whiteColor()
 let CURRENT_DAY_BACKGROUND_COLOR    =   UIColor(forHexString: "#fafafa")
 let DUE_NOW_BACKGROUND_COLOR        =   UIColor(forHexString: "#f99e35")
 let PENDING_COUNT_FONT_COLOR        =   UIColor(forHexString: "#595959")
+
+let TIME_INTERVAL_LIMIT_BEFORE_DUE_NOW : NSTimeInterval = -60*10
+let TIME_INTERVAL_LIMIT_AFTER_DUE_NOW : NSTimeInterval = 60*5
+
 
 typealias AdministerButtonTappedCallback = (Bool) -> Void
 
@@ -219,16 +223,21 @@ class DCMedicationAdministrationStatusView: UIView {
         let currentSystemDate : NSDate = NSDate()
         for slot in timeArray as [AnyObject] {
             let medication = slot as! DCMedicationSlot
+            let timeIntervalFromCurrentTime = medication.time.timeIntervalSinceDate(currentSystemDate)
             if (medication.time.compare(currentSystemDate) == NSComparisonResult.OrderedAscending) {
                 //past time, check if any medication administration is pending
                 if (medication.medicationAdministration?.actualAdministrationTime == nil) {
-                    overDueCount++
-                    break;
-                }
+                     if (timeIntervalFromCurrentTime >= TIME_INTERVAL_LIMIT_BEFORE_DUE_NOW && timeIntervalFromCurrentTime <= 0) {
+                        // due now status has to shown
+                        dueNow = true
+                     } else {
+                        overDueCount++
+                        break;
+                    }
+                 }
             }
             // due now functionality
-            let secondsBetween = medication.time.timeIntervalSinceDate(currentSystemDate)
-            if (secondsBetween <= 60*5 && secondsBetween > 0) {
+            if (timeIntervalFromCurrentTime <= TIME_INTERVAL_LIMIT_AFTER_DUE_NOW || dueNow == true) {
                 //Due in 5 minutes
                 if (medication.medicationAdministration?.status == nil) {
                     dueNow = true
@@ -281,7 +290,7 @@ class DCMedicationAdministrationStatusView: UIView {
         statusLabel?.hidden = false
         statusIcon?.hidden = false
         statusLabel?.font = statusLabelFont()
-        statusLabel?.textAlignment = NSTextAlignment.Center
+        statusLabel?.textAlignment = isOneThirdScreen ? .Right : .Center
         if (isOneThirdScreen) {
             statusIcon!.center = CGPointMake(self.bounds.size.width/6, self.bounds.size.height/2);
             statusLabel?.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);

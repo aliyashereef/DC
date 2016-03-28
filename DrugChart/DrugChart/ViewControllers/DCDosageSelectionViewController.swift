@@ -11,7 +11,7 @@ import UIKit
 // protocol used for sending data back
 @objc public protocol NewDosageValueEntered: class {
     
-    func newDosageAdded(dosage : String)
+    func newDosageAdded(dosage : DCDosage)
 }
 
 typealias SelectedDosage = DCDosage? -> Void
@@ -22,7 +22,6 @@ typealias SelectedDosage = DCDosage? -> Void
     var menuType : DosageSelectionType = eDosageMenu
     var dosage : DCDosage?
     var selectedDetailType : DosageDetailType = eDoseValue
-    var timeArray : NSMutableArray? = []
     var selectedTimeArrayItems = [String]()
     var valueForDoseForTime = [String]()
     var isRowAlreadySelected : Bool = false
@@ -47,7 +46,7 @@ typealias SelectedDosage = DCDosage? -> Void
         super.viewDidLoad()
         self.configureInitialValues()
         self.configureNavigationBarItems()
-        if (timeArray != nil) {
+        if (dosage?.splitDailyDose.timeArray != nil) {
             self.configureTimeArray()
         }
         if dosageArray.count != 0 {
@@ -59,6 +58,17 @@ typealias SelectedDosage = DCDosage? -> Void
     override func viewDidAppear(animated: Bool) {
         
         dosageTableView.reloadData()
+        if menuType == eSplitDaily {
+            updateAlertMessageForMismatch()
+            dosageTableView.reloadData()
+            dosageTableView.beginUpdates()
+            dosageTableView.endUpdates()
+        }
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        
+        newDosageAddedDelegate?.newDosageAdded(self.dosage!)
     }
     
     override func didReceiveMemoryWarning() {
@@ -136,9 +146,9 @@ typealias SelectedDosage = DCDosage? -> Void
         valueForDoseForTime = []
         //Extract the selected times and update time array and dose array.
         let predicate = NSPredicate(format: "selected == 1")
-        let filteredArray = timeArray!.filteredArrayUsingPredicate(predicate)
-        if (filteredArray.count != 0) {
-            for timeDictionary in filteredArray {
+        let filteredArray = dosage?.splitDailyDose.timeArray.filteredArrayUsingPredicate(predicate)
+        if (filteredArray!.count != 0) {
+            for timeDictionary in filteredArray! {
                 let time = timeDictionary["time"]
                 selectedTimeArrayItems.append((time as? String)!)
                 if let val = timeDictionary["dose"] {
@@ -232,7 +242,7 @@ typealias SelectedDosage = DCDosage? -> Void
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
         //Set the alert for mismatch of Required daily dose.
-        if (section == 2 && timeArray != nil && alertMessageForMismatch != "" && menuType == eSplitDaily) {
+        if (section == 2 && dosage?.splitDailyDose.timeArray != nil && alertMessageForMismatch != "" && menuType == eSplitDaily) {
             return alertMessageForMismatch as String
         } else {
             return nil
@@ -250,7 +260,7 @@ typealias SelectedDosage = DCDosage? -> Void
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
-        if (section == 2 && timeArray != nil && alertMessageForMismatch != "" && menuType == eSplitDaily) {
+        if (section == 2 && dosage?.splitDailyDose.timeArray != nil && alertMessageForMismatch != "" && menuType == eSplitDaily) {
             return 44.0
         } else {
             return 0.0
@@ -297,7 +307,7 @@ typealias SelectedDosage = DCDosage? -> Void
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         
         // Return YES to set the specified time list to be editable.
-        if indexPath.section == 2 && timeArray != nil && selectedTimeArrayItems.count != 0 {
+        if indexPath.section == 2 && dosage?.splitDailyDose.timeArray != nil && selectedTimeArrayItems.count != 0 {
             return true
         } else {
             return false
@@ -451,6 +461,7 @@ typealias SelectedDosage = DCDosage? -> Void
                     dosageSelectionDetailCell = (dosageTableView.dequeueReusableCellWithIdentifier(DOSE_DROP_DOWN_CELL_ID) as? DCDosageSelectionTableViewCell)!
                 } else {
                     dosageSelectionDetailCell = (dosageTableView.dequeueReusableCellWithIdentifier(REQUIRED_DAILY_DOSE_CELL_ID) as? DCDosageSelectionTableViewCell)!
+                    dosageSelectionDetailCell.requiredDailyDoseTextField.text = self.dosage?.splitDailyDose.dailyDose
                     dosageSelectionDetailCell.requiredDailyDoseTextField.delegate = self
                 }
             } else if (indexPath.section == 2) {
@@ -635,6 +646,7 @@ typealias SelectedDosage = DCDosage? -> Void
         
         let dosageCell: DCDosageSelectionTableViewCell = dosageTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 1)) as! DCDosageSelectionTableViewCell
         valueStringForRequiredDailyDose = dosageCell.requiredDailyDoseTextField.text!
+        self.dosage?.splitDailyDose.dailyDose = valueStringForRequiredDailyDose as String
         valueForRequiredDailyDose = NSString(string: valueStringForRequiredDailyDose).floatValue
         if (valueStringForRequiredDailyDose != "" && valueForRequiredDailyDose != 0 && selectedTimeArrayItems.count != 0) {
             
@@ -666,12 +678,12 @@ typealias SelectedDosage = DCDosage? -> Void
     
     func updateTimeArray (index: Int) {
         
-        if (timeArray != nil) {
-            for timeDictionary in timeArray! {
+        if (dosage?.splitDailyDose.timeArray != nil) {
+            for timeDictionary in (dosage?.splitDailyDose.timeArray)! {
                 let time = timeDictionary["time"] as! String
                 if (time == selectedTimeArrayItems[index]) {
                     let populatedDict = ["time": time, "selected": 1, "dose":valueForDoseForTime[index]]
-                    timeArray?.replaceObjectAtIndex((timeArray?.indexOfObject(timeDictionary))!, withObject: populatedDict)
+                    dosage?.splitDailyDose.timeArray.replaceObjectAtIndex((dosage?.splitDailyDose.timeArray.indexOfObject(timeDictionary))!, withObject: populatedDict)
                 }
             }
         }
@@ -679,12 +691,12 @@ typealias SelectedDosage = DCDosage? -> Void
     
     func deleteElementFromTimeArrayAtSelectedIndexPath (index: Int) {
         
-        if (timeArray != nil) {
-            for timeDictionary in timeArray! {
+        if (dosage?.splitDailyDose.timeArray != nil) {
+            for timeDictionary in (dosage?.splitDailyDose.timeArray)! {
                 let time = timeDictionary["time"] as! String
                 if (time == selectedTimeArrayItems[index]) {
                     let populatedDict = ["time": time, "selected": 0]
-                    timeArray?.replaceObjectAtIndex((timeArray?.indexOfObject(timeDictionary))!, withObject: populatedDict)
+                    dosage?.splitDailyDose.timeArray.replaceObjectAtIndex((dosage?.splitDailyDose.timeArray.indexOfObject(timeDictionary))!, withObject: populatedDict)
                 }
             }
         }
@@ -694,20 +706,22 @@ typealias SelectedDosage = DCDosage? -> Void
     func insertNewTimeToTimeArray(time: String) {
         
         var timeAlreadyPresent : Bool = false
-        if (timeArray == nil) {
-            timeArray = NSMutableArray(array: DCPlistManager.administratingTimeList())
+        if (dosage?.splitDailyDose.timeArray == nil) {
+            dosage?.splitDailyDose.timeArray = NSMutableArray(array: DCPlistManager.administratingTimeList())
         }
-        for timeDictionary in timeArray! {
+        for timeDictionary in (dosage?.splitDailyDose.timeArray)! {
             let timeInArray = timeDictionary["time"] as! String
-            let isTimeSelected = timeDictionary["selected"] as! Int
-            if (timeInArray == time && isTimeSelected != 0) {
+//            let isTimeSelected = timeDictionary["selected"] as! Int
+            if (timeInArray == time) {
                 timeAlreadyPresent = true
+                let populatedDict = ["time": time, "selected": 1]
+                dosage?.splitDailyDose.timeArray.replaceObjectAtIndex((dosage?.splitDailyDose.timeArray.indexOfObject(timeDictionary))!, withObject: populatedDict)
             }
         }
         if (timeAlreadyPresent == false) {
             let populatedDict = ["time": time, "selected": 1]
-            timeArray?.addObject(populatedDict)
-            timeArray = NSMutableArray(array: DCUtility.sortArray(NSMutableArray(array: timeArray!) as [AnyObject], basedOnKey: TIME_KEY, ascending: true))
+            dosage?.splitDailyDose.timeArray.addObject(populatedDict)
+            dosage?.splitDailyDose.timeArray = NSMutableArray(array: DCUtility.sortArray(NSMutableArray(array: (dosage?.splitDailyDose.timeArray)!) as [AnyObject], basedOnKey: TIME_KEY, ascending: true))
         }
     }
     
@@ -859,21 +873,11 @@ typealias SelectedDosage = DCDosage? -> Void
         //Enter the selected value to the particular type.
         if (selectedDetailType == eDoseValue) {
             self.dosage?.fixedDose?.doseValue = value
-            newDosageAddedDelegate?.newDosageAdded("\(value) \((dosage?.doseUnit)!)")
         } else if (selectedDetailType == eDoseFrom || selectedDetailType == eDoseTo) {
             if (selectedDetailType == eDoseFrom) {
                 self.dosage?.variableDose?.doseFromValue = value
             } else {
                 self.dosage?.variableDose.doseToValue = value
-            }
-            if dosageArray.count != 0 {
-                if self.dosage!.variableDose.doseFromValue != doseValueFromAPI && self.dosage!.variableDose.doseToValue != doseValueFromAPI {
-                    newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
-                }
-            } else {
-                if self.dosage?.variableDose.doseFromValue != "" && self.dosage?.variableDose.doseToValue != "" {
-                    newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
-                }
             }
         } else if (selectedDetailType == eDoseUnit) {
             dosage?.doseUnit = value
@@ -905,22 +909,22 @@ typealias SelectedDosage = DCDosage? -> Void
             self.dosage?.variableDose.doseFromValue = value
             if dosageArray.count != 0 {
                 if self.dosage!.variableDose.doseFromValue != doseValueFromAPI && self.dosage!.variableDose.doseToValue != doseValueFromAPI {
-                    newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
+//                    newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
                 }
             } else {
                 if self.dosage?.variableDose.doseFromValue != "" && self.dosage?.variableDose.doseToValue != "" {
-                    newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
+//                    newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
                 }
             }
         case eDoseTo.rawValue:
             self.dosage?.variableDose.doseToValue = value
             if dosageArray.count != 0 {
                 if self.dosage!.variableDose.doseFromValue != doseValueFromAPI && self.dosage!.variableDose.doseToValue != doseValueFromAPI {
-                    newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
+//                    newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
                 }
             } else {
                 if self.dosage?.variableDose?.doseFromValue != "" && self.dosage?.variableDose.doseToValue != "" {
-                    newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
+//                    newDosageAddedDelegate?.newDosageAdded("\((self.dosage?.variableDose.doseFromValue)!) \((dosage?.doseUnit)!) , \((self.dosage?.variableDose.doseToValue)!) \((dosage?.doseUnit)!)")
                 }
             }
         case eStartingDose.rawValue:

@@ -41,9 +41,6 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
                 let lastIndex : Int = arrayOfValueAndUnit.endIndex - 1
                 textFieldValue = arrayOfValueAndUnit[lastIndex - 1] as! String
                 valueForUnit = arrayOfValueAndUnit[lastIndex] as! String
-                if (Int(textFieldValue) > 1) {
-                    valueForUnit = valueForUnit.substringToIndex(valueForUnit.endIndex.predecessor())
-                }
             } else {
                 textFieldValue = EMPTY_STRING
                 valueForUnit = unitArray[0]
@@ -56,16 +53,7 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
     override func viewDidLayoutSubviews() {
         
         super.viewDidLayoutSubviews()
-        let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
-        if let navigationBar = self.navigationController?.navigationBar {
-            var frame = navigationBar.frame
-            if (appDelegate.windowState == DCWindowState.oneThirdWindow || appDelegate.windowState == DCWindowState.halfWindow) {
-                frame.size.height = NAVIGATION_BAR_HEIGHT_WITH_STATUS_BAR
-            } else {
-                frame.size.height = NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR
-            }
-            navigationBar.frame = frame
-        }
+        self.navigationController?.navigationBar.frame = DCUtility.navigationBarFrameForNavigationController(self.navigationController)
     }
 
     
@@ -87,11 +75,14 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
             if textFieldValue != EMPTY_STRING && valueForUnit != EMPTY_STRING {
                 let number: Int? = Int(textFieldValue)
                 if number > 1 {
-                    self.newValueEntered("\(textFieldValue) \(valueForUnit)s")
-                }
-                else {
                     self.newValueEntered("\(textFieldValue) \(valueForUnit)")
                 }
+                else {
+                    let unit = String(valueForUnit.characters.dropLast())
+                    self.newValueEntered("\(textFieldValue) \(unit)")
+                }
+            } else {
+                self.newValueEntered(nil)
             }
         }
     }
@@ -128,7 +119,7 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
                 newValueTableCell.newValueTextField.text = textFieldValue
             }
             newValueTableCell.newValueTextField.becomeFirstResponder()
-            newValueTableCell.newValueTextField.delegate = self
+           // newValueTableCell.newValueTextField.delegate = self
             return newValueTableCell
         } else if indexPath.row == 1 {
             let newValueTableCell : DCAddNewValueTableViewCell = (mainTableView.dequeueReusableCellWithIdentifier(PICKER_DROP_DOWN_CELL) as? DCAddNewValueTableViewCell)!
@@ -141,6 +132,11 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
         }else {
             let newValueTableCell : DCAddNewValuePickerCell = (mainTableView.dequeueReusableCellWithIdentifier(PICKER_CELL) as? DCAddNewValuePickerCell)!
             newValueTableCell.configurePickerCellWithValues(unitArray)
+            if detailType == eAddValueWithUnit {
+                if valueForUnit != EMPTY_STRING {
+                    newValueTableCell.selectPickerViewForValue(valueForUnit)
+                }
+            }
             newValueTableCell.pickerCompletion = { value in
                 self.valueForUnit = value!
                 self.mainTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 0)], withRowAnimation: .None)
@@ -208,26 +204,16 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
         }
     }
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        // Create an `NSCharacterSet` set which includes everything *but* the digits
-        let inverseSet = NSCharacterSet(charactersInString:"0123456789.").invertedSet
+    func closeInlinePickers () {
         
-        // At every character in this "inverseSet" contained in the string,
-        // split the string up into components which exclude the characters
-        // in this inverse set
-        let components = string.componentsSeparatedByCharactersInSet(inverseSet)
-        
-        // Rejoin these components
-        let filtered = components.joinWithSeparator(EMPTY_STRING)  // use join(EMPTY_STRING, components) if you are using Swift 1.2
-        
-        // If the original string is equal to the filtered string, i.e. if no
-        // inverse characters were present to be eliminated, the input is valid
-        // and the statement returns true; else it returns false
-        let newString = (textField.text! as NSString).stringByReplacingCharactersInRange(range, withString: string) as NSString
-        let arrayOfString: [AnyObject] = newString.componentsSeparatedByString(".")
-        if arrayOfString.count > 2 {
-            return false
+        if isInlinePickerActive == true {
+            let previousPickerIndexPath = NSIndexPath(forItem: RowCount.eFirstRow.rawValue , inSection: SectionCount.eZerothSection.rawValue)
+            self.displayInlinePickerForUnit(previousPickerIndexPath)
         }
-        return string == filtered
+    }
+    
+    func keyboardDidShow(notification : NSNotification) {
+        
+        closeInlinePickers()
     }
 }

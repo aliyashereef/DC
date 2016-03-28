@@ -19,7 +19,8 @@
     BOOL isValid = YES;
     if ([selectedMedication.name isEqualToString:EMPTY_STRING] || selectedMedication.name == nil ||
         [selectedMedication.dosage isEqualToString:EMPTY_STRING] || selectedMedication.dosage == nil ||
-        [selectedMedication.route isEqualToString:EMPTY_STRING] || selectedMedication.route == nil) {
+        [selectedMedication.route isEqualToString:EMPTY_STRING] || selectedMedication.route == nil ||
+        ![self dosageIsValidForSelectedMedication:selectedMedication.dose]) {
         return !isValid;
     }
     if ([selectedMedication.medicineCategory isEqualToString:EMPTY_STRING] || selectedMedication.medicineCategory == nil) {
@@ -30,7 +31,6 @@
         return !isValid;
     }
     return isValid;
-    
 }
 
 + (BOOL)isDateAndTimeSectionValidForMedicationDetails:(DCMedicationDetails *)selectedMedication {
@@ -169,6 +169,67 @@
     } else {
         return height + INSTRUCTION_OFFSET_VALUE;
     }
+}
+
++ (BOOL)dosageIsValidForSelectedMedication:(DCDosage *)dosage {
+
+    if ([dosage.type isEqualToString:DOSE_SPLIT_DAILY]) {
+        NSMutableArray *selectedDoseArray;
+        if (dosage.splitDailyDose.timeArray != nil) {
+            selectedDoseArray = [self configureDoseArray:dosage.splitDailyDose.timeArray];
+            //
+            NSString *valueStringForRequiredDailyDose = dosage.splitDailyDose.dailyDose;
+            float valueForRequiredDailyDose = (valueStringForRequiredDailyDose).floatValue;
+            if (![valueStringForRequiredDailyDose  isEqual: @""] && valueForRequiredDailyDose != 0 && selectedDoseArray.count != 0) {
+                float totalValueForDose = 0;
+                float valueOfDoseAtIndex = 0;
+                int countOfItemsWithDoseValueSelected = 0;
+                for(int index=0;index<selectedDoseArray.count;index++) {
+                    if (![selectedDoseArray[index]  isEqual: @""]) {
+                        valueOfDoseAtIndex = [NSString stringWithFormat:@"%@",selectedDoseArray[index]].floatValue;
+                        totalValueForDose += valueOfDoseAtIndex;
+                        countOfItemsWithDoseValueSelected++;
+                    }
+                }
+                if (totalValueForDose == valueForRequiredDailyDose && countOfItemsWithDoseValueSelected == selectedDoseArray.count) {
+                    return true;
+                } else if (totalValueForDose == valueForRequiredDailyDose && countOfItemsWithDoseValueSelected < selectedDoseArray.count) {
+                    return false;
+                } else if (totalValueForDose < valueForRequiredDailyDose) {
+                    return false;
+                } else {
+                    return false;
+                }
+            } else {
+                return true;
+            }
+        } else {
+            return true;
+        }
+    } else {
+        return true;
+    }
+}
+
++ (NSMutableArray *)configureDoseArray:(NSArray *)timeArray {
+    
+    NSMutableArray *doseArray = [[NSMutableArray alloc] init];
+    //Extract the selected times and update time array and dose array.
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"selected == 1"];
+    timeArray = [timeArray filteredArrayUsingPredicate:predicate];
+    if (timeArray.count != 0) {
+        for (NSDictionary *timeDictionary in timeArray) {
+            NSString *value = timeDictionary[@"dose"];
+            if (value != nil) {
+                    //Value is present for the key "dose".
+                [doseArray addObject:value];
+            } else {
+                //key "dose" is not present in dict
+                [doseArray addObject:@"" ];
+            }
+        }
+    }
+    return doseArray;
 }
 
 @end
