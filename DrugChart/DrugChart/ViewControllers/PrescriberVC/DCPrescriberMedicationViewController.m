@@ -27,6 +27,9 @@
 #define SORT_KEY_MEDICINE_NAME @"name"
 #define SORT_KEY_MEDICINE_START_DATE @"startDate"
 
+#define PHARMACIST_ICON @"pharmacistButton"
+#define PHARMACIST_ICON_WITHCOUNT @"pharmacistButtonWithNotification"
+
 typedef enum : NSUInteger {
     kSortDrugStartDate,
     kSortDrugName
@@ -51,7 +54,9 @@ typedef enum : NSUInteger {
     NSDate *firstDisplayDate;
     UIBarButtonItem *addButton;
     UIButton *warningsButton;
+    UIButton *pharmacistButton;
     UILabel *warningCountLabel;
+    UILabel *pharmacistCountLabel;
     NSMutableArray *alertsArray;
     NSMutableArray *allergiesArray;
     NSString *selectedSortType;
@@ -97,6 +102,9 @@ typedef enum : NSUInteger {
     [self hideCalendarTopPortion];
     [self fillPrescriberMedicationDetailsInCalendarView];
     [self obtainReferencesToChildViewControllersAddedFromStoryBoard];
+    [self configureAlertsAndAllergiesArrayForDisplay];
+    [self addAlertsAndAllergyBarButtonToNavigationBar];
+    [self addPharmacistInteractionButtonToNavigationBar];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -218,7 +226,7 @@ typedef enum : NSUInteger {
                  initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
                  target:self
                  action:@selector(addMedicationButtonPressed:)];
-    self.navigationItem.rightBarButtonItem = addButton;
+    self.navigationItem.rightBarButtonItems = @[addButton];
 }
 
 #pragma mark - Private methods
@@ -449,8 +457,6 @@ typedef enum : NSUInteger {
                         
                         if (!error) {
                             _patient.medicationListArray = result;
-                            [self configureAlertsAndAllergiesArrayForDisplay];
-                            [self addAlertsAndAllergyBarButtonToNavigationBar];
                             [self setDisplayMedicationListArray];
                             if ([displayMedicationListArray count] > 0) {
                                 if (prescriberMedicationListViewController) {
@@ -691,8 +697,38 @@ typedef enum : NSUInteger {
     if ([allergiesArray count] > 0 || [alertsArray count] > 0) {
         self.navigationItem.rightBarButtonItems = @[addButton, barButtonItem];
     } else {
-        self.navigationItem.rightBarButtonItem = addButton;
+        self.navigationItem.rightBarButtonItems = @[addButton];
     }
+}
+
+- (IBAction)pharmacistButtonTapped:(id)sender {
+    
+}
+- (void)addPharmacistInteractionButtonToNavigationBar {
+
+    pharmacistButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    pharmacistButton.selected = NO;
+    //Count value from API
+    int count = 3;
+    if (count == 0) {
+        [pharmacistButton setImage:[UIImage imageNamed:PHARMACIST_ICON] forState:UIControlStateNormal];
+    } else {
+        [pharmacistButton setImage:[UIImage imageNamed:PHARMACIST_ICON_WITHCOUNT] forState:UIControlStateNormal];
+        pharmacistCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(pharmacistButton.frame.origin.x + pharmacistButton.frame.size.width + 13, 0, 20, 22)];
+        [pharmacistCountLabel setFont:[UIFont systemFontOfSize:13.0]];
+        [pharmacistCountLabel setHidden:NO];
+        [pharmacistCountLabel setText:[NSString stringWithFormat:@"%d",count]];
+        pharmacistCountLabel.textAlignment = NSTextAlignmentCenter;
+        [pharmacistCountLabel setTextColor:[UIColor whiteColor]];
+        [pharmacistCountLabel setBackgroundColor:[UIColor clearColor]];
+        [pharmacistButton addSubview:pharmacistCountLabel];
+    }
+    [pharmacistButton addTarget:self action:@selector(pharmacistButtonTapped:)forControlEvents:UIControlEventTouchUpInside];
+    [pharmacistButton sizeToFit];
+    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:pharmacistButton];
+    NSMutableArray *barButtonsArray = [[NSMutableArray alloc] initWithArray:self.navigationItem.rightBarButtonItems];
+    [barButtonsArray addObject:barButtonItem];
+    self.navigationItem.rightBarButtonItems = barButtonsArray;
 }
 
 - (void)currentWeeksDateArrayFromCenterDate: (NSDate *)centerDate {
