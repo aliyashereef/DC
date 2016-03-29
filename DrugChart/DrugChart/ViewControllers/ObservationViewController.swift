@@ -107,7 +107,14 @@ class ObservationViewController: PatientViewController,ObservationDelegate   {
     {
         generalObservationView.prepareObjects()
         let parser = VitalSignParser()
-        parser.saveVitalSignObservations(patient.patientId, requestBody: generalObservationView.observation.asJSON(), onCompletion:saveCompleted)
+        if(tag == DataEntryObservationSource.VitalSignEditIPad || tag == DataEntryObservationSource.VitalSignEditIPhone)
+        {
+            parser.updateVitalSignObservations(patient.patientId, requestBody: generalObservationView.observation.asJSON(), onCompletion:saveCompleted)
+        }
+        else
+        {
+            parser.saveVitalSignObservations(patient.patientId, requestBody: generalObservationView.observation.asJSON(), onCompletion:saveCompleted)
+        }
         
     }
     func saveCompleted( savedSuccessfully:Bool)

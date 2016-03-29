@@ -41,6 +41,24 @@ class FhirParser
         
     }
     
+    func connectServerPut(apiURL:String,requestJSON:String, onCompletion:PostServiceResponse)->Void
+    {
+        let manager = DCHTTPRequestOperationManager.sharedVitalSignManager()
+        DDLogInfo("\(Constant.VITAL_SIGN_LOGGER_INDICATOR) API call url:\(apiURL)")
+        let encodedURL = apiURL.stringByReplacingOccurrencesOfString("+", withString: "%2B")
+        DDLogInfo("\(Constant.VITAL_SIGN_LOGGER_INDICATOR) API call encoded url:\(encodedURL)")
+        manager.PUT(encodedURL ,
+            parameters: getFHIRJSON(requestJSON),
+            success: { (operation,responseObject) ->Void in
+                DDLogDebug("\(Constant.VITAL_SIGN_LOGGER_INDICATOR) Get Status Code:\(operation.response!.statusCode)")
+                onCompletion(operation.response!.statusCode)
+            },
+            failure: { (operation , error) in
+                DDLogError("\(Constant.VITAL_SIGN_LOGGER_INDICATOR) Get Error:\(error.localizedDescription)")
+                onCompletion(operation!.response!.statusCode)
+        })
+    }
+    
     func connectServerPost(apiURL:String,requestJSON:String, onCompletion:PostServiceResponse)->Void
     {
         let manager = DCHTTPRequestOperationManager.sharedVitalSignManager()

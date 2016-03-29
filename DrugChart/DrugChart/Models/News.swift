@@ -7,10 +7,10 @@
 //
 
 import Foundation
-class News
+class News : VitalSignBaseModel
 {
     var newsScore : Int
-    init()
+    override init()
     {
         newsScore = 0
     }

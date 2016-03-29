@@ -29,6 +29,11 @@ extension Observation
             json.append(",")
             json.append((self.valueQuantity?.asJSONString())!)
         }
+        if(self.identifier?.count>0)
+        {
+            json.append(",")
+            json.append(self.identifier![0].asJSONString())
+        }
         if(self.component?.count>0)
         {
             var appendComma = false

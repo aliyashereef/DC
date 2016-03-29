@@ -421,12 +421,14 @@ class VitalSignObservation:VitalSignFHIRBase
             if(newsScrore != "N/A")
             {
                 let entry = BundleEntry(json:nil)
-                let code = super.FHIRCode("", codeId: Constant.CODE_AVPU)
+                let code = super.FHIRCode("", codeId: Constant.CODE_NEWS)
                 let quantity = self.FHIRQuantity(newsScrore,  unit: "")
                 entry.resource = self.FHIRResource(code, associatedText: "", effectiveDateTime: self.date , quantity: quantity)
                 bundle.entry?.append(entry)
             }
         }
+        
+        //print(bundle.asJSONString())
         return bundle.asJSONString()
     }
 }

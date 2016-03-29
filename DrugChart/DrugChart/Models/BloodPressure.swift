@@ -62,6 +62,7 @@ class BloodPressure : VitalSignBaseModel
         let observation = Observation(code:code  , status: "final")
         observation.comments = associatedText
         observation.effectiveDateTime = FHIRDate(super.date)
+        super.includeIdentifier(observation)
         
         observation.component = [ObservationComponent]()
         // systolic component
