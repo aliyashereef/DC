@@ -163,6 +163,7 @@
 		0BD699181BB272D9008797A2 /* DCAdministerTableHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BD699171BB272D9008797A2 /* DCAdministerTableHeaderView.xib */; };
 		0BD6991B1BB2BAC1008797A2 /* DCBatchNumberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD6991A1BB2BAC1008797A2 /* DCBatchNumberCell.swift */; };
 		0BD6991F1BB2C7FE008797A2 /* DCNotesTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD6991E1BB2C7FE008797A2 /* DCNotesTableCell.swift */; };
+		0BDB96C31CAA779B0095BFE0 /* DCPharmacistTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BDB96C21CAA779B0095BFE0 /* DCPharmacistTableCell.swift */; };
 		0BDFBE2F1CA11F4000DEEFE5 /* DCMedicationReview.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BDFBE2E1CA11F4000DEEFE5 /* DCMedicationReview.m */; };
 		0BDFBE331CA120D900DEEFE5 /* DCReviewInterval.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BDFBE321CA120D900DEEFE5 /* DCReviewInterval.m */; };
 		0BDFBE381CA1217500DEEFE5 /* DCReviewDate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BDFBE371CA1217500DEEFE5 /* DCReviewDate.m */; };
@@ -664,6 +665,7 @@
 		0BD699171BB272D9008797A2 /* DCAdministerTableHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCAdministerTableHeaderView.xib; sourceTree = "<group>"; };
 		0BD6991A1BB2BAC1008797A2 /* DCBatchNumberCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCBatchNumberCell.swift; sourceTree = "<group>"; };
 		0BD6991E1BB2C7FE008797A2 /* DCNotesTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCNotesTableCell.swift; sourceTree = "<group>"; };
+		0BDB96C21CAA779B0095BFE0 /* DCPharmacistTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCPharmacistTableCell.swift; sourceTree = "<group>"; };
 		0BDFBE2D1CA11F4000DEEFE5 /* DCMedicationReview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCMedicationReview.h; sourceTree = "<group>"; };
 		0BDFBE2E1CA11F4000DEEFE5 /* DCMedicationReview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCMedicationReview.m; sourceTree = "<group>"; };
 		0BDFBE311CA120D900DEEFE5 /* DCReviewInterval.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCReviewInterval.h; sourceTree = "<group>"; };
@@ -1754,6 +1756,7 @@
 			isa = PBXGroup;
 			children = (
 				0BB32CE21CAA546800061E02 /* DCPharmacistViewController.swift */,
+				0BDB96C11CAA77760095BFE0 /* PharmacistTableCell */,
 			);
 			path = PharmacistViewController;
 			sourceTree = "<group>";
@@ -2368,6 +2371,14 @@
 				0BD6991E1BB2C7FE008797A2 /* DCNotesTableCell.swift */,
 			);
 			path = NotesTableCell;
+			sourceTree = "<group>";
+		};
+		0BDB96C11CAA77760095BFE0 /* PharmacistTableCell */ = {
+			isa = PBXGroup;
+			children = (
+				0BDB96C21CAA779B0095BFE0 /* DCPharmacistTableCell.swift */,
+			);
+			path = PharmacistTableCell;
 			sourceTree = "<group>";
 		};
 		0BDFBE2C1CA11F2600DEEFE5 /* MedicationReview */ = {
@@ -3647,6 +3658,7 @@
 				0BC5FAFE1B442B6B0019BF36 /* DCOrderSet.m in Sources */,
 				FD6AD2C51C7318570014B7BA /* DCAdministerTableViewCell.swift in Sources */,
 				FDD2C8CC1C969DD100A7D6E3 /* DCSummaryReviewHistoryTableViewCell.swift in Sources */,
+				0BDB96C31CAA779B0095BFE0 /* DCPharmacistTableCell.swift in Sources */,
 				1F53750A1C1B13D800D4A64F /* NSDate.swift in Sources */,
 				4D9649921BA296CC008630B4 /* DCBedsAndPatientsWebService.m in Sources */,
 				7DC7C6491C1953F00026608A /* DCWindowScreenState.swift in Sources */,

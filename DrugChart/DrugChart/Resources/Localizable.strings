@@ -186,3 +186,9 @@
 
 "WARNING_PERIOD"       =       "Warning Period";
 "BEGINS"               =       "Begins";
+
+// Pharmacist
+
+"MEDICATION_LIST"      =        "Medication List";
+"DRUG_CHART"           =        "Drug Chart";
+"MEDICATIONS"          =        "Medications";

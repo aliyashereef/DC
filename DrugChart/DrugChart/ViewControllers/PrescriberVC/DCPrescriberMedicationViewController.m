@@ -703,6 +703,12 @@ typedef enum : NSUInteger {
 
 - (IBAction)pharmacistButtonTapped:(id)sender {
     
+    UIStoryboard *pharmacistStoryboard = [UIStoryboard storyboardWithName:PHARMACIST_STORYBOARD
+                                                             bundle: nil];
+    DCPharmacistViewController *pharmacistViewController =
+    [pharmacistStoryboard instantiateViewControllerWithIdentifier:PHARMACIST_VIEW_CONTROLLER_SB_ID];
+    pharmacistViewController.medicationList = displayMedicationListArray;
+    [self.navigationController pushViewController:pharmacistViewController animated:true];
 }
 - (void)addPharmacistInteractionButtonToNavigationBar {
 
