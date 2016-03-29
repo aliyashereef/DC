@@ -90,6 +90,7 @@
 #define DOSAGE_STORYBORD @"Dosage"
 #define ADMINISTER_GRAPH @"AdministerGraph"
 #define SUMMARY_STORYBOARD @"Summary"
+#define PHARMACIST_STORYBOARD @"Pharmacist"
 
 // Storyboard Ids
 #define PATIENT_LIST_VIEW_CONTROLLER @"patientListingViewController"
@@ -156,6 +157,7 @@
 #define MEDICATION_SUMMARY_ADMINISTRATION_HISTORY_SBID @"summaryAdministrationHistoryDisplay"
 #define MEDICATION_SUMMARY_REVIEW_HISTORY_SBID @"summaryReviewHistoryDisplay"
 #define REVIEW_VIEW_CONTROLLER_SB_ID @"ReviewViewController"
+#define PHARMACIST_VIEW_CONTROLLER_SB_ID @"pharmacistViewController"
 
 
 //Nib files
@@ -246,6 +248,7 @@
 #define TYPE_CELL_ID @"TypeCellId"
 #define REVIEW_SELECTION_CELL_ID @"ReviewSelectionCellId"
 #define NEW_REVIEW_CELL_ID @"newReviewCellId"
+#define PHARMACIST_CELL_ID @"pharmacistCellId"
 
 // Week days
 
