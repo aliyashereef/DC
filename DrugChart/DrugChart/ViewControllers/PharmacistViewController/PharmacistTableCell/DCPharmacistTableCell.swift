@@ -16,10 +16,12 @@ class DCPharmacistTableCell: UITableViewCell {
     @IBOutlet weak var firstStatusImageView: UIImageView!
     @IBOutlet weak var secondStatusImageView: UIImageView!
     @IBOutlet weak var thirdStatusImageView: UIImageView!
+    @IBOutlet weak var medicationDetailsView: UIView!
     
     override func awakeFromNib() {
+        
         super.awakeFromNib()
-        // Initialization code
+        self.addPanGestureToMedicationDetailsView()
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -49,6 +51,32 @@ class DCPharmacistTableCell: UITableViewCell {
         attributedInstructionsString  = NSMutableAttributedString(string: instructionString, attributes: [NSFontAttributeName:UIFont.systemFontOfSize(12.0)])
         attributedRouteString.appendAttributedString(attributedInstructionsString)
         routeAndInstructionsLabel.attributedText = attributedRouteString;
+    }
+    
+    func addPanGestureToMedicationDetailsView() {
+        
+        // add swipe gesture
+        let panGesture = UIPanGestureRecognizer(target: self, action: Selector("swipeMedicationDetailView:"))
+        panGesture.delegate = self
+        medicationDetailsView.addGestureRecognizer(panGesture)
+    }
+    
+    func swipeMedicationDetailView(panGesture : UIPanGestureRecognizer) {
+        
+        print("******* Swipe Action *****")
+        
+   }
+    
+   override func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    
+        if (gestureRecognizer.isKindOfClass(UIPanGestureRecognizer)) {
+            let panGesture = gestureRecognizer as? UIPanGestureRecognizer
+            let translation : CGPoint = panGesture!.translationInView(panGesture?.view);
+            if (fabs(translation.x) > fabs(translation.y)) {
+                return false
+            }
+        }
+        return true
     }
 
 }

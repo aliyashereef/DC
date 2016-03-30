@@ -8,7 +8,9 @@
 
 import UIKit
 
-class DCPharmacistViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+let PHARMACIST_ROW_HEIGHT : CGFloat = 79.0
+
+class DCPharmacistViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate {
 
     @IBOutlet weak var pharmacistTableView: UITableView!
     @IBOutlet weak var medicationCountLabel: UILabel!
@@ -20,10 +22,7 @@ class DCPharmacistViewController: UIViewController, UITableViewDelegate, UITable
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        configureNavigationBar()
-        configureMedicationCountToolBar()
-        pharmacistTableView.allowsMultipleSelectionDuringEditing = true
-        self.configureToolBarsForEditingState(false)
+        self.configureViewElements()
     }
 
     override func didReceiveMemoryWarning() {
@@ -32,6 +31,16 @@ class DCPharmacistViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     // MARK: Private Methods
+    
+    func configureViewElements() {
+        
+        configureNavigationBar()
+        configureMedicationCountToolBar()
+        pharmacistTableView.allowsMultipleSelectionDuringEditing = true
+        pharmacistTableView!.estimatedRowHeight = PHARMACIST_ROW_HEIGHT
+        pharmacistTableView!.rowHeight = UITableViewAutomaticDimension
+        self.configureToolBarsForEditingState(false)
+    }
     
     func configureNavigationBar() {
         
@@ -66,6 +75,7 @@ class DCPharmacistViewController: UIViewController, UITableViewDelegate, UITable
             pharmacistActionsToolBar.hidden = false
         }
     }
+    
 
     // MARK: TableView Methods
     
@@ -128,5 +138,6 @@ class DCPharmacistViewController: UIViewController, UITableViewDelegate, UITable
         
         print("update Pod status")
     }
+    
     
 }
