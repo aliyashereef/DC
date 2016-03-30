@@ -1985,7 +1985,6 @@
 				0BC0C4621ADF777D002707DC /* AddMedicationViewController */,
 				0B6CEFD51C91623600F6639C /* MedicationTypeViewController */,
 				0B8997B61C7495ED006974E8 /* SingleDoseViewController */,
-				FD618F321C197A1A005EC416 /* DosageSelection */,
 				FDC7EA581C1AA8B30081D5C4 /* DosageDetail */,
 				FD2FF8B91C3BD7C400778A4E /* AddNewDoseAndTime */,
 				FD2FF8C01C3BD85300778A4E /* DosageUnitSelection */,
@@ -3212,6 +3211,7 @@
 		FD2FF8C01C3BD85300778A4E /* DosageUnitSelection */ = {
 			isa = PBXGroup;
 			children = (
+				FD618F321C197A1A005EC416 /* DosageSelection */,
 				FD2FF8BE1C3BD84C00778A4E /* DCDosageUnitSelectionViewController.swift */,
 				FD2FF8C11C3BD87E00778A4E /* DCDosageUnitSelectionTableViewCell.swift */,
 			);

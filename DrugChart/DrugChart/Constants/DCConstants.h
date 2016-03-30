@@ -70,6 +70,7 @@
 #define DONOTUSE_BUTTON_TITLE @"Do not use"
 #define NO_BUTTON_TITLE     @"No"
 #define YES_BUTTON_TITLE    @"Yes"
+#define EDIT_BUTTON_TITLE   @"Edit"
 
 //images
 
