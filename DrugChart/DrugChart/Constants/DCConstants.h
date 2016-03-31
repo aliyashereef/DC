@@ -610,9 +610,11 @@
 #define MG_PER_HOUR @"mg/Hour"
 #define MG_PER_MINUTE @"mg/Minute"
 
-
 #define REVIEW_INTERVAL @"Review Interval"
 #define REVIEW_DATE @"Review Date"
 
+#define UPDATE_POD_STATUS @"Update POD Status"
+#define RESOLVE_INTERVENTION @"Resolve Intervention"
+#define CLINICAL_CHECK @"Clinical Check"
 
 #endif

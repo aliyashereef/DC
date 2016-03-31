@@ -10,7 +10,7 @@ import UIKit
 
 let PHARMACIST_ROW_HEIGHT : CGFloat = 79.0
 
-class DCPharmacistViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate {
+class DCPharmacistViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, PharmacistCellDelegate {
 
     @IBOutlet weak var pharmacistTableView: UITableView!
     @IBOutlet weak var medicationCountLabel: UILabel!
@@ -18,6 +18,7 @@ class DCPharmacistViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var pharmacistActionsToolBar: UIToolbar!
     
     var medicationList : NSMutableArray = []
+    var swipedCellIndexPath : NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
     
     override func viewDidLoad() {
         
@@ -37,8 +38,8 @@ class DCPharmacistViewController: UIViewController, UITableViewDelegate, UITable
         configureNavigationBar()
         configureMedicationCountToolBar()
         pharmacistTableView.allowsMultipleSelectionDuringEditing = true
-        pharmacistTableView!.estimatedRowHeight = PHARMACIST_ROW_HEIGHT
-        pharmacistTableView!.rowHeight = UITableViewAutomaticDimension
+//        pharmacistTableView!.estimatedRowHeight = PHARMACIST_ROW_HEIGHT
+//        pharmacistTableView!.rowHeight = UITableViewAutomaticDimension
         self.configureToolBarsForEditingState(false)
     }
     
@@ -76,6 +77,20 @@ class DCPharmacistViewController: UIViewController, UITableViewDelegate, UITable
         }
     }
     
+    func resetSwipedCellToOriginalPosition() {
+        
+        //swipe gesture - right when completion of edit/delete action
+        for (index,_) in medicationList.enumerate(){
+            let indexPath = NSIndexPath(forRow: index, inSection: 0)
+            if indexPath == swipedCellIndexPath {
+                continue
+            }
+            let pharmacistCell = pharmacistTableView?.cellForRowAtIndexPath(indexPath)
+                as? DCPharmacistTableCell
+            pharmacistCell?.swipePrescriberDetailViewToRight()
+        }
+    }
+
 
     // MARK: TableView Methods
     
@@ -88,6 +103,8 @@ class DCPharmacistViewController: UIViewController, UITableViewDelegate, UITable
         
         let pharmacistCell = tableView.dequeueReusableCellWithIdentifier(PHARMACIST_CELL_ID, forIndexPath: indexPath) as? DCPharmacistTableCell
         let medicationDetails = medicationList[indexPath.item]
+        pharmacistCell!.pharmacistCellDelegate = self
+        pharmacistCell?.indexPath = indexPath
         pharmacistCell?.fillMedicationDetailsInTableCell(medicationDetails as! DCMedicationScheduleDetails)
         return pharmacistCell!
     }
@@ -139,5 +156,12 @@ class DCPharmacistViewController: UIViewController, UITableViewDelegate, UITable
         print("update Pod status")
     }
     
+    // MARK : PharmacistCell Delegate Methods
+    
+    func swipeActionOnTableCellAtIndexPath(indexPath : NSIndexPath) {
+        
+        swipedCellIndexPath = indexPath
+        self.resetSwipedCellToOriginalPosition()
+    }
     
 }
