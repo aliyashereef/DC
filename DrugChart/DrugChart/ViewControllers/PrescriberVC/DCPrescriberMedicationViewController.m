@@ -1064,6 +1064,7 @@ typedef enum : NSUInteger {
 - (void)applicationEnteredForeground:(NSNotification *)notification {
     
     NSLog(@"****** ENtered foreground");
+    [self refreshMedicationList];
     isInBackground = NO;
 }
 
