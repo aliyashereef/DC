@@ -115,13 +115,25 @@ class DCPharmacistViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     @IBAction func AddInterventionButtonPressed(sender: AnyObject) {
-        
+
         print("***** Add Intervention Button Action")
+        let addInterventionViewController : DCInterventionAddOrResolveViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(INTERVENTION_ADD_RESOLVE_SB_ID) as? DCInterventionAddOrResolveViewController
+        addInterventionViewController?.medicationList = medicationList
+        addInterventionViewController?.interventionType = eAddIntervention
+        let navigationController: UINavigationController = UINavigationController(rootViewController: addInterventionViewController!)
+        navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+        self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
     }
     
     @IBAction func resolveInterventionButtonPressed(sender: AnyObject) {
         
         print("***** Resolve Intervention Button Action")
+        let addInterventionViewController : DCInterventionAddOrResolveViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(INTERVENTION_ADD_RESOLVE_SB_ID) as? DCInterventionAddOrResolveViewController
+        addInterventionViewController?.medicationList = medicationList
+        addInterventionViewController?.interventionType = eResolveIntervention
+        let navigationController: UINavigationController = UINavigationController(rootViewController: addInterventionViewController!)
+        navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+        self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
     }
     
     @IBAction func updatePODStatusButtonPressed(sender: AnyObject) {
