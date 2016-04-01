@@ -53,6 +53,13 @@ class DCDosageHelper: NSObject {
         return displayString
     }
     
+    static func createDescriptionStringForInvalidCondition (condition : DCConditions) -> String {
+        var displayString = EMPTY_STRING
+        // message added for this case with edit functionality not implemented
+        displayString = "Invalid condition with starting dosage."
+        return displayString
+    }
+    
     static func validateRequireDailyDoseValue (value: String) -> Bool {
         
         let scanner: NSScanner = NSScanner(string:value)
