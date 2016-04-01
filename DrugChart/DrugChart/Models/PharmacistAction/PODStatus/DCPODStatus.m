@@ -14,13 +14,13 @@
     
     switch (podType) {
         case ePatientOwnDrugs:
-            return PATIENT_OWN_DRUG_IMAGE;
+            return PATIENT_OWN_DRUG_IPAD_IMAGE;
         case ePatientOwnDrugsHome:
-            return PATIENT_OWN_DRUG_HOME_IMAGE;
+            return PATIENT_OWN_DRUG_HOME_IPAD_IMAGE;
         case ePatientOwnDrugsAndPatientOwnDrugsHome:
-            return PATIENT_OWN_BOTH_DRUG_AND_HOME_IMAGE;
+            return PATIENT_OWN_BOTH_DRUG_AND_HOME_IPAD_IMAGE;
         default:
-            return PATIENT_OWN_DRUG_IMAGE;
+            return PATIENT_OWN_DRUG_IPAD_IMAGE;
     }
 }
 

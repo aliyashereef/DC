@@ -16,6 +16,9 @@ class DCPharmacistViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var medicationCountLabel: UILabel!
     @IBOutlet weak var medicationCountToolBar: UIToolbar!
     @IBOutlet weak var pharmacistActionsToolBar: UIToolbar!
+    @IBOutlet weak var actionsButton: UIButton!
+    
+    var isInEditMode : Bool = false
     
     var medicationList : NSMutableArray = []
     var swipedCellIndexPath : NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
@@ -31,6 +34,12 @@ class DCPharmacistViewController: UIViewController, UITableViewDelegate, UITable
         super.didReceiveMemoryWarning()
     }
     
+    override func viewDidLayoutSubviews() {
+        
+        super.viewDidLayoutSubviews()
+        self.configureToolBarsForEditingState(isInEditMode)
+    }
+    
     // MARK: Private Methods
     
     func configureViewElements() {
@@ -40,7 +49,6 @@ class DCPharmacistViewController: UIViewController, UITableViewDelegate, UITable
         pharmacistTableView.allowsMultipleSelectionDuringEditing = true
 //        pharmacistTableView!.estimatedRowHeight = PHARMACIST_ROW_HEIGHT
 //        pharmacistTableView!.rowHeight = UITableViewAutomaticDimension
-        self.configureToolBarsForEditingState(false)
     }
     
     func configureNavigationBar() {
@@ -68,12 +76,22 @@ class DCPharmacistViewController: UIViewController, UITableViewDelegate, UITable
     
     func configureToolBarsForEditingState(isEditing : Bool) {
         
+        let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
         if isEditing == false {
             medicationCountToolBar.hidden = false
+            actionsButton.hidden = true
+            medicationCountLabel.hidden = false
             pharmacistActionsToolBar.hidden = true
         } else {
-            medicationCountToolBar.hidden = true
-            pharmacistActionsToolBar.hidden = false
+            if (appDelegate.windowState == DCWindowState.oneThirdWindow || appDelegate.windowState == DCWindowState.halfWindow) {
+                medicationCountToolBar.hidden = false
+                pharmacistActionsToolBar.hidden = true
+                medicationCountLabel.hidden = true
+                actionsButton.hidden = false
+            } else {
+                medicationCountToolBar.hidden = true
+                pharmacistActionsToolBar.hidden = false
+            }
         }
     }
     
@@ -90,7 +108,62 @@ class DCPharmacistViewController: UIViewController, UITableViewDelegate, UITable
             pharmacistCell?.swipePrescriberDetailViewToRight()
         }
     }
-
+    
+    func presentPharmacistActionSheet() {
+        
+        //present pharmacist action sheet
+        let actionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        let clinicalCheck = UIAlertAction(title: CLINICAL_CHECK, style: .Default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            self.clinicalCheckAction()
+        })
+        let clinicalRemove = UIAlertAction(title: NSLocalizedString(CLINICAL_REMOVE, comment: ""), style: .Default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            self.clinicalRemoveAction()
+        })
+        let addIntervention = UIAlertAction(title: NSLocalizedString(ADD_INTERVENTION, comment: ""), style: .Default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            self.addInterventionAction()
+        })
+        let resolveIntervention = UIAlertAction(title: RESOLVE_INTERVENTION, style: .Default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            self.resolveInterventionAction()
+        })
+        let podStatus = UIAlertAction(title: UPDATE_POD_STATUS, style: .Default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            self.updatePODStatusAction()
+        })
+        let cancelAction = UIAlertAction(title: CANCEL_BUTTON_TITLE, style: .Cancel, handler: {
+            (alert: UIAlertAction!) -> Void in
+        })
+        actionMenu.addAction(clinicalCheck)
+        actionMenu.addAction(clinicalRemove)
+        actionMenu.addAction(addIntervention)
+        actionMenu.addAction(resolveIntervention)
+        actionMenu.addAction(podStatus)
+        actionMenu.addAction(cancelAction)
+        self.presentViewController(actionMenu, animated: true, completion: nil)
+    }
+    
+    func clinicalCheckAction() {
+        
+    }
+    
+    func clinicalRemoveAction() {
+        
+    }
+    
+    func addInterventionAction() {
+        
+    }
+    
+    func resolveInterventionAction() {
+        
+    }
+    
+    func updatePODStatusAction() {
+        
+    }
 
     // MARK: TableView Methods
     
@@ -119,6 +192,7 @@ class DCPharmacistViewController: UIViewController, UITableViewDelegate, UITable
     func editButtonPressed(sender : NSObject) {
         
         pharmacistTableView.setEditing(true, animated: true)
+        isInEditMode = true
         configureToolBarsForEditingState(true)
         self.addNavigationRightBarButtonItemForEditingState(true)
     }
@@ -126,34 +200,40 @@ class DCPharmacistViewController: UIViewController, UITableViewDelegate, UITable
     func cancelButtonPressed(sender : NSObject) {
         
         pharmacistTableView.setEditing(false, animated: true)
+        isInEditMode = false
         configureToolBarsForEditingState(false)
         self.addNavigationRightBarButtonItemForEditingState(false)
     }
 
     @IBAction func verifyClinicalCheckButtonPressed(sender: AnyObject) {
         
-        print("***** Verify Clinical Check Action")
+        self.clinicalCheckAction()
     }
-    
     
     @IBAction func invalidateClinicalCheckButonPressed(sender: AnyObject) {
         
-        print("((((( Invalidate Clinical Remove action ")
+        self.clinicalRemoveAction()
     }
     
-    @IBAction func AddInterventionButtonPressed(sender: AnyObject) {
+    @IBAction func addInterventionButtonPressed(sender: AnyObject) {
         
-        print("***** Add Intervention Button Action")
+        self.addInterventionAction()
     }
     
     @IBAction func resolveInterventionButtonPressed(sender: AnyObject) {
         
-        print("***** Resolve Intervention Button Action")
+        self.resolveInterventionAction()
     }
     
     @IBAction func updatePODStatusButtonPressed(sender: AnyObject) {
         
-        print("update Pod status")
+        self.updatePODStatusAction()
+    }
+    
+    @IBAction func actionsButtonPressed(sender: AnyObject) {
+        
+        //present action sheet for iphone
+        self.presentPharmacistActionSheet()
     }
     
     // MARK : PharmacistCell Delegate Methods

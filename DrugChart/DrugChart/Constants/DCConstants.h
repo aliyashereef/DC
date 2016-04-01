@@ -616,5 +616,7 @@
 #define UPDATE_POD_STATUS @"Update POD Status"
 #define RESOLVE_INTERVENTION @"Resolve Intervention"
 #define CLINICAL_CHECK @"Clinical Check"
+#define CLINICAL_REMOVE @"Clinical Remove"
+#define ADD_INTERVENTION @"Add Intervention"
 
 #endif

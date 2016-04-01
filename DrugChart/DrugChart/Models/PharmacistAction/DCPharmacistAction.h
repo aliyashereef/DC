@@ -10,8 +10,8 @@
 #import "DCIntervention.h"
 #import "DCPODStatus.h"
 
-#define CLINICAL_CHECK_IMAGE @"VerifyIcon"
-#define INTERVENTION_IMAGE @"InterventionIcon"
+#define CLINICAL_CHECK_IPAD_IMAGE @"VerifyIcon"
+#define INTERVENTION_IPAD_IMAGE @"InterventionIcon"
 
 @interface DCPharmacistAction : NSObject
 

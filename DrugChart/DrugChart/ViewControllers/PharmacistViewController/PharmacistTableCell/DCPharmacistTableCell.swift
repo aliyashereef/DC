@@ -84,13 +84,19 @@ class DCPharmacistTableCell: UITableViewCell {
         
         if let pharmacistAction = medicationDetails?.pharmacistAction {
             print("****** Pharamacist ACtion ******")
+            //display logic
             if pharmacistAction.clinicalCheck == false {
-                firstStatusImageView.image = UIImage(named: CLINICAL_CHECK_IMAGE)
-                if pharmacistAction.intervention == false {
-                    secondStatusImageView.image = UIImage(named: INTERVENTION_IMAGE)
+                //display clinical check icon since pharamcist has not verified medication yet
+                firstStatusImageView.image = UIImage(named: CLINICAL_CHECK_IPAD_IMAGE)
+                if let _ = pharmacistAction.intervention {
+                    // medication has added intervention, second icon will have pod images
+                    if let podStatus = pharmacistAction.podStatus {
+                        secondStatusImageView.image = DCPODStatus.statusImageForPodStatus(podStatus.podStatusType)
+                    }
+                } else {
+                    secondStatusImageView.image = UIImage(named: INTERVENTION_IPAD_IMAGE)
                 }
             }
-            
         } else {
             medicationDetails?.pharmacistAction = DCPharmacistAction.init()
             medicationDetails?.pharmacistAction.clinicalCheck = false

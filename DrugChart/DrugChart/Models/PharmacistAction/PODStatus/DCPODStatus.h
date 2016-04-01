@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-#define PATIENT_OWN_DRUG_IMAGE [UIImage imageNamed:@"OwnDrugIcon"]
-#define PATIENT_OWN_DRUG_HOME_IMAGE [UIImage imageNamed:@"OwnDrugHomeImage"]
-#define PATIENT_OWN_BOTH_DRUG_AND_HOME_IMAGE [UIImage imageNamed:@"OwnDrugAndHomeIcon"]
+#define PATIENT_OWN_DRUG_IPAD_IMAGE [UIImage imageNamed:@"OwnDrugIcon"]
+#define PATIENT_OWN_DRUG_HOME_IPAD_IMAGE [UIImage imageNamed:@"OwnDrugHomeImage"]
+#define PATIENT_OWN_BOTH_DRUG_AND_HOME_IPAD_IMAGE [UIImage imageNamed:@"OwnDrugAndHomeIcon"]
 
 typedef enum : NSUInteger {
     ePatientOwnDrugs,
