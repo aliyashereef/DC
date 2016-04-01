@@ -189,7 +189,7 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
         //Set the header as PREVIEW
         if section == 0 {
             if (!isConditionsValid) {
-                return DCDosageHelper.createDescriptionStringForInvalidCondition(self.dosage?.reducingIncreasingDose?.conditionsArray.objectAtIndex(0) as! DCConditions)
+                return DCDosageHelper.errorStringForInvalidCondition()
             }
         }
         return nil
@@ -200,6 +200,7 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
         //Change text color to red and change text from full upper case to desired sentence.
         if let view = view as? UITableViewHeaderFooterView {
             view.textLabel!.font = UIFont.systemFontOfSize(14.0)
+            view.textLabel?.textColor = UIColor.redColor()
         }
     }
     
@@ -207,7 +208,7 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
         
         if section == 0 {
             if (!isConditionsValid) {
-                let height: CGFloat = DCUtility.heightValueForText(DCDosageHelper.createDescriptionStringForInvalidCondition(self.dosage?.reducingIncreasingDose?.conditionsArray.objectAtIndex(0) as! DCConditions), withFont: UIFont.systemFontOfSize(14.0), maxWidth: self.view.bounds.width - 30) + 10
+                let height: CGFloat = DCUtility.heightValueForText(DCDosageHelper.errorStringForInvalidCondition(), withFont: UIFont.systemFontOfSize(14.0), maxWidth: self.view.bounds.width - 30) + 10
                 return height
             }
         }

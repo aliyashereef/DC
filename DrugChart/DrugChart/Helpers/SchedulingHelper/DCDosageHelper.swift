@@ -53,10 +53,10 @@ class DCDosageHelper: NSObject {
         return displayString
     }
     
-    static func createDescriptionStringForInvalidCondition (condition : DCConditions) -> String {
+    static func errorStringForInvalidCondition () -> String {
         var displayString = EMPTY_STRING
         // message added for this case with edit functionality not implemented
-        displayString = "Invalid condition with starting dosage."
+        displayString = "Invalid condition. Please check the 'Until' value."
         return displayString
     }
     
