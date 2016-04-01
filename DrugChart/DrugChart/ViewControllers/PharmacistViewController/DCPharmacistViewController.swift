@@ -103,7 +103,7 @@ class DCPharmacistViewController: UIViewController, UITableViewDelegate, UITable
         
         let pharmacistCell = tableView.dequeueReusableCellWithIdentifier(PHARMACIST_CELL_ID, forIndexPath: indexPath) as? DCPharmacistTableCell
         let medicationDetails = medicationList[indexPath.item]
-        pharmacistCell!.pharmacistCellDelegate = self
+        pharmacistCell?.pharmacistCellDelegate = self
         pharmacistCell?.indexPath = indexPath
         pharmacistCell?.fillMedicationDetailsInTableCell(medicationDetails as! DCMedicationScheduleDetails)
         return pharmacistCell!

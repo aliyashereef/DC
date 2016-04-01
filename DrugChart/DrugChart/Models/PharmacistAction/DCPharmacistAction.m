@@ -10,4 +10,14 @@
 
 @implementation DCPharmacistAction
 
+- (id)init {
+    
+    if (self == [super init]) {
+        self.clinicalCheck = false;
+        self.intervention = [[DCIntervention alloc] init];
+        self.podStatus = [[DCPODStatus alloc] init];
+    }
+    return self;
+}
+
 @end

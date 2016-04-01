@@ -290,9 +290,9 @@ Intervention</string>
                                 <items>
                                     <barButtonItem style="plain" id="nFr-HF-edx">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="aGT-bW-gbU">
-                                            <rect key="frame" x="20" y="7" width="141" height="30"/>
+                                            <rect key="frame" x="20" y="7" width="99" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Verify Clinical Check"/>
+                                            <state key="normal" title="Clinical Check"/>
                                             <connections>
                                                 <action selector="verifyClinicalCheckButtonPressed:" destination="ueY-0E-Taf" eventType="touchUpInside" id="fJ6-ns-Q0B"/>
                                             </connections>
@@ -301,9 +301,9 @@ Intervention</string>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="nY3-Bp-Spo"/>
                                     <barButtonItem style="plain" id="nuG-um-v0a">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="rk9-F8-2Vm">
-                                            <rect key="frame" x="175" y="7" width="178" height="30"/>
+                                            <rect key="frame" x="160" y="7" width="111" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Invalidate Clinical Remove"/>
+                                            <state key="normal" title="Clinical Remove"/>
                                             <connections>
                                                 <action selector="invalidateClinicalCheckButonPressed:" destination="ueY-0E-Taf" eventType="touchUpInside" id="kZi-yW-lZE"/>
                                             </connections>
@@ -312,7 +312,7 @@ Intervention</string>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="dZ7-9t-eh3"/>
                                     <barButtonItem style="plain" id="mrM-Ay-sSB">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="cUn-hV-kgq">
-                                            <rect key="frame" x="366" y="7" width="113" height="30"/>
+                                            <rect key="frame" x="312" y="7" width="113" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="Add Intervention"/>
                                             <connections>
@@ -323,7 +323,7 @@ Intervention</string>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="ssl-xS-74a"/>
                                     <barButtonItem style="plain" id="BlI-kY-Qgd">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="7OT-D1-8cV">
-                                            <rect key="frame" x="493" y="7" width="139" height="30"/>
+                                            <rect key="frame" x="466" y="7" width="139" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="Resolve Intervention"/>
                                             <connections>
@@ -334,7 +334,7 @@ Intervention</string>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="xtS-wf-E2a"/>
                                     <barButtonItem style="plain" id="XpY-uS-Jvv">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="GT9-ce-UfJ" userLabel="Update POD Status">
-                                            <rect key="frame" x="645" y="7" width="135" height="30"/>
+                                            <rect key="frame" x="646" y="7" width="134" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="Update POD Status"/>
                                             <connections>

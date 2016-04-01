@@ -10,6 +10,9 @@
 #import "DCIntervention.h"
 #import "DCPODStatus.h"
 
+#define CLINICAL_CHECK_IMAGE @"VerifyIcon"
+#define INTERVENTION_IMAGE @"InterventionIcon"
+
 @interface DCPharmacistAction : NSObject
 
 @property (nonatomic) BOOL clinicalCheck;

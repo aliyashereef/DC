@@ -34,7 +34,9 @@ class DCPharmacistTableCell: UITableViewCell {
     @IBOutlet weak var resolveInterventionButton: UIButton!
     @IBOutlet weak var clinicalCheckButton: UIButton!
     
+    var medicationDetails : DCMedicationScheduleDetails?
     var pharmacistCellDelegate : PharmacistCellDelegate?
+    
     var indexPath : NSIndexPath?
     
     override func awakeFromNib() {
@@ -56,8 +58,10 @@ class DCPharmacistTableCell: UITableViewCell {
     func fillMedicationDetailsInTableCell(medicationSchedule : DCMedicationScheduleDetails) {
         
         //populate medication details
+        medicationDetails = medicationSchedule
         medicationNameLabel.text = medicationSchedule.name
         self.populateRouteAndInstructionLabel(medicationSchedule)
+        self.updatePharmacistStatusInCell()
     }
         
     func populateRouteAndInstructionLabel(medicationDetails : DCMedicationScheduleDetails?) {
@@ -74,6 +78,25 @@ class DCPharmacistTableCell: UITableViewCell {
         attributedInstructionsString  = NSMutableAttributedString(string: instructionString, attributes: [NSFontAttributeName:UIFont.systemFontOfSize(12.0)])
         attributedRouteString.appendAttributedString(attributedInstructionsString)
         routeAndInstructionsLabel.attributedText = attributedRouteString;
+    }
+    
+    func updatePharmacistStatusInCell() {
+        
+        if let pharmacistAction = medicationDetails?.pharmacistAction {
+            print("****** Pharamacist ACtion ******")
+            if pharmacistAction.clinicalCheck == false {
+                firstStatusImageView.image = UIImage(named: CLINICAL_CHECK_IMAGE)
+                if pharmacistAction.intervention == false {
+                    secondStatusImageView.image = UIImage(named: INTERVENTION_IMAGE)
+                }
+            }
+            
+        } else {
+            medicationDetails?.pharmacistAction = DCPharmacistAction.init()
+            medicationDetails?.pharmacistAction.clinicalCheck = false
+            medicationDetails?.pharmacistAction?.intervention = DCIntervention.init()
+            medicationDetails?.pharmacistAction?.podStatus = DCPODStatus.init()
+        }
     }
     
     func addPanGestureToMedicationDetailsView() {
