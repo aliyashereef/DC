@@ -54,7 +54,7 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
     // MARK: - Table View Methods
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        if (self.dosage?.reducingIncreasingDose?.conditionsArray.count != 0) {
+        if (self.dosage?.reducingIncreasingDose?.conditionsArray.count > 0) {
             return 3
         } else {
             return 1
@@ -65,7 +65,7 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
         
         if (section == 0) {
             if self.dosage?.reducingIncreasingDose?.conditionsArray.count > 0 {
-                return (self.dosage?.reducingIncreasingDose?.conditionsArray.count)!
+                return conditionDescriptionArray.count
             } else {
                 return 1
             }
@@ -118,7 +118,7 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
         
         switch indexPath.section {
         case 0:
-            if self.dosage?.reducingIncreasingDose?.conditionsArray.count != 0 {
+            if self.dosage?.reducingIncreasingDose?.conditionsArray.count > 0 {
 
             } else {
                 let addConditionViewController : DCAddConditionViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(ADD_CONDITION_SBID) as? DCAddConditionViewController
@@ -156,15 +156,22 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
     }
     
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return true
+        if indexPath.section == 0 {
+            return true
+        } else {
+            return false
+        }
     }
     
     func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
-        let editAction = UITableViewRowAction(style: .Default, title: " Edit ",handler: { (action: UITableViewRowAction!, indexPath: NSIndexPath!) in
+        
+        let editAction = UITableViewRowAction(style: .Default, title:
+            "  Edit  ",handler: { (action: UITableViewRowAction!, indexPath: NSIndexPath!) in
             self.conditionTableView.setEditing(false, animated: false)
             }
         )
         editAction.backgroundColor = UIColor.init(forHexString:"#719fd3")
+        
         let deleteAction = UITableViewRowAction(style: .Normal, title: "Delete",
             handler: { (action: UITableViewRowAction!, indexPath: NSIndexPath!) in
                 self.checkConditionValidityAndDeleteCell(indexPath.row)
@@ -182,7 +189,7 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
         //Set the header as PREVIEW
         if section == 0 {
             if (!isConditionsValid) {
-                return DCDosageHelper.createDescriptionStringForInvalidCondition(self.dosage?.reducingIncreasingDose?.conditionsArray.objectAtIndex(deletedIndexPath.row) as! DCConditions)
+                return DCDosageHelper.createDescriptionStringForInvalidCondition(self.dosage?.reducingIncreasingDose?.conditionsArray.objectAtIndex(0) as! DCConditions)
             }
         }
         return nil
@@ -200,7 +207,7 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
         
         if section == 0 {
             if (!isConditionsValid) {
-                let height: CGFloat = DCUtility.heightValueForText(DCDosageHelper.createDescriptionStringForInvalidCondition(self.dosage?.reducingIncreasingDose?.conditionsArray.objectAtIndex(deletedIndexPath.row) as! DCConditions), withFont: UIFont.systemFontOfSize(14.0), maxWidth: self.view.bounds.width - 30) + 10
+                let height: CGFloat = DCUtility.heightValueForText(DCDosageHelper.createDescriptionStringForInvalidCondition(self.dosage?.reducingIncreasingDose?.conditionsArray.objectAtIndex(0) as! DCConditions), withFont: UIFont.systemFontOfSize(14.0), maxWidth: self.view.bounds.width - 30) + 10
                 return height
             }
         }
@@ -219,9 +226,15 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
                 } else {
                     isConditionsValid = true
                 }
-            } else {
-                isConditionsValid = true
+            } else if self.dosage?.reducingIncreasingDose?.conditionsArray[index+1].change == INCREASING {
+                if (NSString(string: (self.dosage?.reducingIncreasingDose?.conditionsArray[index-1].until)!)).floatValue >= (NSString(string: (self.dosage?.reducingIncreasingDose?.conditionsArray[index+1].until)!)).floatValue {
+                    isConditionsValid = false
+                } else {
+                    isConditionsValid = true
+                }
             }
+        } else {
+            isConditionsValid = true
         }
         deletedIndexPath = NSIndexPath(forRow: index, inSection:0)
         deleteObjectAtIndex(index)
@@ -235,9 +248,9 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
             self.updateConditionDescriptionArray()
             self.updateMainPreviewDetailsArray()
         }
-        let section : NSIndexSet = NSIndexSet.init(index: 2)
+        let section : NSIndexSet = NSIndexSet(index:2)
+        self.conditionTableView.deleteRowsAtIndexPaths([NSIndexPath(forRow:index, inSection:0)], withRowAnimation: .Automatic);
         self.conditionTableView.reloadSections(section, withRowAnimation: .None)
-        self.conditionTableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: index, inSection:0)], withRowAnimation: .Automatic);
         self.conditionTableView.endUpdates()
     }
     
