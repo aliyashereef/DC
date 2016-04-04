@@ -14,7 +14,7 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
 
     let editButtonColor   = "#719fd3"
     let deleteButtonColor = "#fc5251"
-    let EDIT_TEXT         = "  Edit  "
+    let EDIT_TEXT         = "Edit"
     let DELETE_TEXT       = "Delete"
 
     var previewDetailsArray = [String]()
