@@ -43,8 +43,17 @@ class VitalSignBaseModel : VitalSignFHIRBase
     }
     
     
-    func delete()
+    func delete(patientid:String)
     {
-        stringValue = ""
+        let parser = VitalSignParser()
+        parser.deleteVitalSignObservation(patientid, observationId: guid, onCompletion: deleteCompleted)
+    }
+    
+    func deleteCompleted(saveSuccessfully:Bool)
+    {
+       if(saveSuccessfully)
+       {
+            stringValue = ""
+       }
     }
 }

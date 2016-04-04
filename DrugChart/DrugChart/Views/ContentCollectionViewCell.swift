@@ -18,6 +18,7 @@ class ContentCollectionViewCell: UICollectionViewCell,UIGestureRecognizerDelegat
     var showObservationType:ShowObservationType!
     var selectedCellDelegate:CellDelegate!
     var mode:Mode!
+    var patientId:String!
     override func awakeFromNib() {
         super.awakeFromNib()
         contentLabel.bounds.size = CGSize (width: 165 , height: 30)
@@ -49,7 +50,7 @@ class ContentCollectionViewCell: UICollectionViewCell,UIGestureRecognizerDelegat
         }
     }
     
-    func configureBoolean(observation:VitalSignObservation , value:Bool , showobservationType:ShowObservationType , mode:Mode )
+    func configureBoolean(observation:VitalSignObservation , value:Bool , showobservationType:ShowObservationType , mode:Mode, patientId:String )
     {
         self.mode = mode
         self.contentLabel.subviews.forEach({ $0.removeFromSuperview() })
@@ -83,7 +84,7 @@ class ContentCollectionViewCell: UICollectionViewCell,UIGestureRecognizerDelegat
         self.addGestureRecognizer(tap)
     }
     
-    func configureCell(observation:VitalSignObservation, showobservationType:ShowObservationType , mode:Mode )
+    func configureCell(observation:VitalSignObservation, showobservationType:ShowObservationType , mode:Mode , patientId:String )
     {
         self.mode = mode
         self.contentLabel.subviews.forEach({ $0.removeFromSuperview() })
@@ -127,29 +128,29 @@ class ContentCollectionViewCell: UICollectionViewCell,UIGestureRecognizerDelegat
             case ShowObservationType.Respiratory:
                 if(self.observation != nil)
                 {
-                    self.observation.respiratory.delete()
+                    self.observation.respiratory.delete(self.patientId)
                 }
                 
             case ShowObservationType.SpO2:
                 if(self.observation != nil)
                 {
-                    self.observation.spo2.delete()
+                    self.observation.spo2.delete(self.patientId)
                 }
                 
             case ShowObservationType.Temperature:
                 if(self.observation != nil)
                 {
-                    self.observation.temperature.delete()
+                    self.observation.temperature.delete(self.patientId)
                 }
             case ShowObservationType.BloodPressure:
                 if(self.observation != nil)
                 {
-                    self.observation.bloodPressure.delete()
+                    self.observation.bloodPressure.delete(self.patientId)
                 }
             case ShowObservationType.Pulse:
                 if(self.observation != nil)
                 {
-                    self.observation.pulse.delete()
+                    self.observation.pulse.delete(self.patientId)
                 }
             default:
                 DDLogDebug("\(Constant.VITAL_SIGN_LOGGER_INDICATOR) nothing to delete")

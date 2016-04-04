@@ -42,7 +42,7 @@ class BloodPressure : VitalSignBaseModel
         }
     }
     
-    override func delete() {
+    override func delete(patientId:String) {
         stringValueSystolic = ""
         stringValueDiastolic = ""
     }

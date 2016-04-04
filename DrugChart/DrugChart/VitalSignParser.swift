@@ -86,9 +86,11 @@ class VitalSignParser : FhirParser
 //    }
 //    }
     
-    var CARE_RECORD_URL_SEARCH = "patients/%@/carerecord/observations?CodeValues=%@&StartDateTime=%@&EndDateTime=%@&IncludeMostRecent=%@"
+    let CARE_RECORD_URL_SEARCH = "patients/%@/carerecord/observations?CodeValues=%@&StartDateTime=%@&EndDateTime=%@&IncludeMostRecent=%@"
     
-    var CARE_RECORD_URL_POST = "patients/%@/carerecord/observations"
+    let CARE_RECORD_URL_POST = "patients/%@/carerecord/observations"
+    
+    let CARE_RECORD_URL_DELETE = "patients/%@/carerecord/observations/%@"
     
     
     func saveVitalSignObservations(patientId:String,requestBody:String, onCompletion:(saveSuccessfully:Bool)->Void)
@@ -110,6 +112,21 @@ class VitalSignParser : FhirParser
     {
         let url = String(format:CARE_RECORD_URL_POST , patientId )
         super.connectServerPut(url, requestJSON: requestBody){(status:Int) in
+            if(status == 200)
+            {
+                onCompletion( saveSuccessfully: true)
+            }
+            else
+            {
+                onCompletion(saveSuccessfully: false)
+            }
+        }
+    }
+    
+    func deleteVitalSignObservation(patientId:String, observationId:String , onCompletion:(saveSuccessfully:Bool)->Void)
+    {
+        let url = String(format:CARE_RECORD_URL_DELETE , patientId , observationId )
+        super.connectServerDelete(url){(status:Int) in
             if(status == 200)
             {
                 onCompletion( saveSuccessfully: true)
