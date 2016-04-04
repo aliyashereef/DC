@@ -100,7 +100,9 @@ class DCPharmacistTableCell: UITableViewCell {
         } else {
             medicationDetails?.pharmacistAction = DCPharmacistAction.init()
             medicationDetails?.pharmacistAction.clinicalCheck = false
+            firstStatusImageView?.image = UIImage(named: CLINICAL_CHECK_IPAD_IMAGE)
             medicationDetails?.pharmacistAction?.intervention = DCIntervention.init()
+            secondStatusImageView?.image = UIImage(named: INTERVENTION_IPAD_IMAGE)
             medicationDetails?.pharmacistAction?.podStatus = DCPODStatus.init()
         }
     }
