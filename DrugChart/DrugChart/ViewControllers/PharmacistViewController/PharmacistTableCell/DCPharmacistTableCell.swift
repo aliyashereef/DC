@@ -15,6 +15,9 @@ let ACTION_BUTTON_MINIMUM_WIDTH : CGFloat = 150.0
 protocol PharmacistCellDelegate {
     
     func swipeActionOnTableCellAtIndexPath(indexPath : NSIndexPath)
+    func podStatusActionOnTableCellAtIndexPath(indexPath : NSIndexPath)
+    func clinicalCheckActionOnTableCellAtIndexPath(indexPath : NSIndexPath)
+    func resolveInterventionActionOnTableCellAtIndexPath(indexPath : NSIndexPath)
 }
 
 class DCPharmacistTableCell: UITableViewCell {
@@ -51,10 +54,8 @@ class DCPharmacistTableCell: UITableViewCell {
     override func setSelected(selected: Bool, animated: Bool) {
         
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
-    
+        
     func fillMedicationDetailsInTableCell(medicationSchedule : DCMedicationScheduleDetails) {
         
         //populate medication details
@@ -246,15 +247,24 @@ class DCPharmacistTableCell: UITableViewCell {
     @IBAction func podStatusButtonAction(sender: AnyObject) {
         
         swipePrescriberDetailViewToRight()
+        if let delegate = pharmacistCellDelegate {
+            delegate.podStatusActionOnTableCellAtIndexPath(indexPath!)
+        }
     }
     
     @IBAction func resolveInterventionButtonAction(sender: AnyObject) {
         
+        if let delegate = pharmacistCellDelegate {
+            delegate.resolveInterventionActionOnTableCellAtIndexPath(indexPath!)
+        }
         swipePrescriberDetailViewToRight()
     }
     
     @IBAction func clinicalCheckButtonAction(sender: AnyObject) {
         
+        if let delegate = pharmacistCellDelegate {
+            delegate.clinicalCheckActionOnTableCellAtIndexPath(indexPath!)
+        }
         swipePrescriberDetailViewToRight()
     }
     
@@ -270,5 +280,4 @@ class DCPharmacistTableCell: UITableViewCell {
         return true
     }
     
-
 }

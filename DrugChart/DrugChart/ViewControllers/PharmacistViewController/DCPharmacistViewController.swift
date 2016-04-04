@@ -162,23 +162,23 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     func addInterventionAction() {
         
         print("***** Add Intervention Button Action")
-//        let addInterventionViewController : DCInterventionAddOrResolveViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(INTERVENTION_ADD_RESOLVE_SB_ID) as? DCInterventionAddOrResolveViewController
-//        addInterventionViewController?.medicationList = medicationList
-//        addInterventionViewController?.interventionType = eAddIntervention
-//        let navigationController: UINavigationController = UINavigationController(rootViewController: addInterventionViewController!)
-//        navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
-//        self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
+        let addInterventionViewController : DCInterventionAddOrResolveViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(INTERVENTION_ADD_RESOLVE_SB_ID) as? DCInterventionAddOrResolveViewController
+        addInterventionViewController?.medicationList = medicationList
+        addInterventionViewController?.interventionType = eAddIntervention
+        let navigationController: UINavigationController = UINavigationController(rootViewController: addInterventionViewController!)
+        navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+        self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
     }
     
     func resolveInterventionAction() {
         
         print("***** Resolve Intervention Button Action")
-//        let addInterventionViewController : DCInterventionAddOrResolveViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(INTERVENTION_ADD_RESOLVE_SB_ID) as? DCInterventionAddOrResolveViewController
-//        addInterventionViewController?.medicationList = medicationList
-//        addInterventionViewController?.interventionType = eResolveIntervention
-//        let navigationController: UINavigationController = UINavigationController(rootViewController: addInterventionViewController!)
-//        navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
-//        self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
+        let addInterventionViewController : DCInterventionAddOrResolveViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(INTERVENTION_ADD_RESOLVE_SB_ID) as? DCInterventionAddOrResolveViewController
+        addInterventionViewController?.medicationList = medicationList
+        addInterventionViewController?.interventionType = eResolveIntervention
+        let navigationController: UINavigationController = UINavigationController(rootViewController: addInterventionViewController!)
+        navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+        self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
     }
     
     func updatePODStatusAction() {
@@ -256,7 +256,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         self.presentPharmacistActionSheet()
     }
     
-    // MARK : PharmacistCell Delegate Methods
+    // MARK: PharmacistCell Delegate Methods
     
     func swipeActionOnTableCellAtIndexPath(indexPath : NSIndexPath) {
         
@@ -264,4 +264,19 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         self.resetSwipedCellToOriginalPosition()
     }
     
+    func podStatusActionOnTableCellAtIndexPath(indexPath : NSIndexPath) {
+        
+        
+    }
+    
+    func clinicalCheckActionOnTableCellAtIndexPath(indexPath : NSIndexPath) {
+        
+        
+    }
+    
+    func resolveInterventionActionOnTableCellAtIndexPath(indexPath : NSIndexPath) {
+        
+        
+    }
+        
 }
