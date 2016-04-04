@@ -21,14 +21,13 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
     var dosage : DCDosage?
     var conditionDescriptionArray = [String]()
     var reducingIncreasingDoseEntered: ReducingIncreasingDoseEntered = { value in }
-    var isConditionsValid : Bool = true
-    var deletedIndexPath : NSIndexPath = NSIndexPath(forRow: 1, inSection:0)
 
     @IBOutlet weak var conditionTableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
         if self.dosage?.reducingIncreasingDose?.conditionsArray == nil {
             self.dosage?.reducingIncreasingDose?.conditionsArray = []
+            self.dosage?.isConditionsValid = true
         }
         if self.dosage?.reducingIncreasingDose?.conditionsArray.count > 0 {
             self.updateConditionDescriptionArray()
@@ -99,7 +98,7 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
         case 0:
             if self.dosage?.reducingIncreasingDose?.conditionsArray.count > 0 {
                 dosageConditionCell!.conditionsMainLabel.text = conditionDescriptionArray[indexPath.row]
-                if !isConditionsValid && indexPath.row >= deletedIndexPath.row {
+                if (self.dosage?.isConditionsValid == false && indexPath.row >= self.dosage?.invalidConditionIndexPath.row ) {
                     dosageConditionCell?.conditionsMainLabel.textColor = UIColor.redColor()
                 } else {
                     dosageConditionCell?.conditionsMainLabel.textColor = UIColor.blackColor()
@@ -193,7 +192,7 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
         
         //Set the header as PREVIEW
         if section == 0 {
-            if (!isConditionsValid) {
+            if (self.dosage?.isConditionsValid == false) {
                 return DCDosageHelper.errorStringForInvalidCondition()
             }
         }
@@ -212,7 +211,7 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
     func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         
         if section == 0 {
-            if (!isConditionsValid) {
+            if (self.dosage?.isConditionsValid == false) {
                 let height: CGFloat = DCUtility.heightValueForText(DCDosageHelper.errorStringForInvalidCondition(), withFont: UIFont.systemFontOfSize(14.0), maxWidth: self.view.bounds.width - 30) + 10
                 return height
             }
@@ -226,23 +225,23 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
         if self.dosage?.reducingIncreasingDose?.conditionsArray.count > index+1 {
             if self.dosage?.reducingIncreasingDose?.conditionsArray[index+1].change == REDUCING {
                 if (NSString(string: (self.dosage?.reducingIncreasingDose?.conditionsArray[index-1].until)!)).floatValue < (NSString(string: (self.dosage?.reducingIncreasingDose?.conditionsArray[index+1].dose)!)).floatValue {
-                    isConditionsValid = false
+                    self.dosage?.isConditionsValid = false
                 } else if ((NSString(string: (self.dosage?.reducingIncreasingDose?.conditionsArray[index-1].until)!)).floatValue == 0){
-                    isConditionsValid = false
+                    self.dosage?.isConditionsValid = false
                 } else {
-                    isConditionsValid = true
+                    self.dosage?.isConditionsValid = true
                 }
             } else if self.dosage?.reducingIncreasingDose?.conditionsArray[index+1].change == INCREASING {
                 if (NSString(string: (self.dosage?.reducingIncreasingDose?.conditionsArray[index-1].until)!)).floatValue >= (NSString(string: (self.dosage?.reducingIncreasingDose?.conditionsArray[index+1].until)!)).floatValue {
-                    isConditionsValid = false
+                    self.dosage?.isConditionsValid = false
                 } else {
-                    isConditionsValid = true
+                    self.dosage?.isConditionsValid = true
                 }
             }
         } else {
-            isConditionsValid = true
+            self.dosage?.isConditionsValid = true
         }
-        deletedIndexPath = NSIndexPath(forRow: index, inSection:0)
+        self.dosage?.invalidConditionIndexPath = NSIndexPath(forRow: index, inSection:0)
         deleteObjectAtIndex(index)
         self.conditionTableView.reloadData()
     }
