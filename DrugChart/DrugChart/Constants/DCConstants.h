@@ -93,6 +93,7 @@
 #define ADMINISTER_GRAPH @"AdministerGraph"
 #define SUMMARY_STORYBOARD @"Summary"
 #define PHARMACIST_STORYBOARD @"Pharmacist"
+#define PHARMACIST_ACTION_STORYBOARD @"PharmacistAction"
 
 // Storyboard Ids
 #define PATIENT_LIST_VIEW_CONTROLLER @"patientListingViewController"
@@ -160,6 +161,7 @@
 #define MEDICATION_SUMMARY_REVIEW_HISTORY_SBID @"summaryReviewHistoryDisplay"
 #define REVIEW_VIEW_CONTROLLER_SB_ID @"ReviewViewController"
 #define PHARMACIST_VIEW_CONTROLLER_SB_ID @"pharmacistViewController"
+#define INTERVENTION_ADD_RESOLVE_SB_ID @"addOrResolveInterventionViewController"
 
 
 //Nib files
@@ -613,6 +615,11 @@
 #define REVIEW_INTERVAL @"Review Interval"
 #define REVIEW_DATE @"Review Date"
 
+//Pharmacist
+#define RESOLVE_INTERVENTION_CELL @"resolutionMainCell"
+#define REASON_RESOLVE_TEXTVIEW_CELL @"reasonOrResolutionCell"
+#define REASON_TEXT @"Reason"
+#define RESOLUTION_TEXT @"Resolution"
 #define UPDATE_POD_STATUS @"Update POD Status"
 #define RESOLVE_INTERVENTION @"Resolve Intervention"
 #define CLINICAL_CHECK @"Clinical Check"
