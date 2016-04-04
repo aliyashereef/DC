@@ -11,7 +11,8 @@ import UIKit
 class DCInterventionAddResolveTextViewCell: UITableViewCell, UITextViewDelegate {
 
     @IBOutlet weak var reasonOrResolveTextView: UITextView!
-
+    var placeHolderString : String?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -23,7 +24,7 @@ class DCInterventionAddResolveTextViewCell: UITableViewCell, UITextViewDelegate 
         // Configure the view for the selected state
     }
 
-    func initializeTextView(placeHolderString : String) {
+    func initializeTextView() {
         
         reasonOrResolveTextView.text = placeHolderString
         reasonOrResolveTextView.textColor = UIColor.lightGrayColor()
@@ -31,7 +32,7 @@ class DCInterventionAddResolveTextViewCell: UITableViewCell, UITextViewDelegate 
     }
 
     func textViewDidBeginEditing(textView: UITextView) {
-        if textView.textColor == UIColor.lightGrayColor() {
+        if textView.textColor == UIColor.lightGrayColor() || textView.textColor == UIColor.redColor()  {
             textView.text = nil
             textView.textColor = UIColor.blackColor()
         }
@@ -39,7 +40,7 @@ class DCInterventionAddResolveTextViewCell: UITableViewCell, UITextViewDelegate 
     
     func textViewDidEndEditing(textView: UITextView) {
         if textView.text.isEmpty {
-          //  textView.text = placeHolderString
+            textView.text = placeHolderString
             textView.textColor = UIColor.lightGrayColor()
         }
     }

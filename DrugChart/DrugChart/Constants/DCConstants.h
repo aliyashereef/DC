@@ -162,6 +162,7 @@
 #define REVIEW_VIEW_CONTROLLER_SB_ID @"ReviewViewController"
 #define PHARMACIST_VIEW_CONTROLLER_SB_ID @"pharmacistViewController"
 #define INTERVENTION_ADD_RESOLVE_SB_ID @"addOrResolveInterventionViewController"
+#define UPDATE_POD_STATUS_SB_ID @"podStatusViewController"
 
 
 //Nib files
@@ -253,6 +254,8 @@
 #define REVIEW_SELECTION_CELL_ID @"ReviewSelectionCellId"
 #define NEW_REVIEW_CELL_ID @"newReviewCellId"
 #define PHARMACIST_CELL_ID @"pharmacistCellId"
+#define POD_STATUS_CELL @"podStatusCell"
+#define POD_NOTES_CELL_ID @"notesCell"
 
 // Week days
 
@@ -625,5 +628,8 @@
 #define CLINICAL_CHECK @"Clinical Check"
 #define CLINICAL_REMOVE @"Clinical Remove"
 #define ADD_INTERVENTION @"Add Intervention"
+#define PATIENT_OWN_DRUG @"Patient Own Drugs"
+#define PATIENT_OWN_DRUG_HOME @"Patient Own Drugs(Home)"
+#define PATIENT_OWN_AND_HOME @"Patient Own Drugs & Patient Own Drugs(Home)"
 
 #endif
