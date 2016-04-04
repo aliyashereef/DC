@@ -10,7 +10,7 @@ import UIKit
 
 let PHARMACIST_ROW_HEIGHT : CGFloat = 79.0
 
-class DCPharmacistViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, PharmacistCellDelegate {
+class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, PharmacistCellDelegate {
 
     @IBOutlet weak var pharmacistTableView: UITableView!
     @IBOutlet weak var medicationCountLabel: UILabel!
@@ -27,6 +27,12 @@ class DCPharmacistViewController: UIViewController, UITableViewDelegate, UITable
         
         super.viewDidLoad()
         self.configureViewElements()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        
+        super.viewDidAppear(animated)
+        pharmacistTableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -47,8 +53,8 @@ class DCPharmacistViewController: UIViewController, UITableViewDelegate, UITable
         configureNavigationBar()
         configureMedicationCountToolBar()
         pharmacistTableView.allowsMultipleSelectionDuringEditing = true
-//        pharmacistTableView!.estimatedRowHeight = PHARMACIST_ROW_HEIGHT
-//        pharmacistTableView!.rowHeight = UITableViewAutomaticDimension
+        pharmacistTableView!.estimatedRowHeight = PHARMACIST_ROW_HEIGHT
+        pharmacistTableView!.rowHeight = UITableViewAutomaticDimension
     }
     
     func configureNavigationBar() {
