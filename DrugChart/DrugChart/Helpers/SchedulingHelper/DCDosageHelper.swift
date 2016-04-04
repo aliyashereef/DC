@@ -56,7 +56,7 @@ class DCDosageHelper: NSObject {
     static func errorStringForInvalidCondition () -> String {
         var displayString = EMPTY_STRING
         // message added for this case with edit functionality not implemented
-        displayString = "Invalid condition. Please check the 'Until' value."
+        displayString = NSLocalizedString("DOSAGE ERROR", comment: "")
         return displayString
     }
     
