@@ -12,6 +12,11 @@ typealias ReducingIncreasingDoseEntered = DCReducingIncreasingDose? -> Void
 
 class DCDosageConditionsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate{
 
+    let editButtonColor   = "#719fd3"
+    let deleteButtonColor = "#fc5251"
+    let EDIT_TEXT         = "  Edit  "
+    let DELETE_TEXT       = "Delete"
+
     var previewDetailsArray = [String]()
     var dosage : DCDosage?
     var conditionDescriptionArray = [String]()
@@ -166,18 +171,18 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
     func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
         
         let editAction = UITableViewRowAction(style: .Default, title:
-            "  Edit  ",handler: { (action: UITableViewRowAction!, indexPath: NSIndexPath!) in
+            EDIT_TEXT,handler: { (action: UITableViewRowAction!, indexPath: NSIndexPath!) in
             self.conditionTableView.setEditing(false, animated: false)
             }
         )
-        editAction.backgroundColor = UIColor.init(forHexString:"#719fd3")
+        editAction.backgroundColor = UIColor.init(forHexString:editButtonColor)
         
-        let deleteAction = UITableViewRowAction(style: .Normal, title: "Delete",
+        let deleteAction = UITableViewRowAction(style: .Normal, title: DELETE_TEXT,
             handler: { (action: UITableViewRowAction!, indexPath: NSIndexPath!) in
                 self.checkConditionValidityAndDeleteCell(indexPath.row)
             }
         );
-        deleteAction.backgroundColor = UIColor.init(forHexString:"#fc5251")
+        deleteAction.backgroundColor = UIColor.init(forHexString:deleteButtonColor)
         if indexPath.row == 0 {
             return [editAction]
         }
