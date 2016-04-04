@@ -165,33 +165,33 @@ class TabularViewController: PatientViewController , UICollectionViewDataSource,
                 switch(indexPath.section)
                 {
                 case ObservationTabularViewRow.Respiratory.rawValue:
-                    contentCell.configureCell(observation,showobservationType: .Respiratory , mode: Mode.EditDelete)
+                    contentCell.configureCell(observation,showobservationType: .Respiratory , mode: Mode.EditDelete , patientId: patient.patientId)
                     contentCell.contentLabel.text = observation.getRespiratoryReading()
                 case ObservationTabularViewRow.SPO2.rawValue:
-                    contentCell.configureCell(observation,showobservationType: ShowObservationType.SpO2, mode: Mode.EditDelete)
+                    contentCell.configureCell(observation,showobservationType: ShowObservationType.SpO2, mode: Mode.EditDelete, patientId: patient.patientId)
                     contentCell.contentLabel.text = observation.getSpo2Reading()
                 case ObservationTabularViewRow.Temperature.rawValue:
-                    contentCell.configureCell(observation,showobservationType: .Temperature, mode: Mode.EditDelete)
+                    contentCell.configureCell(observation,showobservationType: .Temperature, mode: Mode.EditDelete, patientId: patient.patientId)
                     contentCell.contentLabel.text = observation.getTemperatureReading()
                 case ObservationTabularViewRow.BloodPressure.rawValue:
-                    contentCell.configureCell(observation,showobservationType: .BloodPressure, mode: Mode.EditDelete)
+                    contentCell.configureCell(observation,showobservationType: .BloodPressure, mode: Mode.EditDelete, patientId: patient.patientId)
                     contentCell.contentLabel.text = observation.getBloodPressureReading()
                 case ObservationTabularViewRow.Pulse.rawValue:
-                    contentCell.configureCell(observation,showobservationType: .Pulse, mode: Mode.EditDelete)
+                    contentCell.configureCell(observation,showobservationType: .Pulse, mode: Mode.EditDelete, patientId: patient.patientId)
                     contentCell.contentLabel.text = observation.getPulseReading()
                 case ObservationTabularViewRow.News.rawValue:
-                    contentCell.configureCell(observation,showobservationType: .None, mode: Mode.EditDelete)
+                    contentCell.configureCell(observation,showobservationType: .None, mode: Mode.EditDelete, patientId: patient.patientId)
                     let newsScore = observation.newsScore
                     contentCell.contentLabel.text = newsScore
                     contentCell.backgroundColor = getNewsRowColor(newsScore)
                 case ObservationTabularViewRow.CommaScore.rawValue:
-                    contentCell.configureCell(observation,showobservationType: .None, mode: Mode.EditDelete)
+                    contentCell.configureCell(observation,showobservationType: .None, mode: Mode.EditDelete, patientId: patient.patientId)
                     contentCell.contentLabel.text = observation.getComaScore()
                 case ObservationTabularViewRow.AdditionalOxygen.rawValue:
-                    contentCell.configureBoolean(observation,value:observation.additionalOxygen,  showobservationType: .AdditionalOxygen, mode: Mode.EditDelete)
+                    contentCell.configureBoolean(observation,value:observation.additionalOxygen,  showobservationType: .AdditionalOxygen, mode: Mode.EditDelete, patientId: patient.patientId)
                 case ObservationTabularViewRow.AVPU.rawValue:
                     
-                    contentCell.configureBoolean(observation,value:(observation.isConscious  == nil ?false: !observation.isConscious! ), showobservationType: .AVPU, mode: Mode.EditDelete)
+                    contentCell.configureBoolean(observation,value:(observation.isConscious  == nil ?false: !observation.isConscious! ), showobservationType: .AVPU, mode: Mode.EditDelete, patientId: patient.patientId)
                 default:
                     print("come in default section")
                 }

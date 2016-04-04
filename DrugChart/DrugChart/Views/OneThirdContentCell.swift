@@ -17,6 +17,7 @@ class OneThirdContentCell: UITableViewCell {
     var observation:VitalSignObservation!
     var delegate:ObservationDelegate? = nil
     var isDeletable:Bool = false
+    var patientId:String!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -106,29 +107,29 @@ class OneThirdContentCell: UITableViewCell {
             case ShowObservationType.Respiratory:
                 if(self.observation != nil)
                 {
-                    self.observation.respiratory.delete()
+                    self.observation.respiratory.delete(self.patientId)
                 }
                 
             case ShowObservationType.SpO2:
                 if(self.observation != nil)
                 {
-                    self.observation.spo2.delete()
+                    self.observation.spo2.delete(self.patientId)
                 }
                 
             case ShowObservationType.Temperature:
                 if(self.observation != nil)
                 {
-                    self.observation.temperature.delete()
+                    self.observation.temperature.delete(self.patientId)
                 }
             case ShowObservationType.BloodPressure:
                 if(self.observation != nil)
                 {
-                    self.observation.bloodPressure.delete()
+                    self.observation.bloodPressure.delete(self.patientId)
                 }
             case ShowObservationType.Pulse:
                 if(self.observation != nil)
                 {
-                    self.observation.pulse.delete()
+                    self.observation.pulse.delete(self.patientId)
                 }
             default:
                 DDLogDebug("\(Constant.VITAL_SIGN_LOGGER_INDICATOR) nothing to delete")
