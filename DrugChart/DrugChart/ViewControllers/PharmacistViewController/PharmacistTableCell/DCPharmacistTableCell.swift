@@ -293,9 +293,9 @@ class DCPharmacistTableCell: UITableViewCell {
     func setClinicalCheckButtonTitle() {
         
         if medicationDetails?.pharmacistAction?.clinicalCheck == false {
-            clinicalCheckButton.titleLabel?.text = CLINICAL_CHECK
+            clinicalCheckButton.setTitle(CLINICAL_CHECK, forState: UIControlState.Normal)
         } else {
-            clinicalCheckButton.titleLabel?.text = CLINICAL_REMOVE
+            clinicalCheckButton.setTitle(CLINICAL_REMOVE, forState: UIControlState.Normal)
         }
     }
     
