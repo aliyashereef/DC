@@ -109,21 +109,21 @@
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Hi-en-QFt" userLabel="StatusView">
                                                             <rect key="frame" x="13" y="0.0" width="21" height="79"/>
                                                             <subviews>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="VerifyIcon" translatesAutoresizingMaskIntoConstraints="NO" id="QTK-Dw-kTO" userLabel="FirstStatusImageView">
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QTK-Dw-kTO" userLabel="FirstStatusImageView">
                                                                     <rect key="frame" x="0.0" y="10" width="13" height="13"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="13" id="v4g-jt-smH"/>
                                                                         <constraint firstAttribute="height" constant="13" id="w5B-Ka-1MD"/>
                                                                     </constraints>
                                                                 </imageView>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="InterventionIcon" translatesAutoresizingMaskIntoConstraints="NO" id="zka-v9-ltu" userLabel="SecondStatusImageView">
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zka-v9-ltu" userLabel="SecondStatusImageView">
                                                                     <rect key="frame" x="0.0" y="31" width="13" height="13"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="13" id="u6w-Nv-qSe"/>
                                                                         <constraint firstAttribute="width" constant="13" id="uF4-Um-nfh"/>
                                                                     </constraints>
                                                                 </imageView>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="OwnDrugIcon" translatesAutoresizingMaskIntoConstraints="NO" id="XqM-rh-O4f" userLabel="ThirdStatusImageView">
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XqM-rh-O4f" userLabel="ThirdStatusImageView">
                                                                     <rect key="frame" x="0.0" y="48" width="21" height="18"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="18" id="4a5-5w-G61"/>
@@ -415,9 +415,4 @@
             <point key="canvasLocation" x="514" y="193"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="InterventionIcon" width="13" height="13"/>
-        <image name="OwnDrugIcon" width="21" height="18"/>
-        <image name="VerifyIcon" width="13" height="13"/>
-    </resources>
 </document>

@@ -74,31 +74,55 @@ class DCPharmacistTableCell: UITableViewCell {
     
     func configureCellElements() {
         
-        podStatusButton.titleLabel?.textAlignment = NSTextAlignment.Center
-        resolveInterventionButton.titleLabel?.textAlignment = NSTextAlignment.Center
-        clinicalCheckButton.titleLabel?.textAlignment = NSTextAlignment.Center
-        let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
         if (appDelegate.windowState == DCWindowState.oneThirdWindow || appDelegate.windowState == DCWindowState.halfWindow) {
-            podStatusButton.titleLabel?.font = PHARMACIST_ONE_THIRD_FONT
-            resolveInterventionButton.titleLabel?.font = PHARMACIST_ONE_THIRD_FONT
-            clinicalCheckButton.titleLabel?.font = PHARMACIST_ONE_THIRD_FONT
             actionButtonsTotalWidth = ACTION_BUTTONS_ONE_THIRD_TOTAL_WIDTH
             actionButtonWidth = ACTION_BUTTON_ONE_THIRD_WIDTH
-            podStatusButtonWidth?.constant = actionButtonWidth
-            clinicalButtonWidth?.constant = actionButtonWidth
-            resolveInterventionButtonWidth?.constant = actionButtonWidth
         } else {
-            podStatusButton.titleLabel?.font = PHARMACIST_DEFAULT_FONT
-            resolveInterventionButton.titleLabel?.font = PHARMACIST_DEFAULT_FONT
-            clinicalCheckButton.titleLabel?.font = PHARMACIST_DEFAULT_FONT
             actionButtonsTotalWidth = ACTION_BUTTONS_DEFAULT_TOTAL_WIDTH
             actionButtonWidth = ACTION_BUTTON_DEFAULT_WIDTH
-            podStatusButtonWidth?.constant = actionButtonWidth
-            clinicalButtonWidth?.constant = actionButtonWidth
-            resolveInterventionButtonWidth?.constant = actionButtonWidth
         }
+        configureClinicalCheckButton()
+        configureResolveInterventionButton()
+        configurePODStatusButton()
+      //  setPrescriberButtonNames()
     }
+    
+    func configureClinicalCheckButton() {
+        
+        clinicalCheckButton.titleLabel?.textAlignment = NSTextAlignment.Center
+        if (appDelegate.windowState == DCWindowState.oneThirdWindow || appDelegate.windowState == DCWindowState.halfWindow) {
+            clinicalCheckButton.titleLabel?.font = PHARMACIST_ONE_THIRD_FONT
+        } else {
+            clinicalCheckButton.titleLabel?.font = PHARMACIST_DEFAULT_FONT
+        }
+        clinicalButtonWidth?.constant = actionButtonWidth
+       setClinicalCheckButtonTitle()
+    }
+    
+    func configureResolveInterventionButton() {
+        
+        resolveInterventionButton.titleLabel?.textAlignment = NSTextAlignment.Center
+        if (appDelegate.windowState == DCWindowState.oneThirdWindow || appDelegate.windowState == DCWindowState.halfWindow) {
+            resolveInterventionButton.titleLabel?.font = PHARMACIST_ONE_THIRD_FONT
+        } else {
+            resolveInterventionButton.titleLabel?.font = PHARMACIST_DEFAULT_FONT
+        }
+        resolveInterventionButtonWidth?.constant = actionButtonWidth
+        setPharmacistInterventionButtonTitle()
+    }
+    
+    func configurePODStatusButton() {
+        
+        podStatusButton.titleLabel?.textAlignment = NSTextAlignment.Center
+        if (appDelegate.windowState == DCWindowState.oneThirdWindow || appDelegate.windowState == DCWindowState.halfWindow) {
+            podStatusButton.titleLabel?.font = PHARMACIST_ONE_THIRD_FONT
             
+        } else {
+            podStatusButton.titleLabel?.font = PHARMACIST_DEFAULT_FONT
+        }
+        podStatusButtonWidth?.constant = actionButtonWidth
+    }
+    
     func fillMedicationDetailsInTableCell(medicationSchedule : DCMedicationScheduleDetails) {
         
         //populate medication details
@@ -148,25 +172,30 @@ class DCPharmacistTableCell: UITableViewCell {
 //            if pharmacistAction.clinicalCheck == false {
 //                //display clinical check icon since pharamcist has not verified medication yet
 //                firstStatusImageView.image = UIImage(named: CLINICAL_CHECK_IPAD_IMAGE)
-//                if let _ = pharmacistAction.intervention {
+//                if let intervention = pharmacistAction.intervention {
 //                    // medication has added intervention, second icon will have pod images
-//                    if let podStatus = pharmacistAction.podStatus {
-//                        secondStatusImageView.image = DCPODStatus.statusImageForPodStatus(podStatus.podStatusType)
-//                    } else {
-//                        secondStatusImageView.image = UIImage(named: INTERVENTION_IPAD_IMAGE)
+////                    if let podStatus = pharmacistAction.podStatus {
+////                        secondStatusImageView.image = DCPODStatus.statusImageForPodStatus(podStatus.podStatusType)
+////                    } else {
+////                        secondStatusImageView.image = UIImage(named: INTERVENTION_IPAD_IMAGE)
+////                    }
+//                    if let reason = intervention.reason {
+//                        if intervention.resolution == nil {
+//                            secondStatusImageView.image = UIImage(named: INTERVENTION_IPAD_IMAGE)
+//                        }
 //                    }
 //                } else {
 //                    secondStatusImageView.image = UIImage(named: INTERVENTION_IPAD_IMAGE)
 //                }
 //            }
+            
+            
         } else {
             medicationDetails?.pharmacistAction = DCPharmacistAction.init()
             medicationDetails?.pharmacistAction.clinicalCheck = false
             firstStatusImageView?.image = UIImage(named: CLINICAL_CHECK_IPAD_IMAGE)
             medicationDetails?.pharmacistAction?.intervention = DCIntervention.init()
-            secondStatusImageView?.image = UIImage(named: INTERVENTION_IPAD_IMAGE)
             medicationDetails?.pharmacistAction?.podStatus = DCPODStatus.init()
-            //thirdStatusImageView.image = UIImage(named: INTERVENTION_IPAD_IMAGE)
         }
     }
     
@@ -188,9 +217,9 @@ class DCPharmacistTableCell: UITableViewCell {
                     self.prescriberDetailsViewLeadingConstraint.constant = -self.actionButtonsTotalWidth
                     self.prescriberDetailsViewTrailingConstraint.constant = self.actionButtonsTotalWidth
                     self.updateActionButtonWidthRespectiveToLeadingConstraint()
+                    self.setClinicalCheckButtonTitle()
+                    self.setPharmacistInterventionButtonTitle()
                     self.podStatusButton.setTitle(UPDATE_POD_STATUS, forState: UIControlState.Normal)
-                    self.resolveInterventionButton.setTitle(RESOLVE_INTERVENTION, forState: UIControlState.Normal)
-                    self.clinicalCheckButton.setTitle(CLINICAL_CHECK, forState: UIControlState.Normal)
                     self.layoutIfNeeded()
                 })
                 if let delegate = pharmacistCellDelegate {
@@ -238,12 +267,33 @@ class DCPharmacistTableCell: UITableViewCell {
         }
     }
     
+    func setClinicalCheckButtonTitle() {
+        
+        if medicationDetails?.pharmacistAction?.clinicalCheck == false {
+            clinicalCheckButton.titleLabel?.text = CLINICAL_CHECK
+        } else {
+            clinicalCheckButton.titleLabel?.text = CLINICAL_REMOVE
+        }
+    }
+    
+    func setPharmacistInterventionButtonTitle() {
+        
+        if (medicationDetails?.pharmacistAction?.intervention?.reason == nil || medicationDetails?.pharmacistAction?.intervention?.resolution != nil) {
+            // intervention not added yet or added intervention has been resolved
+            resolveInterventionButton.setTitle(ADD_INTERVENTION, forState: .Normal)
+        } else {
+            resolveInterventionButton.setTitle(RESOLVE_INTERVENTION, forState: .Normal)
+        }
+    }
+    
     func setPrescriberButtonNames() {
         
         if (self.podStatusButtonWidth.constant > actionButtonWidth) {
             self.podStatusButton.setTitle(UPDATE_POD_STATUS, forState: UIControlState.Normal)
-            self.resolveInterventionButton.setTitle(RESOLVE_INTERVENTION, forState: UIControlState.Normal)
-            self.clinicalCheckButton.setTitle(CLINICAL_CHECK, forState: .Normal)
+           // self.resolveInterventionButton.setTitle(RESOLVE_INTERVENTION, forState: UIControlState.Normal)
+           // self.clinicalCheckButton.setTitle(CLINICAL_CHECK, forState: .Normal)
+            self.setClinicalCheckButtonTitle()
+            self.setPharmacistInterventionButtonTitle()
         } else {
             self.podStatusButton.setTitle(EMPTY_STRING, forState: UIControlState.Normal)
             self.resolveInterventionButton.setTitle(EMPTY_STRING, forState: UIControlState.Normal)

@@ -207,6 +207,13 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         return .Insert
     }
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        if !isInEditMode {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
+    }
+    
     // MARK: Action Methods
     
     func editButtonPressed(sender : NSObject) {
