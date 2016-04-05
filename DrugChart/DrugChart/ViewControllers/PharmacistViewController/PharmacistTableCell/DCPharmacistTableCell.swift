@@ -84,7 +84,6 @@ class DCPharmacistTableCell: UITableViewCell {
         configureClinicalCheckButton()
         configureResolveInterventionButton()
         configurePODStatusButton()
-      //  setPrescriberButtonNames()
     }
     
     func configureClinicalCheckButton() {
@@ -176,6 +175,9 @@ class DCPharmacistTableCell: UITableViewCell {
                     if (intervention.reason != nil && intervention.resolution == nil) {
                         //first image is intervention image
                         secondStatusImageView.image = UIImage(named: INTERVENTION_IPAD_IMAGE)
+                        if let podStatus = pharmacistAction.podStatus {
+                            thirdStatusImageView.image = DCPODStatus.statusImageForPodStatus(podStatus.podStatusType)
+                        }
                     } else {
                         //pod status
                         if let podStatus = pharmacistAction.podStatus {
@@ -184,7 +186,9 @@ class DCPharmacistTableCell: UITableViewCell {
                     }
                 } else {
                     // display pod status
-                    
+                    if let podStatus = pharmacistAction.podStatus {
+                        secondStatusImageView.image = DCPODStatus.statusImageForPodStatus(podStatus.podStatusType)
+                    }
                 }
             } else {
                 //clinical verified
@@ -192,16 +196,29 @@ class DCPharmacistTableCell: UITableViewCell {
                     if (intervention.reason != nil && intervention.resolution == nil) {
                         //first image is intervention image
                         firstStatusImageView.image = UIImage(named: INTERVENTION_IPAD_IMAGE)
+                        if let podStatus = pharmacistAction.podStatus {
+                            secondStatusImageView.image = DCPODStatus.statusImageForPodStatus(podStatus.podStatusType)
+                        }
+                    } else {
+                        if let podStatus = pharmacistAction.podStatus {
+                            firstStatusImageView.image = DCPODStatus.statusImageForPodStatus(podStatus.podStatusType)
+                        }
                     }
                 }
             }
         } else {
-            medicationDetails?.pharmacistAction = DCPharmacistAction.init()
-            medicationDetails?.pharmacistAction.clinicalCheck = false
-            firstStatusImageView?.image = UIImage(named: CLINICAL_CHECK_IPAD_IMAGE)
-            medicationDetails?.pharmacistAction?.intervention = DCIntervention.init()
-            medicationDetails?.pharmacistAction?.podStatus = DCPODStatus.init()
+            initialisePharmacistObject()
         }
+    }
+    
+    func initialisePharmacistObject() {
+        
+        //initialise pharmacist object
+        medicationDetails?.pharmacistAction = DCPharmacistAction.init()
+        medicationDetails?.pharmacistAction.clinicalCheck = false
+        firstStatusImageView?.image = UIImage(named: CLINICAL_CHECK_IPAD_IMAGE)
+        medicationDetails?.pharmacistAction?.intervention = DCIntervention.init()
+        medicationDetails?.pharmacistAction?.podStatus = DCPODStatus.init()
     }
     
     func addPanGestureToMedicationDetailsView() {
@@ -366,7 +383,7 @@ class DCPharmacistTableCell: UITableViewCell {
     }
     
     
-    // MARK : Action Methods
+    // MARK: Action Methods
     
     @IBAction func podStatusButtonAction(sender: AnyObject) {
         
