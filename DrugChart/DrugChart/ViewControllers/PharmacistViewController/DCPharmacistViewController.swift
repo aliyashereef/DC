@@ -163,7 +163,10 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         
         print("***** Add Intervention Button Action")
         let addInterventionViewController : DCInterventionAddOrResolveViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(INTERVENTION_ADD_RESOLVE_SB_ID) as? DCInterventionAddOrResolveViewController
-        addInterventionViewController?.medicationList = medicationList
+        for i in 0..<self.pharmacistTableView.indexPathsForSelectedRows!.count {
+            addInterventionViewController?.medicationList.addObject(medicationList.objectAtIndex(i))
+        }
+        addInterventionViewController!.index = 0
         addInterventionViewController?.interventionType = eAddIntervention
         let navigationController: UINavigationController = UINavigationController(rootViewController: addInterventionViewController!)
         navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
@@ -174,7 +177,10 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         
         print("***** Resolve Intervention Button Action")
         let addInterventionViewController : DCInterventionAddOrResolveViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(INTERVENTION_ADD_RESOLVE_SB_ID) as? DCInterventionAddOrResolveViewController
-        addInterventionViewController?.medicationList = medicationList
+        for i in 0..<self.pharmacistTableView.indexPathsForSelectedRows!.count {
+            addInterventionViewController?.medicationList.addObject(medicationList.objectAtIndex(i))
+        }
+        addInterventionViewController!.index = 0
         addInterventionViewController?.interventionType = eResolveIntervention
         let navigationController: UINavigationController = UINavigationController(rootViewController: addInterventionViewController!)
         navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
@@ -183,6 +189,14 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func updatePODStatusAction() {
         
+        let updatePodStatusViewController : DCPodStatusSelectionViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(UPDATE_POD_STATUS_SB_ID) as? DCPodStatusSelectionViewController
+        for i in 0..<self.pharmacistTableView.indexPathsForSelectedRows!.count {
+            updatePodStatusViewController?.medicationList.addObject(medicationList.objectAtIndex(i))
+        }
+        updatePodStatusViewController!.index = 0
+        let navigationController: UINavigationController = UINavigationController(rootViewController: updatePodStatusViewController!)
+        navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+        self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
     }
 
     // MARK: TableView Methods

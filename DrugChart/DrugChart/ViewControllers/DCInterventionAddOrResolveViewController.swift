@@ -12,6 +12,7 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
 
     var interventionType : InterventionType?
     var medicationList : NSMutableArray = []
+    var index : Int?
     
     @IBOutlet weak var interventionDisplayTableView: UITableView!
     
@@ -34,13 +35,8 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
         self.navigationItem.leftBarButtonItem = cancelButton
         let doneButton: UIBarButtonItem = UIBarButtonItem(title: SAVE_BUTTON_TITLE, style: .Plain, target: self, action: "doneButtonPressed")
         self.navigationItem.rightBarButtonItem = doneButton
-        if interventionType == eAddIntervention {
-            self.navigationItem.title = ADD_CONDITION_TITLE
-            self.title = ADD_CONDITION_TITLE
-        } else {
-            self.navigationItem.title = ADD_CONDITION_TITLE
-            self.title = ADD_CONDITION_TITLE
-        }
+            self.navigationItem.title = medicationList[index!].name
+            self.title = medicationList[index!].name
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -66,7 +62,8 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
         switch (interventionType!.rawValue) {
         case eAddIntervention.rawValue:
             let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(REASON_RESOLVE_TEXTVIEW_CELL) as? DCInterventionAddResolveTextViewCell
-            cell?.initializeTextView(REASON_TEXT)
+            cell!.placeHolderString = REASON_TEXT
+            cell?.initializeTextView()
             return cell!
         case eResolveIntervention.rawValue:
             if indexPath.section == eZerothSection.rawValue {
@@ -74,7 +71,8 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
                 return cell!
             } else {
                 let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(REASON_RESOLVE_TEXTVIEW_CELL) as? DCInterventionAddResolveTextViewCell
-                cell?.initializeTextView(RESOLUTION_TEXT)
+                cell!.placeHolderString = RESOLUTION_TEXT
+                cell?.initializeTextView()
                 return cell!
             }
         default:
@@ -90,10 +88,54 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
     
     func cancelButtonPressed() {
         
-        self.navigationController!.dismissViewControllerAnimated(true, completion: nil)
+        self.presentNextMedication()
     }
     
     func doneButtonPressed() {
     
+        if interventionType == eAddIntervention {
+            if let textViewCell : DCInterventionAddResolveTextViewCell = interventionDisplayTableView.cellForRowAtIndexPath(NSIndexPath(forRow: RowCount.eZerothRow.rawValue, inSection: SectionCount.eZerothSection.rawValue)) as? DCInterventionAddResolveTextViewCell {
+                if textViewCell.reasonOrResolveTextView.text != REASON_TEXT && textViewCell.reasonOrResolveTextView.text != "" && textViewCell.reasonOrResolveTextView.text != nil {
+                    //Add to reason
+                    let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList[index!] as! DCMedicationScheduleDetails
+                    //Save name of the pharmacist who created the intervention.
+                    medicationSheduleDetails.pharmacistAction.intervention.createdBy = ""
+                    //Save the time at which the intervention is created.
+                    medicationSheduleDetails.pharmacistAction.intervention.createdOn = ""
+                    medicationSheduleDetails.pharmacistAction.intervention.reason = textViewCell.reasonOrResolveTextView.text
+                    self.presentNextMedication()
+                } else {
+                    textViewCell.reasonOrResolveTextView.textColor = UIColor.redColor()
+                }
+            }
+        } else {
+            if let textViewCell : DCInterventionAddResolveTextViewCell = interventionDisplayTableView.cellForRowAtIndexPath(NSIndexPath(forRow: RowCount.eZerothRow.rawValue, inSection: SectionCount.eFirstSection.rawValue)) as? DCInterventionAddResolveTextViewCell {
+                if textViewCell.reasonOrResolveTextView.text != RESOLUTION_TEXT && textViewCell.reasonOrResolveTextView.text != "" && textViewCell.reasonOrResolveTextView.text != nil {
+                    let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList[index!] as! DCMedicationScheduleDetails
+                    medicationSheduleDetails.pharmacistAction.intervention.resolution = textViewCell.reasonOrResolveTextView.text
+                    self.presentNextMedication()
+                } else {
+                    textViewCell.reasonOrResolveTextView.textColor = UIColor.redColor()
+                }
+            }
+        }
+    }
+    
+    func presentNextMedication () {
+        
+        index!++
+        if index < medicationList.count {
+            self.dismissViewControllerAnimated(true, completion: {() -> Void in
+                let addInterventionViewController : DCInterventionAddOrResolveViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(INTERVENTION_ADD_RESOLVE_SB_ID) as? DCInterventionAddOrResolveViewController
+                addInterventionViewController!.index = self.index!
+                addInterventionViewController?.medicationList = self.medicationList
+                addInterventionViewController?.interventionType = self.interventionType
+                let navigationController: UINavigationController = UINavigationController(rootViewController: addInterventionViewController!)
+                navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+                UIApplication.sharedApplication().keyWindow!.rootViewController!.presentViewController(navigationController, animated: true, completion: { _ in })
+            })
+        } else {
+            self.navigationController!.dismissViewControllerAnimated(true, completion: nil)
+        }
     }
 }
