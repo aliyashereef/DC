@@ -169,27 +169,32 @@ class DCPharmacistTableCell: UITableViewCell {
         
         if let pharmacistAction = medicationDetails?.pharmacistAction {
             //display logic
-//            if pharmacistAction.clinicalCheck == false {
-//                //display clinical check icon since pharamcist has not verified medication yet
-//                firstStatusImageView.image = UIImage(named: CLINICAL_CHECK_IPAD_IMAGE)
-//                if let intervention = pharmacistAction.intervention {
-//                    // medication has added intervention, second icon will have pod images
-////                    if let podStatus = pharmacistAction.podStatus {
-////                        secondStatusImageView.image = DCPODStatus.statusImageForPodStatus(podStatus.podStatusType)
-////                    } else {
-////                        secondStatusImageView.image = UIImage(named: INTERVENTION_IPAD_IMAGE)
-////                    }
-//                    if let reason = intervention.reason {
-//                        if intervention.resolution == nil {
-//                            secondStatusImageView.image = UIImage(named: INTERVENTION_IPAD_IMAGE)
-//                        }
-//                    }
-//                } else {
-//                    secondStatusImageView.image = UIImage(named: INTERVENTION_IPAD_IMAGE)
-//                }
-//            }
-            
-            
+            if pharmacistAction.clinicalCheck == false {
+                //display clinical check icon since pharamcist has not verified medication yet
+                firstStatusImageView.image = UIImage(named: CLINICAL_CHECK_IPAD_IMAGE)
+                if let intervention = pharmacistAction.intervention {
+                    if (intervention.reason != nil && intervention.resolution == nil) {
+                        //first image is intervention image
+                        secondStatusImageView.image = UIImage(named: INTERVENTION_IPAD_IMAGE)
+                    } else {
+                        //pod status
+                        if let podStatus = pharmacistAction.podStatus {
+                            secondStatusImageView.image = DCPODStatus.statusImageForPodStatus(podStatus.podStatusType)
+                        }
+                    }
+                } else {
+                    // display pod status
+                    
+                }
+            } else {
+                //clinical verified
+                if let intervention = pharmacistAction.intervention {
+                    if (intervention.reason != nil && intervention.resolution == nil) {
+                        //first image is intervention image
+                        firstStatusImageView.image = UIImage(named: INTERVENTION_IPAD_IMAGE)
+                    }
+                }
+            }
         } else {
             medicationDetails?.pharmacistAction = DCPharmacistAction.init()
             medicationDetails?.pharmacistAction.clinicalCheck = false
@@ -290,8 +295,6 @@ class DCPharmacistTableCell: UITableViewCell {
         
         if (self.podStatusButtonWidth.constant > actionButtonWidth) {
             self.podStatusButton.setTitle(UPDATE_POD_STATUS, forState: UIControlState.Normal)
-           // self.resolveInterventionButton.setTitle(RESOLVE_INTERVENTION, forState: UIControlState.Normal)
-           // self.clinicalCheckButton.setTitle(CLINICAL_CHECK, forState: .Normal)
             self.setClinicalCheckButtonTitle()
             self.setPharmacistInterventionButtonTitle()
         } else {
