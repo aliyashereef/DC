@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" allowsMultipleSelection="YES" allowsMultipleSelectionDuringEditing="YES" rowHeight="79" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="DwE-Su-3zg">
-                                <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="800" height="556"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="pharmacistCellId" rowHeight="79" id="wjk-go-bJX" customClass="DCPharmacistTableCell" customModule="DrugChart" customModuleProvider="target">
@@ -390,6 +390,7 @@
                             <constraint firstItem="eSq-oV-yeO" firstAttribute="top" secondItem="RaB-qQ-zpv" secondAttribute="bottom" id="BVK-Bv-iAH"/>
                             <constraint firstItem="RaB-qQ-zpv" firstAttribute="leading" secondItem="wkV-IH-PKd" secondAttribute="leading" id="Rvg-hj-IvH"/>
                             <constraint firstItem="eSq-oV-yeO" firstAttribute="top" secondItem="DwE-Su-3zg" secondAttribute="bottom" id="eYM-1o-PNb"/>
+                            <constraint firstItem="RaB-qQ-zpv" firstAttribute="top" secondItem="DwE-Su-3zg" secondAttribute="bottom" id="hmb-0w-R9v"/>
                             <constraint firstAttribute="trailing" secondItem="RaB-qQ-zpv" secondAttribute="trailing" id="j34-OR-aWO"/>
                             <constraint firstItem="rrN-SA-dGZ" firstAttribute="leading" secondItem="wkV-IH-PKd" secondAttribute="leading" id="lLL-Pz-fBG"/>
                             <constraint firstItem="DwE-Su-3zg" firstAttribute="top" secondItem="wkV-IH-PKd" secondAttribute="top" id="rBM-p7-ff8"/>
@@ -398,6 +399,11 @@
                             <constraint firstItem="DwE-Su-3zg" firstAttribute="leading" secondItem="wkV-IH-PKd" secondAttribute="leading" id="vrd-aD-gN6"/>
                             <constraint firstAttribute="trailing" secondItem="rrN-SA-dGZ" secondAttribute="trailing" id="zzA-If-cOR"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="eYM-1o-PNb"/>
+                            </mask>
+                        </variation>
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="800" height="600"/>
