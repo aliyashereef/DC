@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="79" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="DwE-Su-3zg">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" allowsMultipleSelection="YES" allowsMultipleSelectionDuringEditing="YES" rowHeight="79" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="DwE-Su-3zg">
                                 <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -38,7 +38,7 @@
                                                                 <constraint firstAttribute="width" constant="125" id="4jq-xy-bJk"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                            <state key="normal" title="   Update  POD Status"/>
+                                                            <state key="normal" title="Update POD Status"/>
                                                             <connections>
                                                                 <action selector="podStatusButtonAction:" destination="wjk-go-bJX" eventType="touchUpInside" id="JaH-ce-4zt"/>
                                                             </connections>
@@ -48,24 +48,33 @@
                                                             <color key="backgroundColor" red="0.95686274510000002" green="0.43529411759999997" blue="0.12549019610000001" alpha="1" colorSpace="calibratedRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="125" id="4Iy-DT-wG6"/>
+                                                                <constraint firstAttribute="width" constant="125" id="I7v-tw-K9G"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                            <state key="normal">
-                                                                <string key="title">   Resolve
-Intervention</string>
-                                                            </state>
+                                                            <state key="normal" title="Resolve Intervention"/>
+                                                            <variation key="default">
+                                                                <mask key="constraints">
+                                                                    <exclude reference="4Iy-DT-wG6"/>
+                                                                </mask>
+                                                            </variation>
                                                             <connections>
                                                                 <action selector="resolveInterventionButtonAction:" destination="wjk-go-bJX" eventType="touchUpInside" id="YQX-Ru-TAg"/>
                                                             </connections>
                                                         </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HqC-D6-V8D">
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="HqC-D6-V8D">
                                                             <rect key="frame" x="425" y="0.0" width="125" height="78"/>
                                                             <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="125" id="WMI-x7-aR0"/>
+                                                                <constraint firstAttribute="width" constant="125" id="smJ-h4-Ovy"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <state key="normal" title="Clinical Check"/>
+                                                            <variation key="default">
+                                                                <mask key="constraints">
+                                                                    <exclude reference="WMI-x7-aR0"/>
+                                                                </mask>
+                                                            </variation>
                                                             <connections>
                                                                 <action selector="clinicalCheckButtonAction:" destination="wjk-go-bJX" eventType="touchUpInside" id="XMQ-DX-Gnu"/>
                                                             </connections>
@@ -77,6 +86,7 @@ Intervention</string>
                                                         <constraint firstAttribute="bottom" secondItem="SJu-Ao-2UE" secondAttribute="bottom" id="2fg-5A-ZBr"/>
                                                         <constraint firstItem="PC2-0f-sOk" firstAttribute="width" secondItem="HqC-D6-V8D" secondAttribute="width" id="3J8-TO-o5s"/>
                                                         <constraint firstAttribute="bottom" secondItem="PC2-0f-sOk" secondAttribute="bottom" id="7kj-HQ-Wgw"/>
+                                                        <constraint firstItem="SJu-Ao-2UE" firstAttribute="width" secondItem="PC2-0f-sOk" secondAttribute="width" id="E1X-Vs-xVJ"/>
                                                         <constraint firstAttribute="bottom" secondItem="HqC-D6-V8D" secondAttribute="bottom" id="Gbd-3c-SAi"/>
                                                         <constraint firstItem="SJu-Ao-2UE" firstAttribute="top" secondItem="ZuJ-Tq-6Zd" secondAttribute="top" id="NO7-j6-9x8"/>
                                                         <constraint firstAttribute="trailing" secondItem="SJu-Ao-2UE" secondAttribute="trailing" id="Xof-tl-SjB"/>
@@ -85,6 +95,13 @@ Intervention</string>
                                                         <constraint firstItem="PC2-0f-sOk" firstAttribute="top" secondItem="ZuJ-Tq-6Zd" secondAttribute="top" id="ica-B5-skP"/>
                                                         <constraint firstItem="PC2-0f-sOk" firstAttribute="leading" secondItem="HqC-D6-V8D" secondAttribute="trailing" id="yHH-4i-Se4"/>
                                                     </constraints>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="3J8-TO-o5s"/>
+                                                            <exclude reference="E1X-Vs-xVJ"/>
+                                                            <exclude reference="gQm-p4-ET4"/>
+                                                        </mask>
+                                                    </variation>
                                                 </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zlJ-o0-i2d" userLabel="PrescriberDetailsViewView">
                                                     <rect key="frame" x="0.0" y="0.0" width="800" height="78"/>
@@ -92,22 +109,22 @@ Intervention</string>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Hi-en-QFt" userLabel="StatusView">
                                                             <rect key="frame" x="13" y="0.0" width="21" height="79"/>
                                                             <subviews>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="VerifyIcon" translatesAutoresizingMaskIntoConstraints="NO" id="QTK-Dw-kTO" userLabel="FirstStatusImageView">
-                                                                    <rect key="frame" x="0.0" y="13" width="13" height="13"/>
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QTK-Dw-kTO" userLabel="FirstStatusImageView">
+                                                                    <rect key="frame" x="0.0" y="10" width="13" height="13"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="13" id="v4g-jt-smH"/>
                                                                         <constraint firstAttribute="height" constant="13" id="w5B-Ka-1MD"/>
                                                                     </constraints>
                                                                 </imageView>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="InterventionIcon" translatesAutoresizingMaskIntoConstraints="NO" id="zka-v9-ltu" userLabel="SecondStatusImageView">
-                                                                    <rect key="frame" x="0.0" y="34" width="13" height="13"/>
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zka-v9-ltu" userLabel="SecondStatusImageView">
+                                                                    <rect key="frame" x="0.0" y="31" width="13" height="13"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="13" id="u6w-Nv-qSe"/>
                                                                         <constraint firstAttribute="width" constant="13" id="uF4-Um-nfh"/>
                                                                     </constraints>
                                                                 </imageView>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="OwnDrugIcon" translatesAutoresizingMaskIntoConstraints="NO" id="XqM-rh-O4f" userLabel="ThirdStatusImageView">
-                                                                    <rect key="frame" x="0.0" y="51" width="21" height="18"/>
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XqM-rh-O4f" userLabel="ThirdStatusImageView">
+                                                                    <rect key="frame" x="0.0" y="48" width="21" height="18"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="18" id="4a5-5w-G61"/>
                                                                         <constraint firstAttribute="width" constant="21" id="rF8-4r-vox"/>
@@ -127,7 +144,7 @@ Intervention</string>
                                                                 <constraint firstItem="QTK-Dw-kTO" firstAttribute="leading" secondItem="4Hi-en-QFt" secondAttribute="leading" id="dq8-iz-vfi"/>
                                                                 <constraint firstItem="XqM-rh-O4f" firstAttribute="top" secondItem="zka-v9-ltu" secondAttribute="bottom" constant="4" id="oFw-MF-Yqe"/>
                                                                 <constraint firstAttribute="height" constant="79" id="q2Y-8f-eZg"/>
-                                                                <constraint firstItem="QTK-Dw-kTO" firstAttribute="top" secondItem="4Hi-en-QFt" secondAttribute="top" constant="13" id="vZp-7j-nby"/>
+                                                                <constraint firstItem="QTK-Dw-kTO" firstAttribute="top" secondItem="4Hi-en-QFt" secondAttribute="top" constant="10" id="vZp-7j-nby"/>
                                                                 <constraint firstItem="XqM-rh-O4f" firstAttribute="leading" secondItem="zka-v9-ltu" secondAttribute="leading" id="veE-Ip-Wcg"/>
                                                             </constraints>
                                                             <variation key="default">
@@ -190,6 +207,7 @@ Intervention</string>
                                                                 <constraint firstAttribute="bottom" secondItem="byN-Rf-fWh" secondAttribute="bottom" constant="15" id="lS2-Bq-MjO"/>
                                                                 <constraint firstAttribute="trailing" secondItem="8Rn-Vq-SxM" secondAttribute="trailing" constant="8" id="qcG-9s-NSj"/>
                                                                 <constraint firstItem="8Rn-Vq-SxM" firstAttribute="top" secondItem="OKa-KT-fBb" secondAttribute="top" constant="8" id="s4n-Wm-Bv8"/>
+                                                                <constraint firstAttribute="bottom" secondItem="1eV-oE-J13" secondAttribute="bottom" constant="10" id="tVx-c1-M51"/>
                                                                 <constraint firstItem="1eV-oE-J13" firstAttribute="trailing" secondItem="byN-Rf-fWh" secondAttribute="trailing" id="wAR-Hv-ISO"/>
                                                             </constraints>
                                                             <variation key="default">
@@ -198,6 +216,7 @@ Intervention</string>
                                                                     <exclude reference="s4n-Wm-Bv8"/>
                                                                     <exclude reference="lS2-Bq-MjO"/>
                                                                     <exclude reference="G65-bd-At3"/>
+                                                                    <exclude reference="WEc-Pc-WrG"/>
                                                                     <exclude reference="ead-sj-8n9"/>
                                                                 </mask>
                                                             </variation>
@@ -234,6 +253,7 @@ Intervention</string>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="clinicalButtonWidth" destination="smJ-h4-Ovy" id="xpp-VH-HwB"/>
                                             <outlet property="clinicalCheckButton" destination="HqC-D6-V8D" id="dyj-MY-yyW"/>
                                             <outlet property="firstStatusImageView" destination="QTK-Dw-kTO" id="pZ2-3n-dBb"/>
                                             <outlet property="frequencyDescriptionLabel" destination="1eV-oE-J13" id="P7c-Wt-Ied"/>
@@ -245,6 +265,7 @@ Intervention</string>
                                             <outlet property="prescriberDetailsViewLeadingConstraint" destination="neU-o4-e2h" id="nrd-ml-zga"/>
                                             <outlet property="prescriberDetailsViewTrailingConstraint" destination="fjP-xZ-7S2" id="a0c-wx-tS9"/>
                                             <outlet property="resolveInterventionButton" destination="PC2-0f-sOk" id="W4N-Fx-jPf"/>
+                                            <outlet property="resolveInterventionButtonWidth" destination="I7v-tw-K9G" id="1lf-5D-xBC"/>
                                             <outlet property="routeAndInstructionsLabel" destination="byN-Rf-fWh" id="LcW-g7-d7z"/>
                                             <outlet property="secondStatusImageView" destination="zka-v9-ltu" id="blT-iw-bnS"/>
                                             <outlet property="thirdStatusImageView" destination="XqM-rh-O4f" id="bce-yX-IM3"/>
@@ -394,9 +415,4 @@ Intervention</string>
             <point key="canvasLocation" x="514" y="193"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="InterventionIcon" width="13" height="13"/>
-        <image name="OwnDrugIcon" width="21" height="18"/>
-        <image name="VerifyIcon" width="13" height="13"/>
-    </resources>
 </document>

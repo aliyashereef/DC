@@ -221,6 +221,13 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         return .Insert
     }
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        if !isInEditMode {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
+    }
+    
     // MARK: Action Methods
     
     func editButtonPressed(sender : NSObject) {
@@ -270,7 +277,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         self.presentPharmacistActionSheet()
     }
     
-    // MARK : PharmacistCell Delegate Methods
+    // MARK: PharmacistCell Delegate Methods
     
     func swipeActionOnTableCellAtIndexPath(indexPath : NSIndexPath) {
         
@@ -278,4 +285,19 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         self.resetSwipedCellToOriginalPosition()
     }
     
+    func podStatusActionOnTableCellAtIndexPath(indexPath : NSIndexPath) {
+        
+        
+    }
+    
+    func clinicalCheckActionOnTableCellAtIndexPath(indexPath : NSIndexPath) {
+        
+        
+    }
+    
+    func resolveInterventionActionOnTableCellAtIndexPath(indexPath : NSIndexPath) {
+        
+        
+    }
+        
 }

@@ -20,7 +20,7 @@
         case ePatientOwnDrugsAndPatientOwnDrugsHome:
             return PATIENT_OWN_BOTH_DRUG_AND_HOME_IPAD_IMAGE;
         default:
-            return PATIENT_OWN_DRUG_IPAD_IMAGE;
+            return nil;
     }
 }
 
