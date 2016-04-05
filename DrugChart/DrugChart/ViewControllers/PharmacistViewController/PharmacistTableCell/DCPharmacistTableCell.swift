@@ -95,7 +95,8 @@ class DCPharmacistTableCell: UITableViewCell {
             clinicalCheckButton.titleLabel?.font = PHARMACIST_DEFAULT_FONT
         }
         clinicalButtonWidth?.constant = actionButtonWidth
-       setClinicalCheckButtonTitle()
+        //on cell selection background buttons were visible. Inorder to fix this initialy clinical check, resolve intervention, update pod status button titles are set to nil
+        clinicalCheckButton.setTitle(EMPTY_STRING, forState: UIControlState.Normal)
     }
     
     func configureResolveInterventionButton() {
@@ -107,7 +108,7 @@ class DCPharmacistTableCell: UITableViewCell {
             resolveInterventionButton.titleLabel?.font = PHARMACIST_DEFAULT_FONT
         }
         resolveInterventionButtonWidth?.constant = actionButtonWidth
-        setPharmacistInterventionButtonTitle()
+        resolveInterventionButton.setTitle(EMPTY_STRING, forState: UIControlState.Normal)
     }
     
     func configurePODStatusButton() {
@@ -115,11 +116,11 @@ class DCPharmacistTableCell: UITableViewCell {
         podStatusButton.titleLabel?.textAlignment = NSTextAlignment.Center
         if (appDelegate.windowState == DCWindowState.oneThirdWindow || appDelegate.windowState == DCWindowState.halfWindow) {
             podStatusButton.titleLabel?.font = PHARMACIST_ONE_THIRD_FONT
-            
         } else {
             podStatusButton.titleLabel?.font = PHARMACIST_DEFAULT_FONT
         }
         podStatusButtonWidth?.constant = actionButtonWidth
+        podStatusButton.setTitle(EMPTY_STRING, forState: UIControlState.Normal)
     }
     
     func fillMedicationDetailsInTableCell(medicationSchedule : DCMedicationScheduleDetails) {
