@@ -15,13 +15,15 @@
 typedef enum : NSUInteger {
     ePatientOwnDrugs,
     ePatientOwnDrugsHome,
-    ePatientOwnDrugsAndPatientOwnDrugsHome
+    ePatientOwnDrugsAndPatientOwnDrugsHome,
+    eNoStatus
 } PODStatusType;
 
 
 @interface DCPODStatus : NSObject
 
 @property (nonatomic) PODStatusType podStatusType;
+//@property (nonatomic, strong) NSString *status;
 @property (nonatomic, strong) NSString *notes;
 
 + (UIImage *)statusImageForPodStatus:(PODStatusType)podType;

@@ -219,6 +219,7 @@ class DCPharmacistTableCell: UITableViewCell {
         firstStatusImageView?.image = UIImage(named: CLINICAL_CHECK_IPAD_IMAGE)
         medicationDetails?.pharmacistAction?.intervention = DCIntervention.init()
         medicationDetails?.pharmacistAction?.podStatus = DCPODStatus.init()
+        medicationDetails?.pharmacistAction?.podStatus?.podStatusType = eNoStatus
     }
     
     func addPanGestureToMedicationDetailsView() {
@@ -403,10 +404,10 @@ class DCPharmacistTableCell: UITableViewCell {
     
     @IBAction func clinicalCheckButtonAction(sender: AnyObject) {
         
+        swipePrescriberDetailViewToRight()
         if let delegate = pharmacistCellDelegate {
             delegate.clinicalCheckActionOnTableCellAtIndexPath(indexPath!)
         }
-        swipePrescriberDetailViewToRight()
     }
     
    override func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
