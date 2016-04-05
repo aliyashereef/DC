@@ -10,17 +10,13 @@ import UIKit
 
 typealias ReducingIncreasingDoseEntered = DCReducingIncreasingDose? -> Void
 
-class DCDosageConditionsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate{
-
-    let editButtonColor   = "#719fd3"
-    let deleteButtonColor = "#fc5251"
-    let EDIT_TEXT         = "Edit"
-    let DELETE_TEXT       = "Delete"
+class DCDosageConditionsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, EditDeleteDelegate {
 
     var previewDetailsArray = [String]()
     var dosage : DCDosage?
     var conditionDescriptionArray = [String]()
     var reducingIncreasingDoseEntered: ReducingIncreasingDoseEntered = { value in }
+    var selectedIndexPath : NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
 
     @IBOutlet weak var conditionTableView: UITableView!
     override func viewDidLoad() {
@@ -97,6 +93,10 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
         switch indexPath.section {
         case 0:
             if self.dosage?.reducingIncreasingDose?.conditionsArray.count > 0 {
+                dosageConditionCell?.indexPath = indexPath
+                dosageConditionCell?.editDeleteHolderView.hidden = false
+                dosageConditionCell?.editDeleteDelegate = self
+                dosageConditionCell?.selectionStyle = UITableViewCellSelectionStyle.None
                 dosageConditionCell!.conditionsMainLabel.text = conditionDescriptionArray[indexPath.row]
                 if (self.dosage?.isConditionsValid == false && indexPath.row >= self.dosage?.invalidConditionIndexPath.row ) {
                     dosageConditionCell?.conditionsMainLabel.textColor = UIColor.redColor()
@@ -105,13 +105,16 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
                 }
             } else {
                 dosageConditionCell?.conditionsMainLabel.text = ADD_CONDITION_TITLE
+                dosageConditionCell?.editDeleteHolderView.hidden = true
                 dosageConditionCell?.conditionsMainLabel.textColor = tableView.tintColor
             }
         case 1:
             dosageConditionCell?.conditionsMainLabel.text = ADD_CONDITION_TITLE
             dosageConditionCell?.conditionsMainLabel.textColor = tableView.tintColor
+            dosageConditionCell?.editDeleteHolderView.hidden = true
         case 2:
             dosageConditionCell?.conditionsMainLabel.text = previewDetailsArray[indexPath.row]
+            dosageConditionCell?.editDeleteHolderView.hidden = true
         default:
             break
         }
@@ -157,35 +160,6 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
             break
         }
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-    }
-    
-    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        if indexPath.section == 0 {
-            return true
-        } else {
-            return false
-        }
-    }
-    
-    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
-        
-        let editAction = UITableViewRowAction(style: .Default, title:
-            EDIT_TEXT,handler: { (action: UITableViewRowAction!, indexPath: NSIndexPath!) in
-            self.conditionTableView.setEditing(false, animated: false)
-            }
-        )
-        editAction.backgroundColor = UIColor.init(forHexString:editButtonColor)
-        
-        let deleteAction = UITableViewRowAction(style: .Normal, title: DELETE_TEXT,
-            handler: { (action: UITableViewRowAction!, indexPath: NSIndexPath!) in
-                self.checkConditionValidityAndDeleteCell(indexPath.row)
-            }
-        );
-        deleteAction.backgroundColor = UIColor.init(forHexString:deleteButtonColor)
-        if indexPath.row == 0 {
-            return [editAction]
-        }
-        return [deleteAction, editAction]
     }
     
     func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
@@ -294,4 +268,48 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
             conditionDescriptionArray.append(DCDosageHelper.createDescriptionStringForDosageCondition((self.dosage?.reducingIncreasingDose.conditionsArray[index])! as! DCConditions, dosageUnit: (self.dosage?.doseUnit)!))
         }
     }
+    
+    func swipeBackMedicationCellsInTableView() {
+        
+        for (index,_) in (self.dosage?.reducingIncreasingDose?.conditionsArray.enumerate())!{
+            let indexPath = NSIndexPath(forRow: index, inSection: 0)
+            if indexPath == selectedIndexPath {
+                continue
+            }
+            let medicationCell = conditionTableView.cellForRowAtIndexPath(indexPath)
+                as? DCDosageConditionsTableViewCell
+            medicationCell?.swipeMedicationDetailViewToRight()
+        }
+    }
+    
+    //MARK: EditDeleteDelegate Methods
+    
+    func deleteSelectedIndexPath(indexPath : NSIndexPath) {
+        self.checkConditionValidityAndDeleteCell(indexPath.row)
+    }
+    
+    func editSelectedIndexPath (indexPath : NSIndexPath){
+        let addConditionViewController : DCAddConditionViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(ADD_CONDITION_SBID) as? DCAddConditionViewController
+        addConditionViewController!.dosage = self.dosage
+        addConditionViewController!.conditionItem = self.dosage?.reducingIncreasingDose.conditionsArray.objectAtIndex(indexPath.row) as? DCConditions
+        addConditionViewController!.isEditCondition = true
+        self.dosage?.reducingIncreasingDose?.conditionsArray.removeObjectAtIndex(indexPath.row)
+        addConditionViewController!.newStartingDose = self.currentStartingDose()
+        addConditionViewController?.newConditionEntered = { value in
+            self.dosage?.reducingIncreasingDose?.conditionsArray.insertObject(value!, atIndex: indexPath.row)
+            self.updateConditionDescriptionArray()
+            self.updateMainPreviewDetailsArray()
+            self.reducingIncreasingDoseEntered(self.dosage?.reducingIncreasingDose)
+            self.conditionTableView.reloadData()
+        }
+        let navigationController: UINavigationController = UINavigationController(rootViewController: addConditionViewController!)
+        navigationController.modalPresentationStyle = UIModalPresentationStyle.CurrentContext
+        self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
+    }
+    
+    func setIndexPathSelected(indexPath : NSIndexPath) {
+        selectedIndexPath = indexPath
+        swipeBackMedicationCellsInTableView()
+    }
+
 }
