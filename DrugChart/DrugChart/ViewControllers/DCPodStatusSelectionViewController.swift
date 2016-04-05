@@ -14,6 +14,8 @@ class DCPodStatusSelectionViewController: UIViewController {
 
     var medicationList : NSMutableArray = []
     var index : Int?
+    var selectedIndexPath : NSIndexPath?
+    var alertMessage : String = EMPTY_STRING
     @IBOutlet weak var updatePodStatusTableView: UITableView!
 
     override func viewDidLoad() {
@@ -61,12 +63,38 @@ class DCPodStatusSelectionViewController: UIViewController {
             return 44
         }
     }
+    
+    func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        
+        //Set the header as PREVIEW
+        if section == 0 {
+            if (alertMessage != EMPTY_STRING) {
+                return alertMessage
+            }
+        }
+        return nil
+    }
+    
+    func tableView(tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+        
+        //Change text color to red and change text from full upper case to desired sentence.
+        if let view = view as? UITableViewHeaderFooterView {
+            view.textLabel!.font = UIFont.systemFontOfSize(14.0)
+            view.textLabel?.textColor = UIColor.redColor()
+        }
+    }
+
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch (indexPath.section) {
         case SectionCount.eZerothSection.rawValue:
             let cell = tableView.dequeueReusableCellWithIdentifier(POD_STATUS_CELL) as? DCPodStatusTableViewCell
             cell?.podStatusLabel.text = podStatusArray[indexPath.row]
+            if (selectedIndexPath != nil && selectedIndexPath == indexPath) {
+                cell?.accessoryType = .Checkmark
+            } else {
+                cell?.accessoryType = .None
+            }
             return cell!
         case SectionCount.eFirstSection.rawValue:
                 let cell = tableView.dequeueReusableCellWithIdentifier(POD_NOTES_CELL_ID) as? DCInterventionAddResolveTextViewCell
@@ -81,9 +109,14 @@ class DCPodStatusSelectionViewController: UIViewController {
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
+        alertMessage = ""
+        if indexPath.section == SectionCount.eZerothSection.rawValue {
+            selectedIndexPath = indexPath
+            tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .None)
+        }
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
-
+    
     func cancelButtonPressed() {
         
         self.presentNextMedication()
@@ -91,19 +124,31 @@ class DCPodStatusSelectionViewController: UIViewController {
     
     func doneButtonPressed() {
         
-        if let textViewCell : DCInterventionAddResolveTextViewCell = updatePodStatusTableView.cellForRowAtIndexPath(NSIndexPath(forRow: RowCount.eZerothRow.rawValue, inSection: SectionCount.eFirstSection.rawValue)) as? DCInterventionAddResolveTextViewCell {
-            if textViewCell.reasonOrResolveTextView.text != NOTES && textViewCell.reasonOrResolveTextView.text != "" && textViewCell.reasonOrResolveTextView.text != nil {
-                //Add to reason
-                let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList[index!] as! DCMedicationScheduleDetails
-                //Save name of the pharmacist who created the intervention.
-                medicationSheduleDetails.pharmacistAction.intervention.createdBy = ""
-                //Save the time at which the intervention is created.
-                medicationSheduleDetails.pharmacistAction.intervention.createdOn = ""
-                medicationSheduleDetails.pharmacistAction.intervention.reason = textViewCell.reasonOrResolveTextView.text
-                self.presentNextMedication()
-            } else {
-                textViewCell.reasonOrResolveTextView.textColor = UIColor.redColor()
+        if selectedIndexPath != nil {
+            if let textViewCell : DCInterventionAddResolveTextViewCell = updatePodStatusTableView.cellForRowAtIndexPath(NSIndexPath(forRow: RowCount.eZerothRow.rawValue, inSection: SectionCount.eFirstSection.rawValue)) as? DCInterventionAddResolveTextViewCell {
+                if (textViewCell.reasonOrResolveTextView.text != NOTES && textViewCell.reasonOrResolveTextView.text != "" && textViewCell.reasonOrResolveTextView.text != nil) && selectedIndexPath != nil {
+                    //Add to reason
+                    let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList[index!] as! DCMedicationScheduleDetails
+                    switch (selectedIndexPath!.row) {
+                    case RowCount.eZerothRow.rawValue:
+                        medicationSheduleDetails.pharmacistAction.podStatus.podStatusType = ePatientOwnDrugs
+                    case RowCount.eFirstRow.rawValue:
+                        medicationSheduleDetails.pharmacistAction.podStatus.podStatusType = ePatientOwnDrugsHome
+                    case RowCount.eSecondRow.rawValue:
+                        medicationSheduleDetails.pharmacistAction.podStatus.podStatusType = ePatientOwnDrugsAndPatientOwnDrugsHome
+                    default:
+                        break
+                    }
+                    medicationSheduleDetails.pharmacistAction.podStatus.notes = textViewCell.reasonOrResolveTextView.text
+                    self.presentNextMedication()
+                } else {
+                    textViewCell.reasonOrResolveTextView.textColor = UIColor.redColor()
+                }
             }
+        } else {
+            alertMessage =  NSLocalizedString("SELECT_POD_STATUS", comment: "title")
+            updatePodStatusTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .None)
+            updatePodStatusTableView.footerViewForSection(0)?.textLabel?.text = alertMessage as String
         }
     }
     

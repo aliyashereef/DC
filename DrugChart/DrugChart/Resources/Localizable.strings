@@ -193,4 +193,5 @@
 "DRUG_CHART"           =        "Drug Chart";
 "MEDICATIONS"          =        "Medications";
 "ADD_INTERVENTION"     =        "Add Intervention";
+"SELECT_POD_STATUS"    =        "Select a POD status.";
 
