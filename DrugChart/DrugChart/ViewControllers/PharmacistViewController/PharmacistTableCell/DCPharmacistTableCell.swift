@@ -173,7 +173,7 @@ class DCPharmacistTableCell: UITableViewCell {
                 //display clinical check icon since pharamcist has not verified medication yet
                 firstStatusImageView.image = UIImage(named: CLINICAL_CHECK_IPAD_IMAGE)
                 if let intervention = pharmacistAction.intervention {
-                    if (intervention.reason != nil && intervention.resolution == nil) {
+                    if (intervention.toResolve == true) {
                         //first image is intervention image
                         secondStatusImageView.image = UIImage(named: INTERVENTION_IPAD_IMAGE)
                         if let podStatus = pharmacistAction.podStatus {
@@ -194,7 +194,7 @@ class DCPharmacistTableCell: UITableViewCell {
             } else {
                 //clinical verified
                 if let intervention = pharmacistAction.intervention {
-                    if (intervention.reason != nil && intervention.resolution == nil) {
+                    if (intervention.toResolve == true) {
                         //first image is intervention image
                         firstStatusImageView.image = UIImage(named: INTERVENTION_IPAD_IMAGE)
                         if let podStatus = pharmacistAction.podStatus {
@@ -219,6 +219,7 @@ class DCPharmacistTableCell: UITableViewCell {
         medicationDetails?.pharmacistAction.clinicalCheck = false
         firstStatusImageView?.image = UIImage(named: CLINICAL_CHECK_IPAD_IMAGE)
         medicationDetails?.pharmacistAction?.intervention = DCIntervention.init()
+        medicationDetails?.pharmacistAction?.intervention?.toResolve = false
         medicationDetails?.pharmacistAction?.podStatus = DCPODStatus.init()
         medicationDetails?.pharmacistAction?.podStatus?.podStatusType = eNoStatus
     }

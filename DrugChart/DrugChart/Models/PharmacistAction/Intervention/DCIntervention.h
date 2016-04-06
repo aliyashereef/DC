@@ -14,5 +14,6 @@
 @property (nonatomic, strong) NSString *createdOn;
 @property (nonatomic, strong) NSString *reason;
 @property (nonatomic, strong) NSString *resolution;
+@property BOOL toResolve; // TODO: temporarly set the bool, should be corrected on api integration
 
 @end

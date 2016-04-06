@@ -106,6 +106,7 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
                     //Save the time at which the intervention is created.
                     medicationSheduleDetails.pharmacistAction.intervention.createdOn = ""
                     medicationSheduleDetails.pharmacistAction.intervention.reason = textViewCell.reasonOrResolveTextView.text
+                    medicationSheduleDetails.pharmacistAction.intervention.toResolve = true
                     self.presentNextMedication()
                 } else {
                     textViewCell.reasonOrResolveTextView.textColor = UIColor.redColor()
@@ -116,6 +117,7 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
                 if textViewCell.reasonOrResolveTextView.text != RESOLUTION_TEXT && textViewCell.reasonOrResolveTextView.text != "" && textViewCell.reasonOrResolveTextView.text != nil {
                     let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList[index!] as! DCMedicationScheduleDetails
                     medicationSheduleDetails.pharmacistAction.intervention.resolution = textViewCell.reasonOrResolveTextView.text
+                    medicationSheduleDetails.pharmacistAction.intervention.toResolve = false
                     self.presentNextMedication()
                 } else {
                     textViewCell.reasonOrResolveTextView.textColor = UIColor.redColor()
