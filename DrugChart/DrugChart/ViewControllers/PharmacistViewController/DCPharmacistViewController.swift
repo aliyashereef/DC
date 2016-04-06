@@ -153,15 +153,34 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func clinicalCheckAction() {
         
+        updatePharmacistVerificationForCheckState(false)
     }
     
     func clinicalRemoveAction() {
         
+        updatePharmacistVerificationForCheckState(true)
+    }
+    
+    func updatePharmacistVerificationForCheckState(check : Bool) {
+        
+         // get indexpath of selected rows
+        if let indexPaths = pharmacistTableView.indexPathsForSelectedRows {
+            for var index = 0; index < indexPaths.count; ++index {
+                let indexPath = indexPaths[index] as NSIndexPath
+                let cell : DCPharmacistTableCell = (pharmacistTableView.cellForRowAtIndexPath(indexPath) as? DCPharmacistTableCell)!
+                let medicationDetails : DCMedicationScheduleDetails = cell.medicationDetails!
+                if let pharmacistAction = medicationDetails.pharmacistAction {
+                    if pharmacistAction.clinicalCheck == check {
+                        pharmacistAction.clinicalCheck = !check
+                    }
+                }
+            }
+        }
+        pharmacistTableView.reloadData()
     }
     
     func addInterventionAction() {
         
-        print("***** Add Intervention Button Action")
         let addInterventionViewController : DCInterventionAddOrResolveViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(INTERVENTION_ADD_RESOLVE_SB_ID) as? DCInterventionAddOrResolveViewController
         for i in 0..<self.pharmacistTableView.indexPathsForSelectedRows!.count {
             addInterventionViewController?.medicationList.addObject(medicationList.objectAtIndex(i))
@@ -175,7 +194,6 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func resolveInterventionAction() {
         
-        print("***** Resolve Intervention Button Action")
         let addInterventionViewController : DCInterventionAddOrResolveViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(INTERVENTION_ADD_RESOLVE_SB_ID) as? DCInterventionAddOrResolveViewController
         for i in 0..<self.pharmacistTableView.indexPathsForSelectedRows!.count {
             addInterventionViewController?.medicationList.addObject(medicationList.objectAtIndex(i))
