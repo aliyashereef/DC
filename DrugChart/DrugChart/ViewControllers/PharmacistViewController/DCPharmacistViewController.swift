@@ -311,7 +311,13 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func clinicalCheckActionOnTableCellAtIndexPath(indexPath : NSIndexPath) {
         
-        
+        let medication : DCMedicationScheduleDetails = medicationList.objectAtIndex(indexPath.row) as! DCMedicationScheduleDetails
+        if let pharmacistAction = medication.pharmacistAction {
+            pharmacistAction.clinicalCheck = !pharmacistAction.clinicalCheck
+        }
+        pharmacistTableView.beginUpdates()
+        pharmacistTableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+        pharmacistTableView.endUpdates()
     }
     
     func resolveInterventionActionOnTableCellAtIndexPath(indexPath : NSIndexPath) {

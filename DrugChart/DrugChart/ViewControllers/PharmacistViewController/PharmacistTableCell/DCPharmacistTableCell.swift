@@ -84,7 +84,6 @@ class DCPharmacistTableCell: UITableViewCell {
         configureClinicalCheckButton()
         configureResolveInterventionButton()
         configurePODStatusButton()
-      //  setPrescriberButtonNames()
     }
     
     func configureClinicalCheckButton() {
@@ -96,7 +95,8 @@ class DCPharmacistTableCell: UITableViewCell {
             clinicalCheckButton.titleLabel?.font = PHARMACIST_DEFAULT_FONT
         }
         clinicalButtonWidth?.constant = actionButtonWidth
-       setClinicalCheckButtonTitle()
+        //on cell selection background buttons were visible. Inorder to fix this initialy clinical check, resolve intervention, update pod status button titles are set to nil
+        clinicalCheckButton.setTitle(EMPTY_STRING, forState: UIControlState.Normal)
     }
     
     func configureResolveInterventionButton() {
@@ -108,7 +108,7 @@ class DCPharmacistTableCell: UITableViewCell {
             resolveInterventionButton.titleLabel?.font = PHARMACIST_DEFAULT_FONT
         }
         resolveInterventionButtonWidth?.constant = actionButtonWidth
-        setPharmacistInterventionButtonTitle()
+        resolveInterventionButton.setTitle(EMPTY_STRING, forState: UIControlState.Normal)
     }
     
     func configurePODStatusButton() {
@@ -116,11 +116,11 @@ class DCPharmacistTableCell: UITableViewCell {
         podStatusButton.titleLabel?.textAlignment = NSTextAlignment.Center
         if (appDelegate.windowState == DCWindowState.oneThirdWindow || appDelegate.windowState == DCWindowState.halfWindow) {
             podStatusButton.titleLabel?.font = PHARMACIST_ONE_THIRD_FONT
-            
         } else {
             podStatusButton.titleLabel?.font = PHARMACIST_DEFAULT_FONT
         }
         podStatusButtonWidth?.constant = actionButtonWidth
+        podStatusButton.setTitle(EMPTY_STRING, forState: UIControlState.Normal)
     }
     
     func fillMedicationDetailsInTableCell(medicationSchedule : DCMedicationScheduleDetails) {
@@ -176,6 +176,9 @@ class DCPharmacistTableCell: UITableViewCell {
                     if (intervention.reason != nil && intervention.resolution == nil) {
                         //first image is intervention image
                         secondStatusImageView.image = UIImage(named: INTERVENTION_IPAD_IMAGE)
+                        if let podStatus = pharmacistAction.podStatus {
+                            thirdStatusImageView.image = DCPODStatus.statusImageForPodStatus(podStatus.podStatusType)
+                        }
                     } else {
                         //pod status
                         if let podStatus = pharmacistAction.podStatus {
@@ -184,7 +187,9 @@ class DCPharmacistTableCell: UITableViewCell {
                     }
                 } else {
                     // display pod status
-                    
+                    if let podStatus = pharmacistAction.podStatus {
+                        secondStatusImageView.image = DCPODStatus.statusImageForPodStatus(podStatus.podStatusType)
+                    }
                 }
             } else {
                 //clinical verified
@@ -192,16 +197,30 @@ class DCPharmacistTableCell: UITableViewCell {
                     if (intervention.reason != nil && intervention.resolution == nil) {
                         //first image is intervention image
                         firstStatusImageView.image = UIImage(named: INTERVENTION_IPAD_IMAGE)
+                        if let podStatus = pharmacistAction.podStatus {
+                            secondStatusImageView.image = DCPODStatus.statusImageForPodStatus(podStatus.podStatusType)
+                        }
+                    } else {
+                        if let podStatus = pharmacistAction.podStatus {
+                            firstStatusImageView.image = DCPODStatus.statusImageForPodStatus(podStatus.podStatusType)
+                        }
                     }
                 }
             }
         } else {
-            medicationDetails?.pharmacistAction = DCPharmacistAction.init()
-            medicationDetails?.pharmacistAction.clinicalCheck = false
-            firstStatusImageView?.image = UIImage(named: CLINICAL_CHECK_IPAD_IMAGE)
-            medicationDetails?.pharmacistAction?.intervention = DCIntervention.init()
-            medicationDetails?.pharmacistAction?.podStatus = DCPODStatus.init()
+            initialisePharmacistObject()
         }
+    }
+    
+    func initialisePharmacistObject() {
+        
+        //initialise pharmacist object
+        medicationDetails?.pharmacistAction = DCPharmacistAction.init()
+        medicationDetails?.pharmacistAction.clinicalCheck = false
+        firstStatusImageView?.image = UIImage(named: CLINICAL_CHECK_IPAD_IMAGE)
+        medicationDetails?.pharmacistAction?.intervention = DCIntervention.init()
+        medicationDetails?.pharmacistAction?.podStatus = DCPODStatus.init()
+        medicationDetails?.pharmacistAction?.podStatus?.podStatusType = eNoStatus
     }
     
     func addPanGestureToMedicationDetailsView() {
@@ -275,9 +294,9 @@ class DCPharmacistTableCell: UITableViewCell {
     func setClinicalCheckButtonTitle() {
         
         if medicationDetails?.pharmacistAction?.clinicalCheck == false {
-            clinicalCheckButton.titleLabel?.text = CLINICAL_CHECK
+            clinicalCheckButton.setTitle(CLINICAL_CHECK, forState: UIControlState.Normal)
         } else {
-            clinicalCheckButton.titleLabel?.text = CLINICAL_REMOVE
+            clinicalCheckButton.setTitle(CLINICAL_REMOVE, forState: UIControlState.Normal)
         }
     }
     
@@ -366,7 +385,7 @@ class DCPharmacistTableCell: UITableViewCell {
     }
     
     
-    // MARK : Action Methods
+    // MARK: Action Methods
     
     @IBAction func podStatusButtonAction(sender: AnyObject) {
         
@@ -386,10 +405,10 @@ class DCPharmacistTableCell: UITableViewCell {
     
     @IBAction func clinicalCheckButtonAction(sender: AnyObject) {
         
+        swipePrescriberDetailViewToRight()
         if let delegate = pharmacistCellDelegate {
             delegate.clinicalCheckActionOnTableCellAtIndexPath(indexPath!)
         }
-        swipePrescriberDetailViewToRight()
     }
     
    override func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
