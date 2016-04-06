@@ -32,7 +32,7 @@ typedef enum : NSUInteger {
     kSortDrugName
 } SortType;
 
-@interface DCPrescriberMedicationViewController () <DCAddMedicationViewControllerDelegate,PrescriberListDelegate ,AdministrationDelegate>{
+@interface DCPrescriberMedicationViewController () <DCAddMedicationViewControllerDelegate, PrescriberListDelegate ,AdministrationDelegate, UIActionSheetDelegate>{
     
     NSMutableArray *currentWeekDatesArray;
     IBOutlet UIView *calendarDaysDisplayView;
@@ -92,7 +92,12 @@ typedef enum : NSUInteger {
     
     [super viewDidLoad];
     [self currentWeekDatesArrayFromDate:[NSDate date]];
-    [self addAddMedicationButtonToNavigationBar];
+    if ([DCAPPDELEGATE windowState] == twoThirdWindow ||
+        [DCAPPDELEGATE windowState] == fullWindow) {
+        [self addAddMedicationButtonToNavigationBar];
+    } else {
+        [self addActionsButtonToNavigationBar];
+    }
     [self populateMonthYearLabel];
     [self hideCalendarTopPortion];
     [self fillPrescriberMedicationDetailsInCalendarView];
@@ -365,6 +370,13 @@ typedef enum : NSUInteger {
     allergiesArray = self.patient.patientsAlergiesArray;
 }
 
+- (void)addActionsButtonToNavigationBar {
+    
+    //actions button in navigation bar
+    UIBarButtonItem *actionsButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"ACTIONS", @"") style:UIBarButtonItemStylePlain target:self action:@selector(oneThirdActionsButtonPressed:)];
+    self.navigationItem.rightBarButtonItem = actionsButton;
+}
+
 #pragma mark - API fetch methods
 
 - (void)cancelPreviousMedicationListFetchRequest {
@@ -450,7 +462,11 @@ typedef enum : NSUInteger {
                         if (!error) {
                             _patient.medicationListArray = result;
                             [self configureAlertsAndAllergiesArrayForDisplay];
-                            [self addAlertsAndAllergyBarButtonToNavigationBar];
+                            if ([DCAPPDELEGATE windowState] == twoThirdWindow ||
+                                [DCAPPDELEGATE windowState] == fullWindow) {
+                                [self addAlertsAndAllergyBarButtonToNavigationBar];
+                            }
+                            //[self addAlertsAndAllergyBarButtonToNavigationBar];
                             [self setDisplayMedicationListArray];
                             if ([displayMedicationListArray count] > 0) {
                                 if (prescriberMedicationListViewController) {
@@ -749,6 +765,14 @@ typedef enum : NSUInteger {
     }
 }
 
+- (IBAction)oneThirdActionsButtonPressed:(id)sender {
+    
+    //present action sheet
+    
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:CANCEL_BUTTON_TITLE destructiveButtonTitle:nil otherButtonTitles:ADD_MEDICATION, @"Allergies and Alerts", @"Pharmacist Interaction", nil];
+    [actionSheet showInView:self.view];
+}
+
 #pragma mark - Public methods implementation.
 
 - (void)reloadAdministrationScreenWithMedicationDetails {
@@ -1045,6 +1069,14 @@ typedef enum : NSUInteger {
     
     //add medication view dismissed
     warningsButton.userInteractionEnabled = YES;
+}
+
+#pragma mark - ActionSheet Delegate Methods
+
+- (void)actionSheet:(UIActionSheet *)popup clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    
+
 }
 
 #pragma mark - Notification Methods
