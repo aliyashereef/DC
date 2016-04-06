@@ -8,12 +8,15 @@
 
 import UIKit
 
+typealias InterventionUpdated = (DCMedicationScheduleDetails) -> Void
+
 class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     var interventionType : InterventionType?
     var medicationList : NSMutableArray = []
     var index : Int?
-    
+    var interventionUpdated: InterventionUpdated = { value in }
+
     @IBOutlet weak var interventionDisplayTableView: UITableView!
     
     override func viewDidLoad() {
@@ -123,6 +126,7 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
     
     func presentNextMedication () {
         
+        self.interventionUpdated(self.medicationList[self.index!] as! DCMedicationScheduleDetails)
         index!++
         if index < medicationList.count {
             self.dismissViewControllerAnimated(true, completion: {() -> Void in
@@ -130,6 +134,9 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
                 addInterventionViewController!.index = self.index!
                 addInterventionViewController?.medicationList = self.medicationList
                 addInterventionViewController?.interventionType = self.interventionType
+                addInterventionViewController!.interventionUpdated = { value in
+                    self.interventionUpdated(value)
+                }
                 let navigationController: UINavigationController = UINavigationController(rootViewController: addInterventionViewController!)
                 navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
                 UIApplication.sharedApplication().keyWindow!.rootViewController!.presentViewController(navigationController, animated: true, completion: { _ in })

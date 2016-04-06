@@ -183,10 +183,14 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         
         let addInterventionViewController : DCInterventionAddOrResolveViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(INTERVENTION_ADD_RESOLVE_SB_ID) as? DCInterventionAddOrResolveViewController
         for i in 0..<self.pharmacistTableView.indexPathsForSelectedRows!.count {
-            addInterventionViewController?.medicationList.addObject(medicationList.objectAtIndex(i))
+            addInterventionViewController?.medicationList.addObject(medicationList.objectAtIndex(self.pharmacistTableView.indexPathsForSelectedRows![i].row))
         }
         addInterventionViewController!.index = 0
         addInterventionViewController?.interventionType = eAddIntervention
+        addInterventionViewController!.interventionUpdated = { value in
+            let indexOfSelectedMedication = self.medicationList.indexOfObject(value)
+            self.pharmacistTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexOfSelectedMedication, inSection: 0)], withRowAnimation: .None)
+        }
         let navigationController: UINavigationController = UINavigationController(rootViewController: addInterventionViewController!)
         navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
         self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
@@ -194,13 +198,17 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func resolveInterventionAction() {
         
-        let addInterventionViewController : DCInterventionAddOrResolveViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(INTERVENTION_ADD_RESOLVE_SB_ID) as? DCInterventionAddOrResolveViewController
+        let resolveInterventionViewController : DCInterventionAddOrResolveViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(INTERVENTION_ADD_RESOLVE_SB_ID) as? DCInterventionAddOrResolveViewController
         for i in 0..<self.pharmacistTableView.indexPathsForSelectedRows!.count {
-            addInterventionViewController?.medicationList.addObject(medicationList.objectAtIndex(i))
+            resolveInterventionViewController?.medicationList.addObject(medicationList.objectAtIndex(self.pharmacistTableView.indexPathsForSelectedRows![i].row))
         }
-        addInterventionViewController!.index = 0
-        addInterventionViewController?.interventionType = eResolveIntervention
-        let navigationController: UINavigationController = UINavigationController(rootViewController: addInterventionViewController!)
+        resolveInterventionViewController!.index = 0
+        resolveInterventionViewController?.interventionType = eResolveIntervention
+        resolveInterventionViewController!.interventionUpdated = { value in
+            let indexOfSelectedMedication = self.medicationList.indexOfObject(value)
+            self.pharmacistTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexOfSelectedMedication, inSection: 0)], withRowAnimation: .None)
+        }
+        let navigationController: UINavigationController = UINavigationController(rootViewController: resolveInterventionViewController!)
         navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
         self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
     }
@@ -209,9 +217,13 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         
         let updatePodStatusViewController : DCPodStatusSelectionViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(UPDATE_POD_STATUS_SB_ID) as? DCPodStatusSelectionViewController
         for i in 0..<self.pharmacistTableView.indexPathsForSelectedRows!.count {
-            updatePodStatusViewController?.medicationList.addObject(medicationList.objectAtIndex(i))
+            updatePodStatusViewController?.medicationList.addObject(medicationList.objectAtIndex(self.pharmacistTableView.indexPathsForSelectedRows![i].row))
         }
         updatePodStatusViewController!.index = 0
+        updatePodStatusViewController?.podStatusUpdated = { value in
+            let indexOfSelectedMedication = self.medicationList.indexOfObject(value)
+            self.pharmacistTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexOfSelectedMedication, inSection: 0)], withRowAnimation: .None)
+        }
         let navigationController: UINavigationController = UINavigationController(rootViewController: updatePodStatusViewController!)
         navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
         self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
@@ -305,7 +317,16 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func podStatusActionOnTableCellAtIndexPath(indexPath : NSIndexPath) {
         
-        
+        let updatePodStatusViewController : DCPodStatusSelectionViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(UPDATE_POD_STATUS_SB_ID) as? DCPodStatusSelectionViewController
+        updatePodStatusViewController?.medicationList.addObject(medicationList.objectAtIndex(indexPath.row))
+        updatePodStatusViewController!.index = 0
+        updatePodStatusViewController?.podStatusUpdated = { value in
+            let indexOfSelectedMedication = self.medicationList.indexOfObject(value)
+            self.pharmacistTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexOfSelectedMedication, inSection: 0)], withRowAnimation: .None)
+        }
+        let navigationController: UINavigationController = UINavigationController(rootViewController: updatePodStatusViewController!)
+        navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+        self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
     }
     
     func clinicalCheckActionOnTableCellAtIndexPath(indexPath : NSIndexPath) {
@@ -321,7 +342,32 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func resolveInterventionActionOnTableCellAtIndexPath(indexPath : NSIndexPath) {
         
-        
+        let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList[indexPath.row] as! DCMedicationScheduleDetails
+        if (medicationSheduleDetails.pharmacistAction?.intervention?.reason == nil || medicationSheduleDetails.pharmacistAction?.intervention?.resolution != nil) {
+            // intervention not added yet or added intervention has been resolved
+            let addInterventionViewController : DCInterventionAddOrResolveViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(INTERVENTION_ADD_RESOLVE_SB_ID) as? DCInterventionAddOrResolveViewController
+            addInterventionViewController?.medicationList.addObject(medicationList.objectAtIndex(indexPath.row))
+            addInterventionViewController!.index = 0
+            addInterventionViewController?.interventionType = eAddIntervention
+            addInterventionViewController!.interventionUpdated = { value in
+                let indexOfSelectedMedication = self.medicationList.indexOfObject(value)
+                self.pharmacistTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexOfSelectedMedication, inSection: 0)], withRowAnimation: .None)
+            }
+            let navigationController: UINavigationController = UINavigationController(rootViewController: addInterventionViewController!)
+            navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+            self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
+        } else {
+            let resolveInterventionViewController : DCInterventionAddOrResolveViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(INTERVENTION_ADD_RESOLVE_SB_ID) as? DCInterventionAddOrResolveViewController
+            resolveInterventionViewController?.medicationList.addObject(medicationList.objectAtIndex(indexPath.row))
+            resolveInterventionViewController!.index = 0
+            resolveInterventionViewController?.interventionType = eResolveIntervention
+            resolveInterventionViewController!.interventionUpdated = { value in
+                let indexOfSelectedMedication = self.medicationList.indexOfObject(value)
+                self.pharmacistTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexOfSelectedMedication, inSection: 0)], withRowAnimation: .None)
+            }
+            let navigationController: UINavigationController = UINavigationController(rootViewController: resolveInterventionViewController!)
+            navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+            self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)        }
     }
-        
+    
 }

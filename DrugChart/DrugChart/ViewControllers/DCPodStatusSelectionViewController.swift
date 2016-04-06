@@ -10,12 +10,16 @@ import UIKit
 
 let podStatusArray = [PATIENT_OWN_DRUG,PATIENT_OWN_DRUG_HOME,PATIENT_OWN_AND_HOME]
 
+typealias PODStatusUpdated = (DCMedicationScheduleDetails) -> Void
+
 class DCPodStatusSelectionViewController: UIViewController {
 
     var medicationList : NSMutableArray = []
     var index : Int?
     var selectedIndexPath : NSIndexPath?
     var alertMessage : String = EMPTY_STRING
+    var podStatusUpdated : PODStatusUpdated = { value in }
+    
     @IBOutlet weak var updatePodStatusTableView: UITableView!
 
     override func viewDidLoad() {
@@ -154,12 +158,16 @@ class DCPodStatusSelectionViewController: UIViewController {
     
     func presentNextMedication () {
         
+        self.podStatusUpdated(medicationList[index!] as! DCMedicationScheduleDetails)
         index!++
         if index < medicationList.count {
             self.dismissViewControllerAnimated(true, completion: {() -> Void in
                 let updatePodStatusViewController : DCPodStatusSelectionViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(UPDATE_POD_STATUS_SB_ID) as? DCPodStatusSelectionViewController
                     updatePodStatusViewController?.medicationList = self.medicationList
                 updatePodStatusViewController!.index = self.index!
+                updatePodStatusViewController?.podStatusUpdated = { value in
+                    self.podStatusUpdated(value)
+                }
                 let navigationController: UINavigationController = UINavigationController(rootViewController: updatePodStatusViewController!)
                 navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
                 UIApplication.sharedApplication().keyWindow!.rootViewController!.presentViewController(navigationController, animated: true, completion: { _ in })
