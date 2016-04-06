@@ -177,32 +177,48 @@ class DCPharmacistTableCell: UITableViewCell {
                         secondStatusImageView.image = UIImage(named: INTERVENTION_IPAD_IMAGE)
                         if let podStatus = pharmacistAction.podStatus {
                             thirdStatusImageView.image = DCPODStatus.statusImageForPodStatus(podStatus.podStatusType)
+                        } else {
+                            thirdStatusImageView.image = nil
                         }
                     } else {
                         //pod status
                         if let podStatus = pharmacistAction.podStatus {
                             secondStatusImageView.image = DCPODStatus.statusImageForPodStatus(podStatus.podStatusType)
+                        } else {
+                            secondStatusImageView.image = nil
                         }
+                        thirdStatusImageView.image = nil
                     }
                 } else {
                     // display pod status
                     if let podStatus = pharmacistAction.podStatus {
                         secondStatusImageView.image = DCPODStatus.statusImageForPodStatus(podStatus.podStatusType)
+                    } else {
+                        secondStatusImageView.image = nil
                     }
+                    thirdStatusImageView.image = nil
                 }
+
             } else {
                 //clinical verified
-                if let intervention = pharmacistAction.intervention {
+                if let intervention = medicationDetails?.pharmacistAction?.intervention {
                     if (intervention.toResolve == true) {
                         //first image is intervention image
                         firstStatusImageView.image = UIImage(named: INTERVENTION_IPAD_IMAGE)
-                        if let podStatus = pharmacistAction.podStatus {
+                        if let podStatus = medicationDetails?.pharmacistAction?.podStatus {
                             secondStatusImageView.image = DCPODStatus.statusImageForPodStatus(podStatus.podStatusType)
+                        } else {
+                            secondStatusImageView.image = nil
                         }
+                        thirdStatusImageView.image = nil
                     } else {
-                        if let podStatus = pharmacistAction.podStatus {
+                        if let podStatus = medicationDetails?.pharmacistAction?.podStatus {
                             firstStatusImageView.image = DCPODStatus.statusImageForPodStatus(podStatus.podStatusType)
+                        } else {
+                            firstStatusImageView.image = nil
                         }
+                        secondStatusImageView.image = nil
+                        thirdStatusImageView.image = nil
                     }
                 }
             }

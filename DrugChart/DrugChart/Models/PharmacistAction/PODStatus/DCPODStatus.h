@@ -23,7 +23,6 @@ typedef enum : NSUInteger {
 @interface DCPODStatus : NSObject
 
 @property (nonatomic) PODStatusType podStatusType;
-//@property (nonatomic, strong) NSString *status;
 @property (nonatomic, strong) NSString *notes;
 
 + (UIImage *)statusImageForPodStatus:(PODStatusType)podType;
