@@ -103,7 +103,7 @@
                                                         </mask>
                                                     </variation>
                                                 </view>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zlJ-o0-i2d" userLabel="PrescriberDetailsViewView">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zlJ-o0-i2d" userLabel="PharmacistDetailsViewView">
                                                     <rect key="frame" x="0.0" y="0.0" width="800" height="78"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Hi-en-QFt" userLabel="StatusView">
@@ -259,11 +259,10 @@
                                             <outlet property="frequencyDescriptionLabel" destination="1eV-oE-J13" id="P7c-Wt-Ied"/>
                                             <outlet property="medicationDetailsView" destination="OKa-KT-fBb" id="D0K-aJ-0V3"/>
                                             <outlet property="medicationNameLabel" destination="8Rn-Vq-SxM" id="t1F-mG-X3q"/>
+                                            <outlet property="pharmacistDetailsViewLeadingConstraint" destination="neU-o4-e2h" id="mAw-uL-azE"/>
+                                            <outlet property="pharmacistDetailsViewTrailingConstraint" destination="fjP-xZ-7S2" id="6La-Ze-HHi"/>
                                             <outlet property="podStatusButton" destination="SJu-Ao-2UE" id="Fnm-4A-P69"/>
                                             <outlet property="podStatusButtonWidth" destination="4jq-xy-bJk" id="Yp4-1O-TZs"/>
-                                            <outlet property="prescriberDetailsView" destination="zlJ-o0-i2d" id="BIf-BH-Yqk"/>
-                                            <outlet property="prescriberDetailsViewLeadingConstraint" destination="neU-o4-e2h" id="nrd-ml-zga"/>
-                                            <outlet property="prescriberDetailsViewTrailingConstraint" destination="fjP-xZ-7S2" id="a0c-wx-tS9"/>
                                             <outlet property="resolveInterventionButton" destination="PC2-0f-sOk" id="W4N-Fx-jPf"/>
                                             <outlet property="resolveInterventionButtonWidth" destination="I7v-tw-K9G" id="1lf-5D-xBC"/>
                                             <outlet property="routeAndInstructionsLabel" destination="byN-Rf-fWh" id="LcW-g7-d7z"/>

@@ -19,7 +19,6 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     @IBOutlet weak var actionsButton: UIButton!
     
     var isInEditMode : Bool = false
-    
     var medicationList : NSMutableArray = []
     var swipedCellIndexPath : NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
     
@@ -53,6 +52,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         configureNavigationBar()
         configureMedicationCountToolBar()
         pharmacistTableView.allowsMultipleSelectionDuringEditing = true
+        //for automatic table row height adjustment
         pharmacistTableView!.estimatedRowHeight = PHARMACIST_ROW_HEIGHT
         pharmacistTableView!.rowHeight = UITableViewAutomaticDimension
     }
@@ -123,11 +123,11 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
             (alert: UIAlertAction!) -> Void in
             self.clinicalCheckAction()
         })
-        let clinicalRemove = UIAlertAction(title: NSLocalizedString(CLINICAL_REMOVE, comment: ""), style: .Default, handler: {
+        let clinicalRemove = UIAlertAction(title: CLINICAL_REMOVE, style: .Default, handler: {
             (alert: UIAlertAction!) -> Void in
             self.clinicalRemoveAction()
         })
-        let addIntervention = UIAlertAction(title: NSLocalizedString(ADD_INTERVENTION, comment: ""), style: .Default, handler: {
+        let addIntervention = UIAlertAction(title: ADD_INTERVENTION, style: .Default, handler: {
             (alert: UIAlertAction!) -> Void in
             self.addInterventionAction()
         })
@@ -153,10 +153,31 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func clinicalCheckAction() {
         
+        updatePharmacistVerificationForCheckState(false)
     }
     
     func clinicalRemoveAction() {
         
+        updatePharmacistVerificationForCheckState(true)
+    }
+    
+    func updatePharmacistVerificationForCheckState(check : Bool) {
+        
+         // get indexpath of selected rows, if previous check state is false, clinical check has to be done
+        // if previous state is true, clinical remove action has to be done
+        if let indexPaths = pharmacistTableView.indexPathsForSelectedRows {
+            for var index = 0; index < indexPaths.count; ++index {
+                let indexPath = indexPaths[index] as NSIndexPath
+                let cell : DCPharmacistTableCell = (pharmacistTableView.cellForRowAtIndexPath(indexPath) as? DCPharmacistTableCell)!
+                let medicationDetails : DCMedicationScheduleDetails = cell.medicationDetails!
+                if let pharmacistAction = medicationDetails.pharmacistAction {
+                    if pharmacistAction.clinicalCheck == check {
+                        pharmacistAction.clinicalCheck = !check
+                    }
+                }
+            }
+        }
+        pharmacistTableView.reloadData()
     }
     
     func addInterventionAction() {
@@ -166,7 +187,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
             var selectedIndexPathsArray = self.pharmacistTableView.indexPathsForSelectedRows
             for i in 0..<selectedIndexPathsArray!.count {
                 let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList.objectAtIndex(selectedIndexPathsArray![i].row) as! DCMedicationScheduleDetails
-                if (medicationSheduleDetails.pharmacistAction?.intervention?.reason == nil || medicationSheduleDetails.pharmacistAction?.intervention?.resolution != nil) {
+                if (medicationSheduleDetails.pharmacistAction?.intervention?.toResolve == false) {
                     selectedMedicationList.addObject(medicationSheduleDetails)
                 } else {
                     let indexOfSelectedMedication = self.medicationList.indexOfObject(medicationSheduleDetails)
@@ -181,6 +202,13 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
                 addInterventionViewController!.interventionUpdated = { value in
                     let indexOfSelectedMedication = self.medicationList.indexOfObject(value)
                     self.pharmacistTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexOfSelectedMedication, inSection: 0)], withRowAnimation: .None)
+                    if self.pharmacistTableView.indexPathsForSelectedRows == nil {
+                        // radio button of tableview which denotes the edit state has to be removed
+                        self.pharmacistTableView.setEditing(false, animated: true)
+                        self.isInEditMode = false
+                        self.configureToolBarsForEditingState(false)
+                        self.addNavigationRightBarButtonItemForEditingState(false)
+                    }
                 }
                 let navigationController: UINavigationController = UINavigationController(rootViewController: addInterventionViewController!)
                 navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
@@ -196,7 +224,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
             var selectedIndexPathsArray = self.pharmacistTableView.indexPathsForSelectedRows
             for i in 0..<selectedIndexPathsArray!.count {
                 let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList.objectAtIndex(selectedIndexPathsArray![i].row) as! DCMedicationScheduleDetails
-                if (medicationSheduleDetails.pharmacistAction?.intervention?.reason != nil && medicationSheduleDetails.pharmacistAction?.intervention?.resolution == nil) {                    selectedMedicationList.addObject(medicationSheduleDetails)
+                if (medicationSheduleDetails.pharmacistAction?.intervention?.toResolve == true) {                    selectedMedicationList.addObject(medicationSheduleDetails)
                 } else {
                     let indexOfSelectedMedication = self.medicationList.indexOfObject(medicationSheduleDetails)
                     self.pharmacistTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexOfSelectedMedication, inSection: 0)], withRowAnimation: .None)
@@ -210,6 +238,13 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
                 resolveInterventionViewController!.interventionUpdated = { value in
                     let indexOfSelectedMedication = self.medicationList.indexOfObject(value)
                     self.pharmacistTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexOfSelectedMedication, inSection: 0)], withRowAnimation: .None)
+                    if self.pharmacistTableView.indexPathsForSelectedRows == nil {
+                        // radio button of tableview which denotes the edit state has to be removed
+                        self.pharmacistTableView.setEditing(false, animated: true)
+                        self.isInEditMode = false
+                        self.configureToolBarsForEditingState(false)
+                        self.addNavigationRightBarButtonItemForEditingState(false)
+                    }
                 }
                 let navigationController: UINavigationController = UINavigationController(rootViewController: resolveInterventionViewController!)
                 navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
@@ -231,6 +266,13 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
             updatePodStatusViewController?.podStatusUpdated = { value in
                 let indexOfSelectedMedication = self.medicationList.indexOfObject(value)
                 self.pharmacistTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexOfSelectedMedication, inSection: 0)], withRowAnimation: .None)
+                if self.pharmacistTableView.indexPathsForSelectedRows == nil {
+                    // radio button of tableview which denotes the edit state has to be removed
+                    self.pharmacistTableView.setEditing(false, animated: true)
+                    self.isInEditMode = false
+                    self.configureToolBarsForEditingState(false)
+                    self.addNavigationRightBarButtonItemForEditingState(false)
+                }
             }
             let navigationController: UINavigationController = UINavigationController(rootViewController: updatePodStatusViewController!)
             navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
@@ -271,6 +313,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func editButtonPressed(sender : NSObject) {
         
+        //table view has to be in editing mode and configure the tool bar and navigation right bar button item based on that
         pharmacistTableView.setEditing(true, animated: true)
         isInEditMode = true
         configureToolBarsForEditingState(true)
@@ -279,6 +322,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func cancelButtonPressed(sender : NSObject) {
         
+        // radio button of tableview which denotes the edit state has to be removed
         pharmacistTableView.setEditing(false, animated: true)
         isInEditMode = false
         configureToolBarsForEditingState(false)
@@ -320,6 +364,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func swipeActionOnTableCellAtIndexPath(indexPath : NSIndexPath) {
         
+        // reset cell to original position
         swipedCellIndexPath = indexPath
         self.resetSwipedCellToOriginalPosition()
     }
@@ -340,6 +385,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func clinicalCheckActionOnTableCellAtIndexPath(indexPath : NSIndexPath) {
         
+        //clinical check action on cell at indexpath
         let medication : DCMedicationScheduleDetails = medicationList.objectAtIndex(indexPath.row) as! DCMedicationScheduleDetails
         if let pharmacistAction = medication.pharmacistAction {
             pharmacistAction.clinicalCheck = !pharmacistAction.clinicalCheck
@@ -352,7 +398,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     func resolveInterventionActionOnTableCellAtIndexPath(indexPath : NSIndexPath) {
         
         let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList[indexPath.row] as! DCMedicationScheduleDetails
-        if (medicationSheduleDetails.pharmacistAction?.intervention?.reason == nil || medicationSheduleDetails.pharmacistAction?.intervention?.resolution != nil) {
+        if (medicationSheduleDetails.pharmacistAction?.intervention?.toResolve == false) {
             // intervention not added yet or added intervention has been resolved
             let addInterventionViewController : DCInterventionAddOrResolveViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(INTERVENTION_ADD_RESOLVE_SB_ID) as? DCInterventionAddOrResolveViewController
             addInterventionViewController?.medicationList.addObject(medicationList.objectAtIndex(indexPath.row))
@@ -376,7 +422,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
             }
             let navigationController: UINavigationController = UINavigationController(rootViewController: resolveInterventionViewController!)
             navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
-            self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)        }
+            self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
+        }
     }
-    
 }
