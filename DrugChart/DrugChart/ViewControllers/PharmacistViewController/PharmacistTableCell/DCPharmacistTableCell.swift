@@ -249,51 +249,55 @@ class DCPharmacistTableCell: UITableViewCell {
     
     func swipeMedicationDetailView(panGesture : UIPanGestureRecognizer) {
         
-        let translate : CGPoint = panGesture.translationInView(self.contentView)
-        let gestureVelocity : CGPoint = panGesture.velocityInView(self)
-        if (gestureVelocity.x > PAN_VELOCITY_TRIGGER_LIMIT || gestureVelocity.x < -PAN_VELOCITY_TRIGGER_LIMIT) {
-            if ((translate.x < 0) && (pharmacistDetailsViewLeadingConstraint.constant == 0)) { // left swipe
-                UIView.animateWithDuration(ANIMATION_DURATION, animations: {
-                    self.pharmacistDetailsViewLeadingConstraint.constant = -self.actionButtonsTotalWidth
-                    self.pharmacistDetailsViewTrailingConstraint.constant = self.actionButtonsTotalWidth
-                    self.updateActionButtonWidthRespectiveToLeadingConstraint()
-                    self.setClinicalCheckButtonTitle()
-                    self.setPharmacistInterventionButtonTitle()
-                    self.podStatusButton.setTitle(UPDATE_POD_STATUS, forState: UIControlState.Normal)
-                    self.layoutIfNeeded()
-                })
-                if let delegate = pharmacistCellDelegate {
-                    delegate.swipeActionOnTableCellAtIndexPath(indexPath!)
-                }
-            } else if ((translate.x > 0) && (self.pharmacistDetailsViewLeadingConstraint.constant == -actionButtonsTotalWidth)){ //right pan  when edit view is fully visible
-                UIView.animateWithDuration(ANIMATION_DURATION, animations: {
-                    self.pharmacistDetailsViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET
-                    self.pharmacistDetailsViewTrailingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET
-                    self.updateActionButtonWidthRespectiveToLeadingConstraint()
-                    self.layoutIfNeeded()
-                })
-                if let delegate = pharmacistCellDelegate {
-                    delegate.swipeActionOnTableCellAtIndexPath(indexPath!)
-                }
-            } else{
-                if (((translate.x < 0) && (self.pharmacistDetailsViewLeadingConstraint.constant > -actionButtonsTotalWidth)) || ((translate.x > 0) && (self.pharmacistDetailsViewLeadingConstraint.constant < MEDICATION_VIEW_INITIAL_LEFT_OFFSET))) {
-                    //in process of tramslation
-                    dispatch_async(dispatch_get_main_queue(), {
-                        self.pharmacistDetailsViewLeadingConstraint.constant += (gestureVelocity.x / 25.0)
-                        self.pharmacistDetailsViewTrailingConstraint.constant -= (gestureVelocity.x / 25.0)
+        let tableView : UITableView = (self.superview?.superview as? UITableView)!
+        //donot allow tableviewcell swipe when tableview is in editing mode
+        if tableView.editing == false {
+            let translate : CGPoint = panGesture.translationInView(self.contentView)
+            let gestureVelocity : CGPoint = panGesture.velocityInView(self)
+            if (gestureVelocity.x > PAN_VELOCITY_TRIGGER_LIMIT || gestureVelocity.x < -PAN_VELOCITY_TRIGGER_LIMIT) {
+                if ((translate.x < 0) && (pharmacistDetailsViewLeadingConstraint.constant == 0)) { // left swipe
+                    UIView.animateWithDuration(ANIMATION_DURATION, animations: {
+                        self.pharmacistDetailsViewLeadingConstraint.constant = -self.actionButtonsTotalWidth
+                        self.pharmacistDetailsViewTrailingConstraint.constant = self.actionButtonsTotalWidth
                         self.updateActionButtonWidthRespectiveToLeadingConstraint()
-                        self.setPrescriberButtonNames()
-                        self.setPrescriberDetailsViewFrame()
+                        self.setClinicalCheckButtonTitle()
+                        self.setPharmacistInterventionButtonTitle()
+                        self.podStatusButton.setTitle(UPDATE_POD_STATUS, forState: UIControlState.Normal)
+                        self.layoutIfNeeded()
                     })
                     if let delegate = pharmacistCellDelegate {
                         delegate.swipeActionOnTableCellAtIndexPath(indexPath!)
                     }
+                } else if ((translate.x > 0) && (self.pharmacistDetailsViewLeadingConstraint.constant == -actionButtonsTotalWidth)){ //right pan  when edit view is fully visible
+                    UIView.animateWithDuration(ANIMATION_DURATION, animations: {
+                        self.pharmacistDetailsViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET
+                        self.pharmacistDetailsViewTrailingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET
+                        self.updateActionButtonWidthRespectiveToLeadingConstraint()
+                        self.layoutIfNeeded()
+                    })
+                    if let delegate = pharmacistCellDelegate {
+                        delegate.swipeActionOnTableCellAtIndexPath(indexPath!)
+                    }
+                } else{
+                    if (((translate.x < 0) && (self.pharmacistDetailsViewLeadingConstraint.constant > -actionButtonsTotalWidth)) || ((translate.x > 0) && (self.pharmacistDetailsViewLeadingConstraint.constant < MEDICATION_VIEW_INITIAL_LEFT_OFFSET))) {
+                        //in process of tramslation
+                        dispatch_async(dispatch_get_main_queue(), {
+                            self.pharmacistDetailsViewLeadingConstraint.constant += (gestureVelocity.x / 25.0)
+                            self.pharmacistDetailsViewTrailingConstraint.constant -= (gestureVelocity.x / 25.0)
+                            self.updateActionButtonWidthRespectiveToLeadingConstraint()
+                            self.setPrescriberButtonNames()
+                            self.setPrescriberDetailsViewFrame()
+                        })
+                        if let delegate = pharmacistCellDelegate {
+                            delegate.swipeActionOnTableCellAtIndexPath(indexPath!)
+                        }
+                    }
                 }
             }
-        }
-        if (panGesture.state == UIGestureRecognizerState.Ended) {
-            //pan ended
-            adjustMedicationDetailViewOnPanGestureEndWithTranslationPoint(translate)
+            if (panGesture.state == UIGestureRecognizerState.Ended) {
+                //pan ended
+                adjustMedicationDetailViewOnPanGestureEndWithTranslationPoint(translate)
+            }
         }
    }
     
