@@ -421,7 +421,9 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     // MARK: - Action Methods
     
     func cancelButtonPressed() {
-        
+        if isEditCondition {
+            self.newConditionEntered(self.conditionItem)
+        }
         self.navigationController!.dismissViewControllerAnimated(true, completion: nil)
     }
     

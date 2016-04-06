@@ -196,6 +196,14 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
 // MARK: - Private Methods
 
     func checkConditionValidityAndDeleteCell(index: Int) {
+        self.checkConditionValidityAfterIndex(index)
+        self.dosage?.invalidConditionIndexPath = NSIndexPath(forRow: index, inSection:0)
+        deleteObjectAtIndex(index)
+        self.conditionTableView.reloadData()
+    }
+    
+    func checkConditionValidityAfterIndex (index : Int) {
+        
         if self.dosage?.reducingIncreasingDose?.conditionsArray.count > index+1 {
             if self.dosage?.reducingIncreasingDose?.conditionsArray[index+1].change == REDUCING {
                 if (NSString(string: (self.dosage?.reducingIncreasingDose?.conditionsArray[index-1].until)!)).floatValue < (NSString(string: (self.dosage?.reducingIncreasingDose?.conditionsArray[index+1].dose)!)).floatValue {
@@ -215,9 +223,6 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
         } else {
             self.dosage?.isConditionsValid = true
         }
-        self.dosage?.invalidConditionIndexPath = NSIndexPath(forRow: index, inSection:0)
-        deleteObjectAtIndex(index)
-        self.conditionTableView.reloadData()
     }
     
     func deleteObjectAtIndex (index: Int) {
@@ -288,7 +293,7 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
         self.checkConditionValidityAndDeleteCell(indexPath.row)
     }
     
-    func editSelectedIndexPath (indexPath : NSIndexPath){
+    func editSelectedIndexPath (indexPath : NSIndexPath) {
         let addConditionViewController : DCAddConditionViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(ADD_CONDITION_SBID) as? DCAddConditionViewController
         addConditionViewController!.dosage = self.dosage
         addConditionViewController!.conditionItem = self.dosage?.reducingIncreasingDose.conditionsArray.objectAtIndex(indexPath.row) as? DCConditions
@@ -296,12 +301,14 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
         self.dosage?.reducingIncreasingDose?.conditionsArray.removeObjectAtIndex(indexPath.row)
         addConditionViewController!.newStartingDose = self.currentStartingDose()
         addConditionViewController?.newConditionEntered = { value in
-            self.dosage?.reducingIncreasingDose?.conditionsArray.insertObject(value!, atIndex: indexPath.row)
+            self.dosage?.reducingIncreasingDose?.conditionsArray.insertObject(value!, atIndex:indexPath.row)
             self.updateConditionDescriptionArray()
             self.updateMainPreviewDetailsArray()
             self.reducingIncreasingDoseEntered(self.dosage?.reducingIncreasingDose)
+            self.checkConditionValidityAfterIndex(indexPath.row)
             self.conditionTableView.reloadData()
         }
+        swipeBackMedicationCellsInTableView()
         let navigationController: UINavigationController = UINavigationController(rootViewController: addConditionViewController!)
         navigationController.modalPresentationStyle = UIModalPresentationStyle.CurrentContext
         self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
