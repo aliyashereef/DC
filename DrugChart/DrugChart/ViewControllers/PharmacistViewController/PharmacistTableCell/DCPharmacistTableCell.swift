@@ -42,9 +42,8 @@ class DCPharmacistTableCell: UITableViewCell {
     @IBOutlet weak var secondStatusImageView: UIImageView!
     @IBOutlet weak var thirdStatusImageView: UIImageView!
     @IBOutlet weak var medicationDetailsView: UIView!
-    @IBOutlet weak var prescriberDetailsView: UIView!
-    @IBOutlet weak var prescriberDetailsViewLeadingConstraint: NSLayoutConstraint!
-    @IBOutlet weak var prescriberDetailsViewTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var pharmacistDetailsViewLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var pharmacistDetailsViewTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var podStatusButtonWidth: NSLayoutConstraint!
     @IBOutlet weak var podStatusButton: UIButton!
     @IBOutlet weak var resolveInterventionButton: UIButton!
@@ -237,10 +236,10 @@ class DCPharmacistTableCell: UITableViewCell {
         let translate : CGPoint = panGesture.translationInView(self.contentView)
         let gestureVelocity : CGPoint = panGesture.velocityInView(self)
         if (gestureVelocity.x > PAN_VELOCITY_TRIGGER_LIMIT || gestureVelocity.x < -PAN_VELOCITY_TRIGGER_LIMIT) {
-            if ((translate.x < 0) && (prescriberDetailsViewLeadingConstraint.constant == 0)) { // left swipe
+            if ((translate.x < 0) && (pharmacistDetailsViewLeadingConstraint.constant == 0)) { // left swipe
                 UIView.animateWithDuration(ANIMATION_DURATION, animations: {
-                    self.prescriberDetailsViewLeadingConstraint.constant = -self.actionButtonsTotalWidth
-                    self.prescriberDetailsViewTrailingConstraint.constant = self.actionButtonsTotalWidth
+                    self.pharmacistDetailsViewLeadingConstraint.constant = -self.actionButtonsTotalWidth
+                    self.pharmacistDetailsViewTrailingConstraint.constant = self.actionButtonsTotalWidth
                     self.updateActionButtonWidthRespectiveToLeadingConstraint()
                     self.setClinicalCheckButtonTitle()
                     self.setPharmacistInterventionButtonTitle()
@@ -250,10 +249,10 @@ class DCPharmacistTableCell: UITableViewCell {
                 if let delegate = pharmacistCellDelegate {
                     delegate.swipeActionOnTableCellAtIndexPath(indexPath!)
                 }
-            } else if ((translate.x > 0) && (self.prescriberDetailsViewLeadingConstraint.constant == -actionButtonsTotalWidth)){ //right pan  when edit view is fully visible
+            } else if ((translate.x > 0) && (self.pharmacistDetailsViewLeadingConstraint.constant == -actionButtonsTotalWidth)){ //right pan  when edit view is fully visible
                 UIView.animateWithDuration(ANIMATION_DURATION, animations: {
-                    self.prescriberDetailsViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET
-                    self.prescriberDetailsViewTrailingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET
+                    self.pharmacistDetailsViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET
+                    self.pharmacistDetailsViewTrailingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET
                     self.updateActionButtonWidthRespectiveToLeadingConstraint()
                     self.layoutIfNeeded()
                 })
@@ -261,11 +260,11 @@ class DCPharmacistTableCell: UITableViewCell {
                     delegate.swipeActionOnTableCellAtIndexPath(indexPath!)
                 }
             } else{
-                if (((translate.x < 0) && (self.prescriberDetailsViewLeadingConstraint.constant > -actionButtonsTotalWidth)) || ((translate.x > 0) && (self.prescriberDetailsViewLeadingConstraint.constant < MEDICATION_VIEW_INITIAL_LEFT_OFFSET))) {
+                if (((translate.x < 0) && (self.pharmacistDetailsViewLeadingConstraint.constant > -actionButtonsTotalWidth)) || ((translate.x > 0) && (self.pharmacistDetailsViewLeadingConstraint.constant < MEDICATION_VIEW_INITIAL_LEFT_OFFSET))) {
                     //in process of tramslation
                     dispatch_async(dispatch_get_main_queue(), {
-                        self.prescriberDetailsViewLeadingConstraint.constant += (gestureVelocity.x / 25.0)
-                        self.prescriberDetailsViewTrailingConstraint.constant -= (gestureVelocity.x / 25.0)
+                        self.pharmacistDetailsViewLeadingConstraint.constant += (gestureVelocity.x / 25.0)
+                        self.pharmacistDetailsViewTrailingConstraint.constant -= (gestureVelocity.x / 25.0)
                         self.updateActionButtonWidthRespectiveToLeadingConstraint()
                         self.setPrescriberButtonNames()
                         self.setPrescriberDetailsViewFrame()
@@ -286,8 +285,8 @@ class DCPharmacistTableCell: UITableViewCell {
         
         //swipe gesture - right when completion of edit/delete action
         UIView.animateWithDuration(ANIMATION_DURATION) { () -> Void in
-            self.prescriberDetailsViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET
-            self.prescriberDetailsViewTrailingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET
+            self.pharmacistDetailsViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET
+            self.pharmacistDetailsViewTrailingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET
             self.layoutIfNeeded()
         }
     }
@@ -326,12 +325,12 @@ class DCPharmacistTableCell: UITableViewCell {
     
     func setPrescriberDetailsViewFrame() {
         
-        if (self.prescriberDetailsViewLeadingConstraint.constant < -actionButtonsTotalWidth) {
-            self.prescriberDetailsViewLeadingConstraint.constant = -actionButtonsTotalWidth
-            self.prescriberDetailsViewTrailingConstraint.constant = actionButtonsTotalWidth
-        } else if (self.prescriberDetailsViewLeadingConstraint.constant > MEDICATION_VIEW_INITIAL_LEFT_OFFSET) {
-            self.prescriberDetailsViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET
-            self.prescriberDetailsViewTrailingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET
+        if (self.pharmacistDetailsViewLeadingConstraint.constant < -actionButtonsTotalWidth) {
+            self.pharmacistDetailsViewLeadingConstraint.constant = -actionButtonsTotalWidth
+            self.pharmacistDetailsViewTrailingConstraint.constant = actionButtonsTotalWidth
+        } else if (self.pharmacistDetailsViewLeadingConstraint.constant > MEDICATION_VIEW_INITIAL_LEFT_OFFSET) {
+            self.pharmacistDetailsViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET
+            self.pharmacistDetailsViewTrailingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET
         }
     }
 
@@ -339,32 +338,32 @@ class DCPharmacistTableCell: UITableViewCell {
     func adjustMedicationDetailViewOnPanGestureEndWithTranslationPoint(translate : CGPoint) {
         
         //gesture ended
-        if ((translate.x < 0) && self.prescriberDetailsViewLeadingConstraint.constant < (-actionButtonsTotalWidth / 3)) {
+        if ((translate.x < 0) && self.pharmacistDetailsViewLeadingConstraint.constant < (-actionButtonsTotalWidth / 3)) {
             UIView.animateWithDuration(ANIMATION_DURATION, animations: {
-                self.prescriberDetailsViewLeadingConstraint.constant = -self.actionButtonsTotalWidth
+                self.pharmacistDetailsViewLeadingConstraint.constant = -self.actionButtonsTotalWidth
                 self.layoutIfNeeded()
                 }, completion: { finished in
                     self.setPrescriberDetailsViewFrame()
             })
-        } else if ((translate.x < 0) && self.prescriberDetailsViewLeadingConstraint.constant > (-actionButtonsTotalWidth / 3)) {
+        } else if ((translate.x < 0) && self.pharmacistDetailsViewLeadingConstraint.constant > (-actionButtonsTotalWidth / 3)) {
             UIView.animateWithDuration(ANIMATION_DURATION, animations: {
-                self.prescriberDetailsViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET + 10
+                self.pharmacistDetailsViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET + 10
                 self.updateActionButtonWidthRespectiveToLeadingConstraint()
                 self.layoutIfNeeded()
                 }, completion: { (finished) -> Void in
                     self.setPrescriberDetailsViewFrame()
             })
-        } else if ((translate.x > 0) && self.prescriberDetailsViewLeadingConstraint.constant > (-actionButtonsTotalWidth / 3)) {
+        } else if ((translate.x > 0) && self.pharmacistDetailsViewLeadingConstraint.constant > (-actionButtonsTotalWidth / 3)) {
             UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
-                self.prescriberDetailsViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET
+                self.pharmacistDetailsViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET
                 self.updateActionButtonWidthRespectiveToLeadingConstraint()
                 self.layoutIfNeeded()
                 }, completion: { (finished) -> Void in
                     self.setPrescriberDetailsViewFrame()
             })
-        } else if ((translate.x > 0) && self.prescriberDetailsViewLeadingConstraint.constant < (-actionButtonsTotalWidth / 3)){
+        } else if ((translate.x > 0) && self.pharmacistDetailsViewLeadingConstraint.constant < (-actionButtonsTotalWidth / 3)){
             UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
-                self.prescriberDetailsViewLeadingConstraint.constant = -self.actionButtonsTotalWidth;
+                self.pharmacistDetailsViewLeadingConstraint.constant = -self.actionButtonsTotalWidth;
                 self.layoutIfNeeded()
                 }, completion: { (finished) -> Void in
                     self.setPrescriberDetailsViewFrame()
@@ -380,9 +379,9 @@ class DCPharmacistTableCell: UITableViewCell {
     func updateActionButtonWidthRespectiveToLeadingConstraint() {
         
         //set action buttons width
-        self.podStatusButtonWidth.constant = -(self.prescriberDetailsViewLeadingConstraint.constant / 3)
-        self.clinicalButtonWidth.constant = -(self.prescriberDetailsViewLeadingConstraint.constant / 3)
-        self.resolveInterventionButtonWidth.constant = -(self.prescriberDetailsViewLeadingConstraint.constant / 3)
+        self.podStatusButtonWidth.constant = -(self.pharmacistDetailsViewLeadingConstraint.constant / 3)
+        self.clinicalButtonWidth.constant = -(self.pharmacistDetailsViewLeadingConstraint.constant / 3)
+        self.resolveInterventionButtonWidth.constant = -(self.pharmacistDetailsViewLeadingConstraint.constant / 3)
     }
     
     
