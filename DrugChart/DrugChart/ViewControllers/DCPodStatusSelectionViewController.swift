@@ -113,7 +113,7 @@ class DCPodStatusSelectionViewController: UIViewController {
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        alertMessage = ""
+        alertMessage = EMPTY_STRING
         if indexPath.section == SectionCount.eZerothSection.rawValue {
             selectedIndexPath = indexPath
             tableView.reloadSections(NSIndexSet(index: RowCount.eZerothRow.rawValue), withRowAnimation: .None)
@@ -130,7 +130,7 @@ class DCPodStatusSelectionViewController: UIViewController {
         
         if selectedIndexPath != nil {
             if let textViewCell : DCInterventionAddResolveTextViewCell = updatePodStatusTableView.cellForRowAtIndexPath(NSIndexPath(forRow: RowCount.eZerothRow.rawValue, inSection: SectionCount.eFirstSection.rawValue)) as? DCInterventionAddResolveTextViewCell {
-                if (textViewCell.reasonOrResolveTextView.text != NOTES && textViewCell.reasonOrResolveTextView.text != "" && textViewCell.reasonOrResolveTextView.text != nil) && selectedIndexPath != nil {
+                if (textViewCell.reasonOrResolveTextView.text != NOTES && textViewCell.reasonOrResolveTextView.text != EMPTY_STRING && textViewCell.reasonOrResolveTextView.text != nil) && selectedIndexPath != nil {
                     //Add to reason
                     let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList[indexOfCurrentMedication!] as! DCMedicationScheduleDetails
                     switch (selectedIndexPath!.row) {
@@ -158,14 +158,19 @@ class DCPodStatusSelectionViewController: UIViewController {
     
     func presentNextMedication () {
         
+        //Present view with next medication, if in case of multiple selection.
+        //Clousure "interventionUpdated" is called to pass data back to parent.
         self.podStatusUpdated(medicationList[indexOfCurrentMedication!] as! DCMedicationScheduleDetails)
         indexOfCurrentMedication!++
         if indexOfCurrentMedication < medicationList.count {
+            //In case of multiple selections, the present view is dismissed and new view is loaded with details of next medication.
             self.dismissViewControllerAnimated(true, completion: {() -> Void in
+                //New view is presented in the completion block of dismiss
                 let updatePodStatusViewController : DCPodStatusSelectionViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(UPDATE_POD_STATUS_SB_ID) as? DCPodStatusSelectionViewController
                     updatePodStatusViewController?.medicationList = self.medicationList
                 updatePodStatusViewController!.indexOfCurrentMedication = self.indexOfCurrentMedication!
                 updatePodStatusViewController?.podStatusUpdated = { value in
+                    //Recursive call is done to pass data to parent.
                     self.podStatusUpdated(value)
                 }
                 let navigationController: UINavigationController = UINavigationController(rootViewController: updatePodStatusViewController!)

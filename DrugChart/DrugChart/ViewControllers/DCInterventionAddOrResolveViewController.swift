@@ -98,14 +98,14 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
     
         if interventionType == eAddIntervention {
             if let textViewCell : DCInterventionAddResolveTextViewCell = interventionDisplayTableView.cellForRowAtIndexPath(NSIndexPath(forRow: RowCount.eZerothRow.rawValue, inSection: SectionCount.eZerothSection.rawValue)) as? DCInterventionAddResolveTextViewCell {
-                if textViewCell.reasonOrResolveTextView.text != REASON_TEXT && textViewCell.reasonOrResolveTextView.text != "" && textViewCell.reasonOrResolveTextView.text != nil {
+                if textViewCell.reasonOrResolveTextView.text != REASON_TEXT && textViewCell.reasonOrResolveTextView.text != EMPTY_STRING && textViewCell.reasonOrResolveTextView.text != nil {
                     //Add to reason
                     let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList[indexOfCurrentMedication!] as! DCMedicationScheduleDetails
                     //TODO: Add the details
                     //Save name of the pharmacist who created the intervention.
-                    medicationSheduleDetails.pharmacistAction.intervention.createdBy = ""
+                    medicationSheduleDetails.pharmacistAction.intervention.createdBy = EMPTY_STRING
                     //Save the time at which the intervention is created.
-                    medicationSheduleDetails.pharmacistAction.intervention.createdOn = ""
+                    medicationSheduleDetails.pharmacistAction.intervention.createdOn = EMPTY_STRING
                     medicationSheduleDetails.pharmacistAction.intervention.reason = textViewCell.reasonOrResolveTextView.text
                     medicationSheduleDetails.pharmacistAction.intervention.toResolve = true
                     self.presentNextMedication()
@@ -115,7 +115,7 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
             }
         } else {
             if let textViewCell : DCInterventionAddResolveTextViewCell = interventionDisplayTableView.cellForRowAtIndexPath(NSIndexPath(forRow: RowCount.eZerothRow.rawValue, inSection: SectionCount.eFirstSection.rawValue)) as? DCInterventionAddResolveTextViewCell {
-                if textViewCell.reasonOrResolveTextView.text != RESOLUTION_TEXT && textViewCell.reasonOrResolveTextView.text != "" && textViewCell.reasonOrResolveTextView.text != nil {
+                if textViewCell.reasonOrResolveTextView.text != RESOLUTION_TEXT && textViewCell.reasonOrResolveTextView.text != EMPTY_STRING && textViewCell.reasonOrResolveTextView.text != nil {
                     let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList[indexOfCurrentMedication!] as! DCMedicationScheduleDetails
                     medicationSheduleDetails.pharmacistAction.intervention.resolution = textViewCell.reasonOrResolveTextView.text
                     medicationSheduleDetails.pharmacistAction.intervention.toResolve = false
@@ -129,15 +129,20 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
     
     func presentNextMedication () {
         
+        //Present view with next medication, if in case of multiple selection.
+        //Clousure "interventionUpdated" is called to pass data back to parent.
         self.interventionUpdated(self.medicationList[self.indexOfCurrentMedication!] as! DCMedicationScheduleDetails)
         indexOfCurrentMedication!++
         if indexOfCurrentMedication < medicationList.count {
+            //In case of multiple selections, the present view is dismissed and new view is loaded with details of next medication.
             self.dismissViewControllerAnimated(true, completion: {() -> Void in
+                //New view is presented in the completion block of dismiss
                 let addInterventionViewController : DCInterventionAddOrResolveViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(INTERVENTION_ADD_RESOLVE_SB_ID) as? DCInterventionAddOrResolveViewController
                 addInterventionViewController!.indexOfCurrentMedication = self.indexOfCurrentMedication!
                 addInterventionViewController?.medicationList = self.medicationList
                 addInterventionViewController?.interventionType = self.interventionType
                 addInterventionViewController!.interventionUpdated = { value in
+                    //Recursive call is done to pass data to parent.
                     self.interventionUpdated(value)
                 }
                 let navigationController: UINavigationController = UINavigationController(rootViewController: addInterventionViewController!)
