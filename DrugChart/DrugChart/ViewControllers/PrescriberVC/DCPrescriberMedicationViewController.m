@@ -1099,14 +1099,6 @@ typedef enum : NSUInteger {
     warningsButton.userInteractionEnabled = YES;
 }
 
-#pragma mark - ActionSheet Delegate Methods
-
-- (void)actionSheet:(UIActionSheet *)popup clickedButtonAtIndex:(NSInteger)buttonIndex {
-    
-    
-
-}
-
 #pragma mark - Notification Methods
 
 - (void)networkAvailable:(NSNotification *)notification {

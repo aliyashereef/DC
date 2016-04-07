@@ -265,7 +265,6 @@
 #define ADD_MEDICATION @"Add Medication"
 #define EDIT_MEDICATION @"Edit Medication"
 #define ORDER_SET @"Order Set"
-#define ALLERGIES_AND_ALERTS @"Allergies and "
 
 //temp cookie value
 
