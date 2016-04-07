@@ -100,6 +100,7 @@ class DCPharmacistTableCell: UITableViewCell {
     
     func configureResolveInterventionButton() {
         
+        //set the properties of intervention button
         resolveInterventionButton.titleLabel?.textAlignment = NSTextAlignment.Center
         if (appDelegate.windowState == DCWindowState.oneThirdWindow || appDelegate.windowState == DCWindowState.halfWindow) {
             resolveInterventionButton.titleLabel?.font = PHARMACIST_ONE_THIRD_FONT
@@ -170,60 +171,72 @@ class DCPharmacistTableCell: UITableViewCell {
             //display logic
             if pharmacistAction.clinicalCheck == false {
                 //display clinical check icon since pharamcist has not verified medication yet
-                firstStatusImageView.image = UIImage(named: CLINICAL_CHECK_IPAD_IMAGE)
-                if let intervention = pharmacistAction.intervention {
-                    if (intervention.toResolve == true) {
-                        //first image is intervention image
-                        secondStatusImageView.image = UIImage(named: INTERVENTION_IPAD_IMAGE)
-                        if let podStatus = pharmacistAction.podStatus {
-                            thirdStatusImageView.image = DCPODStatus.statusImageForPodStatus(podStatus.podStatusType)
-                        } else {
-                            thirdStatusImageView.image = nil
-                        }
-                    } else {
-                        //pod status
-                        if let podStatus = pharmacistAction.podStatus {
-                            secondStatusImageView.image = DCPODStatus.statusImageForPodStatus(podStatus.podStatusType)
-                        } else {
-                            secondStatusImageView.image = nil
-                        }
-                        thirdStatusImageView.image = nil
-                    }
-                } else {
-                    // display pod status
-                    if let podStatus = pharmacistAction.podStatus {
-                        secondStatusImageView.image = DCPODStatus.statusImageForPodStatus(podStatus.podStatusType)
-                    } else {
-                        secondStatusImageView.image = nil
-                    }
-                    thirdStatusImageView.image = nil
-                }
-
+                updateStatusIconsForClinicallyRemovedMedicationsWithPharmacistAction(pharmacistAction)
             } else {
                 //clinical verified
                 if let intervention = medicationDetails?.pharmacistAction?.intervention {
-                    if (intervention.toResolve == true) {
-                        //first image is intervention image
-                        firstStatusImageView.image = UIImage(named: INTERVENTION_IPAD_IMAGE)
-                        if let podStatus = medicationDetails?.pharmacistAction?.podStatus {
-                            secondStatusImageView.image = DCPODStatus.statusImageForPodStatus(podStatus.podStatusType)
-                        } else {
-                            secondStatusImageView.image = nil
-                        }
-                        thirdStatusImageView.image = nil
-                    } else {
-                        if let podStatus = medicationDetails?.pharmacistAction?.podStatus {
-                            firstStatusImageView.image = DCPODStatus.statusImageForPodStatus(podStatus.podStatusType)
-                        } else {
-                            firstStatusImageView.image = nil
-                        }
-                        secondStatusImageView.image = nil
-                        thirdStatusImageView.image = nil
-                    }
+                    updateStatusIconsForClinicallyVerifiedMedicationsWithIntervention(intervention)
                 }
             }
         } else {
             initialisePharmacistObject()
+        }
+    }
+    
+    func updateStatusIconsForClinicallyRemovedMedicationsWithPharmacistAction(pharmacistAction : DCPharmacistAction) {
+        
+        //firstimageview will display cli
+        firstStatusImageView.image = UIImage(named: CLINICAL_CHECK_IPAD_IMAGE)
+        if let intervention = pharmacistAction.intervention {
+            if (intervention.toResolve == true) {
+                //first image is intervention image
+                secondStatusImageView.image = UIImage(named: INTERVENTION_IPAD_IMAGE)
+                if let podStatus = pharmacistAction.podStatus {
+                    thirdStatusImageView.image = DCPODStatus.statusImageForPodStatus(podStatus.podStatusType)
+                } else {
+                    thirdStatusImageView.image = nil
+                }
+            } else {
+                //pod status
+                if let podStatus = pharmacistAction.podStatus {
+                    secondStatusImageView.image = DCPODStatus.statusImageForPodStatus(podStatus.podStatusType)
+                } else {
+                    secondStatusImageView.image = nil
+                }
+                thirdStatusImageView.image = nil
+            }
+        } else {
+            // display pod status
+            if let podStatus = pharmacistAction.podStatus {
+                secondStatusImageView.image = DCPODStatus.statusImageForPodStatus(podStatus.podStatusType)
+            } else {
+                secondStatusImageView.image = nil
+            }
+            thirdStatusImageView.image = nil
+        }
+    }
+    
+    func updateStatusIconsForClinicallyVerifiedMedicationsWithIntervention(intervention : DCIntervention) {
+        
+        //if intervention is added, first imageview should display intervention icon. if pod status is updated,
+        // second image view will show corresponding status image
+        if (intervention.toResolve == true) {
+            //first image is intervention image
+            firstStatusImageView.image = UIImage(named: INTERVENTION_IPAD_IMAGE)
+            if let podStatus = medicationDetails?.pharmacistAction?.podStatus {
+                secondStatusImageView.image = DCPODStatus.statusImageForPodStatus(podStatus.podStatusType)
+            } else {
+                secondStatusImageView.image = nil
+            }
+            thirdStatusImageView.image = nil
+        } else {
+            if let podStatus = medicationDetails?.pharmacistAction?.podStatus {
+                firstStatusImageView.image = DCPODStatus.statusImageForPodStatus(podStatus.podStatusType)
+            } else {
+                firstStatusImageView.image = nil
+            }
+            secondStatusImageView.image = nil
+            thirdStatusImageView.image = nil
         }
     }
     
@@ -430,6 +443,8 @@ class DCPharmacistTableCell: UITableViewCell {
             delegate.clinicalCheckActionOnTableCellAtIndexPath(indexPath!)
         }
     }
+    
+    // MARK: Gesture Delegate Methods
     
    override func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
     

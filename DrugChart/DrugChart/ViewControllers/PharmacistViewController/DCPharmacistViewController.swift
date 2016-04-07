@@ -105,7 +105,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         
         //swipe gesture - right when completion of edit/delete action
         for (index,_) in medicationList.enumerate(){
-            let indexPath = NSIndexPath(forRow: index, inSection: 0)
+            let indexPath = NSIndexPath(forRow: index, inSection: SectionCount.eZerothSection.rawValue)
             if indexPath == swipedCellIndexPath {
                 continue
             }
@@ -117,7 +117,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func presentPharmacistActionSheet() {
         
-        //present pharmacist action sheet
+        //present pharmacist action sheet for iPhone instead of buttons in toolbar
         let actionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
         let clinicalCheck = UIAlertAction(title: CLINICAL_CHECK, style: .Default, handler: {
             (alert: UIAlertAction!) -> Void in
@@ -177,6 +177,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
                 }
             }
         }
+        // cancel editing state and make corresponding changes in view
         self.cancelButtonPressed()
         pharmacistTableView.reloadData()
     }
@@ -201,7 +202,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func resolveInterventionAction() {
         
-        //resolve interevntion action
+        //resolve intervention action
         let resolveInterventionViewController : DCInterventionAddOrResolveViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(INTERVENTION_ADD_RESOLVE_SB_ID) as? DCInterventionAddOrResolveViewController
         for i in 0..<self.pharmacistTableView.indexPathsForSelectedRows!.count {
             resolveInterventionViewController?.medicationList.addObject(medicationList.objectAtIndex(self.pharmacistTableView.indexPathsForSelectedRows![i].row))
@@ -219,6 +220,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func updatePODStatusAction() {
         
+        //update icons in table cells based on the status selected
         let updatePodStatusViewController : DCPodStatusSelectionViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(UPDATE_POD_STATUS_SB_ID) as? DCPodStatusSelectionViewController
         for i in 0..<self.pharmacistTableView.indexPathsForSelectedRows!.count {
             updatePodStatusViewController?.medicationList.addObject(medicationList.objectAtIndex(self.pharmacistTableView.indexPathsForSelectedRows![i].row))
