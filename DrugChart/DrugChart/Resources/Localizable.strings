@@ -186,3 +186,15 @@
 
 "WARNING_PERIOD"       =       "Warning Period";
 "BEGINS"               =       "Begins";
+
+// Pharmacist
+
+"MEDICATION_LIST"      =        "Medication List";
+"DRUG_CHART"           =        "Drug Chart";
+"MEDICATIONS"          =        "Medications";
+"ADD_INTERVENTION"     =        "Add Intervention";
+"SELECT_POD_STATUS"    =        "Select a POD status.";
+
+"ACTIONS"              =       "Actions";
+"WARNINGS"             =       "Warnings";
+"PHARMACIST_INTERACTION"    =   "Pharmacist Interaction";

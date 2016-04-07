@@ -156,5 +156,9 @@ typedef enum : NSUInteger {
     eRateNormal
 }InfusionPickerType;
 
+typedef enum : NSUInteger {
+    eAddIntervention,
+    eResolveIntervention
+}InterventionType;
 
 #endif
