@@ -109,15 +109,18 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
             } else {
                 dosageConditionCell?.conditionsMainLabel.text = ADD_CONDITION_TITLE
                 dosageConditionCell?.editDeleteHolderView.hidden = true
+                dosageConditionCell?.indexPath = nil
                 dosageConditionCell?.conditionsMainLabel.textColor = tableView.tintColor
             }
         case 1:
             dosageConditionCell?.conditionsMainLabel.text = ADD_CONDITION_TITLE
             dosageConditionCell?.conditionsMainLabel.textColor = tableView.tintColor
             dosageConditionCell?.editDeleteHolderView.hidden = true
+            dosageConditionCell?.indexPath = nil
         case 2:
             dosageConditionCell?.conditionsMainLabel.text = previewDetailsArray[indexPath.row]
             dosageConditionCell?.editDeleteHolderView.hidden = true
+            dosageConditionCell?.indexPath = nil
         default:
             break
         }

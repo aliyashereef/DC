@@ -19,8 +19,8 @@ class DCDosageConditionsTableViewCell: UITableViewCell {
     
     var indexPath : NSIndexPath!
     
-    let MEDICATION_VIEW_LEFT_OFFSET : CGFloat           =               120.0
-    let MEDICATION_VIEW_INITIAL_LEFT_OFFSET : CGFloat   =               0.0
+    let DOSAGE_VIEW_LEFT_OFFSET : CGFloat           =               120.0
+    let DOSAGE_VIEW_INITIAL_LEFT_OFFSET : CGFloat   =               0.0
     
     @IBOutlet weak var dosageDetailViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var conditionsMainLabel: UILabel!
@@ -70,7 +70,7 @@ class DCDosageConditionsTableViewCell: UITableViewCell {
             if (gestureVelocity.x > 200.0 || gestureVelocity.x < -200.0) {
                 if ((translate.x < 0) && (dosageDetailViewLeadingConstraint.constant == 0)) { // left swipe
                     UIView.animateWithDuration(ANIMATION_DURATION, animations: {
-                        self.dosageDetailViewLeadingConstraint.constant = -self.MEDICATION_VIEW_LEFT_OFFSET
+                        self.dosageDetailViewLeadingConstraint.constant = -self.DOSAGE_VIEW_LEFT_OFFSET
                         self.setEditDeleteButtonWidth()
                         self.editButton.setTitle(EDIT_TEXT, forState: UIControlState.Normal)
                         self.stopButton.setTitle(DELETE_TEXT, forState: UIControlState.Normal)
@@ -79,9 +79,9 @@ class DCDosageConditionsTableViewCell: UITableViewCell {
                     if let delegate = editDeleteDelegate {
                         delegate.setIndexPathSelected(indexPath)
                     }
-                } else if ((translate.x > 0) && (self.dosageDetailViewLeadingConstraint.constant == -MEDICATION_VIEW_LEFT_OFFSET)){ //right pan  when edit view is fully visible
+                } else if ((translate.x > 0) && (self.dosageDetailViewLeadingConstraint.constant == -DOSAGE_VIEW_LEFT_OFFSET)){ //right pan  when edit view is fully visible
                     UIView.animateWithDuration(ANIMATION_DURATION, animations: {
-                        self.dosageDetailViewLeadingConstraint.constant = self.MEDICATION_VIEW_INITIAL_LEFT_OFFSET
+                        self.dosageDetailViewLeadingConstraint.constant = self.DOSAGE_VIEW_INITIAL_LEFT_OFFSET
                         self.setEditDeleteButtonWidth()
                         self.layoutIfNeeded()
                     })
@@ -89,7 +89,7 @@ class DCDosageConditionsTableViewCell: UITableViewCell {
                         delegate.setIndexPathSelected(indexPath)
                     }
                 } else{
-                    if (((translate.x < 0) && (self.dosageDetailViewLeadingConstraint.constant > -MEDICATION_VIEW_LEFT_OFFSET)) || ((translate.x > 0) && (self.dosageDetailViewLeadingConstraint.constant < MEDICATION_VIEW_INITIAL_LEFT_OFFSET))) {
+                    if (((translate.x < 0) && (self.dosageDetailViewLeadingConstraint.constant > -DOSAGE_VIEW_LEFT_OFFSET)) || ((translate.x > 0) && (self.dosageDetailViewLeadingConstraint.constant < DOSAGE_VIEW_INITIAL_LEFT_OFFSET))) {
                         //in process of tramslation
                         dispatch_async(dispatch_get_main_queue(), {
                             self.dosageDetailViewLeadingConstraint.constant += (gestureVelocity.x / 25.0)
@@ -116,14 +116,14 @@ class DCDosageConditionsTableViewCell: UITableViewCell {
         //gesture ended
         if ((translate.x < 0) && self.dosageDetailViewLeadingConstraint.constant < (-MEDICATION_VIEW_LEFT_OFFSET / 2)) {
             UIView.animateWithDuration(ANIMATION_DURATION, animations: {
-                self.dosageDetailViewLeadingConstraint.constant = -self.MEDICATION_VIEW_LEFT_OFFSET
+                self.dosageDetailViewLeadingConstraint.constant = -self.DOSAGE_VIEW_LEFT_OFFSET
                 self.layoutIfNeeded()
                 }, completion: { finished in
                     self.setDosageConditionViewFrame()
             })
         } else if ((translate.x < 0) && self.dosageDetailViewLeadingConstraint.constant > (-MEDICATION_VIEW_LEFT_OFFSET / 2)) {
             UIView.animateWithDuration(ANIMATION_DURATION, animations: {
-                self.dosageDetailViewLeadingConstraint.constant = self.MEDICATION_VIEW_INITIAL_LEFT_OFFSET + 10
+                self.dosageDetailViewLeadingConstraint.constant = self.DOSAGE_VIEW_INITIAL_LEFT_OFFSET + 10
                 self.setEditDeleteButtonWidth()
                 self.layoutIfNeeded()
                 }, completion: { (finished) -> Void in
@@ -131,15 +131,15 @@ class DCDosageConditionsTableViewCell: UITableViewCell {
             })
         } else if ((translate.x > 0) && self.dosageDetailViewLeadingConstraint.constant > (-MEDICATION_VIEW_LEFT_OFFSET / 2)){
             UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
-                self.dosageDetailViewLeadingConstraint.constant = self.MEDICATION_VIEW_INITIAL_LEFT_OFFSET
+                self.dosageDetailViewLeadingConstraint.constant = self.DOSAGE_VIEW_INITIAL_LEFT_OFFSET
                 self.setEditDeleteButtonWidth()
                 self.layoutIfNeeded()
                 }, completion: { (finished) -> Void in
                     self.setDosageConditionViewFrame()
             })
-        } else if ((translate.x > 0) && self.dosageDetailViewLeadingConstraint.constant < (-MEDICATION_VIEW_LEFT_OFFSET / 2)){
+        } else if ((translate.x > 0) && self.dosageDetailViewLeadingConstraint.constant < (-DOSAGE_VIEW_LEFT_OFFSET / 2)){
             UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
-                self.dosageDetailViewLeadingConstraint.constant = -self.MEDICATION_VIEW_LEFT_OFFSET;
+                self.dosageDetailViewLeadingConstraint.constant = -self.DOSAGE_VIEW_LEFT_OFFSET;
                 self.layoutIfNeeded()
                 }, completion: { (finished) -> Void in
                     self.setDosageConditionViewFrame()
@@ -166,10 +166,10 @@ class DCDosageConditionsTableViewCell: UITableViewCell {
     
     func setDosageConditionViewFrame() {
         
-        if (self.dosageDetailViewLeadingConstraint.constant < -MEDICATION_VIEW_LEFT_OFFSET) {
-            self.dosageDetailViewLeadingConstraint.constant = -MEDICATION_VIEW_LEFT_OFFSET;
-        } else if (self.dosageDetailViewLeadingConstraint.constant > MEDICATION_VIEW_INITIAL_LEFT_OFFSET) {
-            self.dosageDetailViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET;
+        if (self.dosageDetailViewLeadingConstraint.constant < -DOSAGE_VIEW_LEFT_OFFSET) {
+            self.dosageDetailViewLeadingConstraint.constant = -DOSAGE_VIEW_LEFT_OFFSET;
+        } else if (self.dosageDetailViewLeadingConstraint.constant > DOSAGE_VIEW_INITIAL_LEFT_OFFSET) {
+            self.dosageDetailViewLeadingConstraint.constant = DOSAGE_VIEW_INITIAL_LEFT_OFFSET;
         }
     }
     
@@ -201,7 +201,7 @@ class DCDosageConditionsTableViewCell: UITableViewCell {
         
         //swipe gesture - right when completion of edit/delete action
         UIView.animateWithDuration(ANIMATION_DURATION) { () -> Void in
-            self.dosageDetailViewLeadingConstraint.constant = self.MEDICATION_VIEW_INITIAL_LEFT_OFFSET;
+            self.dosageDetailViewLeadingConstraint.constant = self.DOSAGE_VIEW_INITIAL_LEFT_OFFSET;
             self.layoutIfNeeded()
         }
     }
