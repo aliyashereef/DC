@@ -74,9 +74,9 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     func addNavigationRightBarButtonItemForEditingState(isEditing : Bool) {
         
         if isEditing == false {
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: EDIT_BUTTON_TITLE, style: .Done, target:self , action: Selector("editButtonPressed:"))
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: EDIT_BUTTON_TITLE, style: .Done, target:self , action: Selector("editButtonPressed"))
         } else {
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: CANCEL_BUTTON_TITLE, style: .Done, target:self , action: Selector("cancelButtonPressed:"))
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: CANCEL_BUTTON_TITLE, style: .Done, target:self , action: Selector("cancelButtonPressed"))
         }
     }
     
@@ -177,6 +177,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
                 }
             }
         }
+        self.cancelButtonPressed()
         pharmacistTableView.reloadData()
     }
     
@@ -263,7 +264,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     // MARK: Action Methods
     
-    func editButtonPressed(sender : NSObject) {
+    func editButtonPressed() {
         
         //table view has to be in editing mode and configure the tool bar and navigation right bar button item based on that
         pharmacistTableView.setEditing(true, animated: true)
@@ -272,7 +273,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         self.addNavigationRightBarButtonItemForEditingState(true)
     }
     
-    func cancelButtonPressed(sender : NSObject) {
+    func cancelButtonPressed() {
         
         // radio button of tableview which denotes the edit state has to be removed
         pharmacistTableView.setEditing(false, animated: true)

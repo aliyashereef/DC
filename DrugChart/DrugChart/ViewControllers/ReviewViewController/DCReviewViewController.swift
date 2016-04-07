@@ -8,8 +8,6 @@
 
 import UIKit
 
-let HOURS_TEXT = "Hours"
-let DAYS_TEXT = "Days"
 let WEEKS_TEXT = "Weeks"
 let MONTHS_TEXT = "Months"
 
@@ -192,7 +190,7 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
         addNewValueViewController!.placeHolderString = NSLocalizedString("BEGINS", comment: "warning period begins placeholder")
         addNewValueViewController!.backButtonTitle = self.title!
         addNewValueViewController!.detailType = eAddValueWithUnit
-        addNewValueViewController!.unitArray = [HOURS_TEXT, DAYS_TEXT]
+        addNewValueViewController!.unitArray = [HOURS_TITLE, DAYS_TITLE]
         if let warningPeriod = review?.warningPeriod {
             addNewValueViewController!.previousValue = warningPeriod
         }
@@ -237,7 +235,7 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
                 reviewIntervalTableCell!.unitLabel.text = DOSE_UNIT_TITLE
                 if let reviewInterval = review?.reviewInterval {
                     if (reviewInterval.unit == nil) {
-                        reviewInterval.unit = HOURS_TEXT
+                        reviewInterval.unit = HOURS_TITLE
                     }
                     reviewIntervalTableCell!.unitValueLabel.text = reviewInterval.unit
                 }
@@ -245,7 +243,7 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
             case RowCount.eSecondRow.rawValue :
                 // interval unit types picker
                 let pickerCell : DCAddNewValuePickerCell = (reviewTableView.dequeueReusableCellWithIdentifier(PICKER_CELL) as? DCAddNewValuePickerCell)!
-                pickerCell.configurePickerCellWithValues([HOURS_TEXT, DAYS_TEXT, WEEKS_TEXT, MONTHS_TEXT])
+                pickerCell.configurePickerCellWithValues([HOURS_TITLE, DAYS_TITLE, WEEKS_TEXT, MONTHS_TEXT])
                 if let unit = self.review?.reviewInterval?.unit {
                     pickerCell.selectPickerViewForValue(unit)
                 }
