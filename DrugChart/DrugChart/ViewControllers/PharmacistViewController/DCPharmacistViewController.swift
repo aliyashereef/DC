@@ -20,8 +20,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     var isInEditMode : Bool = false
     var medicationList : NSMutableArray = []
-    var swipedCellIndexPath : NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
-    
+    var swipedCellIndexPath : NSIndexPath?
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -314,6 +313,12 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func editButtonPressed() {
         
+        //resetSwipedCellToOriginalPosition()
+        if swipedCellIndexPath != nil {
+            let pharmacistCell = pharmacistTableView?.cellForRowAtIndexPath(swipedCellIndexPath!)
+                as? DCPharmacistTableCell
+            pharmacistCell?.swipePrescriberDetailViewToRight()
+        }
         //table view has to be in editing mode and configure the tool bar and navigation right bar button item based on that
         pharmacistTableView.setEditing(true, animated: true)
         isInEditMode = true
