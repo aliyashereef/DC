@@ -139,6 +139,11 @@ typedef enum : NSUInteger {
         windowSizeChanged = NO;
     }
     [self dateViewForOrientationChanges];
+    if (appDelegate.windowState == oneThirdWindow || appDelegate.windowState == halfWindow) {
+        [self addActionsButtonToNavigationBar];
+    } else {
+        [self addAlertsAndAllergyBarButtonToNavigationBar];
+    }
    }
 
 
@@ -373,7 +378,7 @@ typedef enum : NSUInteger {
 - (void)addActionsButtonToNavigationBar {
     
     //actions button in navigation bar
-    UIBarButtonItem *actionsButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"ACTIONS", @"") style:UIBarButtonItemStylePlain target:self action:@selector(oneThirdActionsButtonPressed:)];
+    UIBarButtonItem *actionsButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"ACTIONS", @"") style:UIBarButtonItemStylePlain target:self action:@selector(oneThirdScreenActionsButtonPressed:)];
     self.navigationItem.rightBarButtonItem = actionsButton;
 }
 
@@ -466,7 +471,6 @@ typedef enum : NSUInteger {
                                 [DCAPPDELEGATE windowState] == fullWindow) {
                                 [self addAlertsAndAllergyBarButtonToNavigationBar];
                             }
-                            //[self addAlertsAndAllergyBarButtonToNavigationBar];
                             [self setDisplayMedicationListArray];
                             if ([displayMedicationListArray count] > 0) {
                                 if (prescriberMedicationListViewController) {
@@ -681,9 +685,12 @@ typedef enum : NSUInteger {
     // Presenting the popover presentation controller on the navigation controller.
     UIPopoverPresentationController *alertsPopOverController = [navigationController popoverPresentationController];
     alertsPopOverController.permittedArrowDirections = UIPopoverArrowDirectionAny;
-    UIBarButtonItem *warningsBarbuttonItem = self.navigationItem.rightBarButtonItems[1];
+    if ([DCAPPDELEGATE windowState] == twoThirdWindow ||
+        [DCAPPDELEGATE windowState] == fullWindow) {
+        UIBarButtonItem *warningsBarbuttonItem = self.navigationItem.rightBarButtonItems[1];
+        alertsPopOverController.barButtonItem = warningsBarbuttonItem;
+    }
     [self presentViewController:navigationController animated:YES completion:nil];
-    alertsPopOverController.barButtonItem = warningsBarbuttonItem;
 }
 
 - (void)addAlertsAndAllergyBarButtonToNavigationBar {
@@ -765,12 +772,33 @@ typedef enum : NSUInteger {
     }
 }
 
-- (IBAction)oneThirdActionsButtonPressed:(id)sender {
+- (IBAction)oneThirdScreenActionsButtonPressed:(id)sender {
     
-    //present action sheet
-    
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:CANCEL_BUTTON_TITLE destructiveButtonTitle:nil otherButtonTitles:ADD_MEDICATION, @"Allergies and Alerts", @"Pharmacist Interaction", nil];
-    [actionSheet showInView:self.view];
+    //present action sheet for right bar button actions
+    UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    [actionSheet addAction:[UIAlertAction actionWithTitle:CANCEL_BUTTON_TITLE style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        // Cancel button tappped.
+        [self dismissViewControllerAnimated:YES completion:^{
+        }];
+    }]];
+    [actionSheet addAction:[UIAlertAction actionWithTitle:ADD_MEDICATION style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self addMedicationButtonPressed:nil];
+    }]];
+    NSInteger warningsCount = alertsArray.count + allergiesArray.count;
+    if (warningsCount > 0) {
+        NSString *warningsActionTitle = [NSString stringWithFormat:@"%@ (%ld)", NSLocalizedString(@"WARNINGS", @""), (long)warningsCount];
+        [actionSheet addAction:[UIAlertAction actionWithTitle:warningsActionTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self allergiesAndAlertsButtonTapped:nil];
+        }]];
+    }
+    [actionSheet addAction:[UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@ (3)", NSLocalizedString(@"PHARMACIST_INTERACTION", @"")]  style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        
+        //TODO: Include action for pharamacist interaction action
+        [self dismissViewControllerAnimated:YES completion:^{
+        }];
+    }]];
+    // Present action sheet.
+    [self presentViewController:actionSheet animated:YES completion:nil];
 }
 
 #pragma mark - Public methods implementation.
