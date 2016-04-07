@@ -335,7 +335,7 @@ class DCPharmacistTableCell: UITableViewCell {
     
     func setPharmacistInterventionButtonTitle() {
         
-        if (medicationDetails?.pharmacistAction?.intervention?.reason == nil || medicationDetails?.pharmacistAction?.intervention?.resolution != nil) {
+        if medicationDetails?.pharmacistAction?.intervention?.toResolve == false {
             // intervention not added yet or added intervention has been resolved
             resolveInterventionButton.setTitle(ADD_INTERVENTION, forState: .Normal)
         } else {
