@@ -17,9 +17,10 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
     var conditionDescriptionArray = [String]()
     var reducingIncreasingDoseEntered: ReducingIncreasingDoseEntered = { value in }
     var selectedIndexPath : NSIndexPath?
-
     @IBOutlet weak var conditionTableView: UITableView!
+    
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         if self.dosage?.reducingIncreasingDose?.conditionsArray == nil {
             self.dosage?.reducingIncreasingDose?.conditionsArray = []
@@ -41,6 +42,7 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
     }
     
     override func didReceiveMemoryWarning() {
+        
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
@@ -54,6 +56,7 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
     // MARK: - Table View Methods
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        
         if (self.dosage?.reducingIncreasingDose?.conditionsArray.count > 0) {
             return 3
         } else {
@@ -196,6 +199,7 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
 // MARK: - Private Methods
 
     func checkConditionValidityAndDeleteCell(index: Int) {
+        
         self.checkConditionValidityAfterIndex(index)
         deleteObjectAtIndex(index)
         self.conditionTableView.reloadData()
@@ -231,6 +235,7 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
     }
     
     func checkConditionValidity (){
+        
         // Check the whole condition list for any invalid conditions.
         for ( var index = 0; index < (self.dosage?.reducingIncreasingDose?.conditionsArray.count)!-1; index++) {
             if self.dosage?.reducingIncreasingDose?.conditionsArray[index+1].change == REDUCING {
@@ -260,6 +265,7 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
     }
     
     func deleteObjectAtIndex (index: Int) {
+        
         self.conditionTableView.beginUpdates()
         if self.dosage?.reducingIncreasingDose?.conditionsArray.count > 0 {
             self.dosage?.reducingIncreasingDose?.conditionsArray?.removeObjectAtIndex(index)
@@ -273,6 +279,7 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
     }
     
     func currentStartingDose() -> Float {
+        
         if self.dosage?.reducingIncreasingDose?.conditionsArray.count == 0 {
             return NSString(string: (self.dosage?.reducingIncreasingDose?.startingDose)!).floatValue
         } else {
@@ -305,6 +312,7 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
     }
     
     func updateConditionDescriptionArray () {
+        
         conditionDescriptionArray = []
         for ( var index = 0; index < self.dosage?.reducingIncreasingDose?.conditionsArray.count; index++) {
             conditionDescriptionArray.append(DCDosageHelper.createDescriptionStringForDosageCondition((self.dosage?.reducingIncreasingDose.conditionsArray[index])! as! DCConditions, dosageUnit: (self.dosage?.doseUnit)!))
@@ -327,10 +335,12 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
     //MARK: EditDeleteDelegate Methods
     
     func deleteSelectedIndexPath(indexPath : NSIndexPath) {
+        
         self.checkConditionValidityAndDeleteCell(indexPath.row)
     }
     
     func editSelectedIndexPath (indexPath : NSIndexPath) {
+        
         let addConditionViewController : DCAddConditionViewController? = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(ADD_CONDITION_SBID) as? DCAddConditionViewController
         addConditionViewController!.dosage = self.dosage
         addConditionViewController!.conditionItem = self.dosage?.reducingIncreasingDose.conditionsArray.objectAtIndex(indexPath.row) as? DCConditions
@@ -351,8 +361,8 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
     }
     
     func setIndexPathSelected(indexPath : NSIndexPath) {
+        
         selectedIndexPath = indexPath
         swipeBackMedicationCellsInTableView()
     }
-
 }

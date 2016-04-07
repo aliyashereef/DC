@@ -332,7 +332,6 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     func configureInlinePicker(indexPath: NSIndexPath) -> DCDosageDetailPickerCell {
         
         if (indexPath.row == 1) {
-            
             let dosageDetailCell : DCDosageDetailPickerCell? = addConditionTableView.dequeueReusableCellWithIdentifier(DOSE_PICKER_DISPLAY_CELL_ID) as? DCDosageDetailPickerCell
             selectedPickerType = eReducingIncreasingType
             dosageDetailCell?.configurePickerCellForPickerType(eReducingIncreasingType)
@@ -344,7 +343,6 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
             }
             return dosageDetailCell!
         } else {
-            
             let dosageDetailCell : DCDosageDetailPickerCell? = addConditionTableView.dequeueReusableCellWithIdentifier(DOSE_PICKER_DISPLAY_CELL_ID) as? DCDosageDetailPickerCell
             selectedPickerType = eDailyCount
             dosageDetailCell?.configurePickerCellForPickerType(eDailyCount)
@@ -364,6 +362,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     func validateTheAddConditionValues() -> Bool {
+        
         if (self.conditionItem?.change == REDUCING) {
             if (newStartingDose! <= NSString(string: (self.conditionItem?.until)!).floatValue || NSString(string: (self.conditionItem?.dose)!).floatValue <= 0 || newStartingDose < NSString(string: (self.conditionItem?.dose)!).floatValue ) {
                 return false
@@ -402,6 +401,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     func updateAlertMessageForMismatch() {
+        
         let newStartingDoseString : String = String(format: newStartingDose! == floor(newStartingDose!) ? "%.0f" : "%.1f", newStartingDose!)
         if ((self.conditionItem?.change)! == REDUCING) {
             if (newStartingDose <= NSString(string: (self.conditionItem?.until)!).floatValue || NSString(string:(self.conditionItem?.dose)!).floatValue <= 0) {
@@ -425,6 +425,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     // MARK: - Action Methods
     
     func cancelButtonPressed() {
+        
         if isEditCondition {
             self.newConditionEntered(self.conditionItem)
         }
@@ -432,6 +433,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     func doneButtonPressed() {
+        
         doneClicked = true;
         if self.valueForVariablesIsNotNull() {
             if self.validateTheAddConditionValues() {
