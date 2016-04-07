@@ -16,7 +16,7 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
     var dosage : DCDosage?
     var conditionDescriptionArray = [String]()
     var reducingIncreasingDoseEntered: ReducingIncreasingDoseEntered = { value in }
-    var selectedIndexPath : NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
+    var selectedIndexPath : NSIndexPath?
 
     @IBOutlet weak var conditionTableView: UITableView!
     override func viewDidLoad() {
@@ -118,7 +118,7 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
         default:
             break
         }
-            return dosageConditionCell!
+        return dosageConditionCell!
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -197,7 +197,6 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
 
     func checkConditionValidityAndDeleteCell(index: Int) {
         self.checkConditionValidityAfterIndex(index)
-        self.dosage?.invalidConditionIndexPath = NSIndexPath(forRow: index, inSection:0)
         deleteObjectAtIndex(index)
         self.conditionTableView.reloadData()
     }
@@ -208,20 +207,55 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
             if self.dosage?.reducingIncreasingDose?.conditionsArray[index+1].change == REDUCING {
                 if (NSString(string: (self.dosage?.reducingIncreasingDose?.conditionsArray[index-1].until)!)).floatValue < (NSString(string: (self.dosage?.reducingIncreasingDose?.conditionsArray[index+1].dose)!)).floatValue {
                     self.dosage?.isConditionsValid = false
+                    self.dosage?.invalidConditionIndexPath = NSIndexPath(forRow:index, inSection:0)
                 } else if ((NSString(string: (self.dosage?.reducingIncreasingDose?.conditionsArray[index-1].until)!)).floatValue == 0){
                     self.dosage?.isConditionsValid = false
+                    self.dosage?.invalidConditionIndexPath = NSIndexPath(forRow:index, inSection:0)
                 } else {
                     self.dosage?.isConditionsValid = true
+                    self.dosage?.invalidConditionIndexPath = nil
                 }
             } else if self.dosage?.reducingIncreasingDose?.conditionsArray[index+1].change == INCREASING {
                 if (NSString(string: (self.dosage?.reducingIncreasingDose?.conditionsArray[index-1].until)!)).floatValue >= (NSString(string: (self.dosage?.reducingIncreasingDose?.conditionsArray[index+1].until)!)).floatValue {
                     self.dosage?.isConditionsValid = false
+                    self.dosage?.invalidConditionIndexPath = NSIndexPath(forRow:index, inSection:0)
                 } else {
                     self.dosage?.isConditionsValid = true
+                    self.dosage?.invalidConditionIndexPath = nil
                 }
             }
         } else {
             self.dosage?.isConditionsValid = true
+            self.dosage?.invalidConditionIndexPath = nil
+        }
+    }
+    
+    func checkConditionValidity (){
+        // Check the whole condition list for any invalid conditions.
+        for ( var index = 0; index < (self.dosage?.reducingIncreasingDose?.conditionsArray.count)!-1; index++) {
+            if self.dosage?.reducingIncreasingDose?.conditionsArray[index+1].change == REDUCING {
+                if (NSString(string: (self.dosage?.reducingIncreasingDose?.conditionsArray[index].until)!)).floatValue < (NSString(string: (self.dosage?.reducingIncreasingDose?.conditionsArray[index+1].dose)!)).floatValue {
+                    self.dosage?.isConditionsValid = false
+                    self.dosage?.invalidConditionIndexPath = NSIndexPath(forRow: index+1, inSection:0)
+                    break;
+                } else if ((NSString(string: (self.dosage?.reducingIncreasingDose?.conditionsArray[index].until)!)).floatValue == 0){
+                    self.dosage?.isConditionsValid = false
+                    self.dosage?.invalidConditionIndexPath = NSIndexPath(forRow: index+1, inSection:0)
+                    break;
+                } else {
+                    self.dosage?.isConditionsValid = true
+                    self.dosage?.invalidConditionIndexPath = nil
+                }
+            } else if self.dosage?.reducingIncreasingDose?.conditionsArray[index+1].change == INCREASING {
+                if (NSString(string: (self.dosage?.reducingIncreasingDose?.conditionsArray[index].until)!)).floatValue >= (NSString(string: (self.dosage?.reducingIncreasingDose?.conditionsArray[index+1].until)!)).floatValue {
+                    self.dosage?.isConditionsValid = false
+                    self.dosage?.invalidConditionIndexPath = NSIndexPath(forRow: index+1, inSection:0)
+                    break;
+                } else {
+                    self.dosage?.isConditionsValid = true
+                    self.dosage?.invalidConditionIndexPath = nil
+                }
+            }
         }
     }
     
@@ -253,6 +287,9 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
         let lastIndexOfArray : Int = (self.dosage?.reducingIncreasingDose.conditionsArray.count)! - 1
         previewDetailsArray = []
         for ( var index = 0; index < self.dosage?.reducingIncreasingDose?.conditionsArray.count; index++) {
+            if index == self.dosage?.invalidConditionIndexPath?.row {
+                break
+            }
             if index == 0 {
                 currentStartingDose = NSString(string: (self.dosage?.reducingIncreasingDose?.startingDose)!).floatValue
             } else {
@@ -305,10 +342,9 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
             self.updateConditionDescriptionArray()
             self.updateMainPreviewDetailsArray()
             self.reducingIncreasingDoseEntered(self.dosage?.reducingIncreasingDose)
-            self.checkConditionValidityAfterIndex(indexPath.row)
+            self.checkConditionValidity()
             self.conditionTableView.reloadData()
         }
-        swipeBackMedicationCellsInTableView()
         let navigationController: UINavigationController = UINavigationController(rootViewController: addConditionViewController!)
         navigationController.modalPresentationStyle = UIModalPresentationStyle.CurrentContext
         self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)

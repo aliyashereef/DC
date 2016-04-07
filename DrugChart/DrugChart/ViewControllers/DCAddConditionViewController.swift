@@ -33,6 +33,8 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
         super.viewDidLoad()
         if !isEditCondition {
             conditionItem = DCConditions.init()
+        } else {
+            updatePreviewDetails()
         }
         self.configureNavigationBarItems()
         // Do any additional setup after loading the view.
@@ -363,7 +365,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     
     func validateTheAddConditionValues() -> Bool {
         if (self.conditionItem?.change == REDUCING) {
-            if (newStartingDose! <= NSString(string: (self.conditionItem?.until)!).floatValue || NSString(string: (self.conditionItem?.dose)!).floatValue <= 0) {
+            if (newStartingDose! <= NSString(string: (self.conditionItem?.until)!).floatValue || NSString(string: (self.conditionItem?.dose)!).floatValue <= 0 || newStartingDose < NSString(string: (self.conditionItem?.dose)!).floatValue ) {
                 return false
             }
         } else {
@@ -402,9 +404,11 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     func updateAlertMessageForMismatch() {
         let newStartingDoseString : String = String(format: newStartingDose! == floor(newStartingDose!) ? "%.0f" : "%.1f", newStartingDose!)
         if ((self.conditionItem?.change)! == REDUCING) {
-            if (newStartingDose <= NSString(string: (self.conditionItem?.until)!).floatValue || NSString(string: (self.conditionItem?.dose)!).floatValue <= 0) {
+            if (newStartingDose <= NSString(string: (self.conditionItem?.until)!).floatValue || NSString(string:(self.conditionItem?.dose)!).floatValue <= 0) {
                 alertMessagForMismatch = "Starting dose for the condition is \(newStartingDoseString) \(self.dosage!.doseUnit). Please enter a valid value for Until."
-            } else {
+            } else if (newStartingDose < NSString(string: (self.conditionItem?.dose)!).floatValue && self.conditionItem?.change == REDUCING) {
+                alertMessagForMismatch = "Starting dose for the condition is \(newStartingDoseString) \(self.dosage!.doseUnit). Please enter a valid value for Dose change."
+            }else {
                 alertMessagForMismatch = EMPTY_STRING
             }
         } else {
