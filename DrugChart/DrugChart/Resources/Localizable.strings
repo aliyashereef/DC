@@ -28,7 +28,7 @@
 "MEDICATION_SCHEDULE_ERROR" = "Failed to fetch medication schedules for patient";
 "REQUEST_TIME_OUT"          = "Request session timeout";
 "FETCH_FAILED"              = "Failed to fetch response.";
-
+"DOSAGE ERROR"              = "Invalid condition. Please check the 'Until' value.";
 //strings
 "USERNAME"                  = "Username";
 "PASSWORD"                  = "Password";
@@ -195,3 +195,6 @@
 "ADD_INTERVENTION"     =        "Add Intervention";
 "SELECT_POD_STATUS"    =        "Select a POD status.";
 
+"ACTIONS"              =       "Actions";
+"WARNINGS"             =       "Warnings";
+"PHARMACIST_INTERACTION"    =   "Pharmacist Interaction";

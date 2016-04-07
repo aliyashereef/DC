@@ -35,7 +35,7 @@ typedef enum : NSUInteger {
     kSortDrugName
 } SortType;
 
-@interface DCPrescriberMedicationViewController () <DCAddMedicationViewControllerDelegate,PrescriberListDelegate ,AdministrationDelegate>{
+@interface DCPrescriberMedicationViewController () <DCAddMedicationViewControllerDelegate, PrescriberListDelegate ,AdministrationDelegate, UIActionSheetDelegate>{
     
     NSMutableArray *currentWeekDatesArray;
     IBOutlet UIView *calendarDaysDisplayView;
@@ -76,6 +76,7 @@ typedef enum : NSUInteger {
     DCAdministrationViewController *detailViewController;
     DCAppDelegate *appDelegate;
     DCScreenOrientation screenOrientation;
+    DCWindowState previousWindowState;
 }
 
 @end
@@ -97,14 +98,19 @@ typedef enum : NSUInteger {
     
     [super viewDidLoad];
     [self currentWeekDatesArrayFromDate:[NSDate date]];
-    [self addAddMedicationButtonToNavigationBar];
     [self populateMonthYearLabel];
     [self hideCalendarTopPortion];
     [self fillPrescriberMedicationDetailsInCalendarView];
     [self obtainReferencesToChildViewControllersAddedFromStoryBoard];
     [self configureAlertsAndAllergiesArrayForDisplay];
-    [self addAlertsAndAllergyBarButtonToNavigationBar];
-    [self addPharmacistInteractionButtonToNavigationBar];
+    if ([DCAPPDELEGATE windowState] == twoThirdWindow ||
+        [DCAPPDELEGATE windowState] == fullWindow) {
+        [self addAddMedicationButtonToNavigationBar];
+        [self addAlertsAndAllergyBarButtonToNavigationBar];
+        [self addPharmacistInteractionButtonToNavigationBar];
+    } else {
+        [self addActionsButtonToNavigationBar];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -142,14 +148,26 @@ typedef enum : NSUInteger {
         windowSizeChanged = NO;
     }
     [self dateViewForOrientationChanges];
-   }
-
+    if (previousWindowState != appDelegate.windowState) {
+        if (appDelegate.windowState == oneThirdWindow || appDelegate.windowState == halfWindow) {
+            self.navigationItem.rightBarButtonItems = @[];
+            [self addActionsButtonToNavigationBar];
+        } else {
+            self.navigationItem.rightBarButtonItems = @[];
+            [self addAddMedicationButtonToNavigationBar];
+            [self addAlertsAndAllergyBarButtonToNavigationBar];
+            [self addPharmacistInteractionButtonToNavigationBar];
+        }
+    }
+}
 
 - (void)viewWillTransitionToSize:(CGSize)size
        withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     [self dateViewForOrientationChanges];
     windowSizeChanged = YES;
+    previousWindowState = appDelegate.windowState;
     if (screenOrientation == landscape && appDelegate.screenOrientation == portrait) {
         if (appDelegate.windowState == twoThirdWindow) {
             appDelegate.windowState = halfWindow;
@@ -162,7 +180,6 @@ typedef enum : NSUInteger {
         }
     }
 }
-
 
 - (void)didReceiveMemoryWarning {
     
@@ -373,6 +390,13 @@ typedef enum : NSUInteger {
     allergiesArray = self.patient.patientsAlergiesArray;
 }
 
+- (void)addActionsButtonToNavigationBar {
+    
+    //actions button in navigation bar
+    UIBarButtonItem *actionsButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"ACTIONS", @"") style:UIBarButtonItemStylePlain target:self action:@selector(oneThirdScreenActionsButtonPressed:)];
+    self.navigationItem.rightBarButtonItem = actionsButton;
+}
+
 #pragma mark - API fetch methods
 
 - (void)cancelPreviousMedicationListFetchRequest {
@@ -457,6 +481,11 @@ typedef enum : NSUInteger {
                         
                         if (!error) {
                             _patient.medicationListArray = result;
+//                            [self configureAlertsAndAllergiesArrayForDisplay];
+//                            if ([DCAPPDELEGATE windowState] == twoThirdWindow ||
+//                                [DCAPPDELEGATE windowState] == fullWindow) {
+//                                [self addAlertsAndAllergyBarButtonToNavigationBar];
+//                            }
                             [self setDisplayMedicationListArray];
                             if ([displayMedicationListArray count] > 0) {
                                 if (prescriberMedicationListViewController) {
@@ -671,9 +700,12 @@ typedef enum : NSUInteger {
     // Presenting the popover presentation controller on the navigation controller.
     UIPopoverPresentationController *alertsPopOverController = [navigationController popoverPresentationController];
     alertsPopOverController.permittedArrowDirections = UIPopoverArrowDirectionAny;
-    UIBarButtonItem *warningsBarbuttonItem = self.navigationItem.rightBarButtonItems[1];
+    if ([DCAPPDELEGATE windowState] == twoThirdWindow ||
+        [DCAPPDELEGATE windowState] == fullWindow) {
+        UIBarButtonItem *warningsBarbuttonItem = self.navigationItem.rightBarButtonItems[1];
+        alertsPopOverController.barButtonItem = warningsBarbuttonItem;
+    }
     [self presentViewController:navigationController animated:YES completion:nil];
-    alertsPopOverController.barButtonItem = warningsBarbuttonItem;
 }
 
 - (void)addAlertsAndAllergyBarButtonToNavigationBar {
@@ -789,6 +821,35 @@ typedef enum : NSUInteger {
     } else {
         [prescriberMedicationOneThirdSizeViewController todayButtonClicked];
     }
+}
+
+- (IBAction)oneThirdScreenActionsButtonPressed:(id)sender {
+    
+    //present action sheet for right bar button actions
+    UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    [actionSheet addAction:[UIAlertAction actionWithTitle:CANCEL_BUTTON_TITLE style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        // Cancel button tappped.
+        [self dismissViewControllerAnimated:YES completion:^{
+        }];
+    }]];
+    [actionSheet addAction:[UIAlertAction actionWithTitle:ADD_MEDICATION style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self addMedicationButtonPressed:nil];
+    }]];
+    NSInteger warningsCount = alertsArray.count + allergiesArray.count;
+    if (warningsCount > 0) {
+        NSString *warningsActionTitle = [NSString stringWithFormat:@"%@ (%ld)", NSLocalizedString(@"WARNINGS", @""), (long)warningsCount];
+        [actionSheet addAction:[UIAlertAction actionWithTitle:warningsActionTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self allergiesAndAlertsButtonTapped:nil];
+        }]];
+    }
+    [actionSheet addAction:[UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@ (3)", NSLocalizedString(@"PHARMACIST_INTERACTION", @"")]  style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        
+        //TODO: Include action for pharamacist interaction action
+        [self dismissViewControllerAnimated:YES completion:^{
+        }];
+    }]];
+    // Present action sheet.
+    [self presentViewController:actionSheet animated:YES completion:nil];
 }
 
 #pragma mark - Public methods implementation.
@@ -1106,6 +1167,7 @@ typedef enum : NSUInteger {
 - (void)applicationEnteredForeground:(NSNotification *)notification {
     
     NSLog(@"****** ENtered foreground");
+    [self refreshMedicationList];
     isInBackground = NO;
 }
 
