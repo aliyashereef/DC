@@ -15,7 +15,7 @@ typealias PODStatusUpdated = (DCMedicationScheduleDetails) -> Void
 class DCPodStatusSelectionViewController: UIViewController {
 
     var medicationList : NSMutableArray = []
-    var index : Int?
+    var indexOfCurrentMedication : Int?
     var selectedIndexPath : NSIndexPath?
     var alertMessage : String = EMPTY_STRING
     var podStatusUpdated : PODStatusUpdated = { value in }
@@ -40,38 +40,38 @@ class DCPodStatusSelectionViewController: UIViewController {
         self.navigationItem.leftBarButtonItem = cancelButton
         let doneButton: UIBarButtonItem = UIBarButtonItem(title: SAVE_BUTTON_TITLE, style: .Plain, target: self, action: "doneButtonPressed")
         self.navigationItem.rightBarButtonItem = doneButton
-        self.navigationItem.title = medicationList[index!].name
-        self.title = medicationList[index!].name
+        self.navigationItem.title = medicationList[indexOfCurrentMedication!].name
+        self.title = medicationList[indexOfCurrentMedication!].name
     }
 
     // MARK: - Table view methods
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
 
-        return 2
+        return SectionCount.eSecondSection.rawValue
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if section == SectionCount.eZerothSection.rawValue {
-            return 3
+            return RowCount.eThirdRow.rawValue
         } else {
-            return 1
+            return RowCount.eFirstRow.rawValue
         }
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         if indexPath.section == SectionCount.eFirstSection.rawValue {
-            return 90
+            return CGFloat(TEXT_VIEW_CELL_HEIGHT)
         } else {
-            return 44
+            return CGFloat(NORMAL_CELL_HEIGHT)
         }
     }
     
     func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         
         //Set the header as PREVIEW
-        if section == 0 {
+        if section == SectionCount.eZerothSection.rawValue {
             if (alertMessage != EMPTY_STRING) {
                 return alertMessage
             }
@@ -116,7 +116,7 @@ class DCPodStatusSelectionViewController: UIViewController {
         alertMessage = ""
         if indexPath.section == SectionCount.eZerothSection.rawValue {
             selectedIndexPath = indexPath
-            tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .None)
+            tableView.reloadSections(NSIndexSet(index: RowCount.eZerothRow.rawValue), withRowAnimation: .None)
         }
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
@@ -132,7 +132,7 @@ class DCPodStatusSelectionViewController: UIViewController {
             if let textViewCell : DCInterventionAddResolveTextViewCell = updatePodStatusTableView.cellForRowAtIndexPath(NSIndexPath(forRow: RowCount.eZerothRow.rawValue, inSection: SectionCount.eFirstSection.rawValue)) as? DCInterventionAddResolveTextViewCell {
                 if (textViewCell.reasonOrResolveTextView.text != NOTES && textViewCell.reasonOrResolveTextView.text != "" && textViewCell.reasonOrResolveTextView.text != nil) && selectedIndexPath != nil {
                     //Add to reason
-                    let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList[index!] as! DCMedicationScheduleDetails
+                    let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList[indexOfCurrentMedication!] as! DCMedicationScheduleDetails
                     switch (selectedIndexPath!.row) {
                     case RowCount.eZerothRow.rawValue:
                         medicationSheduleDetails.pharmacistAction.podStatus.podStatusType = ePatientOwnDrugs
@@ -151,20 +151,20 @@ class DCPodStatusSelectionViewController: UIViewController {
             }
         } else {
             alertMessage =  NSLocalizedString("SELECT_POD_STATUS", comment: "title")
-            updatePodStatusTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .None)
-            updatePodStatusTableView.footerViewForSection(0)?.textLabel?.text = alertMessage as String
+            updatePodStatusTableView.reloadSections(NSIndexSet(index: RowCount.eZerothRow.rawValue), withRowAnimation: .None)
+            updatePodStatusTableView.footerViewForSection(SectionCount.eZerothSection.rawValue)?.textLabel?.text = alertMessage as String
         }
     }
     
     func presentNextMedication () {
         
-        self.podStatusUpdated(medicationList[index!] as! DCMedicationScheduleDetails)
-        index!++
-        if index < medicationList.count {
+        self.podStatusUpdated(medicationList[indexOfCurrentMedication!] as! DCMedicationScheduleDetails)
+        indexOfCurrentMedication!++
+        if indexOfCurrentMedication < medicationList.count {
             self.dismissViewControllerAnimated(true, completion: {() -> Void in
                 let updatePodStatusViewController : DCPodStatusSelectionViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(UPDATE_POD_STATUS_SB_ID) as? DCPodStatusSelectionViewController
                     updatePodStatusViewController?.medicationList = self.medicationList
-                updatePodStatusViewController!.index = self.index!
+                updatePodStatusViewController!.indexOfCurrentMedication = self.indexOfCurrentMedication!
                 updatePodStatusViewController?.podStatusUpdated = { value in
                     self.podStatusUpdated(value)
                 }

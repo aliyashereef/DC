@@ -14,7 +14,7 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
 
     var interventionType : InterventionType?
     var medicationList : NSMutableArray = []
-    var index : Int?
+    var indexOfCurrentMedication : Int?
     var interventionUpdated: InterventionUpdated = { value in }
 
     @IBOutlet weak var interventionDisplayTableView: UITableView!
@@ -38,27 +38,27 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
         self.navigationItem.leftBarButtonItem = cancelButton
         let doneButton: UIBarButtonItem = UIBarButtonItem(title: SAVE_BUTTON_TITLE, style: .Plain, target: self, action: "doneButtonPressed")
         self.navigationItem.rightBarButtonItem = doneButton
-            self.navigationItem.title = medicationList[index!].name
-            self.title = medicationList[index!].name
+            self.navigationItem.title = medicationList[indexOfCurrentMedication!].name
+            self.title = medicationList[indexOfCurrentMedication!].name
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
         if interventionType == eAddIntervention {
-            return 1
+            return SectionCount.eFirstSection.rawValue
         } else {
-            return 2
+            return SectionCount.eSecondSection.rawValue
         }
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 1
+        return RowCount.eFirstRow.rawValue
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
-        return 90
+        return CGFloat(TEXT_VIEW_CELL_HEIGHT)
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -100,7 +100,8 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
             if let textViewCell : DCInterventionAddResolveTextViewCell = interventionDisplayTableView.cellForRowAtIndexPath(NSIndexPath(forRow: RowCount.eZerothRow.rawValue, inSection: SectionCount.eZerothSection.rawValue)) as? DCInterventionAddResolveTextViewCell {
                 if textViewCell.reasonOrResolveTextView.text != REASON_TEXT && textViewCell.reasonOrResolveTextView.text != "" && textViewCell.reasonOrResolveTextView.text != nil {
                     //Add to reason
-                    let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList[index!] as! DCMedicationScheduleDetails
+                    let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList[indexOfCurrentMedication!] as! DCMedicationScheduleDetails
+                    //TODO: Add the details
                     //Save name of the pharmacist who created the intervention.
                     medicationSheduleDetails.pharmacistAction.intervention.createdBy = ""
                     //Save the time at which the intervention is created.
@@ -115,7 +116,7 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
         } else {
             if let textViewCell : DCInterventionAddResolveTextViewCell = interventionDisplayTableView.cellForRowAtIndexPath(NSIndexPath(forRow: RowCount.eZerothRow.rawValue, inSection: SectionCount.eFirstSection.rawValue)) as? DCInterventionAddResolveTextViewCell {
                 if textViewCell.reasonOrResolveTextView.text != RESOLUTION_TEXT && textViewCell.reasonOrResolveTextView.text != "" && textViewCell.reasonOrResolveTextView.text != nil {
-                    let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList[index!] as! DCMedicationScheduleDetails
+                    let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList[indexOfCurrentMedication!] as! DCMedicationScheduleDetails
                     medicationSheduleDetails.pharmacistAction.intervention.resolution = textViewCell.reasonOrResolveTextView.text
                     medicationSheduleDetails.pharmacistAction.intervention.toResolve = false
                     self.presentNextMedication()
@@ -128,12 +129,12 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
     
     func presentNextMedication () {
         
-        self.interventionUpdated(self.medicationList[self.index!] as! DCMedicationScheduleDetails)
-        index!++
-        if index < medicationList.count {
+        self.interventionUpdated(self.medicationList[self.indexOfCurrentMedication!] as! DCMedicationScheduleDetails)
+        indexOfCurrentMedication!++
+        if indexOfCurrentMedication < medicationList.count {
             self.dismissViewControllerAnimated(true, completion: {() -> Void in
                 let addInterventionViewController : DCInterventionAddOrResolveViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(INTERVENTION_ADD_RESOLVE_SB_ID) as? DCInterventionAddOrResolveViewController
-                addInterventionViewController!.index = self.index!
+                addInterventionViewController!.indexOfCurrentMedication = self.indexOfCurrentMedication!
                 addInterventionViewController?.medicationList = self.medicationList
                 addInterventionViewController?.interventionType = self.interventionType
                 addInterventionViewController!.interventionUpdated = { value in

@@ -180,23 +180,30 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         pharmacistTableView.reloadData()
     }
     
+    func configureSelectedMedicationList(isResolveIntervention: Bool) -> NSMutableArray {
+        
+        let medicationObjectsArray : NSMutableArray = []
+        var selectedIndexPathsArray = self.pharmacistTableView.indexPathsForSelectedRows
+        for i in 0..<selectedIndexPathsArray!.count {
+            let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList.objectAtIndex(selectedIndexPathsArray![i].row) as! DCMedicationScheduleDetails
+            if (medicationSheduleDetails.pharmacistAction?.intervention?.toResolve == isResolveIntervention) {
+                medicationObjectsArray.addObject(medicationSheduleDetails)
+            } else {
+                let indexOfSelectedMedication = self.medicationList.indexOfObject(medicationSheduleDetails)
+                self.pharmacistTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexOfSelectedMedication, inSection: 0)], withRowAnimation: .None)
+            }
+        }
+        return medicationObjectsArray
+    }
+    
     func addInterventionAction() {
         
-        let selectedMedicationList : NSMutableArray = []
+        var selectedMedicationList : NSMutableArray = []
         if pharmacistTableView.indexPathsForSelectedRows?.count > 0 {
-            var selectedIndexPathsArray = self.pharmacistTableView.indexPathsForSelectedRows
-            for i in 0..<selectedIndexPathsArray!.count {
-                let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList.objectAtIndex(selectedIndexPathsArray![i].row) as! DCMedicationScheduleDetails
-                if (medicationSheduleDetails.pharmacistAction?.intervention?.toResolve == false) {
-                    selectedMedicationList.addObject(medicationSheduleDetails)
-                } else {
-                    let indexOfSelectedMedication = self.medicationList.indexOfObject(medicationSheduleDetails)
-                    self.pharmacistTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexOfSelectedMedication, inSection: 0)], withRowAnimation: .None)
-                }
-            }
+            selectedMedicationList = self.configureSelectedMedicationList(false)
             if selectedMedicationList.count > 0 {
                 let addInterventionViewController : DCInterventionAddOrResolveViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(INTERVENTION_ADD_RESOLVE_SB_ID) as? DCInterventionAddOrResolveViewController
-                addInterventionViewController!.index = 0
+                addInterventionViewController!.indexOfCurrentMedication = 0
                 addInterventionViewController?.interventionType = eAddIntervention
                 addInterventionViewController?.medicationList = selectedMedicationList
                 addInterventionViewController!.interventionUpdated = { value in
@@ -219,20 +226,12 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func resolveInterventionAction() {
         
-        let selectedMedicationList : NSMutableArray = []
+        var selectedMedicationList : NSMutableArray = []
         if pharmacistTableView.indexPathsForSelectedRows?.count > 0 {
-            var selectedIndexPathsArray = self.pharmacistTableView.indexPathsForSelectedRows
-            for i in 0..<selectedIndexPathsArray!.count {
-                let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList.objectAtIndex(selectedIndexPathsArray![i].row) as! DCMedicationScheduleDetails
-                if (medicationSheduleDetails.pharmacistAction?.intervention?.toResolve == true) {                    selectedMedicationList.addObject(medicationSheduleDetails)
-                } else {
-                    let indexOfSelectedMedication = self.medicationList.indexOfObject(medicationSheduleDetails)
-                    self.pharmacistTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexOfSelectedMedication, inSection: 0)], withRowAnimation: .None)
-                }
-            }
+            selectedMedicationList = self.configureSelectedMedicationList(true)
             if selectedMedicationList.count > 0 {
                 let resolveInterventionViewController : DCInterventionAddOrResolveViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(INTERVENTION_ADD_RESOLVE_SB_ID) as? DCInterventionAddOrResolveViewController
-                resolveInterventionViewController!.index = 0
+                resolveInterventionViewController!.indexOfCurrentMedication = 0
                 resolveInterventionViewController?.interventionType = eResolveIntervention
                 resolveInterventionViewController?.medicationList = selectedMedicationList
                 resolveInterventionViewController!.interventionUpdated = { value in
@@ -262,7 +261,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
             for i in 0..<self.pharmacistTableView.indexPathsForSelectedRows!.count {
                 updatePodStatusViewController?.medicationList.addObject(medicationList.objectAtIndex(self.pharmacistTableView.indexPathsForSelectedRows![i].row))
             }
-            updatePodStatusViewController!.index = 0
+            updatePodStatusViewController!.indexOfCurrentMedication = 0
             updatePodStatusViewController?.podStatusUpdated = { value in
                 let indexOfSelectedMedication = self.medicationList.indexOfObject(value)
                 self.pharmacistTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexOfSelectedMedication, inSection: 0)], withRowAnimation: .None)
@@ -373,7 +372,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         
         let updatePodStatusViewController : DCPodStatusSelectionViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(UPDATE_POD_STATUS_SB_ID) as? DCPodStatusSelectionViewController
         updatePodStatusViewController?.medicationList.addObject(medicationList.objectAtIndex(indexPath.row))
-        updatePodStatusViewController!.index = 0
+        updatePodStatusViewController!.indexOfCurrentMedication = 0
         updatePodStatusViewController?.podStatusUpdated = { value in
             let indexOfSelectedMedication = self.medicationList.indexOfObject(value)
             self.pharmacistTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexOfSelectedMedication, inSection: 0)], withRowAnimation: .None)
@@ -402,7 +401,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
             // intervention not added yet or added intervention has been resolved
             let addInterventionViewController : DCInterventionAddOrResolveViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(INTERVENTION_ADD_RESOLVE_SB_ID) as? DCInterventionAddOrResolveViewController
             addInterventionViewController?.medicationList.addObject(medicationList.objectAtIndex(indexPath.row))
-            addInterventionViewController!.index = 0
+            addInterventionViewController!.indexOfCurrentMedication = 0
             addInterventionViewController?.interventionType = eAddIntervention
             addInterventionViewController!.interventionUpdated = { value in
                 let indexOfSelectedMedication = self.medicationList.indexOfObject(value)
@@ -414,7 +413,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         } else {
             let resolveInterventionViewController : DCInterventionAddOrResolveViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(INTERVENTION_ADD_RESOLVE_SB_ID) as? DCInterventionAddOrResolveViewController
             resolveInterventionViewController?.medicationList.addObject(medicationList.objectAtIndex(indexPath.row))
-            resolveInterventionViewController!.index = 0
+            resolveInterventionViewController!.indexOfCurrentMedication = 0
             resolveInterventionViewController?.interventionType = eResolveIntervention
             resolveInterventionViewController!.interventionUpdated = { value in
                 let indexOfSelectedMedication = self.medicationList.indexOfObject(value)
