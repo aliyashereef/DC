@@ -291,6 +291,15 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
         }
     }
     
+    func editConditionStartingDoseAtIndex(index : Int) -> Float {
+        
+        if index == 0 {
+            return NSString(string: (self.dosage?.reducingIncreasingDose?.startingDose)!).floatValue
+        } else {
+            return NSString(string: (self.dosage?.reducingIncreasingDose?.conditionsArray[index-1].until)!).floatValue
+        }
+    }
+    
     func updateMainPreviewDetailsArray () {
     
         var currentStartingDose : Float?
@@ -307,8 +316,17 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
             }
             previewDetailsArray.appendContentsOf(DCDosageHelper.updatePreviewDetailsArray((self.dosage?.reducingIncreasingDose?.conditionsArray[index])! as! DCConditions, currentStartingDose: currentStartingDose!, doseUnit: (self.dosage?.doseUnit)!))
         }
-        if (NSString(string: (self.dosage?.reducingIncreasingDose?.conditionsArray[lastIndexOfArray].until)!)).floatValue > 0 {
-            self.previewDetailsArray.append("\(self.dosage!.reducingIncreasingDose!.conditionsArray[lastIndexOfArray].until) thereafter")
+        if ((self.dosage?.invalidConditionIndexPath) != nil){
+            self.previewDetailsLastLinesAtIndex((self.dosage?.invalidConditionIndexPath.row)!-1)
+        } else {
+            self.previewDetailsLastLinesAtIndex(lastIndexOfArray)
+        }
+    }
+    
+    func previewDetailsLastLinesAtIndex(index: Int) {
+        
+        if (NSString(string: (self.dosage?.reducingIncreasingDose?.conditionsArray[index].until)!)).floatValue > 0 {
+            self.previewDetailsArray.append("\(self.dosage!.reducingIncreasingDose!.conditionsArray[index].until) thereafter")
         } else {
             self.previewDetailsArray.append("Stop")
         }
@@ -349,13 +367,15 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
         addConditionViewController!.conditionItem = self.dosage?.reducingIncreasingDose.conditionsArray.objectAtIndex(indexPath.row) as? DCConditions
         addConditionViewController!.isEditCondition = true
         self.dosage?.reducingIncreasingDose?.conditionsArray.removeObjectAtIndex(indexPath.row)
-        addConditionViewController!.newStartingDose = self.currentStartingDose()
+        addConditionViewController!.newStartingDose = self.editConditionStartingDoseAtIndex(indexPath.row)
         addConditionViewController?.newConditionEntered = { value in
             self.dosage?.reducingIncreasingDose?.conditionsArray.insertObject(value!, atIndex:indexPath.row)
             self.updateConditionDescriptionArray()
             self.reducingIncreasingDoseEntered(self.dosage?.reducingIncreasingDose)
             self.checkConditionValidity()
             self.updateMainPreviewDetailsArray()
+            self.selectedIndexPath = nil
+            self.swipeBackMedicationCellsInTableView()
             self.conditionTableView.reloadData()
         }
         let navigationController: UINavigationController = UINavigationController(rootViewController: addConditionViewController!)
