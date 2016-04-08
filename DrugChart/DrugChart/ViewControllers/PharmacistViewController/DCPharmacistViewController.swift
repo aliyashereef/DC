@@ -52,6 +52,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         configureMedicationCountToolBar()
         pharmacistTableView.allowsMultipleSelectionDuringEditing = true
         //for automatic table row height adjustment
+        pharmacistTableView.tableFooterView = UIView()
         pharmacistTableView!.estimatedRowHeight = PHARMACIST_ROW_HEIGHT
         pharmacistTableView!.rowHeight = UITableViewAutomaticDimension
     }
@@ -73,9 +74,9 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     func addNavigationRightBarButtonItemForEditingState(isEditing : Bool) {
         
         if isEditing == false {
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: EDIT_BUTTON_TITLE, style: .Done, target:self , action: Selector("editButtonPressed"))
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: EDIT_BUTTON_TITLE, style: .Plain, target:self , action: Selector("editButtonPressed"))
         } else {
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: CANCEL_BUTTON_TITLE, style: .Done, target:self , action: Selector("cancelButtonPressed"))
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: CANCEL_BUTTON_TITLE, style: .Plain, target:self , action: Selector("cancelButtonPressed"))
         }
     }
     

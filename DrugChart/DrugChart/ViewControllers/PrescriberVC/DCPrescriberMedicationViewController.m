@@ -844,9 +844,7 @@ typedef enum : NSUInteger {
     }
     [actionSheet addAction:[UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@ (3)", NSLocalizedString(@"PHARMACIST_INTERACTION", @"")]  style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         
-        //TODO: Include action for pharamacist interaction action
-        [self dismissViewControllerAnimated:YES completion:^{
-        }];
+        [self pharmacistButtonTapped:nil];
     }]];
     // Present action sheet.
     [self presentViewController:actionSheet animated:YES completion:nil];
