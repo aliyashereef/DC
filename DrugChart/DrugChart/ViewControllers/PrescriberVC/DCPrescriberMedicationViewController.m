@@ -125,6 +125,7 @@ typedef enum : NSUInteger {
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
+    [self viewDidLayoutSubviews];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkAvailable:) name:kNetworkAvailable object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationEnteredBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationEnteredForeground:) name:UIApplicationDidBecomeActiveNotification object:nil];
@@ -138,6 +139,7 @@ typedef enum : NSUInteger {
 }
 
 - (void)viewDidLayoutSubviews {
+    
     [super viewDidLayoutSubviews];
     [self configureCurrentWindowCalendarWidth];
     if (windowSizeChanged ) {
@@ -1157,14 +1159,12 @@ typedef enum : NSUInteger {
 
 - (void)applicationEnteredBackground:(NSNotification *)notification {
     
-    NSLog(@"******* Entered background *****");
     [self cancelPreviousMedicationListFetchRequest];
     isInBackground = YES;
 }
 
 - (void)applicationEnteredForeground:(NSNotification *)notification {
     
-    NSLog(@"****** ENtered foreground");
     [self refreshMedicationList];
     isInBackground = NO;
 }
