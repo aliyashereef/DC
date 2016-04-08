@@ -8,17 +8,18 @@
 
 import UIKit
 
-let podStatusArray = [PATIENT_OWN_DRUG,PATIENT_OWN_DRUG_HOME,PATIENT_OWN_AND_HOME]
+let podStatusArray = [PATIENT_OWN_DRUG,PATIENT_OWN_DRUG_HOME,PATIENT_OWN_AND_HOME,NONE_TEXT]
 
 typealias PODStatusUpdated = (DCMedicationScheduleDetails) -> Void
 
-class DCPodStatusSelectionViewController: UIViewController {
+class DCPodStatusSelectionViewController: DCBaseViewController {
 
     var medicationList : NSMutableArray = []
     var indexOfCurrentMedication : Int?
     var selectedIndexPath : NSIndexPath?
-    var alertMessage : String = EMPTY_STRING
     var podStatusUpdated : PODStatusUpdated = { value in }
+    var doneButton = UIBarButtonItem?()
+    let tableviewContentOffset = 30
     
     @IBOutlet weak var updatePodStatusTableView: UITableView!
 
@@ -26,6 +27,7 @@ class DCPodStatusSelectionViewController: UIViewController {
         
         super.viewDidLoad()
         self.configureNavigationBarItems()
+        self.updatePodStatusTableView.keyboardDismissMode = .OnDrag
     }
 
     override func didReceiveMemoryWarning() {
@@ -38,7 +40,8 @@ class DCPodStatusSelectionViewController: UIViewController {
         // Configure bar buttons for Add and Resolve Intervention.
         let cancelButton: UIBarButtonItem = UIBarButtonItem(title: CANCEL_BUTTON_TITLE, style: .Plain, target: self, action: "cancelButtonPressed")
         self.navigationItem.leftBarButtonItem = cancelButton
-        let doneButton: UIBarButtonItem = UIBarButtonItem(title: SAVE_BUTTON_TITLE, style: .Plain, target: self, action: "doneButtonPressed")
+        doneButton = UIBarButtonItem(title: SAVE_BUTTON_TITLE, style: .Plain, target: self, action: "doneButtonPressed")
+        doneButton?.enabled = false
         self.navigationItem.rightBarButtonItem = doneButton
         self.navigationItem.title = medicationList[indexOfCurrentMedication!].name
         self.title = medicationList[indexOfCurrentMedication!].name
@@ -53,7 +56,7 @@ class DCPodStatusSelectionViewController: UIViewController {
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if section == SectionCount.eZerothSection.rawValue {
-            return RowCount.eThirdRow.rawValue
+            return podStatusArray.count
         } else {
             return RowCount.eFirstRow.rawValue
         }
@@ -67,27 +70,6 @@ class DCPodStatusSelectionViewController: UIViewController {
             return CGFloat(NORMAL_CELL_HEIGHT)
         }
     }
-    
-    func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        
-        //Set the header as PREVIEW
-        if section == SectionCount.eZerothSection.rawValue {
-            if (alertMessage != EMPTY_STRING) {
-                return alertMessage
-            }
-        }
-        return nil
-    }
-    
-    func tableView(tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
-        
-        //Change text color to red and change text from full upper case to desired sentence.
-        if let view = view as? UITableViewHeaderFooterView {
-            view.textLabel!.font = UIFont.systemFontOfSize(14.0)
-            view.textLabel?.textColor = UIColor.redColor()
-        }
-    }
-
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch (indexPath.section) {
@@ -113,7 +95,7 @@ class DCPodStatusSelectionViewController: UIViewController {
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        alertMessage = EMPTY_STRING
+        doneButton?.enabled = true
         if indexPath.section == SectionCount.eZerothSection.rawValue {
             selectedIndexPath = indexPath
             tableView.reloadSections(NSIndexSet(index: RowCount.eZerothRow.rawValue), withRowAnimation: .None)
@@ -129,30 +111,24 @@ class DCPodStatusSelectionViewController: UIViewController {
     func doneButtonPressed() {
         
         if selectedIndexPath != nil {
+            let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList[indexOfCurrentMedication!] as! DCMedicationScheduleDetails
+            switch (selectedIndexPath!.row) {
+            case RowCount.eZerothRow.rawValue:
+                medicationSheduleDetails.pharmacistAction.podStatus.podStatusType = ePatientOwnDrugs
+            case RowCount.eFirstRow.rawValue:
+                medicationSheduleDetails.pharmacistAction.podStatus.podStatusType = ePatientOwnDrugsHome
+            case RowCount.eSecondRow.rawValue:
+                medicationSheduleDetails.pharmacistAction.podStatus.podStatusType = ePatientOwnDrugsAndPatientOwnDrugsHome
+            default:
+                break
+            }
             if let textViewCell : DCInterventionAddResolveTextViewCell = updatePodStatusTableView.cellForRowAtIndexPath(NSIndexPath(forRow: RowCount.eZerothRow.rawValue, inSection: SectionCount.eFirstSection.rawValue)) as? DCInterventionAddResolveTextViewCell {
                 if (textViewCell.reasonOrResolveTextView.text != NOTES && textViewCell.reasonOrResolveTextView.text != EMPTY_STRING && textViewCell.reasonOrResolveTextView.text != nil) && selectedIndexPath != nil {
                     //Add to reason
-                    let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList[indexOfCurrentMedication!] as! DCMedicationScheduleDetails
-                    switch (selectedIndexPath!.row) {
-                    case RowCount.eZerothRow.rawValue:
-                        medicationSheduleDetails.pharmacistAction.podStatus.podStatusType = ePatientOwnDrugs
-                    case RowCount.eFirstRow.rawValue:
-                        medicationSheduleDetails.pharmacistAction.podStatus.podStatusType = ePatientOwnDrugsHome
-                    case RowCount.eSecondRow.rawValue:
-                        medicationSheduleDetails.pharmacistAction.podStatus.podStatusType = ePatientOwnDrugsAndPatientOwnDrugsHome
-                    default:
-                        break
-                    }
                     medicationSheduleDetails.pharmacistAction.podStatus.notes = textViewCell.reasonOrResolveTextView.text
-                    self.presentNextMedication()
-                } else {
-                    textViewCell.reasonOrResolveTextView.textColor = UIColor.redColor()
                 }
             }
-        } else {
-            alertMessage =  NSLocalizedString("SELECT_POD_STATUS", comment: "title")
-            updatePodStatusTableView.reloadSections(NSIndexSet(index: RowCount.eZerothRow.rawValue), withRowAnimation: .None)
-            updatePodStatusTableView.footerViewForSection(SectionCount.eZerothSection.rawValue)?.textLabel?.text = alertMessage as String
+            self.presentNextMedication()
         }
     }
     
@@ -181,4 +157,15 @@ class DCPodStatusSelectionViewController: UIViewController {
             self.navigationController!.dismissViewControllerAnimated(true, completion: nil)
         }
     }
+    
+    func keyboardDidShow(notification : NSNotification) {
+        
+        self.updatePodStatusTableView.contentOffset = CGPoint(x: 0, y: tableviewContentOffset)
+    }
+    
+    func keyboardDidHide(notification :NSNotification){
+        
+        updatePodStatusTableView.contentOffset = CGPoint(x: 0, y: -tableviewContentOffset);
+    }
+
 }

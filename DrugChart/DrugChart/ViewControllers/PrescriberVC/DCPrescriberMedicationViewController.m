@@ -125,6 +125,7 @@ typedef enum : NSUInteger {
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
+    [self viewDidLayoutSubviews];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkAvailable:) name:kNetworkAvailable object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationEnteredBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationEnteredForeground:) name:UIApplicationDidBecomeActiveNotification object:nil];
@@ -138,6 +139,7 @@ typedef enum : NSUInteger {
 }
 
 - (void)viewDidLayoutSubviews {
+    
     [super viewDidLayoutSubviews];
     [self configureCurrentWindowCalendarWidth];
     if (windowSizeChanged ) {
@@ -148,11 +150,17 @@ typedef enum : NSUInteger {
         windowSizeChanged = NO;
     }
     [self dateViewForOrientationChanges];
+    [self configureBarButtonsOnScreenSizeChange];
+}
+
+- (void)configureBarButtonsOnScreenSizeChange {
+    
+    //compare previous window state and current window state and display bar buttons accordingly
     if (previousWindowState != appDelegate.windowState) {
-        if (appDelegate.windowState == oneThirdWindow || appDelegate.windowState == halfWindow) {
+        if ((previousWindowState == fullWindow || previousWindowState == twoThirdWindow) && (appDelegate.windowState == oneThirdWindow || appDelegate.windowState == halfWindow)) {
             self.navigationItem.rightBarButtonItems = @[];
             [self addActionsButtonToNavigationBar];
-        } else {
+        } else if ((previousWindowState == oneThirdWindow || previousWindowState == halfWindow) && (appDelegate.windowState == fullWindow || appDelegate.windowState == twoThirdWindow)) {
             self.navigationItem.rightBarButtonItems = @[];
             [self addAddMedicationButtonToNavigationBar];
             [self addAlertsAndAllergyBarButtonToNavigationBar];
@@ -243,7 +251,7 @@ typedef enum : NSUInteger {
                  initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
                  target:self
                  action:@selector(addMedicationButtonPressed:)];
-    self.navigationItem.rightBarButtonItems = @[addButton];
+    self.navigationItem.rightBarButtonItem = addButton;
 }
 
 #pragma mark - Private methods
@@ -481,11 +489,7 @@ typedef enum : NSUInteger {
                         
                         if (!error) {
                             _patient.medicationListArray = result;
-//                            [self configureAlertsAndAllergiesArrayForDisplay];
-//                            if ([DCAPPDELEGATE windowState] == twoThirdWindow ||
-//                                [DCAPPDELEGATE windowState] == fullWindow) {
-//                                [self addAlertsAndAllergyBarButtonToNavigationBar];
-//                            }
+                            pharmacistButton.hidden = (_patient.medicationListArray.count == 0) ? true : false;
                             [self setDisplayMedicationListArray];
                             if ([displayMedicationListArray count] > 0) {
                                 if (prescriberMedicationListViewController) {
@@ -672,6 +676,7 @@ typedef enum : NSUInteger {
     presentationController.sourceView = self.view;
     presentationController.barButtonItem = (UIBarButtonItem *)sender;
     warningsButton.userInteractionEnabled = NO;
+    pharmacistButton.userInteractionEnabled = NO;
 }
 
 // when press the alerts and allergies notification button
@@ -690,6 +695,7 @@ typedef enum : NSUInteger {
     patientAlertsAllergyViewController.viewDismissed = ^ {
         warningsButton.selected = NO;
         [warningCountLabel setHidden:NO];
+        pharmacistButton.userInteractionEnabled = YES;
     };
     NSMutableArray *warningsArray = [NSMutableArray arrayWithArray:alertsArray];
     [warningsArray addObjectsFromArray:allergiesArray];
@@ -706,6 +712,7 @@ typedef enum : NSUInteger {
         alertsPopOverController.barButtonItem = warningsBarbuttonItem;
     }
     [self presentViewController:navigationController animated:YES completion:nil];
+    pharmacistButton.userInteractionEnabled = NO;
 }
 
 - (void)addAlertsAndAllergyBarButtonToNavigationBar {
@@ -739,7 +746,10 @@ typedef enum : NSUInteger {
                                                              bundle: nil];
     DCPharmacistViewController *pharmacistViewController =
     [pharmacistStoryboard instantiateViewControllerWithIdentifier:PHARMACIST_VIEW_CONTROLLER_SB_ID];
-    pharmacistViewController.medicationList = displayMedicationListArray;
+    NSString *predicateString = @"isActive == YES";
+    NSPredicate *medicineCategoryPredicate = [NSPredicate predicateWithFormat:predicateString];
+    NSMutableArray *pharmacistMedications = (NSMutableArray *)[_patient.medicationListArray filteredArrayUsingPredicate:medicineCategoryPredicate];
+    pharmacistViewController.medicationList = pharmacistMedications;
     [self.navigationController pushViewController:pharmacistViewController animated:true];
 }
 - (void)addPharmacistInteractionButtonToNavigationBar {
@@ -767,6 +777,7 @@ typedef enum : NSUInteger {
     NSMutableArray *barButtonsArray = [[NSMutableArray alloc] initWithArray:self.navigationItem.rightBarButtonItems];
     [barButtonsArray addObject:barButtonItem];
     self.navigationItem.rightBarButtonItems = barButtonsArray;
+    pharmacistButton.hidden = (_patient.medicationListArray.count == 0) ? true : false;
 }
 
 - (void)currentWeeksDateArrayFromCenterDate: (NSDate *)centerDate {
@@ -1146,6 +1157,7 @@ typedef enum : NSUInteger {
     
     //add medication view dismissed
     warningsButton.userInteractionEnabled = YES;
+    pharmacistButton.userInteractionEnabled = YES;
 }
 
 #pragma mark - Notification Methods
@@ -1157,14 +1169,12 @@ typedef enum : NSUInteger {
 
 - (void)applicationEnteredBackground:(NSNotification *)notification {
     
-    NSLog(@"******* Entered background *****");
     [self cancelPreviousMedicationListFetchRequest];
     isInBackground = YES;
 }
 
 - (void)applicationEnteredForeground:(NSNotification *)notification {
     
-    NSLog(@"****** ENtered foreground");
     [self refreshMedicationList];
     isInBackground = NO;
 }
