@@ -481,11 +481,7 @@ typedef enum : NSUInteger {
                         
                         if (!error) {
                             _patient.medicationListArray = result;
-//                            [self configureAlertsAndAllergiesArrayForDisplay];
-//                            if ([DCAPPDELEGATE windowState] == twoThirdWindow ||
-//                                [DCAPPDELEGATE windowState] == fullWindow) {
-//                                [self addAlertsAndAllergyBarButtonToNavigationBar];
-//                            }
+                            pharmacistButton.hidden = (_patient.medicationListArray.count == 0) ? true : false;
                             [self setDisplayMedicationListArray];
                             if ([displayMedicationListArray count] > 0) {
                                 if (prescriberMedicationListViewController) {
@@ -739,7 +735,10 @@ typedef enum : NSUInteger {
                                                              bundle: nil];
     DCPharmacistViewController *pharmacistViewController =
     [pharmacistStoryboard instantiateViewControllerWithIdentifier:PHARMACIST_VIEW_CONTROLLER_SB_ID];
-    pharmacistViewController.medicationList = displayMedicationListArray;
+    NSString *predicateString = @"isActive == YES";
+    NSPredicate *medicineCategoryPredicate = [NSPredicate predicateWithFormat:predicateString];
+    NSMutableArray *pharmacistMedications = (NSMutableArray *)[_patient.medicationListArray filteredArrayUsingPredicate:medicineCategoryPredicate];
+    pharmacistViewController.medicationList = pharmacistMedications;
     [self.navigationController pushViewController:pharmacistViewController animated:true];
 }
 - (void)addPharmacistInteractionButtonToNavigationBar {
@@ -767,6 +766,7 @@ typedef enum : NSUInteger {
     NSMutableArray *barButtonsArray = [[NSMutableArray alloc] initWithArray:self.navigationItem.rightBarButtonItems];
     [barButtonsArray addObject:barButtonItem];
     self.navigationItem.rightBarButtonItems = barButtonsArray;
+    pharmacistButton.hidden = (_patient.medicationListArray.count == 0) ? true : false;
 }
 
 - (void)currentWeeksDateArrayFromCenterDate: (NSDate *)centerDate {
