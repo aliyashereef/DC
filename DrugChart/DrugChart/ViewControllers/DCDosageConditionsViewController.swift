@@ -353,9 +353,9 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
         addConditionViewController?.newConditionEntered = { value in
             self.dosage?.reducingIncreasingDose?.conditionsArray.insertObject(value!, atIndex:indexPath.row)
             self.updateConditionDescriptionArray()
-            self.updateMainPreviewDetailsArray()
             self.reducingIncreasingDoseEntered(self.dosage?.reducingIncreasingDose)
             self.checkConditionValidity()
+            self.updateMainPreviewDetailsArray()
             self.conditionTableView.reloadData()
         }
         let navigationController: UINavigationController = UINavigationController(rootViewController: addConditionViewController!)
