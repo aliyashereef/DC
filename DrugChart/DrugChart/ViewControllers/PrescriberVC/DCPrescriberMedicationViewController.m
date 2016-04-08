@@ -150,11 +150,17 @@ typedef enum : NSUInteger {
         windowSizeChanged = NO;
     }
     [self dateViewForOrientationChanges];
+    [self configureBarButtonsOnScreenSizeChange];
+}
+
+- (void)configureBarButtonsOnScreenSizeChange {
+    
+    //compare previous window state and current window state and display bar buttons accordingly
     if (previousWindowState != appDelegate.windowState) {
-        if (appDelegate.windowState == oneThirdWindow || appDelegate.windowState == halfWindow) {
+        if ((previousWindowState == fullWindow || previousWindowState == twoThirdWindow) && (appDelegate.windowState == oneThirdWindow || appDelegate.windowState == halfWindow)) {
             self.navigationItem.rightBarButtonItems = @[];
             [self addActionsButtonToNavigationBar];
-        } else {
+        } else if ((previousWindowState == oneThirdWindow || previousWindowState == halfWindow) && (appDelegate.windowState == fullWindow || appDelegate.windowState == twoThirdWindow)) {
             self.navigationItem.rightBarButtonItems = @[];
             [self addAddMedicationButtonToNavigationBar];
             [self addAlertsAndAllergyBarButtonToNavigationBar];
@@ -245,7 +251,7 @@ typedef enum : NSUInteger {
                  initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
                  target:self
                  action:@selector(addMedicationButtonPressed:)];
-    self.navigationItem.rightBarButtonItems = @[addButton];
+    self.navigationItem.rightBarButtonItem = addButton;
 }
 
 #pragma mark - Private methods
@@ -670,6 +676,7 @@ typedef enum : NSUInteger {
     presentationController.sourceView = self.view;
     presentationController.barButtonItem = (UIBarButtonItem *)sender;
     warningsButton.userInteractionEnabled = NO;
+    pharmacistButton.userInteractionEnabled = NO;
 }
 
 // when press the alerts and allergies notification button
@@ -688,6 +695,7 @@ typedef enum : NSUInteger {
     patientAlertsAllergyViewController.viewDismissed = ^ {
         warningsButton.selected = NO;
         [warningCountLabel setHidden:NO];
+        pharmacistButton.userInteractionEnabled = YES;
     };
     NSMutableArray *warningsArray = [NSMutableArray arrayWithArray:alertsArray];
     [warningsArray addObjectsFromArray:allergiesArray];
@@ -704,6 +712,7 @@ typedef enum : NSUInteger {
         alertsPopOverController.barButtonItem = warningsBarbuttonItem;
     }
     [self presentViewController:navigationController animated:YES completion:nil];
+    pharmacistButton.userInteractionEnabled = NO;
 }
 
 - (void)addAlertsAndAllergyBarButtonToNavigationBar {
@@ -1148,6 +1157,7 @@ typedef enum : NSUInteger {
     
     //add medication view dismissed
     warningsButton.userInteractionEnabled = YES;
+    pharmacistButton.userInteractionEnabled = YES;
 }
 
 #pragma mark - Notification Methods
