@@ -295,6 +295,10 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         pharmacistCell?.pharmacistCellDelegate = self
         pharmacistCell?.indexPath = indexPath
         pharmacistCell?.fillMedicationDetailsInTableCell(medicationDetails as! DCMedicationScheduleDetails)
+        // to set clear background color for selected cells
+        let backgroundColorView = UIView()
+        backgroundColorView.backgroundColor = UIColor.clearColor()
+        pharmacistCell?.selectedBackgroundView = backgroundColorView
         return pharmacistCell!
     }
     
