@@ -15,7 +15,6 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     var addConditionMenuItems = ["Change","Dose","Every","Until"]
     var inlinePickerForChangeActive : Bool = false
     var inlinePickerForEveryActive : Bool = false
-    
     var newStartingDose : Float?
     var selectedPickerType : PickerType?
     var newConditionEntered: NewConditionEntered = { value in }
@@ -425,10 +424,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     // MARK: - Action Methods
     
     func cancelButtonPressed() {
-        
-        if isEditCondition {
-            self.newConditionEntered(self.conditionItem)
-        }
+
         self.navigationController!.dismissViewControllerAnimated(true, completion: nil)
     }
     

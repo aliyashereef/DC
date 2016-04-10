@@ -366,10 +366,9 @@ class DCDosageConditionsViewController: UIViewController, UITableViewDataSource,
         addConditionViewController!.dosage = self.dosage
         addConditionViewController!.conditionItem = self.dosage?.reducingIncreasingDose.conditionsArray.objectAtIndex(indexPath.row) as? DCConditions
         addConditionViewController!.isEditCondition = true
-        self.dosage?.reducingIncreasingDose?.conditionsArray.removeObjectAtIndex(indexPath.row)
         addConditionViewController!.newStartingDose = self.editConditionStartingDoseAtIndex(indexPath.row)
         addConditionViewController?.newConditionEntered = { value in
-            self.dosage?.reducingIncreasingDose?.conditionsArray.insertObject(value!, atIndex:indexPath.row)
+            self.dosage?.reducingIncreasingDose?.conditionsArray.replaceObjectAtIndex(indexPath.row, withObject: value!)
             self.updateConditionDescriptionArray()
             self.reducingIncreasingDoseEntered(self.dosage?.reducingIncreasingDose)
             self.checkConditionValidity()
