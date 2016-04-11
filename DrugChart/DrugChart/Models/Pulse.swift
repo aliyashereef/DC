@@ -23,10 +23,7 @@ class Pulse : VitalSignBaseModel
     
     override func FHIRResource() -> Resource? {
         let code = FHIRCode("O/E - pulse rate",  codeId: Constant.CODE_PULSE_RATE)
-        let observation = Observation(code:code  , status: "final")
-        observation.comments = associatedText
-        observation.effectiveDateTime = FHIRDate(super.date)
-        observation.valueQuantity = FHIRQuantity(stringValue, unit: "beats/min")
-        return observation
+        let valueQuantity = FHIRQuantity(stringValue, unit: "beats/min")
+        return self.FHIRResource(code, associatedText: associatedText, effectiveDateTime: super.date, quantity: valueQuantity)
     }
 }

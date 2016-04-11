@@ -127,6 +127,10 @@ class TabularViewController: PatientViewController , UICollectionViewDataSource,
                     headerText = Constant.NEWS
                 case ObservationTabularViewRow.CommaScore.rawValue:
                     headerText = Constant.COMMA_SCORE
+                case ObservationTabularViewRow.AdditionalOxygen.rawValue:
+                    headerText = Constant .ADDITIONAL_OXYGEN
+                case ObservationTabularViewRow.AVPU.rawValue:
+                    headerText = Constant.AVPU
                 default:
                     headerText = ""
                 }
@@ -161,30 +165,33 @@ class TabularViewController: PatientViewController , UICollectionViewDataSource,
                 switch(indexPath.section)
                 {
                 case ObservationTabularViewRow.Respiratory.rawValue:
-                    contentCell.configureCell(observation,showobservationType: .Respiratory)
+                    contentCell.configureCell(observation,showobservationType: .Respiratory , mode: Mode.EditDelete , patientId: patient.patientId)
                     contentCell.contentLabel.text = observation.getRespiratoryReading()
                 case ObservationTabularViewRow.SPO2.rawValue:
-                    contentCell.configureCell(observation,showobservationType: ShowObservationType.SpO2)
+                    contentCell.configureCell(observation,showobservationType: ShowObservationType.SpO2, mode: Mode.EditDelete, patientId: patient.patientId)
                     contentCell.contentLabel.text = observation.getSpo2Reading()
                 case ObservationTabularViewRow.Temperature.rawValue:
-                    contentCell.configureCell(observation,showobservationType: .Temperature)
+                    contentCell.configureCell(observation,showobservationType: .Temperature, mode: Mode.EditDelete, patientId: patient.patientId)
                     contentCell.contentLabel.text = observation.getTemperatureReading()
                 case ObservationTabularViewRow.BloodPressure.rawValue:
-                    contentCell.configureCell(observation,showobservationType: .BloodPressure)
+                    contentCell.configureCell(observation,showobservationType: .BloodPressure, mode: Mode.EditDelete, patientId: patient.patientId)
                     contentCell.contentLabel.text = observation.getBloodPressureReading()
                 case ObservationTabularViewRow.Pulse.rawValue:
-                    contentCell.configureCell(observation,showobservationType: .Pulse)
+                    contentCell.configureCell(observation,showobservationType: .Pulse, mode: Mode.EditDelete, patientId: patient.patientId)
                     contentCell.contentLabel.text = observation.getPulseReading()
                 case ObservationTabularViewRow.News.rawValue:
-                    contentCell.configureCell(observation,showobservationType: .None)
-                    //let newsScore = observation.newsScore
-                   // contentCell.contentLabel.text = observation.newsScore
-                    let newsScore = observation.getNews()
+                    contentCell.configureCell(observation,showobservationType: .None, mode: Mode.EditDelete, patientId: patient.patientId)
+                    let newsScore = observation.newsScore
                     contentCell.contentLabel.text = newsScore
                     contentCell.backgroundColor = getNewsRowColor(newsScore)
                 case ObservationTabularViewRow.CommaScore.rawValue:
-                    contentCell.configureCell(observation,showobservationType: .None)
+                    contentCell.configureCell(observation,showobservationType: .None, mode: Mode.EditDelete, patientId: patient.patientId)
                     contentCell.contentLabel.text = observation.getComaScore()
+                case ObservationTabularViewRow.AdditionalOxygen.rawValue:
+                    contentCell.configureBoolean(observation,value:observation.additionalOxygen,  showobservationType: .AdditionalOxygen, mode: Mode.EditDelete, patientId: patient.patientId)
+                case ObservationTabularViewRow.AVPU.rawValue:
+                    
+                    contentCell.configureBoolean(observation,value:(observation.isConscious  == nil ?false: !observation.isConscious! ), showobservationType: .AVPU, mode: Mode.EditDelete, patientId: patient.patientId)
                 default:
                     print("come in default section")
                 }
@@ -252,6 +259,11 @@ class TabularViewController: PatientViewController , UICollectionViewDataSource,
     
     func ShowModalNavigationController(navigationController:UINavigationController)
     {
+        if(navigationController.viewControllers[0].isKindOfClass(PatientViewController))
+        {
+            let patientViewController = navigationController.viewControllers[0] as? PatientViewController
+            patientViewController?.patient = self.patient
+        }
         self.presentViewController(navigationController, animated: false, completion: nil)
     }
     
@@ -260,19 +272,8 @@ class TabularViewController: PatientViewController , UICollectionViewDataSource,
         self.presentViewController(alertController, animated: true, completion: nil)
     }
     
-  
-//    func filterList()
-//    {
-//        let calendar = NSCalendar.currentCalendar()
-//        let chosenDateComponents = calendar.components([.Month , .Year], fromDate: viewByDate)
-//        
-//        filteredObservations = observationList.filter { (observationList) -> Bool in
-//            let components = calendar.components([.Month, .Year], fromDate:observationList.date)
-//            return components.month == chosenDateComponents.month && components.year == chosenDateComponents.year
-//        }
-//    }
 
-    override func didReceiveMemoryWarning() {
+   override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }

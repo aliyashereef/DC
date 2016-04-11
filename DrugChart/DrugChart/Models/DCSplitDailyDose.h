@@ -11,5 +11,6 @@
 @interface DCSplitDailyDose : NSObject
 
 @property (nonatomic, strong) NSMutableArray *timeArray;
+@property (nonatomic, strong) NSString *dailyDose;
 
 @end

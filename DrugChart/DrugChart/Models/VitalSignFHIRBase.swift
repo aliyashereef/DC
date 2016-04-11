@@ -11,6 +11,7 @@ import FHIR
 
 class VitalSignFHIRBase
 {
+    var guid:String = ""
     //This function only supports one code in the array.
     func FHIRCode(text:String , codeId:String ) -> CodeableConcept
     {
@@ -55,15 +56,28 @@ class VitalSignFHIRBase
     {
         let observation = Observation(code:code  , status: "final")
         observation.comments = associatedText
+        includeIdentifier(observation)
         observation.effectiveDateTime = FHIRDate(effectiveDateTime)
         return observation
     }
     
+    func includeIdentifier(obs:Observation)
+    {
+        if(!guid.isEmpty)
+        {
+            obs.identifier = [Identifier]()
+            let id  = Identifier(json: nil)
+            id.system = NSURL(fileURLWithPath: "http://openapi.e-mis.com/fhir/guid-identifier")
+            id.value = guid
+            obs.identifier?.append(id)
+        }
+    }
+    
     func FHIRResource(code:CodeableConcept , associatedText:String , effectiveDateTime:NSDate , quantity:Quantity) ->Resource?
     {
-        //let code = FHIRCode( "O/E - oral temperature taken",codeId: Constant.CODE_ORAL_TEMPERATURE)
         let observation = Observation(code:code  , status: "final")
         observation.comments = associatedText
+        includeIdentifier(observation)
         observation.effectiveDateTime = FHIRDate(effectiveDateTime)
         observation.valueQuantity = quantity
         //observation.valueQuantity = FHIRQuantity(stringValue, doubleQuantity: value,unit: "degrees C")

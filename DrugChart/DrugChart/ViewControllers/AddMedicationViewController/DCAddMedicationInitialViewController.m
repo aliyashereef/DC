@@ -81,7 +81,7 @@
     [medicationDetailsTableView reloadData];
 }
 
-#pragma mark - Private Methods
+#pragma mark - Private Methodsa
 
 - (void)configureNavigationBar {
     
@@ -212,6 +212,11 @@
     //check if dosage is valid, if not valid highlight field in red
     [DCAddMedicationHelper configureAddMedicationCellLabel:cell.titleLabel
                                                 forContentText:self.selectedMedication.dosage forSaveButtonAction:doneClicked];
+    if (doneClicked) {
+        if (![DCAddMedicationHelper dosageIsValidForSelectedMedication:self.selectedMedication.dose]) {
+            cell.titleLabel.textColor = [UIColor redColor];
+        }
+    }
     cell.titleLabel.text = NSLocalizedString(@"DOSE", @"Dosage cell title");
     cell.descriptionLabel.numberOfLines = 0;
     cell.descriptionLabel.text = self.selectedMedication.dosage;
@@ -250,7 +255,17 @@
             static NSString *cellIdentifier = ADD_MEDICATION_CONTENT_CELL;
             DCAddMedicationContentCell *cell = [medicationDetailsTableView dequeueReusableCellWithIdentifier:cellIdentifier];
             cell.titleLabel.text = NSLocalizedString(@"Review Frequency", @"Date cell title");
-            [cell configureContentCellWithContent:self.selectedMedication.reviewDate];
+            NSMutableString *reviewFrequency = [[NSMutableString alloc] initWithString:EMPTY_STRING];
+            if ([self.selectedMedication.medicationReview.reviewType isEqualToString:REVIEW_INTERVAL]) {
+                if (self.selectedMedication.medicationReview.reviewInterval.intervalCount != nil && ![self.selectedMedication.medicationReview.reviewInterval.intervalCount isEqualToString:EMPTY_STRING] && self.selectedMedication.medicationReview.reviewInterval.unit != nil) {
+                    [reviewFrequency appendFormat:@"In %@ %@", self.selectedMedication.medicationReview.reviewInterval.intervalCount, self.selectedMedication.medicationReview.reviewInterval.unit];
+                }
+            } else if ([self.selectedMedication.medicationReview.reviewType isEqualToString:REVIEW_DATE]) {
+                if (self.selectedMedication.medicationReview.reviewDate.dateAndTime != nil) {
+                    [reviewFrequency appendFormat:@"On %@", self.selectedMedication.medicationReview.reviewDate.dateAndTime];
+                }
+            }
+            [cell configureContentCellWithContent:reviewFrequency];
             return cell;
         }
             break;
@@ -274,11 +289,13 @@
             _datePickerIndexPath = nil;
         }
         _selectedMedication.hasReviewDate = NO;
+        _selectedMedication.medicationReview = nil;
         DCDateTableViewCell *tableCell = (DCDateTableViewCell *)[medicationDetailsTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:reviewDateIndexPath.section]];
         [tableCell.noEndDateSwitch setUserInteractionEnabled:NO];
         [self deleteReviewDateCellAfterDelay:tableCell withIndexPath:reviewDateIndexPath];
     } else {
         NSIndexPath *reviewDateIndexPath;
+        _selectedMedication.medicationReview = [[DCMedicationReview alloc] init];
         reviewDateIndexPath = [NSIndexPath indexPathForRow:1 inSection:eFirstSection];
         DCDateTableViewCell *tableCell = (DCDateTableViewCell *)[medicationDetailsTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:eFirstSection]];
         [tableCell.noEndDateSwitch setUserInteractionEnabled:NO];
@@ -710,6 +727,7 @@
     self.selectedMedication.dose = [[DCDosage alloc] init];
     dosageArray = [NSMutableArray arrayWithObjects:medication.dosage, nil];
     self.selectedMedication.infusion = [[DCInfusion alloc] init];
+    self.selectedMedication.medicationReview = [[DCMedicationReview alloc] init];
     [medicationDetailsTableView reloadData];
 }
 
@@ -759,25 +777,26 @@
     //TODO: Update the dosage to the selectedMedication in this Block.
     dosageSelectionViewController.selectedDosage = ^ (DCDosage *dosage) {
         
-    };
-    dosageSelectionViewController.newDosageAddedDelegate = self;
-    dosageSelectionViewController.dosageArray = dosageArray;
-    dosageSelectionViewController.timeArray = self.selectedMedication.timeArray;
-    dosageSelectionViewController.menuType = eDosageMenu;
-    if (self.isEditMedication) {
-        if (self.selectedMedication.dose == nil) {
-            self.selectedMedication.dose = [[DCDosage alloc] init];
+        };
+        dosageSelectionViewController.newDosageAddedDelegate = self;
+        dosageSelectionViewController.dosageArray = dosageArray;
+//        dosageSelectionViewController.timeArray = self.selectedMedication.timeArray;
+//        self.selectedMedication.dose.splitDailyDose.timeArray = self.selectedMedication.timeArray;
+        dosageSelectionViewController.menuType = eDosageMenu;
+        if (self.isEditMedication) {
+            if (self.selectedMedication.dose == nil) {
+                self.selectedMedication.dose = [[DCDosage alloc] init];
+            }
         }
-    }
-    if ([self.selectedMedication.medicineCategory  isEqualToString: @"Regular"]) {
-        dosageSelectionViewController.isReducingIncreasingPresent = true;
-        if ([self.selectedMedication.scheduling.type  isEqualToString:SPECIFIC_TIMES] && self.selectedMedication.scheduling.specificTimes != nil && [self.selectedMedication.scheduling.specificTimes.repeatObject.repeatType  isEqualToString: @"Daily"]) {
-            dosageSelectionViewController.isSplitDailyPresent = true;
+        if ([self.selectedMedication.medicineCategory  isEqualToString: @"Regular"]) {
+            dosageSelectionViewController.isReducingIncreasingPresent = true;
+            if ([self.selectedMedication.scheduling.type  isEqualToString:SPECIFIC_TIMES] && self.selectedMedication.scheduling.specificTimes != nil && [self.selectedMedication.scheduling.specificTimes.repeatObject.repeatType  isEqualToString: @"Daily"]) {
+                dosageSelectionViewController.isSplitDailyPresent = true;
+            }
         }
-    }
-    dosageSelectionViewController.dosage = self.selectedMedication.dose;
-    [self configureNavigationBackButtonTitle];
-    [self.navigationController pushViewController:dosageSelectionViewController animated:YES];
+        dosageSelectionViewController.dosage = self.selectedMedication.dose;
+        [self configureNavigationBackButtonTitle];
+        [self.navigationController pushViewController:dosageSelectionViewController animated:YES];
 }
 
 - (void)configureNavigationBackButtonTitle {
@@ -859,19 +878,14 @@
 - (void)displayReviewViewController {
     
     UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD bundle:nil];
-    DCAddNewValueViewController *addNewValueViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:ADD_NEW_VALUE_SBID];
-    addNewValueViewController.titleString = NSLocalizedString(@"Review Frequency", @"screen title");;
-    addNewValueViewController.placeHolderString = @"In";
-    addNewValueViewController.backButtonTitle = @"Add Medication";
-    addNewValueViewController.detailType = eAddValueWithUnit;
-    addNewValueViewController.unitArray = [[NSArray alloc] initWithObjects:@"Day",@"Week",@"Month",nil];
-    addNewValueViewController.previousValue = self.selectedMedication.reviewDate;
-    addNewValueViewController.newValueEntered = ^ (NSString *value) {
-        self.selectedMedication.reviewDate = [NSString stringWithFormat:@"In %@",value];
-        [medicationDetailsTableView reloadData];
+    DCReviewViewController *reviewViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:REVIEW_VIEW_CONTROLLER_SB_ID];
+    reviewViewController.title = NSLocalizedString(@"Review Frequency", @"screen title");
+    reviewViewController.review = self.selectedMedication.medicationReview;
+    reviewViewController.updatedReviewObject = ^ (DCMedicationReview *review){
+        self.selectedMedication.medicationReview = review;
     };
-    self.title = titleLabel.text;
-    [self.navigationController pushViewController:addNewValueViewController animated:YES];
+    [self configureNavigationBackButtonTitle];
+    [self.navigationController pushViewController:reviewViewController animated:YES];
 }
 
 - (void)displayMedicationTypeView {
@@ -1111,6 +1125,11 @@
     static NSString *cellIdentifier = ADD_MEDICATION_CONTENT_CELL;
     DCAddMedicationContentCell *cell = [medicationDetailsTableView dequeueReusableCellWithIdentifier:cellIdentifier];
     [DCAddMedicationHelper configureAddMedicationCellLabel:cell.titleLabel forContentText:self.selectedMedication.dosage forSaveButtonAction:doneClicked];
+    if (doneClicked) {
+        if (![DCAddMedicationHelper dosageIsValidForSelectedMedication:self.selectedMedication.dose]) {
+            cell.titleLabel.textColor = [UIColor redColor];
+        }
+    }
     cell.titleLabel.text = NSLocalizedString(@"DOSE", @"Dose cell title");
     [cell configureContentCellWithContent:self.selectedMedication.dosage];
     return cell;
@@ -1490,10 +1509,20 @@
 
 #pragma mark - AddMedicationDetail Delegate Methods
 
-- (void)newDosageAdded:(NSString *)dosage {
+- (void)newDosageAdded:(DCDosage *)dosage {
     
     //new dosage added
-    self.selectedMedication.dosage = dosage;
+    self.selectedMedication.dose = dosage;
+    self.selectedMedication.timeArray = [NSMutableArray arrayWithArray:dosage.splitDailyDose.timeArray];
+    if ([dosage.type isEqualToString:DOSE_FIXED]) {
+        if (![dosage.fixedDose.doseValue  isEqualToString:@""] && [DCDosageHelper validateRequireDailyDoseValue:dosage.fixedDose.doseValue]) {
+            self.selectedMedication.dosage = [NSString stringWithFormat:@"%@, %@ %@",dosage.type,dosage.fixedDose.doseValue,dosage.doseUnit];
+        }
+    } else if ([dosage.type isEqualToString:DOSE_VARIABLE]){
+        if (![dosage.variableDose.doseFromValue  isEqualToString:@""] && ![dosage.variableDose.doseToValue  isEqualToString:@""] && [DCDosageHelper validateRequireDailyDoseValue:dosage.variableDose.doseFromValue] && [DCDosageHelper validateRequireDailyDoseValue:dosage.variableDose.doseToValue]) {
+            self.selectedMedication.dosage = [NSString stringWithFormat:@"%@, %@ %@,%@ %@",dosage.type,dosage.variableDose.doseFromValue,dosage.doseUnit,dosage.variableDose.doseToValue,dosage.doseUnit];
+        }
+    }
     [medicationDetailsTableView reloadData];
 }
 

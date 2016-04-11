@@ -233,27 +233,30 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
     }
     
     func checkIfAdministrationIsEarly () {
-    
-    //check if administration is early
-    let currentSystemDate : NSDate = NSDate()
-    let nextMedicationTimeInterval : NSTimeInterval? = (medicationSlot?.time)!.timeIntervalSinceDate(currentSystemDate)
-    if (nextMedicationTimeInterval  >= 60*60) {
-        // is early administration
-        medicationSlot?.medicationAdministration?.isEarlyAdministration = true
-        //display early administration error message
-    } else {
-        medicationSlot?.medicationAdministration?.isEarlyAdministration = false
-    }
-        if (medicationSlot?.time.compare(currentSystemDate) == NSComparisonResult.OrderedAscending) {
+        
+        //check if administration is early
+        let currentSystemDate : NSDate = NSDate()
+        let nextMedicationTimeInterval : NSTimeInterval? = (medicationSlot?.time)!.timeIntervalSinceDate(currentSystemDate)
+        if (nextMedicationTimeInterval  >= ONE_HOUR) {
+            // is early administration
+            medicationSlot?.medicationAdministration?.isEarlyAdministration = true
+            //display early administration error message
+        } else {
+            medicationSlot?.medicationAdministration?.isEarlyAdministration = false
+        }
+        //Late administration active only after 10 mins of medication time.
+        let calendar = NSCalendar.currentCalendar()
+        let medicationTime = calendar.dateByAddingUnit(.Minute, value: -10, toDate: currentSystemDate, options: [])
+        if (medicationSlot?.time.compare(medicationTime!) == NSComparisonResult.OrderedAscending) {
             //past time, check if any medication administration is pending
             medicationSlot?.medicationAdministration?.isLateAdministration = true
         } else {
             medicationSlot?.medicationAdministration?.isLateAdministration = false
         }
-}
-
-func checkIfFrequentAdministrationForWhenRequiredMedication () {
+    }
     
+    func checkIfFrequentAdministrationForWhenRequiredMedication () {
+        
     //check if frequent administration for when required medication
     if medicationSlotsArray.count > 1 {
         let previousMedicationSlot : DCMedicationSlot? = medicationSlotsArray[medicationSlotsArray.count - 2]

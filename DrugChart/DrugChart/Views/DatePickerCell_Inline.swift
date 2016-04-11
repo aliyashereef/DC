@@ -39,7 +39,7 @@ public class DatePickerCellInline: UITableViewCell {
     /// The selected date, set to current date/time on initialization.
     public var date:NSDate = NSDate() {
         didSet {
-            datePicker.date = date
+            date=datePicker.date
             DatePickerCellInline.Stored.dateFormatter.dateStyle = dateStyle
             DatePickerCellInline.Stored.dateFormatter.timeStyle = timeStyle
             rightLabel.text = DatePickerCellInline.Stored.dateFormatter.stringFromDate(date)
