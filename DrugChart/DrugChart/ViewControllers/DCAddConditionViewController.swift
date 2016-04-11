@@ -418,7 +418,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
         
         let newStartingDoseString : String = String(format: newStartingDose! == floor(newStartingDose!) ? "%.0f" : "%.1f", newStartingDose!)
         if (valueForChange == REDUCING) {
-            if (newStartingDose <= NSString(string: valueForChange).floatValue || NSString(string:valueForDose).floatValue <= 0) {
+            if (newStartingDose <= NSString(string: valueForUntil).floatValue || NSString(string:valueForDose).floatValue <= 0) {
                 alertMessagForMismatch = "Starting dose for the condition is \(newStartingDoseString) \(self.dosage!.doseUnit). Please enter a valid value for Until."
             } else if (newStartingDose < NSString(string: valueForDose).floatValue && self.valueForChange == REDUCING) {
                 alertMessagForMismatch = "Starting dose for the condition is \(newStartingDoseString) \(self.dosage!.doseUnit). Please enter a valid value for Dose change."
