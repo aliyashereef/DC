@@ -53,6 +53,7 @@ typedef enum : NSUInteger {
     NSTimer *refreshTimer;
     NSDate *firstDisplayDate;
     UIBarButtonItem *addButton;
+    UIBarButtonItem *warningsBarButtonItem;
     UIButton *warningsButton;
     UIButton *pharmacistButton;
     UILabel *warningCountLabel;
@@ -77,6 +78,9 @@ typedef enum : NSUInteger {
     DCAppDelegate *appDelegate;
     DCScreenOrientation screenOrientation;
     DCWindowState previousWindowState;
+    
+    UIPopoverPresentationController *addPresentationController;
+    UIPopoverPresentationController *alertsPopOverController;
 }
 
 @end
@@ -148,9 +152,9 @@ typedef enum : NSUInteger {
         [self setCurrentScreenOrientation];
         [self addCustomTitleViewToNavigationBar];
         windowSizeChanged = NO;
+        [self configureBarButtonsOnScreenSizeChange];
     }
     [self dateViewForOrientationChanges];
-    [self configureBarButtonsOnScreenSizeChange];
 }
 
 - (void)configureBarButtonsOnScreenSizeChange {
@@ -163,10 +167,17 @@ typedef enum : NSUInteger {
         } else if ((previousWindowState == oneThirdWindow || previousWindowState == halfWindow) && (appDelegate.windowState == fullWindow || appDelegate.windowState == twoThirdWindow)) {
             self.navigationItem.rightBarButtonItems = @[];
             [self addAddMedicationButtonToNavigationBar];
+            if (addPresentationController != nil) {
+                addPresentationController.barButtonItem = addButton;
+            }
             [self addAlertsAndAllergyBarButtonToNavigationBar];
+            if (alertsPopOverController != nil) {
+                alertsPopOverController.barButtonItem = warningsBarButtonItem;
+            }
             [self addPharmacistInteractionButtonToNavigationBar];
         }
     }
+    previousWindowState = appDelegate.windowState;
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size
@@ -668,13 +679,13 @@ typedef enum : NSUInteger {
     [[UINavigationController alloc] initWithRootViewController:addMedicationViewController];
     navigationController.modalPresentationStyle = UIModalPresentationPopover;
     [self presentViewController:navigationController animated:YES completion:nil];
-    UIPopoverPresentationController *presentationController =
+    addPresentationController =
     [navigationController popoverPresentationController];
-    presentationController.delegate = addMedicationViewController;
-    presentationController.permittedArrowDirections =
+    addPresentationController.delegate = addMedicationViewController;
+    addPresentationController.permittedArrowDirections =
     UIPopoverArrowDirectionAny;
-    presentationController.sourceView = self.view;
-    presentationController.barButtonItem = (UIBarButtonItem *)sender;
+    addPresentationController.sourceView = self.view;
+    addPresentationController.barButtonItem = (UIBarButtonItem *)sender;
     warningsButton.userInteractionEnabled = NO;
     pharmacistButton.userInteractionEnabled = NO;
 }
@@ -704,12 +715,12 @@ typedef enum : NSUInteger {
     navigationController.modalPresentationStyle = UIModalPresentationPopover;
     navigationController.preferredContentSize = CGSizeMake([DCUtility popOverPreferredContentSize].width, ALERT_POPOVER_INITIAL_HEIGHT);
     // Presenting the popover presentation controller on the navigation controller.
-    UIPopoverPresentationController *alertsPopOverController = [navigationController popoverPresentationController];
+    alertsPopOverController = [navigationController popoverPresentationController];
     alertsPopOverController.permittedArrowDirections = UIPopoverArrowDirectionAny;
     if ([DCAPPDELEGATE windowState] == twoThirdWindow ||
         [DCAPPDELEGATE windowState] == fullWindow) {
-        UIBarButtonItem *warningsBarbuttonItem = self.navigationItem.rightBarButtonItems[1];
-        alertsPopOverController.barButtonItem = warningsBarbuttonItem;
+        UIBarButtonItem *barbuttonItem = self.navigationItem.rightBarButtonItems[1];
+        alertsPopOverController.barButtonItem = barbuttonItem;
     }
     [self presentViewController:navigationController animated:YES completion:nil];
     pharmacistButton.userInteractionEnabled = NO;
@@ -732,9 +743,9 @@ typedef enum : NSUInteger {
     [warningCountLabel setTextColor:[UIColor whiteColor]];
     [warningCountLabel setBackgroundColor:[UIColor clearColor]];
     [warningsButton addSubview:warningCountLabel];
-    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:warningsButton];
+    warningsBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:warningsButton];
     if ([allergiesArray count] > 0 || [alertsArray count] > 0) {
-        self.navigationItem.rightBarButtonItems = @[addButton, barButtonItem];
+        self.navigationItem.rightBarButtonItems = @[addButton, warningsBarButtonItem];
     } else {
         self.navigationItem.rightBarButtonItems = @[addButton];
     }
