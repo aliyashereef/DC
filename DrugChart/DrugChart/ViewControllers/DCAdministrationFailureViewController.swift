@@ -146,7 +146,22 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
         }
         return nil
     }
-
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        administrationFailureTableView.deselectRowAtIndexPath(indexPath, animated: true)
+        administrationFailureTableView.resignFirstResponder()
+        switch indexPath.section {
+        case SectionCount.eZerothSection.rawValue:
+            self.navigationController?.pushViewController(DCAdministrationHelper.addBNFView(), animated: true)
+            break
+        case SectionCount.eFirstSection.rawValue:
+            self.cellSelectionForIndexPath(indexPath)
+            break
+        default:
+            break
+        }
+    }
+    
     //MARK: Configuring Table View Cells
     
     //Medication Details Cell
@@ -223,21 +238,6 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
         pickerCell.delegate = self
         pickerCell.datePicker?.maximumDate = NSDate()
         return pickerCell;
-    }
-    
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        administrationFailureTableView.deselectRowAtIndexPath(indexPath, animated: true)
-        administrationFailureTableView.resignFirstResponder()
-        switch indexPath.section {
-        case SectionCount.eZerothSection.rawValue:
-            self.navigationController?.pushViewController(DCAdministrationHelper.addBNFView(), animated: true)
-            break
-        case SectionCount.eFirstSection.rawValue:
-            self.cellSelectionForIndexPath(indexPath)
-            break
-        default:
-            break
-        }
     }
     
     func selectedDateAtIndexPath (date : NSDate, indexPath:NSIndexPath) {
