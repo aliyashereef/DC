@@ -24,10 +24,7 @@ class SPO2 : VitalSignBaseModel
     
     override func FHIRResource() -> Resource? {
         let code = FHIRCode("Blood oxygen saturation",  codeId: Constant.CODE_OXYGEN_SATURATION)
-        let observation = Observation(code:code  , status: "final")
-        observation.comments = associatedText
-        observation.effectiveDateTime = FHIRDate(super.date)
-        observation.valueQuantity = FHIRQuantity(stringValue,  unit: "%")
-        return observation
+        let valueQuantity = FHIRQuantity(stringValue,  unit: "%")
+        return self.FHIRResource(code, associatedText: associatedText, effectiveDateTime: super.date, quantity: valueQuantity)
     }
 }

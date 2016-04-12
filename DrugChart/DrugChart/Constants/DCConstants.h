@@ -43,7 +43,8 @@
 #define DOT @"."
 #define COLON @":"
 #define NONE_TEXT @"None"
-#define FIFTEEN_MINUTES 900.0
+#define FIFTEEN_MINUTES 900.0 // In seconds
+#define ONE_HOUR 3600.0       // In seconds  
 
 //web requests
 
@@ -56,6 +57,9 @@
 
 #define CALENDAR_TWO_THIRD_WINDOW_WIDTH 435.0
 #define CALENDAR_FULL_WINDOW_WIDTH 725.0
+#define TEXT_VIEW_CELL_HEIGHT 90.0
+#define ZERO_INT 0
+#define NORMAL_CELL_HEIGHT 44.0
 
 //Button Titles
 #define OK_BUTTON_TITLE     @"OK"
@@ -69,6 +73,7 @@
 #define DONOTUSE_BUTTON_TITLE @"Do not use"
 #define NO_BUTTON_TITLE     @"No"
 #define YES_BUTTON_TITLE    @"Yes"
+#define EDIT_BUTTON_TITLE   @"Edit"
 
 //images
 
@@ -90,6 +95,8 @@
 #define DOSAGE_STORYBORD @"Dosage"
 #define ADMINISTER_GRAPH @"AdministerGraph"
 #define SUMMARY_STORYBOARD @"Summary"
+#define PHARMACIST_STORYBOARD @"Pharmacist"
+#define PHARMACIST_ACTION_STORYBOARD @"PharmacistAction"
 
 // Storyboard Ids
 #define PATIENT_LIST_VIEW_CONTROLLER @"patientListingViewController"
@@ -155,6 +162,10 @@
 #define MEDICATION_TYPE_STORYBOARD_ID @"MedicationTypeStoryboardId"
 #define MEDICATION_SUMMARY_ADMINISTRATION_HISTORY_SBID @"summaryAdministrationHistoryDisplay"
 #define MEDICATION_SUMMARY_REVIEW_HISTORY_SBID @"summaryReviewHistoryDisplay"
+#define REVIEW_VIEW_CONTROLLER_SB_ID @"ReviewViewController"
+#define PHARMACIST_VIEW_CONTROLLER_SB_ID @"pharmacistViewController"
+#define INTERVENTION_ADD_RESOLVE_SB_ID @"addOrResolveInterventionViewController"
+#define UPDATE_POD_STATUS_SB_ID @"podStatusViewController"
 
 
 //Nib files
@@ -243,6 +254,11 @@
 #define SINGLE_DOSE_PICKER_CELL_ID @"SingleDosePickerCellId"
 #define SINGLE_DOSE_ENTRY_CELL_ID @"SingleDoseEntryCellId"
 #define TYPE_CELL_ID @"TypeCellId"
+#define REVIEW_SELECTION_CELL_ID @"ReviewSelectionCellId"
+#define NEW_REVIEW_CELL_ID @"newReviewCellId"
+#define PHARMACIST_CELL_ID @"pharmacistCellId"
+#define POD_STATUS_CELL @"podStatusCell"
+#define POD_NOTES_CELL_ID @"notesCell"
 
 // Week days
 
@@ -580,6 +596,7 @@
 #define CONDITIONS_TITLE @"Conditions"
 #define ADD_NEW_TITLE @"Add New"
 #define ADD_CONDITION_TITLE @"Add Condition"
+#define EDIT_CONDITION_TITLE @"Edit Condition"
 #define REDUCING @"Reducing"
 #define INCREASING @"Increasing"
 #define ADD_ADMINISTRATION_TIME @"Add Administration Time"
@@ -601,5 +618,22 @@
 #define PERIPHERAL_LINE_TWO @"Peripheral line 2"
 #define MG_PER_HOUR @"mg/Hour"
 #define MG_PER_MINUTE @"mg/Minute"
+
+#define REVIEW_INTERVAL @"Review Interval"
+#define REVIEW_DATE @"Review Date"
+
+//Pharmacist
+#define RESOLVE_INTERVENTION_CELL @"resolutionMainCell"
+#define REASON_RESOLVE_TEXTVIEW_CELL @"reasonOrResolutionCell"
+#define REASON_TEXT @"Reason"
+#define RESOLUTION_TEXT @"Resolution"
+#define UPDATE_POD_STATUS @"Update POD Status"
+#define RESOLVE_INTERVENTION @"Resolve Intervention"
+#define CLINICAL_CHECK @"Clinical Check"
+#define CLINICAL_REMOVE @"Clinical Remove"
+#define ADD_INTERVENTION @"Add Intervention"
+#define PATIENT_OWN_DRUG @"Patient Own Drugs"
+#define PATIENT_OWN_DRUG_HOME @"Patient Own Drugs(Home)"
+#define PATIENT_OWN_AND_HOME @"Patient Own Drugs & Patient Own Drugs(Home)"
 
 #endif

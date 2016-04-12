@@ -22,5 +22,8 @@
 @property (nonatomic, strong) DCVariableDose *variableDose;
 @property (nonatomic, strong) DCReducingIncreasingDose *reducingIncreasingDose;
 @property (nonatomic, strong) DCSplitDailyDose *splitDailyDose;
+@property (nonatomic, strong) NSIndexPath *invalidConditionIndexPath;
+@property (nonatomic) BOOL isConditionsValid;
+
 
 @end

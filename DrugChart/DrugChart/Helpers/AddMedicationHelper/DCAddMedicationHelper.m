@@ -206,6 +206,12 @@
         } else {
             return true;
         }
+    } else if ([dosage.type isEqualToString:DOSE_REDUCING_INCREASING]){
+        if (dosage.isConditionsValid == false) {
+            return false;
+        } else {
+            return true;
+        }
     } else {
         return true;
     }

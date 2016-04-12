@@ -54,4 +54,12 @@ class DCDosageSelectionTableViewCell: UITableViewCell {
         dosageDetailLabel.textColor = UIColor.blackColor()
         accessoryType = .DisclosureIndicator
     }
+    
+    func configureCellForErrorCondition(cellTitle:String? ,selectedValue:String? ) {
+        
+        dosageDetailLabel.text = cellTitle
+        dosageDetailValueLabel.text = selectedValue
+        dosageDetailLabel.textColor = UIColor.redColor()
+        accessoryType = .DisclosureIndicator
+    }
 }

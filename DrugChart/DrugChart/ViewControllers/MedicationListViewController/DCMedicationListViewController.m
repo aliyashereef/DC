@@ -128,9 +128,9 @@
             }
             [medicationListTableView reloadData];
         } else {
-            [self.view endEditing:true];
             NSInteger errorCode = [[errorDict valueForKey:@"code"] integerValue];
             if (errorCode != NSURLErrorCancelled) {
+                [self.view endEditing:true];
                 medicationListArray = [NSMutableArray arrayWithArray:@[NSLocalizedString(@"NO_MEDICATIONS", @"")]];
                 [medicationListTableView reloadData];
                 if (errorCode == NETWORK_NOT_REACHABLE || errorCode == NOT_CONNECTED_TO_INTERNET) {

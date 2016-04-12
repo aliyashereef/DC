@@ -23,6 +23,7 @@ let MEDICATION_VIEW_INITIAL_LEFT_OFFSET : CGFloat   =               0.0
 let ANIMATION_DURATION : Double                     =               0.3
 let EDIT_TEXT : String                              =               "Edit"
 let STOP_TEXT : String                              =               "Stop"
+let DELETE_TEXT                                     =               "Delete"
 
 protocol DCPrescriberCellDelegate:class {
     

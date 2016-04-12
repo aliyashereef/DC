@@ -45,12 +45,6 @@ class DatePickerCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-//    func configureCell( valuePlaceHolderText:String )
-//    {
-//        titleText.text = title;
-//        value.placeholder = valuePlaceHolderText
-//    }
-//    
     
     @IBAction func textFieldEditing(sender: UITextField) {
         
@@ -85,15 +79,6 @@ class DatePickerCell: UITableViewCell {
     }
     func datePickerValueChanged(sender:UIDatePicker) {
         
-//        let dateFormatter = NSDateFormatter()
-//        
-//        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
-//        
-//        dateFormatter.timeStyle = NSDateFormatterStyle.NoStyle
-//        
-//        date = sender.date
-//        dateTextField.text = dateFormatter.stringFromDate(sender.date)
-//        
     }
     func formatDate()
     {

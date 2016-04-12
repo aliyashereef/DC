@@ -10,4 +10,17 @@
 
 @implementation DCConditions
 
+- (id)init {
+    self = [super init];
+    
+    if (self) {
+        self.every = EMPTY_STRING;
+        self.change = EMPTY_STRING;
+        self.until = EMPTY_STRING;
+        self.dose = EMPTY_STRING;
+        self.conditionDescription = EMPTY_STRING;
+    }
+    return self;
+}
+
 @end

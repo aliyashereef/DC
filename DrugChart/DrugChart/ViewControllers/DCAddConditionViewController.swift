@@ -15,10 +15,12 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     var addConditionMenuItems = ["Change","Dose","Every","Until"]
     var inlinePickerForChangeActive : Bool = false
     var inlinePickerForEveryActive : Bool = false
-    var valueForChange : NSString = ""
-    var valueForDose : NSString = ""
-    var valueForEvery : NSString = ""
-    var valueForUntil : NSString = ""
+    
+    var valueForChange : NSString = EMPTY_STRING
+    var valueForDose : NSString = EMPTY_STRING
+    var valueForEvery : NSString = EMPTY_STRING
+    var valueForUntil : NSString = EMPTY_STRING
+    
     var newStartingDose : Float?
     var selectedPickerType : PickerType?
     var newConditionEntered: NewConditionEntered = { value in }
@@ -26,14 +28,23 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     var dosage : DCDosage?
     var previewDetails = [String]()
     var doseArrayForChange = ["500 mg","250 mg","100 mg","50 mg","10 mg","5 mg"]
-    var alertMessagForMismatch : String = ""
+    var alertMessagForMismatch : String = EMPTY_STRING
+    var isEditCondition : Bool = false
     var doneClicked : Bool = false
     
     @IBOutlet weak var addConditionTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        conditionItem = DCConditions.init()
+        if !isEditCondition {
+            conditionItem = DCConditions.init()
+        } else {
+            valueForChange = (conditionItem?.change)!
+            valueForDose = (conditionItem?.dose)!
+            valueForEvery = (conditionItem?.every)!
+            valueForUntil = (conditionItem?.until)!
+            updatePreviewDetails()
+        }
         self.configureNavigationBarItems()
         // Do any additional setup after loading the view.
     }
@@ -58,8 +69,13 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
         self.navigationItem.leftBarButtonItem = cancelButton
         let doneButton: UIBarButtonItem = UIBarButtonItem(title: SAVE_BUTTON_TITLE, style: .Plain, target: self, action: "doneButtonPressed")
         self.navigationItem.rightBarButtonItem = doneButton
-        self.navigationItem.title = ADD_CONDITION_TITLE
-        self.title = ADD_CONDITION_TITLE
+        if !isEditCondition {
+            self.navigationItem.title = ADD_CONDITION_TITLE
+            self.title = ADD_CONDITION_TITLE
+        } else {
+            self.navigationItem.title = EDIT_CONDITION_TITLE
+            self.title = EDIT_CONDITION_TITLE
+        }
     }
     
     // MARK: - Table View Methods
@@ -101,7 +117,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
         //Set the header as PREVIEW
-        if section == 0 && alertMessagForMismatch != "" {
+        if section == 0 && alertMessagForMismatch != EMPTY_STRING {
             return alertMessagForMismatch
         } else if (section == 1 && self.previewDetails.count != 0) {
             return "preview"
@@ -115,7 +131,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
         //Change text color to red and change text from full upper case to desired sentence.
         if let view = view as? UITableViewHeaderFooterView {
             
-            if (section == 0 && self.alertMessagForMismatch != "") {
+            if (section == 0 && self.alertMessagForMismatch != EMPTY_STRING) {
                 view.textLabel!.font = UIFont.systemFontOfSize(14.0)
                 view.textLabel?.text = alertMessagForMismatch
                 view.textLabel?.textColor = UIColor.redColor()
@@ -128,7 +144,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
         if section == 0 {
-            if alertMessagForMismatch != "" {
+            if alertMessagForMismatch != EMPTY_STRING {
                 return 44
             } else {
                 return 0
@@ -177,7 +193,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
                 dosageConditionCell!.addConditionMenuLabel.text = addConditionMenuItems[0]
                 dosageConditionCell?.addConditionValueLabel.text = valueForChange as String
                 if doneClicked {
-                    if valueForChange == "" {
+                    if valueForChange == EMPTY_STRING {
                         dosageConditionCell?.addConditionMenuLabel.textColor = UIColor.redColor()
                     } else {
                         dosageConditionCell?.addConditionMenuLabel.textColor = UIColor.blackColor()
@@ -189,7 +205,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
                 dosageConditionCell!.addConditionMenuLabel.text = addConditionMenuItems[1]
                 dosageConditionCell?.addConditionValueLabel.text = valueForDose as String
                 if doneClicked {
-                    if valueForDose == "" {
+                    if valueForDose == EMPTY_STRING {
                         dosageConditionCell?.addConditionMenuLabel.textColor = UIColor.redColor()
                     } else {
                         dosageConditionCell?.addConditionMenuLabel.textColor = UIColor.blackColor()
@@ -201,7 +217,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
                 dosageConditionCell!.addConditionMenuLabel.text = addConditionMenuItems[2]
                 dosageConditionCell?.addConditionValueLabel.text = valueForEvery as String
                 if doneClicked {
-                    if valueForEvery == "" {
+                    if valueForEvery == EMPTY_STRING {
                         dosageConditionCell?.addConditionMenuLabel.textColor = UIColor.redColor()
                     } else {
                         dosageConditionCell?.addConditionMenuLabel.textColor = UIColor.blackColor()
@@ -213,7 +229,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
                 dosageConditionCell!.addConditionMenuLabel.text = addConditionMenuItems[3]
                 dosageConditionCell?.addConditionValueLabel.text = valueForUntil as String
                 if doneClicked {
-                    if valueForUntil == "" {
+                    if valueForUntil == EMPTY_STRING {
                         dosageConditionCell?.addConditionMenuLabel.textColor = UIColor.redColor()
                     } else {
                         dosageConditionCell?.addConditionMenuLabel.textColor = UIColor.blackColor()
@@ -291,7 +307,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
             addNewValueViewController?.backButtonTitle = ADD_CONDITION_TITLE
             addNewValueViewController?.titleString = "Every"
             addNewValueViewController?.placeHolderString = (self.dosage?.reducingIncreasingDose.changeOver)!
-            if valueForEvery != "" {
+            if valueForEvery != EMPTY_STRING {
                 addNewValueViewController?.previousValue = valueForEvery as String
             }
             addNewValueViewController!.newValueEntered = { value in
@@ -331,13 +347,12 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
             dosageDetailCell?.configurePickerCellForPickerType(eReducingIncreasingType)
             dosageDetailCell?.pickerCompletion = { value in
                 
-                self.valueForChange = value!
+                self.valueForChange = value! as String
                 self.updatePreviewDetails()
                 self.addConditionTableView.reloadData()
             }
             return dosageDetailCell!
         } else {
-            
             let dosageDetailCell : DCDosageDetailPickerCell? = addConditionTableView.dequeueReusableCellWithIdentifier(DOSE_PICKER_DISPLAY_CELL_ID) as? DCDosageDetailPickerCell
             selectedPickerType = eDailyCount
             dosageDetailCell?.configurePickerCellForPickerType(eDailyCount)
@@ -357,8 +372,9 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     func validateTheAddConditionValues() -> Bool {
+        
         if (valueForChange == REDUCING) {
-            if (newStartingDose <= NSString(string: valueForUntil).floatValue || NSString(string: valueForDose).floatValue <= 0) {
+            if newStartingDose! <= NSString(string: valueForUntil).floatValue || NSString(string: valueForDose).floatValue <= 0 || newStartingDose < NSString(string:valueForDose).floatValue {
                 return false
             }
         } else {
@@ -371,7 +387,7 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     
     func valueForVariablesIsNotNull() -> Bool {
     
-        if(valueForChange == "" || valueForDose == "" || valueForEvery == "" || valueForUntil == "") {
+        if(valueForChange == EMPTY_STRING || valueForDose == EMPTY_STRING || valueForEvery == EMPTY_STRING || valueForUntil == EMPTY_STRING) {
             return false
         } else {
             return true
@@ -383,11 +399,12 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
         if self.valueForVariablesIsNotNull() {
             self.updateAlertMessageForMismatch()
             if self.validateTheAddConditionValues() {
-                self.conditionItem?.change = self.valueForChange as String
-                self.conditionItem?.dose = self.valueForDose as String
-                self.conditionItem?.every = self.valueForEvery as String
-                self.conditionItem?.until = self.valueForUntil as String
-                self.previewDetails = DCDosageHelper.updatePreviewDetailsArray(self.conditionItem!, currentStartingDose: self.newStartingDose!, doseUnit:(self.dosage?.doseUnit)!)
+                let condition = DCConditions.init()
+                condition.until = valueForUntil as String
+                condition.dose = valueForDose as String
+                condition.every = valueForEvery as String
+                condition.change = valueForChange as String
+                self.previewDetails = DCDosageHelper.updatePreviewDetailsArray(condition, currentStartingDose: self.newStartingDose!, doseUnit:(self.dosage?.doseUnit)!)
                 if (NSString(string: self.valueForUntil).floatValue > 0) {
                     self.previewDetails.append("\(self.valueForUntil) thereafter")
                 } else {
@@ -398,18 +415,21 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     func updateAlertMessageForMismatch() {
+        
         let newStartingDoseString : String = String(format: newStartingDose! == floor(newStartingDose!) ? "%.0f" : "%.1f", newStartingDose!)
         if (valueForChange == REDUCING) {
-            if (newStartingDose <= NSString(string: valueForUntil).floatValue || NSString(string: valueForDose).floatValue <= 0) {
+            if (newStartingDose <= NSString(string: valueForUntil).floatValue || NSString(string:valueForDose).floatValue <= 0) {
                 alertMessagForMismatch = "Starting dose for the condition is \(newStartingDoseString) \(self.dosage!.doseUnit). Please enter a valid value for Until."
-            } else {
-                alertMessagForMismatch = ""
+            } else if (newStartingDose < NSString(string: valueForDose).floatValue && self.valueForChange == REDUCING) {
+                alertMessagForMismatch = "Starting dose for the condition is \(newStartingDoseString) \(self.dosage!.doseUnit). Please enter a valid value for Dose change."
+            }else {
+                alertMessagForMismatch = EMPTY_STRING
             }
         } else {
             if newStartingDose >= NSString(string: valueForUntil).floatValue || NSString(string: valueForDose).floatValue <= 0 || String(valueForUntil).characters.count >= 8 {
                 alertMessagForMismatch = "Starting dose for the condition is \(newStartingDoseString) \(self.dosage!.doseUnit). Please enter a valid value for Until."
             } else {
-                alertMessagForMismatch = ""
+                alertMessagForMismatch = EMPTY_STRING
             }
         }
         addConditionTableView.headerViewForSection(0)?.textLabel?.text = alertMessagForMismatch
@@ -419,19 +439,24 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     // MARK: - Action Methods
     
     func cancelButtonPressed() {
-        
+
         self.navigationController!.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func doneButtonPressed() {
+        
         doneClicked = true;
         if self.valueForVariablesIsNotNull() {
             if self.validateTheAddConditionValues() {
                 DCDosageHelper.createDescriptionStringForDosageCondition(conditionItem!, dosageUnit: (self.dosage?.doseUnit)!)
+                self.conditionItem?.change = self.valueForChange as String
+                self.conditionItem?.dose = self.valueForDose as String
+                self.conditionItem?.every = self.valueForEvery as String
+                self.conditionItem?.until = self.valueForUntil as String
                 self.newConditionEntered(self.conditionItem)
                 self.navigationController!.dismissViewControllerAnimated(true, completion:nil)
             } else {
-                alertMessagForMismatch = ""
+                alertMessagForMismatch = EMPTY_STRING
                 self.updateAlertMessageForMismatch()
                 addConditionTableView.reloadData()
             }

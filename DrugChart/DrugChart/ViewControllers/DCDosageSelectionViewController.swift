@@ -523,7 +523,11 @@ typealias SelectedDosage = DCDosage? -> Void
                 } else {
                     if (self.dosage?.reducingIncreasingDose?.conditionsArray != nil) {
                         if self.dosage?.reducingIncreasingDose?.conditionsArray.count > 0 {
-                            dosageSelectionDetailCell.configureCell(CONDITIONS_TITLE, selectedValue: DCDosageHelper.createDescriptionStringForDosageCondition((self.dosage?.reducingIncreasingDose.conditionsArray[0])! as! DCConditions, dosageUnit: (self.dosage?.doseUnit)!))
+                            if self.dosage?.isConditionsValid == false {
+                                dosageSelectionDetailCell.configureCellForErrorCondition(CONDITIONS_TITLE, selectedValue: DCDosageHelper.createDescriptionStringForDosageCondition((self.dosage?.reducingIncreasingDose.conditionsArray[0])! as! DCConditions, dosageUnit: (self.dosage?.doseUnit)!))
+                            } else {
+                                dosageSelectionDetailCell.configureCell(CONDITIONS_TITLE, selectedValue: DCDosageHelper.createDescriptionStringForDosageCondition((self.dosage?.reducingIncreasingDose.conditionsArray[0])! as! DCConditions, dosageUnit: (self.dosage?.doseUnit)!))
+                            }
                         } else {
                             dosageSelectionDetailCell.configureCell(CONDITIONS_TITLE, selectedValue: "")
                         }
