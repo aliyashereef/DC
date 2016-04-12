@@ -15,7 +15,7 @@ class DCAdministerGraphViewController: DCBaseViewController, UITableViewDataSour
     var weekDate : NSDate?
     var medication : DCMedicationSlot!
     var selectedRowIndex : NSIndexPath = NSIndexPath(forRow: -1, inSection: 1)
-
+    let minimumCount : Int = 47
 
     @IBOutlet weak var medicationHistoryTableview: UITableView!
     override func viewDidLoad() {
@@ -181,7 +181,7 @@ class DCAdministerGraphViewController: DCBaseViewController, UITableViewDataSour
         if containsNextLine {
             noteCell!.isNotesExpanded = false
         } else {
-            if text == NONE_TEXT || count < 47 {
+            if text == NONE_TEXT || count < minimumCount {
                 noteCell!.isNotesExpanded = true // The notes need not to be expanded further.
             }
         }
