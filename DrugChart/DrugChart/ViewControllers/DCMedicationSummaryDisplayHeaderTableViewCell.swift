@@ -45,7 +45,7 @@ class DCMedicationSummaryDisplayHeaderTableViewCell: UITableViewCell {
         if (medicationDetails.instruction != EMPTY_STRING && medicationDetails.instruction != nil) {
             instructionString = String(format: " (%@)", (medicationDetails.instruction)!)
         } else {
-            instructionString = ""
+            instructionString = EMPTY_STRING
         }
         attributedInstructionsString  = NSMutableAttributedString(string: instructionString, attributes: [NSFontAttributeName:UIFont.systemFontOfSize(12.0)])
         attributedRouteString.appendAttributedString(attributedInstructionsString)

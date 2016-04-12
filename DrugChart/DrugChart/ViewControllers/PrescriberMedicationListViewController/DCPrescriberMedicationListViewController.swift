@@ -484,12 +484,14 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             let medicationCell = cell
             if (displayMedicationListArray.count >= indexPath.item) {
                 let medicationSchedules = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
-                medicationCell.medicineName.text = medicationSchedules.name;
-                if let instructionString = medicationSchedules.instruction {
-                    if (instructionString as NSString).length > 0 {
-                        medicationCell.instructions.text = NSString(format: "(%@)", instructionString) as String ;
-                    }
+                medicationCell.medicineName.text = medicationSchedules.name
+                let instructionString : String
+                if (medicationSchedules.instruction != EMPTY_STRING && medicationSchedules.instruction != nil) {
+                    instructionString = String(format: " (%@)", (medicationSchedules.instruction)!)
+                } else {
+                    instructionString = EMPTY_STRING
                 }
+                medicationCell.instructions.text = instructionString
                 let routeString : String = medicationSchedules.route.stringByReplacingOccurrencesOfString(" ", withString: EMPTY_STRING)
                 medicationCell.route.text = routeString;
                 var typeString : String = DCCalendarHelper.typeDescriptionForMedication(medicationSchedules)
