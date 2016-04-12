@@ -438,4 +438,18 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
             self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
         }
     }
+    
+    // MARK: ScrollView Delegate Methods
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        
+        //close the opened cells
+        if let indexPath = swipedCellIndexPath {
+            let pharmacistCell = pharmacistTableView?.cellForRowAtIndexPath(indexPath)
+                as? DCPharmacistTableCell
+            pharmacistCell?.pharmacistDetailsViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET
+            pharmacistCell?.pharmacistDetailsViewTrailingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET
+            pharmacistCell?.layoutIfNeeded()
+        }
+     }
 }

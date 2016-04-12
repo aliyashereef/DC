@@ -267,7 +267,7 @@ class DCPharmacistTableCell: UITableViewCell {
         if tableView.editing == false {
             let translate : CGPoint = panGesture.translationInView(self.contentView)
             let gestureVelocity : CGPoint = panGesture.velocityInView(self)
-           // if (gestureVelocity.x > PAN_VELOCITY_TRIGGER_LIMIT || gestureVelocity.x < -PAN_VELOCITY_TRIGGER_LIMIT) {
+            if (gestureVelocity.x > PAN_VELOCITY_TRIGGER_LIMIT || gestureVelocity.x < -PAN_VELOCITY_TRIGGER_LIMIT) {
                 if ((translate.x < 0) && (pharmacistDetailsViewLeadingConstraint.constant == 0)) { // left swipe
                     UIView.animateWithDuration(0.5, animations: {
                         self.pharmacistDetailsViewLeadingConstraint.constant = -self.actionButtonsTotalWidth
@@ -305,7 +305,7 @@ class DCPharmacistTableCell: UITableViewCell {
                             delegate.swipeActionOnTableCellAtIndexPath(indexPath!)
                         }
                     }
-              //  }
+                }
             }
             if (panGesture.state == UIGestureRecognizerState.Ended) {
                 //pan ended
