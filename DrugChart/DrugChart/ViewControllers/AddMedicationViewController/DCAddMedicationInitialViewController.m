@@ -1536,22 +1536,26 @@
 #pragma mark - Keyboard notifications
 
 - (void)keyboardDidShow:(NSNotification *)notification {
-    
+
     //notification methods
     UITableViewCell *selectedCell = [medicationDetailsTableView cellForRowAtIndexPath:[self indexPathForLastRow]];
     if ([selectedCell isKindOfClass:[DCInstructionsTableCell class]]) {
         self.keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-        [self animateTableViewUpwardsWhenKeyboardAppears];
+        UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, (self.keyboardSize.height), 0.0);
+        medicationDetailsTableView.contentInset = contentInsets;
+        medicationDetailsTableView.scrollIndicatorInsets = contentInsets;
+        [medicationDetailsTableView scrollToRowAtIndexPath:[self indexPathForLastRow] atScrollPosition:UITableViewScrollPositionTop animated:true];
         isNewMedication = false;
     }
 }
 
 - (void)keyboardDidHide:(NSNotification *)notification {
     
-    [UIView setAnimationsEnabled:YES];
     [medicationDetailsTableView beginUpdates];
+    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+    medicationDetailsTableView.contentInset = contentInsets;
+    medicationDetailsTableView.scrollIndicatorInsets = contentInsets;
     [medicationDetailsTableView endUpdates];
-    [UIView setAnimationsEnabled:YES];
     previousScrollOffset = 0.0;
 }
 
