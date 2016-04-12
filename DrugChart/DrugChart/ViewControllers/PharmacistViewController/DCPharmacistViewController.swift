@@ -175,11 +175,13 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
                         pharmacistAction.clinicalCheck = !check
                     }
                 }
+                pharmacistTableView.beginUpdates()
+                pharmacistTableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation:.Fade)
+                pharmacistTableView.endUpdates()
             }
         }
         // cancel editing state and make corresponding changes in view
         self.cancelButtonPressed()
-        pharmacistTableView.reloadData()
     }
     
     func configureSelectedMedicationList(isResolveIntervention: Bool) -> NSMutableArray {
