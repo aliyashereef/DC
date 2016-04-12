@@ -87,7 +87,9 @@ typealias SelectedDosage = DCDosage? -> Void
             self.dosage?.variableDose = DCVariableDose.init()
             self.dosage?.reducingIncreasingDose = DCReducingIncreasingDose.init()
             self.dosage?.reducingIncreasingDose.conditions = DCConditions.init()
-            self.dosage?.splitDailyDose = DCSplitDailyDose.init()
+            if self.dosage?.splitDailyDose == nil {
+                self.dosage?.splitDailyDose = DCSplitDailyDose.init()
+            }
             if self.dosage?.singleDose == nil {
                 self.dosage?.singleDose = DCSingleDose.init()
             }

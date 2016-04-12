@@ -33,6 +33,7 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
         super.viewDidLoad()
         dosageDetailTableView.reloadData()
         self.configureNavigationBarItems()
+        dosageDetailTableView.keyboardDismissMode = .OnDrag
     }
     
     override func didReceiveMemoryWarning() {
@@ -57,12 +58,16 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
                         self.doseForTimeArray.append(dosageCell.addNewDosageTextField.text!)
                         self.doseForTimeArray =  self.doseForTimeArray.sort { NSString(string: $0).floatValue > NSString(string: $1).floatValue }
                         self.delegate?.newDosageAdded(dosageCell.addNewDosageTextField.text!)
+                    } else {
+                        delegate?.userDidSelectValue(dosageCell.addNewDosageTextField.text!)
                     }
                 } else {
                     if !self.dosageDetailsArray.contains(dosageCell.addNewDosageTextField.text!) {
                         self.dosageDetailsArray.append(dosageCell.addNewDosageTextField.text!)
                         self.dosageDetailsArray =  self.dosageDetailsArray.sort { NSString(string: $0).floatValue > NSString(string: $1).floatValue }
                         self.delegate?.newDosageAdded(dosageCell.addNewDosageTextField.text!)
+                    } else {
+                        delegate?.userDidSelectValue(dosageCell.addNewDosageTextField.text!)
                     }
                 }
                 self.dosageDetailTableView.reloadData()
