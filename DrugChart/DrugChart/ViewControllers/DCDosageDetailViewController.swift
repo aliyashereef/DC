@@ -8,6 +8,7 @@
 
 import UIKit
 
+let zeroInt : Int = 0
 // protocol used for sending data back to Dosage Selection
 protocol DataEnteredDelegate: class {
     
@@ -15,7 +16,7 @@ protocol DataEnteredDelegate: class {
     func newDosageAdded(value : String)
 }
 
-class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class DCDosageDetailViewController: DCBaseViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var dosageDetailTableView: UITableView!
     let changeOverItemsArray = ["Days","Doses"]
@@ -27,7 +28,11 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
     var selectedIndexPath = NSIndexPath(forRow: 0, inSection: 0)
     var dosageDetailsArray = [String]()
     weak var delegate: DataEnteredDelegate? = nil
-    
+    let tableviewContentOffset = 44
+    let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
+    let thresholdCountForKeyboardAppear : Int = 3
+    let thresholdCountForKeyboardDisappear : Int = 9
+
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -255,5 +260,43 @@ class DCDosageDetailViewController: UIViewController, UITableViewDataSource, UIT
         let scanner: NSScanner = NSScanner(string:value)
         let isNumeric = scanner.scanDecimal(nil) && scanner.atEnd
         return isNumeric && NSString(string: value).floatValue < 10000
+    }
+    
+    // MARK: - Keyboard Delegate Methods
+
+    func keyboardDidShow(notification : NSNotification) {
+        
+        //If the no of array elements is greater than the threshold value then the view should adjust.
+        if appDelegate.windowState == DCWindowState.oneThirdWindow || appDelegate.windowState == DCWindowState.halfWindow {
+            if self.detailType == eAddDoseForTime {
+                if doseForTimeArray.count > thresholdCountForKeyboardAppear {
+                    self.dosageDetailTableView.contentOffset = CGPoint(x: 0, y: tableviewContentOffset * (doseForTimeArray.count - thresholdCountForKeyboardAppear))
+                }
+            } else {
+                if dosageDetailsArray.count > thresholdCountForKeyboardAppear {
+                    self.dosageDetailTableView.contentOffset = CGPoint(x: 0, y: tableviewContentOffset * (dosageDetailsArray.count - thresholdCountForKeyboardAppear))
+                }
+            }
+        }
+    }
+    
+    func keyboardDidHide(notification :NSNotification){
+        
+        //If the no of array elements is greater than the threshold value then the view should adjust to make the new entry visible.
+        if appDelegate.windowState == DCWindowState.oneThirdWindow || appDelegate.windowState == DCWindowState.halfWindow {
+            if self.detailType == eAddDoseForTime {
+                if doseForTimeArray.count < thresholdCountForKeyboardDisappear {
+                    self.dosageDetailTableView.contentOffset = CGPoint(x: zeroInt, y: -tableviewContentOffset);
+                } else {
+                    self.dosageDetailTableView.contentOffset = CGPoint(x: zeroInt, y: tableviewContentOffset * (doseForTimeArray.count - thresholdCountForKeyboardDisappear))
+                }
+            } else {
+                if dosageDetailsArray.count < thresholdCountForKeyboardDisappear {
+                    self.dosageDetailTableView.contentOffset = CGPoint(x: zeroInt, y: -tableviewContentOffset);
+                } else {
+                    self.dosageDetailTableView.contentOffset = CGPoint(x: zeroInt, y: tableviewContentOffset * (dosageDetailsArray.count - thresholdCountForKeyboardDisappear))
+                }
+            }
+        }
     }
 }
