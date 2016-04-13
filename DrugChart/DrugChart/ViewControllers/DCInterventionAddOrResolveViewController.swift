@@ -16,6 +16,7 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
     var medicationList : NSMutableArray = []
     var indexOfCurrentMedication : Int?
     var interventionUpdated: InterventionUpdated = { value in }
+    var saveButton: UIBarButtonItem =  UIBarButtonItem()
 
     @IBOutlet weak var interventionDisplayTableView: UITableView!
     
@@ -36,11 +37,19 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
         // Configure bar buttons for Add and Resolve Intervention.
         let cancelButton: UIBarButtonItem = UIBarButtonItem(title: CANCEL_BUTTON_TITLE, style: .Plain, target: self, action: "cancelButtonPressed")
         self.navigationItem.leftBarButtonItem = cancelButton
-        let doneButton: UIBarButtonItem = UIBarButtonItem(title: SAVE_BUTTON_TITLE, style: .Plain, target: self, action: "doneButtonPressed")
-        self.navigationItem.rightBarButtonItem = doneButton
-            self.navigationItem.title = medicationList[indexOfCurrentMedication!].name
-            self.title = medicationList[indexOfCurrentMedication!].name
+        saveButton = UIBarButtonItem(title: SAVE_BUTTON_TITLE, style: .Plain, target: self, action: "doneButtonPressed")
+        self.configuraSaveButton(false)
+        self.navigationItem.rightBarButtonItem = saveButton
+        self.navigationItem.title = medicationList[indexOfCurrentMedication!].name
+        self.title = medicationList[indexOfCurrentMedication!].name
     }
+    
+    func configuraSaveButton (active : Bool) {
+        
+        saveButton.enabled = active
+    }
+    
+    //MARK: Tableview Methods
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
@@ -66,6 +75,9 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
         case eAddIntervention.rawValue:
             let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(REASON_RESOLVE_TEXTVIEW_CELL) as? DCInterventionAddResolveTextViewCell
             cell!.placeHolderString = REASON_TEXT
+            cell?.textViewUpdated = { value in
+                self.configuraSaveButton(value)
+            }
             cell?.initializeTextView()
             return cell!
         case eResolveIntervention.rawValue:
@@ -75,6 +87,9 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
             } else {
                 let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(REASON_RESOLVE_TEXTVIEW_CELL) as? DCInterventionAddResolveTextViewCell
                 cell!.placeHolderString = RESOLUTION_TEXT
+                cell?.textViewUpdated = { value in
+                    self.configuraSaveButton(value)
+                }
                 cell?.initializeTextView()
                 return cell!
             }
