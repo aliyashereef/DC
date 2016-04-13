@@ -789,6 +789,9 @@ typealias SelectedDosage = DCDosage? -> Void
         let singleDoseViewController = UIStoryboard(name: DOSAGE_STORYBORD, bundle: nil).instantiateViewControllerWithIdentifier(SINGLE_DOSE_VIEW_STORYBOARD_ID) as? DCSingleDoseViewController
         singleDoseViewController?.singleDose = self.dosage?.singleDose
         singleDoseViewController?.doseUnit = self.dosage?.doseUnit
+        let viewControllers = self.navigationController!.viewControllers
+        let rootViewController =  viewControllers[0] as? DCAddMedicationInitialViewController
+        singleDoseViewController?.startDate = DCDateUtility.dateFromSourceString(rootViewController?.selectedMedication.startDate)
         self.configureNavigationBackButtonTitle();
         self.navigationController?.pushViewController(singleDoseViewController!, animated: true)
     }

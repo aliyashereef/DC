@@ -18,6 +18,7 @@ class DCSingleDoseViewController: DCBaseViewController, UITableViewDelegate, UIT
     var singleDose : DCSingleDose?
     var doseUnit : NSString?
     var updatedSingleDose : UpdatedSingleDose = { dose in }
+    var startDate : NSDate?
 
     override func viewDidLoad() {
         
@@ -178,6 +179,9 @@ class DCSingleDoseViewController: DCBaseViewController, UITableViewDelegate, UIT
         if let singleDoseTime = singleDose?.dateAndTime {
             let date = DCDateUtility.dateFromSourceString(singleDoseTime)
             pickerCell?.datePickerView.date =  date
+        }
+        if (self.startDate != nil) {
+            pickerCell?.datePickerView.maximumDate = self.startDate
         }
         pickerCell?.pickerCompletion = { time in
             self.singleDose?.dateAndTime = time as? String
