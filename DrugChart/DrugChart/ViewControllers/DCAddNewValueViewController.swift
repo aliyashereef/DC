@@ -125,24 +125,28 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
             let newValueTableCell : DCAddNewValueTableViewCell = (mainTableView.dequeueReusableCellWithIdentifier(PICKER_DROP_DOWN_CELL) as? DCAddNewValueTableViewCell)!
             newValueTableCell.unitLabel.text = "Unit"
             newValueTableCell.unitValueLabel.text = valueForUnit
-            newValueTableCell.preservesSuperviewLayoutMargins = false
-            newValueTableCell.separatorInset = UIEdgeInsetsZero
-            newValueTableCell.layoutMargins = UIEdgeInsetsZero
+            if isInlinePickerActive == false {
+                newValueTableCell.preservesSuperviewLayoutMargins = false
+                newValueTableCell.separatorInset = UIEdgeInsetsZero
+                newValueTableCell.layoutMargins = UIEdgeInsetsZero
+            }
             return newValueTableCell
-        }else {
-            let newValueTableCell : DCAddNewValuePickerCell = (mainTableView.dequeueReusableCellWithIdentifier(PICKER_CELL) as? DCAddNewValuePickerCell)!
-            newValueTableCell.configurePickerCellWithValues(unitArray)
+        } else {
+            let pickerCell : DCAddNewValuePickerCell = (mainTableView.dequeueReusableCellWithIdentifier(PICKER_CELL) as? DCAddNewValuePickerCell)!
+            pickerCell.configurePickerCellWithValues(unitArray)
             if detailType == eAddValueWithUnit {
                 if valueForUnit != EMPTY_STRING {
-                    newValueTableCell.selectPickerViewForValue(valueForUnit)
+                    pickerCell.selectPickerViewForValue(valueForUnit)
                 }
             }
-            newValueTableCell.pickerCompletion = { value in
+            pickerCell.pickerCompletion = { value in
                 self.valueForUnit = value!
                 self.mainTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 0)], withRowAnimation: .None)
             }
-
-            return newValueTableCell
+            pickerCell.preservesSuperviewLayoutMargins = false
+            pickerCell.separatorInset = UIEdgeInsetsZero
+            pickerCell.layoutMargins = UIEdgeInsetsZero
+            return pickerCell
         }
     }
     
@@ -191,7 +195,7 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
     
     func displayInlinePickerForUnit(indexPath: NSIndexPath) {
         
-        let indexPaths = [NSIndexPath(forItem: indexPath.row + 1, inSection: indexPath.section)]
+        let indexPaths = [NSIndexPath(forItem: indexPath.row + 1, inSection: indexPath.section), NSIndexPath(forItem: indexPath.row, inSection: indexPath.section)]
         mainTableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Fade)
     }
     
