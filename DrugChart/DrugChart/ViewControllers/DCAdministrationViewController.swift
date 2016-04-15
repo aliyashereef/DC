@@ -63,16 +63,15 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         
         let currentSystemDate : NSDate = NSDate()
         let currentDateString : NSString? = DCDateUtility.dateStringFromDate(currentSystemDate, inFormat: SHORT_DATE_FORMAT)
-
+        if medication.medicationAdministration?.status == STARTED {
+            return IN_PROGRESS
+        }
         if (medication.medicationAdministration?.status != nil && medication.medicationAdministration.actualAdministrationTime != nil){
             if medication.medicationAdministration?.status == REFUSED {
                 return NOT_ADMINISTRATED
             } else {
                 return (medication.medicationAdministration?.status)!
             }
-        }
-        if medication.medicationAdministration?.status == STARTED {
-            return IN_PROGRESS
         }
         //medication slot selected more than the current date
         if (medication.time.compare(currentSystemDate) == NSComparisonResult.OrderedDescending){
