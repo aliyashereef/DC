@@ -54,8 +54,9 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
     }
     
     override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
+        self.administerSuccessTableView.reloadData()
         self.collapseOpenedPickerCell()
+        super.viewWillDisappear(animated)
     }
     // MARK: Private Methods
     //MARK:
@@ -467,7 +468,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         case eFirstSection.rawValue:
             let reasonViewController : DCAdministrationReasonViewController = self.reasonCellSelectedAtIndexPath(indexPath)
             self.navigationController!.pushViewController(reasonViewController, animated: true)
-        case eSecondSection.rawValue:
+        case eThirdSection.rawValue:
             self.displayInlineDatePickerForRowAtIndexPath(indexPath)
             break
         case eFourthSection.rawValue:
