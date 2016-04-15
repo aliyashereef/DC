@@ -777,34 +777,37 @@
     //TODO: Update the dosage to the selectedMedication in this Block.
     dosageSelectionViewController.selectedDosage = ^ (DCDosage *dosage) {
         
-        };
-        dosageSelectionViewController.newDosageAddedDelegate = self;
-        dosageSelectionViewController.dosageArray = dosageArray;
-//        dosageSelectionViewController.timeArray = self.selectedMedication.timeArray;
-//        self.selectedMedication.dose.splitDailyDose.timeArray = self.selectedMedication.timeArray;
-        dosageSelectionViewController.menuType = eDosageMenu;
-        if (self.isEditMedication) {
-            if (self.selectedMedication.dose == nil) {
-                self.selectedMedication.dose = [[DCDosage alloc] init];
-            }
+    };
+    dosageSelectionViewController.newDosageAddedDelegate = self;
+    dosageSelectionViewController.dosageArray = dosageArray;
+    //        dosageSelectionViewController.timeArray = self.selectedMedication.timeArray;
+    if (self.selectedMedication.dose.splitDailyDose == nil && self.selectedMedication.timeArray.count > 0) {
+        self.selectedMedication.dose.splitDailyDose = [[DCSplitDailyDose alloc] init];
+    }
+    self.selectedMedication.dose.splitDailyDose.timeArray = self.selectedMedication.timeArray;
+    dosageSelectionViewController.menuType = eDosageMenu;
+    if (self.isEditMedication) {
+        if (self.selectedMedication.dose == nil) {
+            self.selectedMedication.dose = [[DCDosage alloc] init];
         }
-        if ([self.selectedMedication.medicineCategory  isEqualToString: @"Regular"]) {
-            dosageSelectionViewController.isReducingIncreasingPresent = true;
-            if ([self.selectedMedication.scheduling.type  isEqualToString:SPECIFIC_TIMES] && self.selectedMedication.scheduling.specificTimes != nil && [self.selectedMedication.scheduling.specificTimes.repeatObject.repeatType  isEqualToString: @"Daily"]) {
-                dosageSelectionViewController.isSplitDailyPresent = true;
-            }
+    }
+    if ([self.selectedMedication.medicineCategory  isEqualToString: REGULAR_MEDICATION]) {
+        dosageSelectionViewController.isReducingIncreasingPresent = true;
+        if ([self.selectedMedication.scheduling.type  isEqualToString:SPECIFIC_TIMES] && self.selectedMedication.scheduling.specificTimes != nil && [self.selectedMedication.scheduling.specificTimes.repeatObject.repeatType  isEqualToString: @"Daily"]) {
+            dosageSelectionViewController.isSplitDailyPresent = true;
         }
-        dosageSelectionViewController.dosage = self.selectedMedication.dose;
-        [self configureNavigationBackButtonTitle];
-        [self.navigationController pushViewController:dosageSelectionViewController animated:YES];
+    }
+    dosageSelectionViewController.dosage = self.selectedMedication.dose;
+    [self configureNavigationBackButtonTitle];
+    [self.navigationController pushViewController:dosageSelectionViewController animated:YES];
 }
 
 - (void)configureNavigationBackButtonTitle {
     
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:titleLabel.text
-                                                                             style:UIBarButtonItemStylePlain
-                                                                            target:nil
-                                                                            action:nil];
+                                                                   style:UIBarButtonItemStylePlain
+                                                                  target:nil
+                                                                  action:nil];
     self.navigationItem.backBarButtonItem = backButton;
 }
 

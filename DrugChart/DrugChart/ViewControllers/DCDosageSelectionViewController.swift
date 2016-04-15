@@ -89,7 +89,9 @@ typealias SelectedDosage = DCDosage? -> Void
             self.dosage?.variableDose = DCVariableDose.init()
             self.dosage?.reducingIncreasingDose = DCReducingIncreasingDose.init()
             self.dosage?.reducingIncreasingDose.conditions = DCConditions.init()
-            self.dosage?.splitDailyDose = DCSplitDailyDose.init()
+            if self.dosage?.splitDailyDose == nil {
+                self.dosage?.splitDailyDose = DCSplitDailyDose.init()
+            }
             if self.dosage?.singleDose == nil {
                 self.dosage?.singleDose = DCSingleDose.init()
             }
@@ -650,36 +652,37 @@ typealias SelectedDosage = DCDosage? -> Void
     
     func updateAlertMessageForMismatch () {
         
-        let dosageCell: DCDosageSelectionTableViewCell = dosageTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 1)) as! DCDosageSelectionTableViewCell
-        valueStringForRequiredDailyDose = dosageCell.requiredDailyDoseTextField.text!
-        self.dosage?.splitDailyDose.dailyDose = valueStringForRequiredDailyDose as String
-        valueForRequiredDailyDose = NSString(string: valueStringForRequiredDailyDose).floatValue
-        if (valueStringForRequiredDailyDose != "" && valueForRequiredDailyDose != 0 && selectedTimeArrayItems.count != 0) {
-            
-            totalValueForDose = 0
-            var valueOfDoseAtIndex : Float = 0
-            var countOfItemsWithDoseValueSelected : Int = 0
-            for index in 0..<valueForDoseForTime.count {
+        if let dosageCell: DCDosageSelectionTableViewCell = dosageTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 1)) as? DCDosageSelectionTableViewCell {
+            valueStringForRequiredDailyDose = dosageCell.requiredDailyDoseTextField.text!
+            self.dosage?.splitDailyDose.dailyDose = valueStringForRequiredDailyDose as String
+            valueForRequiredDailyDose = NSString(string: valueStringForRequiredDailyDose).floatValue
+            if (valueStringForRequiredDailyDose != "" && valueForRequiredDailyDose != 0 && selectedTimeArrayItems.count != 0) {
                 
-                if (valueForDoseForTime[index] != "") {
-                    valueOfDoseAtIndex = NSString(string: valueForDoseForTime[index]).floatValue
-                    totalValueForDose += valueOfDoseAtIndex
-                    countOfItemsWithDoseValueSelected++
+                totalValueForDose = 0
+                var valueOfDoseAtIndex : Float = 0
+                var countOfItemsWithDoseValueSelected : Int = 0
+                for index in 0..<valueForDoseForTime.count {
+                    
+                    if (valueForDoseForTime[index] != "") {
+                        valueOfDoseAtIndex = NSString(string: valueForDoseForTime[index]).floatValue
+                        totalValueForDose += valueOfDoseAtIndex
+                        countOfItemsWithDoseValueSelected++
+                    }
                 }
-            }
-            if (totalValueForDose == valueForRequiredDailyDose && countOfItemsWithDoseValueSelected == selectedTimeArrayItems.count) {
-                alertMessageForMismatch = ""
-            } else if (totalValueForDose == valueForRequiredDailyDose && countOfItemsWithDoseValueSelected < selectedTimeArrayItems.count) {
-                alertMessageForMismatch = "Some administration times does not have dose value. Either delete it or adjust the distribution."
-            } else if (totalValueForDose < valueForRequiredDailyDose) {
-                alertMessageForMismatch = "Add a further \(valueForRequiredDailyDose - totalValueForDose) \(self.dosage!.doseUnit) to meet the required daily dose"
+                if (totalValueForDose == valueForRequiredDailyDose && countOfItemsWithDoseValueSelected == selectedTimeArrayItems.count) {
+                    alertMessageForMismatch = ""
+                } else if (totalValueForDose == valueForRequiredDailyDose && countOfItemsWithDoseValueSelected < selectedTimeArrayItems.count) {
+                    alertMessageForMismatch = "Some administration times does not have dose value. Either delete it or adjust the distribution."
+                } else if (totalValueForDose < valueForRequiredDailyDose) {
+                    alertMessageForMismatch = "Add a further \(valueForRequiredDailyDose - totalValueForDose) \(self.dosage!.doseUnit) to meet the required daily dose"
+                } else {
+                    alertMessageForMismatch = "Remove \(totalValueForDose - valueForRequiredDailyDose) \(self.dosage!.doseUnit) to meet the required daily dose"
+                }
             } else {
-                alertMessageForMismatch = "Remove \(totalValueForDose - valueForRequiredDailyDose) \(self.dosage!.doseUnit) to meet the required daily dose"
+                alertMessageForMismatch = ""
             }
-        } else {
-            alertMessageForMismatch = ""
+            dosageTableView.headerViewForSection(2)?.textLabel?.text = alertMessageForMismatch as String
         }
-        dosageTableView.headerViewForSection(2)?.textLabel?.text = alertMessageForMismatch as String
     }
     
     func updateTimeArray (index: Int) {
