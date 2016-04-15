@@ -13,6 +13,7 @@ class DCAddNewValueTableViewCell: UITableViewCell, UITextFieldDelegate {
     @IBOutlet weak var newValueTextField: UITextField!
     @IBOutlet weak var unitLabel: UILabel!
     @IBOutlet weak var unitValueLabel: UILabel!
+    @IBOutlet weak var unitValueTrailingConstraint: NSLayoutConstraint!
     
     override func awakeFromNib() {
         super.awakeFromNib()
