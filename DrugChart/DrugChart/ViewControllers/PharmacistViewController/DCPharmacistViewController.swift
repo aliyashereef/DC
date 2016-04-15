@@ -447,9 +447,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         if let indexPath = swipedCellIndexPath {
             let pharmacistCell = pharmacistTableView?.cellForRowAtIndexPath(indexPath)
                 as? DCPharmacistTableCell
-            pharmacistCell?.pharmacistDetailsViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET
-            pharmacistCell?.pharmacistDetailsViewTrailingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET
-            pharmacistCell?.layoutIfNeeded()
+            pharmacistCell?.swipePrescriberDetailViewToRight()
             swipedCellIndexPath = nil
         }
     }
