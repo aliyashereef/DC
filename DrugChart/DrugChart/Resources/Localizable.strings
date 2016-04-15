@@ -198,3 +198,4 @@
 "ACTIONS"              =       "Actions";
 "WARNINGS"             =       "Warnings";
 "PHARMACIST_INTERACTION"    =   "Pharmacist Interaction";
+"PHARMACIST_UNSAVED_CHANGES" =  "There are selections with no actions taken. Are you sure you want to proceed?";
