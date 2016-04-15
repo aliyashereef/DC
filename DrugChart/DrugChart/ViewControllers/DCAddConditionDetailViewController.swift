@@ -10,13 +10,17 @@ import UIKit
 
 typealias ValueForDoseSelected = String? -> Void
 
-class DCAddConditionDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class DCAddConditionDetailViewController: DCBaseViewController, UITableViewDataSource, UITableViewDelegate {
 
     var doseArrayForChange = [String]()
     var doseArrayForUntil = [String]()
     var detailType : AddConditionDetailType = eDoseChange
     var previousSelectedValue : NSString = ""
     var valueForDoseSelected: ValueForDoseSelected = { value in }
+    let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
+    let tableviewContentOffset = 44
+    let thresholdCountForKeyboardAppear : Int = 3
+    let thresholdCountForKeyboardDisappear : Int = 9
 
     @IBOutlet weak var detailTableView: UITableView!
 
@@ -25,8 +29,7 @@ class DCAddConditionDetailViewController: UIViewController, UITableViewDataSourc
         self.configureNavigationBarItems()
         doseArrayForUntil.appendContentsOf(doseArrayForChange)
         doseArrayForUntil.append("0 mg")
-
-        // Do any additional setup after loading the view.
+        detailTableView.keyboardDismissMode = .OnDrag
     }
 
     override func didReceiveMemoryWarning() {
@@ -163,5 +166,43 @@ class DCAddConditionDetailViewController: UIViewController, UITableViewDataSourc
         let scanner: NSScanner = NSScanner(string:value)
         let isNumeric = scanner.scanDecimal(nil) && scanner.atEnd
         return isNumeric && (NSString(string: value).floatValue < maximumValueOfDose)
+    }
+    
+    // MARK: - Keyboard Delegate Methods
+    
+    func keyboardDidShow(notification : NSNotification) {
+        
+        //If the no of array elements is greater than the threshold value then the view should adjust.
+        if appDelegate.windowState == DCWindowState.oneThirdWindow || appDelegate.windowState == DCWindowState.halfWindow {
+            if self.detailType == eDoseChange {
+                if doseArrayForChange.count > thresholdCountForKeyboardAppear {
+                    self.detailTableView.contentOffset = CGPoint(x: 0, y: tableviewContentOffset * (doseArrayForChange.count - thresholdCountForKeyboardAppear))
+                }
+            } else {
+                if doseArrayForUntil.count > thresholdCountForKeyboardAppear {
+                    self.detailTableView.contentOffset = CGPoint(x: 0, y: tableviewContentOffset * (doseArrayForUntil.count - thresholdCountForKeyboardAppear))
+                }
+            }
+        }
+    }
+    
+    func keyboardDidHide(notification :NSNotification){
+        
+        //If the no of array elements is greater than the threshold value then the view should adjust to make the new entry visible.
+        if appDelegate.windowState == DCWindowState.oneThirdWindow || appDelegate.windowState == DCWindowState.halfWindow {
+            if self.detailType == eDoseChange {
+                if doseArrayForChange.count < thresholdCountForKeyboardDisappear {
+                    self.detailTableView.contentOffset = CGPoint(x: zeroInt, y: -tableviewContentOffset);
+                } else {
+                    self.detailTableView.contentOffset = CGPoint(x: zeroInt, y: tableviewContentOffset * (doseArrayForChange.count - thresholdCountForKeyboardDisappear))
+                }
+            } else {
+                if doseArrayForUntil.count < thresholdCountForKeyboardDisappear {
+                    self.detailTableView.contentOffset = CGPoint(x: zeroInt, y: -tableviewContentOffset);
+                } else {
+                    self.detailTableView.contentOffset = CGPoint(x: zeroInt, y: tableviewContentOffset * (doseArrayForUntil.count - thresholdCountForKeyboardDisappear))
+                }
+            }
+        }
     }
 }
