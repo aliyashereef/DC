@@ -64,6 +64,6 @@ class DCDosageHelper: NSObject {
         
         let scanner: NSScanner = NSScanner(string:value)
         let isNumeric = scanner.scanDecimal(nil) && scanner.atEnd
-        return isNumeric && (NSString(string: value).floatValue < 10000)
+        return isNumeric && (NSString(string: value).floatValue < maximumValueOfDose)
     }
 }

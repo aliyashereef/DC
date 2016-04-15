@@ -1338,20 +1338,25 @@
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ww1-5o-rcO" userLabel="DescriptionLabel">
-                                                    <rect key="frame" x="114" y="10" width="160" height="21"/>
+                                                    <rect key="frame" x="145" y="10" width="129" height="21"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="160" id="k6O-ta-zSH"/>
+                                                        <constraint firstAttribute="width" constant="117" id="k6O-ta-zSH"/>
                                                         <constraint firstAttribute="height" constant="21" id="tf6-f2-vZw"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.5607843137254902" green="0.5607843137254902" blue="0.58431372549019611" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="k6O-ta-zSH"/>
+                                                        </mask>
+                                                    </variation>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wlg-yg-0gP" userLabel="typeLabel">
-                                                    <rect key="frame" x="15" y="10" width="137" height="21"/>
+                                                    <rect key="frame" x="15" y="10" width="125" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="mea-vc-ORo"/>
-                                                        <constraint firstAttribute="width" constant="137" id="yYg-Pe-huJ"/>
+                                                        <constraint firstAttribute="width" constant="125" id="yYg-Pe-huJ"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -1365,6 +1370,7 @@
                                                 <constraint firstItem="wlg-yg-0gP" firstAttribute="leading" secondItem="Idt-6o-vb3" secondAttribute="leading" constant="15" id="dQg-8M-aiu"/>
                                                 <constraint firstAttribute="centerY" secondItem="ww1-5o-rcO" secondAttribute="centerY" id="q2X-wj-CVT"/>
                                                 <constraint firstAttribute="centerY" secondItem="ArD-9x-qQO" secondAttribute="centerY" id="qvn-2o-nZ2"/>
+                                                <constraint firstItem="ww1-5o-rcO" firstAttribute="leading" secondItem="wlg-yg-0gP" secondAttribute="trailing" constant="5" id="s4J-FR-DUs"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>

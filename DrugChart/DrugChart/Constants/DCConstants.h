@@ -44,7 +44,8 @@
 #define COLON @":"
 #define NONE_TEXT @"None"
 #define FIFTEEN_MINUTES 900.0 // In seconds
-#define ONE_HOUR 3600.0       // In seconds  
+#define ONE_HOUR 3600.0       // In seconds
+#define INTEGER_SET_STRING "0123456789."
 
 //web requests
 

@@ -8,6 +8,8 @@
 
 import UIKit
 
+var maximumValueOfDose : Float = 10000
+
 // protocol used for sending data back
 @objc public protocol NewDosageValueEntered: class {
     
@@ -87,7 +89,9 @@ typealias SelectedDosage = DCDosage? -> Void
             self.dosage?.variableDose = DCVariableDose.init()
             self.dosage?.reducingIncreasingDose = DCReducingIncreasingDose.init()
             self.dosage?.reducingIncreasingDose.conditions = DCConditions.init()
-            self.dosage?.splitDailyDose = DCSplitDailyDose.init()
+            if self.dosage?.splitDailyDose == nil {
+                self.dosage?.splitDailyDose = DCSplitDailyDose.init()
+            }
             if self.dosage?.singleDose == nil {
                 self.dosage?.singleDose = DCSingleDose.init()
             }
@@ -648,36 +652,37 @@ typealias SelectedDosage = DCDosage? -> Void
     
     func updateAlertMessageForMismatch () {
         
-        let dosageCell: DCDosageSelectionTableViewCell = dosageTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 1)) as! DCDosageSelectionTableViewCell
-        valueStringForRequiredDailyDose = dosageCell.requiredDailyDoseTextField.text!
-        self.dosage?.splitDailyDose.dailyDose = valueStringForRequiredDailyDose as String
-        valueForRequiredDailyDose = NSString(string: valueStringForRequiredDailyDose).floatValue
-        if (valueStringForRequiredDailyDose != "" && valueForRequiredDailyDose != 0 && selectedTimeArrayItems.count != 0) {
-            
-            totalValueForDose = 0
-            var valueOfDoseAtIndex : Float = 0
-            var countOfItemsWithDoseValueSelected : Int = 0
-            for index in 0..<valueForDoseForTime.count {
+        if let dosageCell: DCDosageSelectionTableViewCell = dosageTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 1)) as? DCDosageSelectionTableViewCell {
+            valueStringForRequiredDailyDose = dosageCell.requiredDailyDoseTextField.text!
+            self.dosage?.splitDailyDose.dailyDose = valueStringForRequiredDailyDose as String
+            valueForRequiredDailyDose = NSString(string: valueStringForRequiredDailyDose).floatValue
+            if (valueStringForRequiredDailyDose != "" && valueForRequiredDailyDose != 0 && selectedTimeArrayItems.count != 0) {
                 
-                if (valueForDoseForTime[index] != "") {
-                    valueOfDoseAtIndex = NSString(string: valueForDoseForTime[index]).floatValue
-                    totalValueForDose += valueOfDoseAtIndex
-                    countOfItemsWithDoseValueSelected++
+                totalValueForDose = 0
+                var valueOfDoseAtIndex : Float = 0
+                var countOfItemsWithDoseValueSelected : Int = 0
+                for index in 0..<valueForDoseForTime.count {
+                    
+                    if (valueForDoseForTime[index] != "") {
+                        valueOfDoseAtIndex = NSString(string: valueForDoseForTime[index]).floatValue
+                        totalValueForDose += valueOfDoseAtIndex
+                        countOfItemsWithDoseValueSelected++
+                    }
                 }
-            }
-            if (totalValueForDose == valueForRequiredDailyDose && countOfItemsWithDoseValueSelected == selectedTimeArrayItems.count) {
-                alertMessageForMismatch = ""
-            } else if (totalValueForDose == valueForRequiredDailyDose && countOfItemsWithDoseValueSelected < selectedTimeArrayItems.count) {
-                alertMessageForMismatch = "Some administration times does not have dose value. Either delete it or adjust the distribution."
-            } else if (totalValueForDose < valueForRequiredDailyDose) {
-                alertMessageForMismatch = "Add a further \(valueForRequiredDailyDose - totalValueForDose) \(self.dosage!.doseUnit) to meet the required daily dose"
+                if (totalValueForDose == valueForRequiredDailyDose && countOfItemsWithDoseValueSelected == selectedTimeArrayItems.count) {
+                    alertMessageForMismatch = ""
+                } else if (totalValueForDose == valueForRequiredDailyDose && countOfItemsWithDoseValueSelected < selectedTimeArrayItems.count) {
+                    alertMessageForMismatch = "Some administration times does not have dose value. Either delete it or adjust the distribution."
+                } else if (totalValueForDose < valueForRequiredDailyDose) {
+                    alertMessageForMismatch = "Add a further \(valueForRequiredDailyDose - totalValueForDose) \(self.dosage!.doseUnit) to meet the required daily dose"
+                } else {
+                    alertMessageForMismatch = "Remove \(totalValueForDose - valueForRequiredDailyDose) \(self.dosage!.doseUnit) to meet the required daily dose"
+                }
             } else {
-                alertMessageForMismatch = "Remove \(totalValueForDose - valueForRequiredDailyDose) \(self.dosage!.doseUnit) to meet the required daily dose"
+                alertMessageForMismatch = ""
             }
-        } else {
-            alertMessageForMismatch = ""
+            dosageTableView.headerViewForSection(2)?.textLabel?.text = alertMessageForMismatch as String
         }
-        dosageTableView.headerViewForSection(2)?.textLabel?.text = alertMessageForMismatch as String
     }
     
     func updateTimeArray (index: Int) {
@@ -962,6 +967,32 @@ typealias SelectedDosage = DCDosage? -> Void
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder();
         return true;
+    }
+    
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        // Create an `NSCharacterSet` set which includes everything *but* the digits
+        let inverseSet = NSCharacterSet(charactersInString:INTEGER_SET_STRING).invertedSet
+        
+        // At every character in this "inverseSet" contained in the string,
+        // split the string up into components which exclude the characters
+        // in this inverse set
+        let components = string.componentsSeparatedByCharactersInSet(inverseSet)
+        
+        // Rejoin these components
+        let filtered = components.joinWithSeparator(EMPTY_STRING)
+        
+        // If the original string is equal to the filtered string, i.e. if no
+        // inverse characters were present to be eliminated, the input is valid
+        // and the statement returns true; else it returns false
+        let newString = (textField.text! as NSString).stringByReplacingCharactersInRange(range, withString: string) as NSString
+        if (NSString(string: newString).floatValue > maximumValueOfDose) {
+            return false
+        }
+        let arrayOfString: [AnyObject] = newString.componentsSeparatedByString(".")
+        if arrayOfString.count > 2 {
+            return false
+        }
+        return string == filtered
     }
     
     // MARK: - keyboard Delegate Methods

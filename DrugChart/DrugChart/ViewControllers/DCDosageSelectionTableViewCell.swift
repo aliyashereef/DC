@@ -40,7 +40,7 @@ class DCDosageSelectionTableViewCell: UITableViewCell {
         
         let scanner: NSScanner = NSScanner(string:value)
         let isNumeric = scanner.scanDecimal(nil) && scanner.atEnd
-        if isNumeric && NSString(string: value).floatValue != 0 && value.characters.count <= 5 {
+        if isNumeric && NSString(string: value).floatValue != 0 && value.characters.count <= 5 && NSString(string: value).floatValue < maximumValueOfDose{
             return true
         } else {
             return false

@@ -8,10 +8,13 @@
 
 import UIKit
 
+typealias TextViewUpdated = (Bool) -> Void
+
 class DCInterventionAddResolveTextViewCell: UITableViewCell, UITextViewDelegate {
 
     @IBOutlet weak var reasonOrResolveTextView: UITextView!
     var placeHolderString : String?
+    var textViewUpdated: TextViewUpdated = { value in }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -38,10 +41,20 @@ class DCInterventionAddResolveTextViewCell: UITableViewCell, UITextViewDelegate 
         }
     }
     
+    func textViewDidChange(textView: UITextView) {
+        
+        if textView.text == EMPTY_STRING {
+            self.textViewUpdated(false)
+        } else {
+            self.textViewUpdated(true)
+        }
+    }
+    
     func textViewDidEndEditing(textView: UITextView) {
         if textView.text.isEmpty {
             textView.text = placeHolderString
             textView.textColor = UIColor.lightGrayColor()
+            self.textViewUpdated(false)
         }
     }
 

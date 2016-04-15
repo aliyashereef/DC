@@ -65,6 +65,7 @@
 		0B9F107F1CAD126E00205B4D /* DCPharmacistAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B9F107E1CAD126E00205B4D /* DCPharmacistAction.m */; };
 		0B9F10831CAD19F900205B4D /* DCIntervention.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B9F10821CAD19F900205B4D /* DCIntervention.m */; };
 		0B9F10881CAD1E2100205B4D /* DCPODStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B9F10871CAD1E2100205B4D /* DCPODStatus.m */; };
+		0BA16CB61CBE1CC60048EBFB /* UIViewController+BackButtonHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BA16CB51CBE1CC60048EBFB /* UIViewController+BackButtonHandler.m */; };
 		0BA3572C1B7464D800A5C3BC /* DCAddMedicationOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BA3572B1B7464D800A5C3BC /* DCAddMedicationOperation.m */; };
 		0BA357311B746EAB00A5C3BC /* DCOrderSetOperationQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BA357301B746EAB00A5C3BC /* DCOrderSetOperationQueue.m */; };
 		0BA40BB91B299D67005B80AD /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BA40BB51B299D67005B80AD /* HTMLNode.m */; };
@@ -538,6 +539,8 @@
 		0B9F10821CAD19F900205B4D /* DCIntervention.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCIntervention.m; sourceTree = "<group>"; };
 		0B9F10861CAD1E2100205B4D /* DCPODStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCPODStatus.h; sourceTree = "<group>"; };
 		0B9F10871CAD1E2100205B4D /* DCPODStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCPODStatus.m; sourceTree = "<group>"; };
+		0BA16CB41CBE1CC60048EBFB /* UIViewController+BackButtonHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+BackButtonHandler.h"; sourceTree = "<group>"; };
+		0BA16CB51CBE1CC60048EBFB /* UIViewController+BackButtonHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+BackButtonHandler.m"; sourceTree = "<group>"; };
 		0BA3572A1B7464D800A5C3BC /* DCAddMedicationOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCAddMedicationOperation.h; sourceTree = "<group>"; };
 		0BA3572B1B7464D800A5C3BC /* DCAddMedicationOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCAddMedicationOperation.m; sourceTree = "<group>"; };
 		0BA3572F1B746EAB00A5C3BC /* DCOrderSetOperationQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCOrderSetOperationQueue.h; sourceTree = "<group>"; };
@@ -1564,6 +1567,15 @@
 			path = PODStatus;
 			sourceTree = "<group>";
 		};
+		0BA16CB31CBE1CC60048EBFB /* UIViewController+BackButtonHandler */ = {
+			isa = PBXGroup;
+			children = (
+				0BA16CB41CBE1CC60048EBFB /* UIViewController+BackButtonHandler.h */,
+				0BA16CB51CBE1CC60048EBFB /* UIViewController+BackButtonHandler.m */,
+			);
+			path = "UIViewController+BackButtonHandler";
+			sourceTree = "<group>";
+		};
 		0BA357281B74642300A5C3BC /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -2261,6 +2273,7 @@
 		0BBF586C1AC28AFB000E89A7 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				0BA16CB31CBE1CC60048EBFB /* UIViewController+BackButtonHandler */,
 				0BA5ECB81BFEF0D700F80C12 /* Ordinals */,
 				0B90D64D1B734EE0003A37E4 /* UICKeyChainStore */,
 				0BA40BB31B299D67005B80AD /* HTMLParser */,
@@ -3979,6 +3992,7 @@
 				0BB33DDC1B79F5B500B05E4D /* DCMedicationScheduleDetails.m in Sources */,
 				7D5319C21BF21EF7003C3F92 /* DCAlertsAllergyTableViewCell.m in Sources */,
 				FDD290E91C4E4A1700BF8796 /* DCDosageHelper.swift in Sources */,
+				0BA16CB61CBE1CC60048EBFB /* UIViewController+BackButtonHandler.m in Sources */,
 				7DA89AEE1B2D536300096A0A /* DCPositionableGraphicsView.m in Sources */,
 				0B9D6D521BA17244009E0A4E /* DCAddMedicationHelper.m in Sources */,
 				0BBEEB5E1AD4FF4F00C1D986 /* RoundRectPresentationController.m in Sources */,

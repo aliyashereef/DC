@@ -175,11 +175,13 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
                         pharmacistAction.clinicalCheck = !check
                     }
                 }
+                pharmacistTableView.beginUpdates()
+                pharmacistTableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation:.Fade)
+                pharmacistTableView.endUpdates()
             }
         }
         // cancel editing state and make corresponding changes in view
         self.cancelButtonPressed()
-        pharmacistTableView.reloadData()
     }
     
     func configureSelectedMedicationList(isResolveIntervention: Bool) -> NSMutableArray {
@@ -290,7 +292,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let pharmacistCell = tableView.dequeueReusableCellWithIdentifier(PHARMACIST_CELL_ID, forIndexPath: indexPath) as? DCPharmacistTableCell
+        let pharmacistCell : DCPharmacistTableCell? = tableView.dequeueReusableCellWithIdentifier(PHARMACIST_CELL_ID, forIndexPath: indexPath) as? DCPharmacistTableCell
         let medicationDetails = medicationList[indexPath.item]
         pharmacistCell?.pharmacistCellDelegate = self
         pharmacistCell?.indexPath = indexPath
@@ -436,4 +438,36 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
             self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
         }
     }
+    
+    // MARK: ScrollView Delegate Methods
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        
+        //close the opened cells
+        if let indexPath = swipedCellIndexPath {
+            let pharmacistCell = pharmacistTableView?.cellForRowAtIndexPath(indexPath)
+                as? DCPharmacistTableCell
+            pharmacistCell?.swipePrescriberDetailViewToRight()
+            swipedCellIndexPath = nil
+        }
+    }
+    
+    override func navigationShouldPopOnBackButton() -> Bool {
+        
+        if pharmacistTableView.indexPathsForSelectedRows?.count > 0 {
+            let alertView = UIAlertController(title: NSLocalizedString("CONFIRMATION", comment: ""), message: NSLocalizedString("PHARMACIST_UNSAVED_CHANGES", comment: ""), preferredStyle: UIAlertControllerStyle.Alert)
+            alertView.addAction(UIAlertAction(title: NO_BUTTON_TITLE, style: .Default, handler: { (alert : UIAlertAction) -> Void in
+                return false
+            }))
+            alertView.addAction(UIAlertAction(title: YES_BUTTON_TITLE, style: .Default, handler: { (alert : UIAlertAction) -> Void in
+                self.navigationController?.popViewControllerAnimated(true)
+                //return true
+            }))
+            self.presentViewController(alertView, animated: true, completion: nil)
+            return false
+        } else {
+            return true
+        }
+    }
+    
 }
