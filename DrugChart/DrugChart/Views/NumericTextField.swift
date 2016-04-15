@@ -108,7 +108,7 @@ class NumericTextField: UITextField ,UITextFieldDelegate{
         let currentText = textField.text ?? ""
         let prospectiveText = (currentText as NSString).stringByReplacingCharactersInRange(range, withString: string)
         
-        return prospectiveText.containsOnlyCharactersIn("0123456789.") &&
+        return prospectiveText.containsOnlyCharactersIn(INTEGER_SET_STRING) &&
             prospectiveText.characters.count <= 5
     }
     

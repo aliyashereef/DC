@@ -29,7 +29,7 @@ class DCAddNewValueTableViewCell: UITableViewCell, UITextFieldDelegate {
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         // Create an `NSCharacterSet` set which includes everything *but* the digits
-        let inverseSet = NSCharacterSet(charactersInString:"0123456789.").invertedSet
+        let inverseSet = NSCharacterSet(charactersInString:INTEGER_SET_STRING).invertedSet
         
         // At every character in this "inverseSet" contained in the string,
         // split the string up into components which exclude the characters
