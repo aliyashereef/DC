@@ -211,6 +211,7 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
     func closeInlinePickers () {
         
         if isInlinePickerActive == true {
+            isInlinePickerActive = false
             let previousPickerIndexPath = NSIndexPath(forItem: RowCount.eFirstRow.rawValue , inSection: SectionCount.eZerothSection.rawValue)
             self.displayInlinePickerForUnit(previousPickerIndexPath)
         }
