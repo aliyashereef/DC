@@ -28,6 +28,12 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
     var textFieldSelectionIndexPath : NSIndexPath?
     var isValid : Bool?
     
+    let infusionRowCount = 6
+    let medicationRowCount = 7
+    let sectionCount = 3
+    let zeroFloat : CGFloat = 0.0
+    let earlyAdministrationHeaderHeight : CGFloat = 30
+    
     //MARK: View Management Methods
     override func viewDidLoad() {
         
@@ -67,7 +73,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
     
     func configureTableViewProperties () {
         self.administerSuccessTableView.rowHeight = UITableViewAutomaticDimension
-        self.administerSuccessTableView.estimatedRowHeight = 44.0
+        self.administerSuccessTableView.estimatedRowHeight = TABLE_VIEW_ROW_HEIGHT
         self.administerSuccessTableView.tableFooterView = UIView(frame: CGRectZero)
         administerSuccessTableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
     }
@@ -101,7 +107,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         
         let administerCell : DCAdministerCell = (administerSuccessTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
         administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
-        administerCell.detailLabelTrailingSpace.constant = 0.0
+        administerCell.detailLabelTrailingSpace.constant = zeroFloat
         administerCell.titleLabel.text = STATUS
         if (medicationSlot?.status != nil) {
             administerCell.detailLabel.text = medicationSlot?.status
@@ -117,7 +123,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         
         let administerCell : DCAdministerCell = (administerSuccessTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
         administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
-        administerCell.detailLabelTrailingSpace.constant = 0.0
+        administerCell.detailLabelTrailingSpace.constant = zeroFloat
         if let checkedUser = medicationSlot?.medicationAdministration?.checkingUser?.displayName {
             administerCell.detailLabel?.text = checkedUser
         } else {
@@ -133,7 +139,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         let administerCell : DCAdministerCell = (administerSuccessTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
         administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         administerCell.titleLabel.text = REASON
-        administerCell.detailLabelTrailingSpace.constant = 0.0
+        administerCell.detailLabelTrailingSpace.constant = zeroFloat
         administerCell.detailLabel?.text = medicationSlot?.medicationAdministration?.statusReason
         return administerCell
     }
@@ -303,26 +309,26 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
-        case 0:
-            return 1
-        case 1:
-            var rowCount = 7
+        case eZerothSection.rawValue:
+            return RowCount.eFirstRow.rawValue
+        case eFirstSection.rawValue:
+            var rowCount = medicationRowCount
             if medicationSlot?.status == STARTED {
-                rowCount = 6
+                rowCount = infusionRowCount
             }
             if hasInlineDatePicker() {
                 rowCount++
             }
             return rowCount
-        case 2:
-            return 1
+        case eSecondSection.rawValue:
+            return RowCount.eFirstRow.rawValue
         default:
-            return 0
+            return RowCount.eZerothRow.rawValue
         }
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 3
+        return sectionCount
     }
     
     func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -331,14 +337,14 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
             return UITableViewAutomaticDimension
         case SectionCount.eFirstSection.rawValue:
             if self.indexPathHasPicker(indexPath) {
-                return 216
+                return PICKER_CELL_HEIGHT
             } else {
-                return 44
+                return TABLE_VIEW_ROW_HEIGHT
             }
         case SectionCount.eSecondSection.rawValue:
             return NOTES_CELL_HEIGHT
         default:
-            return 44
+            return TABLE_VIEW_ROW_HEIGHT
         }
     }
     
@@ -348,14 +354,14 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
             return UITableViewAutomaticDimension
         case SectionCount.eFirstSection.rawValue:
             if self.indexPathHasPicker(indexPath) {
-                return 216
+                return PICKER_CELL_HEIGHT
             } else {
-                return 44
+                return TABLE_VIEW_ROW_HEIGHT
             }
         case SectionCount.eSecondSection.rawValue:
             return NOTES_CELL_HEIGHT
         default:
-            return 44
+            return TABLE_VIEW_ROW_HEIGHT
         }
     }
     
@@ -395,21 +401,21 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if (section == 2) {
+        if section == eSecondSection.rawValue {
             if medicationSlot?.medicationAdministration?.isWhenRequiredEarlyAdministration == true {
-                return 30
+                return earlyAdministrationHeaderHeight
             } else if (medicationSlot?.medicationAdministration?.isEarlyAdministration == true || medicationSlot?.medicationAdministration?.isLateAdministration == true ) {
                  return (medicationSlot?.medicationAdministration?.isEarlyAdministration == true || medicationSlot?.medicationAdministration?.isLateAdministration == true ) ? MEDICATION_DETAILS_SECTION_HEIGHT : TABLEVIEW_DEFAULT_SECTION_HEIGHT
             }
         }
-        return 0
+        return zeroFloat
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         let administerHeaderView = NSBundle.mainBundle().loadNibNamed(ADMINISTER_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCAdministerTableHeaderView
         administerHeaderView!.timeLabel.hidden = true
-        if (section == 2) {
+        if section == eSecondSection.rawValue {
             if (!isValid!) {
                 if (medicationSlot?.medicationAdministration?.isWhenRequiredEarlyAdministration == true) {
                     let errorMessage = NSString(format: "%@ %@", NSLocalizedString("ADMIN_FREQUENCY", comment: "when required new medication is given 2 hrs before previous one"), NSLocalizedString("EARLY_ADMIN_INLINE", comment: ""))
@@ -454,32 +460,32 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
     func cellSelectionForAdministratedStatusAtIndexPath (indexPath : NSIndexPath){
         let administerDatePickerIndexPath : NSIndexPath = NSIndexPath(forRow: 4, inSection: 0)
         switch (indexPath.row) {
-        case 0:
+        case eZerothSection.rawValue:
             let statusViewController : DCAdministrationStatusTableViewController = self.statusCellSelectedAtIndexPath(indexPath)
             self.navigationController!.pushViewController(statusViewController, animated: true)
             break
-        case 1:
+        case eFirstSection.rawValue:
             let reasonViewController : DCAdministrationReasonViewController = self.reasonCellSelectedAtIndexPath(indexPath)
             self.navigationController!.pushViewController(reasonViewController, animated: true)
-        case 3:
+        case eSecondSection.rawValue:
             self.displayInlineDatePickerForRowAtIndexPath(indexPath)
             break
-        case 4:
+        case eFourthSection.rawValue:
             if (!indexPathHasPicker(administerDatePickerIndexPath)) {
                 displayPrescribersAndAdministersView()
             }
             break
-        case 5:
+        case eFifthSection.rawValue:
             if (indexPathHasPicker(administerDatePickerIndexPath)) {
                 displayPrescribersAndAdministersView()
             }
             
-        case 6:
+        case eSixthSection.rawValue:
             if (!indexPathHasPicker(administerDatePickerIndexPath)) {
                 self.expiryCellSelectedAtIndexPath(indexPath)
             }
             break
-        case 7:
+        case eSeventhSection.rawValue:
             if (indexPathHasPicker(administerDatePickerIndexPath)) {
                 self.expiryCellSelectedAtIndexPath(indexPath)
             }
@@ -492,29 +498,29 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
     func cellSelectionForStartedStatusAtIndexPath (indexPath : NSIndexPath){
         let administerDatePickerIndexPath : NSIndexPath = NSIndexPath(forRow: 3, inSection: 0)
         switch (indexPath.row) {
-        case 0:
+        case eZerothSection.rawValue:
             let statusViewController : DCAdministrationStatusTableViewController = self.statusCellSelectedAtIndexPath(indexPath)
             self.navigationController!.pushViewController(statusViewController, animated: true)
             break
-        case 2:
+        case eSecondSection.rawValue:
             self.displayInlineDatePickerForRowAtIndexPath(indexPath)
             break
-        case 3:
+        case eThirdSection.rawValue:
             if (!indexPathHasPicker(administerDatePickerIndexPath)) {
                 displayPrescribersAndAdministersView()
             }
             break
-        case 4:
+        case eFourthSection.rawValue:
             if (indexPathHasPicker(administerDatePickerIndexPath)) {
                 displayPrescribersAndAdministersView()
             }
             
-        case 5:
+        case eFifthSection.rawValue:
             if (!indexPathHasPicker(administerDatePickerIndexPath)) {
                 self.expiryCellSelectedAtIndexPath(indexPath)
             }
             break
-        case 6:
+        case eSixthSection.rawValue:
             if (indexPathHasPicker(administerDatePickerIndexPath)) {
                 self.expiryCellSelectedAtIndexPath(indexPath)
             }
@@ -574,37 +580,37 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         expiryDateCellIndexPath = NSIndexPath(forRow: 6, inSection: 1)
         doseCellIndexPath  = NSIndexPath(forRow: 2, inSection: 1)
         switch indexPath.row {
-        case 0:
+        case eZerothSection.rawValue:
             //status cell
             return self.administrationStatusTableCellAtIndexPath(indexPath)
-        case 1:
+        case eFirstSection.rawValue:
             //reason cell
             return self.administrationReasonTableCellAtIndexPath(indexPath)
-        case 2:
+        case eSecondSection.rawValue:
             //Dose cell
             return self.batchNumberOrExpiryDateTableCellAtIndexPathWithLabel(indexPath,label: DOSE)
-        case 3:
+        case eThirdSection.rawValue:
             //date and time cell
             return self.administrationDateAndTimeTableCellAtIndexPath(indexPath,label: DATE_TIME)
-        case 4:
+        case eFourthSection.rawValue:
             if (indexPathHasPicker(administerDatePickerIndexPath)) {
                 return datePickerTableCellAtIndexPath(indexPath)
             } else {
                 return self.administrationCheckedByTableCellAtIndexPath(indexPath)
             }
-        case 5:
+        case eFifthSection.rawValue:
             if (indexPathHasPicker(administerDatePickerIndexPath)) {
                 return self.administrationCheckedByTableCellAtIndexPath(indexPath)
             } else {
                 return self.batchNumberOrExpiryDateTableCellAtIndexPathWithLabel(indexPath,label:BATCH_NUMBER)
             }
-        case 6:
+        case eSixthSection.rawValue:
             if (indexPathHasPicker(administerDatePickerIndexPath)) {
                 return self.batchNumberOrExpiryDateTableCellAtIndexPathWithLabel(indexPath,label: BATCH_NUMBER)
             } else {
                 return self.administrationDateAndTimeTableCellAtIndexPath(indexPath,label: EXPIRY_DATE_STRING)
             }
-        case 7:
+        case eSeventhSection.rawValue:
             if (indexPathHasPicker(administerDatePickerIndexPath)) {
                 return self.administrationDateAndTimeTableCellAtIndexPath(indexPath,label: EXPIRY_DATE_STRING)
             } else {
@@ -621,34 +627,34 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         expiryDateCellIndexPath = NSIndexPath(forRow: 5, inSection: 1)
         doseCellIndexPath  = NSIndexPath(forRow: 1, inSection: 1)
         switch indexPath.row {
-        case 0:
+        case eZerothSection.rawValue:
             //status cell
             return self.administrationStatusTableCellAtIndexPath(indexPath)
-        case 1:
+        case eFirstSection.rawValue:
             //Dose cell
             return self.batchNumberOrExpiryDateTableCellAtIndexPathWithLabel(indexPath,label: DOSE)
-        case 2:
+        case eSecondSection.rawValue:
             //date and time cell
             return self.administrationDateAndTimeTableCellAtIndexPath(indexPath,label: DATE_TIME)
-        case 3:
+        case eThirdSection.rawValue:
             if (indexPathHasPicker(administerDatePickerIndexPath)) {
                 return datePickerTableCellAtIndexPath(indexPath)
             } else {
                 return self.administrationCheckedByTableCellAtIndexPath(indexPath)
             }
-        case 4:
+        case eFourthSection.rawValue:
             if (indexPathHasPicker(administerDatePickerIndexPath)) {
                 return self.administrationCheckedByTableCellAtIndexPath(indexPath)
             } else {
                 return self.batchNumberOrExpiryDateTableCellAtIndexPathWithLabel(indexPath,label:BATCH_NUMBER)
             }
-        case 5:
+        case eFifthSection.rawValue:
             if (indexPathHasPicker(administerDatePickerIndexPath)) {
                 return self.batchNumberOrExpiryDateTableCellAtIndexPathWithLabel(indexPath,label: BATCH_NUMBER)
             } else {
                 return self.administrationDateAndTimeTableCellAtIndexPath(indexPath,label: EXPIRY_DATE_STRING)
             }
-        case 6:
+        case eSixthSection.rawValue:
             if (indexPathHasPicker(administerDatePickerIndexPath)) {
                 return self.administrationDateAndTimeTableCellAtIndexPath(indexPath,label: EXPIRY_DATE_STRING)
             } else {
@@ -756,7 +762,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
     
     func selectedDateAtIndexPath (date : NSDate, indexPath:NSIndexPath) {
         
-        if indexPath.row == 4 {
+        if indexPath.row == RowCount.eFourthRow.rawValue {
             self.medicationSlot!.medicationAdministration?.actualAdministrationTime = date
             self.administerSuccessTableView .reloadRowsAtIndexPaths([self.dateTimeCellIndexPath!], withRowAnimation:UITableViewRowAnimation.None)
         } else {
