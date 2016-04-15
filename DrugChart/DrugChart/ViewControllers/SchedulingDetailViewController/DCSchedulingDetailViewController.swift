@@ -610,6 +610,9 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
             //weekly schedule
             if (self.scheduling?.specificTimes?.repeatObject?.repeatType == WEEKLY) {
                 let weekDay = weekDaysArray.objectAtIndex(indexPath.item)
+                if self.scheduling?.specificTimes?.repeatObject?.weekDays == nil {
+                    self.scheduling?.specificTimes?.repeatObject?.weekDays = NSMutableArray()
+                }
                 let index : NSInteger = (self.scheduling?.specificTimes?.repeatObject?.weekDays.indexOfObject(weekDay))!
                 let valueExists : Bool = (self.scheduling?.specificTimes?.repeatObject?.weekDays.containsObject(weekDay))!
                 if (valueExists == false) {

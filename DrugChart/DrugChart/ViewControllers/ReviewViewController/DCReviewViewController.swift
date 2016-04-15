@@ -211,6 +211,7 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
             warningCell!.unitValueLabel.text = EMPTY_STRING
         }
         warningCell!.accessoryType = .DisclosureIndicator
+        warningCell!.unitValueTrailingConstraint.constant = 2.0
         return warningCell!
     }
     
