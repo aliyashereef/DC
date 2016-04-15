@@ -28,11 +28,18 @@ class DCPodStatusSelectionViewController: DCBaseViewController {
         super.viewDidLoad()
         self.configureNavigationBarItems()
         self.updatePodStatusTableView.keyboardDismissMode = .OnDrag
+        updatePodStatusTableView.estimatedRowHeight = CGFloat(NORMAL_CELL_HEIGHT)
+        updatePodStatusTableView.rowHeight = UITableViewAutomaticDimension
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        
+        updatePodStatusTableView.reloadData()
     }
     
     func configureNavigationBarItems() {
@@ -67,7 +74,7 @@ class DCPodStatusSelectionViewController: DCBaseViewController {
         if indexPath.section == SectionCount.eFirstSection.rawValue {
             return CGFloat(TEXT_VIEW_CELL_HEIGHT)
         } else {
-            return CGFloat(NORMAL_CELL_HEIGHT)
+            return UITableViewAutomaticDimension
         }
     }
 

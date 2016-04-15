@@ -164,18 +164,18 @@
                                             <rect key="frame" x="0.0" y="0.0" width="310" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BnO-Up-Iur">
-                                                    <rect key="frame" x="15" y="0.0" width="295" height="43"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BnO-Up-Iur">
+                                                    <rect key="frame" x="15" y="10" width="295" height="23"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.45098039215686275" green="0.45098039215686275" blue="0.45098039215686275" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="BnO-Up-Iur" firstAttribute="top" secondItem="b8Q-vz-anq" secondAttribute="top" id="Mae-pb-lFr"/>
+                                                <constraint firstItem="BnO-Up-Iur" firstAttribute="top" secondItem="b8Q-vz-anq" secondAttribute="top" constant="10" id="Mae-pb-lFr"/>
                                                 <constraint firstAttribute="trailing" secondItem="BnO-Up-Iur" secondAttribute="trailing" id="XST-as-1Lt"/>
                                                 <constraint firstItem="BnO-Up-Iur" firstAttribute="leading" secondItem="b8Q-vz-anq" secondAttribute="leading" constant="15" id="dR7-d3-VU2"/>
-                                                <constraint firstAttribute="bottom" secondItem="BnO-Up-Iur" secondAttribute="bottom" id="ea6-Ph-n14"/>
+                                                <constraint firstAttribute="bottom" secondItem="BnO-Up-Iur" secondAttribute="bottom" constant="10" id="ea6-Ph-n14"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
