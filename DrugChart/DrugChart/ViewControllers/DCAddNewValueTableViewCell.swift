@@ -43,7 +43,7 @@ class DCAddNewValueTableViewCell: UITableViewCell, UITextFieldDelegate {
         // inverse characters were present to be eliminated, the input is valid
         // and the statement returns true; else it returns false
         let newString = (textField.text! as NSString).stringByReplacingCharactersInRange(range, withString: string) as NSString
-        let arrayOfString: [AnyObject] = newString.componentsSeparatedByString(".")
+        let arrayOfString: [AnyObject] = newString.componentsSeparatedByString(DOT)
         if arrayOfString.count > 2 {
             return false
         }
