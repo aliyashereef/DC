@@ -791,7 +791,7 @@
             self.selectedMedication.dose = [[DCDosage alloc] init];
         }
     }
-    if ([self.selectedMedication.medicineCategory  isEqualToString: @"Regular"]) {
+    if ([self.selectedMedication.medicineCategory  isEqualToString: REGULAR_MEDICATION]) {
         dosageSelectionViewController.isReducingIncreasingPresent = true;
         if ([self.selectedMedication.scheduling.type  isEqualToString:SPECIFIC_TIMES] && self.selectedMedication.scheduling.specificTimes != nil && [self.selectedMedication.scheduling.specificTimes.repeatObject.repeatType  isEqualToString: @"Daily"]) {
             dosageSelectionViewController.isSplitDailyPresent = true;
