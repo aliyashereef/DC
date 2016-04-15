@@ -38,13 +38,13 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
         let cancelButton: UIBarButtonItem = UIBarButtonItem(title: CANCEL_BUTTON_TITLE, style: .Plain, target: self, action: "cancelButtonPressed")
         self.navigationItem.leftBarButtonItem = cancelButton
         saveButton = UIBarButtonItem(title: SAVE_BUTTON_TITLE, style: .Plain, target: self, action: "doneButtonPressed")
-        self.configuraSaveButton(false)
+        self.configurSaveButton(false)
         self.navigationItem.rightBarButtonItem = saveButton
         self.navigationItem.title = medicationList[indexOfCurrentMedication!].name
         self.title = medicationList[indexOfCurrentMedication!].name
     }
     
-    func configuraSaveButton (active : Bool) {
+    func configurSaveButton (active : Bool) {
         
         saveButton.enabled = active
     }
@@ -76,7 +76,7 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
             let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(REASON_RESOLVE_TEXTVIEW_CELL) as? DCInterventionAddResolveTextViewCell
             cell!.placeHolderString = REASON_TEXT
             cell?.textViewUpdated = { value in
-                self.configuraSaveButton(value)
+                self.configurSaveButton(value)
             }
             cell?.initializeTextView()
             return cell!
@@ -88,7 +88,7 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
                 let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(REASON_RESOLVE_TEXTVIEW_CELL) as? DCInterventionAddResolveTextViewCell
                 cell!.placeHolderString = RESOLUTION_TEXT
                 cell?.textViewUpdated = { value in
-                    self.configuraSaveButton(value)
+                    self.configurSaveButton(value)
                 }
                 cell?.initializeTextView()
                 return cell!
