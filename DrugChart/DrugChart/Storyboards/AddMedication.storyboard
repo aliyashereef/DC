@@ -2101,6 +2101,7 @@
                                         <connections>
                                             <outlet property="unitLabel" destination="6wD-ob-IQO" id="Xc9-tz-X76"/>
                                             <outlet property="unitValueLabel" destination="EJ5-Jj-FWd" id="TSo-FP-wMX"/>
+                                            <outlet property="unitValueTrailingConstraint" destination="Nii-ko-3O9" id="HOq-GO-wRC"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="pickercell" rowHeight="216" id="dRA-ub-LZq" customClass="DCDatePickerCell">

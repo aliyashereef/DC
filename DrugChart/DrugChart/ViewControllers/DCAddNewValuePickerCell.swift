@@ -37,7 +37,6 @@ class DCAddNewValuePickerCell: UITableViewCell , UIPickerViewDelegate, UIPickerV
     func selectPickerViewForValue(value : String) {
         
         let selectedIndex = unitArrayForDisplay.indexOf(value)
-        NSLog("**** selectedIndex is %i", selectedIndex!)
         unitPickerCell.selectRow(selectedIndex!, inComponent: PickerComponentsCount.eZerothComponent.rawValue, animated: true)
     }
     
