@@ -510,7 +510,13 @@ typedef enum : NSUInteger {
                         
                         if (!error) {
                             _patient.medicationListArray = result;
-                            pharmacistButton.hidden = (_patient.medicationListArray.count == 0) ? true : false;
+                            if (_patient.medicationListArray.count == 0){
+                                if ([allergiesArray count] > 0 || [alertsArray count] > 0) {
+                                    self.navigationItem.rightBarButtonItems = @[addButton, warningsBarButtonItem,vitalSignsButton];
+                                } else {
+                                    self.navigationItem.rightBarButtonItems = @[addButton,vitalSignsButton];
+                                }
+                            }
                             [self setDisplayMedicationListArray];
                             if ([displayMedicationListArray count] > 0) {
                                 if (prescriberMedicationListViewController) {
@@ -1193,6 +1199,9 @@ typedef enum : NSUInteger {
    // [self fetchMedicationListForPatient];
     if ([DCAPPDELEGATE isNetworkReachable]) {
         [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
+            if (success) {
+                [self addBarButtonItems];
+            }
         }];
     }
 }
@@ -1202,6 +1211,9 @@ typedef enum : NSUInteger {
    // [self fetchMedicationListForPatient];
     if ([DCAPPDELEGATE isNetworkReachable]) {
         [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
+            if (success) {
+                [self addBarButtonItems];
+            }
         }];
     }
 }
@@ -1209,6 +1221,9 @@ typedef enum : NSUInteger {
 - (void)reloadPrescriberMedicationListWithCompletionHandler:(void (^)(BOOL))completion{
     if ([DCAPPDELEGATE isNetworkReachable]) {
         [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
+            if (success) {
+                [self addBarButtonItems];
+            }
             completion(success);
         }];
     }
