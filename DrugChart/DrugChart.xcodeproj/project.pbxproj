@@ -422,6 +422,8 @@
 		FDD548741C4511B8000EB855 /* DCReducingIncreasingDose.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD548731C4511B8000EB855 /* DCReducingIncreasingDose.m */; };
 		FDD548771C4511CF000EB855 /* DCSplitDailyDose.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD548761C4511CF000EB855 /* DCSplitDailyDose.m */; };
 		FDD5487B1C4513FA000EB855 /* DCConditions.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD5487A1C4513FA000EB855 /* DCConditions.m */; };
+		FDD83EDA1CC6252500774C01 /* AdministratingDoseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD83ED91CC6252500774C01 /* AdministratingDoseViewController.swift */; };
+		FDD83EDC1CC626CC00774C01 /* AdministratingDoseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD83EDB1CC626CC00774C01 /* AdministratingDoseTableViewCell.swift */; };
 		FDDA73261CB287C300CC9EEB /* DCPodStatusTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDA73251CB287C300CC9EEB /* DCPodStatusTableViewCell.swift */; };
 		FDDA73281CB287E600CC9EEB /* DCPodStatusSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDA73271CB287E600CC9EEB /* DCPodStatusSelectionViewController.swift */; };
 		FDDB10911C620094007231B6 /* DCAddNewValuePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDB10901C620094007231B6 /* DCAddNewValuePickerCell.swift */; };
@@ -994,6 +996,8 @@
 		FDD548761C4511CF000EB855 /* DCSplitDailyDose.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCSplitDailyDose.m; sourceTree = "<group>"; };
 		FDD548791C4513FA000EB855 /* DCConditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCConditions.h; sourceTree = "<group>"; };
 		FDD5487A1C4513FA000EB855 /* DCConditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCConditions.m; sourceTree = "<group>"; };
+		FDD83ED91CC6252500774C01 /* AdministratingDoseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdministratingDoseViewController.swift; sourceTree = "<group>"; };
+		FDD83EDB1CC626CC00774C01 /* AdministratingDoseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdministratingDoseTableViewCell.swift; sourceTree = "<group>"; };
 		FDDA73251CB287C300CC9EEB /* DCPodStatusTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCPodStatusTableViewCell.swift; sourceTree = "<group>"; };
 		FDDA73271CB287E600CC9EEB /* DCPodStatusSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCPodStatusSelectionViewController.swift; sourceTree = "<group>"; };
 		FDDB10901C620094007231B6 /* DCAddNewValuePickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAddNewValuePickerCell.swift; sourceTree = "<group>"; };
@@ -2019,6 +2023,7 @@
 				0BD3DC231CA0187A002149E5 /* ReviewViewController */,
 				4DD2E2671C7C287900950BD8 /* AdministrationStatusSelectionViewController */,
 				4DDD0C911C75C7110021C528 /* AdministrationSuccessViewController */,
+				FDD83ED81CC6246600774C01 /* AdministratingDoseViewController */,
 				4DDD0C901C7591360021C528 /* AdministrationFailureViewController */,
 				0B14CD881BB13BD80085E40C /* AdministrationCells */,
 				4D41757E1C22869100F924C1 /* AdministrationViewController */,
@@ -3428,6 +3433,15 @@
 			name = Conditions;
 			sourceTree = "<group>";
 		};
+		FDD83ED81CC6246600774C01 /* AdministratingDoseViewController */ = {
+			isa = PBXGroup;
+			children = (
+				FDD83ED91CC6252500774C01 /* AdministratingDoseViewController.swift */,
+				FDD83EDB1CC626CC00774C01 /* AdministratingDoseTableViewCell.swift */,
+			);
+			name = AdministratingDoseViewController;
+			sourceTree = "<group>";
+		};
 		FDDA73241CB2879500CC9EEB /* PODStatusViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -3771,6 +3785,7 @@
 				0BF3890F1AA46746006792DE /* DCPatient.m in Sources */,
 				FD2FF8B31C3B90DC00778A4E /* DCAddConditionTableViewCell.swift in Sources */,
 				1F3C317A1C0DF755007C6AE7 /* MonthYearPickerView.swift in Sources */,
+				FDD83EDC1CC626CC00774C01 /* AdministratingDoseTableViewCell.swift in Sources */,
 				FDDB3DA61C743D0200CE4AB7 /* DCAdministerGraphViewCell.swift in Sources */,
 				1FD4FCE91BF4B8F400B77B94 /* TimePickerCell_Inline.swift in Sources */,
 				1FE8E55D1C96EF0400E591FB /* FHIRHelper.swift in Sources */,
@@ -3825,6 +3840,7 @@
 				4D4126C51B4AA1E700255D5E /* DCAddMedicationWebService.m in Sources */,
 				0BD3D4DF1AB2CA89002B8711 /* DCMedicationSlot.m in Sources */,
 				FDDEE1951C4CD13000F02F4B /* DCSelectedTimeTableViewCell.swift in Sources */,
+				FDD83EDA1CC6252500774C01 /* AdministratingDoseViewController.swift in Sources */,
 				0BD699161BB272BB008797A2 /* DCAdministerTableHeaderView.swift in Sources */,
 				0BAA87381AF8B48600FCA686 /* DCSecurityPinWebService.m in Sources */,
 				4D4175801C2286BF00F924C1 /* DCAdministrationViewController.swift in Sources */,

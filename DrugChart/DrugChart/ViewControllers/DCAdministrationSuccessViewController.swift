@@ -145,6 +145,19 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         return administerCell
     }
     
+    // Administering dose cell
+    func administratingDoseTableCellAtIndexPath(indexPath : NSIndexPath) -> (DCAdministerCell) {
+    
+        let administerCell : DCAdministerCell = (administerSuccessTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
+        administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+        administerCell.titleLabel.text = DOSE
+        if let dosageString = medicationSlot?.medicationAdministration?.dosageString {
+            administerCell.detailLabel?.text = dosageString
+        } else {
+            administerCell.detailLabel?.text = medicationDetails?.dosage
+        }
+        return administerCell
+    }
     //Date Cell
     func administrationDateAndTimeTableCellAtIndexPath(indexPath : NSIndexPath, label: NSString) -> (DCAdministerCell) {
         
@@ -589,7 +602,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
             return self.administrationReasonTableCellAtIndexPath(indexPath)
         case eSecondSection.rawValue:
             //Dose cell
-            return self.batchNumberOrExpiryDateTableCellAtIndexPathWithLabel(indexPath,label: DOSE)
+            return self.administratingDoseTableCellAtIndexPath(indexPath)
         case eThirdSection.rawValue:
             //date and time cell
             return self.administrationDateAndTimeTableCellAtIndexPath(indexPath,label: DATE_TIME)
