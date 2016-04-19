@@ -282,7 +282,7 @@
                                     <constraint firstAttribute="height" constant="44" id="htt-Q8-xBc"/>
                                 </constraints>
                                 <items>
-                                    <barButtonItem style="plain" id="nFr-HF-edx">
+                                    <barButtonItem style="plain" id="nFr-HF-edx" userLabel="Clinical Check Bar Button Item">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="aGT-bW-gbU">
                                             <rect key="frame" x="20" y="7" width="99" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -293,7 +293,7 @@
                                         </button>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="nY3-Bp-Spo"/>
-                                    <barButtonItem style="plain" id="nuG-um-v0a">
+                                    <barButtonItem style="plain" id="nuG-um-v0a" userLabel="Clinical Remove Bar Button Item">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="rk9-F8-2Vm">
                                             <rect key="frame" x="157" y="7" width="111" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -304,7 +304,7 @@
                                         </button>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="dZ7-9t-eh3"/>
-                                    <barButtonItem style="plain" id="mrM-Ay-sSB">
+                                    <barButtonItem style="plain" id="mrM-Ay-sSB" userLabel="Add Intervention Bar Button Item">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="cUn-hV-kgq">
                                             <rect key="frame" x="307" y="7" width="113" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -315,7 +315,7 @@
                                         </button>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="ssl-xS-74a"/>
-                                    <barButtonItem style="plain" id="BlI-kY-Qgd">
+                                    <barButtonItem style="plain" id="BlI-kY-Qgd" userLabel="Resolve Intervention Bar Button Item">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="7OT-D1-8cV">
                                             <rect key="frame" x="458" y="7" width="142" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -326,7 +326,7 @@
                                         </button>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="xtS-wf-E2a"/>
-                                    <barButtonItem style="plain" id="XpY-uS-Jvv">
+                                    <barButtonItem style="plain" id="XpY-uS-Jvv" userLabel="Update POD status Bar Button Item">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="GT9-ce-UfJ" userLabel="Update POD Status">
                                             <rect key="frame" x="638" y="7" width="142" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -408,10 +408,15 @@
                     <size key="freeformSize" width="800" height="600"/>
                     <connections>
                         <outlet property="actionsButton" destination="je3-jD-1dU" id="cUw-PI-UCz"/>
+                        <outlet property="addInterventionBarButton" destination="mrM-Ay-sSB" id="TqU-uF-Mbc"/>
+                        <outlet property="clinicalCheckBarButton" destination="nFr-HF-edx" id="hd9-dm-BHT"/>
+                        <outlet property="clinicalRemoveBarButton" destination="nuG-um-v0a" id="BP0-FC-CK2"/>
                         <outlet property="medicationCountLabel" destination="tzr-48-KJn" id="SNC-DU-6Yc"/>
                         <outlet property="medicationCountToolBar" destination="RaB-qQ-zpv" id="Tks-Il-I5n"/>
                         <outlet property="pharmacistActionsToolBar" destination="rrN-SA-dGZ" id="ogN-Ii-Spw"/>
                         <outlet property="pharmacistTableView" destination="DwE-Su-3zg" id="MUm-w1-N9v"/>
+                        <outlet property="resolveInterventionBarButton" destination="BlI-kY-Qgd" id="HyG-iC-hnH"/>
+                        <outlet property="updatePodStatusBarButton" destination="XpY-uS-Jvv" id="EJF-BR-4Yl"/>
                         <outlet property="view" destination="wkV-IH-PKd" id="9VK-FQ-uT8"/>
                     </connections>
                 </viewController>

@@ -18,9 +18,16 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     @IBOutlet weak var pharmacistActionsToolBar: UIToolbar!
     @IBOutlet weak var actionsButton: UIButton!
     
+    @IBOutlet weak var clinicalCheckBarButton: UIBarButtonItem!
+    @IBOutlet weak var clinicalRemoveBarButton: UIBarButtonItem!
+    @IBOutlet weak var addInterventionBarButton: UIBarButtonItem!
+    @IBOutlet weak var resolveInterventionBarButton: UIBarButtonItem!
+    @IBOutlet weak var updatePodStatusBarButton: UIBarButtonItem!
+    
     var isInEditMode : Bool = false
     var medicationList : NSMutableArray = []
     var swipedCellIndexPath : NSIndexPath?
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -184,6 +191,20 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         self.cancelButtonPressed()
     }
     
+    func medicationDetailsForSelectedRows () -> NSMutableArray {
+        
+        let medicationArray = NSMutableArray()
+        if let indexPaths = pharmacistTableView.indexPathsForSelectedRows {
+            for var index = 0; index < indexPaths.count; ++index {
+                let indexPath = indexPaths[index] as NSIndexPath
+                let cell : DCPharmacistTableCell = (pharmacistTableView.cellForRowAtIndexPath(indexPath) as? DCPharmacistTableCell)!
+                let medicationDetails : DCMedicationScheduleDetails = cell.medicationDetails!
+                medicationArray.addObject(medicationDetails)
+            }
+        }
+        return medicationArray
+    }
+    
     func configureSelectedMedicationList(isResolveIntervention: Bool) -> NSMutableArray {
         
         let medicationObjectsArray : NSMutableArray = []
@@ -311,6 +332,8 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
+        NSLog("**** tableview is %@", tableView.indexPathsForSelectedRows!)
+        NSLog("**** medicationDetailsForSelectedRows is %@", medicationDetailsForSelectedRows())
         if !isInEditMode {
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
