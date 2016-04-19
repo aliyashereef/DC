@@ -514,6 +514,7 @@ typedef enum : NSUInteger {
                             [self setDisplayMedicationListArray];
                             if ([displayMedicationListArray count] > 0) {
                                 if (prescriberMedicationListViewController) {
+                                    [self addBarButtonItems];
                                     prescriberMedicationListViewController.currentWeekDatesArray = currentWeekDatesArray;
                                     [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
                                     selectedSortType = START_DATE_ORDER;
@@ -755,7 +756,7 @@ typedef enum : NSUInteger {
     [warningsButton addSubview:warningCountLabel];
     warningsBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:warningsButton];
     if ([allergiesArray count] > 0 || [alertsArray count] > 0) {
-        self.navigationItem.rightBarButtonItems = @[addButton,vitalSignsButton, warningsBarButtonItem];
+        self.navigationItem.rightBarButtonItems = @[addButton, warningsBarButtonItem,vitalSignsButton];
     } else {
         self.navigationItem.rightBarButtonItems = @[addButton,vitalSignsButton];
     }
@@ -794,11 +795,25 @@ typedef enum : NSUInteger {
     }
     [pharmacistButton addTarget:self action:@selector(pharmacistButtonTapped:)forControlEvents:UIControlEventTouchUpInside];
     [pharmacistButton sizeToFit];
+    [self addBarButtonItems];
+}
+
+- (void)addBarButtonItems {
+    
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:pharmacistButton];
     NSMutableArray *barButtonsArray = [[NSMutableArray alloc] initWithArray:self.navigationItem.rightBarButtonItems];
-    [barButtonsArray addObject:barButtonItem];
-    self.navigationItem.rightBarButtonItems = barButtonsArray;
-    pharmacistButton.hidden = (_patient.medicationListArray.count == 0) ? true : false;
+    self.navigationItem.rightBarButtonItems = @[];
+    NSInteger warningCount = allergiesArray.count + alertsArray.count;
+    NSInteger barButtonItemCount = 3;
+    if (warningCount > 0) {
+        barButtonItemCount = 4;
+    }
+    if (_patient.medicationListArray.count > 0 && barButtonsArray.count < barButtonItemCount) {
+        [barButtonsArray insertObject:barButtonItem atIndex: barButtonsArray.count-1];
+        self.navigationItem.rightBarButtonItems = barButtonsArray;
+    } else {
+        self.navigationItem.rightBarButtonItems = barButtonsArray;
+    }
 }
 
 - (void)currentWeeksDateArrayFromCenterDate: (NSDate *)centerDate {
@@ -867,10 +882,6 @@ typedef enum : NSUInteger {
     [actionSheet addAction:[UIAlertAction actionWithTitle:ADD_MEDICATION style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [self addMedicationButtonPressed:nil];
     }]];
-    [actionSheet addAction:[UIAlertAction actionWithTitle:VITAL_SIGNS style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [self vitalSignsButtonPressed:nil];
-    }]];
-
     NSInteger warningsCount = alertsArray.count + allergiesArray.count;
     if (warningsCount > 0) {
         NSString *warningsActionTitle = [NSString stringWithFormat:@"%@ (%ld)", NSLocalizedString(@"WARNINGS", @""), (long)warningsCount];
@@ -881,6 +892,9 @@ typedef enum : NSUInteger {
     [actionSheet addAction:[UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@ (3)", NSLocalizedString(@"PHARMACIST_INTERACTION", @"")]  style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         
         [self pharmacistButtonTapped:nil];
+    }]];
+    [actionSheet addAction:[UIAlertAction actionWithTitle:VITAL_SIGNS style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self vitalSignsButtonPressed:nil];
     }]];
     // Present action sheet.
     [self presentViewController:actionSheet animated:YES completion:nil];
