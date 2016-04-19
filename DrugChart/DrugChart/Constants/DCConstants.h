@@ -276,6 +276,7 @@
 // title for views
 #define INPATIENT_TITLE @"In Patients"
 #define ADD_MEDICATION @"Add Medication"
+#define VITAL_SIGNS @"Vital Signs"
 #define EDIT_MEDICATION @"Edit Medication"
 #define ORDER_SET @"Order Set"
 

@@ -790,7 +790,5 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         let contentInsets:UIEdgeInsets  = UIEdgeInsetsZero;
         administerSuccessTableView.contentInset = contentInsets;
         administerSuccessTableView.scrollIndicatorInsets = contentInsets;
-        administerSuccessTableView.beginUpdates()
-        administerSuccessTableView.endUpdates()
     }
 }

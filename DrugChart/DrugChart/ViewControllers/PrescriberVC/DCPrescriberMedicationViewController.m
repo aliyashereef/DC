@@ -53,6 +53,7 @@ typedef enum : NSUInteger {
     NSTimer *refreshTimer;
     NSDate *firstDisplayDate;
     UIBarButtonItem *addButton;
+    UIBarButtonItem *vitalSignsButton;
     UIBarButtonItem *warningsBarButtonItem;
     UIButton *warningsButton;
     UIButton *pharmacistButton;
@@ -110,6 +111,7 @@ typedef enum : NSUInteger {
     if ([DCAPPDELEGATE windowState] == twoThirdWindow ||
         [DCAPPDELEGATE windowState] == fullWindow) {
         [self addAddMedicationButtonToNavigationBar];
+        [self addVitalSignsButtonToNavigationBar];
         [self addAlertsAndAllergyBarButtonToNavigationBar];
         [self addPharmacistInteractionButtonToNavigationBar];
     } else {
@@ -263,6 +265,14 @@ typedef enum : NSUInteger {
                  target:self
                  action:@selector(addMedicationButtonPressed:)];
     self.navigationItem.rightBarButtonItem = addButton;
+}
+
+- (void)addVitalSignsButtonToNavigationBar {
+    
+    vitalSignsButton = [[UIBarButtonItem alloc]
+                 initWithBarButtonSystemItem:UIBarButtonSystemItemReply
+                 target:self
+                 action:@selector(vitalSignsButtonPressed:)];
 }
 
 #pragma mark - Private methods
@@ -745,9 +755,9 @@ typedef enum : NSUInteger {
     [warningsButton addSubview:warningCountLabel];
     warningsBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:warningsButton];
     if ([allergiesArray count] > 0 || [alertsArray count] > 0) {
-        self.navigationItem.rightBarButtonItems = @[addButton, warningsBarButtonItem];
+        self.navigationItem.rightBarButtonItems = @[addButton,vitalSignsButton, warningsBarButtonItem];
     } else {
-        self.navigationItem.rightBarButtonItems = @[addButton];
+        self.navigationItem.rightBarButtonItems = @[addButton,vitalSignsButton];
     }
 }
 
@@ -857,6 +867,10 @@ typedef enum : NSUInteger {
     [actionSheet addAction:[UIAlertAction actionWithTitle:ADD_MEDICATION style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [self addMedicationButtonPressed:nil];
     }]];
+    [actionSheet addAction:[UIAlertAction actionWithTitle:VITAL_SIGNS style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self vitalSignsButtonPressed:nil];
+    }]];
+
     NSInteger warningsCount = alertsArray.count + allergiesArray.count;
     if (warningsCount > 0) {
         NSString *warningsActionTitle = [NSString stringWithFormat:@"%@ (%ld)", NSLocalizedString(@"WARNINGS", @""), (long)warningsCount];
@@ -872,7 +886,29 @@ typedef enum : NSUInteger {
     [self presentViewController:actionSheet animated:YES completion:nil];
 }
 
+- (IBAction)vitalSignsButtonPressed:(id)sender {
+    [self showPatientVitalSignsView];
+}
+
+- (void)showPatientVitalSignsView {
+    
+    VitalsignDashboard *vitalSignViewController = [[UIStoryboard storyboardWithName:PATIENT_MENU_STORYBOARD bundle: nil] instantiateViewControllerWithIdentifier:VITAL_SIGNS_VIEW_CONTROLLER_VIEW_CONTROLLER_SB_ID];
+    vitalSignViewController.patient = self.patient;
+    UINavigationController *navigationController = [[UINavigationController alloc]initWithRootViewController:vitalSignViewController];
+    //  now create a Bar button item
+    UIBarButtonItem* cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissVitalSignViewController)];
+    
+    //  set the nav bar's left button item
+    vitalSignViewController.navigationItem.leftBarButtonItem = cancelButton;
+    [self.navigationController presentViewController:navigationController animated:YES completion:nil];
+}
+
 #pragma mark - Public methods implementation.
+
+- (void)dismissVitalSignViewController {
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 - (void)reloadAdministrationScreenWithMedicationDetails {
     
