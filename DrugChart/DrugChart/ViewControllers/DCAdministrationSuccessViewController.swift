@@ -83,6 +83,18 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         configureTableViewProperties()
     }
     
+    func scrollTableViewToErrorField() {
+        
+        // scroll tableview to error field in case of error
+        
+        let lastIndexPath = NSIndexPath(forItem: 0, inSection: sectionCount - 1)
+        if ((administerSuccessTableView.indexPathsForVisibleRows?.contains(lastIndexPath)) != nil) {
+            administerSuccessTableView.beginUpdates()
+            administerSuccessTableView.scrollToRowAtIndexPath(lastIndexPath, atScrollPosition: .Middle, animated: true)
+            administerSuccessTableView.endUpdates()
+        }
+    }
+    
     //MARK: Configuring Table View Cells
     
     //Medication Details Cell

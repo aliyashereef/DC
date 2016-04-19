@@ -461,6 +461,7 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
                     isValid = false
                     administrationSuccessViewController?.isValid = isValid
                     administrationSuccessViewController?.administerSuccessTableView.reloadData()
+                    administrationSuccessViewController?.scrollTableViewToErrorField()
                 }
             }
             if (medicationStatus == NOT_ADMINISTRATED) {
@@ -470,6 +471,7 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
                     isValid = false
                     administrationFailureViewController?.isValid = false
                     administrationFailureViewController?.administrationFailureTableView.reloadData()
+                    administrationFailureViewController?.scrollTableViewToErrorField()
                 }
             }
         }
@@ -482,6 +484,7 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
                     isValid = false
                     administrationSuccessViewController?.isValid = isValid
                     administrationSuccessViewController?.administerSuccessTableView.reloadData()
+                    administrationSuccessViewController?.scrollTableViewToErrorField()
                 }
             }
             if (medicationStatus == NOT_ADMINISTRATED) {
@@ -491,6 +494,7 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
                     isValid = false
                     administrationFailureViewController?.isValid = isValid
                     administrationFailureViewController?.administrationFailureTableView.reloadData()
+                    administrationFailureViewController?.scrollTableViewToErrorField()
                 }
             }
         }
@@ -501,6 +505,7 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
                     isValid = false
                 administrationInProgressViewController?.isValid = isValid
                 administrationInProgressViewController?.administerInProgressTableView.reloadData()
+                administrationInProgressViewController?.scrollTableViewToErrorField()
                 }
             }
         }
