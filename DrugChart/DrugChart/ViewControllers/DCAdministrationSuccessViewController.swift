@@ -236,7 +236,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         
         var hasDatePicker : Bool = false
         var targetedRow : NSInteger = indexPath.row
-        targetedRow++
+        targetedRow += 1
         let checkDatePickerCell : UITableViewCell? = administerSuccessTableView.cellForRowAtIndexPath(NSIndexPath(forRow: targetedRow, inSection: indexPath.section))
         let checkDatePicker = checkDatePickerCell?.viewWithTag(DATE_PICKER_CELL_TAG) as? UIDatePicker
         hasDatePicker = (checkDatePicker != nil) ? true : false
@@ -330,7 +330,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
                 rowCount = infusionRowCount
             }
             if hasInlineDatePicker() {
-                rowCount++
+                rowCount += 1
             }
             return rowCount
         case eSecondSection.rawValue:
@@ -581,7 +581,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
             self.administerSuccessTableView.beginUpdates()
             self.administerSuccessTableView.reloadRowsAtIndexPaths([expiryDateCellIndexPath!], withRowAnimation:.Fade)
             self.administerSuccessTableView.endUpdates()
-            self.performSelector(Selector("displayInlineDatePickerForRowAtIndexPath:"), withObject: indexPath, afterDelay: 0.1)
+            self.performSelector(#selector(DCAdministrationSuccessViewController.displayInlineDatePickerForRowAtIndexPath(_:)), withObject: indexPath, afterDelay: 0.1)
         } else {
             self.displayInlineDatePickerForRowAtIndexPath(indexPath)
         }
@@ -755,7 +755,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
             } else {
                 var selectedUser = DCUser.init()
                 selectedUser = user
-                self.performSelector("displaySecurityPinEntryViewForUser:", withObject:selectedUser , afterDelay: 0.5)
+                self.performSelector(#selector(DCAdministrationSuccessViewController.displaySecurityPinEntryViewForUser(_:)), withObject:selectedUser , afterDelay: 0.5)
             }
         administerSuccessTableView.reloadData()
     }

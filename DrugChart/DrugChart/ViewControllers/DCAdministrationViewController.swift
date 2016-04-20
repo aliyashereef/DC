@@ -49,7 +49,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         }
         self.title = dateString
         // Navigation bar done button
-        let doneButton : UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: "doneButtonPressed")
+        let doneButton : UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(DCAdministrationViewController.doneButtonPressed))
         if (appDelegate.windowState == DCWindowState.halfWindow || appDelegate.windowState == DCWindowState.oneThirdWindow) {
             self.navigationItem.rightBarButtonItems = [doneButton]
         } else {

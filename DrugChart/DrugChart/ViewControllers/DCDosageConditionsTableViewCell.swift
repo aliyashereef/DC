@@ -51,7 +51,7 @@ class DCDosageConditionsTableViewCell: UITableViewCell {
     func addPanGestureToMedicationDetailHolderView () {
         
         //add pan gesture to medication detail holder view
-        let panGesture = UIPanGestureRecognizer(target: self, action: Selector("swipeMedicationDetailView:"))
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(DCDosageConditionsTableViewCell.swipeMedicationDetailView(_:)))
         panGesture.delegate = self
         dosageConditionHolderView.addGestureRecognizer(panGesture)
     }

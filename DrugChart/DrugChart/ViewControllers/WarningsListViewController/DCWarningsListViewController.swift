@@ -96,9 +96,9 @@ let NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR : CGFloat = 44.0
         
         self.title = NSLocalizedString("WARNINGS", comment: "title")
         if (loadOverideView == true) {
-            let overrideButton = UIBarButtonItem (title: OVERRIDE_BUTTON_TITLE, style: .Plain, target: self, action: Selector("overrideButtonPressed:"))
+            let overrideButton = UIBarButtonItem (title: OVERRIDE_BUTTON_TITLE, style: .Plain, target: self, action: #selector(DCWarningsListViewController.overrideButtonPressed(_:)))
             self.navigationItem.rightBarButtonItem = overrideButton
-            let donotUseButton = UIBarButtonItem (title: DONOTUSE_BUTTON_TITLE, style: .Plain, target: self, action: Selector("donotUseDrugAction:"))
+            let donotUseButton = UIBarButtonItem (title: DONOTUSE_BUTTON_TITLE, style: .Plain, target: self, action: #selector(DCWarningsListViewController.donotUseDrugAction(_:)))
             self.navigationItem.leftBarButtonItem = donotUseButton
         }
     }
@@ -118,7 +118,7 @@ let NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR : CGFloat = 44.0
             }
         }
         if loadOverideView == false && overiddenReason != nil{
-            sectionCount++
+            sectionCount += 1
         }
         return sectionCount
     }

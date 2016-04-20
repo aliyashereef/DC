@@ -150,7 +150,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
             noteCell = DCNotesAndReasonCell(style: UITableViewCellStyle.Value1, reuseIdentifier:NOTES_AND_REASON_CELL)
         }
         // Adding target for the more button on the cell.
-        noteCell!.moreButton.addTarget(self, action: "moreButtonPressed:", forControlEvents: .TouchUpInside)
+        noteCell!.moreButton.addTarget(self, action: #selector(DCMedicationHistoryViewController.moreButtonPressed(_:)), forControlEvents: .TouchUpInside)
         // Assigning value for the cell labels
         noteCell!.cellContentTypeLabel!.text = type as String
         noteCell!.reasonTextLabel.text = text as String

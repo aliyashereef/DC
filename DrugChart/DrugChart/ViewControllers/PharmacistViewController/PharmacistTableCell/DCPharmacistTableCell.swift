@@ -255,7 +255,7 @@ class DCPharmacistTableCell: UITableViewCell {
     func addPanGestureToMedicationDetailsView() {
         
         // add swipe gesture
-        let panGesture = UIPanGestureRecognizer(target: self, action: Selector("swipeMedicationDetailView:"))
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(DCPharmacistTableCell.swipeMedicationDetailView(_:)))
         panGesture.delegate = self
         medicationDetailsView.addGestureRecognizer(panGesture)
     }

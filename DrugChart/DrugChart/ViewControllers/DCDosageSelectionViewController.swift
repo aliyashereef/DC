@@ -666,7 +666,7 @@ typealias SelectedDosage = DCDosage? -> Void
                     if (valueForDoseForTime[index] != "") {
                         valueOfDoseAtIndex = NSString(string: valueForDoseForTime[index]).floatValue
                         totalValueForDose += valueOfDoseAtIndex
-                        countOfItemsWithDoseValueSelected++
+                        countOfItemsWithDoseValueSelected += 1
                     }
                 }
                 if (totalValueForDose == valueForRequiredDailyDose && countOfItemsWithDoseValueSelected == selectedTimeArrayItems.count) {

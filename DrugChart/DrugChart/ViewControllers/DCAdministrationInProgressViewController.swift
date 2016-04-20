@@ -250,7 +250,7 @@ class DCAdministrationInProgressViewController : DCBaseViewController,StatusList
             self.administerInProgressTableView.beginUpdates()
             self.administerInProgressTableView.reloadRowsAtIndexPaths([datePickerIndexPath], withRowAnimation:.Fade)
             self.administerInProgressTableView.endUpdates()
-            self.performSelector(Selector("toggleDatePickerForSelectedIndexPath:"), withObject: indexPath, afterDelay: 0.1)
+            self.performSelector(#selector(DCAdministrationInProgressViewController.toggleDatePickerForSelectedIndexPath(_:)), withObject: indexPath, afterDelay: 0.1)
         } else {
             self.toggleDatePickerForSelectedIndexPath(indexPath)
         }

@@ -81,9 +81,9 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     func addNavigationRightBarButtonItemForEditingState(isEditing : Bool) {
         
         if isEditing == false {
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: EDIT_BUTTON_TITLE, style: .Plain, target:self , action: Selector("editButtonPressed"))
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: EDIT_BUTTON_TITLE, style: .Plain, target:self , action: #selector(DCPharmacistViewController.editButtonPressed))
         } else {
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: CANCEL_BUTTON_TITLE, style: .Plain, target:self , action: Selector("cancelButtonPressed"))
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: CANCEL_BUTTON_TITLE, style: .Plain, target:self , action: #selector(DCPharmacistViewController.cancelButtonPressed))
         }
     }
     

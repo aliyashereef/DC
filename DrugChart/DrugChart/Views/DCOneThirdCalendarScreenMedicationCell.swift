@@ -47,7 +47,7 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
     func addPanGestureToMedicationDetailHolderView () {
         
         //add pan gesture to medication detail holder view
-        let panGesture = UIPanGestureRecognizer(target: self, action: Selector("swipeMedicationDetailView:"))
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(DCOneThirdCalendarScreenMedicationCell.swipeMedicationDetailView(_:)))
         panGesture.delegate = self
         medicineDetailHolderView.addGestureRecognizer(panGesture)
     }

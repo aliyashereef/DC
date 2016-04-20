@@ -519,7 +519,7 @@ class DCSchedulingInitialViewController: UIViewController, UITableViewDelegate, 
                     rowCount = 4
                 }
                 if (tableViewHasInlinePickerForSection(section)) {
-                    rowCount++
+                    rowCount += 1
                 }
                 return rowCount
             }

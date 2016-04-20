@@ -43,7 +43,7 @@ class DCSChedulingTimePickerCell: UITableViewCell {
             schedulingTimePickerView.setDate(time, animated: true)
         } else {
             // previous time is nil
-            self.performSelector(Selector("sendUpdatedPickerTimeToSuperView"), withObject: nil, afterDelay: 0.2)
+            self.performSelector(#selector(DCSChedulingTimePickerCell.sendUpdatedPickerTimeToSuperView), withObject: nil, afterDelay: 0.2)
             sendUpdatedPickerTimeToSuperView()
         }
     }
