@@ -42,10 +42,11 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         self.configureAdministratingUserForMedicationSlot()
         medicationSlot?.medicationAdministration?.actualAdministrationTime = NSDate()
         configureViewElements()
-        initialiseMedicationSlotObject()
     }
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        initialiseMedicationSlotObject()
         self.administerSuccessTableView.reloadData()
     }
     
@@ -64,7 +65,6 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
     func initialiseMedicationSlotObject () {
         
         //initialise Medication Slot object
-        medicationSlot?.medicationAdministration = DCMedicationAdministration.init()
         medicationSlot?.medicationAdministration?.statusReason = EMPTY_STRING
         medicationSlot?.medicationAdministration?.administratingUser = DCUser.init()
         medicationSlot?.medicationAdministration?.checkingUser = DCUser.init()
@@ -141,6 +141,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         administerCell.titleLabel.text = REASON
         administerCell.detailLabelTrailingSpace.constant = zeroFloat
+        administerCell.titleLabel.textColor = !isValid! && (medicationSlot?.medicationAdministration?.statusReason == nil || medicationSlot?.medicationAdministration?.statusReason == EMPTY_STRING ) ? UIColor.redColor() : UIColor.blackColor()
         administerCell.detailLabel?.text = medicationSlot?.medicationAdministration?.statusReason
         return administerCell
     }
@@ -176,7 +177,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         if ((self.medicationSlot?.medicationAdministration?.administeredNotes) != nil) {
             notesCell.notesTextView.text = self.medicationSlot?.medicationAdministration?.administeredNotes
         }
-        notesCell.notesTextView.textColor = (!isValid! && (medicationSlot?.medicationAdministration?.isEarlyAdministration == true || medicationSlot?.medicationAdministration?.isLateAdministration == true)) ? UIColor.redColor() : UIColor(forHexString: "#8f8f95")
+        notesCell.notesTextView.textColor = (!isValid! && !isValidNotes ()) ? UIColor.redColor() : UIColor(forHexString: "#8f8f95")
         notesCell.delegate = self
         return notesCell
     }
@@ -224,7 +225,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         
         var hasDatePicker : Bool = false
         var targetedRow : NSInteger = indexPath.row
-        targetedRow++
+        targetedRow += 1
         let checkDatePickerCell : UITableViewCell? = administerSuccessTableView.cellForRowAtIndexPath(NSIndexPath(forRow: targetedRow, inSection: indexPath.section))
         let checkDatePicker = checkDatePickerCell?.viewWithTag(DATE_PICKER_CELL_TAG) as? UIDatePicker
         hasDatePicker = (checkDatePicker != nil) ? true : false
@@ -318,7 +319,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
                 rowCount = infusionRowCount
             }
             if hasInlineDatePicker() {
-                rowCount++
+                rowCount += 1
             }
             return rowCount
         case eSecondSection.rawValue:
@@ -417,7 +418,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         let administerHeaderView = NSBundle.mainBundle().loadNibNamed(ADMINISTER_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCAdministerTableHeaderView
         administerHeaderView!.timeLabel.hidden = true
         if section == eSecondSection.rawValue {
-            if (!isValid!) {
+            if (!isValid! && !isValidNotes ()) {
                 if (medicationSlot?.medicationAdministration?.isWhenRequiredEarlyAdministration == true) {
                     let errorMessage = NSString(format: "%@ %@", NSLocalizedString("ADMIN_FREQUENCY", comment: "when required new medication is given 2 hrs before previous one"), NSLocalizedString("EARLY_ADMIN_INLINE", comment: ""))
                     administerHeaderView?.populateHeaderViewWithErrorMessage(errorMessage as String)
@@ -569,7 +570,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
             self.administerSuccessTableView.beginUpdates()
             self.administerSuccessTableView.reloadRowsAtIndexPaths([expiryDateCellIndexPath!], withRowAnimation:.Fade)
             self.administerSuccessTableView.endUpdates()
-            self.performSelector(Selector("displayInlineDatePickerForRowAtIndexPath:"), withObject: indexPath, afterDelay: 0.1)
+            self.performSelector(#selector(DCAdministrationSuccessViewController.displayInlineDatePickerForRowAtIndexPath(_:)),withObject: indexPath, afterDelay: 0.1)
         } else {
             self.displayInlineDatePickerForRowAtIndexPath(indexPath)
         }
@@ -703,6 +704,16 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         self.view.endEditing(true)
     }
     
+    func isValidNotes () -> Bool {
+        var notesValidity = true
+        if (medicationSlot?.medicationAdministration?.isEarlyAdministration == true || medicationSlot?.medicationAdministration?.isLateAdministration == true) {
+            if (medicationSlot?.medicationAdministration?.refusedNotes == nil || medicationSlot?.medicationAdministration?.refusedNotes == EMPTY_STRING) {
+                notesValidity = false
+            }
+        }
+        return notesValidity
+    }
+    
     // MARK: BatchNumberCellDelegate Methods
     func batchNumberFieldSelectedAtIndexPath(indexPath: NSIndexPath) {
         textFieldSelectionIndexPath = indexPath
@@ -724,7 +735,6 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
     }
     
     func enteredNote(note : String) {
-        isValid = true
         medicationSlot?.medicationAdministration?.administeredNotes = note
     }
     
@@ -743,7 +753,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
             } else {
                 var selectedUser = DCUser.init()
                 selectedUser = user
-                self.performSelector("displaySecurityPinEntryViewForUser:", withObject:selectedUser , afterDelay: 0.5)
+                self.performSelector(#selector(DCAdministrationSuccessViewController.displaySecurityPinEntryViewForUser(_:)), withObject:selectedUser , afterDelay: 0.5)
             }
         administerSuccessTableView.reloadData()
     }
