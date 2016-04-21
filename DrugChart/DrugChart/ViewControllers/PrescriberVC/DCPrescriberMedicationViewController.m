@@ -29,6 +29,7 @@
 
 #define PHARMACIST_ICON @"pharmacistButton"
 #define PHARMACIST_ICON_WITHCOUNT @"pharmacistButtonWithNotification"
+#define VITAL_SIGN_SWITCH @"vitalSignSwitch"
 
 typedef enum : NSUInteger {
     kSortDrugStartDate,
@@ -270,9 +271,10 @@ typedef enum : NSUInteger {
 - (void)addVitalSignsButtonToNavigationBar {
     
     vitalSignsButton = [[UIBarButtonItem alloc]
-                 initWithBarButtonSystemItem:UIBarButtonSystemItemReply
-                 target:self
-                 action:@selector(vitalSignsButtonPressed:)];
+                        initWithImage:[UIImage imageNamed:VITAL_SIGN_SWITCH]
+                        style:UIBarButtonItemStylePlain
+                        target:self
+                        action:@selector(vitalSignsButtonPressed:)];
 }
 
 #pragma mark - Private methods
