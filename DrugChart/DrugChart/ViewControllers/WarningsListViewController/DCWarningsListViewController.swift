@@ -26,8 +26,8 @@ let NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR : CGFloat = 44.0
     @IBOutlet weak var tableHeight: NSLayoutConstraint!
     
     var warningsArray = [Dictionary<String, AnyObject>]()
-    var severeArray : AnyObject?
-    var mildArray : AnyObject?
+    var severeArray : [DCWarning]?
+    var mildArray : [DCWarning]?
     var overiddenReason : NSString?
     var loadOverideView : Bool? = false
     var delegate: WarningsDelegate?
@@ -74,8 +74,8 @@ let NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR : CGFloat = 44.0
     func populateWarningsListWithWarnings(warnings : [Dictionary<String, AnyObject>], showOverrideView : Bool)  {
         
         warningsArray  = warnings;
-        severeArray = warningsArray[INITIAL_INDEX][SEVERE_WARNING]
-        mildArray = warningsArray[SECOND_INDEX][MILD_WARNING]
+        severeArray = warningsArray[INITIAL_INDEX][SEVERE_WARNING] as? [DCWarning]
+        mildArray = warningsArray[SECOND_INDEX][MILD_WARNING] as? [DCWarning]
         loadOverideView = showOverrideView
         if loadOverideView == true {
             self.navigationItem.hidesBackButton = true
@@ -167,32 +167,32 @@ let NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR : CGFloat = 44.0
 
             }else if indexPath.section == SectionCount.eFirstSection.rawValue {
                 if severeArray?.count > 0 {
-                    if let warning = severeArray?[indexPath.row]! as? DCWarning {
+                    if let warning : DCWarning = severeArray?[indexPath.row] {
                         cell.populateWarningsCellWithWarningsObject(warning)
                     }
                 } else {
-                    if let warning = mildArray?[indexPath.row]! as? DCWarning {
+                    if let warning : DCWarning = mildArray?[indexPath.row] {
                         cell.populateWarningsCellWithWarningsObject(warning)
                     }
                 }
             } else {
-                if let warning = mildArray?[indexPath.row]! as? DCWarning {
+                if let warning : DCWarning = mildArray?[indexPath.row] {
                     cell.populateWarningsCellWithWarningsObject(warning)
                 }
             }
         } else {
             if indexPath.section == SectionCount.eZerothSection.rawValue {
                 if severeArray?.count > 0 {
-                    if let warning = severeArray?[indexPath.row]! as? DCWarning {
+                    if let warning : DCWarning = severeArray?[indexPath.row] {
                         cell.populateWarningsCellWithWarningsObject(warning)
                     }
                 } else {
-                    if let warning = mildArray?[indexPath.row]! as? DCWarning {
+                    if let warning = mildArray?[indexPath.row] {
                         cell.populateWarningsCellWithWarningsObject(warning)
                     }
                 }
             } else {
-                if let warning = mildArray?[indexPath.row]! as? DCWarning {
+                if let warning = mildArray?[indexPath.row] {
                     cell.populateWarningsCellWithWarningsObject(warning)
                 }
             }

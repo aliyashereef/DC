@@ -72,7 +72,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
 
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: "handleRefresh:", forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl.addTarget(self, action: #selector(DCPrescriberMedicationListViewController.handleRefresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
         
         return refreshControl
     }()
@@ -128,7 +128,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                     withMedicationSlotsArray: rowDisplayMedicationSlotsArray,
                     atIndexPath: indexPath,
                     andSlotIndex: index)
-                index++
+                index += 1
             }
             return medicationCell!
     }
