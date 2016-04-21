@@ -79,7 +79,9 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
                 self.configurSaveButton(value)
             }
             cell?.initializeTextView()
-            cell?.reasonOrResolveTextView.becomeFirstResponder()
+            if indexOfCurrentMedication != 0 {
+                cell?.reasonOrResolveTextView.becomeFirstResponder()
+            }
             return cell!
         case eResolveIntervention.rawValue:
             if indexPath.section == eZerothSection.rawValue {
@@ -92,7 +94,9 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
                     self.configurSaveButton(value)
                 }
                 cell?.initializeTextView()
-                cell?.reasonOrResolveTextView.becomeFirstResponder()
+                if indexOfCurrentMedication != 0 {
+                    cell?.reasonOrResolveTextView.becomeFirstResponder()
+                }
                 return cell!
             }
         default:
