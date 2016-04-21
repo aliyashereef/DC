@@ -678,13 +678,6 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
 
     }
     
-    func refreshMedicationListAfterDelay() {
-        
-        if let delegate = self.delegate {
-            delegate.refreshMedicationList()
-        }
-    }
-
     func deleteMedicationAtIndexPath(indexPath : NSIndexPath) {
         
         let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
@@ -699,8 +692,9 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                 self.medicationTableView!.deleteRowsAtIndexPaths([indexPath as NSIndexPath], withRowAnimation: .Fade)
                 self.medicationTableView!.endUpdates()
                 self.medicationTableView?.reloadData()
-                // If we want to reload the medication list, uncomment the lines
-                self.performSelector(#selector(DCPrescriberMedicationListViewController.refreshMedicationListAfterDelay), withObject: nil, afterDelay: 0.2)
+                if let delegate = self.delegate {
+                    delegate.refreshMedicationList()
+                }
             } else {
                 // TO DO: handle the case for already deleted medication.
                 if (error.code == NETWORK_NOT_REACHABLE || error.code == NOT_CONNECTED_TO_INTERNET) {
