@@ -66,13 +66,25 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
     func scrollTableViewToErrorField() {
         
          // scroll tableview to error field in case of error
-        
-        let lastIndexPath = NSIndexPath(forItem: 0, inSection: ADMINISTER_FAILURE_TABLE_SECTION_COUNT - 1)
-        if ((administrationFailureTableView.indexPathsForVisibleRows?.contains(lastIndexPath)) != nil) {
-            administrationFailureTableView.beginUpdates()
-            administrationFailureTableView.scrollToRowAtIndexPath(lastIndexPath, atScrollPosition: .Middle, animated: true)
-            administrationFailureTableView.endUpdates()
+        if (!isValidReason()){
+            let reasonIndexPath =  NSIndexPath(forItem: 1, inSection: eFirstSection.rawValue)
+            if ((administrationFailureTableView.indexPathsForVisibleRows?.contains(reasonIndexPath)) != nil) {
+                self.scrollToTableCellAtIndexPath(reasonIndexPath)
+            }
+        } else if (!isValidNotes()) {
+            let lastIndexPath = NSIndexPath(forItem: 0, inSection: ADMINISTER_FAILURE_TABLE_SECTION_COUNT - 1)
+            if ((administrationFailureTableView.indexPathsForVisibleRows?.contains(lastIndexPath)) != nil) {
+                self.scrollToTableCellAtIndexPath(lastIndexPath)
+            }
         }
+    }
+    
+    func scrollToTableCellAtIndexPath(indexPath : NSIndexPath) {
+        
+        //scroll to indexPath
+        administrationFailureTableView.beginUpdates()
+        administrationFailureTableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Middle, animated: true)
+        administrationFailureTableView.endUpdates()
     }
     
     //MARK: TableView Delegate Methods

@@ -88,12 +88,25 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         // first check reason cell is visble if not scroll to reason cell, else check for notes field and scroll to last cell
         // scroll tableview to error field in case of error
         
-        let lastIndexPath = NSIndexPath(forItem: 0, inSection: sectionCount - 1)
-        if ((administerSuccessTableView.indexPathsForVisibleRows?.contains(lastIndexPath)) != nil) {
-            administerSuccessTableView.beginUpdates()
-            administerSuccessTableView.scrollToRowAtIndexPath(lastIndexPath, atScrollPosition: .Middle, animated: true)
-            administerSuccessTableView.endUpdates()
+        if (medicationSlot?.status != STARTED && medicationSlot?.medicationAdministration?.statusReason == nil || medicationSlot?.medicationAdministration?.statusReason == EMPTY_STRING){
+            let reasonIndexPath =  NSIndexPath(forItem: 1, inSection: eFirstSection.rawValue)
+            if ((administerSuccessTableView.indexPathsForVisibleRows?.contains(reasonIndexPath)) != nil) {
+                self.scrollToTableCellAtIndexPath(reasonIndexPath)
+            }
+        } else if (self.medicationSlot?.medicationAdministration?.administeredNotes == EMPTY_STRING || self.medicationSlot?.medicationAdministration?.administeredNotes == nil) {
+            let lastIndexPath = NSIndexPath(forItem: 0, inSection: sectionCount - 1)
+            if ((administerSuccessTableView.indexPathsForVisibleRows?.contains(lastIndexPath)) != nil) {
+                self.scrollToTableCellAtIndexPath(lastIndexPath)
+            }
         }
+     }
+    
+    func scrollToTableCellAtIndexPath(indexPath : NSIndexPath) {
+        
+        //scroll to indexPath
+        administerSuccessTableView.beginUpdates()
+        administerSuccessTableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Middle, animated: true)
+        administerSuccessTableView.endUpdates()
     }
     
     //MARK: Configuring Table View Cells

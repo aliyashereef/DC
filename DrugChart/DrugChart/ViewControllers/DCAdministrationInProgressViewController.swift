@@ -64,7 +64,7 @@ class DCAdministrationInProgressViewController : DCBaseViewController,StatusList
         
          // scroll tableview to error field in case of error
         
-        let lastIndexPath = NSIndexPath(forItem: 0, inSection: numberOfSectionsInTableView(administerInProgressTableView))
+        let lastIndexPath = NSIndexPath(forItem: 0, inSection: numberOfSectionsInTableView(administerInProgressTableView) - 1)
         if ((administerInProgressTableView.indexPathsForVisibleRows?.contains(lastIndexPath)) != nil) {
             administerInProgressTableView.beginUpdates()
             administerInProgressTableView.scrollToRowAtIndexPath(lastIndexPath, atScrollPosition: .Middle, animated: true)
