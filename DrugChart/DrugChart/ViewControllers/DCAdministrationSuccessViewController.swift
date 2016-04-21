@@ -82,6 +82,20 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         configureTableViewProperties()
     }
     
+    func scrollTableViewToErrorField() {
+        
+        // TODO: Here only notes field is taken into account, consider the reason field indexpath. if reason is empty
+        // first check reason cell is visble if not scroll to reason cell, else check for notes field and scroll to last cell
+        // scroll tableview to error field in case of error
+        
+        let lastIndexPath = NSIndexPath(forItem: 0, inSection: sectionCount - 1)
+        if ((administerSuccessTableView.indexPathsForVisibleRows?.contains(lastIndexPath)) != nil) {
+            administerSuccessTableView.beginUpdates()
+            administerSuccessTableView.scrollToRowAtIndexPath(lastIndexPath, atScrollPosition: .Middle, animated: true)
+            administerSuccessTableView.endUpdates()
+        }
+    }
+    
     //MARK: Configuring Table View Cells
     
     //Medication Details Cell
@@ -569,7 +583,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
             self.administerSuccessTableView.beginUpdates()
             self.administerSuccessTableView.reloadRowsAtIndexPaths([expiryDateCellIndexPath!], withRowAnimation:.Fade)
             self.administerSuccessTableView.endUpdates()
-            self.performSelector(#selector(DCAdministrationSuccessViewController.displayInlineDatePickerForRowAtIndexPath(_:)),withObject: indexPath, afterDelay: 0.1)
+            self.performSelector(#selector(DCAdministrationSuccessViewController.displayInlineDatePickerForRowAtIndexPath(_:)), withObject: indexPath, afterDelay: 0.1)
         } else {
             self.displayInlineDatePickerForRowAtIndexPath(indexPath)
         }

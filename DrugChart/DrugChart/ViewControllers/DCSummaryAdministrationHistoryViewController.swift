@@ -90,7 +90,7 @@ class DCSummaryAdministrationHistoryViewController: UIViewController, UITableVie
                 }
 
                 displayArray.append(displayDictionary)
-                count--
+                count -= 1
             }
         }
     }

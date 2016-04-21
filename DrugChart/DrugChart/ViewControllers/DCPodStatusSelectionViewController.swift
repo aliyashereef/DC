@@ -45,9 +45,9 @@ class DCPodStatusSelectionViewController: DCBaseViewController {
     func configureNavigationBarItems() {
         
         // Configure bar buttons for Add and Resolve Intervention.
-        let cancelButton: UIBarButtonItem = UIBarButtonItem(title: CANCEL_BUTTON_TITLE, style: .Plain, target: self, action: "cancelButtonPressed")
+        let cancelButton: UIBarButtonItem = UIBarButtonItem(title: CANCEL_BUTTON_TITLE, style: .Plain, target: self, action: #selector(DCPodStatusSelectionViewController.cancelButtonPressed))
         self.navigationItem.leftBarButtonItem = cancelButton
-        doneButton = UIBarButtonItem(title: SAVE_BUTTON_TITLE, style: .Plain, target: self, action: "doneButtonPressed")
+        doneButton = UIBarButtonItem(title: SAVE_BUTTON_TITLE, style: .Plain, target: self, action: #selector(DCPodStatusSelectionViewController.doneButtonPressed))
         doneButton?.enabled = false
         self.navigationItem.rightBarButtonItem = doneButton
         self.navigationItem.title = medicationList[indexOfCurrentMedication!].name

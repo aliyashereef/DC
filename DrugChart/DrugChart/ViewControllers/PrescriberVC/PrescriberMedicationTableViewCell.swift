@@ -89,7 +89,7 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
             masterMedicationAdministerDetailsView.viewWithTag(tag)?.removeFromSuperview()
             rightMedicationAdministerDetailsView.viewWithTag(tag)?.removeFromSuperview()
             
-            tag++
+            tag += 1
         }
     }
     

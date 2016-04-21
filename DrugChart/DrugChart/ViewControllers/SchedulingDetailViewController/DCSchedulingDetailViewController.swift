@@ -524,10 +524,10 @@ class DCSchedulingDetailViewController: UIViewController, UITableViewDelegate, U
         if (section == 0) {
             var rowCount = 2;
             if (self.detailType! == eDetailIntervalRepeatFrequency) {
-                rowCount++
+                rowCount += 1
             }
             if (tableViewHasInlinePickerForSection(section)) {
-                rowCount++
+                rowCount += 1
             }
             return rowCount
         } else {

@@ -8,6 +8,8 @@
 
 import Foundation
 
+let ADMINISTER_FAILURE_TABLE_SECTION_COUNT = 3
+
 class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDelegate , StatusListDelegate, reasonDelegate, AdministrationDateDelegate{
     
     @IBOutlet var administrationFailureTableView: UITableView!
@@ -59,6 +61,18 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
         medicationSlot?.medicationAdministration?.scheduledDateTime = medicationSlot?.time
         medicationSlot?.medicationAdministration?.statusReason = EMPTY_STRING
         medicationSlot?.medicationAdministration?.actualAdministrationTime = NSDate()
+    }
+    
+    func scrollTableViewToErrorField() {
+        
+         // scroll tableview to error field in case of error
+        
+        let lastIndexPath = NSIndexPath(forItem: 0, inSection: ADMINISTER_FAILURE_TABLE_SECTION_COUNT - 1)
+        if ((administrationFailureTableView.indexPathsForVisibleRows?.contains(lastIndexPath)) != nil) {
+            administrationFailureTableView.beginUpdates()
+            administrationFailureTableView.scrollToRowAtIndexPath(lastIndexPath, atScrollPosition: .Middle, animated: true)
+            administrationFailureTableView.endUpdates()
+        }
     }
     
     //MARK: TableView Delegate Methods

@@ -456,10 +456,12 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
             if (medicationStatus == ADMINISTERED) {
                 administrationSuccessViewController?.isValid = isValid
                 administrationSuccessViewController?.administerSuccessTableView.reloadData()
+                administrationSuccessViewController?.scrollTableViewToErrorField()
             }
             if (medicationStatus == NOT_ADMINISTRATED) {
                 administrationFailureViewController?.isValid = false
                 administrationFailureViewController?.administrationFailureTableView.reloadData()
+                administrationFailureViewController?.scrollTableViewToErrorField()
             }
         }
         // For in progress fluid change restrted date is mandatory.
@@ -470,6 +472,7 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
                     isValid = false
                     administrationInProgressViewController?.isValid = isValid
                     administrationInProgressViewController?.administerInProgressTableView.reloadData()
+                    administrationInProgressViewController?.scrollTableViewToErrorField()
                 }
             }
         }
@@ -479,6 +482,7 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
                 isValid = false
                 administrationFailureViewController?.isValid = false
                 administrationFailureViewController?.administrationFailureTableView.reloadData()
+                administrationFailureViewController?.scrollTableViewToErrorField()
             }
         }
         // For late and early administration, the notes string is mandatory.
@@ -491,6 +495,7 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
                     isValid = false
                     administrationSuccessViewController?.isValid = isValid
                     administrationSuccessViewController?.administerSuccessTableView.reloadData()
+                    administrationSuccessViewController?.scrollTableViewToErrorField()
                 }
             }
             if (medicationStatus == NOT_ADMINISTRATED) {
@@ -499,6 +504,7 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
                     isValid = false
                     administrationFailureViewController?.isValid = false
                     administrationFailureViewController?.administrationFailureTableView.reloadData()
+                    administrationFailureViewController?.scrollTableViewToErrorField()
                 }
             }
         }

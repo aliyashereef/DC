@@ -45,7 +45,7 @@ class DCSingleDoseViewController: DCBaseViewController, UITableViewDelegate, UIT
         
         var rowCount = 2
         if (tableViewHasInlinePickerForSection(section)) {
-            rowCount++
+            rowCount += 1
         }
         return rowCount
     }
@@ -85,7 +85,7 @@ class DCSingleDoseViewController: DCBaseViewController, UITableViewDelegate, UIT
                 tableView.beginUpdates()
                 tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: 1, inSection: 0)], withRowAnimation:.Fade)
                 tableView.endUpdates()
-                self.performSelector(Selector("reloadDatePickerAfterDelay"), withObject: nil, afterDelay: 0.1)
+                self.performSelector(#selector(DCSingleDoseViewController.reloadDatePickerAfterDelay), withObject: nil, afterDelay: 0.1)
             }
         }
         tableView.deselectRowAtIndexPath(indexPath, animated: true)

@@ -65,9 +65,9 @@ class DCAddConditionViewController: UIViewController, UITableViewDataSource, UIT
     func configureNavigationBarItems() {
         
         // Configure bar buttons for Add new.
-        let cancelButton: UIBarButtonItem = UIBarButtonItem(title: CANCEL_BUTTON_TITLE, style: .Plain, target: self, action: "cancelButtonPressed")
+        let cancelButton: UIBarButtonItem = UIBarButtonItem(title: CANCEL_BUTTON_TITLE, style: .Plain, target: self, action: #selector(DCAddConditionViewController.cancelButtonPressed))
         self.navigationItem.leftBarButtonItem = cancelButton
-        let doneButton: UIBarButtonItem = UIBarButtonItem(title: SAVE_BUTTON_TITLE, style: .Plain, target: self, action: "doneButtonPressed")
+        let doneButton: UIBarButtonItem = UIBarButtonItem(title: SAVE_BUTTON_TITLE, style: .Plain, target: self, action: #selector(DCAddConditionViewController.doneButtonPressed))
         self.navigationItem.rightBarButtonItem = doneButton
         if !isEditCondition {
             self.navigationItem.title = ADD_CONDITION_TITLE
