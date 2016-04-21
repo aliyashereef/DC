@@ -156,6 +156,11 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         } else {
             administerCell.detailLabel?.text = medicationDetails?.dosage
         }
+        if !isValid! && medicationSlot?.medicationAdministration?.isDoseUpdated == true && (medicationSlot?.medicationAdministration?.doseEditReason == REASON || medicationSlot?.medicationAdministration?.doseEditReason == nil) {
+            administerCell.titleLabel.textColor = UIColor.redColor()
+        } else {
+            administerCell.titleLabel.textColor = UIColor.blackColor()
+        }
         return administerCell
     }
     //Date Cell
@@ -179,7 +184,6 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         return administerCell
     }
     
-    // Notes Cell
     // Notes Cell
     func notesTableCellAtIndexPath(indexPath : NSIndexPath) -> (DCNotesTableCell) {
         
@@ -601,11 +605,16 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         } else {
             administratingDoseViewController.doseValue = medicationDetails?.dosage
         }
+        administratingDoseViewController.isInEditMode = (self.medicationSlot?.medicationAdministration.isDoseUpdated)! && (medicationSlot?.medicationAdministration?.doseEditReason == REASON || medicationSlot?.medicationAdministration?.doseEditReason == nil)
         administratingDoseViewController.title = NSLocalizedString("DOSE", comment: "")
         administratingDoseViewController.doseValueUpdated = { dose, reason in
             self.medicationSlot?.medicationAdministration?.dosageString = dose
             self.medicationSlot?.medicationAdministration.doseEditReason = reason
             self.administerSuccessTableView.reloadData()
+        }
+        administratingDoseViewController.isDoseValueUpdated = { value in
+            self.medicationSlot?.medicationAdministration.isDoseUpdated = value
+            
         }
         return administratingDoseViewController
     }

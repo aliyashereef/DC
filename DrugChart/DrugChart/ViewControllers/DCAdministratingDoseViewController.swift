@@ -16,25 +16,27 @@ class DCAdministratingDoseViewController: UIViewController, UITableViewDataSourc
     var doseValue : String?
     @IBOutlet weak var updateDoseTableView: UITableView!
     var doseValueUpdated: DoseValueUpdated = { dose, reason in }
+    var isInEditMode: Bool = false
+    var isDoseValueUpdated: TextViewUpdated = { value in }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
+
+        if isInEditMode == true {
+            sectionCountOfTable = SectionCount.eSecondSection.rawValue
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
         
         if let doseCell : DCAdministratingDoseTableViewCell = updateDoseTableView.cellForRowAtIndexPath(NSIndexPath(forRow: RowCount.eZerothRow.rawValue, inSection: SectionCount.eZerothSection.rawValue)) as? DCAdministratingDoseTableViewCell {
-            if doseCell.doseTextField.text != doseValue {
-                var reasonString: String = EMPTY_STRING
-                if let reasonCell : DCInterventionAddResolveTextViewCell = updateDoseTableView.cellForRowAtIndexPath(NSIndexPath(forRow: RowCount.eZerothRow.rawValue, inSection: SectionCount.eFirstSection.rawValue)) as? DCInterventionAddResolveTextViewCell {
-                    if reasonCell.reasonOrResolveTextView.text != EMPTY_STRING {
-                        reasonString = reasonCell.reasonOrResolveTextView.text
-                    }
+            var reasonString: String = EMPTY_STRING
+            if let reasonCell : DCInterventionAddResolveTextViewCell = updateDoseTableView.cellForRowAtIndexPath(NSIndexPath(forRow: RowCount.eZerothRow.rawValue, inSection: SectionCount.eFirstSection.rawValue)) as? DCInterventionAddResolveTextViewCell {
+                if reasonCell.reasonOrResolveTextView.text != EMPTY_STRING {
+                    reasonString = reasonCell.reasonOrResolveTextView.text
                 }
-                self.doseValueUpdated(doseCell.doseTextField.text!,reasonString)
             }
+            self.doseValueUpdated(doseCell.doseTextField.text!,reasonString)
         }
     }
     override func didReceiveMemoryWarning() {
@@ -71,6 +73,7 @@ class DCAdministratingDoseViewController: UIViewController, UITableViewDataSourc
             cell?.doseTextField.delegate = cell
             cell?.textViewUpdated = { value in
                 let section : NSIndexSet = NSIndexSet(index:SectionCount.eFirstSection.rawValue)
+                self.isDoseValueUpdated(value)
                 if value {
                     if self.sectionCountOfTable != RowCount.eSecondRow.rawValue {
                         self.sectionCountOfTable = RowCount.eSecondRow.rawValue

@@ -29,7 +29,7 @@
 @property (nonatomic) BOOL isEarlyAdministration;
 @property (nonatomic) BOOL isLateAdministration;
 @property (nonatomic) BOOL isWhenRequiredEarlyAdministration;
-
+@property (nonatomic) BOOL isDoseUpdated;
 - (DCMedicationAdministration *)initWithAdministrationDetails:(NSDictionary *)administrationDetails;
 
 @end
