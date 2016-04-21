@@ -677,6 +677,13 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         self.presentViewController(navigationController, animated: true, completion: { _ in })
 
     }
+    
+    func refreshMedicationListAfterDelay() {
+        
+        if let delegate = self.delegate {
+            delegate.refreshMedicationList()
+        }
+    }
 
     func deleteMedicationAtIndexPath(indexPath : NSIndexPath) {
         
@@ -695,8 +702,8 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                 // If we want to reload the medication list, uncomment the lines
 //                if let delegate = self.delegate {
 //                    delegate.refreshMedicationList()
-//
 //                }
+                self.performSelector(#selector(DCPrescriberMedicationListViewController.refreshMedicationListAfterDelay), withObject: nil, afterDelay: 0.2)
             } else {
                 // TO DO: handle the case for already deleted medication.
                 if (error.code == NETWORK_NOT_REACHABLE || error.code == NOT_CONNECTED_TO_INTERNET) {

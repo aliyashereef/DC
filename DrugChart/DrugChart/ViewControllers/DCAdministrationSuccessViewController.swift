@@ -85,6 +85,8 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
     
     func scrollTableViewToErrorField() {
         
+        // TODO: Here only notes field is taken into account, consider the reason field indexpath. if reason is empty
+        // first check reason cell is visble if not scroll to reason cell, else check for notes field and scroll to last cell
         // scroll tableview to error field in case of error
         
         let lastIndexPath = NSIndexPath(forItem: 0, inSection: sectionCount - 1)
