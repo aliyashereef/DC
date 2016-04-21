@@ -24,6 +24,7 @@
 @property (nonatomic, strong) NSString *administeredNotes;
 @property (nonatomic, strong) NSString *omittedNotes;
 @property (nonatomic, strong) NSString *refusedNotes;
+@property (nonatomic, strong) NSString *infusionStatusChangeReason;
 @property (nonatomic) BOOL isSelfAdministered;
 @property (nonatomic) BOOL isEarlyAdministration;
 @property (nonatomic) BOOL isLateAdministration;

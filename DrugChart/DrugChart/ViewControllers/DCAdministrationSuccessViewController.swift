@@ -46,7 +46,6 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        initialiseMedicationSlotObject()
         self.administerSuccessTableView.reloadData()
     }
     

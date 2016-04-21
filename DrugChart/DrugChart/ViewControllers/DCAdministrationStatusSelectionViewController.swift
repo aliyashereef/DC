@@ -464,8 +464,8 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
         }
         // For in progress fluid change restrted date is mandatory.
         let inProgressArray = [ENDED,STOPED_DUE_TO_PROBLEM,CONTINUED_AFTER_PROBLEM,FLUID_CHANGED,PAUSED]
-        if inProgressArray.contains(medicationStatus!) {
-            if medicationStatus == FLUID_CHANGED {
+        if inProgressArray.contains((medicationSlot?.medicationAdministration.status)!) {
+            if (medicationSlot?.medicationAdministration.status)! == FLUID_CHANGED {
                 if ((medicationSlot?.medicationAdministration.restartedDate) == nil) {
                     isValid = false
                     administrationInProgressViewController?.isValid = isValid

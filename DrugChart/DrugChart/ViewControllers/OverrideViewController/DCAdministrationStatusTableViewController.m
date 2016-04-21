@@ -364,7 +364,7 @@
     }
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.detailLabelTrailingSpace.constant = 15.0;
-    cell.titleLabel.textColor = (!_isValid && self.medicationSlot.medicationAdministration.restartedDate == nil ? [UIColor redColor] : [UIColor blackColor]);
+    cell.titleLabel.textColor = !_isValid && (self.medicationSlot.medicationAdministration.restartedDate == nil || [self.medicationSlot.medicationAdministration.restartedDate isEqual: EMPTY_STRING])? [UIColor redColor] : [UIColor blackColor];
     return cell;
 }
 
@@ -510,6 +510,7 @@
 - (void)notesSelected:(BOOL)editing withIndexPath:(NSIndexPath *)indexPath {
     
 }
+
 - (void)enteredNote:(NSString *)note {
     self.medicationSlot.medicationAdministration.administeredNotes = note;
 }

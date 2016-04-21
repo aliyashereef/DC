@@ -78,7 +78,7 @@ class DCAdministrationReasonViewController : DCBaseViewController, NotesCellDele
                 reasonArray = successReasonArray
             }
             cell.textLabel?.text = reasonArray[indexPath.row] as? String
-            cell.accessoryType = (previousSelection! == reasonArray[indexPath.row] as? String) ? .Checkmark : .None
+            cell.accessoryType = (previousSelection == reasonArray[indexPath.row] as? String) ? .Checkmark : .None
             return cell
         case 1:
             let notesCell : DCNotesTableCell = (tableView.dequeueReusableCellWithIdentifier(NOTES_CELL_ID) as? DCNotesTableCell)!
