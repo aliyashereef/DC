@@ -349,7 +349,6 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
             administrationInProgressViewController!.view.frame = administerContainerView.bounds
             
         }
-        administrationInProgressViewController?.isValid = self.isValid
         self.view.bringSubviewToFront(administerContainerView)
         administerContainerView.bringSubviewToFront((administrationInProgressViewController?.view)!)
     }
@@ -466,9 +465,15 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
         let inProgressArray = [ENDED,STOPED_DUE_TO_PROBLEM,CONTINUED_AFTER_PROBLEM,FLUID_CHANGED,PAUSED]
         if inProgressArray.contains((medicationSlot?.medicationAdministration.status)!) {
             if (medicationSlot?.medicationAdministration.status)! == FLUID_CHANGED {
-                if ((medicationSlot?.medicationAdministration.restartedDate) == nil) {
+                if (medicationSlot?.medicationAdministration.restartedDate == nil || medicationSlot?.medicationAdministration.restartedDate == EMPTY_STRING) {
                     isValid = false
-                    administrationInProgressViewController?.isValid = isValid
+                    administrationInProgressViewController?.isValid = false
+                    administrationInProgressViewController?.administerInProgressTableView.reloadData()
+                }
+            } else if (medicationSlot?.medicationAdministration.status)! == CONTINUED_AFTER_PROBLEM || (medicationSlot?.medicationAdministration.status)! == STOPED_DUE_TO_PROBLEM  {
+                if (medicationSlot?.medicationAdministration.infusionStatusChangeReason == nil || medicationSlot?.medicationAdministration.infusionStatusChangeReason == EMPTY_STRING){
+                    isValid = false
+                    administrationInProgressViewController?.isValid = false
                     administrationInProgressViewController?.administerInProgressTableView.reloadData()
                 }
             }
