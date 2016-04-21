@@ -332,8 +332,6 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        NSLog("**** tableview is %@", tableView.indexPathsForSelectedRows!)
-        NSLog("**** medicationDetailsForSelectedRows is %@", medicationDetailsForSelectedRows())
         if !isInEditMode {
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
