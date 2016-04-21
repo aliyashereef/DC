@@ -27,7 +27,7 @@ class DCAdministratingDoseViewController: UIViewController, UITableViewDataSourc
         }
     }
     
-    override func viewWillDisappear(animated: Bool) {
+     override func viewWillDisappear(animated: Bool) {
         
         if let doseCell : DCAdministratingDoseTableViewCell = updateDoseTableView.cellForRowAtIndexPath(NSIndexPath(forRow: RowCount.eZerothRow.rawValue, inSection: SectionCount.eZerothSection.rawValue)) as? DCAdministratingDoseTableViewCell {
             var reasonString: String = EMPTY_STRING
@@ -38,6 +38,7 @@ class DCAdministratingDoseViewController: UIViewController, UITableViewDataSourc
             }
             self.doseValueUpdated(doseCell.doseTextField.text!,reasonString)
         }
+        super.viewWillDisappear(true)
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -67,36 +68,48 @@ class DCAdministratingDoseViewController: UIViewController, UITableViewDataSourc
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         if indexPath.section == SectionCount.eZerothSection.rawValue {
-            let cell = tableView.dequeueReusableCellWithIdentifier(DOSE_DISPLAY_TEXTFIELD) as? DCAdministratingDoseTableViewCell
-            cell?.doseTextField.text = doseValue
-            cell!.doseString = doseValue
-            cell?.doseTextField.delegate = cell
-            cell?.textViewUpdated = { value in
-                let section : NSIndexSet = NSIndexSet(index:SectionCount.eFirstSection.rawValue)
-                self.isDoseValueUpdated(value)
-                if value {
-                    if self.sectionCountOfTable != RowCount.eSecondRow.rawValue {
-                        self.sectionCountOfTable = RowCount.eSecondRow.rawValue
-                        tableView.insertSections(section, withRowAnimation: .Fade)
-                    }
-                } else {
-                    if self.sectionCountOfTable == RowCount.eSecondRow.rawValue {
-                        self.sectionCountOfTable = RowCount.eFirstRow.rawValue
-                        tableView.deleteSections(section, withRowAnimation: .Fade)
-                    }
-                }
-            }
-            return cell!
+            let doseCell : DCAdministratingDoseTableViewCell = self.administratingDoseTextFieldCell()
+            return doseCell
         } else {
-            let cell = tableView.dequeueReusableCellWithIdentifier(REASON_TEXT_VIEW) as? DCInterventionAddResolveTextViewCell
-            cell!.placeHolderString = REASON
-            cell?.initializeTextView()
-            return cell!
+            let reasonCell : DCInterventionAddResolveTextViewCell = self.reasonTextViewCell()
+            return reasonCell
         }
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
+    
+    func administratingDoseTextFieldCell() -> DCAdministratingDoseTableViewCell {
+        
+        let cell = updateDoseTableView.dequeueReusableCellWithIdentifier(DOSE_DISPLAY_TEXTFIELD) as? DCAdministratingDoseTableViewCell
+        cell?.doseTextField.text = doseValue
+        cell!.doseString = doseValue
+        cell?.doseTextField.delegate = cell
+        cell?.textViewUpdated = { value in
+            let section : NSIndexSet = NSIndexSet(index:SectionCount.eFirstSection.rawValue)
+            self.isDoseValueUpdated(value)
+            if value {
+                if self.sectionCountOfTable != RowCount.eSecondRow.rawValue {
+                    self.sectionCountOfTable = RowCount.eSecondRow.rawValue
+                    self.updateDoseTableView.insertSections(section, withRowAnimation: .Fade)
+                }
+            } else {
+                if self.sectionCountOfTable == RowCount.eSecondRow.rawValue {
+                    self.sectionCountOfTable = RowCount.eFirstRow.rawValue
+                    self.updateDoseTableView.deleteSections(section, withRowAnimation: .Fade)
+                }
+            }
+        }
+        return cell!
+    }
+    
+    func reasonTextViewCell() -> DCInterventionAddResolveTextViewCell {
+        
+        let cell = updateDoseTableView.dequeueReusableCellWithIdentifier(REASON_TEXT_VIEW) as? DCInterventionAddResolveTextViewCell
+        cell!.placeHolderString = REASON
+        cell?.initializeTextView()
+        return cell!
     }
 }
