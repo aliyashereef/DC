@@ -700,9 +700,6 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                 self.medicationTableView!.endUpdates()
                 self.medicationTableView?.reloadData()
                 // If we want to reload the medication list, uncomment the lines
-//                if let delegate = self.delegate {
-//                    delegate.refreshMedicationList()
-//                }
                 self.performSelector(#selector(DCPrescriberMedicationListViewController.refreshMedicationListAfterDelay), withObject: nil, afterDelay: 0.2)
             } else {
                 // TO DO: handle the case for already deleted medication.
