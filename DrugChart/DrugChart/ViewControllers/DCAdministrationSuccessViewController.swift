@@ -481,6 +481,9 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         case eFirstSection.rawValue:
             let reasonViewController : DCAdministrationReasonViewController = self.reasonCellSelectedAtIndexPath(indexPath)
             self.navigationController!.pushViewController(reasonViewController, animated: true)
+        case eSecondSection.rawValue:
+            let doseViewController : DCAdministratingDoseViewController = self.administratingDoseCellSelected()
+            self.navigationController!.pushViewController(doseViewController, animated: true)
         case eThirdSection.rawValue:
             self.displayInlineDatePickerForRowAtIndexPath(indexPath)
             break
@@ -516,6 +519,9 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
             let statusViewController : DCAdministrationStatusTableViewController = self.statusCellSelectedAtIndexPath(indexPath)
             self.navigationController!.pushViewController(statusViewController, animated: true)
             break
+        case eFirstSection.rawValue:
+            let doseViewController : DCAdministratingDoseViewController = self.administratingDoseCellSelected()
+            self.navigationController!.pushViewController(doseViewController, animated: true)
         case eSecondSection.rawValue:
             self.displayInlineDatePickerForRowAtIndexPath(indexPath)
             break
@@ -587,6 +593,22 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
             self.displayInlineDatePickerForRowAtIndexPath(indexPath)
         }
     }
+    
+    func administratingDoseCellSelected() -> DCAdministratingDoseViewController {
+        let administratingDoseViewController : DCAdministratingDoseViewController = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(ADMINISTRATING_DOSE_SB_ID) as! DCAdministratingDoseViewController
+        if let dosageString = medicationSlot?.medicationAdministration?.dosageString {
+            administratingDoseViewController.doseValue = dosageString
+        } else {
+            administratingDoseViewController.doseValue = medicationDetails?.dosage
+        }
+        administratingDoseViewController.title = NSLocalizedString("DOSE", comment: "")
+        administratingDoseViewController.doseValueUpdated = { dose, reason in
+            self.medicationSlot?.medicationAdministration?.dosageString = dose
+            self.medicationSlot?.medicationAdministration.doseEditReason = reason
+            self.administerSuccessTableView.reloadData()
+        }
+        return administratingDoseViewController
+    }
 
     func administrationTableCellForAdministratedStatusAtIndexPath (indexPath : NSIndexPath) -> UITableViewCell {
         let administerDatePickerIndexPath : NSIndexPath = NSIndexPath(forRow: 4, inSection: 0)
@@ -646,7 +668,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
             return self.administrationStatusTableCellAtIndexPath(indexPath)
         case eFirstSection.rawValue:
             //Dose cell
-            return self.batchNumberOrExpiryDateTableCellAtIndexPathWithLabel(indexPath,label: DOSE)
+            return self.administratingDoseTableCellAtIndexPath(indexPath)
         case eSecondSection.rawValue:
             //date and time cell
             return self.administrationDateAndTimeTableCellAtIndexPath(indexPath,label: DATE_TIME)
