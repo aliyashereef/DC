@@ -26,8 +26,8 @@ let NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR : CGFloat = 44.0
     @IBOutlet weak var tableHeight: NSLayoutConstraint!
     
     var warningsArray = [Dictionary<String, AnyObject>]()
-    var severeArray : AnyObject?
-    var mildArray : AnyObject?
+    var severeArray : [DCWarning]?
+    var mildArray : [DCWarning]?
     var overiddenReason : NSString?
     var loadOverideView : Bool? = false
     var delegate: WarningsDelegate?
@@ -74,8 +74,8 @@ let NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR : CGFloat = 44.0
     func populateWarningsListWithWarnings(warnings : [Dictionary<String, AnyObject>], showOverrideView : Bool)  {
         
         warningsArray  = warnings;
-        severeArray = warningsArray[INITIAL_INDEX][SEVERE_WARNING]
-        mildArray = warningsArray[SECOND_INDEX][MILD_WARNING]
+        severeArray = warningsArray[INITIAL_INDEX][SEVERE_WARNING] as? [DCWarning]
+        mildArray = warningsArray[SECOND_INDEX][MILD_WARNING] as? [DCWarning]
         loadOverideView = showOverrideView
         if loadOverideView == true {
             self.navigationItem.hidesBackButton = true
@@ -96,9 +96,9 @@ let NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR : CGFloat = 44.0
         
         self.title = NSLocalizedString("WARNINGS", comment: "title")
         if (loadOverideView == true) {
-            let overrideButton = UIBarButtonItem (title: OVERRIDE_BUTTON_TITLE, style: .Plain, target: self, action: Selector("overrideButtonPressed:"))
+            let overrideButton = UIBarButtonItem (title: OVERRIDE_BUTTON_TITLE, style: .Plain, target: self, action: #selector(DCWarningsListViewController.overrideButtonPressed(_:)))
             self.navigationItem.rightBarButtonItem = overrideButton
-            let donotUseButton = UIBarButtonItem (title: DONOTUSE_BUTTON_TITLE, style: .Plain, target: self, action: Selector("donotUseDrugAction:"))
+            let donotUseButton = UIBarButtonItem (title: DONOTUSE_BUTTON_TITLE, style: .Plain, target: self, action: #selector(DCWarningsListViewController.donotUseDrugAction(_:)))
             self.navigationItem.leftBarButtonItem = donotUseButton
         }
     }
@@ -118,7 +118,7 @@ let NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR : CGFloat = 44.0
             }
         }
         if loadOverideView == false && overiddenReason != nil{
-            sectionCount++
+            sectionCount += 1
         }
         return sectionCount
     }
@@ -167,32 +167,32 @@ let NAVIGATION_BAR_HEIGHT_NO_STATUS_BAR : CGFloat = 44.0
 
             }else if indexPath.section == SectionCount.eFirstSection.rawValue {
                 if severeArray?.count > 0 {
-                    if let warning = severeArray?[indexPath.row]! as? DCWarning {
+                    if let warning : DCWarning = severeArray?[indexPath.row] {
                         cell.populateWarningsCellWithWarningsObject(warning)
                     }
                 } else {
-                    if let warning = mildArray?[indexPath.row]! as? DCWarning {
+                    if let warning : DCWarning = mildArray?[indexPath.row] {
                         cell.populateWarningsCellWithWarningsObject(warning)
                     }
                 }
             } else {
-                if let warning = mildArray?[indexPath.row]! as? DCWarning {
+                if let warning : DCWarning = mildArray?[indexPath.row] {
                     cell.populateWarningsCellWithWarningsObject(warning)
                 }
             }
         } else {
             if indexPath.section == SectionCount.eZerothSection.rawValue {
                 if severeArray?.count > 0 {
-                    if let warning = severeArray?[indexPath.row]! as? DCWarning {
+                    if let warning : DCWarning = severeArray?[indexPath.row] {
                         cell.populateWarningsCellWithWarningsObject(warning)
                     }
                 } else {
-                    if let warning = mildArray?[indexPath.row]! as? DCWarning {
+                    if let warning = mildArray?[indexPath.row] {
                         cell.populateWarningsCellWithWarningsObject(warning)
                     }
                 }
             } else {
-                if let warning = mildArray?[indexPath.row]! as? DCWarning {
+                if let warning = mildArray?[indexPath.row] {
                     cell.populateWarningsCellWithWarningsObject(warning)
                 }
             }

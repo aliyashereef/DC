@@ -60,6 +60,18 @@ class DCAdministrationInProgressViewController : DCBaseViewController,StatusList
         }
     }
     
+    func scrollTableViewToErrorField() {
+        
+         // scroll tableview to error field in case of error
+        
+        let lastIndexPath = NSIndexPath(forItem: 0, inSection: numberOfSectionsInTableView(administerInProgressTableView) - 1)
+        if ((administerInProgressTableView.indexPathsForVisibleRows?.contains(lastIndexPath)) != nil) {
+            administerInProgressTableView.beginUpdates()
+            administerInProgressTableView.scrollToRowAtIndexPath(lastIndexPath, atScrollPosition: .Middle, animated: true)
+            administerInProgressTableView.endUpdates()
+        }
+    }
+    
     //MARK: Configuring Table View Cells
     
     //Medication Details Cell

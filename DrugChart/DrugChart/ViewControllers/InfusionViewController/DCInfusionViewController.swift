@@ -260,7 +260,7 @@ class DCInfusionViewController: UIViewController, UITableViewDelegate, UITableVi
             infusionPickerCell?.previousValue = self.infusion?.durationInfusion?.flowDuration
             infusionPickerCell?.selectionCompletion = { unit in
                 self.infusion?.durationInfusion?.flowDuration = unit! as String
-                self.performSelector(Selector("reloadCellAfterDelayAtIndexPath:"), withObject: NSIndexPath(forRow: indexPath.row - 1, inSection: indexPath.section), afterDelay: 0.04)
+                self.performSelector(#selector(DCInfusionViewController.reloadCellAfterDelayAtIndexPath(_:)), withObject: NSIndexPath(forRow: indexPath.row - 1, inSection: indexPath.section), afterDelay: 0.04)
                self.administerOptionsTableView.footerViewForSection(1)?.textLabel?.text = self.tableView(self.administerOptionsTableView, titleForFooterInSection: 1)
                self.administerOptionsTableView.footerViewForSection(1)?.textLabel?.sizeToFit()
             }
@@ -316,21 +316,21 @@ class DCInfusionViewController: UIViewController, UITableViewDelegate, UITableVi
             pickerCell?.infusionPickerType = eRateStarting
             pickerCell?.selectionCompletion = { value in
                 self.infusion?.rateInfusion?.startingRate = value
-                self.performSelector(Selector("reloadCellAfterDelayAtIndexPath:"), withObject: NSIndexPath(forRow: indexPath.row - 1, inSection: indexPath.section), afterDelay: 0.04)
+                self.performSelector(#selector(DCInfusionViewController.reloadCellAfterDelayAtIndexPath(_:)), withObject: NSIndexPath(forRow: indexPath.row - 1, inSection: indexPath.section), afterDelay: 0.04)
             }
         case RowCount.eSecondRow.rawValue :
             pickerCell?.previousValue = self.infusion?.rateInfusion?.minimumRate
             pickerCell?.infusionPickerType = eRateNormal
             pickerCell?.selectionCompletion = { value in
                 self.infusion?.rateInfusion?.minimumRate = value
-                self.performSelector(Selector("reloadCellAfterDelayAtIndexPath:"), withObject: NSIndexPath(forRow: indexPath.row - 1, inSection: indexPath.section), afterDelay: 0.04)
+                self.performSelector(#selector(DCInfusionViewController.reloadCellAfterDelayAtIndexPath(_:)), withObject: NSIndexPath(forRow: indexPath.row - 1, inSection: indexPath.section), afterDelay: 0.04)
             }
         case RowCount.eThirdRow.rawValue :
             pickerCell?.previousValue = self.infusion?.rateInfusion?.maximumRate
             pickerCell?.infusionPickerType = eRateNormal
             pickerCell?.selectionCompletion = { value in
                 self.infusion?.rateInfusion?.maximumRate = value
-                self.performSelector(Selector("reloadCellAfterDelayAtIndexPath:"), withObject: NSIndexPath(forRow: indexPath.row - 1, inSection: indexPath.section), afterDelay: 0.04)
+                self.performSelector(#selector(DCInfusionViewController.reloadCellAfterDelayAtIndexPath(_:)), withObject: NSIndexPath(forRow: indexPath.row - 1, inSection: indexPath.section), afterDelay: 0.04)
             }
         default :
             break

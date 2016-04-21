@@ -38,9 +38,9 @@ class DCAddNewDoseAndTimeViewController: UIViewController , UITableViewDataSourc
     func configureNavigationBarItems() {
         
             // Configure bar buttons for Add new.
-            let cancelButton: UIBarButtonItem = UIBarButtonItem(title: CANCEL_BUTTON_TITLE, style: .Plain, target: self, action: "cancelButtonPressed")
+            let cancelButton: UIBarButtonItem = UIBarButtonItem(title: CANCEL_BUTTON_TITLE, style: .Plain, target: self, action: #selector(DCAddNewDoseAndTimeViewController.cancelButtonPressed))
             self.navigationItem.leftBarButtonItem = cancelButton
-            let doneButton: UIBarButtonItem = UIBarButtonItem(title: DONE_BUTTON_TITLE, style: .Plain, target: self, action: "doneButtonPressed")
+            let doneButton: UIBarButtonItem = UIBarButtonItem(title: DONE_BUTTON_TITLE, style: .Plain, target: self, action: #selector(DCAddNewDoseAndTimeViewController.doneButtonPressed))
             self.navigationItem.rightBarButtonItem = doneButton
             if (detailType == eAddNewDose) {
                 self.navigationItem.title = ADD_NEW_TITLE

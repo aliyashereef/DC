@@ -43,7 +43,7 @@ protocol SecurityPinMatchDelegate {
         }
         updateDigits()
         if(digits.count == 4) {
-            self.performSelector("verifyCode", withObject: self, afterDelay: 0.5)
+            self.performSelector(#selector(DCAdministratedByPinVerificationViewController.verifyCode), withObject: self, afterDelay: 0.5)
         }
     }
 
