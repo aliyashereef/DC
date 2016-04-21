@@ -17,6 +17,7 @@
 @property (nonatomic, strong) DCUser *administratingUser;
 @property (nonatomic, strong) DCUser *checkingUser;
 @property (nonatomic, strong) NSString *dosageString;
+@property (nonatomic, strong) NSString *doseEditReason;
 @property (nonatomic, strong) NSString *batch;
 @property (nonatomic, strong) NSString *status;
 @property (nonatomic, strong) NSString *statusReason;
@@ -28,7 +29,7 @@
 @property (nonatomic) BOOL isEarlyAdministration;
 @property (nonatomic) BOOL isLateAdministration;
 @property (nonatomic) BOOL isWhenRequiredEarlyAdministration;
-
+@property (nonatomic) BOOL isDoseUpdated;
 - (DCMedicationAdministration *)initWithAdministrationDetails:(NSDictionary *)administrationDetails;
 
 @end

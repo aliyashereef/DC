@@ -159,6 +159,24 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         return administerCell
     }
     
+    // Administering dose cell
+    func administratingDoseTableCellAtIndexPath(indexPath : NSIndexPath) -> (DCAdministerCell) {
+    
+        let administerCell : DCAdministerCell = (administerSuccessTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
+        administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+        administerCell.titleLabel.text = DOSE
+        if let dosageString = medicationSlot?.medicationAdministration?.dosageString {
+            administerCell.detailLabel?.text = dosageString
+        } else {
+            administerCell.detailLabel?.text = medicationDetails?.dosage
+        }
+        if !isValid! && medicationSlot?.medicationAdministration?.isDoseUpdated == true && (medicationSlot?.medicationAdministration?.doseEditReason == REASON || medicationSlot?.medicationAdministration?.doseEditReason == nil) {
+            administerCell.titleLabel.textColor = UIColor.redColor()
+        } else {
+            administerCell.titleLabel.textColor = UIColor.blackColor()
+        }
+        return administerCell
+    }
     //Date Cell
     func administrationDateAndTimeTableCellAtIndexPath(indexPath : NSIndexPath, label: NSString) -> (DCAdministerCell) {
         
@@ -180,7 +198,6 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         return administerCell
     }
     
-    // Notes Cell
     // Notes Cell
     func notesTableCellAtIndexPath(indexPath : NSIndexPath) -> (DCNotesTableCell) {
         
@@ -482,6 +499,9 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         case eFirstSection.rawValue:
             let reasonViewController : DCAdministrationReasonViewController = self.reasonCellSelectedAtIndexPath(indexPath)
             self.navigationController!.pushViewController(reasonViewController, animated: true)
+        case eSecondSection.rawValue:
+            let doseViewController : DCAdministratingDoseViewController = self.administratingDoseCellSelected()
+            self.navigationController!.pushViewController(doseViewController, animated: true)
         case eThirdSection.rawValue:
             self.displayInlineDatePickerForRowAtIndexPath(indexPath)
             break
@@ -517,6 +537,9 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
             let statusViewController : DCAdministrationStatusTableViewController = self.statusCellSelectedAtIndexPath(indexPath)
             self.navigationController!.pushViewController(statusViewController, animated: true)
             break
+        case eFirstSection.rawValue:
+            let doseViewController : DCAdministratingDoseViewController = self.administratingDoseCellSelected()
+            self.navigationController!.pushViewController(doseViewController, animated: true)
         case eSecondSection.rawValue:
             self.displayInlineDatePickerForRowAtIndexPath(indexPath)
             break
@@ -588,6 +611,27 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
             self.displayInlineDatePickerForRowAtIndexPath(indexPath)
         }
     }
+    
+    func administratingDoseCellSelected() -> DCAdministratingDoseViewController {
+        let administratingDoseViewController : DCAdministratingDoseViewController = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(ADMINISTRATING_DOSE_SB_ID) as! DCAdministratingDoseViewController
+        if let dosageString = medicationSlot?.medicationAdministration?.dosageString {
+            administratingDoseViewController.doseValue = dosageString
+        } else {
+            administratingDoseViewController.doseValue = medicationDetails?.dosage
+        }
+        administratingDoseViewController.isInEditMode = (self.medicationSlot?.medicationAdministration.isDoseUpdated)! && (medicationSlot?.medicationAdministration?.doseEditReason == REASON || medicationSlot?.medicationAdministration?.doseEditReason == nil)
+        administratingDoseViewController.title = NSLocalizedString("DOSE", comment: "")
+        administratingDoseViewController.doseValueUpdated = { dose, reason in
+            self.medicationSlot?.medicationAdministration?.dosageString = dose
+            self.medicationSlot?.medicationAdministration.doseEditReason = reason
+            self.administerSuccessTableView.reloadData()
+        }
+        administratingDoseViewController.isDoseValueUpdated = { value in
+            self.medicationSlot?.medicationAdministration.isDoseUpdated = value
+            
+        }
+        return administratingDoseViewController
+    }
 
     func administrationTableCellForAdministratedStatusAtIndexPath (indexPath : NSIndexPath) -> UITableViewCell {
         let administerDatePickerIndexPath : NSIndexPath = NSIndexPath(forRow: 4, inSection: 0)
@@ -603,7 +647,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
             return self.administrationReasonTableCellAtIndexPath(indexPath)
         case eSecondSection.rawValue:
             //Dose cell
-            return self.batchNumberOrExpiryDateTableCellAtIndexPathWithLabel(indexPath,label: DOSE)
+            return self.administratingDoseTableCellAtIndexPath(indexPath)
         case eThirdSection.rawValue:
             //date and time cell
             return self.administrationDateAndTimeTableCellAtIndexPath(indexPath,label: DATE_TIME)
@@ -647,7 +691,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
             return self.administrationStatusTableCellAtIndexPath(indexPath)
         case eFirstSection.rawValue:
             //Dose cell
-            return self.batchNumberOrExpiryDateTableCellAtIndexPathWithLabel(indexPath,label: DOSE)
+            return self.administratingDoseTableCellAtIndexPath(indexPath)
         case eSecondSection.rawValue:
             //date and time cell
             return self.administrationDateAndTimeTableCellAtIndexPath(indexPath,label: DATE_TIME)
