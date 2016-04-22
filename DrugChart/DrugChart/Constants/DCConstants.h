@@ -344,6 +344,7 @@
 #define CONTINUED_AFTER_PROBLEM @"Continued after problem"
 #define FLUID_CHANGED @"Fluid changed"
 #define PAUSED @"Paused"
+#define NOT_ADMINISTRATED_OTHERS @"Not Administered other"
 
 #define DATE_COMPONENTS (NSCalendarUnitYear| NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitWeekOfYear |  NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond | NSCalendarUnitWeekday | NSCalendarUnitWeekdayOrdinal)
 

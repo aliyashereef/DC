@@ -343,7 +343,7 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
         if (reason == nil || reason == EMPTY_STRING) {
             reasonValidity = false
         }
-        if (reason == "Not Administered other" && (secondaryReason == EMPTY_STRING || secondaryReason == nil)) {
+        if (reason == NOT_ADMINISTRATED_OTHERS && (secondaryReason == EMPTY_STRING || secondaryReason == nil)) {
             reasonValidity = false
         }
         return reasonValidity

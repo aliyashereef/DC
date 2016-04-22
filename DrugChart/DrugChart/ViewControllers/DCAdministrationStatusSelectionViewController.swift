@@ -483,7 +483,7 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
         }
         // For not administrated state, not administrated other should have the reason field filled.
         if (medicationStatus == NOT_ADMINISTRATED) {
-            if (self.medicationSlot?.medicationAdministration?.statusReason == "Not Administered other" && (self.medicationSlot?.medicationAdministration?.secondaryReason == EMPTY_STRING || self.medicationSlot?.medicationAdministration?.secondaryReason == nil)) {
+            if (self.medicationSlot?.medicationAdministration?.statusReason == NOT_ADMINISTRATED_OTHERS && (self.medicationSlot?.medicationAdministration?.secondaryReason == EMPTY_STRING || self.medicationSlot?.medicationAdministration?.secondaryReason == nil)) {
                 isValid = false
                 administrationFailureViewController?.isValid = false
                 administrationFailureViewController?.administrationFailureTableView.reloadData()
