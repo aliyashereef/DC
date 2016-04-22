@@ -29,6 +29,7 @@
 
 #define PHARMACIST_ICON @"pharmacistButton"
 #define PHARMACIST_ICON_WITHCOUNT @"pharmacistButtonWithNotification"
+#define VITAL_SIGN_SWITCH @"vitalSignSwitch"
 
 typedef enum : NSUInteger {
     kSortDrugStartDate,
@@ -53,6 +54,7 @@ typedef enum : NSUInteger {
     NSTimer *refreshTimer;
     NSDate *firstDisplayDate;
     UIBarButtonItem *addButton;
+    UIBarButtonItem *vitalSignsButton;
     UIBarButtonItem *warningsBarButtonItem;
     UIButton *warningsButton;
     UIButton *pharmacistButton;
@@ -110,6 +112,7 @@ typedef enum : NSUInteger {
     if ([DCAPPDELEGATE windowState] == twoThirdWindow ||
         [DCAPPDELEGATE windowState] == fullWindow) {
         [self addAddMedicationButtonToNavigationBar];
+        [self addVitalSignsButtonToNavigationBar];
         [self addAlertsAndAllergyBarButtonToNavigationBar];
         [self addPharmacistInteractionButtonToNavigationBar];
     } else {
@@ -171,10 +174,10 @@ typedef enum : NSUInteger {
                 addPresentationController.barButtonItem = addButton;
             }
             [self addAlertsAndAllergyBarButtonToNavigationBar];
+            [self addPharmacistInteractionButtonToNavigationBar];
             if (alertsPopOverController != nil) {
                 alertsPopOverController.barButtonItem = warningsBarButtonItem;
             }
-            [self addPharmacistInteractionButtonToNavigationBar];
         }
     }
     previousWindowState = appDelegate.windowState;
@@ -263,6 +266,15 @@ typedef enum : NSUInteger {
                  target:self
                  action:@selector(addMedicationButtonPressed:)];
     self.navigationItem.rightBarButtonItem = addButton;
+}
+
+- (void)addVitalSignsButtonToNavigationBar {
+    
+    vitalSignsButton = [[UIBarButtonItem alloc]
+                        initWithImage:[UIImage imageNamed:VITAL_SIGN_SWITCH]
+                        style:UIBarButtonItemStylePlain
+                        target:self
+                        action:@selector(vitalSignsButtonPressed:)];
 }
 
 #pragma mark - Private methods
@@ -500,7 +512,17 @@ typedef enum : NSUInteger {
                         
                         if (!error) {
                             _patient.medicationListArray = result;
-                            pharmacistButton.hidden = (_patient.medicationListArray.count == 0) ? true : false;
+                            if ([DCAPPDELEGATE windowState] != halfWindow &&
+                                [DCAPPDELEGATE windowState] != oneThirdWindow) {
+                                if (_patient.medicationListArray.count == 0){
+                                    if ([allergiesArray count] > 0 || [alertsArray count] > 0) {
+                                        self.navigationItem.rightBarButtonItems = @[addButton, warningsBarButtonItem,vitalSignsButton];
+                                    } else {
+                                        self.navigationItem.rightBarButtonItems = @[addButton,vitalSignsButton];
+                                    }
+                                }
+                                [self addBarButtonItems];
+                            }
                             [self setDisplayMedicationListArray];
                             if ([displayMedicationListArray count] > 0) {
                                 if (prescriberMedicationListViewController) {
@@ -734,7 +756,7 @@ typedef enum : NSUInteger {
     [warningsButton setImage:[UIImage imageNamed:ALERTS_ALLERGIES_ICON] forState:UIControlStateSelected];
     [warningsButton addTarget:self action:@selector(allergiesAndAlertsButtonTapped:)forControlEvents:UIControlEventTouchUpInside];
     [warningsButton sizeToFit];
-    warningCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(warningsButton.frame.origin.x + warningsButton.frame.size.width - 22 , 2, 20, 22)];
+    warningCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(warningsButton.frame.origin.x + warningsButton.frame.size.width - 20, 0, 20, 20)];
     [warningCountLabel setFont:[UIFont systemFontOfSize:13.0]];
     [warningCountLabel setHidden:NO];
     NSInteger warningsCount = alertsArray.count + allergiesArray.count;
@@ -745,9 +767,9 @@ typedef enum : NSUInteger {
     [warningsButton addSubview:warningCountLabel];
     warningsBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:warningsButton];
     if ([allergiesArray count] > 0 || [alertsArray count] > 0) {
-        self.navigationItem.rightBarButtonItems = @[addButton, warningsBarButtonItem];
+        self.navigationItem.rightBarButtonItems = @[addButton, warningsBarButtonItem,vitalSignsButton];
     } else {
-        self.navigationItem.rightBarButtonItems = @[addButton];
+        self.navigationItem.rightBarButtonItems = @[addButton,vitalSignsButton];
     }
 }
 
@@ -773,7 +795,7 @@ typedef enum : NSUInteger {
         [pharmacistButton setImage:[UIImage imageNamed:PHARMACIST_ICON] forState:UIControlStateNormal];
     } else {
         [pharmacistButton setImage:[UIImage imageNamed:PHARMACIST_ICON_WITHCOUNT] forState:UIControlStateNormal];
-        pharmacistCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(pharmacistButton.frame.origin.x + pharmacistButton.frame.size.width + 13, 0, 20, 22)];
+        pharmacistCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(pharmacistButton.frame.origin.x + pharmacistButton.frame.size.width + 9, 0, 20, 22)];
         [pharmacistCountLabel setFont:[UIFont systemFontOfSize:13.0]];
         [pharmacistCountLabel setHidden:NO];
         [pharmacistCountLabel setText:[NSString stringWithFormat:@"%d",count]];
@@ -784,11 +806,25 @@ typedef enum : NSUInteger {
     }
     [pharmacistButton addTarget:self action:@selector(pharmacistButtonTapped:)forControlEvents:UIControlEventTouchUpInside];
     [pharmacistButton sizeToFit];
+    [self addBarButtonItems];
+}
+
+- (void)addBarButtonItems {
+    
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:pharmacistButton];
     NSMutableArray *barButtonsArray = [[NSMutableArray alloc] initWithArray:self.navigationItem.rightBarButtonItems];
-    [barButtonsArray addObject:barButtonItem];
-    self.navigationItem.rightBarButtonItems = barButtonsArray;
-    pharmacistButton.hidden = (_patient.medicationListArray.count == 0) ? true : false;
+    self.navigationItem.rightBarButtonItems = @[];
+    NSInteger warningCount = allergiesArray.count + alertsArray.count;
+    NSInteger barButtonItemCount = 3;
+    if (warningCount > 0) {
+        barButtonItemCount = 4;
+    }
+    if (_patient.medicationListArray.count > 0 && barButtonsArray.count < barButtonItemCount) {
+        [barButtonsArray insertObject:barButtonItem atIndex: barButtonsArray.count-1];
+        self.navigationItem.rightBarButtonItems = barButtonsArray;
+    } else {
+        self.navigationItem.rightBarButtonItems = barButtonsArray;
+    }
 }
 
 - (void)currentWeeksDateArrayFromCenterDate: (NSDate *)centerDate {
@@ -868,11 +904,36 @@ typedef enum : NSUInteger {
         
         [self pharmacistButtonTapped:nil];
     }]];
+    [actionSheet addAction:[UIAlertAction actionWithTitle:VITAL_SIGNS style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self vitalSignsButtonPressed:nil];
+    }]];
     // Present action sheet.
     [self presentViewController:actionSheet animated:YES completion:nil];
 }
 
+- (IBAction)vitalSignsButtonPressed:(id)sender {
+    [self showPatientVitalSignsView];
+}
+
+- (void)showPatientVitalSignsView {
+    
+    VitalsignDashboard *vitalSignViewController = [[UIStoryboard storyboardWithName:PATIENT_MENU_STORYBOARD bundle: nil] instantiateViewControllerWithIdentifier:VITAL_SIGNS_VIEW_CONTROLLER_VIEW_CONTROLLER_SB_ID];
+    vitalSignViewController.patient = self.patient;
+    UINavigationController *navigationController = [[UINavigationController alloc]initWithRootViewController:vitalSignViewController];
+    //  now create a Bar button item
+    UIBarButtonItem* cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissVitalSignViewController)];
+    
+    //  set the nav bar's left button item
+    vitalSignViewController.navigationItem.leftBarButtonItem = cancelButton;
+    [self.navigationController presentViewController:navigationController animated:YES completion:nil];
+}
+
 #pragma mark - Public methods implementation.
+
+- (void)dismissVitalSignViewController {
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 - (void)reloadAdministrationScreenWithMedicationDetails {
     
@@ -907,20 +968,7 @@ typedef enum : NSUInteger {
             detailViewController.medicationSlotsArray = [self medicationSlotsArrayFromSlotsDictionary:medicationSLotsDictionary];
             detailViewController.weekDate = date;
             detailViewController.patientId = self.patient.patientId;
-            NSCalendar *calendar = [NSCalendar currentCalendar];
-            NSDate *startDate = [self dateWithRemovingTimeComponentsForDate:[DCDateUtility dateFromSourceString:medicationList.startDate] inCalendar:calendar];
-            NSDate *endDate = [self dateWithRemovingTimeComponentsForDate:[DCDateUtility dateFromSourceString:medicationList.endDate] inCalendar:calendar];
-            NSComparisonResult startDateOrder = [calendar compareDate:startDate toDate:date toUnitGranularity:NSCalendarUnitDay];
-            NSComparisonResult endDateOrder = [calendar compareDate:endDate toDate:date toUnitGranularity:NSCalendarUnitDay];
-            if (medicationList.endDate != nil) {
-                if ((startDateOrder == NSOrderedAscending || startDateOrder == NSOrderedSame) &&  (endDateOrder == NSOrderedDescending || endDateOrder == NSOrderedSame)) {
                     [self presentAdministrationwithMedicationList:medicationList andDate:date];
-                }
-            } else {
-                if (startDateOrder == NSOrderedAscending || startDateOrder == NSOrderedSame) {
-                    [self presentAdministrationwithMedicationList:medicationList andDate:date];
-                }
-            }
         }
     }
 }
@@ -942,6 +990,11 @@ typedef enum : NSUInteger {
             [self presentAdministrationViewController];
         }
     } else {
+        if( _medicationSlotArray.count > 0){
+            detailViewController.administrationWarningLabel.hidden = true;
+        } else {
+            detailViewController.administrationWarningLabel.hidden = false;
+        }
         [self presentAdministrationViewController];
     }
 }

@@ -666,7 +666,7 @@ typealias SelectedDosage = DCDosage? -> Void
                     if (valueForDoseForTime[index] != "") {
                         valueOfDoseAtIndex = NSString(string: valueForDoseForTime[index]).floatValue
                         totalValueForDose += valueOfDoseAtIndex
-                        countOfItemsWithDoseValueSelected++
+                        countOfItemsWithDoseValueSelected += 1
                     }
                 }
                 if (totalValueForDose == valueForRequiredDailyDose && countOfItemsWithDoseValueSelected == selectedTimeArrayItems.count) {
@@ -872,6 +872,7 @@ typealias SelectedDosage = DCDosage? -> Void
             dosageDetailViewController?.previousSelectedValue = valueForDoseForTime[indexPath.row]
             dosageDetailViewController?.viewTitleForDisplay = selectedTimeArrayItems[indexPath.row]
             dosageDetailViewController?.detailType = eAddDoseForTime
+            dosageDetailViewController?.doseLeftOfTotal = alertMessageForMismatch as String
         }
         self.configureNavigationBackButtonTitle();
         self.navigationController?.pushViewController(dosageDetailViewController!, animated: true)

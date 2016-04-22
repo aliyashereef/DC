@@ -24,12 +24,14 @@ class DCAdministrationReasonViewController : DCBaseViewController, NotesCellDele
     var previousSelection : String?
     var secondaryReason : String?
     var NotesFieldShown : Bool = false
+    var isValid : Bool?
     
     @IBOutlet var reasonTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.showOtherReasonsFieldForReason()
+        reasonTableView.reloadData()
     }
     
     override func viewDidLayoutSubviews() {
@@ -76,7 +78,7 @@ class DCAdministrationReasonViewController : DCBaseViewController, NotesCellDele
                 reasonArray = successReasonArray
             }
             cell.textLabel?.text = reasonArray[indexPath.row] as? String
-            cell.accessoryType = (previousSelection! == reasonArray[indexPath.row] as? String) ? .Checkmark : .None
+            cell.accessoryType = (previousSelection == reasonArray[indexPath.row] as? String) ? .Checkmark : .None
             return cell
         case 1:
             let notesCell : DCNotesTableCell = (tableView.dequeueReusableCellWithIdentifier(NOTES_CELL_ID) as? DCNotesTableCell)!
@@ -87,6 +89,9 @@ class DCAdministrationReasonViewController : DCBaseViewController, NotesCellDele
                 notesCell.notesTextView.text = secondaryReason
             } else {
                 notesCell.notesTextView.text = notesCell.hintText()
+            }
+            if (administrationStatus! == NOT_ADMINISTRATED) {
+                notesCell.notesTextView.textColor = !isValid! && (secondaryReason == EMPTY_STRING || secondaryReason == nil) ? UIColor.redColor() : UIColor(forHexString: "#8f8f95")
             }
             return notesCell
         default:

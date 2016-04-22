@@ -65,8 +65,8 @@ class DCWardsInformationsViewController: DCBaseViewController, WardSelectionDele
     func configureNavigationBar() {
         fillNavigationBarTitle()
         self.navigationController?.navigationBar.backgroundColor = UIColor.whiteColor()
-        let wardsButton : UIBarButtonItem = UIBarButtonItem(title:"Wards", style: UIBarButtonItemStyle.Plain, target: self, action: "presentWardsListView:")
-        let graphicViewButton : UIBarButtonItem = UIBarButtonItem(image:  UIImage(named: "graphicDisplayImage"), style: UIBarButtonItemStyle.Plain, target: self, action: "showGraphicalWardsView")
+        let wardsButton : UIBarButtonItem = UIBarButtonItem(title:"Wards", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(DCWardsInformationsViewController.presentWardsListView(_:)))
+        let graphicViewButton : UIBarButtonItem = UIBarButtonItem(image:  UIImage(named: "graphicDisplayImage"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(DCWardsInformationsViewController.showGraphicalWardsView))
         self.navigationItem.leftBarButtonItem = wardsButton
         self.navigationItem.rightBarButtonItem = graphicViewButton
     }
@@ -101,14 +101,14 @@ class DCWardsInformationsViewController: DCBaseViewController, WardSelectionDele
         if (graphicalDisplayShown) {
             self.view.bringSubviewToFront(patientListViewController!.view)
             let wardsGraphicalImage: UIImage = UIImage(named: "graphicDisplayImage")!
-            let graphicViewButton : UIBarButtonItem = UIBarButtonItem(image:  wardsGraphicalImage, style: UIBarButtonItemStyle.Plain, target: self, action: "showGraphicalWardsView")
+            let graphicViewButton : UIBarButtonItem = UIBarButtonItem(image:  wardsGraphicalImage, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(DCWardsInformationsViewController.showGraphicalWardsView))
             self.navigationItem.rightBarButtonItem = graphicViewButton
             graphicalDisplayShown = false
         }
         else {
             
             let wardsListImage: UIImage = UIImage(named: "ListIcon")!
-            let listButton : UIBarButtonItem = UIBarButtonItem(image:  wardsListImage, style: UIBarButtonItemStyle.Plain, target: self, action: "showGraphicalWardsView")
+            let listButton : UIBarButtonItem = UIBarButtonItem(image:  wardsListImage, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(DCWardsInformationsViewController.showGraphicalWardsView))
             self.navigationItem.rightBarButtonItem = listButton
             if ((wardsGraphicalDisplayViewController) != nil) {
                 self.view.bringSubviewToFront(wardsGraphicalDisplayViewController!.view)

@@ -124,8 +124,8 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
         self.title = "\(dateString), \(slotDate)"
         // Navigation bar done button
         // Navigation bar done button
-        saveButton = UIBarButtonItem(title: "Save", style: UIBarButtonItemStyle.Plain, target: self, action: "saveButtonPressed")
-        cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: "cancelButtonPressed")
+        saveButton = UIBarButtonItem(title: SAVE_BUTTON_TITLE, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(DCAdministrationStatusSelectionViewController.saveButtonPressed))
+        cancelButton = UIBarButtonItem(title: CANCEL_BUTTON_TITLE, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(DCAdministrationStatusSelectionViewController.cancelButtonPressed))
         if (appDelegate.windowState == DCWindowState.halfWindow || appDelegate.windowState == DCWindowState.oneThirdWindow) {
             self.navigationItem.leftBarButtonItem = cancelButton
             self.navigationItem.rightBarButtonItem = saveButton
@@ -349,7 +349,6 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
             administrationInProgressViewController!.view.frame = administerContainerView.bounds
             
         }
-        administrationInProgressViewController?.isValid = self.isValid
         self.view.bringSubviewToFront(administerContainerView)
         administerContainerView.bringSubviewToFront((administrationInProgressViewController?.view)!)
     }
@@ -361,10 +360,10 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
         administerMedicationWebService.administerMedicationForScheduleId((medicationDetails?.scheduleId)! as String, forPatientId:patientId as String , withParameters:parameterDictionary as [NSObject : AnyObject]) { (array, error) -> Void in
             self.activityIndicator.stopAnimating()
             if error == nil {
-                let presentingViewController = self.presentingViewController as! UINavigationController
-                let parentView = presentingViewController.presentingViewController as! UINavigationController
+                let presentingViewController = self.presentingViewController as? UINavigationController
+                let parentView = presentingViewController!.presentingViewController as! UINavigationController
                 let prescriberMedicationListViewController : DCPrescriberMedicationViewController = parentView.viewControllers.last as! DCPrescriberMedicationViewController
-                let administationViewController : DCAdministrationViewController = presentingViewController.viewControllers.last as! DCAdministrationViewController
+                let administationViewController : DCAdministrationViewController = presentingViewController?.viewControllers.last as! DCAdministrationViewController
                 administationViewController.activityIndicatorView.startAnimating()
                 self.dismissViewControllerAnimated(true, completion: {
                     self.helper.reloadPrescriberMedicationHomeViewControllerWithCompletionHandler({ (Bool) -> Void in
@@ -444,15 +443,55 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
     
     func entriesAreValid() -> (Bool) {
         
-        // check if the values entered are valid
         isValid = true
         let medicationStatus = statusState
         //notes will be mandatory always for omitted ones , it will be mandatory for administered/refused for early administration, currently checked for all cases
         if (medicationStatus == nil) {
             isValid = false
         }
-        
-        if (self.medicationSlot?.medicationAdministration?.isLateAdministration == true) {
+        // Status reason is a mandatory. If it is nil - is invalid
+        if medicationStatus != STARTED && medicationStatus != IN_PROGRESS && (medicationSlot?.medicationAdministration?.statusReason == nil || medicationSlot?.medicationAdministration?.statusReason == EMPTY_STRING) {
+            isValid = false
+            if (medicationStatus == ADMINISTERED) {
+                administrationSuccessViewController?.isValid = isValid
+                administrationSuccessViewController?.administerSuccessTableView.reloadData()
+                administrationSuccessViewController?.scrollTableViewToErrorField()
+            }
+            if (medicationStatus == NOT_ADMINISTRATED) {
+                administrationFailureViewController?.isValid = false
+                administrationFailureViewController?.administrationFailureTableView.reloadData()
+                administrationFailureViewController?.scrollTableViewToErrorField()
+            }
+        }
+        // For in progress fluid change restrted date is mandatory.
+        let inProgressArray = [ENDED,STOPED_DUE_TO_PROBLEM,CONTINUED_AFTER_PROBLEM,FLUID_CHANGED,PAUSED]
+        if inProgressArray.contains((medicationSlot?.medicationAdministration.status)!) {
+            if (medicationSlot?.medicationAdministration.status)! == FLUID_CHANGED {
+                if (medicationSlot?.medicationAdministration.restartedDate == nil || medicationSlot?.medicationAdministration.restartedDate == EMPTY_STRING) {
+                    isValid = false
+                    administrationInProgressViewController?.isValid = false
+                    administrationInProgressViewController?.administerInProgressTableView.reloadData()
+                }
+            } else if (medicationSlot?.medicationAdministration.status)! == CONTINUED_AFTER_PROBLEM || (medicationSlot?.medicationAdministration.status)! == STOPED_DUE_TO_PROBLEM  {
+                if (medicationSlot?.medicationAdministration.infusionStatusChangeReason == nil || medicationSlot?.medicationAdministration.infusionStatusChangeReason == EMPTY_STRING){
+                    isValid = false
+                    administrationInProgressViewController?.isValid = false
+                    administrationInProgressViewController?.administerInProgressTableView.reloadData()
+                    administrationInProgressViewController?.scrollTableViewToErrorField()
+                }
+            }
+        }
+        // For not administrated state, not administrated other should have the reason field filled.
+        if (medicationStatus == NOT_ADMINISTRATED) {
+            if (self.medicationSlot?.medicationAdministration?.statusReason == NOT_ADMINISTRATED_OTHERS && (self.medicationSlot?.medicationAdministration?.secondaryReason == EMPTY_STRING || self.medicationSlot?.medicationAdministration?.secondaryReason == nil)) {
+                isValid = false
+                administrationFailureViewController?.isValid = false
+                administrationFailureViewController?.administrationFailureTableView.reloadData()
+                administrationFailureViewController?.scrollTableViewToErrorField()
+            }
+        }
+        // For late and early administration, the notes string is mandatory.
+        if (self.medicationSlot?.medicationAdministration?.isLateAdministration == true || self.medicationSlot?.medicationAdministration?.isEarlyAdministration == true) {
             //early administration condition
             if (medicationStatus == ADMINISTERED || medicationStatus == STARTED) {
                 //administered medication status
@@ -461,36 +500,16 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
                     isValid = false
                     administrationSuccessViewController?.isValid = isValid
                     administrationSuccessViewController?.administerSuccessTableView.reloadData()
+                    administrationSuccessViewController?.scrollTableViewToErrorField()
                 }
             }
             if (medicationStatus == NOT_ADMINISTRATED) {
-                //administered medication status
                 let notes : String? = self.medicationSlot?.medicationAdministration?.refusedNotes
                 if (notes == EMPTY_STRING || notes == nil) {
                     isValid = false
                     administrationFailureViewController?.isValid = false
                     administrationFailureViewController?.administrationFailureTableView.reloadData()
-                }
-            }
-        }
-        if (self.medicationSlot?.medicationAdministration?.isEarlyAdministration == true) {
-            //early administration condition
-            if (medicationStatus == ADMINISTERED || medicationStatus == STARTED) {
-                //administered medication status
-                let notes : String? = self.medicationSlot?.medicationAdministration?.administeredNotes
-                if (notes == EMPTY_STRING || notes == nil) {
-                    isValid = false
-                    administrationSuccessViewController?.isValid = isValid
-                    administrationSuccessViewController?.administerSuccessTableView.reloadData()
-                }
-            }
-            if (medicationStatus == NOT_ADMINISTRATED) {
-                //administered medication status
-                let notes : String? = self.medicationSlot?.medicationAdministration?.refusedNotes
-                if (notes == EMPTY_STRING || notes == nil) {
-                    isValid = false
-                    administrationFailureViewController?.isValid = isValid
-                    administrationFailureViewController?.administrationFailureTableView.reloadData()
+                    administrationFailureViewController?.scrollTableViewToErrorField()
                 }
             }
         }
@@ -503,16 +522,6 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
                     isValid = false
                     administrationSuccessViewController?.isValid = isValid
                     administrationSuccessViewController?.administerSuccessTableView.reloadData()
-                }
-            }
-        }
-        let inProgressArray = [ENDED,STOPED_DUE_TO_PROBLEM,CONTINUED_AFTER_PROBLEM,FLUID_CHANGED,PAUSED]
-        if inProgressArray.contains(medicationStatus!) {
-            if medicationStatus == FLUID_CHANGED {
-               if ((medicationSlot?.medicationAdministration.restartedDate) == nil) {
-                    isValid = false
-                administrationInProgressViewController?.isValid = isValid
-                administrationInProgressViewController?.administerInProgressTableView.reloadData()
                 }
             }
         }

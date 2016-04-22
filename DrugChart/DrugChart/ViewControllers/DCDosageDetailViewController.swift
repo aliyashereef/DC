@@ -32,6 +32,7 @@ class DCDosageDetailViewController: DCBaseViewController, UITableViewDataSource,
     let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
     let thresholdCountForKeyboardAppear : Int = 3
     let thresholdCountForKeyboardDisappear : Int = 9
+    var doseLeftOfTotal : String?
 
     override func viewDidLoad() {
         
@@ -138,6 +139,25 @@ class DCDosageDetailViewController: DCBaseViewController, UITableViewDataSource,
         }
     }
     
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        //Set the alert for mismatch of Required daily dose.
+        if (section == SectionCount.eZerothSection.rawValue && detailType == eAddDoseForTime && doseLeftOfTotal != "") {
+            return doseLeftOfTotal
+        } else {
+            return nil
+        }
+    }
+    
+    func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        
+        //Change text color to red and change text from full upper case to desired sentence.
+        if let view = view as? UITableViewHeaderFooterView {
+            view.textLabel?.text = doseLeftOfTotal
+            view.textLabel!.textColor = UIColor.redColor()
+        }
+    }
+
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
             if (indexPath.section == 0) {

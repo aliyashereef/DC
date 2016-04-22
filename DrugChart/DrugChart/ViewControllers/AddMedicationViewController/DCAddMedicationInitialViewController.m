@@ -243,7 +243,7 @@
                     [self performSelector:@selector(configureReviewDateTableCellDisplayBasedOnSwitchState) withObject:nil afterDelay:0.1];
                     if (!state) {
                         if (self.selectedMedication.reviewDate != nil) {
-                            self.selectedMedication.reviewDate = nil;
+                            self.selectedMedication.medicationReview = nil;
                         }
                     }
                 }

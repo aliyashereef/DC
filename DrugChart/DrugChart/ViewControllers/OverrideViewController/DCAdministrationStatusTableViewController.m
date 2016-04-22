@@ -191,13 +191,14 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     //pass the selected medication status to parent
     [self resignKeyboard];
+    self.isValid = YES;
     if (indexPath.section == 0) {
         datePickerIndexPath = nil;
         _status = [_namesArray objectAtIndex:indexPath.item];
         _previousSelectedValue = _status;
         [self collapseOpenedSection];
         if ([_status isEqualToString: STOPED_DUE_TO_PROBLEM] || [_status isEqualToString:CONTINUED_AFTER_PROBLEM]) {
-            self.medicationSlot.medicationAdministration.administeredNotes = EMPTY_STRING;
+            self.medicationSlot.medicationAdministration.infusionStatusChangeReason = EMPTY_STRING;
             isSecondSectionExpanded = YES;
             rowCount = 1;
             [self insertSection];
@@ -317,10 +318,11 @@
     cell.noteType = @"Reason";
     cell.selectedIndexPath = indexPath;
     cell.delegate = self;
-    if (self.medicationSlot.medicationAdministration.administeredNotes == nil || [self.medicationSlot.medicationAdministration.administeredNotes  isEqual: EMPTY_STRING]){
+    if (self.medicationSlot.medicationAdministration.infusionStatusChangeReason == nil || [self.medicationSlot.medicationAdministration.infusionStatusChangeReason  isEqual: EMPTY_STRING]){
         cell.notesTextView.text = [cell hintText];
+        cell.notesTextView.textColor = _isValid ? [UIColor colorForHexString:@"#8f8f95"] : [UIColor redColor];
     } else {
-        cell.notesTextView.text = self.medicationSlot.medicationAdministration.administeredNotes;
+        cell.notesTextView.text = self.medicationSlot.medicationAdministration.infusionStatusChangeReason;
     }
     return cell;
 }
@@ -359,12 +361,12 @@
     
     DCAdministerCell *cell = [self configureAdministrationCellAtIndexPath:indexPath];
     cell.titleLabel.text = @"Restarted on";
+    cell.titleLabel.textColor = !_isValid && (self.medicationSlot.medicationAdministration.restartedDate == nil || [self.medicationSlot.medicationAdministration.restartedDate isEqual: EMPTY_STRING])? [UIColor redColor] : [UIColor blackColor];
     if (self.medicationSlot.medicationAdministration.restartedDate != nil) {
         cell.detailLabel.text = [DCDateUtility dateStringFromDate:self.medicationSlot.medicationAdministration.restartedDate inFormat:ADMINISTER_DATE_TIME_FORMAT];
     }
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.detailLabelTrailingSpace.constant = 15.0;
-    cell.titleLabel.textColor = (!_isValid && self.medicationSlot.medicationAdministration.restartedDate == nil ? [UIColor redColor] : [UIColor blackColor]);
     return cell;
 }
 
@@ -510,8 +512,9 @@
 - (void)notesSelected:(BOOL)editing withIndexPath:(NSIndexPath *)indexPath {
     
 }
+
 - (void)enteredNote:(NSString *)note {
-    self.medicationSlot.medicationAdministration.administeredNotes = note;
+    self.medicationSlot.medicationAdministration.infusionStatusChangeReason = note;
 }
 
 - (void)selectedDateAtIndexPath:(NSDate *)date indexPath:(NSIndexPath *)indexPath {

@@ -72,7 +72,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
 
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: "handleRefresh:", forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl.addTarget(self, action: #selector(DCPrescriberMedicationListViewController.handleRefresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
         
         return refreshControl
     }()
@@ -128,7 +128,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                     withMedicationSlotsArray: rowDisplayMedicationSlotsArray,
                     atIndexPath: indexPath,
                     andSlotIndex: index)
-                index++
+                index += 1
             }
             return medicationCell!
     }
@@ -677,7 +677,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         self.presentViewController(navigationController, animated: true, completion: { _ in })
 
     }
-
+    
     func deleteMedicationAtIndexPath(indexPath : NSIndexPath) {
         
         let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
@@ -692,11 +692,9 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                 self.medicationTableView!.deleteRowsAtIndexPaths([indexPath as NSIndexPath], withRowAnimation: .Fade)
                 self.medicationTableView!.endUpdates()
                 self.medicationTableView?.reloadData()
-                // If we want to reload the medication list, uncomment the lines
-//                if let delegate = self.delegate {
-//                    delegate.refreshMedicationList()
-//
-//                }
+                if let delegate = self.delegate {
+                    delegate.refreshMedicationList()
+                }
             } else {
                 // TO DO: handle the case for already deleted medication.
                 if (error.code == NETWORK_NOT_REACHABLE || error.code == NOT_CONNECTED_TO_INTERNET) {

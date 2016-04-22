@@ -26,9 +26,12 @@ class DCAdministrationInProgressViewController : DCBaseViewController,StatusList
     }
     
     override func viewWillAppear(animated: Bool) {
+        
         super.viewWillAppear(animated)
+        self.isInProgressMedicationValid()
         self.administerInProgressTableView.reloadData()
     }
+    
     // MARK: Private Methods
     func initialiseMedicationSlotObject () {
         
@@ -57,6 +60,36 @@ class DCAdministrationInProgressViewController : DCBaseViewController,StatusList
             parentView.setSaveButtonDisability(false)
         } else {
             parentView.setSaveButtonDisability(true)
+        }
+    }
+    
+    func isInProgressMedicationValid () {
+        // For in progress fluid change restrted date is mandatory.
+        if let status = medicationSlot?.medicationAdministration.status {
+            let inProgressArray = [ENDED,STOPED_DUE_TO_PROBLEM,CONTINUED_AFTER_PROBLEM,FLUID_CHANGED,PAUSED]
+            if inProgressArray.contains(status) {
+                if status == FLUID_CHANGED {
+                    if (medicationSlot?.medicationAdministration.restartedDate == nil || medicationSlot?.medicationAdministration.restartedDate == EMPTY_STRING) {
+                        self.isValid = false
+                    }
+                } else if status == CONTINUED_AFTER_PROBLEM || status == STOPED_DUE_TO_PROBLEM  {
+                    if (medicationSlot?.medicationAdministration.infusionStatusChangeReason == nil || medicationSlot?.medicationAdministration.infusionStatusChangeReason == EMPTY_STRING){
+                        self.isValid = false
+                    }
+                }
+            }
+        }
+    }
+    
+    func scrollTableViewToErrorField() {
+        
+         // scroll tableview to error field in case of error
+        
+        let lastIndexPath = NSIndexPath(forItem: 0, inSection: numberOfSectionsInTableView(administerInProgressTableView) - 1)
+        if ((administerInProgressTableView.indexPathsForVisibleRows?.contains(lastIndexPath)) != nil) {
+            administerInProgressTableView.beginUpdates()
+            administerInProgressTableView.scrollToRowAtIndexPath(lastIndexPath, atScrollPosition: .Middle, animated: true)
+            administerInProgressTableView.endUpdates()
         }
     }
     
@@ -238,7 +271,7 @@ class DCAdministrationInProgressViewController : DCBaseViewController,StatusList
             self.administerInProgressTableView.beginUpdates()
             self.administerInProgressTableView.reloadRowsAtIndexPaths([datePickerIndexPath], withRowAnimation:.Fade)
             self.administerInProgressTableView.endUpdates()
-            self.performSelector(Selector("toggleDatePickerForSelectedIndexPath:"), withObject: indexPath, afterDelay: 0.1)
+            self.performSelector(#selector(DCAdministrationInProgressViewController.toggleDatePickerForSelectedIndexPath(_:)), withObject: indexPath, afterDelay: 0.1)
         } else {
             self.toggleDatePickerForSelectedIndexPath(indexPath)
         }

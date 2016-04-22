@@ -8,6 +8,8 @@
 
 import Foundation
 
+let ADMINISTER_FAILURE_TABLE_SECTION_COUNT = 3
+
 class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDelegate , StatusListDelegate, reasonDelegate, AdministrationDateDelegate{
     
     @IBOutlet var administrationFailureTableView: UITableView!
@@ -59,6 +61,30 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
         medicationSlot?.medicationAdministration?.scheduledDateTime = medicationSlot?.time
         medicationSlot?.medicationAdministration?.statusReason = EMPTY_STRING
         medicationSlot?.medicationAdministration?.actualAdministrationTime = NSDate()
+    }
+    
+    func scrollTableViewToErrorField() {
+        
+         // scroll tableview to error field in case of error
+        if (!isValidReason()){
+            let reasonIndexPath =  NSIndexPath(forItem: 1, inSection: eFirstSection.rawValue)
+            if ((administrationFailureTableView.indexPathsForVisibleRows?.contains(reasonIndexPath)) != nil) {
+                self.scrollToTableCellAtIndexPath(reasonIndexPath)
+            }
+        } else if (!isValidNotes()) {
+            let lastIndexPath = NSIndexPath(forItem: 0, inSection: ADMINISTER_FAILURE_TABLE_SECTION_COUNT - 1)
+            if ((administrationFailureTableView.indexPathsForVisibleRows?.contains(lastIndexPath)) != nil) {
+                self.scrollToTableCellAtIndexPath(lastIndexPath)
+            }
+        }
+    }
+    
+    func scrollToTableCellAtIndexPath(indexPath : NSIndexPath) {
+        
+        //scroll to indexPath
+        administrationFailureTableView.beginUpdates()
+        administrationFailureTableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Middle, animated: true)
+        administrationFailureTableView.endUpdates()
     }
     
     //MARK: TableView Delegate Methods
@@ -129,7 +155,7 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
         let administerHeaderView = NSBundle.mainBundle().loadNibNamed(ADMINISTER_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCAdministerTableHeaderView
         administerHeaderView!.timeLabel.hidden = true
         if (section == 2) {
-            if (!isValid!) {
+            if (!isValid! && !isValidNotes()) {
                 if (medicationSlot?.medicationAdministration?.isWhenRequiredEarlyAdministration == true) {
                     let errorMessage = NSString(format: "%@ %@", NSLocalizedString("ADMIN_FREQUENCY", comment: "when required new medication is given 2 hrs before previous one"), NSLocalizedString("EARLY_ADMIN_INLINE", comment: ""))
                     administerHeaderView?.populateHeaderViewWithErrorMessage(errorMessage as String)
@@ -199,6 +225,7 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
         let administerCell : DCAdministerCell = (administrationFailureTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
         administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         administerCell.titleLabel.text = REASON
+        administerCell.titleLabel.textColor = (!isValid! && !isValidReason()) ? UIColor.redColor() : UIColor.blackColor()
         administerCell.detailLabel?.text = self.medicationSlot?.medicationAdministration?.statusReason
         return administerCell
     }
@@ -224,7 +251,7 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
         let notesCell : DCNotesTableCell = (administrationFailureTableView.dequeueReusableCellWithIdentifier(NOTES_CELL_ID) as? DCNotesTableCell)!
         notesCell.selectedIndexPath = indexPath
         notesCell.notesType = eNotes
-        notesCell.notesTextView.textColor = (!isValid! && (medicationSlot?.medicationAdministration?.isEarlyAdministration == true || medicationSlot?.medicationAdministration?.isLateAdministration == true)) ? UIColor.redColor() : UIColor(forHexString: "#8f8f95")
+        notesCell.notesTextView.textColor = (isValid! || isValidNotes()) ? UIColor(forHexString: "#8f8f95") : UIColor.redColor()
         notesCell.delegate = self
         return notesCell
     }
@@ -264,6 +291,7 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
             self.collapseOpenedPickerCell()
             let reasonViewController : DCAdministrationReasonViewController = DCAdministrationHelper.administratedReasonPopOverAtIndexPathWithStatus(NOT_ADMINISTRATED)
             reasonViewController.delegate = self
+            reasonViewController.isValid = isValid
             if let reasonString = self.medicationSlot?.medicationAdministration?.statusReason {
                 reasonViewController.previousSelection = reasonString
                 reasonViewController.secondaryReason = self.medicationSlot?.medicationAdministration?.secondaryReason
@@ -307,6 +335,30 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
         }
         administrationFailureTableView.endUpdates()
     }
+    
+    func isValidReason() -> Bool {
+        var reasonValidity = true
+        let reason = medicationSlot?.medicationAdministration?.statusReason!
+        let secondaryReason = self.medicationSlot?.medicationAdministration?.secondaryReason
+        if (reason == nil || reason == EMPTY_STRING) {
+            reasonValidity = false
+        }
+        if (reason == NOT_ADMINISTRATED_OTHERS && (secondaryReason == EMPTY_STRING || secondaryReason == nil)) {
+            reasonValidity = false
+        }
+        return reasonValidity
+    }
+    
+    func isValidNotes () -> Bool {
+        var notesValidity = true
+        if (medicationSlot?.medicationAdministration?.isEarlyAdministration == true || medicationSlot?.medicationAdministration?.isLateAdministration == true) {
+            if (medicationSlot?.medicationAdministration?.refusedNotes == nil || medicationSlot?.medicationAdministration?.refusedNotes == EMPTY_STRING) {
+                notesValidity = false
+            }
+        }
+        return notesValidity
+    }
+    
     // MARK: NotesCell Delegate Methods
     
     func notesSelected(editing : Bool, withIndexPath indexPath : NSIndexPath) {
@@ -314,7 +366,6 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
     }
     
     func enteredNote(note : String) {
-        isValid = true
         medicationSlot?.medicationAdministration?.refusedNotes = note
     }
     

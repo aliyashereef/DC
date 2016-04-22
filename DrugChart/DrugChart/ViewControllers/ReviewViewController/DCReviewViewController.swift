@@ -60,7 +60,7 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
                 }
                 if (tableViewHasInlinePickerForSection(section)) {
                     // increment row count if there is picker view displayed
-                    rowCount++
+                    rowCount += 1
                 }
                 return rowCount
             case eSecondSection.rawValue :
@@ -277,7 +277,7 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
             if let reviewDate = review?.reviewDate?.dateAndTime {
                 datePickerCell?.datePicker?.date = DCDateUtility.dateFromSourceString(reviewDate)
             } else {
-                self.performSelector(Selector("reloadReviewDateTableCellForDateValue:"), withObject: NSDate(), afterDelay: 0.02)
+                self.performSelector(#selector(DCReviewViewController.reloadReviewDateTableCellForDateValue(_:)), withObject: NSDate(), afterDelay: 0.02)
             }
             datePickerCell?.selectedDate = { date in
                 self.reloadReviewDateTableCellForDateValue(date)

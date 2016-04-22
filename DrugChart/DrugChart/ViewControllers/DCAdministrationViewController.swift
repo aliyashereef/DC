@@ -11,8 +11,9 @@ import Foundation
 let headerString : NSString = "ADMINISTRATION DETAILS"
 
 class DCAdministrationViewController : UIViewController, UITableViewDelegate, UITableViewDataSource {
-    @IBOutlet var activityIndicatorView: UIActivityIndicatorView!
     
+    @IBOutlet var activityIndicatorView: UIActivityIndicatorView!
+    @IBOutlet weak var administrationWarningLabel: UILabel!
     var medicationSlotsArray : [DCMedicationSlot] = [DCMedicationSlot]()
     var medicationDetails : DCMedicationScheduleDetails?
     var contentArray :[AnyObject] = []
@@ -31,6 +32,11 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         self.configureTableViewProperties()
         self.configureNavigationBar()
         initialiseMedicationSlotToAdministerObject()
+        if( medicationSlotsArray.count > 0){
+            self.administrationWarningLabel.hidden = true;
+        } else {
+            self.administrationWarningLabel.hidden = false;
+        }
     }
     
     func configureTableViewProperties (){
@@ -49,7 +55,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         }
         self.title = dateString
         // Navigation bar done button
-        let doneButton : UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: "doneButtonPressed")
+        let doneButton : UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(DCAdministrationViewController.doneButtonPressed))
         if (appDelegate.windowState == DCWindowState.halfWindow || appDelegate.windowState == DCWindowState.oneThirdWindow) {
             self.navigationItem.rightBarButtonItems = [doneButton]
         } else {
@@ -133,7 +139,10 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
     //MARK: TableView Delegate Methods
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
+        if self.medicationSlotsArray.count > 0 {
+            return 2
+        }
+        return 1
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -264,7 +273,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
                     for slot : DCMedicationSlot in toAdministerArray {
                         if (slot.medicationAdministration?.actualAdministrationTime == nil) {
                             medicationArray.insert(slot, atIndex: slotCount)
-                            slotCount++
+                            slotCount += 1
                         }
                     }
                 }
