@@ -156,13 +156,14 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         } else {
             administerCell.detailLabel?.text = medicationDetails?.dosage
         }
-        if !isValid! && medicationSlot?.medicationAdministration?.isDoseUpdated == true && (medicationSlot?.medicationAdministration?.doseEditReason == REASON || medicationSlot?.medicationAdministration?.doseEditReason == nil) {
+        if !isValid! && medicationSlot?.medicationAdministration?.isDoseUpdated == true && (medicationSlot?.medicationAdministration?.doseEditReason == EMPTY_STRING || medicationSlot?.medicationAdministration?.doseEditReason == nil) {
             administerCell.titleLabel.textColor = UIColor.redColor()
         } else {
             administerCell.titleLabel.textColor = UIColor.blackColor()
         }
         return administerCell
     }
+    
     //Date Cell
     func administrationDateAndTimeTableCellAtIndexPath(indexPath : NSIndexPath, label: NSString) -> (DCAdministerCell) {
         
@@ -605,11 +606,16 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         } else {
             administratingDoseViewController.doseValue = medicationDetails?.dosage
         }
-        administratingDoseViewController.isInEditMode = (self.medicationSlot?.medicationAdministration.isDoseUpdated)! && (medicationSlot?.medicationAdministration?.doseEditReason == REASON || medicationSlot?.medicationAdministration?.doseEditReason == nil)
+        if let doseEditReasonText = medicationSlot?.medicationAdministration?.doseEditReason {
+            administratingDoseViewController.doseEditReasonText = doseEditReasonText
+        }
+        administratingDoseViewController.isInEditMode = (self.medicationSlot?.medicationAdministration.isDoseUpdated)!
         administratingDoseViewController.title = NSLocalizedString("DOSE", comment: "")
         administratingDoseViewController.doseValueUpdated = { dose, reason in
             self.medicationSlot?.medicationAdministration?.dosageString = dose
-            self.medicationSlot?.medicationAdministration.doseEditReason = reason
+            if reason != REASON {
+                self.medicationSlot?.medicationAdministration.doseEditReason = reason
+            }
             self.administerSuccessTableView.reloadData()
         }
         administratingDoseViewController.isDoseValueUpdated = { value in
