@@ -14,6 +14,7 @@ class DCAdministratingDoseViewController: UIViewController, UITableViewDataSourc
     
     var sectionCountOfTable: Int = 1
     var doseValue : String?
+    var doseEditReasonText : String?
     @IBOutlet weak var updateDoseTableView: UITableView!
     var doseValueUpdated: DoseValueUpdated = { dose, reason in }
     var isInEditMode: Bool = false
@@ -110,6 +111,13 @@ class DCAdministratingDoseViewController: UIViewController, UITableViewDataSourc
         let cell = updateDoseTableView.dequeueReusableCellWithIdentifier(REASON_TEXT_VIEW) as? DCInterventionAddResolveTextViewCell
         cell!.placeHolderString = REASON
         cell?.initializeTextView()
+        if doseEditReasonText != EMPTY_STRING && doseEditReasonText != nil {
+            cell?.reasonOrResolveTextView.text = doseEditReasonText
+        } else {
+            if isInEditMode {
+                cell?.reasonOrResolveTextView.textColor = UIColor.redColor()
+            }
+        }
         return cell!
     }
 }

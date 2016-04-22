@@ -520,7 +520,7 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
             if (medicationStatus == ADMINISTERED || medicationStatus == STARTED) {
                 //administered medication status.
                 let reason : String? = self.medicationSlot?.medicationAdministration?.doseEditReason
-                if (reason == REASON || reason == nil) {
+                if (reason == REASON || reason == nil || reason == EMPTY_STRING) {
                     isValid = false
                     administrationSuccessViewController?.isValid = isValid
                     administrationSuccessViewController?.administerSuccessTableView.reloadData()

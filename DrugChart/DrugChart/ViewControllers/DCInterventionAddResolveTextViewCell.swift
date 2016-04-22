@@ -36,7 +36,9 @@ class DCInterventionAddResolveTextViewCell: UITableViewCell, UITextViewDelegate 
 
     func textViewDidBeginEditing(textView: UITextView) {
         if textView.textColor == UIColor.lightGrayColor() || textView.textColor == UIColor.redColor()  {
-            textView.text = nil
+            if placeHolderString == textView.text {
+                textView.text = nil
+            }
             textView.textColor = UIColor.blackColor()
         }
     }
