@@ -15,6 +15,7 @@ class DCAdministrationInProgressViewController : DCBaseViewController,StatusList
     var medicationDetails : DCMedicationScheduleDetails?
     var isDatePickerShown : Bool = false
     var isValid : Bool = true
+    var isSaveClicked : Bool = false
 
     var datePickerIndexPath : NSIndexPath = NSIndexPath(forRow: 1, inSection: 2)
     
@@ -66,15 +67,17 @@ class DCAdministrationInProgressViewController : DCBaseViewController,StatusList
     func isInProgressMedicationValid () {
         // For in progress fluid change restrted date is mandatory.
         if let status = medicationSlot?.medicationAdministration.status {
-            let inProgressArray = [ENDED,STOPED_DUE_TO_PROBLEM,CONTINUED_AFTER_PROBLEM,FLUID_CHANGED,PAUSED]
-            if inProgressArray.contains(status) {
-                if status == FLUID_CHANGED {
-                    if (medicationSlot?.medicationAdministration.restartedDate == nil || medicationSlot?.medicationAdministration.restartedDate == EMPTY_STRING) {
-                        self.isValid = false
-                    }
-                } else if status == CONTINUED_AFTER_PROBLEM || status == STOPED_DUE_TO_PROBLEM  {
-                    if (medicationSlot?.medicationAdministration.infusionStatusChangeReason == nil || medicationSlot?.medicationAdministration.infusionStatusChangeReason == EMPTY_STRING){
-                        self.isValid = false
+            if isSaveClicked {
+                let inProgressArray = [ENDED,STOPED_DUE_TO_PROBLEM,CONTINUED_AFTER_PROBLEM,FLUID_CHANGED,PAUSED]
+                if inProgressArray.contains(status) {
+                    if status == FLUID_CHANGED {
+                        if (medicationSlot?.medicationAdministration.restartedDate == nil || medicationSlot?.medicationAdministration.restartedDate == EMPTY_STRING) {
+                            self.isValid = false
+                        }
+                    } else if status == CONTINUED_AFTER_PROBLEM || status == STOPED_DUE_TO_PROBLEM  {
+                        if (medicationSlot?.medicationAdministration.infusionStatusChangeReason == nil || medicationSlot?.medicationAdministration.infusionStatusChangeReason == EMPTY_STRING){
+                            self.isValid = false
+                        }
                     }
                 }
             }

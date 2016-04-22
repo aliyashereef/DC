@@ -470,12 +470,14 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
                 if (medicationSlot?.medicationAdministration.restartedDate == nil || medicationSlot?.medicationAdministration.restartedDate == EMPTY_STRING) {
                     isValid = false
                     administrationInProgressViewController?.isValid = false
+                    administrationInProgressViewController?.isSaveClicked = true
                     administrationInProgressViewController?.administerInProgressTableView.reloadData()
                 }
             } else if (medicationSlot?.medicationAdministration.status)! == CONTINUED_AFTER_PROBLEM || (medicationSlot?.medicationAdministration.status)! == STOPED_DUE_TO_PROBLEM  {
                 if (medicationSlot?.medicationAdministration.infusionStatusChangeReason == nil || medicationSlot?.medicationAdministration.infusionStatusChangeReason == EMPTY_STRING){
                     isValid = false
                     administrationInProgressViewController?.isValid = false
+                    administrationInProgressViewController?.isSaveClicked = true
                     administrationInProgressViewController?.administerInProgressTableView.reloadData()
                     administrationInProgressViewController?.scrollTableViewToErrorField()
                 }
