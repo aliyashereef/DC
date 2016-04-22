@@ -174,10 +174,10 @@ typedef enum : NSUInteger {
                 addPresentationController.barButtonItem = addButton;
             }
             [self addAlertsAndAllergyBarButtonToNavigationBar];
+            [self addPharmacistInteractionButtonToNavigationBar];
             if (alertsPopOverController != nil) {
                 alertsPopOverController.barButtonItem = warningsBarButtonItem;
             }
-            [self addPharmacistInteractionButtonToNavigationBar];
         }
     }
     previousWindowState = appDelegate.windowState;
@@ -521,11 +521,11 @@ typedef enum : NSUInteger {
                                         self.navigationItem.rightBarButtonItems = @[addButton,vitalSignsButton];
                                     }
                                 }
+                                [self addBarButtonItems];
                             }
                             [self setDisplayMedicationListArray];
                             if ([displayMedicationListArray count] > 0) {
                                 if (prescriberMedicationListViewController) {
-                                    [self addBarButtonItems];
                                     prescriberMedicationListViewController.currentWeekDatesArray = currentWeekDatesArray;
                                     [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
                                     selectedSortType = START_DATE_ORDER;
@@ -1196,9 +1196,6 @@ typedef enum : NSUInteger {
    // [self fetchMedicationListForPatient];
     if ([DCAPPDELEGATE isNetworkReachable]) {
         [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
-            if (success) {
-                [self addBarButtonItems];
-            }
         }];
     }
 }
@@ -1208,9 +1205,6 @@ typedef enum : NSUInteger {
    // [self fetchMedicationListForPatient];
     if ([DCAPPDELEGATE isNetworkReachable]) {
         [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
-            if (success) {
-                [self addBarButtonItems];
-            }
         }];
     }
 }
@@ -1218,9 +1212,6 @@ typedef enum : NSUInteger {
 - (void)reloadPrescriberMedicationListWithCompletionHandler:(void (^)(BOOL))completion{
     if ([DCAPPDELEGATE isNetworkReachable]) {
         [self fetchMedicationListForPatientWithCompletionHandler:^(BOOL success) {
-            if (success) {
-                [self addBarButtonItems];
-            }
             completion(success);
         }];
     }
