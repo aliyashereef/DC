@@ -795,7 +795,7 @@ typedef enum : NSUInteger {
         [pharmacistButton setImage:[UIImage imageNamed:PHARMACIST_ICON] forState:UIControlStateNormal];
     } else {
         [pharmacistButton setImage:[UIImage imageNamed:PHARMACIST_ICON_WITHCOUNT] forState:UIControlStateNormal];
-        pharmacistCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(pharmacistButton.frame.origin.x + pharmacistButton.frame.size.width + 13, 0, 20, 22)];
+        pharmacistCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(pharmacistButton.frame.origin.x + pharmacistButton.frame.size.width + 9, 0, 20, 22)];
         [pharmacistCountLabel setFont:[UIFont systemFontOfSize:13.0]];
         [pharmacistCountLabel setHidden:NO];
         [pharmacistCountLabel setText:[NSString stringWithFormat:@"%d",count]];
