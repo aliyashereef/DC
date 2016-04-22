@@ -512,11 +512,14 @@ typedef enum : NSUInteger {
                         
                         if (!error) {
                             _patient.medicationListArray = result;
-                            if (_patient.medicationListArray.count == 0){
-                                if ([allergiesArray count] > 0 || [alertsArray count] > 0) {
-                                    self.navigationItem.rightBarButtonItems = @[addButton, warningsBarButtonItem,vitalSignsButton];
-                                } else {
-                                    self.navigationItem.rightBarButtonItems = @[addButton,vitalSignsButton];
+                            if ([DCAPPDELEGATE windowState] != halfWindow &&
+                                [DCAPPDELEGATE windowState] != oneThirdWindow) {
+                                if (_patient.medicationListArray.count == 0){
+                                    if ([allergiesArray count] > 0 || [alertsArray count] > 0) {
+                                        self.navigationItem.rightBarButtonItems = @[addButton, warningsBarButtonItem,vitalSignsButton];
+                                    } else {
+                                        self.navigationItem.rightBarButtonItems = @[addButton,vitalSignsButton];
+                                    }
                                 }
                             }
                             [self setDisplayMedicationListArray];
