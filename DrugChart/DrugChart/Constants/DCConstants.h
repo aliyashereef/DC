@@ -167,6 +167,7 @@
 #define PHARMACIST_VIEW_CONTROLLER_SB_ID @"pharmacistViewController"
 #define INTERVENTION_ADD_RESOLVE_SB_ID @"addOrResolveInterventionViewController"
 #define UPDATE_POD_STATUS_SB_ID @"podStatusViewController"
+#define ADMINISTRATING_DOSE_SB_ID @"AdministratingDoseViewController"
 
 
 //Nib files
@@ -260,6 +261,8 @@
 #define PHARMACIST_CELL_ID @"pharmacistCellId"
 #define POD_STATUS_CELL @"podStatusCell"
 #define POD_NOTES_CELL_ID @"notesCell"
+#define DOSE_DISPLAY_TEXTFIELD @"doseDisplayCell"
+#define REASON_TEXT_VIEW @"reasonTextViewCell"
 
 // Week days
 

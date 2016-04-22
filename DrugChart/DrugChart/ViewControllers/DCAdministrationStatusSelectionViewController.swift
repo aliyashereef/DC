@@ -413,7 +413,7 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
                 self.medicationSlot = DCMedicationSlot.init()
                 administrationSuccessViewController?.medicationSlot?.medicationAdministration?.status = statusState
                 self.medicationSlot = administrationSuccessViewController?.medicationSlot
-            } else  {
+            } else {
                 self.medicationSlot = DCMedicationSlot.init()
                 self.medicationSlot = administrationInProgressViewController?.medicationSlot
             }
@@ -510,6 +510,18 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
                     administrationFailureViewController?.isValid = false
                     administrationFailureViewController?.administrationFailureTableView.reloadData()
                     administrationFailureViewController?.scrollTableViewToErrorField()
+                }
+            }
+        }
+        if (self.medicationSlot?.medicationAdministration.isDoseUpdated == true) {
+            //Dose Value updated.
+            if (medicationStatus == ADMINISTERED || medicationStatus == STARTED) {
+                //administered medication status.
+                let reason : String? = self.medicationSlot?.medicationAdministration?.doseEditReason
+                if (reason == REASON || reason == nil) {
+                    isValid = false
+                    administrationSuccessViewController?.isValid = isValid
+                    administrationSuccessViewController?.administerSuccessTableView.reloadData()
                 }
             }
         }
