@@ -33,6 +33,11 @@ class DCAdministrationInProgressViewController : DCBaseViewController,StatusList
         self.administerInProgressTableView.reloadData()
     }
     
+    override func viewDidAppear(animated: Bool) {
+        self.changeSaveButtonDisabilityWithMedicationStatus()
+        super.viewDidAppear(animated)
+    }
+    
     // MARK: Private Methods
     func initialiseMedicationSlotObject () {
         
@@ -56,7 +61,7 @@ class DCAdministrationInProgressViewController : DCBaseViewController,StatusList
     }
     
     func changeSaveButtonDisabilityWithMedicationStatus () {
-        let parentView : DCAdministrationStatusSelectionViewController = self.parentViewController as! DCAdministrationStatusSelectionViewController
+        let parentView : DCAdministrationStatusSelectionViewController = (self.parentViewController as? DCAdministrationStatusSelectionViewController)!
         if medicationSlot?.medicationAdministration.status == EMPTY_STRING ||  medicationSlot?.medicationAdministration.status == nil{
             parentView.setSaveButtonDisability(false)
         } else {
@@ -66,22 +71,24 @@ class DCAdministrationInProgressViewController : DCBaseViewController,StatusList
     
     func isInProgressMedicationValid () {
         // For in progress fluid change restrted date is mandatory.
+        var validity = true
         if let status = medicationSlot?.medicationAdministration.status {
             if isSaveClicked {
                 let inProgressArray = [ENDED,STOPED_DUE_TO_PROBLEM,CONTINUED_AFTER_PROBLEM,FLUID_CHANGED,PAUSED]
                 if inProgressArray.contains(status) {
                     if status == FLUID_CHANGED {
                         if (medicationSlot?.medicationAdministration.restartedDate == nil || medicationSlot?.medicationAdministration.restartedDate == EMPTY_STRING) {
-                            self.isValid = false
+                            validity = false
                         }
                     } else if status == CONTINUED_AFTER_PROBLEM || status == STOPED_DUE_TO_PROBLEM  {
                         if (medicationSlot?.medicationAdministration.infusionStatusChangeReason == nil || medicationSlot?.medicationAdministration.infusionStatusChangeReason == EMPTY_STRING){
-                            self.isValid = false
+                            validity = false
                         }
                     }
                 }
             }
         }
+        self.isValid = validity
     }
     
     func scrollTableViewToErrorField() {
@@ -119,7 +126,7 @@ class DCAdministrationInProgressViewController : DCBaseViewController,StatusList
         } else {
             administerCell.titleLabel.text = STATUS
         }
-        administerCell.titleLabel.textColor = (!isValid && medicationSlot?.medicationAdministration?.restartedDate == nil ? UIColor.redColor() : UIColor.blackColor())
+        administerCell.titleLabel.textColor = (!isValid ? UIColor.redColor() : UIColor.blackColor())
         administerCell.detailLabel?.text = medicationSlot?.medicationAdministration.status
         return administerCell
     }
@@ -306,6 +313,7 @@ class DCAdministrationInProgressViewController : DCBaseViewController,StatusList
     // mark:StatusList Delegate Methods
     func selectedMedicationStatusEntry(status: String!) {
         medicationSlot?.medicationAdministration.status = status
+        isSaveClicked = false
         changeSaveButtonDisabilityWithMedicationStatus()
         self.administerInProgressTableView.reloadData()
     }
