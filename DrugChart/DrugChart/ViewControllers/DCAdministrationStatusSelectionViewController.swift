@@ -360,10 +360,10 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
         administerMedicationWebService.administerMedicationForScheduleId((medicationDetails?.scheduleId)! as String, forPatientId:patientId as String , withParameters:parameterDictionary as [NSObject : AnyObject]) { (array, error) -> Void in
             self.activityIndicator.stopAnimating()
             if error == nil {
-                let presentingViewController = self.presentingViewController as! UINavigationController
-                let parentView = presentingViewController.presentingViewController as! UINavigationController
+                let presentingViewController = self.presentingViewController as? UINavigationController
+                let parentView = presentingViewController!.presentingViewController as! UINavigationController
                 let prescriberMedicationListViewController : DCPrescriberMedicationViewController = parentView.viewControllers.last as! DCPrescriberMedicationViewController
-                let administationViewController : DCAdministrationViewController = presentingViewController.viewControllers.last as! DCAdministrationViewController
+                let administationViewController : DCAdministrationViewController = presentingViewController?.viewControllers.last as! DCAdministrationViewController
                 administationViewController.activityIndicatorView.startAnimating()
                 self.dismissViewControllerAnimated(true, completion: {
                     self.helper.reloadPrescriberMedicationHomeViewControllerWithCompletionHandler({ (Bool) -> Void in
@@ -450,7 +450,7 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
             isValid = false
         }
         // Status reason is a mandatory. If it is nil - is invalid
-        if medicationStatus != STARTED && (medicationSlot?.medicationAdministration?.statusReason == nil || medicationSlot?.medicationAdministration?.statusReason == EMPTY_STRING) {
+        if medicationStatus != STARTED && medicationStatus != IN_PROGRESS && (medicationSlot?.medicationAdministration?.statusReason == nil || medicationSlot?.medicationAdministration?.statusReason == EMPTY_STRING) {
             isValid = false
             if (medicationStatus == ADMINISTERED) {
                 administrationSuccessViewController?.isValid = isValid

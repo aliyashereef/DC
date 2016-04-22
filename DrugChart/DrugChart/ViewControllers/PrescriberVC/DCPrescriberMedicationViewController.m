@@ -756,7 +756,7 @@ typedef enum : NSUInteger {
     [warningsButton setImage:[UIImage imageNamed:ALERTS_ALLERGIES_ICON] forState:UIControlStateSelected];
     [warningsButton addTarget:self action:@selector(allergiesAndAlertsButtonTapped:)forControlEvents:UIControlEventTouchUpInside];
     [warningsButton sizeToFit];
-    warningCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(warningsButton.frame.origin.x + warningsButton.frame.size.width - 22 , 2, 20, 22)];
+    warningCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(warningsButton.frame.origin.x + warningsButton.frame.size.width - 20, 0, 20, 20)];
     [warningCountLabel setFont:[UIFont systemFontOfSize:13.0]];
     [warningCountLabel setHidden:NO];
     NSInteger warningsCount = alertsArray.count + allergiesArray.count;
