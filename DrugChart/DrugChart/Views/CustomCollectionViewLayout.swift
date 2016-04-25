@@ -100,8 +100,7 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
     
     override func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath) -> (UICollectionViewLayoutAttributes!) {
         
-        let sectionAttributes = self.itemAttributes [indexPath.section] as! [UICollectionViewLayoutAttributes]
-        return sectionAttributes[indexPath.row] as UICollectionViewLayoutAttributes
+        return (self.itemAttributes[indexPath.section] as! NSMutableArray)[indexPath.row] as! UICollectionViewLayoutAttributes
     }
     
     override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
