@@ -327,6 +327,7 @@
 		4D9225FB1C6DE4E20060761A /* DCProgressTimeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D9225FA1C6DE4E20060761A /* DCProgressTimeView.xib */; };
 		4D9649921BA296CC008630B4 /* DCBedsAndPatientsWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D9649911BA296CC008630B4 /* DCBedsAndPatientsWebService.m */; };
 		4D9C7DC41BA1578C00C69094 /* DCAddMedicationWebServiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D9C7DC31BA1578C00C69094 /* DCAddMedicationWebServiceManager.m */; };
+		4DA24AA51CCE1FF80096882D /* StopMedication.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4DA24AA41CCE1FF80096882D /* StopMedication.storyboard */; };
 		4DC440181B67990D000EC7AB /* DCOrderSetWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC440171B67990D000EC7AB /* DCOrderSetWebService.m */; };
 		4DC527F11BE1EE2F00E2EF09 /* DCDosageMultiLineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC527F01BE1EE2F00E2EF09 /* DCDosageMultiLineCell.swift */; };
 		4DD264381C7EFD11007ACC52 /* DCAdministrationInProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD264371C7EFD11007ACC52 /* DCAdministrationInProgressViewController.swift */; };
@@ -865,6 +866,7 @@
 		4D9649911BA296CC008630B4 /* DCBedsAndPatientsWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCBedsAndPatientsWebService.m; sourceTree = "<group>"; };
 		4D9C7DC21BA1578C00C69094 /* DCAddMedicationWebServiceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCAddMedicationWebServiceManager.h; sourceTree = "<group>"; };
 		4D9C7DC31BA1578C00C69094 /* DCAddMedicationWebServiceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCAddMedicationWebServiceManager.m; sourceTree = "<group>"; };
+		4DA24AA41CCE1FF80096882D /* StopMedication.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = StopMedication.storyboard; sourceTree = "<group>"; };
 		4DC440161B67990D000EC7AB /* DCOrderSetWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DCOrderSetWebService.h; path = DrugChart/WebServices/DCOrderSetWebService.h; sourceTree = SOURCE_ROOT; };
 		4DC440171B67990D000EC7AB /* DCOrderSetWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DCOrderSetWebService.m; path = DrugChart/WebServices/DCOrderSetWebService.m; sourceTree = SOURCE_ROOT; };
 		4DC527F01BE1EE2F00E2EF09 /* DCDosageMultiLineCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCDosageMultiLineCell.swift; sourceTree = "<group>"; };
@@ -2330,6 +2332,7 @@
 				FDF29CA51C8EBB23003C3100 /* Summary.storyboard */,
 				0BB32CDF1CAA537E00061E02 /* Pharmacist.storyboard */,
 				FD99F1E71CABC5B600D54FE3 /* PharmacistAction.storyboard */,
+				4DA24AA41CCE1FF80096882D /* StopMedication.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -3605,6 +3608,7 @@
 				0BCF5EA21AE0D803002467BF /* Routes.plist in Resources */,
 				7D9EA9F01B29C10500337E6A /* DCLandScapeLeftPatientView.xib in Resources */,
 				7D5567DD1B4FEE2100BA6733 /* OnceMedicationSample.plist in Resources */,
+				4DA24AA51CCE1FF80096882D /* StopMedication.storyboard in Resources */,
 				7D9EA9EC1B29846C00337E6A /* PositionableGraphics.plist in Resources */,
 				1F3AB1AB1C71EBAF008F0513 /* observation.json in Resources */,
 				1F1977131BFDE77500106023 /* ContentCollectionViewCell.xib in Resources */,
