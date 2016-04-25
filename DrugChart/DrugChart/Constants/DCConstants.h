@@ -636,7 +636,7 @@
 #define UPDATE_POD_STATUS @"Update POD Status"
 #define RESOLVE_INTERVENTION @"Resolve Intervention"
 #define CLINICAL_CHECK @"Clinical Check"
-#define CLINICAL_REMOVE @"Clinical Remove"
+#define CLINICAL_REMOVE @"Remove Clinical Check"
 #define ADD_INTERVENTION @"Add Intervention"
 #define PATIENT_OWN_DRUG @"Patient Own Drugs"
 #define PATIENT_OWN_DRUG_HOME @"Patient Own Drugs(Home)"
