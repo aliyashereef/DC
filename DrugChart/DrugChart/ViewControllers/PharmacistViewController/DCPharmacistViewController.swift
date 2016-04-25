@@ -66,7 +66,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func configureNavigationBar() {
         
-        self.title = NSLocalizedString("MEDICATION_LIST", comment: "title")
+        self.title = NSLocalizedString("PHARMACY_ACTIONS", comment: "title")
         DCUtility.backButtonItemForViewController(self, inNavigationController: self.navigationController, withTitle:NSLocalizedString("DRUG_CHART", comment: ""))
         self.addNavigationRightBarButtonItemForEditingState(false)
     }
