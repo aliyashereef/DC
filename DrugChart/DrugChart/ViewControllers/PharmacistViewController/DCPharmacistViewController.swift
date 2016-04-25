@@ -235,11 +235,12 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
                     let indexOfSelectedMedication = self.medicationList.indexOfObject(value)
                     self.pharmacistTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexOfSelectedMedication, inSection: 0)], withRowAnimation: .None)
                     if self.pharmacistTableView.indexPathsForSelectedRows == nil {
-                        // radio button of tableview which denotes the edit state has to be removed
-                        self.pharmacistTableView.setEditing(false, animated: true)
-                        self.isInEditMode = false
-                        self.configureToolBarsForEditingState(false)
-                        self.addNavigationRightBarButtonItemForEditingState(false)
+                        self.cancelButtonPressed()
+                    }
+                }
+                addInterventionViewController?.cancelClicked = { value in
+                    if value {
+                        self.cancelButtonPressed()
                     }
                 }
                 let navigationController: UINavigationController = UINavigationController(rootViewController: addInterventionViewController!)
@@ -263,12 +264,11 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
                     let indexOfSelectedMedication = self.medicationList.indexOfObject(value)
                     self.pharmacistTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexOfSelectedMedication, inSection: 0)], withRowAnimation: .None)
                     if self.pharmacistTableView.indexPathsForSelectedRows == nil {
-                        // radio button of tableview which denotes the edit state has to be removed
-                        self.pharmacistTableView.setEditing(false, animated: true)
-                        self.isInEditMode = false
-                        self.configureToolBarsForEditingState(false)
-                        self.addNavigationRightBarButtonItemForEditingState(false)
+                        self.cancelButtonPressed()
                     }
+                }
+                resolveInterventionViewController?.cancelClicked = { value in
+                    self.cancelButtonPressed()
                 }
                 let navigationController: UINavigationController = UINavigationController(rootViewController: resolveInterventionViewController!)
                 navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
@@ -291,12 +291,11 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
                 let indexOfSelectedMedication = self.medicationList.indexOfObject(value)
                 self.pharmacistTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexOfSelectedMedication, inSection: 0)], withRowAnimation: .None)
                 if self.pharmacistTableView.indexPathsForSelectedRows == nil {
-                    // radio button of tableview which denotes the edit state has to be removed
-                    self.pharmacistTableView.setEditing(false, animated: true)
-                    self.isInEditMode = false
-                    self.configureToolBarsForEditingState(false)
-                    self.addNavigationRightBarButtonItemForEditingState(false)
+                    self.cancelButtonPressed()
                 }
+            }
+            updatePodStatusViewController?.cancelClicked = { value in
+                self.cancelButtonPressed()
             }
             let navigationController: UINavigationController = UINavigationController(rootViewController: updatePodStatusViewController!)
             navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
