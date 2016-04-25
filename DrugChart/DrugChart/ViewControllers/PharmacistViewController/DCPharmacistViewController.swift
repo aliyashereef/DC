@@ -27,6 +27,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     var isInEditMode : Bool = false
     var medicationList : NSMutableArray = []
     var swipedCellIndexPath : NSIndexPath?
+    var tableTapGesture : UITapGestureRecognizer? = nil
     
     override func viewDidLoad() {
         
@@ -62,6 +63,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         pharmacistTableView.tableFooterView = UIView()
         pharmacistTableView!.estimatedRowHeight = PHARMACIST_ROW_HEIGHT
         pharmacistTableView!.rowHeight = UITableViewAutomaticDimension
+        self.addTapGestureToNavigationBar()
     }
     
     func configureNavigationBar() {
@@ -95,6 +97,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
             actionsButton.hidden = true
             medicationCountLabel.hidden = false
             pharmacistActionsToolBar.hidden = true
+            self.addTapGestureToPharmacistTableView()
         } else {
             if (appDelegate.windowState == DCWindowState.oneThirdWindow || appDelegate.windowState == DCWindowState.halfWindow) {
                 medicationCountToolBar.hidden = false
@@ -105,7 +108,26 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
                 medicationCountToolBar.hidden = true
                 pharmacistActionsToolBar.hidden = false
             }
+            pharmacistTableView?.removeGestureRecognizer(tableTapGesture!)
         }
+    }
+    
+    func addTapGestureToPharmacistTableView() {
+        
+        //gesture to pharmacist tableview
+        tableTapGesture = UITapGestureRecognizer(target: self, action: #selector(DCPharmacistViewController.tappedView(_:)))
+        tableTapGesture!.numberOfTapsRequired = 1
+        tableTapGesture!.cancelsTouchesInView = false
+        pharmacistTableView.addGestureRecognizer(tableTapGesture!)
+    }
+    
+    func addTapGestureToNavigationBar() {
+        
+        //gesture to navigation bar
+        let titleBarTapGesture = UITapGestureRecognizer(target: self, action: #selector(DCPharmacistViewController.tappedView(_:)))
+        titleBarTapGesture.numberOfTapsRequired = 1
+        titleBarTapGesture.cancelsTouchesInView = false
+        self.navigationController?.navigationBar.addGestureRecognizer(titleBarTapGesture)
     }
     
     func resetSwipedCellToOriginalPosition() {
@@ -303,6 +325,16 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
             self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
         }
     }
+    
+    func resetOpenedPharmacistCellOnViewTouch() {
+        
+        if let indexPath = swipedCellIndexPath {
+            let pharmacistCell = pharmacistTableView?.cellForRowAtIndexPath(indexPath)
+                as? DCPharmacistTableCell
+            pharmacistCell?.swipePrescriberDetailViewToRight()
+            swipedCellIndexPath = nil
+        }
+    }
 
     // MARK: TableView Methods
     
@@ -334,6 +366,22 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         
         if !isInEditMode {
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
+    }
+    
+    // MARK: Touch Events
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        
+        if !isInEditMode {
+            self.resetOpenedPharmacistCellOnViewTouch()
+        }
+    }
+    
+    func tappedView(gesture : UITapGestureRecognizer) {
+        
+        if !isInEditMode {
+            self.resetOpenedPharmacistCellOnViewTouch()
         }
     }
     
