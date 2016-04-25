@@ -28,6 +28,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     var medicationList : NSMutableArray = []
     var swipedCellIndexPath : NSIndexPath?
     var tableTapGesture : UITapGestureRecognizer? = nil
+    var isScrolling : Bool?
     
     override func viewDidLoad() {
         
@@ -508,17 +509,37 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         }
     }
     
+    func postTableViewScrollNotificationToTableCells() {
+        
+        let scrollParametersDictionary: Dictionary<String,Bool>! = [IS_SCROLLING: isScrolling!]
+        NSNotificationCenter.defaultCenter().postNotificationName(kPharmacistTableViewScrollNotification, object: nil, userInfo: scrollParametersDictionary)
+    }
+    
     // MARK: ScrollView Delegate Methods
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
         //close the opened cells
+        isScrolling = true
         if let indexPath = swipedCellIndexPath {
             let pharmacistCell = pharmacistTableView?.cellForRowAtIndexPath(indexPath)
                 as? DCPharmacistTableCell
             pharmacistCell?.swipePrescriberDetailViewToRight()
             swipedCellIndexPath = nil
         }
+        self.postTableViewScrollNotificationToTableCells()
+    }
+    
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        
+        isScrolling = true
+        self.postTableViewScrollNotificationToTableCells()
+    }
+    
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        
+        isScrolling = false
+        self.postTableViewScrollNotificationToTableCells()
     }
     
     override func navigationShouldPopOnBackButton() -> Bool {

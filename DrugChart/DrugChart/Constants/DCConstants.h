@@ -311,6 +311,7 @@
 
 #define kEarlyAdministrationNotification        @"EarlyAdministration"
 #define kNetworkAvailable                       @"NetworkAvailable"
+#define kPharmacistTableViewScrollNotification  @"PharmacistTableViewScrollNotification"
 
 //date
 
@@ -641,5 +642,7 @@
 #define PATIENT_OWN_DRUG @"Patient Own Drugs"
 #define PATIENT_OWN_DRUG_HOME @"Patient Own Drugs(Home)"
 #define PATIENT_OWN_AND_HOME @"Patient Own Drugs & Patient Own Drugs(Home)"
+
+#define IS_SCROLLING @"isScrolling"
 
 #endif
