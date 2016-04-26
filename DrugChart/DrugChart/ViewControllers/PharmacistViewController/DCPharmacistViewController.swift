@@ -303,6 +303,20 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
             self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
         }
     }
+    
+    func displayPharmacistSummaryScreenForMedicationAtIndexPath(indexPath : NSIndexPath) {
+        
+        // pharmacist summary screen
+        let summaryStoryboard : UIStoryboard? = UIStoryboard(name:SUMMARY_STORYBOARD, bundle: nil)
+        let medicationSummaryViewController = summaryStoryboard!.instantiateViewControllerWithIdentifier("MedicationSummary") as? DCMedicationSummaryDisplayViewController
+        medicationSummaryViewController!.summaryType = ePharmacist
+        let medication: DCMedicationScheduleDetails = medicationList[indexPath.item] as! DCMedicationScheduleDetails
+        medicationSummaryViewController!.scheduleId = medication.scheduleId
+        medicationSummaryViewController!.medicationDetails = medication
+        let navigationController: UINavigationController = UINavigationController(rootViewController: medicationSummaryViewController!)
+        navigationController.modalPresentationStyle = .FormSheet
+        self.presentViewController(navigationController, animated: true, completion: { _ in })
+    }
 
     // MARK: TableView Methods
     
@@ -333,6 +347,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         if !isInEditMode {
+            self.displayPharmacistSummaryScreenForMedicationAtIndexPath(indexPath)
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
     }

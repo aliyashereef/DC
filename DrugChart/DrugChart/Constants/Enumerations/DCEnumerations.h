@@ -12,14 +12,6 @@
 //enums
 
 typedef enum : NSInteger {
-    eRoute,
-    eMedicationType,
-    eMedicationName,
-    eDosage
-    
-} AddMedicationPopOverContentType;
-
-typedef enum : NSInteger {
     
     eAdministerMedication,
     eAddMedication,
@@ -160,5 +152,11 @@ typedef enum : NSUInteger {
     eAddIntervention,
     eResolveIntervention
 }InterventionType;
+
+typedef enum : NSUInteger {
+    
+    eDrugChart,
+    ePharmacist
+}SummaryType;
 
 #endif

@@ -21,6 +21,7 @@ class DCMedicationSummaryDisplayViewController: UIViewController, UITableViewDel
     var errorMessage : String = EMPTY_STRING
     var helper : DCSwiftObjCNavigationHelper = DCSwiftObjCNavigationHelper.init()
     let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
+    var summaryType : SummaryType?
     
     override func viewDidLoad() {
         
@@ -39,7 +40,7 @@ class DCMedicationSummaryDisplayViewController: UIViewController, UITableViewDel
         //Navigation bar title string
         self.title = "Medication Details"
         // Navigation bar done button
-        let doneButton : UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: "doneButtonPressed")
+        let doneButton : UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(DCMedicationSummaryDisplayViewController.doneButtonPressed))
         if (appDelegate.windowState == DCWindowState.halfWindow || appDelegate.windowState == DCWindowState.oneThirdWindow) {
             self.navigationItem.rightBarButtonItems = [doneButton]
         } else {
@@ -100,14 +101,19 @@ class DCMedicationSummaryDisplayViewController: UIViewController, UITableViewDel
     //MARK: TableView Delegate Methods
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        
         return 2
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         switch section {
-        case 0 : return 1
-        case 1 : return 2
-        default : break
+            case 0 :
+                return 1
+            case 1 :
+                return (summaryType == eDrugChart) ? 2 : 1
+            default :
+                break
         }
         return 0
     }
@@ -134,10 +140,14 @@ class DCMedicationSummaryDisplayViewController: UIViewController, UITableViewDel
     func configureContentCellAtIndexPath (indexPath :NSIndexPath) -> DCMedicationSummaryDisplayTableViewCell{
         
         let cell : DCMedicationSummaryDisplayTableViewCell = summaryDisplayTableView.dequeueReusableCellWithIdentifier("menuCell") as! DCMedicationSummaryDisplayTableViewCell
-        if indexPath.row == 0 {
-            cell.contentLabel.text = "Administration History"
+        if (summaryType == eDrugChart) {
+            if indexPath.row == 0 {
+                cell.contentLabel.text = "Administration History"
+            } else {
+                cell.contentLabel.text = "Review History"
+            }
         } else {
-            cell.contentLabel.text = "Review History"
+            cell.contentLabel.text = NSLocalizedString("INTERVENTION_DETAILS", comment: "intervention details title")
         }
         return cell
     }
