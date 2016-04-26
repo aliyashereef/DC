@@ -75,6 +75,8 @@
 #define NO_BUTTON_TITLE     @"No"
 #define YES_BUTTON_TITLE    @"Yes"
 #define EDIT_BUTTON_TITLE   @"Edit"
+#define SELECT_ALL_TITLE    @"Select All"
+#define DESELECT_ALL_TITLE  @"Deselect All"
 
 //images
 

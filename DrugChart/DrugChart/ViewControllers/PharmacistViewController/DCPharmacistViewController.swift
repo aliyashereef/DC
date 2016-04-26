@@ -29,6 +29,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     var swipedCellIndexPath : NSIndexPath?
     var tableTapGesture : UITapGestureRecognizer? = nil
     var isScrolling : Bool?
+    var selectAll : Bool?
     
     override func viewDidLoad() {
         
@@ -50,6 +51,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     override func viewDidLayoutSubviews() {
         
         super.viewDidLayoutSubviews()
+        pharmacistTableView.reloadData()
         self.configureToolBarsForEditingState(isInEditMode)
     }
     
@@ -84,9 +86,11 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     func addNavigationRightBarButtonItemForEditingState(isEditing : Bool) {
         
         if isEditing == false {
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: EDIT_BUTTON_TITLE, style: .Plain, target:self , action: #selector(DCPharmacistViewController.editButtonPressed))
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Edit, target: self,
+                action: #selector(DCPharmacistViewController.editButtonPressed))
         } else {
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: CANCEL_BUTTON_TITLE, style: .Plain, target:self , action: #selector(DCPharmacistViewController.cancelButtonPressed))
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: CANCEL_BUTTON_TITLE, style: .Plain, target:self,
+                                                                     action: #selector(DCPharmacistViewController.cancelButtonPressed))
         }
     }
     
@@ -336,6 +340,14 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
             swipedCellIndexPath = nil
         }
     }
+    
+    
+    func overrideBackButtonWithSelectButton() {
+        
+        self.navigationItem.hidesBackButton = true
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: SELECT_ALL_TITLE, style: .Plain, target:self,
+                                                                action: #selector(DCPharmacistViewController.selectAllButtonPressed))
+    }
 
     // MARK: TableView Methods
     
@@ -355,6 +367,11 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         let backgroundColorView = UIView()
         backgroundColorView.backgroundColor = UIColor.clearColor()
         pharmacistCell?.selectedBackgroundView = backgroundColorView
+        if selectAll == true {
+            tableView.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+        } else {
+            tableView.deselectRowAtIndexPath(indexPath, animated: false)
+        }
         return pharmacistCell!
     }
     
@@ -401,15 +418,35 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         isInEditMode = true
         configureToolBarsForEditingState(true)
         self.addNavigationRightBarButtonItemForEditingState(true)
+        self.overrideBackButtonWithSelectButton()
     }
     
     func cancelButtonPressed() {
         
         // radio button of tableview which denotes the edit state has to be removed
+        selectAll = false
+        self.navigationItem.leftBarButtonItems = []
+        self.navigationItem.hidesBackButton = false
         pharmacistTableView.setEditing(false, animated: true)
         isInEditMode = false
         configureToolBarsForEditingState(false)
         self.addNavigationRightBarButtonItemForEditingState(false)
+    }
+    
+    func selectAllButtonPressed()  {
+        
+        // select all button action
+        selectAll = true
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: DESELECT_ALL_TITLE, style: .Plain, target:self,
+                                                                action: #selector(DCPharmacistViewController.deselectAllButtonPressed))
+        pharmacistTableView.reloadData()
+    }
+    
+    func deselectAllButtonPressed() {
+        
+        selectAll = false
+        self.overrideBackButtonWithSelectButton()
+        pharmacistTableView.reloadData()
     }
 
     @IBAction func verifyClinicalCheckButtonPressed(sender: AnyObject) {
