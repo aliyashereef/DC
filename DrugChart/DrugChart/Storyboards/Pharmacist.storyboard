@@ -294,35 +294,35 @@
                                         </button>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="nY3-Bp-Spo"/>
-                                    <barButtonItem style="plain" id="nuG-um-v0a" userLabel="Clinical Remove Bar Button Item">
+                                    <barButtonItem style="plain" id="nuG-um-v0a" userLabel="Intervention Bar Button">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="rk9-F8-2Vm">
                                             <rect key="frame" x="217" y="7" width="156" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="Intervention"/>
                                             <connections>
-                                                <action selector="invalidateClinicalCheckButonPressed:" destination="ueY-0E-Taf" eventType="touchUpInside" id="kZi-yW-lZE"/>
+                                                <action selector="interventionButtonPressed:" destination="ueY-0E-Taf" eventType="touchUpInside" id="xMe-Rh-q0e"/>
                                             </connections>
                                         </button>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="dZ7-9t-eh3"/>
-                                    <barButtonItem style="plain" id="mrM-Ay-sSB" userLabel="Add Intervention Bar Button Item">
+                                    <barButtonItem style="plain" id="mrM-Ay-sSB" userLabel="Update POD Status Bar Button">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="cUn-hV-kgq">
                                             <rect key="frame" x="427" y="7" width="113" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="POD Status"/>
                                             <connections>
-                                                <action selector="addInterventionButtonPressed:" destination="ueY-0E-Taf" eventType="touchUpInside" id="YOX-A7-vrc"/>
+                                                <action selector="updatePodStatusButtonPressed:" destination="ueY-0E-Taf" eventType="touchUpInside" id="r07-5v-AKj"/>
                                             </connections>
                                         </button>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="ssl-xS-74a"/>
-                                    <barButtonItem style="plain" id="BlI-kY-Qgd" userLabel="Resolve Intervention Bar Button Item">
+                                    <barButtonItem style="plain" id="BlI-kY-Qgd" userLabel="Supply Request Bar Button">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="7OT-D1-8cV">
                                             <rect key="frame" x="594" y="7" width="142" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="Supply Request"/>
                                             <connections>
-                                                <action selector="resolveInterventionButtonPressed:" destination="ueY-0E-Taf" eventType="touchUpInside" id="xuw-1X-0h5"/>
+                                                <action selector="supplyRequestButtonPressed:" destination="ueY-0E-Taf" eventType="touchUpInside" id="kEo-ZC-WeW"/>
                                             </connections>
                                         </button>
                                     </barButtonItem>
@@ -399,14 +399,14 @@
                     <size key="freeformSize" width="800" height="600"/>
                     <connections>
                         <outlet property="actionsButton" destination="je3-jD-1dU" id="cUw-PI-UCz"/>
-                        <outlet property="addInterventionBarButton" destination="mrM-Ay-sSB" id="TqU-uF-Mbc"/>
                         <outlet property="clinicalCheckBarButton" destination="nFr-HF-edx" id="hd9-dm-BHT"/>
-                        <outlet property="clinicalRemoveBarButton" destination="nuG-um-v0a" id="BP0-FC-CK2"/>
+                        <outlet property="interventionBarButton" destination="nuG-um-v0a" id="rHB-Zj-YzH"/>
                         <outlet property="medicationCountLabel" destination="tzr-48-KJn" id="SNC-DU-6Yc"/>
                         <outlet property="medicationCountToolBar" destination="RaB-qQ-zpv" id="Tks-Il-I5n"/>
                         <outlet property="pharmacistActionsToolBar" destination="rrN-SA-dGZ" id="ogN-Ii-Spw"/>
                         <outlet property="pharmacistTableView" destination="DwE-Su-3zg" id="MUm-w1-N9v"/>
-                        <outlet property="resolveInterventionBarButton" destination="BlI-kY-Qgd" id="HyG-iC-hnH"/>
+                        <outlet property="supplyRequestBarButton" destination="BlI-kY-Qgd" id="XnC-3M-tCJ"/>
+                        <outlet property="updatePodStatusBarButton" destination="mrM-Ay-sSB" id="oyp-Sl-QxA"/>
                         <outlet property="view" destination="wkV-IH-PKd" id="9VK-FQ-uT8"/>
                     </connections>
                 </viewController>

@@ -168,6 +168,7 @@
 #define INTERVENTION_ADD_RESOLVE_SB_ID @"addOrResolveInterventionViewController"
 #define UPDATE_POD_STATUS_SB_ID @"podStatusViewController"
 #define ADMINISTRATING_DOSE_SB_ID @"AdministratingDoseViewController"
+#define ACTION_POPOVER_SB_ID @"ActionPopOverView"
 
 
 //Nib files
@@ -263,6 +264,7 @@
 #define POD_NOTES_CELL_ID @"notesCell"
 #define DOSE_DISPLAY_TEXTFIELD @"doseDisplayCell"
 #define REASON_TEXT_VIEW @"reasonTextViewCell"
+#define ACTION_DISPLAY_CELL @"actionDisplayCell"
 
 // Week days
 
@@ -634,12 +636,17 @@
 #define REASON_TEXT @"Reason"
 #define RESOLUTION_TEXT @"Resolution"
 #define UPDATE_POD_STATUS @"Update POD Status"
+#define SUPPLY_REQUEST @"Supply Request"
 #define RESOLVE_INTERVENTION @"Resolve Intervention"
 #define CLINICAL_CHECK @"Clinical Check"
 #define CLINICAL_REMOVE @"Remove Clinical Check"
+#define INTERVENTION_TEXT @"Intervention"
 #define ADD_INTERVENTION @"Add Intervention"
+#define EDIT_INTERVENTION @"Edit Intervention"
 #define PATIENT_OWN_DRUG @"Patient Own Drugs"
 #define PATIENT_OWN_DRUG_HOME @"Patient Own Drugs(Home)"
 #define PATIENT_OWN_AND_HOME @"Patient Own Drugs & Patient Own Drugs(Home)"
+#define ADD_SUPPLY_REQUEST @"Add Supply Request"
+#define CANCEL_SUPPLY_REQUEST @"Cancel Supply Request"
 
 #endif
