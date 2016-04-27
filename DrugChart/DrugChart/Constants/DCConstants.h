@@ -168,6 +168,7 @@
 #define INTERVENTION_ADD_RESOLVE_SB_ID @"addOrResolveInterventionViewController"
 #define UPDATE_POD_STATUS_SB_ID @"podStatusViewController"
 #define ADMINISTRATING_DOSE_SB_ID @"AdministratingDoseViewController"
+#define INTERVENTION_DETAILS_SB_ID @"InterventionDetailsViewController"
 
 
 //Nib files

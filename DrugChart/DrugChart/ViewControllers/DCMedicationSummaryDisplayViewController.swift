@@ -98,6 +98,12 @@ class DCMedicationSummaryDisplayViewController: UIViewController, UITableViewDel
         return PENDING
     }
     
+    func displayInterventionDetailsScreen() {
+        
+        let interventionDetailsViewController = UIStoryboard(name: SUMMARY_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(INTERVENTION_DETAILS_SB_ID) as? DCInterventionDetailsViewController
+        self.navigationController?.pushViewController(interventionDetailsViewController!, animated: true)
+    }
+    
     //MARK: TableView Delegate Methods
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -159,9 +165,14 @@ class DCMedicationSummaryDisplayViewController: UIViewController, UITableViewDel
             
         } else {
             if indexPath.row == 0 {
-                let administrationHistoryViewController : DCSummaryAdministrationHistoryViewController? = UIStoryboard(name: SUMMARY_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(MEDICATION_SUMMARY_ADMINISTRATION_HISTORY_SBID) as? DCSummaryAdministrationHistoryViewController
-                administrationHistoryViewController?.medicationType = DCCalendarHelper.typeDescriptionForMedication(medicationDetails!)
-                self.navigationController?.pushViewController(administrationHistoryViewController!, animated: true)
+                if (summaryType == eDrugChart) {
+                    let administrationHistoryViewController : DCSummaryAdministrationHistoryViewController? = UIStoryboard(name: SUMMARY_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(MEDICATION_SUMMARY_ADMINISTRATION_HISTORY_SBID) as? DCSummaryAdministrationHistoryViewController
+                    administrationHistoryViewController?.medicationType = DCCalendarHelper.typeDescriptionForMedication(medicationDetails!)
+                    self.navigationController?.pushViewController(administrationHistoryViewController!, animated: true)
+                } else {
+                    // display intervention details view here
+                    self.displayInterventionDetailsScreen()
+                }
             } else {
                 let summaryHistoryViewController : DCSummaryReviewHistoryDisplayViewController? = UIStoryboard(name: SUMMARY_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(MEDICATION_SUMMARY_REVIEW_HISTORY_SBID) as? DCSummaryReviewHistoryDisplayViewController
                 self.navigationController?.pushViewController(summaryHistoryViewController!, animated: true)
