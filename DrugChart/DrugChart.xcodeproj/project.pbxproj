@@ -272,6 +272,8 @@
 		1FF1F8861C3D7177007F3B9C /* BarGraphModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF1F8851C3D7177007F3B9C /* BarGraphModel.swift */; };
 		1FF1F8881C3D7798007F3B9C /* GraphDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF1F8871C3D7798007F3B9C /* GraphDelegate.swift */; };
 		1FF1F88A1C3EBACB007F3B9C /* SingleBarGraphController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF1F8891C3EBACB007F3B9C /* SingleBarGraphController.swift */; };
+		2431F2571CD0982300D727C1 /* DCOneThirdScreenPharmacistActionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2431F2561CD0982300D727C1 /* DCOneThirdScreenPharmacistActionsTableViewCell.swift */; };
+		2431F2591CD09A3E00D727C1 /* DCOneThirdScreenPharmacistActionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2431F2581CD09A3E00D727C1 /* DCOneThirdScreenPharmacistActionsViewController.swift */; };
 		245B740B1CCF4120006BF7C1 /* DCPharmacistActionPopOverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245B740A1CCF411F006BF7C1 /* DCPharmacistActionPopOverViewController.swift */; };
 		245B740D1CCF4141006BF7C1 /* DCPharmacistActionPopOverTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245B740C1CCF4141006BF7C1 /* DCPharmacistActionPopOverTableViewCell.swift */; };
 		263AE8A048794A9FC5DDF137 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95B692258EF6A48813AE6977 /* Pods.framework */; };
@@ -800,6 +802,8 @@
 		1FF1F8851C3D7177007F3B9C /* BarGraphModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarGraphModel.swift; sourceTree = "<group>"; };
 		1FF1F8871C3D7798007F3B9C /* GraphDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphDelegate.swift; sourceTree = "<group>"; };
 		1FF1F8891C3EBACB007F3B9C /* SingleBarGraphController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleBarGraphController.swift; sourceTree = "<group>"; };
+		2431F2561CD0982300D727C1 /* DCOneThirdScreenPharmacistActionsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCOneThirdScreenPharmacistActionsTableViewCell.swift; sourceTree = "<group>"; };
+		2431F2581CD09A3E00D727C1 /* DCOneThirdScreenPharmacistActionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCOneThirdScreenPharmacistActionsViewController.swift; sourceTree = "<group>"; };
 		245B740A1CCF411F006BF7C1 /* DCPharmacistActionPopOverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCPharmacistActionPopOverViewController.swift; sourceTree = "<group>"; };
 		245B740C1CCF4141006BF7C1 /* DCPharmacistActionPopOverTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCPharmacistActionPopOverTableViewCell.swift; sourceTree = "<group>"; };
 		4D011C511BB14374005C79A2 /* MedicationHistory.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = MedicationHistory.storyboard; path = ../MedicationHistory.storyboard; sourceTree = "<group>"; };
@@ -2027,6 +2031,7 @@
 		0BBC8F9A1AA468920085ABAB /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				2431F2551CD097D200D727C1 /* OneThireScreenActionsPharmacistActionsViewController */,
 				245B74091CCF40B7006BF7C1 /* PharmacistActionPopOverViewController */,
 				FDDA73241CB2879500CC9EEB /* PODStatusViewController */,
 				FD99F1E91CABDE8200D54FE3 /* InterventionAddOrResolveViewController */,
@@ -2763,6 +2768,15 @@
 				1F418E481CA020F400D2DCFB /* Identifier.swift */,
 			);
 			name = FHIR;
+			sourceTree = "<group>";
+		};
+		2431F2551CD097D200D727C1 /* OneThireScreenActionsPharmacistActionsViewController */ = {
+			isa = PBXGroup;
+			children = (
+				2431F2581CD09A3E00D727C1 /* DCOneThirdScreenPharmacistActionsViewController.swift */,
+				2431F2561CD0982300D727C1 /* DCOneThirdScreenPharmacistActionsTableViewCell.swift */,
+			);
+			name = OneThireScreenActionsPharmacistActionsViewController;
 			sourceTree = "<group>";
 		};
 		245B74091CCF40B7006BF7C1 /* PharmacistActionPopOverViewController */ = {
@@ -3849,6 +3863,7 @@
 				0BB32CE31CAA546800061E02 /* DCPharmacistViewController.swift in Sources */,
 				FDDEE1AB1C4D01B200F02F4B /* UIView+UIAppearence_Swift.m in Sources */,
 				FDF29CA81C8EE333003C3100 /* DCMedicationSummaryDisplayTableViewCell.swift in Sources */,
+				2431F2571CD0982300D727C1 /* DCOneThirdScreenPharmacistActionsTableViewCell.swift in Sources */,
 				1FD4FCB91BF4B6B700B77B94 /* Pulse.swift in Sources */,
 				1FD4FCBB1BF4B6B700B77B94 /* SPO2.swift in Sources */,
 				0BF389151AA468C6006792DE /* DCUtility.m in Sources */,
@@ -4050,6 +4065,7 @@
 				1FD4FCB61BF4B6B700B77B94 /* BodyTemperature.swift in Sources */,
 				0B4BD42D1C4755C400C49589 /* DCDurationInfusion.m in Sources */,
 				1F5375001C1AEC2C00D4A64F /* LineGraphCell.swift in Sources */,
+				2431F2591CD09A3E00D727C1 /* DCOneThirdScreenPharmacistActionsViewController.swift in Sources */,
 				1FD4FD0B1BF4BAE000B77B94 /* Helper.swift in Sources */,
 				1FB412681BFB522900D91487 /* String.swift in Sources */,
 				7D3234A81AF108990020CC8F /* DCSettingsViewController.m in Sources */,

@@ -33,7 +33,7 @@ class DCPharmacistActionPopOverViewController: UIViewController, UITableViewDele
         
         super.viewDidLayoutSubviews()
         if appDelegate.windowState == DCWindowState.oneThirdWindow || appDelegate.windowState == DCWindowState.halfWindow {
-            self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
+            self.dismissViewControllerAnimated(true, completion: nil)
         }
     }
 

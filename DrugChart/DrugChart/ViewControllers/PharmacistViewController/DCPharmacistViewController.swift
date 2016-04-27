@@ -393,8 +393,9 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     @IBAction func actionsButtonPressed(sender: AnyObject) {
         
-        //present action sheet for iphone
-        self.presentPharmacistActionSheet()
+        //present action screen for iphone
+        self.presentOneThirdScreenPharmacistActions()
+        //self.presentPharmacistActionSheet()
     }
     
     // MARK: PharmacistCell Delegate Methods
@@ -523,7 +524,9 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
             actionPopOverViewController?.pharmacistActionSelectedAtIndex = { value in
                 if value == 0 {
                     self.addInterventionAction()
-                } else if value == 2 {
+                } else if value == 1 {
+                    //TODO: Action for edit intervention
+                } else {
                     self.resolveInterventionAction()
                 }
             }
@@ -538,10 +541,55 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
             }
         case SUPPLY_REQUEST:
             actionPopOverViewController!.preferredContentSize = CGSizeMake(popOverWidth, heightOffset + cellHeight * 2)
+            actionPopOverViewController?.pharmacistActionSelectedAtIndex = { value in
+                if value == 0 {
+                    //TODO: Action for Add supply request.
+                } else {
+                    //TODO: Action for cancel supply request.
+                }
+            }
             presentationController.barButtonItem = supplyRequestBarButton
             actionPopOverViewController?.actionType = eSupplyRequest
         default:
             break
         }
+    }
+    
+    func presentOneThirdScreenPharmacistActions() {
+        
+        let actionDisplayViewController : DCOneThirdScreenPharmacistActionsViewController? = UIStoryboard(name: PHARMACIST_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(ONT_THIRD_ACTION_SB_ID) as? DCOneThirdScreenPharmacistActionsViewController
+        actionDisplayViewController?.oneThirdPharmacistActionSelected = { indexPath in
+            switch indexPath!.section {
+            case SectionCount.eZerothSection.rawValue:
+                if indexPath?.row == RowCount.eZerothRow.rawValue {
+                    self.clinicalCheckAction()
+                } else {
+                    self.clinicalRemoveAction()
+                }
+            case SectionCount.eFirstSection.rawValue:
+                if indexPath?.row == RowCount.eZerothRow.rawValue {
+                    self.addInterventionAction()
+                } else if indexPath?.row == RowCount.eFirstRow.rawValue {
+                    //TODO: Action for Edit intervention.
+                } else {
+                    self.resolveInterventionAction()
+                }
+            case SectionCount.eSecondSection.rawValue:
+                if indexPath?.row == RowCount.eZerothRow.rawValue {
+                    self.updatePODStatusAction()
+                }
+            case SectionCount.eThirdSection.rawValue:
+                if indexPath?.row == RowCount.eZerothRow.rawValue {
+                    //TODO: Action for Add Supply Request.
+                } else {
+                    //TODO: Action for cancel supply request.
+                }
+            default:
+                break
+            }
+        }
+        let navigationController: UINavigationController = UINavigationController(rootViewController: actionDisplayViewController!)
+        navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+        self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
     }
 }
