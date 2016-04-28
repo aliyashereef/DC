@@ -549,6 +549,22 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         pharmacistTableView.endUpdates()
     }
     
+    func editInterventionActionOnTableCellAtIndexPath(indexPath: NSIndexPath) {
+        
+        // intervention not added yet or added intervention has been resolved
+        let addInterventionViewController : DCInterventionAddOrResolveViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(INTERVENTION_ADD_RESOLVE_SB_ID) as? DCInterventionAddOrResolveViewController
+        addInterventionViewController?.medicationList.addObject(medicationList.objectAtIndex(indexPath.row))
+        addInterventionViewController!.indexOfCurrentMedication = 0
+        addInterventionViewController?.interventionType = eEditIntervention
+        addInterventionViewController!.interventionUpdated = { value in
+            let indexOfSelectedMedication = self.medicationList.indexOfObject(value)
+            self.pharmacistTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexOfSelectedMedication, inSection: 0)], withRowAnimation: .None)
+        }
+        let navigationController: UINavigationController = UINavigationController(rootViewController: addInterventionViewController!)
+        navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+        self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
+    }
+    
     func resolveInterventionActionOnTableCellAtIndexPath(indexPath : NSIndexPath) {
         
         let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList[indexPath.row] as! DCMedicationScheduleDetails
