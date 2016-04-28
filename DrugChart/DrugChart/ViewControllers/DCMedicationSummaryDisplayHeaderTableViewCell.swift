@@ -14,6 +14,9 @@ class DCMedicationSummaryDisplayHeaderTableViewCell: UITableViewCell {
     @IBOutlet weak var medicineCategoryLabel: UILabel!
     @IBOutlet weak var dosageRouteAndInstructionLabel: UILabel!
     @IBOutlet weak var doseValueLabel: UILabel!
+    @IBOutlet weak var pharmacistFirstStatusImageView: UIImageView!
+    @IBOutlet weak var pharmacistSecondStatusImageView: UIImageView!
+    @IBOutlet weak var pharmacistThirdStatusImageView: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

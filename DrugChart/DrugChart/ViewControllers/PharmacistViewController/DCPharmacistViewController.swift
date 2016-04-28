@@ -37,7 +37,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     override func viewDidAppear(animated: Bool) {
         
         super.viewDidAppear(animated)
-        pharmacistTableView.reloadData()
+        //pharmacistTableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -48,6 +48,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     override func viewDidLayoutSubviews() {
         
         super.viewDidLayoutSubviews()
+        pharmacistTableView.reloadData()
         self.configureToolBarsForEditingState(isInEditMode)
     }
     

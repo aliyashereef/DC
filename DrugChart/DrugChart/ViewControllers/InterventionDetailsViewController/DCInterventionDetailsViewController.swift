@@ -44,18 +44,16 @@ class DCInterventionDetailsViewController: UIViewController {
             case RowCount.eZerothRow.rawValue:
                 cell!.actionNameTitleLabel.text = NSLocalizedString("CREATED_BY", comment: "")
                 cell!.actionDateTitleLabel.text = NSLocalizedString("INTERVENTION_ADDED", comment: "")
-                cell!.reasonTextLabel.text = OK_BUTTON_TITLE
             case RowCount.eFirstRow.rawValue:
                 cell!.actionNameTitleLabel.text = NSLocalizedString("EDITED_BY" , comment: "")
                 cell!.actionDateTitleLabel.text = NSLocalizedString("INTERVENTION_EDITED", comment: "")
-                cell!.reasonTextLabel.text = OK_BUTTON_TITLE
             case RowCount.eSecondRow.rawValue:
                 cell!.actionNameTitleLabel.text = NSLocalizedString("RESOLVED_BY", comment: "")
                 cell!.actionDateTitleLabel.text = NSLocalizedString("INTERVENTION_RESOLVED", comment: "")
-                cell!.reasonTextLabel.text = OK_BUTTON_TITLE
             default:
                 break
         }
+        cell!.reasonTextLabel.text = OK_BUTTON_TITLE
         return cell!
     }
     

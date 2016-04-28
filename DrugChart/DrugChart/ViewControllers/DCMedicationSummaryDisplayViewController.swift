@@ -139,6 +139,7 @@ class DCMedicationSummaryDisplayViewController: UIViewController, UITableViewDel
         let cell = summaryDisplayTableView.dequeueReusableCellWithIdentifier("summaryDisplayHeaderCell") as? DCMedicationSummaryDisplayHeaderTableViewCell
         if let _ = medicationDetails {
             cell!.configureMedicationDetails(medicationDetails!)
+            cell!.pharmacistFirstStatusImageView.image = (summaryType == eDrugChart) ? nil : UIImage(named: CLINICAL_CHECK_IPAD_IMAGE)
         }
         return cell!
     }
