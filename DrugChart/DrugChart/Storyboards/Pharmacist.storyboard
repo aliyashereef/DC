@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <scenes>
         <!--Pharmacist View Controller-->
@@ -282,9 +282,10 @@
                                     <constraint firstAttribute="height" constant="44" id="htt-Q8-xBc"/>
                                 </constraints>
                                 <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Uip-dQ-Fq0"/>
                                     <barButtonItem style="plain" id="nFr-HF-edx" userLabel="Clinical Check Bar Button Item">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="aGT-bW-gbU">
-                                            <rect key="frame" x="20" y="7" width="99" height="30"/>
+                                            <rect key="frame" x="64" y="7" width="99" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="Clinical Check"/>
                                             <connections>
@@ -293,49 +294,39 @@
                                         </button>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="nY3-Bp-Spo"/>
-                                    <barButtonItem style="plain" id="nuG-um-v0a" userLabel="Clinical Remove Bar Button Item">
+                                    <barButtonItem style="plain" id="nuG-um-v0a" userLabel="Intervention Bar Button">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="rk9-F8-2Vm">
-                                            <rect key="frame" x="157" y="7" width="111" height="30"/>
+                                            <rect key="frame" x="217" y="7" width="156" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Clinical Remove"/>
+                                            <state key="normal" title="Intervention"/>
                                             <connections>
-                                                <action selector="invalidateClinicalCheckButonPressed:" destination="ueY-0E-Taf" eventType="touchUpInside" id="kZi-yW-lZE"/>
+                                                <action selector="interventionButtonPressed:" destination="ueY-0E-Taf" eventType="touchUpInside" id="xMe-Rh-q0e"/>
                                             </connections>
                                         </button>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="dZ7-9t-eh3"/>
-                                    <barButtonItem style="plain" id="mrM-Ay-sSB" userLabel="Add Intervention Bar Button Item">
+                                    <barButtonItem style="plain" id="mrM-Ay-sSB" userLabel="Update POD Status Bar Button">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="cUn-hV-kgq">
-                                            <rect key="frame" x="307" y="7" width="113" height="30"/>
+                                            <rect key="frame" x="427" y="7" width="113" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Add Intervention"/>
+                                            <state key="normal" title="POD Status"/>
                                             <connections>
-                                                <action selector="addInterventionButtonPressed:" destination="ueY-0E-Taf" eventType="touchUpInside" id="YOX-A7-vrc"/>
+                                                <action selector="updatePodStatusButtonPressed:" destination="ueY-0E-Taf" eventType="touchUpInside" id="r07-5v-AKj"/>
                                             </connections>
                                         </button>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="ssl-xS-74a"/>
-                                    <barButtonItem style="plain" id="BlI-kY-Qgd" userLabel="Resolve Intervention Bar Button Item">
+                                    <barButtonItem style="plain" id="BlI-kY-Qgd" userLabel="Supply Request Bar Button">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="7OT-D1-8cV">
-                                            <rect key="frame" x="458" y="7" width="142" height="30"/>
+                                            <rect key="frame" x="594" y="7" width="142" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Resolve Intervention"/>
+                                            <state key="normal" title="Supply Request"/>
                                             <connections>
-                                                <action selector="resolveInterventionButtonPressed:" destination="ueY-0E-Taf" eventType="touchUpInside" id="xuw-1X-0h5"/>
+                                                <action selector="supplyRequestButtonPressed:" destination="ueY-0E-Taf" eventType="touchUpInside" id="kEo-ZC-WeW"/>
                                             </connections>
                                         </button>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="xtS-wf-E2a"/>
-                                    <barButtonItem style="plain" id="XpY-uS-Jvv" userLabel="Update POD status Bar Button Item">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="GT9-ce-UfJ" userLabel="Update POD Status">
-                                            <rect key="frame" x="638" y="7" width="142" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Update POD Status"/>
-                                            <connections>
-                                                <action selector="updatePODStatusButtonPressed:" destination="ueY-0E-Taf" eventType="touchUpInside" id="jlF-lj-tnn"/>
-                                            </connections>
-                                        </button>
-                                    </barButtonItem>
                                 </items>
                             </toolbar>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RaB-qQ-zpv" userLabel="MedicationCountToolbar">
@@ -408,21 +399,69 @@
                     <size key="freeformSize" width="800" height="600"/>
                     <connections>
                         <outlet property="actionsButton" destination="je3-jD-1dU" id="cUw-PI-UCz"/>
-                        <outlet property="addInterventionBarButton" destination="mrM-Ay-sSB" id="TqU-uF-Mbc"/>
                         <outlet property="clinicalCheckBarButton" destination="nFr-HF-edx" id="hd9-dm-BHT"/>
-                        <outlet property="clinicalRemoveBarButton" destination="nuG-um-v0a" id="BP0-FC-CK2"/>
+                        <outlet property="interventionBarButton" destination="nuG-um-v0a" id="rHB-Zj-YzH"/>
                         <outlet property="medicationCountLabel" destination="tzr-48-KJn" id="SNC-DU-6Yc"/>
                         <outlet property="medicationCountToolBar" destination="RaB-qQ-zpv" id="Tks-Il-I5n"/>
                         <outlet property="pharmacistActionsToolBar" destination="rrN-SA-dGZ" id="ogN-Ii-Spw"/>
                         <outlet property="pharmacistTableView" destination="DwE-Su-3zg" id="MUm-w1-N9v"/>
-                        <outlet property="resolveInterventionBarButton" destination="BlI-kY-Qgd" id="HyG-iC-hnH"/>
-                        <outlet property="updatePodStatusBarButton" destination="XpY-uS-Jvv" id="EJF-BR-4Yl"/>
+                        <outlet property="supplyRequestBarButton" destination="BlI-kY-Qgd" id="XnC-3M-tCJ"/>
+                        <outlet property="updatePodStatusBarButton" destination="mrM-Ay-sSB" id="oyp-Sl-QxA"/>
                         <outlet property="view" destination="wkV-IH-PKd" id="9VK-FQ-uT8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Hv-aT-KCa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="514" y="193"/>
+        </scene>
+        <!--One Third Screen Pharmacist Actions View Controller-->
+        <scene sceneID="MUo-8V-blX">
+            <objects>
+                <viewController storyboardIdentifier="oneThirdActionView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="sgQ-j6-9HO" customClass="DCOneThirdScreenPharmacistActionsViewController" customModule="DrugChart" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="yWB-Q2-6Op"/>
+                        <viewControllerLayoutGuide type="bottom" id="lvi-HA-fyZ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="oVn-sg-I9r">
+                        <rect key="frame" x="0.0" y="0.0" width="310" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="kAz-50-p58">
+                                <rect key="frame" x="0.0" y="0.0" width="310" height="600"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="actionDisplayCell" id="BHU-O4-Q6l" customClass="DCOneThirdScreenPharmacistActionsTableViewCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="310" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BHU-O4-Q6l" id="UA4-Zz-G19">
+                                            <rect key="frame" x="0.0" y="0.0" width="310" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="sgQ-j6-9HO" id="1nU-1l-LqM"/>
+                                    <outlet property="delegate" destination="sgQ-j6-9HO" id="kZe-kF-05V"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="kAz-50-p58" firstAttribute="leading" secondItem="oVn-sg-I9r" secondAttribute="leading" id="cQo-qp-MsL"/>
+                            <constraint firstAttribute="trailing" secondItem="kAz-50-p58" secondAttribute="trailing" id="qJV-It-Cws"/>
+                            <constraint firstItem="kAz-50-p58" firstAttribute="top" secondItem="oVn-sg-I9r" secondAttribute="top" id="rd6-5K-7fI"/>
+                            <constraint firstItem="lvi-HA-fyZ" firstAttribute="top" secondItem="kAz-50-p58" secondAttribute="bottom" id="wZO-Y2-QWA"/>
+                        </constraints>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="310" height="600"/>
+                    <connections>
+                        <outlet property="actionDisplayTableView" destination="kAz-50-p58" id="3u2-TN-Uli"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jBX-Wl-egn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1148" y="193"/>
         </scene>
     </scenes>
 </document>
