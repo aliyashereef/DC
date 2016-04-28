@@ -12,6 +12,10 @@ let ACTION_BUTTONS_DEFAULT_TOTAL_WIDTH : CGFloat = 375.0
 let ACTION_BUTTON_DEFAULT_WIDTH : CGFloat = 125.0
 let ACTION_BUTTONS_ONE_THIRD_TOTAL_WIDTH : CGFloat = 219.0
 let ACTION_BUTTON_ONE_THIRD_WIDTH : CGFloat = 73.0
+
+let ACTION_BUTTONS_DEFAULT_TOTAL_WIDTH_WITH_EDIT : CGFloat = 500.0
+let ACTION_BUTTONS_ONE_THIRD_TOTAL_WIDTH_WITH_EDIT : CGFloat = 292.0
+
 let PAN_VELOCITY_TRIGGER_LIMIT : CGFloat = 100.0
 
 let PHARMACIST_ONE_THIRD_FONT = UIFont.systemFontOfSize(11.0)
@@ -47,8 +51,10 @@ class DCPharmacistTableCell: UITableViewCell {
     @IBOutlet weak var podStatusButtonWidth: NSLayoutConstraint!
     @IBOutlet weak var podStatusButton: UIButton!
     @IBOutlet weak var resolveInterventionButton: UIButton!
+    @IBOutlet weak var editInterventionButton: UIButton!
     @IBOutlet weak var clinicalCheckButton: UIButton!
     @IBOutlet weak var resolveInterventionButtonWidth: NSLayoutConstraint!
+    @IBOutlet weak var editInterventionButtonWidth: NSLayoutConstraint!
     @IBOutlet weak var clinicalButtonWidth: NSLayoutConstraint!
     
     var medicationDetails : DCMedicationScheduleDetails?
@@ -56,6 +62,7 @@ class DCPharmacistTableCell: UITableViewCell {
     
     var indexPath : NSIndexPath?
     var actionButtonsTotalWidth : CGFloat = ACTION_BUTTONS_DEFAULT_TOTAL_WIDTH
+    var actionButtonsTotalWidthWithEdit : CGFloat = ACTION_BUTTONS_DEFAULT_TOTAL_WIDTH_WITH_EDIT
     var actionButtonWidth : CGFloat = ACTION_BUTTON_DEFAULT_WIDTH
     let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
     
@@ -83,6 +90,7 @@ class DCPharmacistTableCell: UITableViewCell {
         configureClinicalCheckButton()
         configureResolveInterventionButton()
         configurePODStatusButton()
+        configureEditInterventionButton()
     }
     
     func configureClinicalCheckButton() {
@@ -121,6 +129,18 @@ class DCPharmacistTableCell: UITableViewCell {
         }
         podStatusButtonWidth?.constant = actionButtonWidth
         podStatusButton.setTitle(EMPTY_STRING, forState: UIControlState.Normal)
+    }
+    
+    func configureEditInterventionButton() {
+        //set the properties of intervention button
+        editInterventionButton.titleLabel?.textAlignment = NSTextAlignment.Center
+        if (appDelegate.windowState == DCWindowState.oneThirdWindow || appDelegate.windowState == DCWindowState.halfWindow) {
+            editInterventionButton.titleLabel?.font = PHARMACIST_ONE_THIRD_FONT
+        } else {
+            editInterventionButton.titleLabel?.font = PHARMACIST_DEFAULT_FONT
+        }
+        editInterventionButtonWidth?.constant = actionButtonWidth
+        editInterventionButton.setTitle(EMPTY_STRING, forState: UIControlState.Normal)
     }
     
     func fillMedicationDetailsInTableCell(medicationSchedule : DCMedicationScheduleDetails) {
@@ -264,6 +284,7 @@ class DCPharmacistTableCell: UITableViewCell {
         
         let tableView : UITableView = (self.superview?.superview as? UITableView)!
         //donot allow tableviewcell swipe when tableview is in editing mode
+        setEditButtonWidth()
         if tableView.editing == false {
             let translate : CGPoint = panGesture.translationInView(self.contentView)
             let gestureVelocity : CGPoint = panGesture.velocityInView(self)
@@ -333,13 +354,27 @@ class DCPharmacistTableCell: UITableViewCell {
         }
     }
     
+    func setEditButtonWidth () {
+        if medicationDetails?.pharmacistAction?.intervention?.toResolve == false {
+            // intervention not added yet or added intervention has been resolved
+            editInterventionButtonWidth.constant = 0.0
+            self.actionButtonsTotalWidth = ACTION_BUTTONS_DEFAULT_TOTAL_WIDTH
+        } else {
+            editInterventionButtonWidth.constant = actionButtonWidth
+            self.actionButtonsTotalWidth = ACTION_BUTTONS_DEFAULT_TOTAL_WIDTH_WITH_EDIT
+        }
+    }
+    
     func setPharmacistInterventionButtonTitle() {
         
         if medicationDetails?.pharmacistAction?.intervention?.toResolve == false {
             // intervention not added yet or added intervention has been resolved
             resolveInterventionButton.setTitle(ADD_INTERVENTION, forState: .Normal)
+            editInterventionButtonWidth.constant = 0.0
         } else {
             resolveInterventionButton.setTitle(RESOLVE_INTERVENTION, forState: .Normal)
+            editInterventionButton.setTitle(EDIT_INTERVENTION, forState: .Normal)
+            editInterventionButtonWidth.constant = actionButtonWidth
         }
     }
     
@@ -353,6 +388,7 @@ class DCPharmacistTableCell: UITableViewCell {
             self.podStatusButton.setTitle(EMPTY_STRING, forState: UIControlState.Normal)
             self.resolveInterventionButton.setTitle(EMPTY_STRING, forState: UIControlState.Normal)
             self.clinicalCheckButton.setTitle(EMPTY_STRING, forState: .Normal)
+            self.editInterventionButton.setTitle(EMPTY_STRING, forState: .Normal)
         }
     }
     
@@ -412,9 +448,16 @@ class DCPharmacistTableCell: UITableViewCell {
     func updateActionButtonWidthRespectiveToLeadingConstraint() {
         
         //set action buttons width
-        self.podStatusButtonWidth.constant = -(self.pharmacistDetailsViewLeadingConstraint.constant / 3)
-        self.clinicalButtonWidth.constant = -(self.pharmacistDetailsViewLeadingConstraint.constant / 3)
-        self.resolveInterventionButtonWidth.constant = -(self.pharmacistDetailsViewLeadingConstraint.constant / 3)
+        var totalButtonCount : CGFloat = 3
+        if medicationDetails?.pharmacistAction?.intervention?.toResolve == false {
+            totalButtonCount = 3
+        } else {
+            totalButtonCount = 4
+            self.editInterventionButtonWidth.constant = -(self.pharmacistDetailsViewLeadingConstraint.constant / totalButtonCount)
+        }
+        self.podStatusButtonWidth.constant = -(self.pharmacistDetailsViewLeadingConstraint.constant / totalButtonCount)
+        self.clinicalButtonWidth.constant = -(self.pharmacistDetailsViewLeadingConstraint.constant / totalButtonCount)
+        self.resolveInterventionButtonWidth.constant = -(self.pharmacistDetailsViewLeadingConstraint.constant / totalButtonCount)
     }
     
     

@@ -638,6 +638,7 @@
 #define CLINICAL_CHECK @"Clinical Check"
 #define CLINICAL_REMOVE @"Clinical Remove"
 #define ADD_INTERVENTION @"Add Intervention"
+#define EDIT_INTERVENTION @"Edit Intervention"
 #define PATIENT_OWN_DRUG @"Patient Own Drugs"
 #define PATIENT_OWN_DRUG_HOME @"Patient Own Drugs(Home)"
 #define PATIENT_OWN_AND_HOME @"Patient Own Drugs & Patient Own Drugs(Home)"
