@@ -75,6 +75,8 @@
 #define NO_BUTTON_TITLE     @"No"
 #define YES_BUTTON_TITLE    @"Yes"
 #define EDIT_BUTTON_TITLE   @"Edit"
+#define SELECT_ALL_TITLE    @"Select All"
+#define DESELECT_ALL_TITLE  @"Deselect All"
 
 //images
 
@@ -312,6 +314,7 @@
 
 #define kEarlyAdministrationNotification        @"EarlyAdministration"
 #define kNetworkAvailable                       @"NetworkAvailable"
+#define kPharmacistTableViewScrollNotification  @"PharmacistTableViewScrollNotification"
 
 //date
 
@@ -642,5 +645,7 @@
 #define PATIENT_OWN_DRUG @"Patient Own Drugs"
 #define PATIENT_OWN_DRUG_HOME @"Patient Own Drugs(Home)"
 #define PATIENT_OWN_AND_HOME @"Patient Own Drugs & Patient Own Drugs(Home)"
+
+#define IS_SCROLLING @"isScrolling"
 
 #endif
