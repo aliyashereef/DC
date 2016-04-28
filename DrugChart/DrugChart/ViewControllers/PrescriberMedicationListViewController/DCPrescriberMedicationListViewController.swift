@@ -673,6 +673,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         
         let summaryStoryboard : UIStoryboard? = UIStoryboard(name:SUMMARY_STORYBOARD, bundle: nil)
         let medicationSummaryViewController = summaryStoryboard!.instantiateViewControllerWithIdentifier("MedicationSummary") as? DCMedicationSummaryDisplayViewController
+        medicationSummaryViewController!.summaryType = eDrugChart
         let medicationList: DCMedicationScheduleDetails = displayMedicationListArray[indexpath.item] as! DCMedicationScheduleDetails
         medicationSummaryViewController!.scheduleId = medicationList.scheduleId
         medicationSummaryViewController!.medicationDetails = medicationList
