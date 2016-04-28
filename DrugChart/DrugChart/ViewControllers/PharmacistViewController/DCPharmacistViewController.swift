@@ -19,14 +19,16 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     @IBOutlet weak var actionsButton: UIButton!
     
     @IBOutlet weak var clinicalCheckBarButton: UIBarButtonItem!
-    @IBOutlet weak var clinicalRemoveBarButton: UIBarButtonItem!
-    @IBOutlet weak var addInterventionBarButton: UIBarButtonItem!
-    @IBOutlet weak var resolveInterventionBarButton: UIBarButtonItem!
+    @IBOutlet weak var interventionBarButton: UIBarButtonItem!
     @IBOutlet weak var updatePodStatusBarButton: UIBarButtonItem!
+    @IBOutlet weak var supplyRequestBarButton: UIBarButtonItem!
     
     var isInEditMode : Bool = false
     var medicationList : NSMutableArray = []
     var swipedCellIndexPath : NSIndexPath?
+    var popOverWidth : CGFloat = 250
+    var heightOffset : CGFloat = 26
+    var cellHeight : CGFloat = 44
     var tableTapGesture : UITapGestureRecognizer? = nil
     var isScrolling : Bool?
     var selectAll : Bool?
@@ -71,7 +73,8 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func configureNavigationBar() {
         
-        self.title = NSLocalizedString("MEDICATION_LIST", comment: "title")
+        self.title = NSLocalizedString("MEDICATION_LIST"
+            , comment: "title")
         DCUtility.backButtonItemForViewController(self, inNavigationController: self.navigationController, withTitle:NSLocalizedString("DRUG_CHART", comment: ""))
         self.addNavigationRightBarButtonItemForEditingState(false)
     }
@@ -488,22 +491,22 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
 
     @IBAction func verifyClinicalCheckButtonPressed(sender: AnyObject) {
         
-        self.clinicalCheckAction()
+        self.toolBarButtonPopOver(CLINICAL_CHECK)
     }
     
-    @IBAction func invalidateClinicalCheckButonPressed(sender: AnyObject) {
+    @IBAction func interventionButtonPressed(sender: AnyObject) {
         
-        self.clinicalRemoveAction()
+        self.toolBarButtonPopOver(INTERVENTION_TEXT)
     }
     
-    @IBAction func addInterventionButtonPressed(sender: AnyObject) {
+    @IBAction func updatePodStatusButtonPressed(sender: AnyObject) {
         
-        self.addInterventionAction()
+        self.toolBarButtonPopOver(UPDATE_POD_STATUS)
     }
     
-    @IBAction func resolveInterventionButtonPressed(sender: AnyObject) {
+    @IBAction func supplyRequestButtonPressed(sender: AnyObject) {
         
-        self.resolveInterventionAction()
+        self.toolBarButtonPopOver(SUPPLY_REQUEST)
     }
     
     @IBAction func updatePODStatusButtonPressed(sender: AnyObject) {
@@ -513,8 +516,9 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     @IBAction func actionsButtonPressed(sender: AnyObject) {
         
-        //present action sheet for iphone
-        self.presentPharmacistActionSheet()
+        //present action screen for iphone
+        self.presentOneThirdScreenPharmacistActions()
+        //self.presentPharmacistActionSheet()
     }
     
     // MARK: PharmacistCell Delegate Methods
@@ -634,4 +638,101 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         }
     }
     
+    func toolBarButtonPopOver(action: String) {
+        
+        let actionPopOverViewController : DCPharmacistActionPopOverViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(ACTION_POPOVER_SB_ID) as? DCPharmacistActionPopOverViewController
+        let navigationController: UINavigationController = UINavigationController(rootViewController: actionPopOverViewController!)
+        navigationController.modalPresentationStyle = .Popover
+        self.presentViewController(navigationController, animated: true, completion: { _ in })
+        let presentationController: UIPopoverPresentationController = navigationController.popoverPresentationController!
+        presentationController.permittedArrowDirections = .Any
+        presentationController.sourceView = self.view
+        
+        switch action {
+        case CLINICAL_CHECK:
+            actionPopOverViewController!.preferredContentSize = CGSizeMake(popOverWidth, heightOffset + cellHeight * 2)
+            presentationController.barButtonItem = clinicalCheckBarButton
+            actionPopOverViewController?.actionType = eClinicalCheck
+            actionPopOverViewController?.pharmacistActionSelectedAtIndex = { value in
+                if value == 0 {
+                    self.clinicalCheckAction()
+                } else {
+                    self.clinicalRemoveAction()
+                }
+            }
+        case INTERVENTION_TEXT:
+            actionPopOverViewController!.preferredContentSize = CGSizeMake(popOverWidth, heightOffset + cellHeight * 3)
+            presentationController.barButtonItem = interventionBarButton
+            actionPopOverViewController?.actionType = eIntervention
+            actionPopOverViewController?.pharmacistActionSelectedAtIndex = { value in
+                if value == 0 {
+                    self.addInterventionAction()
+                } else if value == 1 {
+                    //TODO: Action for edit intervention
+                } else {
+                    self.resolveInterventionAction()
+                }
+            }
+        case UPDATE_POD_STATUS:
+            actionPopOverViewController!.preferredContentSize = CGSizeMake(popOverWidth, heightOffset + cellHeight)
+            presentationController.barButtonItem = updatePodStatusBarButton
+            actionPopOverViewController?.actionType = eUpdatePodStatus
+            actionPopOverViewController?.pharmacistActionSelectedAtIndex = { value in
+                if value == 0 {
+                    self.updatePODStatusAction()
+                }
+            }
+        case SUPPLY_REQUEST:
+            actionPopOverViewController!.preferredContentSize = CGSizeMake(popOverWidth, heightOffset + cellHeight * 2)
+            actionPopOverViewController?.pharmacistActionSelectedAtIndex = { value in
+                if value == 0 {
+                    //TODO: Action for Add supply request.
+                } else {
+                    //TODO: Action for cancel supply request.
+                }
+            }
+            presentationController.barButtonItem = supplyRequestBarButton
+            actionPopOverViewController?.actionType = eSupplyRequest
+        default:
+            break
+        }
+    }
+    
+    func presentOneThirdScreenPharmacistActions() {
+        
+        let actionDisplayViewController : DCOneThirdScreenPharmacistActionsViewController? = UIStoryboard(name: PHARMACIST_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(ONT_THIRD_ACTION_SB_ID) as? DCOneThirdScreenPharmacistActionsViewController
+        actionDisplayViewController?.oneThirdPharmacistActionSelected = { indexPath in
+            switch indexPath!.section {
+            case SectionCount.eZerothSection.rawValue:
+                if indexPath?.row == RowCount.eZerothRow.rawValue {
+                    self.clinicalCheckAction()
+                } else {
+                    self.clinicalRemoveAction()
+                }
+            case SectionCount.eFirstSection.rawValue:
+                if indexPath?.row == RowCount.eZerothRow.rawValue {
+                    self.addInterventionAction()
+                } else if indexPath?.row == RowCount.eFirstRow.rawValue {
+                    //TODO: Action for Edit intervention.
+                } else {
+                    self.resolveInterventionAction()
+                }
+            case SectionCount.eSecondSection.rawValue:
+                if indexPath?.row == RowCount.eZerothRow.rawValue {
+                    self.updatePODStatusAction()
+                }
+            case SectionCount.eThirdSection.rawValue:
+                if indexPath?.row == RowCount.eZerothRow.rawValue {
+                    //TODO: Action for Add Supply Request.
+                } else {
+                    //TODO: Action for cancel supply request.
+                }
+            default:
+                break
+            }
+        }
+        let navigationController: UINavigationController = UINavigationController(rootViewController: actionDisplayViewController!)
+        navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+        self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
+    }
 }

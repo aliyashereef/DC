@@ -154,7 +154,13 @@ typedef enum : NSUInteger {
 }InterventionType;
 
 typedef enum : NSUInteger {
-    
+    eClinicalCheck,
+    eIntervention,
+    eUpdatePodStatus,
+    eSupplyRequest
+}PharmacistBarButtonActionType;
+
+typedef enum : NSUInteger {
     eDrugChart,
     ePharmacist
 }SummaryType;
