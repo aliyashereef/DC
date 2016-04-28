@@ -98,6 +98,7 @@
 #define SUMMARY_STORYBOARD @"Summary"
 #define PHARMACIST_STORYBOARD @"Pharmacist"
 #define PHARMACIST_ACTION_STORYBOARD @"PharmacistAction"
+#define STOP_MEDICATION @"StopMedication"
 
 // Storyboard Ids
 #define PATIENT_LIST_VIEW_CONTROLLER @"patientListingViewController"

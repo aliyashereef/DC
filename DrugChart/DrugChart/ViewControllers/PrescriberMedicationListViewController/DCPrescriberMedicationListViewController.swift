@@ -13,7 +13,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
 
 @objc protocol PrescriberListDelegate {
     
-    func prescriberTableViewPannedWithTranslationParameters(xPoint : CGFloat, xVelocity : CGFloat, panEnded : Bool)
+    func prescriberTableViewPannedWithTranslationParameters(xPvart : CGFloat, xVelocity : CGFloat, panEnded : Bool)
     func todayActionForCalendarTop ()
     func refreshMedicationList()
 }
@@ -196,7 +196,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     func addPanGestureToPrescriberTableView () {
         
         // add pan gesture to table view
-        let panGesture : UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: Selector("manageActionForPanGesture:"))
+        let panGesture : UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(DCPrescriberMedicationListViewController.manageActionForPanGesture(_:)))
         medicationTableView?.addGestureRecognizer(panGesture)
         panGesture.delegate = self
     }
@@ -212,7 +212,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             panEnded = true
         }
         // translate week view
-        for var count = 0; count < indexPathArray.count; count++ {
+        for count in 0 ..< indexPathArray.count {
             let indexPath = indexPathArray[count]
             let medicationCell = medicationTableView?.cellForRowAtIndexPath(indexPath) as? PrescriberMedicationTableViewCell
             var isLastCell : Bool = false
@@ -384,7 +384,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         
         if (displayMedicationListArray.count > 0) {
             let indexPathArray : [AnyObject] = medicationTableView!.indexPathsForVisibleRows!
-            for var count = 0; count < indexPathArray.count; count++ {
+            for count in 0 ..< indexPathArray.count {
                 let indexPath = indexPathArray[count]
                 let medicationCell = medicationTableView?.cellForRowAtIndexPath(indexPath as! NSIndexPath) as? PrescriberMedicationTableViewCell
                 medicationCell!.leadingSpaceMasterToContainerView.constant = 0.0
@@ -417,7 +417,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                 self.hideAdministrationStatusViewOnSwipe(leftDetailView)
                 self.hideAdministrationStatusViewOnSwipe(masterDetailView)
                 self.hideAdministrationStatusViewOnSwipe(rightDetailView)
-                index++
+                index += 1
             }
         }
     }
@@ -592,7 +592,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             }
             slotsDictionary.setObject(NSNumber (integer: count + 1), forKey: PRESCRIBER_SLOT_VIEW_TAG)
             medicationSlotsArray.addObject(slotsDictionary)
-            count++
+            count += 1
         }
         
         return medicationSlotsArray
@@ -621,7 +621,15 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     //MARK - EditAndDeleteActionDelegate methods
     
     func stopMedicationForSelectedIndexPath(indexPath: NSIndexPath) {
-        deleteMedicationAtIndexPath(indexPath)
+        let inactiveDetailsViewController = (UIStoryboard(name: "StopMedication", bundle: nil).instantiateViewControllerWithIdentifier("StopMedicationViewController") as? DCStopMedicationViewController)!
+        let medicataionschedules = self.displayMedicationListArray.objectAtIndex(indexPath.row) as! DCMedicationScheduleDetails
+        medicataionschedules.inactiveDetails = DCInactiveDetails.init()
+        inactiveDetailsViewController.deleteingIndexPath = indexPath
+        inactiveDetailsViewController.inactiveDetails = medicataionschedules.inactiveDetails
+        let navigationController: UINavigationController = UINavigationController(rootViewController: inactiveDetailsViewController)
+        navigationController.modalPresentationStyle = .FormSheet
+        self.presentViewController(navigationController, animated: true, completion: { _ in })
+        //deleteMedicationAtIndexPath(indexPath)
     }
     
     func setIndexPathSelected(indexPath : NSIndexPath) {
@@ -715,7 +723,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         if (!isRight) {
             calendarWidthConstraint = -parentViewController.calendarViewWidth
         }
-        for var count = 0; count < indexPathArray.count; count++ {
+        for count in 0 ..< indexPathArray.count {
             let indexPath = indexPathArray[count]
             let medicationCell = medicationTableView?.cellForRowAtIndexPath(indexPath) as? PrescriberMedicationTableViewCell
             var isLastCell : Bool = false

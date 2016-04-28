@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "DCMedicationDetails.h"
+#import "DCInactiveDetails.h"
 #import "DCUser.h"
 
 @interface DCMedicationScheduleDetails : DCMedicationDetails
@@ -16,6 +17,7 @@
 @property (nonatomic, strong) NSString *scheduleId;
 @property (nonatomic, strong) NSString *nextMedicationDate;
 @property (nonatomic) BOOL isActive;
+@property (nonatomic, strong) DCInactiveDetails *inactiveDetails;
 @property (nonatomic, strong) NSMutableArray *administrationDetailsArray;
 @property (nonatomic, strong) NSMutableArray *timeChart;
 

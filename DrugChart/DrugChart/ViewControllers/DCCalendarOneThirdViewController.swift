@@ -586,7 +586,15 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     //MARK - EditDeleteActionDelegate methods
     
     func stopMedicationForSelectedIndexPath(indexPath: NSIndexPath) {
-        deleteMedicationAtIndexPath(indexPath)
+        let inactiveDetailsViewController = (UIStoryboard(name: "StopMedication", bundle: nil).instantiateViewControllerWithIdentifier("StopMedicationViewController") as? DCStopMedicationViewController)!
+        let medicataionschedules = self.displayMedicationListArray.objectAtIndex(indexPath.row) as! DCMedicationScheduleDetails
+        medicataionschedules.inactiveDetails = DCInactiveDetails.init()
+        inactiveDetailsViewController.deleteingIndexPath = indexPath
+        inactiveDetailsViewController.inactiveDetails = medicataionschedules.inactiveDetails
+        let navigationController: UINavigationController = UINavigationController(rootViewController: inactiveDetailsViewController)
+        navigationController.modalPresentationStyle = .FormSheet
+        self.presentViewController(navigationController, animated: true, completion: { _ in })
+        //deleteMedicationAtIndexPath(indexPath)
     }
     
     func setIndexPathSelected(indexPath : NSIndexPath) {
