@@ -19,14 +19,22 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     @IBOutlet weak var actionsButton: UIButton!
     
     @IBOutlet weak var clinicalCheckBarButton: UIBarButtonItem!
-    @IBOutlet weak var clinicalRemoveBarButton: UIBarButtonItem!
-    @IBOutlet weak var addInterventionBarButton: UIBarButtonItem!
-    @IBOutlet weak var resolveInterventionBarButton: UIBarButtonItem!
+    @IBOutlet weak var interventionBarButton: UIBarButtonItem!
     @IBOutlet weak var updatePodStatusBarButton: UIBarButtonItem!
+    @IBOutlet weak var supplyRequestBarButton: UIBarButtonItem!
     
+    let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
     var isInEditMode : Bool = false
     var medicationList : NSMutableArray = []
     var swipedCellIndexPath : NSIndexPath?
+    var patientDetails : DCPatient?
+    var headerHeight: CGFloat = 51
+    var popOverWidth : CGFloat = 250
+    var heightOffset : CGFloat = 26
+    var cellHeight : CGFloat = 44
+    var tableTapGesture : UITapGestureRecognizer? = nil
+    var isScrolling : Bool?
+    var selectAll : Bool?
     
     override func viewDidLoad() {
         
@@ -37,7 +45,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     override func viewDidAppear(animated: Bool) {
         
         super.viewDidAppear(animated)
-        pharmacistTableView.reloadData()
+        //pharmacistTableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -48,6 +56,8 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     override func viewDidLayoutSubviews() {
         
         super.viewDidLayoutSubviews()
+        configureNavigationBar()
+        pharmacistTableView.reloadData()
         self.configureToolBarsForEditingState(isInEditMode)
     }
     
@@ -62,11 +72,26 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         pharmacistTableView.tableFooterView = UIView()
         pharmacistTableView!.estimatedRowHeight = PHARMACIST_ROW_HEIGHT
         pharmacistTableView!.rowHeight = UITableViewAutomaticDimension
+        self.addTapGestureToNavigationBar()
     }
     
     func configureNavigationBar() {
         
-        self.title = NSLocalizedString("MEDICATION_LIST", comment: "title")
+        if appDelegate.windowState == DCWindowState.oneThirdWindow || appDelegate.windowState == DCWindowState.halfWindow {
+            self.navigationItem.titleView = nil
+            self.title = NSLocalizedString("PHARMACY_ACTIONS", comment: "title")
+            let titleView: DCOneThirdCalendarNavigationTitleView = NSBundle.mainBundle().loadNibNamed("DCOneThirdCalendarNavigationTitleView", owner: self, options: nil)[0] as! DCOneThirdCalendarNavigationTitleView
+            titleView.populateViewForPharmacistOneThirdScreen((patientDetails?.patientName)!, nhsNumber: (patientDetails?.nhs)!, dateOfBirth: (patientDetails?.dob)!, age: (patientDetails?.age)!)
+            let headerView: UIView = UIView(frame: CGRectMake(0, 0, self.view.frame.width, headerHeight))
+            titleView.center.x = headerView.center.x
+            headerView.addSubview(titleView)
+            self.pharmacistTableView.tableHeaderView = headerView
+        } else {
+            self.pharmacistTableView.tableHeaderView = nil
+            let titleView: DCOneThirdCalendarNavigationTitleView = NSBundle.mainBundle().loadNibNamed("DCOneThirdCalendarNavigationTitleView", owner: self, options: nil)[0] as! DCOneThirdCalendarNavigationTitleView
+            titleView.populateViewForPharmacistFullScreen((patientDetails?.patientName)!, nhsNumber: (patientDetails?.nhs)!, dateOfBirth: (patientDetails?.dob)!, age: (patientDetails?.age)!)
+            self.navigationItem.titleView = titleView
+        }
         DCUtility.backButtonItemForViewController(self, inNavigationController: self.navigationController, withTitle:NSLocalizedString("DRUG_CHART", comment: ""))
         self.addNavigationRightBarButtonItemForEditingState(false)
     }
@@ -81,20 +106,22 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     func addNavigationRightBarButtonItemForEditingState(isEditing : Bool) {
         
         if isEditing == false {
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: EDIT_BUTTON_TITLE, style: .Plain, target:self , action: #selector(DCPharmacistViewController.editButtonPressed))
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Edit, target: self,
+                action: #selector(DCPharmacistViewController.editButtonPressed))
         } else {
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: CANCEL_BUTTON_TITLE, style: .Plain, target:self , action: #selector(DCPharmacistViewController.cancelButtonPressed))
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: CANCEL_BUTTON_TITLE, style: .Plain, target:self,
+                                                                     action: #selector(DCPharmacistViewController.cancelButtonPressed))
         }
     }
     
     func configureToolBarsForEditingState(isEditing : Bool) {
         
-        let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
         if isEditing == false {
             medicationCountToolBar.hidden = false
             actionsButton.hidden = true
             medicationCountLabel.hidden = false
             pharmacistActionsToolBar.hidden = true
+            self.addTapGestureToPharmacistTableView()
         } else {
             if (appDelegate.windowState == DCWindowState.oneThirdWindow || appDelegate.windowState == DCWindowState.halfWindow) {
                 medicationCountToolBar.hidden = false
@@ -105,7 +132,26 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
                 medicationCountToolBar.hidden = true
                 pharmacistActionsToolBar.hidden = false
             }
+            pharmacistTableView?.removeGestureRecognizer(tableTapGesture!)
         }
+    }
+    
+    func addTapGestureToPharmacistTableView() {
+        
+        //gesture to pharmacist tableview
+        tableTapGesture = UITapGestureRecognizer(target: self, action: #selector(DCPharmacistViewController.tappedView(_:)))
+        tableTapGesture!.numberOfTapsRequired = 1
+        tableTapGesture!.cancelsTouchesInView = false
+        pharmacistTableView.addGestureRecognizer(tableTapGesture!)
+    }
+    
+    func addTapGestureToNavigationBar() {
+        
+        //gesture to navigation bar
+        let titleBarTapGesture = UITapGestureRecognizer(target: self, action: #selector(DCPharmacistViewController.tappedView(_:)))
+        titleBarTapGesture.numberOfTapsRequired = 1
+        titleBarTapGesture.cancelsTouchesInView = false
+        self.navigationController?.navigationBar.addGestureRecognizer(titleBarTapGesture)
     }
     
     func resetSwipedCellToOriginalPosition() {
@@ -235,11 +281,12 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
                     let indexOfSelectedMedication = self.medicationList.indexOfObject(value)
                     self.pharmacistTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexOfSelectedMedication, inSection: 0)], withRowAnimation: .None)
                     if self.pharmacistTableView.indexPathsForSelectedRows == nil {
-                        // radio button of tableview which denotes the edit state has to be removed
-                        self.pharmacistTableView.setEditing(false, animated: true)
-                        self.isInEditMode = false
-                        self.configureToolBarsForEditingState(false)
-                        self.addNavigationRightBarButtonItemForEditingState(false)
+                        self.cancelButtonPressed()
+                    }
+                }
+                addInterventionViewController?.cancelClicked = { value in
+                    if value {
+                        self.cancelButtonPressed()
                     }
                 }
                 let navigationController: UINavigationController = UINavigationController(rootViewController: addInterventionViewController!)
@@ -263,12 +310,11 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
                     let indexOfSelectedMedication = self.medicationList.indexOfObject(value)
                     self.pharmacistTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexOfSelectedMedication, inSection: 0)], withRowAnimation: .None)
                     if self.pharmacistTableView.indexPathsForSelectedRows == nil {
-                        // radio button of tableview which denotes the edit state has to be removed
-                        self.pharmacistTableView.setEditing(false, animated: true)
-                        self.isInEditMode = false
-                        self.configureToolBarsForEditingState(false)
-                        self.addNavigationRightBarButtonItemForEditingState(false)
+                        self.cancelButtonPressed()
                     }
+                }
+                resolveInterventionViewController?.cancelClicked = { value in
+                    self.cancelButtonPressed()
                 }
                 let navigationController: UINavigationController = UINavigationController(rootViewController: resolveInterventionViewController!)
                 navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
@@ -291,17 +337,48 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
                 let indexOfSelectedMedication = self.medicationList.indexOfObject(value)
                 self.pharmacistTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexOfSelectedMedication, inSection: 0)], withRowAnimation: .None)
                 if self.pharmacistTableView.indexPathsForSelectedRows == nil {
-                    // radio button of tableview which denotes the edit state has to be removed
-                    self.pharmacistTableView.setEditing(false, animated: true)
-                    self.isInEditMode = false
-                    self.configureToolBarsForEditingState(false)
-                    self.addNavigationRightBarButtonItemForEditingState(false)
+                    self.cancelButtonPressed()
                 }
+            }
+            updatePodStatusViewController?.cancelClicked = { value in
+                self.cancelButtonPressed()
             }
             let navigationController: UINavigationController = UINavigationController(rootViewController: updatePodStatusViewController!)
             navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
             self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
         }
+    }
+    
+    func displayPharmacistSummaryScreenForMedicationAtIndexPath(indexPath : NSIndexPath) {
+        
+        // pharmacist summary screen
+        let summaryStoryboard : UIStoryboard? = UIStoryboard(name:SUMMARY_STORYBOARD, bundle: nil)
+        let medicationSummaryViewController = summaryStoryboard!.instantiateViewControllerWithIdentifier("MedicationSummary") as? DCMedicationSummaryDisplayViewController
+        medicationSummaryViewController!.summaryType = ePharmacist
+        let medication: DCMedicationScheduleDetails = medicationList[indexPath.item] as! DCMedicationScheduleDetails
+        medicationSummaryViewController!.scheduleId = medication.scheduleId
+        medicationSummaryViewController!.medicationDetails = medication
+        let navigationController: UINavigationController = UINavigationController(rootViewController: medicationSummaryViewController!)
+        navigationController.modalPresentationStyle = .FormSheet
+        self.presentViewController(navigationController, animated: true, completion: { _ in })
+    }
+    
+    func resetOpenedPharmacistCellOnViewTouch() {
+        
+        if let indexPath = swipedCellIndexPath {
+            let pharmacistCell = pharmacistTableView?.cellForRowAtIndexPath(indexPath)
+                as? DCPharmacistTableCell
+            pharmacistCell?.swipePrescriberDetailViewToRight()
+            swipedCellIndexPath = nil
+        }
+    }
+    
+    
+    func overrideBackButtonWithSelectButton() {
+        
+        self.navigationItem.hidesBackButton = true
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: SELECT_ALL_TITLE, style: .Plain, target:self,
+                                                                action: #selector(DCPharmacistViewController.selectAllButtonPressed))
     }
 
     // MARK: TableView Methods
@@ -322,6 +399,11 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         let backgroundColorView = UIView()
         backgroundColorView.backgroundColor = UIColor.clearColor()
         pharmacistCell?.selectedBackgroundView = backgroundColorView
+        if selectAll == true {
+            tableView.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+        } else {
+            tableView.deselectRowAtIndexPath(indexPath, animated: false)
+        }
         return pharmacistCell!
     }
     
@@ -333,7 +415,24 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         if !isInEditMode {
+            self.displayPharmacistSummaryScreenForMedicationAtIndexPath(indexPath)
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
+    }
+    
+    // MARK: Touch Events
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        
+        if !isInEditMode {
+            self.resetOpenedPharmacistCellOnViewTouch()
+        }
+    }
+    
+    func tappedView(gesture : UITapGestureRecognizer) {
+        
+        if !isInEditMode {
+            self.resetOpenedPharmacistCellOnViewTouch()
         }
     }
     
@@ -352,35 +451,55 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         isInEditMode = true
         configureToolBarsForEditingState(true)
         self.addNavigationRightBarButtonItemForEditingState(true)
+        self.overrideBackButtonWithSelectButton()
     }
     
     func cancelButtonPressed() {
         
         // radio button of tableview which denotes the edit state has to be removed
+        selectAll = false
+        self.navigationItem.leftBarButtonItems = []
+        self.navigationItem.hidesBackButton = false
         pharmacistTableView.setEditing(false, animated: true)
         isInEditMode = false
         configureToolBarsForEditingState(false)
         self.addNavigationRightBarButtonItemForEditingState(false)
     }
+    
+    func selectAllButtonPressed()  {
+        
+        // select all button action
+        selectAll = true
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: DESELECT_ALL_TITLE, style: .Plain, target:self,
+                                                                action: #selector(DCPharmacistViewController.deselectAllButtonPressed))
+        pharmacistTableView.reloadData()
+    }
+    
+    func deselectAllButtonPressed() {
+        
+        selectAll = false
+        self.overrideBackButtonWithSelectButton()
+        pharmacistTableView.reloadData()
+    }
 
     @IBAction func verifyClinicalCheckButtonPressed(sender: AnyObject) {
         
-        self.clinicalCheckAction()
+        self.toolBarButtonPopOver(CLINICAL_CHECK)
     }
     
-    @IBAction func invalidateClinicalCheckButonPressed(sender: AnyObject) {
+    @IBAction func interventionButtonPressed(sender: AnyObject) {
         
-        self.clinicalRemoveAction()
+        self.toolBarButtonPopOver(INTERVENTION_TEXT)
     }
     
-    @IBAction func addInterventionButtonPressed(sender: AnyObject) {
+    @IBAction func updatePodStatusButtonPressed(sender: AnyObject) {
         
-        self.addInterventionAction()
+        self.toolBarButtonPopOver(UPDATE_POD_STATUS)
     }
     
-    @IBAction func resolveInterventionButtonPressed(sender: AnyObject) {
+    @IBAction func supplyRequestButtonPressed(sender: AnyObject) {
         
-        self.resolveInterventionAction()
+        self.toolBarButtonPopOver(SUPPLY_REQUEST)
     }
     
     @IBAction func updatePODStatusButtonPressed(sender: AnyObject) {
@@ -390,8 +509,9 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     @IBAction func actionsButtonPressed(sender: AnyObject) {
         
-        //present action sheet for iphone
-        self.presentPharmacistActionSheet()
+        //present action screen for iphone
+        self.presentOneThirdScreenPharmacistActions()
+        //self.presentPharmacistActionSheet()
     }
     
     // MARK: PharmacistCell Delegate Methods
@@ -460,17 +580,37 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         }
     }
     
+    func postTableViewScrollNotificationToTableCells() {
+        
+        let scrollParametersDictionary: Dictionary<String,Bool>! = [IS_SCROLLING: isScrolling!]
+        NSNotificationCenter.defaultCenter().postNotificationName(kPharmacistTableViewScrollNotification, object: nil, userInfo: scrollParametersDictionary)
+    }
+    
     // MARK: ScrollView Delegate Methods
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
         //close the opened cells
+        isScrolling = true
         if let indexPath = swipedCellIndexPath {
             let pharmacistCell = pharmacistTableView?.cellForRowAtIndexPath(indexPath)
                 as? DCPharmacistTableCell
             pharmacistCell?.swipePrescriberDetailViewToRight()
             swipedCellIndexPath = nil
         }
+        self.postTableViewScrollNotificationToTableCells()
+    }
+    
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        
+        isScrolling = true
+        self.postTableViewScrollNotificationToTableCells()
+    }
+    
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        
+        isScrolling = false
+        self.postTableViewScrollNotificationToTableCells()
     }
     
     override func navigationShouldPopOnBackButton() -> Bool {
@@ -491,4 +631,101 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         }
     }
     
+    func toolBarButtonPopOver(action: String) {
+        
+        let actionPopOverViewController : DCPharmacistActionPopOverViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(ACTION_POPOVER_SB_ID) as? DCPharmacistActionPopOverViewController
+        let navigationController: UINavigationController = UINavigationController(rootViewController: actionPopOverViewController!)
+        navigationController.modalPresentationStyle = .Popover
+        self.presentViewController(navigationController, animated: true, completion: { _ in })
+        let presentationController: UIPopoverPresentationController = navigationController.popoverPresentationController!
+        presentationController.permittedArrowDirections = .Any
+        presentationController.sourceView = self.view
+        
+        switch action {
+        case CLINICAL_CHECK:
+            actionPopOverViewController!.preferredContentSize = CGSizeMake(popOverWidth, heightOffset + cellHeight * 2)
+            presentationController.barButtonItem = clinicalCheckBarButton
+            actionPopOverViewController?.actionType = eClinicalCheck
+            actionPopOverViewController?.pharmacistActionSelectedAtIndex = { value in
+                if value == 0 {
+                    self.clinicalCheckAction()
+                } else {
+                    self.clinicalRemoveAction()
+                }
+            }
+        case INTERVENTION_TEXT:
+            actionPopOverViewController!.preferredContentSize = CGSizeMake(popOverWidth, heightOffset + cellHeight * 3)
+            presentationController.barButtonItem = interventionBarButton
+            actionPopOverViewController?.actionType = eIntervention
+            actionPopOverViewController?.pharmacistActionSelectedAtIndex = { value in
+                if value == 0 {
+                    self.addInterventionAction()
+                } else if value == 1 {
+                    //TODO: Action for edit intervention
+                } else {
+                    self.resolveInterventionAction()
+                }
+            }
+        case UPDATE_POD_STATUS:
+            actionPopOverViewController!.preferredContentSize = CGSizeMake(popOverWidth, heightOffset + cellHeight)
+            presentationController.barButtonItem = updatePodStatusBarButton
+            actionPopOverViewController?.actionType = eUpdatePodStatus
+            actionPopOverViewController?.pharmacistActionSelectedAtIndex = { value in
+                if value == 0 {
+                    self.updatePODStatusAction()
+                }
+            }
+        case SUPPLY_REQUEST:
+            actionPopOverViewController!.preferredContentSize = CGSizeMake(popOverWidth, heightOffset + cellHeight * 2)
+            actionPopOverViewController?.pharmacistActionSelectedAtIndex = { value in
+                if value == 0 {
+                    //TODO: Action for Add supply request.
+                } else {
+                    //TODO: Action for cancel supply request.
+                }
+            }
+            presentationController.barButtonItem = supplyRequestBarButton
+            actionPopOverViewController?.actionType = eSupplyRequest
+        default:
+            break
+        }
+    }
+    
+    func presentOneThirdScreenPharmacistActions() {
+        
+        let actionDisplayViewController : DCOneThirdScreenPharmacistActionsViewController? = UIStoryboard(name: PHARMACIST_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(ONT_THIRD_ACTION_SB_ID) as? DCOneThirdScreenPharmacistActionsViewController
+        actionDisplayViewController?.oneThirdPharmacistActionSelected = { indexPath in
+            switch indexPath!.section {
+            case SectionCount.eZerothSection.rawValue:
+                if indexPath?.row == RowCount.eZerothRow.rawValue {
+                    self.clinicalCheckAction()
+                } else {
+                    self.clinicalRemoveAction()
+                }
+            case SectionCount.eFirstSection.rawValue:
+                if indexPath?.row == RowCount.eZerothRow.rawValue {
+                    self.addInterventionAction()
+                } else if indexPath?.row == RowCount.eFirstRow.rawValue {
+                    //TODO: Action for Edit intervention.
+                } else {
+                    self.resolveInterventionAction()
+                }
+            case SectionCount.eSecondSection.rawValue:
+                if indexPath?.row == RowCount.eZerothRow.rawValue {
+                    self.updatePODStatusAction()
+                }
+            case SectionCount.eThirdSection.rawValue:
+                if indexPath?.row == RowCount.eZerothRow.rawValue {
+                    //TODO: Action for Add Supply Request.
+                } else {
+                    //TODO: Action for cancel supply request.
+                }
+            default:
+                break
+            }
+        }
+        let navigationController: UINavigationController = UINavigationController(rootViewController: actionDisplayViewController!)
+        navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+        self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
+    }
 }

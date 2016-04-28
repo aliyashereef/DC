@@ -65,12 +65,14 @@ class DCPharmacistTableCell: UITableViewCell {
     var actionButtonsTotalWidthWithEdit : CGFloat = ACTION_BUTTONS_DEFAULT_TOTAL_WIDTH_WITH_EDIT
     var actionButtonWidth : CGFloat = ACTION_BUTTON_DEFAULT_WIDTH
     let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
+    var isTableViewScrolling : Bool? = false
     
     override func awakeFromNib() {
         
         super.awakeFromNib()
         configureCellElements()
         self.addPanGestureToMedicationDetailsView()
+        self.addPharmacistTableViewScrollNotification()
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -285,7 +287,7 @@ class DCPharmacistTableCell: UITableViewCell {
         let tableView : UITableView = (self.superview?.superview as? UITableView)!
         //donot allow tableviewcell swipe when tableview is in editing mode
         setEditButtonWidth()
-        if tableView.editing == false {
+        if tableView.editing == false && isTableViewScrolling == false {
             let translate : CGPoint = panGesture.translationInView(self.contentView)
             let gestureVelocity : CGPoint = panGesture.velocityInView(self)
             if (gestureVelocity.x > PAN_VELOCITY_TRIGGER_LIMIT || gestureVelocity.x < -PAN_VELOCITY_TRIGGER_LIMIT) {
@@ -461,6 +463,16 @@ class DCPharmacistTableCell: UITableViewCell {
         self.resolveInterventionButtonWidth.constant = -(self.pharmacistDetailsViewLeadingConstraint.constant / totalButtonCount)
     }
     
+    func addPharmacistTableViewScrollNotification() {
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DCPharmacistTableCell.pharmacistTableViewIsScrolling(_:)), name: kPharmacistTableViewScrollNotification, object: nil)
+    }
+    
+    func pharmacistTableViewIsScrolling(notification : NSNotification) {
+        
+        let scrolling : Bool = notification.userInfo![IS_SCROLLING] as! Bool
+        isTableViewScrolling = scrolling
+    }
     
     // MARK: Action Methods
     

@@ -20,6 +20,7 @@ class DCPodStatusSelectionViewController: DCBaseViewController {
     var podStatusUpdated : PODStatusUpdated = { value in }
     var doneButton = UIBarButtonItem?()
     let tableviewContentOffset = 30
+    var cancelClicked : CancelButtonClicked = { value in }
     
     @IBOutlet weak var updatePodStatusTableView: UITableView!
 
@@ -112,7 +113,8 @@ class DCPodStatusSelectionViewController: DCBaseViewController {
     
     func cancelButtonPressed() {
         
-        self.presentNextMedication()
+        self.cancelClicked(true)
+        self.navigationController!.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func doneButtonPressed() {
@@ -155,6 +157,9 @@ class DCPodStatusSelectionViewController: DCBaseViewController {
                 updatePodStatusViewController?.podStatusUpdated = { value in
                     //Recursive call is done to pass data to parent.
                     self.podStatusUpdated(value)
+                }
+                updatePodStatusViewController?.cancelClicked = { value in
+                    self.cancelClicked(value)
                 }
                 let navigationController: UINavigationController = UINavigationController(rootViewController: updatePodStatusViewController!)
                 navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet

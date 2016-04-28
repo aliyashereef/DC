@@ -9,6 +9,7 @@
 import UIKit
 
 typealias InterventionUpdated = (DCMedicationScheduleDetails) -> Void
+typealias CancelButtonClicked = (Bool) -> Void
 
 class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
@@ -17,6 +18,7 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
     var indexOfCurrentMedication : Int?
     var interventionUpdated: InterventionUpdated = { value in }
     var saveButton: UIBarButtonItem =  UIBarButtonItem()
+    var cancelClicked : CancelButtonClicked = { value in }
 
     @IBOutlet weak var interventionDisplayTableView: UITableView!
     
@@ -112,7 +114,8 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
     
     func cancelButtonPressed() {
         
-        self.presentNextMedication()
+        self.cancelClicked(true)
+        self.navigationController!.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func doneButtonPressed() {
@@ -165,6 +168,9 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
                 addInterventionViewController!.interventionUpdated = { value in
                     //Recursive call is done to pass data to parent.
                     self.interventionUpdated(value)
+                }
+                addInterventionViewController?.cancelClicked = { value in
+                    self.cancelClicked(value)
                 }
                 let navigationController: UINavigationController = UINavigationController(rootViewController: addInterventionViewController!)
                 navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
