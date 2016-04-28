@@ -172,6 +172,7 @@
 		0BDFBE2F1CA11F4000DEEFE5 /* DCMedicationReview.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BDFBE2E1CA11F4000DEEFE5 /* DCMedicationReview.m */; };
 		0BDFBE331CA120D900DEEFE5 /* DCReviewInterval.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BDFBE321CA120D900DEEFE5 /* DCReviewInterval.m */; };
 		0BDFBE381CA1217500DEEFE5 /* DCReviewDate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BDFBE371CA1217500DEEFE5 /* DCReviewDate.m */; };
+		0BE2233C1CD07823008FD6B1 /* DCInterventionDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE2233B1CD07823008FD6B1 /* DCInterventionDetailsViewController.swift */; };
 		0BF2DA501ACA982E00B3ED97 /* DCErrorPopOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF2DA4F1ACA982E00B3ED97 /* DCErrorPopOverViewController.m */; };
 		0BF2DA561ACAB12700B3ED97 /* DCErrorPopOverBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF2DA551ACAB12700B3ED97 /* DCErrorPopOverBackgroundView.m */; };
 		0BF3890F1AA46746006792DE /* DCPatient.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF3890E1AA46746006792DE /* DCPatient.m */; };
@@ -698,6 +699,7 @@
 		0BDFBE321CA120D900DEEFE5 /* DCReviewInterval.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCReviewInterval.m; sourceTree = "<group>"; };
 		0BDFBE361CA1217500DEEFE5 /* DCReviewDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCReviewDate.h; sourceTree = "<group>"; };
 		0BDFBE371CA1217500DEEFE5 /* DCReviewDate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCReviewDate.m; sourceTree = "<group>"; };
+		0BE2233B1CD07823008FD6B1 /* DCInterventionDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DCInterventionDetailsViewController.swift; path = InterventionDetailsViewController/DCInterventionDetailsViewController.swift; sourceTree = "<group>"; };
 		0BF2DA4E1ACA982E00B3ED97 /* DCErrorPopOverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCErrorPopOverViewController.h; sourceTree = "<group>"; };
 		0BF2DA4F1ACA982E00B3ED97 /* DCErrorPopOverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCErrorPopOverViewController.m; sourceTree = "<group>"; };
 		0BF2DA541ACAB12700B3ED97 /* DCErrorPopOverBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCErrorPopOverBackgroundView.h; sourceTree = "<group>"; };
@@ -2038,6 +2040,7 @@
 				FDD2C8CD1C969DE700A7D6E3 /* SummaryReviewHistory */,
 				FDD2C8C41C969CC500A7D6E3 /* SummaryAdministrationHistory */,
 				FDF29CAB1C8EE3A8003C3100 /* MedicationSummaryViewController */,
+				0BE2233E1CD0874A008FD6B1 /* InterventionDetailViewController */,
 				4DD264361C7EFCF4007ACC52 /* AdministrationInProgressViewController */,
 				4D026E531C7DAF6800F9FF68 /* AdministrationReasonViewController */,
 				4DD2E26A1C7C398000950BD8 /* AdministerHelper */,
@@ -2501,6 +2504,14 @@
 				0BDFBE371CA1217500DEEFE5 /* DCReviewDate.m */,
 			);
 			path = ReviewDate;
+			sourceTree = "<group>";
+		};
+		0BE2233E1CD0874A008FD6B1 /* InterventionDetailViewController */ = {
+			isa = PBXGroup;
+			children = (
+				0BE2233B1CD07823008FD6B1 /* DCInterventionDetailsViewController.swift */,
+			);
+			name = InterventionDetailViewController;
 			sourceTree = "<group>";
 		};
 		0BF2DA4D1ACA97F700B3ED97 /* ErrorPopoverViewController */ = {
@@ -4019,6 +4030,7 @@
 				0B964C7F1C51019000CD509D /* DCInfusionsFooterView.swift in Sources */,
 				4DC527F11BE1EE2F00E2EF09 /* DCDosageMultiLineCell.swift in Sources */,
 				0BC3ACB31C0DB70B0028AF03 /* DCSchedulingInitialViewController.swift in Sources */,
+				0BE2233C1CD07823008FD6B1 /* DCInterventionDetailsViewController.swift in Sources */,
 				1FD4FCCA1BF4B7E000B77B94 /* GeneralObservationView.swift in Sources */,
 				1F5374FD1C1AE9FE00D4A64F /* LineGraphView.swift in Sources */,
 				1F7EB7201C2303A400F6F22F /* Double.swift in Sources */,

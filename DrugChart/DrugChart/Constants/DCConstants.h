@@ -172,6 +172,7 @@
 #define ADMINISTRATING_DOSE_SB_ID @"AdministratingDoseViewController"
 #define ACTION_POPOVER_SB_ID @"ActionPopOverView"
 #define ONT_THIRD_ACTION_SB_ID @"oneThirdActionView"
+#define INTERVENTION_DETAILS_SB_ID @"InterventionDetailsViewController"
 
 //Nib files
 #define WARNINGS_HEADER_VIEW_NIB @"DCWarningsHeaderView"
