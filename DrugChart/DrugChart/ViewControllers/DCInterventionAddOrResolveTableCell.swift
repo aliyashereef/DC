@@ -12,11 +12,14 @@ class DCInterventionAddOrResolveTableCell: UITableViewCell ,UITextViewDelegate {
 
     @IBOutlet weak var createdByNameLabel: UILabel!
     @IBOutlet weak var createdOnLabel: UILabel!
+    @IBOutlet weak var actionNameTitleLabel: UILabel!
+    @IBOutlet weak var actionDateTitleLabel: UILabel!
     @IBOutlet weak var reasonTextLabel: UILabel!
     
     override func awakeFromNib() {
 
         super.awakeFromNib()
+        
         // Initialization code
     }
 

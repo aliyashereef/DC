@@ -40,7 +40,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     override func viewDidAppear(animated: Bool) {
         
         super.viewDidAppear(animated)
-        pharmacistTableView.reloadData()
+        //pharmacistTableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -337,6 +337,20 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         }
     }
     
+    func displayPharmacistSummaryScreenForMedicationAtIndexPath(indexPath : NSIndexPath) {
+        
+        // pharmacist summary screen
+        let summaryStoryboard : UIStoryboard? = UIStoryboard(name:SUMMARY_STORYBOARD, bundle: nil)
+        let medicationSummaryViewController = summaryStoryboard!.instantiateViewControllerWithIdentifier("MedicationSummary") as? DCMedicationSummaryDisplayViewController
+        medicationSummaryViewController!.summaryType = ePharmacist
+        let medication: DCMedicationScheduleDetails = medicationList[indexPath.item] as! DCMedicationScheduleDetails
+        medicationSummaryViewController!.scheduleId = medication.scheduleId
+        medicationSummaryViewController!.medicationDetails = medication
+        let navigationController: UINavigationController = UINavigationController(rootViewController: medicationSummaryViewController!)
+        navigationController.modalPresentationStyle = .FormSheet
+        self.presentViewController(navigationController, animated: true, completion: { _ in })
+    }
+    
     func resetOpenedPharmacistCellOnViewTouch() {
         
         if let indexPath = swipedCellIndexPath {
@@ -389,6 +403,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         if !isInEditMode {
+            self.displayPharmacistSummaryScreenForMedicationAtIndexPath(indexPath)
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
     }
