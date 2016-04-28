@@ -23,9 +23,12 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     @IBOutlet weak var updatePodStatusBarButton: UIBarButtonItem!
     @IBOutlet weak var supplyRequestBarButton: UIBarButtonItem!
     
+    let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
     var isInEditMode : Bool = false
     var medicationList : NSMutableArray = []
     var swipedCellIndexPath : NSIndexPath?
+    var patientDetails : DCPatient?
+    var headerHeight: CGFloat = 51
     var popOverWidth : CGFloat = 250
     var heightOffset : CGFloat = 26
     var cellHeight : CGFloat = 44
@@ -54,6 +57,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     override func viewDidLayoutSubviews() {
         
         super.viewDidLayoutSubviews()
+        configureNavigationBar()
         pharmacistTableView.reloadData()
         self.configureToolBarsForEditingState(isInEditMode)
     }
@@ -75,8 +79,21 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func configureNavigationBar() {
         
-        self.title = NSLocalizedString("MEDICATION_LIST"
-            , comment: "title")
+        if appDelegate.windowState == DCWindowState.oneThirdWindow || appDelegate.windowState == DCWindowState.halfWindow {
+            self.navigationItem.titleView = nil
+            self.title = NSLocalizedString("PHARMACY_ACTIONS", comment: "title")
+            let titleView: DCOneThirdCalendarNavigationTitleView = NSBundle.mainBundle().loadNibNamed("DCOneThirdCalendarNavigationTitleView", owner: self, options: nil)[0] as! DCOneThirdCalendarNavigationTitleView
+            titleView.populateViewForPharmacistOneThirdScreen((patientDetails?.patientName)!, nhsNumber: (patientDetails?.nhs)!, dateOfBirth: (patientDetails?.dob)!, age: (patientDetails?.age)!)
+            let headerView: UIView = UIView(frame: CGRectMake(0, 0, self.view.frame.width, headerHeight))
+            titleView.center.x = headerView.center.x
+            headerView.addSubview(titleView)
+            self.pharmacistTableView.tableHeaderView = headerView
+        } else {
+            self.pharmacistTableView.tableHeaderView = nil
+            let titleView: DCOneThirdCalendarNavigationTitleView = NSBundle.mainBundle().loadNibNamed("DCOneThirdCalendarNavigationTitleView", owner: self, options: nil)[0] as! DCOneThirdCalendarNavigationTitleView
+            titleView.populateViewForPharmacistFullScreen((patientDetails?.patientName)!, nhsNumber: (patientDetails?.nhs)!, dateOfBirth: (patientDetails?.dob)!, age: (patientDetails?.age)!)
+            self.navigationItem.titleView = titleView
+        }
         DCUtility.backButtonItemForViewController(self, inNavigationController: self.navigationController, withTitle:NSLocalizedString("DRUG_CHART", comment: ""))
         self.addNavigationRightBarButtonItemForEditingState(false)
     }
@@ -101,7 +118,6 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func configureToolBarsForEditingState(isEditing : Bool) {
         
-        let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
         if isEditing == false {
             medicationCountToolBar.hidden = false
             actionsButton.hidden = true
@@ -247,6 +263,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
                 medicationObjectsArray.addObject(medicationSheduleDetails)
             } else {
                 let indexOfSelectedMedication = self.medicationList.indexOfObject(medicationSheduleDetails)
+                self.indexPathsArray.removeObject(NSIndexPath(forRow: indexOfSelectedMedication, inSection: 0))
                 self.pharmacistTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexOfSelectedMedication, inSection: 0)], withRowAnimation: .None)
             }
         }
@@ -266,15 +283,18 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
                 addInterventionViewController!.interventionUpdated = { value in
                     
                     let indexOfSelectedMedication = self.medicationList.indexOfObject(value)
-                    self.indexPathsArray.removeObjectAtIndex(0)
-                    self.pharmacistTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexOfSelectedMedication, inSection: 0)], withRowAnimation: .None)
+                    let indexPath = NSIndexPath(forRow: indexOfSelectedMedication, inSection: 0)
+                    if self.indexPathsArray.containsObject(indexPath) {
+                        self.indexPathsArray.removeObject(indexPath)
+                    }
+                    self.pharmacistTableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
                     if self.pharmacistTableView.indexPathsForSelectedRows == nil {
-                        // radio button of tableview which denotes the edit state has to be removed
-                        self.pharmacistTableView.setEditing(false, animated: true)
-                        self.isInEditMode = false
-                        self.configureToolBarsForEditingState(false)
-                        self.addNavigationRightBarButtonItemForEditingState(false)
-                        self.showNavigationBackButton()
+                        self.cancelButtonPressed()
+                    }
+                }
+                addInterventionViewController?.cancelClicked = { value in
+                    if value {
+                        self.cancelButtonPressed()
                     }
                 }
                 let navigationController: UINavigationController = UINavigationController(rootViewController: addInterventionViewController!)
@@ -295,17 +315,19 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
                 resolveInterventionViewController?.interventionType = eResolveIntervention
                 resolveInterventionViewController?.medicationList = selectedMedicationList
                 resolveInterventionViewController!.interventionUpdated = { value in
+                    
                     let indexOfSelectedMedication = self.medicationList.indexOfObject(value)
-                    self.indexPathsArray.removeObjectAtIndex(0)
-                    self.pharmacistTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexOfSelectedMedication, inSection: 0)], withRowAnimation: .None)
-                    if self.pharmacistTableView.indexPathsForSelectedRows == nil {
-                        // radio button of tableview which denotes the edit state has to be removed
-                        self.pharmacistTableView.setEditing(false, animated: true)
-                        self.isInEditMode = false
-                        self.configureToolBarsForEditingState(false)
-                        self.addNavigationRightBarButtonItemForEditingState(false)
-                        self.showNavigationBackButton()
+                    let indexPath = NSIndexPath(forRow: indexOfSelectedMedication, inSection: 0)
+                    if self.indexPathsArray.containsObject(indexPath) {
+                        self.indexPathsArray.removeObject(indexPath)
                     }
+                    self.pharmacistTableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+                    if self.pharmacistTableView.indexPathsForSelectedRows == nil {
+                        self.cancelButtonPressed()
+                    }
+                }
+                resolveInterventionViewController?.cancelClicked = { value in
+                    self.cancelButtonPressed()
                 }
                 let navigationController: UINavigationController = UINavigationController(rootViewController: resolveInterventionViewController!)
                 navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
@@ -326,16 +348,17 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
             updatePodStatusViewController!.indexOfCurrentMedication = 0
             updatePodStatusViewController?.podStatusUpdated = { value in
                 let indexOfSelectedMedication = self.medicationList.indexOfObject(value)
-                self.indexPathsArray.removeObjectAtIndex(0)
-                self.pharmacistTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexOfSelectedMedication, inSection: 0)], withRowAnimation: .None)
-                if self.pharmacistTableView.indexPathsForSelectedRows == nil {
-                    // radio button of tableview which denotes the edit state has to be removed
-                    self.pharmacistTableView.setEditing(false, animated: true)
-                    self.isInEditMode = false
-                    self.configureToolBarsForEditingState(false)
-                    self.addNavigationRightBarButtonItemForEditingState(false)
-                    self.showNavigationBackButton()
+                let indexPath = NSIndexPath(forRow: indexOfSelectedMedication, inSection: 0)
+                if self.indexPathsArray.containsObject(indexPath) {
+                    self.indexPathsArray.removeObject(indexPath)
                 }
+                self.pharmacistTableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+                if self.pharmacistTableView.indexPathsForSelectedRows == nil {
+                    self.cancelButtonPressed()
+                }
+            }
+            updatePodStatusViewController?.cancelClicked = { value in
+                self.cancelButtonPressed()
             }
             let navigationController: UINavigationController = UINavigationController(rootViewController: updatePodStatusViewController!)
             navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
@@ -428,6 +451,11 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         } else {
             if indexPathsArray.containsObject(indexPath) {
                 indexPathsArray.removeObject(indexPath)
+                if indexPathsArray.count == 0 {
+                    self.cancelButtonPressed()
+                }
+            } else {
+                indexPathsArray.addObject(indexPath)
             }
         }
      }
@@ -436,6 +464,9 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         
         if indexPathsArray.containsObject(indexPath) {
             indexPathsArray.removeObject(indexPath)
+            if indexPathsArray.count == 0 {
+                self.cancelButtonPressed()
+            }
         }
     }
     
