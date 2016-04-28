@@ -43,8 +43,6 @@ typedef enum : NSUInteger {
 
 + (UIImage *)bedTypeImageForBedType:(NSString *)bedType;
 
-+ (void)shakeView:(UIView *)viewToShake completion:(void (^)(BOOL completed))completion;
-
 + (void)roundCornersForView:(UIView *)view roundTopCorners:(BOOL)top;
 
 + (void)displayAlertWithTitle:(NSString *)title message:(NSString *)message;
@@ -70,10 +68,6 @@ typedef enum : NSUInteger {
                              font:(UIFont *)font;
 
 + (CGSize)requiredSizeForText:(NSString *)text font:(UIFont *)font maxWidth:(CGFloat)width;
-
-+ (void)startWobbleAnimationForView:(UIView *)view;
-
-+ (void)stopWobbleAnimationForView:(UIView *)view;
 
 + (void)configureDisplayElementsForTextView:(UITextView *)textView;
 

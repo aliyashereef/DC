@@ -75,7 +75,7 @@ class DCPharmacistTableCell: UITableViewCell {
     override func awakeFromNib() {
         
         super.awakeFromNib()
-        configureCellElements()
+        //configureCellElements()
         self.addPanGestureToMedicationDetailsView()
         self.addPharmacistTableViewScrollNotification()
     }
