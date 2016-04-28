@@ -28,6 +28,8 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     var medicationList : NSMutableArray = []
     var swipedCellIndexPath : NSIndexPath?
     var patientDetails : DCPatient?
+    var headerHeight: CGFloat = 51
+    
     
     override func viewDidLoad() {
         
@@ -68,13 +70,12 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func configureNavigationBar() {
         
-//        self.title = NSLocalizedString("MEDICATION_LIST", comment: "title")
         if appDelegate.windowState == DCWindowState.oneThirdWindow || appDelegate.windowState == DCWindowState.halfWindow {
             self.navigationItem.titleView = nil
-            self.title = NSLocalizedString("MEDICATION_LIST", comment: "title")
+            self.title = NSLocalizedString("PHARMACY_ACTIONS", comment: "title")
             let titleView: DCOneThirdCalendarNavigationTitleView = NSBundle.mainBundle().loadNibNamed("DCOneThirdCalendarNavigationTitleView", owner: self, options: nil)[0] as! DCOneThirdCalendarNavigationTitleView
             titleView.populateViewForPharmacistOneThirdScreen((patientDetails?.patientName)!, nhsNumber: (patientDetails?.nhs)!, dateOfBirth: (patientDetails?.dob)!, age: (patientDetails?.age)!)
-            let headerView: UIView = UIView(frame: CGRectMake(0, 0, self.view.frame.width, 51))
+            let headerView: UIView = UIView(frame: CGRectMake(0, 0, self.view.frame.width, headerHeight))
             titleView.center.x = headerView.center.x
             headerView.addSubview(titleView)
             self.pharmacistTableView.tableHeaderView = headerView

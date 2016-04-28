@@ -194,6 +194,7 @@
 "MEDICATIONS"          =        "Medications";
 "ADD_INTERVENTION"     =        "Add Intervention";
 "SELECT_POD_STATUS"    =        "Select a POD status.";
+"PHARMACY_ACTIONS"     =        "Pharmacy Actions";
 
 "ACTIONS"              =       "Actions";
 "WARNINGS"             =       "Warnings";
