@@ -42,4 +42,34 @@ class DCOneThirdCalendarNavigationTitleView: UIView {
         nhsLabel.text = EMPTY_STRING as String
         dobLabel.text = String(format: "\(dobDateString as String) (\(age as String) years), \(nhsNumber as String)")
     }
+    
+    func populateViewForPharmacistFullScreen(patientName: NSString, nhsNumber : NSString, dateOfBirth : NSDate, age: NSString) {
+        
+        let dateFormatter : NSDateFormatter = NSDateFormatter.init()
+        dateFormatter.dateFormat = BIRTH_DATE_FORMAT
+        patientNameLabelTopSpaceConstraint.constant = 8.0
+        let dobDateString = dateFormatter.stringFromDate(dateOfBirth)
+        patientNameLabel.text = NSLocalizedString("MEDICATION_LIST", comment: "title")
+        patientNameLabel.font = UIFont.boldSystemFontOfSize(18)
+        nhsLabel.text = EMPTY_STRING as String
+        dobLabel.text = String(format: "\(patientName as String) | \(dobDateString as String)(\(age as String) years) | \(nhsNumber as String)")
+        dobLabel.font = UIFont.systemFontOfSize(12)
+    }
+    
+    func populateViewForPharmacistOneThirdScreen(patientName: NSString, nhsNumber : NSString, dateOfBirth : NSDate, age: NSString) {
+        
+        let dateFormatter : NSDateFormatter = NSDateFormatter.init()
+        dateFormatter.dateFormat = BIRTH_DATE_FORMAT
+        patientNameLabelTopSpaceConstraint.constant = 8.0
+        let dobDateString = dateFormatter.stringFromDate(dateOfBirth)
+        patientNameLabel.text = patientName as String
+        if #available(iOS 8.2, *) {
+            patientNameLabel.font = UIFont.systemFontOfSize(12, weight: UIFontWeightMedium)
+        } else {
+            // Fallback on earlier versions
+        }
+        nhsLabel.text = EMPTY_STRING as String
+        dobLabel.text = String(format: "\(dobDateString as String) (\(age as String) years) | \(nhsNumber as String)")
+        dobLabel.font = UIFont.systemFontOfSize(12)
+    }
 }

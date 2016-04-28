@@ -23,10 +23,11 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     @IBOutlet weak var addInterventionBarButton: UIBarButtonItem!
     @IBOutlet weak var resolveInterventionBarButton: UIBarButtonItem!
     @IBOutlet weak var updatePodStatusBarButton: UIBarButtonItem!
-    
+    let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
     var isInEditMode : Bool = false
     var medicationList : NSMutableArray = []
     var swipedCellIndexPath : NSIndexPath?
+    var patientDetails : DCPatient?
     
     override func viewDidLoad() {
         
@@ -48,6 +49,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     override func viewDidLayoutSubviews() {
         
         super.viewDidLayoutSubviews()
+        configureNavigationBar()
         self.configureToolBarsForEditingState(isInEditMode)
     }
     
@@ -66,7 +68,22 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func configureNavigationBar() {
         
-        self.title = NSLocalizedString("MEDICATION_LIST", comment: "title")
+//        self.title = NSLocalizedString("MEDICATION_LIST", comment: "title")
+        if appDelegate.windowState == DCWindowState.oneThirdWindow || appDelegate.windowState == DCWindowState.halfWindow {
+            self.navigationItem.titleView = nil
+            self.title = NSLocalizedString("MEDICATION_LIST", comment: "title")
+            let titleView: DCOneThirdCalendarNavigationTitleView = NSBundle.mainBundle().loadNibNamed("DCOneThirdCalendarNavigationTitleView", owner: self, options: nil)[0] as! DCOneThirdCalendarNavigationTitleView
+            titleView.populateViewForPharmacistOneThirdScreen((patientDetails?.patientName)!, nhsNumber: (patientDetails?.nhs)!, dateOfBirth: (patientDetails?.dob)!, age: (patientDetails?.age)!)
+            let headerView: UIView = UIView(frame: CGRectMake(0, 0, self.view.frame.width, 51))
+            titleView.center.x = headerView.center.x
+            headerView.addSubview(titleView)
+            self.pharmacistTableView.tableHeaderView = headerView
+        } else {
+            self.pharmacistTableView.tableHeaderView = nil
+            let titleView: DCOneThirdCalendarNavigationTitleView = NSBundle.mainBundle().loadNibNamed("DCOneThirdCalendarNavigationTitleView", owner: self, options: nil)[0] as! DCOneThirdCalendarNavigationTitleView
+            titleView.populateViewForPharmacistFullScreen((patientDetails?.patientName)!, nhsNumber: (patientDetails?.nhs)!, dateOfBirth: (patientDetails?.dob)!, age: (patientDetails?.age)!)
+            self.navigationItem.titleView = titleView
+        }
         DCUtility.backButtonItemForViewController(self, inNavigationController: self.navigationController, withTitle:NSLocalizedString("DRUG_CHART", comment: ""))
         self.addNavigationRightBarButtonItemForEditingState(false)
     }
@@ -89,7 +106,6 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func configureToolBarsForEditingState(isEditing : Bool) {
         
-        let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
         if isEditing == false {
             medicationCountToolBar.hidden = false
             actionsButton.hidden = true
