@@ -21,6 +21,7 @@ class DCMedicationSummaryDisplayViewController: UIViewController, UITableViewDel
     var errorMessage : String = EMPTY_STRING
     var helper : DCSwiftObjCNavigationHelper = DCSwiftObjCNavigationHelper.init()
     let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
+    var summaryType : SummaryType?
     
     override func viewDidLoad() {
         
@@ -39,7 +40,7 @@ class DCMedicationSummaryDisplayViewController: UIViewController, UITableViewDel
         //Navigation bar title string
         self.title = "Medication Details"
         // Navigation bar done button
-        let doneButton : UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: "doneButtonPressed")
+        let doneButton : UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(DCMedicationSummaryDisplayViewController.doneButtonPressed))
         if (appDelegate.windowState == DCWindowState.halfWindow || appDelegate.windowState == DCWindowState.oneThirdWindow) {
             self.navigationItem.rightBarButtonItems = [doneButton]
         } else {
@@ -97,17 +98,28 @@ class DCMedicationSummaryDisplayViewController: UIViewController, UITableViewDel
         return PENDING
     }
     
+    func displayInterventionDetailsScreen() {
+        
+        let interventionDetailsViewController = UIStoryboard(name: SUMMARY_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(INTERVENTION_DETAILS_SB_ID) as? DCInterventionDetailsViewController
+        self.navigationController?.pushViewController(interventionDetailsViewController!, animated: true)
+    }
+        
     //MARK: TableView Delegate Methods
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        
         return 2
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         switch section {
-        case 0 : return 1
-        case 1 : return 2
-        default : break
+            case 0 :
+                return 1
+            case 1 :
+                return (summaryType == eDrugChart) ? 2 : 1
+            default :
+                break
         }
         return 0
     }
@@ -127,6 +139,7 @@ class DCMedicationSummaryDisplayViewController: UIViewController, UITableViewDel
         let cell = summaryDisplayTableView.dequeueReusableCellWithIdentifier("summaryDisplayHeaderCell") as? DCMedicationSummaryDisplayHeaderTableViewCell
         if let _ = medicationDetails {
             cell!.configureMedicationDetails(medicationDetails!)
+            cell!.pharmacistFirstStatusImageView.image = (summaryType == eDrugChart) ? nil : UIImage(named: CLINICAL_CHECK_IPAD_IMAGE)
         }
         return cell!
     }
@@ -134,10 +147,14 @@ class DCMedicationSummaryDisplayViewController: UIViewController, UITableViewDel
     func configureContentCellAtIndexPath (indexPath :NSIndexPath) -> DCMedicationSummaryDisplayTableViewCell{
         
         let cell : DCMedicationSummaryDisplayTableViewCell = summaryDisplayTableView.dequeueReusableCellWithIdentifier("menuCell") as! DCMedicationSummaryDisplayTableViewCell
-        if indexPath.row == 0 {
-            cell.contentLabel.text = "Administration History"
+        if (summaryType == eDrugChart) {
+            if indexPath.row == 0 {
+                cell.contentLabel.text = "Administration History"
+            } else {
+                cell.contentLabel.text = "Review History"
+            }
         } else {
-            cell.contentLabel.text = "Review History"
+            cell.contentLabel.text = NSLocalizedString("INTERVENTION_DETAILS", comment: "intervention details title")
         }
         return cell
     }
@@ -149,9 +166,14 @@ class DCMedicationSummaryDisplayViewController: UIViewController, UITableViewDel
             
         } else {
             if indexPath.row == 0 {
-                let administrationHistoryViewController : DCSummaryAdministrationHistoryViewController? = UIStoryboard(name: SUMMARY_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(MEDICATION_SUMMARY_ADMINISTRATION_HISTORY_SBID) as? DCSummaryAdministrationHistoryViewController
-                administrationHistoryViewController?.medicationType = DCCalendarHelper.typeDescriptionForMedication(medicationDetails!)
-                self.navigationController?.pushViewController(administrationHistoryViewController!, animated: true)
+                if (summaryType == eDrugChart) {
+                    let administrationHistoryViewController : DCSummaryAdministrationHistoryViewController? = UIStoryboard(name: SUMMARY_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(MEDICATION_SUMMARY_ADMINISTRATION_HISTORY_SBID) as? DCSummaryAdministrationHistoryViewController
+                    administrationHistoryViewController?.medicationType = DCCalendarHelper.typeDescriptionForMedication(medicationDetails!)
+                    self.navigationController?.pushViewController(administrationHistoryViewController!, animated: true)
+                } else {
+                    // display intervention details view here
+                    self.displayInterventionDetailsScreen()
+                }
             } else {
                 let summaryHistoryViewController : DCSummaryReviewHistoryDisplayViewController? = UIStoryboard(name: SUMMARY_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(MEDICATION_SUMMARY_REVIEW_HISTORY_SBID) as? DCSummaryReviewHistoryDisplayViewController
                 self.navigationController?.pushViewController(summaryHistoryViewController!, animated: true)
