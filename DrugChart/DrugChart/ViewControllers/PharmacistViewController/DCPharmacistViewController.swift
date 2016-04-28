@@ -250,6 +250,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func addInterventionAction() {
         
+        selectAll = false
         var selectedMedicationList : NSMutableArray = []
         if pharmacistTableView.indexPathsForSelectedRows?.count > 0 {
             selectedMedicationList = self.configureSelectedMedicationList(false)
@@ -267,6 +268,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
                         self.isInEditMode = false
                         self.configureToolBarsForEditingState(false)
                         self.addNavigationRightBarButtonItemForEditingState(false)
+                        self.showNavigationBackButton()
                     }
                 }
                 let navigationController: UINavigationController = UINavigationController(rootViewController: addInterventionViewController!)
@@ -278,6 +280,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func resolveInterventionAction() {
         
+        selectAll = false
         var selectedMedicationList : NSMutableArray = []
         if pharmacistTableView.indexPathsForSelectedRows?.count > 0 {
             selectedMedicationList = self.configureSelectedMedicationList(true)
@@ -295,6 +298,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
                         self.isInEditMode = false
                         self.configureToolBarsForEditingState(false)
                         self.addNavigationRightBarButtonItemForEditingState(false)
+                        self.showNavigationBackButton()
                     }
                 }
                 let navigationController: UINavigationController = UINavigationController(rootViewController: resolveInterventionViewController!)
@@ -308,6 +312,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func updatePODStatusAction() {
         
+        selectAll = false
         if pharmacistTableView.indexPathsForSelectedRows?.count > 0 {
             let updatePodStatusViewController : DCPodStatusSelectionViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(UPDATE_POD_STATUS_SB_ID) as? DCPodStatusSelectionViewController
             for i in 0..<self.pharmacistTableView.indexPathsForSelectedRows!.count {
@@ -323,6 +328,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
                     self.isInEditMode = false
                     self.configureToolBarsForEditingState(false)
                     self.addNavigationRightBarButtonItemForEditingState(false)
+                    self.showNavigationBackButton()
                 }
             }
             let navigationController: UINavigationController = UINavigationController(rootViewController: updatePodStatusViewController!)
@@ -345,8 +351,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     func overrideBackButtonWithSelectButton() {
         
         self.navigationItem.hidesBackButton = true
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: SELECT_ALL_TITLE, style: .Plain, target:self,
-                                                                action: #selector(DCPharmacistViewController.selectAllButtonPressed))
+        self.addSelectAllBarButton()
     }
 
     // MARK: TableView Methods
@@ -426,8 +431,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         
         // radio button of tableview which denotes the edit state has to be removed
         selectAll = false
-        self.navigationItem.leftBarButtonItems = []
-        self.navigationItem.hidesBackButton = false
+        showNavigationBackButton()
         pharmacistTableView.setEditing(false, animated: true)
         isInEditMode = false
         configureToolBarsForEditingState(false)
@@ -438,9 +442,26 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         
         // select all button action
         selectAll = true
+        self.addDeselectAllBarButton()
+        pharmacistTableView.reloadData()
+    }
+    
+    func showNavigationBackButton() {
+        
+        self.navigationItem.leftBarButtonItems = []
+        self.navigationItem.hidesBackButton = false
+    }
+    
+    func addDeselectAllBarButton() {
+        
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: DESELECT_ALL_TITLE, style: .Plain, target:self,
                                                                 action: #selector(DCPharmacistViewController.deselectAllButtonPressed))
-        pharmacistTableView.reloadData()
+    }
+    
+    func addSelectAllBarButton() {
+        
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: SELECT_ALL_TITLE, style: .Plain, target:self,
+                                                                action: #selector(DCPharmacistViewController.selectAllButtonPressed))
     }
     
     func deselectAllButtonPressed() {

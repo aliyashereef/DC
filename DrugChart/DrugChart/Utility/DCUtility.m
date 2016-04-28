@@ -91,53 +91,6 @@
     return [UIImage imageNamed:@"Bed"];
 }
 
-+ (void)shakeView:(UIView *)viewToShake completion:(void (^)(BOOL completed))completion {
-    
-    CGFloat t = 2.0;
-    CGAffineTransform translateRight  = CGAffineTransformTranslate(CGAffineTransformIdentity, t, 0.0);
-    CGAffineTransform translateLeft = CGAffineTransformTranslate(CGAffineTransformIdentity, -t, 0.0);
-    
-    viewToShake.transform = translateLeft;
-    
-    [UIView animateWithDuration:0.1 delay:0.0 options:UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat animations:^{
-        [UIView setAnimationRepeatCount:5.0];
-        viewToShake.transform = translateRight;
-    } completion:^(BOOL finished) {
-        if (finished) {
-            [UIView animateWithDuration:0.07 delay:0.0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-                viewToShake.transform = CGAffineTransformIdentity;
-            } completion:^(BOOL finished) {
-                completion(YES);
-            }];
-        }
-    }];
-}
-
-+ (void)startWobbleAnimationForView:(UIView *)view {
-    
-    view.transform = CGAffineTransformRotate(CGAffineTransformIdentity, RADIANS(-1.5));
-    [UIView animateWithDuration:0.2
-                          delay:0.0
-                        options:(UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionRepeat | UIViewAnimationOptionAutoreverse)
-                     animations:^ {
-                         view.transform = CGAffineTransformRotate(CGAffineTransformIdentity, RADIANS(1.5));
-                     }
-                     completion:NULL
-     ];
-}
-
-+ (void)stopWobbleAnimationForView:(UIView *)view {
-    
-    [UIView animateWithDuration:0.2
-                          delay:0.0
-                        options:(UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveLinear)
-                     animations:^ {
-                         view.transform = CGAffineTransformIdentity;
-                     }
-                     completion:NULL
-     ];
-}
-
 + (void)roundCornersForView:(UIView *)view roundTopCorners:(BOOL)top {
     
     //curve corners of a view. This method curves top/bottom corners
