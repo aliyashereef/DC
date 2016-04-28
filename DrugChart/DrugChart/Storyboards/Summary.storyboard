@@ -32,7 +32,7 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qhJ-W6-ERp" userLabel="StatusView">
                                                     <rect key="frame" x="10" y="0.0" width="13" height="79"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="VerifyIcon" translatesAutoresizingMaskIntoConstraints="NO" id="WQP-FP-dTo" userLabel="FirstStatusImageView">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WQP-FP-dTo" userLabel="FirstStatusImageView">
                                                             <rect key="frame" x="0.0" y="14" width="13" height="13"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="13" id="3VN-4r-5kI"/>
@@ -73,8 +73,8 @@
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="MGF-oI-Ono"/>
-                                                            <exclude reference="bZm-td-ze6"/>
                                                             <exclude reference="KNM-QM-e0t"/>
+                                                            <exclude reference="bZm-td-ze6"/>
                                                             <exclude reference="Tlq-Hq-pn4"/>
                                                             <exclude reference="psm-2W-jMg"/>
                                                         </mask>
@@ -548,7 +548,4 @@
             <point key="canvasLocation" x="1136" y="-84"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="VerifyIcon" width="13" height="13"/>
-    </resources>
 </document>

@@ -103,7 +103,7 @@ class DCMedicationSummaryDisplayViewController: UIViewController, UITableViewDel
         let interventionDetailsViewController = UIStoryboard(name: SUMMARY_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(INTERVENTION_DETAILS_SB_ID) as? DCInterventionDetailsViewController
         self.navigationController?.pushViewController(interventionDetailsViewController!, animated: true)
     }
-    
+        
     //MARK: TableView Delegate Methods
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
