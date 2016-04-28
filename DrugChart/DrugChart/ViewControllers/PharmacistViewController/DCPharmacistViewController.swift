@@ -29,6 +29,9 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     var popOverWidth : CGFloat = 250
     var heightOffset : CGFloat = 26
     var cellHeight : CGFloat = 44
+    var tableTapGesture : UITapGestureRecognizer? = nil
+    var isScrolling : Bool?
+    var selectAll : Bool?
     
     override func viewDidLoad() {
         
@@ -50,6 +53,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     override func viewDidLayoutSubviews() {
         
         super.viewDidLayoutSubviews()
+        pharmacistTableView.reloadData()
         self.configureToolBarsForEditingState(isInEditMode)
     }
     
@@ -64,6 +68,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         pharmacistTableView.tableFooterView = UIView()
         pharmacistTableView!.estimatedRowHeight = PHARMACIST_ROW_HEIGHT
         pharmacistTableView!.rowHeight = UITableViewAutomaticDimension
+        self.addTapGestureToNavigationBar()
     }
     
     func configureNavigationBar() {
@@ -84,9 +89,11 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     func addNavigationRightBarButtonItemForEditingState(isEditing : Bool) {
         
         if isEditing == false {
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: EDIT_BUTTON_TITLE, style: .Plain, target:self , action: #selector(DCPharmacistViewController.editButtonPressed))
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Edit, target: self,
+                action: #selector(DCPharmacistViewController.editButtonPressed))
         } else {
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: CANCEL_BUTTON_TITLE, style: .Plain, target:self , action: #selector(DCPharmacistViewController.cancelButtonPressed))
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: CANCEL_BUTTON_TITLE, style: .Plain, target:self,
+                                                                     action: #selector(DCPharmacistViewController.cancelButtonPressed))
         }
     }
     
@@ -98,6 +105,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
             actionsButton.hidden = true
             medicationCountLabel.hidden = false
             pharmacistActionsToolBar.hidden = true
+            self.addTapGestureToPharmacistTableView()
         } else {
             if (appDelegate.windowState == DCWindowState.oneThirdWindow || appDelegate.windowState == DCWindowState.halfWindow) {
                 medicationCountToolBar.hidden = false
@@ -108,7 +116,26 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
                 medicationCountToolBar.hidden = true
                 pharmacistActionsToolBar.hidden = false
             }
+            pharmacistTableView?.removeGestureRecognizer(tableTapGesture!)
         }
+    }
+    
+    func addTapGestureToPharmacistTableView() {
+        
+        //gesture to pharmacist tableview
+        tableTapGesture = UITapGestureRecognizer(target: self, action: #selector(DCPharmacistViewController.tappedView(_:)))
+        tableTapGesture!.numberOfTapsRequired = 1
+        tableTapGesture!.cancelsTouchesInView = false
+        pharmacistTableView.addGestureRecognizer(tableTapGesture!)
+    }
+    
+    func addTapGestureToNavigationBar() {
+        
+        //gesture to navigation bar
+        let titleBarTapGesture = UITapGestureRecognizer(target: self, action: #selector(DCPharmacistViewController.tappedView(_:)))
+        titleBarTapGesture.numberOfTapsRequired = 1
+        titleBarTapGesture.cancelsTouchesInView = false
+        self.navigationController?.navigationBar.addGestureRecognizer(titleBarTapGesture)
     }
     
     func resetSwipedCellToOriginalPosition() {
@@ -306,6 +333,24 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
             self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
         }
     }
+    
+    func resetOpenedPharmacistCellOnViewTouch() {
+        
+        if let indexPath = swipedCellIndexPath {
+            let pharmacistCell = pharmacistTableView?.cellForRowAtIndexPath(indexPath)
+                as? DCPharmacistTableCell
+            pharmacistCell?.swipePrescriberDetailViewToRight()
+            swipedCellIndexPath = nil
+        }
+    }
+    
+    
+    func overrideBackButtonWithSelectButton() {
+        
+        self.navigationItem.hidesBackButton = true
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: SELECT_ALL_TITLE, style: .Plain, target:self,
+                                                                action: #selector(DCPharmacistViewController.selectAllButtonPressed))
+    }
 
     // MARK: TableView Methods
     
@@ -325,6 +370,11 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         let backgroundColorView = UIView()
         backgroundColorView.backgroundColor = UIColor.clearColor()
         pharmacistCell?.selectedBackgroundView = backgroundColorView
+        if selectAll == true {
+            tableView.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+        } else {
+            tableView.deselectRowAtIndexPath(indexPath, animated: false)
+        }
         return pharmacistCell!
     }
     
@@ -337,6 +387,22 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         
         if !isInEditMode {
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
+    }
+    
+    // MARK: Touch Events
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        
+        if !isInEditMode {
+            self.resetOpenedPharmacistCellOnViewTouch()
+        }
+    }
+    
+    func tappedView(gesture : UITapGestureRecognizer) {
+        
+        if !isInEditMode {
+            self.resetOpenedPharmacistCellOnViewTouch()
         }
     }
     
@@ -355,15 +421,35 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         isInEditMode = true
         configureToolBarsForEditingState(true)
         self.addNavigationRightBarButtonItemForEditingState(true)
+        self.overrideBackButtonWithSelectButton()
     }
     
     func cancelButtonPressed() {
         
         // radio button of tableview which denotes the edit state has to be removed
+        selectAll = false
+        self.navigationItem.leftBarButtonItems = []
+        self.navigationItem.hidesBackButton = false
         pharmacistTableView.setEditing(false, animated: true)
         isInEditMode = false
         configureToolBarsForEditingState(false)
         self.addNavigationRightBarButtonItemForEditingState(false)
+    }
+    
+    func selectAllButtonPressed()  {
+        
+        // select all button action
+        selectAll = true
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: DESELECT_ALL_TITLE, style: .Plain, target:self,
+                                                                action: #selector(DCPharmacistViewController.deselectAllButtonPressed))
+        pharmacistTableView.reloadData()
+    }
+    
+    func deselectAllButtonPressed() {
+        
+        selectAll = false
+        self.overrideBackButtonWithSelectButton()
+        pharmacistTableView.reloadData()
     }
 
     @IBAction func verifyClinicalCheckButtonPressed(sender: AnyObject) {
@@ -464,17 +550,37 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         }
     }
     
+    func postTableViewScrollNotificationToTableCells() {
+        
+        let scrollParametersDictionary: Dictionary<String,Bool>! = [IS_SCROLLING: isScrolling!]
+        NSNotificationCenter.defaultCenter().postNotificationName(kPharmacistTableViewScrollNotification, object: nil, userInfo: scrollParametersDictionary)
+    }
+    
     // MARK: ScrollView Delegate Methods
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
         //close the opened cells
+        isScrolling = true
         if let indexPath = swipedCellIndexPath {
             let pharmacistCell = pharmacistTableView?.cellForRowAtIndexPath(indexPath)
                 as? DCPharmacistTableCell
             pharmacistCell?.swipePrescriberDetailViewToRight()
             swipedCellIndexPath = nil
         }
+        self.postTableViewScrollNotificationToTableCells()
+    }
+    
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        
+        isScrolling = true
+        self.postTableViewScrollNotificationToTableCells()
+    }
+    
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        
+        isScrolling = false
+        self.postTableViewScrollNotificationToTableCells()
     }
     
     override func navigationShouldPopOnBackButton() -> Bool {
