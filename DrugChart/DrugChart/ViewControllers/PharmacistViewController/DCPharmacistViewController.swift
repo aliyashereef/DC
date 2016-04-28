@@ -31,7 +31,8 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     var cellHeight : CGFloat = 44
     var tableTapGesture : UITapGestureRecognizer? = nil
     var isScrolling : Bool?
-    var selectAll : Bool?
+   // var selectAll : Bool?
+    var indexPathsArray : NSMutableArray = []
     
     override func viewDidLoad() {
         
@@ -64,6 +65,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         configureNavigationBar()
         configureMedicationCountToolBar()
         pharmacistTableView.allowsMultipleSelectionDuringEditing = true
+        pharmacistTableView.allowsSelectionDuringEditing = true
         //for automatic table row height adjustment
         pharmacistTableView.tableFooterView = UIView()
         pharmacistTableView!.estimatedRowHeight = PHARMACIST_ROW_HEIGHT
@@ -253,7 +255,6 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func addInterventionAction() {
         
-        selectAll = false
         var selectedMedicationList : NSMutableArray = []
         if pharmacistTableView.indexPathsForSelectedRows?.count > 0 {
             selectedMedicationList = self.configureSelectedMedicationList(false)
@@ -263,7 +264,9 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
                 addInterventionViewController?.interventionType = eAddIntervention
                 addInterventionViewController?.medicationList = selectedMedicationList
                 addInterventionViewController!.interventionUpdated = { value in
+                    
                     let indexOfSelectedMedication = self.medicationList.indexOfObject(value)
+                    self.indexPathsArray.removeObjectAtIndex(0)
                     self.pharmacistTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexOfSelectedMedication, inSection: 0)], withRowAnimation: .None)
                     if self.pharmacistTableView.indexPathsForSelectedRows == nil {
                         // radio button of tableview which denotes the edit state has to be removed
@@ -283,7 +286,6 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func resolveInterventionAction() {
         
-        selectAll = false
         var selectedMedicationList : NSMutableArray = []
         if pharmacistTableView.indexPathsForSelectedRows?.count > 0 {
             selectedMedicationList = self.configureSelectedMedicationList(true)
@@ -294,6 +296,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
                 resolveInterventionViewController?.medicationList = selectedMedicationList
                 resolveInterventionViewController!.interventionUpdated = { value in
                     let indexOfSelectedMedication = self.medicationList.indexOfObject(value)
+                    self.indexPathsArray.removeObjectAtIndex(0)
                     self.pharmacistTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexOfSelectedMedication, inSection: 0)], withRowAnimation: .None)
                     if self.pharmacistTableView.indexPathsForSelectedRows == nil {
                         // radio button of tableview which denotes the edit state has to be removed
@@ -315,7 +318,6 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func updatePODStatusAction() {
         
-        selectAll = false
         if pharmacistTableView.indexPathsForSelectedRows?.count > 0 {
             let updatePodStatusViewController : DCPodStatusSelectionViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(UPDATE_POD_STATUS_SB_ID) as? DCPodStatusSelectionViewController
             for i in 0..<self.pharmacistTableView.indexPathsForSelectedRows!.count {
@@ -324,6 +326,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
             updatePodStatusViewController!.indexOfCurrentMedication = 0
             updatePodStatusViewController?.podStatusUpdated = { value in
                 let indexOfSelectedMedication = self.medicationList.indexOfObject(value)
+                self.indexPathsArray.removeObjectAtIndex(0)
                 self.pharmacistTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexOfSelectedMedication, inSection: 0)], withRowAnimation: .None)
                 if self.pharmacistTableView.indexPathsForSelectedRows == nil {
                     // radio button of tableview which denotes the edit state has to be removed
@@ -370,6 +373,19 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         self.navigationItem.hidesBackButton = true
         self.addSelectAllBarButton()
     }
+    
+    func populateIndexPathsArray() {
+        
+        let sections = pharmacistTableView.numberOfSections
+        indexPathsArray = NSMutableArray()
+        for section in 0..<sections {
+            let rows = pharmacistTableView.numberOfRowsInSection(section)
+            for row in 0..<rows {
+                let indexPath = NSIndexPath(forRow: row, inSection: section)
+                indexPathsArray.addObject(indexPath)
+            }
+        }
+    }
 
     // MARK: TableView Methods
     
@@ -390,7 +406,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         let backgroundColorView = UIView()
         backgroundColorView.backgroundColor = UIColor.clearColor()
         pharmacistCell?.selectedBackgroundView = backgroundColorView
-        if selectAll == true {
+        if (indexPathsArray.containsObject(indexPath)) {
             tableView.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
         } else {
             tableView.deselectRowAtIndexPath(indexPath, animated: false)
@@ -405,9 +421,21 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
+        
         if !isInEditMode {
             self.displayPharmacistSummaryScreenForMedicationAtIndexPath(indexPath)
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        } else {
+            if indexPathsArray.containsObject(indexPath) {
+                indexPathsArray.removeObject(indexPath)
+            }
+        }
+     }
+    
+    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        if indexPathsArray.containsObject(indexPath) {
+            indexPathsArray.removeObject(indexPath)
         }
     }
     
@@ -448,7 +476,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     func cancelButtonPressed() {
         
         // radio button of tableview which denotes the edit state has to be removed
-        selectAll = false
+        indexPathsArray.removeAllObjects()
         showNavigationBackButton()
         pharmacistTableView.setEditing(false, animated: true)
         isInEditMode = false
@@ -459,7 +487,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     func selectAllButtonPressed()  {
         
         // select all button action
-        selectAll = true
+        self.populateIndexPathsArray()
         self.addDeselectAllBarButton()
         pharmacistTableView.reloadData()
     }
@@ -484,8 +512,8 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func deselectAllButtonPressed() {
         
-        selectAll = false
         self.overrideBackButtonWithSelectButton()
+        indexPathsArray.removeAllObjects()
         pharmacistTableView.reloadData()
     }
 
