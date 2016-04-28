@@ -370,6 +370,7 @@ class DCPharmacistTableCell: UITableViewCell {
         if medicationDetails?.pharmacistAction?.intervention?.toResolve == false {
             // intervention not added yet or added intervention has been resolved
             resolveInterventionButton.setTitle(ADD_INTERVENTION, forState: .Normal)
+            editInterventionButton.setTitle(EMPTY_STRING, forState: .Normal)
             editInterventionButtonWidth.constant = 0.0
         } else {
             resolveInterventionButton.setTitle(RESOLVE_INTERVENTION, forState: .Normal)
