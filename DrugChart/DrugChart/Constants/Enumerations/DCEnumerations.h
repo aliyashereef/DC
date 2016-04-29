@@ -150,7 +150,8 @@ typedef enum : NSUInteger {
 
 typedef enum : NSUInteger {
     eAddIntervention,
-    eResolveIntervention
+    eResolveIntervention,
+    eEditIntervention
 }InterventionType;
 
 typedef enum : NSUInteger {

@@ -37,9 +37,9 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
     func configureNavigationBarItems() {
         
         // Configure bar buttons for Add and Resolve Intervention.
-        let cancelButton: UIBarButtonItem = UIBarButtonItem(title: CANCEL_BUTTON_TITLE, style: .Plain, target: self, action: "cancelButtonPressed")
+        let cancelButton: UIBarButtonItem = UIBarButtonItem(title: CANCEL_BUTTON_TITLE, style: .Plain, target: self, action: #selector(DCInterventionAddOrResolveViewController.cancelButtonPressed))
         self.navigationItem.leftBarButtonItem = cancelButton
-        saveButton = UIBarButtonItem(title: SAVE_BUTTON_TITLE, style: .Plain, target: self, action: "doneButtonPressed")
+        saveButton = UIBarButtonItem(title: SAVE_BUTTON_TITLE, style: .Plain, target: self, action: #selector(DCInterventionAddOrResolveViewController.doneButtonPressed))
         self.configurSaveButton(false)
         self.navigationItem.rightBarButtonItem = saveButton
         self.navigationItem.title = medicationList[indexOfCurrentMedication!].name
@@ -55,7 +55,7 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        if interventionType == eAddIntervention {
+        if interventionType == eAddIntervention || interventionType == eEditIntervention {
             return SectionCount.eFirstSection.rawValue
         } else {
             return SectionCount.eSecondSection.rawValue
@@ -101,6 +101,18 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
                 }
                 return cell!
             }
+        case eEditIntervention.rawValue:
+            let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(REASON_RESOLVE_TEXTVIEW_CELL) as? DCInterventionAddResolveTextViewCell
+            let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList[indexOfCurrentMedication!] as! DCMedicationScheduleDetails
+            cell!.placeHolderString = REASON_TEXT
+            cell?.initializeTextView()
+            cell!.reasonOrResolveTextView.text = medicationSheduleDetails.pharmacistAction.intervention.reason
+            cell?.textViewUpdated = { value in
+                self.configurSaveButton(value)
+            }
+            cell?.reasonOrResolveTextView.becomeFirstResponder()
+            return cell!
+
         default:
             let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(REASON_RESOLVE_TEXTVIEW_CELL) as? DCInterventionAddResolveTextViewCell
             return cell!
@@ -120,7 +132,7 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
     
     func doneButtonPressed() {
     
-        if interventionType == eAddIntervention {
+        if interventionType == eAddIntervention || interventionType == eEditIntervention{
             if let textViewCell : DCInterventionAddResolveTextViewCell = interventionDisplayTableView.cellForRowAtIndexPath(NSIndexPath(forRow: RowCount.eZerothRow.rawValue, inSection: SectionCount.eZerothSection.rawValue)) as? DCInterventionAddResolveTextViewCell {
                 if textViewCell.reasonOrResolveTextView.text != REASON_TEXT && textViewCell.reasonOrResolveTextView.text != EMPTY_STRING && textViewCell.reasonOrResolveTextView.text != nil {
                     //Add to reason
@@ -156,7 +168,7 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
         //Present view with next medication, if in case of multiple selection.
         //Clousure "interventionUpdated" is called to pass data back to parent.
         self.interventionUpdated(self.medicationList[self.indexOfCurrentMedication!] as! DCMedicationScheduleDetails)
-        indexOfCurrentMedication!++
+        indexOfCurrentMedication! += 1
         if indexOfCurrentMedication < medicationList.count {
             //In case of multiple selections, the present view is dismissed and new view is loaded with details of next medication.
             self.dismissViewControllerAnimated(true, completion: {() -> Void in
