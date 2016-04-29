@@ -46,7 +46,6 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     override func viewDidAppear(animated: Bool) {
         
         super.viewDidAppear(animated)
-        //pharmacistTableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -87,7 +86,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
             let headerView: UIView = UIView(frame: CGRectMake(0, 0, self.view.frame.width, headerHeight))
             titleView.center.x = headerView.center.x
             headerView.addSubview(titleView)
-            self.pharmacistTableView.tableHeaderView = headerView
+            self.pharmacistTableView.tableHeaderView = self.headerViewWithSeparatorLine(headerView)
         } else {
             self.pharmacistTableView.tableHeaderView = nil
             let titleView: DCOneThirdCalendarNavigationTitleView = NSBundle.mainBundle().loadNibNamed("DCOneThirdCalendarNavigationTitleView", owner: self, options: nil)[0] as! DCOneThirdCalendarNavigationTitleView
@@ -95,7 +94,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
             self.navigationItem.titleView = titleView
         }
         DCUtility.backButtonItemForViewController(self, inNavigationController: self.navigationController, withTitle:NSLocalizedString("DRUG_CHART", comment: ""))
-        self.addNavigationRightBarButtonItemForEditingState(false)
+        self.addNavigationRightBarButtonItem()
     }
     
     func configureMedicationCountToolBar() {
@@ -105,9 +104,18 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         medicationCountLabel.text = String(format: "%d %@", medicationList.count, NSLocalizedString("MEDICATIONS", comment: ""))
     }
     
-    func addNavigationRightBarButtonItemForEditingState(isEditing : Bool) {
+    func headerViewWithSeparatorLine(headerView: UIView) -> UIView {
         
-        if isEditing == false {
+        let separatorView: UIView = UIView(frame: CGRectMake(0, 0, headerView.frame.width, 0.5))
+        separatorView.backgroundColor = pharmacistTableView.separatorColor
+        separatorView.center.y = headerView.frame.height
+        headerView.addSubview(separatorView)
+        return headerView
+    }
+    
+    func addNavigationRightBarButtonItem() {
+        
+        if pharmacistTableView.editing == false {
             self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Edit, target: self,
                 action: #selector(DCPharmacistViewController.editButtonPressed))
         } else {
@@ -534,7 +542,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         pharmacistTableView.setEditing(true, animated: true)
         isInEditMode = true
         configureToolBarsForEditingState(true)
-        self.addNavigationRightBarButtonItemForEditingState(true)
+        self.addNavigationRightBarButtonItem()
         self.overrideBackButtonWithSelectButton()
     }
     
@@ -546,7 +554,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         pharmacistTableView.setEditing(false, animated: true)
         isInEditMode = false
         configureToolBarsForEditingState(false)
-        self.addNavigationRightBarButtonItemForEditingState(false)
+        self.addNavigationRightBarButtonItem()
     }
     
     func selectAllButtonPressed()  {
