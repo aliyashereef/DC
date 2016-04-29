@@ -79,13 +79,14 @@ class DCPharmacistTableCell: UITableViewCell {
         self.addPharmacistTableViewScrollNotification()
     }
 
-//    override func layoutSubviews() {
-//        self.calculateActionButtonWidthAndCount()
-//        if (self.pharmacistDetailsViewLeadingConstraint.constant != 0) {
-//            self.pharmacistDetailsViewLeadingConstraint.constant = -actionButtonsTotalWidth
-//            self.pharmacistDetailsViewTrailingConstraint.constant = actionButtonsTotalWidth
-//        }
-//    }
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.calculateActionButtonWidthAndCount()
+        if (self.pharmacistDetailsViewLeadingConstraint.constant != 0) {
+            self.pharmacistDetailsViewLeadingConstraint.constant = -actionButtonsTotalWidth
+            self.pharmacistDetailsViewTrailingConstraint.constant = actionButtonsTotalWidth
+        }
+    }
     
     override func setSelected(selected: Bool, animated: Bool) {
         
