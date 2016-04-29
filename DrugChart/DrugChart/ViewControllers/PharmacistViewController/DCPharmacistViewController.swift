@@ -48,6 +48,11 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         super.viewDidAppear(animated)
     }
 
+    override func viewWillDisappear(animated: Bool) {
+        
+        self.navigationItem.titleView = nil
+        super.viewWillDisappear(true)
+    }
     override func didReceiveMemoryWarning() {
         
         super.didReceiveMemoryWarning()
