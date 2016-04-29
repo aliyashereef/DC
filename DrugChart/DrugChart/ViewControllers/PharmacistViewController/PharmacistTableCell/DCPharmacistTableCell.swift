@@ -79,6 +79,14 @@ class DCPharmacistTableCell: UITableViewCell {
         self.addPharmacistTableViewScrollNotification()
     }
 
+    override func layoutSubviews() {
+        self.calculateActionButtonWidthAndCount()
+        if (self.pharmacistDetailsViewLeadingConstraint.constant != 0) {
+            self.pharmacistDetailsViewLeadingConstraint.constant = -actionButtonsTotalWidth
+            self.pharmacistDetailsViewTrailingConstraint.constant = actionButtonsTotalWidth
+        }
+    }
+    
     override func setSelected(selected: Bool, animated: Bool) {
         
         super.setSelected(selected, animated: animated)
@@ -97,6 +105,7 @@ class DCPharmacistTableCell: UITableViewCell {
         configureResolveInterventionButton()
         configurePODStatusButton()
         configureEditInterventionButton()
+        calculateActionButtonWidthAndCount()
     }
     
     func configureClinicalCheckButton() {
@@ -109,7 +118,9 @@ class DCPharmacistTableCell: UITableViewCell {
         }
         clinicalButtonWidth?.constant = actionButtonWidth
         //on cell selection background buttons were visible. Inorder to fix this initialy clinical check, resolve intervention, update pod status button titles are set to nil
-        clinicalCheckButton.setTitle(EMPTY_STRING, forState: UIControlState.Normal)
+        if pharmacistDetailsViewLeadingConstraint.constant == 0 {
+            clinicalCheckButton.setTitle(EMPTY_STRING, forState: UIControlState.Normal)
+        }
     }
     
     func configureResolveInterventionButton() {
@@ -122,7 +133,9 @@ class DCPharmacistTableCell: UITableViewCell {
             resolveInterventionButton.titleLabel?.font = PHARMACIST_DEFAULT_FONT
         }
         resolveInterventionButtonWidth?.constant = actionButtonWidth
-        resolveInterventionButton.setTitle(EMPTY_STRING, forState: UIControlState.Normal)
+        if pharmacistDetailsViewLeadingConstraint.constant == 0 {
+            resolveInterventionButton.setTitle(EMPTY_STRING, forState: UIControlState.Normal)
+        }
     }
     
     func configurePODStatusButton() {
@@ -134,7 +147,9 @@ class DCPharmacistTableCell: UITableViewCell {
             podStatusButton.titleLabel?.font = PHARMACIST_DEFAULT_FONT
         }
         podStatusButtonWidth?.constant = actionButtonWidth
-        podStatusButton.setTitle(EMPTY_STRING, forState: UIControlState.Normal)
+        if pharmacistDetailsViewLeadingConstraint.constant == 0 {
+            podStatusButton.setTitle(EMPTY_STRING, forState: UIControlState.Normal)
+        }
     }
     
     func configureEditInterventionButton() {
@@ -147,7 +162,9 @@ class DCPharmacistTableCell: UITableViewCell {
             editInterventionButton.titleLabel?.font = PHARMACIST_DEFAULT_FONT
         }
         editInterventionButtonWidth?.constant = actionButtonWidth
-        editInterventionButton.setTitle(EMPTY_STRING, forState: UIControlState.Normal)
+        if pharmacistDetailsViewLeadingConstraint.constant == 0 {
+            editInterventionButton.setTitle(EMPTY_STRING, forState: UIControlState.Normal)
+        }
     }
     
     func fillMedicationDetailsInTableCell(medicationSchedule : DCMedicationScheduleDetails) {
@@ -291,7 +308,7 @@ class DCPharmacistTableCell: UITableViewCell {
         
         let tableView : UITableView = (self.superview?.superview as? UITableView)!
         //donot allow tableviewcell swipe when tableview is in editing mode
-        self.setEditButtonProperties()
+        self.calculateActionButtonWidthAndCount()
         if tableView.editing == false && isTableViewScrolling == false {
             let translate : CGPoint = panGesture.translationInView(self.contentView)
             let gestureVelocity : CGPoint = panGesture.velocityInView(self)
@@ -362,7 +379,7 @@ class DCPharmacistTableCell: UITableViewCell {
         }
     }
     
-    func setEditButtonProperties() {
+    func calculateActionButtonWidthAndCount() {
         
         if (appDelegate.windowState == DCWindowState.oneThirdWindow || appDelegate.windowState == DCWindowState.halfWindow) {
             
