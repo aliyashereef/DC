@@ -304,6 +304,40 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         }
     }
     
+    func editInterventionAction () {
+        
+        var selectedMedicationList : NSMutableArray = []
+        if pharmacistTableView.indexPathsForSelectedRows?.count > 0 {
+            selectedMedicationList = self.configureSelectedMedicationList(true)
+            if selectedMedicationList.count > 0 {
+                let addInterventionViewController : DCInterventionAddOrResolveViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(INTERVENTION_ADD_RESOLVE_SB_ID) as? DCInterventionAddOrResolveViewController
+                addInterventionViewController!.indexOfCurrentMedication = 0
+                addInterventionViewController?.interventionType = eEditIntervention
+                addInterventionViewController?.medicationList = selectedMedicationList
+                addInterventionViewController!.interventionUpdated = { value in
+                    
+                    let indexOfSelectedMedication = self.medicationList.indexOfObject(value)
+                    let indexPath = NSIndexPath(forRow: indexOfSelectedMedication, inSection: 0)
+                    if self.indexPathsArray.containsObject(indexPath) {
+                        self.indexPathsArray.removeObject(indexPath)
+                    }
+                    self.pharmacistTableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+                    if self.pharmacistTableView.indexPathsForSelectedRows == nil {
+                        self.cancelButtonPressed()
+                    }
+                }
+                addInterventionViewController?.cancelClicked = { value in
+                    if value {
+                        self.cancelButtonPressed()
+                    }
+                }
+                let navigationController: UINavigationController = UINavigationController(rootViewController: addInterventionViewController!)
+                navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+                self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
+            }
+        }
+    }
+    
     func resolveInterventionAction() {
         
         var selectedMedicationList : NSMutableArray = []
@@ -743,7 +777,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
                 if value == 0 {
                     self.addInterventionAction()
                 } else if value == 1 {
-                    //TODO: Action for edit intervention
+                    self.editInterventionAction()
                 } else {
                     self.resolveInterventionAction()
                 }
@@ -788,7 +822,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
                 if indexPath?.row == RowCount.eZerothRow.rawValue {
                     self.addInterventionAction()
                 } else if indexPath?.row == RowCount.eFirstRow.rawValue {
-                    //TODO: Action for Edit intervention.
+                    self.editInterventionAction()
                 } else {
                     self.resolveInterventionAction()
                 }

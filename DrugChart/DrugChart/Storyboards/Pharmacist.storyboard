@@ -47,16 +47,10 @@
                                                             <rect key="frame" x="550" y="0.0" width="125" height="78"/>
                                                             <color key="backgroundColor" red="0.95686274510000002" green="0.43529411759999997" blue="0.12549019610000001" alpha="1" colorSpace="calibratedRGB"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="125" id="4Iy-DT-wG6"/>
                                                                 <constraint firstAttribute="width" constant="125" id="I7v-tw-K9G"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <state key="normal" title="Resolve Intervention"/>
-                                                            <variation key="default">
-                                                                <mask key="constraints">
-                                                                    <exclude reference="4Iy-DT-wG6"/>
-                                                                </mask>
-                                                            </variation>
                                                             <connections>
                                                                 <action selector="resolveInterventionButtonAction:" destination="wjk-go-bJX" eventType="touchUpInside" id="YQX-Ru-TAg"/>
                                                             </connections>
@@ -77,16 +71,10 @@
                                                             <rect key="frame" x="300" y="0.0" width="125" height="78"/>
                                                             <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="125" id="WMI-x7-aR0"/>
                                                                 <constraint firstAttribute="width" constant="125" id="smJ-h4-Ovy"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <state key="normal" title="Clinical Check"/>
-                                                            <variation key="default">
-                                                                <mask key="constraints">
-                                                                    <exclude reference="WMI-x7-aR0"/>
-                                                                </mask>
-                                                            </variation>
                                                             <connections>
                                                                 <action selector="clinicalCheckButtonAction:" destination="wjk-go-bJX" eventType="touchUpInside" id="XMQ-DX-Gnu"/>
                                                             </connections>
