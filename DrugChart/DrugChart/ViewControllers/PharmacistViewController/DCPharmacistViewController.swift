@@ -46,7 +46,6 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     override func viewDidAppear(animated: Bool) {
         
         super.viewDidAppear(animated)
-        //pharmacistTableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -95,7 +94,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
             self.navigationItem.titleView = titleView
         }
         DCUtility.backButtonItemForViewController(self, inNavigationController: self.navigationController, withTitle:NSLocalizedString("DRUG_CHART", comment: ""))
-        self.addNavigationRightBarButtonItemForEditingState(false)
+        self.addNavigationRightBarButtonItem()
     }
     
     func configureMedicationCountToolBar() {
@@ -105,9 +104,9 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         medicationCountLabel.text = String(format: "%d %@", medicationList.count, NSLocalizedString("MEDICATIONS", comment: ""))
     }
     
-    func addNavigationRightBarButtonItemForEditingState(isEditing : Bool) {
+    func addNavigationRightBarButtonItem() {
         
-        if isEditing == false {
+        if pharmacistTableView.editing == false {
             self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Edit, target: self,
                 action: #selector(DCPharmacistViewController.editButtonPressed))
         } else {
@@ -500,7 +499,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         pharmacistTableView.setEditing(true, animated: true)
         isInEditMode = true
         configureToolBarsForEditingState(true)
-        self.addNavigationRightBarButtonItemForEditingState(true)
+        self.addNavigationRightBarButtonItem()
         self.overrideBackButtonWithSelectButton()
     }
     
@@ -512,7 +511,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         pharmacistTableView.setEditing(false, animated: true)
         isInEditMode = false
         configureToolBarsForEditingState(false)
-        self.addNavigationRightBarButtonItemForEditingState(false)
+        self.addNavigationRightBarButtonItem()
     }
     
     func selectAllButtonPressed()  {
