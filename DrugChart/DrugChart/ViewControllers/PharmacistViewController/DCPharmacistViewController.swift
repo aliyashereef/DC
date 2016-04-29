@@ -87,7 +87,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
             let headerView: UIView = UIView(frame: CGRectMake(0, 0, self.view.frame.width, headerHeight))
             titleView.center.x = headerView.center.x
             headerView.addSubview(titleView)
-            self.pharmacistTableView.tableHeaderView = headerView
+            self.pharmacistTableView.tableHeaderView = self.headerViewWithSeparatorLine(headerView)
         } else {
             self.pharmacistTableView.tableHeaderView = nil
             let titleView: DCOneThirdCalendarNavigationTitleView = NSBundle.mainBundle().loadNibNamed("DCOneThirdCalendarNavigationTitleView", owner: self, options: nil)[0] as! DCOneThirdCalendarNavigationTitleView
@@ -103,6 +103,15 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         //Medication count label
         medicationCountToolBar.hidden = false
         medicationCountLabel.text = String(format: "%d %@", medicationList.count, NSLocalizedString("MEDICATIONS", comment: ""))
+    }
+    
+    func headerViewWithSeparatorLine(headerView: UIView) -> UIView {
+        
+        let separatorView: UIView = UIView(frame: CGRectMake(0, 0, headerView.frame.width, 0.5))
+        separatorView.backgroundColor = pharmacistTableView.separatorColor
+        separatorView.center.y = headerView.frame.height
+        headerView.addSubview(separatorView)
+        return headerView
     }
     
     func addNavigationRightBarButtonItemForEditingState(isEditing : Bool) {
