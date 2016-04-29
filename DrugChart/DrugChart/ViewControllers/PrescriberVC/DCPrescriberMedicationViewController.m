@@ -783,6 +783,7 @@ typedef enum : NSUInteger {
     NSPredicate *medicineCategoryPredicate = [NSPredicate predicateWithFormat:predicateString];
     NSMutableArray *pharmacistMedications = (NSMutableArray *)[_patient.medicationListArray filteredArrayUsingPredicate:medicineCategoryPredicate];
     pharmacistViewController.medicationList = pharmacistMedications;
+    pharmacistViewController.patientDetails = self.patient;
     [self.navigationController pushViewController:pharmacistViewController animated:true];
 }
 - (void)addPharmacistInteractionButtonToNavigationBar {
