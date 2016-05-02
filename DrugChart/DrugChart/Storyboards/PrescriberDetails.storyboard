@@ -414,7 +414,6 @@
                                             <outlet property="medicineDetailHolderView" destination="kfO-TC-c7c" id="N8e-9E-DRq"/>
                                             <outlet property="medicineName" destination="s4V-VA-WH9" id="8fa-gQ-YFB"/>
                                             <outlet property="moreButton" destination="122-lX-sVw" id="HhW-hW-zhW"/>
-                                            <outlet property="moreButtonPressed" destination="122-lX-sVw" id="EWL-uO-EFs"/>
                                             <outlet property="moreButtonWidth" destination="6cm-sB-fxC" id="Elb-vc-Qna"/>
                                             <outlet property="rightMedicationAdministerDetailsView" destination="zwY-cT-yDF" id="B68-VH-J6A"/>
                                             <outlet property="route" destination="OWR-CH-VNG" id="qU4-kD-21C"/>
