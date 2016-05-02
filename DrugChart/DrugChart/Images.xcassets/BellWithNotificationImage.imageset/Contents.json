@@ -2,12 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "bell1-1.png",
+      "filename" : "BellCount.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "bell1.png",
+      "filename" : "BellCount@2x.png",
       "scale" : "2x"
     },
     {
