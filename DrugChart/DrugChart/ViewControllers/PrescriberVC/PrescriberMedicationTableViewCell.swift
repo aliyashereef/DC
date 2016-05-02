@@ -14,6 +14,7 @@ protocol EditAndDeleteActionDelegate {
     func editMedicationForSelectedIndexPath (indexPath : NSIndexPath)
     func setIndexPathSelected(indexPath : NSIndexPath)
     func transitToSummaryScreenForMedication(indexpath : NSIndexPath)
+    func moreButtonSelectedForIndexPath(indexPath : NSIndexPath)
 }
 
 let TIME_VIEW_WIDTH : CGFloat                       =               70.0
@@ -236,6 +237,7 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
                         self.moreButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
                         self.editButton.setTitle(EDIT_TEXT, forState: UIControlState.Normal)
                         self.stopButton.setTitle(STOP_TEXT, forState: UIControlState.Normal)
+                        self.moreButton.setTitle(MORE_TEXT, forState: UIControlState.Normal)
                         self.layoutIfNeeded()
                     })
                     if let delegate = editAndDeleteDelegate {
@@ -313,6 +315,9 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     
     @IBAction func moreButtonPressed(sender: AnyObject) {
         
+        if let delegate = editAndDeleteDelegate {
+            delegate.moreButtonSelectedForIndexPath(indexPath)
+        }
     }
     
     func todayButtonAction () {

@@ -233,7 +233,7 @@
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="122-lX-sVw">
                                                             <rect key="frame" x="240" y="0.0" width="60" height="77"/>
-                                                            <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                                                            <color key="backgroundColor" red="0.77647058823529413" green="0.77647058823529413" blue="0.79607843137254897" alpha="1" colorSpace="calibratedRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="60" id="6cm-sB-fxC"/>
                                                             </constraints>

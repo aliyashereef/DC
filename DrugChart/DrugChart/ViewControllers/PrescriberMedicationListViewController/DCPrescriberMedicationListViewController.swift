@@ -715,6 +715,10 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         }
     }
     
+    func moreButtonSelectedForIndexPath(indexPath: NSIndexPath) {
+        
+    }
+
     func animateAdministratorDetailsView (isRight : Bool) {
         let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
         parentViewController.showActivityIndicationOnViewRefresh(true)
