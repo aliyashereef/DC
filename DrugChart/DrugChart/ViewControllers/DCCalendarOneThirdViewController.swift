@@ -665,6 +665,10 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         }
     }
     
+    func moreButtonSelectedForIndexPath(indexPath: NSIndexPath) {
+
+    }
+    
     func indexPathForLastRowWith(numberOfRows rows : Int, numberOfSection sections : Int) -> NSIndexPath {
         
         return NSIndexPath(forRow: rows - 1, inSection: sections)
