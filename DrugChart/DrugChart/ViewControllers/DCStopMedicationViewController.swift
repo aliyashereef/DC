@@ -69,7 +69,11 @@ class DCStopMedicationViewController : UIViewController , NotesCellDelegate{
             return notesTableCellAtIndexPath(indexPath)
         case eSecondSection.rawValue:
             cell.titleLabel.text = StopMedicationConstants.OUTSTANDING_DOSES
-            cell.detailLabel.text = inactiveDetails!.outstandingDose
+            if inactiveDetails?.outstandingDose == StopMedicationConstants.SELECT_SPECIFIC_DOSES {
+                cell.detailLabel.text = inactiveDetails?.outstandingSpecificDose
+            } else {
+                cell.detailLabel.text = inactiveDetails?.outstandingDose
+            }
             if !isValidOutstandingDoses() && isSavePressed {
                 cell.titleLabel.textColor = UIColor.redColor()
             } else {
