@@ -24,6 +24,7 @@ let ANIMATION_DURATION : Double                     =               0.3
 let EDIT_TEXT : String                              =               "Edit"
 let STOP_TEXT : String                              =               "Stop"
 let DELETE_TEXT                                     =               "Delete"
+let MORE_TEXT : String                              =               "More"
 
 protocol DCPrescriberCellDelegate:class {
     
@@ -44,10 +45,12 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     @IBOutlet weak var rightMedicationAdministerDetailsView: UIView!
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!
+    @IBOutlet weak var moreButton: UIButton!
     
     @IBOutlet weak var administerHolderViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var editButtonWidth: NSLayoutConstraint!
     @IBOutlet weak var stopButtonWidth: NSLayoutConstraint!
+    @IBOutlet weak var moreButtonWidth: NSLayoutConstraint!
     @IBOutlet weak var medicationViewLeadingConstraint: NSLayoutConstraint!
     // this is the constraint connected between the masterMedicationAdministerDetailsView (center)
     // to the containerView holding the 3 subviews (left, right, center)
