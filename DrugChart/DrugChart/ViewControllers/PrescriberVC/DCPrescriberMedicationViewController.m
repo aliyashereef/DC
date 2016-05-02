@@ -756,7 +756,7 @@ typedef enum : NSUInteger {
     [warningsButton setImage:[UIImage imageNamed:ALERTS_ALLERGIES_ICON] forState:UIControlStateSelected];
     [warningsButton addTarget:self action:@selector(allergiesAndAlertsButtonTapped:)forControlEvents:UIControlEventTouchUpInside];
     [warningsButton sizeToFit];
-    warningCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(warningsButton.frame.origin.x + warningsButton.frame.size.width - 20, 0, 20, 20)];
+    warningCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(warningsButton.frame.origin.x + warningsButton.frame.size.width - 19, 0, 20, 20)];
     [warningCountLabel setFont:[UIFont systemFontOfSize:13.0]];
     [warningCountLabel setHidden:NO];
     NSInteger warningsCount = alertsArray.count + allergiesArray.count;
@@ -796,7 +796,7 @@ typedef enum : NSUInteger {
         [pharmacistButton setImage:[UIImage imageNamed:PHARMACIST_ICON] forState:UIControlStateNormal];
     } else {
         [pharmacistButton setImage:[UIImage imageNamed:PHARMACIST_ICON_WITHCOUNT] forState:UIControlStateNormal];
-        pharmacistCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(pharmacistButton.frame.origin.x + pharmacistButton.frame.size.width + 11, 3, 20, 20)];
+        pharmacistCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(pharmacistButton.frame.origin.x + pharmacistButton.frame.size.width + 13, 0, 20, 20)];
         [pharmacistCountLabel setFont:[UIFont systemFontOfSize:13.0]];
         [pharmacistCountLabel setHidden:NO];
         [pharmacistCountLabel setText:[NSString stringWithFormat:@"%d",count]];
