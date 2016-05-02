@@ -18,7 +18,7 @@ protocol EditAndDeleteActionDelegate {
 
 let TIME_VIEW_WIDTH : CGFloat                       =               70.0
 let TIME_VIEW_HEIGHT : CGFloat                      =               21.0
-let MEDICATION_VIEW_LEFT_OFFSET : CGFloat           =               120.0
+let MEDICATION_VIEW_LEFT_OFFSET : CGFloat           =               180.0
 let MEDICATION_VIEW_INITIAL_LEFT_OFFSET : CGFloat   =               0.0
 let ANIMATION_DURATION : Double                     =               0.3
 let EDIT_TEXT : String                              =               "Edit"
@@ -153,9 +153,11 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
         if (self.editButtonWidth.constant > 40.0) {
             self.editButton.setTitle(EDIT_TEXT, forState: UIControlState.Normal)
             self.stopButton.setTitle(STOP_TEXT, forState: UIControlState.Normal)
+            self.moreButton.setTitle(MORE_TEXT, forState: UIControlState.Normal)
         } else {
-            self.editButton.setTitle("", forState: UIControlState.Normal)
-            self.stopButton.setTitle("", forState: UIControlState.Normal)
+            self.editButton.setTitle(EMPTY_STRING, forState: UIControlState.Normal)
+            self.stopButton.setTitle(EMPTY_STRING, forState: UIControlState.Normal)
+            self.moreButton.setTitle(EMPTY_STRING, forState: UIControlState.Normal)
         }
     }
     
@@ -182,8 +184,9 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
         } else if ((translate.x < 0) && self.medicationViewLeadingConstraint.constant > (-MEDICATION_VIEW_LEFT_OFFSET / 2)) {
             UIView.animateWithDuration(ANIMATION_DURATION, animations: {
                 self.medicationViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET + 10
-                self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
-                self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
+                self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+                self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+                self.moreButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
                 self.layoutIfNeeded()
                 }, completion: { (finished) -> Void in
                     self.setMedicationViewFrame()
@@ -191,8 +194,9 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
         } else if ((translate.x > 0) && self.medicationViewLeadingConstraint.constant > (-MEDICATION_VIEW_LEFT_OFFSET / 2)){
             UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
                 self.medicationViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET
-                self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
-                self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
+                self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+                self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+                self.moreButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
                 self.layoutIfNeeded()
                 }, completion: { (finished) -> Void in
                     self.setMedicationViewFrame()
@@ -206,8 +210,9 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
             })
         }
         UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
-            self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
-            self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
+            self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+            self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+            self.moreButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
             }, completion: { (finished) -> Void in
                 self.setMedicationViewFrame()
         })
@@ -226,8 +231,9 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
                 if ((translate.x < 0) && (medicationViewLeadingConstraint.constant == 0)) { // left swipe
                     UIView.animateWithDuration(ANIMATION_DURATION, animations: {
                         self.medicationViewLeadingConstraint.constant = -MEDICATION_VIEW_LEFT_OFFSET
-                        self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
-                        self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
+                        self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+                        self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+                        self.moreButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
                         self.editButton.setTitle(EDIT_TEXT, forState: UIControlState.Normal)
                         self.stopButton.setTitle(STOP_TEXT, forState: UIControlState.Normal)
                         self.layoutIfNeeded()
@@ -238,8 +244,9 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
                 } else if ((translate.x > 0) && (self.medicationViewLeadingConstraint.constant == -MEDICATION_VIEW_LEFT_OFFSET)){ //right pan  when edit view is fully visible
                     UIView.animateWithDuration(ANIMATION_DURATION, animations: {
                         self.medicationViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET
-                        self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
-                        self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
+                        self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+                        self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+                        self.moreButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
                         self.layoutIfNeeded()
                     })
                     if let delegate = editAndDeleteDelegate {
@@ -250,8 +257,9 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
                         //in process of tramslation
                         dispatch_async(dispatch_get_main_queue(), {
                             self.medicationViewLeadingConstraint.constant += (gestureVelocity.x / 25.0)
-                            self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
-                            self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
+                            self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+                            self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+                            self.moreButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
                             self.setEditViewButtonNames()
                             self.setMedicationViewFrame()
                         })
@@ -301,6 +309,10 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
         if let delegate = editAndDeleteDelegate {
             delegate.stopMedicationForSelectedIndexPath(indexPath)
         }
+    }
+    
+    @IBAction func moreButtonPressed(sender: AnyObject) {
+        
     }
     
     func todayButtonAction () {

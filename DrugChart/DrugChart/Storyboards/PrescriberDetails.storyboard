@@ -241,6 +241,9 @@
                                                             <state key="normal" title="More">
                                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
+                                                            <connections>
+                                                                <action selector="moreButtonPressed:" destination="80f-Eu-I6w" eventType="touchUpInside" id="g8y-Ab-rq2"/>
+                                                            </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6yp-Q9-Bwe">
                                                             <rect key="frame" x="180" y="0.0" width="60" height="77"/>
@@ -411,6 +414,7 @@
                                             <outlet property="medicineDetailHolderView" destination="kfO-TC-c7c" id="N8e-9E-DRq"/>
                                             <outlet property="medicineName" destination="s4V-VA-WH9" id="8fa-gQ-YFB"/>
                                             <outlet property="moreButton" destination="122-lX-sVw" id="HhW-hW-zhW"/>
+                                            <outlet property="moreButtonPressed" destination="122-lX-sVw" id="EWL-uO-EFs"/>
                                             <outlet property="moreButtonWidth" destination="6cm-sB-fxC" id="Elb-vc-Qna"/>
                                             <outlet property="rightMedicationAdministerDetailsView" destination="zwY-cT-yDF" id="B68-VH-J6A"/>
                                             <outlet property="route" destination="OWR-CH-VNG" id="qU4-kD-21C"/>
