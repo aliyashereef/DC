@@ -40,6 +40,10 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     var selectedIndexPath : NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
     let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
     var medicationTimeChartData: NSMutableDictionary = NSMutableDictionary()
+    var moreButtonPopoverWidth : CGFloat = 250
+    var moreButtonPopoverHeight: CGFloat = 43
+    var moreButtonPopoverLeftOffset: CGFloat = 130
+    var moreButtonHeightOffset: CGFloat = 15
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -717,6 +721,26 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     
     func moreButtonSelectedForIndexPath(indexPath: NSIndexPath) {
         
+        let moreButtonActionsViewController : DCMedicationListMoreButtonViewController? = UIStoryboard(name: STOP_MEDICATION, bundle: nil).instantiateViewControllerWithIdentifier(MORE_BUTTON_ACTION_DISPLAY_SB_ID) as? DCMedicationListMoreButtonViewController
+        let navigationController : UINavigationController? = UINavigationController(rootViewController: moreButtonActionsViewController!)
+        moreButtonActionsViewController?.actionForMoreButtonSelected = { action in
+            
+            if action == 0 {
+                //TODO: Action For Review
+            } else {
+                //TODO: Action For Manage Suspension
+            }
+        }
+        navigationController?.modalPresentationStyle = UIModalPresentationStyle.Popover
+        self.presentViewController(navigationController!, animated: true, completion: nil)
+        let popover = navigationController?.popoverPresentationController
+//        popover?.delegate = moreButtonActionsViewController
+        popover?.permittedArrowDirections = .Left
+        let cell = medicationTableView!.cellForRowAtIndexPath(indexPath) as! PrescriberMedicationTableViewCell?
+        popover?.sourceRect = CGRectMake(cell!.moreButton.bounds.origin.x - (moreButtonPopoverLeftOffset + cell!.moreButton.bounds.size.width),cell!.moreButton
+            .bounds.origin.y + moreButtonHeightOffset,moreButtonPopoverWidth,moreButtonPopoverHeight);
+        moreButtonActionsViewController!.preferredContentSize = CGSizeMake(moreButtonPopoverWidth, moreButtonPopoverHeight)
+        popover!.sourceView = cell?.moreButton
     }
 
     func animateAdministratorDetailsView (isRight : Bool) {

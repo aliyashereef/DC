@@ -35,7 +35,8 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     var scrollDirection : Direction = .ScrollDirectionNone
     var scrollingLocked : Bool = false
     var selectedIndexPath : NSIndexPath!
-    
+    var actionMenu : UIAlertController?
+
     required init?(coder aDecoder: NSCoder) {
         
         super.init(coder: aDecoder)
@@ -90,6 +91,10 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         
         super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+        if self.presentedViewController != nil && self.presentedViewController!.isKindOfClass(UIAlertController) {
+            
+            self.presentedViewController?.dismissViewControllerAnimated(true, completion: nil)
+        }
         let orientation = UIDevice.currentDevice().orientation
         if  orientation == UIDeviceOrientation.LandscapeLeft ||  orientation == UIDeviceOrientation.LandscapeRight {
             scrollingLocked = true
@@ -667,8 +672,32 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     
     func moreButtonSelectedForIndexPath(indexPath: NSIndexPath) {
 
+        self.presentMoreOptionActionSheet(indexPath)
     }
     
+    func presentMoreOptionActionSheet(indexPath : NSIndexPath) {
+        
+        //present pharmacist action sheet for iPhone instead of buttons in toolbar
+        actionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        let reviewAction = UIAlertAction(title: REVIEW_TITLE, style: .Default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            //TODO: Action For Review.
+        })
+        let manageSuspensionAcition = UIAlertAction(title: MANAGE_SUSPENSION_TITLE, style: .Default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            //TODO: Action For Manage Suspension.
+        })
+        let cancelAction = UIAlertAction(title: CANCEL_BUTTON_TITLE, style: .Cancel, handler: {
+            (alert: UIAlertAction!) -> Void in
+        })
+        actionMenu!.addAction(reviewAction)
+        actionMenu!.addAction(manageSuspensionAcition)
+        actionMenu!.addAction(cancelAction)
+        actionMenu!.popoverPresentationController?.sourceView = self.view
+        actionMenu!.popoverPresentationController?.sourceRect = self.view.bounds
+        self.presentViewController(actionMenu!, animated: true, completion: nil)
+    }
+
     func indexPathForLastRowWith(numberOfRows rows : Int, numberOfSection sections : Int) -> NSIndexPath {
         
         return NSIndexPath(forRow: rows - 1, inSection: sections)
