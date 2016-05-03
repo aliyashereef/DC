@@ -40,6 +40,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     var selectedIndexPath : NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
     let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
     var medicationTimeChartData: NSMutableDictionary = NSMutableDictionary()
+    var tableRowHeight : CGFloat = 78.0
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -52,15 +53,25 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         
         super.viewDidLoad()
         medicationTableView!.tableFooterView = UIView(frame: CGRectZero)
-        medicationTableView!.delaysContentTouches = false;
+        medicationTableView!.delaysContentTouches = false
         addPanGestureToPrescriberTableView()
         medicationTableView!.addSubview(self.refreshControl)
+        //Dynamic cell height adjustment
+        medicationTableView!.rowHeight = UITableViewAutomaticDimension
+        medicationTableView!.estimatedRowHeight = tableRowHeight
     }
     
     override func viewWillAppear(animated: Bool) {
+        
         let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
         parentViewController.reloadCalendarTopPortion()
         super.viewWillAppear(animated)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        
+        super.viewDidAppear(animated)
+        medicationTableView?.reloadData()
     }
     
     override func didReceiveMemoryWarning() {
@@ -114,12 +125,13 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             medicationCell?.indexPath = indexPath
             medicationCell?.isMedicationActive = medicationScheduleDetails.isActive
             self.fillInMedicationDetailsInTableCell(medicationCell!, atIndexPath: indexPath)
+            medicationCell?.cellHeight = (medicationCell?.calculateHeightForCell())!
+            medicationCell?.updateAdministerStatusViewsHeight()
             if (medicationCell?.inEditMode == true) {
                 UIView.animateWithDuration(0.05, animations: { () -> Void in
                     medicationCell!.medicationViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET;
                 })
             }
-            
             let rowDisplayMedicationSlotsArray = self.prepareMedicationSlotsForDisplayInCellFromScheduleDetails(medicationScheduleDetails)
             var index = 0
             let noOfSlots = rowDisplayMedicationSlotsArray.count
@@ -132,7 +144,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             }
             return medicationCell!
     }
-    
+
     // MARK: - Public methods
     func reloadMedicationListWithDisplayArray (displayArray: NSMutableArray) {
 
@@ -468,6 +480,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     // MARK: - Data display methods in table view
     
     func resetStatusViewsIfNeededInTableViewCell(cell: PrescriberMedicationTableViewCell) {
+        
         let calendarStripDaysCount = (appDelegate.windowState == DCWindowState.fullWindow) ? 5:3
         let statusViewsCount = cell.masterMedicationAdministerDetailsView.subviews.count
         
@@ -476,11 +489,11 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             // Add new status views
             cell.createAdministerStatusViews()
         }
-        
     }
     
     func fillInMedicationDetailsInTableCell(cell: PrescriberMedicationTableViewCell,
         atIndexPath indexPath:NSIndexPath) {
+        
             let medicationCell = cell
             if (displayMedicationListArray.count >= indexPath.item) {
                 let medicationSchedules = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
@@ -526,7 +539,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             default:
                 break;
             }
-            
+        
             if let statusView = statusView {
                 statusView.resetViewElements()
                 
