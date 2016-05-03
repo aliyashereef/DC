@@ -309,7 +309,6 @@ class DCPharmacistTableCell: UITableViewCell {
         
         let tableView : UITableView = (self.superview?.superview as? UITableView)!
         //donot allow tableviewcell swipe when tableview is in editing mode
-        self.calculateActionButtonWidthAndCount()
         if tableView.editing == false && isTableViewScrolling == false {
             let translate : CGPoint = panGesture.translationInView(self.contentView)
             let gestureVelocity : CGPoint = panGesture.velocityInView(self)
