@@ -12,6 +12,7 @@ let ADMINISTRATION_SUCCESS_IMAGE    =   UIImage(named: "AllAdministered")
 let ADMINISTRATION_FAILURE_IMAGE    =   UIImage(named: "AnyFailure")
 let ADMINISTRATION_DUE_IMAGE        =   UIImage(named: "DueAt")
 let ADMINISTRATION_DUE_NOW_IMAGE    =   UIImage(named: "DueNow")
+let ADMINISTRATION_PENDING_IMAGE    =   UIImage(named: "PendingClockImage")
 
 let PENDING_FONT_COLOR              =   UIColor(forHexString: "#acacac")
 let DUE_AT_FONT_COLOR               =   UIColor(forHexString: "#007aff")
@@ -113,7 +114,7 @@ class DCMedicationAdministrationStatusView: UIView {
         administerButton = DCAdministerButton.init(frame: contentFrame)
         self.addSubview(administerButton!)
         self.sendSubviewToBack(administerButton!)
-        administerButton?.addTarget(self, action: Selector("administerButtonClicked:"), forControlEvents: .TouchUpInside)
+        administerButton?.addTarget(self, action: #selector(DCMedicationAdministrationStatusView.administerButtonClicked(_:)), forControlEvents: .TouchUpInside)
     }
     
     // Resets the frame and content of view elements, to prevent previous state being maintained while the status view is being reused
@@ -231,7 +232,7 @@ class DCMedicationAdministrationStatusView: UIView {
                         // due now status has to shown
                         dueNow = true
                      } else {
-                        overDueCount++
+                        overDueCount += 1
                         break;
                     }
                  }
@@ -246,9 +247,9 @@ class DCMedicationAdministrationStatusView: UIView {
             //check the conditions of early administrations as well
             if (medication.medicationAdministration?.actualAdministrationTime != nil) {
                 if (medication.medicationAdministration?.status == ADMINISTERED || medication.medicationAdministration?.status == SELF_ADMINISTERED) {
-                    administeredCount++
+                    administeredCount += 1
                 } else if (medication.medicationAdministration?.status == REFUSED || medication.medicationAdministration?.status == OMITTED) {
-                    omissionRefusalCount++
+                    omissionRefusalCount += 1
                 }
             }
         }
@@ -422,14 +423,14 @@ class DCMedicationAdministrationStatusView: UIView {
             if let administrationDetails = slot.medicationAdministration {
                 if (administrationDetails?.actualAdministrationTime == nil) {
                     //Administration details not available. administration details pending, so increment pendingcount
-                    overDueCount++
+                    overDueCount += 1
                 } else {
                     if (administrationDetails.status == ADMINISTERED || administrationDetails.status == SELF_ADMINISTERED) {
-                        administeredCount++
+                        administeredCount += 1
                     } else if (administrationDetails.status == OMITTED || administrationDetails.status == REFUSED) {
-                        omissionRejectionsCount++
+                        omissionRejectionsCount += 1
                     } else {
-                        overDueCount++;
+                        overDueCount += 1;
                     }
                 }
             }
@@ -458,15 +459,19 @@ class DCMedicationAdministrationStatusView: UIView {
         
         // display no of pending medications for regular medications
         if (medicationCategory != WHEN_REQUIRED) {
-            let pendingCount : NSInteger = timeArray.count
-            statusLabel?.hidden = false
-            statusIcon?.hidden = true
             if isOneThirdScreen {
+                statusLabel?.hidden = false
+                statusIcon?.hidden = true
+                let pendingCount : NSInteger = timeArray.count
                 statusLabel?.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
+                statusLabel?.textColor = PENDING_FONT_COLOR
+                statusLabel?.text = String(format: "%i %@", pendingCount, NSLocalizedString("PENDING", comment: ""))
+                statusLabel?.textAlignment = isOneThirdScreen ? .Right : .Center
+            } else {
+                statusLabel?.hidden = true
+                statusIcon?.hidden = false
+                statusIcon?.image = ADMINISTRATION_PENDING_IMAGE
             }
-            statusLabel?.textColor = PENDING_FONT_COLOR
-            statusLabel?.text = String(format: "%i %@", pendingCount, NSLocalizedString("PENDING", comment: ""))
-            statusLabel?.textAlignment = isOneThirdScreen ? .Right : .Center
         }
     }
     
