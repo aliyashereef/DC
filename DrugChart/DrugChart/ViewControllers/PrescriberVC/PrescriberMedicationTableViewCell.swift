@@ -127,8 +127,8 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     
     func updateAdministerStatusViewsHeight() {
         
-        let noOfStatusViews = (appDelegate.windowState == DCWindowState.twoThirdWindow) ? 9 : 15
-        let calendarStripDaysCount = (appDelegate.windowState == DCWindowState.fullWindow) ? 5:3
+        let noOfStatusViews = (appDelegate.windowState == DCWindowState.twoThirdWindow) ? 9 : 12
+        let calendarStripDaysCount = (appDelegate.windowState == DCWindowState.fullWindow) ? 4:3
         var count = 0
         autoreleasepool { () -> () in
             for _ in 0..<noOfStatusViews {
@@ -176,9 +176,10 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     func updateAdministerStatusViewsInContainerView(containerView: UIView, atSlotIndex index: Int) {
         
         let administerViews = containerView.subviews.filter{$0 is DCMedicationAdministrationStatusView}
-        for statusView in administerViews {
+        for statusView in administerViews as! [DCMedicationAdministrationStatusView] {
             let viewFrame = statusView.frame
             statusView.frame = CGRectMake(viewFrame.origin.x, viewFrame.origin.y, viewFrame.size.width, cellHeight!)
+            statusView.refreshViewWithUpdatedFrame()
             statusView.layoutIfNeeded()
         }
     }

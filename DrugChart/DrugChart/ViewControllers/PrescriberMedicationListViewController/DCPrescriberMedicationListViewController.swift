@@ -525,7 +525,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         atIndexPath indexPath:NSIndexPath,
         andSlotIndex index:NSInteger) {
             
-            let calendarStripDaysCount = (appDelegate.windowState == DCWindowState.fullWindow) ? 5:3
+            let calendarStripDaysCount = (appDelegate.windowState == DCWindowState.fullWindow) ? 4:3
             
             var statusView: DCMedicationAdministrationStatusView! = nil
             

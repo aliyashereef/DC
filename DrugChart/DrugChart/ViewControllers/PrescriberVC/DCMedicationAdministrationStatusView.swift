@@ -113,11 +113,12 @@ class DCMedicationAdministrationStatusView: UIView {
         administerButton = DCAdministerButton.init(frame: contentFrame)
         self.addSubview(administerButton!)
         self.sendSubviewToBack(administerButton!)
-        administerButton?.addTarget(self, action: Selector("administerButtonClicked:"), forControlEvents: .TouchUpInside)
+        administerButton?.addTarget(self, action: #selector(DCMedicationAdministrationStatusView.administerButtonClicked(_:)), forControlEvents: .TouchUpInside)
     }
     
     // Resets the frame and content of view elements, to prevent previous state being maintained while the status view is being reused
     func resetViewElements() {
+        
         let contentFrame : CGRect = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)
         statusLabel?.frame = contentFrame
         statusLabel?.font = statusLabelFont()
@@ -132,6 +133,13 @@ class DCMedicationAdministrationStatusView: UIView {
         statusIcon?.center = centerPoint
         statusIcon?.hidden = true
         statusLabel?.text = ""
+    }
+    
+    func refreshViewWithUpdatedFrame() {
+        
+        //include all elements whose frames are to be updated
+        let contentFrame : CGRect = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)
+        administerButton?.frame = contentFrame
     }
 
     func updateAdministrationStatusViewWithMedicationSlotDictionary(slotDictionary : NSDictionary) {
@@ -231,7 +239,7 @@ class DCMedicationAdministrationStatusView: UIView {
                         // due now status has to shown
                         dueNow = true
                      } else {
-                        overDueCount++
+                        overDueCount += 1
                         break;
                     }
                  }
@@ -246,9 +254,9 @@ class DCMedicationAdministrationStatusView: UIView {
             //check the conditions of early administrations as well
             if (medication.medicationAdministration?.actualAdministrationTime != nil) {
                 if (medication.medicationAdministration?.status == ADMINISTERED || medication.medicationAdministration?.status == SELF_ADMINISTERED) {
-                    administeredCount++
+                    administeredCount += 1
                 } else if (medication.medicationAdministration?.status == REFUSED || medication.medicationAdministration?.status == OMITTED) {
-                    omissionRefusalCount++
+                    omissionRefusalCount += 1
                 }
             }
         }
@@ -260,14 +268,19 @@ class DCMedicationAdministrationStatusView: UIView {
                 //display due now view
                 updateDueNowStatusInView()
             } else {
-                let appDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
-                if (appDelegate.windowState == DCWindowState.twoThirdWindow || appDelegate.windowState == DCWindowState.fullWindow) {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.backgroundColor = CURRENT_DAY_BACKGROUND_COLOR
-                    })
-                }
+                updateBackgroundColorForCurrentDay()
                  updateCurrentDayStatusViewWithAdministrationCount(administrationCount:administeredCount, omittedRefusalCount: omissionRefusalCount)
             }
+        }
+    }
+    
+    func updateBackgroundColorForCurrentDay() {
+        
+        let appDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
+        if (appDelegate.windowState == DCWindowState.twoThirdWindow || appDelegate.windowState == DCWindowState.fullWindow) {
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.backgroundColor = CURRENT_DAY_BACKGROUND_COLOR
+            })
         }
     }
     
@@ -422,14 +435,14 @@ class DCMedicationAdministrationStatusView: UIView {
             if let administrationDetails = slot.medicationAdministration {
                 if (administrationDetails?.actualAdministrationTime == nil) {
                     //Administration details not available. administration details pending, so increment pendingcount
-                    overDueCount++
+                    overDueCount += 1
                 } else {
                     if (administrationDetails.status == ADMINISTERED || administrationDetails.status == SELF_ADMINISTERED) {
-                        administeredCount++
+                        administeredCount += 1
                     } else if (administrationDetails.status == OMITTED || administrationDetails.status == REFUSED) {
-                        omissionRejectionsCount++
+                        omissionRejectionsCount += 1
                     } else {
-                        overDueCount++;
+                        overDueCount += 1;
                     }
                 }
             }
