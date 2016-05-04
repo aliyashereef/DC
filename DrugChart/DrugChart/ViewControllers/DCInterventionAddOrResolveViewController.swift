@@ -58,7 +58,7 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
         if interventionType == eAddIntervention || interventionType == eEditIntervention {
             return SectionCount.eFirstSection.rawValue
         } else {
-            return SectionCount.eSecondSection.rawValue
+            return SectionCount.eThirdSection.rawValue
         }
     }
     
@@ -69,7 +69,15 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
-        return CGFloat(TEXT_VIEW_CELL_HEIGHT)
+        if interventionType == eResolveIntervention {
+            if indexPath.section == SectionCount.eSecondSection.rawValue {
+                return CGFloat(NORMAL_CELL_HEIGHT)
+            } else {
+                return CGFloat(TEXT_VIEW_CELL_HEIGHT)
+            }
+        } else {
+            return CGFloat(TEXT_VIEW_CELL_HEIGHT)
+        }
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -89,7 +97,7 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
             if indexPath.section == eZerothSection.rawValue {
                 let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(RESOLVE_INTERVENTION_CELL) as? DCInterventionAddOrResolveTableCell
                 return cell!
-            } else {
+            } else if indexPath.section == eFirstSection.rawValue {
                 let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(REASON_RESOLVE_TEXTVIEW_CELL) as? DCInterventionAddResolveTextViewCell
                 cell!.placeHolderString = RESOLUTION_TEXT
                 cell?.textViewUpdated = { value in
@@ -100,6 +108,10 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
                     cell?.reasonOrResolveTextView.becomeFirstResponder()
                 }
                 return cell!
+            } else {
+                let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(HISTORY_OPTION_DISPLAY_CELL) as? DCInterventionAddOrResolveTableCell
+                return cell!
+
             }
         case eEditIntervention.rawValue:
             let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(REASON_RESOLVE_TEXTVIEW_CELL) as? DCInterventionAddResolveTextViewCell
@@ -121,9 +133,19 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
+        if indexPath.section == SectionCount.eSecondSection.rawValue {
+            
+            self.displayInterventionDetailsScreen()
+        }
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
+    func displayInterventionDetailsScreen() {
+        
+        let interventionDetailsViewController = UIStoryboard(name: SUMMARY_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(INTERVENTION_DETAILS_SB_ID) as? DCInterventionDetailsViewController
+        self.navigationController?.pushViewController(interventionDetailsViewController!, animated: true)
+    }
+
     func cancelButtonPressed() {
         
         self.cancelClicked(true)
