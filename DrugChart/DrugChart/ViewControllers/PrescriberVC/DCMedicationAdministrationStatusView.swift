@@ -19,6 +19,8 @@ let DUE_AT_FONT_COLOR               =   UIColor(forHexString: "#007aff")
 let OVERDUE_FONT_COLOR              =   UIColor(forHexString: "#ff0000") // get exact color for display
 let DUE_NOW_FONT_COLOR              =   UIColor.whiteColor()
 let CURRENT_DAY_BACKGROUND_COLOR    =   UIColor(forHexString: "#fafafa")
+let INACTIVE_BACKGROUND_COLOR    =   UIColor(forHexString: "#f7f7f7")
+let INACTIVE_TEXT_COLOR    =  UIColor(forHexString :"#989797")
 let DUE_NOW_BACKGROUND_COLOR        =   UIColor(forHexString: "#f99e35")
 let PENDING_COUNT_FONT_COLOR        =   UIColor(forHexString: "#595959")
 
@@ -47,6 +49,7 @@ class DCMedicationAdministrationStatusView: UIView {
     var slotsCount : NSInteger? = 0
     
     var isOneThirdScreen : Bool = false
+    var isActive : Bool = true
     var administerButtonCallback: AdministerButtonTappedCallback!
     weak var delegate:DCMedicationAdministrationStatusProtocol?
 
@@ -168,19 +171,20 @@ class DCMedicationAdministrationStatusView: UIView {
         return font
     }
     
-    func configureStatusViewForWeekDate(weeksDate : NSDate) {
+    func configureStatusViewForWeekDateAndMedicationStatus(weeksDate : NSDate , isActive : Bool) {
         
         weekDate = weeksDate
         let currentSystemDate : NSDate = NSDate()//DCDateUtility.dateInCurrentTimeZone(NSDate())
         let currentDateString = DCDateUtility.dateStringFromDate(currentSystemDate, inFormat: SHORT_DATE_FORMAT)
         let weekDateString = DCDateUtility.dateStringFromDate(weekDate, inFormat: SHORT_DATE_FORMAT)
-        if (currentDateString == weekDateString) {
-            if(!isOneThirdScreen) {
+        if !isActive {
+            self.backgroundColor = INACTIVE_BACKGROUND_COLOR
+        } else {
+            if (currentDateString == weekDateString && !isOneThirdScreen) {
                 self.backgroundColor = CURRENT_DAY_BACKGROUND_COLOR
+            } else {
+                self.backgroundColor = UIColor.whiteColor()
             }
-        }
-        else {
-            self.backgroundColor = UIColor.whiteColor()
         }
     }
     
@@ -279,10 +283,11 @@ class DCMedicationAdministrationStatusView: UIView {
     
     func updateBackgroundColorForCurrentDay() {
         
-        let appDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
-        if (appDelegate.windowState == DCWindowState.twoThirdWindow || appDelegate.windowState == DCWindowState.fullWindow) {
+        if (!isOneThirdScreen) {
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.backgroundColor = CURRENT_DAY_BACKGROUND_COLOR
+                if !self.isActive {
+                    self.backgroundColor = INACTIVE_BACKGROUND_COLOR
+                }
             })
         }
     }

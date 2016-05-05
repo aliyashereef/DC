@@ -214,7 +214,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         let rowDisplayMedicationSlotsArray = self.prepareMedicationSlotsForDisplayInCellFromScheduleDetailsForDate(medicationScheduleDetails,date:centerDate)
         
         var index : NSInteger = 0
-        for ( index = 0; index < rowDisplayMedicationSlotsArray.count; index++) {
+        for index = 0; index < rowDisplayMedicationSlotsArray.count; index += 1 {
             
             self.configureMedicationCell(cell!,withMedicationSlotsArray: rowDisplayMedicationSlotsArray,atIndexPath: indexPath,andSlotIndex: index)
         }
@@ -224,6 +224,11 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
             UIView.animateWithDuration(0.05, animations: { () -> Void in
                 cell!.medicationViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET;
             })
+        }
+        if medicationScheduleDetails.isActive {
+            cell!.medicineDetailHolderView.backgroundColor = UIColor.whiteColor()
+        } else {
+            cell!.medicineDetailHolderView.backgroundColor = INACTIVE_BACKGROUND_COLOR
         }
         cell!.layoutMargins = UIEdgeInsetsZero
         return cell!
@@ -314,6 +319,13 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
             if (displayMedicationListArray.count >= indexPath.item) {
                 let medicationSchedules = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
                 medicationCell.medicineName.text = medicationSchedules.name;
+                if medicationSchedules.isActive {
+                    medicationCell.medicineName.textColor = UIColor.blackColor()
+                    medicationCell.route.textColor = UIColor(forHexString :"#737373")
+                } else {
+                    medicationCell.medicineName.textColor = INACTIVE_TEXT_COLOR
+                    medicationCell.route.textColor = INACTIVE_TEXT_COLOR
+                }
                 let routeString : String = medicationSchedules.route.stringByReplacingOccurrencesOfString(" ", withString: EMPTY_STRING)
                 let attributedRouteString : NSMutableAttributedString = NSMutableAttributedString(string: routeString, attributes: [NSFontAttributeName : UIFont.systemFontOfSize(14.0)])
                 let attributedInstructionsString : NSMutableAttributedString
@@ -397,7 +409,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
                 }
                 slotsDictionary.setObject(NSNumber (integer: count + 1), forKey: PRESCRIBER_SLOT_VIEW_TAG)
                 medicationSlotsArray.addObject(slotsDictionary)
-                count++
+                count += 1
             }
         }
     return medicationSlotsArray
@@ -412,18 +424,19 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
                     existingStatusViews.addObject(subView)
                 }
             }
-            let viewFrame = CGRectMake(0, 0, containerView.frame.width, 67.0)
-            let statusView : DCMedicationAdministrationStatusView = DCMedicationAdministrationStatusView(frame: viewFrame)
-            let medicationSchedules = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
-            statusView.tag = tag
-            statusView.delegate = self
-            statusView.currentIndexPath = indexPath
-            statusView.medicationCategory = medicationSchedules.medicineCategory
-            statusView.backgroundColor = UIColor.clearColor()
-            statusView.isOneThirdScreen = true
-            statusView.startDate = DCDateUtility.dateFromSourceString(medicationSchedules.startDate)
-            statusView.updateAdministrationStatusViewWithMedicationSlotDictionary(slotDictionary)
-            return statusView
+        let viewFrame = CGRectMake(0, 0, containerView.frame.width, 67.0)
+        let statusView : DCMedicationAdministrationStatusView = DCMedicationAdministrationStatusView(frame: viewFrame)
+        let medicationSchedules = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
+        statusView.tag = tag
+        statusView.delegate = self
+        statusView.currentIndexPath = indexPath
+        statusView.medicationCategory = medicationSchedules.medicineCategory
+        statusView.backgroundColor = UIColor.clearColor()
+        statusView.isOneThirdScreen = true
+        statusView.isActive = medicationSchedules.isActive
+        statusView.startDate = DCDateUtility.dateFromSourceString(medicationSchedules.startDate)
+        statusView.updateAdministrationStatusViewWithMedicationSlotDictionary(slotDictionary)
+        return statusView
     }
     
     func configureMedicationCell(medicationCell:DCOneThirdCalendarScreenMedicationCell, withMedicationSlotsArray
@@ -431,10 +444,10 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         atIndexPath indexPath:NSIndexPath,
         andSlotIndex index:NSInteger) {
             if (index == 0) {
+                let medicationDetails = displayMedicationListArray.objectAtIndex(indexPath.row) as? DCMedicationScheduleDetails
                 let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell, toContainerSubview: medicationCell.adminstrationStatusView, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(0) as! NSDictionary,
                     atIndexPath: indexPath,
                     atSlotIndex:0)
-                statusView.isOneThirdScreen = true
                 let weekdate = centerDate
                 if statusView.statusLabel?.text == NSLocalizedString("DUE_NOW", comment: "due now text") {
                     medicationCell.medicineDetailHolderView.backgroundColor = DUE_NOW_BACKGROUND_COLOR
@@ -442,7 +455,8 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
                     medicationCell.medicineDetailHolderView.backgroundColor = UIColor.whiteColor()
                 }
                 medicationCell.adminstrationStatusView.addSubview(statusView)
-                statusView.configureStatusViewForWeekDate(weekdate)
+                statusView.configureStatusViewForWeekDateAndMedicationStatus(weekdate, isActive: medicationDetails!.isActive)
+
             }
             for subView in existingStatusViews {
                 subView.removeFromSuperview()

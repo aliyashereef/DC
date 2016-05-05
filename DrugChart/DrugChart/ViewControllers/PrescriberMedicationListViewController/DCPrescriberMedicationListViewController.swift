@@ -146,6 +146,11 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                     andSlotIndex: index)
                 index += 1
             }
+        if medicationScheduleDetails.isActive {
+            medicationCell?.medicineDetailHolderView.backgroundColor = UIColor.whiteColor()
+        } else {
+            medicationCell?.medicineDetailHolderView.backgroundColor = INACTIVE_BACKGROUND_COLOR
+        }
             return medicationCell!
     }
 
@@ -502,6 +507,15 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             if (displayMedicationListArray.count >= indexPath.item) {
                 let medicationSchedules = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
                 medicationCell.medicineName.text = medicationSchedules.name
+                if medicationSchedules.isActive {
+                    medicationCell.medicineName.textColor = UIColor.blackColor()
+                    medicationCell.route.textColor = UIColor(forHexString :"#737373")
+
+                } else {
+                    medicationCell.medicineName.textColor = INACTIVE_TEXT_COLOR
+                    medicationCell.route.textColor = INACTIVE_TEXT_COLOR
+
+                }
                 let instructionString : String
                 if (medicationSchedules.instruction != EMPTY_STRING && medicationSchedules.instruction != nil) {
                     instructionString = String(format: " (%@)", (medicationSchedules.instruction)!)
@@ -556,9 +570,9 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                 statusView.updateAdministrationStatusViewWithMedicationSlotDictionary(slotDictionary)
                 
                 let weekDate = currentWeekDatesArray.objectAtIndex(index) as? NSDate
-                statusView.configureStatusViewForWeekDate(weekDate!)
+                statusView.configureStatusViewForWeekDateAndMedicationStatus(weekDate!, isActive: medicationSchedules.isActive)
             }
-            
+        
     }
     
     func addAdministerStatusViewsToTableCell(medicationCell: PrescriberMedicationTableViewCell, toContainerSubview containerView: UIView,  forMedicationSlotDictionary slotDictionary:NSDictionary,
@@ -570,26 +584,27 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                     existingStatusViews.addObject(subView)
                 }
             }
-            let slotWidth = DCUtility.mainWindowSize().width
-            // medication administration slots have to be made constant width , medication details flexible width
-            let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
-            var viewWidth = (slotWidth - parentViewController.calendarViewWidth)/3
-            if (appDelegate.windowState == DCWindowState.fullWindow) {
-                viewWidth = (slotWidth - parentViewController.calendarViewWidth)/5
-            }
-            let xValue : CGFloat = CGFloat(tag) * viewWidth + CGFloat(tag) + 1;
-            let viewFrame = CGRectMake(xValue, 0, viewWidth, 78.0)
-            let statusView : DCMedicationAdministrationStatusView = DCMedicationAdministrationStatusView(frame: viewFrame)
-            let medicationSchedules = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
-            statusView.delegate = self
-            statusView.tag = tag
-            statusView.currentIndexPath = indexPath
-            statusView.isOneThirdScreen = false
-            statusView.medicationCategory = medicationSchedules.medicineCategory
-            statusView.startDate = DCDateUtility.dateFromSourceString(medicationSchedules.startDate)
-            statusView.backgroundColor = UIColor.whiteColor()
-            statusView.updateAdministrationStatusViewWithMedicationSlotDictionary(slotDictionary)
-            return statusView
+        let slotWidth = DCUtility.mainWindowSize().width
+        // medication administration slots have to be made constant width , medication details flexible width
+        let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
+        var viewWidth = (slotWidth - parentViewController.calendarViewWidth)/3
+        if (appDelegate.windowState == DCWindowState.fullWindow) {
+            viewWidth = (slotWidth - parentViewController.calendarViewWidth)/5
+        }
+        let xValue : CGFloat = CGFloat(tag) * viewWidth + CGFloat(tag) + 1;
+        let viewFrame = CGRectMake(xValue, 0, viewWidth, 78.0)
+        let statusView : DCMedicationAdministrationStatusView = DCMedicationAdministrationStatusView(frame: viewFrame)
+        let medicationSchedules = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
+        statusView.delegate = self
+        statusView.tag = tag
+        statusView.currentIndexPath = indexPath
+        statusView.isOneThirdScreen = false
+        statusView.isActive = medicationSchedules.isActive
+        statusView.medicationCategory = medicationSchedules.medicineCategory
+        statusView.startDate = DCDateUtility.dateFromSourceString(medicationSchedules.startDate)
+        statusView.backgroundColor = UIColor.whiteColor()
+        statusView.updateAdministrationStatusViewWithMedicationSlotDictionary(slotDictionary)
+        return statusView
     }
     
     func prepareMedicationSlotsForDisplayInCellFromScheduleDetails (medicationScheduleDetails: DCMedicationScheduleDetails) -> NSMutableArray {
