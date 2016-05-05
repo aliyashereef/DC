@@ -116,6 +116,28 @@
                                             <outlet property="reasonOrResolveTextView" destination="VbU-ip-x3a" id="wMy-en-bvn"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="historyCell" id="LJb-4a-9kJ" customClass="DCInterventionAddOrResolveTableCell" customModule="DrugChart" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="231" width="310" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LJb-4a-9kJ" id="8OC-9J-nuf">
+                                            <rect key="frame" x="0.0" y="0.0" width="277" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="History" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i8w-SF-2Hl">
+                                                    <rect key="frame" x="15" y="0.0" width="262" height="43"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="i8w-SF-2Hl" secondAttribute="bottom" id="A3n-90-mB4"/>
+                                                <constraint firstAttribute="trailing" secondItem="i8w-SF-2Hl" secondAttribute="trailing" id="CLf-Dz-Poe"/>
+                                                <constraint firstItem="i8w-SF-2Hl" firstAttribute="leading" secondItem="8OC-9J-nuf" secondAttribute="leading" constant="15" id="ORZ-vm-mPs"/>
+                                                <constraint firstItem="i8w-SF-2Hl" firstAttribute="top" secondItem="8OC-9J-nuf" secondAttribute="top" id="tDK-2V-RjX"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="pjD-Zw-wVS" id="S9g-ye-0ws"/>
