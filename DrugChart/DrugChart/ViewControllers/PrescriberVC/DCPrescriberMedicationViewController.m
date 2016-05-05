@@ -706,6 +706,7 @@ typedef enum : NSUInteger {
     addPresentationController.delegate = addMedicationViewController;
     addPresentationController.permittedArrowDirections =
     UIPopoverArrowDirectionAny;
+    addPresentationController.passthroughViews = @[self.view];
     addPresentationController.sourceView = self.view;
     addPresentationController.barButtonItem = (UIBarButtonItem *)sender;
     warningsButton.userInteractionEnabled = NO;

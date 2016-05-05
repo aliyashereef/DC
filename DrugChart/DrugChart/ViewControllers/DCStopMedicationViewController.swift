@@ -14,6 +14,7 @@ class DCStopMedicationViewController : UIViewController , NotesCellDelegate{
     var inactiveDetails : DCInactiveDetails?
     var deleteingIndexPath: NSIndexPath?
     var isSavePressed : Bool = false
+    var startDate : NSString?
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -119,6 +120,7 @@ class DCStopMedicationViewController : UIViewController , NotesCellDelegate{
         case eSecondSection.rawValue:
             let outstandingDoseViewController = (UIStoryboard(name: STOP_MEDICATION, bundle: nil).instantiateViewControllerWithIdentifier(StopMedicationConstants.OUTSTANDING_VIEW_CONTROLLER_SB_ID) as? DCStopMedicationOutstandingDoseViewController)!
             outstandingDoseViewController.inactiveDetails = self.inactiveDetails
+            outstandingDoseViewController.startDate = self.startDate
             outstandingDoseViewController.isSavePressed = self.isSavePressed
             self.navigationController!.pushViewController(outstandingDoseViewController, animated: true)
             break
