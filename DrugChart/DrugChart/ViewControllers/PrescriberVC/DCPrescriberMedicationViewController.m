@@ -283,8 +283,8 @@ typedef enum : NSUInteger {
     
     NSInteger adderValue, daysCount;
     if (appDelegate.windowState == twoThirdWindow) {
-        adderValue = -4;
-        daysCount = 9;
+        adderValue = -3;
+        daysCount = 6;
     } else if (appDelegate.windowState == fullWindow) {
         adderValue = -6;
         daysCount = 12;
@@ -297,7 +297,7 @@ typedef enum : NSUInteger {
     currentWeekDatesArray = [DCDateUtility nextAndPreviousDays:daysCount
                                            withReferenceToDate:firstDisplayDate];
     if (appDelegate.windowState == twoThirdWindow) {
-        _centerDisplayDate = [currentWeekDatesArray objectAtIndex:4];
+        _centerDisplayDate = [currentWeekDatesArray objectAtIndex:3];
     } else if (appDelegate.windowState == fullWindow) {
         _centerDisplayDate = [currentWeekDatesArray objectAtIndex:6];
     } else {
@@ -1044,10 +1044,10 @@ typedef enum : NSUInteger {
     NSInteger adderValue, daysCount;
     BOOL isTwoThirdWindow = ([DCAPPDELEGATE windowState] == twoThirdWindow);
     if (isNextWeek) {
-        adderValue = isTwoThirdWindow? 3 : 4;
+        adderValue = isTwoThirdWindow? 2 : 4;
     }
     else {
-        adderValue = isTwoThirdWindow? -3 : -4;
+        adderValue = isTwoThirdWindow? -2 : -4;
     }
 
     daysCount = [DCAPPDELEGATE windowState] == twoThirdWindow? 9 : 12;

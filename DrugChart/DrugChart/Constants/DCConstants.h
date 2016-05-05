@@ -56,7 +56,7 @@
 
 // calendar view width constants
 
-#define CALENDAR_TWO_THIRD_WINDOW_WIDTH 435.0
+#define CALENDAR_TWO_THIRD_WINDOW_WIDTH 288.0
 #define CALENDAR_FULL_WINDOW_WIDTH 580.0
 #define TEXT_VIEW_CELL_HEIGHT 90.0
 #define ZERO_INT 0

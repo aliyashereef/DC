@@ -25,8 +25,6 @@ class DCReviewDatePickerCell:UITableViewCell, UIPickerViewDelegate, UIPickerView
     func configurePickerCell() {
         populateContentArrays()
         pickerView.reloadAllComponents()
-//        selectPickerViewPreviousComponents()
-
     }
     
     func populateContentArrays() {

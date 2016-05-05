@@ -163,7 +163,7 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     func addAdministerStatusViewsTo(containerView: UIView, atSlotIndex index: Int) {
         //TODO: medication administration slots have to be made constant width , medication details flexible width
         
-        let viewWidth : CGFloat = (appDelegate.windowState == DCWindowState.fullWindow) ?(725.0)/5.0 : (435.0)/3.0
+        let viewWidth : CGFloat = (appDelegate.windowState == DCWindowState.fullWindow) ?(580.0)/4.0 : (288.0)/2.0
         let xValue : CGFloat = CGFloat(index) * viewWidth + CGFloat(index) + 1;
         let viewFrame = CGRectMake(xValue, 0, viewWidth, 78.0)
         let statusView : DCMedicationAdministrationStatusView = DCMedicationAdministrationStatusView(frame: viewFrame)

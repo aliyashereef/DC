@@ -129,7 +129,7 @@ import CocoaLumberjack
         let leftDatesArray : NSMutableArray = []
         let centerDatesArray : NSMutableArray = []
         let rightDatesArray : NSMutableArray = []
-        let calendarStripDaysCount = (appDelegate.windowState == DCWindowState.fullWindow) ? 4:3
+        let calendarStripDaysCount = (appDelegate.windowState == DCWindowState.fullWindow) ? 4:2
         
         for ( index = 0; index < displayDatesArray.count; index++) {
             if (index < calendarStripDaysCount) {
@@ -158,7 +158,7 @@ import CocoaLumberjack
         if (appDelegate.windowState == DCWindowState.fullWindow) {
             weekViewWidth = (calendarViewWidth)/4
         } else {
-            weekViewWidth = (calendarViewWidth)/3
+            weekViewWidth = (calendarViewWidth)/2
         }
         return weekViewWidth
     }
