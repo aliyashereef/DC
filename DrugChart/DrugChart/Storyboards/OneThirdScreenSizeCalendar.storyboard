@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -20,12 +20,10 @@
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="nDg-yB-zzy">
                                 <rect key="frame" x="281" y="282" width="37" height="37"/>
-                                <animations/>
                                 <color key="color" red="0.45098039220000002" green="0.45098039220000002" blue="0.45098039220000002" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="67" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="kdx-wB-g0M">
                                 <rect key="frame" x="0.0" y="56" width="600" height="544"/>
-                                <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="gray" indentationWidth="10" reuseIdentifier="MedicationCell" rowHeight="67" id="U9D-UO-QQa" customClass="DCOneThirdCalendarScreenMedicationCell" customModule="DrugChart" customModuleProvider="target">
@@ -38,9 +36,36 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4zL-aD-Meb" userLabel="Edit Button View">
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="67"/>
                                                     <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O9M-Tr-DJu">
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xHt-B6-mDk">
+                                                            <rect key="frame" x="420" y="0.0" width="60" height="67"/>
+                                                            <color key="backgroundColor" red="0.4431372549" green="0.62352941179999999" blue="0.82745098039999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="60" id="v6W-Pt-Vby"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                            <state key="normal">
+                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="editMedicationButtonPressed:" destination="U9D-UO-QQa" eventType="touchUpInside" id="i1D-Ej-4HR"/>
+                                                            </connections>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="axq-9B-Asj">
                                                             <rect key="frame" x="540" y="0.0" width="60" height="67"/>
-                                                            <animations/>
+                                                            <color key="backgroundColor" red="0.77647058823529413" green="0.77647058823529413" blue="0.79607843137254897" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="60" id="fEY-ov-upA"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                            <state key="normal">
+                                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="moreButtonPressed:" destination="U9D-UO-QQa" eventType="touchUpInside" id="2dD-YZ-1WB"/>
+                                                            </connections>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O9M-Tr-DJu">
+                                                            <rect key="frame" x="480" y="0.0" width="60" height="67"/>
                                                             <color key="backgroundColor" red="1" green="0.41960784309999999" blue="0.38823529410000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="67" id="RJv-58-wVp"/>
@@ -59,34 +84,19 @@
                                                                 <action selector="stopMedicationButtonPressed:" destination="U9D-UO-QQa" eventType="touchUpInside" id="lW9-1X-xQt"/>
                                                             </connections>
                                                         </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xHt-B6-mDk">
-                                                            <rect key="frame" x="480" y="0.0" width="60" height="67"/>
-                                                            <animations/>
-                                                            <color key="backgroundColor" red="0.4431372549" green="0.62352941179999999" blue="0.82745098039999998" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="width" constant="60" id="v6W-Pt-Vby"/>
-                                                            </constraints>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                            <state key="normal">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                            <connections>
-                                                                <action selector="editMedicationButtonPressed:" destination="U9D-UO-QQa" eventType="touchUpInside" id="i1D-Ej-4HR"/>
-                                                            </connections>
-                                                        </button>
                                                     </subviews>
-                                                    <animations/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="trailing" secondItem="O9M-Tr-DJu" secondAttribute="trailing" id="6JM-d4-kTj">
-                                                            <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
-                                                        </constraint>
+                                                        <constraint firstAttribute="trailing" secondItem="axq-9B-Asj" secondAttribute="trailing" id="3DT-Vp-PMZ"/>
                                                         <constraint firstItem="xHt-B6-mDk" firstAttribute="top" secondItem="4zL-aD-Meb" secondAttribute="top" id="8fG-Cb-UKb"/>
                                                         <constraint firstAttribute="bottom" secondItem="O9M-Tr-DJu" secondAttribute="bottom" id="Ebh-Va-CMF">
                                                             <variation key="heightClass=regular-widthClass=compact" constant="1"/>
                                                         </constraint>
+                                                        <constraint firstItem="axq-9B-Asj" firstAttribute="leading" secondItem="O9M-Tr-DJu" secondAttribute="trailing" id="Ren-FC-boL"/>
+                                                        <constraint firstAttribute="bottom" secondItem="axq-9B-Asj" secondAttribute="bottom" id="Rv5-nn-LXA"/>
                                                         <constraint firstItem="O9M-Tr-DJu" firstAttribute="leading" secondItem="xHt-B6-mDk" secondAttribute="trailing" id="XC8-kZ-Tbk"/>
                                                         <constraint firstItem="O9M-Tr-DJu" firstAttribute="top" secondItem="4zL-aD-Meb" secondAttribute="top" id="bAm-AP-IW9"/>
+                                                        <constraint firstItem="axq-9B-Asj" firstAttribute="top" secondItem="4zL-aD-Meb" secondAttribute="top" id="m69-Yr-gHO"/>
                                                         <constraint firstAttribute="bottom" secondItem="xHt-B6-mDk" secondAttribute="bottom" id="zcj-CZ-bcl">
                                                             <variation key="heightClass=regular-widthClass=compact" constant="1"/>
                                                         </constraint>
@@ -97,7 +107,6 @@
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Senna 15 mg Tablet" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tzt-gb-W1V">
                                                             <rect key="frame" x="28" y="6" width="345" height="20"/>
-                                                            <animations/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="20" id="tjR-Dc-GgZ"/>
                                                             </constraints>
@@ -107,7 +116,6 @@
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Oral" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KME-xv-QmP">
                                                             <rect key="frame" x="28" y="27" width="345" height="17"/>
-                                                            <animations/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="17" id="j5Y-Pp-aZt"/>
                                                             </constraints>
@@ -155,7 +163,6 @@
                                                         </button>
                                                         <view clipsSubviews="YES" userInteractionEnabled="NO" tag="999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="l95-bK-TJI">
                                                             <rect key="frame" x="373" y="0.0" width="175" height="67"/>
-                                                            <animations/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" priority="400" constant="115" id="Dyr-JF-zhu">
@@ -177,7 +184,6 @@
                                                             </variation>
                                                         </view>
                                                     </subviews>
-                                                    <animations/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstItem="8NZ-BW-zwR" firstAttribute="leading" secondItem="Tzt-gb-W1V" secondAttribute="leading" id="2yT-Rh-2E8"/>
@@ -243,7 +249,6 @@
                                                     </variation>
                                                 </view>
                                             </subviews>
-                                            <animations/>
                                             <color key="backgroundColor" red="0.88235294119999996" green="0.90588235289999997" blue="0.91764705879999997" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstItem="grT-Gz-dsz" firstAttribute="top" secondItem="l9u-q9-OgY" secondAttribute="top" id="4FF-YR-nau"/>
@@ -267,7 +272,6 @@
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
-                                        <animations/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <connections>
@@ -277,6 +281,8 @@
                                             <outlet property="medicationViewLeadingConstraint" destination="YCb-sX-l7I" id="9qM-v3-Pxe"/>
                                             <outlet property="medicineDetailHolderView" destination="grT-Gz-dsz" id="gaY-hc-BXR"/>
                                             <outlet property="medicineName" destination="Tzt-gb-W1V" id="hDR-kn-p9d"/>
+                                            <outlet property="moreButton" destination="axq-9B-Asj" id="3WV-Fu-1Jb"/>
+                                            <outlet property="moreButtonWidth" destination="fEY-ov-upA" id="VVu-L7-5c2"/>
                                             <outlet property="route" destination="KME-xv-QmP" id="Pem-UE-mab"/>
                                             <outlet property="stopButton" destination="O9M-Tr-DJu" id="g9O-P1-i5T"/>
                                             <outlet property="stopButtonWidth" destination="yfo-6T-Syb" id="pMp-bd-Qfy"/>
@@ -291,7 +297,6 @@
                             </tableView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="LAP-xe-rvT">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="56"/>
-                                <animations/>
                                 <color key="backgroundColor" red="0.84705882352941175" green="0.84705882352941175" blue="0.84705882352941175" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="56" id="0Gt-EL-qZb"/>
@@ -312,14 +317,12 @@
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zh2-NB-X9d">
                                                     <rect key="frame" x="8" y="6" width="34" height="14"/>
-                                                    <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" red="0.45098039215686275" green="0.45098039215686275" blue="0.45098039215686275" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8x2-0m-GbS">
                                                     <rect key="frame" x="11" y="23" width="28" height="28"/>
-                                                    <animations/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="28" id="TpX-3U-w8J"/>
                                                         <constraint firstAttribute="width" constant="28" id="e9r-kx-cH0"/>
@@ -329,10 +332,8 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
-                                            <animations/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <animations/>
                                         <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstItem="Zh2-NB-X9d" firstAttribute="trailing" secondItem="2ky-vV-ZsK" secondAttribute="trailingMargin" id="EhY-fb-slr"/>
@@ -366,7 +367,6 @@
                                 </connections>
                             </collectionView>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="kdx-wB-g0M" firstAttribute="leading" secondItem="uak-No-iML" secondAttribute="leading" id="9fb-Cd-tSl"/>
