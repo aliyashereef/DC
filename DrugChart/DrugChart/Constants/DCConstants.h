@@ -77,6 +77,8 @@
 #define EDIT_BUTTON_TITLE   @"Edit"
 #define SELECT_ALL_TITLE    @"Select All"
 #define DESELECT_ALL_TITLE  @"Deselect All"
+#define REVIEW_TITLE        @"Review"
+#define MANAGE_SUSPENSION_TITLE @"Manage Suspension"
 
 //images
 
@@ -174,6 +176,7 @@
 #define ACTION_POPOVER_SB_ID @"ActionPopOverView"
 #define ONT_THIRD_ACTION_SB_ID @"oneThirdActionView"
 #define INTERVENTION_DETAILS_SB_ID @"InterventionDetailsViewController"
+#define MORE_BUTTON_ACTION_DISPLAY_SB_ID @"moreButtonActionDisplayView"
 
 //Nib files
 #define WARNINGS_HEADER_VIEW_NIB @"DCWarningsHeaderView"

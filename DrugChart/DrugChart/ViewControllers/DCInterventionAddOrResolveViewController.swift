@@ -88,6 +88,8 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
         case eResolveIntervention.rawValue:
             if indexPath.section == eZerothSection.rawValue {
                 let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(RESOLVE_INTERVENTION_CELL) as? DCInterventionAddOrResolveTableCell
+                let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList[indexOfCurrentMedication!] as! DCMedicationScheduleDetails
+                cell?.reasonTextLabel.text = medicationSheduleDetails.pharmacistAction.intervention.reason
                 return cell!
             } else {
                 let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(REASON_RESOLVE_TEXTVIEW_CELL) as? DCInterventionAddResolveTextViewCell
