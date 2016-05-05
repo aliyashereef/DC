@@ -272,6 +272,7 @@
 #define DOSE_DISPLAY_TEXTFIELD @"doseDisplayCell"
 #define REASON_TEXT_VIEW @"reasonTextViewCell"
 #define ACTION_DISPLAY_CELL @"actionDisplayCell"
+#define HISTORY_OPTION_DISPLAY_CELL @"historyCell"
 
 // Week days
 
