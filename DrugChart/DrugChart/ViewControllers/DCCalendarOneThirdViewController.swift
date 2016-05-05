@@ -595,6 +595,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         let medicataionschedules = self.displayMedicationListArray.objectAtIndex(indexPath.row) as! DCMedicationScheduleDetails
         medicataionschedules.inactiveDetails = DCInactiveDetails.init()
         inactiveDetailsViewController.deleteingIndexPath = indexPath
+        inactiveDetailsViewController.medicationDetails = displayMedicationListArray[indexPath.row] as? DCMedicationScheduleDetails
         inactiveDetailsViewController.inactiveDetails = medicataionschedules.inactiveDetails
         let navigationController: UINavigationController = UINavigationController(rootViewController: inactiveDetailsViewController)
         navigationController.modalPresentationStyle = .FormSheet

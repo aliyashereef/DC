@@ -66,9 +66,9 @@ class DCWardsInformationsViewController: DCBaseViewController, WardSelectionDele
         fillNavigationBarTitle()
         self.navigationController?.navigationBar.backgroundColor = UIColor.whiteColor()
         let wardsButton : UIBarButtonItem = UIBarButtonItem(title:"Wards", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(DCWardsInformationsViewController.presentWardsListView(_:)))
-        let graphicViewButton : UIBarButtonItem = UIBarButtonItem(image:  UIImage(named: "graphicDisplayImage"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(DCWardsInformationsViewController.showGraphicalWardsView))
+//        let graphicViewButton : UIBarButtonItem = UIBarButtonItem(image:  UIImage(named: "graphicDisplayImage"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(DCWardsInformationsViewController.showGraphicalWardsView))
         self.navigationItem.leftBarButtonItem = wardsButton
-        self.navigationItem.rightBarButtonItem = graphicViewButton
+//        self.navigationItem.rightBarButtonItem = graphicViewButton
     }
     
     func fillNavigationBarTitle () {
@@ -97,27 +97,27 @@ class DCWardsInformationsViewController: DCBaseViewController, WardSelectionDele
     }
     
     func showGraphicalWardsView () {
-        
-        if (graphicalDisplayShown) {
-            self.view.bringSubviewToFront(patientListViewController!.view)
-            let wardsGraphicalImage: UIImage = UIImage(named: "graphicDisplayImage")!
-            let graphicViewButton : UIBarButtonItem = UIBarButtonItem(image:  wardsGraphicalImage, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(DCWardsInformationsViewController.showGraphicalWardsView))
-            self.navigationItem.rightBarButtonItem = graphicViewButton
-            graphicalDisplayShown = false
-        }
-        else {
-            
-            let wardsListImage: UIImage = UIImage(named: "ListIcon")!
-            let listButton : UIBarButtonItem = UIBarButtonItem(image:  wardsListImage, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(DCWardsInformationsViewController.showGraphicalWardsView))
-            self.navigationItem.rightBarButtonItem = listButton
-            if ((wardsGraphicalDisplayViewController) != nil) {
-                self.view.bringSubviewToFront(wardsGraphicalDisplayViewController!.view)
-            }
-            else {
-                self.addWardsGraphicalDisplayViewController()
-            }
-            graphicalDisplayShown = true
-        }
+//        
+//        if (graphicalDisplayShown) {
+//            self.view.bringSubviewToFront(patientListViewController!.view)
+//            let wardsGraphicalImage: UIImage = UIImage(named: "graphicDisplayImage")!
+//            let graphicViewButton : UIBarButtonItem = UIBarButtonItem(image:  wardsGraphicalImage, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(DCWardsInformationsViewController.showGraphicalWardsView))
+//            self.navigationItem.rightBarButtonItem = graphicViewButton
+//            graphicalDisplayShown = false
+//        }
+//        else {
+//            
+//            let wardsListImage: UIImage = UIImage(named: "ListIcon")!
+//            let listButton : UIBarButtonItem = UIBarButtonItem(image:  wardsListImage, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(DCWardsInformationsViewController.showGraphicalWardsView))
+//            self.navigationItem.rightBarButtonItem = listButton
+//            if ((wardsGraphicalDisplayViewController) != nil) {
+//                self.view.bringSubviewToFront(wardsGraphicalDisplayViewController!.view)
+//            }
+//            else {
+//                self.addWardsGraphicalDisplayViewController()
+//            }
+//            graphicalDisplayShown = true
+//        }
     }
     
     func reloadGraphicalView () {

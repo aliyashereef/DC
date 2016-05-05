@@ -80,11 +80,17 @@ class DCPharmacistTableCell: UITableViewCell {
     }
 
     override func layoutSubviews() {
+
         super.layoutSubviews()
         self.calculateActionButtonWidthAndCount()
         if (self.pharmacistDetailsViewLeadingConstraint.constant != 0) {
             self.pharmacistDetailsViewLeadingConstraint.constant = -actionButtonsTotalWidth
             self.pharmacistDetailsViewTrailingConstraint.constant = actionButtonsTotalWidth
+        }
+        let tableView : UITableView = (self.superview?.superview as? UITableView)!
+        //donot allow tableviewcell show the underlying buttons in editing mode
+        if tableView.editing == true {
+            configurePharmacistButtonState(true)
         }
     }
     
@@ -309,8 +315,8 @@ class DCPharmacistTableCell: UITableViewCell {
         
         let tableView : UITableView = (self.superview?.superview as? UITableView)!
         //donot allow tableviewcell swipe when tableview is in editing mode
-        self.calculateActionButtonWidthAndCount()
         if tableView.editing == false && isTableViewScrolling == false {
+            configurePharmacistButtonState(false)
             let translate : CGPoint = panGesture.translationInView(self.contentView)
             let gestureVelocity : CGPoint = panGesture.velocityInView(self)
             if (gestureVelocity.x > PAN_VELOCITY_TRIGGER_LIMIT || gestureVelocity.x < -PAN_VELOCITY_TRIGGER_LIMIT) {
@@ -434,6 +440,13 @@ class DCPharmacistTableCell: UITableViewCell {
             self.clinicalCheckButton.setTitle(EMPTY_STRING, forState: .Normal)
             self.editInterventionButton.setTitle(EMPTY_STRING, forState: .Normal)
         }
+    }
+    
+    func configurePharmacistButtonState(hidden : Bool ) {
+        self.editInterventionButton.hidden = hidden
+        self.clinicalCheckButton.hidden = hidden
+        self.resolveInterventionButton.hidden = hidden
+        self.podStatusButton.hidden = hidden
     }
     
     func setPrescriberDetailsViewFrame() {

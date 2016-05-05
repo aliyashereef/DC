@@ -66,6 +66,7 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     var inEditMode : Bool = false
     var isMedicationActive : Bool = true
     let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
+    var cellHeight : CGFloat? = 0.0
     
     override func awakeFromNib() {
         
@@ -98,6 +99,7 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     }
     
     func createAdministerStatusViews() {
+        
         let noOfStatusViews = (appDelegate.windowState == DCWindowState.twoThirdWindow) ? 9 : 15
         let calendarStripDaysCount = (appDelegate.windowState == DCWindowState.fullWindow) ? 5:3
         
@@ -118,27 +120,68 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
                 default:
                     break
                 }
-                
                 count += 1
             }
         }
+    }
+    
+    func updateAdministerStatusViewsHeight() {
         
+        let noOfStatusViews = (appDelegate.windowState == DCWindowState.twoThirdWindow) ? 9 : 12
+        let calendarStripDaysCount = (appDelegate.windowState == DCWindowState.fullWindow) ? 4:3
+        var count = 0
+        autoreleasepool { () -> () in
+            for _ in 0..<noOfStatusViews {
+                switch (count) {
+                case 0..<calendarStripDaysCount:
+                    // Status views in leftMedicationAdministerDetailsView
+                    self.updateAdministerStatusViewsInContainerView(leftMedicationAdministerDetailsView, atSlotIndex: count)
+                case calendarStripDaysCount..<2*calendarStripDaysCount:
+                    // Status views in masterMedicationAdministerDetailsView
+                    self.updateAdministerStatusViewsInContainerView(masterMedicationAdministerDetailsView, atSlotIndex: count-calendarStripDaysCount)
+                case 2*calendarStripDaysCount..<3*calendarStripDaysCount:
+                    // Status views in rightMedicationAdministerDetailsView
+                    self.updateAdministerStatusViewsInContainerView(rightMedicationAdministerDetailsView, atSlotIndex: count-2*calendarStripDaysCount)
+                default:
+                    break
+                }
+                count += 1
+            }
+        }
     }
     
     // MARK: Private Methods
     
+    func calculateHeightForCell() -> CGFloat? {
+        
+        self.setNeedsLayout()
+        self.layoutIfNeeded()
+        let height = self.contentView.systemLayoutSizeFittingSize(UILayoutFittingExpandedSize).height
+        return height
+    }
+    
     func addAdministerStatusViewsTo(containerView: UIView, atSlotIndex index: Int) {
         //TODO: medication administration slots have to be made constant width , medication details flexible width
-
-        let viewWidth : CGFloat = (appDelegate.windowState == DCWindowState.fullWindow) ?(725.0)/5.0 : (435.0)/3.0
+        
+        let viewWidth : CGFloat = (appDelegate.windowState == DCWindowState.fullWindow) ?(580.0)/4.0 : (288.0)/2.0
         let xValue : CGFloat = CGFloat(index) * viewWidth + CGFloat(index) + 1;
         let viewFrame = CGRectMake(xValue, 0, viewWidth, 78.0)
         let statusView : DCMedicationAdministrationStatusView = DCMedicationAdministrationStatusView(frame: viewFrame)
         statusView.tag = index+1
         statusView.isOneThirdScreen = false
         statusView.backgroundColor = UIColor.whiteColor()
-        
         containerView.addSubview(statusView)
+    }
+    
+    func updateAdministerStatusViewsInContainerView(containerView: UIView, atSlotIndex index: Int) {
+        
+        let administerViews = containerView.subviews.filter{$0 is DCMedicationAdministrationStatusView}
+        for statusView in administerViews as! [DCMedicationAdministrationStatusView] {
+            let viewFrame = statusView.frame
+            statusView.frame = CGRectMake(viewFrame.origin.x, viewFrame.origin.y, viewFrame.size.width, cellHeight!)
+            statusView.refreshViewWithUpdatedFrame()
+            statusView.layoutIfNeeded()
+        }
     }
     
     func addPanGestureToMedicationDetailHolderView () {
