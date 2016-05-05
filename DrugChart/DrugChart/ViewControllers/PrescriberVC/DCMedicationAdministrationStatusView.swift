@@ -141,6 +141,8 @@ class DCMedicationAdministrationStatusView: UIView {
         //include all elements whose frames are to be updated
         let contentFrame : CGRect = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)
         administerButton?.frame = contentFrame
+        centerPoint = CGPointMake(0.5 * self.bounds.size.width, 0.5 * self.bounds.size.height)
+        statusIcon?.center = centerPoint
     }
 
     func updateAdministrationStatusViewWithMedicationSlotDictionary(slotDictionary : NSDictionary) {
