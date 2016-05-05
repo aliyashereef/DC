@@ -282,15 +282,27 @@ typedef enum : NSUInteger {
 - (void)currentWeekDatesArrayFromDate:(NSDate *)date {
     
     NSInteger adderValue, daysCount;
-    adderValue = (appDelegate.windowState == twoThirdWindow) ? -4 : -7;
-    daysCount = (appDelegate.windowState == twoThirdWindow) ? 9 : 15;
+    if (appDelegate.windowState == twoThirdWindow) {
+        adderValue = -3;
+        daysCount = 6;
+    } else if (appDelegate.windowState == fullWindow) {
+        adderValue = -6;
+        daysCount = 12;
+    } else {
+        adderValue = -7;
+        daysCount = 15;
+    }
     firstDisplayDate = [DCDateUtility initialDateForCalendarDisplay:date
                                                      withAdderValue:adderValue];
     currentWeekDatesArray = [DCDateUtility nextAndPreviousDays:daysCount
                                            withReferenceToDate:firstDisplayDate];
-    _centerDisplayDate = (appDelegate.windowState == twoThirdWindow) ? [currentWeekDatesArray objectAtIndex:4] :
-    [currentWeekDatesArray objectAtIndex:7];
-    
+    if (appDelegate.windowState == twoThirdWindow) {
+        _centerDisplayDate = [currentWeekDatesArray objectAtIndex:3];
+    } else if (appDelegate.windowState == fullWindow) {
+        _centerDisplayDate = [currentWeekDatesArray objectAtIndex:6];
+    } else {
+        _centerDisplayDate = [currentWeekDatesArray objectAtIndex:7];
+    }
 }
 
 - (void)populateMonthYearLabel {
@@ -1033,17 +1045,18 @@ typedef enum : NSUInteger {
     NSInteger adderValue, daysCount;
     BOOL isTwoThirdWindow = ([DCAPPDELEGATE windowState] == twoThirdWindow);
     if (isNextWeek) {
-        adderValue = isTwoThirdWindow? 3 : 5;
+        adderValue = isTwoThirdWindow? 2 : 4;
     }
     else {
-        adderValue = isTwoThirdWindow? -3 : -5;
+        adderValue = isTwoThirdWindow? -2 : -4;
     }
-    daysCount = [DCAPPDELEGATE windowState] == twoThirdWindow? 9 : 15;
+
+    daysCount = [DCAPPDELEGATE windowState] == twoThirdWindow? 9 : 12;
     firstDisplayDate = [DCDateUtility initialDateForCalendarDisplay:firstDisplayDate withAdderValue:adderValue];
     currentWeekDatesArray = [DCDateUtility nextAndPreviousDays:daysCount
                                            withReferenceToDate:firstDisplayDate];
     _centerDisplayDate = isTwoThirdWindow ? [currentWeekDatesArray objectAtIndex:4]:
-                                           [currentWeekDatesArray objectAtIndex:7];
+                                           [currentWeekDatesArray objectAtIndex:6];
 }
 
 - (void)loadCurrentWeekDate {
@@ -1153,6 +1166,7 @@ typedef enum : NSUInteger {
 }
 
 - (void)configureDateArrayForOneThirdCalendarScreen {
+    
     if ([DCAPPDELEGATE windowState] == halfWindow ||
         [DCAPPDELEGATE windowState] == oneThirdWindow) {
         prescriberMedicationOneThirdSizeViewController.centerDate = _centerDisplayDate;
