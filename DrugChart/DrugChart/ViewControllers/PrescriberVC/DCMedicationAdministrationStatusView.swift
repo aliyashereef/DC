@@ -236,29 +236,15 @@ class DCMedicationAdministrationStatusView: UIView {
         var overDueCount : NSInteger = 0
         var administeredCount : NSInteger = 0
         var omissionRefusalCount : NSInteger = 0
-        var dueNow = false
         let currentSystemDate : NSDate = NSDate()
         for slot in timeArray as [AnyObject] {
             let medication = slot as! DCMedicationSlot
-            let timeIntervalFromCurrentTime = medication.time.timeIntervalSinceDate(currentSystemDate)
             if (medication.time.compare(currentSystemDate) == NSComparisonResult.OrderedAscending) {
                 //past time, check if any medication administration is pending
                 if (medication.medicationAdministration?.actualAdministrationTime == nil) {
-                     if (timeIntervalFromCurrentTime >= TIME_INTERVAL_LIMIT_BEFORE_DUE_NOW && timeIntervalFromCurrentTime <= 0) {
-                        // due now status has to shown
-                        dueNow = true
-                     } else {
-                        overDueCount += 1
-                        break;
-                    }
+                    overDueCount += 1
+                    break;
                  }
-            }
-            // due now functionality
-            if (timeIntervalFromCurrentTime <= TIME_INTERVAL_LIMIT_AFTER_DUE_NOW || dueNow == true) {
-                //Due in 5 minutes
-                if (medication.medicationAdministration?.status == nil) {
-                    dueNow = true
-                }
             }
             //check the conditions of early administrations as well
             if (medication.medicationAdministration?.actualAdministrationTime != nil) {
@@ -273,13 +259,8 @@ class DCMedicationAdministrationStatusView: UIView {
             //display overdue label here
             displayOverDueLabel()
         } else {
-            if dueNow == true {
-                //display due now view
-                updateDueNowStatusInView()
-            } else {
-                updateBackgroundColorForCurrentDay()
-                 updateCurrentDayStatusViewWithAdministrationCount(administrationCount:administeredCount, omittedRefusalCount: omissionRefusalCount)
-            }
+            updateBackgroundColorForCurrentDay()
+            updateCurrentDayStatusViewWithAdministrationCount(administrationCount:administeredCount, omittedRefusalCount: omissionRefusalCount)
         }
     }
     

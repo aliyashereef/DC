@@ -448,11 +448,6 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
                     atIndexPath: indexPath,
                     atSlotIndex:0)
                 let weekdate = centerDate
-                if statusView.statusLabel?.text == NSLocalizedString("DUE_NOW", comment: "due now text") {
-                    medicationCell.medicineDetailHolderView.backgroundColor = DUE_NOW_BACKGROUND_COLOR
-                } else {
-                    medicationCell.medicineDetailHolderView.backgroundColor = UIColor.whiteColor()
-                }
                 medicationCell.adminstrationStatusView.addSubview(statusView)
                 statusView.configureStatusViewForWeekDateAndMedicationStatus(weekdate, isActive: medicationDetails!.isActive)
 
