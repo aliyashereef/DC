@@ -130,7 +130,6 @@ import CocoaLumberjack
         let centerDatesArray : NSMutableArray = []
         let rightDatesArray : NSMutableArray = []
         let calendarStripDaysCount = (appDelegate.windowState == DCWindowState.fullWindow) ? 4:2
-        
         for ( index = 0; index < displayDatesArray.count; index++) {
             if (index < calendarStripDaysCount) {
                 leftDatesArray.addObject(displayDatesArray.objectAtIndex(index))
@@ -156,9 +155,9 @@ import CocoaLumberjack
         // medication administration slots have to be made constant width , medication details flexible width
         let weekViewWidth : CGFloat!
         if (appDelegate.windowState == DCWindowState.fullWindow) {
-            weekViewWidth = (calendarViewWidth)/4
+            weekViewWidth = (calendarViewWidth)/DCCalendarConstants.FULL_SCREEN_DAYS_COUNT
         } else {
-            weekViewWidth = (calendarViewWidth)/2
+            weekViewWidth = (calendarViewWidth)/DCCalendarConstants.TWO_THIRD_SCREEN_DAYS_COUNT
         }
         return weekViewWidth
     }

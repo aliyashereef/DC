@@ -355,7 +355,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         if pharmacistTableView.indexPathsForSelectedRows?.count > 0 {
             selectedMedicationList = self.configureSelectedMedicationList(true, action: EDIT_INTERVENTION)  {
                 (result: NSMutableArray) in
-                
+                selectedMedicationList = result
                 if selectedMedicationList.count > 0 {
                     let addInterventionViewController : DCInterventionAddOrResolveViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(INTERVENTION_ADD_RESOLVE_SB_ID) as? DCInterventionAddOrResolveViewController
                     addInterventionViewController!.indexOfCurrentMedication = 0
@@ -392,7 +392,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         if pharmacistTableView.indexPathsForSelectedRows?.count > 0 {
             selectedMedicationList = self.configureSelectedMedicationList(true, action: RESOLVE_INTERVENTION)   {
                 (result: NSMutableArray) in
-                
+                selectedMedicationList = result
                 if selectedMedicationList.count > 0 {
                     let resolveInterventionViewController : DCInterventionAddOrResolveViewController? = UIStoryboard(name: PHARMACIST_ACTION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(INTERVENTION_ADD_RESOLVE_SB_ID) as? DCInterventionAddOrResolveViewController
                     resolveInterventionViewController!.indexOfCurrentMedication = 0

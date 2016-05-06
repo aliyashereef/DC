@@ -163,6 +163,7 @@
 		0BD3D4DF1AB2CA89002B8711 /* DCMedicationSlot.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD3D4DE1AB2CA89002B8711 /* DCMedicationSlot.m */; };
 		0BD3DC251CA01896002149E5 /* DCReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD3DC241CA01896002149E5 /* DCReviewViewController.swift */; };
 		0BD5181D1BFB2F790076B018 /* WeekDays.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0BD5181C1BFB2F790076B018 /* WeekDays.plist */; };
+		0BD6037E1CDC6D18003E9946 /* DCCalendarConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD6037D1CDC6D18003E9946 /* DCCalendarConstants.swift */; };
 		0BD659561BD6685A00D3097B /* DCAdministerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD659551BD6685A00D3097B /* DCAdministerButton.swift */; };
 		0BD699161BB272BB008797A2 /* DCAdministerTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD699151BB272BB008797A2 /* DCAdministerTableHeaderView.swift */; };
 		0BD699181BB272D9008797A2 /* DCAdministerTableHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BD699171BB272D9008797A2 /* DCAdministerTableHeaderView.xib */; };
@@ -695,6 +696,7 @@
 		0BD3D4DE1AB2CA89002B8711 /* DCMedicationSlot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCMedicationSlot.m; sourceTree = "<group>"; };
 		0BD3DC241CA01896002149E5 /* DCReviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCReviewViewController.swift; sourceTree = "<group>"; };
 		0BD5181C1BFB2F790076B018 /* WeekDays.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = WeekDays.plist; sourceTree = "<group>"; };
+		0BD6037D1CDC6D18003E9946 /* DCCalendarConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DCCalendarConstants.swift; path = CalendarConstants/DCCalendarConstants.swift; sourceTree = "<group>"; };
 		0BD659551BD6685A00D3097B /* DCAdministerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministerButton.swift; sourceTree = "<group>"; };
 		0BD699151BB272BB008797A2 /* DCAdministerTableHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministerTableHeaderView.swift; sourceTree = "<group>"; };
 		0BD699171BB272D9008797A2 /* DCAdministerTableHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCAdministerTableHeaderView.xib; sourceTree = "<group>"; };
@@ -2145,6 +2147,7 @@
 		0BBC8FA71AA46BCE0085ABAB /* Constants */ = {
 			isa = PBXGroup;
 			children = (
+				0BD6037D1CDC6D18003E9946 /* DCCalendarConstants.swift */,
 				0BBC8FA81AA46C080085ABAB /* DCConstants.h */,
 				0BCE42AD1B7DBC8C00B6A82E /* Enumerations */,
 			);
@@ -3850,6 +3853,7 @@
 				FDD548741C4511B8000EB855 /* DCReducingIncreasingDose.m in Sources */,
 				7DE60BCF1B2866CD00BCA745 /* DCPatientGraphicalRepresentationView.m in Sources */,
 				FDD5487B1C4513FA000EB855 /* DCConditions.m in Sources */,
+				0BD6037E1CDC6D18003E9946 /* DCCalendarConstants.swift in Sources */,
 				1F1977201C0485C500106023 /* RowHeaderCollectionViewCell.swift in Sources */,
 				7D4DBE9E1AA57E1700A5E39B /* UIColor+ColorFromHex.m in Sources */,
 				0B95FAF01B5E6634002939DF /* DCWarningsHeaderView.m in Sources */,
