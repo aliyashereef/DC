@@ -112,14 +112,14 @@ class DCStopMedicationViewController : UIViewController , NotesCellDelegate{
 
     func cellSelectionForIndexPath (indexPath : NSIndexPath) {
         switch (indexPath.section) {
-        case eZerothSection.rawValue:
+        case eFirstSection.rawValue:
             let reasonViewController = (UIStoryboard(name: STOP_MEDICATION, bundle: nil).instantiateViewControllerWithIdentifier(StopMedicationConstants.REASON_VIEW_CONTROLLER_SB_ID) as? DCStopMedicationReasonViewController)!
             reasonViewController.inactiveDetails = self.inactiveDetails
             self.navigationController!.pushViewController(reasonViewController, animated: true)
             break
-        case eFirstSection.rawValue:
-            break
         case eSecondSection.rawValue:
+            break
+        case eThirdSection.rawValue:
             let outstandingDoseViewController = (UIStoryboard(name: STOP_MEDICATION, bundle: nil).instantiateViewControllerWithIdentifier(StopMedicationConstants.OUTSTANDING_VIEW_CONTROLLER_SB_ID) as? DCStopMedicationOutstandingDoseViewController)!
             outstandingDoseViewController.inactiveDetails = self.inactiveDetails
             outstandingDoseViewController.startDate = self.medicationDetails?.startDate
