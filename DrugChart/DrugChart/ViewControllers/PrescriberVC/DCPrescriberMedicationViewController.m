@@ -1089,7 +1089,7 @@ typedef enum : NSUInteger {
     [dateView setBackgroundColor:[UIColor whiteColor]];
     UILabel *dateLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, windowWidth, 50)];
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"LLLL yyyy"];
+    [dateFormat setDateFormat:@"dd LLLL yyyy"];
     NSString *dateString = [dateFormat stringFromDate:date];
     dateLabel.text = dateString;
     dateLabel.backgroundColor = [UIColor whiteColor];
