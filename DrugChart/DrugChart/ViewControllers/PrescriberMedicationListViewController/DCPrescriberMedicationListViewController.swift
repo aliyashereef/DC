@@ -753,14 +753,6 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         
         let moreButtonActionsViewController : DCMedicationListMoreButtonViewController? = UIStoryboard(name: STOP_MEDICATION, bundle: nil).instantiateViewControllerWithIdentifier(MORE_BUTTON_ACTION_DISPLAY_SB_ID) as? DCMedicationListMoreButtonViewController
         let navigationController : UINavigationController? = UINavigationController(rootViewController: moreButtonActionsViewController!)
-        moreButtonActionsViewController?.actionForMoreButtonSelected = { action in
-            
-            if action == 0 {
-                //TODO: Action For Review
-            } else {
-                //TODO: Action For Manage Suspension
-            }
-        }
         navigationController?.modalPresentationStyle = UIModalPresentationStyle.Popover
         self.presentViewController(navigationController!, animated: true, completion: nil)
         let popover = navigationController?.popoverPresentationController
@@ -769,6 +761,15 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         let cell = medicationTableView!.cellForRowAtIndexPath(indexPath) as! PrescriberMedicationTableViewCell?
         popover?.sourceRect = CGRectMake(cell!.moreButton.bounds.origin.x - (moreButtonPopoverLeftOffset + cell!.moreButton.bounds.size.width),cell!.moreButton
             .bounds.origin.y + moreButtonHeightOffset,moreButtonPopoverWidth,moreButtonPopoverHeight);
+        moreButtonActionsViewController?.actionForMoreButtonSelected = { action in
+            
+            cell!.swipeMedicationDetailViewToRight()
+            if action == 0 {
+                //TODO: Action For Review
+            } else {
+                //TODO: Action For Manage Suspension
+            }
+        }
         moreButtonActionsViewController!.preferredContentSize = CGSizeMake(moreButtonPopoverWidth, moreButtonPopoverHeight)
         popover!.sourceView = cell?.moreButton
     }
