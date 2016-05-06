@@ -19,8 +19,10 @@ let DUE_AT_FONT_COLOR               =   UIColor(forHexString: "#007aff")
 let OVERDUE_FONT_COLOR              =   UIColor(forHexString: "#ff0000") // get exact color for display
 let DUE_NOW_FONT_COLOR              =   UIColor.whiteColor()
 let CURRENT_DAY_BACKGROUND_COLOR    =   UIColor(forHexString: "#fafafa")
-let INACTIVE_BACKGROUND_COLOR    =   UIColor(forHexString: "#f7f7f7")
-let INACTIVE_TEXT_COLOR    =  UIColor(forHexString :"#989797")
+let INACTIVE_BACKGROUND_COLOR       =   UIColor(forHexString: "#f7f7f7")
+let INACTIVE_TEXT_COLOR             =   UIColor(forHexString :"#989797")
+let INACTIVE_RED_COLOR              =   UIColor(forHexString: "#e87b7b")
+let ACTIVE_TEXT_COLOR               =   UIColor(forHexString :"#737373")
 let DUE_NOW_BACKGROUND_COLOR        =   UIColor(forHexString: "#f99e35")
 let PENDING_COUNT_FONT_COLOR        =   UIColor(forHexString: "#595959")
 

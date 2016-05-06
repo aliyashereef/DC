@@ -509,7 +509,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                 medicationCell.medicineName.text = medicationSchedules.name
                 if medicationSchedules.isActive {
                     medicationCell.medicineName.textColor = UIColor.blackColor()
-                    medicationCell.route.textColor = UIColor(forHexString :"#737373")
+                    medicationCell.route.textColor = ACTIVE_TEXT_COLOR
 
                 } else {
                     medicationCell.medicineName.textColor = INACTIVE_TEXT_COLOR
@@ -532,7 +532,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                     typeString = "\(typeString) - \(DISCONTINUED_STRING)"
                     let range = (typeString as NSString).rangeOfString(DISCONTINUED_STRING)
                     let attributedTypeString  = NSMutableAttributedString(string: typeString, attributes: [NSFontAttributeName:UIFont.systemFontOfSize(12.0)])
-                    attributedTypeString.addAttribute(NSForegroundColorAttributeName, value: UIColor(forHexString: "#e87b7b") , range: range)
+                    attributedTypeString.addAttribute(NSForegroundColorAttributeName, value: INACTIVE_RED_COLOR , range: range)
                     medicationCell.medicationTypeLabel.attributedText = attributedTypeString
                 }
             }

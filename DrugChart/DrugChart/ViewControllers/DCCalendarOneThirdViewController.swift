@@ -213,8 +213,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         cell!.isMedicationActive = medicationScheduleDetails.isActive
         let rowDisplayMedicationSlotsArray = self.prepareMedicationSlotsForDisplayInCellFromScheduleDetailsForDate(medicationScheduleDetails,date:centerDate)
         
-        var index : NSInteger = 0
-        for index = 0; index < rowDisplayMedicationSlotsArray.count; index += 1 {
+        for index in 0..<rowDisplayMedicationSlotsArray.count {
             
             self.configureMedicationCell(cell!,withMedicationSlotsArray: rowDisplayMedicationSlotsArray,atIndexPath: indexPath,andSlotIndex: index)
         }
@@ -321,7 +320,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
                 medicationCell.medicineName.text = medicationSchedules.name;
                 if medicationSchedules.isActive {
                     medicationCell.medicineName.textColor = UIColor.blackColor()
-                    medicationCell.route.textColor = UIColor(forHexString :"#737373")
+                    medicationCell.route.textColor = ACTIVE_TEXT_COLOR
                 } else {
                     medicationCell.medicineName.textColor = INACTIVE_TEXT_COLOR
                     medicationCell.route.textColor = INACTIVE_TEXT_COLOR
@@ -345,7 +344,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
                     typeString = "\(typeString) - \(DISCONTINUED_STRING)"
                     let range = (typeString as NSString).rangeOfString(DISCONTINUED_STRING)
                     let attributedTypeString  = NSMutableAttributedString(string: typeString, attributes: [NSFontAttributeName:UIFont.systemFontOfSize(10.0)])
-                    attributedTypeString.addAttribute(NSForegroundColorAttributeName, value: UIColor(forHexString: "#e87b7b") , range: range)
+                    attributedTypeString.addAttribute(NSForegroundColorAttributeName, value: INACTIVE_RED_COLOR , range: range)
                     medicationCell.typeLabel.attributedText = attributedTypeString
                 }
             }
