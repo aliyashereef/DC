@@ -236,7 +236,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         let tableCell: DCOneThirdCalendarScreenMedicationCell = tableView.cellForRowAtIndexPath(indexPath) as! DCOneThirdCalendarScreenMedicationCell
-        let subViewArray = tableCell.contentView.subviews[1].subviews[5].subviews
+        let subViewArray = tableCell.contentView.subviews[1].subviews[4].subviews
         //let subViewArray = tableCell.contentView.subviews
         for subVeiw in subViewArray {
             if subVeiw .isKindOfClass(DCMedicationAdministrationStatusView){
