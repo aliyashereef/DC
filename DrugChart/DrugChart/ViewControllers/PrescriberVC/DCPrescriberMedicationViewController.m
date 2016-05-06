@@ -670,11 +670,12 @@ typedef enum : NSUInteger {
         [self sortPrescriberMedicationList];
         dispatch_async(dispatch_get_main_queue(), ^{
             if ([displayMedicationListArray count] > 0) {
-                if (prescriberMedicationListViewController) {
-                    [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
-                }
                 if (prescriberMedicationOneThirdSizeViewController && isOneThirdMedicationViewShown) {
                     [prescriberMedicationOneThirdSizeViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
+                } else {
+                    if (prescriberMedicationListViewController) {
+                        [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
+                    }
                 }
             }
         });
