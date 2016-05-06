@@ -17,6 +17,8 @@ class StopMedicationConstants {
     //Cell ids
     static let REASON_CELL_ID  = "ReasonCell"
     static let OUTSTANDING_DOSAGE_CELL_ID = "OutstandingDosageCell"
+    static let DURATION_BASED_INFUSION_CELL = "DurationBasedInfusionCell"
+    static let MEDICATION_DETAILS_CELL = "MedicationDetailsTableViewCell"
     //Array strings
     static let ALLERGIC_REACTION = "Allergic Reaction"
     static let FORMULARY_SUBSTITUTION = "Formulary Substitution"
@@ -34,5 +36,5 @@ class StopMedicationConstants {
     static let REASON_VIEW_CONTROLLER_SB_ID = "StopMedicationReasonViewController"
     static let OUTSTANDING_VIEW_CONTROLLER_SB_ID = "StopMedicationOutstandingDoseViewController"
     
-    static let SECTION_COUNT = 3
+    static let SECTION_COUNT = 4
 }

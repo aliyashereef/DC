@@ -24,9 +24,9 @@ import UIKit
     
     func showDatesInView( dateArray : NSArray ) {
         
-        var counterLimit : NSInteger = 2
+        var counterLimit : NSInteger = 1
         if (appDelegate.windowState == DCWindowState.fullWindow) {
-            counterLimit = 4
+            counterLimit = 3
         }
         
         for index in 0...counterLimit {

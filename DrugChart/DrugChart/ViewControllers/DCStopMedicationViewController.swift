@@ -14,6 +14,7 @@ class DCStopMedicationViewController : UIViewController , NotesCellDelegate{
     var inactiveDetails : DCInactiveDetails?
     var deleteingIndexPath: NSIndexPath?
     var isSavePressed : Bool = false
+    var medicationDetails : DCMedicationScheduleDetails?
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -57,6 +58,8 @@ class DCStopMedicationViewController : UIViewController , NotesCellDelegate{
 
         switch indexPath.section {
         case eZerothSection.rawValue:
+            return medicationDetailsCellAtIndexPath(indexPath)
+        case eFirstSection.rawValue:
             cell.titleLabel.text = StopMedicationConstants.REASON
             cell.detailLabel.text = inactiveDetails!.reason
             if (inactiveDetails?.reason == EMPTY_STRING || inactiveDetails?.reason == nil) && isSavePressed {
@@ -65,9 +68,9 @@ class DCStopMedicationViewController : UIViewController , NotesCellDelegate{
                cell.titleLabel.textColor =  UIColor.blackColor()
             }
         
-        case eFirstSection.rawValue:
-            return notesTableCellAtIndexPath(indexPath)
         case eSecondSection.rawValue:
+            return notesTableCellAtIndexPath(indexPath)
+        case eThirdSection.rawValue:
             cell.titleLabel.text = StopMedicationConstants.OUTSTANDING_DOSES
             if inactiveDetails?.outstandingDose == StopMedicationConstants.SELECT_SPECIFIC_DOSES {
                 cell.detailLabel.text = inactiveDetails?.outstandingSpecificDose
@@ -119,6 +122,7 @@ class DCStopMedicationViewController : UIViewController , NotesCellDelegate{
         case eSecondSection.rawValue:
             let outstandingDoseViewController = (UIStoryboard(name: STOP_MEDICATION, bundle: nil).instantiateViewControllerWithIdentifier(StopMedicationConstants.OUTSTANDING_VIEW_CONTROLLER_SB_ID) as? DCStopMedicationOutstandingDoseViewController)!
             outstandingDoseViewController.inactiveDetails = self.inactiveDetails
+            outstandingDoseViewController.startDate = self.medicationDetails?.startDate
             outstandingDoseViewController.isSavePressed = self.isSavePressed
             self.navigationController!.pushViewController(outstandingDoseViewController, animated: true)
             break
@@ -129,7 +133,9 @@ class DCStopMedicationViewController : UIViewController , NotesCellDelegate{
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         switch indexPath.section {
-        case SectionCount.eFirstSection.rawValue:
+        case SectionCount.eZerothSection.rawValue:
+            return UITableViewAutomaticDimension
+        case SectionCount.eSecondSection.rawValue:
             return NOTES_CELL_HEIGHT
         default:
             return TABLE_VIEW_ROW_HEIGHT
@@ -199,6 +205,24 @@ class DCStopMedicationViewController : UIViewController , NotesCellDelegate{
                 let prescriberMedicationListViewController = viewController as! DCPrescriberMedicationListViewController
                 prescriberMedicationListViewController.deleteMedicationAtIndexPath(deleteingIndexPath!)
             }
+        }
+    }
+    
+    //Medication Details Cell
+    func medicationDetailsCellAtIndexPath (indexPath :NSIndexPath) -> UITableViewCell {
+        
+        if DCAdministrationHelper.isMedicationDurationBasedInfusion(medicationDetails!){
+            let cell = self.stopMedicationTableView.dequeueReusableCellWithIdentifier(StopMedicationConstants.DURATION_BASED_INFUSION_CELL) as? DCDurationBasedMedicationDetailsCell
+            if let _ = medicationDetails {
+                cell!.configureMedicationDetails(medicationDetails!)
+            }
+            return cell!
+        } else {
+            let cell = self.stopMedicationTableView.dequeueReusableCellWithIdentifier(StopMedicationConstants.MEDICATION_DETAILS_CELL) as? DCMedicationDetailsTableViewCell
+            if let _ = medicationDetails {
+                cell!.configureMedicationDetails(medicationDetails!)
+            }
+            return cell!
         }
     }
     

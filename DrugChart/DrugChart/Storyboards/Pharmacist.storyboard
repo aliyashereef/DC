@@ -136,7 +136,7 @@
                                                                     </constraints>
                                                                 </imageView>
                                                             </subviews>
-                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="trailing" secondItem="zka-v9-ltu" secondAttribute="trailing" id="1N0-Vo-bWN"/>
                                                                 <constraint firstAttribute="trailing" secondItem="QTK-Dw-kTO" secondAttribute="trailing" id="7qV-hI-W08"/>
@@ -227,7 +227,7 @@
                                                             </variation>
                                                         </view>
                                                     </subviews>
-                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstItem="4Hi-en-QFt" firstAttribute="top" secondItem="zlJ-o0-i2d" secondAttribute="top" id="0yr-CT-nkO"/>
                                                         <constraint firstItem="OKa-KT-fBb" firstAttribute="leading" secondItem="4Hi-en-QFt" secondAttribute="trailing" id="Esq-oR-Hen"/>

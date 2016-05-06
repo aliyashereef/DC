@@ -12,12 +12,17 @@ let ADMINISTRATION_SUCCESS_IMAGE    =   UIImage(named: "AllAdministered")
 let ADMINISTRATION_FAILURE_IMAGE    =   UIImage(named: "AnyFailure")
 let ADMINISTRATION_DUE_IMAGE        =   UIImage(named: "DueAt")
 let ADMINISTRATION_DUE_NOW_IMAGE    =   UIImage(named: "DueNow")
+let ADMINISTRATION_PENDING_IMAGE    =   UIImage(named: "PendingClockImage")
 
 let PENDING_FONT_COLOR              =   UIColor(forHexString: "#acacac")
 let DUE_AT_FONT_COLOR               =   UIColor(forHexString: "#007aff")
 let OVERDUE_FONT_COLOR              =   UIColor(forHexString: "#ff0000") // get exact color for display
 let DUE_NOW_FONT_COLOR              =   UIColor.whiteColor()
 let CURRENT_DAY_BACKGROUND_COLOR    =   UIColor(forHexString: "#fafafa")
+let INACTIVE_BACKGROUND_COLOR       =   UIColor(forHexString: "#f7f7f7")
+let INACTIVE_TEXT_COLOR             =   UIColor(forHexString :"#989797")
+let INACTIVE_RED_COLOR              =   UIColor(forHexString: "#e87b7b")
+let ACTIVE_TEXT_COLOR               =   UIColor(forHexString :"#737373")
 let DUE_NOW_BACKGROUND_COLOR        =   UIColor(forHexString: "#f99e35")
 let PENDING_COUNT_FONT_COLOR        =   UIColor(forHexString: "#595959")
 
@@ -46,6 +51,7 @@ class DCMedicationAdministrationStatusView: UIView {
     var slotsCount : NSInteger? = 0
     
     var isOneThirdScreen : Bool = false
+    var isActive : Bool = true
     var administerButtonCallback: AdministerButtonTappedCallback!
     weak var delegate:DCMedicationAdministrationStatusProtocol?
 
@@ -118,6 +124,7 @@ class DCMedicationAdministrationStatusView: UIView {
     
     // Resets the frame and content of view elements, to prevent previous state being maintained while the status view is being reused
     func resetViewElements() {
+        
         let contentFrame : CGRect = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)
         statusLabel?.frame = contentFrame
         statusLabel?.font = statusLabelFont()
@@ -132,6 +139,15 @@ class DCMedicationAdministrationStatusView: UIView {
         statusIcon?.center = centerPoint
         statusIcon?.hidden = true
         statusLabel?.text = ""
+    }
+    
+    func refreshViewWithUpdatedFrame() {
+        
+        //include all elements whose frames are to be updated
+        let contentFrame : CGRect = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)
+        administerButton?.frame = contentFrame
+        centerPoint = CGPointMake(0.5 * self.bounds.size.width, 0.5 * self.bounds.size.height)
+        statusIcon?.center = centerPoint
     }
 
     func updateAdministrationStatusViewWithMedicationSlotDictionary(slotDictionary : NSDictionary) {
@@ -157,19 +173,20 @@ class DCMedicationAdministrationStatusView: UIView {
         return font
     }
     
-    func configureStatusViewForWeekDate(weeksDate : NSDate) {
+    func configureStatusViewForWeekDateAndMedicationStatus(weeksDate : NSDate , isActive : Bool) {
         
         weekDate = weeksDate
         let currentSystemDate : NSDate = NSDate()//DCDateUtility.dateInCurrentTimeZone(NSDate())
         let currentDateString = DCDateUtility.dateStringFromDate(currentSystemDate, inFormat: SHORT_DATE_FORMAT)
         let weekDateString = DCDateUtility.dateStringFromDate(weekDate, inFormat: SHORT_DATE_FORMAT)
-        if (currentDateString == weekDateString) {
-            if(!isOneThirdScreen) {
+        if !isActive {
+            self.backgroundColor = INACTIVE_BACKGROUND_COLOR
+        } else {
+            if (currentDateString == weekDateString && !isOneThirdScreen) {
                 self.backgroundColor = CURRENT_DAY_BACKGROUND_COLOR
+            } else {
+                self.backgroundColor = UIColor.whiteColor()
             }
-        }
-        else {
-            self.backgroundColor = UIColor.whiteColor()
         }
     }
     
@@ -260,14 +277,20 @@ class DCMedicationAdministrationStatusView: UIView {
                 //display due now view
                 updateDueNowStatusInView()
             } else {
-                let appDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
-                if (appDelegate.windowState == DCWindowState.twoThirdWindow || appDelegate.windowState == DCWindowState.fullWindow) {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.backgroundColor = CURRENT_DAY_BACKGROUND_COLOR
-                    })
-                }
+                updateBackgroundColorForCurrentDay()
                  updateCurrentDayStatusViewWithAdministrationCount(administrationCount:administeredCount, omittedRefusalCount: omissionRefusalCount)
             }
+        }
+    }
+    
+    func updateBackgroundColorForCurrentDay() {
+        
+        if (!isOneThirdScreen) {
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                if !self.isActive {
+                    self.backgroundColor = INACTIVE_BACKGROUND_COLOR
+                }
+            })
         }
     }
     
@@ -458,15 +481,19 @@ class DCMedicationAdministrationStatusView: UIView {
         
         // display no of pending medications for regular medications
         if (medicationCategory != WHEN_REQUIRED) {
-            let pendingCount : NSInteger = timeArray.count
-            statusLabel?.hidden = false
-            statusIcon?.hidden = true
             if isOneThirdScreen {
+                statusLabel?.hidden = false
+                statusIcon?.hidden = true
+                let pendingCount : NSInteger = timeArray.count
                 statusLabel?.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
+                statusLabel?.textColor = PENDING_FONT_COLOR
+                statusLabel?.text = String(format: "%i %@", pendingCount, NSLocalizedString("PENDING", comment: ""))
+                statusLabel?.textAlignment = isOneThirdScreen ? .Right : .Center
+            } else {
+                statusLabel?.hidden = true
+                statusIcon?.hidden = false
+                statusIcon?.image = ADMINISTRATION_PENDING_IMAGE
             }
-            statusLabel?.textColor = PENDING_FONT_COLOR
-            statusLabel?.text = String(format: "%i %@", pendingCount, NSLocalizedString("PENDING", comment: ""))
-            statusLabel?.textAlignment = isOneThirdScreen ? .Right : .Center
         }
     }
     

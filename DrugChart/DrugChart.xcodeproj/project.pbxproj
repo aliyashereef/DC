@@ -163,6 +163,7 @@
 		0BD3D4DF1AB2CA89002B8711 /* DCMedicationSlot.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD3D4DE1AB2CA89002B8711 /* DCMedicationSlot.m */; };
 		0BD3DC251CA01896002149E5 /* DCReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD3DC241CA01896002149E5 /* DCReviewViewController.swift */; };
 		0BD5181D1BFB2F790076B018 /* WeekDays.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0BD5181C1BFB2F790076B018 /* WeekDays.plist */; };
+		0BD6037E1CDC6D18003E9946 /* DCCalendarConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD6037D1CDC6D18003E9946 /* DCCalendarConstants.swift */; };
 		0BD659561BD6685A00D3097B /* DCAdministerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD659551BD6685A00D3097B /* DCAdministerButton.swift */; };
 		0BD699161BB272BB008797A2 /* DCAdministerTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD699151BB272BB008797A2 /* DCAdministerTableHeaderView.swift */; };
 		0BD699181BB272D9008797A2 /* DCAdministerTableHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BD699171BB272D9008797A2 /* DCAdministerTableHeaderView.xib */; };
@@ -277,6 +278,8 @@
 		2431F2591CD09A3E00D727C1 /* DCOneThirdScreenPharmacistActionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2431F2581CD09A3E00D727C1 /* DCOneThirdScreenPharmacistActionsViewController.swift */; };
 		245B740B1CCF4120006BF7C1 /* DCPharmacistActionPopOverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245B740A1CCF411F006BF7C1 /* DCPharmacistActionPopOverViewController.swift */; };
 		245B740D1CCF4141006BF7C1 /* DCPharmacistActionPopOverTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245B740C1CCF4141006BF7C1 /* DCPharmacistActionPopOverTableViewCell.swift */; };
+		248E5CF71CD773B400B8E225 /* DCMedicationListMoreButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248E5CF61CD773B400B8E225 /* DCMedicationListMoreButtonViewController.swift */; };
+		248E5CFA1CD7747700B8E225 /* DCMedicationListMoreButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248E5CF91CD7747700B8E225 /* DCMedicationListMoreButtonTableViewCell.swift */; };
 		263AE8A048794A9FC5DDF137 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95B692258EF6A48813AE6977 /* Pods.framework */; };
 		4D011C521BB14374005C79A2 /* MedicationHistory.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4D011C511BB14374005C79A2 /* MedicationHistory.storyboard */; };
 		4D011C581BB147D7005C79A2 /* DCMedicationHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D011C571BB147D7005C79A2 /* DCMedicationHistoryViewController.swift */; };
@@ -693,6 +696,7 @@
 		0BD3D4DE1AB2CA89002B8711 /* DCMedicationSlot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCMedicationSlot.m; sourceTree = "<group>"; };
 		0BD3DC241CA01896002149E5 /* DCReviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCReviewViewController.swift; sourceTree = "<group>"; };
 		0BD5181C1BFB2F790076B018 /* WeekDays.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = WeekDays.plist; sourceTree = "<group>"; };
+		0BD6037D1CDC6D18003E9946 /* DCCalendarConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DCCalendarConstants.swift; path = CalendarConstants/DCCalendarConstants.swift; sourceTree = "<group>"; };
 		0BD659551BD6685A00D3097B /* DCAdministerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministerButton.swift; sourceTree = "<group>"; };
 		0BD699151BB272BB008797A2 /* DCAdministerTableHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdministerTableHeaderView.swift; sourceTree = "<group>"; };
 		0BD699171BB272D9008797A2 /* DCAdministerTableHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DCAdministerTableHeaderView.xib; sourceTree = "<group>"; };
@@ -814,6 +818,8 @@
 		2431F2581CD09A3E00D727C1 /* DCOneThirdScreenPharmacistActionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCOneThirdScreenPharmacistActionsViewController.swift; sourceTree = "<group>"; };
 		245B740A1CCF411F006BF7C1 /* DCPharmacistActionPopOverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCPharmacistActionPopOverViewController.swift; sourceTree = "<group>"; };
 		245B740C1CCF4141006BF7C1 /* DCPharmacistActionPopOverTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCPharmacistActionPopOverTableViewCell.swift; sourceTree = "<group>"; };
+		248E5CF61CD773B400B8E225 /* DCMedicationListMoreButtonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCMedicationListMoreButtonViewController.swift; sourceTree = "<group>"; };
+		248E5CF91CD7747700B8E225 /* DCMedicationListMoreButtonTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCMedicationListMoreButtonTableViewCell.swift; sourceTree = "<group>"; };
 		4D011C511BB14374005C79A2 /* MedicationHistory.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = MedicationHistory.storyboard; path = ../MedicationHistory.storyboard; sourceTree = "<group>"; };
 		4D011C571BB147D7005C79A2 /* DCMedicationHistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCMedicationHistoryViewController.swift; sourceTree = "<group>"; };
 		4D011C5A1BB15D6B005C79A2 /* DCAdminsteredMedicationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCAdminsteredMedicationCell.swift; sourceTree = "<group>"; };
@@ -2047,6 +2053,7 @@
 		0BBC8F9A1AA468920085ABAB /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				248E5CF81CD773CF00B8E225 /* MedicationListMoreButtonViewController */,
 				2431F2551CD097D200D727C1 /* OneThireScreenActionsPharmacistActionsViewController */,
 				245B74091CCF40B7006BF7C1 /* PharmacistActionPopOverViewController */,
 				FDDA73241CB2879500CC9EEB /* PODStatusViewController */,
@@ -2140,6 +2147,7 @@
 		0BBC8FA71AA46BCE0085ABAB /* Constants */ = {
 			isa = PBXGroup;
 			children = (
+				0BD6037D1CDC6D18003E9946 /* DCCalendarConstants.swift */,
 				0BBC8FA81AA46C080085ABAB /* DCConstants.h */,
 				0BCE42AD1B7DBC8C00B6A82E /* Enumerations */,
 			);
@@ -2813,6 +2821,15 @@
 				245B740C1CCF4141006BF7C1 /* DCPharmacistActionPopOverTableViewCell.swift */,
 			);
 			name = PharmacistActionPopOverViewController;
+			sourceTree = "<group>";
+		};
+		248E5CF81CD773CF00B8E225 /* MedicationListMoreButtonViewController */ = {
+			isa = PBXGroup;
+			children = (
+				248E5CF61CD773B400B8E225 /* DCMedicationListMoreButtonViewController.swift */,
+				248E5CF91CD7747700B8E225 /* DCMedicationListMoreButtonTableViewCell.swift */,
+			);
+			name = MedicationListMoreButtonViewController;
 			sourceTree = "<group>";
 		};
 		4D011C591BB15D47005C79A2 /* MedicationHistoryCells */ = {
@@ -3836,6 +3853,7 @@
 				FDD548741C4511B8000EB855 /* DCReducingIncreasingDose.m in Sources */,
 				7DE60BCF1B2866CD00BCA745 /* DCPatientGraphicalRepresentationView.m in Sources */,
 				FDD5487B1C4513FA000EB855 /* DCConditions.m in Sources */,
+				0BD6037E1CDC6D18003E9946 /* DCCalendarConstants.swift in Sources */,
 				1F1977201C0485C500106023 /* RowHeaderCollectionViewCell.swift in Sources */,
 				7D4DBE9E1AA57E1700A5E39B /* UIColor+ColorFromHex.m in Sources */,
 				0B95FAF01B5E6634002939DF /* DCWarningsHeaderView.m in Sources */,
@@ -4086,6 +4104,7 @@
 				4DD829271C0853AD006B2E71 /* DCOneThirdCalendarStripCollectionCell.swift in Sources */,
 				0BA803711BA7ED7100DBB45D /* DCWarningsListViewController.swift in Sources */,
 				FDD2C8CA1C969DBC00A7D6E3 /* DCSummaryAdministrationHistoryTableViewCell.swift in Sources */,
+				248E5CF71CD773B400B8E225 /* DCMedicationListMoreButtonViewController.swift in Sources */,
 				4D70973B1C5A560000832539 /* DCReviewDatePickerCell.swift in Sources */,
 				4D83869A1BB258AD0012EF7D /* DCMedicationDetailsCell.swift in Sources */,
 				7D2FF0551BB85C2100B92B85 /* DCPrescriberMedicationViewController.m in Sources */,
@@ -4122,6 +4141,7 @@
 				2431F2591CD09A3E00D727C1 /* DCOneThirdScreenPharmacistActionsViewController.swift in Sources */,
 				1FD4FD0B1BF4BAE000B77B94 /* Helper.swift in Sources */,
 				1FB412681BFB522900D91487 /* String.swift in Sources */,
+				248E5CFA1CD7747700B8E225 /* DCMedicationListMoreButtonTableViewCell.swift in Sources */,
 				7D3234A81AF108990020CC8F /* DCSettingsViewController.m in Sources */,
 				4D8386A01BB26D000012EF7D /* DCMedicationHistoryHeaderView.swift in Sources */,
 				0BB33DD01B79D48E00B05E4D /* DCAuthorizationManager.m in Sources */,

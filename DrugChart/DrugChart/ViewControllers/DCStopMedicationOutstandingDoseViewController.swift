@@ -12,6 +12,7 @@ class DCStopMedicationOutstandingDoseViewController : UIViewController {
     var inactiveDetails : DCInactiveDetails?
     var isSpecificOutstandingDose : Bool = false
     var isSavePressed : Bool = false
+    var startDate : NSString?
     
     @IBOutlet weak var outstandingDosesTableView: UITableView!
 
@@ -78,6 +79,17 @@ class DCStopMedicationOutstandingDoseViewController : UIViewController {
             break
         }
         return cell
+    }
+    
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        switch (section)
+        {
+        case  eFirstSection.rawValue:
+            return startDate as? String
+        default:
+            return EMPTY_STRING
+        }
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

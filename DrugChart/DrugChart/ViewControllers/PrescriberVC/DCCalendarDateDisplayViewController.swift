@@ -122,14 +122,14 @@ import CocoaLumberjack
 
     // Populate the dates for the previous and next date views
     func displayDatesInView () {
+        
         self.adjustHolderFrameAndDisplayDates()
         let displayDatesArray = displayWeekDatesArray()
         var index : NSInteger = 0
         let leftDatesArray : NSMutableArray = []
         let centerDatesArray : NSMutableArray = []
         let rightDatesArray : NSMutableArray = []
-        let calendarStripDaysCount = (appDelegate.windowState == DCWindowState.fullWindow) ? 5:3
-        
+        let calendarStripDaysCount = (appDelegate.windowState == DCWindowState.fullWindow) ? 4:2
         for ( index = 0; index < displayDatesArray.count; index++) {
             if (index < calendarStripDaysCount) {
                 leftDatesArray.addObject(displayDatesArray.objectAtIndex(index))
@@ -155,9 +155,9 @@ import CocoaLumberjack
         // medication administration slots have to be made constant width , medication details flexible width
         let weekViewWidth : CGFloat!
         if (appDelegate.windowState == DCWindowState.fullWindow) {
-            weekViewWidth = (calendarViewWidth)/5
+            weekViewWidth = (calendarViewWidth)/DCCalendarConstants.FULL_SCREEN_DAYS_COUNT
         } else {
-            weekViewWidth = (calendarViewWidth)/3
+            weekViewWidth = (calendarViewWidth)/DCCalendarConstants.TWO_THIRD_SCREEN_DAYS_COUNT
         }
         return weekViewWidth
     }

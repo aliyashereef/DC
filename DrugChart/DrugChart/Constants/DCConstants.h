@@ -56,8 +56,8 @@
 
 // calendar view width constants
 
-#define CALENDAR_TWO_THIRD_WINDOW_WIDTH 435.0
-#define CALENDAR_FULL_WINDOW_WIDTH 725.0
+#define CALENDAR_TWO_THIRD_WINDOW_WIDTH 288.0
+#define CALENDAR_FULL_WINDOW_WIDTH 580.0
 #define TEXT_VIEW_CELL_HEIGHT 90.0
 #define ZERO_INT 0
 #define NORMAL_CELL_HEIGHT 44.0
@@ -77,6 +77,8 @@
 #define EDIT_BUTTON_TITLE   @"Edit"
 #define SELECT_ALL_TITLE    @"Select All"
 #define DESELECT_ALL_TITLE  @"Deselect All"
+#define REVIEW_TITLE        @"Review"
+#define MANAGE_SUSPENSION_TITLE @"Manage Suspension"
 
 //images
 
@@ -174,6 +176,7 @@
 #define ACTION_POPOVER_SB_ID @"ActionPopOverView"
 #define ONT_THIRD_ACTION_SB_ID @"oneThirdActionView"
 #define INTERVENTION_DETAILS_SB_ID @"InterventionDetailsViewController"
+#define MORE_BUTTON_ACTION_DISPLAY_SB_ID @"moreButtonActionDisplayView"
 
 //Nib files
 #define WARNINGS_HEADER_VIEW_NIB @"DCWarningsHeaderView"
@@ -269,6 +272,7 @@
 #define DOSE_DISPLAY_TEXTFIELD @"doseDisplayCell"
 #define REASON_TEXT_VIEW @"reasonTextViewCell"
 #define ACTION_DISPLAY_CELL @"actionDisplayCell"
+#define HISTORY_OPTION_DISPLAY_CELL @"historyCell"
 
 // Week days
 

@@ -35,7 +35,8 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     var scrollDirection : Direction = .ScrollDirectionNone
     var scrollingLocked : Bool = false
     var selectedIndexPath : NSIndexPath!
-    
+    var actionMenu : UIAlertController?
+
     required init?(coder aDecoder: NSCoder) {
         
         super.init(coder: aDecoder)
@@ -90,6 +91,10 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         
         super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+        if self.presentedViewController != nil && self.presentedViewController!.isKindOfClass(UIAlertController) {
+            
+            self.presentedViewController?.dismissViewControllerAnimated(true, completion: nil)
+        }
         let orientation = UIDevice.currentDevice().orientation
         if  orientation == UIDeviceOrientation.LandscapeLeft ||  orientation == UIDeviceOrientation.LandscapeRight {
             scrollingLocked = true
@@ -208,8 +213,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         cell!.isMedicationActive = medicationScheduleDetails.isActive
         let rowDisplayMedicationSlotsArray = self.prepareMedicationSlotsForDisplayInCellFromScheduleDetailsForDate(medicationScheduleDetails,date:centerDate)
         
-        var index : NSInteger = 0
-        for ( index = 0; index < rowDisplayMedicationSlotsArray.count; index++) {
+        for index in 0..<rowDisplayMedicationSlotsArray.count {
             
             self.configureMedicationCell(cell!,withMedicationSlotsArray: rowDisplayMedicationSlotsArray,atIndexPath: indexPath,andSlotIndex: index)
         }
@@ -219,6 +223,11 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
             UIView.animateWithDuration(0.05, animations: { () -> Void in
                 cell!.medicationViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET;
             })
+        }
+        if medicationScheduleDetails.isActive {
+            cell!.medicineDetailHolderView.backgroundColor = UIColor.whiteColor()
+        } else {
+            cell!.medicineDetailHolderView.backgroundColor = INACTIVE_BACKGROUND_COLOR
         }
         cell!.layoutMargins = UIEdgeInsetsZero
         return cell!
@@ -309,6 +318,13 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
             if (displayMedicationListArray.count >= indexPath.item) {
                 let medicationSchedules = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
                 medicationCell.medicineName.text = medicationSchedules.name;
+                if medicationSchedules.isActive {
+                    medicationCell.medicineName.textColor = UIColor.blackColor()
+                    medicationCell.route.textColor = ACTIVE_TEXT_COLOR
+                } else {
+                    medicationCell.medicineName.textColor = INACTIVE_TEXT_COLOR
+                    medicationCell.route.textColor = INACTIVE_TEXT_COLOR
+                }
                 let routeString : String = medicationSchedules.route.stringByReplacingOccurrencesOfString(" ", withString: EMPTY_STRING)
                 let attributedRouteString : NSMutableAttributedString = NSMutableAttributedString(string: routeString, attributes: [NSFontAttributeName : UIFont.systemFontOfSize(14.0)])
                 let attributedInstructionsString : NSMutableAttributedString
@@ -328,7 +344,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
                     typeString = "\(typeString) - \(DISCONTINUED_STRING)"
                     let range = (typeString as NSString).rangeOfString(DISCONTINUED_STRING)
                     let attributedTypeString  = NSMutableAttributedString(string: typeString, attributes: [NSFontAttributeName:UIFont.systemFontOfSize(10.0)])
-                    attributedTypeString.addAttribute(NSForegroundColorAttributeName, value: UIColor(forHexString: "#e87b7b") , range: range)
+                    attributedTypeString.addAttribute(NSForegroundColorAttributeName, value: INACTIVE_RED_COLOR , range: range)
                     medicationCell.typeLabel.attributedText = attributedTypeString
                 }
             }
@@ -392,7 +408,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
                 }
                 slotsDictionary.setObject(NSNumber (integer: count + 1), forKey: PRESCRIBER_SLOT_VIEW_TAG)
                 medicationSlotsArray.addObject(slotsDictionary)
-                count++
+                count += 1
             }
         }
     return medicationSlotsArray
@@ -407,18 +423,19 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
                     existingStatusViews.addObject(subView)
                 }
             }
-            let viewFrame = CGRectMake(0, 0, containerView.frame.width, 67.0)
-            let statusView : DCMedicationAdministrationStatusView = DCMedicationAdministrationStatusView(frame: viewFrame)
-            let medicationSchedules = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
-            statusView.tag = tag
-            statusView.delegate = self
-            statusView.currentIndexPath = indexPath
-            statusView.medicationCategory = medicationSchedules.medicineCategory
-            statusView.backgroundColor = UIColor.clearColor()
-            statusView.isOneThirdScreen = true
-            statusView.startDate = DCDateUtility.dateFromSourceString(medicationSchedules.startDate)
-            statusView.updateAdministrationStatusViewWithMedicationSlotDictionary(slotDictionary)
-            return statusView
+        let viewFrame = CGRectMake(0, 0, containerView.frame.width, 67.0)
+        let statusView : DCMedicationAdministrationStatusView = DCMedicationAdministrationStatusView(frame: viewFrame)
+        let medicationSchedules = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
+        statusView.tag = tag
+        statusView.delegate = self
+        statusView.currentIndexPath = indexPath
+        statusView.medicationCategory = medicationSchedules.medicineCategory
+        statusView.backgroundColor = UIColor.clearColor()
+        statusView.isOneThirdScreen = true
+        statusView.isActive = medicationSchedules.isActive
+        statusView.startDate = DCDateUtility.dateFromSourceString(medicationSchedules.startDate)
+        statusView.updateAdministrationStatusViewWithMedicationSlotDictionary(slotDictionary)
+        return statusView
     }
     
     func configureMedicationCell(medicationCell:DCOneThirdCalendarScreenMedicationCell, withMedicationSlotsArray
@@ -426,10 +443,10 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         atIndexPath indexPath:NSIndexPath,
         andSlotIndex index:NSInteger) {
             if (index == 0) {
+                let medicationDetails = displayMedicationListArray.objectAtIndex(indexPath.row) as? DCMedicationScheduleDetails
                 let statusView : DCMedicationAdministrationStatusView = self.addAdministerStatusViewsToTableCell(medicationCell, toContainerSubview: medicationCell.adminstrationStatusView, forMedicationSlotDictionary: rowDisplayMedicationSlotsArray.objectAtIndex(0) as! NSDictionary,
                     atIndexPath: indexPath,
                     atSlotIndex:0)
-                statusView.isOneThirdScreen = true
                 let weekdate = centerDate
                 if statusView.statusLabel?.text == NSLocalizedString("DUE_NOW", comment: "due now text") {
                     medicationCell.medicineDetailHolderView.backgroundColor = DUE_NOW_BACKGROUND_COLOR
@@ -437,7 +454,8 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
                     medicationCell.medicineDetailHolderView.backgroundColor = UIColor.whiteColor()
                 }
                 medicationCell.adminstrationStatusView.addSubview(statusView)
-                statusView.configureStatusViewForWeekDate(weekdate)
+                statusView.configureStatusViewForWeekDateAndMedicationStatus(weekdate, isActive: medicationDetails!.isActive)
+
             }
             for subView in existingStatusViews {
                 subView.removeFromSuperview()
@@ -590,6 +608,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         let medicataionschedules = self.displayMedicationListArray.objectAtIndex(indexPath.row) as! DCMedicationScheduleDetails
         medicataionschedules.inactiveDetails = DCInactiveDetails.init()
         inactiveDetailsViewController.deleteingIndexPath = indexPath
+        inactiveDetailsViewController.medicationDetails = displayMedicationListArray[indexPath.row] as? DCMedicationScheduleDetails
         inactiveDetailsViewController.inactiveDetails = medicataionschedules.inactiveDetails
         let navigationController: UINavigationController = UINavigationController(rootViewController: inactiveDetailsViewController)
         navigationController.modalPresentationStyle = .FormSheet
@@ -665,6 +684,34 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         }
     }
     
+    func moreButtonSelectedForIndexPath(indexPath: NSIndexPath) {
+
+        self.presentMoreOptionActionSheet(indexPath)
+    }
+    
+    func presentMoreOptionActionSheet(indexPath : NSIndexPath) {
+        
+        //present pharmacist action sheet for iPhone instead of buttons in toolbar
+        actionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        let reviewAction = UIAlertAction(title: REVIEW_TITLE, style: .Default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            //TODO: Action For Review.
+        })
+        let manageSuspensionAcition = UIAlertAction(title: MANAGE_SUSPENSION_TITLE, style: .Default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            //TODO: Action For Manage Suspension.
+        })
+        let cancelAction = UIAlertAction(title: CANCEL_BUTTON_TITLE, style: .Cancel, handler: {
+            (alert: UIAlertAction!) -> Void in
+        })
+        actionMenu!.addAction(reviewAction)
+        actionMenu!.addAction(manageSuspensionAcition)
+        actionMenu!.addAction(cancelAction)
+        actionMenu!.popoverPresentationController?.sourceView = self.view
+        actionMenu!.popoverPresentationController?.sourceRect = self.view.bounds
+        self.presentViewController(actionMenu!, animated: true, completion: nil)
+    }
+
     func indexPathForLastRowWith(numberOfRows rows : Int, numberOfSection sections : Int) -> NSIndexPath {
         
         return NSIndexPath(forRow: rows - 1, inSection: sections)

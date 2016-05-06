@@ -14,6 +14,7 @@ protocol EditDeleteActionDelegate {
     func editMedicationForSelectedIndexPath (indexPath : NSIndexPath)
     func setIndexPathSelected(indexPath : NSIndexPath)
     func transitToSummaryScreenForMedication(indexpath : NSIndexPath)
+    func moreButtonSelectedForIndexPath(indexPath: NSIndexPath)
 }
 
 class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
@@ -24,6 +25,7 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
     @IBOutlet weak var typeLabel: UILabel!
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!
+    @IBOutlet weak var moreButton: UIButton!
     var isMedicationActive : Bool = true
     var inEditMode : Bool = false
     
@@ -34,6 +36,7 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
     
     @IBOutlet weak var stopButtonWidth: NSLayoutConstraint!
     @IBOutlet weak var editButtonWidth: NSLayoutConstraint!
+    @IBOutlet weak var moreButtonWidth: NSLayoutConstraint!
     var editAndDeleteDelegate : EditDeleteActionDelegate?
 
     override func awakeFromNib() {
@@ -72,17 +75,20 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
                 if ((translate.x < 0) && (medicationViewLeadingConstraint.constant == 0)) { // left swipe
                     UIView.animateWithDuration(ANIMATION_DURATION, animations: {
                         self.medicationViewLeadingConstraint.constant = -MEDICATION_VIEW_LEFT_OFFSET
-                        self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
-                        self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
+                        self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+                        self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+                        self.moreButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
                         self.editButton.setTitle(EDIT_TEXT, forState: UIControlState.Normal)
                         self.stopButton.setTitle(STOP_TEXT, forState: UIControlState.Normal)
+                        self.moreButton.setTitle(MORE_TEXT, forState: UIControlState.Normal)
                         self.layoutIfNeeded()
                     })
                 } else if ((translate.x > 0) && (self.medicationViewLeadingConstraint.constant == -MEDICATION_VIEW_LEFT_OFFSET)){ //right pan  when edit view is fully visible
                     UIView.animateWithDuration(ANIMATION_DURATION, animations: {
                         self.medicationViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET
-                        self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
-                        self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
+                        self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+                        self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+                        self.moreButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
                         self.layoutIfNeeded()
                     })
                 } else{
@@ -90,8 +96,9 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
                         //in process of tramslation
                         dispatch_async(dispatch_get_main_queue(), {
                             self.medicationViewLeadingConstraint.constant += (gestureVelocity.x / 25.0)
-                            self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
-                            self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
+                            self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+                            self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+                            self.moreButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
                             self.setEditViewButtonNames()
                             self.setMedicationViewFrame()
                         })
@@ -119,9 +126,11 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
         if (self.editButtonWidth.constant > 40.0) {
             self.editButton.setTitle(EDIT_TEXT, forState: UIControlState.Normal)
             self.stopButton.setTitle(STOP_TEXT, forState: UIControlState.Normal)
+            self.moreButton.setTitle(MORE_TEXT, forState: UIControlState.Normal)
         } else {
-            self.editButton.setTitle("", forState: UIControlState.Normal)
-            self.stopButton.setTitle("", forState: UIControlState.Normal)
+            self.editButton.setTitle(EMPTY_STRING, forState: UIControlState.Normal)
+            self.stopButton.setTitle(EMPTY_STRING, forState: UIControlState.Normal)
+            self.moreButton.setTitle(EMPTY_STRING, forState: UIControlState.Normal)
         }
     }
     
@@ -148,8 +157,9 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
         } else if ((translate.x < 0) && self.medicationViewLeadingConstraint.constant > (-MEDICATION_VIEW_LEFT_OFFSET / 2)) {
             UIView.animateWithDuration(ANIMATION_DURATION, animations: {
                 self.medicationViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET + 10
-                self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
-                self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
+                self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+                self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+                self.moreButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
                 self.layoutIfNeeded()
                 }, completion: { (finished) -> Void in
                     self.setMedicationViewFrame()
@@ -157,8 +167,9 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
         } else if ((translate.x > 0) && self.medicationViewLeadingConstraint.constant > (-MEDICATION_VIEW_LEFT_OFFSET / 2)){
             UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
                 self.medicationViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET
-                self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
-                self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
+                self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+                self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+                self.moreButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
                 self.layoutIfNeeded()
                 }, completion: { (finished) -> Void in
                     self.setMedicationViewFrame()
@@ -172,8 +183,9 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
             })
         }
         UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
-            self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
-            self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
+            self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+            self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+            self.moreButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
             }, completion: { (finished) -> Void in
                 self.setMedicationViewFrame()
         })
@@ -195,6 +207,13 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
         }
     }
 
+    @IBAction func moreButtonPressed(sender: AnyObject) {
+        
+        swipeMedicationDetailViewToRight()
+        if let delegate = editAndDeleteDelegate {
+            delegate.moreButtonSelectedForIndexPath(indexPath)
+        }
+    }
     @IBAction func typeDescriptionButtonPressed(sender: AnyObject) {
         
        // summary popover display

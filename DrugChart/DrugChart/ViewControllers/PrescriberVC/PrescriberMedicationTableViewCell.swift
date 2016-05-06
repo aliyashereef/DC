@@ -14,16 +14,18 @@ protocol EditAndDeleteActionDelegate {
     func editMedicationForSelectedIndexPath (indexPath : NSIndexPath)
     func setIndexPathSelected(indexPath : NSIndexPath)
     func transitToSummaryScreenForMedication(indexpath : NSIndexPath)
+    func moreButtonSelectedForIndexPath(indexPath : NSIndexPath)
 }
 
 let TIME_VIEW_WIDTH : CGFloat                       =               70.0
 let TIME_VIEW_HEIGHT : CGFloat                      =               21.0
-let MEDICATION_VIEW_LEFT_OFFSET : CGFloat           =               120.0
+let MEDICATION_VIEW_LEFT_OFFSET : CGFloat           =               180.0
 let MEDICATION_VIEW_INITIAL_LEFT_OFFSET : CGFloat   =               0.0
 let ANIMATION_DURATION : Double                     =               0.3
 let EDIT_TEXT : String                              =               "Edit"
 let STOP_TEXT : String                              =               "Stop"
 let DELETE_TEXT                                     =               "Delete"
+let MORE_TEXT : String                              =               "More"
 
 protocol DCPrescriberCellDelegate:class {
     
@@ -44,10 +46,12 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     @IBOutlet weak var rightMedicationAdministerDetailsView: UIView!
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!
+    @IBOutlet weak var moreButton: UIButton!
     
     @IBOutlet weak var administerHolderViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var editButtonWidth: NSLayoutConstraint!
     @IBOutlet weak var stopButtonWidth: NSLayoutConstraint!
+    @IBOutlet weak var moreButtonWidth: NSLayoutConstraint!
     @IBOutlet weak var medicationViewLeadingConstraint: NSLayoutConstraint!
     // this is the constraint connected between the masterMedicationAdministerDetailsView (center)
     // to the containerView holding the 3 subviews (left, right, center)
@@ -62,6 +66,7 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     var inEditMode : Bool = false
     var isMedicationActive : Bool = true
     let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
+    var cellHeight : CGFloat? = 0.0
     
     override func awakeFromNib() {
         
@@ -94,6 +99,7 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     }
     
     func createAdministerStatusViews() {
+        
         let noOfStatusViews = (appDelegate.windowState == DCWindowState.twoThirdWindow) ? 9 : 15
         let calendarStripDaysCount = (appDelegate.windowState == DCWindowState.fullWindow) ? 5:3
         
@@ -114,27 +120,70 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
                 default:
                     break
                 }
-                
                 count += 1
             }
         }
+    }
+    
+    func updateAdministerStatusViewsHeight() {
         
+        let noOfStatusViews = (appDelegate.windowState == DCWindowState.twoThirdWindow) ? 9 : 12
+        let calendarStripDaysCount = (appDelegate.windowState == DCWindowState.fullWindow) ? 4:3
+        var count = 0
+        autoreleasepool { () -> () in
+            for _ in 0..<noOfStatusViews {
+                switch (count) {
+                case 0..<calendarStripDaysCount:
+                    // Status views in leftMedicationAdministerDetailsView
+                    self.updateAdministerStatusViewsInContainerView(leftMedicationAdministerDetailsView, atSlotIndex: count)
+                case calendarStripDaysCount..<2*calendarStripDaysCount:
+                    // Status views in masterMedicationAdministerDetailsView
+                    self.updateAdministerStatusViewsInContainerView(masterMedicationAdministerDetailsView, atSlotIndex: count-calendarStripDaysCount)
+                case 2*calendarStripDaysCount..<3*calendarStripDaysCount:
+                    // Status views in rightMedicationAdministerDetailsView
+                    self.updateAdministerStatusViewsInContainerView(rightMedicationAdministerDetailsView, atSlotIndex: count-2*calendarStripDaysCount)
+                default:
+                    break
+                }
+                count += 1
+            }
+        }
     }
     
     // MARK: Private Methods
     
+    func calculateHeightForCell() -> CGFloat? {
+        
+        self.setNeedsLayout()
+        self.layoutIfNeeded()
+        let height = self.contentView.systemLayoutSizeFittingSize(UILayoutFittingExpandedSize).height
+        return height
+    }
+    
     func addAdministerStatusViewsTo(containerView: UIView, atSlotIndex index: Int) {
         //TODO: medication administration slots have to be made constant width , medication details flexible width
-
-        let viewWidth : CGFloat = (appDelegate.windowState == DCWindowState.fullWindow) ?(725.0)/5.0 : (435.0)/3.0
+        
+        let viewWidth : CGFloat = (appDelegate.windowState == DCWindowState.fullWindow) ?
+                                            DCCalendarConstants.FULL_SCREEN_CALENDAR_WIDTH/DCCalendarConstants.FULL_SCREEN_DAYS_COUNT :
+                                            DCCalendarConstants.TWO_THIRD_SCREEN_CALENDAR_WIDTH/DCCalendarConstants.TWO_THIRD_SCREEN_DAYS_COUNT
         let xValue : CGFloat = CGFloat(index) * viewWidth + CGFloat(index) + 1;
-        let viewFrame = CGRectMake(xValue, 0, viewWidth, 78.0)
+        let viewFrame = CGRectMake(xValue, 0, viewWidth, DCCalendarConstants.STATUS_VIEW_DEFAULT_WIDTH)
         let statusView : DCMedicationAdministrationStatusView = DCMedicationAdministrationStatusView(frame: viewFrame)
         statusView.tag = index+1
         statusView.isOneThirdScreen = false
         statusView.backgroundColor = UIColor.whiteColor()
-        
         containerView.addSubview(statusView)
+    }
+    
+    func updateAdministerStatusViewsInContainerView(containerView: UIView, atSlotIndex index: Int) {
+        
+        let administerViews = containerView.subviews.filter{$0 is DCMedicationAdministrationStatusView}
+        for statusView in administerViews as! [DCMedicationAdministrationStatusView] {
+            let viewFrame = statusView.frame
+            statusView.frame = CGRectMake(viewFrame.origin.x, viewFrame.origin.y, viewFrame.size.width, cellHeight!)
+            statusView.refreshViewWithUpdatedFrame()
+            statusView.layoutIfNeeded()
+        }
     }
     
     func addPanGestureToMedicationDetailHolderView () {
@@ -150,9 +199,11 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
         if (self.editButtonWidth.constant > 40.0) {
             self.editButton.setTitle(EDIT_TEXT, forState: UIControlState.Normal)
             self.stopButton.setTitle(STOP_TEXT, forState: UIControlState.Normal)
+            self.moreButton.setTitle(MORE_TEXT, forState: UIControlState.Normal)
         } else {
-            self.editButton.setTitle("", forState: UIControlState.Normal)
-            self.stopButton.setTitle("", forState: UIControlState.Normal)
+            self.editButton.setTitle(EMPTY_STRING, forState: UIControlState.Normal)
+            self.stopButton.setTitle(EMPTY_STRING, forState: UIControlState.Normal)
+            self.moreButton.setTitle(EMPTY_STRING, forState: UIControlState.Normal)
         }
     }
     
@@ -179,8 +230,9 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
         } else if ((translate.x < 0) && self.medicationViewLeadingConstraint.constant > (-MEDICATION_VIEW_LEFT_OFFSET / 2)) {
             UIView.animateWithDuration(ANIMATION_DURATION, animations: {
                 self.medicationViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET + 10
-                self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
-                self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
+                self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+                self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+                self.moreButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
                 self.layoutIfNeeded()
                 }, completion: { (finished) -> Void in
                     self.setMedicationViewFrame()
@@ -188,8 +240,9 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
         } else if ((translate.x > 0) && self.medicationViewLeadingConstraint.constant > (-MEDICATION_VIEW_LEFT_OFFSET / 2)){
             UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
                 self.medicationViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET
-                self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
-                self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
+                self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+                self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+                self.moreButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
                 self.layoutIfNeeded()
                 }, completion: { (finished) -> Void in
                     self.setMedicationViewFrame()
@@ -203,8 +256,9 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
             })
         }
         UIView.animateWithDuration(ANIMATION_DURATION, animations: { () -> Void in
-            self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
-            self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
+            self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+            self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+            self.moreButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
             }, completion: { (finished) -> Void in
                 self.setMedicationViewFrame()
         })
@@ -223,10 +277,12 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
                 if ((translate.x < 0) && (medicationViewLeadingConstraint.constant == 0)) { // left swipe
                     UIView.animateWithDuration(ANIMATION_DURATION, animations: {
                         self.medicationViewLeadingConstraint.constant = -MEDICATION_VIEW_LEFT_OFFSET
-                        self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
-                        self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
+                        self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+                        self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+                        self.moreButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
                         self.editButton.setTitle(EDIT_TEXT, forState: UIControlState.Normal)
                         self.stopButton.setTitle(STOP_TEXT, forState: UIControlState.Normal)
+                        self.moreButton.setTitle(MORE_TEXT, forState: UIControlState.Normal)
                         self.layoutIfNeeded()
                     })
                     if let delegate = editAndDeleteDelegate {
@@ -235,8 +291,9 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
                 } else if ((translate.x > 0) && (self.medicationViewLeadingConstraint.constant == -MEDICATION_VIEW_LEFT_OFFSET)){ //right pan  when edit view is fully visible
                     UIView.animateWithDuration(ANIMATION_DURATION, animations: {
                         self.medicationViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET
-                        self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
-                        self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
+                        self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+                        self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+                        self.moreButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
                         self.layoutIfNeeded()
                     })
                     if let delegate = editAndDeleteDelegate {
@@ -247,8 +304,9 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
                         //in process of tramslation
                         dispatch_async(dispatch_get_main_queue(), {
                             self.medicationViewLeadingConstraint.constant += (gestureVelocity.x / 25.0)
-                            self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
-                            self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 2)
+                            self.editButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+                            self.stopButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
+                            self.moreButtonWidth.constant = -(self.medicationViewLeadingConstraint.constant / 3)
                             self.setEditViewButtonNames()
                             self.setMedicationViewFrame()
                         })
@@ -297,6 +355,13 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
         swipeMedicationDetailViewToRight()
         if let delegate = editAndDeleteDelegate {
             delegate.stopMedicationForSelectedIndexPath(indexPath)
+        }
+    }
+    
+    @IBAction func moreButtonPressed(sender: AnyObject) {
+        
+        if let delegate = editAndDeleteDelegate {
+            delegate.moreButtonSelectedForIndexPath(indexPath)
         }
     }
     

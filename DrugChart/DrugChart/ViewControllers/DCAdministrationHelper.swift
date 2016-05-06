@@ -36,7 +36,6 @@ class DCAdministrationHelper : NSObject {
         
         //fetch administers and prescribers list
         let userListArray : NSMutableArray = []
-        var selfAdministratedUser : DCUser? = nil
         let usersListWebService : DCUsersListWebService = DCUsersListWebService.init()
         usersListWebService.getUsersListWithCallback { (users, error) -> Void in
             if (error == nil) {
@@ -48,12 +47,6 @@ class DCAdministrationHelper : NSObject {
                     user.userIdentifier = identifier
                     userListArray.addObject(user)
                 }
-                let selfAdministratedPatientName = SELF_ADMINISTERED_TITLE
-                let selfAdministratedPatientIdentifier = EMPTY_STRING
-                selfAdministratedUser = DCUser.init()
-                selfAdministratedUser!.displayName = selfAdministratedPatientName
-                selfAdministratedUser!.userIdentifier = selfAdministratedPatientIdentifier
-                userListArray.insertObject(selfAdministratedUser!, atIndex: 0)
             }
         }
         return userListArray
