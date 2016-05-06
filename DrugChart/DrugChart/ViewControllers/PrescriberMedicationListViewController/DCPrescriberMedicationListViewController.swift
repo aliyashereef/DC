@@ -584,12 +584,12 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                     existingStatusViews.addObject(subView)
                 }
             }
-        let slotWidth = DCUtility.mainWindowSize().width
+        let windowWidth = DCUtility.mainWindowSize().width
         // medication administration slots have to be made constant width , medication details flexible width
         let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
-        var viewWidth = (slotWidth - parentViewController.calendarViewWidth)/3
+        var viewWidth = (windowWidth - parentViewController.calendarViewWidth)/3
         if (appDelegate.windowState == DCWindowState.fullWindow) {
-            viewWidth = (slotWidth - parentViewController.calendarViewWidth)/5
+            viewWidth = (windowWidth - parentViewController.calendarViewWidth)/5
         }
         let xValue : CGFloat = CGFloat(tag) * viewWidth + CGFloat(tag) + 1;
         let viewFrame = CGRectMake(xValue, 0, viewWidth, 78.0)
