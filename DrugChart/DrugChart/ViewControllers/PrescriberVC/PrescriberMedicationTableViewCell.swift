@@ -163,9 +163,11 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     func addAdministerStatusViewsTo(containerView: UIView, atSlotIndex index: Int) {
         //TODO: medication administration slots have to be made constant width , medication details flexible width
         
-        let viewWidth : CGFloat = (appDelegate.windowState == DCWindowState.fullWindow) ?(580.0)/4.0 : (288.0)/2.0
+        let viewWidth : CGFloat = (appDelegate.windowState == DCWindowState.fullWindow) ?
+                                            DCCalendarConstants.FULL_SCREEN_CALENDAR_WIDTH/DCCalendarConstants.FULL_SCREEN_DAYS_COUNT :
+                                            DCCalendarConstants.TWO_THIRD_SCREEN_CALENDAR_WIDTH/DCCalendarConstants.TWO_THIRD_SCREEN_DAYS_COUNT
         let xValue : CGFloat = CGFloat(index) * viewWidth + CGFloat(index) + 1;
-        let viewFrame = CGRectMake(xValue, 0, viewWidth, 78.0)
+        let viewFrame = CGRectMake(xValue, 0, viewWidth, DCCalendarConstants.STATUS_VIEW_DEFAULT_WIDTH)
         let statusView : DCMedicationAdministrationStatusView = DCMedicationAdministrationStatusView(frame: viewFrame)
         statusView.tag = index+1
         statusView.isOneThirdScreen = false
