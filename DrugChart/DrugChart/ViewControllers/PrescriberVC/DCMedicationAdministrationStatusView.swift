@@ -239,11 +239,19 @@ class DCMedicationAdministrationStatusView: UIView {
         let currentSystemDate : NSDate = NSDate()
         for slot in timeArray as [AnyObject] {
             let medication = slot as! DCMedicationSlot
+        let timeIntervalFromCurrentTime = medication.time.timeIntervalSinceDate(currentSystemDate)
             if (medication.time.compare(currentSystemDate) == NSComparisonResult.OrderedAscending) {
                 //past time, check if any medication administration is pending
                 if (medication.medicationAdministration?.actualAdministrationTime == nil) {
-                    overDueCount += 1
-                    break;
+                    if (timeIntervalFromCurrentTime >= TIME_INTERVAL_LIMIT_BEFORE_DUE_NOW && timeIntervalFromCurrentTime <= 0) {
+                        // due now status has to shown
+                        let dueTime = DCDateUtility.dateStringFromDate(medication.time, inFormat: TWENTYFOUR_HOUR_FORMAT)
+                        self.attributedAdministrationStatusTextForScheduledTime(dueTime, inMedicationSlot: medication)
+                    } else {
+                        overDueCount += 1
+                        break;
+                    }
+
                  }
             }
             //check the conditions of early administrations as well

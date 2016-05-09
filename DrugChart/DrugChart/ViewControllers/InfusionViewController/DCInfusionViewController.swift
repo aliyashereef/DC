@@ -80,14 +80,14 @@ class DCInfusionViewController: UIViewController, UITableViewDelegate, UITableVi
                 rowCount = RowCount.eThirdRow.rawValue
             }
             if (tableViewHasInlinePickerForSection(section)) {
-                rowCount++
+                rowCount += 1
             }
             return rowCount
         case SectionCount.eSecondSection.rawValue,
              SectionCount.eThirdSection.rawValue :
             var rowCount = RowCount.eThirdRow.rawValue
             if (tableViewHasInlinePickerForSection(section)) {
-                rowCount++
+                rowCount += 1
             }
             return rowCount
         default :
@@ -359,7 +359,7 @@ class DCInfusionViewController: UIViewController, UITableViewDelegate, UITableVi
                 } else if (self.infusion?.administerAsOption == RATE_BASED_INFUSION) {
                     self.infusion?.rateInfusion?.quantity = unit! as String
                 }
-                self.performSelector(Selector("reloadCellAfterDelayAtIndexPath:"), withObject: NSIndexPath(forRow: indexPath.row - 1, inSection: indexPath.section), afterDelay: 0.04)
+                self.performSelector(#selector(DCInfusionViewController.reloadCellAfterDelayAtIndexPath(_:)), withObject: NSIndexPath(forRow: indexPath.row - 1, inSection: indexPath.section), afterDelay: 0.04)
             }
             infusionPickerCell?.configurePickerView()
             return infusionPickerCell!
