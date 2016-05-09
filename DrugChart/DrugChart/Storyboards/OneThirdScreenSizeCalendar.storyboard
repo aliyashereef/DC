@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -30,7 +30,7 @@
                                         <rect key="frame" x="0.0" y="1" width="600" height="67"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="U9D-UO-QQa" id="l9u-q9-OgY">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="66.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="66"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4zL-aD-Meb" userLabel="Edit Button View">
@@ -105,26 +105,36 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="grT-Gz-dsz">
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="67"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Senna 15 mg Tablet" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tzt-gb-W1V">
-                                                            <rect key="frame" x="28" y="6" width="345" height="20"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Senna 15 mg Tablet" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tzt-gb-W1V">
+                                                            <rect key="frame" x="28" y="6" width="345" height="18"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="20" id="tjR-Dc-GgZ"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
+                                                            <variation key="default">
+                                                                <mask key="constraints">
+                                                                    <exclude reference="tjR-Dc-GgZ"/>
+                                                                </mask>
+                                                            </variation>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Oral" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KME-xv-QmP">
-                                                            <rect key="frame" x="28" y="27" width="345" height="17"/>
+                                                            <rect key="frame" x="28" y="25" width="345" height="17"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="17" id="j5Y-Pp-aZt"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="0.45098039220000002" green="0.45098039220000002" blue="0.45098039220000002" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
+                                                            <variation key="default">
+                                                                <mask key="constraints">
+                                                                    <exclude reference="j5Y-Pp-aZt"/>
+                                                                </mask>
+                                                            </variation>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" verticalCompressionResistancePriority="751" text="3 times a day" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8NZ-BW-zwR" userLabel="type">
-                                                            <rect key="frame" x="28" y="45" width="564" height="16"/>
+                                                            <rect key="frame" x="28" y="43" width="345" height="18"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="264" id="RwJ-J3-OQv"/>
                                                                 <constraint firstAttribute="height" constant="20" id="fcP-sV-Dcq"/>
@@ -184,6 +194,7 @@
                                                         <constraint firstItem="Tzt-gb-W1V" firstAttribute="leading" secondItem="grT-Gz-dsz" secondAttribute="leading" constant="28" id="HRb-gB-YRq"/>
                                                         <constraint firstItem="AfX-B9-r7p" firstAttribute="top" secondItem="grT-Gz-dsz" secondAttribute="top" id="R2H-HG-oyy"/>
                                                         <constraint firstItem="l95-bK-TJI" firstAttribute="top" secondItem="grT-Gz-dsz" secondAttribute="top" id="U1a-Bt-2Ud"/>
+                                                        <constraint firstItem="l95-bK-TJI" firstAttribute="leading" secondItem="8NZ-BW-zwR" secondAttribute="trailing" id="aSj-Wr-I3C"/>
                                                         <constraint firstItem="KME-xv-QmP" firstAttribute="top" secondItem="Tzt-gb-W1V" secondAttribute="bottom" constant="1" id="atb-wB-Eba"/>
                                                         <constraint firstItem="8NZ-BW-zwR" firstAttribute="leading" secondItem="KME-xv-QmP" secondAttribute="leading" id="dEg-Gx-8b2"/>
                                                         <constraint firstItem="8NZ-BW-zwR" firstAttribute="top" secondItem="KME-xv-QmP" secondAttribute="bottom" constant="1" id="eCO-DA-ZWz"/>
@@ -207,6 +218,7 @@
                                                             <exclude reference="vM3-KP-w9U"/>
                                                             <exclude reference="xDa-FF-cPn"/>
                                                             <exclude reference="2yT-Rh-2E8"/>
+                                                            <exclude reference="ftf-28-0DP"/>
                                                             <exclude reference="86K-FB-p5h"/>
                                                             <exclude reference="emB-9o-PlN"/>
                                                             <exclude reference="yMG-5p-0vh"/>
@@ -230,6 +242,8 @@
                                                 <constraint firstItem="grT-Gz-dsz" firstAttribute="top" secondItem="l9u-q9-OgY" secondAttribute="top" id="4FF-YR-nau"/>
                                                 <constraint firstAttribute="trailing" secondItem="grT-Gz-dsz" secondAttribute="trailing" id="KFa-oH-5k3"/>
                                                 <constraint firstAttribute="trailing" secondItem="4zL-aD-Meb" secondAttribute="trailing" id="Rdf-hf-NHf"/>
+                                                <constraint firstAttribute="bottom" secondItem="4zL-aD-Meb" secondAttribute="bottom" constant="1" id="Twm-l9-pei"/>
+                                                <constraint firstAttribute="bottom" secondItem="grT-Gz-dsz" secondAttribute="bottom" constant="-1" id="URn-en-f1a"/>
                                                 <constraint firstItem="grT-Gz-dsz" firstAttribute="leading" secondItem="l9u-q9-OgY" secondAttribute="leading" id="YCb-sX-l7I"/>
                                                 <constraint firstItem="4zL-aD-Meb" firstAttribute="width" secondItem="grT-Gz-dsz" secondAttribute="width" id="acc-id-Drc"/>
                                                 <constraint firstItem="4zL-aD-Meb" firstAttribute="leading" secondItem="l9u-q9-OgY" secondAttribute="leading" id="iHZ-vE-Zdt"/>
@@ -237,6 +251,12 @@
                                                 <constraint firstItem="4zL-aD-Meb" firstAttribute="top" secondItem="l9u-q9-OgY" secondAttribute="top" id="yij-Rp-bOy"/>
                                             </constraints>
                                             <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="0.0"/>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="Twm-l9-pei"/>
+                                                    <exclude reference="q2y-IJ-c3B"/>
+                                                </mask>
+                                            </variation>
                                             <variation key="heightClass=regular-widthClass=compact">
                                                 <mask key="constraints">
                                                     <include reference="Rdf-hf-NHf"/>

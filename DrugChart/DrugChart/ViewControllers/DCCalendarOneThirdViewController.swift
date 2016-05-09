@@ -56,6 +56,8 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         medicationTableView!.delaysContentTouches = false
         generateCurrentWeekDatesArray()
         medicationTableView!.addSubview(self.refreshControl)
+        medicationTableView!.rowHeight = UITableViewAutomaticDimension
+        medicationTableView!.estimatedRowHeight = DCCalendarConstants.ONE_THIRD_ROW_HEIGHT
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -75,6 +77,12 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         
         super.viewWillAppear(animated)
         setParentViewWithCurrentWeekDateArray()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        
+        super.viewDidAppear(animated)
+        medicationTableView?.reloadData()
     }
     
     override func viewDidLayoutSubviews() {
@@ -219,6 +227,8 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         }
         
         self.fillInMedicationDetailsInTableCell(cell!, atIndexPath: indexPath)
+        print("***** Cell height is %f", (cell?.calculateHeightForCell())!)
+       // cell?.updateAdministerStatusViewsHeight()
         if (cell!.inEditMode == true) {
             UIView.animateWithDuration(0.05, animations: { () -> Void in
                 cell!.medicationViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET;
@@ -460,13 +470,6 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     func adjustContentOffsetToShowCenterDayInCollectionView() {
         
         let indexPath : NSIndexPath = NSIndexPath(forRow:7 , inSection: 0)
-//        var indexPath : NSIndexPath?
-//        let orientation = UIApplication.sharedApplication().statusBarOrientation
-//        if (orientation == UIInterfaceOrientation.Portrait || orientation == UIInterfaceOrientation.PortraitUpsideDown) {
-//            indexPath = NSIndexPath(forRow:6 , inSection: 0)
-//        } else {
-//            indexPath = NSIndexPath(forRow:7 , inSection: 0)
-//        }
         calendarStripCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: true)
         scrolledProgramatically = true
     }

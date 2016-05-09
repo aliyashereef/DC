@@ -44,6 +44,19 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
         super.awakeFromNib()
         addPanGestureToMedicationDetailHolderView()
     }
+        
+//    override func didMoveToSuperview() {
+//        
+//        self.layoutIfNeeded()
+//    }
+    
+    func calculateHeightForCell() -> CGFloat? {
+        
+        self.setNeedsLayout()
+        self.layoutIfNeeded()
+        let height = self.contentView.systemLayoutSizeFittingSize(UILayoutFittingExpandedSize).height
+        return height
+    }
     
     // MARK: Private Methods
     
