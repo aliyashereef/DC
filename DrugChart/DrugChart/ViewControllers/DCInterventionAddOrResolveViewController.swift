@@ -25,6 +25,9 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
     override func viewDidLoad() {
 
         super.viewDidLoad()
+        self.interventionDisplayTableView.keyboardDismissMode = .OnDrag
+        self.interventionDisplayTableView.estimatedRowHeight = CGFloat(NORMAL_CELL_HEIGHT)
+        self.interventionDisplayTableView.rowHeight = UITableViewAutomaticDimension
         self.configureNavigationBarItems()
     }
 
@@ -42,8 +45,16 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
         saveButton = UIBarButtonItem(title: SAVE_BUTTON_TITLE, style: .Plain, target: self, action: #selector(DCInterventionAddOrResolveViewController.doneButtonPressed))
         self.configurSaveButton(false)
         self.navigationItem.rightBarButtonItem = saveButton
-        self.navigationItem.title = medicationList[indexOfCurrentMedication!].name
-        self.title = medicationList[indexOfCurrentMedication!].name
+        let interventionTypeString : String
+        if interventionType == eAddIntervention {
+            interventionTypeString = ADD_INTERVENTION
+        } else if interventionType == eEditIntervention {
+            interventionTypeString =  EDIT_INTERVENTION
+        } else {
+            interventionTypeString = RESOLVE_INTERVENTION
+        }
+        self.navigationItem.title = interventionTypeString
+        self.title = interventionTypeString
     }
     
     func configurSaveButton (active : Bool) {
@@ -56,9 +67,9 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
         if interventionType == eAddIntervention || interventionType == eEditIntervention {
-            return SectionCount.eFirstSection.rawValue
+            return SectionCount.eSecondSection.rawValue
         } else {
-            return SectionCount.eThirdSection.rawValue
+            return SectionCount.eFourthSection.rawValue
         }
     }
     
@@ -69,39 +80,31 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
-        if interventionType == eResolveIntervention {
-            if indexPath.section == SectionCount.eSecondSection.rawValue {
-                return CGFloat(NORMAL_CELL_HEIGHT)
+        switch indexPath.section {
+        case SectionCount.eZerothSection.rawValue:
+            return UITableViewAutomaticDimension
+        default:
+            if interventionType == eResolveIntervention {
+                if indexPath.section == SectionCount.eThirdSection.rawValue {
+                    return CGFloat(NORMAL_CELL_HEIGHT)
+                } else {
+                    return CGFloat(TEXT_VIEW_CELL_HEIGHT)
+                }
             } else {
                 return CGFloat(TEXT_VIEW_CELL_HEIGHT)
             }
-        } else {
-            return CGFloat(TEXT_VIEW_CELL_HEIGHT)
         }
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        switch (interventionType!.rawValue) {
-        case eAddIntervention.rawValue:
-            let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(REASON_RESOLVE_TEXTVIEW_CELL) as? DCInterventionAddResolveTextViewCell
-            cell!.placeHolderString = REASON_TEXT
-            cell?.textViewUpdated = { value in
-                self.configurSaveButton(value)
-            }
-            cell?.initializeTextView()
-            if indexOfCurrentMedication != 0 {
-                cell?.reasonOrResolveTextView.becomeFirstResponder()
-            }
-            return cell!
-        case eResolveIntervention.rawValue:
-            if indexPath.section == eZerothSection.rawValue {
-                let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(RESOLVE_INTERVENTION_CELL) as? DCInterventionAddOrResolveTableCell
-                let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList[indexOfCurrentMedication!] as! DCMedicationScheduleDetails
-                cell?.reasonTextLabel.text = medicationSheduleDetails.pharmacistAction.intervention.reason
-                return cell!
-            } else if indexPath.section == eFirstSection.rawValue {
+        switch indexPath.section {
+        case SectionCount.eZerothSection.rawValue:
+            return medicationDetailsCellInTableViewAtIndexPath(tableView, indexPath: indexPath)
+        default:
+            switch (interventionType!.rawValue) {
+            case eAddIntervention.rawValue:
                 let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(REASON_RESOLVE_TEXTVIEW_CELL) as? DCInterventionAddResolveTextViewCell
-                cell!.placeHolderString = RESOLUTION_TEXT
+                cell!.placeHolderString = REASON_TEXT
                 cell?.textViewUpdated = { value in
                     self.configurSaveButton(value)
                 }
@@ -110,32 +113,51 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
                     cell?.reasonOrResolveTextView.becomeFirstResponder()
                 }
                 return cell!
-            } else {
-                let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(HISTORY_OPTION_DISPLAY_CELL) as? DCInterventionAddOrResolveTableCell
+            case eResolveIntervention.rawValue:
+                if indexPath.section == eFirstSection.rawValue {
+                    let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(RESOLVE_INTERVENTION_CELL) as? DCInterventionAddOrResolveTableCell
+                    let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList[indexOfCurrentMedication!] as! DCMedicationScheduleDetails
+                    cell?.reasonTextLabel.text = medicationSheduleDetails.pharmacistAction.intervention.reason
+                    return cell!
+                } else if indexPath.section == eFirstSection.rawValue {
+                    let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(REASON_RESOLVE_TEXTVIEW_CELL) as? DCInterventionAddResolveTextViewCell
+                    cell!.placeHolderString = RESOLUTION_TEXT
+                    cell?.textViewUpdated = { value in
+                        self.configurSaveButton(value)
+                    }
+                    cell?.initializeTextView()
+                    if indexOfCurrentMedication != 0 {
+                        cell?.reasonOrResolveTextView.becomeFirstResponder()
+                    }
+                    return cell!
+                } else {
+                    let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(HISTORY_OPTION_DISPLAY_CELL) as? DCInterventionAddOrResolveTableCell
+                    return cell!
+                    
+                }
+            case eEditIntervention.rawValue:
+                let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(REASON_RESOLVE_TEXTVIEW_CELL) as? DCInterventionAddResolveTextViewCell
+                let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList[indexOfCurrentMedication!] as! DCMedicationScheduleDetails
+                cell!.placeHolderString = REASON_TEXT
+                cell?.initializeTextView()
+                cell!.reasonOrResolveTextView.text = medicationSheduleDetails.pharmacistAction.intervention.reason
+                cell?.textViewUpdated = { value in
+                    self.configurSaveButton(value)
+                }
+                cell?.reasonOrResolveTextView.becomeFirstResponder()
                 return cell!
-
+                
+            default:
+                let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(REASON_RESOLVE_TEXTVIEW_CELL) as? DCInterventionAddResolveTextViewCell
+                return cell!
             }
-        case eEditIntervention.rawValue:
-            let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(REASON_RESOLVE_TEXTVIEW_CELL) as? DCInterventionAddResolveTextViewCell
-            let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList[indexOfCurrentMedication!] as! DCMedicationScheduleDetails
-            cell!.placeHolderString = REASON_TEXT
-            cell?.initializeTextView()
-            cell!.reasonOrResolveTextView.text = medicationSheduleDetails.pharmacistAction.intervention.reason
-            cell?.textViewUpdated = { value in
-                self.configurSaveButton(value)
-            }
-            cell?.reasonOrResolveTextView.becomeFirstResponder()
-            return cell!
-
-        default:
-            let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(REASON_RESOLVE_TEXTVIEW_CELL) as? DCInterventionAddResolveTextViewCell
-            return cell!
         }
+        
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        if indexPath.section == SectionCount.eSecondSection.rawValue {
+        if indexPath.section == SectionCount.eThirdSection.rawValue {
             
             self.displayInterventionDetailsScreen()
         }
@@ -157,7 +179,7 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
     func doneButtonPressed() {
     
         if interventionType == eAddIntervention || interventionType == eEditIntervention{
-            if let textViewCell : DCInterventionAddResolveTextViewCell = interventionDisplayTableView.cellForRowAtIndexPath(NSIndexPath(forRow: RowCount.eZerothRow.rawValue, inSection: SectionCount.eZerothSection.rawValue)) as? DCInterventionAddResolveTextViewCell {
+            if let textViewCell : DCInterventionAddResolveTextViewCell = interventionDisplayTableView.cellForRowAtIndexPath(NSIndexPath(forRow: RowCount.eZerothRow.rawValue, inSection: SectionCount.eFirstSection.rawValue)) as? DCInterventionAddResolveTextViewCell {
                 if textViewCell.reasonOrResolveTextView.text != REASON_TEXT && textViewCell.reasonOrResolveTextView.text != EMPTY_STRING && textViewCell.reasonOrResolveTextView.text != nil {
                     //Add to reason
                     let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList[indexOfCurrentMedication!] as! DCMedicationScheduleDetails
@@ -184,6 +206,20 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
                     textViewCell.reasonOrResolveTextView.textColor = UIColor.redColor()
                 }
             }
+        }
+    }
+    
+    //Medication Details Cell
+    func medicationDetailsCellInTableViewAtIndexPath (tableView : UITableView,indexPath :NSIndexPath) -> UITableViewCell {
+        let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList[indexOfCurrentMedication!] as! DCMedicationScheduleDetails
+        if DCAdministrationHelper.isMedicationDurationBasedInfusion(medicationSheduleDetails){
+            let cell = tableView.dequeueReusableCellWithIdentifier(StopMedicationConstants.DURATION_BASED_INFUSION_CELL) as? DCDurationBasedMedicationDetailsCell
+            cell!.configureMedicationDetails(medicationSheduleDetails)
+            return cell!
+        } else {
+            let cell = tableView.dequeueReusableCellWithIdentifier(StopMedicationConstants.MEDICATION_DETAILS_CELL) as? DCMedicationDetailsTableViewCell
+            cell!.configureMedicationDetails(medicationSheduleDetails)
+            return cell!
         }
     }
     
