@@ -30,8 +30,8 @@ let PENDING_COUNT_FONT_COLOR        =   UIColor(forHexString: "#595959")
 let TIME_INTERVAL_LIMIT_BEFORE_DUE_NOW : NSTimeInterval = -60*10
 let TIME_INTERVAL_LIMIT_AFTER_DUE_NOW : NSTimeInterval = 60*5
 
-let INACTIVE_OPACITY                =   0.6
-let ACTIVE_OPACITY                  =   1.0
+let INACTIVE_OPACITY:CGFloat        =   0.6
+let ACTIVE_OPACITY:CGFloat          =   1.0
 
 typealias AdministerButtonTappedCallback = (Bool) -> Void
 
