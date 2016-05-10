@@ -19,9 +19,10 @@ let DUE_AT_FONT_COLOR               =   UIColor(forHexString: "#007aff")
 let OVERDUE_FONT_COLOR              =   UIColor(forHexString: "#ff0000") // get exact color for display
 let DUE_NOW_FONT_COLOR              =   UIColor.whiteColor()
 let CURRENT_DAY_BACKGROUND_COLOR    =   UIColor(forHexString: "#fafafa")
-let INACTIVE_BACKGROUND_COLOR       =   UIColor(forHexString: "#f7f7f7")
+let INACTIVE_BACKGROUND_COLOR       =   UIColor(forHexString: "#f9f9fb")
 let INACTIVE_TEXT_COLOR             =   UIColor(forHexString :"#989797")
 let INACTIVE_RED_COLOR              =   UIColor(forHexString: "#e87b7b")
+let INACTIVE__OPAQUE_RED_COLOR      =   UIColor(forHexString: "#dc2323")
 let ACTIVE_TEXT_COLOR               =   UIColor(forHexString :"#737373")
 let DUE_NOW_BACKGROUND_COLOR        =   UIColor(forHexString: "#f99e35")
 let PENDING_COUNT_FONT_COLOR        =   UIColor(forHexString: "#595959")
@@ -29,6 +30,8 @@ let PENDING_COUNT_FONT_COLOR        =   UIColor(forHexString: "#595959")
 let TIME_INTERVAL_LIMIT_BEFORE_DUE_NOW : NSTimeInterval = -60*10
 let TIME_INTERVAL_LIMIT_AFTER_DUE_NOW : NSTimeInterval = 60*5
 
+let INACTIVE_OPACITY                =   0.6
+let ACTIVE_OPACITY                  =   1.0
 
 typealias AdministerButtonTappedCallback = (Bool) -> Void
 
@@ -180,8 +183,17 @@ class DCMedicationAdministrationStatusView: UIView {
         let currentDateString = DCDateUtility.dateStringFromDate(currentSystemDate, inFormat: SHORT_DATE_FORMAT)
         let weekDateString = DCDateUtility.dateStringFromDate(weekDate, inFormat: SHORT_DATE_FORMAT)
         if !isActive {
-            self.backgroundColor = INACTIVE_BACKGROUND_COLOR
+            self.alpha = INACTIVE_OPACITY
+            if self.statusLabel?.text == OVERDUE_KEY {
+                
+                self.statusLabel?.textColor = INACTIVE__OPAQUE_RED_COLOR
+            }
         } else {
+            self.alpha = ACTIVE_OPACITY
+            if self.statusLabel?.text == OVERDUE_KEY {
+                
+                self.statusLabel?.textColor = UIColor.redColor()
+            }
             if (currentDateString == weekDateString && !isOneThirdScreen) {
                 self.backgroundColor = CURRENT_DAY_BACKGROUND_COLOR
             } else {
@@ -277,7 +289,7 @@ class DCMedicationAdministrationStatusView: UIView {
         if (!isOneThirdScreen) {
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 if !self.isActive {
-                    self.backgroundColor = INACTIVE_BACKGROUND_COLOR
+                    self.alpha = INACTIVE_OPACITY
                 }
             })
         }
