@@ -58,6 +58,8 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         medicationTableView!.addSubview(self.refreshControl)
         medicationTableView!.rowHeight = UITableViewAutomaticDimension
         medicationTableView!.estimatedRowHeight = DCCalendarConstants.ONE_THIRD_ROW_HEIGHT
+//        medicationTableView!.setNeedsLayout()
+//        medicationTableView!.layoutIfNeeded()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -219,6 +221,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         cell!.indexPath = indexPath
         cell!.editAndDeleteDelegate = self
         cell!.isMedicationActive = medicationScheduleDetails.isActive
+        self.fillInMedicationDetailsInTableCell(cell!, atIndexPath: indexPath)
         let rowDisplayMedicationSlotsArray = self.prepareMedicationSlotsForDisplayInCellFromScheduleDetailsForDate(medicationScheduleDetails,date:centerDate)
         
         for index in 0..<rowDisplayMedicationSlotsArray.count {
@@ -226,9 +229,6 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
             self.configureMedicationCell(cell!,withMedicationSlotsArray: rowDisplayMedicationSlotsArray,atIndexPath: indexPath,andSlotIndex: index)
         }
         
-        self.fillInMedicationDetailsInTableCell(cell!, atIndexPath: indexPath)
-        print("***** Cell height is %f", (cell?.calculateHeightForCell())!)
-       // cell?.updateAdministerStatusViewsHeight()
         if (cell!.inEditMode == true) {
             UIView.animateWithDuration(0.05, animations: { () -> Void in
                 cell!.medicationViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET;
@@ -240,6 +240,18 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
             cell!.medicineDetailHolderView.backgroundColor = INACTIVE_BACKGROUND_COLOR
         }
         cell!.layoutMargins = UIEdgeInsetsZero
+        //print("***** Cell height new is %f", (cell?.calculateHeightForCell())!)
+       // cell!.layoutIfNeeded()
+      //  print("*****/////// After reload %f", cell!.frame.height)
+//        for subView : UIView in cell!.adminstrationStatusView.subviews {
+////            if (subView.tag == tag) {
+////                existingStatusViews.addObject(subView)
+////            }
+//            let viewFrame = CGRectMake(0, 0, cell!.adminstrationStatusView.frame.width, cell!.frame.height)
+//            cell!.adminstrationStatusView.frame = viewFrame
+//            subView.frame = viewFrame
+//            cell!.layoutIfNeeded()
+//        }
         return cell!
     }
     
@@ -328,6 +340,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
             if (displayMedicationListArray.count >= indexPath.item) {
                 let medicationSchedules = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
                 medicationCell.medicineName.text = medicationSchedules.name;
+                print("****** medicationSchedules.name is %@", medicationSchedules.name)
                 if medicationSchedules.isActive {
                     medicationCell.medicineName.textColor = UIColor.blackColor()
                     medicationCell.route.textColor = ACTIVE_TEXT_COLOR
@@ -358,6 +371,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
                     medicationCell.typeLabel.attributedText = attributedTypeString
                 }
             }
+        medicationCell.layoutIfNeeded()
     }
         
     func reloadMedicationListWithDisplayArray (displayArray: NSMutableArray) {
@@ -433,6 +447,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
                     existingStatusViews.addObject(subView)
                 }
             }
+        //print("***** containerView.frame.width is %f", containerView.frame.width)
         let viewFrame = CGRectMake(0, 0, containerView.frame.width, 67.0)
         let statusView : DCMedicationAdministrationStatusView = DCMedicationAdministrationStatusView(frame: viewFrame)
         let medicationSchedules = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
@@ -445,6 +460,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         statusView.isActive = medicationSchedules.isActive
         statusView.startDate = DCDateUtility.dateFromSourceString(medicationSchedules.startDate)
         statusView.updateAdministrationStatusViewWithMedicationSlotDictionary(slotDictionary)
+       // containerView.backgroundColor = UIColor.redColor()
         return statusView
     }
     

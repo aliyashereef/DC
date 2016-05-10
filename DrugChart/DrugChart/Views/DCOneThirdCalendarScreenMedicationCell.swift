@@ -26,17 +26,16 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!
     @IBOutlet weak var moreButton: UIButton!
-    var isMedicationActive : Bool = true
-    var inEditMode : Bool = false
-    
-    var indexPath : NSIndexPath!
-    @IBOutlet weak var adminstrationStatusView: UIView!
+       @IBOutlet weak var adminstrationStatusView: UIView!
     @IBOutlet weak var medicationViewLeadingConstraint: NSLayoutConstraint!
-    @IBOutlet weak var statusViewTrailingConstraint: NSLayoutConstraint!
-    
     @IBOutlet weak var stopButtonWidth: NSLayoutConstraint!
     @IBOutlet weak var editButtonWidth: NSLayoutConstraint!
     @IBOutlet weak var moreButtonWidth: NSLayoutConstraint!
+    @IBOutlet weak var editButtonViewHeight : NSLayoutConstraint!
+    
+    var isMedicationActive : Bool = true
+    var inEditMode : Bool = false
+    var indexPath : NSIndexPath!
     var editAndDeleteDelegate : EditDeleteActionDelegate?
 
     override func awakeFromNib() {
@@ -44,21 +43,29 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
         super.awakeFromNib()
         addPanGestureToMedicationDetailHolderView()
     }
-        
-//    override func didMoveToSuperview() {
-//        
-//        self.layoutIfNeeded()
-//    }
     
-    func calculateHeightForCell() -> CGFloat? {
+    override func layoutSubviews() {
         
-        self.setNeedsLayout()
-        self.layoutIfNeeded()
-        let height = self.contentView.systemLayoutSizeFittingSize(UILayoutFittingExpandedSize).height
-        return height
+        super.layoutSubviews()
+        editButtonViewHeight.constant = self.frame.height
+       // updateAdministrationStatusViewFrame()
     }
     
     // MARK: Private Methods
+    
+    func updateAdministrationStatusViewFrame() {
+        
+        for statusView in adminstrationStatusView.subviews as! [DCMedicationAdministrationStatusView] {
+            let viewFrame = statusView.frame
+            //print("status is %@", statusView)
+            statusView.frame = CGRectMake(0, 0, viewFrame.size.width, self.frame.height)
+           // statusView.frame = CGRectMake(0, 0, viewFrame.size.width, self.frame.height)
+            //statusView.backgroundColor = UIColor.lightGrayColor()
+           // statusView.refreshViewWithUpdatedFrame()
+            //          print("**** adminstrationStatusView is %@", adminstrationStatusView)
+           // print("*** statusView is %@", statusView)
+        }
+    }
     
     func addPanGestureToMedicationDetailHolderView () {
         
