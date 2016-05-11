@@ -57,6 +57,7 @@ typedef enum : NSUInteger {
     UIBarButtonItem *vitalSignsButton;
     UIBarButtonItem *warningsBarButtonItem;
     UIBarButtonItem *actionsButton;
+    UIBarButtonItem *pharmacistBarButtonItem;
     UIButton *warningsButton;
     UIButton *pharmacistButton;
     UILabel *warningCountLabel;
@@ -78,6 +79,7 @@ typedef enum : NSUInteger {
     DCCalendarOneThirdViewController *prescriberMedicationOneThirdSizeViewController;
     DCCalendarDateDisplayViewController *calendarDateDisplayViewController;
     DCAdministrationViewController *detailViewController;
+    DCPharmacistViewController *pharmacistViewController;
     DCAppDelegate *appDelegate;
     DCScreenOrientation screenOrientation;
     DCWindowState previousWindowState;
@@ -141,7 +143,11 @@ typedef enum : NSUInteger {
 
 - (void)viewWillDisappear:(BOOL)animated {
     
-    [self cancelPreviousMedicationListFetchRequest];
+    if ([self isMovingFromParentViewController]) {
+        [self cancelPreviousMedicationListFetchRequest];
+
+        
+    }
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super viewWillDisappear:animated];
 }
@@ -526,11 +532,15 @@ typedef enum : NSUInteger {
                         
                         if (!error) {
                             _patient.medicationListArray = result;
+                            if (pharmacistViewController != nil) {
+                                NSArray *activeMedications = [self filterActiveMedications];
+                                [pharmacistViewController receivedMedicationList:activeMedications];
+                            }
                             if ([DCAPPDELEGATE windowState] != halfWindow &&
                                 [DCAPPDELEGATE windowState] != oneThirdWindow) {
                                 if (_patient.medicationListArray.count == 0){
                                     if ([allergiesArray count] > 0 || [alertsArray count] > 0) {
-                                        self.navigationItem.rightBarButtonItems = @[addButton, warningsBarButtonItem,vitalSignsButton];
+                                        self.navigationItem.rightBarButtonItems = @[addButton, warningsBarButtonItem, pharmacistBarButtonItem, vitalSignsButton];
                                     } else {
                                         self.navigationItem.rightBarButtonItems = @[addButton,vitalSignsButton];
                                     }
@@ -794,15 +804,20 @@ typedef enum : NSUInteger {
     
     UIStoryboard *pharmacistStoryboard = [UIStoryboard storyboardWithName:PHARMACIST_STORYBOARD
                                                              bundle: nil];
-    DCPharmacistViewController *pharmacistViewController =
-    [pharmacistStoryboard instantiateViewControllerWithIdentifier:PHARMACIST_VIEW_CONTROLLER_SB_ID];
-    NSString *predicateString = @"isActive == YES";
-    NSPredicate *medicineCategoryPredicate = [NSPredicate predicateWithFormat:predicateString];
-    NSMutableArray *pharmacistMedications = (NSMutableArray *)[_patient.medicationListArray filteredArrayUsingPredicate:medicineCategoryPredicate];
-    pharmacistViewController.medicationList = pharmacistMedications;
+    pharmacistViewController = [pharmacistStoryboard instantiateViewControllerWithIdentifier:PHARMACIST_VIEW_CONTROLLER_SB_ID];
+    pharmacistViewController.medicationList = (NSMutableArray *)[self filterActiveMedications];
     pharmacistViewController.patientDetails = self.patient;
     [self.navigationController pushViewController:pharmacistViewController animated:true];
 }
+
+- (NSArray *)filterActiveMedications {
+    
+    NSString *predicateString = @"isActive == YES";
+    NSPredicate *medicineCategoryPredicate = [NSPredicate predicateWithFormat:predicateString];
+    NSArray *activeMedications = [_patient.medicationListArray filteredArrayUsingPredicate:medicineCategoryPredicate];
+    return activeMedications;
+}
+
 - (void)addPharmacistInteractionButtonToNavigationBar {
 
     pharmacistButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -829,7 +844,7 @@ typedef enum : NSUInteger {
 
 - (void)addBarButtonItems {
     
-    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:pharmacistButton];
+    pharmacistBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:pharmacistButton];
     NSMutableArray *barButtonsArray = [[NSMutableArray alloc] initWithArray:self.navigationItem.rightBarButtonItems];
     self.navigationItem.rightBarButtonItems = @[];
     NSInteger warningCount = allergiesArray.count + alertsArray.count;
@@ -837,8 +852,8 @@ typedef enum : NSUInteger {
     if (warningCount > 0) {
         barButtonItemCount = 4;
     }
-    if (_patient.medicationListArray.count > 0 && barButtonsArray.count < barButtonItemCount) {
-        [barButtonsArray insertObject:barButtonItem atIndex: barButtonsArray.count-1];
+    if (barButtonsArray.count < barButtonItemCount) {
+        [barButtonsArray insertObject:pharmacistBarButtonItem atIndex: barButtonsArray.count-1];
         self.navigationItem.rightBarButtonItems = barButtonsArray;
     } else {
         self.navigationItem.rightBarButtonItems = barButtonsArray;
