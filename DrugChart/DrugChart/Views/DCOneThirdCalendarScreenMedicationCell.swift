@@ -26,12 +26,11 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!
     @IBOutlet weak var moreButton: UIButton!
-       @IBOutlet weak var adminstrationStatusView: UIView!
+    @IBOutlet weak var adminstrationStatusView: UIView!
     @IBOutlet weak var medicationViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var stopButtonWidth: NSLayoutConstraint!
     @IBOutlet weak var editButtonWidth: NSLayoutConstraint!
     @IBOutlet weak var moreButtonWidth: NSLayoutConstraint!
-    @IBOutlet weak var editButtonViewHeight : NSLayoutConstraint!
     
     var isMedicationActive : Bool = true
     var inEditMode : Bool = false
@@ -44,28 +43,7 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
         addPanGestureToMedicationDetailHolderView()
     }
     
-    override func layoutSubviews() {
-        
-        super.layoutSubviews()
-        editButtonViewHeight.constant = self.frame.height
-       // updateAdministrationStatusViewFrame()
-    }
-    
     // MARK: Private Methods
-    
-    func updateAdministrationStatusViewFrame() {
-        
-        for statusView in adminstrationStatusView.subviews as! [DCMedicationAdministrationStatusView] {
-            let viewFrame = statusView.frame
-            //print("status is %@", statusView)
-            statusView.frame = CGRectMake(0, 0, viewFrame.size.width, self.frame.height)
-           // statusView.frame = CGRectMake(0, 0, viewFrame.size.width, self.frame.height)
-            //statusView.backgroundColor = UIColor.lightGrayColor()
-           // statusView.refreshViewWithUpdatedFrame()
-            //          print("**** adminstrationStatusView is %@", adminstrationStatusView)
-           // print("*** statusView is %@", statusView)
-        }
-    }
     
     func addPanGestureToMedicationDetailHolderView () {
         
