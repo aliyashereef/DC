@@ -534,7 +534,7 @@ typedef enum : NSUInteger {
                             _patient.medicationListArray = result;
                             if (pharmacistViewController != nil) {
                                 NSArray *activeMedications = [self filterActiveMedications];
-                                [pharmacistViewController receivedMedicationList:activeMedications];
+                                [pharmacistViewController receivedMedicationList:(NSMutableArray *)activeMedications];
                             }
                             if ([DCAPPDELEGATE windowState] != halfWindow &&
                                 [DCAPPDELEGATE windowState] != oneThirdWindow) {

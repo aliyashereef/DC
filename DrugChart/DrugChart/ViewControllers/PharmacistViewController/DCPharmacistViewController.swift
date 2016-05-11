@@ -71,7 +71,10 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     
     func receivedMedicationList(medications : NSMutableArray) {
         
-        print("recievedMedicationlist")
+        //refresh pharmacist list on receiving data from fetch
+        medicationList = medications
+        pharmacistTableView.reloadData()
+        activityIndicator.stopAnimating()
     }
     
     // MARK: Private Methods
@@ -87,9 +90,10 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         pharmacistTableView!.estimatedRowHeight = PHARMACIST_ROW_HEIGHT
         pharmacistTableView!.rowHeight = UITableViewAutomaticDimension
         self.addTapGestureToNavigationBar()
-        if medicationList.count == 0 {
+        let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
+        if (appDelegate.isNetworkReachable() == true && medicationList.count == 0) {
             activityIndicator.startAnimating()
-        }
+        } 
     }
     
     func configureNavigationBar() {
