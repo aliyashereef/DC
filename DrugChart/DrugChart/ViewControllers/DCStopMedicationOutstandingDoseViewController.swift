@@ -12,7 +12,7 @@ class DCStopMedicationOutstandingDoseViewController : UIViewController {
     var inactiveDetails : DCInactiveDetails?
     var isSpecificOutstandingDose : Bool = false
     var isSavePressed : Bool = false
-    var startDate : NSString?
+    var startDate : NSString = EMPTY_STRING
     
     @IBOutlet weak var outstandingDosesTableView: UITableView!
 
@@ -86,7 +86,9 @@ class DCStopMedicationOutstandingDoseViewController : UIViewController {
         switch (section)
         {
         case  eFirstSection.rawValue:
-            return startDate as? String
+            let startDateValue = DCDateUtility.dateFromSourceString(startDate as String)
+            let dateString = DCDateUtility.dateStringFromDate(startDateValue, inFormat: ADMINISTER_DATE_TIME_FORMAT)
+            return dateString
         default:
             return EMPTY_STRING
         }

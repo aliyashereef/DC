@@ -23,24 +23,28 @@ class DCStopMedicationViewController : UIViewController , NotesCellDelegate{
     }
     
     override func viewWillAppear(animated: Bool) {
+        
         super.viewWillAppear(animated)
-        isSavePressed = false
         self.stopMedicationTableView.reloadData()
     }
     
-    func configureTableViewProperties (){
+    func configureTableViewProperties() {
+        
         self.stopMedicationTableView.rowHeight = UITableViewAutomaticDimension
         self.stopMedicationTableView.estimatedRowHeight = 44.0
         self.stopMedicationTableView.tableFooterView = UIView(frame: CGRectZero)
     }
     
     func configureNavigationBar() {
+        
         self.navigationItem.title = StopMedicationConstants.STOP_MEDICATION
         // Navigation bar done button
+        let negativeSpacer : UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: self, action: nil)
+        negativeSpacer.width = DCCalendarConstants.NEGATIVE_BAR_BUTTON_WIDTH
         let cancelButton : UIBarButtonItem = UIBarButtonItem(title:CANCEL_BUTTON_TITLE, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.cancelButtonPressed))
         let saveButton : UIBarButtonItem = UIBarButtonItem(title:SAVE_BUTTON_TITLE, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.saveButtonPressed))
-        self.navigationItem.leftBarButtonItem = cancelButton
-        self.navigationItem.rightBarButtonItem = saveButton
+        self.navigationItem.leftBarButtonItems = [negativeSpacer, cancelButton]
+        self.navigationItem.rightBarButtonItems = [negativeSpacer, saveButton]
     }
     
     //MARK: TableView Delegate Methods
@@ -122,7 +126,7 @@ class DCStopMedicationViewController : UIViewController , NotesCellDelegate{
         case eThirdSection.rawValue:
             let outstandingDoseViewController = (UIStoryboard(name: STOP_MEDICATION, bundle: nil).instantiateViewControllerWithIdentifier(StopMedicationConstants.OUTSTANDING_VIEW_CONTROLLER_SB_ID) as? DCStopMedicationOutstandingDoseViewController)!
             outstandingDoseViewController.inactiveDetails = self.inactiveDetails
-            outstandingDoseViewController.startDate = self.medicationDetails?.startDate
+            outstandingDoseViewController.startDate = (self.medicationDetails?.startDate)!
             outstandingDoseViewController.isSavePressed = self.isSavePressed
             self.navigationController!.pushViewController(outstandingDoseViewController, animated: true)
             break

@@ -26,17 +26,15 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!
     @IBOutlet weak var moreButton: UIButton!
-    var isMedicationActive : Bool = true
-    var inEditMode : Bool = false
-    
-    var indexPath : NSIndexPath!
     @IBOutlet weak var adminstrationStatusView: UIView!
     @IBOutlet weak var medicationViewLeadingConstraint: NSLayoutConstraint!
-    @IBOutlet weak var statusViewTrailingConstraint: NSLayoutConstraint!
-    
     @IBOutlet weak var stopButtonWidth: NSLayoutConstraint!
     @IBOutlet weak var editButtonWidth: NSLayoutConstraint!
     @IBOutlet weak var moreButtonWidth: NSLayoutConstraint!
+    
+    var isMedicationActive : Bool = true
+    var inEditMode : Bool = false
+    var indexPath : NSIndexPath!
     var editAndDeleteDelegate : EditDeleteActionDelegate?
 
     override func awakeFromNib() {
