@@ -13,6 +13,7 @@
 #import "DCDosage.h"
 #import "DCMedicationReview.h"
 #import "DCPharmacistAction.h"
+#import "DCManageSuspensionDetails.h"
 
 @interface DCMedicationDetails : DCMedication
 
@@ -37,6 +38,7 @@
 @property (nonatomic, strong) DCInfusion *infusion;
 @property (nonatomic, strong) DCDosage *dose;
 @property (nonatomic, strong) DCPharmacistAction *pharmacistAction;
+@property (nonatomic, strong) DCManageSuspensionDetails *manageSuspension;
 
 - (DCMedicationDetails *)initWithOrderSetMedicationDictionary :(NSDictionary *)medicationDictionary;
 

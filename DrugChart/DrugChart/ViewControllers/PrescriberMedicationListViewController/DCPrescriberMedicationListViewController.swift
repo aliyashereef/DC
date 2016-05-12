@@ -767,13 +767,24 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             if action == 0 {
                 //TODO: Action For Review
             } else {
-                //TODO: Action For Manage Suspension
+                self.presentManageSuspensionView(indexPath)
             }
         }
         moreButtonActionsViewController!.preferredContentSize = CGSizeMake(moreButtonPopoverWidth, moreButtonPopoverHeight)
         popover!.sourceView = cell?.moreButton
     }
 
+    func presentManageSuspensionView(indexPath: NSIndexPath) {
+        
+        let prescriberStoryBoard : UIStoryboard? = UIStoryboard(name:PRESCRIBER_DETAILS_STORYBOARD, bundle: nil)
+        let manageSuspensionViewController = prescriberStoryBoard!.instantiateViewControllerWithIdentifier(MANAGE_SUSPENSION_VC_SB_ID) as? DCManageSuspensionViewController
+        let medicationList: DCMedicationScheduleDetails = displayMedicationListArray[indexPath.item] as! DCMedicationScheduleDetails
+        manageSuspensionViewController!.medicationDetails = medicationList       
+        let navigationController: UINavigationController = UINavigationController(rootViewController: manageSuspensionViewController!)
+        navigationController.modalPresentationStyle = .FormSheet
+        self.presentViewController(navigationController, animated: true, completion: { _ in })
+    }
+    
     func animateAdministratorDetailsView (isRight : Bool) {
         let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
         parentViewController.showActivityIndicationOnViewRefresh(true)

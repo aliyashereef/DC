@@ -695,7 +695,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         })
         let manageSuspensionAcition = UIAlertAction(title: MANAGE_SUSPENSION_TITLE, style: .Default, handler: {
             (alert: UIAlertAction!) -> Void in
-            //TODO: Action For Manage Suspension.
+            self.presentManageSuspensionView(indexPath)
         })
         let cancelAction = UIAlertAction(title: CANCEL_BUTTON_TITLE, style: .Cancel, handler: {
             (alert: UIAlertAction!) -> Void in
@@ -706,6 +706,17 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         actionMenu!.popoverPresentationController?.sourceView = self.view
         actionMenu!.popoverPresentationController?.sourceRect = self.view.bounds
         self.presentViewController(actionMenu!, animated: true, completion: nil)
+    }
+
+    func presentManageSuspensionView(indexPath: NSIndexPath) {
+        
+        let prescriberStoryBoard : UIStoryboard? = UIStoryboard(name:PRESCRIBER_DETAILS_STORYBOARD, bundle: nil)
+        let manageSuspensionViewController = prescriberStoryBoard!.instantiateViewControllerWithIdentifier(MANAGE_SUSPENSION_VC_SB_ID) as? DCManageSuspensionViewController
+        let medicationList: DCMedicationScheduleDetails = displayMedicationListArray[indexPath.item] as! DCMedicationScheduleDetails
+        manageSuspensionViewController!.medicationDetails = medicationList
+        let navigationController: UINavigationController = UINavigationController(rootViewController: manageSuspensionViewController!)
+        navigationController.modalPresentationStyle = .FormSheet
+        self.presentViewController(navigationController, animated: true, completion: { _ in })
     }
 
     func indexPathForLastRowWith(numberOfRows rows : Int, numberOfSection sections : Int) -> NSIndexPath {

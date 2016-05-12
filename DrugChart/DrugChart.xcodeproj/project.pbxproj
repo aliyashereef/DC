@@ -278,6 +278,15 @@
 		2431F2591CD09A3E00D727C1 /* DCOneThirdScreenPharmacistActionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2431F2581CD09A3E00D727C1 /* DCOneThirdScreenPharmacistActionsViewController.swift */; };
 		245B740B1CCF4120006BF7C1 /* DCPharmacistActionPopOverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245B740A1CCF411F006BF7C1 /* DCPharmacistActionPopOverViewController.swift */; };
 		245B740D1CCF4141006BF7C1 /* DCPharmacistActionPopOverTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245B740C1CCF4141006BF7C1 /* DCPharmacistActionPopOverTableViewCell.swift */; };
+		2460F6331CE4A17D0013E91B /* DCManageSuspensionReasonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2460F6321CE4A17D0013E91B /* DCManageSuspensionReasonViewController.swift */; };
+		2460F6351CE4A1960013E91B /* DCManageSuspensionReasonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2460F6341CE4A1960013E91B /* DCManageSuspensionReasonTableViewCell.swift */; };
+		24630F5C1CE1BC5600C2E7BC /* DCManageSuspensionFromViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24630F5B1CE1BC5600C2E7BC /* DCManageSuspensionFromViewController.swift */; };
+		24630F5E1CE1BC6B00C2E7BC /* DCManageSuspensionUntilViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24630F5D1CE1BC6B00C2E7BC /* DCManageSuspensionUntilViewController.swift */; };
+		24630F601CE1BC8D00C2E7BC /* DCManageSuspensionUntilTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24630F5F1CE1BC8D00C2E7BC /* DCManageSuspensionUntilTableViewCell.swift */; };
+		24630F621CE1BCA200C2E7BC /* DCManageSuspensionFromTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24630F611CE1BCA200C2E7BC /* DCManageSuspensionFromTableViewCell.swift */; };
+		2463A67D1CE07253001BB644 /* DCManageSuspensionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2463A67C1CE07253001BB644 /* DCManageSuspensionTableViewCell.swift */; };
+		2463A67F1CE07269001BB644 /* DCManageSuspensionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2463A67E1CE07269001BB644 /* DCManageSuspensionViewController.swift */; };
+		2473C9961CE34E7700074F32 /* DCManageSuspensionDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 2473C9951CE34E7700074F32 /* DCManageSuspensionDetails.m */; };
 		248E5CF71CD773B400B8E225 /* DCMedicationListMoreButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248E5CF61CD773B400B8E225 /* DCMedicationListMoreButtonViewController.swift */; };
 		248E5CFA1CD7747700B8E225 /* DCMedicationListMoreButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248E5CF91CD7747700B8E225 /* DCMedicationListMoreButtonTableViewCell.swift */; };
 		263AE8A048794A9FC5DDF137 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95B692258EF6A48813AE6977 /* Pods.framework */; };
@@ -818,6 +827,16 @@
 		2431F2581CD09A3E00D727C1 /* DCOneThirdScreenPharmacistActionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCOneThirdScreenPharmacistActionsViewController.swift; sourceTree = "<group>"; };
 		245B740A1CCF411F006BF7C1 /* DCPharmacistActionPopOverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCPharmacistActionPopOverViewController.swift; sourceTree = "<group>"; };
 		245B740C1CCF4141006BF7C1 /* DCPharmacistActionPopOverTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCPharmacistActionPopOverTableViewCell.swift; sourceTree = "<group>"; };
+		2460F6321CE4A17D0013E91B /* DCManageSuspensionReasonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCManageSuspensionReasonViewController.swift; sourceTree = "<group>"; };
+		2460F6341CE4A1960013E91B /* DCManageSuspensionReasonTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCManageSuspensionReasonTableViewCell.swift; sourceTree = "<group>"; };
+		24630F5B1CE1BC5600C2E7BC /* DCManageSuspensionFromViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCManageSuspensionFromViewController.swift; sourceTree = "<group>"; };
+		24630F5D1CE1BC6B00C2E7BC /* DCManageSuspensionUntilViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCManageSuspensionUntilViewController.swift; sourceTree = "<group>"; };
+		24630F5F1CE1BC8D00C2E7BC /* DCManageSuspensionUntilTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCManageSuspensionUntilTableViewCell.swift; sourceTree = "<group>"; };
+		24630F611CE1BCA200C2E7BC /* DCManageSuspensionFromTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCManageSuspensionFromTableViewCell.swift; sourceTree = "<group>"; };
+		2463A67C1CE07253001BB644 /* DCManageSuspensionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCManageSuspensionTableViewCell.swift; sourceTree = "<group>"; };
+		2463A67E1CE07269001BB644 /* DCManageSuspensionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCManageSuspensionViewController.swift; sourceTree = "<group>"; };
+		2473C9941CE34E7700074F32 /* DCManageSuspensionDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCManageSuspensionDetails.h; sourceTree = "<group>"; };
+		2473C9951CE34E7700074F32 /* DCManageSuspensionDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCManageSuspensionDetails.m; sourceTree = "<group>"; };
 		248E5CF61CD773B400B8E225 /* DCMedicationListMoreButtonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCMedicationListMoreButtonViewController.swift; sourceTree = "<group>"; };
 		248E5CF91CD7747700B8E225 /* DCMedicationListMoreButtonTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCMedicationListMoreButtonTableViewCell.swift; sourceTree = "<group>"; };
 		4D011C511BB14374005C79A2 /* MedicationHistory.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = MedicationHistory.storyboard; path = ../MedicationHistory.storyboard; sourceTree = "<group>"; };
@@ -1969,6 +1988,7 @@
 		0BBC8F891AA457280085ABAB /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				2473C9931CE34E1D00074F32 /* ManageSuspension */,
 				4D19C5491CCF280A001CB5A6 /* MedicationInActiveDetails */,
 				1FD4FCAD1BF4B60E00B77B94 /* VitalSign */,
 				0BB33DD11B79F4D100B05E4D /* Medication */,
@@ -2053,6 +2073,9 @@
 		0BBC8F9A1AA468920085ABAB /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				2460F6311CE4A1450013E91B /* ManageSuspensionReasonViewController */,
+				24630F5A1CE1BC1E00C2E7BC /* ManageSuspensionUntilViewController */,
+				24630F591CE1BC0300C2E7BC /* ManageSuspensionFromViewController */,
 				248E5CF81CD773CF00B8E225 /* MedicationListMoreButtonViewController */,
 				2431F2551CD097D200D727C1 /* OneThireScreenActionsPharmacistActionsViewController */,
 				245B74091CCF40B7006BF7C1 /* PharmacistActionPopOverViewController */,
@@ -2120,6 +2143,7 @@
 				4DDD99AB1BD63E96002879CD /* WardListingViewController */,
 				0BF2DA4D1ACA97F700B3ED97 /* ErrorPopoverViewController */,
 				0BB32CE11CAA544800061E02 /* PharmacistViewController */,
+				2463A67B1CE07219001BB644 /* ManageSuspensionViewController */,
 				4DA24AA61CCE39DA0096882D /* StopMedicationViewController */,
 				4D70973A1C5A560000832539 /* DCReviewDatePickerCell.swift */,
 			);
@@ -2821,6 +2845,52 @@
 				245B740C1CCF4141006BF7C1 /* DCPharmacistActionPopOverTableViewCell.swift */,
 			);
 			name = PharmacistActionPopOverViewController;
+			sourceTree = "<group>";
+		};
+		2460F6311CE4A1450013E91B /* ManageSuspensionReasonViewController */ = {
+			isa = PBXGroup;
+			children = (
+				2460F6321CE4A17D0013E91B /* DCManageSuspensionReasonViewController.swift */,
+				2460F6341CE4A1960013E91B /* DCManageSuspensionReasonTableViewCell.swift */,
+			);
+			name = ManageSuspensionReasonViewController;
+			sourceTree = "<group>";
+		};
+		24630F591CE1BC0300C2E7BC /* ManageSuspensionFromViewController */ = {
+			isa = PBXGroup;
+			children = (
+				24630F5B1CE1BC5600C2E7BC /* DCManageSuspensionFromViewController.swift */,
+				24630F611CE1BCA200C2E7BC /* DCManageSuspensionFromTableViewCell.swift */,
+			);
+			name = ManageSuspensionFromViewController;
+			sourceTree = "<group>";
+		};
+		24630F5A1CE1BC1E00C2E7BC /* ManageSuspensionUntilViewController */ = {
+			isa = PBXGroup;
+			children = (
+				24630F5D1CE1BC6B00C2E7BC /* DCManageSuspensionUntilViewController.swift */,
+				24630F5F1CE1BC8D00C2E7BC /* DCManageSuspensionUntilTableViewCell.swift */,
+			);
+			name = ManageSuspensionUntilViewController;
+			sourceTree = "<group>";
+		};
+		2463A67B1CE07219001BB644 /* ManageSuspensionViewController */ = {
+			isa = PBXGroup;
+			children = (
+				2463A67E1CE07269001BB644 /* DCManageSuspensionViewController.swift */,
+				2463A67C1CE07253001BB644 /* DCManageSuspensionTableViewCell.swift */,
+			);
+			name = ManageSuspensionViewController;
+			path = PharmacistViewController;
+			sourceTree = "<group>";
+		};
+		2473C9931CE34E1D00074F32 /* ManageSuspension */ = {
+			isa = PBXGroup;
+			children = (
+				2473C9941CE34E7700074F32 /* DCManageSuspensionDetails.h */,
+				2473C9951CE34E7700074F32 /* DCManageSuspensionDetails.m */,
+			);
+			name = ManageSuspension;
 			sourceTree = "<group>";
 		};
 		248E5CF81CD773CF00B8E225 /* MedicationListMoreButtonViewController */ = {
@@ -3832,6 +3902,7 @@
 			files = (
 				0B9F107F1CAD126E00205B4D /* DCPharmacistAction.m in Sources */,
 				7D2323501B40FD5E0063A4A4 /* DCAlertsWebService.m in Sources */,
+				2463A67F1CE07269001BB644 /* DCManageSuspensionViewController.swift in Sources */,
 				7DAAAA8B1BC3C30E00119E2B /* DCPrescriberMedicationListViewController.swift in Sources */,
 				0B2442F01B96E36500E8F0EB /* DCAddMedicationContentCell.m in Sources */,
 				0BBDEDF91AA5B4320016E6FF /* UIImage+DCImage.m in Sources */,
@@ -3843,6 +3914,7 @@
 				FD2FF8BF1C3BD84C00778A4E /* DCDosageUnitSelectionViewController.swift in Sources */,
 				0B8997BB1C74970F006974E8 /* DCSingleDoseTableCell.swift in Sources */,
 				4DD2E2691C7C28AD00950BD8 /* DCAdministrationStatusSelectionViewController.swift in Sources */,
+				2460F6331CE4A17D0013E91B /* DCManageSuspensionReasonViewController.swift in Sources */,
 				FD6AD2BE1C73120E0014B7BA /* DCAdministerGraphViewController.swift in Sources */,
 				0BBC8F841AA44E330085ABAB /* DCLoginWebService.m in Sources */,
 				0B96E9831C731A8300464836 /* DCSingleDose.m in Sources */,
@@ -3932,10 +4004,12 @@
 				FDF29CA81C8EE333003C3100 /* DCMedicationSummaryDisplayTableViewCell.swift in Sources */,
 				2431F2571CD0982300D727C1 /* DCOneThirdScreenPharmacistActionsTableViewCell.swift in Sources */,
 				1FD4FCB91BF4B6B700B77B94 /* Pulse.swift in Sources */,
+				2460F6351CE4A1960013E91B /* DCManageSuspensionReasonTableViewCell.swift in Sources */,
 				1FD4FCBB1BF4B6B700B77B94 /* SPO2.swift in Sources */,
 				0BF389151AA468C6006792DE /* DCUtility.m in Sources */,
 				FD99F1ED1CABDF3100D54FE3 /* DCInterventionAddOrResolveViewController.swift in Sources */,
 				4D19C5501CCF3DB3001CB5A6 /* DCInactiveDetails.m in Sources */,
+				24630F601CE1BC8D00C2E7BC /* DCManageSuspensionUntilTableViewCell.swift in Sources */,
 				4DDD0C931C75C7370021C528 /* DCAdministrationSuccessViewController.swift in Sources */,
 				FDDA73261CB287C300CC9EEB /* DCPodStatusTableViewCell.swift in Sources */,
 				0B7F75001B8439DA00E3B0A0 /* DCSortTableCell.m in Sources */,
@@ -3960,6 +4034,7 @@
 				7D5319BE1BF21EDB003C3F92 /* DCAlertsAllergyPopOverViewController.m in Sources */,
 				FD2FF8B01C3B902D00778A4E /* DCAddConditionViewController.swift in Sources */,
 				1F1977241C05DB1400106023 /* UITextField.swift in Sources */,
+				24630F5C1CE1BC5600C2E7BC /* DCManageSuspensionFromViewController.swift in Sources */,
 				0BDFBE2F1CA11F4000DEEFE5 /* DCMedicationReview.m in Sources */,
 				1F3C316E1C0DB3CB007C6AE7 /* PatientViewController.swift in Sources */,
 				1F129E061C970A4F00CE1141 /* ObservationComponent.swift in Sources */,
@@ -4031,6 +4106,7 @@
 				0BF2DA561ACAB12700B3ED97 /* DCErrorPopOverBackgroundView.m in Sources */,
 				0BAE369A1B455DDF007CD64C /* DCOrderSetMedicineView.m in Sources */,
 				0BAD23771C58991F00697FFF /* DCInfusionViewController.swift in Sources */,
+				24630F5E1CE1BC6B00C2E7BC /* DCManageSuspensionUntilViewController.swift in Sources */,
 				1F5375031C1AED9700D4A64F /* GraphCollectionViewCell.swift in Sources */,
 				0B9F10881CAD1E2100205B4D /* DCPODStatus.m in Sources */,
 				0B6CEFDD1C917E0000F6639C /* DCOverrideViewController.m in Sources */,
@@ -4111,6 +4187,7 @@
 				4D766C0B1BBCF79900413E08 /* DCCalendarDateDisplayViewController.swift in Sources */,
 				1FD4FCCB1BF4B7E000B77B94 /* GraphicalDashBoardView.swift in Sources */,
 				0BBDEDF51AA5B3100016E6FF /* DCFontUtility.m in Sources */,
+				2473C9961CE34E7700074F32 /* DCManageSuspensionDetails.m in Sources */,
 				0BB27D061AEF51230007EB88 /* DCPopOverBaseBackgroundView.m in Sources */,
 				4D54C07B1BFB351200A61273 /* DCOneThirdCalendarScreenMedicationCell.swift in Sources */,
 				0BF2DA501ACA982E00B3ED97 /* DCErrorPopOverViewController.m in Sources */,
@@ -4128,6 +4205,7 @@
 				0B9D6D521BA17244009E0A4E /* DCAddMedicationHelper.m in Sources */,
 				0BBEEB5E1AD4FF4F00C1D986 /* RoundRectPresentationController.m in Sources */,
 				1F418E491CA020F400D2DCFB /* Identifier.swift in Sources */,
+				24630F621CE1BCA200C2E7BC /* DCManageSuspensionFromTableViewCell.swift in Sources */,
 				FDDB3DA81C747E3200CE4AB7 /* DCGraphPoints.swift in Sources */,
 				0BA3572C1B7464D800A5C3BC /* DCAddMedicationOperation.m in Sources */,
 				1FD4FCE51BF4B8F400B77B94 /* DatePickerCell_Inline.swift in Sources */,
@@ -4148,6 +4226,7 @@
 				0BA5A3921BF35E2700251F94 /* DCSchedulingDetailViewController.swift in Sources */,
 				0BB33DD81B79F56900B05E4D /* DCMedicationDetails.m in Sources */,
 				1F3C31701C0DB8F8007C6AE7 /* Patient.swift in Sources */,
+				2463A67D1CE07253001BB644 /* DCManageSuspensionTableViewCell.swift in Sources */,
 				1FF1F8881C3D7798007F3B9C /* GraphDelegate.swift in Sources */,
 				4DD264381C7EFD11007ACC52 /* DCAdministrationInProgressViewController.swift in Sources */,
 				4D9225F91C6DE1F00060761A /* DCProgressTimeView.swift in Sources */,

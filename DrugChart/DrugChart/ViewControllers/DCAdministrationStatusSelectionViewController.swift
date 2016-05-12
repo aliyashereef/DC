@@ -42,6 +42,8 @@ enum RowCount : NSInteger {
     case eSecondRow
     case eThirdRow
     case eFourthRow
+    case eFifthRow
+    case eSixthRow
 }
 
 class DCAdministrationStatusSelectionViewController: UIViewController,StatusListDelegate {
