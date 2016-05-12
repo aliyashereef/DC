@@ -23,18 +23,20 @@ class DCStopMedicationViewController : UIViewController , NotesCellDelegate{
     }
     
     override func viewWillAppear(animated: Bool) {
+        
         super.viewWillAppear(animated)
-        isSavePressed = false
         self.stopMedicationTableView.reloadData()
     }
     
-    func configureTableViewProperties (){
+    func configureTableViewProperties() {
+        
         self.stopMedicationTableView.rowHeight = UITableViewAutomaticDimension
         self.stopMedicationTableView.estimatedRowHeight = 44.0
         self.stopMedicationTableView.tableFooterView = UIView(frame: CGRectZero)
     }
     
     func configureNavigationBar() {
+        
         self.navigationItem.title = StopMedicationConstants.STOP_MEDICATION
         // Navigation bar done button
         let cancelButton : UIBarButtonItem = UIBarButtonItem(title:CANCEL_BUTTON_TITLE, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.cancelButtonPressed))
