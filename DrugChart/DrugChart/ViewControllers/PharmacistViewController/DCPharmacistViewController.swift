@@ -526,6 +526,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
             presentViewController(alert, animated: true, completion: nil)
         }
         else {
+             self.cancelButtonPressed()
             completion(result: SUCCESS)
         }
     }
