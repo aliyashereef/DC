@@ -39,10 +39,12 @@ class DCStopMedicationViewController : UIViewController , NotesCellDelegate{
         
         self.navigationItem.title = StopMedicationConstants.STOP_MEDICATION
         // Navigation bar done button
+        let negativeSpacer : UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: self, action: nil)
+        negativeSpacer.width = DCCalendarConstants.NEGATIVE_BAR_BUTTON_WIDTH
         let cancelButton : UIBarButtonItem = UIBarButtonItem(title:CANCEL_BUTTON_TITLE, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.cancelButtonPressed))
         let saveButton : UIBarButtonItem = UIBarButtonItem(title:SAVE_BUTTON_TITLE, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.saveButtonPressed))
-        self.navigationItem.leftBarButtonItem = cancelButton
-        self.navigationItem.rightBarButtonItem = saveButton
+        self.navigationItem.leftBarButtonItems = [negativeSpacer, cancelButton]
+        self.navigationItem.rightBarButtonItems = [negativeSpacer, saveButton]
     }
     
     //MARK: TableView Delegate Methods
