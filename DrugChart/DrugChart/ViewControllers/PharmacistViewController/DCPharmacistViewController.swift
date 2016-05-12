@@ -22,6 +22,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     @IBOutlet weak var interventionBarButton: UIBarButtonItem!
     @IBOutlet weak var updatePodStatusBarButton: UIBarButtonItem!
     @IBOutlet weak var supplyRequestBarButton: UIBarButtonItem!
+    @IBOutlet weak var activityIndicator : UIActivityIndicatorView!
     
     let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
     var isInEditMode : Bool = false
@@ -34,7 +35,6 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     var cellHeight : CGFloat = 44
     var tableTapGesture : UITapGestureRecognizer? = nil
     var isScrolling : Bool?
-    // var selectAll : Bool?
     var indexPathsArray : NSMutableArray = []
     var actionMismatchErrors = [NSError]()
     
@@ -67,6 +67,16 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         self.configureToolBarsForEditingState(isInEditMode)
     }
     
+    // MARK: Public Methods
+    
+    func receivedMedicationList(medications : NSMutableArray) {
+        
+        //refresh pharmacist list on receiving data from fetch
+        medicationList = medications
+        pharmacistTableView.reloadData()
+        activityIndicator.stopAnimating()
+    }
+    
     // MARK: Private Methods
     
     func configureViewElements() {
@@ -80,6 +90,10 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         pharmacistTableView!.estimatedRowHeight = PHARMACIST_ROW_HEIGHT
         pharmacistTableView!.rowHeight = UITableViewAutomaticDimension
         self.addTapGestureToNavigationBar()
+        let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
+        if (appDelegate.isNetworkReachable() == true && medicationList.count == 0) {
+            activityIndicator.startAnimating()
+        } 
     }
     
     func configureNavigationBar() {
