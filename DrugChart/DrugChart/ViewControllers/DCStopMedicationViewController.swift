@@ -122,7 +122,7 @@ class DCStopMedicationViewController : UIViewController , NotesCellDelegate{
         case eThirdSection.rawValue:
             let outstandingDoseViewController = (UIStoryboard(name: STOP_MEDICATION, bundle: nil).instantiateViewControllerWithIdentifier(StopMedicationConstants.OUTSTANDING_VIEW_CONTROLLER_SB_ID) as? DCStopMedicationOutstandingDoseViewController)!
             outstandingDoseViewController.inactiveDetails = self.inactiveDetails
-            outstandingDoseViewController.startDate = self.medicationDetails?.startDate
+            outstandingDoseViewController.startDate = (self.medicationDetails?.startDate)!
             outstandingDoseViewController.isSavePressed = self.isSavePressed
             self.navigationController!.pushViewController(outstandingDoseViewController, animated: true)
             break
