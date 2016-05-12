@@ -138,6 +138,9 @@
 #define ADMINISTER_SUCCESS_VC_STORYBOARD_ID @"AdministerSuccessViewController"
 #define ADMINISTER_FAILURE_VC_STORYBOARD_ID @"AdministerFailureViewController"
 #define ADMINISTER_IN_PROGRESS_VC_STORYBOARD_ID @"AdministerProgressViewController"
+#define MANAGE_SUSPENSION_VC_SB_ID @"manageSuspensionView"
+#define MANAGE_SUSPENSION_FROM_VC_SB_ID @"manageSuspensionFromView"
+#define MANAGE_SUSPENSION_UNTIL_VC_SB_ID @"manageSuspensionUntilView"
 
 #define ADMINISTRATION_STATUS_CHANGE_VIEW_CONTROLLER @"AdministerStatusChangeViewController"
 #define MEDICATION_STORYBOARD_ID @"MedicationHistory"
@@ -177,6 +180,7 @@
 #define ONT_THIRD_ACTION_SB_ID @"oneThirdActionView"
 #define INTERVENTION_DETAILS_SB_ID @"InterventionDetailsViewController"
 #define MORE_BUTTON_ACTION_DISPLAY_SB_ID @"moreButtonActionDisplayView"
+#define MANAGE_SUSPENSION_REASON_SB_ID @"manageSuspensionReasonView"
 
 //Nib files
 #define WARNINGS_HEADER_VIEW_NIB @"DCWarningsHeaderView"
@@ -273,6 +277,8 @@
 #define REASON_TEXT_VIEW @"reasonTextViewCell"
 #define ACTION_DISPLAY_CELL @"actionDisplayCell"
 #define HISTORY_OPTION_DISPLAY_CELL @"historyCell"
+#define MANAGE_SUSPENSION_CELL @"titleCell"
+#define REASON_CELL_ID @"reasonCell"
 
 // Week days
 
@@ -659,5 +665,12 @@
 #define CANCEL_SUPPLY_REQUEST @"Cancel Supply Request"
 
 #define IS_SCROLLING @"isScrolling"
+
+//Manage Suspension
+#define SUSPEND_IMMEDIATELY @"Suspend Immediatly"
+#define SUSPEND_FROM @"Suspend From"
+#define MANUALLY_SUSPENDED @"Manually Suspended"
+#define SPECIFIED_DATE @"Specified Date"
+#define SPECIFIED_DOSE @"Specified Dose"
 
 #endif
