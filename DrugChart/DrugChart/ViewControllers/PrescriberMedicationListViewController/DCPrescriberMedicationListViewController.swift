@@ -765,7 +765,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             
             cell!.swipeMedicationDetailViewToRight()
             if action == 0 {
-                //TODO: Action For Review
+                self.presentAddReviewControllerAtIndexPath(indexPath)
             } else {
                 //TODO: Action For Manage Suspension
             }
@@ -774,6 +774,23 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         popover!.sourceView = cell?.moreButton
     }
 
+    func presentAddReviewControllerAtIndexPath (indexPath :NSIndexPath ) {
+        
+        let addReviewViewController : DCReviewViewController? = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(REVIEW_VIEW_CONTROLLER_SB_ID) as? DCReviewViewController
+        addReviewViewController!.title = ADD_REVIEW
+        let medicationList: DCMedicationScheduleDetails = self.displayMedicationListArray[indexPath.item] as! DCMedicationScheduleDetails
+        medicationList.medicationReview = DCMedicationReview.init()
+        addReviewViewController?.medicationDetails = medicationList
+        addReviewViewController?.isAddMedicationReview = false
+        addReviewViewController!.review = medicationList.medicationReview
+        addReviewViewController!.updatedReviewObject = { review in
+            medicationList.medicationReview = review
+        }
+        let navigationController : UINavigationController? = UINavigationController(rootViewController:addReviewViewController!)
+        navigationController!.modalPresentationStyle = .FormSheet
+        self.presentViewController(navigationController!, animated: true, completion: nil)
+    }
+    
     func animateAdministratorDetailsView (isRight : Bool) {
         let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
         parentViewController.showActivityIndicationOnViewRefresh(true)

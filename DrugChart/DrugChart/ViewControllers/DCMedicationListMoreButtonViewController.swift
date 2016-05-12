@@ -55,8 +55,8 @@ class DCMedicationListMoreButtonViewController: UIViewController {
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        self.actionForMoreButtonSelected(indexPath.row)
         self.dismissViewControllerAnimated(true, completion: { void in })
+        self.actionForMoreButtonSelected(indexPath.row)
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
 

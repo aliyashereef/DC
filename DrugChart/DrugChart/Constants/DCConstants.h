@@ -645,6 +645,7 @@
 #define REASON_TEXT @"Reason"
 #define RESOLUTION_TEXT @"Resolution"
 #define UPDATE_POD_STATUS @"Update POD Status"
+#define ADD_REVIEW "Add Review"
 #define SUPPLY_REQUEST @"Supply Request"
 #define RESOLVE_INTERVENTION @"Resolve Intervention"
 #define CLINICAL_CHECK @"Clinical Check"
