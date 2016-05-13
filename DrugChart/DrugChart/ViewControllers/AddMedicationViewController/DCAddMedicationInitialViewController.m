@@ -256,11 +256,11 @@
             DCAddMedicationContentCell *cell = [medicationDetailsTableView dequeueReusableCellWithIdentifier:cellIdentifier];
             cell.titleLabel.text = NSLocalizedString(@"Review Frequency", @"Date cell title");
             NSMutableString *reviewFrequency = [[NSMutableString alloc] initWithString:EMPTY_STRING];
-            if ([self.selectedMedication.medicationReview.reviewType isEqualToString:REVIEW_INTERVAL]) {
+            if ([self.selectedMedication.medicationReview.reviewType isEqualToString:REVIEW_DUE_IN]) {
                 if (self.selectedMedication.medicationReview.reviewInterval.intervalCount != nil && ![self.selectedMedication.medicationReview.reviewInterval.intervalCount isEqualToString:EMPTY_STRING] && self.selectedMedication.medicationReview.reviewInterval.unit != nil) {
                     [reviewFrequency appendFormat:@"In %@ %@", self.selectedMedication.medicationReview.reviewInterval.intervalCount, self.selectedMedication.medicationReview.reviewInterval.unit];
                 }
-            } else if ([self.selectedMedication.medicationReview.reviewType isEqualToString:REVIEW_DATE]) {
+            } else if ([self.selectedMedication.medicationReview.reviewType isEqualToString:REVIEW_DUE_AT]) {
                 if (self.selectedMedication.medicationReview.reviewDate.dateAndTime != nil) {
                     [reviewFrequency appendFormat:@"On %@", self.selectedMedication.medicationReview.reviewDate.dateAndTime];
                 }
