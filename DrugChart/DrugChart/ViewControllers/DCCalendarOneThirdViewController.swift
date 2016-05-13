@@ -237,6 +237,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         } else {
             cell!.medicineDetailHolderView.backgroundColor = INACTIVE_BACKGROUND_COLOR
         }
+        cell!.showActionButtons(false)
         cell!.layoutMargins = UIEdgeInsetsZero
         return cell!
     }
