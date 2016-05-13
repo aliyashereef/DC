@@ -42,6 +42,7 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
     override func awakeFromNib() {
         
         super.awakeFromNib()
+        self.showActionButtons(false)
         addPanGestureToMedicationDetailHolderView()
     }
     
@@ -62,6 +63,13 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
         medicineDetailHolderView.addGestureRecognizer(panGesture)
     }
     
+    func showActionButtons(show : Bool) {
+        
+        editButton.hidden = !show
+        stopButton.hidden = !show
+        moreButton.hidden = !show
+    }
+    
     override func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
@@ -72,6 +80,7 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
         
         //swipe medication view
         if isMedicationActive {
+            self.showActionButtons(true)
             if let delegate = editAndDeleteDelegate {
                 delegate.setIndexPathSelected(indexPath)
             }
@@ -125,6 +134,7 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
         inEditMode = false
         UIView.animateWithDuration(ANIMATION_DURATION) { () -> Void in
             self.medicationViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET;
+            self.showActionButtons(false)
             self.layoutIfNeeded()
         }
     }
@@ -147,6 +157,7 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
             self.medicationViewLeadingConstraint.constant = -MEDICATION_VIEW_LEFT_OFFSET;
         } else if (self.medicationViewLeadingConstraint.constant > MEDICATION_VIEW_INITIAL_LEFT_OFFSET) {
             self.medicationViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET;
+            self.showActionButtons(false)
         }
         inEditMode = true
     }
