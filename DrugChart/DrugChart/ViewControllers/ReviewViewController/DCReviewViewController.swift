@@ -253,10 +253,13 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
             let switchValue : Bool = state!
             if self.review?.warningPeriod?.hasWarningPeriod == nil || switchValue == false {
                 self.review?.warningPeriod = DCWarningPeriod.init()
+                self.review?.warningPeriod?.warningPeriodUnit = EMPTY_STRING
+                self.review?.warningPeriod?.warningPeriodInterval = EMPTY_STRING
             }
             self.review?.warningPeriod?.hasWarningPeriod = switchValue
-            let indexPaths = [NSIndexPath(forItem: indexPath.row + 1, inSection: indexPath.section),NSIndexPath(forItem: indexPath.row + 2, inSection: indexPath.section)]
+            let sectionCount = self.reviewTableView.numberOfSections
             self.reviewTableView.beginUpdates()
+            let indexPaths = [NSIndexPath(forItem: indexPath.row + 1, inSection:sectionCount-1),NSIndexPath(forItem: indexPath.row + 2, inSection: sectionCount-1)]
             if switchValue {
                 self.reviewTableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.Fade)
             } else {
@@ -283,8 +286,9 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
         let intervalTableCell = reviewTableView.dequeueReusableCellWithIdentifier(PICKER_DROP_DOWN_CELL, forIndexPath:indexPath) as? DCAddNewValueTableViewCell
         intervalTableCell!.unitLabel.text = DOSE_UNIT_TITLE
         if var interval = review?.warningPeriod?.warningPeriodUnit {
-            if (interval.isEmpty) {
+            if (interval == EMPTY_STRING) {
                 interval = HOURS_TITLE
+                review?.warningPeriod?.warningPeriodUnit = interval
             }
             intervalTableCell!.unitValueLabel.text = interval
         }
