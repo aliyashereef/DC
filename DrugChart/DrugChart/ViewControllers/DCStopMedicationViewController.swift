@@ -105,7 +105,7 @@ class DCStopMedicationViewController : UIViewController , NotesCellDelegate{
             notesCell.notesTextView.text = notesCell.hintText()
         }
         
-        if inactiveDetails?.reason == StopMedicationConstants.OTHERS && (inactiveDetails?.notes == EMPTY_STRING || inactiveDetails?.notes == nil) && isSavePressed {
+        if inactiveDetails?.reason == StopMedicationConstants.OTHER && (inactiveDetails?.notes == EMPTY_STRING || inactiveDetails?.notes == nil) && isSavePressed {
             notesCell.notesTextView.textColor = UIColor.redColor()
         } else {
             notesCell.notesTextView.textColor = UIColor(forHexString: "#8f8f95")
@@ -182,7 +182,7 @@ class DCStopMedicationViewController : UIViewController , NotesCellDelegate{
             isValid = false
         } else if !isValidOutstandingDoses(){
             isValid = false
-        } else if inactiveDetails?.reason == StopMedicationConstants.OTHERS && (inactiveDetails?.notes == EMPTY_STRING || inactiveDetails?.notes == nil) {
+        } else if inactiveDetails?.reason == StopMedicationConstants.OTHER && (inactiveDetails?.notes == EMPTY_STRING || inactiveDetails?.notes == nil) {
             isValid = false
         }
         return isValid

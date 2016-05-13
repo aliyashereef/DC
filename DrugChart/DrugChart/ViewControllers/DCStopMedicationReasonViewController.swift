@@ -10,7 +10,7 @@ import Foundation
 
 class DCStopMedicationReasonViewController : UITableViewController {
     
-    let reasonArray = [StopMedicationConstants.ALLERGIC_REACTION,StopMedicationConstants.FORMULARY_SUBSTITUTION,StopMedicationConstants.NO_LONGER_REQUIRED,StopMedicationConstants.PRESCRIBED_IN_ERROR,StopMedicationConstants.FORM_ROUTE_STRENGTH_CHANGE,StopMedicationConstants.OTHERS]
+    let reasonArray = [StopMedicationConstants.ALLERGIC_REACTION,StopMedicationConstants.FORMULARY_SUBSTITUTION,StopMedicationConstants.NO_LONGER_REQUIRED,StopMedicationConstants.PRESCRIBED_IN_ERROR,StopMedicationConstants.FORM_ROUTE_STRENGTH_CHANGE,StopMedicationConstants.OTHER]
     
     var inactiveDetails : DCInactiveDetails?
     

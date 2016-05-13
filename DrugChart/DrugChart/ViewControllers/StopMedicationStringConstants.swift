@@ -25,7 +25,7 @@ class StopMedicationConstants {
     static let NO_LONGER_REQUIRED = "No Longer Required"
     static let PRESCRIBED_IN_ERROR = "Prescribed In Error"
     static let FORM_ROUTE_STRENGTH_CHANGE = "Form/Strength/Route Changed"
-    static let OTHERS = "Others"
+    static let OTHER = "Other"
     static let MARK_NO_LONGER_REQUIRED = "Mark all as no longer required"
     static let MARK_ALL_STILL_REQUIRED = "Mark all as still required"
     static let SELECT_SPECIFIC_DOSES = "Select specific doses"
