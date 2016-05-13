@@ -255,7 +255,14 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
                 self.review?.warningPeriod = DCWarningPeriod.init()
             }
             self.review?.warningPeriod?.hasWarningPeriod = switchValue
-            self.reviewTableView.reloadData()
+            let indexPaths = [NSIndexPath(forItem: indexPath.row + 1, inSection: indexPath.section),NSIndexPath(forItem: indexPath.row + 2, inSection: indexPath.section)]
+            self.reviewTableView.beginUpdates()
+            if switchValue {
+                self.reviewTableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.Fade)
+            } else {
+                self.reviewTableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.Fade)
+            }
+            self.reviewTableView.endUpdates()
         }
         return warningPeriodCell!
     }
@@ -510,6 +517,7 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
             // hide the date picker and display the new one
             let rowToReveal : NSInteger = (pickerBeforeSelectedIndexPath ? indexPath.row - 1 : indexPath.row);
             let indexPathToReveal : NSIndexPath = NSIndexPath(forItem: rowToReveal, inSection: indexPath.section)
+            scrollToDatePickerAtIndexPath(indexPath)
             togglePickerForSelectedIndexPath(indexPathToReveal)
             self.inlinePickerIndexPath = NSIndexPath(forItem: indexPathToReveal.row + 1, inSection: indexPath.section)
         }
@@ -528,6 +536,15 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
         }
     }
     
+    func scrollToDatePickerAtIndexPath(indexPath :NSIndexPath) {
+        //scroll to date picker indexpath when when any of the date field is selected
+        //        if (indexPath.row != (datePickerIndexPath?.row)!-1) {
+        let scrollToIndexPath : NSIndexPath = NSIndexPath(forRow:indexPath.row + 1 , inSection:indexPath.section)
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            self.reviewTableView.scrollToRowAtIndexPath(scrollToIndexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+        })
+        //        }
+    }
     func closeInlinePickers () {
         
         if let pickerIndexPath = inlinePickerIndexPath {
