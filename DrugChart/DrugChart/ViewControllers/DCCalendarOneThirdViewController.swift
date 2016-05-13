@@ -691,7 +691,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         actionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
         let reviewAction = UIAlertAction(title: REVIEW_TITLE, style: .Default, handler: {
             (alert: UIAlertAction!) -> Void in
-            //TODO: Action For Review.
+            self.presentAddReviewControllerAtIndexPath(indexPath)
         })
         let manageSuspensionAcition = UIAlertAction(title: MANAGE_SUSPENSION_TITLE, style: .Default, handler: {
             (alert: UIAlertAction!) -> Void in
@@ -717,6 +717,23 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         let navigationController: UINavigationController = UINavigationController(rootViewController: manageSuspensionViewController!)
         navigationController.modalPresentationStyle = .FormSheet
         self.presentViewController(navigationController, animated: true, completion: { _ in })
+    }
+    
+    func presentAddReviewControllerAtIndexPath (indexPath :NSIndexPath ) {
+        
+        let addReviewViewController : DCReviewViewController? = UIStoryboard(name: ADD_MEDICATION_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(REVIEW_VIEW_CONTROLLER_SB_ID) as? DCReviewViewController
+        addReviewViewController!.title = ADD_REVIEW
+        let medicationList: DCMedicationScheduleDetails = self.displayMedicationListArray[indexPath.item] as! DCMedicationScheduleDetails
+        medicationList.medicationReview = DCMedicationReview.init()
+        addReviewViewController?.medicationDetails = medicationList
+        addReviewViewController?.isAddMedicationReview = false
+        addReviewViewController!.review = medicationList.medicationReview
+        addReviewViewController!.updatedReviewObject = { review in
+            medicationList.medicationReview = review
+        }
+        let navigationController : UINavigationController? = UINavigationController(rootViewController:addReviewViewController!)
+        navigationController!.modalPresentationStyle = .FormSheet
+        self.presentViewController(navigationController!, animated: true, completion: nil)
     }
 
     func indexPathForLastRowWith(numberOfRows rows : Int, numberOfSection sections : Int) -> NSIndexPath {
