@@ -17,6 +17,8 @@ class DCManageSuspensionUntilViewController: UIViewController, UITableViewDelega
     var manageSuspensionDetails : DCManageSuspensionDetails?
     var selectedIndexPath : NSIndexPath?
     var manageSuspensionUpdated: ManageSuspensionUpdated = { value in }
+    var saveButtonClicked : Bool = false
+    var alertMessageForMismatch :NSString = "Enter Dose"
 
     @IBOutlet weak var manageSuspensionUntilTableView: UITableView!
     
@@ -46,9 +48,6 @@ class DCManageSuspensionUntilViewController: UIViewController, UITableViewDelega
         } else if manageSuspensionDetails?.manageSuspensionUntilType == SPECIFIED_DATE{
             isSpecifiedDateSelected = true
             selectedIndexPath = NSIndexPath(forRow: RowCount.eFirstRow.rawValue, inSection: SectionCount.eZerothSection.rawValue)
-            if manageSuspensionDetails?.specifiedUntilDate != nil {
-                isDatePickerActive = true
-            }
         } else if manageSuspensionDetails?.manageSuspensionUntilType == SPECIFIED_DOSE {
             isSpecifiedDoseSelected = true
             selectedIndexPath = NSIndexPath(forRow: RowCount.eSecondRow.rawValue, inSection: SectionCount.eZerothSection.rawValue)
@@ -82,6 +81,25 @@ class DCManageSuspensionUntilViewController: UIViewController, UITableViewDelega
         }
     }
     
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        //Set the alert entering the dose.
+        if (section == eFirstSection.rawValue && saveButtonClicked && isSpecifiedDoseSelected && manageSuspensionDetails?.specifiedDose == nil) {
+            return alertMessageForMismatch as String
+        } else {
+            return nil
+        }
+    }
+    
+    func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        
+        //Change text color to red and change text from full upper case to desired sentence.
+        if let view = view as? UITableViewHeaderFooterView {
+            view.textLabel?.text = alertMessageForMismatch as String
+            view.textLabel!.textColor = UIColor.redColor()
+        }
+    }
+
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         switch(indexPath.section) {
@@ -134,6 +152,13 @@ class DCManageSuspensionUntilViewController: UIViewController, UITableViewDelega
             if isSpecifiedDateSelected {
                 if indexPath.row == RowCount.eZerothRow.rawValue {
                     cell.titleLabel.text = DATE
+                    if saveButtonClicked {
+                        if manageSuspensionDetails?.specifiedUntilDate == nil {
+                            cell.titleLabel.textColor = UIColor.redColor()
+                        } else {
+                            cell.titleLabel.textColor = UIColor.blackColor()
+                        }
+                    }
                     cell.detailLabel.text = manageSuspensionDetails?.specifiedUntilDate
                 } else {
                     // date pickercell
@@ -207,6 +232,7 @@ class DCManageSuspensionUntilViewController: UIViewController, UITableViewDelega
                     manageSuspensionUntilTableView.deleteSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
                 }
                 manageSuspensionUntilTableView.endUpdates()
+                self.navigationController?.popViewControllerAnimated(true)
             } else if indexPath.row == RowCount.eFirstRow.rawValue{
                 manageSuspensionDetails?.manageSuspensionUntilType = SPECIFIED_DATE
                 manageSuspensionUntilTableView.beginUpdates()
