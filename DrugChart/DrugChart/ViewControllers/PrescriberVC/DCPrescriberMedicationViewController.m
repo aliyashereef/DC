@@ -56,7 +56,6 @@ typedef enum : NSUInteger {
     UIBarButtonItem *addButton;
     UIBarButtonItem *vitalSignsButton;
     UIBarButtonItem *warningsBarButtonItem;
-    UIBarButtonItem *actionsButton;
     UIBarButtonItem *pharmacistBarButtonItem;
     UIButton *warningsButton;
     UIButton *pharmacistButton;
@@ -443,9 +442,8 @@ typedef enum : NSUInteger {
 - (void)addActionsButtonToNavigationBar {
     
     //actions button in navigation bar
-    actionsButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"ACTIONS", @"") style:UIBarButtonItemStylePlain target:self action:@selector(oneThirdScreenActionsButtonPressed:)];
+    UIBarButtonItem *actionsButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"ACTIONS", @"") style:UIBarButtonItemStylePlain target:self action:@selector(oneThirdScreenActionsButtonPressed:)];
     self.navigationItem.rightBarButtonItem = actionsButton;
-    actionsButton.enabled = false;
 }
 
 #pragma mark - API fetch methods
@@ -547,7 +545,6 @@ typedef enum : NSUInteger {
                                 }
                                 [self addBarButtonItems];
                             }
-                            actionsButton.enabled = true;
                             [self setDisplayMedicationListArray];
                             if ([displayMedicationListArray count] > 0) {
                                 if (prescriberMedicationListViewController) {
