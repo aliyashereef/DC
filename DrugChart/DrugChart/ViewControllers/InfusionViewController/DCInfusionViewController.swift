@@ -276,12 +276,12 @@ class DCInfusionViewController: UIViewController, UITableViewDelegate, UITableVi
         self.administerOptionsTableView.endUpdates()
     }
     
-    func slowBolusCellIndexPath(indexPath : NSIndexPath) -> DCSlowBolusCell {
+    func slowBolusCellIndexPath(indexPath : NSIndexPath) -> DCSwitchCell {
         
         //configure slow bolus cell
-        let bolusCell = administerOptionsTableView.dequeueReusableCellWithIdentifier(SLOW_BOLUS_CELL_ID) as? DCSlowBolusCell
+        let bolusCell = administerOptionsTableView.dequeueReusableCellWithIdentifier(SLOW_BOLUS_CELL_ID) as? DCSwitchCell
         if let switchState = self.infusion?.bolusInjection?.slowBolus {
-            bolusCell?.bolusSwitch.on = switchState
+            bolusCell?.cellSwitch.on = switchState
         }
         bolusCell?.switchState = { state in
             let switchValue : Bool = state!

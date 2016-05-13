@@ -302,6 +302,7 @@
 		4D19C5521CD1E10E001CB5A6 /* StopMedicationStringConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D19C5511CD1E10E001CB5A6 /* StopMedicationStringConstants.swift */; };
 		4D28B8C81C06E8E700011888 /* DCOneThirdCalendarNavigationTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D28B8C71C06E8E700011888 /* DCOneThirdCalendarNavigationTitleView.swift */; };
 		4D2DD3CC1B9889F0008CDEA0 /* DCDateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D2DD3CB1B9889F0008CDEA0 /* DCDateTableViewCell.m */; };
+		4D3CCDD91CE3591D00901E00 /* DCWarningPeriod.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D3CCDD81CE3591D00901E00 /* DCWarningPeriod.m */; };
 		4D4126C51B4AA1E700255D5E /* DCAddMedicationWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D4126C41B4AA1E700255D5E /* DCAddMedicationWebService.m */; };
 		4D415ED01B4FD99200E796F2 /* DCPatientAllergyWebServiceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D415ECF1B4FD99200E796F2 /* DCPatientAllergyWebServiceTests.m */; };
 		4D4175801C2286BF00F924C1 /* DCAdministrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D41757F1C2286BF00F924C1 /* DCAdministrationViewController.swift */; };
@@ -855,6 +856,8 @@
 		4D28B8C71C06E8E700011888 /* DCOneThirdCalendarNavigationTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCOneThirdCalendarNavigationTitleView.swift; sourceTree = "<group>"; };
 		4D2DD3CA1B9889F0008CDEA0 /* DCDateTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCDateTableViewCell.h; sourceTree = "<group>"; };
 		4D2DD3CB1B9889F0008CDEA0 /* DCDateTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCDateTableViewCell.m; sourceTree = "<group>"; };
+		4D3CCDD71CE3591D00901E00 /* DCWarningPeriod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCWarningPeriod.h; sourceTree = "<group>"; };
+		4D3CCDD81CE3591D00901E00 /* DCWarningPeriod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCWarningPeriod.m; sourceTree = "<group>"; };
 		4D4126C31B4AA1E700255D5E /* DCAddMedicationWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCAddMedicationWebService.h; sourceTree = "<group>"; };
 		4D4126C41B4AA1E700255D5E /* DCAddMedicationWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCAddMedicationWebService.m; sourceTree = "<group>"; };
 		4D415ECF1B4FD99200E796F2 /* DCPatientAllergyWebServiceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCPatientAllergyWebServiceTests.m; sourceTree = "<group>"; };
@@ -2528,6 +2531,7 @@
 		0BDFBE2C1CA11F2600DEEFE5 /* MedicationReview */ = {
 			isa = PBXGroup;
 			children = (
+				4D3CCDD61CE358EF00901E00 /* WarningPeriod */,
 				0BDFBE2D1CA11F4000DEEFE5 /* DCMedicationReview.h */,
 				0BDFBE2E1CA11F4000DEEFE5 /* DCMedicationReview.m */,
 				0BDFBE351CA1216300DEEFE5 /* ReviewDate */,
@@ -2972,6 +2976,15 @@
 				4D19C54F1CCF3DB3001CB5A6 /* DCInactiveDetails.m */,
 			);
 			name = MedicationInActiveDetails;
+			sourceTree = "<group>";
+		};
+		4D3CCDD61CE358EF00901E00 /* WarningPeriod */ = {
+			isa = PBXGroup;
+			children = (
+				4D3CCDD71CE3591D00901E00 /* DCWarningPeriod.h */,
+				4D3CCDD81CE3591D00901E00 /* DCWarningPeriod.m */,
+			);
+			name = WarningPeriod;
 			sourceTree = "<group>";
 		};
 		4D41757E1C22869100F924C1 /* AdministrationViewController */ = {
@@ -3954,6 +3967,7 @@
 				FD618F311C1979E7005EC416 /* DCDosageSelectionViewController.swift in Sources */,
 				4D4891591BC900DB002AC8CA /* DCPatientDetailsHelper.m in Sources */,
 				0BA5ECBB1BFEF0F700F80C12 /* NSString+Additions.m in Sources */,
+				4D3CCDD91CE3591D00901E00 /* DCWarningPeriod.m in Sources */,
 				0B8D6E7A1B3136C200F0B972 /* DCKeyChainManager.m in Sources */,
 				0BAD23781C58991F00697FFF /* DCInfusionPickerCell.swift in Sources */,
 				7D6335571AE66A9F00463E12 /* DCBed.m in Sources */,

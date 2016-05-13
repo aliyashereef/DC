@@ -9,12 +9,13 @@
 #import <Foundation/Foundation.h>
 #import "DCReviewInterval.h"
 #import "DCReviewDate.h"
+#import "DCWarningPeriod.h"
 
 @interface DCMedicationReview : NSObject
 
 @property (nonatomic, strong) NSString *reviewType;
 @property (nonatomic, strong) DCReviewInterval *reviewInterval;
 @property (nonatomic, strong) DCReviewDate *reviewDate;
-@property (nonatomic, strong) NSString *warningPeriod;
+@property (nonatomic, strong) DCWarningPeriod *warningPeriod;
 
 @end
