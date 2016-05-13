@@ -274,7 +274,11 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
         
         let newValueTableCell = reviewTableView.dequeueReusableCellWithIdentifier(VALUE_TEXTFIELD_CELL, forIndexPath: indexPath) as? DCAddNewValueTableViewCell
         if let warningPeriodInterval = review?.warningPeriod?.warningPeriodInterval {
-            newValueTableCell!.newValueTextField.text = warningPeriodInterval
+            if warningPeriodInterval != EMPTY_STRING {
+                newValueTableCell!.newValueTextField.text = warningPeriodInterval
+            } else {
+                newValueTableCell!.newValueTextField.placeholder =  NSLocalizedString("PERIOD_BEFORE_REVIEW_DATE", comment: "placeholder text")
+            }
         } else {
             newValueTableCell!.newValueTextField.placeholder =  NSLocalizedString("PERIOD_BEFORE_REVIEW_DATE", comment: "placeholder text")
         }
@@ -565,12 +569,29 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
     
     func saveButtonPressed () {
         
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     // MARK: Notification Methods
     func keyboardDidShow(notification : NSNotification) {
         
         closeInlinePickers()
+        if let userInfo = notification.userInfo {
+            if let keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+                let contentInsets: UIEdgeInsets
+                contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.height), 0.0)
+                self.reviewTableView.contentInset = contentInsets;
+                self.reviewTableView.scrollIndicatorInsets = contentInsets;
+            }
+        }
     }
     
+    func keyboardDidHide(notification :NSNotification){
+        
+        let contentInsets:UIEdgeInsets  = UIEdgeInsetsMake(40, 0, 0, 0);
+        reviewTableView.contentInset = contentInsets;
+        reviewTableView.scrollIndicatorInsets = contentInsets;
+        reviewTableView.beginUpdates()
+        reviewTableView.endUpdates()
+    }
 }
