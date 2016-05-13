@@ -465,9 +465,9 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
     func updateReviewIntervalCountValue() {
         
         //update the interval count value
-        let sectionCount = reviewTableView.numberOfSections
-        let intervalCell = reviewTableView.cellForRowAtIndexPath(NSIndexPath(forItem: RowCount.eZerothRow.rawValue, inSection: sectionCount-2)) as? DCAddNewValueTableViewCell
-        review?.reviewInterval?.intervalCount = intervalCell!.newValueTextField.text
+        let sectionCount = isAddMedicationReview ? 1:2
+        let intervalCell = reviewTableView.cellForRowAtIndexPath(NSIndexPath(forItem: RowCount.eZerothRow.rawValue, inSection: sectionCount)) as? DCAddNewValueTableViewCell
+        review?.reviewInterval?.intervalCount = intervalCell?.newValueTextField.text
     }
     
     //Medication Details Cell
@@ -486,11 +486,11 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
     
     func reloadReviewDateTableCellForDateValue(date : NSDate) {
         
-        let sectionCount = reviewTableView.numberOfSections
+        let sectionCount = isAddMedicationReview ? 1:2
         let dateString = DCDateUtility.dateStringFromDate(date, inFormat: START_DATE_FORMAT)
         self.review?.reviewDate?.dateAndTime = dateString
         reviewTableView.beginUpdates()
-        reviewTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: RowCount.eZerothRow.rawValue, inSection: sectionCount-2) ], withRowAnimation: .Fade)
+        reviewTableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: RowCount.eZerothRow.rawValue, inSection: sectionCount) ], withRowAnimation: .Fade)
         reviewTableView.endUpdates()
     }
     
@@ -576,12 +576,16 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
     func keyboardDidShow(notification : NSNotification) {
         
         closeInlinePickers()
-        if let userInfo = notification.userInfo {
-            if let keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
-                let contentInsets: UIEdgeInsets
-                contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.height), 0.0)
-                self.reviewTableView.contentInset = contentInsets;
-                self.reviewTableView.scrollIndicatorInsets = contentInsets;
+        if !isAddMedicationReview {
+            if let userInfo = notification.userInfo {
+                if let keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+                    let contentInsets: UIEdgeInsets
+                    contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.height), 0.0)
+                    self.reviewTableView.contentInset = contentInsets;
+                    self.reviewTableView.scrollIndicatorInsets = contentInsets;
+                    let lastIndexPath = NSIndexPath(forRow: 1, inSection: reviewTableView.numberOfSections-1 )
+                    self.reviewTableView.scrollToRowAtIndexPath(lastIndexPath, atScrollPosition: .Bottom, animated: true)
+                }
             }
         }
     }
