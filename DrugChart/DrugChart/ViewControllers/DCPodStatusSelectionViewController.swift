@@ -107,7 +107,7 @@ class DCPodStatusSelectionViewController: DCBaseViewController {
         doneButton?.enabled = true
         if indexPath.section == SectionCount.eFirstSection.rawValue {
             selectedIndexPath = indexPath
-            tableView.reloadSections(NSIndexSet(index: RowCount.eZerothRow.rawValue), withRowAnimation: .None)
+            tableView.reloadSections(NSIndexSet(index:indexPath.section ), withRowAnimation: .None)
         }
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }

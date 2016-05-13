@@ -97,12 +97,26 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        switch indexPath.section {
-        case SectionCount.eZerothSection.rawValue:
-            return medicationDetailsCellInTableViewAtIndexPath(tableView, indexPath: indexPath)
-        default:
-            switch (interventionType!.rawValue) {
-            case eAddIntervention.rawValue:
+        if indexPath.section == SectionCount.eZerothSection.rawValue{
+            return medicationDetailsCellInTableViewAtIndexPath(tableView,indexPath: indexPath)
+        }
+        switch (interventionType!.rawValue) {
+        case eAddIntervention.rawValue:
+            let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(REASON_RESOLVE_TEXTVIEW_CELL) as? DCInterventionAddResolveTextViewCell
+            cell!.placeHolderString = REASON_TEXT
+            cell?.textViewUpdated = { value in
+                self.configurSaveButton(value)
+            }
+            cell?.initializeTextView()
+            if indexOfCurrentMedication != 0 {
+                cell?.reasonOrResolveTextView.becomeFirstResponder()
+            }
+            return cell!
+        case eResolveIntervention.rawValue:
+            if indexPath.section == eFirstSection.rawValue {
+                let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(RESOLVE_INTERVENTION_CELL) as? DCInterventionAddOrResolveTableCell
+                return cell!
+            } else if indexPath.section == eSecondSection.rawValue {
                 let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(REASON_RESOLVE_TEXTVIEW_CELL) as? DCInterventionAddResolveTextViewCell
                 cell!.placeHolderString = REASON_TEXT
                 cell?.textViewUpdated = { value in
@@ -113,46 +127,27 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
                     cell?.reasonOrResolveTextView.becomeFirstResponder()
                 }
                 return cell!
-            case eResolveIntervention.rawValue:
-                if indexPath.section == eFirstSection.rawValue {
-                    let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(RESOLVE_INTERVENTION_CELL) as? DCInterventionAddOrResolveTableCell
-                    let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList[indexOfCurrentMedication!] as! DCMedicationScheduleDetails
-                    cell?.reasonTextLabel.text = medicationSheduleDetails.pharmacistAction.intervention.reason
-                    return cell!
-                } else if indexPath.section == eFirstSection.rawValue {
-                    let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(REASON_RESOLVE_TEXTVIEW_CELL) as? DCInterventionAddResolveTextViewCell
-                    cell!.placeHolderString = RESOLUTION_TEXT
-                    cell?.textViewUpdated = { value in
-                        self.configurSaveButton(value)
-                    }
-                    cell?.initializeTextView()
-                    if indexOfCurrentMedication != 0 {
-                        cell?.reasonOrResolveTextView.becomeFirstResponder()
-                    }
-                    return cell!
-                } else {
-                    let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(HISTORY_OPTION_DISPLAY_CELL) as? DCInterventionAddOrResolveTableCell
-                    return cell!
-                    
-                }
-            case eEditIntervention.rawValue:
-                let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(REASON_RESOLVE_TEXTVIEW_CELL) as? DCInterventionAddResolveTextViewCell
-                let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList[indexOfCurrentMedication!] as! DCMedicationScheduleDetails
-                cell!.placeHolderString = REASON_TEXT
-                cell?.initializeTextView()
-                cell!.reasonOrResolveTextView.text = medicationSheduleDetails.pharmacistAction.intervention.reason
-                cell?.textViewUpdated = { value in
-                    self.configurSaveButton(value)
-                }
-                cell?.reasonOrResolveTextView.becomeFirstResponder()
+            } else {
+                let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(HISTORY_OPTION_DISPLAY_CELL) as? DCInterventionAddOrResolveTableCell
                 return cell!
-                
-            default:
-                let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(REASON_RESOLVE_TEXTVIEW_CELL) as? DCInterventionAddResolveTextViewCell
-                return cell!
+
             }
+        case eEditIntervention.rawValue:
+            let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(REASON_RESOLVE_TEXTVIEW_CELL) as? DCInterventionAddResolveTextViewCell
+            let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList[indexOfCurrentMedication!] as! DCMedicationScheduleDetails
+            cell!.placeHolderString = REASON_TEXT
+            cell?.initializeTextView()
+            cell!.reasonOrResolveTextView.text = medicationSheduleDetails.pharmacistAction.intervention.reason
+            cell?.textViewUpdated = { value in
+                self.configurSaveButton(value)
+            }
+            cell?.reasonOrResolveTextView.becomeFirstResponder()
+            return cell!
+
+        default:
+            let cell = interventionDisplayTableView.dequeueReusableCellWithIdentifier(REASON_RESOLVE_TEXTVIEW_CELL) as? DCInterventionAddResolveTextViewCell
+            return cell!
         }
-        
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -196,7 +191,7 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
                 }
             }
         } else {
-            if let textViewCell : DCInterventionAddResolveTextViewCell = interventionDisplayTableView.cellForRowAtIndexPath(NSIndexPath(forRow: RowCount.eZerothRow.rawValue, inSection: SectionCount.eFirstSection.rawValue)) as? DCInterventionAddResolveTextViewCell {
+            if let textViewCell : DCInterventionAddResolveTextViewCell = interventionDisplayTableView.cellForRowAtIndexPath(NSIndexPath(forRow: RowCount.eZerothRow.rawValue, inSection: SectionCount.eSecondSection.rawValue)) as? DCInterventionAddResolveTextViewCell {
                 if textViewCell.reasonOrResolveTextView.text != RESOLUTION_TEXT && textViewCell.reasonOrResolveTextView.text != EMPTY_STRING && textViewCell.reasonOrResolveTextView.text != nil {
                     let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList[indexOfCurrentMedication!] as! DCMedicationScheduleDetails
                     medicationSheduleDetails.pharmacistAction.intervention.resolution = textViewCell.reasonOrResolveTextView.text
