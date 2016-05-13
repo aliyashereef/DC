@@ -10,6 +10,6 @@
 
 @interface DCWarningsHeaderView : UIView
 
-- (void)configureHeaderViewForSection:(NSInteger)sectionCount;
+@property (nonatomic, weak) IBOutlet UILabel *titleLabel;
 
 @end

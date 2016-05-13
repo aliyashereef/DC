@@ -80,30 +80,24 @@ class DCStopMedicationOutstandingDoseViewController : UIViewController {
         }
         return cell
     }
-    
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
-        switch (section)
-        {
-        case  eFirstSection.rawValue:
-            let startDateValue = DCDateUtility.dateFromSourceString(startDate as String)
-            let dateString = DCDateUtility.dateStringFromDate(startDateValue, inFormat: ADMINISTER_DATE_TIME_FORMAT)
-            return dateString
-        default:
-            return EMPTY_STRING
-        }
-    }
-    
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        let administerHeaderView = NSBundle.mainBundle().loadNibNamed(ADMINISTER_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCAdministerTableHeaderView
-        administerHeaderView!.timeLabel.hidden = true
+       
         switch (section){
         case eFirstSection.rawValue:
             if !self.isValidOutstandingDoses() && isSavePressed {
+                let administerHeaderView = NSBundle.mainBundle().loadNibNamed(ADMINISTER_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCAdministerTableHeaderView
+                administerHeaderView!.timeLabel.hidden = true
                 let errorMessage = StopMedicationConstants.OPTION_SELECTION_ERROR_MESSAGE
                 administerHeaderView?.populateHeaderViewWithErrorMessage(errorMessage as String)
                 return administerHeaderView
+            } else if (isSpecificOutstandingDose) {
+                let startDateValue = DCDateUtility.dateFromSourceString(startDate as String)
+                let dateString = DCDateUtility.dateStringFromDate(startDateValue, inFormat: ADMINISTER_DATE_TIME_FORMAT)
+                let headerView = NSBundle.mainBundle().loadNibNamed(WARNINGS_HEADER_VIEW_NIB, owner: self, options: nil)[0] as? DCWarningsHeaderView
+                headerView!.titleLabel.text = dateString
+                return headerView
             }
             return nil
         default:
