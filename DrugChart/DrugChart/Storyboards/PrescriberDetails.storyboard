@@ -859,15 +859,15 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="skS-XL-ajY"/>
                                                     <exclude reference="26o-0a-3mW"/>
-                                                    <exclude reference="uSU-gY-B6M"/>
-                                                    <exclude reference="hxm-U5-776"/>
-                                                    <exclude reference="Se2-0x-TfW"/>
-                                                    <exclude reference="gYw-be-xZc"/>
-                                                    <exclude reference="iG4-8V-whf"/>
                                                     <exclude reference="2r8-4z-pGG"/>
+                                                    <exclude reference="Se2-0x-TfW"/>
                                                     <exclude reference="ck1-Fq-S2r"/>
+                                                    <exclude reference="gYw-be-xZc"/>
+                                                    <exclude reference="hxm-U5-776"/>
+                                                    <exclude reference="iG4-8V-whf"/>
+                                                    <exclude reference="skS-XL-ajY"/>
+                                                    <exclude reference="uSU-gY-B6M"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
