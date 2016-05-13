@@ -17,6 +17,7 @@ class DCManageSuspensionFromViewController: UIViewController, UITableViewDataSou
     var manageSuspensionDetails : DCManageSuspensionDetails?
     var selectedIndexPath : NSIndexPath?
     var manageSuspensionUpdated: ManageSuspensionUpdated = { value in }
+    var saveButtonClicked : Bool = false
 
     @IBOutlet weak var manageSuspensionFromTableView: UITableView!
     
@@ -45,9 +46,6 @@ class DCManageSuspensionFromViewController: UIViewController, UITableViewDataSou
         } else if manageSuspensionDetails?.manageSuspensionFromType == SUSPEND_FROM{
             isSuspendedFromOptionSelected = true
             selectedIndexPath = NSIndexPath(forRow: RowCount.eFirstRow.rawValue, inSection: SectionCount.eZerothSection.rawValue)
-            if manageSuspensionDetails?.fromDate != nil {
-                isDatePickerActive = true
-            }
         }
         manageSuspensionFromTableView.reloadData()
     }
@@ -126,6 +124,13 @@ class DCManageSuspensionFromViewController: UIViewController, UITableViewDataSou
         case SectionCount.eFirstSection.rawValue:
             if indexPath.row == RowCount.eZerothRow.rawValue {
                 cell.titleLabel.text = DATE
+                if saveButtonClicked {
+                    if manageSuspensionDetails?.fromDate == nil {
+                        cell.titleLabel.textColor = UIColor.redColor()
+                    } else {
+                        cell.titleLabel.textColor = UIColor.blackColor()
+                    }
+                }
                 cell.detailLabel.text = manageSuspensionDetails?.fromDate
             } else {
                 // date pickercell
@@ -174,6 +179,7 @@ class DCManageSuspensionFromViewController: UIViewController, UITableViewDataSou
                     manageSuspensionFromTableView.deleteSections(NSIndexSet(index: 1), withRowAnimation: .Fade)
                     manageSuspensionFromTableView.endUpdates()
                 }
+                self.navigationController?.popViewControllerAnimated(true)
             } else {
                 selectedIndexPath = indexPath
                 manageSuspensionFromTableView.reloadData()

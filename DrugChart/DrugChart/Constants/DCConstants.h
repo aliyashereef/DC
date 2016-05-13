@@ -672,5 +672,6 @@
 #define MANUALLY_SUSPENDED @"Manually Suspended"
 #define SPECIFIED_DATE @"Specified Date"
 #define SPECIFIED_DOSE @"Specified Dose"
+#define OTHER_TEXT @"Other"
 
 #endif

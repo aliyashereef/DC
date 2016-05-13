@@ -9,12 +9,14 @@
 import UIKit
 
 typealias TextViewUpdated = (Bool) -> Void
+typealias TextViewValueEntered = (String) -> Void
 
 class DCInterventionAddResolveTextViewCell: UITableViewCell, UITextViewDelegate {
 
     @IBOutlet weak var reasonOrResolveTextView: UITextView!
     var placeHolderString : String?
     var textViewUpdated: TextViewUpdated = { value in }
+    var textViewValueEntered : TextViewValueEntered = { value in }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -50,6 +52,7 @@ class DCInterventionAddResolveTextViewCell: UITableViewCell, UITextViewDelegate 
         } else {
             self.textViewUpdated(true)
         }
+        self.textViewValueEntered(textView.text)
     }
     
     func textViewDidEndEditing(textView: UITextView) {
