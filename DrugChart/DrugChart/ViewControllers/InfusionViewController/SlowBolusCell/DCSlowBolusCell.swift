@@ -1,5 +1,5 @@
 //
-//  DCSlowBolusCell.swift
+//  DCSwitchCell.swift
 //  DrugChart
 //
 //  Created by Jilu Mary Joy on 1/13/16.
@@ -8,13 +8,13 @@
 
 import UIKit
 
-typealias SlowBolusSwitchState = Bool? -> Void
+typealias SwitchState = Bool? -> Void
 
-class DCSlowBolusCell: UITableViewCell {
+class DCSwitchCell: UITableViewCell {
 
-    @IBOutlet weak var bolusSwitch: UISwitch!
+    @IBOutlet weak var cellSwitch: UISwitch!
     
-    var switchState : SlowBolusSwitchState?
+    var switchState : SwitchState?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -27,10 +27,10 @@ class DCSlowBolusCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    @IBAction func slowBolusSwitchValueChanged(sender: AnyObject) {
+    @IBAction func switchValueChanged(sender: AnyObject) {
         
         // slow bolus switch selection
-        self.switchState!(bolusSwitch.on)
+        self.switchState!(cellSwitch.on)
     }
 
 }

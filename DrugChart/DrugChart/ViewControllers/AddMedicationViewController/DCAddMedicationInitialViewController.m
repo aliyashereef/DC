@@ -884,6 +884,7 @@
     DCReviewViewController *reviewViewController = [addMedicationStoryboard instantiateViewControllerWithIdentifier:REVIEW_VIEW_CONTROLLER_SB_ID];
     reviewViewController.title = NSLocalizedString(@"Review Frequency", @"screen title");
     reviewViewController.review = self.selectedMedication.medicationReview;
+    reviewViewController.isAddMedicationReview = YES;
     reviewViewController.updatedReviewObject = ^ (DCMedicationReview *review){
         self.selectedMedication.medicationReview = review;
     };

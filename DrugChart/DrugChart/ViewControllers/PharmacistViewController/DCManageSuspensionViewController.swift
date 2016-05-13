@@ -165,10 +165,17 @@ class DCManageSuspensionViewController: DCBaseViewController, UITableViewDataSou
         case SectionCount.eThirdSection.rawValue:
             let cell = manageSuspensionTableview.dequeueReusableCellWithIdentifier(REASON_RESOLVE_TEXTVIEW_CELL) as? DCInterventionAddResolveTextViewCell
             cell!.placeHolderString = NOTES
+            cell?.initializeTextView()
+            if self.validateManageSuspensionReason() && medicationDetails?.manageSuspension.reason == OTHER_TEXT {
+                cell?.reasonOrResolveTextView.textColor = UIColor.redColor()
+            }
             cell?.textViewUpdated = { value in
                 //TODO: Save the entered notes.
             }
-            cell?.initializeTextView()
+            cell?.textViewValueEntered = { value in
+             
+                self.medicationDetails?.manageSuspension.notes = value
+            }
             return cell!
         default:
             break
@@ -213,6 +220,7 @@ class DCManageSuspensionViewController: DCBaseViewController, UITableViewDataSou
         if indexPath.row == RowCount.eZerothRow.rawValue {
             let manageSuspensionFromViewController : DCManageSuspensionFromViewController? = UIStoryboard(name: PRESCRIBER_DETAILS_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(MANAGE_SUSPENSION_FROM_VC_SB_ID) as? DCManageSuspensionFromViewController
             manageSuspensionFromViewController?.manageSuspensionDetails = medicationDetails?.manageSuspension
+            manageSuspensionFromViewController?.saveButtonClicked = saveButtonClicked
             manageSuspensionFromViewController?.manageSuspensionUpdated = { value in
              
                 self.isFromEntryValid = self.validateManageSuspensionFromOption()
@@ -221,6 +229,7 @@ class DCManageSuspensionViewController: DCBaseViewController, UITableViewDataSou
         } else {
             let manageSuspensionUntilViewController : DCManageSuspensionUntilViewController? = UIStoryboard(name: PRESCRIBER_DETAILS_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(MANAGE_SUSPENSION_UNTIL_VC_SB_ID) as? DCManageSuspensionUntilViewController
             manageSuspensionUntilViewController?.manageSuspensionDetails = medicationDetails?.manageSuspension
+            manageSuspensionUntilViewController?.saveButtonClicked = saveButtonClicked
             manageSuspensionUntilViewController?.manageSuspensionUpdated = { value in
              
                 self.isUntilEntryValid = self.validateManageSuspensionUntilOption()
@@ -292,11 +301,15 @@ class DCManageSuspensionViewController: DCBaseViewController, UITableViewDataSou
         isFromEntryValid = self.validateManageSuspensionFromOption()
         isUntilEntryValid = self.validateManageSuspensionUntilOption()
         isReasonEntryValid = self.validateManageSuspensionReason()
-        if isFromEntryValid && isUntilEntryValid && isReasonEntryValid {
-            self.dismissViewControllerAnimated(true, completion: nil)
+        if medicationDetails?.manageSuspension.reason == OTHER_TEXT && (medicationDetails?.manageSuspension.notes == nil || medicationDetails?.manageSuspension.notes == EMPTY_STRING || medicationDetails?.manageSuspension.notes == NOTES) {
+            // Notes not entered.
         } else {
-            manageSuspensionTableview.reloadData()
+            if isFromEntryValid && isUntilEntryValid && isReasonEntryValid {
+                //TODO: Save the entered values.
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }
         }
+        manageSuspensionTableview.reloadData()
     }
     // MARK: - Keyboard Delegate Methods
     

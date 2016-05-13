@@ -51,19 +51,19 @@ class DCPodStatusSelectionViewController: DCBaseViewController {
         doneButton = UIBarButtonItem(title: SAVE_BUTTON_TITLE, style: .Plain, target: self, action: #selector(DCPodStatusSelectionViewController.doneButtonPressed))
         doneButton?.enabled = false
         self.navigationItem.rightBarButtonItem = doneButton
-        self.navigationItem.title = medicationList[indexOfCurrentMedication!].name
-        self.title = medicationList[indexOfCurrentMedication!].name
+        self.navigationItem.title = UPDATE_POD_STATUS
+        self.title = UPDATE_POD_STATUS
     }
 
     // MARK: - Table view methods
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
 
-        return SectionCount.eSecondSection.rawValue
+        return SectionCount.eThirdSection.rawValue
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if section == SectionCount.eZerothSection.rawValue {
+        if section == SectionCount.eFirstSection.rawValue {
             return podStatusArray.count
         } else {
             return RowCount.eFirstRow.rawValue
@@ -71,8 +71,7 @@ class DCPodStatusSelectionViewController: DCBaseViewController {
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        
-        if indexPath.section == SectionCount.eFirstSection.rawValue {
+        if indexPath.section == SectionCount.eSecondSection.rawValue {
             return CGFloat(TEXT_VIEW_CELL_HEIGHT)
         } else {
             return UITableViewAutomaticDimension
@@ -82,6 +81,8 @@ class DCPodStatusSelectionViewController: DCBaseViewController {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch (indexPath.section) {
         case SectionCount.eZerothSection.rawValue:
+            return medicationDetailsCellInTableViewAtIndexPath(tableView, indexPath: indexPath)
+        case SectionCount.eFirstSection.rawValue:
             let cell = tableView.dequeueReusableCellWithIdentifier(POD_STATUS_CELL) as? DCPodStatusTableViewCell
             cell?.podStatusLabel.text = podStatusArray[indexPath.row]
             if (selectedIndexPath != nil && selectedIndexPath == indexPath) {
@@ -90,7 +91,7 @@ class DCPodStatusSelectionViewController: DCBaseViewController {
                 cell?.accessoryType = .None
             }
             return cell!
-        case SectionCount.eFirstSection.rawValue:
+        case SectionCount.eSecondSection.rawValue:
                 let cell = tableView.dequeueReusableCellWithIdentifier(POD_NOTES_CELL_ID) as? DCInterventionAddResolveTextViewCell
                 cell!.placeHolderString = NOTES
                 cell?.initializeTextView()
@@ -104,11 +105,25 @@ class DCPodStatusSelectionViewController: DCBaseViewController {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         doneButton?.enabled = true
-        if indexPath.section == SectionCount.eZerothSection.rawValue {
+        if indexPath.section == SectionCount.eFirstSection.rawValue {
             selectedIndexPath = indexPath
             tableView.reloadSections(NSIndexSet(index: RowCount.eZerothRow.rawValue), withRowAnimation: .None)
         }
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
+    
+    //Medication Details Cell
+    func medicationDetailsCellInTableViewAtIndexPath (tableView : UITableView,indexPath :NSIndexPath) -> UITableViewCell {
+        let medicationSheduleDetails : DCMedicationScheduleDetails = medicationList[indexOfCurrentMedication!] as! DCMedicationScheduleDetails
+        if DCAdministrationHelper.isMedicationDurationBasedInfusion(medicationSheduleDetails){
+            let cell = tableView.dequeueReusableCellWithIdentifier(StopMedicationConstants.DURATION_BASED_INFUSION_CELL) as? DCDurationBasedMedicationDetailsCell
+            cell!.configureMedicationDetails(medicationSheduleDetails)
+            return cell!
+        } else {
+            let cell = tableView.dequeueReusableCellWithIdentifier(StopMedicationConstants.MEDICATION_DETAILS_CELL) as? DCMedicationDetailsTableViewCell
+            cell!.configureMedicationDetails(medicationSheduleDetails)
+            return cell!
+        }
     }
     
     func cancelButtonPressed() {
@@ -146,7 +161,7 @@ class DCPodStatusSelectionViewController: DCBaseViewController {
         //Present view with next medication, if in case of multiple selection.
         //Clousure "interventionUpdated" is called to pass data back to parent.
         self.podStatusUpdated(medicationList[indexOfCurrentMedication!] as! DCMedicationScheduleDetails)
-        indexOfCurrentMedication!++
+        indexOfCurrentMedication! += 1
         if indexOfCurrentMedication < medicationList.count {
             //In case of multiple selections, the present view is dismissed and new view is loaded with details of next medication.
             self.dismissViewControllerAnimated(true, completion: {() -> Void in
