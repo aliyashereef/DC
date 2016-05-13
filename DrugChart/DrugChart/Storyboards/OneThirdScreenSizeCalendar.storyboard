@@ -40,6 +40,7 @@
                                                             <rect key="frame" x="420" y="0.0" width="60" height="66"/>
                                                             <color key="backgroundColor" red="0.4431372549" green="0.62352941179999999" blue="0.82745098039999998" alpha="1" colorSpace="calibratedRGB"/>
                                                             <constraints>
+                                                                <constraint firstAttribute="height" constant="66" id="hKF-Xo-fUY"/>
                                                                 <constraint firstAttribute="width" constant="60" id="v6W-Pt-Vby"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -48,6 +49,21 @@
                                                             </state>
                                                             <connections>
                                                                 <action selector="editMedicationButtonPressed:" destination="U9D-UO-QQa" eventType="touchUpInside" id="i1D-Ej-4HR"/>
+                                                            </connections>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O9M-Tr-DJu">
+                                                            <rect key="frame" x="480" y="0.0" width="60" height="66"/>
+                                                            <color key="backgroundColor" red="1" green="0.41960784309999999" blue="0.38823529410000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="66" id="Age-Vb-stz"/>
+                                                                <constraint firstAttribute="width" constant="60" id="yfo-6T-Syb"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                            <state key="normal">
+                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="stopMedicationButtonPressed:" destination="U9D-UO-QQa" eventType="touchUpInside" id="lW9-1X-xQt"/>
                                                             </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="axq-9B-Asj">
@@ -62,20 +78,6 @@
                                                             </state>
                                                             <connections>
                                                                 <action selector="moreButtonPressed:" destination="U9D-UO-QQa" eventType="touchUpInside" id="2dD-YZ-1WB"/>
-                                                            </connections>
-                                                        </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O9M-Tr-DJu">
-                                                            <rect key="frame" x="480" y="0.0" width="60" height="66"/>
-                                                            <color key="backgroundColor" red="1" green="0.41960784309999999" blue="0.38823529410000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="width" constant="60" id="yfo-6T-Syb"/>
-                                                            </constraints>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                            <state key="normal">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                            <connections>
-                                                                <action selector="stopMedicationButtonPressed:" destination="U9D-UO-QQa" eventType="touchUpInside" id="lW9-1X-xQt"/>
                                                             </connections>
                                                         </button>
                                                     </subviews>
@@ -99,6 +101,8 @@
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="8qk-oh-Vts"/>
+                                                            <exclude reference="zcj-CZ-bcl"/>
+                                                            <exclude reference="Ebh-Va-CMF"/>
                                                         </mask>
                                                     </variation>
                                                 </view>
@@ -282,6 +286,7 @@
                                         <connections>
                                             <outlet property="adminstrationStatusView" destination="l95-bK-TJI" id="8r2-Wh-Ckh"/>
                                             <outlet property="editButton" destination="xHt-B6-mDk" id="XIx-NV-PnP"/>
+                                            <outlet property="editButtonHeight" destination="hKF-Xo-fUY" id="hVB-sx-F4G"/>
                                             <outlet property="editButtonWidth" destination="v6W-Pt-Vby" id="sQS-zE-1zV"/>
                                             <outlet property="medicationViewLeadingConstraint" destination="YCb-sX-l7I" id="9qM-v3-Pxe"/>
                                             <outlet property="medicineDetailHolderView" destination="grT-Gz-dsz" id="gaY-hc-BXR"/>
@@ -290,6 +295,7 @@
                                             <outlet property="moreButtonWidth" destination="fEY-ov-upA" id="VVu-L7-5c2"/>
                                             <outlet property="route" destination="KME-xv-QmP" id="Pem-UE-mab"/>
                                             <outlet property="stopButton" destination="O9M-Tr-DJu" id="g9O-P1-i5T"/>
+                                            <outlet property="stopButtonHeight" destination="Age-Vb-stz" id="nah-RB-8WJ"/>
                                             <outlet property="stopButtonWidth" destination="yfo-6T-Syb" id="pMp-bd-Qfy"/>
                                             <outlet property="typeLabel" destination="8NZ-BW-zwR" id="U0I-VA-FH1"/>
                                         </connections>

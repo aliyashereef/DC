@@ -31,6 +31,8 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
     @IBOutlet weak var stopButtonWidth: NSLayoutConstraint!
     @IBOutlet weak var editButtonWidth: NSLayoutConstraint!
     @IBOutlet weak var moreButtonWidth: NSLayoutConstraint!
+    @IBOutlet weak var editButtonHeight: NSLayoutConstraint!
+    @IBOutlet weak var stopButtonHeight: NSLayoutConstraint!
     
     var isMedicationActive : Bool = true
     var inEditMode : Bool = false
@@ -41,6 +43,13 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
         
         super.awakeFromNib()
         addPanGestureToMedicationDetailHolderView()
+    }
+    
+    override func layoutSubviews() {
+        
+        editButtonHeight.constant = self.frame.height
+        stopButtonHeight.constant = self.frame.height
+        super.layoutSubviews()
     }
     
     // MARK: Private Methods
