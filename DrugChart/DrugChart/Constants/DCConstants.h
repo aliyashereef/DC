@@ -77,7 +77,7 @@
 #define EDIT_BUTTON_TITLE   @"Edit"
 #define SELECT_ALL_TITLE    @"Select All"
 #define DESELECT_ALL_TITLE  @"Deselect All"
-#define REVIEW_TITLE        @"Review"
+#define REVIEW_TITLE        @"Add Review"
 #define MANAGE_SUSPENSION_TITLE @"Manage Suspension"
 
 //images
@@ -642,8 +642,8 @@
 #define MG_PER_HOUR @"mg/Hour"
 #define MG_PER_MINUTE @"mg/Minute"
 
-#define REVIEW_INTERVAL @"Review Interval"
-#define REVIEW_DATE @"Review Date"
+#define REVIEW_DUE_IN @"Review Due In"
+#define REVIEW_DUE_AT @"Review Due At"
 
 //Pharmacist
 #define RESOLVE_INTERVENTION_CELL @"resolutionMainCell"

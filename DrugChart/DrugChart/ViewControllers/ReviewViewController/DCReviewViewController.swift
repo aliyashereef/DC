@@ -36,7 +36,7 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
     
     override func viewWillDisappear(animated: Bool) {
         
-        if (self.review?.reviewType == REVIEW_INTERVAL) {
+        if (self.review?.reviewType == REVIEW_DUE_IN) {
             self.updateReviewIntervalCountValue()
         }
         self.updatedReviewObject!(self.review)
@@ -151,7 +151,7 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
                     if (indexPath.row == RowCount.eSecondRow.rawValue) {
                         displayInlinePickerForRowAtIndexPath (indexPath)
                     }
-                } else if (review?.reviewType == REVIEW_INTERVAL) {
+                } else if (review?.reviewType == REVIEW_DUE_IN) {
                     if (indexPath.row == RowCount.eFirstRow.rawValue) {
                         displayInlinePickerForRowAtIndexPath (indexPath)
                     }
@@ -177,7 +177,7 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
                     if (indexPath.row == RowCount.eSecondRow.rawValue) {
                         displayInlinePickerForRowAtIndexPath (indexPath)
                     }
-                } else if (review?.reviewType == REVIEW_INTERVAL) {
+                } else if (review?.reviewType == REVIEW_DUE_IN) {
                     if (indexPath.row == RowCount.eFirstRow.rawValue) {
                         displayInlinePickerForRowAtIndexPath (indexPath)
                     }
@@ -212,7 +212,7 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
     func reviewPeriodRowCountInSection (section : Int) -> Int {
         
         var rowCount = RowCount.eFirstRow.rawValue
-        if (review?.reviewType == REVIEW_INTERVAL) {
+        if (review?.reviewType == REVIEW_DUE_IN) {
             rowCount = RowCount.eSecondRow.rawValue
         }
         if (tableViewHasInlinePickerForSection(section)) {
@@ -318,7 +318,7 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
         
         if (review?.reviewType == nil) {
             return warningPeriodSectionAtIndexPath(indexPath)
-        } else if (review?.reviewType == REVIEW_INTERVAL) {
+        } else if (review?.reviewType == REVIEW_DUE_IN) {
             return self.reviewIntervalCellAtIndexPath(indexPath)!
         } else {
             //review date
@@ -349,11 +349,11 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
         reviewCell.textLabel?.font = UIFont.systemFontOfSize(15.0)
         if (indexPath.section == eZerothSection.rawValue || indexPath.section == eFirstSection.rawValue) {
             if indexPath.row == RowCount.eZerothRow.rawValue {
-                reviewCell.textLabel?.text = REVIEW_INTERVAL
-                reviewCell.accessoryType = (review?.reviewType == REVIEW_INTERVAL) ? .Checkmark : .None
+                reviewCell.textLabel?.text = REVIEW_DUE_IN
+                reviewCell.accessoryType = (review?.reviewType == REVIEW_DUE_IN) ? .Checkmark : .None
             } else {
-                reviewCell.textLabel?.text = REVIEW_DATE
-                reviewCell.accessoryType = (review?.reviewType == REVIEW_DATE) ? .Checkmark : .None
+                reviewCell.textLabel?.text = REVIEW_DUE_AT
+                reviewCell.accessoryType = (review?.reviewType == REVIEW_DUE_AT) ? .Checkmark : .None
             }
         }
         return reviewCell
@@ -368,7 +368,7 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
             review?.reviewInterval = DCReviewInterval.init()
             review?.reviewDate = DCReviewDate.init()
         }
-        review?.reviewType = (indexPath.row == RowCount.eZerothRow.rawValue) ? REVIEW_INTERVAL : REVIEW_DATE
+        review?.reviewType = (indexPath.row == RowCount.eZerothRow.rawValue) ? REVIEW_DUE_IN : REVIEW_DUE_AT
         if (indexPath.row == RowCount.eZerothRow.rawValue) {
             let reviewIntervalCell = reviewTableView.cellForRowAtIndexPath(indexPath)
             reviewIntervalCell?.accessoryType = .Checkmark
