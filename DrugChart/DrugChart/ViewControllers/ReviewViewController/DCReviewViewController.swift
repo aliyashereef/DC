@@ -277,6 +277,7 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
             if warningPeriodInterval != EMPTY_STRING {
                 newValueTableCell!.newValueTextField.text = warningPeriodInterval
             } else {
+                newValueTableCell!.newValueTextField.text = warningPeriodInterval
                 newValueTableCell!.newValueTextField.placeholder =  NSLocalizedString("PERIOD_BEFORE_REVIEW_DATE", comment: "placeholder text")
             }
         } else {
@@ -583,7 +584,7 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
                     contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.height), 0.0)
                     self.reviewTableView.contentInset = contentInsets;
                     self.reviewTableView.scrollIndicatorInsets = contentInsets;
-                    let lastIndexPath = NSIndexPath(forRow: 1, inSection: reviewTableView.numberOfSections-1 )
+                    let lastIndexPath = NSIndexPath(forRow: 0, inSection: reviewTableView.numberOfSections-1 )
                     self.reviewTableView.scrollToRowAtIndexPath(lastIndexPath, atScrollPosition: .Bottom, animated: true)
                 }
             }
@@ -592,10 +593,12 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
     
     func keyboardDidHide(notification :NSNotification){
         
-        let contentInsets:UIEdgeInsets  = UIEdgeInsetsMake(40, 0, 0, 0);
-        reviewTableView.contentInset = contentInsets;
-        reviewTableView.scrollIndicatorInsets = contentInsets;
-        reviewTableView.beginUpdates()
-        reviewTableView.endUpdates()
+        if !isAddMedicationReview {
+            let contentInsets:UIEdgeInsets  = UIEdgeInsetsMake(40, 0, 0, 0);
+            reviewTableView.contentInset = contentInsets;
+            reviewTableView.scrollIndicatorInsets = contentInsets;
+            reviewTableView.beginUpdates()
+            reviewTableView.endUpdates()
+        }
     }
 }
