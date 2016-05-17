@@ -836,6 +836,7 @@ typedef enum : NSUInteger {
     }
     [pharmacistButton addTarget:self action:@selector(pharmacistButtonTapped:)forControlEvents:UIControlEventTouchUpInside];
     [pharmacistButton sizeToFit];
+    [self addBarButtonItems];
 }
 
 - (void)addBarButtonItems {
