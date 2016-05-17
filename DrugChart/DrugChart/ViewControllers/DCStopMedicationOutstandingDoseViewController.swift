@@ -24,6 +24,8 @@ class DCStopMedicationOutstandingDoseViewController : UIViewController {
         super.viewDidLoad()
         self.navigationItem.title = StopMedicationConstants.OUTSTANDING_DOSES
         self.outstandingDosesTableView.tableFooterView = UIView(frame: CGRectZero)
+        self.outstandingDosesTableView.keyboardDismissMode = .OnDrag
+
     }
     
     override func viewWillAppear(animated: Bool) {
