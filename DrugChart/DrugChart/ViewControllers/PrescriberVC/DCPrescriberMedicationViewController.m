@@ -418,11 +418,16 @@ typedef enum : NSUInteger {
     if (displayMedicationListArray.count > 0) {
         displayMedicationListArray = nil;
     }
+    //get active medications
     displayMedicationListArray = (NSMutableArray *)[self medicationListForActiveStatus:@"YES"];
     if (discontinuedMedicationShown) {
+        //get inactive medication list and sort the list in reverse order of start date
         NSMutableArray *inactiveMedications = (NSMutableArray *)[self medicationListForActiveStatus:@"NO"];
         NSMutableArray *medicationList = [NSMutableArray arrayWithArray:displayMedicationListArray];
-        [medicationList addObjectsFromArray:inactiveMedications];
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:SORT_KEY_MEDICINE_START_DATE ascending:NO];
+        NSArray *descriptorArray = @[sortDescriptor];
+        NSMutableArray *sortedMedicationArray = [[NSMutableArray alloc] initWithArray:[inactiveMedications sortedArrayUsingDescriptors:descriptorArray]];
+        [medicationList addObjectsFromArray:sortedMedicationArray];
         displayMedicationListArray = medicationList;
     }
 }
