@@ -15,6 +15,7 @@ class DCStopMedicationViewController : DCBaseViewController , NotesCellDelegate{
     var deleteingIndexPath: NSIndexPath?
     var isSavePressed : Bool = false
     var medicationDetails : DCMedicationScheduleDetails?
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
