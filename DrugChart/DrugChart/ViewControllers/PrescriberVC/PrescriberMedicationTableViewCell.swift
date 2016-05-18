@@ -47,6 +47,7 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!
     @IBOutlet weak var moreButton: UIButton!
+    @IBOutlet weak var typeDescriptionButton: DCSummaryButton!
     
     @IBOutlet weak var administerHolderViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var editButtonWidth: NSLayoutConstraint!
@@ -79,9 +80,16 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
 
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        self.selectedBackgroundView = UIView()
         // Configure the view for the selected state
     }
+    
+    
+//    override func setEditing(editing: Bool, animated: Bool) {
+//        if editing {
+//            self.backgroundView?.backgroundColor =  UIColor.redColor()
+//        }
+//    }
     
     // This function should be called when there is a change in the number of weekdays displayed.
     // Removes the previously added status views.
@@ -193,6 +201,16 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
         panGesture.delegate = self
         medicineDetailHolderView.addGestureRecognizer(panGesture)
     }
+    
+    func removePanGestureFromMedicationDetailHolderView () {
+        // remove pan gestures from medication detail holder view
+        for guestureRecognizer in (medicineDetailHolderView?.gestureRecognizers)! {
+            if guestureRecognizer .isKindOfClass(UIPanGestureRecognizer) {
+                medicineDetailHolderView?.removeGestureRecognizer(guestureRecognizer)
+            }
+        }
+    }
+
     
     func setEditViewButtonNames() {
         
@@ -380,4 +398,32 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
             delegate.transitToSummaryScreenForMedication(indexPath)
         }
     }
+    
+    //Function to remove the action in the table cell on click
+    func removeActionFromTypeDescriptionButton(){
+        [typeDescriptionButton .removeTarget(self, action: nil, forControlEvents: UIControlEvents.TouchUpInside)]
+    }
+    
+    //Function to add the default action in the table cell on click
+    func addDefaultActionOnTypeDescriptionButton(){
+        [self .removeActionFromTypeDescriptionButton()];
+        [typeDescriptionButton .addTarget(self, action: #selector(PrescriberMedicationTableViewCell.typeDescriptionButtonSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)]
+    }
+    
+    //to add cell selection function on typedescription button
+    func addEditActionOnTypeDescriptionButton(){
+        [self .removeActionFromTypeDescriptionButton()];
+        [typeDescriptionButton .addTarget(self, action: #selector(PrescriberMedicationTableViewCell.performCellSelectionInteration), forControlEvents: UIControlEvents.TouchUpInside)]
+    }
+    
+    //to select cell if not selected and vice versa
+    func performCellSelectionInteration(){
+        typeDescriptionButton.highlighted = false;
+        if self.selected {
+            self.selected = false
+        }else{
+            self.selected = true
+        }
+    }
+    
 }
