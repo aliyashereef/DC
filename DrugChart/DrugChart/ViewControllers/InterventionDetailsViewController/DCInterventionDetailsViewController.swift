@@ -12,11 +12,17 @@ class DCInterventionDetailsViewController: UIViewController {
     
     @IBOutlet weak var interventionTableView: UITableView!
     
-    
     override func viewDidLoad() {
         
         super.viewDidLoad()
         self.title = NSLocalizedString("INTERVENTION_DETAILS", comment: "")
+        self.interventionTableView.rowHeight = UITableViewAutomaticDimension
+        self.interventionTableView.estimatedRowHeight = CGFloat(NORMAL_CELL_HEIGHT)
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.interventionTableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -34,13 +40,29 @@ class DCInterventionDetailsViewController: UIViewController {
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 3
+        if section == 0 {
+            return 3
+        } else {
+            return 3
+        }
     }
     
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+        switch(indexPath.section)
+        {
+        case eZerothSection.rawValue:
+            return UITableViewAutomaticDimension
+        default:
+            return UITableViewAutomaticDimension
+        }
+    }
+
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = interventionTableView.dequeueReusableCellWithIdentifier(RESOLVE_INTERVENTION_CELL) as? DCInterventionAddOrResolveTableCell
-        switch indexPath.row {
+        if indexPath.section == eZerothSection.rawValue {
+            let cell = interventionTableView.dequeueReusableCellWithIdentifier(RESOLVE_INTERVENTION_CELL) as? DCInterventionAddOrResolveTableCell
+            switch indexPath.row {
             case RowCount.eZerothRow.rawValue:
                 cell!.actionNameTitleLabel.text = NSLocalizedString("CREATED_BY", comment: "")
                 cell!.actionDateTitleLabel.text = NSLocalizedString("INTERVENTION_ADDED", comment: "")
@@ -52,14 +74,34 @@ class DCInterventionDetailsViewController: UIViewController {
                 cell!.actionDateTitleLabel.text = NSLocalizedString("INTERVENTION_RESOLVED", comment: "")
             default:
                 break
+            }
+            return cell!
+        } else {
+            let cell = interventionTableView.dequeueReusableCellWithIdentifier(RESOLVE_INTERVENTION_DETAILS_SINGLE_CELL_ID) as? DCInterventionAddOrResolveTableCell
+            cell?.accessoryType = .DisclosureIndicator
+            let descriptionString : NSMutableAttributedString = NSMutableAttributedString(string:NSLocalizedString("ADDED_INTERVENTION_SINGLE_LINE_DETAIL", comment: ""))
+            descriptionString.addAttribute(NSForegroundColorAttributeName, value: UIColor.init(colorLiteralRed: 115/255, green: 115/255, blue: 115/255, alpha: 1), range: NSMakeRange(0, descriptionString.length))
+            
+            let doctorNameString: NSMutableAttributedString = NSMutableAttributedString(string:NSLocalizedString("DOCTOR_NAME", comment: ""))
+            doctorNameString.addAttribute(NSForegroundColorAttributeName, value: UIColor.init(colorLiteralRed: 70/255, green: 70/255, blue: 70/255, alpha: 1), range: NSMakeRange(0, doctorNameString.length))
+            
+            descriptionString.appendAttributedString(doctorNameString);
+            cell!.interventionDetailsSingleLabel.attributedText = descriptionString
+            return cell!
         }
-        cell!.reasonTextLabel.text = OK_BUTTON_TITLE
-        return cell!
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        if indexPath.section != eZerothSection.rawValue {
+            self.displayExpandedInterventionDetails(indexPath)
+        }
     }
     
+    func displayExpandedInterventionDetails(indexPath : NSIndexPath) {
+        
+        let interventionDetailsViewController = UIStoryboard(name: SUMMARY_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(INTERVENTION_DETAILS_EXPANSION_SB_ID) as? DCInterventionSingleLineExpansionViewController
+        self.navigationController?.pushViewController(interventionDetailsViewController!, animated: true)
+    }
 }

@@ -15,6 +15,8 @@ class DCInterventionAddOrResolveTableCell: UITableViewCell ,UITextViewDelegate {
     @IBOutlet weak var actionNameTitleLabel: UILabel!
     @IBOutlet weak var actionDateTitleLabel: UILabel!
     @IBOutlet weak var reasonTextLabel: UILabel!
+    @IBOutlet weak var interventionDetailsSingleLabel: UILabel!
+    @IBOutlet weak var interventionSingleLineDateLabel: UILabel!
     
     override func awakeFromNib() {
 

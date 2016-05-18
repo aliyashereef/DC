@@ -78,7 +78,7 @@
 #define SELECT_ALL_TITLE    @"Select All"
 #define DESELECT_ALL_TITLE  @"Deselect All"
 #define REVIEW_TITLE        @"Add Review"
-#define MANAGE_SUSPENSION_TITLE @"Manage Suspension"
+#define MANAGE_SUSPENSION_TITLE @"Manage Suspensions"
 
 //images
 
@@ -141,6 +141,7 @@
 #define MANAGE_SUSPENSION_VC_SB_ID @"manageSuspensionView"
 #define MANAGE_SUSPENSION_FROM_VC_SB_ID @"manageSuspensionFromView"
 #define MANAGE_SUSPENSION_UNTIL_VC_SB_ID @"manageSuspensionUntilView"
+#define INTERVENTION_DETAILS_EXPANSION_SB_ID @"intervensionDetailsExpansionView"
 
 #define ADMINISTRATION_STATUS_CHANGE_VIEW_CONTROLLER @"AdministerStatusChangeViewController"
 #define MEDICATION_STORYBOARD_ID @"MedicationHistory"
@@ -664,15 +665,16 @@
 #define PATIENT_OWN_AND_HOME @"Patient Own Drugs & Patient Own Drugs(Home)"
 #define ADD_SUPPLY_REQUEST @"Add Supply Request"
 #define CANCEL_SUPPLY_REQUEST @"Cancel Supply Request"
+#define RESOLVE_INTERVENTION_DETAILS_SINGLE_CELL_ID @"interventionDetailsSingleCell"
 
 #define IS_SCROLLING @"isScrolling"
 
 //Manage Suspension
-#define SUSPEND_IMMEDIATELY @"Suspend Immediatly"
+#define SUSPEND_IMMEDIATELY @"Suspend Immediately"
 #define SUSPEND_FROM @"Suspend From"
 #define MANUALLY_SUSPENDED @"Manually Suspended"
 #define SPECIFIED_DATE @"Specified Date"
-#define SPECIFIED_DOSE @"Specified Dose"
+#define SPECIFIED_DOSE @"Specified Doses"
 #define OTHER_TEXT @"Other"
 
 #endif
