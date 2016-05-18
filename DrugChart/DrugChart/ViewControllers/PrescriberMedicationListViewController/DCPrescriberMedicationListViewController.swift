@@ -63,6 +63,8 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         //Dynamic cell height adjustment
         medicationTableView!.rowHeight = UITableViewAutomaticDimension
         medicationTableView!.estimatedRowHeight = tableRowHeight
+        medicationTableView!.allowsMultipleSelectionDuringEditing = true
+        medicationTableView!.allowsSelectionDuringEditing = true
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -153,6 +155,23 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         }
             return medicationCell!
     }
+    
+    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+        
+        return .Insert
+    }
+    
+
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        DDLogDebug("0");
+    }
+
+    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+        DDLogDebug("1");
+    }
+    
 
     // MARK: - Public methods
     func reloadMedicationListWithDisplayArray (displayArray: NSMutableArray) {
@@ -222,33 +241,47 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         panGesture.delegate = self
     }
     
+    func removePanGestureFromPrescriberTableView () {
+        // remove pan gestures from table view
+        for guestureRecognizer in (medicationTableView?.gestureRecognizers)! {
+            if guestureRecognizer .isKindOfClass(UIPanGestureRecognizer) {
+                medicationTableView?.removeGestureRecognizer(guestureRecognizer)
+            }
+        }
+    }
+    
+    func clearTableViewSelections(){
+        
+    }
+    
     func manageActionForPanGesture (panGestureRecognizer : UIPanGestureRecognizer) {
-        
-        // translate table view
-        let translation : CGPoint = panGestureRecognizer.translationInView(self.view.superview)
-        let velocity : CGPoint = panGestureRecognizer.velocityInView(self.view)
-        let indexPathArray : [NSIndexPath] = medicationTableView!.indexPathsForVisibleRows!
-        var panEnded = false
-        if (panGestureRecognizer.state == UIGestureRecognizerState.Ended) {
-            panEnded = true
-        }
-        // translate week view
-        for count in 0 ..< indexPathArray.count {
-            let indexPath = indexPathArray[count]
-            let medicationCell = medicationTableView?.cellForRowAtIndexPath(indexPath) as? PrescriberMedicationTableViewCell
-            var isLastCell : Bool = false
-            if (count == indexPathArray.count - 1) {
-                isLastCell = true
+        if !isEditMode{
+            // translate table view
+            let translation : CGPoint = panGestureRecognizer.translationInView(self.view.superview)
+            let velocity : CGPoint = panGestureRecognizer.velocityInView(self.view)
+            let indexPathArray : [NSIndexPath] = medicationTableView!.indexPathsForVisibleRows!
+            var panEnded = false
+            if (panGestureRecognizer.state == UIGestureRecognizerState.Ended) {
+                panEnded = true
             }
-            self.movePrescriberCell(medicationCell!, xTranslation: translation.x, xVelocity: velocity.x, panEnded: panEnded, isLastCell:isLastCell)
-        }
-        if let parentDelegate = self.delegate {
-            if (calendarCellIsMoving) {
-                parentDelegate.prescriberTableViewPannedWithTranslationParameters(translation.x, xVelocity : velocity.x, panEnded: panEnded)
+            // translate week view
+            for count in 0 ..< indexPathArray.count {
+                let indexPath = indexPathArray[count]
+                let medicationCell = medicationTableView?.cellForRowAtIndexPath(indexPath) as? PrescriberMedicationTableViewCell
+                var isLastCell : Bool = false
+                if (count == indexPathArray.count - 1) {
+                    isLastCell = true
+                }
+                self.movePrescriberCell(medicationCell!, xTranslation: translation.x, xVelocity: velocity.x, panEnded: panEnded, isLastCell:isLastCell)
             }
+            if let parentDelegate = self.delegate {
+                if (calendarCellIsMoving) {
+                    parentDelegate.prescriberTableViewPannedWithTranslationParameters(translation.x, xVelocity : velocity.x, panEnded: panEnded)
+                }
+            }
+            
+            panGestureRecognizer.setTranslation(CGPointMake(0, 0), inView: panGestureRecognizer.view)
         }
-        
-        panGestureRecognizer.setTranslation(CGPointMake(0, 0), inView: panGestureRecognizer.view)
     }
     
     func movePrescriberCell(medicationCell : PrescriberMedicationTableViewCell,

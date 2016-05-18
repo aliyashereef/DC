@@ -36,7 +36,8 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     var scrollingLocked : Bool = false
     var selectedIndexPath : NSIndexPath!
     var actionMenu : UIAlertController?
-
+    var isEditMode : Bool = false
+    
     required init?(coder aDecoder: NSCoder) {
         
         super.init(coder: aDecoder)
@@ -54,6 +55,8 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         super.viewDidLoad()
         medicationTableView!.tableFooterView = UIView(frame: CGRectZero)
         medicationTableView!.delaysContentTouches = false
+        medicationTableView!.allowsMultipleSelectionDuringEditing = true
+        medicationTableView!.allowsSelectionDuringEditing = true
         generateCurrentWeekDatesArray()
         medicationTableView!.addSubview(self.refreshControl)
     }
@@ -161,13 +164,15 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
-        let cell = calendarStripCollectionView.cellForItemAtIndexPath(indexPath) as! DCOneThirdCalendarStripCollectionCell
-        centerDate = cell.displayDate!
-        scrollIndex = self.scrollIndexFromIndexPath(indexPath)
-        medicationTableView?.reloadData()
-        self.calendarStripCollectionView.reloadData()
-        self.displayDateInParentView()
-        collectionView.deselectItemAtIndexPath(indexPath, animated: false)
+        if !isEditMode {
+            let cell = calendarStripCollectionView.cellForItemAtIndexPath(indexPath) as! DCOneThirdCalendarStripCollectionCell
+            centerDate = cell.displayDate!
+            scrollIndex = self.scrollIndexFromIndexPath(indexPath)
+            medicationTableView?.reloadData()
+            self.calendarStripCollectionView.reloadData()
+            self.displayDateInParentView()
+            collectionView.deselectItemAtIndexPath(indexPath, animated: false)
+        }
     }
     
     //MARK: Collection view flow layout methods
@@ -235,16 +240,28 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        let tableCell: DCOneThirdCalendarScreenMedicationCell = tableView.cellForRowAtIndexPath(indexPath) as! DCOneThirdCalendarScreenMedicationCell
-        let subViewArray = tableCell.contentView.subviews[1].subviews[4].subviews
-        //let subViewArray = tableCell.contentView.subviews
-        for subVeiw in subViewArray {
-            if subVeiw .isKindOfClass(DCMedicationAdministrationStatusView){
-                (subVeiw as! DCMedicationAdministrationStatusView).administerMedicationWithMedicationSlot()
-                break
+        if !isEditMode {
+            let tableCell: DCOneThirdCalendarScreenMedicationCell = tableView.cellForRowAtIndexPath(indexPath) as! DCOneThirdCalendarScreenMedicationCell
+            let subViewArray = tableCell.contentView.subviews[1].subviews[4].subviews
+            //let subViewArray = tableCell.contentView.subviews
+            for subVeiw in subViewArray {
+                if subVeiw .isKindOfClass(DCMedicationAdministrationStatusView){
+                    (subVeiw as! DCMedicationAdministrationStatusView).administerMedicationWithMedicationSlot()
+                    break
+                }
             }
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
+    
+    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+        if !isEditMode {
+            
+        }
+    }
+    
+    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+        return .Insert
     }
     
     //MARK: Scroll View methods
