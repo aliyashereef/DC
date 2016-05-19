@@ -58,6 +58,7 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     // To move the calendar left/right only this constant value needs to be changed.
     @IBOutlet weak var leadingSpaceMasterToContainerView: NSLayoutConstraint!
     @IBOutlet weak var medicationTypeLabel: UILabel!
+    var prescriberMedicationListViewController : DCPrescriberMedicationListViewController?
     
     var calendarWidth : CGFloat!
     var editAndDeleteDelegate : EditAndDeleteActionDelegate?
@@ -270,7 +271,7 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     func swipeMedicationDetailView(panGesture : UIPanGestureRecognizer) {
         
         //swipe medication view
-        if isMedicationActive {
+        if isMedicationActive && (prescriberMedicationListViewController?.isDrugChartViewActive)! {
             let translate : CGPoint = panGesture.translationInView(self.contentView)
             let gestureVelocity : CGPoint = panGesture.velocityInView(self)
             if (gestureVelocity.x > 200.0 || gestureVelocity.x < -200.0) {
