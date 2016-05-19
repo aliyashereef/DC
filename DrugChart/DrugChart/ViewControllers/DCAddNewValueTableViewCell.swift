@@ -28,6 +28,14 @@ class DCAddNewValueTableViewCell: UITableViewCell, UITextFieldDelegate {
         // Configure the view for the selected state
     }
     
+    func  textFieldDidBeginEditing(textField: UITextField) {
+        
+        if textField.text == NSLocalizedString("IN", comment: "in placeholder text") || textField.text == NSLocalizedString("PERIOD_BEFORE_REVIEW_DATE", comment: "placeholder text") {
+            textField.text = EMPTY_STRING
+            textField.textColor = UIColor.blackColor()
+        }
+    }
+    
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         // Create an `NSCharacterSet` set which includes everything *but* the digits
         let inverseSet = NSCharacterSet(charactersInString:INTEGER_SET_STRING).invertedSet
