@@ -130,6 +130,7 @@ typedef enum : NSUInteger {
     [self configureCurrentWindowCalendarWidth];
     [self prescriberCalendarChildViewControllerBasedOnWindowState];
     [self addCustomTitleViewToNavigationBar];
+    prescriberMedicationListViewController.isDrugChartViewActive = true;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -712,6 +713,7 @@ typedef enum : NSUInteger {
 //Add medication popover presentedon tapping the + bar button.
 - (IBAction)addMedicationButtonPressed:(id)sender {
     
+    prescriberMedicationListViewController.isDrugChartViewActive = false;
     UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD
                                                                       bundle: nil];
     DCAddMedicationInitialViewController *addMedicationViewController =
@@ -1266,6 +1268,7 @@ typedef enum : NSUInteger {
     //add medication view dismissed
     warningsButton.userInteractionEnabled = YES;
     pharmacistButton.userInteractionEnabled = YES;
+    prescriberMedicationListViewController.isDrugChartViewActive = true;
 }
 
 #pragma mark - Notification Methods
