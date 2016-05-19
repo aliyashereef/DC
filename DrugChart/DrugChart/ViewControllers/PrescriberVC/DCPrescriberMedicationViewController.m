@@ -645,7 +645,7 @@ typedef enum : NSUInteger {
         else if ([criteriaString isEqualToString:ALPHABETICAL_ORDER]) {
             sortType = kSortDrugName;
             [self sortPrescriberMedicationList];
-        } else if ([criteriaString isEqualToString:@"Discontinued"]) {
+        } else if ([criteriaString isEqualToString:SORT_ACTIVE_FIRST]) {
             sortType = kDiscontinued;
             [self includeDiscontinuedMedications];
         }
@@ -894,7 +894,7 @@ typedef enum : NSUInteger {
     
     sortViewController.criteria = ^ (NSString * type) {
         
-        if (![type isEqualToString:INCLUDE_DISCONTINUED] && ![type isEqualToString:@"Discontinued"]) {
+        if (![type isEqualToString:INCLUDE_DISCONTINUED] && ![type isEqualToString:SORT_ACTIVE_FIRST]) {
             selectedSortType =  type;
         } else {
             //selected type is include discontinued
@@ -902,10 +902,10 @@ typedef enum : NSUInteger {
                 if (discontinuedMedicationShown) {
                     selectedSortType = START_DATE_ORDER;
                 } else {
-                    selectedSortType = @"Discontinued";
+                    selectedSortType = SORT_ACTIVE_FIRST;
                 }
-            } else if ([type isEqualToString:@"Discontinued"]) {
-                selectedSortType = @"Discontinued";
+            } else if ([type isEqualToString:SORT_ACTIVE_FIRST]) {
+                selectedSortType = SORT_ACTIVE_FIRST;
             } else {
                 selectedSortType = START_DATE_ORDER;
             }

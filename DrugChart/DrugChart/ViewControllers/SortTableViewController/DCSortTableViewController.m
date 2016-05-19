@@ -122,7 +122,7 @@
     
     if (_sortView == eCalendarView) {
         if (_showDiscontinuedMedications) {
-            contentArray = @[@[INCLUDE_DISCONTINUED], @[START_DATE_ORDER, ALPHABETICAL_ORDER, @"Discontinued"]];
+            contentArray = @[@[INCLUDE_DISCONTINUED], @[START_DATE_ORDER, ALPHABETICAL_ORDER, SORT_ACTIVE_FIRST]];
         } else {
             contentArray = @[@[INCLUDE_DISCONTINUED], @[START_DATE_ORDER, ALPHABETICAL_ORDER]];
         }

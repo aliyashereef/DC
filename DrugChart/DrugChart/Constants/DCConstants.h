@@ -432,6 +432,7 @@
 #define CURRENTLY_ACTIVE @"Currently Active"
 #define INCLUDE_DISCONTINUED @"Include Discontinued"
 #define DISCONTINUED_STRING @"Discontinued"
+#define SORT_ACTIVE_FIRST @"Active:First"
 
 //Prescriber filter criterias
 
