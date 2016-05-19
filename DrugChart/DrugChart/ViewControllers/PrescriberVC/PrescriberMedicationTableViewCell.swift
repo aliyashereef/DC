@@ -15,6 +15,7 @@ protocol EditAndDeleteActionDelegate {
     func setIndexPathSelected(indexPath : NSIndexPath)
     func transitToSummaryScreenForMedication(indexpath : NSIndexPath)
     func moreButtonSelectedForIndexPath(indexPath : NSIndexPath)
+    func cellSelected(indexPath:NSIndexPath)
 }
 
 let TIME_VIEW_WIDTH : CGFloat                       =               70.0
@@ -419,10 +420,8 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     //to select cell if not selected and vice versa
     func performCellSelectionInteration(){
         typeDescriptionButton.highlighted = false;
-        if self.selected {
-            self.selected = false
-        }else{
-            self.selected = true
+        if let delegate = self.editAndDeleteDelegate {
+            delegate.cellSelected(self.indexPath)
         }
     }
     

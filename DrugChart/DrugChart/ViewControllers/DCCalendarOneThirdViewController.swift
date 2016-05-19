@@ -19,6 +19,9 @@ let WEBSERVICE_UNAVAILABLE : NSInteger = 101
 let NETWORK_NOT_REACHABLE : NSInteger = -1001
 let NOT_CONNECTED_TO_INTERNET : NSInteger = -1009
 
+@objc protocol CalendarOneThirdDelegate {
+    func updateSelectedMedicationListCountOneThird(count:NSInteger)
+}
 
 class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource, UITableViewDelegate, DCMedicationAdministrationStatusProtocol , UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, EditDeleteActionDelegate {
     
@@ -37,6 +40,8 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     var selectedIndexPath : NSIndexPath!
     var actionMenu : UIAlertController?
     var isEditMode : Bool = false
+    var totalSelectedCellCount : NSInteger = 0
+    var delegate: CalendarOneThirdDelegate?
     
     required init?(coder aDecoder: NSCoder) {
         
@@ -260,17 +265,45 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
                 }
             }
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }else{
+            if let selectedRows = medicationTableView?.indexPathsForSelectedRows {
+                totalSelectedCellCount = (selectedRows.count)
+            }else{
+                totalSelectedCellCount = 0
+            }
+            if let delegate = self.delegate {
+                delegate.updateSelectedMedicationListCountOneThird(totalSelectedCellCount)
+            }
         }
     }
     
     func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        if !isEditMode {
-            
+        if isEditMode {
+            if let selectedRows = medicationTableView?.indexPathsForSelectedRows {
+                totalSelectedCellCount = (selectedRows.count)
+            }else{
+                totalSelectedCellCount = 0
+            }
+            if let delegate = self.delegate {
+                delegate.updateSelectedMedicationListCountOneThird(totalSelectedCellCount)
+            }
         }
     }
     
     func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
         return .Insert
+    }
+    
+    //delegate function to perform selected count change in parent
+    func cellSelected(indexPath: NSIndexPath) {
+        let cell = medicationTableView?.cellForRowAtIndexPath(indexPath) as! DCOneThirdCalendarScreenMedicationCell
+        if cell.selected {
+            medicationTableView!.deselectRowAtIndexPath(indexPath, animated: false)
+            tableView(medicationTableView!, didDeselectRowAtIndexPath: indexPath);
+        }else{
+            medicationTableView!.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+            tableView(medicationTableView!, didSelectRowAtIndexPath: indexPath);
+        }
     }
     
     //MARK: Scroll View methods

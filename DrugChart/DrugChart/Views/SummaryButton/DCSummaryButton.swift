@@ -15,7 +15,7 @@ class DCSummaryButton: UIButton {
             if (highlighted) {
                 self.backgroundColor = UIColor(forHexString :"#e8e8e8")
             } else {
-                self.backgroundColor = UIColor.clearColor()
+                self.backgroundColor = UIColor.whiteColor()
             }
         }
     }

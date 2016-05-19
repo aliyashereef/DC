@@ -16,6 +16,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     func prescriberTableViewPannedWithTranslationParameters(xPvart : CGFloat, xVelocity : CGFloat, panEnded : Bool)
     func todayActionForCalendarTop ()
     func refreshMedicationList()
+    func updateSelectedMedicationListCount(count:NSInteger)
 }
 
 @objc class DCPrescriberMedicationListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate, DCMedicationAdministrationStatusProtocol, EditAndDeleteActionDelegate, DCAddMedicationViewControllerDelegate {
@@ -45,7 +46,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     var moreButtonPopoverLeftOffset: CGFloat = 130
     var moreButtonHeightOffset: CGFloat = 15
     var tableRowHeight : CGFloat = 78.0
-    
+    var totalSelectedCellCount: NSInteger = 0
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
@@ -106,6 +107,17 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             parentViewController.showActivityIndicationOnViewRefresh(false)
         }
     }
+    
+    func cellSelected(indexPath: NSIndexPath) {
+        let cell = medicationTableView?.cellForRowAtIndexPath(indexPath) as! PrescriberMedicationTableViewCell
+        if cell.selected {
+            medicationTableView!.deselectRowAtIndexPath(indexPath, animated: false)
+            tableView(medicationTableView!, didDeselectRowAtIndexPath: indexPath);
+        }else{
+            medicationTableView!.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+            tableView(medicationTableView!, didSelectRowAtIndexPath: indexPath);
+        }
+    }
 
     // MARK: - UITableView DataSource Methods
 
@@ -164,12 +176,27 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
 
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-        DDLogDebug("0");
+        let cell = medicationTableView?.cellForRowAtIndexPath(indexPath) as! PrescriberMedicationTableViewCell
+        cell.typeDescriptionButton.highlighted = false
+        if let selectedRows = medicationTableView?.indexPathsForSelectedRows {
+            totalSelectedCellCount = (selectedRows.count)
+        }else{
+            totalSelectedCellCount = 0
+        }
+        if let delegate = self.delegate {
+            delegate.updateSelectedMedicationListCount(totalSelectedCellCount)
+        }
     }
 
     func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        DDLogDebug("1");
+        if let selectedRows = medicationTableView?.indexPathsForSelectedRows {
+            totalSelectedCellCount = (selectedRows.count)
+        }else{
+            totalSelectedCellCount = 0
+        }
+        if let delegate = self.delegate {
+            delegate.updateSelectedMedicationListCount(totalSelectedCellCount)
+        }
     }
     
 

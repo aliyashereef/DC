@@ -36,7 +36,7 @@ typedef enum : NSUInteger {
     kSortDrugName
 } SortType;
 
-@interface DCPrescriberMedicationViewController () <DCAddMedicationViewControllerDelegate, PrescriberListDelegate ,AdministrationDelegate, UIActionSheetDelegate>{
+@interface DCPrescriberMedicationViewController () <DCAddMedicationViewControllerDelegate, PrescriberListDelegate ,AdministrationDelegate, UIActionSheetDelegate, CalendarOneThirdDelegate>{
     
     NSMutableArray *currentWeekDatesArray;
     IBOutlet UIView *calendarDaysDisplayView;
@@ -174,9 +174,23 @@ typedef enum : NSUInteger {
         [self prescriberCalendarChildViewControllerBasedOnWindowState];
         [self configureDateArrayForOneThirdCalendarScreen];
         [self setCurrentScreenOrientation];
-        [self addCustomTitleViewToNavigationBar];
-        windowSizeChanged = NO;
+        if (isEditMode) {
+            [self addCustomTitleViewToNavigationBarInEditMode];
+            [self addReviewButtonToToolBar];
+            [self addSuspensionButtonToToolBar];
+            self.toolbar.items = @[reviewToolbarButton,toolbarButtonsArray[1],toolbarButtonsArray[3],suspensionToolbarButton];
+            if ([DCAPPDELEGATE windowState] == halfWindow ||
+                [DCAPPDELEGATE windowState] == oneThirdWindow) {
+                [self configureOneThirdSizeCalendarForEditing];
+            }else{
+                [self configurePrescriberMedicationTableViewForEditing];
+            }
+        }else{
+            [self addCustomTitleViewToNavigationBar];
+        }
+        [self updateRightNavigationBarButtonsSavedOnWindowsStateChange];
         [self configureBarButtonsOnScreenSizeChange];
+        windowSizeChanged = NO;
     }
     [self dateViewForOrientationChanges];
 }
@@ -185,24 +199,51 @@ typedef enum : NSUInteger {
     
     //compare previous window state and current window state and display bar buttons accordingly
     if (previousWindowState != appDelegate.windowState) {
-        if ((previousWindowState == fullWindow || previousWindowState == twoThirdWindow) && (appDelegate.windowState == oneThirdWindow || appDelegate.windowState == halfWindow)) {
-            self.navigationItem.rightBarButtonItems = @[];
-            [self addActionsButtonToNavigationBar];
-        } else if ((previousWindowState == oneThirdWindow || previousWindowState == halfWindow) && (appDelegate.windowState == fullWindow || appDelegate.windowState == twoThirdWindow)) {
-            self.navigationItem.rightBarButtonItems = @[];
-            [self addAddMedicationButtonToNavigationBar];
-            [self addEditMedicationButtonToNavigationBar];
-            if (addPresentationController != nil) {
-                addPresentationController.barButtonItem = addButton;
-            }
-            [self addAlertsAndAllergyBarButtonToNavigationBar];
-            [self addPharmacistInteractionButtonToNavigationBar];
-            if (alertsPopOverController != nil) {
-                alertsPopOverController.barButtonItem = warningsBarButtonItem;
+        if (isEditMode) {
+            self.navigationItem.hidesBackButton = YES;
+            [self addSelectAllMedicationButtonToNavigationBar];
+            [self addCancelEditMedicationButtonToNavigationBar];
+            self.navigationItem.leftBarButtonItems = @[selectAll];
+            self.navigationItem.rightBarButtonItems = @[cancelEditButton];
+        }else{
+            if ((previousWindowState == fullWindow || previousWindowState == twoThirdWindow) && (appDelegate.windowState == oneThirdWindow || appDelegate.windowState == halfWindow)) {
+                self.navigationItem.rightBarButtonItems = @[];
+                [self addActionsButtonToNavigationBar];
+            } else if ((previousWindowState == oneThirdWindow || previousWindowState == halfWindow) && (appDelegate.windowState == fullWindow || appDelegate.windowState == twoThirdWindow)) {
+                
+                self.navigationItem.rightBarButtonItems = @[];
+                [self addAddMedicationButtonToNavigationBar];
+                [self addEditMedicationButtonToNavigationBar];
+                if (addPresentationController != nil) {
+                    addPresentationController.barButtonItem = addButton;
+                }
+                [self addAlertsAndAllergyBarButtonToNavigationBar];
+                [self addPharmacistInteractionButtonToNavigationBar];
+                if (alertsPopOverController != nil) {
+                    alertsPopOverController.barButtonItem = warningsBarButtonItem;
+                }
+                
             }
         }
+        
     }
     previousWindowState = appDelegate.windowState;
+}
+
+//To make the right bar button based on view after window change
+-(void)updateRightNavigationBarButtonsSavedOnWindowsStateChange{
+    if ((previousWindowState == fullWindow || previousWindowState == twoThirdWindow) && (appDelegate.windowState == oneThirdWindow || appDelegate.windowState == halfWindow)){
+        [ self addActionsButtonToNavigationBar];
+        rightNavigationItemsArray = [NSMutableArray arrayWithObjects:actionsButton, nil];
+    }else if ((previousWindowState == oneThirdWindow || previousWindowState == halfWindow) && (appDelegate.windowState == fullWindow || appDelegate.windowState == twoThirdWindow)) {
+        [self addAddMedicationButtonToNavigationBar];
+        [self addEditMedicationButtonToNavigationBar];
+        [self addVitalSignsButtonToNavigationBar];
+        [self addAlertsAndAllergyBarButtonToNavigationBar];
+        [self addPharmacistInteractionButtonToNavigationBar];
+        rightNavigationItemsArray = [NSMutableArray arrayWithObjects:editButton, pharmacistBarButtonItem, vitalSignsButton,addButton, nil];
+    }
+    
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size
@@ -316,14 +357,14 @@ typedef enum : NSUInteger {
 }
 
 - (void)addReviewButtonToToolBar {
-    reviewToolbarButton = [[UIBarButtonItem alloc] initWithTitle:@"Review"
+    reviewToolbarButton = [[UIBarButtonItem alloc] initWithTitle:@"Add Review"
                                                  style:UIBarButtonItemStylePlain
                                                 target:self action:nil];
     
 }
 
 - (void)addSuspensionButtonToToolBar {
-    suspensionToolbarButton = [[UIBarButtonItem alloc] initWithTitle:@"Suspension"
+    suspensionToolbarButton = [[UIBarButtonItem alloc] initWithTitle:@"Manage Suspension"
                                                  style:UIBarButtonItemStylePlain
                                                 target:self action:nil];
     
@@ -338,6 +379,17 @@ typedef enum : NSUInteger {
     self.navigationItem.rightBarButtonItem = cancelEditButton;
 }
 
+//To update navigation title count on cell selection
+-(void)updateSelectedMedicationListCount:(NSInteger)count{
+    DCCalendarNavigationTitleViewInEditMode *titleView = (DCCalendarNavigationTitleViewInEditMode*)self.navigationItem.titleView;
+    [titleView populateWithSelectedCount:count];
+}
+
+//To update navigation title count on cell selection for one third view
+-(void)updateSelectedMedicationListCountOneThird:(NSInteger)count{
+    DCCalendarNavigationTitleViewInEditMode *titleView = (DCCalendarNavigationTitleViewInEditMode*)self.navigationItem.titleView;
+    [titleView populateWithSelectedCount:count];
+}
 
 #pragma mark - Private methods
 
@@ -408,6 +460,9 @@ typedef enum : NSUInteger {
             [self loadCurrentDayDisplayForOneThirdWithDate:_centerDisplayDate];
         }
         [self addPrescriberDrugChartViewForOneThirdWindow];
+//        if (isEditMode) {
+//            [self editMedicationButtonPressedOnDruggChart:nil];
+//        }
     }
     else if ([DCAPPDELEGATE windowState] == fullWindow ||
              [DCAPPDELEGATE windowState] == twoThirdWindow) {
@@ -423,7 +478,9 @@ typedef enum : NSUInteger {
         } else {
             [self cancelPreviousMedicationListFetchRequest];
         }
-        
+//        if (isEditMode) {
+//            [self editMedicationButtonPressedOnDruggChart:nil];
+//        }
     }
 }
 
@@ -456,6 +513,7 @@ typedef enum : NSUInteger {
                 prescriberMedicationListViewController = (DCPrescriberMedicationListViewController *)viewController;
                 prescriberMedicationListViewController.delegate = self;
             }
+            
         }
     }
 }
@@ -498,10 +556,8 @@ typedef enum : NSUInteger {
 - (void)addActionsButtonToNavigationBar {
     
     //actions button in navigation bar
-    UIBarButtonItem *actionsButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"ACTIONS", @"") style:UIBarButtonItemStylePlain target:self action:@selector(oneThirdScreenActionsButtonPressed:)];
+    actionsButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"ACTIONS", @"") style:UIBarButtonItemStylePlain target:self action:@selector(oneThirdScreenActionsButtonPressed:)];
     self.navigationItem.rightBarButtonItem = actionsButton;
-    actionsButton.enabled = false;
-
 }
 
 #pragma mark - API fetch methods
@@ -579,7 +635,7 @@ typedef enum : NSUInteger {
 //- (void)fetchMedicationListForPatient {
 
 - (void)fetchMedicationListForPatientWithCompletionHandler:(void(^)(BOOL success))completion {
-    
+    editButton.enabled = false;
     [self showActivityIndicationOnViewRefresh:true];
     [noMedicationsAvailableLabel setHidden:YES];
     [self initialiseTimer];
@@ -601,8 +657,10 @@ typedef enum : NSUInteger {
                                     } else {
                                         self.navigationItem.rightBarButtonItems = @[editButton,addButton,pharmacistBarButtonItem,vitalSignsButton];
                                     }
-                                }   
-                                [self addBarButtonItems];
+                                }
+                                if (!isEditMode) {
+                                    [self addBarButtonItems];
+                                }
                             }
                             [self setDisplayMedicationListArray];
                             if ([displayMedicationListArray count] > 0) {
@@ -649,6 +707,7 @@ typedef enum : NSUInteger {
                                 }
                             }
                          }
+                        editButton.enabled = true;
                         [self showActivityIndicationOnViewRefresh:false];
                         completion(true);
                     }];
@@ -773,6 +832,15 @@ typedef enum : NSUInteger {
         }
     }
 }
+
+
+// A custom view is loaded as the title for the prescriber screen in edit mode to show selected count.
+-(void)addCustomTitleViewToNavigationBarInEditMode{
+    DCCalendarNavigationTitleViewInEditMode * titleView = [[[NSBundle mainBundle] loadNibNamed:@"DCCalendarNavigationTitleViewInEditMode" owner:self options:nil] objectAtIndex:0];
+    [titleView populateWithDefaultCount];
+    self.navigationItem.titleView = titleView;
+}
+
 //Add medication popover presentedon tapping the + bar button.
 - (IBAction)addMedicationButtonPressed:(id)sender {
     
@@ -799,53 +867,40 @@ typedef enum : NSUInteger {
 }
 
 - (IBAction)editMedicationButtonPressedOnDruggChart:(id)sender {
-    DDLogDebug(@"Open edit");
     leftNavigationItemsArray = [NSMutableArray arrayWithArray:self.navigationItem.leftBarButtonItems];
     rightNavigationItemsArray = [NSMutableArray arrayWithArray:self.navigationItem.rightBarButtonItems];
     navigationTitleView = self.navigationItem.titleView;
     toolbarButtonsArray = [NSMutableArray arrayWithArray:self.toolbar.items];
-    
     isEditMode = true;
-    //[self adjustCalendarDateDisplayViewControllerBeforeEditing];
-    if ([DCAPPDELEGATE windowState] == halfWindow ||
-        [DCAPPDELEGATE windowState] == oneThirdWindow) {
+    if ([DCAPPDELEGATE windowState] == halfWindow || [DCAPPDELEGATE windowState] == oneThirdWindow) {
         [self configureOneThirdSizeCalendarForEditing];
     }else{
         [self configurePrescriberMedicationTableViewForEditing];
     }
-    
-    
     self.navigationItem.hidesBackButton = YES;
     [self addSelectAllMedicationButtonToNavigationBar];
     [self addCancelEditMedicationButtonToNavigationBar];
     [self addReviewButtonToToolBar];
     [self addSuspensionButtonToToolBar];
-    self.toolbar.items = @[suspensionToolbarButton,toolbarButtonsArray[1],reviewToolbarButton,toolbarButtonsArray[3]];
+    self.toolbar.items = @[reviewToolbarButton,toolbarButtonsArray[1],toolbarButtonsArray[3],suspensionToolbarButton];
     self.navigationItem.leftBarButtonItems = @[selectAll];
     self.navigationItem.rightBarButtonItems = @[cancelEditButton];
-    self.navigationItem.titleView = nil;
+    [self addCustomTitleViewToNavigationBarInEditMode];
     
 }
 
 - (IBAction)cancelEditMedicationButtonPressedOnDruggChart:(id)sender {
-    DDLogDebug(@"Cancel edit");
     self.navigationItem.leftBarButtonItems = leftNavigationItemsArray;
     self.navigationItem.rightBarButtonItems = rightNavigationItemsArray;
     self.navigationItem.titleView = navigationTitleView;
     self.toolbar.items = toolbarButtonsArray;
     self.navigationItem.hidesBackButton = NO;
-    
     isEditMode = false;
-    //[self resetCalendarDateDisplayViewControllerAfterEditing];
-    if ([DCAPPDELEGATE windowState] == halfWindow ||
-        [DCAPPDELEGATE windowState] == oneThirdWindow) {
+    if ([DCAPPDELEGATE windowState] == halfWindow || [DCAPPDELEGATE windowState] == oneThirdWindow) {
         [self configureOneThirdSizeCalendarAfterEditing];
     }else{
         [self configurePrescriberMedicationTableViewAfterEditing];
     }
-    
-    
-    
     [leftNavigationItemsArray removeAllObjects];
     [rightNavigationItemsArray removeAllObjects];
     [toolbarButtonsArray removeAllObjects];
@@ -887,16 +942,7 @@ typedef enum : NSUInteger {
     [self presentViewController:navigationController animated:YES completion:nil];
     pharmacistButton.userInteractionEnabled = NO;
 }
-//Move calendar view before editing
--(void)adjustCalendarDateDisplayViewControllerBeforeEditing{
-    calendarViewLeadingConstraintLength = calendarDateDisplayViewController.calendarViewLeadingConstraint.constant;
-    calendarDateDisplayViewController.calendarViewLeadingConstraint.constant +=37;
-}
 
-//reset calendar view before editing
--(void)resetCalendarDateDisplayViewControllerAfterEditing{
-    calendarDateDisplayViewController.calendarViewLeadingConstraint.constant = calendarViewLeadingConstraintLength;
-}
 
 //Function to configure the medication table view before editing
 -(void)configurePrescriberMedicationTableViewForEditing{
@@ -904,10 +950,10 @@ typedef enum : NSUInteger {
         PrescriberMedicationTableViewCell *selectedCell = [prescriberMedicationListViewController.medicationTableView cellForRowAtIndexPath:prescriberMedicationListViewController.selectedIndexPath];
         [selectedCell swipeMedicationDetailViewToRight];
     }
-    //[prescriberMedicationListViewController removePanGestureFromPrescriberTableView];
-    
     for (PrescriberMedicationTableViewCell *cell in prescriberMedicationListViewController.medicationTableView.visibleCells) {
-        cell.leadingSpaceMasterToContainerView.constant -= 38;
+        if (!windowSizeChanged) {
+            cell.leadingSpaceMasterToContainerView.constant -= 38;
+        }
         [cell.leftMedicationAdministerDetailsView setHidden:true];
         [cell addEditActionOnTypeDescriptionButton];
         [cell removePanGestureFromMedicationDetailHolderView];
@@ -919,7 +965,6 @@ typedef enum : NSUInteger {
 
 //Function to configure the medication table view after editing
 -(void)configurePrescriberMedicationTableViewAfterEditing{
-    //[prescriberMedicationListViewController addPanGestureToPrescriberTableView];
     for (PrescriberMedicationTableViewCell *cell in prescriberMedicationListViewController.medicationTableView.visibleCells) {
         cell.selected = false;
         cell.leadingSpaceMasterToContainerView.constant = 0;
@@ -928,6 +973,7 @@ typedef enum : NSUInteger {
         [cell addDefaultActionOnTypeDescriptionButton];
         [cell addPanGestureToMedicationDetailHolderView];
     }
+    prescriberMedicationListViewController.totalSelectedCellCount = 0;
     [prescriberMedicationListViewController.medicationTableView setEditing:false animated:true];
     prescriberMedicationListViewController.isEditMode = false;
 }
@@ -1366,6 +1412,7 @@ typedef enum : NSUInteger {
     if (!prescriberMedicationOneThirdSizeViewController) {
         UIStoryboard *prescriberOneThirdStoryBoard = [UIStoryboard storyboardWithName:ONE_THIRD_SCREEN_SB bundle:nil];
         prescriberMedicationOneThirdSizeViewController = [prescriberOneThirdStoryBoard instantiateViewControllerWithIdentifier:PRESCRIBER_LIST_ONE_THIRD_SBID];
+        prescriberMedicationOneThirdSizeViewController.delegate = self;
         [self addChildViewController:prescriberMedicationOneThirdSizeViewController];
     }
     prescriberMedicationOneThirdSizeViewController.view.frame = medicationListHolderView.frame;

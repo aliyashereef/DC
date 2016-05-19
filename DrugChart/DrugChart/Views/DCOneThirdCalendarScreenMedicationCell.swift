@@ -15,6 +15,7 @@ protocol EditDeleteActionDelegate {
     func setIndexPathSelected(indexPath : NSIndexPath)
     func transitToSummaryScreenForMedication(indexpath : NSIndexPath)
     func moreButtonSelectedForIndexPath(indexPath: NSIndexPath)
+    func cellSelected(indexPath:NSIndexPath)
 }
 
 class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
@@ -282,10 +283,8 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
     //to select cell if not selected and vice versa
     func performCellSelectionInteration(){
         summaryButton.highlighted = false;
-        if self.selected {
-            self.selected = false
-        }else{
-            self.selected = true
+        if let delegate = self.editAndDeleteDelegate {
+            delegate.cellSelected(self.indexPath)
         }
     }
 
