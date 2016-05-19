@@ -45,6 +45,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     var moreButtonPopoverLeftOffset: CGFloat = 130
     var moreButtonHeightOffset: CGFloat = 15
     var tableRowHeight : CGFloat = 78.0
+    var isDrugChartViewActive : Bool = true
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -128,6 +129,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             medicationCell?.editAndDeleteDelegate = self
             medicationCell?.indexPath = indexPath
             medicationCell?.isMedicationActive = medicationScheduleDetails.isActive
+            medicationCell?.prescriberMedicationListViewController = self
             self.fillInMedicationDetailsInTableCell(medicationCell!, atIndexPath: indexPath)
             medicationCell?.cellHeight = (medicationCell?.calculateHeightForCell())!
             medicationCell?.updateAdministerStatusViewsHeight()

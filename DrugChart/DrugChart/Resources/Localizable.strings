@@ -208,3 +208,5 @@
 "RESOLVED_BY"          =        "Resolved by:";
 "INTERVENTION_RESOLVED"     =   "Intervention Resolved:";
  "PERIOD_BEFORE_REVIEW_DATE" = "Period Before Review Date";
+"ADDED_INTERVENTION_SINGLE_LINE_DETAIL" = "Intervention Resolved by ";
+"DOCTOR_NAME"          = "JOHN Thomas (Mr)";
