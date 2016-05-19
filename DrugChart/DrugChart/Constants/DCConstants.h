@@ -676,5 +676,6 @@
 #define SPECIFIED_DATE @"Specified Date"
 #define SPECIFIED_DOSE @"Specified Doses"
 #define OTHER_TEXT @"Other"
+#define DETAILS_TEXT @"Details"
 
 #endif

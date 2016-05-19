@@ -14,7 +14,7 @@ class DCInterventionSingleLineExpansionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = NSLocalizedString("INTERVENTION_DETAILS", comment: "")
+        self.title = DETAILS_TEXT
         self.intervensionDetailsTableView.rowHeight = UITableViewAutomaticDimension
         self.intervensionDetailsTableView.estimatedRowHeight = CGFloat(NORMAL_CELL_HEIGHT)
         // Do any additional setup after loading the view.
