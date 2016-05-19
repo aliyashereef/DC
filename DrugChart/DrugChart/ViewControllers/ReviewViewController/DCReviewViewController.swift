@@ -22,6 +22,8 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
     var inlinePickerIndexPath : NSIndexPath?
     var review : DCMedicationReview?
     var updatedReviewObject : UpdatedReviewObject?
+    var saveButton: UIBarButtonItem?
+    var isValid : Bool = true
     
     //MARK: View Management Methods
     override func viewDidLoad() {
@@ -39,8 +41,17 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
         if (self.review?.reviewType == REVIEW_DUE_IN) {
             self.updateReviewIntervalCountValue()
         }
+        if (self.review?.warningPeriod != nil) {
+            self.updateWarningPeriodIntervalCountValue()
+        }
         self.updatedReviewObject!(self.review)
         super.viewWillDisappear(animated)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        
+        super.viewDidLayoutSubviews()
+        setSaveButtonDisability()
     }
 
     override func didReceiveMemoryWarning() {
@@ -54,7 +65,7 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
             // Configure bar buttons for Add new.
             let cancelButton: UIBarButtonItem = UIBarButtonItem(title: CANCEL_BUTTON_TITLE, style: .Plain, target: self, action: #selector(self.cancelButtonPressed))
             self.navigationItem.leftBarButtonItem = cancelButton
-            let saveButton: UIBarButtonItem = UIBarButtonItem(title: SAVE_BUTTON_TITLE, style: .Plain, target: self, action: #selector(self.saveButtonPressed))
+            saveButton = UIBarButtonItem(title: SAVE_BUTTON_TITLE, style: .Plain, target: self, action: #selector(self.saveButtonPressed))
             self.navigationItem.rightBarButtonItem = saveButton
         }
     }
@@ -141,6 +152,7 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         self.view.endEditing(true)
+        isValid = true
         if isAddMedicationReview {
             switch indexPath.section {
             case eZerothSection.rawValue :
@@ -194,6 +206,7 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
                 break
             }
         }
+        setSaveButtonDisability()
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
@@ -251,6 +264,7 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
         }
         warningPeriodCell?.switchState = { state in
             let switchValue : Bool = state!
+            self.isValid = true
             if self.review?.warningPeriod?.hasWarningPeriod == nil || switchValue == false {
                 self.review?.warningPeriod = DCWarningPeriod.init()
                 self.review?.warningPeriod?.warningPeriodUnit = EMPTY_STRING
@@ -283,6 +297,10 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
         } else {
             newValueTableCell!.newValueTextField.placeholder =  NSLocalizedString("PERIOD_BEFORE_REVIEW_DATE", comment: "placeholder text")
         }
+        if !isValid && (self.review?.warningPeriod.warningPeriodInterval == EMPTY_STRING || self.review?.warningPeriod.warningPeriodInterval == nil) {
+            newValueTableCell!.newValueTextField.text =  NSLocalizedString("PERIOD_BEFORE_REVIEW_DATE", comment: "placeholder text")
+            newValueTableCell?.newValueTextField.textColor = UIColor.redColor()
+        }
         return newValueTableCell!
     }
     
@@ -290,6 +308,7 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
         // interval unit
         let intervalTableCell = reviewTableView.dequeueReusableCellWithIdentifier(PICKER_DROP_DOWN_CELL, forIndexPath:indexPath) as? DCAddNewValueTableViewCell
         intervalTableCell!.unitLabel.text = DOSE_UNIT_TITLE
+        intervalTableCell!.unitLabel.textColor = UIColor.blackColor()
         if var interval = review?.warningPeriod?.warningPeriodUnit {
             if (interval == EMPTY_STRING) {
                 interval = HOURS_TITLE
@@ -406,6 +425,10 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
                         newValueTableCell!.newValueTextField.placeholder =  NSLocalizedString("IN", comment: "in placeholder text")
                     }
                 }
+                if !isValid && (self.review?.reviewInterval.intervalCount == EMPTY_STRING || self.review?.reviewInterval.intervalCount == nil) {
+                    newValueTableCell!.newValueTextField.text =  NSLocalizedString("IN", comment: "in placeholder text")
+                    newValueTableCell?.newValueTextField.textColor = UIColor.redColor()
+                }
                 return newValueTableCell!
             case RowCount.eFirstRow.rawValue :
                 // interval unit
@@ -446,6 +469,11 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
             if let reviewDate = review?.reviewDate {
                 newValueTableCell!.unitValueLabel.text = (reviewDate.dateAndTime == nil) ? EMPTY_STRING : reviewDate.dateAndTime
             }
+            if !isValid && (self.review?.reviewDate.dateAndTime == EMPTY_STRING || self.review?.reviewDate.dateAndTime == nil) {
+                newValueTableCell!.unitLabel.textColor = UIColor.redColor()
+            } else {
+                newValueTableCell!.unitLabel.textColor = UIColor.blackColor()
+            }
             return newValueTableCell!
         } else {
             // date pickercell
@@ -469,6 +497,14 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
         let sectionCount = isAddMedicationReview ? 1:2
         let intervalCell = reviewTableView.cellForRowAtIndexPath(NSIndexPath(forItem: RowCount.eZerothRow.rawValue, inSection: sectionCount)) as? DCAddNewValueTableViewCell
         review?.reviewInterval?.intervalCount = intervalCell?.newValueTextField.text
+    }
+    
+    func updateWarningPeriodIntervalCountValue() {
+        
+        //update the interval count value
+        let sectionCount = reviewTableView.numberOfSections - 1
+        let intervalCell = reviewTableView.cellForRowAtIndexPath(NSIndexPath(forItem: RowCount.eFirstRow.rawValue, inSection: sectionCount)) as? DCAddNewValueTableViewCell
+        review?.warningPeriod?.warningPeriodInterval = intervalCell?.newValueTextField.text
     }
     
     //Medication Details Cell
@@ -554,11 +590,43 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
         })
         //        }
     }
+    
     func closeInlinePickers () {
         
         if let pickerIndexPath = inlinePickerIndexPath {
             let previousPickerIndexPath = NSIndexPath(forItem: pickerIndexPath.row - 1, inSection: pickerIndexPath.section)
             self.displayInlinePickerForRowAtIndexPath(previousPickerIndexPath)
+        }
+    }
+    
+    func isReviewValid () {
+        isValid = true
+        if (self.review?.reviewType) != nil {
+            if self.review?.reviewType == REVIEW_DUE_IN {
+                if self.review?.reviewInterval.intervalCount == EMPTY_STRING || self.review?.reviewInterval.intervalCount == nil {
+                    isValid = false
+                }
+            } else {
+                if self.review?.reviewDate.dateAndTime == EMPTY_STRING || self.review?.reviewDate.dateAndTime == nil {
+                    isValid = false
+                }
+            }
+        } else {
+            isValid = false
+        }
+        if self.review?.warningPeriod?.hasWarningPeriod == true {
+            if self.review?.warningPeriod.warningPeriodInterval == EMPTY_STRING || self.review?.warningPeriod.warningPeriodInterval == nil {
+                isValid = false
+            }
+        }
+    }
+    
+    func setSaveButtonDisability () {
+        
+        if self.review?.reviewType == nil  {
+            saveButton?.enabled = false
+        } else {
+            saveButton?.enabled = true
         }
     }
     
@@ -570,7 +638,15 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
     
     func saveButtonPressed () {
         
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.updateReviewIntervalCountValue()
+        self.updateWarningPeriodIntervalCountValue()
+        self.isReviewValid()
+        if isValid {
+            //TODO: To implement the API
+            self.dismissViewControllerAnimated(true, completion: nil)
+        } else {
+            self.reviewTableView.reloadData()
+        }
     }
     
     // MARK: Notification Methods

@@ -276,6 +276,7 @@
 		1FF1F88A1C3EBACB007F3B9C /* SingleBarGraphController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF1F8891C3EBACB007F3B9C /* SingleBarGraphController.swift */; };
 		2431F2571CD0982300D727C1 /* DCOneThirdScreenPharmacistActionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2431F2561CD0982300D727C1 /* DCOneThirdScreenPharmacistActionsTableViewCell.swift */; };
 		2431F2591CD09A3E00D727C1 /* DCOneThirdScreenPharmacistActionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2431F2581CD09A3E00D727C1 /* DCOneThirdScreenPharmacistActionsViewController.swift */; };
+		2434F0F91CEC4ACE0006FC31 /* DCInterventionSingleLineExpansionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2434F0F81CEC4ACE0006FC31 /* DCInterventionSingleLineExpansionViewController.swift */; };
 		245B740B1CCF4120006BF7C1 /* DCPharmacistActionPopOverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245B740A1CCF411F006BF7C1 /* DCPharmacistActionPopOverViewController.swift */; };
 		245B740D1CCF4141006BF7C1 /* DCPharmacistActionPopOverTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245B740C1CCF4141006BF7C1 /* DCPharmacistActionPopOverTableViewCell.swift */; };
 		2460F6331CE4A17D0013E91B /* DCManageSuspensionReasonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2460F6321CE4A17D0013E91B /* DCManageSuspensionReasonViewController.swift */; };
@@ -828,6 +829,7 @@
 		1FF1F8891C3EBACB007F3B9C /* SingleBarGraphController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleBarGraphController.swift; sourceTree = "<group>"; };
 		2431F2561CD0982300D727C1 /* DCOneThirdScreenPharmacistActionsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCOneThirdScreenPharmacistActionsTableViewCell.swift; sourceTree = "<group>"; };
 		2431F2581CD09A3E00D727C1 /* DCOneThirdScreenPharmacistActionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCOneThirdScreenPharmacistActionsViewController.swift; sourceTree = "<group>"; };
+		2434F0F81CEC4ACE0006FC31 /* DCInterventionSingleLineExpansionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCInterventionSingleLineExpansionViewController.swift; sourceTree = "<group>"; };
 		245B740A1CCF411F006BF7C1 /* DCPharmacistActionPopOverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCPharmacistActionPopOverViewController.swift; sourceTree = "<group>"; };
 		245B740C1CCF4141006BF7C1 /* DCPharmacistActionPopOverTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCPharmacistActionPopOverTableViewCell.swift; sourceTree = "<group>"; };
 		2460F6321CE4A17D0013E91B /* DCManageSuspensionReasonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCManageSuspensionReasonViewController.swift; sourceTree = "<group>"; };
@@ -2094,10 +2096,11 @@
 				FDD2C8C41C969CC500A7D6E3 /* SummaryAdministrationHistory */,
 				FDF29CAB1C8EE3A8003C3100 /* MedicationSummaryViewController */,
 				0BE2233E1CD0874A008FD6B1 /* InterventionDetailViewController */,
+				0BD3DC231CA0187A002149E5 /* ReviewViewController */,
+				2434F0F71CEC4A800006FC31 /* InterventionDetailsSingleLineExpansionViewController */,
 				4DD264361C7EFCF4007ACC52 /* AdministrationInProgressViewController */,
 				4D026E531C7DAF6800F9FF68 /* AdministrationReasonViewController */,
 				4DD2E26A1C7C398000950BD8 /* AdministerHelper */,
-				0BD3DC231CA0187A002149E5 /* ReviewViewController */,
 				4DD2E2671C7C287900950BD8 /* AdministrationStatusSelectionViewController */,
 				4DDD0C911C75C7110021C528 /* AdministrationSuccessViewController */,
 				FDD83ED81CC6246600774C01 /* AdministratingDoseViewController */,
@@ -2846,6 +2849,14 @@
 				2431F2561CD0982300D727C1 /* DCOneThirdScreenPharmacistActionsTableViewCell.swift */,
 			);
 			name = OneThireScreenActionsPharmacistActionsViewController;
+			sourceTree = "<group>";
+		};
+		2434F0F71CEC4A800006FC31 /* InterventionDetailsSingleLineExpansionViewController */ = {
+			isa = PBXGroup;
+			children = (
+				2434F0F81CEC4ACE0006FC31 /* DCInterventionSingleLineExpansionViewController.swift */,
+			);
+			name = InterventionDetailsSingleLineExpansionViewController;
 			sourceTree = "<group>";
 		};
 		245B74091CCF40B7006BF7C1 /* PharmacistActionPopOverViewController */ = {
@@ -4185,6 +4196,7 @@
 				4D48915F1BC90176002AC8CA /* DCPatientListingViewController.swift in Sources */,
 				1F380C781C64E1D1000A4E5D /* VitalSignParser.swift in Sources */,
 				0B964C7F1C51019000CD509D /* DCInfusionsFooterView.swift in Sources */,
+				2434F0F91CEC4ACE0006FC31 /* DCInterventionSingleLineExpansionViewController.swift in Sources */,
 				4DC527F11BE1EE2F00E2EF09 /* DCDosageMultiLineCell.swift in Sources */,
 				0BC3ACB31C0DB70B0028AF03 /* DCSchedulingInitialViewController.swift in Sources */,
 				0BE2233C1CD07823008FD6B1 /* DCInterventionDetailsViewController.swift in Sources */,
@@ -4330,8 +4342,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Vijesh Vijay (D6BPPM2Y6Z)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Vijesh Vijay (D6BPPM2Y6Z)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Egton Medical Information Systems Limited (XL5JU6TJKH)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Egton Medical Information Systems Limited (XL5JU6TJKH)";
 				COPY_PHASE_STRIP = NO;
 				DEFINES_MODULE = YES;
 				ENABLE_BITCODE = NO;
@@ -4354,7 +4366,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "76c9154a-5f6b-4d29-a86f-16497b8aa502";
+				PROVISIONING_PROFILE = "2d7cf49f-a8ab-4c84-9be7-5349c7b21b56";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -4377,8 +4389,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Vijesh Vijay (D6BPPM2Y6Z)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Vijesh Vijay (D6BPPM2Y6Z)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Egton Medical Information Systems Limited (XL5JU6TJKH)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Egton Medical Information Systems Limited (XL5JU6TJKH)";
 				COPY_PHASE_STRIP = YES;
 				DEFINES_MODULE = YES;
 				ENABLE_BITCODE = NO;
@@ -4394,7 +4406,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "76c9154a-5f6b-4d29-a86f-16497b8aa502";
+				PROVISIONING_PROFILE = "2d7cf49f-a8ab-4c84-9be7-5349c7b21b56";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = 2;
@@ -4410,8 +4422,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_MODULE_DEBUGGING = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Vijesh Vijay (D6BPPM2Y6Z)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Vijesh Vijay (D6BPPM2Y6Z)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Egton Medical Information Systems Limited (XL5JU6TJKH)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Egton Medical Information Systems Limited (XL5JU6TJKH)";
 				DEFINES_MODULE = YES;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4433,9 +4445,9 @@
 				INFOPLIST_FILE = DrugChart/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.e-mis.drugchart";
+				PRODUCT_BUNDLE_IDENTIFIER = com.emishealth.mobileprescriptions;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "76c9154a-5f6b-4d29-a86f-16497b8aa502";
+				PROVISIONING_PROFILE = "2d7cf49f-a8ab-4c84-9be7-5349c7b21b56";
 				SWIFT_OBJC_BRIDGING_HEADER = "DrugChart/Helpers/AddMedicationHelper/DrugChart-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -4451,8 +4463,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_MODULE_DEBUGGING = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Vijesh Vijay (D6BPPM2Y6Z)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Vijesh Vijay (D6BPPM2Y6Z)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Egton Medical Information Systems Limited (XL5JU6TJKH)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Egton Medical Information Systems Limited (XL5JU6TJKH)";
 				DEFINES_MODULE = YES;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4480,9 +4492,9 @@
 				INFOPLIST_FILE = DrugChart/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.e-mis.drugchart";
+				PRODUCT_BUNDLE_IDENTIFIER = com.emishealth.mobileprescriptions;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "76c9154a-5f6b-4d29-a86f-16497b8aa502";
+				PROVISIONING_PROFILE = "2d7cf49f-a8ab-4c84-9be7-5349c7b21b56";
 				SWIFT_OBJC_BRIDGING_HEADER = "DrugChart/Helpers/AddMedicationHelper/DrugChart-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";

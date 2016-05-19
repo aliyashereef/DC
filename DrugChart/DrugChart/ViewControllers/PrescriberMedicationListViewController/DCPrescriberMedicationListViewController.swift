@@ -19,7 +19,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     func updateSelectedMedicationListCount(count:NSInteger)
 }
 
-@objc class DCPrescriberMedicationListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate, DCMedicationAdministrationStatusProtocol, EditAndDeleteActionDelegate, DCAddMedicationViewControllerDelegate {
+@objc class DCPrescriberMedicationListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate, UIPopoverPresentationControllerDelegate , DCMedicationAdministrationStatusProtocol, EditAndDeleteActionDelegate, DCAddMedicationViewControllerDelegate {
 
     enum PanDirection {
         case panLeft
@@ -47,6 +47,8 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     var moreButtonHeightOffset: CGFloat = 15
     var tableRowHeight : CGFloat = 78.0
     var totalSelectedCellCount: NSInteger = 0
+    var isDrugChartViewActive : Bool = true
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
@@ -142,6 +144,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             medicationCell?.editAndDeleteDelegate = self
             medicationCell?.indexPath = indexPath
             medicationCell?.isMedicationActive = medicationScheduleDetails.isActive
+            medicationCell?.prescriberMedicationListViewController = self
             self.fillInMedicationDetailsInTableCell(medicationCell!, atIndexPath: indexPath)
             medicationCell?.cellHeight = (medicationCell?.calculateHeightForCell())!
             medicationCell?.updateAdministerStatusViewsHeight()
@@ -816,6 +819,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         navigationController?.modalPresentationStyle = UIModalPresentationStyle.Popover
         self.presentViewController(navigationController!, animated: true, completion: nil)
         let popover = navigationController?.popoverPresentationController
+        popover?.delegate = self
 //        popover?.delegate = moreButtonActionsViewController
         popover?.permittedArrowDirections = .Left
         let cell = medicationTableView!.cellForRowAtIndexPath(indexPath) as! PrescriberMedicationTableViewCell?
@@ -937,5 +941,16 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             
         }
     }
+    
+    // MARK: PopoverPresentation Delegate Methods
+    
+    func popoverPresentationControllerDidDismissPopover(popoverPresentationController: UIPopoverPresentationController) {
+        
+        //move the opened medication cell to original position on dismissing the more action pop over
+        let medicationCell = medicationTableView?.cellForRowAtIndexPath(selectedIndexPath)
+                as? PrescriberMedicationTableViewCell
+        medicationCell?.swipeMedicationDetailViewToRight()
+    }
+    
 }
 

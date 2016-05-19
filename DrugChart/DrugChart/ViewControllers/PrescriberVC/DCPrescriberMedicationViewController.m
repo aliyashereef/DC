@@ -33,7 +33,8 @@
 
 typedef enum : NSUInteger {
     kSortDrugStartDate,
-    kSortDrugName
+    kSortDrugName,
+    kDiscontinued
 } SortType;
 
 @interface DCPrescriberMedicationViewController () <DCAddMedicationViewControllerDelegate, PrescriberListDelegate ,AdministrationDelegate, UIActionSheetDelegate, CalendarOneThirdDelegate>{
@@ -144,6 +145,7 @@ typedef enum : NSUInteger {
     [self configureCurrentWindowCalendarWidth];
     [self prescriberCalendarChildViewControllerBasedOnWindowState];
     [self addCustomTitleViewToNavigationBar];
+    prescriberMedicationListViewController.isDrugChartViewActive = true;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -518,18 +520,30 @@ typedef enum : NSUInteger {
     }
 }
 
+- (NSArray *)medicationListForActiveStatus:(NSString *)isActive {
+    
+    NSString *predicateString = [NSString stringWithFormat:@"isActive == %@", isActive];
+    NSPredicate *medicineCategoryPredicate = [NSPredicate predicateWithFormat:predicateString];
+    NSArray *medicationListArray = (NSMutableArray *)[_patient.medicationListArray filteredArrayUsingPredicate:medicineCategoryPredicate];
+    return medicationListArray;
+}
+
 - (void)setDisplayMedicationListArray {
     
     if (displayMedicationListArray.count > 0) {
         displayMedicationListArray = nil;
     }
+    //get active medications
+    displayMedicationListArray = (NSMutableArray *)[self medicationListForActiveStatus:@"YES"];
     if (discontinuedMedicationShown) {
-        displayMedicationListArray = (NSMutableArray *)_patient.medicationListArray;
-    }
-    else {
-        NSString *predicateString = @"isActive == YES";
-        NSPredicate *medicineCategoryPredicate = [NSPredicate predicateWithFormat:predicateString];
-        displayMedicationListArray = (NSMutableArray *)[_patient.medicationListArray filteredArrayUsingPredicate:medicineCategoryPredicate];
+        //get inactive medication list and sort the list in reverse order of start date
+        NSMutableArray *inactiveMedications = (NSMutableArray *)[self medicationListForActiveStatus:@"NO"];
+        NSMutableArray *medicationList = [NSMutableArray arrayWithArray:displayMedicationListArray];
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:SORT_KEY_MEDICINE_START_DATE ascending:NO];
+        NSArray *descriptorArray = @[sortDescriptor];
+        NSMutableArray *sortedMedicationArray = [[NSMutableArray alloc] initWithArray:[inactiveMedications sortedArrayUsingDescriptors:descriptorArray]];
+        [medicationList addObjectsFromArray:sortedMedicationArray];
+        displayMedicationListArray = medicationList;
     }
 }
 
@@ -730,35 +744,17 @@ typedef enum : NSUInteger {
     displayMedicationListArray = sortedMedicationArray;
 }
 
-- (void)sortMedicationListSelectionChanged:(NSInteger)currentSelection {
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        if (currentSelection == 1) {
-            sortType = kSortDrugStartDate;
-            [self sortPrescriberMedicationList];
-        }
-        else if (currentSelection == 2) {
-            sortType = kSortDrugName;
-            [self sortPrescriberMedicationList];
-        }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if ([displayMedicationListArray count] > 0) {
-                if (prescriberMedicationListViewController) {
-                    [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
-                }
-                if (prescriberMedicationOneThirdSizeViewController && isOneThirdMedicationViewShown) {
-                    [prescriberMedicationOneThirdSizeViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
-                }
-            }
-        });
-    });
-}
-
 - (void)sortCalendarViewBasedOnCriteria:(NSString *)criteriaString {
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         
         if ([criteriaString isEqualToString:INCLUDE_DISCONTINUED]) {
+            discontinuedMedicationShown = !discontinuedMedicationShown;
+            if (discontinuedMedicationShown) {
+                sortType = kDiscontinued; // initially sort type should be "Discontinued"
+            } else {
+                sortType = kSortDrugStartDate; // if include discontinued is unchecked, the list should be sorted in order of start date
+            }
             [self includeDiscontinuedMedications];
         }
         if ([criteriaString isEqualToString:START_DATE_ORDER]) {
@@ -768,6 +764,9 @@ typedef enum : NSUInteger {
         else if ([criteriaString isEqualToString:ALPHABETICAL_ORDER]) {
             sortType = kSortDrugName;
             [self sortPrescriberMedicationList];
+        } else if ([criteriaString isEqualToString:SORT_ACTIVE_FIRST]) {
+            sortType = kDiscontinued;
+            [self includeDiscontinuedMedications];
         }
         dispatch_async(dispatch_get_main_queue(), ^{
             if ([displayMedicationListArray count] > 0) {
@@ -786,13 +785,13 @@ typedef enum : NSUInteger {
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         if (discontinuedMedicationShown) {
-            discontinuedMedicationShown = NO;
             [self setDisplayMedicationListArray];
+            if (sortType != kDiscontinued) {
+                [self sortPrescriberMedicationList];
+            }
         } else {
-            discontinuedMedicationShown = YES;
             [self setDisplayMedicationListArray];
         }
-        [self sortPrescriberMedicationList];
         dispatch_async(dispatch_get_main_queue(), ^{
             if ([displayMedicationListArray count] > 0) {
                 if (prescriberMedicationOneThirdSizeViewController && isOneThirdMedicationViewShown) {
@@ -844,6 +843,7 @@ typedef enum : NSUInteger {
 //Add medication popover presentedon tapping the + bar button.
 - (IBAction)addMedicationButtonPressed:(id)sender {
     
+    prescriberMedicationListViewController.isDrugChartViewActive = false;
     UIStoryboard *addMedicationStoryboard = [UIStoryboard storyboardWithName:ADD_MEDICATION_STORYBOARD
                                                                       bundle: nil];
     DCAddMedicationInitialViewController *addMedicationViewController =
@@ -1131,8 +1131,22 @@ typedef enum : NSUInteger {
     presentationController.barButtonItem = (UIBarButtonItem *)sender;
     
     sortViewController.criteria = ^ (NSString * type) {
-        if (![type isEqualToString:INCLUDE_DISCONTINUED]) {
+        
+        if (![type isEqualToString:INCLUDE_DISCONTINUED] && ![type isEqualToString:SORT_ACTIVE_FIRST]) {
             selectedSortType =  type;
+        } else {
+            //selected type is include discontinued
+            if ([type isEqualToString:INCLUDE_DISCONTINUED]) {
+                if (discontinuedMedicationShown) {
+                    selectedSortType = START_DATE_ORDER;
+                } else {
+                    selectedSortType = SORT_ACTIVE_FIRST;
+                }
+            } else if ([type isEqualToString:SORT_ACTIVE_FIRST]) {
+                selectedSortType = SORT_ACTIVE_FIRST;
+            } else {
+                selectedSortType = START_DATE_ORDER;
+            }
         }
         [self sortCalendarViewBasedOnCriteria:type];
     };
@@ -1497,6 +1511,7 @@ typedef enum : NSUInteger {
     //add medication view dismissed
     warningsButton.userInteractionEnabled = YES;
     pharmacistButton.userInteractionEnabled = YES;
+    prescriberMedicationListViewController.isDrugChartViewActive = true;
 }
 
 #pragma mark - Notification Methods

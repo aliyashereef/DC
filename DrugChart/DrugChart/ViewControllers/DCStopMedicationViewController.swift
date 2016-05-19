@@ -8,13 +8,14 @@
 
 import Foundation
 
-class DCStopMedicationViewController : UIViewController , NotesCellDelegate{
+class DCStopMedicationViewController : DCBaseViewController , NotesCellDelegate{
     
     @IBOutlet weak var stopMedicationTableView: UITableView!
     var inactiveDetails : DCInactiveDetails?
     var deleteingIndexPath: NSIndexPath?
     var isSavePressed : Bool = false
     var medicationDetails : DCMedicationScheduleDetails?
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -33,6 +34,7 @@ class DCStopMedicationViewController : UIViewController , NotesCellDelegate{
         self.stopMedicationTableView.rowHeight = UITableViewAutomaticDimension
         self.stopMedicationTableView.estimatedRowHeight = 44.0
         self.stopMedicationTableView.tableFooterView = UIView(frame: CGRectZero)
+        self.stopMedicationTableView.keyboardDismissMode = .OnDrag
     }
     
     func configureNavigationBar() {
@@ -43,8 +45,8 @@ class DCStopMedicationViewController : UIViewController , NotesCellDelegate{
         negativeSpacer.width = DCCalendarConstants.NEGATIVE_BAR_BUTTON_WIDTH
         let cancelButton : UIBarButtonItem = UIBarButtonItem(title:CANCEL_BUTTON_TITLE, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.cancelButtonPressed))
         let saveButton : UIBarButtonItem = UIBarButtonItem(title:SAVE_BUTTON_TITLE, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.saveButtonPressed))
-        self.navigationItem.leftBarButtonItems = [negativeSpacer, cancelButton]
-        self.navigationItem.rightBarButtonItems = [negativeSpacer, saveButton]
+        self.navigationItem.leftBarButtonItems = [cancelButton]
+        self.navigationItem.rightBarButtonItems = [saveButton]
     }
     
     //MARK: TableView Delegate Methods
@@ -237,5 +239,27 @@ class DCStopMedicationViewController : UIViewController , NotesCellDelegate{
             notesCell.notesTextView.resignFirstResponder()
         }
         self.view.endEditing(true)
+    }
+    
+    // MARK: Notification Methods
+    func keyboardDidShow(notification : NSNotification) {
+        
+        if let userInfo = notification.userInfo {
+            if let keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+                let contentInsets: UIEdgeInsets
+                contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.height), 0.0)
+                self.stopMedicationTableView.contentInset = contentInsets;
+                self.stopMedicationTableView.scrollIndicatorInsets = contentInsets;
+                let notesIndexPath = NSIndexPath(forRow: 0, inSection:2 )
+                self.stopMedicationTableView.scrollToRowAtIndexPath(notesIndexPath, atScrollPosition: .Bottom, animated: true)
+            }
+        }
+    }
+    
+    func keyboardDidHide(notification :NSNotification){
+        
+        let contentInsets:UIEdgeInsets  = UIEdgeInsetsMake(0, 0, 0, 0);
+        stopMedicationTableView.contentInset = contentInsets;
+        stopMedicationTableView.scrollIndicatorInsets = contentInsets;
     }
 }

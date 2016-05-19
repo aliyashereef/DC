@@ -121,7 +121,11 @@
 - (void)populateContentArray {
     
     if (_sortView == eCalendarView) {
-        contentArray = @[@[INCLUDE_DISCONTINUED], @[START_DATE_ORDER, ALPHABETICAL_ORDER]];
+        if (_showDiscontinuedMedications) {
+            contentArray = @[@[INCLUDE_DISCONTINUED], @[START_DATE_ORDER, ALPHABETICAL_ORDER, SORT_ACTIVE_FIRST]];
+        } else {
+            contentArray = @[@[INCLUDE_DISCONTINUED], @[START_DATE_ORDER, ALPHABETICAL_ORDER]];
+        }
     } else {
         contentArray = @[NAME, DATE];
     }

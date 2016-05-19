@@ -15,6 +15,7 @@ class DCManageSuspensionViewController: DCBaseViewController, UITableViewDataSou
     var saveButtonClicked :Bool = false
     var isFromEntryValid : Bool = false
     var isUntilEntryValid : Bool = false
+    var isInEditMode : Bool = false
     var isReasonEntryValid : Bool = false
     let tableviewContentOffset = 110
 
@@ -26,6 +27,8 @@ class DCManageSuspensionViewController: DCBaseViewController, UITableViewDataSou
         self.configureNavigationBarItems()
         if medicationDetails?.manageSuspension == nil {
             medicationDetails?.manageSuspension = DCManageSuspensionDetails.init()
+        } else {
+            isInEditMode = true
         }
         self.manageSuspensionTableview.keyboardDismissMode = .OnDrag
         self.manageSuspensionTableview.rowHeight = UITableViewAutomaticDimension
@@ -292,6 +295,9 @@ class DCManageSuspensionViewController: DCBaseViewController, UITableViewDataSou
     
     func cancelButtonPressed() {
         
+        if !isInEditMode {
+            medicationDetails?.manageSuspension = nil
+        }
         self.navigationController!.dismissViewControllerAnimated(true, completion: nil)
     }
 

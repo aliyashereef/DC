@@ -79,7 +79,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
                 return (medication.medicationAdministration?.status)!
             }
         }
-        //medication slot selected more than the current date
+        //medication slot selected less than the current date
         if (medication.time.compare(currentSystemDate) == NSComparisonResult.OrderedDescending){
             let slotDateString : NSString? = DCDateUtility.dateStringFromDate(slotToAdminister?.time, inFormat: SHORT_DATE_FORMAT)
             if (currentDateString != slotDateString && medication.medicationAdministration?.status == nil) {
@@ -97,7 +97,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
                 return ADMINISTER_MEDICATION
             }
         }
-        //medication slot selected less than the current date
+        //medication slot selected more than the current date
         if (medication.time.compare(currentSystemDate) == NSComparisonResult.OrderedAscending) {
             if (medication.medicationAdministration?.status != nil) {
                 if DCAdministrationHelper.isMedicationDurationBasedInfusion(medicationDetails!) {
@@ -113,9 +113,9 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
     }
     
     func initialiseMedicationSlotToAdministerObject () {
+        
         //initialise medication slot to administer object
         slotToAdminister = DCMedicationSlot.init()
-
         if (medicationDetails?.medicineCategory == WHEN_REQUIRED) {
             let today = NSDate()
             let order = NSCalendar.currentCalendar().compareDate(weekDate! , toDate:today,
