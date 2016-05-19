@@ -248,11 +248,11 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         
         // get indexpath of selected rows, if previous check state is false, clinical check has to be done
         // if previous state is true, clinical remove action has to be done
-        if let indexPaths = pharmacistTableView.indexPathsForSelectedRows {
-            for index in 0 ..< indexPaths.count {
-                let indexPath = indexPaths[index] as NSIndexPath
-                let cell : DCPharmacistTableCell = (pharmacistTableView.cellForRowAtIndexPath(indexPath) as? DCPharmacistTableCell)!
-                let medicationDetails : DCMedicationScheduleDetails = cell.medicationDetails!
+        
+        if let selectedIndexPathsArray = pharmacistTableView.indexPathsForSelectedRows {
+            for index in 0 ..< selectedIndexPathsArray.count {
+                let indexPath = selectedIndexPathsArray[index] as NSIndexPath
+                let medicationDetails : DCMedicationScheduleDetails = medicationList.objectAtIndex(selectedIndexPathsArray[index].row) as! DCMedicationScheduleDetails
                 if let pharmacistAction = medicationDetails.pharmacistAction {
                     if pharmacistAction.clinicalCheck == check {
                         pharmacistAction.clinicalCheck = !check
