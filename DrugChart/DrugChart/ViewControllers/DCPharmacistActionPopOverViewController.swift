@@ -67,10 +67,10 @@ class DCPharmacistActionPopOverViewController: UIViewController, UITableViewDele
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
         self.dismissViewControllerAnimated(true, completion: { void in
             self.pharmacistActionSelectedAtIndex(indexPath.row)
         })
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
     func confugureCellForDisplay(indexPath: NSIndexPath) -> DCPharmacistActionPopOverTableViewCell {
