@@ -26,6 +26,7 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
     @IBOutlet weak var mainTableView: UITableView!
 
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         mainTableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
         if detailType == eAddIntegerValue {
@@ -76,9 +77,11 @@ class DCAddNewValueViewController: DCBaseViewController , UITableViewDataSource,
                 let number: Int? = Int(textFieldValue)
                 if number > 1 {
                     self.newValueEntered("\(textFieldValue) \(valueForUnit)")
-                }
-                else {
-                    let unit = String(valueForUnit.characters.dropLast())
+                } else {
+                    var unit = valueForUnit
+                    if (valueForUnit == MINUTES_TITLE || valueForUnit == HOURS_TITLE) {
+                        unit = String(valueForUnit.characters.dropLast())
+                    }
                     self.newValueEntered("\(textFieldValue) \(unit)")
                 }
             } else {
