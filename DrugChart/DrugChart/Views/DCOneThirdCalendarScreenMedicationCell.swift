@@ -15,6 +15,7 @@ protocol EditDeleteActionDelegate {
     func setIndexPathSelected(indexPath : NSIndexPath)
     func transitToSummaryScreenForMedication(indexpath : NSIndexPath)
     func moreButtonSelectedForIndexPath(indexPath: NSIndexPath)
+    func cellSelected(indexPath:NSIndexPath)
 }
 
 class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
@@ -38,6 +39,7 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
     var inEditMode : Bool = false
     var indexPath : NSIndexPath!
     var editAndDeleteDelegate : EditDeleteActionDelegate?
+    @IBOutlet weak var summaryButton: UIButton!
 
     override func awakeFromNib() {
         
@@ -51,6 +53,13 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
         editButtonHeight.constant = self.frame.height
         stopButtonHeight.constant = self.frame.height
         super.layoutSubviews()
+    }
+    
+    override func setSelected(selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        self.selectedBackgroundView = UIView()
+        // Configure the view for the selected state
+
     }
     
     // MARK: Private Methods
@@ -68,6 +77,15 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
         editButton.hidden = !show
         stopButton.hidden = !show
         moreButton.hidden = !show
+    }
+    func removePanGestureFromMedicationDetailHolderView () {
+        // remove pan gestures from cell
+        for guestureRecognizer in (medicineDetailHolderView.gestureRecognizers)! {
+            if guestureRecognizer .isKindOfClass(UIPanGestureRecognizer) {
+                medicineDetailHolderView.removeGestureRecognizer(guestureRecognizer)
+            }
+        }
+
     }
     
     override func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -245,6 +263,29 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
             delegate.transitToSummaryScreenForMedication(indexPath)
         }
     }
-
+    //Function to remove the action in the table cell on click
+    func removeActionFromSummaryButton(){
+        [summaryButton .removeTarget(self, action: nil, forControlEvents: UIControlEvents.TouchUpInside)]
+    }
+    
+    //Function to add the default action in the table cell on click
+    func addDefaultActionOnSummaryButton(){
+        [self .removeActionFromSummaryButton()];
+        [summaryButton .addTarget(self, action: #selector(DCOneThirdCalendarScreenMedicationCell.summaryDisplayButton(_:)), forControlEvents: UIControlEvents.TouchUpInside)]
+    }
+    
+    //to add cell selection function on typedescription button
+    func addEditActionOnSummaryButton(){
+        [self .removeActionFromSummaryButton()];
+        [summaryButton .addTarget(self, action: #selector(DCOneThirdCalendarScreenMedicationCell.performCellSelectionInteration), forControlEvents: UIControlEvents.TouchUpInside)]
+    }
+    
+    //to select cell if not selected and vice versa
+    func performCellSelectionInteration(){
+        summaryButton.highlighted = false;
+        if let delegate = self.editAndDeleteDelegate {
+            delegate.cellSelected(self.indexPath)
+        }
+    }
 
 }

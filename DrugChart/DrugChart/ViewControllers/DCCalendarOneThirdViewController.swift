@@ -19,6 +19,9 @@ let WEBSERVICE_UNAVAILABLE : NSInteger = 101
 let NETWORK_NOT_REACHABLE : NSInteger = -1001
 let NOT_CONNECTED_TO_INTERNET : NSInteger = -1009
 
+@objc protocol CalendarOneThirdDelegate {
+    func updateSelectedMedicationListCountOneThird(count:NSInteger)
+}
 
 class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSource, UITableViewDelegate, DCMedicationAdministrationStatusProtocol , UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, EditDeleteActionDelegate {
     
@@ -36,7 +39,10 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     var scrollingLocked : Bool = false
     var selectedIndexPath : NSIndexPath!
     var actionMenu : UIAlertController?
-
+    var isEditMode : Bool = false
+    var totalSelectedCellCount : NSInteger = 0
+    var delegate: CalendarOneThirdDelegate?
+    
     required init?(coder aDecoder: NSCoder) {
         
         super.init(coder: aDecoder)
@@ -54,6 +60,8 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         super.viewDidLoad()
         medicationTableView!.tableFooterView = UIView(frame: CGRectZero)
         medicationTableView!.delaysContentTouches = false
+        medicationTableView!.allowsMultipleSelectionDuringEditing = true
+        medicationTableView!.allowsSelectionDuringEditing = true
         generateCurrentWeekDatesArray()
         medicationTableView!.addSubview(self.refreshControl)
         medicationTableView!.rowHeight = UITableViewAutomaticDimension
@@ -169,13 +177,15 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
-        let cell = calendarStripCollectionView.cellForItemAtIndexPath(indexPath) as! DCOneThirdCalendarStripCollectionCell
-        centerDate = cell.displayDate!
-        scrollIndex = self.scrollIndexFromIndexPath(indexPath)
-        medicationTableView?.reloadData()
-        self.calendarStripCollectionView.reloadData()
-        self.displayDateInParentView()
-        collectionView.deselectItemAtIndexPath(indexPath, animated: false)
+        if !isEditMode {
+            let cell = calendarStripCollectionView.cellForItemAtIndexPath(indexPath) as! DCOneThirdCalendarStripCollectionCell
+            centerDate = cell.displayDate!
+            scrollIndex = self.scrollIndexFromIndexPath(indexPath)
+            medicationTableView?.reloadData()
+            self.calendarStripCollectionView.reloadData()
+            self.displayDateInParentView()
+            collectionView.deselectItemAtIndexPath(indexPath, animated: false)
+        }
     }
     
     //MARK: Collection view flow layout methods
@@ -244,16 +254,56 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        let tableCell: DCOneThirdCalendarScreenMedicationCell = tableView.cellForRowAtIndexPath(indexPath) as! DCOneThirdCalendarScreenMedicationCell
-        let subViewArray = tableCell.contentView.subviews[1].subviews[4].subviews
-        //let subViewArray = tableCell.contentView.subviews
-        for subVeiw in subViewArray {
-            if subVeiw .isKindOfClass(DCMedicationAdministrationStatusView){
-                (subVeiw as! DCMedicationAdministrationStatusView).administerMedicationWithMedicationSlot()
-                break
+        if !isEditMode {
+            let tableCell: DCOneThirdCalendarScreenMedicationCell = tableView.cellForRowAtIndexPath(indexPath) as! DCOneThirdCalendarScreenMedicationCell
+            let subViewArray = tableCell.contentView.subviews[1].subviews[4].subviews
+            //let subViewArray = tableCell.contentView.subviews
+            for subVeiw in subViewArray {
+                if subVeiw .isKindOfClass(DCMedicationAdministrationStatusView){
+                    (subVeiw as! DCMedicationAdministrationStatusView).administerMedicationWithMedicationSlot()
+                    break
+                }
+            }
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }else{
+            if let selectedRows = medicationTableView?.indexPathsForSelectedRows {
+                totalSelectedCellCount = (selectedRows.count)
+            }else{
+                totalSelectedCellCount = 0
+            }
+            if let delegate = self.delegate {
+                delegate.updateSelectedMedicationListCountOneThird(totalSelectedCellCount)
             }
         }
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
+    
+    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+        if isEditMode {
+            if let selectedRows = medicationTableView?.indexPathsForSelectedRows {
+                totalSelectedCellCount = (selectedRows.count)
+            }else{
+                totalSelectedCellCount = 0
+            }
+            if let delegate = self.delegate {
+                delegate.updateSelectedMedicationListCountOneThird(totalSelectedCellCount)
+            }
+        }
+    }
+    
+    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+        return .Insert
+    }
+    
+    //delegate function to perform selected count change in parent
+    func cellSelected(indexPath: NSIndexPath) {
+        let cell = medicationTableView?.cellForRowAtIndexPath(indexPath) as! DCOneThirdCalendarScreenMedicationCell
+        if cell.selected {
+            medicationTableView!.deselectRowAtIndexPath(indexPath, animated: false)
+            tableView(medicationTableView!, didDeselectRowAtIndexPath: indexPath);
+        }else{
+            medicationTableView!.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+            tableView(medicationTableView!, didSelectRowAtIndexPath: indexPath);
+        }
     }
     
     //MARK: Scroll View methods
