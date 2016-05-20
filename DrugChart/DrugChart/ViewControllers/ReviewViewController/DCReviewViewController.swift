@@ -496,7 +496,9 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
         //update the interval count value
         let sectionCount = isAddMedicationReview ? 1:2
         let intervalCell = reviewTableView.cellForRowAtIndexPath(NSIndexPath(forItem: RowCount.eZerothRow.rawValue, inSection: sectionCount)) as? DCAddNewValueTableViewCell
-        review?.reviewInterval?.intervalCount = intervalCell?.newValueTextField.text
+        if (intervalCell?.newValueTextField?.text) != nil {
+            review?.reviewInterval?.intervalCount = intervalCell?.newValueTextField?.text
+        }
     }
     
     func updateWarningPeriodIntervalCountValue() {
@@ -504,7 +506,9 @@ class DCReviewViewController: DCBaseViewController, UITableViewDelegate, UITable
         //update the interval count value
         let sectionCount = reviewTableView.numberOfSections - 1
         let intervalCell = reviewTableView.cellForRowAtIndexPath(NSIndexPath(forItem: RowCount.eFirstRow.rawValue, inSection: sectionCount)) as? DCAddNewValueTableViewCell
-        review?.warningPeriod?.warningPeriodInterval = intervalCell?.newValueTextField.text
+        if (intervalCell?.newValueTextField?.text) != nil {
+            review?.warningPeriod?.warningPeriodInterval = intervalCell?.newValueTextField?.text
+        }
     }
     
     //Medication Details Cell
