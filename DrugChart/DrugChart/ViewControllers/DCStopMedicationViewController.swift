@@ -107,7 +107,7 @@ class DCStopMedicationViewController : DCBaseViewController , NotesCellDelegate{
             notesCell.notesTextView.text = notesCell.hintText()
         }
         
-        if inactiveDetails?.reason == StopMedicationConstants.OTHER && (inactiveDetails?.notes == EMPTY_STRING || inactiveDetails?.notes == nil) && isSavePressed {
+        if ((inactiveDetails?.notes == EMPTY_STRING || inactiveDetails?.notes == nil) && isSavePressed) || inactiveDetails?.reason == StopMedicationConstants.OTHER {
             notesCell.notesTextView.textColor = UIColor.redColor()
         } else {
             notesCell.notesTextView.textColor = UIColor(forHexString: "#8f8f95")

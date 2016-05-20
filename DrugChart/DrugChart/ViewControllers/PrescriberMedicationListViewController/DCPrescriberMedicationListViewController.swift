@@ -48,6 +48,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     var tableRowHeight : CGFloat = 78.0
     var totalSelectedCellCount: NSInteger = 0
     var isDrugChartViewActive : Bool = true
+    var discontinuedMedicationShown : Bool = false
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -230,8 +231,11 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         self.flattenMedicationTimeChartData()
         medicationTableView?.reloadData()
         medicationTableView?.layoutIfNeeded()
-        self.scrollToLatestMedication(shouldScroll: addedNewMedication)
-        
+        if discontinuedMedicationShown == false {
+            self.scrollToLatestMedication(shouldScroll: addedNewMedication)
+        } else {
+            medicationTableView!.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: .Top, animated: true)
+        }
     }
     
     func animatePrescriberCellToOriginalStateAtIndexPath(indexPath : NSIndexPath) {
@@ -940,7 +944,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                 print(indexPath)
                 self.medicationTableView?.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Top, animated: true)
             }
-        }else {
+        } else {
             
         }
     }

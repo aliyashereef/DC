@@ -357,6 +357,8 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
                     let navigationController: UINavigationController = UINavigationController(rootViewController: addInterventionViewController!)
                     navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
                     self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
+                } else {
+                    self.cancelButtonPressed()
                 }
             }
         }
@@ -395,6 +397,8 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
                     let navigationController: UINavigationController = UINavigationController(rootViewController: addInterventionViewController!)
                     navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
                     self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
+                } else {
+                    self.cancelButtonPressed()
                 }
             }
         }
@@ -431,7 +435,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
                     navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
                     self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
                 } else {
-                    self.pharmacistTableView.reloadData()
+                    self.cancelButtonPressed()
                 }
             }
         }
@@ -526,7 +530,6 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
             presentViewController(alert, animated: true, completion: nil)
         }
         else {
-             self.cancelButtonPressed()
             completion(result: SUCCESS)
         }
     }
