@@ -42,6 +42,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     var isEditMode : Bool = false
     var totalSelectedCellCount : NSInteger = 0
     var delegate: CalendarOneThirdDelegate?
+    var discontinuedMedicationShown : Bool = false
     
     required init?(coder aDecoder: NSCoder) {
         
@@ -421,7 +422,11 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         displayMedicationListArray =  displayArray as NSMutableArray
         medicationTableView?.reloadData()
         medicationTableView?.layoutIfNeeded()
-        self.scrollToLatestMedication(shouldScroll: addedNewMedication)
+        if discontinuedMedicationShown == false {
+            self.scrollToLatestMedication(shouldScroll: addedNewMedication)
+        } else {
+            medicationTableView!.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: .Top, animated: true)
+        }
     }
     
     func fetchPatientListAndReloadMedicationList () {
