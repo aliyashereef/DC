@@ -17,7 +17,7 @@
 @property (nonatomic, strong) NSDate *centerDisplayDate;
 @property (nonatomic, strong) NSArray *medicationSlotArray;
 @property (nonatomic) CGFloat calendarViewWidth;
-
+@property (strong, nonatomic)  NSMutableArray *selectedMedicationListArray;
 
 - (void)displayAdministrationViewForMedicationSlot:(NSDictionary *)medicationSLotsDictionary
                                        atIndexPath:(NSIndexPath *)indexPath

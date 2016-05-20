@@ -48,7 +48,6 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     var tableRowHeight : CGFloat = 78.0
     var totalSelectedCellCount: NSInteger = 0
     var isDrugChartViewActive : Bool = true
-    var indexPathsArray : NSMutableArray = []
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -172,7 +171,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         }
         if isEditMode {
             
-            if (indexPathsArray.containsObject(indexPath)) {
+            if (parentViewController.selectedMedicationListArray.containsObject(indexPath)) {
                 _tableView.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
             } else {
                 _tableView.deselectRowAtIndexPath(indexPath, animated: false)
@@ -192,26 +191,32 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
 
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = medicationTableView?.cellForRowAtIndexPath(indexPath) as! PrescriberMedicationTableViewCell
-        cell.typeDescriptionButton.highlighted = false
-        if let selectedRows = medicationTableView?.indexPathsForSelectedRows {
-            totalSelectedCellCount = (selectedRows.count)
-        }else{
-            totalSelectedCellCount = 0
+        let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
+        if parentViewController.selectedMedicationListArray.containsObject(indexPath) {
+            parentViewController.selectedMedicationListArray.removeObject(indexPath)
+            if parentViewController.selectedMedicationListArray.count == 0 {
+                
+            }
+        } else {
+            parentViewController.selectedMedicationListArray.addObject(indexPath)
         }
+        
         if let delegate = self.delegate {
-            delegate.updateSelectedMedicationListCount(totalSelectedCellCount)
+            delegate.updateSelectedMedicationListCount(parentViewController.selectedMedicationListArray.count)
         }
     }
 
     func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        if let selectedRows = medicationTableView?.indexPathsForSelectedRows {
-            totalSelectedCellCount = (selectedRows.count)
-        }else{
-            totalSelectedCellCount = 0
+        let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
+        if parentViewController.selectedMedicationListArray.containsObject(indexPath) {
+            parentViewController.selectedMedicationListArray.removeObject(indexPath)
+            if parentViewController.selectedMedicationListArray.count == 0 {
+               
+            }
         }
+        
         if let delegate = self.delegate {
-            delegate.updateSelectedMedicationListCount(totalSelectedCellCount)
+            delegate.updateSelectedMedicationListCount(parentViewController.selectedMedicationListArray.count)
         }
     }
     
@@ -967,9 +972,10 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     
     //select all cell in table view
     func selectAllCellInMedicationTableView(){
+        let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
         populateIndexPathsArray()
         medicationTableView?.reloadData()
-        totalSelectedCellCount = indexPathsArray.count
+        totalSelectedCellCount = parentViewController.selectedMedicationListArray.count
         if let delegate = self.delegate {
             delegate.updateSelectedMedicationListCount(totalSelectedCellCount)
         }
@@ -977,9 +983,11 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     
     //deselect all cell in table view
     func deselectAllCellMedicationTableView(){
-        indexPathsArray.removeAllObjects()
+        let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
+        parentViewController.selectedMedicationListArray.removeAllObjects()
+        //indexPathsArray.removeAllObjects()
         medicationTableView?.reloadData()
-        totalSelectedCellCount = indexPathsArray.count
+        totalSelectedCellCount = 0
         if let delegate = self.delegate {
             delegate.updateSelectedMedicationListCount(totalSelectedCellCount)
         }
@@ -988,12 +996,12 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     //add all cell in the
     func populateIndexPathsArray() {
         let sections = medicationTableView!.numberOfSections
-        indexPathsArray = NSMutableArray()
         for section in 0..<sections {
             let rows = medicationTableView!.numberOfRowsInSection(section)
             for row in 0..<rows {
                 let indexPath = NSIndexPath(forRow: row, inSection: section)
-                indexPathsArray.addObject(indexPath)
+                let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
+                parentViewController.selectedMedicationListArray.addObject(indexPath)
             }
         }
     }

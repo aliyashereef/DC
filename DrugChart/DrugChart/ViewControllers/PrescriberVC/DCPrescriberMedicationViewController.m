@@ -114,6 +114,7 @@ typedef enum : NSUInteger {
     rowMedicationSlotsArray = [[NSMutableArray alloc] init];
     _centerDisplayDate = [[NSDate alloc] init];
     appDelegate = [[UIApplication sharedApplication] delegate];
+    _selectedMedicationListArray = [[NSMutableArray alloc]init];
     return self;
 }
 
@@ -934,9 +935,12 @@ typedef enum : NSUInteger {
     isEditMode = false;
     if ([DCAPPDELEGATE windowState] == halfWindow || [DCAPPDELEGATE windowState] == oneThirdWindow) {
         [self configureOneThirdSizeCalendarAfterEditing];
+        prescriberMedicationListViewController = nil;
     }else{
         [self configurePrescriberMedicationTableViewAfterEditing];
+        prescriberMedicationOneThirdSizeViewController = nil;
     }
+    
     [leftNavigationItemsArray removeAllObjects];
     [rightNavigationItemsArray removeAllObjects];
     [toolbarButtonsArray removeAllObjects];
@@ -1014,7 +1018,7 @@ typedef enum : NSUInteger {
         [cell addDefaultActionOnTypeDescriptionButton];
         [cell addPanGestureToMedicationDetailHolderView];
     }
-    [prescriberMedicationListViewController.indexPathsArray removeAllObjects];
+    [_selectedMedicationListArray removeAllObjects];
     prescriberMedicationListViewController.totalSelectedCellCount = 0;
     [prescriberMedicationListViewController.medicationTableView setEditing:false animated:true];
     prescriberMedicationListViewController.isEditMode = false;
@@ -1045,7 +1049,7 @@ typedef enum : NSUInteger {
         [cell addDefaultActionOnSummaryButton];
         [cell addPanGestureToMedicationDetailHolderView];
     }
-    [prescriberMedicationOneThirdSizeViewController.indexPathsArray removeAllObjects];
+    [_selectedMedicationListArray removeAllObjects];
     prescriberMedicationOneThirdSizeViewController.totalSelectedCellCount = 0;
     prescriberMedicationOneThirdSizeViewController.calendarStripCollectionView.scrollEnabled = true;
     [prescriberMedicationOneThirdSizeViewController.medicationTableView setEditing:false animated:true];
