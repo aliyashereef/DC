@@ -48,6 +48,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     var tableRowHeight : CGFloat = 78.0
     var totalSelectedCellCount: NSInteger = 0
     var isDrugChartViewActive : Bool = true
+    var indexPathsArray : NSMutableArray = []
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -163,10 +164,22 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                     andSlotIndex: index)
                 index += 1
             }
+        
         if medicationScheduleDetails.isActive {
             medicationCell?.medicineDetailHolderView.backgroundColor = UIColor.whiteColor()
         } else {
             medicationCell?.medicineDetailHolderView.backgroundColor = INACTIVE_BACKGROUND_COLOR
+        }
+        if isEditMode {
+            
+            if (indexPathsArray.containsObject(indexPath)) {
+                _tableView.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+            } else {
+                _tableView.deselectRowAtIndexPath(indexPath, animated: false)
+            }
+            if appDelegate.windowState == DCWindowState.fullWindow || appDelegate.windowState == DCWindowState.twoThirdWindow {
+                [medicationCell?.updateCellSizeBeforeEditing()];
+            }
         }
             return medicationCell!
     }
@@ -952,5 +965,37 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         medicationCell?.swipeMedicationDetailViewToRight()
     }
     
+    //select all cell in table view
+    func selectAllCellInMedicationTableView(){
+        populateIndexPathsArray()
+        medicationTableView?.reloadData()
+        totalSelectedCellCount = indexPathsArray.count
+        if let delegate = self.delegate {
+            delegate.updateSelectedMedicationListCount(totalSelectedCellCount)
+        }
+    }
+    
+    //deselect all cell in table view
+    func deselectAllCellMedicationTableView(){
+        indexPathsArray.removeAllObjects()
+        medicationTableView?.reloadData()
+        totalSelectedCellCount = indexPathsArray.count
+        if let delegate = self.delegate {
+            delegate.updateSelectedMedicationListCount(totalSelectedCellCount)
+        }
+    }
+    
+    //add all cell in the
+    func populateIndexPathsArray() {
+        let sections = medicationTableView!.numberOfSections
+        indexPathsArray = NSMutableArray()
+        for section in 0..<sections {
+            let rows = medicationTableView!.numberOfRowsInSection(section)
+            for row in 0..<rows {
+                let indexPath = NSIndexPath(forRow: row, inSection: section)
+                indexPathsArray.addObject(indexPath)
+            }
+        }
+    }
 }
 

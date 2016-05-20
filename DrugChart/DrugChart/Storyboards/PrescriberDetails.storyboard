@@ -490,7 +490,6 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" allowsMultipleSelection="YES" allowsMultipleSelectionDuringEditing="YES" rowHeight="78" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="kwO-0w-r4r">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="441"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="separatorColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="prescriberIdentifier" id="80f-Eu-I6w" customClass="PrescriberMedicationTableViewCell" customModule="DrugChart" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="600" height="78"/>
@@ -734,6 +733,7 @@
                                             <outlet property="administerDetailsHolderView" destination="bga-IH-b83" id="dXH-Bc-UfE"/>
                                             <outlet property="administerHolderViewLeadingConstraint" destination="CFR-qZ-MbB" id="9Sb-BQ-gdg"/>
                                             <outlet property="editButton" destination="Jcg-8C-Ewj" id="BJs-p1-ouk"/>
+                                            <outlet property="editButtonHolderView" destination="LxS-n1-G9s" id="XBz-y8-Hu4"/>
                                             <outlet property="editButtonWidth" destination="24a-Id-dNK" id="eej-q5-Can"/>
                                             <outlet property="instructions" destination="k8i-ep-2R7" id="exc-pM-FQC"/>
                                             <outlet property="leadingSpaceMasterToContainerView" destination="OCl-og-UKw" id="p0g-wv-SbO"/>

@@ -42,6 +42,8 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     var isEditMode : Bool = false
     var totalSelectedCellCount : NSInteger = 0
     var delegate: CalendarOneThirdDelegate?
+    var indexPathsArray : NSMutableArray = []
+
     
     required init?(coder aDecoder: NSCoder) {
         
@@ -246,6 +248,15 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
             cell!.medicineDetailHolderView.backgroundColor = UIColor.whiteColor()
         } else {
             cell!.medicineDetailHolderView.backgroundColor = INACTIVE_BACKGROUND_COLOR
+        }
+        if isEditMode {
+            
+            if (indexPathsArray.containsObject(indexPath)) {
+                tableView.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+            } else {
+                tableView.deselectRowAtIndexPath(indexPath, animated: false)
+            }
+            
         }
         cell!.showActionButtons(false)
         cell!.layoutMargins = UIEdgeInsetsZero
@@ -806,4 +817,38 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
             
         }
     }
+    
+    //select all cell in table view
+    func selectAllCellInMedicationTableView(){
+        populateIndexPathsArray()
+        medicationTableView?.reloadData()
+        totalSelectedCellCount = indexPathsArray.count
+        if let delegate = self.delegate {
+            delegate.updateSelectedMedicationListCountOneThird(totalSelectedCellCount)
+        }
+    }
+    
+    //deselect all cell in table view
+    func deselectAllCellMedicationTableView(){
+        indexPathsArray.removeAllObjects()
+        medicationTableView?.reloadData()
+        totalSelectedCellCount = indexPathsArray.count
+        if let delegate = self.delegate {
+            delegate.updateSelectedMedicationListCountOneThird(totalSelectedCellCount)
+        }
+    }
+    
+    //add all cell in the
+    func populateIndexPathsArray() {
+        let sections = medicationTableView!.numberOfSections
+        indexPathsArray = NSMutableArray()
+        for section in 0..<sections {
+            let rows = medicationTableView!.numberOfRowsInSection(section)
+            for row in 0..<rows {
+                let indexPath = NSIndexPath(forRow: row, inSection: section)
+                indexPathsArray.addObject(indexPath)
+            }
+        }
+    }
+
 }
