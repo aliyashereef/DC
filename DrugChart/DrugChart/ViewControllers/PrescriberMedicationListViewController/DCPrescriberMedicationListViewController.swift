@@ -165,8 +165,11 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             }
         if medicationScheduleDetails.isActive {
             medicationCell?.medicineDetailHolderView.backgroundColor = UIColor.whiteColor()
+            medicationCell?.typeDescriptionButton.backgroundColor = UIColor.whiteColor()
         } else {
             medicationCell?.medicineDetailHolderView.backgroundColor = INACTIVE_BACKGROUND_COLOR
+            medicationCell?.typeDescriptionButton.backgroundColor = INACTIVE_BACKGROUND_COLOR
+
         }
             return medicationCell!
     }

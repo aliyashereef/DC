@@ -185,19 +185,26 @@ class DCMedicationAdministrationStatusView: UIView {
         if !isActive {
             self.alpha = INACTIVE_OPACITY
             if self.statusLabel?.text == OVERDUE_KEY {
-                
                 self.statusLabel?.textColor = INACTIVE__OPAQUE_RED_COLOR
+            }
+            if (!isOneThirdScreen) {
+                if currentDateString == weekDateString {
+                    self.backgroundColor = CURRENT_DAY_BACKGROUND_COLOR
+                } else {
+                    self.backgroundColor = UIColor.whiteColor()
+                }
             }
         } else {
             self.alpha = ACTIVE_OPACITY
             if self.statusLabel?.text == OVERDUE_KEY {
-                
                 self.statusLabel?.textColor = UIColor.redColor()
             }
-            if (currentDateString == weekDateString && !isOneThirdScreen) {
-                self.backgroundColor = CURRENT_DAY_BACKGROUND_COLOR
-            } else {
-                self.backgroundColor = UIColor.whiteColor()
+            if (!isOneThirdScreen) {
+                if currentDateString == weekDateString {
+                    self.backgroundColor = CURRENT_DAY_BACKGROUND_COLOR
+                } else {
+                    self.backgroundColor = UIColor.whiteColor()
+                }
             }
         }
     }
