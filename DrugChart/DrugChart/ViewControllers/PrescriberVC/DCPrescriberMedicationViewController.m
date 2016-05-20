@@ -795,9 +795,11 @@ typedef enum : NSUInteger {
         dispatch_async(dispatch_get_main_queue(), ^{
             if ([displayMedicationListArray count] > 0) {
                 if (prescriberMedicationOneThirdSizeViewController && isOneThirdMedicationViewShown) {
+                    prescriberMedicationOneThirdSizeViewController.discontinuedMedicationShown = discontinuedMedicationShown;
                     [prescriberMedicationOneThirdSizeViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
                 } else {
                     if (prescriberMedicationListViewController) {
+                        prescriberMedicationListViewController.discontinuedMedicationShown = discontinuedMedicationShown;
                         [prescriberMedicationListViewController reloadMedicationListWithDisplayArray:displayMedicationListArray];
                     }
                 }
