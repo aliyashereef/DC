@@ -36,7 +36,8 @@ protocol DCPrescriberCellDelegate:class {
 class PrescriberMedicationTableViewCell: UITableViewCell {
     
     @IBOutlet weak var medicationDetailHolderViewWidthConstraint: NSLayoutConstraint!
-
+    
+    @IBOutlet weak var editButtonHolderView: UIView!
     @IBOutlet weak var medicineDetailHolderView: UIView!
     @IBOutlet weak var medicineName: UILabel!
     @IBOutlet weak var route: UILabel!
@@ -424,6 +425,16 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
         if let delegate = self.editAndDeleteDelegate {
             delegate.cellSelected(self.indexPath)
         }
+    }
+    
+    //to adjust the details view before making table view editable
+    func updateCellSizeBeforeEditing(){
+        medicationDetailHolderViewWidthConstraint.constant-=38
+    }
+    
+    //to adjust the details view after making table view editable
+    func updateCellSizeAfterEditing(){
+        medicationDetailHolderViewWidthConstraint.constant+=38
     }
     
 }
