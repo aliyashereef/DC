@@ -171,7 +171,8 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         }
     }
     
-    func configureAdministrationStatusCellAtIndexPath (indexPath :NSIndexPath) -> DCAdministrationStatusCell{
+    func configureAdministrationStatusCellAtIndexPath (indexPath :NSIndexPath) -> DCAdministrationStatusCell {
+        
         let cell = administerTableView.dequeueReusableCellWithIdentifier("AdministrationStatusCell") as? DCAdministrationStatusCell
         let medicationSlot : DCMedicationSlot = medicationSlotsArray[indexPath.row]
         if (medicationSlot.medicationAdministration?.status != nil || medicationSlot.medicationAdministration?.actualAdministrationTime != nil) {

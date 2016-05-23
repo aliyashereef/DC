@@ -135,7 +135,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         let administerCell : DCAdministerCell = (administerSuccessTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
         administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         administerCell.detailLabelTrailingSpace.constant = zeroFloat
-        administerCell.titleLabel.text = STATUS
+        administerCell.titleLabel.text = OUTCOME
         if (medicationSlot?.status != nil) {
             administerCell.detailLabel.text = medicationSlot?.status
             medicationSlot?.medicationAdministration?.status = medicationSlot?.status

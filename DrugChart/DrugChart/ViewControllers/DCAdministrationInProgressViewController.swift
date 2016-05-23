@@ -124,7 +124,7 @@ class DCAdministrationInProgressViewController : DCBaseViewController,StatusList
         if medicationSlot?.medicationAdministration.status == EMPTY_STRING ||  medicationSlot?.medicationAdministration.status == nil{
             administerCell.titleLabel.text = STATUS_CHANGE
         } else {
-            administerCell.titleLabel.text = STATUS
+            administerCell.titleLabel.text = OUTCOME
         }
         administerCell.titleLabel.textColor = (!isValid ? UIColor.redColor() : UIColor.blackColor())
         administerCell.detailLabel?.text = medicationSlot?.medicationAdministration.status

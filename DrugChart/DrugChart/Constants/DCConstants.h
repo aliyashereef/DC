@@ -574,6 +574,7 @@
 
 // Administration History Label texts
 #define STATUS @"Status"
+#define OUTCOME @"Outcome"
 #define DOSE @"Dose"
 #define STATUS_CHANGE @"Status Change"
 #define ADMINISTRATED_BY @"Administered By"

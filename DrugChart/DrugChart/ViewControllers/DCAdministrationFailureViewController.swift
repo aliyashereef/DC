@@ -213,7 +213,7 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
         
         let administerCell : DCAdministerCell = (administrationFailureTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
         administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
-        administerCell.titleLabel.text = STATUS
+        administerCell.titleLabel.text = OUTCOME
         medicationSlot?.medicationAdministration?.status = NOT_ADMINISTRATED
         administerCell.detailLabel?.text = NOT_ADMINISTRATED
         return administerCell

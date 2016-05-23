@@ -77,9 +77,11 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
         self.configureViewElements()
         self.configureNavigationBar()
         self.saveButton?.enabled = false
+        self.loadViewForAdministerMedicationStatus()
         super.viewDidLoad()
     }
-    // MARK: Private Methods
+    
+     // MARK: Private Methods
     //MARK:
     
     override func viewDidLayoutSubviews() {
@@ -138,6 +140,19 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
             negativeSpacerTrailing.width = -12
             self.navigationItem.leftBarButtonItems = [negativeSpacerLeading,cancelButton!]
             self.navigationItem.rightBarButtonItems = [negativeSpacerTrailing,saveButton!]
+        }
+    }
+    
+    func loadViewForAdministerMedicationStatus() {
+        
+        // set status as Started for infusions and Administered for normal medications
+        if statusState == ADMINISTER_MEDICATION {
+            if (DCAdministrationHelper.isMedicationDurationBasedInfusion(self.medicationDetails!)) {
+                statusState = STARTED
+            } else {
+                statusState = ADMINISTERED
+            }
+            self.addAdministrationSuccessView()
         }
     }
     
@@ -208,7 +223,7 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
         
         let administerCell : DCAdministerCell = (administerStatusSelectionTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
         administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
-        administerCell.titleLabel.text = STATUS
+        administerCell.titleLabel.text = OUTCOME
         administerCell.detailLabel.text = EMPTY_STRING
         if statusState == IN_PROGRESS {
             updateViewWithChangeInStatus(statusState!)
