@@ -147,6 +147,16 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             medicationCell?.isMedicationActive = medicationScheduleDetails.isActive
             medicationCell?.prescriberMedicationListViewController = self
             self.fillInMedicationDetailsInTableCell(medicationCell!, atIndexPath: indexPath)
+        if isEditMode {
+            if (parentViewController.selectedMedicationListArray.containsObject(indexPath)) {
+                _tableView.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+            } else {
+                _tableView.deselectRowAtIndexPath(indexPath, animated: false)
+            }
+            if appDelegate.windowState == DCWindowState.fullWindow || appDelegate.windowState == DCWindowState.twoThirdWindow {
+                [medicationCell?.updateCellSizeBeforeEditing()];
+            }
+        }
             medicationCell?.cellHeight = (medicationCell?.calculateHeightForCell())!
             medicationCell?.updateAdministerStatusViewsHeight()
             if (medicationCell?.inEditMode == true) {
@@ -173,17 +183,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             medicationCell?.typeDescriptionButton.backgroundColor = INACTIVE_BACKGROUND_COLOR
 
         }
-        if isEditMode {
-            
-            if (parentViewController.selectedMedicationListArray.containsObject(indexPath)) {
-                _tableView.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
-            } else {
-                _tableView.deselectRowAtIndexPath(indexPath, animated: false)
-            }
-            if appDelegate.windowState == DCWindowState.fullWindow || appDelegate.windowState == DCWindowState.twoThirdWindow {
-                [medicationCell?.updateCellSizeBeforeEditing()];
-            }
-        }
+        
             return medicationCell!
     }
     
@@ -195,6 +195,8 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
 
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let cell : PrescriberMedicationTableViewCell = tableView.cellForRowAtIndexPath(indexPath) as! PrescriberMedicationTableViewCell
+        cell.typeDescriptionButton.highlighted = false
         let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
         if parentViewController.selectedMedicationListArray.containsObject(indexPath) {
             parentViewController.selectedMedicationListArray.removeObject(indexPath)

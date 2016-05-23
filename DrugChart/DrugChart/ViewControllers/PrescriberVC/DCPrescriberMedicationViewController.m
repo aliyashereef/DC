@@ -939,7 +939,11 @@ typedef enum : NSUInteger {
         [self configureOneThirdSizeCalendarAfterEditing];
         prescriberMedicationListViewController = nil;
     }else{
-        [self configurePrescriberMedicationTableViewAfterEditing];
+        [self configurePrescriberMedicationTableViewAfterEditing:^{
+//            for (PrescriberMedicationTableViewCell *cell in prescriberMedicationListViewController.medicationTableView.visibleCells) {
+//                [cell.leftMedicationAdministerDetailsView setHidden:false];
+//            }
+        }];
         prescriberMedicationOneThirdSizeViewController = nil;
     }
     
@@ -997,9 +1001,11 @@ typedef enum : NSUInteger {
             //[cell updateCellSizeBeforeEditing];
             //cell.leadingSpaceMasterToContainerView.constant -= 38;
         }
-        [cell.leftMedicationAdministerDetailsView setHidden:true];
         [cell addEditActionOnTypeDescriptionButton];
         [cell removePanGestureFromMedicationDetailHolderView];
+        cell.leftMedicationAdministerDetailsView.hidden = true;
+        cell.editButtonHolderView.hidden = true;
+        cell.inEditMode = true;
     }
     
     [prescriberMedicationListViewController.medicationTableView setEditing:true animated:true];
@@ -1008,7 +1014,7 @@ typedef enum : NSUInteger {
 }
 
 //Function to configure the medication table view after editing
--(void)configurePrescriberMedicationTableViewAfterEditing{
+-(void)configurePrescriberMedicationTableViewAfterEditing:(void (^)(void))completionBlock{
     for (PrescriberMedicationTableViewCell *cell in prescriberMedicationListViewController.medicationTableView.visibleCells) {
         cell.selected = false;
         if (!windowSizeChanged) {
@@ -1016,14 +1022,17 @@ typedef enum : NSUInteger {
             //cell.leadingSpaceMasterToContainerView.constant =0;
         }
         cell.typeDescriptionButton.highlighted = false;
-        [cell.leftMedicationAdministerDetailsView setHidden:false];
+        //[cell.leftMedicationAdministerDetailsView setHidden:false];
         [cell addDefaultActionOnTypeDescriptionButton];
         [cell addPanGestureToMedicationDetailHolderView];
+        cell.editButtonHolderView.hidden = false;
+        cell.inEditMode = false;
     }
     [_selectedMedicationListArray removeAllObjects];
     prescriberMedicationListViewController.totalSelectedCellCount = 0;
     [prescriberMedicationListViewController.medicationTableView setEditing:false animated:true];
     prescriberMedicationListViewController.isEditMode = false;
+    completionBlock();
 }
 
 //Function to configure the one third calendar view before editing
@@ -1040,7 +1049,7 @@ typedef enum : NSUInteger {
     prescriberMedicationOneThirdSizeViewController.calendarStripCollectionView.scrollEnabled = false;
     [prescriberMedicationOneThirdSizeViewController.medicationTableView setEditing:true animated:true];
     prescriberMedicationOneThirdSizeViewController.isEditMode = true;
-    
+    [prescriberMedicationOneThirdSizeViewController.medicationTableView reloadData];
 }
 
 //Function to configure the one third calendar view after editing
