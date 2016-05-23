@@ -466,7 +466,7 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
                 administrationFailureViewController?.scrollTableViewToErrorField()
             }
         }
-        // For in progress fluid change restrted date is mandatory.
+        // For in progress fluid change restarted date is mandatory.
         let inProgressArray = [ENDED,STOPED_DUE_TO_PROBLEM,CONTINUED_AFTER_PROBLEM,FLUID_CHANGED,PAUSED]
         if inProgressArray.contains((medicationSlot?.medicationAdministration.status)!) {
             if (medicationSlot?.medicationAdministration.status)! == FLUID_CHANGED {
