@@ -789,7 +789,10 @@ typedef enum : NSUInteger {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         
         if ([criteriaString isEqualToString:INCLUDE_DISCONTINUED]) {
+            
+            editButton.enabled = discontinuedMedicationShown;//Only for temporary build
             discontinuedMedicationShown = !discontinuedMedicationShown;
+    
             if (discontinuedMedicationShown) {
                 sortType = kDiscontinued; // initially sort type should be "Discontinued"
             } else {
@@ -990,6 +993,7 @@ typedef enum : NSUInteger {
         PrescriberMedicationTableViewCell *selectedCell = [prescriberMedicationListViewController.medicationTableView cellForRowAtIndexPath:prescriberMedicationListViewController.selectedIndexPath];
         [selectedCell swipeMedicationDetailViewToRight];
     }
+
     for (PrescriberMedicationTableViewCell *cell in prescriberMedicationListViewController.medicationTableView.visibleCells) {
         if (!windowSizeChanged) {
             //[cell updateCellSizeBeforeEditing];
