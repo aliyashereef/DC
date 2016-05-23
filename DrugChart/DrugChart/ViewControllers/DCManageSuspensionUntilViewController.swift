@@ -43,7 +43,7 @@ class DCManageSuspensionUntilViewController: UIViewController, UITableViewDelega
 
     func configureInitialView() {
         
-        if manageSuspensionDetails?.manageSuspensionUntilType == MANUALLY_SUSPENDED {
+        if manageSuspensionDetails?.manageSuspensionUntilType == MANUALLY_UNSUSPENDED {
             selectedIndexPath = NSIndexPath(forRow: RowCount.eZerothRow.rawValue, inSection: SectionCount.eZerothSection.rawValue)
         } else if manageSuspensionDetails?.manageSuspensionUntilType == SPECIFIED_DATE{
             isSpecifiedDateSelected = true
@@ -139,7 +139,7 @@ class DCManageSuspensionUntilViewController: UIViewController, UITableViewDelega
         switch indexPath.section {
         case SectionCount.eZerothSection.rawValue:
             if indexPath.row == RowCount.eZerothRow.rawValue {
-                cell.titleLabel.text = MANUALLY_SUSPENDED
+                cell.titleLabel.text = MANUALLY_UNSUSPENDED
                 cell.detailLabel.text = EMPTY_STRING
             } else if indexPath.row == RowCount.eFirstRow.rawValue{
                 cell.titleLabel.text = SPECIFIED_DATE
@@ -217,7 +217,7 @@ class DCManageSuspensionUntilViewController: UIViewController, UITableViewDelega
             selectedIndexPath = indexPath
             manageSuspensionUntilTableView.reloadData()
             if indexPath.row == RowCount.eZerothRow.rawValue {
-                manageSuspensionDetails?.manageSuspensionUntilType = MANUALLY_SUSPENDED
+                manageSuspensionDetails?.manageSuspensionUntilType = MANUALLY_UNSUSPENDED
                 manageSuspensionUntilTableView.beginUpdates()
                 if isSpecifiedDoseSelected {
                     isSpecifiedDoseSelected = !isSpecifiedDoseSelected

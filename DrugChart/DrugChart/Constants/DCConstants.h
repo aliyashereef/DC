@@ -673,7 +673,7 @@
 //Manage Suspension
 #define SUSPEND_IMMEDIATELY @"Suspend Immediately"
 #define SUSPEND_FROM @"Suspend From"
-#define MANUALLY_SUSPENDED @"Manually Suspended"
+#define MANUALLY_UNSUSPENDED @"Manually Unsuspended"
 #define SPECIFIED_DATE @"Specified Date"
 #define SPECIFIED_DOSE @"Specified Doses"
 #define OTHER_TEXT @"Other"
