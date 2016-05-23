@@ -87,10 +87,11 @@ class DCPharmacistTableCell: UITableViewCell {
             self.pharmacistDetailsViewLeadingConstraint.constant = -actionButtonsTotalWidth
             self.pharmacistDetailsViewTrailingConstraint.constant = actionButtonsTotalWidth
         }
-        let tableView : UITableView = (self.superview?.superview as? UITableView)!
-        //donot allow tableviewcell show the underlying buttons in editing mode
-        if tableView.editing == true {
-            configurePharmacistButtonState(true)
+        if let tableView : UITableView = self.superview?.superview as? UITableView {
+            //donot allow tableviewcell show the underlying buttons in editing mode
+            if tableView.editing == true {
+                configurePharmacistButtonState(true)
+            }
         }
     }
     
