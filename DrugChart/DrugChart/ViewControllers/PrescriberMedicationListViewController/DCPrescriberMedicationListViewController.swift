@@ -148,6 +148,12 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         medicationCell?.prescriberMedicationListViewController = self
         self.fillInMedicationDetailsInTableCell(medicationCell!, atIndexPath: indexPath)
         if isEditMode {
+            medicationCell?.addEditActionOnTypeDescriptionButton()
+            medicationCell?.removePanGestureFromMedicationDetailHolderView()
+            medicationCell?.leftMedicationAdministerDetailsView.hidden = true
+            medicationCell?.editButtonHolderView.hidden = true
+            medicationCell?.inEditMode = true
+
             if (parentViewController.selectedMedicationListArray.containsObject(indexPath)) {
                 _tableView.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
             } else {
@@ -156,6 +162,13 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             if appDelegate.windowState == DCWindowState.fullWindow || appDelegate.windowState == DCWindowState.twoThirdWindow {
                 [medicationCell?.updateCellSizeBeforeEditing()];
             }
+        }else{
+            medicationCell?.addDefaultActionOnTypeDescriptionButton()
+            medicationCell?.addPanGestureToMedicationDetailHolderView()
+            medicationCell?.leftMedicationAdministerDetailsView.hidden = false
+            medicationCell?.editButtonHolderView.hidden = false
+            medicationCell?.inEditMode = false
+            medicationCell?.selected = false//No idea why
         }
         medicationCell?.cellHeight = (medicationCell?.calculateHeightForCell())!
         medicationCell?.updateAdministerStatusViewsHeight()
@@ -982,6 +995,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     //select all cell in table view
     func selectAllCellInMedicationTableView(){
         let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
+        parentViewController.selectedMedicationListArray.removeAllObjects()
         populateIndexPathsArray()
         medicationTableView?.reloadData()
         totalSelectedCellCount = parentViewController.selectedMedicationListArray.count
@@ -1013,6 +1027,26 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                 parentViewController.selectedMedicationListArray.addObject(indexPath)
             }
         }
+    }
+    
+    //to change table view to edit mode
+    func updateMedicationTableviewInEditMode(){
+        isEditMode = true
+        if let selectedPath:NSIndexPath = selectedIndexPath{
+            let selectedCell: PrescriberMedicationTableViewCell = medicationTableView?.cellForRowAtIndexPath(selectedPath) as! PrescriberMedicationTableViewCell
+            selectedCell.swipeMedicationDetailViewToRight()
+        }
+        medicationTableView!.setEditing(true, animated: true)
+        medicationTableView!.reloadData()
+    }
+    //to change table view to normal mode
+    func updateMedicationTableviewInDefaultMode(){
+        let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
+        parentViewController.selectedMedicationListArray.removeAllObjects()
+        totalSelectedCellCount = 0
+        isEditMode = false
+        medicationTableView!.setEditing(false, animated: true)
+        medicationTableView!.reloadData()
     }
 }
 

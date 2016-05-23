@@ -76,7 +76,6 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
         
         super.awakeFromNib()
         addPanGestureToMedicationDetailHolderView()
-        addPanGestureToMedicationDetailHolderView()
         // Administer status views are created here to make the views reusable for a table view cell
         createAdministerStatusViews()
     }

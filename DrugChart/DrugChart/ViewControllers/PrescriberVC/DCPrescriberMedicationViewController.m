@@ -184,9 +184,9 @@ typedef enum : NSUInteger {
             self.toolbar.items = @[reviewToolbarButton,toolbarButtonsArray[1],toolbarButtonsArray[3],suspensionToolbarButton];
             if ([DCAPPDELEGATE windowState] == halfWindow ||
                 [DCAPPDELEGATE windowState] == oneThirdWindow) {
-                [self configureOneThirdSizeCalendarForEditing];
+                [prescriberMedicationOneThirdSizeViewController updateMedicationTableviewInEditMode];
             }else{
-                [self configurePrescriberMedicationTableViewForEditing];
+                [prescriberMedicationListViewController updateMedicationTableviewInEditMode];
             }
         }else{
             [self addCustomTitleViewToNavigationBar];
@@ -271,9 +271,9 @@ typedef enum : NSUInteger {
                 self.toolbar.items = @[reviewToolbarButton,toolbarButtonsArray[1],toolbarButtonsArray[3],suspensionToolbarButton];
                 if ([DCAPPDELEGATE windowState] == halfWindow ||
                     [DCAPPDELEGATE windowState] == oneThirdWindow) {
-                    [self configureOneThirdSizeCalendarForEditing];
+                    [prescriberMedicationOneThirdSizeViewController updateMedicationTableviewInEditMode];
                 }else{
-                    [self configurePrescriberMedicationTableViewForEditing];
+                    [prescriberMedicationListViewController updateMedicationTableviewInEditMode];
                 }
             }else{
                 [self addCustomTitleViewToNavigationBar];
@@ -773,9 +773,9 @@ typedef enum : NSUInteger {
                                 }
                             }
                          }
-                        if (!discontinuedMedicationShown) {
+                        //if (!discontinuedMedicationShown) {
                             editButton.enabled = true;
-                        }
+                        //}
                         [self showActivityIndicationOnViewRefresh:false];
                         completion(true);
                     }];
@@ -804,7 +804,7 @@ typedef enum : NSUInteger {
         
         if ([criteriaString isEqualToString:INCLUDE_DISCONTINUED]) {
             
-            editButton.enabled = discontinuedMedicationShown;//Only for temporary build
+            //editButton.enabled = discontinuedMedicationShown;//Only for temporary build
             discontinuedMedicationShown = !discontinuedMedicationShown;
     
             if (discontinuedMedicationShown) {
@@ -930,9 +930,9 @@ typedef enum : NSUInteger {
     toolbarButtonsArray = [NSMutableArray arrayWithArray:self.toolbar.items];
     isEditMode = true;
     if ([DCAPPDELEGATE windowState] == halfWindow || [DCAPPDELEGATE windowState] == oneThirdWindow) {
-        [self configureOneThirdSizeCalendarForEditing];
+        [prescriberMedicationOneThirdSizeViewController updateMedicationTableviewInEditMode];
     }else{
-        [self configurePrescriberMedicationTableViewForEditing];
+        [prescriberMedicationListViewController updateMedicationTableviewInEditMode];
     }
     self.navigationItem.hidesBackButton = YES;
     [self addSelectAllMedicationButtonToNavigationBar];
@@ -953,10 +953,10 @@ typedef enum : NSUInteger {
     self.navigationItem.hidesBackButton = NO;
     isEditMode = false;
     if ([DCAPPDELEGATE windowState] == halfWindow || [DCAPPDELEGATE windowState] == oneThirdWindow) {
-        [self configureOneThirdSizeCalendarAfterEditing];
+        [prescriberMedicationOneThirdSizeViewController updateMedicationTableviewInDefaultMode];
         prescriberMedicationListViewController = nil;
     }else{
-        [self configurePrescriberMedicationTableViewAfterEditing];
+        [prescriberMedicationListViewController updateMedicationTableviewInDefaultMode];
     }
     [leftNavigationItemsArray removeAllObjects];
     [rightNavigationItemsArray removeAllObjects];
@@ -1000,87 +1000,6 @@ typedef enum : NSUInteger {
     pharmacistButton.userInteractionEnabled = NO;
 }
 
-
-//Function to configure the medication table view before editing
--(void)configurePrescriberMedicationTableViewForEditing{
-    if (prescriberMedicationListViewController.selectedIndexPath != nil) {
-        PrescriberMedicationTableViewCell *selectedCell = [prescriberMedicationListViewController.medicationTableView cellForRowAtIndexPath:prescriberMedicationListViewController.selectedIndexPath];
-        [selectedCell swipeMedicationDetailViewToRight];
-    }
-
-    for (PrescriberMedicationTableViewCell *cell in prescriberMedicationListViewController.medicationTableView.visibleCells) {
-        [cell addEditActionOnTypeDescriptionButton];
-        [cell removePanGestureFromMedicationDetailHolderView];
-        cell.leftMedicationAdministerDetailsView.hidden = true;
-        cell.editButtonHolderView.hidden = true;
-        cell.inEditMode = true;
-    }
-    
-    [prescriberMedicationListViewController.medicationTableView setEditing:true animated:true];
-    prescriberMedicationListViewController.isEditMode = true;
-    [prescriberMedicationListViewController.medicationTableView reloadData];
-}
-
-//Function to configure the medication table view after editing
--(void)configurePrescriberMedicationTableViewAfterEditing{
-    for (PrescriberMedicationTableViewCell *cell in prescriberMedicationListViewController.medicationTableView.visibleCells) {
-        cell.selected = false;
-        if (!windowSizeChanged) {
-            [cell updateCellSizeAfterEditing];
-        }
-        cell.typeDescriptionButton.highlighted = false;
-        [cell addDefaultActionOnTypeDescriptionButton];
-        [cell addPanGestureToMedicationDetailHolderView];
-        cell.editButtonHolderView.hidden = false;
-        cell.inEditMode = false;
-    }
-    [_selectedMedicationListArray removeAllObjects];
-    prescriberMedicationListViewController.totalSelectedCellCount = 0;
-    prescriberMedicationListViewController.isEditMode = false;
-    
-    [CATransaction begin];
-    [CATransaction setCompletionBlock:^{
-        for (PrescriberMedicationTableViewCell *cell in prescriberMedicationListViewController.medicationTableView.visibleCells) {
-            [cell.leftMedicationAdministerDetailsView setHidden:false];
-        }
-    }];
-    [prescriberMedicationListViewController.medicationTableView setEditing:false animated:true];
-    [CATransaction commit];
-}
-
-
-//Function to configure the one third calendar view before editing
--(void)configureOneThirdSizeCalendarForEditing{
-    if (prescriberMedicationOneThirdSizeViewController.selectedIndexPath != nil) {
-        DCOneThirdCalendarScreenMedicationCell *selectedCell = [prescriberMedicationOneThirdSizeViewController.medicationTableView cellForRowAtIndexPath:prescriberMedicationOneThirdSizeViewController.selectedIndexPath];
-        [selectedCell swipeMedicationDetailViewToRight];
-    }
-    
-    for (DCOneThirdCalendarScreenMedicationCell *cell in prescriberMedicationOneThirdSizeViewController.medicationTableView.visibleCells) {
-        [cell addEditActionOnSummaryButton];
-        [cell removePanGestureFromMedicationDetailHolderView];
-    }
-    prescriberMedicationOneThirdSizeViewController.calendarStripCollectionView.scrollEnabled = false;
-    [prescriberMedicationOneThirdSizeViewController.medicationTableView setEditing:true animated:true];
-    prescriberMedicationOneThirdSizeViewController.isEditMode = true;
-    [prescriberMedicationOneThirdSizeViewController.medicationTableView reloadData];
-}
-
-//Function to configure the one third calendar view after editing
--(void)configureOneThirdSizeCalendarAfterEditing{
-    for (DCOneThirdCalendarScreenMedicationCell *cell in prescriberMedicationOneThirdSizeViewController.medicationTableView.visibleCells) {
-        cell.selected = false;
-        cell.summaryButton.highlighted = false;
-        [cell addDefaultActionOnSummaryButton];
-        [cell addPanGestureToMedicationDetailHolderView];
-    }
-    [_selectedMedicationListArray removeAllObjects];
-    prescriberMedicationOneThirdSizeViewController.totalSelectedCellCount = 0;
-    prescriberMedicationOneThirdSizeViewController.calendarStripCollectionView.scrollEnabled = true;
-    [prescriberMedicationOneThirdSizeViewController.medicationTableView setEditing:false animated:true];
-    prescriberMedicationOneThirdSizeViewController.isEditMode = false;
-    [prescriberMedicationOneThirdSizeViewController.medicationTableView reloadData];
-}
 
 - (void)addAlertsAndAllergyBarButtonToNavigationBar {
     
@@ -1261,11 +1180,11 @@ typedef enum : NSUInteger {
     [actionSheet addAction:[UIAlertAction actionWithTitle:VITAL_SIGNS style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [self vitalSignsButtonPressed:nil];
     }]];
-    if (!discontinuedMedicationShown) {
+    //if (!discontinuedMedicationShown) {
         [actionSheet addAction:[UIAlertAction actionWithTitle:@"Edit" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self editMedicationButtonPressedOnDruggChart:nil];
         }]];
-    }
+    //}
     // Present action sheet.
     
     [self presentViewController:actionSheet animated:YES completion:nil];
