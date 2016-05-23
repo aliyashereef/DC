@@ -139,7 +139,7 @@ class DCManageSuspensionViewController: DCBaseViewController, UITableViewDataSou
                 }
                 if medicationDetails?.manageSuspension.manageSuspensionUntilType == nil || medicationDetails?.manageSuspension.manageSuspensionUntilType == EMPTY_STRING {
                     cell.detailLabel.text = EMPTY_STRING
-                } else if medicationDetails?.manageSuspension.manageSuspensionUntilType == MANUALLY_SUSPENDED {
+                } else if medicationDetails?.manageSuspension.manageSuspensionUntilType == MANUALLY_UNSUSPENDED {
                     cell.detailLabel.text = medicationDetails?.manageSuspension.manageSuspensionUntilType
                 } else if medicationDetails?.manageSuspension.manageSuspensionUntilType == SPECIFIED_DATE {
                     if medicationDetails!.manageSuspension.specifiedUntilDate != nil {
@@ -169,7 +169,10 @@ class DCManageSuspensionViewController: DCBaseViewController, UITableViewDataSou
             let cell = manageSuspensionTableview.dequeueReusableCellWithIdentifier(REASON_RESOLVE_TEXTVIEW_CELL) as? DCInterventionAddResolveTextViewCell
             cell!.placeHolderString = NOTES
             cell?.initializeTextView()
-            if self.validateManageSuspensionReason() && medicationDetails?.manageSuspension.reason == OTHER_TEXT {
+            if medicationDetails?.manageSuspension.notes != nil && medicationDetails?.manageSuspension.notes != EMPTY_STRING {
+                cell?.reasonOrResolveTextView.text = medicationDetails?.manageSuspension.notes
+            }
+            if self.validateManageSuspensionReason() && medicationDetails?.manageSuspension.reason == OTHER_TEXT && ( medicationDetails?.manageSuspension.notes == nil || medicationDetails?.manageSuspension.notes == EMPTY_STRING ){
                 cell?.reasonOrResolveTextView.textColor = UIColor.redColor()
             }
             cell?.textViewUpdated = { value in
@@ -335,7 +338,7 @@ class DCManageSuspensionViewController: DCBaseViewController, UITableViewDataSou
         if appDelegate.windowState == DCWindowState.oneThirdWindow || appDelegate.windowState == DCWindowState.halfWindow {
             self.manageSuspensionTableview.contentOffset = CGPoint(x: zeroInt, y: Int(-TEXT_VIEW_CELL_HEIGHT + 50));
         } else {
-            self.manageSuspensionTableview.contentOffset = CGPoint(x: zeroInt, y: Int(-tableviewContentOffset));
+            self.manageSuspensionTableview.contentOffset = CGPoint(x: zeroInt, y: Int(-36));
         }
     }
 }
