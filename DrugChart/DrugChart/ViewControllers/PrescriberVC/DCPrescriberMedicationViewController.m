@@ -171,7 +171,6 @@ typedef enum : NSUInteger {
 }
 
 - (void)viewDidLayoutSubviews {
-    
     [super viewDidLayoutSubviews];
     [self configureCurrentWindowCalendarWidth];
     if (windowSizeChanged ) {
@@ -265,7 +264,20 @@ typedef enum : NSUInteger {
             [self prescriberCalendarChildViewControllerBasedOnWindowState];
             [self configureDateArrayForOneThirdCalendarScreen];
             [self setCurrentScreenOrientation];
-            [self addCustomTitleViewToNavigationBar];
+            if (isEditMode) {
+                [self addCustomTitleViewToNavigationBarInEditMode];
+                [self addReviewButtonToToolBar];
+                [self addSuspensionButtonToToolBar];
+                self.toolbar.items = @[reviewToolbarButton,toolbarButtonsArray[1],toolbarButtonsArray[3],suspensionToolbarButton];
+                if ([DCAPPDELEGATE windowState] == halfWindow ||
+                    [DCAPPDELEGATE windowState] == oneThirdWindow) {
+                    [self configureOneThirdSizeCalendarForEditing];
+                }else{
+                    [self configurePrescriberMedicationTableViewForEditing];
+                }
+            }else{
+                [self addCustomTitleViewToNavigationBar];
+            }
             windowSizeChanged = NO;
         }
     }
@@ -790,7 +802,7 @@ typedef enum : NSUInteger {
         
         if ([criteriaString isEqualToString:INCLUDE_DISCONTINUED]) {
             
-            editButton.enabled = discontinuedMedicationShown;//Only for temporary build
+            //editButton.enabled = discontinuedMedicationShown;//Only for temporary build
             discontinuedMedicationShown = !discontinuedMedicationShown;
     
             if (discontinuedMedicationShown) {
@@ -995,10 +1007,6 @@ typedef enum : NSUInteger {
     }
 
     for (PrescriberMedicationTableViewCell *cell in prescriberMedicationListViewController.medicationTableView.visibleCells) {
-        if (!windowSizeChanged) {
-            //[cell updateCellSizeBeforeEditing];
-            //cell.leadingSpaceMasterToContainerView.constant -= 38;
-        }
         [cell addEditActionOnTypeDescriptionButton];
         [cell removePanGestureFromMedicationDetailHolderView];
         cell.leftMedicationAdministerDetailsView.hidden = true;
@@ -1017,7 +1025,6 @@ typedef enum : NSUInteger {
         cell.selected = false;
         if (!windowSizeChanged) {
             [cell updateCellSizeAfterEditing];
-            //cell.leadingSpaceMasterToContainerView.constant =0;
         }
         cell.typeDescriptionButton.highlighted = false;
         [cell addDefaultActionOnTypeDescriptionButton];

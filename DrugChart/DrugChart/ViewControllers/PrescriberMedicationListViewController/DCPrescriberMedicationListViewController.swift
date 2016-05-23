@@ -130,23 +130,23 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     }
     
     func tableView(_tableView: UITableView,
-        cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-            
-            var medicationCell = _tableView.dequeueReusableCellWithIdentifier(CELL_IDENTIFIER) as? PrescriberMedicationTableViewCell
-            if medicationCell == nil {
-                medicationCell = PrescriberMedicationTableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: CELL_IDENTIFIER)
-            }
-            self.resetStatusViewsIfNeededInTableViewCell(medicationCell!)
-            let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
-            //medication administration slots have to be made constant width , medication details flexible width
-            let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
-            medicationCell?.medicationDetailHolderViewWidthConstraint.constant = DCUtility.mainWindowSize().width - parentViewController.calendarViewWidth
-            medicationCell?.calendarWidth = parentViewController.calendarViewWidth
-            medicationCell?.editAndDeleteDelegate = self
-            medicationCell?.indexPath = indexPath
-            medicationCell?.isMedicationActive = medicationScheduleDetails.isActive
-            medicationCell?.prescriberMedicationListViewController = self
-            self.fillInMedicationDetailsInTableCell(medicationCell!, atIndexPath: indexPath)
+                   cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        var medicationCell = _tableView.dequeueReusableCellWithIdentifier(CELL_IDENTIFIER) as? PrescriberMedicationTableViewCell
+        if medicationCell == nil {
+            medicationCell = PrescriberMedicationTableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: CELL_IDENTIFIER)
+        }
+        self.resetStatusViewsIfNeededInTableViewCell(medicationCell!)
+        let medicationScheduleDetails: DCMedicationScheduleDetails = displayMedicationListArray.objectAtIndex(indexPath.item) as! DCMedicationScheduleDetails
+        //medication administration slots have to be made constant width , medication details flexible width
+        let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
+        medicationCell?.medicationDetailHolderViewWidthConstraint.constant = DCUtility.mainWindowSize().width - parentViewController.calendarViewWidth
+        medicationCell?.calendarWidth = parentViewController.calendarViewWidth
+        medicationCell?.editAndDeleteDelegate = self
+        medicationCell?.indexPath = indexPath
+        medicationCell?.isMedicationActive = medicationScheduleDetails.isActive
+        medicationCell?.prescriberMedicationListViewController = self
+        self.fillInMedicationDetailsInTableCell(medicationCell!, atIndexPath: indexPath)
         if isEditMode {
             if (parentViewController.selectedMedicationListArray.containsObject(indexPath)) {
                 _tableView.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
@@ -157,23 +157,23 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                 [medicationCell?.updateCellSizeBeforeEditing()];
             }
         }
-            medicationCell?.cellHeight = (medicationCell?.calculateHeightForCell())!
-            medicationCell?.updateAdministerStatusViewsHeight()
-            if (medicationCell?.inEditMode == true) {
-                UIView.animateWithDuration(0.05, animations: { () -> Void in
-                    medicationCell!.medicationViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET;
-                })
-            }
-            let rowDisplayMedicationSlotsArray = self.prepareMedicationSlotsForDisplayInCellFromScheduleDetails(medicationScheduleDetails)
-            var index = 0
-            let noOfSlots = rowDisplayMedicationSlotsArray.count
-            for _ in 0..<noOfSlots {
-                self.configureMedicationCell(medicationCell!,
-                    withMedicationSlotsArray: rowDisplayMedicationSlotsArray,
-                    atIndexPath: indexPath,
-                    andSlotIndex: index)
-                index += 1
-            }
+        medicationCell?.cellHeight = (medicationCell?.calculateHeightForCell())!
+        medicationCell?.updateAdministerStatusViewsHeight()
+        if (medicationCell?.inEditMode == true) {
+            UIView.animateWithDuration(0.05, animations: { () -> Void in
+                medicationCell!.medicationViewLeadingConstraint.constant = MEDICATION_VIEW_INITIAL_LEFT_OFFSET;
+            })
+        }
+        let rowDisplayMedicationSlotsArray = self.prepareMedicationSlotsForDisplayInCellFromScheduleDetails(medicationScheduleDetails)
+        var index = 0
+        let noOfSlots = rowDisplayMedicationSlotsArray.count
+        for _ in 0..<noOfSlots {
+            self.configureMedicationCell(medicationCell!,
+                                         withMedicationSlotsArray: rowDisplayMedicationSlotsArray,
+                                         atIndexPath: indexPath,
+                                         andSlotIndex: index)
+            index += 1
+        }
         
         if medicationScheduleDetails.isActive {
             medicationCell?.medicineDetailHolderView.backgroundColor = UIColor.whiteColor()
@@ -181,10 +181,10 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         } else {
             medicationCell?.medicineDetailHolderView.backgroundColor = INACTIVE_BACKGROUND_COLOR
             medicationCell?.typeDescriptionButton.backgroundColor = INACTIVE_BACKGROUND_COLOR
-
+            
         }
         
-            return medicationCell!
+        return medicationCell!
     }
     
     func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
