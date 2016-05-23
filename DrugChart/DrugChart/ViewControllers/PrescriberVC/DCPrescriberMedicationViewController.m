@@ -939,14 +939,8 @@ typedef enum : NSUInteger {
         [self configureOneThirdSizeCalendarAfterEditing];
         prescriberMedicationListViewController = nil;
     }else{
-        [self configurePrescriberMedicationTableViewAfterEditing:^{
-//            for (PrescriberMedicationTableViewCell *cell in prescriberMedicationListViewController.medicationTableView.visibleCells) {
-//                [cell.leftMedicationAdministerDetailsView setHidden:false];
-//            }
-        }];
-        prescriberMedicationOneThirdSizeViewController = nil;
+        [self configurePrescriberMedicationTableViewAfterEditing];
     }
-    
     [leftNavigationItemsArray removeAllObjects];
     [rightNavigationItemsArray removeAllObjects];
     [toolbarButtonsArray removeAllObjects];
@@ -1014,7 +1008,7 @@ typedef enum : NSUInteger {
 }
 
 //Function to configure the medication table view after editing
--(void)configurePrescriberMedicationTableViewAfterEditing:(void (^)(void))completionBlock{
+-(void)configurePrescriberMedicationTableViewAfterEditing{
     for (PrescriberMedicationTableViewCell *cell in prescriberMedicationListViewController.medicationTableView.visibleCells) {
         cell.selected = false;
         if (!windowSizeChanged) {
@@ -1022,7 +1016,6 @@ typedef enum : NSUInteger {
             //cell.leadingSpaceMasterToContainerView.constant =0;
         }
         cell.typeDescriptionButton.highlighted = false;
-        //[cell.leftMedicationAdministerDetailsView setHidden:false];
         [cell addDefaultActionOnTypeDescriptionButton];
         [cell addPanGestureToMedicationDetailHolderView];
         cell.editButtonHolderView.hidden = false;
@@ -1030,10 +1023,18 @@ typedef enum : NSUInteger {
     }
     [_selectedMedicationListArray removeAllObjects];
     prescriberMedicationListViewController.totalSelectedCellCount = 0;
-    [prescriberMedicationListViewController.medicationTableView setEditing:false animated:true];
     prescriberMedicationListViewController.isEditMode = false;
-    completionBlock();
+    
+    [CATransaction begin];
+    [CATransaction setCompletionBlock:^{
+        for (PrescriberMedicationTableViewCell *cell in prescriberMedicationListViewController.medicationTableView.visibleCells) {
+            [cell.leftMedicationAdministerDetailsView setHidden:false];
+        }
+    }];
+    [prescriberMedicationListViewController.medicationTableView setEditing:false animated:true];
+    [CATransaction commit];
 }
+
 
 //Function to configure the one third calendar view before editing
 -(void)configureOneThirdSizeCalendarForEditing{
