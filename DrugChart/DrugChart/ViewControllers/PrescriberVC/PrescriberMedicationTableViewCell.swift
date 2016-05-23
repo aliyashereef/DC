@@ -83,7 +83,11 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
 
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        self.selectedBackgroundView = UIView()
+        if inEditMode {
+            self.selectedBackgroundView = UIView()
+            masterMedicationAdministerDetailsView.backgroundColor = UIColor(forHexString: "#ebebeb")
+            self.addColorToSubviewOnCellSelectedState()
+        }
         // Configure the view for the selected state
     }
     
@@ -96,6 +100,26 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     
     // This function should be called when there is a change in the number of weekdays displayed.
     // Removes the previously added status views.
+    
+    func addColorToSubviewOnCellSelectedState(){
+        for view in masterMedicationAdministerDetailsView.subviews{
+            if view.isKindOfClass(DCMedicationAdministrationStatusView) {
+                let tempView: DCMedicationAdministrationStatusView = view as! DCMedicationAdministrationStatusView
+                let currentSystemDate : NSDate = NSDate()//DCDateUtility.dateInCurrentTimeZone(NSDate())
+                let currentDateString = DCDateUtility.dateStringFromDate(currentSystemDate, inFormat: SHORT_DATE_FORMAT)
+                let weekDateString = DCDateUtility.dateStringFromDate(tempView.weekDate, inFormat: SHORT_DATE_FORMAT)
+                if let tempWeekDateString = weekDateString{
+                    if currentDateString == tempWeekDateString {
+                        tempView.backgroundColor = CURRENT_DAY_BACKGROUND_COLOR
+                    } else {
+                        tempView.backgroundColor = UIColor.whiteColor()
+                    }
+                }
+            }
+        }
+        	
+    }
+    
     func removeAllStatusViews() {
         let noOfSubviews = masterMedicationAdministerDetailsView.subviews.count
         
