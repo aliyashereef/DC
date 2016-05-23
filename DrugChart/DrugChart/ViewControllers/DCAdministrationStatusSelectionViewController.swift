@@ -71,6 +71,7 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
     var administrationSuccessViewController : DCAdministrationSuccessViewController?
     var administrationFailureViewController : DCAdministrationFailureViewController?
     var administrationInProgressViewController : DCAdministrationInProgressViewController?
+    
     //MARK: View Management Methods
     //MARK:
     override func viewDidLoad() {
@@ -79,8 +80,6 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
         self.saveButton?.enabled = false
         super.viewDidLoad()
     }
-    // MARK: Private Methods
-    //MARK:
     
     override func viewDidLayoutSubviews() {
         self.administerContainerView.layoutIfNeeded()
@@ -92,6 +91,9 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
         administrationInProgressViewController?.view.layoutIfNeeded()
         super.viewDidLayoutSubviews()
     }
+    
+    // MARK: Private Methods
+    //MARK:
     
     func configureTableViewProperties () {
         self.administerStatusSelectionTableView.rowHeight = UITableViewAutomaticDimension
@@ -124,7 +126,6 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
         }
         let slotDate = DCDateUtility.dateStringFromDate(medicationSlot!.time, inFormat: TWENTYFOUR_HOUR_FORMAT)
         self.title = "\(dateString), \(slotDate)"
-        // Navigation bar done button
         // Navigation bar done button
         saveButton = UIBarButtonItem(title: SAVE_BUTTON_TITLE, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(DCAdministrationStatusSelectionViewController.saveButtonPressed))
         cancelButton = UIBarButtonItem(title: CANCEL_BUTTON_TITLE, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(DCAdministrationStatusSelectionViewController.cancelButtonPressed))

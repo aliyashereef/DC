@@ -68,10 +68,12 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
     func configureMedicationStatusInCell (medication : DCMedicationSlot) -> NSString {
         
         let currentSystemDate : NSDate = NSDate()
+        // If the medication status is STARTED, then we have to show it as IN_PROGRESS medication.
         let currentDateString : NSString? = DCDateUtility.dateStringFromDate(currentSystemDate, inFormat: SHORT_DATE_FORMAT)
         if medication.medicationAdministration?.status == STARTED {
             return IN_PROGRESS
         }
+        // If the medication administration is over, then it will be having value for status and actual administration time. Then we will show the administration status. Since the REFUSED status is not used, we will show it as NOT ADMINISTRATED.
         if (medication.medicationAdministration?.status != nil && medication.medicationAdministration.actualAdministrationTime != nil){
             if medication.medicationAdministration?.status == REFUSED {
                 return NOT_ADMINISTRATED
@@ -216,6 +218,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         } else {
             
             let cell = administerTableView.cellForRowAtIndexPath(indexPath) as? DCAdministrationStatusCell
+            // We dont have to do any action if the medication is pending.
             if cell?.administrationStatusLabel.text != PENDING {
                 let medicationSlot : DCMedicationSlot = medicationSlotsArray[indexPath.row]
                 if (cell?.administrationStatusLabel.text == ADMINISTER_MEDICATION || cell?.administrationStatusLabel.text == "In progress") {
@@ -280,7 +283,6 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
                 administerStatusViewController?.medicationSlotsArray = (medicationDetails?.medicineCategory == WHEN_REQUIRED) ? medicationSlotsArray : medicationArray
             }
             administerStatusViewController?.medicationDetails = medicationDetails
-//            administerStatusViewController?.alertMessage = errorMessage
         let navigationController : UINavigationController = UINavigationController(rootViewController: administerStatusViewController!)
         navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
         self.presentViewController(navigationController, animated: true, completion:nil)
