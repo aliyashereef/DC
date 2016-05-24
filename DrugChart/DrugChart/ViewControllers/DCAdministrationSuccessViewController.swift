@@ -135,7 +135,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         let administerCell : DCAdministerCell = (administerSuccessTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
         administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         administerCell.detailLabelTrailingSpace.constant = zeroFloat
-        administerCell.titleLabel.text = STATUS
+        administerCell.titleLabel.text = OUTCOME
         if (medicationSlot?.status != nil) {
             administerCell.detailLabel.text = medicationSlot?.status
             medicationSlot?.medicationAdministration?.status = medicationSlot?.status
@@ -160,6 +160,11 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         return administerCell
     }
     
+    func statusReasonIsEmpty() -> Bool {
+        
+        return (medicationSlot?.medicationAdministration?.statusReason == nil || medicationSlot?.medicationAdministration?.statusReason == EMPTY_STRING )
+    }
+    
     // Administation reason Cell
     func administrationReasonTableCellAtIndexPath(indexPath : NSIndexPath) -> (DCAdministerCell) {
         
@@ -167,7 +172,10 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         administerCell.titleLabel.text = REASON
         administerCell.detailLabelTrailingSpace.constant = zeroFloat
-        administerCell.titleLabel.textColor = !isValid! && (medicationSlot?.medicationAdministration?.statusReason == nil || medicationSlot?.medicationAdministration?.statusReason == EMPTY_STRING ) ? UIColor.redColor() : UIColor.blackColor()
+        if self.statusReasonIsEmpty() {
+            medicationSlot?.medicationAdministration?.statusReason = NSLocalizedString("NURSE_ADMINISTERED", comment: "")
+        }
+        administerCell.titleLabel.textColor = !isValid! && self.statusReasonIsEmpty() ? UIColor.redColor() : UIColor.blackColor()
         administerCell.detailLabel?.text = medicationSlot?.medicationAdministration?.statusReason
         return administerCell
     }

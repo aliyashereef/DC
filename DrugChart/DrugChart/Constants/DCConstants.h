@@ -574,6 +574,7 @@
 
 // Administration History Label texts
 #define STATUS @"Status"
+#define OUTCOME @"Outcome"
 #define DOSE @"Dose"
 #define STATUS_CHANGE @"Status Change"
 #define ADMINISTRATED_BY @"Administered By"
@@ -581,6 +582,7 @@
 #define CHECKED_BY @"Checked By"
 #define BATCHNO_EXPIRY @"Batch No/Expiry Date"
 #define NOTES @"Notes"
+#define OVERRIDE_ADMINISTRATION @"Override Administration"
 #define MORE_BUTTON_PRESSED @"moreButtonPressed:"
 #define DUMMY_TEXT "Lorem Ipsum is simply dummy text of the printing and types etting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
 #define DATE @"Date"

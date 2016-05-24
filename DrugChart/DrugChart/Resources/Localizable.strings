@@ -140,6 +140,8 @@
 "CHECKED_BY"            =       "Checked by";
 "BATCH_OR_EXPIRY_TEXT"  =       "Batch No/Expiry Date";
 "NOTES"                 =       "Notes";
+"NURSE_ADMINISTERED"    =       "Nurse Administered";
+"PATIENT_REFUSED"       =       "Patient Refused";
 
 //
 
