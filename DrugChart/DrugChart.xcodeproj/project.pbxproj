@@ -178,6 +178,7 @@
 		0BF2DA561ACAB12700B3ED97 /* DCErrorPopOverBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF2DA551ACAB12700B3ED97 /* DCErrorPopOverBackgroundView.m */; };
 		0BF3890F1AA46746006792DE /* DCPatient.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF3890E1AA46746006792DE /* DCPatient.m */; };
 		0BF389151AA468C6006792DE /* DCUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF389141AA468C6006792DE /* DCUtility.m */; };
+		0BFFE6EE1CF43145003E33E3 /* DCMedicationStoppage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BFFE6ED1CF43145003E33E3 /* DCMedicationStoppage.m */; };
 		1F0A9C051C469303007ACFDA /* OneThirdScreenTabularView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0A9C041C469303007ACFDA /* OneThirdScreenTabularView.swift */; };
 		1F0A9C0A1C47CDE7007ACFDA /* OneThirdContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0A9C081C47CDE7007ACFDA /* OneThirdContentCell.swift */; };
 		1F0A9C0B1C47CDE7007ACFDA /* OneThirdContentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F0A9C091C47CDE7007ACFDA /* OneThirdContentCell.xib */; };
@@ -731,6 +732,8 @@
 		0BF3890E1AA46746006792DE /* DCPatient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DCPatient.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0BF389131AA468C6006792DE /* DCUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DCUtility.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		0BF389141AA468C6006792DE /* DCUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DCUtility.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		0BFFE6EC1CF43145003E33E3 /* DCMedicationStoppage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DCMedicationStoppage.h; path = MedicationStoppage/DCMedicationStoppage.h; sourceTree = "<group>"; };
+		0BFFE6ED1CF43145003E33E3 /* DCMedicationStoppage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DCMedicationStoppage.m; path = MedicationStoppage/DCMedicationStoppage.m; sourceTree = "<group>"; };
 		1F0A9C041C469303007ACFDA /* OneThirdScreenTabularView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OneThirdScreenTabularView.swift; sourceTree = "<group>"; };
 		1F0A9C081C47CDE7007ACFDA /* OneThirdContentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OneThirdContentCell.swift; sourceTree = "<group>"; };
 		1F0A9C091C47CDE7007ACFDA /* OneThirdContentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OneThirdContentCell.xib; sourceTree = "<group>"; };
@@ -1999,6 +2002,7 @@
 		0BBC8F891AA457280085ABAB /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				0BFFE6EB1CF43123003E33E3 /* MedicationStoppage */,
 				2473C9931CE34E1D00074F32 /* ManageSuspension */,
 				4D19C5491CCF280A001CB5A6 /* MedicationInActiveDetails */,
 				1FD4FCAD1BF4B60E00B77B94 /* VitalSign */,
@@ -2618,6 +2622,15 @@
 				7D3234BB1AF132250020CC8F /* DCPopOverContentSizeUtility.m */,
 			);
 			path = Utility;
+			sourceTree = "<group>";
+		};
+		0BFFE6EB1CF43123003E33E3 /* MedicationStoppage */ = {
+			isa = PBXGroup;
+			children = (
+				0BFFE6EC1CF43145003E33E3 /* DCMedicationStoppage.h */,
+				0BFFE6ED1CF43145003E33E3 /* DCMedicationStoppage.m */,
+			);
+			name = MedicationStoppage;
 			sourceTree = "<group>";
 		};
 		0C7027CCB29AEEF0121CD3A5 /* Frameworks */ = {
@@ -4035,6 +4048,7 @@
 				0BB32CE31CAA546800061E02 /* DCPharmacistViewController.swift in Sources */,
 				FDDEE1AB1C4D01B200F02F4B /* UIView+UIAppearence_Swift.m in Sources */,
 				FDF29CA81C8EE333003C3100 /* DCMedicationSummaryDisplayTableViewCell.swift in Sources */,
+				0BFFE6EE1CF43145003E33E3 /* DCMedicationStoppage.m in Sources */,
 				2431F2571CD0982300D727C1 /* DCOneThirdScreenPharmacistActionsTableViewCell.swift in Sources */,
 				1FD4FCB91BF4B6B700B77B94 /* Pulse.swift in Sources */,
 				2460F6351CE4A1960013E91B /* DCManageSuspensionReasonTableViewCell.swift in Sources */,

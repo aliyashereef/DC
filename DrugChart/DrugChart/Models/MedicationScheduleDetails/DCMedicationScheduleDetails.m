@@ -8,6 +8,7 @@
 
 #import "DCMedicationScheduleDetails.h"
 #import "DCMedicationSlot.h"
+#import "DCMedicationStoppage.h"
 
 #define MED_DATE @"medDate"
 #define MED_DETAILS @"medDetails"
@@ -28,7 +29,8 @@
 #define ROUTE @"route"
 #define SCHEDULE_ID @"identifier"
 #define NEXT_DRUG_TIME @"nextDrugDateTime"
-
+#define STOPPAGE @"stoppage"
+#define USER @"user"
 
 
 @implementation DCMedicationScheduleDetails
@@ -81,6 +83,15 @@
       
         if ([schedulesDictionary valueForKey:DRUG_SCHEDULE_TIMES]) {
             self.scheduleTimesArray = [schedulesDictionary valueForKey:DRUG_SCHEDULE_TIMES];
+        }
+    }
+    if ([medicationDictionary valueForKey:STOPPAGE]) {
+        NSDictionary *stoppageDictionary = [medicationDictionary valueForKey:STOPPAGE];
+        self.stoppage = [[DCMedicationStoppage alloc] init];
+        self.stoppage.time = [stoppageDictionary valueForKey:TIME_KEY];
+        if ([stoppageDictionary valueForKey:USER]) {
+            NSDictionary *userDictionary = [stoppageDictionary valueForKey:USER];
+            self.stoppage.stoppedBy = [[DCUser alloc] initWithUserDetails:userDictionary];
         }
     }
     return self;
