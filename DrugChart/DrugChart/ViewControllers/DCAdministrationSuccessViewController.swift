@@ -333,8 +333,8 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
             // hide the old date picker and display the new one
             let rowToReveal : NSInteger = (before ? indexPath.row - 1 : indexPath.row)
             let indexPathToReveal : NSIndexPath = NSIndexPath(forRow: rowToReveal, inSection: 1)
-            scrollToDatePickerAtIndexPath(indexPath)
             toggleDatePickerForSelectedIndexPath(indexPath)
+            scrollToDatePickerAtIndexPath(indexPath)
             datePickerIndexPath = NSIndexPath(forRow: indexPathToReveal.row + 1, inSection: indexPathToReveal.section)
 
         }
