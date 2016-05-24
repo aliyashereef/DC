@@ -115,6 +115,7 @@ typedef enum : NSUInteger {
     _centerDisplayDate = [[NSDate alloc] init];
     appDelegate = [[UIApplication sharedApplication] delegate];
     _selectedMedicationListArray = [[NSMutableArray alloc]init];
+    _isSelectedAll = false;
     return self;
 }
 
@@ -204,9 +205,14 @@ typedef enum : NSUInteger {
     if (previousWindowState != appDelegate.windowState) {
         if (isEditMode) {
             self.navigationItem.hidesBackButton = YES;
-            [self addSelectAllMedicationButtonToNavigationBar];
+            if (_isSelectedAll) {
+                [self addDeSelectAllMedicationButtonToNavigationBar];
+                self.navigationItem.leftBarButtonItems = @[deselectAll];
+            }else{
+                [self addSelectAllMedicationButtonToNavigationBar];
+                self.navigationItem.leftBarButtonItems = @[selectAll];
+            }
             [self addCancelEditMedicationButtonToNavigationBar];
-            self.navigationItem.leftBarButtonItems = @[selectAll];
             self.navigationItem.rightBarButtonItems = @[cancelEditButton];
         }else{
             if ((previousWindowState == fullWindow || previousWindowState == twoThirdWindow) && (appDelegate.windowState == oneThirdWindow || appDelegate.windowState == halfWindow)) {
@@ -993,7 +999,7 @@ typedef enum : NSUInteger {
     alertsPopOverController.permittedArrowDirections = UIPopoverArrowDirectionAny;
     if ([DCAPPDELEGATE windowState] == twoThirdWindow ||
         [DCAPPDELEGATE windowState] == fullWindow) {
-        UIBarButtonItem *barbuttonItem = self.navigationItem.rightBarButtonItems[1];
+        UIBarButtonItem *barbuttonItem = self.navigationItem.rightBarButtonItems[2];
         alertsPopOverController.barButtonItem = barbuttonItem;
     }
     [self presentViewController:navigationController animated:YES completion:nil];

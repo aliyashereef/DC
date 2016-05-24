@@ -250,8 +250,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         }
         if isEditMode {
             
-            cell!.addEditActionOnSummaryButton()
-            cell!.removePanGestureFromMedicationDetailHolderView()
+            cell!.updateCellInEditMode()
             
             let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
             if (parentViewController.selectedMedicationListArray.containsObject(indexPath)) {
@@ -259,12 +258,12 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
             } else {
                 tableView.deselectRowAtIndexPath(indexPath, animated: false)
             }
+            if !medicationScheduleDetails.isActive{
+                cell?.backgroundColor = INACTIVE_BACKGROUND_COLOR
+            }
             
         }else{
-            cell!.selected = false
-            cell!.summaryButton.highlighted = false
-            cell!.addDefaultActionOnSummaryButton()
-            cell!.addPanGestureToMedicationDetailHolderView()
+            cell!.updateCellInNormalMode()
         }
         cell!.showActionButtons(false)
         cell!.layoutMargins = UIEdgeInsetsZero
@@ -841,6 +840,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
         parentViewController.selectedMedicationListArray.removeAllObjects()
         populateIndexPathsArray()
+        parentViewController.isSelectedAll = true
         medicationTableView?.reloadData()
         totalSelectedCellCount = parentViewController.selectedMedicationListArray.count
         if let delegate = self.delegate {
@@ -852,6 +852,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     func deselectAllCellMedicationTableView(){
         let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
         parentViewController.selectedMedicationListArray.removeAllObjects()
+        parentViewController.isSelectedAll = false
         medicationTableView?.reloadData()
         totalSelectedCellCount = 0
         if let delegate = self.delegate {
@@ -876,8 +877,9 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     func updateMedicationTableviewInEditMode(){
         isEditMode = true
         if let selectedPath:NSIndexPath = selectedIndexPath{
-            let selectedCell: DCOneThirdCalendarScreenMedicationCell = medicationTableView?.cellForRowAtIndexPath(selectedPath) as! DCOneThirdCalendarScreenMedicationCell
-            selectedCell.swipeMedicationDetailViewToRight()
+            if let selectedCell: DCOneThirdCalendarScreenMedicationCell = medicationTableView?.cellForRowAtIndexPath(selectedPath) as? DCOneThirdCalendarScreenMedicationCell {
+                selectedCell.swipeMedicationDetailViewToRight()
+            }
         }
         calendarStripCollectionView.scrollEnabled = false
         medicationTableView!.setEditing(true, animated: true)
