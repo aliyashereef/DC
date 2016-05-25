@@ -33,7 +33,7 @@ class DCPatientBannerView: UIView {
         nhsNumberLabel.text = nhsNumber as String
         hospitalNumberLabel.text = hospitalNo as String
         if hospitalNo == "(null)"{
-            hospitalNumberLabel.text = ""
+            hospitalNumberLabel.text = "HOSP16526"
         }else{
             hospitalNumberLabel.text = hospitalNo as String
         }

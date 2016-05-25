@@ -14,7 +14,7 @@ class DCPatientDetailsViewController: UIViewController,UITableViewDelegate, UITa
     let HEADER_HEIGHT : CGFloat = 32.0
     let ADDRESS_CELL_HEIGHT : CGFloat = 112.0
     let PHONE_EMAIL_CELL_HEIGHT: CGFloat = 112.0
-    let ALLERGY_CELL_HEIGHT : CGFloat = 35.0
+    let ALLERGY_CELL_HEIGHT : CGFloat = 30.0
     let HEADER_FONT_SIZE : CGFloat = 12.0
     let HEADER_FONT_COLOR : String = "#686868"
     
@@ -38,13 +38,14 @@ class DCPatientDetailsViewController: UIViewController,UITableViewDelegate, UITa
         self.title = patientDetails?.patientName
         // Navigation bar cancel button
         let cancelButton : UIBarButtonItem = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(doneButtonPressed))
-        if (appDelegate.windowState == DCWindowState.halfWindow || appDelegate.windowState == DCWindowState.oneThirdWindow) {
-            self.navigationItem.rightBarButtonItems = [cancelButton]
-        } else {
-            let negativeSpacer: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
-            negativeSpacer.width = -12
-            self.navigationItem.rightBarButtonItems = [negativeSpacer,cancelButton]
-        }
+        self.navigationItem.rightBarButtonItems = [cancelButton]
+//        if (appDelegate.windowState == DCWindowState.halfWindow || appDelegate.windowState == DCWindowState.oneThirdWindow) {
+//            self.navigationItem.rightBarButtonItems = [cancelButton]
+//        } else {
+//            let negativeSpacer: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+//            negativeSpacer.width = -12
+//            self.navigationItem.rightBarButtonItems = [negativeSpacer,cancelButton]
+//        }
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
