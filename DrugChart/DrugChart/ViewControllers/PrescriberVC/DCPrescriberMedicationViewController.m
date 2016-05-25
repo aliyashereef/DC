@@ -1311,6 +1311,7 @@ typedef enum : NSUInteger {
 #pragma mark Patient Details delegate methods
 -(void)displayPatientDetails{
     DCPatientDetailsViewController *patientDetailsViewController = [[UIStoryboard storyboardWithName:PRESCRIBER_DETAILS_STORYBOARD bundle: nil] instantiateViewControllerWithIdentifier:@"DCPatientDetailsViewController"];
+    patientDetailsViewController.patientDetails = self.patient;
     UINavigationController *navigationController = [[UINavigationController alloc]initWithRootViewController:patientDetailsViewController];
     navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
     [self.navigationController presentViewController:navigationController animated:YES completion:nil];

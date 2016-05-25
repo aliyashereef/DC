@@ -1,17 +1,16 @@
 //
-//  DCPatientAddressTableViewCell.swift
+//  DCPatientDetailsHeaderTableViewCell.swift
 //  DrugChart
 //
-//  Created by Jagajith M Kalarickal on 24/05/16.
+//  Created by Jagajith M Kalarickal on 25/05/16.
 //
 //
 
 import UIKit
 
-class DCPatientAddressTableViewCell: UITableViewCell {
+class DCPatientDetailsHeaderTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var patientAddressLabel: UILabel!
-    @IBOutlet weak var viewMapButton: UIButton!
+    @IBOutlet weak var cellHeaderLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

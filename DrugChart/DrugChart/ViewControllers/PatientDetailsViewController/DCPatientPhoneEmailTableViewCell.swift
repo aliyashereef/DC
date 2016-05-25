@@ -10,6 +10,10 @@ import UIKit
 
 class DCPatientPhoneEmailTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var homeNumberLabel: UILabel!
+    @IBOutlet weak var workNumberLabel: UILabel!
+    @IBOutlet weak var mobileNumberLabel: UILabel!
+    @IBOutlet weak var emailLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
