@@ -162,6 +162,7 @@
                         <outlet property="monthYearViewWidthConstraint" destination="kxJ-jP-Yx1" id="BrR-Nk-PNB"/>
                         <outlet property="noMedicationsAvailableLabel" destination="6SZ-jb-mSZ" id="a9E-DD-EYT"/>
                         <outlet property="patientBannerView" destination="wdo-e6-K0Z" id="rbH-ba-30k"/>
+                        <outlet property="patientBannerViewHeightConstraint" destination="pab-cE-k5m" id="aAT-Wo-YCi"/>
                         <outlet property="toolbar" destination="CIZ-aM-r4a" id="rCU-JB-YWO"/>
                     </connections>
                 </viewController>

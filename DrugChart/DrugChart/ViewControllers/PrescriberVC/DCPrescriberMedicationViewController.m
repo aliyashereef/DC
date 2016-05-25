@@ -41,6 +41,7 @@ typedef enum : NSUInteger {
     
     NSMutableArray *currentWeekDatesArray;
     IBOutlet UIView *patientBannerView;
+    IBOutlet NSLayoutConstraint *patientBannerViewHeightConstraint;
     IBOutlet UIView *calendarDaysDisplayView;
     IBOutlet NSLayoutConstraint *calendarDateHolderViewTopSpace;
     IBOutlet NSLayoutConstraint *medicationListHolderVIewTopConstraint;
@@ -896,16 +897,23 @@ typedef enum : NSUInteger {
 
 //Add a custom view for patient details
 -(void)addPatientBanner{
-    if ([DCAPPDELEGATE windowState] == halfWindow ||
-        [DCAPPDELEGATE windowState] == oneThirdWindow || [DCAPPDELEGATE windowState] == twoThirdWindow) {
-        UIView *tempView = [[UIView alloc] initWithFrame:CGRectMake(0,0,[DCUtility mainWindowSize].width,43)];
-        [patientBannerView addSubview:tempView];
-    } else  {
+    if ([DCAPPDELEGATE windowState] == fullWindow) {
         DCPatientBannerView * bannerView = [[[NSBundle mainBundle] loadNibNamed:@"DCPatientBannerView" owner:self options:nil] objectAtIndex:0];
         [bannerView displayPatientDetails:self.patient.patientName nhsNumber:self.patient.nhs dateOfBirth:self.patient.dob age:self.patient.age gender:self.patient.sex hospitalNo:self.patient.patientNumber];
         bannerView.patientDetailsDelegate = self;
         [bannerView setFrame:CGRectMake(0, 0, [DCUtility mainWindowSize].width, 43)];
         [patientBannerView addSubview:bannerView];
+    }
+    else  {
+        DCPatientBannerViewMinimized * bannerViewMinimized = [[[NSBundle mainBundle] loadNibNamed:@"DCPatientBannerViewMinimized" owner:self options:nil] objectAtIndex:0];
+        //        [bannerView displayPatientDetails:self.patient.patientName nhsNumber:self.patient.nhs dateOfBirth:self.patient.dob age:self.patient.age gender:self.patient.sex hospitalNo:self.patient.patientNumber];
+        //        bannerView.patientDetailsDelegate = self;
+        calendarDateHolderViewTopSpace.constant += 22;
+        medicationListHolderVIewTopConstraint.constant += 22;
+        patientBannerViewHeightConstraint.constant = 65;
+        [bannerViewMinimized setFrame:CGRectMake(0, 0, [DCUtility mainWindowSize].width, 100)];
+        [patientBannerView addSubview:bannerViewMinimized];
+        
     }
 }
 
