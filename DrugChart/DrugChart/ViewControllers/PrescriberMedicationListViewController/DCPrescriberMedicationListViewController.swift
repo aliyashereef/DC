@@ -180,10 +180,8 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             medicationCell?.typeDescriptionButton.backgroundColor = UIColor.whiteColor()
         } else {
             medicationCell?.medicineDetailHolderView.backgroundColor = INACTIVE_BACKGROUND_COLOR
-            medicationCell?.typeDescriptionButton.backgroundColor = INACTIVE_BACKGROUND_COLOR
-            
+            medicationCell?.typeDescriptionButton.backgroundColor = INACTIVE_BACKGROUND_COLOR            
         }
-        
         return medicationCell!
     }
     

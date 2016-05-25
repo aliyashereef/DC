@@ -1320,17 +1320,15 @@ typedef enum : NSUInteger {
         detailViewController = [administerStoryboard instantiateViewControllerWithIdentifier:@"AdministrationViewControllerSBID"];
         if ([displayMedicationListArray count] > 0) {
             DCMedicationScheduleDetails *medicationList =  [displayMedicationListArray objectAtIndex:indexPath.item];
-            if (medicationList.isActive) {
-                detailViewController.scheduleId = medicationList.scheduleId;
-                detailViewController.medicationDetails = medicationList;
-                DCSwiftObjCNavigationHelper *helper = [[DCSwiftObjCNavigationHelper alloc] init];
-                helper.delegate = self;
-                detailViewController.helper = helper;
-                detailViewController.medicationSlotsArray = [self medicationSlotsArrayFromSlotsDictionary:medicationSLotsDictionary];
-                detailViewController.weekDate = date;
-                detailViewController.patientId = self.patient.patientId;
-                [self presentAdministrationwithMedicationList:medicationList andDate:date];
-            }
+            detailViewController.scheduleId = medicationList.scheduleId;
+            detailViewController.medicationDetails = medicationList;
+            DCSwiftObjCNavigationHelper *helper = [[DCSwiftObjCNavigationHelper alloc] init];
+            helper.delegate = self;
+            detailViewController.helper = helper;
+            detailViewController.medicationSlotsArray = [self medicationSlotsArrayFromSlotsDictionary:medicationSLotsDictionary];
+            detailViewController.weekDate = date;
+            detailViewController.patientId = self.patient.patientId;
+            [self presentAdministrationwithMedicationList:medicationList andDate:date];
         }
     }
 }
