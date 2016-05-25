@@ -779,9 +779,9 @@ typedef enum : NSUInteger {
                                 }
                             }
                          }
-                        //if (!discontinuedMedicationShown) {
+                        if (!discontinuedMedicationShown) {
                             editButton.enabled = true;
-                        //}
+                        }
                         [self showActivityIndicationOnViewRefresh:false];
                         completion(true);
                     }];
@@ -810,7 +810,7 @@ typedef enum : NSUInteger {
         
         if ([criteriaString isEqualToString:INCLUDE_DISCONTINUED]) {
             
-            //editButton.enabled = discontinuedMedicationShown;//Only for temporary build
+            editButton.enabled = discontinuedMedicationShown;
             discontinuedMedicationShown = !discontinuedMedicationShown;
     
             if (discontinuedMedicationShown) {
@@ -1186,11 +1186,11 @@ typedef enum : NSUInteger {
     [actionSheet addAction:[UIAlertAction actionWithTitle:VITAL_SIGNS style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [self vitalSignsButtonPressed:nil];
     }]];
-    //if (!discontinuedMedicationShown) {
+    if (!discontinuedMedicationShown) {
         [actionSheet addAction:[UIAlertAction actionWithTitle:@"Edit" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self editMedicationButtonPressedOnDruggChart:nil];
         }]];
-    //}
+    }
     // Present action sheet.
     
     [self presentViewController:actionSheet animated:YES completion:nil];
