@@ -329,6 +329,7 @@
 #define kEarlyAdministrationNotification        @"EarlyAdministration"
 #define kNetworkAvailable                       @"NetworkAvailable"
 #define kPharmacistTableViewScrollNotification  @"PharmacistTableViewScrollNotification"
+#define kDrugChartScrollNotification            @"DrugChartScrollNotification"
 
 //date
 

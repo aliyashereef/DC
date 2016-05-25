@@ -34,18 +34,20 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
     @IBOutlet weak var moreButtonWidth: NSLayoutConstraint!
     @IBOutlet weak var editButtonHeight: NSLayoutConstraint!
     @IBOutlet weak var stopButtonHeight: NSLayoutConstraint!
+    @IBOutlet weak var summaryButton: UIButton!
     
     var isMedicationActive : Bool = true
     var inEditMode : Bool = false
     var indexPath : NSIndexPath!
     var editAndDeleteDelegate : EditDeleteActionDelegate?
-    @IBOutlet weak var summaryButton: UIButton!
+    var isTableViewScrolling : Bool = false
 
     override func awakeFromNib() {
         
         super.awakeFromNib()
         self.showActionButtons(false)
         addPanGestureToMedicationDetailHolderView()
+        self.addDrugChartViewScrollNotification()
     }
     
     override func layoutSubviews() {
@@ -88,6 +90,18 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
 
     }
     
+    func addDrugChartViewScrollNotification() {
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PrescriberMedicationTableViewCell.drugChartIsScrolling(_:)), name: kDrugChartScrollNotification, object: nil)
+    }
+    
+    func drugChartIsScrolling(notification : NSNotification) {
+        
+        let scrolling : Bool = notification.userInfo![IS_SCROLLING] as! Bool
+        isTableViewScrolling = scrolling
+    }
+
+    
     override func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
@@ -97,7 +111,7 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
     func swipeMedicationDetailView(panGesture : UIPanGestureRecognizer) {
         
         //swipe medication view
-        if isMedicationActive {
+        if isMedicationActive && isTableViewScrolling == false {
             self.showActionButtons(true)
             if let delegate = editAndDeleteDelegate {
                 delegate.setIndexPathSelected(indexPath)
