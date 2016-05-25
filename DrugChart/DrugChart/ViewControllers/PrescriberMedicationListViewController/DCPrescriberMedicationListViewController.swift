@@ -223,6 +223,11 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     }
 
     func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+        let cell : PrescriberMedicationTableViewCell = tableView.cellForRowAtIndexPath(indexPath) as! PrescriberMedicationTableViewCell
+        cell.typeDescriptionButton.highlighted = false
+        if !cell.isMedicationActive {
+            cell.typeDescriptionButton.backgroundColor = INACTIVE_BACKGROUND_COLOR
+        }
         let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
         if parentViewController.selectedMedicationListArray.containsObject(indexPath) {
             parentViewController.selectedMedicationListArray.removeObject(indexPath)
