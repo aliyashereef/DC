@@ -202,7 +202,7 @@ class DCPodStatusSelectionViewController: DCBaseViewController {
     
     func keyboardDidHide(notification :NSNotification){
         
-        let contentInsets:UIEdgeInsets  = UIEdgeInsetsMake(0, 0, 0, 0);
+        let contentInsets:UIEdgeInsets  = UIEdgeInsetsMake(40, 0, 0, 0);
         updatePodStatusTableView.contentInset = contentInsets;
         updatePodStatusTableView.scrollIndicatorInsets = contentInsets;
         updatePodStatusTableView.beginUpdates()

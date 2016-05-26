@@ -270,7 +270,7 @@ class DCInterventionAddOrResolveViewController: DCBaseViewController, UITableVie
     
     func keyboardDidHide(notification :NSNotification){
         
-        let contentInsets:UIEdgeInsets  = UIEdgeInsetsMake(0, 0, 0, 0);
+        let contentInsets:UIEdgeInsets  = UIEdgeInsetsMake(40, 0, 0, 0);
         interventionDisplayTableView.contentInset = contentInsets;
         interventionDisplayTableView.scrollIndicatorInsets = contentInsets;
         interventionDisplayTableView.beginUpdates()
