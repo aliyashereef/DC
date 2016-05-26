@@ -185,14 +185,27 @@ class DCPodStatusSelectionViewController: DCBaseViewController {
         }
     }
     
+    // MARK: Notification Methods
     func keyboardDidShow(notification : NSNotification) {
         
-        self.updatePodStatusTableView.contentOffset = CGPoint(x: 0, y: tableviewContentOffset)
+        if let userInfo = notification.userInfo {
+            if let keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+                let contentInsets: UIEdgeInsets
+                contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.height), 0.0)
+                self.updatePodStatusTableView.contentInset = contentInsets;
+                self.updatePodStatusTableView.scrollIndicatorInsets = contentInsets;
+                let lastIndexPath = NSIndexPath(forRow: 0, inSection: updatePodStatusTableView.numberOfSections-1 )
+                self.updatePodStatusTableView.scrollToRowAtIndexPath(lastIndexPath, atScrollPosition: .Bottom, animated: true)
+            }
+        }
     }
     
     func keyboardDidHide(notification :NSNotification){
         
-        updatePodStatusTableView.contentOffset = CGPoint(x: 0, y: -tableviewContentOffset);
+        let contentInsets:UIEdgeInsets  = UIEdgeInsetsMake(0, 0, 0, 0);
+        updatePodStatusTableView.contentInset = contentInsets;
+        updatePodStatusTableView.scrollIndicatorInsets = contentInsets;
+        updatePodStatusTableView.beginUpdates()
+        updatePodStatusTableView.endUpdates()
     }
-
 }

@@ -11,7 +11,7 @@ import UIKit
 typealias InterventionUpdated = (DCMedicationScheduleDetails) -> Void
 typealias CancelButtonClicked = (Bool) -> Void
 
-class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class DCInterventionAddOrResolveViewController: DCBaseViewController, UITableViewDataSource, UITableViewDelegate {
 
     var interventionType : InterventionType?
     var medicationList : NSMutableArray = []
@@ -246,5 +246,34 @@ class DCInterventionAddOrResolveViewController: UIViewController, UITableViewDat
         } else {
             self.navigationController!.dismissViewControllerAnimated(true, completion: nil)
         }
+    }
+    
+    // MARK: Notification Methods
+    func keyboardDidShow(notification : NSNotification) {
+        
+        if let userInfo = notification.userInfo {
+            if let keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+                let contentInsets: UIEdgeInsets
+                contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.height), 0.0)
+                self.interventionDisplayTableView.contentInset = contentInsets;
+                self.interventionDisplayTableView.scrollIndicatorInsets = contentInsets;
+                var lastIndexPath : NSIndexPath
+                if interventionType == eResolveIntervention {
+                    lastIndexPath = NSIndexPath(forRow: 0, inSection: interventionDisplayTableView.numberOfSections-2 )
+                } else {
+                    lastIndexPath = NSIndexPath(forRow: 0, inSection: interventionDisplayTableView.numberOfSections-1 )
+                }
+                self.interventionDisplayTableView.scrollToRowAtIndexPath(lastIndexPath, atScrollPosition: .Bottom, animated: true)
+            }
+        }
+    }
+    
+    func keyboardDidHide(notification :NSNotification){
+        
+        let contentInsets:UIEdgeInsets  = UIEdgeInsetsMake(0, 0, 0, 0);
+        interventionDisplayTableView.contentInset = contentInsets;
+        interventionDisplayTableView.scrollIndicatorInsets = contentInsets;
+        interventionDisplayTableView.beginUpdates()
+        interventionDisplayTableView.endUpdates()
     }
 }
