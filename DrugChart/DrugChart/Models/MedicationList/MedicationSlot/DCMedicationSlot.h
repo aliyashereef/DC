@@ -15,5 +15,6 @@
 @property (nonatomic, strong) NSDate *time;
 @property (nonatomic, strong) NSString *status;
 @property (nonatomic, strong) DCMedicationAdministration *medicationAdministration;
+@property (nonatomic) BOOL isOverridenAdministration;
 
 @end

@@ -583,6 +583,7 @@
 #define BATCHNO_EXPIRY @"Batch No/Expiry Date"
 #define NOTES @"Notes"
 #define OVERRIDE_ADMINISTRATION @"Override Administration"
+#define PREVIOUS_HISTORY @"Previous History"
 #define MORE_BUTTON_PRESSED @"moreButtonPressed:"
 #define DUMMY_TEXT "Lorem Ipsum is simply dummy text of the printing and types etting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
 #define DATE @"Date"
