@@ -47,6 +47,7 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     override func viewDidAppear(animated: Bool) {
         
         super.viewDidAppear(animated)
+        pharmacistTableView.reloadData()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -561,6 +562,11 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         return pharmacistCell!
     }
     
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+        return UITableViewAutomaticDimension
+    }
+
     func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
         
         return .Insert

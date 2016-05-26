@@ -18,7 +18,6 @@ class DCManageSuspensionUntilViewController: UIViewController, UITableViewDelega
     var selectedIndexPath : NSIndexPath?
     var manageSuspensionUpdated: ManageSuspensionUpdated = { value in }
     var saveButtonClicked : Bool = false
-    var alertMessageForMismatch :NSString = "Enter Dose"
 
     @IBOutlet weak var manageSuspensionUntilTableView: UITableView!
     
@@ -81,25 +80,6 @@ class DCManageSuspensionUntilViewController: UIViewController, UITableViewDelega
         }
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
-        //Set the alert entering the dose.
-        if (section == eFirstSection.rawValue && saveButtonClicked && isSpecifiedDoseSelected && manageSuspensionDetails?.specifiedDose == nil) {
-            return alertMessageForMismatch as String
-        } else {
-            return nil
-        }
-    }
-    
-    func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        
-        //Change text color to red and change text from full upper case to desired sentence.
-        if let view = view as? UITableViewHeaderFooterView {
-            view.textLabel?.text = alertMessageForMismatch as String
-            view.textLabel!.textColor = UIColor.redColor()
-        }
-    }
-
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         switch(indexPath.section) {
@@ -197,6 +177,12 @@ class DCManageSuspensionUntilViewController: UIViewController, UITableViewDelega
                 }
             }
             singleDoseEntryCell?.singleDoseTextfield.text = singleDoseValue as String
+        }
+        if (saveButtonClicked && isSpecifiedDoseSelected && manageSuspensionDetails?.specifiedDose == nil) {
+            singleDoseEntryCell?.singleDoseTextfield.attributedPlaceholder = NSAttributedString(string:DOSE, attributes:[NSForegroundColorAttributeName: UIColor.redColor()])
+            singleDoseEntryCell?.singleDoseTextfield.textColor = UIColor.redColor()
+        } else {
+            singleDoseEntryCell?.singleDoseTextfield.textColor = UIColor.blackColor()
         }
         return singleDoseEntryCell!
     }
