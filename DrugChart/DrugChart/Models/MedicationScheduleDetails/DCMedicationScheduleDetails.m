@@ -39,7 +39,6 @@
     
     self = [[DCMedicationScheduleDetails alloc] init];
     self.name = [medicationDictionary valueForKey:DRUG_NAME];
-    NSLog(@"****** Medicine is %@ *******", self.name);
     self.medicineCategory = [medicationDictionary valueForKey:DRUG_CATEGORY];
     if ([medicationDictionary valueForKey:DRUG_PRESCRIBING_USER]) {
         NSDictionary *userDictionary = [medicationDictionary valueForKey:DRUG_PRESCRIBING_USER];
@@ -169,7 +168,6 @@
         //discontinued medication
         if (self.stoppage) {
             endDate = [DCDateUtility dateFromSourceString:self.stoppage.time];
-            NSLog(@"***** Stoppage time is %@", self.stoppage.time);
         }
     } else {
         //max limit to be displayed is end week date
@@ -178,8 +176,6 @@
     NSDate *calculatedStartDate = [self startDateForMedicationStartdate:startDate medicationEndDate:endDate startWeekDate:startWeekDate endWeekDate:endWeekDate];
     NSDate *calculatedEndDate = (self.stoppage) ? endDate :
                                 [self endDateForMedicationStartdate:startDate medicationEndDate:endDate startWeekDate:startWeekDate endWeekDate:endWeekDate];
-    NSLog(@"***** calculatedStartDate is %@", calculatedStartDate);
-    NSLog(@"***** calculatedEndDate is %@", calculatedEndDate);
     NSDate *nextDate;
     if (calculatedStartDate != nil && calculatedEndDate != nil) {
         for (nextDate = calculatedStartDate ; [nextDate compare:calculatedEndDate] <= 0 ; nextDate = [nextDate dateByAddingTimeInterval:24*60*60] ) {
@@ -231,19 +227,13 @@
         //discontinued medication
         if (self.stoppage) {
             endDate = [DCDateUtility dateFromSourceString:self.stoppage.time];
-            NSLog(@"***** stoppage time is %@", self.stoppage.time);
         }
     } else {
         endDate = (self.endDate == nil) ? [self dayEndTimeForDate:endWeekDate] : [DCDateUtility dateFromSourceString:self.endDate];
     }
     NSDate *calculatedStartDate = [self startDateForMedicationStartdate:startDate medicationEndDate:endDate startWeekDate:startWeekDate endWeekDate:endWeekDate];
-//    NSDate *calculatedEndDate = (self.stoppage) ? endDate :
-//                                [self endDateForMedicationStartdate:startDate medicationEndDate:endDate startWeekDate:startWeekDate endWeekDate:endWeekDate];
     NSDate *calculatedEndDate = 
     [self endDateForMedicationStartdate:startDate medicationEndDate:endDate startWeekDate:startWeekDate endWeekDate:endWeekDate];
-    NSLog(@"***** calculatedStartDate is %@ *******", calculatedStartDate);
-    NSLog(@"****** calculatedEndDate is %@ ****", calculatedEndDate);
-     NSLog(@"Timea rray is %@", timesArray);
     NSDate *nextDate;
     NSCalendar *calendar = [NSCalendar currentCalendar];
     if (calculatedStartDate != nil && calculatedEndDate != nil) {
