@@ -317,12 +317,15 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
     func cellSelectionForIndexPath (indexPath : NSIndexPath) {
         switch (indexPath.row) {
         case 0:
-            let statusViewController : DCAdministrationStatusTableViewController = DCAdministrationHelper.administratedStatusPopOverAtIndexPathWithStatus(indexPath, status:ADMINISTERED)
-            statusViewController.medicationDetails = medicationDetails
-            statusViewController.previousSelectedValue = NOT_ADMINISTRATED
-            statusViewController.medicationStatusDelegate = self
-            self.navigationController!.pushViewController(statusViewController, animated: true)
-            break
+            if !isOverrideAdministration {
+                let statusViewController : DCAdministrationStatusTableViewController = DCAdministrationHelper.administratedStatusPopOverAtIndexPathWithStatus(indexPath, status:ADMINISTERED)
+                statusViewController.medicationDetails = medicationDetails
+                statusViewController.previousSelectedValue = NOT_ADMINISTRATED
+                statusViewController.medicationStatusDelegate = self
+                self.navigationController!.pushViewController(statusViewController, animated: true)
+            } else {
+                break
+            }
         case 1:
             self.collapseOpenedPickerCell()
             let reasonViewController : DCAdministrationReasonViewController = DCAdministrationHelper.administratedReasonPopOverAtIndexPathWithStatus(NOT_ADMINISTRATED)

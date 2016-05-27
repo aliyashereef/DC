@@ -547,9 +547,12 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         let administerDatePickerIndexPath : NSIndexPath = NSIndexPath(forRow: 4, inSection: 0)
         switch (indexPath.row) {
         case eZerothSection.rawValue:
-            let statusViewController : DCAdministrationStatusTableViewController = self.statusCellSelectedAtIndexPath(indexPath)
-            self.navigationController!.pushViewController(statusViewController, animated: true)
-            break
+            if !isOverrideAdministration {
+                let statusViewController : DCAdministrationStatusTableViewController = self.statusCellSelectedAtIndexPath(indexPath)
+                self.navigationController!.pushViewController(statusViewController, animated: true)
+            } else {
+                break
+            }
         case eFirstSection.rawValue:
             let reasonViewController : DCAdministrationReasonViewController = self.reasonCellSelectedAtIndexPath(indexPath)
             self.navigationController!.pushViewController(reasonViewController, animated: true)
