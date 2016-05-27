@@ -180,10 +180,8 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             medicationCell?.typeDescriptionButton.backgroundColor = UIColor.whiteColor()
         } else {
             medicationCell?.medicineDetailHolderView.backgroundColor = INACTIVE_BACKGROUND_COLOR
-            medicationCell?.typeDescriptionButton.backgroundColor = INACTIVE_BACKGROUND_COLOR
-            
+            medicationCell?.typeDescriptionButton.backgroundColor = INACTIVE_BACKGROUND_COLOR            
         }
-        
         return medicationCell!
     }
     
@@ -498,8 +496,8 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             for count in 0 ..< indexPathArray.count {
                 let indexPath = indexPathArray[count]
                 let medicationCell = medicationTableView?.cellForRowAtIndexPath(indexPath as! NSIndexPath) as? PrescriberMedicationTableViewCell
-                medicationCell!.leadingSpaceMasterToContainerView.constant = 0.0
-                medicationCell!.layoutIfNeeded()
+                medicationCell?.leadingSpaceMasterToContainerView.constant = 0.0
+                medicationCell?.layoutIfNeeded()
             }
         }
     }
