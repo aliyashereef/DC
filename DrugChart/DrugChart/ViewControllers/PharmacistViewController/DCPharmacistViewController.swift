@@ -10,8 +10,10 @@ import UIKit
 
 let PHARMACIST_ROW_HEIGHT : CGFloat = 79.0
 
-class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, PharmacistCellDelegate {
+class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, PharmacistCellDelegate, PatientDetailsDelegate, PatientDetailsMinimizedDelegate {
     
+    @IBOutlet weak var patientBannerHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var patientBannerView: UIView!
     @IBOutlet weak var pharmacistTableView: UITableView!
     @IBOutlet weak var medicationCountLabel: UILabel!
     @IBOutlet weak var medicationCountToolBar: UIToolbar!
@@ -64,7 +66,10 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
         
         super.viewDidLayoutSubviews()
         configureNavigationBar()
+        addPatientBanner()
+        self.view .layoutIfNeeded()
         pharmacistTableView.reloadData()
+        
         self.configureToolBarsForEditingState(isInEditMode)
     }
     
@@ -83,6 +88,8 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     func configureViewElements() {
         
         configureNavigationBar()
+        addPatientBanner()
+        self.view .layoutIfNeeded()
         configureMedicationCountToolBar()
         pharmacistTableView.allowsMultipleSelectionDuringEditing = true
         pharmacistTableView.allowsSelectionDuringEditing = true
@@ -98,24 +105,35 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
     }
     
     func configureNavigationBar() {
-        
-        if appDelegate.windowState == DCWindowState.oneThirdWindow || appDelegate.windowState == DCWindowState.halfWindow {
-            self.navigationItem.titleView = nil
-            self.title = NSLocalizedString("PHARMACY_ACTIONS", comment: "title")
-            let titleView: DCOneThirdCalendarNavigationTitleView = NSBundle.mainBundle().loadNibNamed("DCOneThirdCalendarNavigationTitleView", owner: self, options: nil)[0] as! DCOneThirdCalendarNavigationTitleView
-            titleView.populateViewForPharmacistOneThirdScreen((patientDetails?.patientName)!, nhsNumber: (patientDetails?.nhs)!, dateOfBirth: (patientDetails?.dob)!, age: (patientDetails?.age)!)
-            let headerView: UIView = UIView(frame: CGRectMake(0, 0, self.view.frame.width, headerHeight))
-            titleView.center.x = headerView.center.x
-            headerView.addSubview(titleView)
-            self.pharmacistTableView.tableHeaderView = self.headerViewWithSeparatorLine(headerView)
-        } else {
-            self.pharmacistTableView.tableHeaderView = nil
-            let titleView: DCOneThirdCalendarNavigationTitleView = NSBundle.mainBundle().loadNibNamed("DCOneThirdCalendarNavigationTitleView", owner: self, options: nil)[0] as! DCOneThirdCalendarNavigationTitleView
-            titleView.populateViewForPharmacistFullScreen((patientDetails?.patientName)!, nhsNumber: (patientDetails?.nhs)!, dateOfBirth: (patientDetails?.dob)!, age: (patientDetails?.age)!)
-            self.navigationItem.titleView = titleView
-        }
+        self.navigationItem.title = NSLocalizedString("PHARMACY_ACTIONS", comment: "title")
         DCUtility.backButtonItemForViewController(self, inNavigationController: self.navigationController, withTitle:NSLocalizedString("DRUG_CHART", comment: ""))
         self.addNavigationRightBarButtonItem()
+    }
+    
+    func addPatientBanner(){
+        removePreviousViewFromPatientBannerView()
+        if (appDelegate.windowState == DCWindowState.fullWindow) {
+            let bannerView: DCPatientBannerView = NSBundle.mainBundle().loadNibNamed("DCPatientBannerView", owner: self, options: nil)[0] as! DCPatientBannerView
+            bannerView.displayPatientDetails(patientDetails!.patientName, nhsNumber: patientDetails!.nhs, dateOfBirth: patientDetails!.dob, age: patientDetails!.age, gender: patientDetails!.sex, hospitalNo: patientDetails!.patientNumber)
+            bannerView.patientDetailsDelegate = self
+            patientBannerHeightConstraint.constant = 43
+            bannerView.frame = CGRectMake(0, 0, patientBannerView.frame.size.width, patientBannerView.frame.size.height)
+            patientBannerView.addSubview(bannerView)
+        }else{
+            let bannerViewMinimized: DCPatientBannerViewMinimized = NSBundle.mainBundle().loadNibNamed("DCPatientBannerViewMinimized", owner: self, options: nil)[0] as! DCPatientBannerViewMinimized
+            bannerViewMinimized.displayPatientDetails(patientDetails!.patientName, nhsNumber: patientDetails!.nhs, dateOfBirth: patientDetails!.dob, age: patientDetails!.age, gender: patientDetails!.sex, hospitalNo: patientDetails!.patientNumber)
+            bannerViewMinimized.patientDetailsDelegate = self
+            patientBannerHeightConstraint.constant = 65
+            bannerViewMinimized.frame = CGRectMake(0, 0, patientBannerView.frame.size.width, patientBannerView.frame.size.height)
+            patientBannerView.addSubview(bannerViewMinimized)
+        }
+    }
+    
+    //remove previous banner from patient banner view
+    func removePreviousViewFromPatientBannerView() {
+        for subview: UIView in patientBannerView.subviews{
+            subview.removeFromSuperview()
+        }
     }
     
     func configureMedicationCountToolBar() {
@@ -198,6 +216,25 @@ class DCPharmacistViewController: DCBaseViewController, UITableViewDelegate, UIT
             pharmacistCell?.swipePrescriberDetailViewToRight()
         }
     }
+    
+// patient details delegate functions
+    func displayPatientDetails() {
+        let patientDetailsViewController : DCPatientDetailsViewController? = UIStoryboard(name: PRESCRIBER_DETAILS_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier("DCPatientDetailsViewController") as? DCPatientDetailsViewController
+        patientDetailsViewController!.patientDetails = patientDetails
+        let navigationController: UINavigationController = UINavigationController(rootViewController: patientDetailsViewController!)
+        navigationController.modalPresentationStyle = .FormSheet
+        self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
+    }
+    
+    func displayMinimizedPatientDetails() {
+        let patientDetailsViewController : DCPatientDetailsViewController? = UIStoryboard(name: PRESCRIBER_DETAILS_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier("DCPatientDetailsViewController") as? DCPatientDetailsViewController
+        patientDetailsViewController!.patientDetails = patientDetails
+        let navigationController: UINavigationController = UINavigationController(rootViewController: patientDetailsViewController!)
+        navigationController.modalPresentationStyle = .FormSheet
+        self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
+    }
+    
+    
     
     func presentPharmacistActionSheet() {
         

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clipsSubviews="YES" contentMode="scaleToFill" id="iN0-l3-epB" customClass="DCPatientBannerView" customModule="DrugChart" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="895" height="43"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f4q-sW-gsa">
+                    <rect key="frame" x="0.0" y="0.0" width="895" height="43"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <action selector="patientBannerButtonPresses:" destination="iN0-l3-epB" eventType="touchUpInside" id="ScS-Pi-RyG"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ALEXANDER, Federick (Mr)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xby-Ik-MIk">
+                    <rect key="frame" x="20" y="11" width="154" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.0" green="0.47843137254901957" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="HOSP16526" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bIe-4b-5Yn">
+                    <rect key="frame" x="806" y="11" width="69" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hospital No:" textAlignment="justified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kQu-s0-vGk">
+                    <rect key="frame" x="734" y="11" width="70" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.32156862749999998" green="0.63529411759999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="|" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="298-Z3-cuI">
+                    <rect key="frame" x="724" y="10" width="5" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="757 148 5069" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tlt-pB-TEp">
+                    <rect key="frame" x="639" y="11" width="80" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NHS No:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PHP-fS-YR9">
+                    <rect key="frame" x="588" y="11" width="49" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.32156862749999998" green="0.63529411759999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="|" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PrL-hX-S5u">
+                    <rect key="frame" x="578" y="10" width="5" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Male" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2bu-OB-rtA">
+                    <rect key="frame" x="546" y="11" width="27" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gender:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iDT-6U-xNe">
+                    <rect key="frame" x="498" y="11" width="46" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.32156862749999998" green="0.63529411759999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="|" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V2P-bP-bd5">
+                    <rect key="frame" x="488" y="11" width="5" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="21-May-1969 (47 years)" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yfi-DP-SAm">
+                    <rect key="frame" x="346" y="11" width="137" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Born:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xQE-Jo-CtH">
+                    <rect key="frame" x="313" y="11" width="31" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.32156862749999998" green="0.63529411759999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="0.97647058819999999" green="0.97647058819999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="Tlt-pB-TEp" secondAttribute="bottom" constant="11" id="0s9-jh-D3o"/>
+                <constraint firstAttribute="bottom" secondItem="298-Z3-cuI" secondAttribute="bottom" constant="12" id="1zl-ea-Dkv"/>
+                <constraint firstItem="Tlt-pB-TEp" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="11" id="2hZ-FH-rgr"/>
+                <constraint firstItem="2bu-OB-rtA" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="11" id="3UD-k7-Mdl"/>
+                <constraint firstAttribute="bottom" secondItem="f4q-sW-gsa" secondAttribute="bottom" id="4s3-5L-1PF"/>
+                <constraint firstItem="Yfi-DP-SAm" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="11" id="5xK-L7-Z3A"/>
+                <constraint firstItem="298-Z3-cuI" firstAttribute="leading" secondItem="Tlt-pB-TEp" secondAttribute="trailing" constant="5" id="859-jV-kez"/>
+                <constraint firstItem="PHP-fS-YR9" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="11" id="9rY-v4-Th7"/>
+                <constraint firstAttribute="bottom" secondItem="PHP-fS-YR9" secondAttribute="bottom" constant="11" id="DOn-z0-py2"/>
+                <constraint firstAttribute="bottom" secondItem="kQu-s0-vGk" secondAttribute="bottom" constant="11" id="Ft4-qf-sqG"/>
+                <constraint firstAttribute="bottom" secondItem="Yfi-DP-SAm" secondAttribute="bottom" constant="11" id="I9t-03-zdm"/>
+                <constraint firstItem="Yfi-DP-SAm" firstAttribute="leading" secondItem="xQE-Jo-CtH" secondAttribute="trailing" constant="2" id="Ipn-LC-bV0"/>
+                <constraint firstItem="iDT-6U-xNe" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="11" id="LDG-EM-003"/>
+                <constraint firstItem="Tlt-pB-TEp" firstAttribute="leading" secondItem="PHP-fS-YR9" secondAttribute="trailing" constant="2" id="LyA-Gx-5jC"/>
+                <constraint firstItem="PrL-hX-S5u" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="NBd-5B-z2n"/>
+                <constraint firstItem="Xby-Ik-MIk" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="NSN-WG-MqO"/>
+                <constraint firstItem="kQu-s0-vGk" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="11" id="P70-dD-Mh3"/>
+                <constraint firstAttribute="bottom" secondItem="iDT-6U-xNe" secondAttribute="bottom" constant="11" id="TQG-1Y-9h3"/>
+                <constraint firstItem="V2P-bP-bd5" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="11" id="XEj-eM-suu"/>
+                <constraint firstItem="V2P-bP-bd5" firstAttribute="leading" secondItem="Yfi-DP-SAm" secondAttribute="trailing" constant="5" id="XJy-2C-rXO"/>
+                <constraint firstAttribute="bottom" secondItem="bIe-4b-5Yn" secondAttribute="bottom" constant="11" id="ZEj-jt-WLZ"/>
+                <constraint firstAttribute="bottom" secondItem="2bu-OB-rtA" secondAttribute="bottom" constant="11" id="ajE-CA-44w"/>
+                <constraint firstAttribute="bottom" secondItem="V2P-bP-bd5" secondAttribute="bottom" constant="11" id="alP-2F-Ck6"/>
+                <constraint firstItem="kQu-s0-vGk" firstAttribute="leading" secondItem="298-Z3-cuI" secondAttribute="trailing" constant="5" id="bMy-X4-0x8"/>
+                <constraint firstItem="2bu-OB-rtA" firstAttribute="leading" secondItem="iDT-6U-xNe" secondAttribute="trailing" constant="2" id="cx1-Oq-Fsp"/>
+                <constraint firstAttribute="bottom" secondItem="xQE-Jo-CtH" secondAttribute="bottom" constant="11" id="dZ0-UE-iBd"/>
+                <constraint firstItem="f4q-sW-gsa" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="ePq-f8-ENH"/>
+                <constraint firstItem="bIe-4b-5Yn" firstAttribute="leading" secondItem="kQu-s0-vGk" secondAttribute="trailing" constant="2" id="gwq-WV-Pjj"/>
+                <constraint firstAttribute="trailing" secondItem="f4q-sW-gsa" secondAttribute="trailing" id="gxO-Xc-jMV"/>
+                <constraint firstItem="Xby-Ik-MIk" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="11" id="hXL-qI-2lF"/>
+                <constraint firstItem="bIe-4b-5Yn" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="11" id="jgi-H8-awP"/>
+                <constraint firstItem="PrL-hX-S5u" firstAttribute="leading" secondItem="2bu-OB-rtA" secondAttribute="trailing" constant="5" id="jwq-wz-ndd"/>
+                <constraint firstItem="xQE-Jo-CtH" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="11" id="kdf-T3-e27"/>
+                <constraint firstAttribute="bottom" secondItem="PrL-hX-S5u" secondAttribute="bottom" constant="12" id="m5e-4U-YFM"/>
+                <constraint firstAttribute="bottom" secondItem="Xby-Ik-MIk" secondAttribute="bottom" constant="11" id="pH8-A0-lYd"/>
+                <constraint firstItem="PHP-fS-YR9" firstAttribute="leading" secondItem="PrL-hX-S5u" secondAttribute="trailing" constant="5" id="rLQ-uF-YZX"/>
+                <constraint firstItem="iDT-6U-xNe" firstAttribute="leading" secondItem="V2P-bP-bd5" secondAttribute="trailing" constant="5" id="shU-f9-uJu"/>
+                <constraint firstItem="298-Z3-cuI" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="vPh-jF-eK4"/>
+                <constraint firstAttribute="trailing" secondItem="bIe-4b-5Yn" secondAttribute="trailing" constant="20" id="xpC-yS-DAI"/>
+                <constraint firstItem="f4q-sW-gsa" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="zpR-fV-xnh"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="dobLabel" destination="Yfi-DP-SAm" id="2U7-Cv-R4E"/>
+                <outlet property="genderLabel" destination="2bu-OB-rtA" id="YTD-tR-fqW"/>
+                <outlet property="hospitalNumberLabel" destination="bIe-4b-5Yn" id="Fsn-E1-1S8"/>
+                <outlet property="nhsNumberLabel" destination="Tlt-pB-TEp" id="39P-Ba-nfj"/>
+                <outlet property="patientBannerButton" destination="f4q-sW-gsa" id="Yl7-JQ-OAY"/>
+                <outlet property="patientNameLabel" destination="Xby-Ik-MIk" id="Atn-of-kkc"/>
+            </connections>
+            <point key="canvasLocation" x="452.5" y="1.5"/>
+        </view>
+    </objects>
+</document>

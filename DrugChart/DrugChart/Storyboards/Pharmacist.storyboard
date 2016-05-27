@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Pharmacist View Controller-->
@@ -17,8 +18,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mtx-2Z-MUO" userLabel="Patient Banner View">
+                                <rect key="frame" x="0.0" y="0.0" width="800" height="43"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="43" id="RGY-Sw-6zP"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vTF-59-cxH" userLabel="Separator View">
+                                <rect key="frame" x="0.0" y="43" width="800" height="1"/>
+                                <color key="backgroundColor" red="0.88235294119999996" green="0.90588235289999997" blue="0.91764705879999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="rRV-ur-H1c"/>
+                                </constraints>
+                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" allowsMultipleSelection="YES" allowsMultipleSelectionDuringEditing="YES" rowHeight="79" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="DwE-Su-3zg">
-                                <rect key="frame" x="0.0" y="0.0" width="800" height="556"/>
+                                <rect key="frame" x="0.0" y="44" width="800" height="512"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="pharmacistCellId" rowHeight="79" id="wjk-go-bJX" customClass="DCPharmacistTableCell" customModule="DrugChart" customModuleProvider="target">
@@ -356,7 +371,7 @@
                                                     <color key="textColor" red="0.45098039215686275" green="0.45098039215686275" blue="0.45098039215686275" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="je3-jD-1dU">
+                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="je3-jD-1dU">
                                                     <rect key="frame" x="0.0" y="2" width="90" height="30"/>
                                                     <state key="normal" title="Actions"/>
                                                     <connections>
@@ -368,10 +383,13 @@
                                             <constraints>
                                                 <constraint firstAttribute="bottom" secondItem="tzr-48-KJn" secondAttribute="bottom" id="1ZF-xK-8y9"/>
                                                 <constraint firstItem="tzr-48-KJn" firstAttribute="leading" secondItem="5Lk-5z-bNL" secondAttribute="leading" id="Jhf-7Y-PHF"/>
+                                                <constraint firstItem="je3-jD-1dU" firstAttribute="centerY" secondItem="tzr-48-KJn" secondAttribute="centerY" id="NLO-JG-TO5"/>
                                                 <constraint firstAttribute="trailing" secondItem="tzr-48-KJn" secondAttribute="trailing" id="SBJ-qP-fag"/>
                                                 <constraint firstItem="tzr-48-KJn" firstAttribute="leading" secondItem="5Lk-5z-bNL" secondAttribute="leading" id="XTv-Gx-ccZ"/>
+                                                <constraint firstItem="je3-jD-1dU" firstAttribute="trailing" secondItem="tzr-48-KJn" secondAttribute="trailing" id="ZKk-zO-8MF"/>
                                                 <constraint firstItem="tzr-48-KJn" firstAttribute="top" secondItem="5Lk-5z-bNL" secondAttribute="top" id="eb8-be-lj8"/>
                                                 <constraint firstAttribute="trailing" secondItem="tzr-48-KJn" secondAttribute="trailing" id="lTE-1n-62q"/>
+                                                <constraint firstItem="je3-jD-1dU" firstAttribute="leading" secondItem="tzr-48-KJn" secondAttribute="leading" id="mwD-jf-pY2"/>
                                                 <constraint firstAttribute="bottom" secondItem="tzr-48-KJn" secondAttribute="bottom" id="nhY-v8-mao"/>
                                                 <constraint firstItem="tzr-48-KJn" firstAttribute="top" secondItem="5Lk-5z-bNL" secondAttribute="top" id="wha-PQ-VDR"/>
                                             </constraints>
@@ -394,24 +412,45 @@
                         <constraints>
                             <constraint firstItem="uoC-FZ-HPx" firstAttribute="centerY" secondItem="wkV-IH-PKd" secondAttribute="centerY" id="4XY-8c-pdX"/>
                             <constraint firstItem="eSq-oV-yeO" firstAttribute="top" secondItem="RaB-qQ-zpv" secondAttribute="bottom" id="BVK-Bv-iAH"/>
+                            <constraint firstItem="DwE-Su-3zg" firstAttribute="centerY" secondItem="uoC-FZ-HPx" secondAttribute="centerY" id="Bh5-cD-WsO"/>
+                            <constraint firstItem="vTF-59-cxH" firstAttribute="top" secondItem="Mtx-2Z-MUO" secondAttribute="bottom" id="DTq-ee-kZR"/>
+                            <constraint firstItem="Mtx-2Z-MUO" firstAttribute="leading" secondItem="wkV-IH-PKd" secondAttribute="leading" id="HSa-9b-xoA"/>
+                            <constraint firstItem="DwE-Su-3zg" firstAttribute="top" secondItem="Mtx-2Z-MUO" secondAttribute="bottom" constant="1" id="M5p-0E-WNp"/>
                             <constraint firstItem="uoC-FZ-HPx" firstAttribute="centerX" secondItem="wkV-IH-PKd" secondAttribute="centerX" id="Olf-LZ-Dmy"/>
+                            <constraint firstItem="vTF-59-cxH" firstAttribute="leading" secondItem="wkV-IH-PKd" secondAttribute="leading" id="PYV-1h-Beb"/>
                             <constraint firstItem="RaB-qQ-zpv" firstAttribute="leading" secondItem="wkV-IH-PKd" secondAttribute="leading" id="Rvg-hj-IvH"/>
+                            <constraint firstItem="Mtx-2Z-MUO" firstAttribute="top" secondItem="wkV-IH-PKd" secondAttribute="top" id="U0J-Df-mw3"/>
+                            <constraint firstAttribute="trailing" secondItem="Mtx-2Z-MUO" secondAttribute="trailing" id="U4L-sf-dhL"/>
+                            <constraint firstAttribute="trailing" secondItem="vTF-59-cxH" secondAttribute="trailing" id="XR1-HU-eAJ"/>
+                            <constraint firstItem="DwE-Su-3zg" firstAttribute="top" secondItem="wkV-IH-PKd" secondAttribute="topMargin" constant="108" id="acO-ge-tcN"/>
+                            <constraint firstItem="DwE-Su-3zg" firstAttribute="top" secondItem="Mtx-2Z-MUO" secondAttribute="bottom" constant="1" id="e6N-PC-4ZS"/>
                             <constraint firstItem="eSq-oV-yeO" firstAttribute="top" secondItem="DwE-Su-3zg" secondAttribute="bottom" id="eYM-1o-PNb"/>
                             <constraint firstItem="RaB-qQ-zpv" firstAttribute="top" secondItem="DwE-Su-3zg" secondAttribute="bottom" id="hmb-0w-R9v"/>
+                            <constraint firstItem="DwE-Su-3zg" firstAttribute="top" secondItem="vTF-59-cxH" secondAttribute="bottom" id="hxV-78-jxi"/>
                             <constraint firstAttribute="trailing" secondItem="RaB-qQ-zpv" secondAttribute="trailing" id="j34-OR-aWO"/>
                             <constraint firstItem="rrN-SA-dGZ" firstAttribute="leading" secondItem="wkV-IH-PKd" secondAttribute="leading" id="lLL-Pz-fBG"/>
-                            <constraint firstItem="DwE-Su-3zg" firstAttribute="top" secondItem="wkV-IH-PKd" secondAttribute="top" id="rBM-p7-ff8"/>
+                            <constraint firstItem="DwE-Su-3zg" firstAttribute="top" secondItem="Mtx-2Z-MUO" secondAttribute="bottom" constant="1" id="lww-Pt-Wqc"/>
+                            <constraint firstItem="DwE-Su-3zg" firstAttribute="top" secondItem="wkV-IH-PKd" secondAttribute="top" constant="43" id="rBM-p7-ff8"/>
                             <constraint firstItem="eSq-oV-yeO" firstAttribute="top" secondItem="rrN-SA-dGZ" secondAttribute="bottom" id="stb-fO-zNv"/>
                             <constraint firstAttribute="trailing" secondItem="DwE-Su-3zg" secondAttribute="trailing" id="v2x-BN-mxN"/>
                             <constraint firstItem="DwE-Su-3zg" firstAttribute="leading" secondItem="wkV-IH-PKd" secondAttribute="leading" id="vrd-aD-gN6"/>
+                            <constraint firstItem="Mtx-2Z-MUO" firstAttribute="top" secondItem="wkV-IH-PKd" secondAttribute="topMargin" id="xkA-je-Ccm"/>
                             <constraint firstAttribute="trailing" secondItem="rrN-SA-dGZ" secondAttribute="trailing" id="zzA-If-cOR"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="U0J-Df-mw3"/>
+                                <exclude reference="Bh5-cD-WsO"/>
+                                <exclude reference="M5p-0E-WNp"/>
+                                <exclude reference="acO-ge-tcN"/>
+                                <exclude reference="e6N-PC-4ZS"/>
+                                <exclude reference="lww-Pt-Wqc"/>
+                                <exclude reference="rBM-p7-ff8"/>
                                 <exclude reference="eYM-1o-PNb"/>
                             </mask>
                         </variation>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="800" height="600"/>
                     <connections>
@@ -421,6 +460,8 @@
                         <outlet property="interventionBarButton" destination="nuG-um-v0a" id="rHB-Zj-YzH"/>
                         <outlet property="medicationCountLabel" destination="tzr-48-KJn" id="SNC-DU-6Yc"/>
                         <outlet property="medicationCountToolBar" destination="RaB-qQ-zpv" id="Tks-Il-I5n"/>
+                        <outlet property="patientBannerHeightConstraint" destination="RGY-Sw-6zP" id="cA4-UA-qyz"/>
+                        <outlet property="patientBannerView" destination="Mtx-2Z-MUO" id="CpC-lf-t2Y"/>
                         <outlet property="pharmacistActionsToolBar" destination="rrN-SA-dGZ" id="ogN-Ii-Spw"/>
                         <outlet property="pharmacistTableView" destination="DwE-Su-3zg" id="MUm-w1-N9v"/>
                         <outlet property="supplyRequestBarButton" destination="BlI-kY-Qgd" id="XnC-3M-tCJ"/>

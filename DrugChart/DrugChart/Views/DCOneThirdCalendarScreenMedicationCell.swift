@@ -301,5 +301,18 @@ class DCOneThirdCalendarScreenMedicationCell: UITableViewCell {
             delegate.cellSelected(self.indexPath)
         }
     }
+    //to change cell appearence in edit mode
+    func updateCellInEditMode(){
+        addEditActionOnSummaryButton()
+        removePanGestureFromMedicationDetailHolderView()
+    }
+    
+    //to change cell appearence in normal mode
+    func updateCellInNormalMode(){
+        selected = false
+        summaryButton.highlighted = false
+        addDefaultActionOnSummaryButton()
+        addPanGestureToMedicationDetailHolderView()
+    }
 
 }
