@@ -37,14 +37,12 @@ typedef enum : NSUInteger {
     kDiscontinued
 } SortType;
 
-@interface DCPrescriberMedicationViewController () <DCAddMedicationViewControllerDelegate, PrescriberListDelegate ,AdministrationDelegate, UIActionSheetDelegate, CalendarOneThirdDelegate, PatientDetailsDelegate >{
+@interface DCPrescriberMedicationViewController () <DCAddMedicationViewControllerDelegate, PrescriberListDelegate ,AdministrationDelegate, UIActionSheetDelegate, CalendarOneThirdDelegate, PatientDetailsDelegate , PatientDetailsMinimizedDelegate >{
     
     NSMutableArray *currentWeekDatesArray;
     IBOutlet UIView *patientBannerView;
     IBOutlet NSLayoutConstraint *patientBannerViewHeightConstraint;
     IBOutlet UIView *calendarDaysDisplayView;
-    IBOutlet NSLayoutConstraint *calendarDateHolderViewTopSpace;
-    IBOutlet NSLayoutConstraint *medicationListHolderVIewTopConstraint;
     IBOutlet UIView *todayString;
     IBOutlet UIActivityIndicatorView *activityIndicatorView;
     IBOutlet UILabel *noMedicationsAvailableLabel;
@@ -123,6 +121,8 @@ typedef enum : NSUInteger {
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.translucent = NO;
     [self currentWeekDatesArrayFromDate:[NSDate date]];
     [self populateMonthYearLabel];
     [self hideCalendarTopPortion];
@@ -147,9 +147,11 @@ typedef enum : NSUInteger {
     [super viewDidAppear:animated];
     [self setCurrentScreenOrientation];
     [self configureCurrentWindowCalendarWidth];
+    [self addPatientBanner];
+    [self.view layoutIfNeeded];
     [self prescriberCalendarChildViewControllerBasedOnWindowState];
     [self addCustomTitleViewToNavigationBar];
-    [self addPatientBanner];
+
     prescriberMedicationListViewController.isDrugChartViewActive = true;
 }
 
@@ -176,11 +178,13 @@ typedef enum : NSUInteger {
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     [self configureCurrentWindowCalendarWidth];
+    [self dateViewForOrientationChanges];
     if (windowSizeChanged ) {
+        [self addPatientBanner];
+        [self.view layoutIfNeeded];
         [self prescriberCalendarChildViewControllerBasedOnWindowState];
         [self configureDateArrayForOneThirdCalendarScreen];
         [self setCurrentScreenOrientation];
-        [self addPatientBanner];
         if (isEditMode) {
             [self addCustomTitleViewToNavigationBarInEditMode];
             [self addReviewButtonToToolBar];
@@ -199,7 +203,7 @@ typedef enum : NSUInteger {
         [self configureBarButtonsOnScreenSizeChange];
         windowSizeChanged = NO;
     }
-    [self dateViewForOrientationChanges];
+    
 }
 
 - (void)configureBarButtonsOnScreenSizeChange {
@@ -265,10 +269,11 @@ typedef enum : NSUInteger {
         if (appDelegate.windowState == twoThirdWindow) {
             appDelegate.windowState = halfWindow;
             [self configureCurrentWindowCalendarWidth];
+            [self addPatientBanner];
+            [self.view layoutIfNeeded];
             [self prescriberCalendarChildViewControllerBasedOnWindowState];
             [self configureDateArrayForOneThirdCalendarScreen];
             [self setCurrentScreenOrientation];
-            [self addPatientBanner];
             if (isEditMode) {
                 [self addCustomTitleViewToNavigationBarInEditMode];
                 [self addReviewButtonToToolBar];
@@ -307,14 +312,22 @@ typedef enum : NSUInteger {
     //medication administration slots have to be made constant width , medication details flexible width
     
     monthYearViewWidthConstraint.constant = self.view.frame.size.width - self.calendarViewWidth;
-    UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
-    if (UIDeviceOrientationIsLandscape(orientation) && (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)){
-        calendarDateHolderViewTopSpace.constant = 30.0;
-        medicationListHolderVIewTopConstraint.constant = 80;
-    } else {
-        calendarDateHolderViewTopSpace.constant = 108.0;
-        medicationListHolderVIewTopConstraint.constant = 159.0;
-    }
+//    UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
+//    
+//    
+//    if (UIDeviceOrientationIsLandscape(orientation) && (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)){
+//        calendarDateHolderViewTopSpace.constant = 30.0;
+//        medicationListHolderVIewTopConstraint.constant = 80;
+//    } else {
+//        if ([DCAPPDELEGATE windowState] == fullWindow) {
+//            calendarDateHolderViewTopSpace.constant = 108.0;
+//            medicationListHolderVIewTopConstraint.constant = 159.0;
+//        }else{
+//            calendarDateHolderViewTopSpace.constant = 130.0;
+//            medicationListHolderVIewTopConstraint.constant = 181.0;
+//        }
+//    
+//    }
 }
 
 - (void)todayActionForCalendarTop {
@@ -874,46 +887,36 @@ typedef enum : NSUInteger {
 
 // A custom view is loaded as the title for the prescriber screen.
 - (void)addCustomTitleViewToNavigationBar {
-    
     self.navigationItem.title = NSLocalizedString(@"DRUG_CHART", "");
-//    if ([DCAPPDELEGATE windowState] == halfWindow ||
-//        [DCAPPDELEGATE windowState] == oneThirdWindow) {
-//        DCOneThirdCalendarNavigationTitleView *titleView = [[[NSBundle mainBundle] loadNibNamed:@"DCOneThirdCalendarNavigationTitleView" owner:self options:nil] objectAtIndex:0];
-//        UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
-//        if (UIDeviceOrientationIsLandscape(orientation) && (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)){
-//            [titleView populatViewForOneThirdLandscapeWithPatientName:self.patient.patientName nhsNumber:self.patient.nhs dateOfBirth:self.patient.dob age:self.patient.age];
-//        } else {
-//            [titleView populateViewWithPatientName:self.patient.patientName nhsNumber:self.patient.nhs dateOfBirth:self.patient.dob age:self.patient.age];
-//        }
-//        self.navigationItem.titleView = titleView;
-//    } else  {
-//        DCCalendarNavigationTitleView *titleView = [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([DCCalendarNavigationTitleView class]) owner:self options:nil] objectAtIndex:0];
-//        [titleView populateViewWithPatientName:self.patient.patientName nhsNumber:self.patient.nhs dateOfBirth:_patient.dob age:_patient.age
-//         ];
-//        self.navigationItem.titleView = titleView;
-//    }
-    
 }
 
 //Add a custom view for patient details
 -(void)addPatientBanner{
+    [self removePreviousViewFromPatientBannerView ];
     if ([DCAPPDELEGATE windowState] == fullWindow) {
         DCPatientBannerView * bannerView = [[[NSBundle mainBundle] loadNibNamed:@"DCPatientBannerView" owner:self options:nil] objectAtIndex:0];
         [bannerView displayPatientDetails:self.patient.patientName nhsNumber:self.patient.nhs dateOfBirth:self.patient.dob age:self.patient.age gender:self.patient.sex hospitalNo:self.patient.patientNumber];
         bannerView.patientDetailsDelegate = self;
-        [bannerView setFrame:CGRectMake(0, 0, [DCUtility mainWindowSize].width, 43)];
+        patientBannerViewHeightConstraint.constant = 43;
+        [bannerView setFrame:CGRectMake(0, 0, patientBannerView.frame.size.width,patientBannerView.frame.size.height)];
         [patientBannerView addSubview:bannerView];
     }
     else  {
         DCPatientBannerViewMinimized * bannerViewMinimized = [[[NSBundle mainBundle] loadNibNamed:@"DCPatientBannerViewMinimized" owner:self options:nil] objectAtIndex:0];
-        //        [bannerView displayPatientDetails:self.patient.patientName nhsNumber:self.patient.nhs dateOfBirth:self.patient.dob age:self.patient.age gender:self.patient.sex hospitalNo:self.patient.patientNumber];
-        //        bannerView.patientDetailsDelegate = self;
-        calendarDateHolderViewTopSpace.constant += 22;
-        medicationListHolderVIewTopConstraint.constant += 22;
+        [bannerViewMinimized displayPatientDetails:self.patient.patientName nhsNumber:self.patient.nhs dateOfBirth:self.patient.dob age:self.patient.age gender:self.patient.sex hospitalNo:self.patient.patientNumber];
+        bannerViewMinimized.patientDetailsDelegate = self;
         patientBannerViewHeightConstraint.constant = 65;
-        [bannerViewMinimized setFrame:CGRectMake(0, 0, [DCUtility mainWindowSize].width, 100)];
+        [bannerViewMinimized setFrame:CGRectMake(0, 0, patientBannerView.frame.size.width,patientBannerView.frame.size.height)];
         [patientBannerView addSubview:bannerViewMinimized];
-        
+    }
+    
+}
+
+//remove previous banner from patient banner view
+-(void)removePreviousViewFromPatientBannerView{
+    NSArray *viewsToRemove = [patientBannerView subviews];
+    for (UIView *v in viewsToRemove) {
+        [v removeFromSuperview];
     }
 }
 
@@ -1325,7 +1328,13 @@ typedef enum : NSUInteger {
     [self.navigationController presentViewController:navigationController animated:YES completion:nil];
 }
 
-
+-(void)displayMinimizedPatientDetails{
+    DCPatientDetailsViewController *patientDetailsViewController = [[UIStoryboard storyboardWithName:PRESCRIBER_DETAILS_STORYBOARD bundle: nil] instantiateViewControllerWithIdentifier:@"DCPatientDetailsViewController"];
+    patientDetailsViewController.patientDetails = self.patient;
+    UINavigationController *navigationController = [[UINavigationController alloc]initWithRootViewController:patientDetailsViewController];
+    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self.navigationController presentViewController:navigationController animated:YES completion:nil];
+}
 
 
 #pragma mark - Public methods implementation.
