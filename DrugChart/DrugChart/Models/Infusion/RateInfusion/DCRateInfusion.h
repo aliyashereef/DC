@@ -12,6 +12,7 @@
 @interface DCRateInfusion : DCInjection
 
 @property (nonatomic, strong) NSString *startingRate;
+@property (nonatomic, strong) NSString *unit;
 @property (nonatomic, strong) NSString *minimumRate;
 @property (nonatomic, strong) NSString *maximumRate;
 
