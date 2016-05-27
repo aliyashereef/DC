@@ -213,7 +213,7 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
         
         let administerCell : DCAdministerCell = (administrationFailureTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
         administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
-        administerCell.titleLabel.text = STATUS
+        administerCell.titleLabel.text = OUTCOME
         medicationSlot?.medicationAdministration?.status = NOT_ADMINISTRATED
         administerCell.detailLabel?.text = NOT_ADMINISTRATED
         return administerCell
@@ -225,6 +225,9 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
         let administerCell : DCAdministerCell = (administrationFailureTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
         administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         administerCell.titleLabel.text = REASON
+        if (medicationSlot?.medicationAdministration?.statusReason == nil || medicationSlot?.medicationAdministration?.statusReason == EMPTY_STRING) {
+            medicationSlot?.medicationAdministration?.statusReason = NSLocalizedString("PATIENT_REFUSED", comment: "")
+        }
         administerCell.titleLabel.textColor = (!isValid! && !isValidReason()) ? UIColor.redColor() : UIColor.blackColor()
         administerCell.detailLabel?.text = self.medicationSlot?.medicationAdministration?.statusReason
         return administerCell

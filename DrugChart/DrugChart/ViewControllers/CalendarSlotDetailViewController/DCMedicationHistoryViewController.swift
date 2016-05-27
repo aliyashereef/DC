@@ -58,7 +58,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         }
         switch (indexPath.row) {
         case 0:
-            cell!.contentType.text = STATUS
+            cell!.contentType.text = OUTCOME
             if let status = medication.medicationAdministration?.status {
                 if status == SELF_ADMINISTERED {
                     cell!.value.text = ADMINISTERED
@@ -209,7 +209,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         }
         switch (indexPath.row) {
         case 0:
-            cell!.contentType.text = STATUS
+            cell!.contentType.text = OUTCOME
             cell!.value.text = NOT_ADMINISTRATED
             break
         case 1:
@@ -257,7 +257,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         }
         switch (indexPath.row) {
         case 0:
-            cell!.contentType.text = STATUS
+            cell!.contentType.text = OUTCOME
             cell!.value.text = OMITTED
             break
         case 1:

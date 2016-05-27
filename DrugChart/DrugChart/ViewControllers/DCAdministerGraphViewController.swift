@@ -77,7 +77,7 @@ class DCAdministerGraphViewController: DCBaseViewController, UITableViewDataSour
             let cell = tableView.dequeueReusableCellWithIdentifier("valueCell") as? DCAdministerTableViewCell
             switch (indexPath.row) {
             case 0:
-                cell!.keyLabel.text = STATUS
+                cell!.keyLabel.text = OUTCOME
                 if let status = medication.medicationAdministration?.status {
                     if status == SELF_ADMINISTERED {
                         cell!.valueLabel.text = ADMINISTERED
