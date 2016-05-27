@@ -825,6 +825,9 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
     // mark:StatusList Delegate Methods
     func selectedMedicationStatusEntry(status: String!) {
         let parentView : DCAdministrationStatusSelectionViewController = self.parentViewController as! DCAdministrationStatusSelectionViewController
+        if status == ADMINISTERED || status == NOT_ADMINISTRATED { // for correcting status always set as administered issue
+            medicationSlot!.status = status;
+        }
         medicationSlot!.medicationAdministration?.status = status
         parentView.updateViewWithChangeInStatus(status)
     }
