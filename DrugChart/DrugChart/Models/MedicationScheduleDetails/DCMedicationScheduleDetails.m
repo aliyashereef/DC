@@ -237,8 +237,10 @@
         endDate = (self.endDate == nil) ? [self dayEndTimeForDate:endWeekDate] : [DCDateUtility dateFromSourceString:self.endDate];
     }
     NSDate *calculatedStartDate = [self startDateForMedicationStartdate:startDate medicationEndDate:endDate startWeekDate:startWeekDate endWeekDate:endWeekDate];
-    NSDate *calculatedEndDate = (self.stoppage) ? endDate :
-                                [self endDateForMedicationStartdate:startDate medicationEndDate:endDate startWeekDate:startWeekDate endWeekDate:endWeekDate];
+//    NSDate *calculatedEndDate = (self.stoppage) ? endDate :
+//                                [self endDateForMedicationStartdate:startDate medicationEndDate:endDate startWeekDate:startWeekDate endWeekDate:endWeekDate];
+    NSDate *calculatedEndDate = 
+    [self endDateForMedicationStartdate:startDate medicationEndDate:endDate startWeekDate:startWeekDate endWeekDate:endWeekDate];
     NSLog(@"***** calculatedStartDate is %@ *******", calculatedStartDate);
     NSLog(@"****** calculatedEndDate is %@ ****", calculatedEndDate);
      NSLog(@"Timea rray is %@", timesArray);
