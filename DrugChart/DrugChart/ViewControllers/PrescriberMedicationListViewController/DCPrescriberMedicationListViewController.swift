@@ -969,6 +969,12 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         }
     }
     
+    func postDrugChartScrollNotificationToTableCellsForScrollState(isScrolling : Bool) {
+        
+        let scrollParametersDictionary: Dictionary<String,Bool>! = [IS_SCROLLING: isScrolling]
+        NSNotificationCenter.defaultCenter().postNotificationName(kDrugChartScrollNotification, object: nil, userInfo: scrollParametersDictionary)
+    }
+
     // MARK: PopoverPresentation Delegate Methods
     
     func popoverPresentationControllerDidDismissPopover(popoverPresentationController: UIPopoverPresentationController) {
@@ -1013,6 +1019,30 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                 parentViewController.selectedMedicationListArray.addObject(indexPath)
             }
         }
+    }
+    
+    // MARK: ScrollView Delegate Methods
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        
+        //close the opened cells
+        let drugChartCell = medicationTableView?.cellForRowAtIndexPath(selectedIndexPath)
+                as? PrescriberMedicationTableViewCell
+        drugChartCell?.swipeMedicationDetailViewToRight()
+        self.postDrugChartScrollNotificationToTableCellsForScrollState(true)
+    }
+
+    
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        
+        //scroll begin
+        self.postDrugChartScrollNotificationToTableCellsForScrollState(true)
+    }
+    
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+       
+        //scroll end
+        self.postDrugChartScrollNotificationToTableCellsForScrollState(false)
     }
 }
 

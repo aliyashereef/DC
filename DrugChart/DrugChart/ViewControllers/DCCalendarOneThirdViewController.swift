@@ -37,7 +37,7 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
     let collectionViewReuseIdentifier = "CalendarStripCellIdentifier"
     var scrollDirection : Direction = .ScrollDirectionNone
     var scrollingLocked : Bool = false
-    var selectedIndexPath : NSIndexPath!
+    var selectedIndexPath : NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
     var actionMenu : UIAlertController?
     var isEditMode : Bool = false
     var totalSelectedCellCount : NSInteger = 0
@@ -332,6 +332,11 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         } else if scrollVelocity.x < 0.0 {
             scrollDirection = .ScrollDirectionRight
         }
+        //close back opened table cells on scrolling tableview
+        let medicationCell = medicationTableView?.cellForRowAtIndexPath(selectedIndexPath)
+            as? DCOneThirdCalendarScreenMedicationCell
+        medicationCell?.swipeMedicationDetailViewToRight()
+        
         if scrollingLocked {
             return
         }
@@ -363,10 +368,17 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         }
     }
     
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        
+        //scroll begin
+        self.postDrugChartScrollNotificationToTableCellsForScrollState(true)
+    }
+    
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         if scrollingLocked {
             scrollingLocked = false
         }
+        self.postDrugChartScrollNotificationToTableCellsForScrollState(false)
     }
     
     //MARK: Private functions
@@ -595,6 +607,14 @@ class DCCalendarOneThirdViewController: DCBaseViewController,UITableViewDataSour
         
         let parentView : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
         parentView.loadCurrentDayDisplayForOneThirdWithDate(centerDate)
+    }
+    
+    func postDrugChartScrollNotificationToTableCellsForScrollState(isScrolling : Bool) {
+        
+        // post tableview scroll notification to each table cell
+        
+        let scrollParametersDictionary: Dictionary<String,Bool>! = [IS_SCROLLING: scrollingLocked]
+        NSNotificationCenter.defaultCenter().postNotificationName(kDrugChartScrollNotification, object: nil, userInfo: scrollParametersDictionary)
     }
     
     //MARK: - Scroll index for maintaining selection helper methods
