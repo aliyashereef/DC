@@ -13,6 +13,7 @@
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f4q-sW-gsa">
                     <rect key="frame" x="0.0" y="0.0" width="895" height="43"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <connections>
                         <action selector="patientBannerButtonPresses:" destination="iN0-l3-epB" eventType="touchUpInside" id="ScS-Pi-RyG"/>
                     </connections>
@@ -90,7 +91,7 @@
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
-            <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" red="0.97647058819999999" green="0.97647058819999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="Tlt-pB-TEp" secondAttribute="bottom" constant="11" id="0s9-jh-D3o"/>
                 <constraint firstAttribute="bottom" secondItem="298-Z3-cuI" secondAttribute="bottom" constant="12" id="1zl-ea-Dkv"/>

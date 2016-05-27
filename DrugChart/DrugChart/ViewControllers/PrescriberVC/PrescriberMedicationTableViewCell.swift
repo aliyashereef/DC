@@ -492,6 +492,6 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
         leftMedicationAdministerDetailsView.hidden = false
         editButtonHolderView.hidden = false
         inEditMode = false
-        selected = false//No idea why
+        //selected = false//No idea why
     }
 }
