@@ -14,13 +14,13 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
     
     @IBOutlet var noMedicationHistoryMessageLabel: UILabel!
     @IBOutlet var medicationHistoryTableView: UITableView!
-
+    
     var medicationSlotArray: [DCMedicationSlot] = []
     var medicationDetails : DCMedicationScheduleDetails!
     var weekDate : NSDate?
     var medication : DCMedicationSlot!
     var selectedRowIndex : NSIndexPath = NSIndexPath(forRow: -1, inSection: 1)
-
+    
     //MARK: Memory Management Methods
     
     override func viewDidLoad() {
@@ -46,7 +46,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
             dateString = DCDateUtility.dateStringFromDate(weekDate, inFormat: DATE_MONTHNAME_YEAR_FORMAT)
         }
         let slotDate = DCDateUtility.dateStringFromDate(medication.time, inFormat: TWENTYFOUR_HOUR_FORMAT)
-
+        
         self.title = "\(dateString), \(slotDate)"
     }
     
@@ -56,6 +56,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         if cell == nil {
             cell = DCAdminsteredMedicationCell(style: UITableViewCellStyle.Value1, reuseIdentifier: ADMINSTER_MEDICATION_HISTORY_CELL)
         }
+        cell?.contentType.textColor = UIColor.blackColor()
         switch (indexPath.row) {
         case 0:
             cell!.contentType.text = OUTCOME
@@ -195,8 +196,8 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         if indexPath != selectedRowIndex && count > 47{
             noteCell!.moreButtonWidthConstaint.constant = 46.0
         }
-//        noteCell!.separatorInset = UIEdgeInsetsZero
-//        noteCell!.layoutMargins = UIEdgeInsetsZero
+        //        noteCell!.separatorInset = UIEdgeInsetsZero
+        //        noteCell!.layoutMargins = UIEdgeInsetsZero
         return noteCell!
     }
     
@@ -207,6 +208,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         if cell == nil {
             cell = DCAdminsteredMedicationCell(style: UITableViewCellStyle.Value1, reuseIdentifier: ADMINSTER_MEDICATION_HISTORY_CELL)
         }
+        cell?.contentType.textColor = UIColor.blackColor()
         switch (indexPath.row) {
         case 0:
             cell!.contentType.text = OUTCOME
@@ -280,7 +282,11 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
         if let _ : [DCMedicationSlot] = medicationSlotArray {
-            return 2
+            if medication.isOverridenAdministration {
+                return 4
+            } else {
+                return 3
+            }
         } else {
             return 1
         }
@@ -291,6 +297,20 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0 :
+            return 1
+        case 1:
+            if medication.isOverridenAdministration {
+                return 1
+            } else {
+                return numberOfRowsFromMedicationSlotArray(medication)
+            }
+        case 2 :
+            if medication.isOverridenAdministration {
+                return numberOfRowsFromMedicationSlotArray(medication)
+            } else {
+                return 1
+            }
+        case 3:
             return 1
         default:
             return numberOfRowsFromMedicationSlotArray(medication)
@@ -304,22 +324,21 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         if indexPath.section == 0 {
             return UITableViewAutomaticDimension
         }
-       if(indexPath == selectedRowIndex ) {
-        var notesString = EMPTY_STRING
-        if medication.medicationAdministration.status == ADMINISTERED || medication.medicationAdministration.status == SELF_ADMINISTERED {
-            notesString = medication.medicationAdministration.administeredNotes
-        } else if medication.medicationAdministration.status == REFUSED || medication.medicationAdministration.status == NOT_ADMINISTRATED {
-            notesString = medication.medicationAdministration.refusedNotes
-        }else if medication.medicationAdministration.status == OMITTED {
-            notesString = medication.medicationAdministration.omittedNotes
-        }
-        let textHeight : CGSize = DCUtility.textViewSizeWithText(notesString , maxWidth:478 , font:UIFont.systemFontOfSize(14))
-        return textHeight.height + 45 // the top padding space is 30 points. + some padding of 15 px
+        if(indexPath == selectedRowIndex ) {
+            var notesString = EMPTY_STRING
+            if medication.medicationAdministration.status == ADMINISTERED || medication.medicationAdministration.status == SELF_ADMINISTERED {
+                notesString = medication.medicationAdministration.administeredNotes
+            } else if medication.medicationAdministration.status == REFUSED || medication.medicationAdministration.status == NOT_ADMINISTRATED {
+                notesString = medication.medicationAdministration.refusedNotes
+            }else if medication.medicationAdministration.status == OMITTED {
+                notesString = medication.medicationAdministration.omittedNotes
+            }
+            let textHeight : CGSize = DCUtility.textViewSizeWithText(notesString , maxWidth:478 , font:UIFont.systemFontOfSize(14))
+            return textHeight.height + 45 // the top padding space is 30 points. + some padding of 15 px
         } else {
             return 44
         }
     }
-    
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch indexPath.section {
@@ -337,19 +356,75 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
                 }
                 return cell!
             }
-        default:
-            var cell = tableView.dequeueReusableCellWithIdentifier(ADMINSTER_MEDICATION_HISTORY_CELL) as? DCAdminsteredMedicationCell
-            if cell == nil {
-                cell = DCAdminsteredMedicationCell(style: UITableViewCellStyle.Value1, reuseIdentifier: ADMINSTER_MEDICATION_HISTORY_CELL)
+        case 1 :
+            if medication.isOverridenAdministration {
+                let cell = tableView.dequeueReusableCellWithIdentifier(ADMINSTER_MEDICATION_HISTORY_CELL) as? DCAdminsteredMedicationCell
+                cell!.contentType.text = PREVIOUS_HISTORY
+                cell?.value.text = EMPTY_STRING
+                cell?.contentType.textColor = UIColor.blackColor()
+                cell?.accessoryType = .DisclosureIndicator
+                return cell!
+            } else {
+                var cell = tableView.dequeueReusableCellWithIdentifier(ADMINSTER_MEDICATION_HISTORY_CELL) as? DCAdminsteredMedicationCell
+                if cell == nil {
+                    cell = DCAdminsteredMedicationCell(style: UITableViewCellStyle.Value1, reuseIdentifier: ADMINSTER_MEDICATION_HISTORY_CELL)
+                }
+                if (medication.medicationAdministration?.status == SELF_ADMINISTERED || medication.medicationAdministration?.status == IS_GIVEN ){
+                    return configureAdministeredCellAtIndexPathWithMedicationSlot(indexPath, medication: medication) as! UITableViewCell
+                } else if medication.medicationAdministration?.status == REFUSED || medication.medicationAdministration?.status == NOT_ADMINISTRATED {
+                    return configureRefusedCellAtIndexPathForMedicationDetails(indexPath, medication: medication) as! UITableViewCell
+                } else if medication.medicationAdministration?.status == OMITTED {
+                    return configureOmittedCellAtIndexPathForMedicationDetails(indexPath, medication: medication) as! UITableViewCell
+                }
+                return cell!
             }
-            if (medication.medicationAdministration?.status == SELF_ADMINISTERED || medication.medicationAdministration?.status == IS_GIVEN ){
-                return configureAdministeredCellAtIndexPathWithMedicationSlot(indexPath, medication: medication) as! UITableViewCell
-            } else if medication.medicationAdministration?.status == REFUSED || medication.medicationAdministration?.status == NOT_ADMINISTRATED {
-                return configureRefusedCellAtIndexPathForMedicationDetails(indexPath, medication: medication) as! UITableViewCell
-            } else if medication.medicationAdministration?.status == OMITTED {
-                return configureOmittedCellAtIndexPathForMedicationDetails(indexPath, medication: medication) as! UITableViewCell
-            }
+        case 2:
+            if medication.isOverridenAdministration {
+                var cell = tableView.dequeueReusableCellWithIdentifier(ADMINSTER_MEDICATION_HISTORY_CELL) as? DCAdminsteredMedicationCell
+                if cell == nil {
+                    cell = DCAdminsteredMedicationCell(style: UITableViewCellStyle.Value1, reuseIdentifier: ADMINSTER_MEDICATION_HISTORY_CELL)
+                }
+                if (medication.medicationAdministration?.status == SELF_ADMINISTERED || medication.medicationAdministration?.status == IS_GIVEN ){
+                    return configureAdministeredCellAtIndexPathWithMedicationSlot(indexPath, medication: medication) as! UITableViewCell
+                } else if medication.medicationAdministration?.status == REFUSED || medication.medicationAdministration?.status == NOT_ADMINISTRATED {
+                    return configureRefusedCellAtIndexPathForMedicationDetails(indexPath, medication: medication) as! UITableViewCell
+                } else if medication.medicationAdministration?.status == OMITTED {
+                    return configureOmittedCellAtIndexPathForMedicationDetails(indexPath, medication: medication) as! UITableViewCell
+                }
+                return cell!
+            } else {
+            let cell = tableView.dequeueReusableCellWithIdentifier(ADMINSTER_MEDICATION_HISTORY_CELL) as? DCAdminsteredMedicationCell
+            cell!.contentType.text = OVERRIDE_ADMINISTRATION
+            cell?.value.text = EMPTY_STRING
+            cell?.contentType.textColor = tableView.tintColor
             return cell!
+            }
+        case 3 :
+            let cell = tableView.dequeueReusableCellWithIdentifier(ADMINSTER_MEDICATION_HISTORY_CELL) as? DCAdminsteredMedicationCell
+            cell!.contentType.text = OVERRIDE_ADMINISTRATION
+            cell?.value.text = EMPTY_STRING
+            cell?.contentType.textColor = tableView.tintColor
+            return cell!
+        default:
+            if medication.isOverridenAdministration {
+                let cell = tableView.dequeueReusableCellWithIdentifier(ADMINSTER_MEDICATION_HISTORY_CELL) as? DCAdminsteredMedicationCell
+                cell!.contentType.text = OVERRIDE_ADMINISTRATION
+                cell?.value.text = EMPTY_STRING
+                return cell!
+            } else {
+                var cell = tableView.dequeueReusableCellWithIdentifier(ADMINSTER_MEDICATION_HISTORY_CELL) as? DCAdminsteredMedicationCell
+                if cell == nil {
+                    cell = DCAdminsteredMedicationCell(style: UITableViewCellStyle.Value1, reuseIdentifier: ADMINSTER_MEDICATION_HISTORY_CELL)
+                }
+                if (medication.medicationAdministration?.status == SELF_ADMINISTERED || medication.medicationAdministration?.status == IS_GIVEN ){
+                    return configureAdministeredCellAtIndexPathWithMedicationSlot(indexPath, medication: medication) as! UITableViewCell
+                } else if medication.medicationAdministration?.status == REFUSED || medication.medicationAdministration?.status == NOT_ADMINISTRATED {
+                    return configureRefusedCellAtIndexPathForMedicationDetails(indexPath, medication: medication) as! UITableViewCell
+                } else if medication.medicationAdministration?.status == OMITTED {
+                    return configureOmittedCellAtIndexPathForMedicationDetails(indexPath, medication: medication) as! UITableViewCell
+                }
+                return cell!
+            }
         }
     }
     
@@ -359,12 +434,61 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         case 0 :
             addBNFView()
             break
+        case 2:
+            if !medication.isOverridenAdministration {
+            if self.medication?.medicationAdministration?.status == ADMINISTERED {
+                self.transitToAdministerSuccessViewController()
+            } else {
+                self.transitToAdministerFailureViewController()
+            }
+            }
+            break
+        case 3 :
+            if self.medication?.medicationAdministration?.status == ADMINISTERED {
+                self.transitToAdministerSuccessViewController()
+            } else {
+                self.transitToAdministerFailureViewController()
+            }
         default:
             break
         }
     }
     
     //MARK: Private Methods
+    func transitToAdministerSuccessViewController () {
+        
+        let administrationSuccessViewController : DCAdministrationSuccessViewController? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(ADMINISTER_SUCCESS_VC_STORYBOARD_ID) as? DCAdministrationSuccessViewController
+        administrationSuccessViewController?.medicationSlot = self.medication
+        administrationSuccessViewController?.medicationSlot?.status = self.medication?.medicationAdministration?.status
+        administrationSuccessViewController?.medicationDetails = medicationDetails
+        administrationSuccessViewController?.isValid = true
+        administrationSuccessViewController?.isOverrideAdministration = true
+        administrationSuccessViewController?.overridenAdministration = { value in
+            
+            self.medicationHistoryTableView.reloadData()
+        }
+        let navigationController: UINavigationController = UINavigationController(rootViewController: administrationSuccessViewController!)
+        navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+        self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
+    }
+    
+    func transitToAdministerFailureViewController() {
+        
+        let administrationFailureViewController : DCAdministrationFailureViewController? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil).instantiateViewControllerWithIdentifier(ADMINISTER_FAILURE_VC_STORYBOARD_ID) as? DCAdministrationFailureViewController
+        administrationFailureViewController?.medicationSlot = self.medication
+        administrationFailureViewController?.medicationSlot?.status = self.medication?.medicationAdministration?.status
+        administrationFailureViewController?.medicationDetails = medicationDetails
+        administrationFailureViewController?.isValid = true
+        administrationFailureViewController?.isOverrideAdministration = true
+        administrationFailureViewController?.weekDate = self.weekDate
+        administrationFailureViewController?.overridenAdministration = { value in
+            
+            self.medicationHistoryTableView.reloadData()
+        }
+        let navigationController: UINavigationController = UINavigationController(rootViewController: administrationFailureViewController!)
+        navigationController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+        self.navigationController!.presentViewController(navigationController, animated: true, completion: nil)
+    }
     // Loading the header view from the xib
     
     func instanceFromNib() -> DCMedicationHistoryHeaderView {
@@ -390,7 +514,7 @@ class DCMedicationHistoryViewController: UIViewController ,UITableViewDelegate, 
         }
         return rowCount
     }
-
+    
     // On taping more button in the cell,it gets expanded closing all othe expanded cells.
     
     func moreButtonPressed(sender: UIButton) {

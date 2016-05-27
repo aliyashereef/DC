@@ -73,7 +73,7 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
     var administrationInProgressViewController : DCAdministrationInProgressViewController?
     
     //MARK: View Management Methods
-    //MARK:
+
     override func viewDidLoad() {
         self.configureViewElements()
         self.configureNavigationBar()
@@ -83,7 +83,6 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
     }
     
      // MARK: Private Methods
-    //MARK:
     
     override func viewDidLayoutSubviews() {
         self.administerContainerView.layoutIfNeeded()

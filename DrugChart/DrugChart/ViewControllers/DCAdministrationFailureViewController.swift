@@ -21,12 +21,20 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
     var medicationDetails : DCMedicationScheduleDetails?
     var isDatePickerShown : Bool = false
     var isValid : Bool?
-    
+    var isOverrideAdministration : Bool = false
+    var administerSaveButton: UIBarButtonItem?
+    var administerCancelButton: UIBarButtonItem?
+    var weekDate : NSDate?
+    var overridenAdministration: OverridenAdministration = { value in }
+
     //MARK: View Management Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
         initialiseMedicationSlotObject()
+        if isOverrideAdministration {
+            configureViewElements()
+        }
         configureTableViewProperties()
     }
     
@@ -49,7 +57,32 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
         self.administrationFailureTableView.tableFooterView = UIView(frame: CGRectZero)
         administrationFailureTableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
     }
-
+    
+    func configureViewElements() {
+        
+        let dateString : String
+        if let date = medicationSlot?.time {
+            dateString = DCDateUtility.dateStringFromDate(date, inFormat: DATE_MONTHNAME_YEAR_FORMAT)
+        } else {
+            dateString = DCDateUtility.dateStringFromDate(weekDate, inFormat: DATE_MONTHNAME_YEAR_FORMAT)
+        }
+        let slotDate = DCDateUtility.dateStringFromDate(medicationSlot!.time, inFormat: TWENTYFOUR_HOUR_FORMAT)
+        self.title = "\(dateString), \(slotDate)"
+        // Navigation bar done button
+        administerSaveButton = UIBarButtonItem(title: SAVE_BUTTON_TITLE, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(DCAdministrationStatusSelectionViewController.saveButtonPressed))
+        administerCancelButton = UIBarButtonItem(title: CANCEL_BUTTON_TITLE, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(DCAdministrationStatusSelectionViewController.cancelButtonPressed))
+        if (appDelegate.windowState == DCWindowState.halfWindow || appDelegate.windowState == DCWindowState.oneThirdWindow) {
+            self.navigationItem.leftBarButtonItem = administerCancelButton
+            self.navigationItem.rightBarButtonItem = administerSaveButton
+        } else {
+            let negativeSpacerLeading: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+            negativeSpacerLeading.width = -12
+            let negativeSpacerTrailing: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+            negativeSpacerTrailing.width = -12
+            self.navigationItem.leftBarButtonItems = [negativeSpacerLeading,administerCancelButton!]
+            self.navigationItem.rightBarButtonItems = [negativeSpacerTrailing,administerSaveButton!]
+        }
+    }
     func initialiseMedicationSlotObject () {
         
         //initialise Medication Slot object
@@ -65,7 +98,7 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
     
     func scrollTableViewToErrorField() {
         
-         // scroll tableview to error field in case of error
+        // scroll tableview to error field in case of error
         if (!isValidReason()){
             let reasonIndexPath =  NSIndexPath(forItem: 1, inSection: eFirstSection.rawValue)
             if ((administrationFailureTableView.indexPathsForVisibleRows?.contains(reasonIndexPath)) != nil) {
@@ -362,6 +395,19 @@ class DCAdministrationFailureViewController: DCBaseViewController ,NotesCellDele
         return notesValidity
     }
     
+    func cancelButtonPressed () {
+        
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func saveButtonPressed () {
+        
+        //perform administer medication api call here
+        self.medicationSlot?.isOverridenAdministration = true
+        self.overridenAdministration(EMPTY_STRING)
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+
     // MARK: NotesCell Delegate Methods
     
     func notesSelected(editing : Bool, withIndexPath indexPath : NSIndexPath) {
