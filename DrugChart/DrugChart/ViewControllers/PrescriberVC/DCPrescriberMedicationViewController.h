@@ -18,6 +18,7 @@
 @property (nonatomic, strong) NSArray *medicationSlotArray;
 @property (nonatomic) CGFloat calendarViewWidth;
 @property (strong, nonatomic)  NSMutableArray *selectedMedicationListArray;
+@property (nonatomic) BOOL isSelectedAll;
 
 - (void)displayAdministrationViewForMedicationSlot:(NSDictionary *)medicationSLotsDictionary
                                        atIndexPath:(NSIndexPath *)indexPath

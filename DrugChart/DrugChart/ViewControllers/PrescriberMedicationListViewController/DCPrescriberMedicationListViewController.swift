@@ -148,6 +148,8 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
         medicationCell?.prescriberMedicationListViewController = self
         self.fillInMedicationDetailsInTableCell(medicationCell!, atIndexPath: indexPath)
         if isEditMode {
+            medicationCell?.updateCellInEditMode()
+
             if (parentViewController.selectedMedicationListArray.containsObject(indexPath)) {
                 _tableView.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
             } else {
@@ -156,6 +158,11 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
             if appDelegate.windowState == DCWindowState.fullWindow || appDelegate.windowState == DCWindowState.twoThirdWindow {
                 [medicationCell?.updateCellSizeBeforeEditing()];
             }
+            if !medicationScheduleDetails.isActive{
+                medicationCell?.backgroundColor = INACTIVE_BACKGROUND_COLOR
+            }
+        }else{
+            medicationCell?.updateCellInNormalMode()
         }
         medicationCell?.cellHeight = (medicationCell?.calculateHeightForCell())!
         medicationCell?.updateAdministerStatusViewsHeight()
@@ -197,6 +204,9 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let cell : PrescriberMedicationTableViewCell = tableView.cellForRowAtIndexPath(indexPath) as! PrescriberMedicationTableViewCell
         cell.typeDescriptionButton.highlighted = false
+        if !cell.isMedicationActive {
+            cell.typeDescriptionButton.backgroundColor = INACTIVE_BACKGROUND_COLOR
+        }
         let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
         if parentViewController.selectedMedicationListArray.containsObject(indexPath) {
             parentViewController.selectedMedicationListArray.removeObject(indexPath)
@@ -213,6 +223,11 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     }
 
     func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+        let cell : PrescriberMedicationTableViewCell = tableView.cellForRowAtIndexPath(indexPath) as! PrescriberMedicationTableViewCell
+        cell.typeDescriptionButton.highlighted = false
+        if !cell.isMedicationActive {
+            cell.typeDescriptionButton.backgroundColor = INACTIVE_BACKGROUND_COLOR
+        }
         let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
         if parentViewController.selectedMedicationListArray.containsObject(indexPath) {
             parentViewController.selectedMedicationListArray.removeObject(indexPath)
@@ -982,7 +997,9 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     //select all cell in table view
     func selectAllCellInMedicationTableView(){
         let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
+        parentViewController.selectedMedicationListArray.removeAllObjects()
         populateIndexPathsArray()
+        parentViewController.isSelectedAll = true
         medicationTableView?.reloadData()
         totalSelectedCellCount = parentViewController.selectedMedicationListArray.count
         if let delegate = self.delegate {
@@ -994,7 +1011,7 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
     func deselectAllCellMedicationTableView(){
         let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
         parentViewController.selectedMedicationListArray.removeAllObjects()
-        //indexPathsArray.removeAllObjects()
+        parentViewController.isSelectedAll = false
         medicationTableView?.reloadData()
         totalSelectedCellCount = 0
         if let delegate = self.delegate {
@@ -1013,6 +1030,27 @@ let CELL_IDENTIFIER = "prescriberIdentifier"
                 parentViewController.selectedMedicationListArray.addObject(indexPath)
             }
         }
+    }
+    
+    //to change table view to edit mode
+    func updateMedicationTableviewInEditMode(){
+        isEditMode = true
+        if let selectedPath:NSIndexPath = selectedIndexPath{
+            if let selectedCell: PrescriberMedicationTableViewCell = medicationTableView?.cellForRowAtIndexPath(selectedPath) as? PrescriberMedicationTableViewCell {
+                 selectedCell.swipeMedicationDetailViewToRight()
+            }
+        }
+        medicationTableView!.setEditing(true, animated: true)
+        medicationTableView!.reloadData()
+    }
+    //to change table view to normal mode
+    func updateMedicationTableviewInDefaultMode(){
+        let parentViewController : DCPrescriberMedicationViewController = self.parentViewController as! DCPrescriberMedicationViewController
+        parentViewController.selectedMedicationListArray.removeAllObjects()
+        totalSelectedCellCount = 0
+        isEditMode = false
+        medicationTableView!.setEditing(false, animated: true)
+        medicationTableView!.reloadData()
     }
 }
 

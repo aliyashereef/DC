@@ -18,6 +18,7 @@ protocol EditAndDeleteActionDelegate {
     func cellSelected(indexPath:NSIndexPath)
 }
 
+let TABLE_VIEW_SELECTION_WIDTH : CGFloat            =               38.0
 let TIME_VIEW_WIDTH : CGFloat                       =               70.0
 let TIME_VIEW_HEIGHT : CGFloat                      =               21.0
 let MEDICATION_VIEW_LEFT_OFFSET : CGFloat           =               180.0
@@ -75,7 +76,6 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         
         super.awakeFromNib()
-        addPanGestureToMedicationDetailHolderView()
         addPanGestureToMedicationDetailHolderView()
         // Administer status views are created here to make the views reusable for a table view cell
         createAdministerStatusViews()
@@ -421,8 +421,12 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     @IBAction func typeDescriptionButtonSelected(sender: AnyObject) {
         
         //Display Summary
+        
         if let delegate = editAndDeleteDelegate {
             delegate.transitToSummaryScreenForMedication(indexPath)
+        }
+        if !isMedicationActive {
+            typeDescriptionButton.backgroundColor = INACTIVE_BACKGROUND_COLOR
         }
     }
     
@@ -445,7 +449,6 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     
     //to select cell if not selected and vice versa
     func performCellSelectionInteration(){
-        typeDescriptionButton.highlighted = false;
         if let delegate = self.editAndDeleteDelegate {
             delegate.cellSelected(self.indexPath)
         }
@@ -453,12 +456,30 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     
     //to adjust the details view before making table view editable
     func updateCellSizeBeforeEditing(){
-        medicationDetailHolderViewWidthConstraint.constant-=38
+        medicationDetailHolderViewWidthConstraint.constant-=TABLE_VIEW_SELECTION_WIDTH
     }
     
     //to adjust the details view after making table view editable
     func updateCellSizeAfterEditing(){
-        medicationDetailHolderViewWidthConstraint.constant+=38
+        medicationDetailHolderViewWidthConstraint.constant+=TABLE_VIEW_SELECTION_WIDTH
     }
     
+    //to change the cell appearence in edit mode
+    func updateCellInEditMode(){
+        addEditActionOnTypeDescriptionButton()
+        removePanGestureFromMedicationDetailHolderView()
+        leftMedicationAdministerDetailsView.hidden = true
+        editButtonHolderView.hidden = true
+        inEditMode = true
+    }
+    
+    //to change the cell appearence in normal mode
+    func updateCellInNormalMode(){
+        addDefaultActionOnTypeDescriptionButton()
+        addPanGestureToMedicationDetailHolderView()
+        leftMedicationAdministerDetailsView.hidden = false
+        editButtonHolderView.hidden = false
+        inEditMode = false
+        selected = false//No idea why
+    }
 }
