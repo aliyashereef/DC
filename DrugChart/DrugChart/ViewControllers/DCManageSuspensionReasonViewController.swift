@@ -56,6 +56,11 @@ class DCManageSuspensionReasonViewController: UIViewController, UITableViewDataS
         return RowCount.eSixthRow.rawValue
     }
     
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+        return CGFloat(NORMAL_CELL_HEIGHT)
+    }
+
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let displayCell = self.confugureCellForDisplay(indexPath)
