@@ -299,32 +299,34 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
     func updateViewWithChangeInStatus (status : String) {
         saveClicked = false
         isValid = true
-        statusState = status
-        switch statusState! {
-        case ADMINISTERED :
-            addAdministrationSuccessView ()
-            break
-        case STARTED :
-            addAdministrationSuccessView ()
-            break
-        case NOT_ADMINISTRATED :
-            addAdministrationFailureView ()
-            break
-        default :
-            addInProgressStatusView ()
-            self.administerStatusSelectionTableView.reloadData()
-            break
+        if status != statusState {
+            statusState = status
+            switch statusState! {
+                case ADMINISTERED :
+                    addAdministrationSuccessView ()
+                    break
+                case STARTED :
+                    addAdministrationSuccessView ()
+                    break
+                case NOT_ADMINISTRATED :
+                    addAdministrationFailureView ()
+                    break
+                default :
+                    addInProgressStatusView ()
+                    self.administerStatusSelectionTableView.reloadData()
+                    break
+            }
         }
-    }
+     }
     
     func addAdministrationSuccessView () {
+        
         //add administer view controller
         let administerStoryboard : UIStoryboard? = UIStoryboard(name: ADMINISTER_STORYBOARD, bundle: nil)
         if administrationSuccessViewController == nil {
             administrationSuccessViewController = administerStoryboard!.instantiateViewControllerWithIdentifier(ADMINISTER_SUCCESS_VC_STORYBOARD_ID) as? DCAdministrationSuccessViewController
             
-            administrationSuccessViewController?.medicationSlot = self.medicationSlot
-            administrationSuccessViewController?.medicationSlot?.status = statusState
+            administrationSuccessViewController?.medicationSlot = self.medicationSlot           
             administrationSuccessViewController?.medicationDetails = medicationDetails
             administerContainerView.addSubview((administrationSuccessViewController?.view)!)
             self.addChildViewController(administrationSuccessViewController!)
@@ -332,6 +334,8 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
             
         }
         administrationSuccessViewController?.isValid = self.isValid
+        administrationSuccessViewController?.medicationSlot?.status = statusState
+        administrationSuccessViewController?.medicationSlot?.medicationAdministration?.statusReason = NSLocalizedString("NURSE_ADMINISTERED", comment: "")
         self.saveButton?.enabled = true
         self.view.bringSubviewToFront(administerContainerView)
         administerContainerView.bringSubviewToFront((administrationSuccessViewController?.view)!)
@@ -349,6 +353,7 @@ class DCAdministrationStatusSelectionViewController: UIViewController,StatusList
             self.addChildViewController(administrationFailureViewController!)
             administrationFailureViewController!.view.frame = administerContainerView.bounds
         }
+        administrationFailureViewController?.medicationSlot?.medicationAdministration?.statusReason = NSLocalizedString("PATIENT_REFUSED", comment: "")
         administrationFailureViewController?.isValid = self.isValid
         self.saveButton?.enabled = true
         self.view.bringSubviewToFront(administerContainerView)
