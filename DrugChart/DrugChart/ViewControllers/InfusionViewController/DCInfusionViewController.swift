@@ -685,10 +685,21 @@ class DCInfusionViewController: UIViewController, UITableViewDelegate, UITableVi
             } else if self.infusion?.administerAsOption == RATE_BASED_INFUSION {
                 if indexPath.row == 0 {
                     self.infusion?.rateInfusion.startingRate = value
+                    let delimiter = " "
+                    var tokens = value!.componentsSeparatedByString(delimiter)
+                    self.infusion?.rateInfusion.unit = tokens.removeLast()
                 } else if indexPath.row == 1 {
+                    if self.infusion!.rateInfusion.unit != nil {
+                        self.infusion?.rateInfusion.minimumRate = "\(value!) \(self.infusion!.rateInfusion!.unit)"
+                    } else {
                     self.infusion?.rateInfusion.minimumRate = value
+                    }
                 } else {
-                    self.infusion?.rateInfusion.maximumRate = value 
+                    if self.infusion!.rateInfusion.unit != nil {
+                        self.infusion?.rateInfusion.maximumRate = "\(value!) \(self.infusion!.rateInfusion!.unit)"
+                    } else {
+                        self.infusion?.rateInfusion.maximumRate = value
+                    }
                 }
             }
             self.administerOptionsTableView.reloadData()

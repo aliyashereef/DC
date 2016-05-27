@@ -8,6 +8,7 @@
 
 #import "DCMedicationScheduleDetails.h"
 #import "DCMedicationSlot.h"
+#import "DCMedicationStoppage.h"
 
 #define MED_DATE @"medDate"
 #define MED_DETAILS @"medDetails"
@@ -28,7 +29,8 @@
 #define ROUTE @"route"
 #define SCHEDULE_ID @"identifier"
 #define NEXT_DRUG_TIME @"nextDrugDateTime"
-
+#define STOPPAGE @"stoppage"
+#define USER @"user"
 
 
 @implementation DCMedicationScheduleDetails
@@ -58,6 +60,15 @@
     
     NSNumber *activeValue = [NSNumber numberWithInt:[[medicationDictionary valueForKey:DRUG_IS_ACTIVE] intValue]];
     self.isActive = [activeValue boolValue];
+    if ([medicationDictionary valueForKey:STOPPAGE]) {
+        NSDictionary *stoppageDictionary = [medicationDictionary valueForKey:STOPPAGE];
+        self.stoppage = [[DCMedicationStoppage alloc] init];
+        self.stoppage.time = [stoppageDictionary valueForKey:TIME_KEY];
+        if ([stoppageDictionary valueForKey:USER]) {
+            NSDictionary *userDictionary = [stoppageDictionary valueForKey:USER];
+            self.stoppage.stoppedBy = [[DCUser alloc] initWithUserDetails:userDictionary];
+        }
+    }
     NSArray *scheduleArray = (NSArray *)[medicationDictionary objectForKey:DRUG_SCHEDULES];
     if ([scheduleArray count] > 0) {
         NSMutableArray *administrationArray;
@@ -69,13 +80,13 @@
             }
             administrationArray = adminDetails;
             self.administrationDetailsArray = [self administrationDetailsForMedication:administrationArray];
-            NSMutableArray *slotsArray = [self medicationScheduleTimeArrayForWhenRequiredMedicationsForStartWeekDate:weekStartDate endWeekDate:weekEndDate withActiveStatus:self.isActive];
+            NSMutableArray *slotsArray = [self medicationScheduleTimeArrayForWhenRequiredMedicationsForStartWeekDate:weekStartDate endWeekDate:weekEndDate];
             self.timeChart = slotsArray;
         } else {
             administrationArray = [[NSMutableArray alloc] initWithArray:[schedulesDictionary objectForKey:DRUG_ADMINISTRATIONS]];
             self.administrationDetailsArray = [self administrationDetailsForMedication:administrationArray];
             NSMutableArray *slotsArray = [self medicationScheduleTimeArrayFromScheduleDictionary:schedulesDictionary
-                                                                                  withStartWeekDate:weekStartDate endWeekDate:weekEndDate withActiveStatus:self.isActive];
+                                                                                  withStartWeekDate:weekStartDate endWeekDate:weekEndDate];
             self.timeChart = slotsArray;
         }
       
@@ -147,19 +158,24 @@
 
 
 - (NSMutableArray *)medicationScheduleTimeArrayForWhenRequiredMedicationsForStartWeekDate:(NSDate *)startWeekDate
-                                                          endWeekDate:(NSDate *)endWeekDate
-                                                        withActiveStatus:(BOOL)isActive {
+                                                          endWeekDate:(NSDate *)endWeekDate {
+    
     
     NSMutableArray *timeSlotsArray = [[NSMutableArray alloc] init];
     NSDate *startDate = [DCDateUtility dateFromSourceString:self.startDate];
     NSDate *endDate;
-    if (self.endDate == nil) {
-        endDate = endWeekDate; //max limit to be displayed is end week date
+    if (self.isActive == false) {
+        //discontinued medication
+        if (self.stoppage) {
+            endDate = [DCDateUtility dateFromSourceString:self.stoppage.time];
+        }
     } else {
-        endDate = [DCDateUtility dateFromSourceString:self.endDate];
+        //max limit to be displayed is end week date
+        endDate = (self.endDate == nil) ? endWeekDate : [DCDateUtility dateFromSourceString:self.endDate];
     }
     NSDate *calculatedStartDate = [self startDateForMedicationStartdate:startDate medicationEndDate:endDate startWeekDate:startWeekDate endWeekDate:endWeekDate];
-    NSDate *calculatedEndDate = [self endDateForMedicationStartdate:startDate medicationEndDate:endDate startWeekDate:startWeekDate endWeekDate:endWeekDate];
+    NSDate *calculatedEndDate = (self.stoppage) ? endDate :
+                                [self endDateForMedicationStartdate:startDate medicationEndDate:endDate startWeekDate:startWeekDate endWeekDate:endWeekDate];
     NSDate *nextDate;
     if (calculatedStartDate != nil && calculatedEndDate != nil) {
         for (nextDate = calculatedStartDate ; [nextDate compare:calculatedEndDate] <= 0 ; nextDate = [nextDate dateByAddingTimeInterval:24*60*60] ) {
@@ -201,21 +217,23 @@
 
 - (NSMutableArray *)medicationScheduleTimeArrayFromScheduleDictionary:(NSDictionary *)scheduleDictionary
                                                            withStartWeekDate:(NSDate *)startWeekDate
-                                                              endWeekDate:(NSDate *)endWeekDate
-                                                        withActiveStatus:(BOOL)isActive {
+                                                              endWeekDate:(NSDate *)endWeekDate {
     
     NSArray *timesArray = (NSArray *)[scheduleDictionary objectForKey:DRUG_SCHEDULE_TIMES];
     NSMutableArray *timeSlotsArray = [[NSMutableArray alloc] init];
     NSDate *startDate = [DCDateUtility dateFromSourceString:self.startDate];
     NSDate *endDate;
-    if (self.endDate == nil) {
-    //max limit to be displayed is end week date
-        endDate = [self dayEndTimeForDate:endWeekDate];
+    if (self.isActive == false) {
+        //discontinued medication
+        if (self.stoppage) {
+            endDate = [DCDateUtility dateFromSourceString:self.stoppage.time];
+        }
     } else {
-        endDate = [DCDateUtility dateFromSourceString:self.endDate];
+        endDate = (self.endDate == nil) ? [self dayEndTimeForDate:endWeekDate] : [DCDateUtility dateFromSourceString:self.endDate];
     }
     NSDate *calculatedStartDate = [self startDateForMedicationStartdate:startDate medicationEndDate:endDate startWeekDate:startWeekDate endWeekDate:endWeekDate];
-    NSDate *calculatedEndDate = [self endDateForMedicationStartdate:startDate medicationEndDate:endDate startWeekDate:startWeekDate endWeekDate:endWeekDate];
+    NSDate *calculatedEndDate = 
+    [self endDateForMedicationStartdate:startDate medicationEndDate:endDate startWeekDate:startWeekDate endWeekDate:endWeekDate];
     NSDate *nextDate;
     NSCalendar *calendar = [NSCalendar currentCalendar];
     if (calculatedStartDate != nil && calculatedEndDate != nil) {
@@ -247,7 +265,14 @@
                             addTimeSlot = NO;
                         }
                     }
+                    if (self.stoppage.time) {
+                        if ([medicationDateTime compare:endDate] == NSOrderedDescending) {
+                            // medication slots after stoppage time shouldn't be created
+                            addTimeSlot = NO;
+                        }
+                    }
                 }
+                
                 if (addTimeSlot == YES) {
                     DCMedicationSlot *medicationSlot = [[DCMedicationSlot alloc] init];
                     medicationSlot.time = medicationDateTime;

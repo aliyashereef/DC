@@ -122,7 +122,7 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
             let today = NSDate()
             let order = NSCalendar.currentCalendar().compareDate(weekDate! , toDate:today,
                 toUnitGranularity: .Day)
-            if order == NSComparisonResult.OrderedSame {
+            if order == NSComparisonResult.OrderedSame && medicationDetails?.isActive == true {
                 slotToAdminister?.time = NSDate()
                 medicationSlotsArray.append(slotToAdminister!)
             }
@@ -173,7 +173,8 @@ class DCAdministrationViewController : UIViewController, UITableViewDelegate, UI
         }
     }
     
-    func configureAdministrationStatusCellAtIndexPath (indexPath :NSIndexPath) -> DCAdministrationStatusCell{
+    func configureAdministrationStatusCellAtIndexPath (indexPath :NSIndexPath) -> DCAdministrationStatusCell {
+        
         let cell = administerTableView.dequeueReusableCellWithIdentifier("AdministrationStatusCell") as? DCAdministrationStatusCell
         let medicationSlot : DCMedicationSlot = medicationSlotsArray[indexPath.row]
         if (medicationSlot.medicationAdministration?.status != nil || medicationSlot.medicationAdministration?.actualAdministrationTime != nil) {

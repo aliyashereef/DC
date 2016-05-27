@@ -8,6 +8,8 @@
 
 import Foundation
 
+typealias OverridenAdministration = String? -> Void
+
 class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDelegate,BatchCellDelegate, StatusListDelegate ,reasonDelegate, NamesListDelegate, SecurityPinMatchDelegate, AdministrationDateDelegate{
     
     //MARK: Variables
@@ -27,7 +29,11 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
     var doseCellIndexPath : NSIndexPath?
     var textFieldSelectionIndexPath : NSIndexPath?
     var isValid : Bool?
-    
+    var isOverrideAdministration : Bool = false
+    var administerSaveButton: UIBarButtonItem?
+    var administerCancelButton: UIBarButtonItem?
+    var overridenAdministration: OverridenAdministration = { value in }
+
     let infusionRowCount = 6
     let medicationRowCount = 7
     let sectionCount = 3
@@ -79,6 +85,32 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
     }
     
     func configureViewElements () {
+        if isOverrideAdministration {
+            //Navigation bar title string
+            
+            let dateString : String
+            if let date = medicationSlot?.time {
+                dateString = DCDateUtility.dateStringFromDate(date, inFormat: DATE_MONTHNAME_YEAR_FORMAT)
+            } else {
+                dateString = DCDateUtility.dateStringFromDate(weekDate, inFormat: DATE_MONTHNAME_YEAR_FORMAT)
+            }
+            let slotDate = DCDateUtility.dateStringFromDate(medicationSlot!.time, inFormat: TWENTYFOUR_HOUR_FORMAT)
+            self.title = "\(dateString), \(slotDate)"
+            // Navigation bar done button
+            administerSaveButton = UIBarButtonItem(title: SAVE_BUTTON_TITLE, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(DCAdministrationStatusSelectionViewController.saveButtonPressed))
+            administerCancelButton = UIBarButtonItem(title: CANCEL_BUTTON_TITLE, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(DCAdministrationStatusSelectionViewController.cancelButtonPressed))
+            if (appDelegate.windowState == DCWindowState.halfWindow || appDelegate.windowState == DCWindowState.oneThirdWindow) {
+                self.navigationItem.leftBarButtonItem = administerCancelButton
+                self.navigationItem.rightBarButtonItem = administerSaveButton
+            } else {
+                let negativeSpacerLeading: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+                negativeSpacerLeading.width = -12
+                let negativeSpacerTrailing: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+                negativeSpacerTrailing.width = -12
+                self.navigationItem.leftBarButtonItems = [negativeSpacerLeading,administerCancelButton!]
+                self.navigationItem.rightBarButtonItems = [negativeSpacerTrailing,administerSaveButton!]
+            }
+        }
         configureTableViewProperties()
     }
     
@@ -135,7 +167,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         let administerCell : DCAdministerCell = (administerSuccessTableView.dequeueReusableCellWithIdentifier(ADMINISTER_CELL_ID) as? DCAdministerCell)!
         administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         administerCell.detailLabelTrailingSpace.constant = zeroFloat
-        administerCell.titleLabel.text = STATUS
+        administerCell.titleLabel.text = OUTCOME
         if (medicationSlot?.status != nil) {
             administerCell.detailLabel.text = medicationSlot?.status
             medicationSlot?.medicationAdministration?.status = medicationSlot?.status
@@ -160,6 +192,11 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         return administerCell
     }
     
+    func statusReasonIsEmpty() -> Bool {
+        
+        return (medicationSlot?.medicationAdministration?.statusReason == nil || medicationSlot?.medicationAdministration?.statusReason == EMPTY_STRING )
+    }
+    
     // Administation reason Cell
     func administrationReasonTableCellAtIndexPath(indexPath : NSIndexPath) -> (DCAdministerCell) {
         
@@ -167,7 +204,10 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         administerCell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         administerCell.titleLabel.text = REASON
         administerCell.detailLabelTrailingSpace.constant = zeroFloat
-        administerCell.titleLabel.textColor = !isValid! && (medicationSlot?.medicationAdministration?.statusReason == nil || medicationSlot?.medicationAdministration?.statusReason == EMPTY_STRING ) ? UIColor.redColor() : UIColor.blackColor()
+        if self.statusReasonIsEmpty() {
+            medicationSlot?.medicationAdministration?.statusReason = NSLocalizedString("NURSE_ADMINISTERED", comment: "")
+        }
+        administerCell.titleLabel.textColor = !isValid! && self.statusReasonIsEmpty() ? UIColor.redColor() : UIColor.blackColor()
         administerCell.detailLabel?.text = medicationSlot?.medicationAdministration?.statusReason
         return administerCell
     }
@@ -218,7 +258,7 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         let notesCell : DCNotesTableCell = (administerSuccessTableView.dequeueReusableCellWithIdentifier(NOTES_CELL_ID) as? DCNotesTableCell)!
         notesCell.selectedIndexPath = indexPath
         notesCell.notesType = eNotes
-        if ((self.medicationSlot?.medicationAdministration?.administeredNotes) != nil) {
+        if (self.medicationSlot?.medicationAdministration?.administeredNotes != nil) && (self.medicationSlot?.medicationAdministration?.administeredNotes != EMPTY_STRING) {
             notesCell.notesTextView.text = self.medicationSlot?.medicationAdministration?.administeredNotes
         }
         notesCell.notesTextView.textColor = (!isValid! && !isValidNotes ()) ? UIColor.redColor() : UIColor(forHexString: "#8f8f95")
@@ -876,5 +916,18 @@ class DCAdministrationSuccessViewController: DCBaseViewController ,NotesCellDele
         let contentInsets:UIEdgeInsets  = UIEdgeInsetsZero;
         administerSuccessTableView.contentInset = contentInsets;
         administerSuccessTableView.scrollIndicatorInsets = contentInsets;
+    }
+    
+    func cancelButtonPressed () {
+        
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func saveButtonPressed () {
+        
+        //perform administer medication api call here
+        self.medicationSlot?.isOverridenAdministration = true
+        self.overridenAdministration(EMPTY_STRING)
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
 }

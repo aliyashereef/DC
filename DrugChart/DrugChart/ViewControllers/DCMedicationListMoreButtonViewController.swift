@@ -47,6 +47,11 @@ class DCMedicationListMoreButtonViewController: UIViewController {
         return RowCount.eSecondRow.rawValue
     }
     
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+        return CGFloat(NORMAL_CELL_HEIGHT)
+    }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let displayCell : DCMedicationListMoreButtonTableViewCell = self.confugureCellForDisplay(indexPath)

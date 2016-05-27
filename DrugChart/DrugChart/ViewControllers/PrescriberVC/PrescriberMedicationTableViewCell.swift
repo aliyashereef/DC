@@ -72,11 +72,13 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
     var isMedicationActive : Bool = true
     let appDelegate : DCAppDelegate = UIApplication.sharedApplication().delegate as! DCAppDelegate
     var cellHeight : CGFloat? = 0.0
+    var isTableViewScrolling : Bool = false
     
     override func awakeFromNib() {
         
         super.awakeFromNib()
-        addPanGestureToMedicationDetailHolderView()
+        self.addPanGestureToMedicationDetailHolderView()
+        self.addDrugChartViewScrollNotification()
         // Administer status views are created here to make the views reusable for a table view cell
         createAdministerStatusViews()
     }
@@ -308,14 +310,24 @@ class PrescriberMedicationTableViewCell: UITableViewCell {
                 self.setMedicationViewFrame()
         })
     }
-
+    
+    func addDrugChartViewScrollNotification() {
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PrescriberMedicationTableViewCell.drugChartIsScrolling(_:)), name: kDrugChartScrollNotification, object: nil)
+    }
+    
+    func drugChartIsScrolling(notification : NSNotification) {
+        
+        let scrolling : Bool = notification.userInfo![IS_SCROLLING] as! Bool
+        isTableViewScrolling = scrolling
+    }
     
     // MARK: Action Methods
     
     func swipeMedicationDetailView(panGesture : UIPanGestureRecognizer) {
         
         //swipe medication view
-        if isMedicationActive && (prescriberMedicationListViewController?.isDrugChartViewActive)! {
+        if isMedicationActive && isTableViewScrolling == false && (prescriberMedicationListViewController?.isDrugChartViewActive)! {
             let translate : CGPoint = panGesture.translationInView(self.contentView)
             let gestureVelocity : CGPoint = panGesture.velocityInView(self)
             if (gestureVelocity.x > 200.0 || gestureVelocity.x < -200.0) {
